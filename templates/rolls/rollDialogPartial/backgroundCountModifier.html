@@ -1,0 +1,10 @@
+<!-- BACKGROUND COUNT -->
+{{#if_g sceneData.backgroundCount "0"}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SceneBackgroundCount'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6">{{findTranslation 'traditionTypes' sceneData.backgroundAlignement}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="backgroundCount" value="-{{sceneData.backgroundCount}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if_g}}

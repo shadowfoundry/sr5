@@ -1,0 +1,36 @@
+<div class="SR-footer">
+
+		{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorSpirit') )}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-stun.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-physical.html }}
+		{{else if (eq actor.type 'actorGrunt')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
+		{{else if (eq actor.type 'actorDrone')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.html }}
+		{{else if (or (eq actor.type 'actorDevice') (eq actor.type 'actorSprite') )}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.html }}
+		{{/if}}
+
+		<div class="SR-footer-lastPart">
+		{{#if (eq actor.type 'actorPc')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-edge.html }}
+		{{/if}}
+
+		{{#if (eq actor.type 'actorGrunt')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/metatype-choice.html }}
+		{{/if}}
+		
+		{{#if (eq actor.type 'actorDrone')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/drone-model.html }}
+		{{/if}}
+
+		{{#if (eq actor.type 'actorSpirit')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/spirit-info.html }}
+		{{/if}}
+
+		{{#if (eq actor.type 'actorSprite')}}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/sprite-info.html }}
+		{{/if}}
+		</div>
+</div>

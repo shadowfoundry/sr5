@@ -1,0 +1,39 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/actors/_partials/header/header.html}}
+
+		<div class="SR-MainWindows">
+			<div class="grid">
+
+				<!-- LEFT TAB -->
+				<div class="col-3 SR-AppareilColGauche">
+					<!-- CORE INFO LEFT TAB -->
+					<div>
+					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
+					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
+					{{#if (eq data.matrix.deviceType 'ice')}}
+					{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
+					{{/if}}
+					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
+					</div>
+				</div>
+
+				<!-- RIGHT TAB -->
+				<div class="col-9">
+					<div class="SR-AppareilMainCentre">
+						{{#if (eq data.matrix.deviceType 'ice')}}
+						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
+						{{/if}}
+						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/actors/_partials/footer/footer.html}}
+
+	</div>
+</form>

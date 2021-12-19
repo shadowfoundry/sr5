@@ -1,0 +1,25 @@
+{{#each actor.cyberdecks as |item i|}}
+{{#if data.isActive}}
+<!-- MATRIX CONDITION MONITOR -->
+	{{#if (or (eq data.type 'commlink') (eq data.type 'cyberdeck') (eq data.type 'riggerCommandConsole'))}}
+	<div class="SRBlockSheet">
+  		<ul>
+			<li class="item grid SR-LigneEnTete SR-TextUppercase" data-item-id="{{_id}}">
+				<div class="col-10">{{localize 'SR5.MatrixMonitor'}}</div>
+				<div class="col-2 changeValueByClick" data-binding="data.conditionMonitors.matrix.current" 
+				  data-helpTitle="{{localize 'SR5.MatrixMonitor'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorDeckMsg'}}">
+					<div class="grid">
+						<div class="col-6 SR-TextRight">
+							{{data.conditionMonitors.matrix.current}}/
+						</div>
+						<div class="col-2">
+							{{data.conditionMonitors.matrix.value}}
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	{{/if}}
+{{/if}}
+{{/each}}

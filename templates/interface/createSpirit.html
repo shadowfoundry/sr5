@@ -1,0 +1,16 @@
+<form>
+  <div class="form-group">
+    <div>{{localize 'SR5.SpiritType'}}</div>
+    <select name="spiritType" data-dtype="String">
+      {{#select spiritType}}
+        {{#each lists.spiritTypes}}
+          <option value="{{@key}}">{{localize this}}</option>
+        {{/each}}
+      {{/select}}
+    </select>
+  </div>
+  <div class="form-group">
+    <div>{{localize 'SR5.SpiritForce'}}</div>
+    <input type="text" data-dtype="Number" class="input" name="spiritForce" placeholder="1">
+  </div>
+</form>

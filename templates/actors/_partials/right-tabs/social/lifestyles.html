@@ -1,0 +1,55 @@
+<!-- LIFESTYLES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete">
+			<div class="grid">
+				<div class="col-5">
+					<p class="SR-TextUppercase">{{localize 'SR5.Lifestyles'}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter" data-title="{{localize 'SR5.LifestyleType'}}">{{localize 'SR5.LifestyleTypeShort'}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter">{{localize 'SR5.City'}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter">{{localize 'SR5.LinkedIdentity'}}</p>
+				</div>
+				<div class="col-1">
+					{{#if owner}}
+					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemLifestyle')}}" 
+					data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemLifestyle">
+							<em class="fas fa-plus"></em></a>
+						</p>
+					{{/if}}
+				</div>
+			</div>
+		</li>
+		{{#each actor.lifestyles}}
+		<li class="item" data-item-id="{{_id}}" draggable="true">
+			<div class="grid">
+				<div class="col-5">
+					<p>{{name}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter">{{findTranslation "lifestyleTypes" data.type}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter">{{data.city}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter">{{data.linkedIdentity}}</p>
+				</div>
+				<div class="col-1 grid SR-TextRight">
+					{{#if ../owner}}
+					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+						<em class="fas fa-sm fa-edit item-management"></em>
+					</a>
+					{{/if}}
+				</div>
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

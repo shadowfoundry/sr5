@@ -1,0 +1,67 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header-noEffect.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+				
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- LifeStyle summary -->
+							{{> systems/sr5/templates/items/_partial/summary/lifestyle-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+					<ul>
+						<!-- General information title -->
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						<!-- Type -->
+						{{> systems/sr5/templates/items/_partial/editable/lifestyle/type-edit.html}}
+						<!-- Rent -->
+						{{> systems/sr5/templates/items/_partial/editable/lifestyle/rent-edit.html}}
+						<!-- Linked Identity -->
+						{{> systems/sr5/templates/items/_partial/editable/lifestyle/linkedIdentity-edit.html}}
+						<!-- Address, City, Country -->
+						{{> systems/sr5/templates/items/_partial/editable/lifestyle/address-edit.html}}
+					</ul>
+					<!-- Options -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/lifestyle/options-edit.html}}	
+					</ul>
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		<div class="SR-ItemFooter grid">
+			<div class="col-12"></div>
+				<div class="col-6">
+					<span class="SR-TextUppercase SR-Gras">{{localize 'SR5.LifestyleType'}}{{localize 'SR5.Colons'}}</span>
+					<span class="SR-TextUppercase SR-Gras">{{findTranslation 'lifestyleTypes' data.type}}</span>
+				</div>
+				<div class="col-6 SR-TextRight">
+					<span class="SR-TextUppercase SR-Gras">{{localize 'SR5.RentCost'}}{{localize 'SR5.Colons'}}</span>
+					<span class="SR-TextUppercase SR-Gras">{{data.price.value}}¥</span>
+				</div>
+		</div>
+
+	</div>
+</form>

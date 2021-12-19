@@ -1,0 +1,48 @@
+<form autocomplete="off">
+  <div class="dependency-container">
+    <div class="dependency-column">
+      <div class="dependency-item">
+        <h2>{{localize 'SR5.DEPENDENCIES_CheckFailure'}}</h2>
+        <p>{{localize 'SR5.DEPENDENCIES_Description1'}}</p>
+        <p>{{localize 'SR5.DEPENDENCIES_Description2'}}</p>
+        <p>{{localize 'SR5.DEPENDENCIES_Description3'}}</p>
+        {{#each object}}
+          <h3>{{name}}</h3>
+          {{#if missing}}
+            <p>
+              {{localize 'SR5.DEPENDENCIES_InstallTitle' name=name type=type}}
+            </p>
+            <p>{{localize 'SR5.DEPENDENCIES_InstallDescription' type=type}}</p>
+            {{#if_ge permissions_current permissions_needed}}
+              <span class="clickable clickToSetup">{{localize 'SR5.DEPENDENCIES_GoToSetupScreen'}}</span>
+            {{else}}
+          <span class="rightsNeeded">{{localize 'SR5.DEPENDENCIES_InsufficiantRights'}}</span>
+            {{/if_ge}}
+          {{/if}}
+          {{#if outdated}}
+          <p>
+            {{localize 'SR5.DEPENDENCIES_UpdateTitle' name=name type=type}}
+          </p>
+          <p>{{localize 'SR5.DEPENDENCIES_UpdateDescription' type=type}}</p>
+          {{#if_ge permissions_current permissions_needed}}
+          <span class="clickable clickToSetup">{{localize 'SR5.DEPENDENCIES_GoToSetupScreen'}}</span>
+          {{else}}
+          <span class="rightsNeeded">{{localize 'SR5.DEPENDENCIES_InsufficiantRights'}}</span>
+          {{/if_ge}}
+          {{/if}}
+          {{#if deactivated}}
+            <p>
+              {{localize 'SR5.DEPENDENCIES_ActivateTitle' name=name type=type}}
+            </p>
+            <p>{{localize 'SR5.DEPENDENCIES_ActivateDescription' type=type}}</p>
+            {{#if_ge permissions_current permissions_needed}}
+              <span class="clickable clickToModules">{{localize 'SR5.DEPENDENCIES_OpenModulesWindow'}}</span>
+            {{else}}
+            <span class="rightsNeeded">{{localize 'SR5.DEPENDENCIES_InsufficiantRights'}}</span>
+            {{/if_ge}}
+          {{/if}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</form>

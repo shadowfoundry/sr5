@@ -1,0 +1,335 @@
+.app.window-app.SR-Item {
+
+    .window-header {
+        background : @neutralDarkColor;
+        color      : @neutralLightColor;
+        font-family: @SR_BodyText;
+    }
+
+    .window-content {
+        padding            : 0px;
+        background-image   : url(@ItemSheetTop), url(@ItemSheetBottom), url(@BGWhite50);
+        background-repeat  : no-repeat, no-repeat, no-repeat;
+        background-position: top, bottom;
+        background-size    : contain, contain, cover;
+        font-family        : @SR_BodyText;
+        font-size          : @SR_FontSizeSmall ;
+        background-color   : fade(@neutralLightColor, 100%);
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .SR-Header {
+            padding: 10px 3px 0px 3px;
+
+            .SRImgItem {
+                width        : 30px;
+                height       : 30px;
+                box-sizing   : content-box;
+                border       : 1px solid @subColor;
+                border-radius: 3px;
+            }
+
+            .SRItemTitre {
+                font-family  : @SR_FontTitle;
+                font-size    : 20px;
+                border-bottom: 0px;
+                padding-top  : 5px;
+
+                input {
+                    background-color: transparent;
+                    border          : 0px;
+                    border-bottom   : 1px solid transparent;
+                    border-radius   : 0;
+                    color           : @neutralLightColor;
+
+                    &:focus {
+                        box-shadow   : none;
+                        border-bottom: 1px solid @subColor;
+                    }
+
+                    &::selection {
+                        background-color: fade(@subColor, 50%);
+                    }
+
+                    &:hover {
+                        border-bottom: 1px solid fade(@subColor, 50%);
+                    }
+                }
+            }
+
+            .item:not(:last-child) {
+                padding-right: 3px;
+            }
+        }
+
+        .SR-MainWindows {
+            margin-top: 10px;
+            height    : 295px;
+            overflow  : auto;
+
+            p {
+                margin: 0;
+            }
+
+            li {
+                line-height: 17px;
+                padding    : 0px 3px;
+
+                span:not(:last-child) {
+                    padding-right: 5px;
+                }
+
+                a {
+                    color: fade(@mainColor, 25%);
+
+                    &:hover {
+                        color: @mainColor;
+                    }
+                }
+            }
+
+            input {
+                background    : none;
+                color         : fade(@neutralDarkColor, 70%);
+                height        : auto;
+                border        : 0;
+                border-bottom : 1px solid fade(@subColor, 25%);
+                border-radius : 0;
+                padding-top   : 0;
+                padding-bottom: 0;
+
+                &:focus {
+                    box-shadow   : none;
+                    border-bottom: 1px solid @subColor;
+                }
+
+                &:hover {
+                    border-bottom: 1px solid fade(@subColor, 50%);
+                }
+
+                &::placeholder {
+                    color: fade(@subColor, 50%);
+                }
+
+            }
+
+            input[type="checkbox"] {
+                position     : relative;
+                //color: @mainColor;
+                margin       : 0;
+                border       : 1px solid @subColor;
+                height       : 12px;
+                width        : 12px;
+                border-radius: 3px;
+                appearance   : none;
+                outline      : 0;
+                cursor       : pointer;
+                transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+
+                &::before {
+                    position    : relative;
+                    content     : '';
+                    display     : block;
+                    top         : -1px;
+                    left        : 2.5px;
+                    width       : 30%;
+                    height      : 80%;
+                    border-style: solid;
+                    border-width: 0 2px 2px 0;
+                    transform   : rotate(45deg);
+                    opacity     : 0;
+                }
+
+                &:checked {
+                    content     : '✔';
+                    color       : @neutralLightColor;
+                    border-color: @subColor;
+                    background  : fade(@subColor, 50%);
+
+                    //font-size: 8px;
+                    &::before {
+                        opacity: 1;
+                    }
+
+                    ~label::before {
+                        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                    }
+                }
+            }
+
+            select {
+                border-bottom: 1px solid fade(@subColor, 25%);
+                border-radius: 0px;
+
+                &:focus {
+                    box-shadow   : none;
+                    border-bottom: 1px solid @subColor;
+                }
+
+                &:invalid {
+                    color: fade(@subColor, 50%);
+                }
+
+                option:nth-child(1) {
+                    color: fade(@subColor, 50%);
+                }
+
+                option:nth-child(1n+2) {
+                    color: fade(@neutralDarkColor, 70%);
+                }
+            }
+
+            .SR-ItemColGauche {
+                height       : 295px;
+                overflow     : auto;
+                padding-right: 5px;
+
+                li:not(.SR-EnTete) {
+                    border-bottom: 1px solid transparent;
+                }
+            }
+
+            .SR-ItemColDroite {
+                padding-left: 5px;
+                height      : 295px;
+                overflow    : auto;
+                border-left : 1px solid @subColor;
+            }
+
+            .SR-ItemConfig {
+                height  : 295px;
+                overflow: auto;
+
+                input {
+                    color: fade(@neutralDarkColor, 70%);
+                }
+
+                select {
+                    margin-left: -1px;
+                }
+                
+            }
+
+            .SR-LigneEnTete {
+                padding  : 0 3px 0 3px;
+                font-size: @SR_FontSizeNormal;
+                color    : @neutralLightColor;
+                background-image:
+                    linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor),
+                    url(@Sidebar);
+                background-size: cover;
+                border-bottom  : 1px solid @subColor;
+                font-family    : @SR_BodyTextBold;
+
+                &:not(:first-child) {
+                    margin-top: 15px;
+                }
+            }
+
+            .SR-EnTete {
+                padding      : 0 3px 0 3px;
+                font-size    : @SR_FontSizeNormal;
+                color        : @mainColor;
+                border-bottom: 1px solid @mainColor;
+                font-family  : @SR_BodyTextBold;
+
+                a {
+                    color: fade(@mainColor, 50%);
+
+                    &:hover {
+                        color: @mainColor;
+                    }
+                }
+            }
+
+            .SRBlockSheet:not(:first-child) {
+                padding-top: 10px;
+            }
+
+            .SR-Editor {
+                position  : relative;
+                height    : auto;
+                min-height: 100%;
+
+                .editor {
+                    height  : auto;
+                    position: unset;
+                    height  : 100%;
+                }
+
+                .editor-edit {
+                    display      : unset;
+                    background   : none;
+                    font-size    : inherit;
+                    border       : 0;
+                    border-radius: 0;
+                    box-shadow   : none;
+                    padding      : 0;
+                    top          : -17px;
+                    right        : 5px;
+                    color        : fade(@subColor, 50%);
+
+                    &:hover {
+                        color: @subColor;
+                    }
+                }
+
+                .tox.tox-tinymce {
+                    height: 100% !important;
+                }
+
+                .tox-sidebar-wrap {
+                    min-height: 200px;
+                }
+            }
+        }
+
+        .SR-ItemFooter {
+            color     : @neutralLightColor;
+            margin-top: 32px;
+            padding   : 0px 3px;
+
+            .SR-MoniteurBar {
+                display       : flex;
+                flex-direction: row;
+            }
+
+            .SR-MoniteurCases {
+                display       : flex;
+                flex-direction: row;
+                padding-left  : 5px;
+
+                .SR-Case {
+                    height: 15px;
+                    width : 10px;
+                    margin: 0px 2px 0px 2px;
+                    ;
+                    display        : flex;
+                    justify-content: center;
+                    border-radius  : 1px;
+                }
+
+                .SR-CaseNeutralDarkColor {
+                    background: @neutralDarkColor;
+                }
+
+                .SR-CaseMainColor {
+                    background: @mainColor;
+                    border    : 1px solid @mainColor;
+                }
+
+                .SR-CaseSubColor {
+                    background: @subColor;
+                    border    : 1px solid fade(@subColor, 50%);
+                }
+            }
+        }
+    }
+
+    .editor-content {
+        min-height: 50px;
+    }
+
+}

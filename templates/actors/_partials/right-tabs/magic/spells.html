@@ -1,0 +1,237 @@
+<!-- SPELLS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-3">
+				<p class=" SR-TextUppercase">{{localize 'SR5.Spells'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.DicePool'}}">{{localize 'SR5.DicePoolShort'}}</p>
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.SpellForceLastCast'}}">{{localize 'SR5.SpellForceShort'}}</p>
+					</div>
+					<div class="col-6">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.DiceHitsLastCast'}}">{{localize 'SR5.DiceHitsShort'}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-2">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.DamageValue'}}">{{localize 'SR5.DamageValueShort'}}</p>
+			</div>
+			<div class="col-2">
+				<div class="grid">
+					<div class="col-3">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.ArmorPenetration'}}">{{localize 'SR5.ArmorPenetrationShort'}}</p>
+					</div>
+					<div class="col-9">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.spellRange'}}">{{localize 'SR5.SpellRangeShort'}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-2">
+				<div class="grid">
+					<div class="col-4">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.SpellType'}}">{{localize 'SR5.SpellTypeShort'}}</p>
+					</div>
+					<div class="col-4">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.SpellDuration'}}">{{localize 'SR5.SpellDurationAbbrev'}}</p>
+					</div>
+					<div class="col-4">
+						<p class="SR-TextCenter" data-title="{{localize 'SR5.SpellDrain'}}">{{localize 'SR5.SpellDrainShort'}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemSpell')}}" 
+				  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemSpell"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.spells}}
+		{{#if (eq data.preparation false)}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-3 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{#if (missing data.category data.range data.type data.duration data.drainValue)}}
+					<p class="incomplete" data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSort')}}">{{name}}</p>
+				{{else}}
+					<p>{{name}}</p>
+				{{/if}}
+			</div>
+			{{#if (gt ../data.skills.spellcasting.test.dicePool 0) }}
+				{{#ife data.category "combat"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
+			  	  data-helpDetails="data.skills.spellcasting.spellCategory.combat">
+					{{../data.skills.spellcasting.spellCategory.combat.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "detection"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
+			  	  data-helpDetails="data.skills.spellcasting.spellCategory.detection">
+					{{../data.skills.spellcasting.spellCategory.detection.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "illusion"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
+			  	  data-helpDetails="data.skills.spellcasting.spellCategory.illusion">
+					{{../data.skills.spellcasting.spellCategory.illusion.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "manipulation"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
+			  	  data-helpDetails="data.skills.spellcasting.spellCategory.manipulation">
+					{{../data.skills.spellcasting.spellCategory.manipulation.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "health"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
+			  	  data-helpDetails="data.skills.spellcasting.spellCategory.health">
+					{{../data.skills.spellcasting.spellCategory.health.dicePool}}
+				</div>
+				{{/ife}}
+			{{else}}
+			<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.force" 
+					  data-helpTitle="{{localize 'SR5.HELP_SpellForce' key=name}}"
+			  		  data-helpMessage="{{localize 'SR5.HELP_SpellForceMsg'}}">
+						{{data.force}}
+					</div>
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.hits" 
+					  data-helpTitle="{{localize 'SR5.HELP_SpellHits' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_SpellHitsMsg'}}">
+						{{data.hits}}
+					</div>
+				</div>
+			</div>
+			<div class="col-2">
+				{{#ife data.category "combat"}}
+				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.DamageValue'}}"
+				  data-helpDetailsItem="data.damageValue"
+				  data-helpItemId="{{_id}}">
+					{{data.damageValue.value}}{{findTranslation "damageTypesShort" data.damageType}}{{#if data.damageElement}} ({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}
+				</p>
+				{{else}}
+				<p class="SR-TextCenter">-</p>
+				{{/ife}}
+			</div>
+			<div class="col-2">
+				<div class="grid">
+					<div class="col-3">
+						{{#ife data.category "combat"}}
+						<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.ArmorPenetration'}}"
+						  data-helpDetailsItem="data.armorPenetration"
+						  data-helpItemId="{{_id}}">
+							{{#if data.armorPenetration.value}}{{data.armorPenetration.value}}{{else}}0{{/if}}
+						</p>
+						{{else}}
+						<p class="SR-TextCenter">-</p>
+						{{/ife}}
+					</div>
+					<div class="col-9">
+						<p class="SR-TextCenter">
+							{{#if data.range}}
+							{{findTranslation 'spellRangesShort' data.range}}
+							{{#if_g data.spellAreaOfEffect.value "0"}}
+							<span data-helpTitle="{{localize 'SR5.RangeArea'}}"
+							  data-helpDetailsItem="data.spellAreaOfEffect"
+							  data-helpItemId="{{_id}}">
+								({{data.spellAreaOfEffect.value}} {{localize 'SR5.MeterUnit'}})
+							</span>
+							{{/if_g}}
+							{{else}}-{{/if}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-2">
+				<div class="grid">
+					<div class="col-4">
+						<p class="SR-TextCenter" data-title="{{findTranslation 'spellTypes' data.type}}">
+							{{valueOrDash (findTranslation 'spellTypesShort' data.type)}}</p>
+					</div>
+					<div class="col-4">
+						<p class="SR-TextCenter" data-title="{{findTranslation 'spellDurations'data.duration}}">
+							{{#if data.duration}}
+							{{#ife data.duration "sustained"}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+							  data-helpTitle="{{localize 'SR5.HELP_SpellSustain' key=name}}"
+							  data-helpMessage="{{localize 'SR5.HELP_SpellSustainMsg'}}">
+								<em class="fas fa-sm fa-praying-hands {{#if data.isActive}}SR-CoulVert{{/if}}"></em>
+							</a>
+							{{else}}
+							{{findTranslation 'spellDurationsShort' data.duration}}
+							{{/ife}}
+							{{else}}-{{/if}}
+						</p>
+					</div>
+					<div class="col-4">
+						<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.SpellDrain'}}"
+						data-helpDetailsItem="data.drainValue"
+						data-helpItemId="{{_id}}">
+							{{data.drainValue.value}}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/if}}
+		{{/each}}
+	</ul>
+	<ul class="SR-PaddingTop5">
+		<li class="SR-EnTete SR-TextUppercase">
+			{{localize 'SR5.PreparationsFormulae'}}
+		</li>
+		{{#each actor.spells}}
+		{{#if data.preparation}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-3 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{#if (missing data.category data.range data.type data.duration data.drainValue)}}
+					<p class="incomplete" data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSort')}}">{{name}}</p>
+				{{else}}
+					<p>{{name}}</p>
+				{{/if}}
+			</div>
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
+			  data-helpTitle="{{localize 'SR5.HELP_PreparationFormula' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
+			  data-helpDetails="data.skills.alchemy.test">
+				{{../data.skills.alchemy.test.dicePool}}
+			</div>
+			<div class="col-7"></div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/if}}
+		{{/each}}
+	</ul>
+</div>

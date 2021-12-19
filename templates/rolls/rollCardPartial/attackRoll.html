@@ -1,0 +1,38 @@
+<hr>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{damageValue}}{{findTranslation 'damageTypesShort' damageType}}</div>
+</li>
+{{#if (ne damageElement '')}}
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.SpecialDamage'}}{{localize 'SR5.Colons'}} </div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'specialDamageTypes' damageElement}}</div>
+</li>
+{{/if}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{incomingPA}}</div>
+</li>
+<li class="grid">
+    {{#if (eq typeSub 'meleeWeapon')}}
+    <div class="col-10">{{localize 'SR5.WeaponReach'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{attackerReach}}</div>
+    {{/if}}
+    {{#if (eq typeSub 'rangedWeapon')}}
+    <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</p>
+    </div>
+    <div class="col-2 SR-TextRight">{{firingMode}}</div>
+    {{/if}}
+</li>
+{{#if (ne item.data.ammunition.type '')}}
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.AmmunitionType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' item.data.ammunition.type}}</div>
+</li>
+{{/if}}
+{{#if (eq typeSub 'grenade')}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.Blast'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{item.data.blast.radius}}m {{#if_l item.data.blast.damageFallOff 0}} ({{item.data.blast.damageFallOff}}) {{/if_l}}</div>
+</li>
+{{/if}}

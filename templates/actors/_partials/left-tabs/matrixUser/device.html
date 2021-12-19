@@ -1,0 +1,64 @@
+<!-- DEVICE NAME / RATING / MODE -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-10 SR-TextUppercase">{{data.matrix.deviceName}}</div>
+			{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt') (eq actor.type 'actorDevice') )}}
+			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.DeviceReboot'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_DeviceRebootMsg'}}">
+				<a class="reset-deck" data-title="{{localize 'SR5.DeviceReboot'}}"><em class="fas fa-sm fa-sync"></em></a>
+			</div>
+			{{/if}}
+		</li>
+		
+		<li class="item grid">
+			<div class="col-10">{{localize 'SR5.DeviceRating'}}</div>
+			{{#if (eq actor.type 'actorDevice')}}
+				<div class="col-2 SR-TextCenter"><input type="number" data-dtype="Number" name="data.matrix.deviceRating" value="{{data.matrix.deviceRating}}" placeholder="1"></div>
+			{{else}}
+				<div class="col-2 SR-TextCenter">{{data.matrix.deviceRating}}</div>
+			{{/if}}
+		</li>
+		
+		{{#if_g data.specialAttributes.resonance.augmented.value 0}}
+			<li class="grid">
+				<div class="col-10">{{localize 'SR5.SubmersionGrade'}}</div>
+				<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.matrix.submersionGrade"
+				  data-helpTitle="{{localize 'SR5.SubmersionGrade'}}"
+              	  data-helpMessage="{{localize 'SR5.HELP_SubmersionGradeMsg'}}"
+				>
+					{{data.matrix.submersionGrade}}
+				</div>
+			</li>
+		{{/if_g}}
+
+		{{#ife data.matrix.deviceType "slavedDevice"}}
+		<li class="grid">
+		  	<div class="col-10">{{localize 'SR5.DEVICE_DirectlyConnected'}}</div>
+		  	<div class="col-2 SR-TextCenter"
+		  	  data-helpTitle="{{localize 'SR5.DEVICE_DirectlyConnected'}}"
+        	  data-helpMessage="{{localize 'SR5.HELP_DirectlyConnectedMsg'}}"
+		  	>
+		  		<input type="checkbox" name="data.isDirectlyConnected" data-dtype="Boolean" {{checked data.isDirectlyConnected}} />
+			</div>
+		</li>
+		{{/ife}}
+
+		{{#ife data.matrix.deviceType "ice"}}
+		<li class="grid" 
+		  data-helpTitle="{{localize 'SR5.IceType'}}"
+          data-helpMessage="{{localize 'SR5.HELP_IceTypeMsg'}}"
+		>
+			<select class="" name="data.matrix.deviceSubType" data-dtype="String" required>
+				{{#select data.matrix.deviceSubType}}
+					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					{{#each actor.lists.iceTypes}}
+					<option value="{{@key}}">{{localize this}}</option>
+					{{/each}}
+				{{/select}}
+			</select>
+		</li>
+		{{/ife}}
+
+	</ul>
+</div>

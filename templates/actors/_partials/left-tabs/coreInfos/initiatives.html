@@ -1,0 +1,43 @@
+<!-- INITIATIVES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-12"><p class="SR-TextUppercase">{{localize 'SR5.Initiatives'}}</p></div>
+		</li>
+		{{#each data.initiatives}}
+		{{#if (and (eq ../data.isMaterializing false) (eq @key 'physicalInit'))}}
+		<li class="grid">
+			<div class="col-8 SR-CoulVert50">{{findTranslation 'characterInitiatives' @key}}</p></div>
+			<div class="col-1 SR-CoulVert50">
+				<em class="fas fa-sm fa-thumbtack"></em></a>
+			</div>
+			<div class="col-1 SR-CoulVert50">
+				<p class="SR-TextRight">{{value}}</p>
+			</div>
+			<div class="col-2 SR-CoulVert50"><p class="SR-TextRight">+{{dice.value}}d6</p></div>
+		</li>
+		{{else}}
+		<li class="grid">
+			<div class="col-8">{{findTranslation 'characterInitiatives' @key}}</p></div>
+			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_InitiativeActive' key=(findTranslation 'characterInitiatives' @key)}}"
+			data-helpMessage="{{#if (eq @key 'matrixInit')}}{{localize 'SR5.HELP_InitiativeActiveMatrixMsg'}}
+			  {{else}}{{localize 'SR5.HELP_InitiativeActiveMsg'}}{{/if}}">
+				{{#if isActive}}
+					<em class="fas fa-sm fa-thumbtack SR-CoulVert"></em>
+				{{else}}
+					<a class="init-switch" data-dtype="Boolean" data-binding="{{@key}}"><em class="fas fa-sm fa-thumbtack"></em></a>
+				{{/if}}
+			</div>
+			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_InitiativeRating' key=(findTranslation 'characterInitiatives' @key)}}"
+			  data-helpDetails="data.initiatives.{{@key}}">
+				<p class="SR-TextRight">{{value}}</p>
+			</div>
+			<div class="col-2" data-helpTitle="{{localize 'SR5.HELP_InitiativeDices' key=(findTranslation 'characterInitiatives' @key)}}"
+			data-helpDetails="data.initiatives.{{@key}}.dice">
+				<p class="SR-TextRight">+{{dice.value}}d6</p>
+			</div>
+		</li>
+		{{/if}}
+		{{/each}}
+	</ul>
+</div>

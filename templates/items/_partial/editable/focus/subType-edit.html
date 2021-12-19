@@ -1,0 +1,99 @@
+{{#ife data.type "spellcasting"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spellCategories}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{else ife data.type "counterspelling"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spellCategories}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{else ife data.type "ritualSpellcasting"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spellCategories}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{else ife data.type "sustaining"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spellCategories}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{else ife data.type "summoning"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spiritTypes}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{else ife data.type "banishing"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spiritTypes}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{else ife data.type "binding"}}
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.subType" data-dtype="String" required>
+		{{#select data.subType}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.spiritTypes}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+{{/ife}}

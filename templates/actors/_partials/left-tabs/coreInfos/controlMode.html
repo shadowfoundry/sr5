@@ -1,0 +1,67 @@
+<!-- CONTROL MODES -->
+<div class="SRBlockSheet">
+    <ul>
+        <li class="grid SR-LigneEnTete">
+            <div class="col-11 SR-TextUppercase">{{localize 'SR5.ControlMode'}}</div>
+            <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_VehicleControlerChoice'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleControlerChoiceMsg'}}">
+                <a class="chooseControler"><em class="fas fa-user-cog"></em></a>
+            </div>
+        </li> 
+        {{#ifne data.vehicleOwner.id ""}}
+        <li class="grid">
+            <div class="col-4">{{localize 'SR5.Controler'}}</div>
+            <div class="col-8 SR-TextRight">{{data.vehicleOwner.name}}</div>
+        </li>
+        {{/ifne}}
+        <li class="grid">
+            <div class="col-12" data-helpTitle="{{localize 'SR5.HELP_VehicleControleMode'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleControleModeMsg'}}">
+                <select name="data.controlMode" data-dtype="String">
+                {{#select data.controlMode}}
+                    <option value="autopilot">{{localize 'SR5.ControlAutopilot'}}</option>
+                    {{#ifne data.vehicleOwner.id ""}}
+                    <option value="manual">{{localize 'SR5.ControlManual'}}</option>
+                    <option value="remote">{{localize 'SR5.ControlRemote'}}</option>
+                    {{#if data.riggerInterface}}
+                    <option value="rigging">{{localize 'SR5.ControlRigging'}}</option>
+                    {{/if}}
+                    {{/ifne}}
+                {{/select}}
+                </select>
+            </div>
+        </li>
+        <li class="grid">
+            <div class="col-6">{{localize 'SR5.PilotSkill'}}</div>
+            <div class="col-6" data-helpTitle="{{localize 'SR5.HELP_VehiclePilotSkill'}}" data-helpMessage="{{localize 'SR5.HELP_VehiclePilotSkillMsg'}}">
+                <select name="data.pilotSkill" data-dtype="String">
+                {{#select data.pilotSkill}}
+                    <option value="">{{localize 'SR5.None'}}</option>
+                    {{#each actor.lists.pilotSkills}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </div>
+        </li>
+        <li class="grid">
+            <div class="col-10">{{localize 'SR5.Vehicle_RI_S'}}</div>
+            <div class="col-1" data-helpTitle="{{localize 'SR5.HELP_VehicleRiggerInterface'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleRiggerInterfaceMsg'}}">
+                <input type="checkbox" name="data.riggerInterface" data-dtype="Boolean" {{checked data.riggerInterface}}>
+            </div>
+        </li>
+        {{#ifne data.vehicleOwner.id ""}}
+        <li class="grid">
+            <div class="col-10">{{localize 'SR5.DEVICE_TYPE_SlavedDevice_F'}}</div>
+            <div class="col-1" data-helpTitle="{{localize 'SR5.HELP_VehicleSlaved'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleSlavedMsg'}}">
+                <input type="checkbox" name="data.slaved" data-dtype="Boolean" {{checked data.slaved}}>
+            </div>
+        </li>
+        {{/ifne}}
+        <li class="grid">
+            <div class="col-10">{{localize 'SR5.VehicleTest'}}</div>
+            <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="vehicleTest" data-rollkey="vehicleTest"
+            data-helpTitle="{{localize 'SR5.VehicleTest'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTestMsg'}}" data-helpDetails="data.vehicleTest.test">
+                {{data.vehicleTest.test.dicePool}}
+            </div>
+        </li>
+    </ul>
+</div>

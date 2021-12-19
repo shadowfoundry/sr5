@@ -1,0 +1,71 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Type -->
+							{{> systems/sr5/templates/items/_partial/summary/device-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+					<ul>
+						<!-- General information title -->
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						<!-- Device Type -->
+						{{> systems/sr5/templates/items/_partial/editable/device/type-edit.html}}
+						{{#if (or (eq data.type 'commlink') (eq data.type 'cyberdeck') (eq data.type 'riggerCommandConsole'))}}
+						<!-- Device Rating -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}	
+						<!-- Program max -->
+						{{> systems/sr5/templates/items/_partial/editable/device/programMax-edit.html}}
+						<!-- Attributes Collection -->
+						{{> systems/sr5/templates/items/_partial/editable/device/attributesCollection-edit.html}}
+						<!-- Commlink Module -->
+						{{> systems/sr5/templates/items/_partial/editable/device/commlinkModule-edit.html}}	
+						<!-- Commlink Dongle -->
+						{{> systems/sr5/templates/items/_partial/editable/device/commlinkDongle-edit.html}}	
+						{{/if}}
+					</ul>
+
+					<!-- Price & Availability -->
+					{{#if (or (eq data.type 'commlink') (eq data.type 'cyberdeck') (eq data.type 'riggerCommandConsole'))}}
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+				 	</ul>
+					{{/if}} 
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+	</div>
+</form>

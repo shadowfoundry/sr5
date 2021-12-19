@@ -1,0 +1,251 @@
+<div class="sr5 chat-card item-card" data-actor-id="{{actor.id}}" data-item-id="{{item.id}}" data-token-id="{{tokenId}}">
+  <header class="SR-CardHeader flexrow" title="{{localize 'SR5.ClickForDetails'}}">
+    <div class="SR-CardHeaderTitle grid">
+      <div class="col-auto align-self-center">{{title}}</div>
+    </div>
+  </header>
+
+  <div class="SR-CardContent chat-button-owner">
+    <ul>
+      <li>
+        <div class="SR-CardDices">
+          {{#each test.dices as |dice d|}}
+            {{#if dice.success}}
+              <div class="SR-Dice succes">{{dice.result}}</div>
+            {{else}}
+              {{#if dice.glitch}}
+                <div class="SR-Dice glitch">{{dice.result}}</div>
+              {{else}}
+                <div class="SR-Dice echec">{{dice.result}}</div>
+              {{/if}}
+            {{/if}}
+          {{/each}}
+        </div>
+      </li>
+      
+      <!--Dicepool Mod-->
+      {{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.html}}
+      <!--Attack Infos-->
+      {{#if (eq type 'attack')}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
+      {{/if}}
+      <!--Drain info-->
+      {{#if (or (eq type 'spell') (eq type 'preparationFormula'))}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.html}}
+      {{/if}}
+      <!--Summoning info-->
+      {{#if (or (eq typeSub 'summoning') (eq typeSub 'compileSprite') )}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html}}
+      {{/if}}
+      <!--Matrix damage info-->
+      {{#if (eq typeSub 'dataSpike')}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
+      {{/if}}
+      <!--Limit info-->
+      {{#if test.limit}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
+      {{/if}}
+    </ul>
+  </div>
+
+  <div class="SR-CardButton">
+    <div class="SR-CardButtonHit grid">
+      <div class="col-2">
+        <a class="chat-button-gm edit-toggle" title="{{localize 'SR5.EditResult'}}"><i class="fas fa-edit"></i></a>
+        {{#if button.placeTemplate}}
+          <a class="messageAction chat-button-owner" title="{{localize 'SR5.PlaceTemplate'}}" data-action="nonOpposedTest" data-type="msgTest_templatePlace"><i class="fas fa-bullseye"></i></a>
+        {{/if}}
+        {{#if button.removeTemplate}}
+          <a class="messageAction chat-button-owner" title="{{localize 'SR5.RemoveTemplate'}}" data-action="nonOpposedTest" data-type="msgTest_templateRemove"><i class="fas fa-ban"></i></a>
+        {{/if}}
+      </div>
+      <div class="col-8">
+        <div class="display-toggle" style="display: none;">
+          <input class="card-edit" data-edit-type="hits" value="{{test.hits}}">{{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
+        </div>
+        <div class="display-toggle">
+          {{test.hits}} {{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
+          {{#if test.glitchRoll}}
+            ({{localize 'SR5.Glitch'}})
+          {{/if}}
+          {{#if test.criticalGlitchRoll}}
+            {{localize 'SR5.GlitchCritical'}}
+          {{/if}}
+          {{#ife type "lift"}}
+            ({{weightTotal}}{{localize 'SR5.KilogramUnit'}})
+          {{/ife}}
+          {{#ife type "movement"}}
+            ({{movementTotal}} {{unit}})
+          {{/ife}}
+          {{#if_g extendedRoll 0}}
+            [{{extendedIntervalValue}} 
+            {{#if_g extendedIntervalValue 1}}
+              {{findTranslation 'extendedIntervals' extendedInterval}}]
+            {{else}}
+              {{findTranslation 'extendedInterval' extendedInterval}}]
+            {{/if_g}}
+          {{/if_g}}
+        </div>
+      </div>
+      <div class="col-2">
+        {{#if (or (eq secondeChanceUsed true) (eq type 'preparation'))}}
+        {{else}}
+          <a class="messageAction chat-button-owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
+        {{/if}}
+        {{#if (or (eq pushLimitUsed true) (eq type 'preparation'))}}
+        {{else}}
+          <a class="messageAction chat-button-owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>
+        {{/if}}
+      </div>
+    </div>
+
+    <div id="srButtonTest">
+
+      <!-- END ACTION-->
+      {{#if button.actionEnd}}
+        <button class="messageAction SR-CardButtonHit endTest" data-action="" data-type="">
+          {{button.actionEndTitle}}
+        </button>
+      {{/if}}
+
+      <!-- EXTENDED TEST -->
+      {{#if button.extended}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_extended">
+          {{localize 'SR5.NewRoll'}}
+        </button>
+      {{/if}}
+
+      <!-- ACTION CONTINUE -->
+
+      {{#if button.attack}}
+        <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">
+          {{localize 'SR5.Defend'}}
+        </button>
+      {{/if}}
+
+      {{#if button.matrixAction}}
+        <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">{{localize 'SR5.Defend'}}</button>
+      {{/if}}
+
+      {{#if button.spell}}
+        <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">
+          {{#ife typeSub "indirect"}}{{localize 'SR5.Defend'}}{{/ife}}
+          {{#ife typeSub "direct"}}{{localize 'SR5.ResistDirectSpell'}}{{/ife}}
+        </button>
+      {{/if}}
+
+      {{#if button.resistance}}
+        <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">
+          {{localize 'SR5.TakeOnDamage'}} ({{localize 'SR5.DamageValueShort'}}{{localize 'SR5.Colons'}} {{damageValue}}{{findTranslation 'damageTypesShort' damageType}}
+          {{#if incomingPA}} / {{localize 'SR5.ArmorPenetrationShort'}}{{localize 'SR5.Colons'}} {{incomingPA}}{{/if}})
+        </button>
+      {{/if}}
+
+      {{#if button.takeDamage}}
+        <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">
+          {{localize 'SR5.ApplyDamage'}} ({{damageValue}}{{findTranslation 'damageTypesShort' damageType}})
+        </button>
+      {{/if}}
+
+      {{#if button.takenDamage}}
+        <button class="messageAction SR-CardButtonHit endTest" data-action="" data-type="">
+          {{damageValue}}{{findTranslation 'damageTypesShort' damageType}} {{localize 'SR5.AppliedDamage'}} 
+        </button>
+      {{/if}}
+
+      {{#if button.summonSpiritResist}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_summonSpiritResist">{{localize 'SR5.SpiritResistance'}}</button>
+      {{/if}}
+
+      {{#if button.compileSpriteResist}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_compileSpriteResist">{{localize 'SR5.SpriteResistance'}}</button>
+      {{/if}}
+
+      {{#if button.summonSpirit}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_createSpirit">{{localize 'SR5.SummonSpirit'}}</button>
+      {{/if}}
+
+      {{#if button.compileSprite}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_createSprite">{{localize 'SR5.CompileSprite'}}</button>
+      {{/if}}
+
+      {{#if button.matrixResistance}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_matrixResistance">{{localize 'SR5.TakeOnDamageMatrix'}} ({{matrixDamageValue}})</button>
+      {{/if}}
+
+      {{#if button.attackerPlaceMark}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_attackerAddMark">{{localize 'SR5.PlaceMarkTo' key=mark name=speakerActor}}</button>
+      {{/if}}
+
+      {{#if button.defenderPlaceMark}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderAddMark">{{localize 'SR5.PlaceMarkTo' key=mark name=attackerName}}</button>
+      {{/if}}
+
+      {{#if button.defenderDoMatrixDamage}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderDoDeckDamage">{{localize 'SR5.DoMatrixDamage' key=matrixDamageValue name=attackerName}}</button>
+      {{/if}}
+
+      {{#if button.attackerDoBiofeedbackDamage}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_attackerDoBiofeedbackDamage">{{localize 'SR5.TakeOnDamageBiofeedback'}} (VD: {{damageValue}}{{findTranslation 'damageTypesShort' damageType}})</button>
+      {{/if}}
+
+      {{#if button.defenderDoBiofeedbackDamage}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderDoBiofeedbackDamage">{{localize 'SR5.DoBiofeedBackDamage' damage=matrixDamageValue damageType=(findTranslation 'damageTypesShort' damageType) name=attackerName }}</button>
+      {{/if}}
+
+      {{#if button.takeMatrixDamage}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_takeMatrixDamage">{{localize 'SR5.ApplyDamage'}} ({{matrixDamageValue}})</button>
+      {{/if}}
+
+      {{#if button.overwatch}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_increaseOverwatch">{{localize 'SR5.IncreaseOverwatch' name=attackerName score=test.hits}}</button>
+      {{/if}}
+
+      <!-- GRENADE SCATTER -->
+      {{#if button.scatter}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_scatter">{{localize 'SR5.Scatter'}}</button>
+      {{/if}}
+
+      <!-- RESIST DRAIN TEST -->
+      {{#if button.drainResistance}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_drainResistance">{{localize 'SR5.ResistDrain'}} ({{drainValue}})</button>
+      {{/if}}
+
+      <!-- RESIST FADING TEST -->
+      {{#if button.fadingResistance}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_fadingResistance">{{localize 'SR5.ResistFading'}} ({{fadingValue}})</button>
+      {{/if}}
+
+      <!-- COMPLEX FORM DEFENSE TEST -->
+      {{#if button.complexForm}}
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_complexFormDefense">{{localize 'SR5.Defend'}}</button>
+      {{/if}}
+
+      <!-- POWER DEFENSE TEST -->
+      {{#if button.powerDefense}}
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_powerDefense">{{localize 'SR5.Defend'}}</button>
+      {{/if}}
+
+      <!-- ICE ATTACK DEFENSE TEST -->
+      {{#if button.iceDefense}}
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_iceDefense">{{localize 'SR5.Defend'}}</button>
+      {{/if}}
+
+      <!-- ICE EFFECT -->
+      {{#if button.iceEffect}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_iceEffect">{{button.iceEffectTitle}}</button>
+      {{/if}}
+
+      <!-- CREATE PREPARATION ITEM -->
+      {{#if button.preparationResist}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_preparationResist">{{localize 'SR5.PreparationResistance'}}</button>
+      {{/if}}
+
+      <!-- CREATE PREPARATION ITEM -->
+      {{#if button.createPreparation}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_createPreparation">{{localize 'SR5.PreparationCreate'}}</button>
+      {{/if}}
+    </div>
+
+  </div>
+</div>

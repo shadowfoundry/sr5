@@ -1,0 +1,22 @@
+<div class="SR-Header SR-PaddingBottom5">
+
+		<div><img class="SRImgPortrait" src="{{actor.img}}" data-edit="img" data-title="{{localize 'SR5.UI_ChangePicture'}}" /></div>
+		<input name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+	
+	<div class="SR-HeaderNav">
+		{{#if (eq actor.type "actorPc")}}
+			{{> systems/sr5/templates/actors/_partials/header/nav/actorPC.html }}
+		{{else if (eq actor.type "actorDevice")}}
+			{{> systems/sr5/templates/actors/_partials/header/nav/actorDevice.html }}
+		{{else if (eq actor.type "actorDrone")}}
+			{{> systems/sr5/templates/actors/_partials/header/nav/actorDrone.html }}
+		{{else if (eq actor.type "actorGrunt")}}
+			{{> systems/sr5/templates/actors/_partials/header/nav/actorGrunt.html }}	
+		{{else if (eq actor.type "actorSpirit")}}
+			{{> systems/sr5/templates/actors/_partials/header/nav/actorSpirit.html }}
+		{{else if (eq actor.type "actorSprite")}}
+			{{> systems/sr5/templates/actors/_partials/header/nav/actorSprite.html }}
+		{{/if}}
+	</div>
+
+</div>

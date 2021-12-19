@@ -1,0 +1,52 @@
+<!-- SPRITE POWERS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-5">
+				<p class=" SR-TextUppercase ">{{localize 'SR5.Powers'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.DicePool'}}">{{localize 'SR5.DicePoolShort'}}</p>
+			</div>
+			<div class="col-5">
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemSpritePower')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemSpritePower">
+						<em class="fas fa-plus"></em>
+					</a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.spritePowers}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{name}}
+			</div>
+			{{#if (gt data.test.dicePool 0)}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="power"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_PowerRollMsg'}}"
+			  data-helpDetailsItem="data.test"
+			  data-helpItemId="{{_id}}">
+				{{data.test.dicePool}}
+			</div>
+			{{else}}
+			<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
+			<div class="col-5">
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

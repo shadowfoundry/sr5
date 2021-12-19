@@ -1,0 +1,231 @@
+#chat-log {
+  .message.SRCustomMessage .message-content{
+    padding:0px;
+  }
+
+  .message {
+    background-color: fade(@neutralLightColor, 100%);
+    border-radius   : 5px;
+    border-color    : @subColor;
+    border          : 2px solid;
+    color           : @neutralDarkColor;
+    margin-bottom   : 5px;
+    padding-bottom  : 5px;
+
+    .message-content {
+      padding:5px 5px 0px 5px;
+    }
+
+    input {
+      width       : 30px;
+      text-align  : center;
+      margin-right: 5px;
+    }
+
+    .SR-MessageHeader {
+      background-color: @neutralDarkColor;
+      line-height     : 20px;
+      padding         : 2px;
+      color           : @neutralLightColor;
+
+      h4 {
+        font-family   : @SR_BodyTextBold;
+        text-transform: uppercase;
+        color         : @mainColor;
+        font-size     : @SR_FontSizeNormal;
+        flex-grow     : 2;
+        margin-bottom : 0;
+        align-self    : center;
+      }
+
+      .SR-MessageMetadata {
+        text-align   : right;
+        font-size    : @SR_FontSizeSmall ;
+        padding-right: 2px;
+        color        : @mainColor;
+      }
+
+      .SRAuthorIcon {
+        width       : 25px;
+        height      : 25px;
+        flex        : 0 0 25px;
+        margin-right: 5px;
+        border-color: #95046f;
+      }
+    }
+
+    .SR-CardHeader {
+      padding-top        : 5px;
+      padding-bottom     : 15px;
+      text-align         : center;
+      background-image   : url(@ChatMessage);
+      background-repeat  : no-repeat;
+      background-size    : cover;
+      background-position: bottom;
+
+      .SRAuthorIcon {
+        width       : 35px;
+        height      : 35px;
+        margin-left : 2px;
+        margin-right: 5px;
+        border      : 1px solid @neutralDarkColor;
+      }
+
+      .SR-CardHeaderTitle {
+        font-family   : @SR_BodyTextBold;
+        text-transform: uppercase;
+        color         : @neutralLightColor;
+        font-size     : @SR_FontSizeNormal;
+        margin        : auto;
+        text-align    : center;
+      }
+    }
+
+    .SR-CardContent {
+      padding    : 5px 5px 0px 5px;
+      font-family: @SR_BodyText;
+      font-size  : @SR_FontSizeSmall ;
+
+      p {
+        margin: 0;
+      }
+
+      .SR-CardDices {
+        display        : flex;
+        flex-flow      : row wrap;
+        justify-content: center;
+        margin-top     : 5px;
+        margin-left    : -3px;
+
+        .SR-Dice {
+          height       : 20px;
+          width        : 20px;
+          text-align   : center;
+          margin-right : 2.55px;
+          margin-left  : 2.55px;
+          margin-bottom: 5px;
+          padding-top  : 1px;
+        }
+
+        .succes {
+          border          : 1px solid @mainColor;
+          background-color: fade(@mainColor, 50%);
+          color           : @neutralLightColor;
+        }
+
+        .echec {
+          border: 1px solid @subColor;
+          color : @subColor;
+        }
+
+        .glitch {
+          border          : 1px solid @subColor;
+          color           : @neutralLightColor;
+          background-color: fade(@subColor, 50%);
+        }
+      }
+
+      .SR5-message-hit {
+        background-color: #960570;
+        display         : flex;
+        line-height     : 20px;
+        margin-bottom   : 0px !important;
+        margin-top      : 5px;
+        padding-left    : 5px;
+        padding-right   : 5px;
+      }
+
+    }
+
+    .SR-CardButton {
+      margin-top    : 5px;
+      font-family   : @SR_BodyTextBold;
+      text-transform: uppercase;
+      color         : @neutralLightColor;
+      font-size     : @SR_FontSizeNormal;
+      text-align    : center;
+      line-height   : 20px;
+
+      .SR-CardButtonHit {
+        background-color: @mainColor;
+        margin-bottom   : 0px;
+        border          : 0px;
+        border-radius   : 0px;
+      }
+
+      .endTest {
+        margin-left     : 0px;
+        margin-right    : 0px;
+        margin-top      : 5px;
+        line-height     : 20px;
+        font-family     : @SR_BodyTextBold;
+        text-transform  : uppercase;
+        color           : @neutralLightColor;
+        font-size       : @SR_FontSizeNormal;
+      }
+
+      .opposedTest {
+        background-color: @subColor;
+        line-height     : 20px;
+        margin          : 5px 0px 0px 0px;
+        border          : 0px;
+        border-radius   : 0px;
+        padding-left    : 5px;
+        padding-right   : 5px;
+        padding-top     : 0px;
+        padding-bottom  : 0px;
+        font-family     : @SR_BodyTextBold;
+        text-transform  : uppercase;
+        color           : @neutralLightColor;
+        font-size       : @SR_FontSizeNormal;
+        text-align      : center;
+        border          : 0px;
+        border-radius   : 0px;
+
+        &:hover {
+          color: @neutralDarkColor;
+        }
+      }
+
+      .nonOpposedTest {
+        background-color: @neutralDarkColor;
+        line-height     : 20px;
+        margin          : 5px 0px 0px 0px;
+        border          : 0px;
+        border-radius   : 0px;
+        padding-left    : 5px;
+        padding-right   : 5px;
+        padding-top     : 0px;
+        padding-bottom  : 0px;
+        font-family     : @SR_BodyTextBold;
+        text-transform  : uppercase;
+        color           : @neutralLightColor;
+        font-size       : @SR_FontSizeNormal;
+        text-align      : center;
+        border          : 0px;
+        border-radius   : 0px;
+
+        &:hover {
+          color: @subColor;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+.SR5-message-edit {
+  width: 20px;
+}
+
+.SR5-message-chance {
+  width     : 20px;
+  text-align: right;
+}

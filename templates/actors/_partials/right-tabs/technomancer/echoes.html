@@ -1,0 +1,40 @@
+<!-- ECHOES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-10 SR-TextUppercase">{{localize 'SR5.Echoes'}}</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.Equipped'}}"><em
+						class="fas fa-sm fa-thumbtack"></em></p>
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemEcho')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemEcho">
+						<em class="fas fa-plus"></em>
+					</a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.echoes}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-10 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">{{name}}</div>
+			<div class="col-1 SR-TextCenter"
+				data-helpTitle="{{localize 'SR5.HELP_EchoActivateToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EchoActivateToggleMsg'}}"
+			>
+				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+					<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-CoulVert{{/if}}"></em></a>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

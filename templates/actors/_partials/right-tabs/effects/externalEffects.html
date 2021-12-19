@@ -1,0 +1,27 @@
+<div class="SRBlockSheet">
+    <ul>
+		<li class="SR-LigneEnTete grid">
+            <div class="col-4"><p class=" SR-TextUppercase">{{localize 'SR5.ExternalEffects'}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Target'}}</p></div>
+            <div class="col-1"><p class="SR-TextCenter">{{localize 'SR5.Value'}}</p></div>
+            <div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Type'}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Source'}}</p></div>
+        </li>
+        {{#each actor.effects}}
+        <li class="item grid" data-item-id="{{_id}}" draggable="true">
+            <div class="col-4">{{name}}</div>
+            <div class="col-2"><p class="SR-TextCenter">{{data.target}}</p></div>
+            <div class="col-1"><p class="SR-TextCenter">{{data.value}}</p></div>
+            <div class="col-2"><p class="SR-TextCenter">{{findTranslation 'effectTypes' data.type}}</p></div>
+            <div class="col-2"><p class="SR-TextCenter">{{data.ownerName}}</p></div>
+            <div class="col-1 SR-TextRight">
+                {{#if ../owner}}
+                <a class="item-delete" data-title="{{localize 'SR5.Delete'}}" data-helpTitle="{{localize 'SR5.HELP_ItemDelete' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemDeleteMsg'}}">
+					<em class="fas fa-sm fa-trash"></em>
+				</a>
+                {{/if}}
+          </div>
+        </li>
+        {{/each}}
+    </ul>
+</div>

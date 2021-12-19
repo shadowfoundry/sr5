@@ -1,0 +1,27 @@
+
+{{#ifne data.category "grenade"}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.WeaponType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        {{#ife data.category "rangedWeapon"}}
+            <select name="data.type" required>
+            {{#select data.type}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.rangedWeaponTypes}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+            </select>
+        {{else ife data.category "meleeWeapon"}}
+            <select name="data.type" required>
+                {{#select data.type}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.meleeWeaponTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+            {{/select}}   
+            </select>
+        {{/ife}}
+    </div>
+</li>
+{{/ifne}}

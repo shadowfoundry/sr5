@@ -1,0 +1,31 @@
+<li class="SR-EnTete SR-TextUppercase">{{localize 'SR5.DefenseTest'}}</li>
+
+<!-- Primary attribute -->
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.Attribute'}} {{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.defenseAttribute" data-dtype="String">
+		{{#select data.defenseAttribute}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.allAttributes}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+</li>
+
+<!-- Secondary attribute -->
+<li class="grid">
+	<div class="col-5">{{localize 'SR5.MatrixAttribute'}} {{localize 'SR5.Colons'}}</div>
+	<div class="col-7">
+		<select name="data.defenseMatrixAttribute" data-dtype="String">
+		{{#select data.defenseMatrixAttribute}}
+			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			{{#each lists.deckerAttributes}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+    	</select>
+	</div>
+</li>

@@ -1,0 +1,16 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.type" data-dtype="String" required>
+            {{#select data.type}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spiritTypes}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li hidden>
+    <input hidden value="{{data.type}}">
+</li>

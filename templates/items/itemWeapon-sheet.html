@@ -1,0 +1,156 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Weapon type -->
+							{{> systems/sr5/templates/items/_partial/summary/weapon-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+						<ul>
+							<!-- General information title -->
+							{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+							<!-- Weapon Category -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/category-edit.html}}
+							<!-- Weapon Type -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/type-edit.html}}
+							<!-- Weapon Skill -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/skill-edit.html}}
+							<!-- Device rating -->
+							{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}
+							{{#ife data.type "bow"}}
+								<!-- Item rating -->
+								{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+							{{/ife}}
+							<!-- Concealability Modifier -->
+							{{> systems/sr5/templates/items/_partial/editable/_common/concealabilityModifier-edit.html}}
+							<!-- Required hands -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/requiredHands-edit.html}}
+						</ul>
+
+					<!-- Damage -->
+					<ul class="SR-PaddingTop10">
+						<!-- Damage title -->
+						{{> systems/sr5/templates/items/_partial/title/damage.html}}
+						<!-- Damage value, type & special -->
+						{{> systems/sr5/templates/items/_partial/editable/weapon/damage-edit.html}}
+						<!-- Toxin block -->
+						{{#ife data.damageElement "toxin"}}
+							{{> systems/sr5/templates/items/_partial/editable/weapon/toxin-edit.html}}
+						{{/ife}}
+
+						{{#if (or (eq data.category "rangedWeapon") (eq data.category "meleeWeapon"))}}
+							<!-- Accuracy -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/accuracy-edit.html}}
+						{{/if}}
+
+						<!-- Armor Penetration -->
+						{{> systems/sr5/templates/items/_partial/editable/weapon/armorPenetration-edit.html}}
+
+						{{#ife data.category "rangedWeapon"}}
+							<!-- Recoil Compensation -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/recoilCompensation-edit.html}}
+
+							{{#if (or (eq data.type "grenadeLauncher") (eq data.type "missileLauncher"))}}
+							<!-- Blast & Drop off -->
+								{{> systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html}}
+							{{/if}}
+						{{/ife}}
+
+						{{#ife data.category "grenade"}}
+							<!-- Blast & Drop off -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html}}
+
+							<!-- Aerodynamic-->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/aerodynamic-edit.html}}
+						{{/ife}}
+					</ul>
+
+					<!-- ATTACK RANGES -->
+					<ul class="SR-PaddingTop10">
+						<li class="SR-EnTete">
+							<p class="SR-TextUppercase">{{localize 'SR5.WeaponRange'}}</p>
+						</li>
+
+						<!-- MELEE -->
+						{{#ife data.category "meleeWeapon"}}
+							<!-- Reach-->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/reach-edit.html}}
+						{{/ife}}
+
+						<!-- RANGED WEAPON -->
+						{{#if (or (eq data.category "rangedWeapon") (eq data.category "grenade") )}}
+							{{> systems/sr5/templates/items/_partial/editable/weapon/range-edit.html}}
+						{{/if}}
+					</ul>
+
+					{{#ife data.category "rangedWeapon"}}
+					<!-- FIRING MODES -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/weapon/firingModes-edit.html}}
+					</ul>
+
+					<!-- AMMUNITION -->
+					<ul class="SR-PaddingTop10">
+						<li class="SR-EnTete">
+							<p class="SR-TextUppercase">{{localize 'SR5.Ammunition'}}</p>
+						</li>
+
+						<!-- Ammunition max -->
+						{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionMax-edit.html}}
+
+						{{#ifne data.type "throwing"}}
+							<!-- Ammunition type -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html}}
+
+							<!-- Reloading method -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/reloadingMethod-edit.html}}
+						{{/ifne}}
+					</ul>
+
+					<!-- ACCESSORIES -->
+					{{> systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html}}
+
+					{{/ife}}
+
+					<!-- PRICE AND AVAILABILITY -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+					</ul>
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+	</div>
+</form>

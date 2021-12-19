@@ -1,0 +1,77 @@
+<!-- ADEPT POWERS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-5">
+				<p class=" SR-TextUppercase ">{{localize 'SR5.AdeptPowers'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.DiceHitsLastCast'}}">{{localize 'SR5.DiceHitsShort'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.PowerPointsCost'}}">{{localize 'SR5.PowerPointsCostShort'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p>
+			</div>
+			<div class="col-2">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.ActionType'}}">{{localize 'SR5.ActionTypeShort'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.Sustaining'}}">{{localize 'SR5.SustainingShort'}}</p>
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemAdeptPower')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemAdeptPower"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.adeptPowers}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{#if (missing data.powerPointsCost.value data.actionType)}}
+				<p class="incomplete"
+					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypePouvoiradepte')}}">
+					{{name}}</p>
+				{{else}}
+				<p>{{name}}</p>
+				{{/if}}
+			</div>
+			<div class="col-1">
+				<div class="sort-ext SR-TextCenter changeValueByClick" data-binding="data.hits"
+				  data-helpTitle="{{localize 'SR5.HELP_SpellHits' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_PowerHitsMsg'}}">
+					{{data.hits}}
+				</div>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{valueOrDash data.powerPointsCost.value}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{valueOrDash data.itemRating}}</p>
+			</div>
+			<div class="col-2">
+				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'actionTypes' data.actionType)}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_PowerSustain' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_PowerSustainMsg'}}">
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive">
+				  		<em class="fas fa-sm fa-praying-hands {{#if data.isActive}}SR-CoulVert{{/if}}"></em>
+					</a>
+				</p>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

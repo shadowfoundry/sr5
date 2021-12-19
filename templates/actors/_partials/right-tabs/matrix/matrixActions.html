@@ -1,0 +1,63 @@
+<!-- MATRIX ACTIONS -->
+<div class="SRBlockSheet filtre-matrixActions">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			{{#if (or (eq actor.type 'actorDrone') (eq actor.type 'actorDevice'))}}
+				<div class="col-10 SR-TextUppercase">{{localize 'SR5.MatrixActions'}}</div>
+			{{else}}
+				<div class="col-5 SR-TextUppercase depliable">{{localize 'SR5.MatrixActions'}}</div>
+				<div class="col-2 SR-TextCenter">{{localize 'SR5.ActionTypeShort'}}</div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.MarkShort'}}</div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.LimitShort'}}</div>
+			{{/if}}
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.DefenseDicePoolShort'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.MatrixGODShort'}}</div>
+		</li>
+		
+		{{#each data.matrix.actions}}
+			{{#if (or (eq ../actor.type 'actorDrone') (eq ../actor.type 'actorDevice'))}}
+				{{#if defense.dicePool}}
+				<li class="grid" data-matrix="{{a}}">
+					<div class="col-10">{{findTranslation 'matrixActions' @key}}</div>
+					<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
+					  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
+				      data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
+				      data-helpDetails="data.matrix.actions.{{@key}}.defense">
+						{{valueOrDash defense.dicePool}}
+					</div>
+					<div class="col-1 SR-TextCenter">{{#if increaseOverwatchScore}}<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>{{/if}}</div>
+				</li>
+				{{/if}}
+			{{else}}
+			<li class="grid" data-matrix="{{a}}">
+				<div class="col-5">{{findTranslation 'matrixActions' @key}}</div>
+				<div class="col-2 SR-TextCenter">{{findTranslation 'actionTypes' actionType}}</div>
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixAction" data-rollkey="{{@key}}"
+				  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_MatrixActionMsg'}}"
+				  data-helpDetails="data.matrix.actions.{{@key}}.test">
+					{{valueOrDash test.dicePool}}
+				</div>
+				<div class="col-1 SR-TextCenter">{{neededMarks}}</div>
+				<div class="col-1 SR-TextCenter"
+				  data-helpTitle="{{localize 'SR5.Limit'}}"
+				  data-helpDetails="data.matrix.actions.{{@key}}.limit">
+				  	{{valueOrDash limit.value}}
+				</div>
+				{{#if_ge defense.dicePool 1}}
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
+				  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
+				  data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
+				  data-helpDetails="data.matrix.actions.{{@key}}.defense">
+					{{defense.dicePool}}
+				</div>
+				{{else}}
+				<div class="col-1 SR-TextCenter">-</div>
+				{{/if_ge}}
+				<div class="col-1 SR-TextCenter">{{#if increaseOverwatchScore}}<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>{{/if}}</div>
+			</li>
+			{{/if}}
+		{{/each}}
+	</ul>
+</div>

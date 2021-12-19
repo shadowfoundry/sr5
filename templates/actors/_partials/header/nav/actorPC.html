@@ -1,0 +1,23 @@
+<nav class="tabs2" data-group="gauche">
+    {{> systems/sr5/templates/actors/_partials/header/navParts/coreInfos.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/derived.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/magicUser.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/matrixUser.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/qualities.html}}
+</nav>
+
+<nav class="tabs" data-group="centre">
+    {{> systems/sr5/templates/actors/_partials/header/navParts/skills.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/combat.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/gear.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/augmentation.html}}
+    {{#ife data.activeSpecialAttribute 'magic'}}
+        {{> systems/sr5/templates/actors/_partials/header/navParts/magic.html}}
+    {{/ife}}
+    {{#ife data.activeSpecialAttribute 'resonance'}}
+        {{> systems/sr5/templates/actors/_partials/header/navParts/technomancer.html}}
+    {{/ife}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/matrix.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/social.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/biography.html}}
+</nav>

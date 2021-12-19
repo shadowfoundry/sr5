@@ -1,0 +1,48 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'spellCategories' data.category)}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">
+            {{#if data.category}}
+                {{#ife data.category 'illusion'}}{{findTranslation 'spellIllusionTypes' data.subCategory}} {{findTranslation 'spellIllusionSens' data.illusionSense}}{{/ife}}
+                {{#ife data.category 'combat'}}{{findTranslation 'spellCombatTypes' data.subCategory}}{{/ife}}
+                {{#ife data.category 'detection'}}{{findTranslation 'spellDetectionTypes' data.subCategory}} {{findTranslation 'spellDetectionSens' data.detectionSense}}{{/ife}}
+                {{#ife data.category 'manipulation'}}{{findTranslation 'spellManipulationTypes' data.subCategory}}{{/ife}}
+                {{#ife data.category 'health'}}-{{/ife}}
+            {{else}}
+                -
+            {{/if}}
+        </span>
+    </p>
+</li>
+{{#ife data.category "combat"}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">
+            {{#if data.damageValue.base}}
+                {{data.damageValue.base}}{{findTranslation 'damageTypesShort' data.damageType}} ({{findTranslation 'specialDamageTypes' data.damageElement}})
+            {{else}}
+                -
+            {{/if}}
+        </span>
+    </p>
+</li>
+{{/ife}}
+
+{{> systems/sr5/templates/items/_partial/summary/_common/durationMagic-summary.html}}
+
+{{> systems/sr5/templates/items/_partial/summary/_common/rangeMagic-summary.html}}
+
+{{#if data.preparation}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.PreparationFormula'}}</span>
+    </p>
+</li>
+{{/if}}

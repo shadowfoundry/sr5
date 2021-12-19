@@ -1,0 +1,26 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.ExtendedTest'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2">
+        <select name="extendedValue">
+        {{#select extendedValue}}
+            <option value="false">{{localize 'SR5.No'}}</option>
+            <option value="true">{{localize 'SR5.Yes'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-5" id="interval">
+        <div class="grid">
+            <div class="col-1"></div>
+            <div class="col-2"><input type="number" name="extendedMultiplier" value="{{extendedMultiplier}}" data-dtype="Number" placeholder="1" /></div>
+            <div class="col-9">
+            <select name="extendedTime">
+            {{#select extendedTime}}
+            {{#each lists.extendedInterval}}
+                <option value="{{@key}}">{{findTranslation 'extendedInterval' @key}}</option>
+            {{/each}}
+            {{/select}}
+            </select>
+            </div>
+        </div>
+    </div>
+</li>

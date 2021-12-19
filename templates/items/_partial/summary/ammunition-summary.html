@@ -1,0 +1,35 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'allAmmunitionTypes' data.type)}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.WeaponType'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'allWeaponsTypes' data.class)}}</span>
+    </p>
+</li>
+{{#if (or 
+    (eq data.type "av") 
+    (eq data.type "apds") 
+    (eq data.type "capsule")
+    (eq data.type "exExplosive")
+    (eq data.type "explosive")
+    (eq data.type "flechette")
+    (eq data.type "injection")
+    (eq data.type "frangible")
+    (eq data.type "gel")
+    (eq data.type "regular")
+    (eq data.type "hollowPoint")
+    (eq data.type "stickNShock")
+    (eq data.type "tracer")
+    (eq data.type "tracker")
+)}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.CaseType'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'ammunitionCaseType' data.caseType)}}</span>
+    </p>
+</li>
+{{/if}}

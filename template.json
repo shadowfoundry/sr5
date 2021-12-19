@@ -1,0 +1,5583 @@
+{
+  "Actor": {
+    "types": [
+      "actorPc",
+      "actorGrunt",
+      "actorSpirit",
+      "actorDrone",
+      "actorDevice",
+      "actorSprite"
+    ],
+    "templates": {
+      "characterAttributesTemplate": {
+        "attributes": {
+          "body": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "agility": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "reaction": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "strength": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "willpower": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "logic": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "intuition": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "charisma": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterMagicAttributesTemplate": {
+        "specialAttributes": {
+          "magic": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterResonanceAttributesTemplate": {
+        "specialAttributes": {
+          "resonance": {
+            "natural": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "augmented": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterInitiativesTemplate": {
+        "initiatives": {
+          "astralInit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "dice": {
+              "value": 0,
+              "base": 2,
+              "modifiers": []
+            },
+            "isActive": false
+          },
+          "matrixInit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "dice": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "isActive": false
+          },
+          "physicalInit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "dice": {
+              "value": 0,
+              "base": 1,
+              "modifiers": []
+            },
+            "isActive": false
+          }
+        }
+      },
+      "characterLimitsTemplate": {
+        "limits": {
+          "astralLimit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "mentalLimit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "physicalLimit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "socialLimit": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "characterDefensesTemplate": {
+        "defenses": {
+          "defend": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": [],
+            "limit": {
+              "base": "",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "dodge": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": [],
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "block": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": [],
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "parryBlades": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": [],
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "parryClubs": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": [],
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterResistancesTemplate": {
+        "resistances": {
+          "physicalDamage": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "directSpellMana": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "directSpellPhysical": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "disease": {
+            "contact": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "ingestion": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "inhalation": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "injection": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "toxin": {
+            "contact": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "ingestion": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "inhalation": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "injection": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "specialDamage": {
+            "acid": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "water": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "electricity": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "fire": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "cold": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "pollution": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "radiation": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "toxin": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "sound": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "fatigue": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "fall": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "characterEssenceTemplate": {
+        "essence": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        }
+      },
+      "characterDerivedAttributesTemplate": {
+        "derivedAttributes": {
+          "composure": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "judgeIntentions": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "memory": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "surprise": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "penaltiesTemplate": {
+        "penalties": {
+          "physical": {
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "minimum": {
+              "base": 0,
+              "value": 0,
+              "modifiers": []
+            },
+            "step": {
+              "base": 3,
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "stun": {
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "minimum": {
+              "base": 0,
+              "value": 0,
+              "modifiers": []
+            },
+            "step": {
+              "base": 3,
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "condition": {
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "minimum": {
+              "base": 0,
+              "value": 0,
+              "modifiers": []
+            },
+            "step": {
+              "base": 3,
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "matrix": {
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "minimum": {
+              "base": 0,
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "magic": {
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "minimum": {
+              "base": 0,
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "resonance": {
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "minimum": {
+              "base": 0,
+              "value": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterMovementsTemplate": {
+        "movements": {
+          "walk": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "run": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "horizontalJumpStanding": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "horizontalJumpRunning": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "verticalJump": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "swim": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "treadWater": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "holdBreath": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          },
+          "fly": {
+            "movement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraMovement" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "maximum" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "limit": {
+              "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterweightActionsTemplate": {
+        "weightActions": {
+          "carry": {
+            "baseWeight" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraWeight" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "lift": {
+            "baseWeight" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraWeight" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "liftAboveHead": {
+            "baseWeight" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "extraWeight" : {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test" : {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
+        }
+      },
+      "characterReachTemplate": {
+        "reach": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "skillGroupsTemplate": {
+        "skillGroups": {
+          "actingGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "athleticsGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "biotechGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "closeCombatGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "conjuringGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "crackingGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "electronicsGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "enchantingGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "engineeringGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "firearmsGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "influenceGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "outdoorsGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "sorceryGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "stealthGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          },
+          "taskingGroup": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "isHidden": false
+          }
+        }
+      },
+      "skillsTemplate": {
+        "skills": {
+          "animalHandling": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "alchemy": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "preparationForce",
+              "modifiers": []
+            },
+            "skillGroup": "enchantingGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "pilotAircraft": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "reaction",
+            "limit": {
+              "value": 0,
+              "base": "vehicleHandling",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "arcana": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "astralLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "magicSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "exoticRangedWeapon": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "combatSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "exoticMeleeWeapon": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "combatSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "automatics": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "firearmsGroup",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "clubs": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "closeCombatGroup",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "throwingWeapons": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "archery": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "gunnery": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "heavyWeapons": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "blades": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "closeCombatGroup",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "armorer": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "artisan": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "intuition",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "banishing": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "astralLimit",
+              "modifiers": []
+            },
+            "skillGroup": "conjuringGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": "",
+            "spiritType": {
+              "air": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "beasts": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "water": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "fire": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "guidance": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "guardian": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "man": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "homunculus": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "task": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "plant": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "earth": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "watcher": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "noxious": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "barren": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "sludge": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "plague": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "abomination": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "nuclear": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "blood": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "shedim": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "masterShedim": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "biotechnology": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "biotechGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "chemistry": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "freeFall": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "body",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "unarmedCombat": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "closeCombatGroup",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "astralCombat": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "willpower",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "counterspelling": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "astralLimit",
+              "modifiers": []
+            },
+            "skillGroup": "sorceryGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": "",
+            "spellCategory": {
+              "combat": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "detection": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "illusion": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "manipulation": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "health": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "running": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "strength",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "athleticsGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "artificing": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "formulaForce",
+              "modifiers": []
+            },
+            "skillGroup": "enchantingGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "cybercombat": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "crackingGroup",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "cybertechnology": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "biotechGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "disguise": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "intuition",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "stealthGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "disenchanting": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "astralLimit",
+              "modifiers": []
+            },
+            "skillGroup": "enchantingGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "sneaking": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "stealthGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "instruction": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "palming": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "stealthGroup",
+            "category": "physicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "con": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "actingGroup",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "etiquette": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "influenceGroup",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "escapeArtist": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "demolitions": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "forgery": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "longarms": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "weaponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "firearmsGroup",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "electronicWarfare": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "crackingGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "gymnastics": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "athleticsGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "hacking": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "crackingGroup",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "impersonation": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "actingGroup",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "computer": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "electronicsGroup",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "intimidation": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "summoning": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "spiritForce",
+              "modifiers": []
+            },
+            "skillGroup": "conjuringGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": "",
+            "spiritType": {
+              "air": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "beasts": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "water": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "fire": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "guidance": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "guardian": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "man": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "homunculus": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "task": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "plant": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "earth": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "watcher": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "noxious": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "barren": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "sludge": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "plague": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "abomination": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "nuclear": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "blood": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "shedim": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "masterShedim": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "spellcasting": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "spellForce",
+              "modifiers": []
+            },
+            "skillGroup": "sorceryGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": "",
+            "spellCategory": {
+              "combat": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "detection": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "illusion": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "manipulation": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "health": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "leadership": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "influenceGroup",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "binding": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "spiritForce",
+              "modifiers": []
+            },
+            "skillGroup": "conjuringGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": "",
+            "spiritType": {
+              "air": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "beasts": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "water": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "fire": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "guidance": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "guardian": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "man": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "homunculus": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "task": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "plant": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "earth": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "watcher": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "noxious": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "barren": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "sludge": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "plague": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "abomination": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "nuclear": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "blood": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "shedim": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "masterShedim": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "software": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "electronicsGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "ritualSpellcasting": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "magic",
+            "limit": {
+              "value": 0,
+              "base": "spellForce",
+              "modifiers": []
+            },
+            "skillGroup": "sorceryGroup",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": "",
+            "spellCategory": {
+              "combat": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "detection": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "illusion": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "manipulation": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "health": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "walker": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "reaction",
+            "limit": {
+              "value": 0,
+              "base": "vehicleHandling",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "hardware": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "electronicsGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "aeronauticsMechanic": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "engineeringGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "automotiveMechanic": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "engineeringGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "industrialMechanic": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "engineeringGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "nauticalMechanic": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "engineeringGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "medecine": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "biotechGroup",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "swimming": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "strength",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "athleticsGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "negociation": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "influenceGroup",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "assensing": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "intuition",
+            "limit": {
+              "value": 0,
+              "base": "astralLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "magicSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "navigation": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "intuition",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "outdoorsGroup",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "perception": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "intuition",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "tracking": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "intuition",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "outdoorsGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "pistols": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "waeponAccuracy",
+              "modifiers": []
+            },
+            "skillGroup": "firearmsGroup",
+            "category": "combatSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "diving": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "body",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "firstAid": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "logic",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "biotechGroup",
+            "category": "technicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "performance": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "charisma",
+            "limit": {
+              "value": 0,
+              "base": "socialLimit",
+              "modifiers": []
+            },
+            "skillGroup": "actingGroup",
+            "category": "socialSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "locksmith": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "agility",
+            "limit": {
+              "value": 0,
+              "base": "mentalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "technicalSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "survival": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "willpower",
+            "limit": {
+              "value": 0,
+              "base": "physicalLimit",
+              "modifiers": []
+            },
+            "skillGroup": "outdoorsGroup",
+            "category": "physicalSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "pilotExoticVehicle": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "reaction",
+            "limit": {
+              "value": 0,
+              "base": "vehicleHandling",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "pilotWatercraft": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "reaction",
+            "limit": {
+              "value": 0,
+              "base": "vehicleHandling",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": true,
+            "specializations": ""
+          },
+          "pilotAerospace": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "reaction",
+            "limit": {
+              "value": 0,
+              "base": "vehicleHandling",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": false,
+            "specializations": ""
+          },
+          "pilotGroundCraft": {
+            "rating": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "test": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "linkedAttribute": "reaction",
+            "limit": {
+              "value": 0,
+              "base": "vehicleHandling",
+              "modifiers": []
+            },
+            "skillGroup": "",
+            "category": "vehicleSkills",
+            "canDefault": true,
+            "specializations": ""
+          }
+        }
+      },
+      "visionTemplate": {
+        "vision": {
+          "lowLight": false,
+          "thermographic": false
+        }
+      },
+      "recoilTemplate":{
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "specialPropertiesTemplate": {
+        "specialProperties": {
+          "smartlink": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "concentration": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "controlRig": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "itemsPropertiesTemplate": {
+        "itemsProperties": {
+          "weapon": {
+            "damageValue": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "accuracy": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "armor": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "specialDamage": {
+              "acid": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "water": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "electricity": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "fire": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "cold": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "pollution": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "radiation": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "toxin": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "sound": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          }
+        }
+      },
+      "matrixUsageTemplate": {
+        "matrix": {
+          "userMode": "ar",
+          "attributesCollection": {
+            "value1": 0,
+            "value2": 0,
+            "value3": 0,
+            "value4": 0,
+            "value1isSet": false,
+            "value2isSet": false,
+            "value3isSet": false,
+            "value4isSet": false
+          },
+          "attributes": {
+            "attack": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "dataProcessing": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "firewall": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "noiseReduction": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "sharing": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "sleaze": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "deviceRating": 0,
+          "deviceType": "",
+          "deviceSubType": "",
+          "deviceName": "",
+          "isLinkLocked": false,
+          "runningSilent": false,
+          "overwatchScore": 0,
+          "concentration": false,
+          "programsCurrentActive": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "programsMaximumActive": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "programs": {
+            "armor": {
+              "isActive": false
+            },
+            "babyMonitor": {
+              "isActive": false
+            },
+            "biofeedback": {
+              "isActive": false
+            },
+            "biofeedbackFilter": {
+              "isActive": false
+            },
+            "blackout": {
+              "isActive": false
+            },
+            "browse": {
+              "isActive": false
+            },
+            "configurator": {
+              "isActive": false
+            },
+            "decryption": {
+              "isActive": false
+            },
+            "defuse": {
+              "isActive": false
+            },
+            "demolition": {
+              "isActive": false
+            },
+            "edit": {
+              "isActive": false
+            },
+            "encryption": {
+              "isActive": false
+            },
+            "exploit": {
+              "isActive": false
+            },
+            "fork": {
+              "isActive": false
+            },
+            "guard": {
+              "isActive": false
+            },
+            "hammer": {
+              "isActive": false
+            },
+            "lockdown": {
+              "isActive": false
+            },
+            "mugger": {
+              "isActive": false
+            },
+            "shell": {
+              "isActive": false
+            },
+            "signalScrub": {
+              "isActive": false
+            },
+            "sneak": {
+              "isActive": false
+            },
+            "stealth": {
+              "isActive": false
+            },
+            "toolbox": {
+              "isActive": false
+            },
+            "track": {
+              "isActive": false
+            },
+            "virtualMachine": {
+              "isActive": false
+            },
+            "wrapper": {
+              "isActive": false
+            },
+            "clearsight": {
+              "isActive": false
+            },
+            "electronicWarfare": {
+              "isActive": false
+            },
+            "evasion": {
+              "isActive": false
+            },
+            "maneuvering": {
+              "isActive": false
+            },
+            "stealthAutosoft": {
+              "isActive": false
+            },
+            "targeting": {
+              "isActive": false
+            }
+          },
+          "resistances": {
+            "biofeedback": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "dataBomb": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "dumpshock": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "fading": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "matrixDamage": {
+              "dicePool": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "marks": [],
+          "actions": {
+            "jamSignals": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 4,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "controlDevice": {
+              "actionType": "special",
+              "increaseOverwatchScore": true,
+              "neededMarks": "S",
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "disarmDataBomb": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "firewall"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "editFile": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 1,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "eraseMark": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": "3",
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "eraseMatrixSignature": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": "0",
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "formatDevice": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 3,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "snoop": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "hackOnTheFly": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "spoofCommand": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "garbageInGarbageOut": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 3,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "bruteForce": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "matrixPerception": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "dataSpike": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "crackFile": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "crashProgram": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "jumpIntoRiggedDevice": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 3,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "setDataBomb": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "rebootDevice": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 3,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "matrixSearch": {
+              "actionType": "special",
+              "increaseOverwatchScore": false,
+              "neededMarks": "S",
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "trackback": {
+              "actionType": "special",
+              "increaseOverwatchScore": false,
+              "neededMarks": 4,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "hide": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "jackOut": {
+              "actionType": "simple",
+              "increaseOverwatchScore": false,
+              "neededMarks": 4,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "firewall"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "traceIcon": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 2,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "checkOverwatchScore": {
+              "actionType": "simple",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "changeIcon": {
+              "actionType": "simple",
+              "neededMarks": 4
+            },
+            "enterOrExitHost": {
+              "actionType": "complex",
+              "neededMarks": 1
+            },
+            "gridHop": {
+              "actionType": "complex",
+              "neededMarks": 0
+            },
+            "inviteMark": {
+              "actionType": "simple",
+              "neededMarks": 4
+            },
+            "sendMessage": {
+              "actionType": "simple",
+              "neededMarks": 0
+            },
+            "switchInterfaceMode": {
+              "actionType": "simple",
+              "neededMarks": 4
+            },
+            "loadProgram": {
+              "actionType": "free",
+              "neededMarks": 0
+            },
+            "switchTwoMatrixAttributes": {
+              "actionType": "free",
+              "neededMarks": 0
+            },
+            "swapTwoPrograms": {
+              "actionType": "free",
+              "neededMarks": 0
+            },
+            "unloadProgram": {
+              "actionType": "free",
+              "neededMarks": 0
+            }
+          },
+          "resonanceActions":{
+            "callOrDismissSprite": {
+              "actionType": "simple",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0
+            },
+            "commandSprite": {
+              "actionType": "simple",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0
+            },
+            "compileSprite": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "decompileSprite": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "eraseResonanceSignature": {
+              "actionType": "complex",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              }
+            },
+            "killComplexForm": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "registerSprite": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "threadComplexForm": {
+              "actionType": "complex",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
+          },
+          "submersionGrade": 0
+        }
+      },
+      "magicUsageTemplate": {
+        "magic": {
+          "magicType": "",
+          "tradition": "",
+          "concentration": false,
+          "elements": {
+            "combat": "",
+            "detection": "",
+            "illusion": "",
+            "manipulation": "",
+            "health": ""
+          },
+          "astralDamage": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "astralDefense": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "astralTracking": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "passThroughBarrier": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "initiationGrade": 0,
+          "powerPoints": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "maximum": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          },
+          "drainResistance": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": [],
+            "linkedAttribute": ""
+          },
+          "isPossessed": false,
+          "hasAstralProjection": false
+        }
+      },
+      "sheetPreferencesTemplate": {
+        "sheetPreferences": {
+          "selections": {
+            "activeDefense": "dodge",
+            "resistanceDisease": "contact",
+            "resistanceToxin": "contact",
+            "resistanceSpecialDamage": "acid"
+          }
+        }
+      }
+    },
+    "actorPc": {
+      "templates": [
+        "sheetPreferencesTemplate",
+        "characterAttributesTemplate",
+        "characterMagicAttributesTemplate",
+        "characterResonanceAttributesTemplate",
+        "characterInitiativesTemplate",
+        "characterLimitsTemplate",
+        "characterDefensesTemplate",
+        "characterResistancesTemplate",
+        "characterDerivedAttributesTemplate",
+        "characterEssenceTemplate",
+        "characterMovementsTemplate",
+        "characterweightActionsTemplate",
+        "characterReachTemplate",
+        "skillGroupsTemplate",
+        "skillsTemplate",
+        "penaltiesTemplate",
+        "visionTemplate",
+        "specialPropertiesTemplate",
+        "recoilTemplate",
+        "itemsPropertiesTemplate",
+        "matrixUsageTemplate",
+        "magicUsageTemplate"
+      ],
+      "conditionMonitors": {
+        "stun": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        },
+        "physical": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        },
+        "edge": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        },
+        "overflow": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "stun": {
+          "value": 0,
+          "max": 0
+        },
+        "physical": {
+          "value": 0,
+          "max": 0
+        },
+        "edge": {
+          "value": 0,
+          "max": 0
+        },
+        "condition": {
+          "value": 0,
+          "max": 0
+        },
+        "matrix": {
+          "value": 0,
+          "max": 0
+        },
+        "overflow": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "biography": {
+        "name": "",
+        "alias": "",
+        "nationality": "",
+        "birthPlace": "",
+        "familySituation": "",
+        "dependants": "",
+        "metatype": "",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "gender": "",
+        "age": "",
+        "eyes": "",
+        "height": "",
+        "weight": "",
+        "hair": "",
+        "skin": "",
+        "description": "",
+        "background": ""
+      },
+      "karma": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "nuyen": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "specialAttributes": {
+        "edge": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "activeSpecialAttribute": "magic",
+      "skills": {
+        "compiling": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "resonance",
+          "limit": {
+            "value": 0,
+            "base": "spriteLevel",
+            "modifiers": []
+          },
+          "skillGroup": "taskingGroup",
+          "category": "resonanceSkills",
+          "canDefault": false,
+          "specializations": ""
+        },
+        "decompiling": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "resonance",
+          "limit": {
+            "value": 0,
+            "base": "socialLimit",
+            "modifiers": []
+          },
+          "skillGroup": "taskingGroup",
+          "category": "resonanceSkills",
+          "canDefault": false,
+          "specializations": ""
+        },
+        "registering": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "resonance",
+          "limit": {
+            "value": 0,
+            "base": "spriteLevel",
+            "modifiers": []
+          },
+          "skillGroup": "taskingGroup",
+          "category": "resonanceSkills",
+          "canDefault": false,
+          "specializations": ""
+        }
+      }
+    },
+    "actorGrunt": {
+      "templates": [
+        "sheetPreferencesTemplate",
+        "characterAttributesTemplate",
+        "characterMagicAttributesTemplate",
+        "characterResonanceAttributesTemplate",
+        "characterInitiativesTemplate",
+        "characterLimitsTemplate",
+        "characterDefensesTemplate",
+        "characterResistancesTemplate",
+        "characterDerivedAttributesTemplate",
+        "characterEssenceTemplate",
+        "characterMovementsTemplate",
+        "characterweightActionsTemplate",
+        "characterReachTemplate",
+        "skillGroupsTemplate",
+        "skillsTemplate",
+        "penaltiesTemplate",
+        "visionTemplate",
+        "specialPropertiesTemplate",
+        "itemsPropertiesTemplate",
+        "recoilTemplate",
+        "matrixUsageTemplate",
+        "magicUsageTemplate"
+      ],
+      "conditionMonitors": {
+        "condition": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "condition": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "biography": {
+        "characterMetatype": ""
+      },
+      "activeSpecialAttribute": "magic",
+      "skills": {
+        "flight": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "agility",
+          "limit": {
+            "value": 0,
+            "base": "physicalLimit",
+            "modifiers": []
+          },
+          "skillGroup": "",
+          "category": "physicalSkills",
+          "canDefault": true,
+          "specializations": ""
+        },
+        "compiling": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "resonance",
+          "limit": {
+            "value": 0,
+            "base": "spriteLevel",
+            "modifiers": []
+          },
+          "skillGroup": "taskingGroup",
+          "category": "resonanceSkills",
+          "canDefault": false,
+          "specializations": ""
+        },
+        "decompiling": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "resonance",
+          "limit": {
+            "value": 0,
+            "base": "socialLimit",
+            "modifiers": []
+          },
+          "skillGroup": "taskingGroup",
+          "category": "resonanceSkills",
+          "canDefault": false,
+          "specializations": ""
+        },
+        "registering": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "resonance",
+          "limit": {
+            "value": 0,
+            "base": "spriteLevel",
+            "modifiers": []
+          },
+          "skillGroup": "taskingGroup",
+          "category": "resonanceSkills",
+          "canDefault": false,
+          "specializations": ""
+        }
+      }
+    },
+    "actorSpirit": {
+      "templates": [
+        "sheetPreferencesTemplate",
+        "characterAttributesTemplate",
+        "characterMagicAttributesTemplate",
+        "characterLimitsTemplate",
+        "characterDefensesTemplate",
+        "characterResistancesTemplate",
+        "characterDerivedAttributesTemplate",
+        "characterEssenceTemplate",
+        "characterMovementsTemplate",
+        "characterweightActionsTemplate",
+        "characterReachTemplate",
+        "skillGroupsTemplate",
+        "skillsTemplate",
+        "recoilTemplate",
+        "penaltiesTemplate",
+        "visionTemplate",
+        "specialPropertiesTemplate",
+        "magicUsageTemplate"
+      ],
+      "initiatives": {
+        "astralInit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "dice": {
+            "value": 0,
+            "base": 2,
+            "modifiers": []
+          },
+          "isActive": false
+        },
+        "physicalInit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "dice": {
+            "value": 0,
+            "base": 1,
+            "modifiers": []
+          },
+          "isActive": false
+        }
+      },
+      "conditionMonitors": {
+        "physical": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        },
+        "stun": {
+          "value": 0,
+          "base": 0,
+          "max": 0,
+          "modifiers": [],
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "physical": {
+          "value": 0,
+          "max": 0
+        },
+        "stun": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "skills": {
+        "flight": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "agility",
+          "limit": {
+            "value": 0,
+            "base": "physicalLimit",
+            "modifiers": []
+          },
+          "skillGroup": "",
+          "category": "physicalSkills",
+          "canDefault": true,
+          "specializations": ""
+        }
+      },
+      "force": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "type": "",
+      "services": {
+        "value": 0,
+        "max": 0
+      },
+      "isMaterializing": false,
+      "summonerMagic": 0,
+      "creatorId": "",
+      "creatorItemId": "",
+      "isBounded": false
+    },
+    "actorDrone": {
+      "templates": [
+        "matrixUsageTemplate",
+        "recoilTemplate",
+        "itemsPropertiesTemplate"
+      ],
+      "attributes": {
+        "handling": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "speed": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "acceleration": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "body": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "armor": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "pilot": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "sensor": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "seating": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "conditionMonitors": {
+        "condition": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        },
+        "matrix": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "condition": {
+          "value": 0,
+          "max": 0
+        },
+        "matrix": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "defenses": {
+        "defend": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "limit": {
+            "base": "",
+            "value": 0,
+            "modifiers": []
+          }
+        },
+        "ramming": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "limit": {
+            "base": "handling",
+            "value": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "resistances": {
+        "physicalDamage": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "crashDamage": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "directSpellPhysical": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "specialDamage": {
+          "acid": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "water": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "electricity": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "fire": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "cold": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "pollution": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "radiation": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "toxin": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "sound": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        }
+      },
+      "skills": {
+        "perception": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "pilot",
+          "limit": {
+            "value": 0,
+            "base": "sensor",
+            "modifiers": []
+          },
+          "skillGroup": "",
+          "category": "physicalSkills",
+          "canDefault": true,
+          "specializations": ""
+        },
+        "sneaking": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "pilot",
+          "limit": {
+            "value": 0,
+            "base": "handling",
+            "modifiers": []
+          },
+          "skillGroup": "",
+          "category": "physicalSkills",
+          "canDefault": true,
+          "specializations": ""
+        }
+      },
+      "initiatives": {
+        "physicalInit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "dice": {
+            "value": 0,
+            "base": 1,
+            "modifiers": []
+          },
+          "isActive": false
+        }
+      },
+      "controlMode": "autopilot",
+      "vehicleOwner": {
+        "id" : "",
+        "name": ""
+      },
+      "pilotSkill": "",
+      "riggerInterface": false, 
+      "slaved": false,
+      "type": "",
+      "model": "",
+      "vehicleTest": {
+        "actionType": "complex",
+        "limit": {
+          "base": 0,
+          "value": 0,
+          "modifiers": [],
+          "linkedAttribute": "handling"
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "creatorId": "",
+      "creatorItemId": ""
+    },
+    "actorDevice": {
+      "templates": [
+        "matrixUsageTemplate",
+        "penaltiesTemplate"
+      ],
+      "isDirectlyConnected": false,
+      "matrix":{
+        "ice":{
+          "attackDicepool": 0,
+          "defenseFirstAttribute":"",
+          "defenseSecondAttribute":""
+        }
+      },
+      "conditionMonitors": {
+        "matrix": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "matrix": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "initiatives": {
+        "matrixInit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "dice": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isActive": true
+        }
+      }
+    },
+    "actorSprite":{
+      "templates": [
+        "characterAttributesTemplate",
+        "characterResonanceAttributesTemplate",
+        "matrixUsageTemplate",
+        "penaltiesTemplate"
+      ],
+      "initiatives": {
+        "matrixInit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "dice": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isActive": true
+        }
+      },
+      "skills": {
+        "computer": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "hacking": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "electronicWarfare": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "cybercombat": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "hardware": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "software": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        }
+      },
+      "conditionMonitors": {
+        "matrix": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "matrix": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "limits": {
+        "mentalLimit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "isRegistered": false,
+      "type": "",
+      "level": 0,
+      "compilerResonance": 0,
+      "creatorId": "",
+      "creatorItemId": "",
+      "tasks": {
+        "value": 0,
+        "max": 0
+      }
+    }
+  },
+  "Item": {
+    "types": [
+      "itemAdeptPower",
+      "itemAmmunition",
+      "itemArmor",
+      "itemAugmentation",
+      "itemComplexForm",
+      "itemContact",
+      "itemDevice",
+      "itemCyberdeck",
+      "itemFocus",
+      "itemGear",
+      "itemKarma",
+      "itemKnowledge",
+      "itemLanguage",
+      "itemLifestyle",
+      "itemMark",
+      "itemMetamagic",
+      "itemEcho",
+      "itemNuyen",
+      "itemPower",
+      "itemPreparation",
+      "itemProgram",
+      "itemQuality",
+      "itemSin",
+      "itemSpell",
+      "itemSpirit",
+      "itemSprite",
+      "itemSpritePower",
+      "itemVehicle",
+      "itemWeapon",
+      "itemEffect",
+      "itemDrug"
+    ],
+    "templates": {
+      "templateDescription": {
+        "description": "",
+        "gameEffect": "",
+        "source": ""
+      },
+      "templateCustomEffects": {
+        "customEffects": [],
+        "systemEffects": []
+      },
+      "templateBoughtOrSold": {
+        "availability": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        }
+      },
+      "templateRating": {
+        "itemRating": 0
+      },
+      "templateWireless": {
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 0,
+        "conditionMonitors" : {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "current": 0,
+            "boxes": []
+          }
+        }
+      },
+      "templateCapacity": {
+        "capacity": {
+          "value":0,
+          "base":0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value":0,
+          "base":0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false
+      },
+      "templateActivation": {
+        "isActive": false
+      },
+      "templateConcealment": {
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "templateDamage": {
+        "damageValue": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": false
+        },
+        "damageType": "",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        }
+      }
+    },
+    "itemAmmunition":{
+      "templates": [
+        "templateDescription",
+        "templateBoughtOrSold"
+      ],
+      "quantity": 1,
+      "type": "",
+      "class": "",
+      "caseType": ""
+    },
+    "itemWeapon": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateConcealment",
+        "templateBoughtOrSold",
+        "templateRating",
+        "templateWireless",
+        "templateDamage"
+      ],
+      "quantity": 1,
+      "category": "",
+      "type": "",
+      "requiredHands": 1,
+      "range": {
+        "short": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "medium": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "long": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "extreme": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isStrengthBased": false
+      },
+      "reach": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "blast": {
+        "radius": 0,
+        "damageFallOff": 0
+      },
+      "aerodynamic" : false,
+      "firingMode": {
+        "singleShot": false,
+        "semiAutomatic": false,
+        "burstFire": false,
+        "fullyAutomatic": false,
+        "value": []
+      },
+      "ammunition": {
+        "value": 0,
+        "max": 0,
+        "type": "",
+        "casing": ""
+      },
+      "recoilCompensation": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "accessory": [],
+      "weaponSkill": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "specialization": false,
+        "category": ""
+      },
+      "toxin": {
+        "type": "",
+        "vector": {
+          "contact": false,
+          "ingestion": false,
+          "inhalation": false,
+          "injection": false
+        },
+        "speed": "",
+        "power": 0,
+        "effect": {
+          "disorientation": false,
+          "nausea": false,
+          "paralysis": false
+        },
+        "penetration": 0
+      }
+    },
+    "itemArmor": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateBoughtOrSold",
+        "templateRating",
+        "templateActivation",
+        "templateConcealment",
+        "templateWireless",
+        "templateCapacity"
+      ],
+      "armorValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "isPlugged": false,
+      "isCumulative": false,
+      "accessory": []
+    },
+    "itemAugmentation": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateBoughtOrSold",
+        "templateActivation",
+        "templateRating",
+        "templateWireless",
+        "templateCapacity"
+      ],
+      "type": "",
+      "category": "",
+      "grade": "standard",
+      "isPlugged": false,
+      "essenceCost": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "multiplier": ""
+      }, 
+      "accessory": [],
+      "cyberlimbs":{
+        "agility": {
+          "value": 0,
+          "base": 3,
+          "customization": 0
+        },   
+        "strength": {
+          "value": 0,
+          "base": 3,
+          "customization": 0
+        },
+        "isCustom": false,
+        "enhancement": []
+      }
+    },
+    "itemKnowledge": {
+      "templates": [
+        "templateDescription"
+      ],
+      "type": "",
+      "linkedAttribute": "",
+      "value": 0,
+      "base": 0,
+      "modifiers": []
+    },
+    "itemContact": {
+      "templates": [
+        "templateDescription"
+      ],
+      "connection": 0,
+      "loyalty": 0,
+      "metatype": "",
+      "gender": "",
+      "age": "",
+      "type": "",
+      "paymentMethod": "",
+      "hobby": "",
+      "familySituation": ""
+    },
+    "itemDevice": {
+      "templates": [
+        "templateDescription",
+        "templateBoughtOrSold",
+        "templateActivation",
+        "templateConcealment",
+        "templateWireless", 
+        "templateCustomEffects"
+      ],
+      "attributesCollection": {
+        "value1": 0,
+        "value2": 0,
+        "value3": 0,
+        "value4": 0,
+        "value1isSet": false,
+        "value2isSet": false,
+        "value3isSet": false,
+        "value4isSet": false
+      },
+      "type": "",
+      "program": {
+        "value": 0,
+        "max": 0
+      },
+      "module": "",
+      "dongle": "",
+      "modifiers": []
+    },
+    "itemGear": {
+      "templates": [
+        "templateDescription",
+        "templateRating",
+        "templateBoughtOrSold",
+        "templateWireless",
+        "templateActivation",
+        "templateConcealment",
+        "templateCustomEffects",
+        "templateCapacity"
+      ],
+      "quantity": 1,
+      "charge": 0,
+      "isPlugged" : false,
+      "accessory": []
+    },
+    "itemSpirit": {
+      "templates": [
+        "templateRating",
+        "templateActivation",
+        "templateDescription"
+      ],
+      "type": "",
+      "services": {
+        "value": 0,
+        "max": 0
+      },
+      "isBounded": false,
+      "summonerMagic": 0,
+      "isCreated": false,
+      "attributes": {
+        "body": 0,
+        "agility": 0,
+        "reaction": 0,
+        "strength": 0,
+        "willpower": 0,
+        "logic": 0,
+        "intuition": 0,
+        "charisma": 0,
+        "essence": 0,
+        "magic": 0
+      },
+      "skill": [],
+      "optionalPowers": {
+        "power1" : "",
+        "power2" : "",
+        "power3" : "",
+        "power4" : "",
+        "power5" : ""
+      },
+      "conditionMonitors": {
+        "physical": {
+          "current": 0
+        },
+        "stun": {
+          "current": 0
+        }
+      }
+    },
+    "itemSprite": {
+      "templates": [
+        "templateRating",
+        "templateDescription"
+      ],
+      "type": "",
+      "compilerResonance": 0,
+      "level": 0,
+      "tasks": {
+        "value": 0,
+        "max": 0
+      },
+      "isRegistered": false,
+      "conditionMonitors":{
+        "matrix": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      }
+    },
+    "itemFocus": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateBoughtOrSold",
+        "templateActivation",
+        "templateRating"
+      ],
+      "type": "",
+      "subType": "",
+      "spellChoices":[],
+      "sustainedSpell": ""
+    },
+    "itemKarma": {
+      "templates": [
+        "templateDescription"
+      ],
+      "amount": 0,
+      "type": "gain"
+    },
+    "itemNuyen": {
+      "templates": [
+        "templateDescription"
+      ],
+      "amount": 0,
+      "type": "gain"
+    },
+    "itemLanguage": {
+      "templates": [
+        "templateDescription"
+      ],
+      "value": 0,
+      "base": 0,
+      "modifiers": [],
+      "isNative": false
+    },
+    "itemMark": {
+      "value": 0,
+      "owner": ""
+    },
+    "itemMetamagic": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation"
+      ],
+      "rank": 0
+    },
+    "itemEcho": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation"
+      ],
+      "rank": 0
+    },
+    "itemPower": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateRating"
+      ],
+      "actionType": "",
+      "duration": "",
+      "range": "",
+      "type":"",
+      "isActive": false,
+      "hits":0,
+      "testFirstAttribute": "",
+      "testSecondAttribute": "",
+      "defenseFirstAttribute":"",
+      "defenseSecondAttribute":"",
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "itemAdeptPower": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateRating"
+      ],
+      "actionType": "",
+      "hits": 0,
+      "powerPointsCost":{
+        "value":0,
+        "base":0,
+        "modifiers": [],
+        "isRatingBased": false
+      }
+    },
+    "itemProgram": {
+      "templates": [
+        "templateDescription",
+        "templateBoughtOrSold",
+        "templateActivation",
+        "templateCustomEffects",
+        "templateRating"
+      ],
+      "type": "",
+      "model": "",
+      "isModelBased": false
+    },
+    "itemSpritePower": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation"
+      ],
+      "hits":0,
+      "testSkill": "",
+      "testLimit":"",
+      "defenseAttribute":"",
+      "defenseMatrixAttribute":"",
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "itemSpell": {
+      "templates": [
+        "templateDescription",
+        "templateActivation",
+        "templateBoughtOrSold",
+        "templateCustomEffects",
+        "templateDamage"
+      ],
+      "category": "",
+      "subCategory": "",
+      "range": "",
+      "duration": "",
+      "type": "",
+      "drainModifier": 0,
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "force": 0,
+      "spellAreaOfEffect": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "spellAreaExtended": false,
+      "hits": 0,
+      "manipulationDamaging": false,
+      "illusionSense": "",
+      "detectionSense": "",
+      "healthEssence": false,
+      "freeSustain": false,
+      "preparation": false
+    },
+    "itemPreparation": {
+      "templates": [
+        "templateDescription",
+        "templateActivation",
+        "templateCustomEffects",
+        "templateDamage"
+      ],
+      "category": "",
+      "subCategory": "",
+      "range": "",
+      "duration": "",
+      "type": "",
+      "force": 0,
+      "spellAreaOfEffect": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "spellAreaExtended": false,
+      "hits": 0,
+      "manipulationDamaging": false,
+      "illusionSense": "",
+      "detectionSense": "",
+      "healthEssence": false,
+      "freeSustain": true,
+      "lynchpin": "",
+      "trigger": "",
+      "potency": 0,
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "itemComplexForm":{
+      "templates": [
+        "templateDescription",
+        "templateActivation",
+        "templateCustomEffects"
+        ],
+        "level": 0,
+        "hits": 0,
+        "fadingModifier": 0,
+        "fadingValue": 0,
+        "threaderResonance": 0,
+        "target":"",
+        "duration": "",
+        "defenseAttribute":"",
+        "defenseMatrixAttribute":"" ,
+        "freeSustain": false
+      },
+    "itemQuality": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateRating"
+      ],
+      "type": "",
+      "karmaCost": 0
+    },
+    "itemLifestyle": {
+      "templates": [
+        "templateDescription",
+        "templateBoughtOrSold"
+      ],
+      "type": "",
+      "rent": {
+        "duration": 0,
+        "bought": false
+      },
+      "streetAddress": "",
+      "city": "",
+      "country": "",
+      "options": [],
+      "linkedIdentity": ""
+    },
+    "itemSin": {
+      "templates": [
+        "templateDescription",
+        "templateRating",
+        "templateBoughtOrSold"
+      ],
+      "nationality": "",
+      "familySituation": "",
+      "license": []
+    },
+    "itemVehicle": {
+      "templates": [
+        "templateDescription",
+        "templateBoughtOrSold",
+        "templateWireless"
+      ],
+      "type": "",
+      "model": "",
+      "attributes": {
+        "handling": 0,
+        "speed": 0,
+        "acceleration": 0,
+        "body": 0,
+        "armor": 0,
+        "pilot": 0,
+        "sensor": 0
+      },
+      "seating": 0,
+      "riggerInterface": false,
+      "mount": [],
+      "autosoft": [],
+      "weapons": [],
+      "ammunitions": [],
+      "armors": [],
+      "pilotSkill": "",
+      "isCreated": false,
+      "slaved": false,
+      "conditionMonitors":{
+        "condition": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        },
+        "matrix": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      }
+    },
+    "itemEffect":{
+      "templates": [
+        "templateCustomEffects"
+        ],
+      "type": "",
+      "target": "",
+      "value": "",
+      "ownerID":"",
+      "ownerName":""
+    },
+    "itemDrug":{
+      "templates": [
+        "templateDescription",
+        "templateBoughtOrSold",
+        "templateActivation",
+        "templateCustomEffects"
+      ],
+      "quantity": 1,
+      "vector": {
+        "contact": false,
+        "ingestion": false,
+        "inhalation": false,
+        "injection": false,
+        "value": []
+      },
+      "speed": "",
+      "duration": "",
+      "addiction": {
+        "type": "",
+        "rating": 0,
+        "threshold": 0
+      },
+      "wirelessTurnedOn": false
+    }
+  }
+}

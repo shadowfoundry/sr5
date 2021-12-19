@@ -1,0 +1,19 @@
+<li class="SR-LigneEnTete SR-PaddingTop10">
+    <div class="grid SR-TextUppercase">
+    <div class="col-11">{{localize 'SR5.Level'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" name="level" value="{{level}}" data-dtype="Number" placeholder="0" /></div>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SpriteType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-TextCenter ">
+        <select name="spriteType">
+            {{#select spriteType}}
+            {{#each lists.spriteTypes}}
+                <option value="{{@key}}">{{findTranslation "spriteTypes" @key}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

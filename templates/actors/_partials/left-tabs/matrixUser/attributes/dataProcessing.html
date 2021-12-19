@@ -1,0 +1,25 @@
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.DataProcessing'}}</div>
+    {{#if (or (eq data.matrix.deviceType "cyberdeck") 
+    (and (eq actor.type "actorDevice") (eq data.matrix.deviceType "host"))
+    )}}
+        <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_MatrixAttribute' key=(localize 'SR5.DataProcessing') }}"
+        data-helpMessage="{{localize 'SR5.HELP_MatrixAttributeMsg'}}">
+            <div class="matrixAttributeBox draggableAttribute" draggable="true" data-dropMatrixAttribute="data.matrix.attributes.dataProcessing.base" data-droppedValue="{{data.matrix.attributes.dataProcessing.base}}">
+                {{#if_g data.matrix.attributes.dataProcessing.base 0}}
+                    {{data.matrix.attributes.dataProcessing.base}}
+                {{/if_g}}
+            </div>
+        </div>
+    {{else if (or (eq data.matrix.deviceType "headcase") (eq actor.type "actorSprite"))}}
+        <div class="col-2 SR-TextCenter">{{data.matrix.attributes.dataProcessing.base}}</div>
+    {{else}}
+        <div class="col-2 SR-TextCenter"></div>
+    {{/if}}
+    <div class="col-2 SR-TextCenter"
+    data-helpTitle="{{localize 'SR5.HELP_MatrixAttribute' key=(localize 'SR5.DataProcessing') }}"
+	data-helpDetails="data.matrix.attributes.dataProcessing"
+    >
+        <div class="matrixAttributeBox valueBox">{{data.matrix.attributes.dataProcessing.value}}</div>
+    </div>
+</li>

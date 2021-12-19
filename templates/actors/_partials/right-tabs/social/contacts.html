@@ -1,0 +1,85 @@
+<!-- CONTACTS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete">
+			<div class="grid">
+				<div class="col-4">
+					<p class=" SR-TextUppercase ">{{localize 'SR5.Contacts'}}</p>
+				</div>
+				<div class="col-4">
+					<p class="SR-TextCenter" data-title="{{localize 'SR5.ContactType'}}">{{localize 'SR5.ContactTypeShort'}}</p>
+				</div>
+				<div class="col-2">
+					<p class="SR-TextCenter" data-title="{{localize 'SR5.ContactType'}}">{{localize 'SR5.Metatype'}}</p>
+				</div>
+				<div class="col-1">
+					<div class="grid">
+						<div class="col-6 SR-TextCenter" data-title="{{localize 'SR5.ContactLoyalty'}}">{{localize 'SR5.ContactLoyalty_L'}}</div>
+						<div class="col-6 SR-TextCenter" data-title="{{localize 'SR5.ContactConnection'}}">{{localize 'SR5.ContactConnection_L'}}</div>
+					</div>
+				</div>
+				<div class="col-1">
+					{{#if owner}}
+					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemContact')}}" 
+					  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemContact"><em class="fas fa-plus"></em></a>
+					</p>
+					{{/if}}
+				</div>
+			</div>
+		</li>
+		{{#each actor.contacts}}
+		<li class="item" data-item-id="{{_id}}" draggable="true">
+			<div class="grid">
+				<div class="col-4 SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
+				  data-helpTitle="{{localize 'SR5.HELP_ContactName' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_ContactNameMsg'}}">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+				</div>
+				<div class="col-4 SR-PaddingRight3 SR-TextCenter"
+				  data-helpTitle="{{localize 'SR5.HELP_ContactType' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_ContactTypeMsg'}}">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="data.type" type="text"
+						class="edit-value" name="" value="{{data.type}}" onfocus="this.select()">
+				</div>
+				<div class="col-2 SR-PaddingRight3 SR-SelectCenter"
+				  data-helpTitle="{{localize 'SR5.HELP_ContactMetatype' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_ContactMetatypeMsg'}}">
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.metatype" name=""
+						data-dtype="String">
+						{{#select data.metatype}}
+						<option value="">{{localize 'SR5.ChooseOne'}}</option>
+						{{#each ../actor.lists.metatypes}}
+						<option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
+				</div>
+				<div class="col-1">
+					<div class="grid">
+						<div class="col-6 SR-PaddingRight3 SR-TextCenter"
+						  data-helpTitle="{{localize 'SR5.HELP_ContactLoyalty' key=name}}"
+				  		  data-helpMessage="{{localize 'SR5.HELP_ContactLoyaltyMsg'}}">
+							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.loyalty" type="text"
+								class="edit-value" name="" value="{{data.loyalty}}" onfocus="this.select()">
+						</div>
+						<div class="col-6 SR-PaddingRight3 SR-TextCenter"
+						  data-helpTitle="{{localize 'SR5.HELP_ContactConnection' key=name}}"
+				  		  data-helpMessage="{{localize 'SR5.HELP_ContactConnectionMsg'}}">
+							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.connection" type="text"
+								class="edit-value" name="" value="{{data.connection}}" onfocus="this.select()">
+						</div>
+					</div>
+				</div>
+				<div class="col-1 grid SR-TextRight">
+					{{#if ../owner}}
+					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+						<em class="fas fa-sm fa-edit item-management"></em>
+					</a>
+					{{/if}}
+				</div>
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

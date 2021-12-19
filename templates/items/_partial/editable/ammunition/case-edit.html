@@ -1,0 +1,30 @@
+{{#if (or 
+    (eq data.type "av") 
+    (eq data.type "apds") 
+    (eq data.type "capsule")
+    (eq data.type "exExplosive")
+    (eq data.type "explosive")
+    (eq data.type "flechette")
+    (eq data.type "injection")
+    (eq data.type "frangible")
+    (eq data.type "gel")
+    (eq data.type "regular")
+    (eq data.type "hollowPoint")
+    (eq data.type "stickNShock")
+    (eq data.type "tracer")
+    (eq data.type "tracker")
+)}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.CaseType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.caseType" data-dtype="String" required>
+            {{#select data.caseType}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.ammunitionCaseType}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select> 
+    </div>
+</li>
+{{/if}}

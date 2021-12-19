@@ -1,0 +1,29 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.TestAttributes'}}</p>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Attribute'}} 1{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.testFirstAttribute" data-dtype="String">
+            {{#select data.testFirstAttribute}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.allAttributes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Attribute'}} 2{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.testSecondAttribute" data-dtype="String">
+            {{#select data.testSecondAttribute}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.allAttributes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

@@ -1,0 +1,79 @@
+<!-- FOCI -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-4">
+				<p class=" SR-TextUppercase">{{localize 'SR5.Foci'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p>
+			</div>
+			<div class="col-2">
+				<p class="SR-TextCenter">{{localize 'SR5.SpiritTypeShort'}}</p>
+			</div>
+			<div class="col-3">
+				<p class="SR-TextCenter"></p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.Equipped'}}"><em class="fas fa-sm fa-thumbtack"></em></p>
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemFocus')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemFocus"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.focuses}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-4">
+				{{#if (missing data.type data.itemRating)}}
+				<p class="incomplete"
+					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeFocus')}}">{{name}}
+				</p>
+				{{else}}
+				<p>{{name}}</p>
+				{{/if}}
+			</div>
+			<div class="col-1 changeValueByClick" data-binding="data.itemRating"
+			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+				<p class="SR-TextCenter">{{valueOrDash data.itemRating}}</p>
+			</div>
+			<div class="col-2">
+				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'focusTypes' data.type)}}</p>
+			</div>
+			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}" data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
+				{{#ife data.type "sustaining"}}
+				<select class="edit-value" name="" data-binding="data.sustainedSpell" data-dtype="String"
+					data-item-id="{{_id}}" required>
+					<!-- TODO check this -->
+					{{#select data.sustainedSpell}}
+					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					{{#each data.spellChoices as |name type|}}
+					<option value="{{name}}">{{name}}</option>
+					{{/each}}
+					{{/select}}
+				</select>
+				{{/ife}}
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+						data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+						<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-CoulVert{{/if}}"></em></a>
+				</p>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

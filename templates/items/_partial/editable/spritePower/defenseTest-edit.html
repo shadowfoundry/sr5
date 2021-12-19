@@ -1,0 +1,29 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.DefenseAttributes'}}</p>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Attribute'}} {{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.defenseAttribute" data-dtype="String">
+            {{#select data.defenseAttribute}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spritePowerDefenseAttributes}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Attribute'}} 2{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.defenseMatrixAttribute" data-dtype="String">
+            {{#select data.defenseMatrixAttribute}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.deckerAttributes}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

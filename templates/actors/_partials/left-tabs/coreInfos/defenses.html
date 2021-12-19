@@ -1,0 +1,42 @@
+<!-- DEFENSES -->
+<div class="SRBlockSheet">
+    <ul>
+        <li class="grid SR-LigneEnTete">
+            <div class="col-10"><p class="SR-TextUppercase">{{localize 'SR5.Defenses'}}</p></div>
+            <div class="col-2"><p class="SR-TextCenter" data-title="{{localize 'SR5.DicePool'}}">{{localize 'SR5.DicePoolShort'}}</p></div>
+        </li>
+
+        <li class="grid">
+            <div class="col-10"><p>{{findTranslation 'characterDefenses' 'defend'}}</p></div>
+            <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="defense" data-rollkey="defend"
+                data-helpTitle="{{localize 'SR5.HELP_Defense' key=(localize 'SR5.StandardDefense')}}"
+                data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
+                data-helpDetails="data.defenses.defend"
+            >{{data.defenses.defend.dicePool}}</div>
+        </li>
+
+        {{#ifne actor.type 'actorDrone'}}
+        <li class="grid">
+            <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ActiveDefenseChoice'}}"
+            data-helpMessage="{{localize 'SR5.HELP_ActiveDefenseChoiceMsg'}}">
+                <select name="data.sheetPreferences.selections.activeDefense" data-dtype="String">
+                {{#select data.sheetPreferences.selections.activeDefense}}
+                    {{#each actor.lists.characterDefenses}}
+                    {{#ifne @key 'defend'}}
+                    <option value="{{@key}}">{{findTranslation 'characterDefenses' @key}}</option>
+                    {{/ifne}}
+                    {{/each}}
+                {{/select}}
+                </select>
+            </div>
+            <div class="col-2 SR-TextCenter roll-logo roll-logo sr-roll" data-rolltype="defense" data-rollkey="{{data.sheetPreferences.selections.activeDefense}}"
+                data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'characterDefenses' data.sheetPreferences.selections.activeDefense)}}"
+                data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
+                data-helpDetails="data.defenses.{{data.sheetPreferences.selections.activeDefense}}"
+            >
+                {{#with (lookup data.defenses data.sheetPreferences.selections.activeDefense)}}{{dicePool}}{{/with}}
+            </div>
+        </li>
+        {{/ifne}}
+    </ul>
+</div>

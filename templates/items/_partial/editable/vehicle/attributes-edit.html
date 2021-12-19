@@ -1,0 +1,41 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.Attributes'}}</p>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_HandlingFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.handling" value="{{data.attributes.handling}}" placeholder="0" /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_SpeedFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.speed" value="{{data.attributes.speed}}" placeholder="0" /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_AccelerationFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.acceleration" value="{{data.attributes.acceleration}}" placeholder="0" /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_BodyFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.body" value="{{data.attributes.body}}" placeholder="0" /></div>
+    </li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_ArmorFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.armor" value="{{data.attributes.armor}}" placeholder="0" /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_PilotFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.pilot" value="{{data.attributes.pilot}}" placeholder="0" /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_SensorFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.sensor" value="{{data.attributes.sensor}}" placeholder="0" /></div>
+</li>
+{{#ife data.category "vehicle"}}
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.Vehicle_SeatingFull'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1"><input type="number" data-dtype="Number" name="data.seating" value="{{data.seating}}" placeholder="0" /></div>
+    </li>
+{{/ife}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Vehicle_RI_F'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.riggerInterface" data-dtype="Boolean" {{checked data.riggerInterface}} /></div>
+</li>

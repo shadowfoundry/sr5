@@ -1,0 +1,46 @@
+<!-- DISTANCE NOISE -->
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.MatrixNoiseRange'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6">
+        <select class="matrixNoiseRange" name="matrixRange">
+            {{#select matrixRange}}
+            <option value="wired">{{localize 'SR5.MatrixDistanceConnected'}}</option>
+            <option value="upTo100m">{{localize 'SR5.MatrixDistance100m'}}</option>
+            <option value="upTo1km">{{localize 'SR5.MatrixDistance1km'}}</option>
+            <option value="upTo10km">{{localize 'SR5.MatrixDistance10km'}}</option>
+            <option value="upTo100km">{{localize 'SR5.MatrixDistance100km'}}</option>
+            <option value="farAway">{{localize 'SR5.MatrixDistanceGreater'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="matrixNoiseRangeValue" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<!-- SCENE NOISE -->
+{{#if_l dicePoolMod.matrixNoiseScene "0"}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SceneNoiseRating'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="matrixSceneNoiseValue" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if_l}}
+
+<!-- NOISE REDUCTION -->
+<li class="grid hideNoiseReduction">
+    <div class="col-5">{{localize 'SR5.NoiseReduction'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="matrixNoiseReduction" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<!-- TOTAL NOISE (Hidden)-->
+<li hidden>
+    <div hidden class="col-1 SR-TextCenter">
+        <input hidden disabled type="number" class="" name="matrixNoise" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

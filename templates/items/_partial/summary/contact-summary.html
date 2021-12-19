@@ -1,0 +1,54 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.type}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.ContactConnectionShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.connection}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.ContactLoyaltyShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.loyalty}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Gender'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation "genders" data.gender)}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Age'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.age}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Metatype'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation "metatypes" data.metatype)}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.PreferedPaymentTypeShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.paymentMethod}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.HobbiesVices'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.hobby}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.FamilialStatus'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.familySituation}}</span>
+    </p>
+</li>

@@ -1,0 +1,12 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Grade'}}</div>
+    <div class="col-7">
+        <select name="data.grade" required>
+        {{#select data.grade}}
+            {{#each lists.augmentationGrades}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</li>

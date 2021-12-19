@@ -1,0 +1,67 @@
+<!-- ACTIVE SKILLS -->
+<div class="filtre-skill SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-4 SR-TextUppercase {{#if (ne actor.type 'actorDrone')}}depliable{{/if}}" data-category="skill" id="SRSkill">
+			  	{{#if (ne actor.type 'actorDrone')}}
+			  	<span data-helpTitle="{{localize 'SR5.ActiveSkills'}}"
+				  data-helpMessage="{{localize 'SR5.HELP_SkillsMsg'}}">{{localize 'SR5.ActiveSkills'}}</span>
+				{{else}}
+				<span>{{localize 'SR5.ActiveSkills'}}</span>
+				{{/if}}
+			</div>
+			<div class="col-5">{{#if (ne actor.type 'actorDrone')}}{{localize 'SR5.Specializations'}}{{/if}}</div>
+			<div class="col-1 SR-TextCenter">{{#if (ne actor.type 'actorDrone')}}{{localize 'SR5.Rating'}}{{/if}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
+			<div class="col-1"></div>
+		</li>
+	</ul>
+</div>
+<div>
+	<ul class="competence-liste">
+		{{#each data.skills}}
+		{{#if (and (and (eq category 'magicSkills') (ne @key 'arcana')) (or (eq
+		../data.specialAttributes.magic.augmented.value 0) (ne ../actor.data.activeSpecialAttribute 'magic')))}}
+		{{else if (and (eq category 'resonanceSkills') (or (eq ../data.specialAttributes.resonance.augmented.value 0)
+		(ne ../actor.data.activeSpecialAttribute 'resonance')))}}
+		{{else}}
+		<li class="item {{css}} grid" data-skill="{{@key}}">
+			<div class="col-4 skill-name sr-roll" data-rolltype="skill" data-rollkey="{{@key}}"
+			  data-helpTitle="{{localize 'SR5.HELP_SkillTest' key=(findTranslation 'skills' @key)}}"
+			  data-helpMessage="{{localize 'SR5.HELP_SkillTestMsg'}}">
+				{{findTranslation 'skills' @key}}
+			</div>
+		  {{#if (ne ../actor.type 'actorDrone')}}
+			<div class="col-5 SR-PaddingRight5"
+			  data-helpTitle="{{localize 'SR5.HELP_SkillSpecialization' key=(findTranslation 'skills' @key)}}"
+			  data-helpMessage="{{localize 'SR5.HELP_SkillSpecializationMsg'}}">
+				<input type="text" class="specialisation" name="data.skills.{{@key}}.specializations" value="{{specializations}}">
+			</div>
+		  {{else}}
+			<div class="col-5"></div>
+		  {{/if}}
+		  {{#if (ne ../actor.type 'actorDrone')}}
+			<div class="col-1 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.HELP_SkillRating' key=(findTranslation 'skills' @key)}}"
+			  data-helpMessage="{{localize 'SR5.HELP_SkillRatingMsg'}}">
+				<input type="text" data-dtype="Number" class="input" name="data.skills.{{@key}}.rating.base" value="{{rating.base}}" onfocus="this.select()">
+			</div>
+		  {{else}}
+		    <div class="col-1 SR-TextCenter"></div>
+		  {{/if}}
+			{{#if (or test.base canDefault test.dicePool)}}
+			<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="skillDicePool" data-rollkey="{{@key}}"
+			  data-helpTitle="{{localize 'SR5.HELP_SkillDicePool' key=(findTranslation 'skills' @key)}}"
+			  data-helpMessage="{{localize 'SR5.HELP_SkillDicePoolMsg'}}"
+			  data-helpDetails="data.skills.{{@key}}.test">
+				{{test.dicePool}}
+			</div>
+			{{else}}
+			<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
+			<div class="col-1"></div>
+		</li>
+		{{/if}}
+		{{/each}}
+	</ul>
+</div>

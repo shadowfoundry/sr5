@@ -1,0 +1,24 @@
+
+<hr>
+<!--Spirit summoning info-->
+{{#if (eq typeSub 'summoning')}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{findTranslation 'spiritTypes' spiritType}}</div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SpiritForce'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{force}}</div>
+</li>
+{{/if}}
+<!--Sprite compiling info-->
+{{#if (eq typeSub 'compileSprite')}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SpriteType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{findTranslation 'spriteTypes' spriteType}}</div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.Level'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{level}}</div>
+</li>
+{{/if}}

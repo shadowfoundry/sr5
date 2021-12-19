@@ -1,0 +1,36 @@
+<!-- RESONANCE ACTIONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete">
+			<div class="grid">
+				<div class="col-5 SR-TextUppercase">{{localize 'SR5.ResonanceActions'}}</div>
+				<div class="col-2 SR-TextCenter">{{localize 'SR5.ActionTypeShort'}}</div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.MarkShort'}}</div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.LimitShort'}}</div>
+				<div class="col-1 SR-TextCenter"></div>
+				<div class="col-1 SR-TextCenter">{{localize 'SR5.MatrixGODShort'}}</div>
+			</div>
+		</li>
+		{{#each data.matrix.resonanceActions}}
+		<li class="grid">
+			<div class="col-5">{{findTranslation 'resonanceActions' @key}}</div>
+			<div class="col-2 SR-TextCenter">{{findTranslation 'actionTypes' actionType}}</div>
+			{{#if test.dicePool}}
+			<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="resonanceAction" data-rollkey="{{@key}}"
+			  data-helpTitle="{{localize 'SR5.HELP_SkillDicePool' key=(findTranslation 'resonanceActions' @key)}}"
+			  data-helpMessage="{{localize 'SR5.HELP_ResonanceActionsDicePoolMsg'}}"
+			  data-helpDetails="data.matrix.resonanceActions.{{@key}}.test">
+				{{test.dicePool}}</div>
+			{{else}}
+			<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
+			<div class="col-1 SR-TextCenter">{{neededMarks}}</div>
+			<div class="col-1 SR-TextCenter">{{#if limit.value}}[{{limit.value}}]{{else}}-{{/if}}</div>
+			<div class="col-1 SR-TextCenter"></div>
+			<div class="col-1 SR-TextCenter">{{#if increaseOverwatchScore}}<em
+					class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>{{/if}}</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

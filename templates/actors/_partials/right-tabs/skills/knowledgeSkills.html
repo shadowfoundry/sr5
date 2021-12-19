@@ -1,0 +1,85 @@
+<!-- KNOWLEDGE SKILLS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-6" data-category="skills">
+				<p class="SR-TextUppercase">{{localize 'SR5.KnowledgeSkills'}}</p>
+			</div>
+			<div class="col-3" data-category="skills">
+				<p class="SR-TextCenter">{{localize 'SR5.KnowledgeSkillTypeShort'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</p>
+			</div>
+			<div class="col-1 SR-TextRight">
+				{{#if owner}}
+				<p data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemKnowledge')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemKnowledge">
+						<em class="fas fa-plus"></em>
+					</a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+	</ul>
+	<div>
+		<ul>
+			{{#each actor.knowledges}}
+			<li class="item grid" data-item-id="{{_id}}">
+				<div class="col-6" data-category="skills"
+				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsNameMsg'}}">
+					<p class="SR-PaddingRight5 {{#if (missing data.type data.base)}}incomplete{{/if}}">
+						<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text"
+							class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+					</p>
+				</div>
+				<div class="col-3 SR-SelectCenter SR-PaddingRight5"
+				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsTypeMsg'}}"
+				>
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name=""
+						data-dtype="String">
+						{{#select data.type}}
+						<option value="">{{localize 'SR5.ChooseOne'}}</option>
+						{{#each ../actor.lists.knowledgeSkillTypes}}
+						<option value="{{@key}}">{{findTranslation 'knowledgeSkillTypes' @key}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
+				</div>
+				<div class="col-1 SR-TextCenter"
+				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsRatingMsg'}}"
+				>
+					<input data-item-id="{{_id}}" data-binding="data.base" data-dtype="Number" type="text"
+						class="input edit-value" name="" value="{{data.base}}" onfocus="this.select()">
+				</div>
+				<div class="col-1"
+					data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
+					data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsMsg'}}" 
+					data-helpItemId="{{_id}}"
+					data-helpDetailsItem="data"
+				>
+					{{#if (and data.value data.base)}}
+					<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="knowledgeSkill">{{data.value}}</p>
+					{{else}}
+					<p class="SR-TextCenter">-</p>
+					{{/if}}
+				</div> 
+				<div class="col-1 SR-TextRight">
+					{{#if ../owner}}
+					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+						<em class="fas fa-sm fa-edit item-management"></em>
+					</a>
+					{{/if}}
+				</div>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.PilotSkill'}}</div>
+    <div class="col-7">
+        <select name="data.pilotSkill" data-dtype="String">
+        {{#select data.pilotSkill}}
+            <option value="">{{localize 'SR5.None'}}</option>
+            {{#each lists.pilotSkills}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

@@ -1,0 +1,6 @@
+.vscode
+package-lock.json
+node_modules/
+.sync.ffs_db
+Config
+.DS_Store

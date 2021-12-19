@@ -1,0 +1,31 @@
+<li class="grid">
+    {{#ife type "skill"}}
+    <div class="col-5">{{localize 'SR5.Attribute'}}{{localize 'SR5.Colons'}}</div>
+    {{else}}
+    <div class="col-5">{{localize 'SR5.AttributeSecondary'}}{{localize 'SR5.Colons'}}</div>
+    {{/ife}}
+    <div class="col-6">
+        <select class="attribute" name="attributeKey">
+            {{#select attributKey}}
+            <option value="none">{{localize 'SR5.None'}}</option>
+            {{#ife actor.type "actorDrone"}}
+                {{#each lists.vehicleAttributes}}
+                <option value="{{@key}}">{{findTranslation 'vehicleAttributes' @key}}</option>
+                {{/each}}
+            {{else}}
+                {{#each lists.characterAttributes}}
+                <option value="{{@key}}">{{findTranslation 'characterAttributes' @key}}</option>
+                {{/each}}
+                {{#each lists.characterSpecialAttributes}}
+                {{#ifne @key 'edge'}}
+                    <option value="{{@key}}">{{findTranslation 'characterSpecialAttributes' @key}}</option>
+                {{/ifne}}
+                {{/each}}
+            {{/ife}}
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModAttribute" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

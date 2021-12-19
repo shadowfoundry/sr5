@@ -1,0 +1,30 @@
+{{#if item.isOwned}}
+{{#if (eq data.isAccessory false)}}
+<div class="SR-PaddingTop10">
+    <ul>
+        <li class="grid SR-EnTete">
+            <div class="col-8 SR-TextUppercase">{{localize 'SR5.WeaponAccessories'}}</div>
+            <div class="col-3 SR-TextCenter">{{localize 'SR5.CapacityUsed'}}</div>
+            <div class="col-1 SR-TextRight">
+                {{#if owner}}
+                <a class="accessoryChoice" data-title="{{localize 'SR5.Add'}}" data-type="{{item.type}}"><em class="fas fa-plus"></em></a>
+                {{/if}}
+            </div>
+        </li>
+        {{#each data.accessory as |a i|}}
+        <li class="subItemManagement grid" data-key="{{@key}}">
+            <div class="col-8" data-index="{{i}}">
+                {{#if a.name}}
+                    {{a.name}}
+                {{else}}
+                    {{localize 'SR5.ChooseOne'}}
+                {{/if}}
+            </div>
+            <div class="col-3 SR-TextCenter">{{a.data.capacityTaken.value}}</div>
+            <div class="col-1 SR-TextRight"><a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="accessory" data-action="delete"><i class="fas fa-trash"></i></a></div>
+        </li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}
+{{/if}}

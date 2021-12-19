@@ -1,0 +1,23 @@
+{{#if (or (eq data.magic.magicType 'adept') (eq data.magic.magicType 'mysticalAdept'))}}
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-12 SR-TextUppercase">{{localize 'SR5.AdeptPowers'}}</div>
+		</li>
+		<li class="grid"
+		  data-helpTitle="{{localize 'SR5.PowerPointsMaximum'}}"
+		  data-helpDetails="data.magic.powerPoints.maximum"
+		>
+			<div class="col-10">{{localize 'SR5.PowerPointsMaximum'}}</div>
+			<div class="col-2 SR-TextCenter">{{data.magic.powerPoints.maximum.value}}</div>
+		</li>
+		<li class="grid {{#if (gt data.magic.powerPoints.value data.magic.powerPoints.maximum.value)}}incomplete{{/if}}"
+		  data-helpTitle="{{localize 'SR5.PowerPointsCurrent'}}"
+		  data-helpDetails="data.magic.powerPoints"
+		>
+			<div class="col-10">{{localize 'SR5.PowerPointsCurrent'}}</div>
+			<div class="col-2 SR-TextCenter">{{data.magic.powerPoints.value}}</div>
+		</li>
+	</ul>
+</div>
+{{/if}}

@@ -1,0 +1,37 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.damageValue.base" value="{{data.damageValue.base}}" placeholder="0" /></div>
+    <!-- Strength based dammage-->
+    <div class="col-1"></div>
+    {{#if (or (and (eq data.type "throwing") (ne data.category "grenade")) (eq data.category "meleeWeapon"))}}
+    <div class="col-4 SR-TextRight">{{localize 'SR5.StrengthBasedDV'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" name="data.damageValue.isStrengthBased" data-dtype="Boolean" {{checked data.damageValue.isStrengthBased}} /></div>
+    {{/if}}
+</li>
+
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.damageType">
+        {{#select data.damageType}}
+            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each lists.damageTypes}}
+            <option value="{{@key}}">{{findTranslation 'damageTypes' @key}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.damageElement">
+        {{#select data.damageElement}}
+            <option value="">{{localize 'SR5.SpecialDamageNone'}}</option>
+            {{#each lists.specialDamageTypes}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</li>

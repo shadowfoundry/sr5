@@ -1,0 +1,63 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header-noEffect.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Contact summary -->
+							{{> systems/sr5/templates/items/_partial/summary/contact-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+					<ul>
+						<!-- General information title -->
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						<!-- Connection -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/connection-edit.html}}
+						<!-- Loyality -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/loyality-edit.html}}
+						<!-- Type -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/type-edit.html}}
+						<!-- Metatype -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/metatype-edit.html}}
+						<!-- Gender -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/gender-edit.html}}
+						<!-- Age -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/age-edit.html}}
+						<!-- Payment Method -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/paymentMethod-edit.html}}
+						<!-- Hobby -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/hobby-edit.html}}
+						<!-- Family Situation -->
+						{{> systems/sr5/templates/items/_partial/editable/contact/familySituation-edit.html}}
+					</ul>
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+	</div>
+</form>

@@ -1,0 +1,45 @@
+<!-- AMMUNITIONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-6 SR-TextUppercase">{{localize 'SR5.Ammunition'}}</div>
+			<div class="col-3 SR-TextCenter">{{localize 'SR5.WeaponType'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.QuantityShort'}}</div>
+			<div class="col-1"></div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item"
+				  data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemAmmunition')}}" 
+				  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemAmmunition">
+						<em class="fas fa-plus"></em>
+					</a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.ammunitions}}
+		<li class="item" data-item-id="{{_id}}" draggable="true">
+			<div class="grid">
+				<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+					<p>{{name}}</p>
+				</div>
+				<div class="col-3 SR-TextCenter">{{findTranslation "rangedWeaponTypes" data.class}}</div>
+				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.quantity"
+				  data-helpTitle="{{localize 'SR5.HELP_Quantity' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_QuantityMsg'}}">
+					{{data.quantity}}
+				</div>
+				<div class="col-1"></div>
+				<div class="col-1 SR-TextRight">
+					{{#if ../owner}}
+					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+						<em class="fas fa-sm fa-edit item-management"></em>
+					</a>
+				{{/if}}
+				</div>
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

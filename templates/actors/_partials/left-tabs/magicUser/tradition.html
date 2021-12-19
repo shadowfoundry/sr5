@@ -1,0 +1,46 @@
+<!-- MAGICAL TRADITION -->
+{{#if data.magic.magicType}}
+	{{#ifne data.magic.magicType 'adept'}}
+  		<div class="SRBlockSheet">
+			<ul>
+	  			<li class="grid SR-LigneEnTete">
+					<div class="col-12"><p class=" SR-TextUppercase ">{{localize 'SR5.MagicalTradition'}}</p></div>
+	  			</li>
+	  			<li class="grid">
+					<div class="col-12" 
+					data-helpTitle="{{localize 'SR5.HELP_MagicalTradition'}}"
+					data-helpMessage="{{localize 'SR5.HELP_MagicalTraditionMsg'}}">
+		  				<select name="data.magic.tradition" data-dtype="String">
+						{{#select data.magic.tradition}}
+							<option value="">{{localize 'SR5.None'}}</option>
+							{{#each actor.lists.traditionTypes}}
+							<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
+						{{/select}}
+		  				</select>
+					</div>
+	  			</li>
+	  			<li class="grid">
+					<div class="col-10"><p>{{localize 'SR5.TraditionCombat'}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.combat)}}</p></div>
+				</li>
+				<li class="grid">
+					<div class="col-10"><p>{{localize 'SR5.TraditionDetection'}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.detection)}}</p></div>
+				</li>
+				<li class="grid">
+					<div class="col-10"><p>{{localize 'SR5.TraditionHealth'}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.health)}}</p></div>
+				</li>
+				<li class="grid">
+					<div class="col-10"><p>{{localize 'SR5.TraditionIllusion'}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.illusion)}}</p></div>
+				</li>
+				<li class="grid">
+					<div class="col-10"><p>{{localize 'SR5.TraditionManipulation'}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.manipulation)}}</p></div>
+				</li>
+			</ul>
+		</div>
+	{{/ifne}}
+{{/if}}

@@ -1,0 +1,29 @@
+<li class="SR-LigneEnTete SR-PaddingTop10">
+    <div class="grid SR-TextUppercase">
+        <div class="col-11">{{localize 'SR5.SpiritForceShort'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter"><input type="number" name="force" value="{{force}}" data-dtype="Number" placeholder="0" /></div>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-TextCenter">
+        <select name="spiritType">
+            {{#ifne actor.data.magic.tradition ''}}
+            {{#select espritType}}
+                {{#each actor.data.magic.elements}}
+                <option value="{{this}}">{{findTranslation "spiritTypes" this}}</option>
+                {{/each}}
+            {{/select}}
+            {{else}}
+            {{#select espritType}}
+                {{#each lists.spiritTypes}}
+                <option value="{{@key}}">{{findTranslation "spiritTypes" @key}}</option>
+                {{/each}}
+            {{/select}}
+            {{/ifne}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="summoningSpiritTypeModifier" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

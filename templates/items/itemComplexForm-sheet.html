@@ -1,0 +1,60 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs ">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Target, Duration -->
+							{{> systems/sr5/templates/items/_partial/summary/complexForm-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- Stat -->
+					<ul>
+						<!-- General information title -->
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						<!-- Target -->
+						{{> systems/sr5/templates/items/_partial/editable/complexForm/target-edit.html}}
+						<!-- Duration -->
+						{{> systems/sr5/templates/items/_partial/editable/complexForm/duration-edit.html}}
+						<!-- Fading Modifier -->
+						{{> systems/sr5/templates/items/_partial/editable/complexForm/fadingModifier-edit.html}}
+					</ul>
+					<!-- Defense Test -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/complexForm/defenseTest-edit.html}}
+					</ul>
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+	</div>
+</form>

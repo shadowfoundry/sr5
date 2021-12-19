@@ -1,0 +1,42 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<div class="col-12">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- Test Attributes -->
+					<ul>
+						{{> systems/sr5/templates/items/_partial/editable/spritePower/attributeTest-edit.html}}
+					</ul>
+					<!-- Defense Attributes -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/spritePower/defenseTest-edit.html}}
+					</ul>
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer-simple.html}}
+
+	</div>
+</form>

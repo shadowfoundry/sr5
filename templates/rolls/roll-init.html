@@ -1,0 +1,29 @@
+<div class="sr5 chat-card item-card SR-CardBG" data-actor-id="{{actor.id}}" data-item-id="{{item._id}}" data-token-id="{{tokenId}}">
+  <header class="SR-CardHeader flexrow" title="{{localize 'SR5.ClickForDetails'}}">
+    <div class="SR-CardHeaderTitle">{{title}}</div>
+  </header>
+
+  <div class="SR-CardContent">
+    <ul>
+      <li>
+        <div class="SR-CardDices">
+          {{#each roll.terms.2.results as |dés d|}}
+            {{#if dés.success}}
+              <div class="SR-Dice succes">{{dés.result}}</div>
+            {{else}}
+              <div class="SR-Dice echec">{{dés.result}}</div>
+            {{/if}}
+          {{/each}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="SR-CardButton">
+    <div class="SR-CardButtonHit grid">
+      <div class="col-2"></div>
+      <div class="col-8">{{roll._formula}} = {{roll._total}}</div>
+      <div class="col-2"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header-noEffect.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Vehicle stats -->
+							{{> systems/sr5/templates/items/_partial/summary/vehicle-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+					<ul>
+						<!-- General information title -->
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						<!-- Category -->
+						{{> systems/sr5/templates/items/_partial/editable/vehicle/category-edit.html}}
+						<!-- Type -->
+						{{> systems/sr5/templates/items/_partial/editable/vehicle/type-edit.html}}
+						<!-- Skill -->
+						{{> systems/sr5/templates/items/_partial/editable/vehicle/skill-edit.html}}
+			        </ul>
+					
+					<!-- Attributes -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/vehicle/attributes-edit.html}}
+					</ul>
+
+					<!-- Actor Items -->
+					{{> systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html}}
+
+					<!-- Mounts -->
+					{{#ife data.category "vehicle"}}
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html}}
+					</ul>
+					{{/ife}}
+
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+					</ul>
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer-drone.html}}
+
+	</div>
+</form>

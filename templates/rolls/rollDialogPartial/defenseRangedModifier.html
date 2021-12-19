@@ -1,0 +1,16 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.AttackFiringMode'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-PaddingRight10">
+        <select class="incomingFiringMode" name="incomingFiringMode">
+            {{#select incomingFiringMode}}
+            <option value="0">{{localize 'SR5.WeaponModeSS'}} / {{localize 'SR5.WeaponModeSA'}}</option>
+            <option value="-2">{{localize 'SR5.WeaponModeSB'}} / {{localize 'SR5.WeaponModeBF'}}</option>
+            <option value="-5">{{localize 'SR5.WeaponModeLB'}} / {{localize 'SR5.WeaponModeFA'}}</option>
+            <option value="-9">{{localize 'SR5.WeaponModeFA'}} / {{localize 'SR5.WeaponModeSF'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModDefenseFiringMode" value="{{incomingFiringMode}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

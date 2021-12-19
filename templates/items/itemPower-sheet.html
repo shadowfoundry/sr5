@@ -1,0 +1,72 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Type, Range, Duration -->
+							{{> systems/sr5/templates/items/_partial/summary/power-summary.html}}
+							<!-- Range -->
+							{{> systems/sr5/templates/items/_partial/summary/_common/rangeMagic-summary.html}}
+							<!-- Duration -->
+							{{> systems/sr5/templates/items/_partial/summary/_common/durationMagic-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+					<ul>
+						<!-- General information title -->
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						<!-- Type -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/magicType-edit.html}}
+						<!-- Range -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/magicRange-edit.html}}
+						<!-- Duration -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/magicDuration-edit.html}}
+						<!-- Action type -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/actionType-edit.html}}
+						<!-- Rating -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+					</ul>
+					<!-- Test Attributes -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/power/attributeTest-edit.html}}
+					</ul>
+					<!-- Defense Attributes -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/power/defenseTest-edit.html}}
+					</ul>
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer-simple.html}}
+
+	</div>
+</form>

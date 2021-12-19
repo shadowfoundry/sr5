@@ -1,0 +1,31 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header-noIcon.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+
+			<!-- SUMMARY -->
+			<div class="col-12">
+				<ul>
+					<!-- General information title -->
+					{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+					<!-- Rating -->
+					{{> systems/sr5/templates/items/_partial/editable/knowledge/rating-edit.html}}
+					<!-- Type -->
+					{{> systems/sr5/templates/items/_partial/editable/knowledge/type-edit.html}}
+				</ul>
+	
+				<ul class="SR-PaddingTop10">
+					{{> systems/sr5/templates/items/_partial/editable/_common/description-edit.html}}
+				</ul>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer-simple.html}}
+
+	</div>
+</form>

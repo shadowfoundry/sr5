@@ -1,0 +1,51 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		 <!-- HEADER -->
+		 {{> systems/sr5/templates/actors/_partials/header/header.html}}
+
+		<div class="SR-MainWindows">
+			<div class="grid">
+
+				<!-- LEFT TAB -->
+				<div class="col-3 SR-ActorColGauche">
+					<section class="sr-tabs2">
+						<!-- CORE INFO LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-attributs">
+							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/attributes.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/resistances.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/defenses.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
+						</div>
+						<!-- DERIVED LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-deriv">
+							{{> systems/sr5/templates/actors/_partials/left-tabs/derived/limits.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/derived/derivedAttributes.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/derived/essence.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/derived/carrying.html}}
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/derived/movement.html}}
+						</div>
+						<!-- MAGIC USER LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-magie">
+              				{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html}}
+						</div>
+					</section>
+				</div>
+
+				<div class="col-9">
+					<div class="SR-ActorMainCentre">
+						<section class="sr-tabs">
+							{{> systems/sr5/templates/actors/_partials/right-tabs/combat/spiritWeapons.html}}
+							{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
+							{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/actors/_partials/footer/footer.html }}
+
+	</div>
+</form>

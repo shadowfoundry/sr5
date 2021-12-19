@@ -1,0 +1,243 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <div class="SR-mainContainer">
+
+    <!-- HEADER -->
+    {{> systems/sr5/templates/items/_partial/header/header.html}}
+
+    <!-- WINDOW BODY -->
+    <div class="SR-MainWindows">
+      <section class="sr-tabs">
+
+        <!-- SUMMARY -->
+        <div class="tab grid" data-group="primary" data-tab="tab-info">
+          <div class="col-5 SR-ItemColGauche">
+            <div>
+              <ul>
+                <li class="SR-LigneEnTete">
+                  <p class="SR-TextUppercase">{{localize 'SR5.Summary'}}</p>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleTypeShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{localize data.type.nom}}</div>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleStat_HandlingShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{data.maniabilite.value}}</div>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleStat_SpeedShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{data.vitesse.value}}</div>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleStat_AccelerationShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{data.acceleration.value}}</div>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleStat_ArmorShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{data.blindage.value}}</div>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleStat_PilotShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{data.autopilote.value}}</div>
+                </li>
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.VehicleStat_SensorShort'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">{{data.senseurs.value}}</div>
+                </li>
+                {{#ife data.categorie.value "vehicule"}}
+                  <li class="grid">
+                    <div class="col-6">{{localize 'SR5.Vehicle_SeatingShort'}}{{localize 'SR5.Colons'}}</div>
+                    <div class="col-6">{{data.places.value}}</div>
+                  </li>
+                {{/ife}}
+                <li class="grid">
+                  <div class="col-6">{{localize 'SR5.Vehicle_RI_S'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-6">
+                    {{#if data.rigging.value}}
+                      {{localize 'SR5.Vehicle_RI_Installed_S'}}
+                    {{else}}
+                      {{localize 'SR5.Vehicle_RI_NotInstalled_S'}}
+                    {{/if}}
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-7 SR-ItemColDroite">
+            <ul>
+              <li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.Description'}}</li>
+              <li>{{editor content=data.description.value target="data.description.value" button=true owner=owner editable=editable}}
+              </li>
+              <li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.GameEffect'}}</li>
+              <li>{{editor content=data.info.value target="data.info.value" button=true owner=owner editable=editable}}
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- EDITABLE STATS -->
+        <div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+          <div>
+            <ul>
+              <li class="SR-LigneEnTete">
+                <p class="SR-TextUppercase">{{localize 'SR5.GeneralInformation'}}s</p>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7">
+                  <select name="data.categorie.value" data-dtype="{{data.categorie.type}}" required>
+                    {{#select data.categorie.value}}
+                      <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                      {{#each vehiculeCategorie}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                      {{/each}}
+                    {{/select}}
+                  </select>
+                </div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleTypeFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7">
+                  {{#ife data.categorie.value "vehicule"}}
+                    <select name="data.type.value" data-dtype="{{data.type.type}}" required>
+                      {{#select data.type.value}}
+                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each vehiculeTypes}}
+                          <option value="{{@key}}">{{localize this}}</option>
+                        {{/each}}
+                      {{/select}}
+                    </select>
+                  {{/ife}}
+                  {{#ife data.categorie.value "drone"}}
+                    <select name="data.type.value" data-dtype="{{data.type.type}}" required>
+                      {{#select data.type.value}}
+                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each droneTypes}}
+                          <option value="{{@key}}">{{localize this}}</option>
+                        {{/each}}
+                      {{/select}}
+                    </select>
+                  {{/ife}}
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="SR-PaddingTop10">
+            <ul>
+              <li class="SR-LigneEnTete">
+                <p class="SR-TextUppercase">{{localize 'SR5.Attributes'}}</p>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_HandlingFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.maniabilite.value" value="{{data.maniabilite.value}}" placeholder="0" /></div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_SpeedFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.vitesse.value" value="{{data.vitesse.value}}" placeholder="0" />
+                </div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_AccelerationFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.acceleration.value" value="{{data.acceleration.value}}" placeholder="0" /></div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_BodyFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.structure.value" value="{{data.structure.value}}" placeholder="0" />
+                </div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_ArmorFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.blindage.value" value="{{data.blindage.value}}" placeholder="0" />
+                </div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_PilotFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.autopilote.value" value="{{data.autopilote.value}}" placeholder="0" /></div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.VehicleStat_SensorFull'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.senseurs.value" value="{{data.senseurs.value}}" placeholder="0" />
+                </div>
+              </li>
+              {{#ife data.categorie.value "vehicule"}}
+                <li class="grid">
+                  <div class="col-5">{{localize 'SR5.Vehicle_SeatingFull'}}{{localize 'SR5.Colons'}}</div>
+                  <div class="col-7"><input type="text" data-dtype="Number" name="data.places.value" value="{{data.places.value}}" placeholder="0" /></div>
+                </li>
+              {{/ife}}
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.Vehicle_RI_F'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="checkbox" name="data.rigging.value" data-dtype="Boolean" {{checked data.rigging.value}} /></div>
+              </li>
+            </ul>
+          </div>
+
+          {{#ife data.categorie.value "vehicule"}}
+            <div class="SR-PaddingTop10">
+              <ul>
+                <li class="SR-LigneEnTete grid">
+                  <div class="col-11 SR-TextUppercase">{{localize 'SR5.VEHICLE_WeaponMounts_F'}}</div>
+                  <div class="col-1 SR-TextUppercase"><a class="monture-gestion add-monture" title="Ajoute une monture"><em class="fas fa-plus"></em></a></div>
+                </li>
+                {{#each data.monture}}
+                  <li class="grid sr5-monture" data-sr5-monture="{{@key}}">
+                    <div class="col-3">
+                      <select name="data.monture.{{@key}}.type" required>
+                        {{#select this.type }}
+                          <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                          {{#each ../config.mountTypes}}
+                            <option value="{{@key}}">{{localize this}}</option>
+                          {{/each}}
+                        {{/select}}
+                      </select>
+                    </div>
+                    <div class="col-7"><input type="text" data-dtype="String" name="data.monture.{{@key}}.name" value="{{monture.name}}" placeholder="" /></div>
+                    <div class="col-1 SR-TextCenter"><input type="checkbox" name="data.monture.{{@key}}.manuel" data-dtype="Boolean" {{checked monture.manuel}} /></div>
+                    <div class="col-1 SR-TextCenter"><a class="monture-gestion delete-monture" title="Supprime monture" data-index="{{@key}}"><i class="fas fa-trash"></i></a>
+                    </div>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/ife}}
+
+          <div class="SR-PaddingTop10">
+            <ul>
+              <li class="SR-LigneEnTete">
+                <div class="SR-TextUppercase">{{localize 'SR5.Price'}} {{localize 'SR5.AndShort'}} {{localize 'SR5.Availability'}}</div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.Price'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.prix.base" value="{{data.prix.base}}" placeholder="0" /></div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.Availability'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7"><input type="text" data-dtype="Number" name="data.dispo.base" value="{{data.dispo.base}}" placeholder="0" /></div>
+              </li>
+              <li class="grid">
+                <div class="col-5">{{localize 'SR5.Legality'}}{{localize 'SR5.Colons'}}</div>
+                <div class="col-7">
+                  <select name="data.legal.value" data-dtype="{{data.legal.type}}">
+                    {{#select data.legal.value}}
+                      <option value="">{{localize 'SR5.Legal'}}</option>
+                      {{#each legalTypes}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                      {{/each}}
+                    {{/select}}
+                  </select>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- FOOTER -->
+    {{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+  </div>
+</form>

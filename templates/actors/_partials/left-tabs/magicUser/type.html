@@ -1,0 +1,22 @@
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-12"><p class="SR-TextUppercase">{{localize 'SR5.MagicType'}}</p></div>
+		</li>
+		<li class="grid">
+			<div class="col-12" 
+			data-helpTitle="{{localize 'SR5.HELP_MagicType'}}"
+            data-helpMessage="{{localize 'SR5.HELP_MagicTypeMsg'}}"
+			>
+				<select name="data.magic.magicType" data-dtype="String">
+				{{#select data.magic.magicType}}
+					<option value="">{{localize 'SR5.None'}}</option>
+					{{#each actor.lists.magicTypes}}
+					<option value="{{@key}}">{{localize this}}</option>
+					{{/each}}
+				{{/select}}
+				</select>
+			</div>
+		</li>
+	</ul>
+</div>

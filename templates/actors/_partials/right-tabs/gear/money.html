@@ -1,0 +1,98 @@
+<!-- FINANCES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-12 SR-TextUppercase">{{localize 'SR5.CharacterFinances'}}</div>
+		</li>
+		<li class="grid">
+			<div class="col-2 SR-TextLeft {{#if (gt (lossModifiersSum data.nuyen) (gainModifiersSum data.nuyen))}}incomplete{{/if}}">{{localize 'SR5.CurrentNuyens'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-2 SR-TextLeft">{{nuyen (minus (gainModifiersSum data.nuyen) (lossModifiersSum data.nuyen))}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.TotalGainedNuyens'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-2 SR-TextCenter">{{nuyen (gainModifiersSum data.nuyen)}}</div>
+			<div class="col-2 SR-TextRight">{{localize 'SR5.TotalSpentNuyens'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-2 SR-TextRight">{{nuyen (lossModifiersSum data.nuyen)}}</div>
+		</li>
+	</ul>
+</div>
+
+<!-- GAINS  -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete vert grid">
+			<div class="col-8 SR-TextUppercase depliable">{{localize 'SR5.CharacterGains'}}</div>
+			<div class="col-3 SR-TextCenter">{{localize 'SR5.GainedAmount'}}</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.NuyenGain_F')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemNuyen" data-subtype="gain"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.nuyens}}
+		{{#ife data.type 'gain'}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenGainName' key=name}}" 
+			data-helpMessage="{{localize 'SR5.HELP_NuyenGainNameMsg'}}">
+				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+				</p>
+			</div>
+			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}" 
+			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="" value="{{data.amount}}" onfocus="this.select()">
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/ife}}
+		{{/each}}
+	</ul>
+</div>
+
+<!-- EXPENSES  -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete vert grid">
+			<div class="col-8 SR-TextUppercase depliable">{{localize 'SR5.CharacterExpenses'}}</div>
+			<div class="col-3 SR-TextCenter">{{localize 'SR5.SpentAmount'}}</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.NuyenLoss_F')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemNuyen" data-subtype="loss"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.nuyens}}
+		{{#ife data.type 'loss'}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenExpenseName' key=name}}" 
+			data-helpMessage="{{localize 'SR5.HELP_NuyenExpenseNameMsg'}}">
+				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+				</p>
+			</div>
+			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}" 
+			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="" value="{{data.amount}}" onfocus="this.select()">
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/ife}}
+		{{/each}}
+	</ul>
+</div>

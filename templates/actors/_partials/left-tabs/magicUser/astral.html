@@ -1,0 +1,56 @@
+<div class="SRBlockSheet">
+	<ul>
+	  	<li class="grid SR-LigneEnTete">
+			<div class="col-12 SR-TextUppercase">{{localize 'SR5.AstralPlane'}}</div>
+	  	</li>
+	  	<li class="grid">
+			<div class="col-10"><p>{{localize 'SR5.DrainResistance'}}</p></div>
+			<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="drain"
+		  	  data-helpTitle="{{localize 'SR5.HELP_DrainResistance'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_DrainResistanceMsg'}}"
+		  	  data-helpDetails="data.magic.drainResistance"
+			>
+		  		{{data.magic.drainResistance.dicePool}}
+			</div>
+	  	</li>
+	  	<li class="grid">
+			<div class="col-10">{{localize 'SR5.AstralDamage'}}</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.HELP_AstralDamage'}}"
+              data-helpDetails="data.magic.astralDamage"
+			>
+				{{valueOrDash data.magic.astralDamage.value}}
+			</div>
+	  	</li>
+	 	<li class="grid">
+			<div class="col-10">{{localize 'SR5.AstralDefense'}}</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.HELP_AstralDefense'}}"
+              data-helpMessage="{{localize 'SR5.HELP_AstralDefenseMsg'}}"
+              data-helpDetails="data.magic.astralDefense"
+			>
+				{{valueOrDash data.magic.astralDefense.dicePool}}
+			</div>
+	  	</li>
+	  	<li class="grid">
+			<div class="col-10">{{localize 'SR5.PassThroughBarrier'}}</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.HELP_PassThroughBarrier'}}"
+              data-helpMessage="{{localize 'SR5.HELP_PassThroughBarrierMsg'}}"
+              data-helpDetails="data.magic.passThroughBarrier"
+			>
+				{{valueOrDash data.magic.passThroughBarrier.dicePool}}
+			</div>
+	  	</li>
+	  	<li class="grid">
+			<div class="col-10">{{localize 'SR5.AstralTracking'}}</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.HELP_AstralTracking'}}"
+              data-helpMessage="{{localize 'SR5.HELP_AstralTrackingMsg'}}"
+              data-helpDetails="data.magic.astralTracking"
+			>
+				{{valueOrDash data.magic.astralTracking.dicePool}}
+			</div>
+	  	</li>
+	</ul>
+</div>

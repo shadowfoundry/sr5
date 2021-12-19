@@ -1,0 +1,139 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.category" data-dtype="String" required>
+            {{#select data.category}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spellCategories}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+
+{{#ife data.category "combat"}}
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-7">
+            <select name="data.subCategory" data-dtype="String" required>
+                {{#select data.subCategory}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.spellCombatTypes}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-7"><input type="number" data-dtype="Number" name="data.damageValue.base" value="{{data.damageValue.base}}" placeholder="0" /></div>
+    </li>
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-7">
+            <select name="data.damageType" data-dtype="String" required>
+                {{#select data.damageType}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.damageTypes}}
+                        <option value="{{@key}}">{{findTranslation 'damageTypes' @key}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-7">
+            <select name="data.damageElement" data-dtype="String" required>
+                {{#select data.damageElement}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.specialDamageTypes}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>
+{{/ife}}
+
+{{#ife data.category "detection"}}
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.ExtendedRange'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1"><input type="checkbox" name="data.spellAreaExtended" data-dtype="Boolean" {{checked data.spellAreaExtended}} /></div>
+        <div class="col-3">
+            <select name="data.subCategory" data-dtype="String" required>
+                {{#select data.subCategory}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.spellDetectionTypes}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div class="col-3">
+            <select name="data.detectionSense" data-dtype="String" required>
+                {{#select data.detectionSense}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.spellDetectionSens}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>
+{{/ife}}
+
+{{#ife data.category "manipulation"}}
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.SpellTypeManipulation'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-4">
+            <select name="data.subCategory" data-dtype="String" required>
+                {{#select data.subCategory}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.spellManipulationTypes}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div class="col-2 SR-TextRight">{{localize 'SR5.Damaging'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextRight">
+            <input type="checkbox" name="data.manipulationDamaging" data-dtype="Boolean" {{checked data.manipulationDamaging}} />
+        </div>
+    </li>
+{{/ife}}
+
+{{#ife data.category "health"}}
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.Essence'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-7"><input type="checkbox" name="data.healthEssence" data-dtype="Boolean" {{checked data.healthEssence}} /></div>
+    </li>
+{{/ife}}
+
+{{#ife data.category "illusion"}}
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.SpellTypeIllusion'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-3">
+            <select name="data.subCategory" data-dtype="String" required>
+                {{#select data.subCategory}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.spellIllusionTypes}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div class="col-4">
+            <select name="data.illusionSense" data-dtype="{{data.illusionSense}}" required>
+                {{#select data.illusionSense}}
+                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.spellIllusionSens}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+    </li>
+{{/ife}}

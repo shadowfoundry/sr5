@@ -1,0 +1,22 @@
+
+<nav class="tabs2" data-group="gauche">
+    {{> systems/sr5/templates/actors/_partials/header/navParts/coreInfos.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/matrixUser.html}}
+</nav>
+
+<nav class="tabs SR-PaddingLeft10" data-group="centre">
+    {{> systems/sr5/templates/actors/_partials/header/navParts/combat.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/matrix.html}}
+</nav>
+    
+<div class="SR-MarginLeft10 SR-EspritType">
+    <p data-helpTitle="{{localize 'SR5.HELP_VehicleTypeChoice'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTypeChoiceMsg'}}">
+        <select name="data.type" data-dtype="String">
+        {{#select data.type}}
+            {{#each actor.lists.vehicleCategories}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </p>
+</div>

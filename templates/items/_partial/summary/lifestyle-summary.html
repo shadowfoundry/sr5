@@ -1,0 +1,36 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.FullAddress'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{data.streetAddress}},<br>{{data.city}} ({{data.country}})</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.LinkedIdentity'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">{{valueOrDash data.linkedIdentity}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.PrepaidMonths'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-CoulGris">
+        {{#if data.rent.bought}}
+            {{localize 'SR5.LifeStyleBought'}}
+        {{else}}
+            {{valueOrDash data.rent.duration}}
+        {{/if}}
+      </span>
+    </p>
+</li>
+
+<li class="SR-PaddingTop10 grid SR-LigneEnTete">
+    <div class="col-12 SR-TextUppercase">{{localize 'SR5.LifeStyleOptions'}}</div>
+</li>
+
+{{#each data.options}}
+<li data-sr5-options="{{@key}}">
+    {{findTranslation 'lifestyleOptions' this}}
+</li>
+{{/each}}

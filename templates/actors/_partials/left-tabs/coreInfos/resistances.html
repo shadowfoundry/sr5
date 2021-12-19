@@ -1,0 +1,85 @@
+<!-- RESISTANCES -->
+<div class="SRBlockSheet">
+    <ul>
+      <li class="grid SR-LigneEnTete">
+        <div class="col-10">
+          <p class="SR-TextUppercase">{{localize 'SR5.Resistances'}}</p>
+        </div>
+        <div class="col-2">
+          <p class="SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</p>
+        </div>
+      </li>
+      {{#each data.resistances}}
+        <li class="grid">
+          {{#if (or (eq @key 'fatigue') (eq @key 'fall'))}}
+          {{else if (eq @key 'disease')}}
+            <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ResistanceDiseaseChoice'}}"
+            data-helpMessage="{{localize 'SR5.HELP_ResistanceDiseaseChoiceMsg'}}">
+              <select name="data.sheetPreferences.selections.resistanceDisease" data-dtype="String">
+                {{#select ../data.sheetPreferences.selections.resistanceDisease}}
+                  {{#each ../actor.lists.propagationVectors}}
+                    <option value="{{@key}}">{{findTranslation 'characterResistances' @../key}} ({{findTranslation 'propagationVectors' @key}})</option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistance" data-rollkey="disease_{{../data.sheetPreferences.selections.resistanceDisease}}"
+              data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
+              data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
+              data-helpDetails="data.resistances.{{@key}}.{{../data.sheetPreferences.selections.resistanceDisease}}"
+            >
+              {{#with (lookup @this ../data.sheetPreferences.selections.resistanceDisease)}}{{dicePool}}{{/with}}
+            </div>
+  
+          {{else if (eq @key 'toxin')}}
+            <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ResistanceToxinChoice'}}"
+            data-helpMessage="{{localize 'SR5.HELP_ResistanceToxinChoiceMsg'}}">
+              <select name="data.sheetPreferences.selections.resistanceToxin" data-dtype="String">
+                {{#select ../data.sheetPreferences.selections.resistanceToxin}}
+                  {{#each ../actor.lists.propagationVectors}}
+                    <option value="{{@key}}">{{findTranslation 'characterResistances' @../key}} ({{findTranslation 'propagationVectors' @key}})</option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistance" data-rollkey="toxin_{{../data.sheetPreferences.selections.resistanceToxin}}"
+              data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
+              data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
+              data-helpDetails="data.resistances.{{@key}}.{{../data.sheetPreferences.selections.resistanceToxin}}"
+            >
+              {{#with (lookup @this ../data.sheetPreferences.selections.resistanceToxin)}}{{dicePool}}{{/with}}
+            </div>
+  
+          {{else if (eq @key 'specialDamage')}}
+            <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ResistanceSpecialDamageChoice'}}"
+            data-helpMessage="{{localize 'SR5.HELP_ResistanceSpecialDamageChoiceMsg'}}">
+              <select name="data.sheetPreferences.selections.resistanceSpecialDamage" data-dtype="String">
+                {{#select ../data.sheetPreferences.selections.resistanceSpecialDamage}}
+                  {{#each ../actor.lists.specialDamageTypes}}
+                    <option value="{{@key}}">{{findTranslation 'characterResistances' @../key}} ({{findTranslation 'specialDamageTypes' @key}})</option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistance" data-rollkey="specialDamage_{{../data.sheetPreferences.selections.resistanceSpecialDamage}}"
+              data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
+              data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
+              data-helpDetails="data.resistances.{{@key}}.{{../data.sheetPreferences.selections.resistanceSpecialDamage}}"
+            >
+              {{#with (lookup @this ../data.sheetPreferences.selections.resistanceSpecialDamage)}}{{dicePool}}{{/with}}
+            </div>
+  
+          {{else}}
+            <div class="col-10"><p>{{findTranslation 'characterResistances' @key}}</p></div>
+            <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="resistance" data-rollkey="{{@key}}"
+              data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
+              data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
+              data-helpDetails="data.resistances.{{@key}}"
+            >
+              {{dicePool}}
+            </div>
+          {{/if}}
+        </li>
+      {{/each}}
+    </ul>
+  </div>

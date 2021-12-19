@@ -1,0 +1,10 @@
+<a class="item" data-tab="tab-matrice" 
+    data-helpTitle="{{localize 'SR5.HELP_MenuMatrixTab'}}" 
+    data-helpMessage="
+    {{#if (eq actor.type 'actorDrone')}}
+    {{localize 'SR5.HELP_TabMatrixDroneMsg'}}
+    {{else}}
+        {{localize 'SR5.HELP_TabMatrixMsg'}}
+    {{/if}}">
+        {{> systems/sr5/img/icons/nav-matrix.svg.hbs}}
+</a>

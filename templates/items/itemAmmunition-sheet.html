@@ -1,0 +1,58 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <div class="SR-mainContainer">
+  
+        <!-- HEADER -->
+        {{> systems/sr5/templates/items/_partial/header/header-noEffect.html}}
+  
+        <!-- WINDOW BODY -->
+        <div class="SR-MainWindows">
+            <section class="sr-tabs">
+           
+                <!-- SUMMARY TAB-->
+                <div class="tab grid" data-group="primary" data-tab="tab-info">
+                    <!-- SUMMARY -->
+                    <div class="col-5 SR-ItemColGauche">
+                        <ul>
+                            <!-- Summary title -->
+                            {{> systems/sr5/templates/items/_partial/title/summary.html}}
+                            <!-- Ammunition type, weapon class and case type -->
+                            {{> systems/sr5/templates/items/_partial/summary/ammunition-summary.html}}
+                            <!-- Quantity -->
+                            {{> systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html}}
+                        </ul>
+                    </div>
+    
+                    <!-- DESCRIPTION & GAME EFFECT -->
+                    <div class="col-7 SR-ItemColDroite">
+                        {{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+                    </div>
+                </div>
+
+                <!-- EDITABLE TAB -->
+                <div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+                    <!-- General Stat -->
+                    <ul>
+                        <!-- General information title -->
+                        {{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+                        <!-- Ammunition type -->
+                        {{> systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html}}
+                        <!-- Ammunition class -->
+                        {{> systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html}}
+                        <!-- Ammunition case type -->
+                        {{> systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html}}
+                    </ul>
+
+                    <!-- Price & Availability -->
+                    <ul class="SR-PaddingTop10">
+                        {{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+                    </ul>
+                </div>
+
+            </section>
+        </div>
+  
+        <!-- FOOTER -->
+        {{> systems/sr5/templates/items/_partial/footer/footer.html}}
+  
+    </div>
+</form>

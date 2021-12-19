@@ -1,0 +1,24 @@
+    <li class="grid">
+        <p>
+            <span class="col-auto">{{localize 'SR5.Nationality'}}{{localize 'SR5.Colons'}}</span>
+            <span class="col-auto SR-CoulGris">{{valueOrDash data.nationality}}</span>
+        </p>
+    </li>
+    <li class="grid">
+        <p>
+            <span class="col-auto">{{localize 'SR5.FamilialStatus'}}{{localize 'SR5.Colons'}}</span>
+            <span class="col-auto SR-CoulGris">{{valueOrDash data.familySituation}}</span>
+        </p>
+    </li>
+</ul>
+<ul class="SR-PaddingTop10">
+    <li class="SR-EnTete grid">
+        <div class="col-10 SR-TextUppercase">{{localize 'SR5.Licenses'}}</div>
+        <div class="col-2 TextCenter">{{localize 'SR5.Rating'}}</div>
+    </li>
+    {{#each data.license}}
+    <li class="grid" data-sr5-permis="{{@key}}">
+        <div class="col-10 ">{{name}}</div>
+        <div class="col-2 SR-TextCenter">{{rating}}</div>
+    </li>
+    {{/each}}

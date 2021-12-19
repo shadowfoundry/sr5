@@ -1,0 +1,13 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.ActionType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.actionType" data-dtype="{{data.actionType}}" required>
+        {{#select data.actionType}}
+            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each lists.actionTypes}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</li>

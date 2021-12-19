@@ -1,0 +1,16 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.WeaponRange'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-PaddingRight10">
+        <select class="range" name="targetRange">
+        {{#select targetRange}}
+            <option value="0">{{localize 'SR5.WeaponRangeShort'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.short.value}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="1">{{localize 'SR5.WeaponRangeMedium'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.medium.value}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="3">{{localize 'SR5.WeaponRangeLong'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.long.value}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="6">{{localize 'SR5.WeaponRangeExtreme'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.extreme.value}} {{localize 'SR5.MeterUnit'}})</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModRange" value="{{targetRange}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

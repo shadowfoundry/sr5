@@ -1,0 +1,619 @@
+.app.window-app.actor {
+    .window-header {
+        background : @neutralDarkColor;
+        color      : @neutralLightColor;
+        font-family: @SR_BodyText;
+    }
+
+    .window-content {
+        padding            : 0px;
+        background-image   : url(@ActorSheetTop), url(@ActorSheetBottom), url(@BGWhite50);
+        background-position: top -2px left, bottom -14px left 0%, top left;
+        background-size    : auto, auto, cover;
+        background-repeat  : no-repeat, no-repeat, no-repeat;
+        font-family        : @SR_BodyText;
+        font-size          : @SR_FontSizeSmall ;
+        background-color   : fade(@neutralLightColor, 100%);
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        p {
+            margin: 0;
+
+            &.SR-MarginLeft10 {
+                margin-left: 10px;
+            }
+        }
+
+        h2 {
+            font-family  : @SR_BodyTextBold;
+            font-size    : @SR_FontSizeNormal;
+            border-bottom: 0;
+            color        : @mainColor;
+            margin       : 0;
+        }
+
+        .skill-roll {
+          cursor: pointer;
+        }
+
+        .SR-ActiveInit {
+          background: fade(@subColor, 25%);
+        }
+
+        .SRBlockSheet:not(:first-child) {
+            padding-top: 10px;
+        }
+
+        .matrixAttributeBox {
+            height: 15px;
+            line-height: 13px;
+            background-color: fade(@mainColor, 5%);
+            border: 1px solid fade(@mainColor, 75%);
+            border-radius: 3px;
+            margin: 1px 1px 0px 1px;
+
+            &.valueBox {
+                background-color: fade(@subColor, 5%);
+                border: 1px solid @subColor;
+            }
+        }
+
+        .SR-LigneEnTete {
+            padding: 0 3px 0 3px;
+            font-size: @SR_FontSizeNormal;
+            //border-bottom: solid 1px @mainColor;
+            color: @neutralLightColor;
+            //box-shadow: inset 0px -2px 0px 0px @mainColor;
+            background-image: linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor), url(@Sidebar);
+            background-size: cover;
+            border-bottom: 1px solid @subColor;
+            border-top: 1px solid @subColor;
+            font-family: @SR_BodyTextBold;
+
+            a {
+                color: @neutralLightColor;
+
+                &:hover {
+                    color: @subColor;
+                }
+            }
+
+            .depliable {
+
+                &:hover::before {
+                    color: @subColor;
+                    padding-right: 3px;
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    content: "\f103 ";
+
+                }
+
+                &::before {
+                    color: @neutralLightColor;
+                    padding-right: 3px;
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    content: "\f103 ";
+                }
+            }
+
+            &.vert{
+                background-image:
+                linear-gradient(45deg, fade(@subColor, 50%), 80%, @subColor),
+                url(@Sidebar);
+            }
+        }
+
+        .SR-EnTete {
+            padding      : 0 3px 0 3px;
+            font-size    : @SR_FontSizeNormal;
+            color        : @mainColor;
+            border-bottom: 1px solid @mainColor;
+            font-family  : @SR_BodyTextBold;
+
+            a {
+                color: fade(@mainColor, 50%);
+
+                &:hover {
+                    color: @mainColor;
+                }
+            }
+        }
+
+        .SR-LigneEnTeteVert {
+            font-family: @SR_BodyTextBold;
+            font-size: @SR_FontSizeNormal;
+            border-bottom: solid 1px @subColor;
+            color: @subColor;
+        }
+
+        li:not(.SR-LigneEnTete) {
+            line-height: 17px;
+            padding: 0 3px 0 3px;
+
+            .roll-logo {
+                color: @mainColor;
+                cursor: pointer;
+
+                &::after {
+                    position    : absolute;
+                    left        : 50%;
+                    color       : fade(@mainColor, 25%);
+                    padding-left: 7px;
+                    font-family : "Font Awesome 5 Free";
+                    font-weight : 900;
+                    content     : "\f6d1 ";
+                }
+
+                &:hover:after {
+                    color: @mainColor;
+                }
+            }
+
+            a {
+                color: fade(@mainColor, 25%);
+
+                &:hover {
+                    color: @mainColor;
+                }
+
+                &.toggle-value,
+                &.reload-ammo {
+                    color: fade(@subColor, 25%);
+
+                    &:hover {
+                        color: fade(@subColor, 50%);
+                    }
+                }
+            }
+
+            .item-summary {
+                padding-bottom: 3px;
+                margin-bottom : 5px;
+                color         : @subColor;
+                border-bottom : 1px solid fade(@subColor, 50%);
+
+                .item-properties {
+                    padding-top: 3px;
+                }
+
+                .tag {
+                    background-image: linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor), url(@Sidebar);
+                    color: @neutralLightColor;
+                    display: inline-block;
+                    margin: 0 2px 2px 0;
+                    padding: 0 3px;
+                    border: 1px solid @neutralDarkColor;;
+                    border-radius: 3px;
+                }
+            }
+        }
+
+        select {
+            border-bottom: 1px solid fade(@subColor, 25%);
+            border-radius: 0px;
+
+            &:focus {
+                box-shadow   : none;
+                border-bottom: 1px solid @subColor;
+            }
+
+            &:invalid {
+                color: fade(@subColor, 50%);
+            }
+
+            option:nth-child(1) {
+                color: fade(@subColor, 50%);
+            }
+
+            option:nth-child(1n+2) {
+                color: fade(@neutralDarkColor, 70%);
+            }
+        }
+
+        #SR-Attributs>* select {
+            color        : @neutralDarkColor;
+            border-bottom: none;
+
+            &:invalid,
+            option:nth-child(1),
+            option:nth-child(1n+2) {
+                color: @neutralDarkColor;
+            }
+        }
+
+        .SR-Header {
+            padding-top: 5px;
+            margin-bottom: 12px;
+            display: flex;
+
+            input {
+                color        : @neutralLightColor;
+                background   : none;
+                border       : 0;
+                border-radius: 0;
+                font-family  : @SR_FontTitle;
+                font-size    : 20px;
+                text-align   : left;
+                padding      : 10px 5px 0px 2px;
+                margin       : 0;
+                flex         : 1;
+
+
+                &:focus {
+                    box-shadow   : none;
+                    border-bottom: 1px solid fade(@subColor, 50%);
+                }
+            }
+
+            .SRinputInBox {
+                padding      : 0px 0px 0px 0px;
+                text-align   : center;
+            }
+
+            .SRTextInBox {
+                text-transform  : uppercase;
+                text-align      : center;
+                color           : @neutralLightColor;
+                padding-top     : 2px;
+            }
+
+            .SRImgPortrait {
+                width       : 33px;
+                height      : 33px;
+                margin-right: 5px;
+                border: 1px solid @subColor;
+                border-radius: 3px;
+                max-width: none;
+            }
+
+            .SR-EspritType {
+                font-family     : @SR_FontTitle;
+                font-size       : 20px;
+                background-image: linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor), url(@Sidebar);
+                border          : 2px solid @neutralDarkColor;
+                outline         : solid @mainColor 1px;
+                height          : 30px;
+                width           : auto;
+                padding-left    : 3px;
+                padding-right   : 5px;
+                padding-top     : 0px;
+                margin-top      : 1px;
+
+                select {
+                    font-family : @SR_FontTitle;
+                    font-size   : 16px;
+                    color       : @neutralLightColor;
+                    margin-top  : -2px;
+
+                    &:focus {
+                        border-bottom: none;
+                    }
+                }
+            }
+
+            .SR-AppareilType {
+                font-family     : @SR_FontTitle;
+                font-size       : 12px;
+                background-color: @subColor;
+                border          : 2px solid @neutralDarkColor;
+                outline         : solid olor 1px;
+                height          : 30px;
+                width           : auto;
+                padding-left    : 3px;
+                padding-right   : 5px;
+                padding-top     : 6px;
+
+                select {
+                    width     : 140px;
+                    margin-top: -2px;
+                }
+            }
+
+            .SR-HeaderNav {
+                display: flex;
+                margin-left: auto;
+            }
+
+            .SR-Materialize {
+                margin-left: 5px;
+
+                input[type="checkbox"] {
+                    display:none;
+                }
+
+                input + label {
+                    cursor: pointer;	
+                }
+            }
+        }
+
+
+
+        .SR-MainWindows {
+            input {
+                background    : none;
+                color         : fade(@neutralDarkColor, 70%);
+                height        : auto;
+                border        : 0;
+                border-bottom : 1px solid fade(@subColor, 25%);
+                border-radius : 0;
+                padding       : 0;
+
+                &::placeholder {
+                    color: fade(@subColor, 50%);
+                }
+
+                &:focus {
+                    box-shadow   : none;
+                    border-bottom: 1px solid @subColor;
+                }
+
+
+                &.specialisation {
+                    padding-left: 8px;
+                }
+            }
+        }
+
+        .SR-ActorMainCentre {
+            margin-left : 10px;
+            padding-left: 10px;
+            height      : 480px;
+            overflow    : auto;
+            border-left : 1px solid @mainColor;
+
+            li:hover:not(.SR-LigneEnTete) {
+                background-color: fade(@subColor, 10%);
+            }
+        }
+
+        .SR-AppareilMainCentre {
+            margin-left : 10px;
+            padding-left: 10px;
+            height      : 310px;
+            overflow    : auto;
+            border-left : 1px solid @mainColor;
+        }
+
+        .SR-EspritMainCentre {
+            margin-left : 10px;
+            padding-left: 10px;
+            height      : 450px;
+            overflow    : auto;
+            border-left : 1px solid @mainColor;
+
+            li:hover:not(.SR-LigneEnTete) {
+                background-color: fade(@subColor, 10%);
+            }
+        }
+
+        .SR-DroneMainCentre {
+            margin-left : 10px;
+            padding-left: 10px;
+            height      : 480px;
+            overflow    : auto;
+            border-left : 1px solid @mainColor;
+
+            li:hover:not(.SR-LigneEnTete) {
+                background-color: fade(@subColor, 10%);
+            }
+        }
+
+        .SR-ActorColGauche {
+            height: 480px;
+            overflow    : auto;
+        }
+
+        .SR-AppareilColGauche {
+            height: 310px;
+            padding-left: 5px;
+            overflow    : auto;
+        }
+
+        .SR-EspritColGauche {
+            height: 450px;
+            overflow    : auto;
+        }
+
+        .SR-DroneColGauche {
+            height: 480px;
+            overflow    : auto;
+        }
+
+        .SR-BioTitre {
+            font-family: @SR_BodyTextBold;
+            color      : @mainColor;
+        }
+
+        .SR-BioLigne {
+            display      : flex;
+            align-content: stretch;
+        }
+
+        .SR-BioInput {
+            flex-grow: 4;
+            padding-left: 5px;
+        }
+
+        .SR-BioPortrait {
+            float       : right;
+            width       : 288px;
+            height      : 288px;
+            border: 1px solid;
+            border-color: @mainColor;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center 10%;
+        }
+
+        .SR-footer {
+            margin-top : 25px;
+            padding: 0px 3px 0px 3px;
+            display: flex ;
+
+            input {
+                background    : none;
+                color         : @neutralLightColor;
+                text-align    : left;
+                font-family   : @SR_BodyTextBold;
+                height        : auto;
+                border        : 0;
+                border-bottom : 1px solid @subColor;
+                padding-top   : 0;
+                padding-bottom: 0;
+            }
+
+            input[type="checkbox"] {
+                height: 14px;
+                margin: 1px -5px 0px 0px;
+            }
+
+            select {
+                background    : none;
+                color         : @neutralLightColor;
+                margin-left   : 0px;
+            }
+
+            .SRMetatype {
+                width: 100px;
+            }
+
+            .SR-TextCenter {
+                text-align: center;
+            }
+
+            input:focus {
+                box-shadow: none;
+                border: none;
+            }
+
+            .droneModel {
+                width         : 250px;
+            }
+
+            .boxes {
+                flex: 0;
+            }
+
+            .SR-footer-lastPart{
+                display: flex;
+                flex-wrap: nowrap;
+                margin-left: auto;
+            }
+
+            .flexrow {
+                flex-wrap: nowrap;
+            }
+        }
+
+        .SR-MoniteurBar {
+            display       : flex;
+            flex-direction: row;
+        }
+
+        .SR-MoniteurCases {
+            padding-left  : 5px;
+
+            .SR-Case {
+                height: 15px;
+                width : 10px;
+                margin: 0px 2px 0px 2px;
+                //display        : flex;
+                justify-content: center;
+                border-radius  : 1px;
+            }
+
+        }
+
+        .SR-ChanceCases {
+            display        : flex;
+            flex-direction : row;
+            justify-content: flex-end;
+            padding-left   : 5px;
+        }
+
+        .SR-CaseChance {
+                height: 16px;
+                width : 16px;
+                margin: 0px 0px 0px 5px;
+                display        : flex;
+                justify-content: center;
+                line-height    : 13px;
+                border-radius  : 1px;
+
+                .SR-ChanceText {
+                    color      : @neutralLightColor;
+                    font-family: @SR_BodyTextBold;
+                }
+            }
+
+        .SR-CaseNeutralDarkColor {
+            background: @neutralDarkColor;
+            //border: 1px solid rgba(151,183,159, 0.5);
+        }
+
+        .SR-CaseMainColor {
+            background: @mainColor;
+            border    : 1px solid @mainColor;
+        }
+
+        .SR-CaseSubColor {
+            background: @subColor;
+            border    : 1px solid fade(@subColor, 50%);
+        }
+
+        .SR-CasePopColor {
+          background: @popColor;
+          border: 1px solid fade(@popColor, 50%);
+        }
+
+        .SR-Editor {
+            position  : relative;
+            height    : auto;
+            min-height: 100%;
+
+            .editor {
+                height  : auto;
+                position: unset;
+                height  : 100%;
+            }
+
+            .editor-edit {
+                display      : unset;
+                background   : none;
+                font-size    : inherit;
+                border       : 0;
+                border-radius: 0;
+                box-shadow   : none;
+                padding      : 0;
+                top          : -17px;
+                right        : 5px;
+                color: @neutralLightColor;
+
+                &:hover{
+                    color: @subColor;
+                }
+            }
+
+            .tox.tox-tinymce {
+                height: 100% !important;
+            }
+
+            .tox-sidebar-wrap {
+                min-height: 200px;
+            }
+        }
+
+
+    }
+}
+
+
+/* ----------------------------------------- */
+/* Images
+/* ----------------------------------------- */

@@ -1,0 +1,37 @@
+<!-- DEVICE ATTRIBUTES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="item grid SR-LigneEnTete SR-TextUppercase">
+			<div class="col-12">{{localize 'SR5.MatrixAttributes'}}</div>
+		</li>
+
+		<!-- Attributes collection -->
+		{{#if (or (eq data.matrix.deviceType "cyberdeck") 
+		(and (eq actor.type "actorDevice") (eq data.matrix.deviceType "host"))
+		)}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/collection.html}}
+		{{/if}}
+
+		<!-- Noise Reduction & Sharing -->
+		{{#if (eq data.matrix.deviceType "riggerCommandConsole")}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/noiseReduction.html}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sharing.html}}
+		{{/if}}
+
+		<!-- Attack / Sleaze -->
+		{{#if (or (eq data.matrix.deviceType "cyberdeck") 
+		(eq data.matrix.deviceType "livingPersona") 
+		(eq data.matrix.deviceType "headcase") 
+		(eq actor.type "actorSprite") 
+		(and (eq actor.type "actorDevice") (eq data.matrix.deviceType "host"))
+		(and (eq actor.type "actorDevice") (eq data.matrix.deviceType "ice"))
+		)}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/attack.html}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sleaze.html}}
+		{{/if}}
+
+		<!-- Data processing / Firewall -->
+		{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/dataProcessing.html}}
+		{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/firewall.html}}
+	</ul>
+</div>

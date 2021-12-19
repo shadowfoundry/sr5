@@ -1,0 +1,56 @@
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete">
+        <div class="col-5 SR-TextUppercase">{{localize 'SR5.Autosofts'}}</div>
+        <div class="col-5 SR-TextCenter">{{localize 'SR5.Model'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>
+    </li>
+    {{#each data.autosoft as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-5">{{a.name}}</div>
+        <div class="col-5 SR-TextCenter">{{valueOrDash a.data.model}}</div>
+        <div class="col-2 SR-TextCenter">{{a.data.itemRating}}</div>
+    </li>
+    {{/each}}
+</ul>
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete SR-PaddingTop10">
+        <div class="col-5 SR-TextUppercase">{{localize 'SR5.Armor'}}</div>
+        <div class="col-5 SR-TextCenter"></div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>
+    </li>
+    {{#each data.armors as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-5">{{a.name}}</div>
+        <div class="col-5 SR-TextCenter"></div>
+        <div class="col-2 SR-TextCenter">{{a.data.armorValue.value}}</div>
+    </li>
+    {{/each}}
+</ul>
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete SR-PaddingTop10">
+        <div class="col-5 SR-TextUppercase">{{localize 'SR5.Weapons'}}</div>
+        <div class="col-5 SR-TextCenter">{{localize 'SR5.Type'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.Ammunition'}}</div>
+    </li>
+    {{#each data.weapons as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-5">{{a.name}}</div>
+        <div class="col-5 SR-TextCenter">{{findTranslation 'allWeaponsTypes' a.data.type}}</div>
+        <div class="col-2 SR-TextCenter">{{a.data.ammunition.value}}/{{a.data.ammunition.max}}</div>
+    </li>
+    {{/each}}
+</ul>
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete SR-PaddingTop10">
+        <div class="col-5 SR-TextUppercase">{{localize 'SR5.Ammunition'}}</div>
+        <div class="col-5 SR-TextCenter">{{localize 'SR5.Type'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.Quantity'}}</div>
+    </li>
+    {{#each data.ammunitions as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-5">{{a.name}}</div>
+        <div class="col-5 SR-TextCenter">{{findTranslation 'allAmmunitionTypes' a.data.type}}</div>
+        <div class="col-2 SR-TextCenter">{{a.data.quantity}}</div>
+    </li>
+    {{/each}}
+</ul>

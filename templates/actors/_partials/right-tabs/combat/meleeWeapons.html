@@ -1,0 +1,118 @@
+<!-- MELEE WEAPONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-4 SR-TextUppercase">{{localize 'SR5.MeleeWeapons'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.DamageValueShort'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.ArmorPenetrationShort'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.AccuracyShort'}}</div>
+			<div class="col-1"></div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"></div>
+					<div class="col-6 SR-TextCenter"><em class="fas fa-sm fa-thumbtack"></em></div>
+				</div>
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter">
+						<em class="fas fa-sm fa-wifi"></em>
+					</div>
+				<div class="col-6">
+					{{#if owner}}
+					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'weaponCategories' 'meleeWeapon')}}" 
+					  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemWeapon" data-weaponCategory="meleeWeapon">
+							<em class="fas fa-plus"></em>
+						</a>
+					</p>
+					{{/if}}
+				</div>
+			</div>
+		</li>
+		{{#each actor.weapons as |item i|}}
+		{{#ife data.category "meleeWeapon"}}
+		<li class="item grid" data-item-id="{{item._id}}" draggable="true">
+			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				<p>
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.weaponSkill.specialization"
+					  data-helpTitle="{{localize 'SR5.Specialization'}}"
+				      data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
+						{{#if data.weaponSkill.specialization}}
+						<i class="fab fa-sm fa-gripfire SR-CoulVert" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></i>
+						{{else}}
+						<i class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></i>
+						{{/if}}
+					</a>
+					{{item.name}}
+				</p>
+			</div>
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="weapon"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
+			  data-helpDetailsItem="data.weaponSkill"
+			  data-helpItemId="{{_id}}"
+			>
+				{{data.weaponSkill.dicePool}}
+			</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.DamageValue'}}"
+			  data-helpDetailsItem="data.damageValue"
+			  data-helpItemId="{{_id}}"
+			>
+				{{valueOrDash data.damageValue.value}}{{#if data.damageType}}{{findTranslation "damageTypesShort" data.damageType}}{{/if}}
+				{{#if data.damageElement}}({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}
+			</div>
+			<div class="col-1 SR-TextCenter"
+			data-helpTitle="{{localize 'SR5.ArmorPenetration'}}"
+			data-helpDetailsItem="data.armorPenetration"
+			data-helpItemId="{{_id}}"
+			>
+				{{valueOrDash data.armorPenetration.value}}
+			</div>
+			<div class="col-1 SR-TextCenter"
+			data-helpTitle="{{localize 'SR5.Accuracy'}}"
+			data-helpDetailsItem="data.accuracy"
+			data-helpItemId="{{_id}}"
+			>
+				{{valueOrDash data.accuracy.value}}
+			</div>
+			<div class="col-1 SR-TextCenter"></div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"></div>
+					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+						  data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+							<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-CoulVert{{/if}}"></em>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter"
+					  data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}"
+					>
+						{{#if data.wirelessTurnedOn}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-CoulVert"></em></a>
+						{{else}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
+						{{/if}}
+					</div>
+					<div class="col-6 SR-TextRight">
+						{{#if ../owner}}
+						<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+							<em class="fas fa-sm fa-edit item-management"></em>
+						</a>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+		</li>
+		{{/ife}}
+		{{/each}}
+	</ul>
+</div>

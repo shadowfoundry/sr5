@@ -1,0 +1,31 @@
+<hr>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.FinalDrain'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{drainValue}}</div>
+</li>
+<!--Force-->
+<li class="grid SR-PaddingTop5 SR-CoulGris">
+    <div class="col-10">{{localize 'SR5.Force'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{force}}</div>
+</li>
+<!--Drain Modifier-->
+<li class="grid SR-CoulGris">
+    <div class="col-10">{{localize 'SR5.DrainModifier'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{drainMod.spell}}</div>
+</li>
+<!--Reckless Spellcasting Modifier-->
+{{#if (isdefined drainMod.recklessSpellcasting)}}
+<li class="grid SR-CoulGris">
+    <div class="col-10">{{localize 'SR5.RecklessSpellcasting'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{drainMod.recklessSpellcasting}}</div>
+</li>
+{{/if}}
+<!--Trigger Modifier-->
+{{#if (isdefined drainMod.trigger)}}
+<li class="grid SR-CoulGris">
+    <div class="col-10">{{localize 'SR5.PreparationTrigger'}} ({{findTranslation 'preparationTriggerTypes' preparationTrigger}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{drainMod.trigger}}</div>
+</li>
+{{/if}}
+
+

@@ -1,0 +1,23 @@
+<nav class="tabs2" data-group="gauche">
+    {{> systems/sr5/templates/actors/_partials/header/navParts/coreInfos.html}}
+</nav>
+
+<div class="SR-MarginRight10 SR-MarginLeft10 SR-EspritType">
+    <p class="SRTextInBox">{{findTranslation 'spriteTypes' data.type}}</p>
+</div>
+
+<div class="SRemptyBox">
+    <input class="SRinputInBox" type="text" data-dtype="Number" name="data.level" value="{{data.level}}">
+</div>
+
+<div class="SR-Materialize"
+  data-helpTitle="{{localize 'SR5.HELP_RegisterButton'}}" 
+  data-helpMessage="{{localize 'SR5.HELP_RegisterButtonMsg'}}"
+>
+    <input id="registerIcon" type="checkbox" name="data.isRegistered" data-dtype="Boolean" {{checked data.isRegistered}}>
+    {{#if data.isRegistered}}
+    <label for="registerIcon" class="active">{{> systems/sr5/img/icons/nav-link.svg.hbs}}</label>
+    {{else}}
+    <label for="registerIcon">{{> systems/sr5/img/icons/nav-link.svg.hbs}}</label>
+    {{/if}}
+</div>

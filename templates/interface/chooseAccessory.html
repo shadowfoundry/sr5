@@ -1,0 +1,13 @@
+<form>
+  <div class="form-group">
+    <div>{{localize 'SR5.ChooseAccessory'}}</div>
+    <select name="accessory" data-dtype="String">
+      {{#select accessory}}
+        <option value="">{{localize 'SR5.None'}}</option>
+        {{#each accessoriesList}}
+        <option value="{{@key}}">{{this}}</option>
+        {{/each}}
+      {{/select}}
+    </select>
+  </div>
+</form>

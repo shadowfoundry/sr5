@@ -1,0 +1,27 @@
+<li class="message flexcol {{message.flags.css}} {{cssClass}}" data-message-id="{{message._id}}" style="border-color:{{message.flags.borderColor}}">
+  <header class="SR-MessageHeader flexrow">
+    {{#if message.flags.img}}
+      <img class="SRAuthorIcon" src="{{message.flags.img}}" title="{{message.speaker.alias}}" />
+    {{else}}
+      <img class="SRAuthorIcon" src="systems/sr5/img/ui/SR6_Logo.svg" title="{{message.speaker.alias}}" />
+    {{/if}}
+    <h4 class="message-sender">{{alias}}</h4>
+    <span class="message-metadata SR-MessageMetadata">
+      <time class="message-timestamp">{{timeSince message.timestamp}}</time>
+      {{#if user.isGM}}
+        <a class="message-delete"><i class="fas fa-trash" data-title="{{localize 'SR5.Delete'}}"></i></a>
+      {{/if}}
+    </span>
+
+    {{#if isWhisper}}
+      <span class="whisper-to">{{localize 'CHAT.To'}}{{localize 'SR5.Colons'}} {{whisperTo}}</span>
+    {{/if}}
+
+    {{#if message.flavor}}
+      <span class="flavor-text">{{{message.flavor}}}</span>
+    {{/if}}
+  </header>
+  <div class="message-content">
+    {{{message.content}}}
+  </div>
+</li>

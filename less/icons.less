@@ -1,0 +1,88 @@
+.SR5iconActor {
+  height: 32px;
+  width: 32px;
+  padding: 0 0 0 1px;
+  display: inline-block;
+  stroke: fade(@iconStorkeColor, 40%);
+  fill: fade(@iconColor, 80%);
+  transition: all 0.2s ease-out;
+  &:hover {
+    fill: @iconColor;
+    stroke: @iconStorkeColor;
+    transition: all 0.2s ease-out;
+  }
+  #icon-symbol {
+    fill: @neutralLightColor;
+  }
+  #icon-border {
+    fill: none;
+  }
+  #icon-symbol {
+    transform: scale(0.8) translate(12.5%, 12.5%);
+  }
+}
+
+.SR5iconAttribut #icon-symbol {
+    transform: scale(0.95) translate(3.12%, 3.12%);
+}
+.SR5iconMagie #icon-symbol {
+    transform: scale(0.95) translate(3.12%, 3.12%);
+}
+.SR5iconTrait #icon-symbol {
+    transform: scale(0.90) translate(6.25%, 6.25%);
+}
+.SR5iconCompetence #icon-symbol {
+    transform: scale(1);
+}
+.SR5iconEquipement #icon-symbol {
+    transform: scale(1);
+}
+.SR5iconAugmentation #icon-symbol {
+    transform: scale(0.85) translate(9.3%, 9.3%);
+}
+.SR5iconAMagie #icon-symbol {
+    transform: scale(0.95) translate(3.12%, 3.12%);
+}
+.SR5iconAMatrice #icon-symbol {
+    transform: scale(0.85) translate(9.3%, 9.3%);
+}
+.SR5iconContact #icon-symbol {
+    transform: scale(0.95) translate(3.12%, 3.12%);
+}
+.SR5iconBio #icon-symbol {
+    transform: scale(0.95) translate(3.12%, 3.12%);
+}
+.SR5iconMod #icon-symbol {
+    transform: scale(0.85) translate(9.3%, 9.3%);
+}
+
+.tabs .SR5iconActor {
+  padding: 0 0 0 4px;
+}
+
+.active {
+  .SR5iconActor {
+    stroke: @iconActiveColor;
+    fill: @iconActiveColor;
+    #icon-symbol {
+      fill: @neutralLightColor;
+    }
+    #icon-border {
+      fill: none;
+    }
+  }
+}
+
+.SRemptyBox {
+  background-color  : @subColor;
+  border            : 2px solid @neutralDarkColor;
+  outline           : solid @subColor 1px;
+  height            : 30px;
+  width             : 32px;
+  padding           : 0 0 0 1px;
+  display           : inline-block;
+  stroke            : fade(@mainColor, 80%);
+  fill              : fade(@mainColor, 80%);
+  transition        : all 0.2s ease-out;
+  margin-top        : 1px;
+}

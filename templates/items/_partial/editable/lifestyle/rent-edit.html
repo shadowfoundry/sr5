@@ -1,0 +1,13 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.PrepaidMonths'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1">
+        {{#if data.rent.bought}}
+            <p class="SR-PaddingLeft3">-</p>
+        {{else}}
+            <input type="number" data-dtype="Number" name="data.rent.duration" value="{{data.rent.duration}}" placeholder="0" />
+        {{/if}}
+    </div>
+    <div class="col-1"></div>
+    <div class="col-3 SR-TextRight">{{localize 'SR5.LifeStyleBought'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight"><input type="checkbox" name="data.rent.bought" data-dtype="Boolean" {{checked data.rent.bought}} /></div>
+</li>

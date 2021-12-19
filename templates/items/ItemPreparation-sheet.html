@@ -1,0 +1,73 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB -->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<!-- SUMMARY -->
+					<div class="col-5 SR-ItemColGauche">
+						<ul>
+							<!-- Summary title -->
+							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							<!-- Spell -->
+							{{> systems/sr5/templates/items/_partial/summary/preparation-summary.html}}
+						</ul>
+					</div>
+
+					<!-- DESCRIPTION & GAME EFFECT -->
+					<div class="col-7 SR-ItemColDroite">
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- EDITABLE TAB  -->
+				<div class="tab SR-ItemConfig SR_ItemScrollY" data-group="primary" data-tab="tab-stat">
+					<!-- General Stat -->
+					<div>
+						<ul>
+							<!-- General information title -->
+							{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+							<!-- Lynchpin -->
+							{{> systems/sr5/templates/items/_partial/editable/preparation/lynchpin-edit.html}}
+							<!-- Trigger -->
+							{{> systems/sr5/templates/items/_partial/editable/preparation/trigger-edit.html}}
+							<!-- Potency -->
+							{{> systems/sr5/templates/items/_partial/editable/preparation/potency-edit.html}}
+							<!-- Force -->
+							{{> systems/sr5/templates/items/_partial/editable/preparation/force-edit.html}}
+						</ul>
+					</div>
+					<div class="SR-PaddingTop10">
+						<ul>
+							{{> systems/sr5/templates/items/_partial/title/spellInformation.html}}
+							<!-- Category -->
+							{{> systems/sr5/templates/items/_partial/editable/spell/category-edit.html}}
+							<!-- Duration -->
+							{{> systems/sr5/templates/items/_partial/editable/_common/magicDuration-edit.html}}
+							<!-- Range -->
+							{{> systems/sr5/templates/items/_partial/editable/_common/magicRange-edit.html}}
+							<!-- Type -->
+							{{> systems/sr5/templates/items/_partial/editable/_common/magicType-edit.html}}
+						</ul>
+					</div>
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+	</div>
+</form>

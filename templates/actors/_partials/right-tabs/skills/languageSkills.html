@@ -1,0 +1,73 @@
+<!-- LANGUAGES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-6" data-category="skills">
+				<p class=" SR-TextUppercase ">{{localize 'SR5.LanguagesSkills'}}</p>
+			</div>
+			<div class="col-3">
+				<p class="SR-TextCenter">{{localize 'SR5.Native'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p>
+			</div>
+			<div class="col-1">
+				<p class="SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</p>
+			</div>
+			<div class="col-1 SR-TextRight">
+				{{#if owner}}
+				<p data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemLanguage')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemLanguage">
+						<em class="fas fa-plus"></em>
+					</a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.languages}}
+		<li class="item grid" data-item-id="{{_id}}">
+			<div class="col-6 SR-PaddingRight3 {{#if (missing (or data.base data.isNative))}}incomplete{{/if}}" data-category="skills"
+			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsNameMsg'}}">
+				<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value"
+					name="" value="{{name}}" onfocus="this.select()">
+			</div>
+			<div class="col-3 SR-TextCenter SR-PaddingRight5"
+			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsNativeMsg'}}">
+				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isNative">
+					<em class="{{#if data.isNative}}fas fa-check-square SR-CoulVert{{else}}far fa-square{{/if}}"></em>
+				</a>
+			</div>
+			{{#if data.isNative}}
+			<div class="col-1 SR-TextCenter SR-BorderBottomTransparent">{{localize 'SR5.NativeLanguageShort'}}</div>
+			<div class="col-1 SR-TextCenter">&infin;</div>
+			{{else}}
+			<div class="col-1 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsRatingMsg'}}">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.base" type="text" class="edit-value" name="" value="{{data.base}}" onfocus="this.select()">
+			</div>
+			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsMsg'}}" 
+			  data-helpItemId="{{_id}}"
+			  data-helpDetailsItem="data">
+				{{#if data.base}}
+				<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="languageSkill">{{data.value}}</p>
+				{{else}}
+				<p class="SR-TextCenter">-</p>
+				{{/if}}
+			</div>
+			{{/if}}
+			<div class="col-1 SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>
