@@ -484,7 +484,7 @@
               "modifiers": []
             }
           },
-          "resonance": {
+          "special": {
             "actual": {
               "value": 0,
               "base": 0,
@@ -5551,6 +5551,8 @@
         ],
       "type": "",
       "target": "",
+      "duration": 1,
+      "durationType":"",
       "value": "",
       "ownerID":"",
       "ownerName":""

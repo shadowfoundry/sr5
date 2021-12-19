@@ -418,7 +418,6 @@ export class SR5Actor extends Actor {
 
         case "itemComplexForm":
           SR5_UtilityItem._handleComplexForm(iData);
-          //if (iData.isActive && !iData.freeSustain) SR5_EntityHelpers.updateModifier(actorData.data.penalties.resonance.actual,`${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, -2);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -567,77 +566,107 @@ export class SR5Actor extends Actor {
   }
 
   //Applique les dégâts à l'acteur
-  async takeDamage(options) {
+  async takeDamage(options) { //
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data);
 
     actorData = actorData.toObject(false);
 
-    if ((actorData.type === "actorPc") || (actorData.type === "actorSpirit")){
-      if (options.matrixDamageValue) {
-        damage = options.matrixDamageValue;
-        damageType = "stun";
-      }
-      if (damageType === "stun") {
-        actorData.data.conditionMonitors.stun.current += damage;
+    switch (actorData.type){
+      case "actorPc":
+      case "actorSpirit":
+        if (options.matrixDamageValue) {
+          damage = options.matrixDamageValue;
+          damageType = "stun";
+        }
+        if (damageType === "stun") actorData.data.conditionMonitors.stun.current += damage; 
+        else if (damageType === "physical") actorData.data.conditionMonitors.physical.current += damage;
         ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-      } else if (damageType === "physical") {
-        actorData.data.conditionMonitors.physical.current += damage;
-        ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-      }
-
-      if (actorData.data.conditionMonitors.stun.current > actorData.data.conditionMonitors.stun.value) {
-        let carriedDamage = actorData.data.conditionMonitors.stun.current - actorData.data.conditionMonitors.stun.value;
-        actorData.data.conditionMonitors.physical.current += carriedDamage;
-        actorData.data.conditionMonitors.stun.current = actorData.data.conditionMonitors.stun.value;
-        ui.notifications.info(`${this.name}: ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
-      }
-
-      if (actorData.data.conditionMonitors.physical.current > actorData.data.conditionMonitors.physical.value) {
-        let carriedDamage = actorData.data.conditionMonitors.physical.current - actorData.data.conditionMonitors.physical.value;
-        actorData.data.conditionMonitors.overflow.current += carriedDamage;
-        actorData.data.conditionMonitors.physical.current = actorData.data.conditionMonitors.physical.value;
-      }
-    }
-
-    if (actorData.type === "actorGrunt") {
-      actorData.data.conditionMonitors.condition.current += damage;
-      ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-    }
-
-    if (actorData.type === "actorDrone") {
-      if (damageType === "stun") {
-        ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`); 
-      } else if (damageType === "physical") {
+  
+        if (actorData.data.conditionMonitors.stun.current > actorData.data.conditionMonitors.stun.value) {
+          let carriedDamage = actorData.data.conditionMonitors.stun.current - actorData.data.conditionMonitors.stun.value;
+          actorData.data.conditionMonitors.physical.current += carriedDamage;
+          actorData.data.conditionMonitors.stun.current = actorData.data.conditionMonitors.stun.value;
+          ui.notifications.info(`${this.name}: ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
+        }
+  
+        if (actorData.data.conditionMonitors.physical.current > actorData.data.conditionMonitors.physical.value) {
+          let carriedDamage = actorData.data.conditionMonitors.physical.current - actorData.data.conditionMonitors.physical.value;
+          actorData.data.conditionMonitors.overflow.current += carriedDamage;
+          actorData.data.conditionMonitors.physical.current = actorData.data.conditionMonitors.physical.value;
+        }
+        break;
+      case "actorGrunt":
         actorData.data.conditionMonitors.condition.current += damage;
         ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-        if (actorData.data.controlMode === "rigging"){
-          let controler = SR5_EntityHelpers.getRealActorFromID(actorData.data.vehicleOwner.id)
-          let chatData = {
-            damageResistanceType : "biofeedback",
-            damageValue: Math.ceil(damage/2),
+        break;
+      case "actorDrone":
+        if (damageType === "physical") {
+          actorData.data.conditionMonitors.condition.current += damage;
+          ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
+          if (actorData.data.controlMode === "rigging"){
+            let controler = SR5_EntityHelpers.getRealActorFromID(actorData.data.vehicleOwner.id)
+            let chatData = {
+              damageResistanceType : "biofeedback",
+              damageValue: Math.ceil(damage/2),
+            }
+            controler.rollTest("resistanceCard", null, chatData);
           }
-          controler.rollTest("resistanceCard", null, chatData);
         }
+        if (options.damageElement === "electricity") options.matrixDamageValue = Math.floor(options.damageValue / 2);
+        if (options.matrixDamageValue) {
+          actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
+          ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+        }
+        break;
+      case "actorSprite":
+      case "actorDevice":
+        if (options.matrixDamageValue) {
+          actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
+          ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+        }
+        break;
+    }
+    
+    await this.update(actorData);
+
+    if (options.damageElement === "electricity" && actorData.type !== "actorDrone"){
+      await this.electricityDamageEffect();
+    }        
+  }
+
+  //Handle Elemental Damage : Electricity
+  async electricityDamageEffect(){
+    let electricityEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "electricityDamage");
+    if (electricityEffect){
+      let updatedEffect = electricityEffect.toObject(false);
+      updatedEffect.data.duration += 1;
+      await this.updateEmbeddedDocuments("Item", [updatedEffect]);
+      ui.notifications.info(`${this.name}: ${electricityEffect.name} ${game.i18n.localize("SR5.INFO_DurationExtendOneRound")}.`);
+    } else {
+      let effect = {
+        name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageElectricity")})`,
+        type: "itemEffect",
+        "data.type": "electricityDamage",
+        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+        "data.value": -1,
+        "data.durationType": "round",
+        "data.duration": 1,
+        "data.customEffects": {
+          "0": {
+              "category": "penaltyTypes",
+              "target": "data.penalties.special.actual",
+              "type": "value",
+              "value": -1,
+              "forceAdd": true,
+          }
+        }    
       }
-      if (options.matrixDamageValue) {
-        actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
-        ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
-      }
+      ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+      await SR5Combat.changeInitInCombat(this, -5);
+      await this.createEmbeddedDocuments("Item", [effect]);
     }
-
-    if (actorData.type === "actorDevice" && options.matrixDamageValue) {
-      actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
-      ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
-    }
-
-    if (actorData.type === "actorSprite" && options.matrixDamageValue) {
-      actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
-      ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
-    }
-
-    this.update(actorData);
   }
 
 

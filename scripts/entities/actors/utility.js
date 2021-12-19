@@ -465,7 +465,7 @@ export class SR5_CharacterUtility extends Actor {
             data.penalties[key].actual.base = 0;
             SR5_CharacterUtility.handleSustaining(actor, "itemSpell", key);
             break;
-          case "resonance":
+          case "special":
             data.penalties[key].actual.base = 0;
             break;
           default:
@@ -492,6 +492,7 @@ export class SR5_CharacterUtility extends Actor {
       case "condition":
       case "matrix":
       case "magic":
+      case "special":
         if (data.penalties[penalty].actual.value) {
           let type = `${game.i18n.localize(lists.penaltyTypes[penalty])}`;
           SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize('SR5.Penalty')}`, type, data.penalties[penalty].actual.value);
@@ -918,6 +919,7 @@ export class SR5_CharacterUtility extends Actor {
       this.applyPenalty("condition", derivedAttributes[key], actor);
       this.applyPenalty("matrix", derivedAttributes[key], actor);
       this.applyPenalty("magic", derivedAttributes[key], actor);
+      this.applyPenalty("special", derivedAttributes[key], actor);
       SR5_EntityHelpers.updateDicePool(derivedAttributes[key], 0);
     }
   }
@@ -961,6 +963,7 @@ export class SR5_CharacterUtility extends Actor {
       this.applyPenalty("condition", weightActions[key].test, actor);
       this.applyPenalty("matrix", weightActions[key].test, actor);
       this.applyPenalty("magic", weightActions[key].test, actor);
+      this.applyPenalty("special", weightActions[key].test, actor);
       SR5_EntityHelpers.updateDicePool(weightActions[key].test, 0);
     }
   }
@@ -1053,6 +1056,7 @@ export class SR5_CharacterUtility extends Actor {
       this.applyPenalty("condition", movements[key].test, actor);
       this.applyPenalty("matrix", movements[key].test, actor);
       this.applyPenalty("magic", movements[key].test, actor);
+      this.applyPenalty("special", movements[key].test, actor);
       SR5_EntityHelpers.updateDicePool(movements[key].test, 0);
     }
   }
@@ -1399,6 +1403,7 @@ export class SR5_CharacterUtility extends Actor {
       this.applyPenalty("condition", defenses[key], actor);
       this.applyPenalty("matrix", defenses[key], actor);
       this.applyPenalty("magic", defenses[key], actor);
+      this.applyPenalty("special", defenses[key], actor);
         SR5_EntityHelpers.updateDicePool(defenses[key], 0);
       }
     }
@@ -1794,6 +1799,7 @@ export class SR5_CharacterUtility extends Actor {
           this.applyPenalty("condition", skills[key].test, actor);
           this.applyPenalty("matrix", skills[key].test, actor);
           this.applyPenalty("magic", skills[key].test, actor);
+          this.applyPenalty("special", skills[key].test, actor);
           SR5_EntityHelpers.updateDicePool(skills[key].test, 0);
         }
       }
@@ -1889,6 +1895,7 @@ export class SR5_CharacterUtility extends Actor {
         this.applyPenalty("condition", data.skills[key].test, actor);
         this.applyPenalty("matrix", data.skills[key].test, actor);
         this.applyPenalty("magic", data.skills[key].test, actor);
+        this.applyPenalty("special", data.skills[key].test, actor);
         SR5_EntityHelpers.updateDicePool(data.skills[key].test, 0);
 
         // limit calculation
@@ -1952,6 +1959,7 @@ export class SR5_CharacterUtility extends Actor {
     this.applyPenalty("condition", knowledge, actor);
     this.applyPenalty("matrix", knowledge, actor);
     this.applyPenalty("magic", knowledge, actor);
+    this.applyPenalty("special", knowledge, actor);
     SR5_EntityHelpers.updateValue(knowledge);
   }
 
@@ -1964,6 +1972,7 @@ export class SR5_CharacterUtility extends Actor {
       this.applyPenalty("condition", language, actor);
       this.applyPenalty("matrix", language, actor);
       this.applyPenalty("magic", language, actor);
+      this.applyPenalty("special", language, actor);
       SR5_EntityHelpers.updateValue(language, 0);
     }
   }
@@ -2218,10 +2227,12 @@ export class SR5_CharacterUtility extends Actor {
     this.applyPenalty("condition", magic.passThroughBarrier, actor);
     this.applyPenalty("matrix", magic.passThroughBarrier, actor);
     this.applyPenalty("magic", magic.passThroughBarrier, actor);
+    this.applyPenalty("special", magic.passThroughBarrier, actor);
     SR5_EntityHelpers.updateDicePool(magic.passThroughBarrier, 0);
     this.applyPenalty("condition", magic.astralDefense, actor);
     this.applyPenalty("matrix", magic.astralDefense, actor);
     this.applyPenalty("magic", magic.astralDefense, actor);
+    this.applyPenalty("special", magic.astralDefense, actor);
     SR5_EntityHelpers.updateDicePool(magic.astralDefense, 0);
 
     magic.drainResistance.base = 0;
@@ -2252,6 +2263,7 @@ export class SR5_CharacterUtility extends Actor {
     this.applyPenalty("condition", magic.astralTracking, actor);
     this.applyPenalty("matrix", magic.astralTracking, actor);
     this.applyPenalty("magic", magic.astralTracking, actor);
+    this.applyPenalty("special", magic.astralTracking, actor);
     SR5_EntityHelpers.updateDicePool(magic.astralTracking, 0);
 
   }
@@ -2428,6 +2440,7 @@ export class SR5_CharacterUtility extends Actor {
         this.applyPenalty("condition", matrixActions[key].defense, actor);
         this.applyPenalty("matrix", matrixActions[key].defense, actor);
         this.applyPenalty("magic", matrixActions[key].defense, actor);
+        this.applyPenalty("special", matrixActions[key].defense, actor);
         SR5_EntityHelpers.updateDicePool(matrixActions[key].defense, 0);
       }
     }
@@ -2438,6 +2451,7 @@ export class SR5_CharacterUtility extends Actor {
         this.applyPenalty("condition", resonanceActions[key].test, actor);
         this.applyPenalty("matrix", resonanceActions[key].test, actor);
         this.applyPenalty("magic", resonanceActions[key].test, actor);
+        this.applyPenalty("special", resonanceActions[key].test, actor);
         if (matrix.userMode === "hotsim" && key === "eraseResonanceSignature") {
           SR5_EntityHelpers.updateModifier(resonanceActions[key].test, "deckModes", "hotsim", 2);
         }
@@ -2518,6 +2532,7 @@ export class SR5_CharacterUtility extends Actor {
         this.applyPenalty("condition", matrixActions[key].test, actor);
         this.applyPenalty("matrix", matrixActions[key].test, actor);
         this.applyPenalty("magic", matrixActions[key].test, actor);
+        this.applyPenalty("special", matrixActions[key].test, actor);
         SR5_EntityHelpers.updateDicePool(matrixActions[key].test, 0);
         // limits
         let linkedAttribute = matrixActions[key].limit.linkedAttribute;
