@@ -122,9 +122,10 @@ export class SR5Actor extends Actor {
       "token.name": this.name,
     });
 
-    let actorLink = false
+    let actorLink = false;
     if (this.type === "actorPc") actorLink = true;
     if (this.type === "actorSpirit" && this.data.data.creatorId !== "") actorLink = true;
+    if (this.type === "actorDrone" && this.data.data.creatorId !== "") actorLink = true;
 
     switch(this.type){
       case "actorPc":
@@ -885,6 +886,7 @@ export class SR5Actor extends Actor {
       modifiedItem.data.weapons = weapons;
       modifiedItem.data.ammunitions = ammunitions;
       modifiedItem.data.armors = armors;
+      modifiedItem.data.model = actor.data.model;
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
