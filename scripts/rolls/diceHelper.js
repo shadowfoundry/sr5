@@ -49,6 +49,7 @@ export class SR5_DiceHelper {
         let dicePool;
 
         let cardData = {
+            button: {},
             actor: actor,
             invocaAuthor: data.invocaAuthor,    
             hits: data.hits,
@@ -282,25 +283,6 @@ export class SR5_DiceHelper {
         cardData.matrixDamageValue = damage;
         return cardData;
     }
-    /*static updateMatrixDamage(baseDamage, netHits, attackerID, defender){
-        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
-            attackerData = attacker?.data.data,
-            damage = baseDamage,
-            mark = 0,
-            markItem = defender.items.find((i) => i.data.owner === attackerID);
-
-        if (markItem !== undefined) mark = markItem.data.value;
-        //Mugger program
-        if (mark > 0 && attackerData.matrix.programs.mugger.isActive) mark = mark * 2;
-        //Guard program
-        if (defender.data.matrix.programs.guard.isActive) damage = baseDamage + netHits + mark;
-        else damage = baseDamage + netHits + (mark * 2);
-
-        //Hammer program
-        if (attackerData.matrix.programs.hammer.isActive) damage += 2;
-
-        return damage;
-    } */
 
     //Handle grenade scatter
     static async rollScatter(message){
@@ -416,6 +398,7 @@ export class SR5_DiceHelper {
             "data.type": "iceAttack",
             "data.ownerID": ice.data._id,
             "data.ownerName": ice.name,
+            "data.duration": "permanent",
         };
         switch(messageData.iceType){
             case "iceAcid":

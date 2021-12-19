@@ -327,6 +327,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
+		//console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -504,12 +505,18 @@ export class SR5_Dice {
 			cardData.damageValue = cardData.damageValueBase + netHits;
 			cardData.damageResistanceType = "physicalDamage";
 			if (author.type === "actorDrone" || author.type === "actorVehicle") {
+				if (cardData.damageType === "stun" && cardData.damageElement === "electricity") {
+					cardData.damageType = "physical";
+					ui.notifications.info(`${game.i18n.localize("SR5.INFO_ElectricityChangeDamage")}`);
+				}
 				if (cardData.damageType === "stun") {
+					cardData.button.resistance = false;
 					cardData.button.actionEnd = true;
 					cardData.button.actionEndTitle = `${game.i18n.localize("SR5.VehicleArmorResistance")}`;
 					ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`);
 				}
 				if (author.data.attributes.armor.augmented.value >= cardData.damageValue) {
+					cardData.button.resistance = false;
 					cardData.button.actionEnd = true;
 					cardData.button.actionEndTitle = `${game.i18n.localize("SR5.VehicleArmorResistance")}`;
 					ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: author.data.attributes.armor.augmented.value, damage:cardData.damageValue})}`); //
@@ -520,6 +527,7 @@ export class SR5_Dice {
 				//TODO : change this with a special property on actor
 				let immunity = (author.data.essence.value * 2) + cardData.incomingPA;
 				if (cardData.damageValue <= immunity) {
+					cardData.button.resistance = false;
 					cardData.button.actionEnd = true;
 					cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NormalWeaponsImmunity")}`;
 					ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: author.data.essence.value * 2, pa: cardData.incomingPA, damage: cardData.damageValue})}`);
@@ -660,12 +668,13 @@ export class SR5_Dice {
 
 	static async addMatrixActionInfoToCard(cardData, author){
 		if (cardData.test.hits > 0) {
+			if (cardData.testType === "opposedTest") cardData.button.matrixAction = true;
+			cardData.matrixActionAuthor = cardData.speakerId;
 		} else {
+			cardData.button.matrixAction = false;
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.ActionFailure");
 		}
-		if (cardData.testType === "opposedTest") cardData.button.matrixAction = true;
-		cardData.matrixActionAuthor = cardData.speakerId;
 	}
 
 	static async addMatrixDefenseInfoToCard(cardData, author){
@@ -700,7 +709,7 @@ export class SR5_Dice {
 					}
 				}
 			} else if (cardData.matrixActionType === "sleaze") {
-        cardData.mark = 1;
+        		cardData.mark = 1;
 				cardData.button.defenderPlaceMark = true;
 			}
 		}

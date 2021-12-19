@@ -59,7 +59,7 @@ export class SR5_Roll {
                     penalties = actorData.penalties.condition.actual.value
                                 + actorData.penalties.matrix.actual.value
                                 + actorData.penalties.magic.actual.value
-                                + actorData.penalties.resonance.actual.value;
+                                + actorData.penalties.special.actual.value;
                 }
             }
         }
@@ -277,6 +277,7 @@ export class SR5_Roll {
                             armor: armor,
                             damageValueBase: chatData.damageValue,
                             damageType: chatData.damageType,
+                            damageElement: chatData.damageElement,
                             dicePoolBase : resistanceValue
                         }
                         break;
@@ -288,7 +289,8 @@ export class SR5_Roll {
                         optionalData = {
                             chatActionType: "msgTest_damage",
                             damageValueBase: chatData.damageValue,
-                            damageType: chatData.damageType
+                            damageType: chatData.damageType,
+                            damageElement: chatData.damageElement,
                         }
                         break;
                     
@@ -300,7 +302,8 @@ export class SR5_Roll {
                         optionalData = {
                             chatActionType: "msgTest_damage",
                             damageValueBase: chatData.damageValue,
-                            damageType: chatData.damageType
+                            damageType: chatData.damageType,
+                            damageElement: chatData.damageElement,
                         }
                         break;
                     case "biofeedback":
@@ -549,7 +552,7 @@ export class SR5_Roll {
                 typeSub = chatData.typeSub;
 
                 if (typeSub === "meleeWeapon"){
-                    let reach = actorData.reach.value - chatData.attackerReach;
+                    let reach = (actorData.reach?.value || 0) - chatData.attackerReach;
                     let weaponUsedToDefend = actor.items.find(i => (i.type === "itemWeapon") && (i.data.data.category === "meleeWeapon") && (i.data.data.isActive) );
                     if (weaponUsedToDefend) reach = weaponUsedToDefend.data.data.reach.value - chatData.attackerReach;
                     optionalData = mergeObject(optionalData, {

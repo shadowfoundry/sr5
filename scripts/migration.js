@@ -136,6 +136,7 @@ export default class Migration {
     	// Actor Data Updates
     	if (actor.data) {
 			//Do stuff on Actor
+			if(actor.type !== "actorDrone") updateData["data.penalties.-=resonance"] = null;
     	}
 
 		// Migrate Owned Items

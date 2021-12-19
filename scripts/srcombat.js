@@ -105,6 +105,7 @@ export class SR5Combat extends Combat {
 				"flags.sr5.blitz" : false,
 				"flags.sr5.hasPlayed" : false,
 			  });
+			await SR5Combat.decreaseEffectDuration(combatant);
 		}
 		await SR5Combat.setInitiativePass(combat, 1);
 		await combat.rollAll();
@@ -460,6 +461,26 @@ export class SR5Combat extends Combat {
 					} else {
 						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {initFinalChange: initFinalChange})}`);
 					}
+				}
+			}
+		}
+	}
+
+	//Decrease external effect duration
+	static async decreaseEffectDuration(combatant){
+		let actor = SR5Combat.getActorFromCombatant(combatant);
+		if (!actor) return;
+
+		for (let item of actor.items){
+			if (item.type === "itemEffect" && item.data.data.durationType === "round"){
+				let effect = duplicate(item.data);
+				effect.data.duration -= 1;
+				if (effect.data.duration > 0){
+					await item.update(effect);
+					ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: effect.name})}`);
+				} else {
+					await actor.deleteEmbeddedDocuments("Item", [item.id]);
+					ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: effect.name})}`);
 				}
 			}
 		}

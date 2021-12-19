@@ -198,7 +198,7 @@ SR5.penaltyTypes = {
   condition                 : "SR5.PenaltyDamage",
   matrix                    : "SR5.PenaltyValueMatrix",
   magic                     : "SR5.PenaltyValueMagic",
-  resonance                 : "SR5.PenaltyValueResonance",
+  special                   : "SR5.PenaltyValueSpecial",
 };
 
 // Weight Actions
@@ -2070,6 +2070,12 @@ SR5.customEffectsTypes = {
 
 SR5.effectTypes = {
   iceAttack                 : "SR5.EffectTypeIceAttack",
+  electricityDamage         : "SR5.ElementalDamage",
+}
+
+SR5.effectDuration = {
+  round                     : "SR5.CombatTurn",
+  permanent                 : "SR5.DurationPermanent",
 }
 
 SR5.specialProperties = {
