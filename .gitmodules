@@ -1,0 +1,3 @@
+[submodule "sr5-licensed"]
+	path = sr5-licensed
+	url = https://github.com/shadowfoundry/sr5-licensed
