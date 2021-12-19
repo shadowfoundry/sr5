@@ -1466,23 +1466,23 @@ input[type=range]:focus::-ms-fill-upper {
 
 @font-face {
     font-family: "Njord Regular";
-    src: url("./sr5-licensed/fonts/njord_regular.otf"), url("./fonts/Riviera.otf");
+    src: url("../sr5-licensed/fonts/njord_regular.otf"), url("./fonts/Riviera.otf");
 }
 
 @font-face {
     font-family: "Njord Alternate";
-    src: url("./sr5-licensed/fonts/njord_alternate.otf"), url("./fonts/Elianto-Regular.otf");
+    src: url("../sr5-licensed/fonts/njord_alternate.otf"), url("./fonts/Elianto-Regular.otf");
 }
 
 @font-face {
     font-family: "amplitude_regular";
-    src: url("./sr5-licensed/fonts/amplitude_regular.otf"), url("./fonts/SourceSansPro-Regular.ttf");
+    src: url("../sr5-licensed/fonts/amplitude_regular.otf"), url("./fonts/SourceSansPro-Regular.ttf");
 }
 
 @font-face {
     font-family: "amplitude_bold";
     font-weight: bold;
-    src: url("./sr5-licensed/fonts/amplitude_bold.otf"), url("./fonts/SourceSansPro-Bold.ttf");
+    src: url("../sr5-licensed/fonts/amplitude_bold.otf"), url("./fonts/SourceSansPro-Bold.ttf");
 }
 
 .SR5iconActor {
