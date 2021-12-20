@@ -162,6 +162,6 @@
     "compatibleCoreVersion": "0.8.9",
     "background": "./img/sr5SplashScreen.jpg",
     "url": "https://github.com/shadowfoundry/sr5",
-    "manifest": "",
-    "download": ""
+    "manifest": "https://github.com/shadowfoundry/sr5/releases/download/latest/system.json",
+    "download": "https://github.com/shadowfoundry/sr5/releases/download/latest/sr5.zip"
 }
