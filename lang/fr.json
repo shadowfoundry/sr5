@@ -2105,6 +2105,7 @@
   "SR5.INFO_DurationFinished"                 : "Effet {effect} terminé.",
   "SR5.INFO_ElectricityChangeDamage"          : "Les dommages Etourdissant sont convertis en Physique par l'électricité.", 
   "SR5.INFO_AcidReduceArmor"                  : "l'acide réduit de 1 l'Indice d'armure de {armor}.",
+  "SR5.INFO_AcidAlready"                      : "subit déjà des dégâts d'acide.",
   "SR5.WARN_NoForce"                          : "Vous n'avez pas défini de Puissance ! Par défaut Magie est appliquée.",
   "SR5.WARN_NoLevel"                          : "Vous n'avez pas défini de Niveau ! Par défaut Résonance est appliquée.",
   "SR5.WARN_NoActor"                          : "Vous devez sélectionner un Acteur !",

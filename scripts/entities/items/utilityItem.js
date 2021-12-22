@@ -182,6 +182,10 @@ export class SR5_UtilityItem extends Actor {
     if (typeof data.systemEffects === "object") {
       data.systemEffects = Object.values(data.systemEffects);
     }
+
+    if (typeof data.itemEffects === "object") {
+      data.itemEffects = Object.values(data.itemEffects);
+    }
   }
 
   static _handleItemCapacity(item) {
