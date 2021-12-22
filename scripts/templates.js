@@ -193,6 +193,8 @@ export const preloadHandlebarsTemplates = async function () {
     
     // Item sheet effect tab
     "systems/sr5/templates/items/_partial/effect/effect.html",
+    "systems/sr5/templates/items/_partial/effect/itemEffect.html",
+    "systems/sr5/templates/items/_partial/effect/systemEffect.html",
     
     //Item sheet line titles
     "systems/sr5/templates/items/_partial/title/damage.html",
