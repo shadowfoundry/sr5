@@ -262,7 +262,10 @@ export class SR5_Roll {
                                 } else {
                                     resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
                                 }
-                                if (chatData.damageValue < (armor + chatData.incomingPA)) chatData.damageType = "stun";
+                                if (chatData.damageValue < (armor + chatData.incomingPA) && chatData.damageElement !== "acid"){
+                                    chatData.damageType = "stun";
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:chatData.damageValue})}`); 
+                                }
                                 break;
                             default:
                         }
