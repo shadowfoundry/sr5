@@ -571,7 +571,6 @@ export class SR5Actor extends Actor {
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data);
-
     actorData = actorData.toObject(false);
     switch (actorData.type){
       case "actorPc":
@@ -675,11 +674,10 @@ export class SR5Actor extends Actor {
   //Handle Elemental Damage : Acid
   async acidDamageEffect(damage, source){
     let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "acidDamage");
+    let armor = this.items.find((item) => item.type === "itemArmor" && item.data.data.isActive && !item.data.data.isAccessory);
     if (existingEffect){
-      ui.notifications.info(`${this.name} ${game.i18n.localize("SR5.INFO_AcidAlready")}`);
       return;
     } else {
-      let armor = this.items.find((item) => item.type === "itemArmor" && item.data.data.isActive && !item.data.data.isAccessory);
       if (armor){
         let updatedArmor = armor.toObject(false);
         let armorEffect = {
@@ -696,7 +694,7 @@ export class SR5Actor extends Actor {
       }
       let duration;
       if (source === "spell") duration = 1;
-      else duration = 1;
+      else duration = damage;
       let effect = {
         name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
         type: "itemEffect",

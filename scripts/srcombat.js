@@ -475,7 +475,42 @@ export class SR5Combat extends Combat {
 			if (item.type === "itemEffect" && item.data.data.durationType === "round"){
 				let effect = duplicate(item.data);
 				effect.data.duration -= 1;
+
+				//Delete effect if duration < 0;
 				if (effect.data.duration > 0){
+					if (effect.data.type === "acidDamage") {
+						let armor = actor.items.find((item) => item.type === "itemArmor" && item.data.data.isActive && !item.data.data.isAccessory);
+						if (armor){
+							let updatedArmor = armor.toObject(false);
+							let itemEffect = updatedArmor.data.itemEffects.find((e) => e.target === "data.armorValue");
+							if (itemEffect){
+								itemEffect.value -= 1;
+							} else {
+								let armorEffect = {
+								"name": `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
+								"target": "data.armorValue",
+								"wifi": false,
+								"type": "value",
+								"value": -1,
+								"multiplier": 1
+								}
+								updatedArmor.data.itemEffects.push(armorEffect);
+							}
+							await actor.updateEmbeddedDocuments("Item", [updatedArmor]);
+							ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
+						}
+
+						effect.data.value -= 1;
+						let damageInfo = {
+							damageResistanceType: "physicalDamage",
+							incomingPA: 0,
+							damageValue: effect.data.value,
+							damageType: "physical",
+							damageElement: "acid",
+						}
+						actor.rollTest("resistanceCard", null, damageInfo);
+					}
+
 					await item.update(effect);
 					ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: effect.name})}`);
 				} else {

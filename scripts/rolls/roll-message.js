@@ -106,9 +106,6 @@ export class SR5_RollMessage {
                 case "msgTest_complexFormDefense":
                     actor.rollTest("complexFormDefense", null, messageData);
                     break;
-                case "msgTest_attackResistance":
-                    actor.rollTest("resistanceCard", null, messageData);
-                    break;
                 case "msgTest_iceDefense":
                     actor.rollTest("iceDefense", null, messageData);
                     break;
