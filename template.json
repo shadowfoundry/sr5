@@ -4883,6 +4883,7 @@
       },
       "templateCustomEffects": {
         "customEffects": [],
+        "itemEffects": [],
         "systemEffects": []
       },
       "templateBoughtOrSold": {

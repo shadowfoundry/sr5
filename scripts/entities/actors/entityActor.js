@@ -571,9 +571,7 @@ export class SR5Actor extends Actor {
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data);
-
     actorData = actorData.toObject(false);
-
     switch (actorData.type){
       case "actorPc":
       case "actorSpirit":
@@ -634,17 +632,20 @@ export class SR5Actor extends Actor {
 
     if (options.damageElement === "electricity" && actorData.type !== "actorDrone"){
       await this.electricityDamageEffect();
-    }        
+    } 
+    if (options.damageElement === "acid"){
+      await this.acidDamageEffect(damage, options.damageSource);
+    } 
   }
 
   //Handle Elemental Damage : Electricity
   async electricityDamageEffect(){
-    let electricityEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "electricityDamage");
-    if (electricityEffect){
-      let updatedEffect = electricityEffect.toObject(false);
+    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "electricityDamage");
+    if (existingEffect){
+      let updatedEffect = existingEffect.toObject(false);
       updatedEffect.data.duration += 1;
       await this.updateEmbeddedDocuments("Item", [updatedEffect]);
-      ui.notifications.info(`${this.name}: ${electricityEffect.name} ${game.i18n.localize("SR5.INFO_DurationExtendOneRound")}.`);
+      ui.notifications.info(`${this.name}: ${existingEffect.name} ${game.i18n.localize("SR5.INFO_DurationExtendOneRound")}.`);
     } else {
       let effect = {
         name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageElectricity")})`,
@@ -668,6 +669,47 @@ export class SR5Actor extends Actor {
       await SR5Combat.changeInitInCombat(this, -5);
       await this.createEmbeddedDocuments("Item", [effect]);
     }
+  }
+
+  //Handle Elemental Damage : Acid
+  async acidDamageEffect(damage, source){
+    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "acidDamage");
+    let armor = this.items.find((item) => item.type === "itemArmor" && item.data.data.isActive && !item.data.data.isAccessory);
+    if (existingEffect){
+      return;
+    } else {
+      if (armor){
+        let updatedArmor = armor.toObject(false);
+        let armorEffect = {
+          "name": `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
+          "target": "data.armorValue",
+          "wifi": false,
+          "type": "value",
+          "value": -1,
+          "multiplier": 1
+        }
+        updatedArmor.data.itemEffects.push(armorEffect);
+        await this.updateEmbeddedDocuments("Item", [updatedArmor]);
+        ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
+      }
+      let duration;
+      if (source === "spell") duration = 1;
+      else duration = damage;
+      let effect = {
+        name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
+        type: "itemEffect",
+        "data.type": "acidDamage",
+        "data.target": armor.name,
+        "data.value": damage,
+        "data.durationType": "round",
+        "data.duration": duration,
+      }
+      ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+      await SR5Combat.changeInitInCombat(this, -5);
+      await this.createEmbeddedDocuments("Item", [effect]);
+    }
+
+    
   }
 
 

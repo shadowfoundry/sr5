@@ -154,6 +154,11 @@ export class SR5_UtilityItem extends Actor {
       data.vector.value = [];
     }
 
+    if (itemData.type === "itemArmor"){
+      data.armorValue.value = 0;
+      data.armorValue.modifiers = [];
+    }
+
     if (itemData.type === "itemSpell") {
       data.freeSustain = false;
       data.damageValue.modifiers = [];
@@ -176,6 +181,10 @@ export class SR5_UtilityItem extends Actor {
 
     if (typeof data.systemEffects === "object") {
       data.systemEffects = Object.values(data.systemEffects);
+    }
+
+    if (typeof data.itemEffects === "object") {
+      data.itemEffects = Object.values(data.itemEffects);
     }
   }
 
@@ -1372,6 +1381,45 @@ export class SR5_UtilityItem extends Actor {
         let index = gear.data.accessory.findIndex(b => b._id === a._id);
         item = item.toObject(false);
         gear.data.accessory[index] = item;
+      }
+    }
+  }
+
+  static applyItemEffects(item){
+    for (let customEffect of Object.values(item.data.itemEffects)) {
+      let skipCustomEffect = false,
+          cumulative = customEffect.cumulative,
+          isMultiplier = false;
+
+      if (!customEffect.target || !customEffect.type) {
+        SR5_SystemHelpers.srLog(3, `Empty custom effect target or type in applyItemEffects()`, customEffect);
+        skipCustomEffect = true;
+      }
+
+      // For effect depending on wifi
+      if (customEffect.wifi && !item.data.wirelessTurnedOn){ 
+        skipCustomEffect = true;
+      }
+
+      let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, item);
+      if (targetObject === null) skipCustomEffect = true;
+
+      if (!skipCustomEffect) {    
+        if (!customEffect.multiplier) customEffect.multiplier = 1;
+
+        //Modifier type
+        switch (customEffect.type) {
+          case "rating":
+            customEffect.value = (item.data.itemRating || 0);
+            SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            break;
+          case "value":
+            customEffect.value = (customEffect.value || 0);
+            SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            break;
+          default:
+            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, customEffect);
+        }
       }
     }
   }

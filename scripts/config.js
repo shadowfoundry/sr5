@@ -2071,6 +2071,7 @@ SR5.customEffectsTypes = {
 SR5.effectTypes = {
   iceAttack                 : "SR5.EffectTypeIceAttack",
   electricityDamage         : "SR5.ElementalDamage",
+  acidDamage                : "SR5.ElementalDamage",
 }
 
 SR5.effectDuration = {

@@ -262,7 +262,10 @@ export class SR5_Roll {
                                 } else {
                                     resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
                                 }
-                                if (chatData.damageValue < (armor + chatData.incomingPA)) chatData.damageType = "stun";
+                                if (chatData.damageValue < (armor + chatData.incomingPA) && chatData.damageElement !== "acid"){
+                                    chatData.damageType = "stun";
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:chatData.damageValue})}`); 
+                                }
                                 break;
                             default:
                         }
@@ -280,6 +283,12 @@ export class SR5_Roll {
                             damageElement: chatData.damageElement,
                             dicePoolBase : resistanceValue
                         }
+                        if (chatData.damageSource === "spell"){
+                            optionalData = mergeObject(optionalData,{
+                                damageSource: "spell",
+                            });
+                        }
+
                         break;
                     case "directSpellMana":       
                         if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`);
@@ -572,6 +581,12 @@ export class SR5_Roll {
                         ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                         return;
                     }
+                }
+
+                if (chatData.type === "spell"){
+                    optionalData = mergeObject(optionalData,{
+                        damageSource: "spell",
+                    });
                 }
 
                 let cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");

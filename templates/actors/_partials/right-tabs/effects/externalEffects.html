@@ -1,8 +1,8 @@
 <div class="SRBlockSheet">
     <ul>
 		<li class="SR-LigneEnTete grid">
-            <div class="col-4 SR-TextUppercase">{{localize 'SR5.ExternalEffects'}}</div>
-			<div class="col-1 SR-TextCenter">{{localize 'SR5.Target'}}</div>
+            <div class="col-3 SR-TextUppercase">{{localize 'SR5.ExternalEffects'}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.Target'}}</div>
             <div class="col-1 SR-TextCenter">{{localize 'SR5.Value'}}</div>
             <div class="col-3 SR-TextCenter">{{localize 'SR5.Type'}}</div>
             <div class="col-3">
@@ -15,8 +15,8 @@
         </li>
         {{#each actor.effects}}
         <li class="item grid" data-item-id="{{_id}}" draggable="true">
-            <div class="col-4">{{name}}</div>
-            <div class="col-1 SR-TextCenter">{{data.target}}</div>
+            <div class="col-3">{{name}}</div>
+            <div class="col-2 SR-TextCenter">{{data.target}}</div>
             <div class="col-1 SR-TextCenter">{{data.value}}</div>
             <div class="col-3 SR-TextCenter">{{findTranslation 'effectTypes' data.type}}</div>
             <div class="col-3">
