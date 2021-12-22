@@ -2105,6 +2105,7 @@
   "SR5.INFO_DurationFinished"                 : "{effect} effect over.",
   "SR5.INFO_ElectricityChangeDamage"          : "Stun damage are converted to Physical by electrictiy.", 
   "SR5.INFO_AcidReduceArmor"                  : "acide reduce {armor} armor rating by 1.",
+  "SR5.INFO_AcidAlready"                      : "is already suffering from acid damage.",
   "SR5.WARN_NoForce"                          : "You don't have declared Force. Magic is applied by default.",
   "SR5.WARN_NoLevel"                          : "You don't have declared Level. Resonance is applied by default.",
   "SR5.WARN_NoActor"                          : "You must select an Actor first.",
