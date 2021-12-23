@@ -1894,7 +1894,7 @@
   "SR5.HELP_ItemDelete"                       : "Supprimer<br>({key})",
   "SR5.HELP_ItemDeleteMsg"                    : "Cliquez pour supprimer l'objet.",
   "SR5.HELP_ItemManagement"                   : "Editer<br>({key})",
-  "SR5.HELP_ItemManagementMsg"                : "Cliquer pour éditer l'objet.<br>Maintenez shift pour supprimer l'objet.<br>Maintenez control pour dupliquer l'objet.",
+  "SR5.HELP_ItemManagementMsg"                : "Clic gauche: Éditer l'objet<br>CTRL+Click: Dupliquer l'objet<br>SHIFT+Clic: Supprimer l'objet<br>CTRL+SHIFT+Clic: Supprimer l'objet (pas de confirmation)",
   "SR5.HELP_KarmaGainAmountMsg"               : "Editez les points de Karma gagné.",
   "SR5.HELP_KarmaGainName"                    : "Run effectué<br>({key})",
   "SR5.HELP_KarmaGainNameMsg"                 : "Editez le nom du run effectué.",
