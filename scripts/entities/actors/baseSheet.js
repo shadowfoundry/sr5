@@ -101,7 +101,7 @@ export class ActorSheetSR5 extends ActorSheet {
       /* Item Dragging */
       // Core handlers from foundry.js
       var handler;
-      if (!isNewerVersion(game.data.version, "0.7")) {
+      if (!isNewerVersion(game.version, "0.7")) {
         handler = ev => this._onDragItemStart(ev);
       }
       else {

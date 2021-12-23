@@ -50,7 +50,7 @@ export const registerHooks = function () {
     CONFIG.Item.documentClass = SR5Item;
     CONFIG.Combat.documentClass = SR5Combat;
     CONFIG.ui.combat = SR5CombatTracker;
-    CONFIG.Scene.sheetClass = SR5SceneConfig;
+    //CONFIG.Scene.sheetClass = SR5SceneConfig;
 
     // ACTIVATE HOOKS DEBUG
     CONFIG.debug.hooks = false;
@@ -88,6 +88,9 @@ export const registerHooks = function () {
     Items.registerSheet("SR5", SR5ItemSheet, {
       makeDefault: true
     });
+    DocumentSheetConfig.registerSheet(Scene, "SR5", SR5SceneConfig, {
+      makeDefault: true
+    })
 
     // Preload Handlebars Templates
     await preloadHandlebarsTemplates();

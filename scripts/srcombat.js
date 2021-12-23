@@ -282,7 +282,8 @@ export class SR5Combat extends Combat {
 		return combat;
 	}
 
-	async rollInitiative(ids, { formula = null, updateTurn = true, messageOptions = {} } = {}) {
+	async rollInitiative(ids, formula, {updateTurn = true, messageOptions = {} } = {}) {
+		
 		// Structure input data
 		ids = typeof ids === "string" ? [ids] : ids;
 		const currentId = this.combatant.id;
@@ -297,6 +298,7 @@ export class SR5Combat extends Combat {
 
 			// Produce an initiative roll for the Combatant
 			const roll = combatant.getInitiativeRoll(formula);
+			roll.evaluate({async: false});
 			let initiative = roll.total;
 			if (this.data.flags.sr5?.combatInitiativePass > 1){
 				let currentPass = this.data.flags.sr5?.combatInitiativePass - 1;

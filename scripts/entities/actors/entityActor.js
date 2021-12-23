@@ -193,7 +193,7 @@ export class SR5Actor extends Actor {
     if (!this.data.name)
       this.data.name = "[" + game.i18n.localize("SR5.New") + "]" + this.entity;
     this.prepareBaseData();
-    this.prepareEmbeddedEntities();
+    this.prepareEmbeddedDocuments();
     this.prepareDerivedData();
     this.sortLists(this.data.data);
     this.updateItems(this);
@@ -317,8 +317,8 @@ export class SR5Actor extends Actor {
     }
   }
 
-  prepareEmbeddedEntities() {
-    super.prepareEmbeddedEntities();
+  prepareEmbeddedDocuments() {
+    super.prepareEmbeddedDocuments();
 
     const actorData = this.data;
     const lists = SR5;
@@ -482,7 +482,7 @@ export class SR5Actor extends Actor {
                 }
               break;
             default:
-              SR5_SystemHelpers.srLog(3,`Unknown focus type '${iData.type}' in 'prepareEmbeddedEntities()'`);
+              SR5_SystemHelpers.srLog(3,`Unknown focus type '${iData.type}' in 'prepareEmbeddedDocuments()'`);
           }
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
@@ -515,7 +515,7 @@ export class SR5Actor extends Actor {
           break;
 
         default:
-          SR5_SystemHelpers.srLog(1, `Unknown '${i.type}' item type in prepareEmbeddedEntities()`);
+          SR5_SystemHelpers.srLog(1, `Unknown '${i.type}' item type in prepareEmbeddedDocuments()`);
       }
     }
   }

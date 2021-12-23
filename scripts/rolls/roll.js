@@ -206,7 +206,7 @@ export class SR5_Roll {
                 break;
 
             case "resistanceCard":
-                title = game.i18n.localize("SR5.TakeOnDamage") //TODO:  add details
+                title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
 
                 //handle distance between defenser and explosive device
                 if (chatData.item?.data.category === "grenade" 
@@ -217,17 +217,17 @@ export class SR5_Roll {
                     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition);
                     let modToDamage = distance * (chatData.item.data.blast.damageFallOff || 0);
                     chatData.damageValue = chatData.damageValueBase + modToDamage;
-                    if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {distance:distance})}`);
-                    else ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistanceFallOff", {distance:distance, modifiedDamage: modToDamage, finalDamage: chatData.damageValue})}`);
-                    if (chatData.damageValue <=0) {
+                    if (chatData.damageValue <= 0) {
                         ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                         return;
                     }
+                    if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {distance:distance})}`);
+                    else ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistanceFallOff", {distance:distance, modifiedDamage: modToDamage, finalDamage: chatData.damageValue})}`);
                 }
 
                 switch (chatData.damageResistanceType){
                     case "physicalDamage":
-                        title = `${game.i18n.localize("SR5.TakeOnDamagePhysical")} (${chatData.damageValue})`; //TODO: add details
+                        title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${chatData.damageValue})`; //TODO: add details
                         typeSub = "physicalDamage";
                         let armor, resistanceValue;
 
@@ -264,6 +264,7 @@ export class SR5_Roll {
                                 }
                                 if (chatData.damageValue < (armor + chatData.incomingPA) && chatData.damageElement !== "acid"){
                                     chatData.damageType = "stun";
+                                    title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${chatData.damageValue})`; //TODO: add details
                                     ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:chatData.damageValue})}`); 
                                 }
                                 break;
