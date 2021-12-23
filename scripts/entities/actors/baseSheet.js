@@ -287,11 +287,15 @@ export class ActorSheetSR5 extends ActorSheet {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-    Dialog.confirm({
-      title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}`,
-      content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + game.i18n.format('SR5.DIALOG_WarningPermanentDelete', {type: game.i18n.localize("ITEM.Type" + item.type.replace(/^\w/, c => c.toUpperCase())), actor: this.actor.name, itemName: item.name}) + "</p>",
-      yes: () => item.delete(),
-    });
+    if (event.ctrlKey) {
+      if ( item ) return item.delete();
+    } else {
+      Dialog.confirm({
+        title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}`,
+        content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + game.i18n.format('SR5.DIALOG_WarningPermanentDelete', {type: game.i18n.localize("ITEM.Type" + item.type.replace(/^\w/, c => c.toUpperCase())), actor: this.actor.name, itemName: item.name}) + "</p>",
+        yes: () => item.delete(),
+      });
+    }
   }
 
   /* -------------------------------------------- */
@@ -300,8 +304,8 @@ export class ActorSheetSR5 extends ActorSheet {
     event.preventDefault();
     switch (event.button) {
       case 0: 
-        if (event.ctrlKey) this._onItemClone(event);
-        else if (event.shiftKey) this._onItemDelete(event);
+        if (event.shiftKey) this._onItemDelete(event);
+        else if (event.ctrlKey) this._onItemClone(event);
         else this._onItemEdit(event)
         break;
     }
