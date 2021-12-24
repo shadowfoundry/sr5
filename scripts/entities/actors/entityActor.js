@@ -615,6 +615,7 @@ export class SR5Actor extends Actor {
         if (damageType === "physical") {
           actorData.data.conditionMonitors.condition.current += damage;
           ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
+          if (actorData.data.conditionMonitors.condition.current >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
           if (actorData.data.controlMode === "rigging"){
             let controler = SR5_EntityHelpers.getRealActorFromID(actorData.data.vehicleOwner.id)
             let chatData = {
@@ -635,6 +636,7 @@ export class SR5Actor extends Actor {
         if (options.matrixDamageValue) {
           actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
           ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+          if (actorData.data.conditionMonitors.matrix.current >= actorData.data.conditionMonitors.matrix.value) await this.createDeadEffect();
         }
         break;
     }
