@@ -2111,6 +2111,8 @@
   "SR5.INFO_DamageDropProne"                  : "est projeté au sol car les dommages ({damage}) sont supérieurs à sa limite physique ({limit})",
   "SR5.INFO_DamageDropProneGel"               : "est projeté au sol car les dommages ({damage}) sont supérieurs à sa limite physique ({limit}) modifiée par les balles Gel (-2)",
   "SR5.INFO_DamageDropProneTen"               : "est projeté au sol car les dommages ({damage}) sont supérieurs à 10",
+  "SR5.INFO_DamageActorDead"                  : "est hors de combat.",
+  "SR5.INFO_DamageActorKo"                    : "est KO.",
   "SR5.WARN_NoForce"                          : "Vous n'avez pas défini de Puissance ! Par défaut Magie est appliquée.",
   "SR5.WARN_NoLevel"                          : "Vous n'avez pas défini de Niveau ! Par défaut Résonance est appliquée.",
   "SR5.WARN_NoActor"                          : "Vous devez sélectionner un Acteur !",

@@ -230,7 +230,7 @@ export const registerHooks = function () {
     combatant.update({
       "flags.sr5.seizeInitiative" : false,
       "flags.sr5.blitz" : false,
-      "flags.sr5.hasPlayed" : false,
+      "flags.sr5.hasPlayed" : combatant.isDefeated,
       "flags.sr5.cumulativeDefense" : 0,
       "flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
       "flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
@@ -243,6 +243,14 @@ export const registerHooks = function () {
       actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
     }
     actor.setFlag("sr5", "cumulativeDefense", 0);
+  });
+
+  Hooks.on("updateCombatant", (combatant) => {
+    if (combatant.isDefeated && !combatant.data.flags.sr5.hasPlayed){
+      combatant.update({
+        "flags.sr5.hasPlayed": true,
+      })
+    }
   });
 
   Hooks.on("updateItem", async(document, data, options, userId) => {

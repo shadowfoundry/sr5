@@ -2111,6 +2111,8 @@
   "SR5.INFO_DamageDropProne"                  : "drop prone because damages ({damage}) are greater than his physical limit ({limit})",
   "SR5.INFO_DamageDropProneGel"               : "drop prone because damages ({damage}) are greater than his physical limit ({limit}) modified by Gel rounds (-2)",
   "SR5.INFO_DamageDropProneTen"               : "drop prone because damages ({damage}) are greater than 10",
+  "SR5.INFO_DamageActorDead"                  : "is out of action.",
+  "SR5.INFO_DamageActorKo"                    : "is KO.",
   "SR5.WARN_NoForce"                          : "You don't have declared Force. Magic is applied by default.",
   "SR5.WARN_NoLevel"                          : "You don't have declared Level. Resonance is applied by default.",
   "SR5.WARN_NoActor"                          : "You must select an Actor first.",
