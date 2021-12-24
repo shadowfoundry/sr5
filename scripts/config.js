@@ -2146,25 +2146,20 @@ SR5.actorTypes = {
 
 SR5.statusEffects = [
   {
-  icon                      : "systems/sr5/img/status/StatusUnconsciousOn.svg",
-  id                        : "inconscient",
-  label                     : "SR5.STATUSES_Unconscious_F",
-  flags                     : {
-  sr5                       : {
-  value                     : null,
-      },
-    },
+    icon: "systems/sr5/img/status/StatusUnconsciousOn.svg",
+    id: "unconscious",
+    label: "SR5.STATUSES_Unconscious_F",
   },
   {
-  icon                      : "systems/sr5/img/status/StatusDeadOn.svg",
-  id                        : "dead",
-  label                     : "SR5.STATUSES_Dead_F",
-  flags                     : {
-  sr5                       : {
-  value                     : null,
-      },
-    },
+    icon: "systems/sr5/img/status/StatusDeadOn.svg",
+    id: "dead",
+    label: "SR5.STATUSES_Dead_F",
   },
+  {
+    icon: "systems/sr5/img/status/StatusProneOn.svg",
+    id: "prone",
+    label: "SR5.STATUSES_Prone",
+    },
 ];
 
 CONFIG.statusEffects = SR5.statusEffects;

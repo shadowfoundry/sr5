@@ -939,19 +939,19 @@
         background: fade(@black, 30%);
         z-index: 1;
 
-        &:hover {
+        &:hover:not(.SR-CardButtonHit) {
             color: @black;
             background-color: transparent;
             box-shadow: none;
         }
 
-        &:hover:before {
+        &:hover:before:not(.SR-CardButtonHit) {
             left: 0%;
             right: auto;
             width: 100%;
         }
 
-        &:before {
+        &:before:not(.SR-CardButtonHit) {
             display: block;
             position: absolute;
             top: 0px;

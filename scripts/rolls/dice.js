@@ -486,7 +486,10 @@ export class SR5_Dice {
 			cardData.chatActionType = "msgTest_attackResistance";
 		} else if (cardData.test.hits > 0) {
 			cardData.button.attack = true;
-			if (cardData.typeSub === "rangedWeapon") cardData.chatActionType = "msgTest_defenseRangedWeaponn";
+			if (cardData.typeSub === "rangedWeapon") {
+				cardData.chatActionType = "msgTest_defenseRangedWeaponn";
+				cardData.ammoType = cardData.item.data.ammunition.type;
+			}
 			else if (cardData.typeSub === "meleeWeapon") cardData.chatActionType = "msgTest_defenseMeleeWeapon";
 			cardData.damageResistanceType = "physicalDamage";
 		} else {

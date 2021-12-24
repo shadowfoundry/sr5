@@ -570,11 +570,15 @@ export class SR5Actor extends Actor {
   async takeDamage(options) { //
     let damage = options.damageValue,
         damageType = options.damageType,
-        actorData = deepClone(this.data);
+        actorData = deepClone(this.data),
+        gelAmmo = 0;
     actorData = actorData.toObject(false);
+    if (options.ammoType === "gel") gelAmmo = -2;
+
     switch (actorData.type){
       case "actorPc":
       case "actorSpirit":
+        if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10) await this.createProneEffect(damage, actorData, gelAmmo);
         if (options.matrixDamageValue) {
           damage = options.matrixDamageValue;
           damageType = "stun";
@@ -598,6 +602,7 @@ export class SR5Actor extends Actor {
         break;
       case "actorGrunt":
         actorData.data.conditionMonitors.condition.current += damage;
+        if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10) await this.createProneEffect(damage, actorData, gelAmmo);
         ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
         break;
       case "actorDrone":
@@ -636,6 +641,30 @@ export class SR5Actor extends Actor {
     if (options.damageElement === "acid"){
       await this.acidDamageEffect(damage, options.damageSource);
     } 
+  }
+
+  //Handle prone effect
+  async createProneEffect(damage, actorData, gelAmmo){
+    for (let e of this.data.effects){
+      if (e.data.flags.core?.statusId === "prone") return;
+    }
+
+    let effect = {
+      label: game.i18n.localize("SR5.STATUSES_Prone"),
+      origin: "damageTaken",
+      icon: "systems/sr5/img/status/StatusProneOn.svg",
+      flags: {
+        core: {
+            active: true,
+            statusId: "prone"
+        }
+      },
+    }
+
+    this.createEmbeddedDocuments('ActiveEffect', [effect]);
+    if (damage >= 10) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
+    else if (gelAmmo < 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
+    else ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
   }
 
   //Handle Elemental Damage : Electricity

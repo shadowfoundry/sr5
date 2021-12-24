@@ -5,6 +5,9 @@ This system is made by fans, for fans, and is not associated with Catalyst Game 
 
 The system for Foundry VTT contains no proprietary content from the official RPG sourcebooks. It is intended to make the process of enjoying Shadowrun 5 via an online tabletop experience as easy as possible but you will still need to purchase official sourcebooks and enter data yourself in order to enjoy this system as intended.
 
+## Languages
+This system is fully translated in English and French
+
 ## Main features
 The system is heavily automatised, main features are:
 - auto calculation of all derived data on character sheets
@@ -19,6 +22,7 @@ The system is heavily automatised, main features are:
 - contextual help with details for all calculations
 
 ...and more...
+
 ...and: it's fully skinned :)
 
 ...but, there's still a lot to do :/

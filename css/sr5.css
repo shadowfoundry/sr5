@@ -1152,6 +1152,9 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
   font-size: 1em;
 }
+#chat-log .message .SR-CardButton .endTest:hover {
+  box-shadow: none;
+}
 #chat-log .message .SR-CardButton .opposedTest {
   background-color: #0c9394;
   line-height: 20px;
@@ -4008,17 +4011,17 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(0, 0, 1, 0.3);
   z-index: 1;
 }
-.sidebar-tab button:hover {
+.sidebar-tab button:hover:not(.SR-CardButtonHit) {
   color: #000001;
   background-color: transparent;
   box-shadow: none;
 }
-.sidebar-tab button:hover:before {
+.sidebar-tab button:hover:before:not(.SR-CardButtonHit) {
   left: 0%;
   right: auto;
   width: 100%;
 }
-.sidebar-tab button:before {
+.sidebar-tab button:before:not(.SR-CardButtonHit) {
   display: block;
   position: absolute;
   top: 0px;
