@@ -44,6 +44,8 @@
                 text-align: center;
                 border-radius: 3px;
                 text-decoration: none;
+                text-overflow: ellipsis;
+                overflow: hidden;
                 -webkit-transition: all 1s ease;
                 -moz-transition: all 1s ease;
                 -o-transition: all 1s ease;
@@ -935,6 +937,7 @@
         transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
         border: 1px solid @subColor;
         background: fade(@black, 30%);
+        z-index: 1;
 
         &:hover {
             color: @black;
@@ -1021,6 +1024,7 @@
             -moz-transition: all 1s ease;
             -o-transition: all 1s ease;
             transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            z-index: 1;
 
             &:hover {
                 background-color: transparent;
@@ -1463,6 +1467,7 @@
         -moz-transition: all 1s ease;
         -o-transition: all 1s ease;
         transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        z-index: 1;
 
         &:not(:last-child) {
           box-shadow: 0 1px 0 fade(@mainColor, 50%);
@@ -1794,9 +1799,77 @@
 
 [id^=app-]{
     .compendium {
-        li.directory-item {
-            border-bottom: 1px solid fade(@mainColor, 50%);
+        &.directory {
+            input {
+                font-family: @SR_BodyText;
+                color: @neutralLightColor;
+                border: 1px solid @mainColor;
+                background: fade(@black, 30%);
+
+                &:focus {
+                    border: 1px solid @subColor;
+                    box-shadow: 0 0 5px @subColor;
+                }
+
+                &::placeholder {
+                    color: @mainColor;
+                    font-family: @SR_BodyText;
+                }
+            }
+
+            li.directory-item {
+                line-height: 40px;
+                border-bottom: 0;
+                margin: 0 0 3px 0;
+                position: relative;
+                display: block;
+                -webkit-transition: all 1s ease;
+                -moz-transition: all 1s ease;
+                -o-transition: all 1s ease;
+                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                z-index: 1;
+
+                &:not(:last-child) {
+                box-shadow: 0 1px 0 fade(@mainColor, 50%);
+                }
+
+                &:hover {
+                    text-shadow: none;
+                    background-color: transparent;
+                }
+
+                &:hover:before {
+                    left: 0%;
+                    right: auto;
+                    width: 100%;
+                }
+
+                &:before {
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    height: calc(100% - 2px);
+                    width: 0px;
+                    z-index: -1;
+                    content: '';
+                    background: fade(@subColor, 25%);
+                    background-origin: border-box;
+                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                }
+            }
+
+            img {
+                border: 1px solid @subColor;
+                border-radius: 3px;
+                flex: 0 0 35px;
+                height: 35px;
+                width: 35px;
+                object-fit: contain;
+                margin: 2px 8px 0 2px
+            }
         }
+        
     }
 
 }

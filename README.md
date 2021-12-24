@@ -23,7 +23,7 @@ The system is heavily automatised, main features are:
 
 ...but, there's still a lot to do :/
 
-### Currently Supported Actor Sheets
+## Currently Supported Actor Sheets
 - Character
 - Grunt
 - Spirit
@@ -31,9 +31,9 @@ The system is heavily automatised, main features are:
 - Drone/Vehicle
 - Host/Device/ICE
 
-#### Currently Supported Item Sheets
+## Currently Supported Item Sheets
 - Ammunition
-- Armor"
+- Armor
 - Augmentation
 - Complex Form
 - Contact
@@ -60,9 +60,10 @@ The system is heavily automatised, main features are:
 - Vehicle
 - Weapon
 
-##### Thanks
+## Thanks
 A big thanks to Moo Man, Atropos, and all the amazing developpers behind a lot of Foundry systems. I've learned a lot with your systems.
 None of this should be here without my 'coding bro' deurk. "Coeur avec les mains".
 And another thanks to Ombres Portées v2 community !
 
-©The Topps Company, Inc. All Rights Reserved. Shadowrun and Matrix are registered trademarks and/or trademarks of The Topps Company, Inc., in the United States and/or other countries. Catalyst Game Labs and the Catalyst Game Labs logo are trademarks of InMediaRes Productions, LLC.
+## Copyrights
+Shadowrun and Matrix are registered trademarks and/or trademarks of The Topps Company, Inc., in the United States and/or other countries. Catalyst Game Labs and the Catalyst Game Labs logo are trademarks of InMediaRes Productions, LLC.

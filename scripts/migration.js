@@ -19,15 +19,15 @@ export default class Migration {
 
 		// Migrate World Compendium Packs
 		for (let p of game.packs) {
-			if (p.metadata.entity == "Item" && p.metadata.package == "world")
+			if (p.metadata.type == "Item" && p.metadata.package == "world")
 			  await this.migrateCompendium(p);
 		  }
 		  for (let p of game.packs) {
-			if (p.metadata.entity == "Actor" && p.metadata.package == "world")
+			if (p.metadata.type == "Actor" && p.metadata.package == "world")
 			  await this.migrateCompendium(p);
 		  }
 		  for (let p of game.packs) {
-			if (p.metadata.entity == "Scene" && p.metadata.package == "world")
+			if (p.metadata.type == "Scene" && p.metadata.package == "world")
 			  await this.migrateCompendium(p);
 		}
 

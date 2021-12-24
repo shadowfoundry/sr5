@@ -2742,7 +2742,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) select,
 .app.window-app.app.window-app[id^=permission-] select,
 .app.window-app#permission select,
-.app.window-app#playlist-config select,
+.app.window-app[id^=playlist-config-] select,
+.app.window-app[id^=rolltable-sheet-] select,
+.app.window-app[id^=cards-sheet-] select,
 .app.window-app.macro-sheet select {
   border: 1px solid #b2007a;
   color: #fffffe;
@@ -2755,7 +2757,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) select:focus,
 .app.window-app.app.window-app[id^=permission-] select:focus,
 .app.window-app#permission select:focus,
-.app.window-app#playlist-config select:focus,
+.app.window-app[id^=playlist-config-] select:focus,
+.app.window-app[id^=rolltable-sheet-] select:focus,
+.app.window-app[id^=cards-sheet-] select:focus,
 .app.window-app.macro-sheet select:focus {
   box-shadow: 0 0 5px #839c88;
   border: 1px solid #839c88;
@@ -2768,7 +2772,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) select::before,
 .app.window-app.app.window-app[id^=permission-] select::before,
 .app.window-app#permission select::before,
-.app.window-app#playlist-config select::before,
+.app.window-app[id^=playlist-config-] select::before,
+.app.window-app[id^=rolltable-sheet-] select::before,
+.app.window-app[id^=cards-sheet-] select::before,
 .app.window-app.macro-sheet select::before {
   background-color: #000001;
 }
@@ -2780,7 +2786,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) option,
 .app.window-app.app.window-app[id^=permission-] option,
 .app.window-app#permission option,
-.app.window-app#playlist-config option,
+.app.window-app[id^=playlist-config-] option,
+.app.window-app[id^=rolltable-sheet-] option,
+.app.window-app[id^=cards-sheet-] option,
 .app.window-app.macro-sheet option {
   background-color: #000001;
 }
@@ -2792,7 +2800,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) option:hover,
 .app.window-app.app.window-app[id^=permission-] option:hover,
 .app.window-app#permission option:hover,
-.app.window-app#playlist-config option:hover,
+.app.window-app[id^=playlist-config-] option:hover,
+.app.window-app[id^=rolltable-sheet-] option:hover,
+.app.window-app[id^=cards-sheet-] option:hover,
 .app.window-app.macro-sheet option:hover {
   background-color: #839c88;
 }
@@ -2804,7 +2814,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) button,
 .app.window-app.app.window-app[id^=permission-] button,
 .app.window-app#permission button,
-.app.window-app#playlist-config button,
+.app.window-app[id^=playlist-config-] button,
+.app.window-app[id^=rolltable-sheet-] button,
+.app.window-app[id^=cards-sheet-] button,
 .app.window-app.macro-sheet button,
 .app.window-app.form a.display-mode,
 .app.window-app.scene-sheet a.display-mode,
@@ -2814,7 +2826,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) a.display-mode,
 .app.window-app.app.window-app[id^=permission-] a.display-mode,
 .app.window-app#permission a.display-mode,
-.app.window-app#playlist-config a.display-mode,
+.app.window-app[id^=playlist-config-] a.display-mode,
+.app.window-app[id^=rolltable-sheet-] a.display-mode,
+.app.window-app[id^=cards-sheet-] a.display-mode,
 .app.window-app.macro-sheet a.display-mode {
   position: relative;
   display: block;
@@ -2824,6 +2838,8 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
   border-radius: 3px;
   text-decoration: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
@@ -2840,7 +2856,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) button:hover,
 .app.window-app.app.window-app[id^=permission-] button:hover,
 .app.window-app#permission button:hover,
-.app.window-app#playlist-config button:hover,
+.app.window-app[id^=playlist-config-] button:hover,
+.app.window-app[id^=rolltable-sheet-] button:hover,
+.app.window-app[id^=cards-sheet-] button:hover,
 .app.window-app.macro-sheet button:hover,
 .app.window-app.form a.display-mode:hover,
 .app.window-app.scene-sheet a.display-mode:hover,
@@ -2850,7 +2868,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) a.display-mode:hover,
 .app.window-app.app.window-app[id^=permission-] a.display-mode:hover,
 .app.window-app#permission a.display-mode:hover,
-.app.window-app#playlist-config a.display-mode:hover,
+.app.window-app[id^=playlist-config-] a.display-mode:hover,
+.app.window-app[id^=rolltable-sheet-] a.display-mode:hover,
+.app.window-app[id^=cards-sheet-] a.display-mode:hover,
 .app.window-app.macro-sheet a.display-mode:hover {
   color: #fffffe;
   background-color: rgba(131, 156, 136, 0.5);
@@ -2865,7 +2885,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) button:hover:before,
 .app.window-app.app.window-app[id^=permission-] button:hover:before,
 .app.window-app#permission button:hover:before,
-.app.window-app#playlist-config button:hover:before,
+.app.window-app[id^=playlist-config-] button:hover:before,
+.app.window-app[id^=rolltable-sheet-] button:hover:before,
+.app.window-app[id^=cards-sheet-] button:hover:before,
 .app.window-app.macro-sheet button:hover:before,
 .app.window-app.form a.display-mode:hover:before,
 .app.window-app.scene-sheet a.display-mode:hover:before,
@@ -2875,7 +2897,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) a.display-mode:hover:before,
 .app.window-app.app.window-app[id^=permission-] a.display-mode:hover:before,
 .app.window-app#permission a.display-mode:hover:before,
-.app.window-app#playlist-config a.display-mode:hover:before,
+.app.window-app[id^=playlist-config-] a.display-mode:hover:before,
+.app.window-app[id^=rolltable-sheet-] a.display-mode:hover:before,
+.app.window-app[id^=cards-sheet-] a.display-mode:hover:before,
 .app.window-app.macro-sheet a.display-mode:hover:before {
   left: 0%;
   right: auto;
@@ -2889,7 +2913,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) button:before,
 .app.window-app.app.window-app[id^=permission-] button:before,
 .app.window-app#permission button:before,
-.app.window-app#playlist-config button:before,
+.app.window-app[id^=playlist-config-] button:before,
+.app.window-app[id^=rolltable-sheet-] button:before,
+.app.window-app[id^=cards-sheet-] button:before,
 .app.window-app.macro-sheet button:before,
 .app.window-app.form a.display-mode:before,
 .app.window-app.scene-sheet a.display-mode:before,
@@ -2899,7 +2925,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) a.display-mode:before,
 .app.window-app.app.window-app[id^=permission-] a.display-mode:before,
 .app.window-app#permission a.display-mode:before,
-.app.window-app#playlist-config a.display-mode:before,
+.app.window-app[id^=playlist-config-] a.display-mode:before,
+.app.window-app[id^=rolltable-sheet-] a.display-mode:before,
+.app.window-app[id^=cards-sheet-] a.display-mode:before,
 .app.window-app.macro-sheet a.display-mode:before {
   display: block;
   position: absolute;
@@ -2921,7 +2949,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="text"],
 .app.window-app.app.window-app[id^=permission-] input[type="text"],
 .app.window-app#permission input[type="text"],
-.app.window-app#playlist-config input[type="text"],
+.app.window-app[id^=playlist-config-] input[type="text"],
+.app.window-app[id^=rolltable-sheet-] input[type="text"],
+.app.window-app[id^=cards-sheet-] input[type="text"],
 .app.window-app.macro-sheet input[type="text"],
 .app.window-app.form input[type="number"],
 .app.window-app.scene-sheet input[type="number"],
@@ -2931,7 +2961,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="number"],
 .app.window-app.app.window-app[id^=permission-] input[type="number"],
 .app.window-app#permission input[type="number"],
-.app.window-app#playlist-config input[type="number"],
+.app.window-app[id^=playlist-config-] input[type="number"],
+.app.window-app[id^=rolltable-sheet-] input[type="number"],
+.app.window-app[id^=cards-sheet-] input[type="number"],
 .app.window-app.macro-sheet input[type="number"],
 .app.window-app.form input[type="color"],
 .app.window-app.scene-sheet input[type="color"],
@@ -2941,7 +2973,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="color"],
 .app.window-app.app.window-app[id^=permission-] input[type="color"],
 .app.window-app#permission input[type="color"],
-.app.window-app#playlist-config input[type="color"],
+.app.window-app[id^=playlist-config-] input[type="color"],
+.app.window-app[id^=rolltable-sheet-] input[type="color"],
+.app.window-app[id^=cards-sheet-] input[type="color"],
 .app.window-app.macro-sheet input[type="color"] {
   color: #fffffe;
   border: 1px solid #b2007a;
@@ -2955,7 +2989,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="text"]:focus,
 .app.window-app.app.window-app[id^=permission-] input[type="text"]:focus,
 .app.window-app#permission input[type="text"]:focus,
-.app.window-app#playlist-config input[type="text"]:focus,
+.app.window-app[id^=playlist-config-] input[type="text"]:focus,
+.app.window-app[id^=rolltable-sheet-] input[type="text"]:focus,
+.app.window-app[id^=cards-sheet-] input[type="text"]:focus,
 .app.window-app.macro-sheet input[type="text"]:focus,
 .app.window-app.form input[type="number"]:focus,
 .app.window-app.scene-sheet input[type="number"]:focus,
@@ -2965,7 +3001,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="number"]:focus,
 .app.window-app.app.window-app[id^=permission-] input[type="number"]:focus,
 .app.window-app#permission input[type="number"]:focus,
-.app.window-app#playlist-config input[type="number"]:focus,
+.app.window-app[id^=playlist-config-] input[type="number"]:focus,
+.app.window-app[id^=rolltable-sheet-] input[type="number"]:focus,
+.app.window-app[id^=cards-sheet-] input[type="number"]:focus,
 .app.window-app.macro-sheet input[type="number"]:focus,
 .app.window-app.form input[type="color"]:focus,
 .app.window-app.scene-sheet input[type="color"]:focus,
@@ -2975,7 +3013,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="color"]:focus,
 .app.window-app.app.window-app[id^=permission-] input[type="color"]:focus,
 .app.window-app#permission input[type="color"]:focus,
-.app.window-app#playlist-config input[type="color"]:focus,
+.app.window-app[id^=playlist-config-] input[type="color"]:focus,
+.app.window-app[id^=rolltable-sheet-] input[type="color"]:focus,
+.app.window-app[id^=cards-sheet-] input[type="color"]:focus,
 .app.window-app.macro-sheet input[type="color"]:focus {
   box-shadow: 0 0 5px rgba(131, 156, 136, 0.5);
   border: 1px solid #839c88;
@@ -2988,7 +3028,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="text"]::placeholder,
 .app.window-app.app.window-app[id^=permission-] input[type="text"]::placeholder,
 .app.window-app#permission input[type="text"]::placeholder,
-.app.window-app#playlist-config input[type="text"]::placeholder,
+.app.window-app[id^=playlist-config-] input[type="text"]::placeholder,
+.app.window-app[id^=rolltable-sheet-] input[type="text"]::placeholder,
+.app.window-app[id^=cards-sheet-] input[type="text"]::placeholder,
 .app.window-app.macro-sheet input[type="text"]::placeholder,
 .app.window-app.form input[type="number"]::placeholder,
 .app.window-app.scene-sheet input[type="number"]::placeholder,
@@ -2998,7 +3040,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="number"]::placeholder,
 .app.window-app.app.window-app[id^=permission-] input[type="number"]::placeholder,
 .app.window-app#permission input[type="number"]::placeholder,
-.app.window-app#playlist-config input[type="number"]::placeholder,
+.app.window-app[id^=playlist-config-] input[type="number"]::placeholder,
+.app.window-app[id^=rolltable-sheet-] input[type="number"]::placeholder,
+.app.window-app[id^=cards-sheet-] input[type="number"]::placeholder,
 .app.window-app.macro-sheet input[type="number"]::placeholder,
 .app.window-app.form input[type="color"]::placeholder,
 .app.window-app.scene-sheet input[type="color"]::placeholder,
@@ -3008,7 +3052,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="color"]::placeholder,
 .app.window-app.app.window-app[id^=permission-] input[type="color"]::placeholder,
 .app.window-app#permission input[type="color"]::placeholder,
-.app.window-app#playlist-config input[type="color"]::placeholder,
+.app.window-app[id^=playlist-config-] input[type="color"]::placeholder,
+.app.window-app[id^=rolltable-sheet-] input[type="color"]::placeholder,
+.app.window-app[id^=cards-sheet-] input[type="color"]::placeholder,
 .app.window-app.macro-sheet input[type="color"]::placeholder {
   color: #b2007a;
 }
@@ -3020,7 +3066,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="checkbox"],
 .app.window-app.app.window-app[id^=permission-] input[type="checkbox"],
 .app.window-app#permission input[type="checkbox"],
-.app.window-app#playlist-config input[type="checkbox"],
+.app.window-app[id^=playlist-config-] input[type="checkbox"],
+.app.window-app[id^=rolltable-sheet-] input[type="checkbox"],
+.app.window-app[id^=cards-sheet-] input[type="checkbox"],
 .app.window-app.macro-sheet input[type="checkbox"] {
   position: relative;
   color: #b2007a;
@@ -3039,7 +3087,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]::before,
 .app.window-app.app.window-app[id^=permission-] input[type="checkbox"]::before,
 .app.window-app#permission input[type="checkbox"]::before,
-.app.window-app#playlist-config input[type="checkbox"]::before,
+.app.window-app[id^=playlist-config-] input[type="checkbox"]::before,
+.app.window-app[id^=rolltable-sheet-] input[type="checkbox"]::before,
+.app.window-app[id^=cards-sheet-] input[type="checkbox"]::before,
 .app.window-app.macro-sheet input[type="checkbox"]::before {
   position: relative;
   content: '';
@@ -3061,7 +3111,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]:checked,
 .app.window-app.app.window-app[id^=permission-] input[type="checkbox"]:checked,
 .app.window-app#permission input[type="checkbox"]:checked,
-.app.window-app#playlist-config input[type="checkbox"]:checked,
+.app.window-app[id^=playlist-config-] input[type="checkbox"]:checked,
+.app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked,
+.app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked,
 .app.window-app.macro-sheet input[type="checkbox"]:checked {
   color: #fffffe;
   border-color: #839c88;
@@ -3075,7 +3127,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]:checked::before,
 .app.window-app.app.window-app[id^=permission-] input[type="checkbox"]:checked::before,
 .app.window-app#permission input[type="checkbox"]:checked::before,
-.app.window-app#playlist-config input[type="checkbox"]:checked::before,
+.app.window-app[id^=playlist-config-] input[type="checkbox"]:checked::before,
+.app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked::before,
+.app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked::before {
   opacity: 1;
 }
@@ -3087,7 +3141,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]:checked ~ label::before,
 .app.window-app.app.window-app[id^=permission-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app#permission input[type="checkbox"]:checked ~ label::before,
-.app.window-app#playlist-config input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=playlist-config-] input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
@@ -3099,7 +3155,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) h2,
 .app.window-app.app.window-app[id^=permission-] h2,
 .app.window-app#permission h2,
-.app.window-app#playlist-config h2,
+.app.window-app[id^=playlist-config-] h2,
+.app.window-app[id^=rolltable-sheet-] h2,
+.app.window-app[id^=cards-sheet-] h2,
 .app.window-app.macro-sheet h2,
 .app.window-app.form h3,
 .app.window-app.scene-sheet h3,
@@ -3109,7 +3167,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) h3,
 .app.window-app.app.window-app[id^=permission-] h3,
 .app.window-app#permission h3,
-.app.window-app#playlist-config h3,
+.app.window-app[id^=playlist-config-] h3,
+.app.window-app[id^=rolltable-sheet-] h3,
+.app.window-app[id^=cards-sheet-] h3,
 .app.window-app.macro-sheet h3 {
   font-family: "Njord Alternate";
   text-transform: uppercase;
@@ -3124,7 +3184,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) h2,
 .app.window-app.app.window-app[id^=permission-] h2,
 .app.window-app#permission h2,
-.app.window-app#playlist-config h2,
+.app.window-app[id^=playlist-config-] h2,
+.app.window-app[id^=rolltable-sheet-] h2,
+.app.window-app[id^=cards-sheet-] h2,
 .app.window-app.macro-sheet h2 {
   text-align: center;
   border-bottom: 1px solid #839c88;
@@ -3139,7 +3201,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) h3,
 .app.window-app.app.window-app[id^=permission-] h3,
 .app.window-app#permission h3,
-.app.window-app#playlist-config h3,
+.app.window-app[id^=playlist-config-] h3,
+.app.window-app[id^=rolltable-sheet-] h3,
+.app.window-app[id^=cards-sheet-] h3,
 .app.window-app.macro-sheet h3 {
   border-bottom: 1px solid #b2007a;
   border-top: 1px solid #b2007a;
@@ -3153,7 +3217,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) span.units,
 .app.window-app.app.window-app[id^=permission-] span.units,
 .app.window-app#permission span.units,
-.app.window-app#playlist-config span.units,
+.app.window-app[id^=playlist-config-] span.units,
+.app.window-app[id^=rolltable-sheet-] span.units,
+.app.window-app[id^=cards-sheet-] span.units,
 .app.window-app.macro-sheet span.units {
   color: #839c88;
 }
@@ -3165,7 +3231,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) nav .item.active,
 .app.window-app.app.window-app[id^=permission-] nav .item.active,
 .app.window-app#permission nav .item.active,
-.app.window-app#playlist-config nav .item.active,
+.app.window-app[id^=playlist-config-] nav .item.active,
+.app.window-app[id^=rolltable-sheet-] nav .item.active,
+.app.window-app[id^=cards-sheet-] nav .item.active,
 .app.window-app.macro-sheet nav .item.active {
   color: #fffffe;
   border: none;
@@ -3187,7 +3255,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) nav .item.active:hover,
 .app.window-app.app.window-app[id^=permission-] nav .item.active:hover,
 .app.window-app#permission nav .item.active:hover,
-.app.window-app#playlist-config nav .item.active:hover,
+.app.window-app[id^=playlist-config-] nav .item.active:hover,
+.app.window-app[id^=rolltable-sheet-] nav .item.active:hover,
+.app.window-app[id^=cards-sheet-] nav .item.active:hover,
 .app.window-app.macro-sheet nav .item.active:hover {
   height: 33px;
   border-bottom: none;
@@ -3200,7 +3270,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) nav .item:hover,
 .app.window-app.app.window-app[id^=permission-] nav .item:hover,
 .app.window-app#permission nav .item:hover,
-.app.window-app#playlist-config nav .item:hover,
+.app.window-app[id^=playlist-config-] nav .item:hover,
+.app.window-app[id^=rolltable-sheet-] nav .item:hover,
+.app.window-app[id^=cards-sheet-] nav .item:hover,
 .app.window-app.macro-sheet nav .item:hover {
   height: 29px;
   border-bottom: 1px solid #839c88;
@@ -3213,7 +3285,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) footer button:not(:nth-child(0n+1)),
 .app.window-app.app.window-app[id^=permission-] footer button:not(:nth-child(0n+1)),
 .app.window-app#permission footer button:not(:nth-child(0n+1)),
-.app.window-app#playlist-config footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=playlist-config-] footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=rolltable-sheet-] footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=cards-sheet-] footer button:not(:nth-child(0n+1)),
 .app.window-app.macro-sheet footer button:not(:nth-child(0n+1)) {
   margin-left: 10px;
 }
@@ -3225,7 +3299,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content,
 .app.window-app.app.window-app[id^=permission-] .window-content,
 .app.window-app#permission .window-content,
-.app.window-app#playlist-config .window-content,
+.app.window-app[id^=playlist-config-] .window-content,
+.app.window-app[id^=rolltable-sheet-] .window-content,
+.app.window-app[id^=cards-sheet-] .window-content,
 .app.window-app.macro-sheet .window-content {
   padding: 8px;
   background-image: linear-gradient(rgba(0, 0, 1, 0.45), rgba(0, 0, 1, 0.45)), url("../img/ui/SR6_BG_Sidebar.jpg");
@@ -3241,7 +3317,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content header.form-header,
 .app.window-app.app.window-app[id^=permission-] .window-content header.form-header,
 .app.window-app#permission .window-content header.form-header,
-.app.window-app#playlist-config .window-content header.form-header,
+.app.window-app[id^=playlist-config-] .window-content header.form-header,
+.app.window-app[id^=rolltable-sheet-] .window-content header.form-header,
+.app.window-app[id^=cards-sheet-] .window-content header.form-header,
 .app.window-app.macro-sheet .window-content header.form-header {
   border-top: none;
   border-bottom: none;
@@ -3255,7 +3333,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content .form-header,
 .app.window-app.app.window-app[id^=permission-] .window-content .form-header,
 .app.window-app#permission .window-content .form-header,
-.app.window-app#playlist-config .window-content .form-header,
+.app.window-app[id^=playlist-config-] .window-content .form-header,
+.app.window-app[id^=rolltable-sheet-] .window-content .form-header,
+.app.window-app[id^=cards-sheet-] .window-content .form-header,
 .app.window-app.macro-sheet .window-content .form-header {
   margin-top: 5px;
 }
@@ -3267,7 +3347,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content .notes,
 .app.window-app.app.window-app[id^=permission-] .window-content .notes,
 .app.window-app#permission .window-content .notes,
-.app.window-app#playlist-config .window-content .notes,
+.app.window-app[id^=playlist-config-] .window-content .notes,
+.app.window-app[id^=rolltable-sheet-] .window-content .notes,
+.app.window-app[id^=cards-sheet-] .window-content .notes,
 .app.window-app.macro-sheet .window-content .notes {
   color: #839c88;
   line-height: 14px;
@@ -3281,7 +3363,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=command],
 .app.window-app.app.window-app[id^=permission-] .window-content textarea[name=command],
 .app.window-app#permission .window-content textarea[name=command],
-.app.window-app#playlist-config .window-content textarea[name=command],
+.app.window-app[id^=playlist-config-] .window-content textarea[name=command],
+.app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command],
+.app.window-app[id^=cards-sheet-] .window-content textarea[name=command],
 .app.window-app.macro-sheet .window-content textarea[name=command] {
   background-color: rgba(178, 0, 122, 0.25);
   border: 1px solid #b2007a;
@@ -3295,7 +3379,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=command]:focus,
 .app.window-app.app.window-app[id^=permission-] .window-content textarea[name=command]:focus,
 .app.window-app#permission .window-content textarea[name=command]:focus,
-.app.window-app#playlist-config .window-content textarea[name=command]:focus,
+.app.window-app[id^=playlist-config-] .window-content textarea[name=command]:focus,
+.app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command]:focus,
+.app.window-app[id^=cards-sheet-] .window-content textarea[name=command]:focus,
 .app.window-app.macro-sheet .window-content textarea[name=command]:focus {
   border: 1px solid #839c88;
   outline: none;
@@ -3310,9 +3396,27 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=command]::selection,
 .app.window-app.app.window-app[id^=permission-] .window-content textarea[name=command]::selection,
 .app.window-app#permission .window-content textarea[name=command]::selection,
-.app.window-app#playlist-config .window-content textarea[name=command]::selection,
+.app.window-app[id^=playlist-config-] .window-content textarea[name=command]::selection,
+.app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command]::selection,
+.app.window-app[id^=cards-sheet-] .window-content textarea[name=command]::selection,
 .app.window-app.macro-sheet .window-content textarea[name=command]::selection {
   background-color: rgba(131, 156, 136, 0.5);
+}
+.app.window-app.form .window-content textarea[name=description],
+.app.window-app.scene-sheet .window-content textarea[name=description],
+.app.window-app.token-sheet .window-content textarea[name=description],
+.app.window-app.combat-sheet .window-content textarea[name=description],
+.app.window-app.folder-edit .window-content textarea[name=description],
+.app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=description],
+.app.window-app.app.window-app[id^=permission-] .window-content textarea[name=description],
+.app.window-app#permission .window-content textarea[name=description],
+.app.window-app[id^=playlist-config-] .window-content textarea[name=description],
+.app.window-app[id^=rolltable-sheet-] .window-content textarea[name=description],
+.app.window-app[id^=cards-sheet-] .window-content textarea[name=description],
+.app.window-app.macro-sheet .window-content textarea[name=description] {
+  color: #fffffe;
+  border: 1px solid #b2007a;
+  background-color: rgba(178, 0, 122, 0.25);
 }
 .app.window-app.form .window-content .command,
 .app.window-app.scene-sheet .window-content .command,
@@ -3322,9 +3426,15 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=app-]:not(.dialog) .window-content .command,
 .app.window-app.app.window-app[id^=permission-] .window-content .command,
 .app.window-app#permission .window-content .command,
-.app.window-app#playlist-config .window-content .command,
+.app.window-app[id^=playlist-config-] .window-content .command,
+.app.window-app[id^=rolltable-sheet-] .window-content .command,
+.app.window-app[id^=cards-sheet-] .window-content .command,
 .app.window-app.macro-sheet .window-content .command {
   margin-bottom: 10px;
+}
+.app.window-app.scene-sheet nav.sheet-tabs.tabs {
+  flex-wrap: wrap;
+  height: auto;
 }
 .app.window-app.journal-sheet .window-content {
   background-image: url("../img/ui/SR6_BG_NoteTop.png"), url("../img/ui/SR6_BG_NoteBottom.png"), url("../img/ui/SR6_BG_Blanc.jpg");
@@ -3817,6 +3927,7 @@ input[type=range]:focus::-ms-fill-upper {
   box-shadow: none;
 }
 #sidebar {
+  margin: 0px 0px 5px 5px;
   right: 0px;
   top: 0px;
   width: 308px;
@@ -3895,6 +4006,7 @@ input[type=range]:focus::-ms-fill-upper {
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
   border: 1px solid #839c88;
   background: rgba(0, 0, 1, 0.3);
+  z-index: 1;
 }
 .sidebar-tab button:hover {
   color: #000001;
@@ -3964,6 +4076,7 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  z-index: 1;
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header:hover {
   background-color: transparent;
@@ -3989,14 +4102,15 @@ input[type=range]:focus::-ms-fill-upper {
 .sidebar-tab .directory-list .directory-item {
   line-height: 40px;
 }
+.sidebar-tab .directory-list .directory-item .document-name {
+  margin: 0 0 0 0px;
+}
 .sidebar-tab .directory-list .directory-item h4 {
   background-image: linear-gradient(to right, rgba(131, 156, 136, 0.25) 0, rgba(131, 156, 136, 0.25) 100%);
   background-position: left 50%;
   background-size: 0 90%;
   background-repeat: no-repeat;
   transition: background 0.5s;
-  margin-left: -8px;
-  padding-left: 8px;
 }
 .sidebar-tab .directory-list .directory-item h4:hover:not(.pack-title) {
   background-size: 100% 90%;
@@ -4305,6 +4419,7 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  z-index: 1;
 }
 #compendium li.compendium-pack:not(:last-child) {
   box-shadow: 0 1px 0 rgba(178, 0, 122, 0.5);
@@ -4573,8 +4688,65 @@ input[type=range]:focus::-ms-fill-upper {
 #player-config input[type="color"]::placeholder {
   color: #b2007a;
 }
-[id^=app-] .compendium li.directory-item {
-  border-bottom: 1px solid rgba(178, 0, 122, 0.5);
+[id^=app-] .compendium.directory input {
+  font-family: "amplitude_regular";
+  color: #fffffe;
+  border: 1px solid #b2007a;
+  background: rgba(0, 0, 1, 0.3);
+}
+[id^=app-] .compendium.directory input:focus {
+  border: 1px solid #839c88;
+  box-shadow: 0 0 5px #839c88;
+}
+[id^=app-] .compendium.directory input::placeholder {
+  color: #b2007a;
+  font-family: "amplitude_regular";
+}
+[id^=app-] .compendium.directory li.directory-item {
+  line-height: 40px;
+  border-bottom: 0;
+  margin: 0 0 3px 0;
+  position: relative;
+  display: block;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  z-index: 1;
+}
+[id^=app-] .compendium.directory li.directory-item:not(:last-child) {
+  box-shadow: 0 1px 0 rgba(178, 0, 122, 0.5);
+}
+[id^=app-] .compendium.directory li.directory-item:hover {
+  text-shadow: none;
+  background-color: transparent;
+}
+[id^=app-] .compendium.directory li.directory-item:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+[id^=app-] .compendium.directory li.directory-item:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: calc(100% - 2px);
+  width: 0px;
+  z-index: -1;
+  content: '';
+  background: rgba(131, 156, 136, 0.25);
+  background-origin: border-box;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+[id^=app-] .compendium.directory img {
+  border: 1px solid #839c88;
+  border-radius: 3px;
+  flex: 0 0 35px;
+  height: 35px;
+  width: 35px;
+  object-fit: contain;
+  margin: 2px 8px 0 2px;
 }
 #menu {
   background-image: url("../img/ui/SR6_BG_Sidebar.jpg");

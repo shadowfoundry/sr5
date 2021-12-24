@@ -2838,6 +2838,8 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
   border-radius: 3px;
   text-decoration: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
@@ -4004,6 +4006,7 @@ input[type=range]:focus::-ms-fill-upper {
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
   border: 1px solid #0c9394;
   background: rgba(0, 0, 1, 0.3);
+  z-index: 1;
 }
 .sidebar-tab button:hover {
   color: #000001;
@@ -4073,6 +4076,7 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  z-index: 1;
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header:hover {
   background-color: transparent;
@@ -4415,6 +4419,7 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  z-index: 1;
 }
 #compendium li.compendium-pack:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
@@ -4683,8 +4688,65 @@ input[type=range]:focus::-ms-fill-upper {
 #player-config input[type="color"]::placeholder {
   color: #931004;
 }
-[id^=app-] .compendium li.directory-item {
-  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
+[id^=app-] .compendium.directory input {
+  font-family: "amplitude_regular";
+  color: #fffffe;
+  border: 1px solid #931004;
+  background: rgba(0, 0, 1, 0.3);
+}
+[id^=app-] .compendium.directory input:focus {
+  border: 1px solid #0c9394;
+  box-shadow: 0 0 5px #0c9394;
+}
+[id^=app-] .compendium.directory input::placeholder {
+  color: #931004;
+  font-family: "amplitude_regular";
+}
+[id^=app-] .compendium.directory li.directory-item {
+  line-height: 40px;
+  border-bottom: 0;
+  margin: 0 0 3px 0;
+  position: relative;
+  display: block;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  z-index: 1;
+}
+[id^=app-] .compendium.directory li.directory-item:not(:last-child) {
+  box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
+}
+[id^=app-] .compendium.directory li.directory-item:hover {
+  text-shadow: none;
+  background-color: transparent;
+}
+[id^=app-] .compendium.directory li.directory-item:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+[id^=app-] .compendium.directory li.directory-item:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: calc(100% - 2px);
+  width: 0px;
+  z-index: -1;
+  content: '';
+  background: rgba(12, 147, 148, 0.25);
+  background-origin: border-box;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+[id^=app-] .compendium.directory img {
+  border: 1px solid #0c9394;
+  border-radius: 3px;
+  flex: 0 0 35px;
+  height: 35px;
+  width: 35px;
+  object-fit: contain;
+  margin: 2px 8px 0 2px;
 }
 #menu {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
