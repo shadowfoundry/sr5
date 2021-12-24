@@ -84,7 +84,7 @@ export class SR5Combat extends Combat {
 			const initiative = SR5Combat.reduceIniResultAfterPass(Number(combatant.initiative));
 			await combatant.update({
 				initiative: initiative, 
-				"flags.sr5.hasPlayed": false,
+				"flags.sr5.hasPlayed": combatant.isDefeated,
 				"flags.sr5.baseCombatantInitiative": initiative,
 			});
 		}
@@ -103,7 +103,7 @@ export class SR5Combat extends Combat {
 			combatant.update({
 				"flags.sr5.seizeInitiative" : false,
 				"flags.sr5.blitz" : false,
-				"flags.sr5.hasPlayed" : false,
+				"flags.sr5.hasPlayed" : combatant.isDefeated,
 			  });
 			await SR5Combat.decreaseEffectDuration(combatant);
 		}
@@ -262,7 +262,7 @@ export class SR5Combat extends Combat {
 		// Let Foundry handle time and some other things.
 		await super.nextRound();
 		for (let combatant of this.combatants){
-			await combatant.setFlag("sr5", "hasPlayed", false)
+			await combatant.setFlag("sr5", "hasPlayed", combatant.isDefeated)
 		}
 
 		// Owner permissions are needed to change the shadowrun initiative round.
@@ -539,3 +539,10 @@ export const _getInitiativeFormula = function() {
 	const parts = [initiative, initiativeDice];
 	return parts.filter((p) => p !== null).join(" + ");
 }
+
+/*debugger;
+		if (combatant.isDefeated){
+			udpateData = mergeObject(udpateData, {
+				"flags.sr5.hasPlayed": true,
+			});
+		}*/
