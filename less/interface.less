@@ -11,7 +11,8 @@
             background: @neutralLightColor;
         }
 
-        &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], &#permission, &#playlist-config, &.macro-sheet {
+        &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
+        &#permission, &[id^=playlist-config-], &[id^=rolltable-sheet-], &[id^=cards-sheet-], &.macro-sheet {
             select{
                 border: 1px solid @mainColor;
                 color: @neutralLightColor;
@@ -43,6 +44,8 @@
                 text-align: center;
                 border-radius: 3px;
                 text-decoration: none;
+                text-overflow: ellipsis;
+                overflow: hidden;
                 -webkit-transition: all 1s ease;
                 -moz-transition: all 1s ease;
                 -o-transition: all 1s ease;
@@ -225,10 +228,25 @@
                     }
                   }
 
+                textarea[name=description] {
+                    color: @neutralLightColor;
+                    border: 1px solid @mainColor;
+                    background-color: fade(@mainColor, 25%);
+                }
+
                 .command {
                     margin-bottom: 10px;
                 }
 
+            }
+        }
+
+        &.scene-sheet {
+            nav.sheet-tabs{
+                &.tabs {
+                    flex-wrap: wrap;
+                    height: auto;
+                }
             }
         }
 
@@ -445,13 +463,16 @@
 #logo {
     content:url(@SRLogo);
     height: 60px;
-    top: 8px;
-    left: -5px;
+    width: 60px;
+    margin: 7px 0 0 1px;
+}
+
+#ui-top.offset {
+    margin-left: 0px;
 }
 
 #navigation {
     left: 90px;
-
     #nav-toggle{
         background: @neutralDarkColor;
     }
@@ -580,18 +601,20 @@
   }
 }
 
-#hotbar {
-    left: 0px;
-    bottom: 0px;
-    width: 670px;
-    height: 92px;
-    padding: 25px 10px 12px 7px;
+#ui-bottom {
+    margin-left: -95px;
     background-image: url(@MacroBar);
     background-origin: border-box;
     background-repeat: no-repeat, no-repeat;
-    background-position-x: right;
-    background-position-y: top;
-    align-items: flex-end;
+    background-position-x: left;
+    background-position-y: bottom;
+    background-size: 650px;
+}
+
+#hotbar {
+    height: 65px;
+    padding-top: 15px;
+    padding-left: 5px;
 
     .macro .macro-key {
       font-family: @SR_FontTitle;
@@ -638,11 +661,13 @@
   }
 
   #players {
+      position: fixed;
   z-index: 71;
   background-image: none;
   margin-bottom: 0px;
   right: 315px;
   left: auto;
+  bottom: 5px;
   border: 1px solid @mainColor;
   border-radius: none;
   box-shadow: none;
@@ -662,85 +687,53 @@
     right: 15px;
 }
 
-#controls {
+#ui-left {
     background-image: url(@ControlBar);
-    background-position-y: bottom;
-    background-position-x: center;
     background-repeat: no-repeat, no-repeat;
-    top: 0px;
-    left: 0px;
-    padding-top: 75px;
-    padding-left: 7px;
-    padding-right: 70px;
-    padding-bottom: 40px;
-    margin-top: 0px;
+    background-position: -35px -215px;
+}
 
-    .scene-control {
-        width: 30px;
-        font-size: @SR_FontSizeBig;
-        line-height: 30px;
-        background: fade(@mainColor, 25%);
-        color: fade(@neutralLightColor, 75%);
-        border: 1px solid @mainColor;
-        box-shadow: none;
-        position: relative;
-        display: block;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+#controls {
+    
+    ol.main-controls {
+        padding-left: 10px;
+        width: 55px;
+    }
 
-        &:hover {
-            color: @neutralLightColor;
-            border: 1px solid @subColor;
-            background-color: transparent;
-            box-shadow: none;
-        }
+    ol:nth-of-type(3n){
+        margin-top: 40px;
+    }
 
-        &:hover:before {
-            left: 0%;
-            right: auto;
-            width: 100%;
-        }
+    ol:nth-of-type(4n){
+        margin-top: 80px;
+    }
 
-        &:before {
-            display: block;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: 100%;
-            width: 0px;
-            z-index: -1;
-            content: '';
-            color: @black !important;
-            background: fade(@subColor, 25%);
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        }
+    ol:nth-of-type(5n){
+        margin-top: 120px;
+    }
 
-        &.active {
-            color: @neutralLightColor;
-            background: fade(@subColor, 50%);
-            border: 1px solid @subColor;
-            box-shadow: none;
-        }
+    ol:nth-of-type(6n){
+        margin-top: 160px;
+    }
 
-        .control-tools {
-            left:35px;
-            top: 0px;
-            opacity: 0;
-            transition: opacity 0s ease-in 1s;
+    ol:nth-of-type(7n){
+        margin-top: 200px;
+    }
 
-            &:hover {
-                opacity: 1;
-                transition: opacity 0s ease-in 0s;
-            }
-        }
+    ol:nth-of-type(8n){
+        margin-top: 240px;
+    }
 
-        .control-tool {
-            border-radius: 5px;
-            height: 30px;
+    ol:nth-of-type(9n){
+        margin-top: 280px;
+    }
+
+    .main-controls {
+        
+        .scene-control {
             width: 30px;
-            font-size: @SR_FontSizeNormal;
+            height: 30px;
+            font-size: @SR_FontSizeBig;
             line-height: 30px;
             background: fade(@mainColor, 25%);
             color: fade(@neutralLightColor, 75%);
@@ -786,11 +779,74 @@
                 border: 1px solid @subColor;
                 box-shadow: none;
             }
+
+            
+        }
+    }
+
+    .sub-controls {
+        opacity: 0;
+        transition: opacity 0s ease-in 1s;
+        &:hover {
+            opacity: 1;
+            transition: opacity 0s ease-in 0s;
+        }
+
+        .control-tool {
+            width: 30px;
+            height: 30px;
+            font-size: @SR_FontSizeBig;
+            line-height: 30px;
+            background: fade(@mainColor, 25%);
+            color: fade(@neutralLightColor, 75%);
+            border: 1px solid @mainColor;
+            box-shadow: none;
+            position: relative;
+            display: block;
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1); 
+
+            &:hover {
+                color: @neutralLightColor;
+                border: 1px solid @subColor;
+                background-color: transparent;
+                box-shadow: none;
+            }
+
+            &:hover:before {
+                left: 0%;
+                right: auto;
+                width: 100%;
+            }
+
+            &:before {
+                display: block;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                height: 100%;
+                width: 0px;
+                z-index: -1;
+                content: '';
+                color: @black !important;
+                background: fade(@subColor, 25%);
+                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            }
+            
+            &.active {
+                color: @neutralLightColor;
+                background: fade(@subColor, 50%);
+                border: 1px solid @subColor;
+                box-shadow: none;
+            }
         }
     }
 }
 
 #sidebar {
+    margin: 0px 0px 5px 5px;
     right: 0px;
     top: 0px;
     width: 308px;
@@ -798,7 +854,6 @@
     background-image: url(@Sidebar);
     background-origin: border-box;
     background-size: cover;
-    // background-image: none;
     background-color: fade(@neutralDarkColor, 100%);
     border-radius: 0;
     border: 0px;
@@ -882,6 +937,7 @@
         transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
         border: 1px solid @subColor;
         background: fade(@black, 30%);
+        z-index: 1;
 
         &:hover {
             color: @black;
@@ -968,6 +1024,7 @@
             -moz-transition: all 1s ease;
             -o-transition: all 1s ease;
             transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            z-index: 1;
 
             &:hover {
                 background-color: transparent;
@@ -997,14 +1054,16 @@
         .directory-item {
             line-height: 40px;
 
+            .document-name {
+                margin: 0 0 0 0px;
+            }
+
             h4 {
                 background-image: linear-gradient(to right, fade(@subColor, 25%) 0, fade(@subColor, 25%) 100%);
                 background-position: left 50%;
                 background-size: 0 90%;
                 background-repeat: no-repeat;
                 transition: background .5s;
-                margin-left: -8px;
-                padding-left: 8px;
 
                 &:hover:not(.pack-title) {
                     background-size: 100% 90%;
@@ -1408,6 +1467,7 @@
         -moz-transition: all 1s ease;
         -o-transition: all 1s ease;
         transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        z-index: 1;
 
         &:not(:last-child) {
           box-shadow: 0 1px 0 fade(@mainColor, 50%);
@@ -1739,9 +1799,77 @@
 
 [id^=app-]{
     .compendium {
-        li.directory-item {
-            border-bottom: 1px solid fade(@mainColor, 50%);
+        &.directory {
+            input {
+                font-family: @SR_BodyText;
+                color: @neutralLightColor;
+                border: 1px solid @mainColor;
+                background: fade(@black, 30%);
+
+                &:focus {
+                    border: 1px solid @subColor;
+                    box-shadow: 0 0 5px @subColor;
+                }
+
+                &::placeholder {
+                    color: @mainColor;
+                    font-family: @SR_BodyText;
+                }
+            }
+
+            li.directory-item {
+                line-height: 40px;
+                border-bottom: 0;
+                margin: 0 0 3px 0;
+                position: relative;
+                display: block;
+                -webkit-transition: all 1s ease;
+                -moz-transition: all 1s ease;
+                -o-transition: all 1s ease;
+                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                z-index: 1;
+
+                &:not(:last-child) {
+                box-shadow: 0 1px 0 fade(@mainColor, 50%);
+                }
+
+                &:hover {
+                    text-shadow: none;
+                    background-color: transparent;
+                }
+
+                &:hover:before {
+                    left: 0%;
+                    right: auto;
+                    width: 100%;
+                }
+
+                &:before {
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    height: calc(100% - 2px);
+                    width: 0px;
+                    z-index: -1;
+                    content: '';
+                    background: fade(@subColor, 25%);
+                    background-origin: border-box;
+                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                }
+            }
+
+            img {
+                border: 1px solid @subColor;
+                border-radius: 3px;
+                flex: 0 0 35px;
+                height: 35px;
+                width: 35px;
+                object-fit: contain;
+                margin: 2px 8px 0 2px
+            }
         }
+        
     }
 
 }

@@ -50,7 +50,7 @@ export const registerHooks = function () {
     CONFIG.Item.documentClass = SR5Item;
     CONFIG.Combat.documentClass = SR5Combat;
     CONFIG.ui.combat = SR5CombatTracker;
-    CONFIG.Scene.sheetClass = SR5SceneConfig;
+    //CONFIG.Scene.sheetClass = SR5SceneConfig;
 
     // ACTIVATE HOOKS DEBUG
     CONFIG.debug.hooks = false;
@@ -88,6 +88,9 @@ export const registerHooks = function () {
     Items.registerSheet("SR5", SR5ItemSheet, {
       makeDefault: true
     });
+    DocumentSheetConfig.registerSheet(Scene, "SR5", SR5SceneConfig, {
+      makeDefault: true
+    })
 
     // Preload Handlebars Templates
     await preloadHandlebarsTemplates();
@@ -124,7 +127,7 @@ export const registerHooks = function () {
     // Determine whether a system migration is required and feasible
     if ( !game.user.isGM ) return;
     const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-    const NEEDS_MIGRATION_VERSION = "0.0.22";
+    const NEEDS_MIGRATION_VERSION = "0.0.3.0";
     const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
     // Perform the migration

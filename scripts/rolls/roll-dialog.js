@@ -227,6 +227,8 @@ export default class SR5_RollDialog extends Dialog {
         if (html.find('[name="dicePoolModRange"]')[0]){
             this.dicePoolModifier.range = parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));
             this.data.data.dicePoolMod.range = parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));
+            html.find('[name="targetRange"]')[0].value = -parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));
+            
             this.updateDicePoolValue(html);
         }
         
