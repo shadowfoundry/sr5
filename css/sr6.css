@@ -1152,6 +1152,9 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
   font-size: 1em;
 }
+#chat-log .message .SR-CardButton .endTest:hover {
+  box-shadow: none;
+}
 #chat-log .message .SR-CardButton .opposedTest {
   background-color: #839c88;
   line-height: 20px;
@@ -1170,6 +1173,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #chat-log .message .SR-CardButton .opposedTest:hover {
   color: #000001;
+  box-shadow: none;
 }
 #chat-log .message .SR-CardButton .nonOpposedTest {
   background-color: #000001;
@@ -1189,6 +1193,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #chat-log .message .SR-CardButton .nonOpposedTest:hover {
   color: #839c88;
+  box-shadow: none;
 }
 .SR5-message-edit {
   width: 20px;
@@ -3987,19 +3992,22 @@ input[type=range]:focus::-ms-fill-upper {
   height: 29px;
   border-bottom: 1px solid #839c88;
 }
-.sidebar-tab button {
+.sidebar-tab .directory-header {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #839c88;
+}
+.sidebar-tab .directory-header button {
   position: relative;
   display: block;
+  line-height: 20px;
   color: #fffffe;
   font-family: "Njord Regular";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
-  text-decoration: none;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
   border-radius: 3px;
+  text-decoration: none;
   -webkit-transition: all 1s ease;
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
@@ -4008,17 +4016,17 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(0, 0, 1, 0.3);
   z-index: 1;
 }
-.sidebar-tab button:hover {
+.sidebar-tab .directory-header button:hover {
   color: #000001;
   background-color: transparent;
   box-shadow: none;
 }
-.sidebar-tab button:hover:before {
+.sidebar-tab .directory-header button:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-.sidebar-tab button:before {
+.sidebar-tab .directory-header button:before {
   display: block;
   position: absolute;
   top: 0px;
@@ -4027,14 +4035,9 @@ input[type=range]:focus::-ms-fill-upper {
   width: 0px;
   z-index: -1;
   content: '';
-  color: #000001 !important;
+  color: #000001;
   background: #839c88;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-.sidebar-tab .directory-header {
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #839c88;
 }
 .sidebar-tab .directory-header .header-search input {
   font-family: "amplitude_regular";
@@ -4076,7 +4079,6 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  z-index: 1;
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header:hover {
   background-color: transparent;
@@ -4094,7 +4096,6 @@ input[type=range]:focus::-ms-fill-upper {
   right: 0px;
   height: 100%;
   width: 0px;
-  z-index: -1;
   content: '';
   background: rgba(131, 156, 136, 0.25);
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
@@ -4419,7 +4420,6 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  z-index: 1;
 }
 #compendium li.compendium-pack:not(:last-child) {
   box-shadow: 0 1px 0 rgba(178, 0, 122, 0.5);
@@ -4440,7 +4440,6 @@ input[type=range]:focus::-ms-fill-upper {
   right: 0px;
   height: calc(100% - 2px);
   width: 0px;
-  z-index: -1;
   content: '';
   background: rgba(131, 156, 136, 0.25);
   background-origin: border-box;
@@ -4712,7 +4711,6 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  z-index: 1;
 }
 [id^=app-] .compendium.directory li.directory-item:not(:last-child) {
   box-shadow: 0 1px 0 rgba(178, 0, 122, 0.5);
@@ -4733,7 +4731,6 @@ input[type=range]:focus::-ms-fill-upper {
   right: 0px;
   height: calc(100% - 2px);
   width: 0px;
-  z-index: -1;
   content: '';
   background: rgba(131, 156, 136, 0.25);
   background-origin: border-box;
