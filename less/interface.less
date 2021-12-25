@@ -918,58 +918,57 @@
 }
 
 .sidebar-tab {
-    button {
-        position: relative;
-        display: block;
-        color: @neutralLightColor;
-        font-family: @SR_FontTitle;
-        text-transform: uppercase;
-        font-size: @SR_FontSizeSmall ;
-        text-align: center;
-        text-decoration: none;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        border-radius: 3px;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        border: 1px solid @subColor;
-        background: fade(@black, 30%);
-        z-index: 1;
-
-        &:hover:not(.SR-CardButtonHit) {
-            color: @black;
-            background-color: transparent;
-            box-shadow: none;
-        }
-
-        &:hover:before:not(.SR-CardButtonHit) {
-            left: 0%;
-            right: auto;
-            width: 100%;
-        }
-
-        &:before:not(.SR-CardButtonHit) {
-            display: block;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: 100%;
-            width: 0px;
-            z-index: -1;
-            content: '';
-            color: @black !important;
-            background: @subColor;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        }
-    }
 
     .directory-header {
         padding-bottom: 5px;
         margin-bottom: 5px;
         border-bottom: 2px solid @subColor;
+
+        button {
+            position: relative;
+            display: block;
+            line-height: 20px;
+            color: @neutralLightColor;
+            font-family: @SR_FontTitle;
+            text-transform: uppercase;
+            font-size: @SR_FontSizeSmall ;
+            text-align: center;
+            border-radius: 3px;
+            text-decoration: none;
+            -webkit-transition: all 1s ease;
+            -moz-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            border: 1px solid @subColor;
+            background: fade(@black, 30%);
+            z-index: 1;
+    
+            &:hover {
+                color: @neutralDarkColor;
+                background-color: transparent;
+                box-shadow: none;
+            }
+    
+            &:hover:before {
+                left: 0%;
+                right: auto;
+                width: 100%;
+            }
+    
+            &:before {
+                display: block;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                height: 100%;
+                width: 0px;
+                z-index: -1;
+                content: '';
+                color: @neutralDarkColor;
+                background: @subColor;
+                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            }
+        }
 
         .header-search {
             input {
@@ -1024,7 +1023,6 @@
             -moz-transition: all 1s ease;
             -o-transition: all 1s ease;
             transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            z-index: 1;
 
             &:hover {
                 background-color: transparent;
@@ -1044,7 +1042,6 @@
                 right: 0px;
                 height: 100%;
                 width: 0px;
-                z-index: -1;
                 content: '';
                 background: fade(@subColor, 25%);
                 transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
@@ -1467,7 +1464,7 @@
         -moz-transition: all 1s ease;
         -o-transition: all 1s ease;
         transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        z-index: 1;
+        //z-index: 1;
 
         &:not(:last-child) {
           box-shadow: 0 1px 0 fade(@mainColor, 50%);
@@ -1491,7 +1488,7 @@
             right: 0px;
             height: calc(100% - 2px);
             width: 0px;
-            z-index: -1;
+            //z-index: -1;
             content: '';
             background: fade(@subColor, 25%);
             background-origin: border-box;
@@ -1827,7 +1824,7 @@
                 -moz-transition: all 1s ease;
                 -o-transition: all 1s ease;
                 transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                z-index: 1;
+                //z-index: 1;
 
                 &:not(:last-child) {
                 box-shadow: 0 1px 0 fade(@mainColor, 50%);
@@ -1851,7 +1848,7 @@
                     right: 0px;
                     height: calc(100% - 2px);
                     width: 0px;
-                    z-index: -1;
+                    //z-index: -1;
                     content: '';
                     background: fade(@subColor, 25%);
                     background-origin: border-box;
