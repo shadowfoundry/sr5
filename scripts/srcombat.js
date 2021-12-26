@@ -539,10 +539,3 @@ export const _getInitiativeFormula = function() {
 	const parts = [initiative, initiativeDice];
 	return parts.filter((p) => p !== null).join(" + ");
 }
-
-/*debugger;
-		if (combatant.isDefeated){
-			udpateData = mergeObject(udpateData, {
-				"flags.sr5.hasPlayed": true,
-			});
-		}*/

@@ -513,21 +513,54 @@
 
 #token-hud {
     .status-effects {
-        width: 100px;
-        grid-template-columns: 50px 50px;
+        width: 110px;
+        grid-template-columns: repeat(3, 33%);
+        background: fade(@subColor, 25%);
+        border: 1px solid @subColor;
     
         .effect-control{
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
+            border: 1px solid @subColor;
+            
+            &.active{
+                background: fade(@subColor, 75%);
+                border: 1px solid @subColor;
+            }
+
         }
+
+        &.active{
+            position: absolute;
+            margin-top: 77px;
+        }
+    }
+
+    .attribute.elevation {
+        width: 42px;
+
+        input{
+            background: fade(@subColor, 75%);
+            border: 1px solid @subColor;
+
+            &:focus{
+                box-shadow: none;
+                border: 1px solid @mainColor;
+                background-color: fade(@mainColor, 75%);
+            }
+        }
+
+        
     }
 }
 
 .placeable-hud .control-icon{
     background-color: fade(@subColor, 75%);
+    margin: 5px 0;
 
     &.active {
         border: 1px solid @mainColor;
+        background-color: fade(@mainColor, 75%);
     }
 }
 
@@ -918,57 +951,56 @@
 }
 
 .sidebar-tab {
+    button:not(.messageAction) {
+        position: relative;
+        display: block;
+        line-height: 20px;
+        color: @neutralLightColor;
+        font-family: @SR_FontTitle;
+        text-transform: uppercase;
+        font-size: @SR_FontSizeSmall ;
+        text-align: center;
+        border-radius: 3px;
+        text-decoration: none;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        border: 1px solid @subColor;
+        background: fade(@black, 30%);
+        z-index: 1;
+
+        &:hover {
+            color: @neutralDarkColor;
+            background-color: transparent;
+            box-shadow: none;
+        }
+
+        &:hover:before {
+            left: 0%;
+            right: auto;
+            width: 100%;
+        }
+
+        &:before {
+            display: block;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: 100%;
+            width: 0px;
+            z-index: -1;
+            content: '';
+            color: @neutralDarkColor;
+            background: @subColor;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        }
+    }
 
     .directory-header {
         padding-bottom: 5px;
         margin-bottom: 5px;
         border-bottom: 2px solid @subColor;
-
-        button {
-            position: relative;
-            display: block;
-            line-height: 20px;
-            color: @neutralLightColor;
-            font-family: @SR_FontTitle;
-            text-transform: uppercase;
-            font-size: @SR_FontSizeSmall ;
-            text-align: center;
-            border-radius: 3px;
-            text-decoration: none;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            border: 1px solid @subColor;
-            background: fade(@black, 30%);
-            z-index: 1;
-    
-            &:hover {
-                color: @neutralDarkColor;
-                background-color: transparent;
-                box-shadow: none;
-            }
-    
-            &:hover:before {
-                left: 0%;
-                right: auto;
-                width: 100%;
-            }
-    
-            &:before {
-                display: block;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                height: 100%;
-                width: 0px;
-                z-index: -1;
-                content: '';
-                color: @neutralDarkColor;
-                background: @subColor;
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            }
-        }
 
         .header-search {
             input {
@@ -1070,9 +1102,9 @@
             img {
                 border: 1px solid @subColor;
                 border-radius: 3px;
-                flex: 0 0 35px;
-                height: 35px;
-                width: 35px;
+                flex: 0 0 40px;
+                height: 40px;
+                width: 40px;
                 object-fit: contain;
                 margin: 2px 8px 0 2px
             }
