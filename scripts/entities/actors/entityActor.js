@@ -131,6 +131,7 @@ export class SR5Actor extends Actor {
       case "actorPc":
         this.data.update({
           "token.actorLink": actorLink,
+          "token.lockRotation": true,
           "token.bar1": {
             attribute: "statusBars.physical",
           },
@@ -141,6 +142,7 @@ export class SR5Actor extends Actor {
         break;
       case "actorGrunt":
         this.data.update({
+          "token.lockRotation": true,
           "token.disposition": CONST.TOKEN_DISPOSITIONS.HOSTILE,
           "token.bar1": {
             attribute: "statusBars.condition",
@@ -149,6 +151,7 @@ export class SR5Actor extends Actor {
         break;
       case "actorSpirit":
         this.data.update({
+          "token.lockRotation": true,
           "token.actorLink": actorLink,
           "token.bar1": {
             attribute: "statusBars.physical",
@@ -160,6 +163,7 @@ export class SR5Actor extends Actor {
         break;
       case "actorDrone":
         this.data.update({
+          "token.lockRotation": true,
           "token.actorLink": actorLink,
           "token.bar1": {
             attribute: "statusBars.condition",
@@ -172,6 +176,7 @@ export class SR5Actor extends Actor {
       case "actorDevice":
       case "actorSprite":
         this.data.update({
+          "token.lockRotation": true,
           "token.actorLink": actorLink,
           "token.bar2": {
             attribute: "statusBars.matrix",

@@ -23,7 +23,6 @@ export class SR5_Dice {
 		let rollMode = game.settings.get("core", "rollMode");
 		let rollRoll = roll.evaluate({async: true});
 		let rollJSON = roll.toJSON(rollRoll);
-		
 		//Glitch
 		let totalGlitch = 0,
 			glitchRoll = false,
@@ -35,7 +34,7 @@ export class SR5_Dice {
 			}
 		} 
 
-		if (totalGlitch > Math.ceil(dicePool/2)){
+		if (totalGlitch > dicePool/2){
 			glitchRoll = true;
 			if (rollJSON.terms[0].total < 1) {
 				glitchRoll = false;

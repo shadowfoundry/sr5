@@ -2149,11 +2149,21 @@ SR5.statusEffects = [
     icon: "systems/sr5/img/status/StatusUnconsciousOn.svg",
     id: "unconscious",
     label: "SR5.STATUSES_Unconscious_F",
+    flags: {
+      core: {
+        overlay: true,
+      }
+    }
   },
   {
     icon: "systems/sr5/img/status/StatusDeadOn.svg",
     id: "dead",
     label: "SR5.STATUSES_Dead_F",
+    flags: {
+      core: {
+        overlay: true,
+      }
+    },    
   },
   {
     icon: "systems/sr5/img/status/StatusProneOn.svg",

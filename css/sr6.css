@@ -730,6 +730,7 @@ input[type=range]:focus::-ms-fill-upper {
   border: 1px solid #839c88;
   border-radius: 3px;
   max-width: none;
+  object-fit: cover;
 }
 .app.window-app.actor .window-content .SR-Header .SR-EspritType {
   font-family: "Njord Regular";
@@ -3653,18 +3654,43 @@ input[type=range]:focus::-ms-fill-upper {
   box-shadow: none;
 }
 #token-hud .status-effects {
-  width: 100px;
-  grid-template-columns: 50px 50px;
+  width: 110px;
+  grid-template-columns: repeat(3, 33%);
+  background: rgba(131, 156, 136, 0.25);
+  border: 1px solid #839c88;
 }
 #token-hud .status-effects .effect-control {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #839c88;
+}
+#token-hud .status-effects .effect-control.active {
+  background: rgba(131, 156, 136, 0.75);
+  border: 1px solid #839c88;
+}
+#token-hud .status-effects.active {
+  position: absolute;
+  margin-top: 77px;
+}
+#token-hud .attribute.elevation {
+  width: 42px;
+}
+#token-hud .attribute.elevation input {
+  background: rgba(131, 156, 136, 0.75);
+  border: 1px solid #839c88;
+}
+#token-hud .attribute.elevation input:focus {
+  box-shadow: none;
+  border: 1px solid #b2007a;
+  background-color: rgba(178, 0, 122, 0.75);
 }
 .placeable-hud .control-icon {
   background-color: rgba(131, 156, 136, 0.75);
+  margin: 5px 0;
 }
 .placeable-hud .control-icon.active {
   border: 1px solid #b2007a;
+  background-color: rgba(178, 0, 122, 0.75);
 }
 #sr5help {
   z-index: 999;
@@ -3992,12 +4018,7 @@ input[type=range]:focus::-ms-fill-upper {
   height: 29px;
   border-bottom: 1px solid #839c88;
 }
-.sidebar-tab .directory-header {
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #839c88;
-}
-.sidebar-tab .directory-header button {
+.sidebar-tab button:not(.messageAction) {
   position: relative;
   display: block;
   line-height: 20px;
@@ -4016,17 +4037,17 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(0, 0, 1, 0.3);
   z-index: 1;
 }
-.sidebar-tab .directory-header button:hover {
+.sidebar-tab button:not(.messageAction):hover {
   color: #000001;
   background-color: transparent;
   box-shadow: none;
 }
-.sidebar-tab .directory-header button:hover:before {
+.sidebar-tab button:not(.messageAction):hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-.sidebar-tab .directory-header button:before {
+.sidebar-tab button:not(.messageAction):before {
   display: block;
   position: absolute;
   top: 0px;
@@ -4038,6 +4059,11 @@ input[type=range]:focus::-ms-fill-upper {
   color: #000001;
   background: #839c88;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+.sidebar-tab .directory-header {
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #839c88;
 }
 .sidebar-tab .directory-header .header-search input {
   font-family: "amplitude_regular";
@@ -4119,9 +4145,9 @@ input[type=range]:focus::-ms-fill-upper {
 .sidebar-tab .directory-list .directory-item img {
   border: 1px solid #839c88;
   border-radius: 3px;
-  flex: 0 0 35px;
-  height: 35px;
-  width: 35px;
+  flex: 0 0 40px;
+  height: 40px;
+  width: 40px;
   object-fit: contain;
   margin: 2px 8px 0 2px;
 }

@@ -17,7 +17,9 @@ import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_Dice } from "./rolls/dice.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
 import { SR5Combat, _getInitiativeFormula } from "./srcombat.js";
+import { _drawEffect, addTokenLayer, _drawOverlay } from "./token.js";
 import { SR5CombatTracker } from "./srcombat-tracker.js";
+import  SR5TokenHud from "./interface/tokenHud.js";
 import { checkDependencies } from "./apps/dependencies.js"
 import { measureDistances } from "./canvas.js";
 import  SR5SceneConfig  from "./interface/sceneConfig.js";
@@ -50,7 +52,6 @@ export const registerHooks = function () {
     CONFIG.Item.documentClass = SR5Item;
     CONFIG.Combat.documentClass = SR5Combat;
     CONFIG.ui.combat = SR5CombatTracker;
-    //CONFIG.Scene.sheetClass = SR5SceneConfig;
 
     // ACTIVATE HOOKS DEBUG
     CONFIG.debug.hooks = false;
@@ -134,6 +135,8 @@ export const registerHooks = function () {
     if (needsMigration) {
      new game.sr5.migration().migrateWorld();
     }
+
+    canvas.hud.token = new SR5TokenHud();
   });
 
   registerHandlebarsHelpers();
@@ -150,6 +153,16 @@ export const registerHooks = function () {
   Hooks.on("canvasInit", function() {
     // Extend Diagonal Measurement
     SquareGrid.prototype.measureDistances = measureDistances;
+    Hooks.once("canvasPan", async (canvas) => {
+      const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
+      if (tokenOverlay){
+        for (let token of canvas.tokens.placeables) {
+          if(token.actor){
+            await addTokenLayer(token);
+          }
+        }
+      }
+    })
   });
 
   Hooks.on("getCombatTrackerEntryContext", SR5CombatTracker.addCombatTrackerContextOptions);
@@ -200,28 +213,53 @@ export const registerHooks = function () {
     });
 
     Token.prototype._drawBar = function (number, bar, data) {
+      bar.scale.set(0.95, 0.5);
       const val = Number(data.value);
       let h = Math.max(canvas.dimensions.size / 12, 8);
       if (this.data.height >= 2) h *= 1.6; // Enlarge the bar for large tokens
       // Draw the bar
-      bar.clear().beginFill(PIXI.utils.rgb2hex(subColor), 0.8).lineStyle(1, 0x000000, 1);
+      bar.clear().beginFill(PIXI.utils.rgb2hex(subColor), 0.7).lineStyle(0.5, 0x000000, 1);
       // each max draw a green rectangle in background
       for (let index = 0; index < data.max; index++) {
         bar.drawRect(index * (this.w / data.max), 0, this.w / data.max, h);
       }
       // each actual value draw a rectangle from dark green to red
-      bar.beginFill(PIXI.utils.rgb2hex(mainColor), 0.8).lineStyle(1, 0x000000, 1);
+      bar.beginFill(PIXI.utils.rgb2hex(mainColor), 0.7).lineStyle(0.5, 0x000000, 1);
       for (let index = 0; index < Math.clamped(val, 0, data.max); index++) {
         bar.drawRect(index * (this.w / data.max), 0, this.w / data.max, h);
       }
       // Set position
-      let posY = number === 0 ? this.h - h : 0;
-      bar.position.set(0, posY);
+      let posY = number === 0 ? this.h - (h-2) : 2;
+      bar.position.set(2.5, (posY));
     };
+
+    Token.prototype._drawEffect = _drawEffect;
+    Token.prototype._drawOverlay = _drawOverlay;
+
   });
 
   Hooks.on("preCreateToken", (tokenDocument) => {
-    tokenDocument.data.update({img: tokenDocument.actor.img});
+    if (tokenDocument.data.img.includes("systems/sr5/img/actors/")) tokenDocument.data.update({img: tokenDocument.actor.img});
+  });
+
+  Hooks.on("createToken", async function(tokenDocument) {
+    const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
+    if (tokenOverlay){
+      await addTokenLayer(tokenDocument);
+    }
+  });
+
+  Hooks.on("updateToken", async function(tokenDocument) {
+    const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
+    if (tokenOverlay){
+      await addTokenLayer(tokenDocument);
+    }
+  });
+
+  Hooks.on("preDeleteToken", (scene, token) => {
+    let deleteToken = canvas.tokens.get(token._id)
+    if (!deleteToken) return;
+    TweenMax.killTweensOf(deleteToken.children)
   });
 
   Hooks.on("createCombatant", (combatant) => {

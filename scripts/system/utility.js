@@ -62,6 +62,17 @@ export class SR5_SystemHelpers {
       type: Boolean,
       onChange: () => window.location.reload()
     });
+
+    // Add token graphic overlay
+    game.settings.register("sr5", "sr5TokenGraphic", {
+      name: "SR5.SETTINGS_TokenGraphic_T",
+      hint: "SR5.SETTINGS_TokenGraphic_D",
+      scope: "client",
+      config: true,
+      default: true,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    });
   }
 
   /* Display Shadowrun Themed Log Entries Based on Logging Level
