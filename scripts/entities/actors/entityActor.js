@@ -654,6 +654,10 @@ export class SR5Actor extends Actor {
     if (options.damageElement === "acid"){
       await this.acidDamageEffect(damage, options.damageSource);
     } 
+    if (options.damageElement === "fire"){
+      if (this.data.data.itemsProperties.armor.value <= 0) this.fireDamageEffect()
+      else  await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
+    }
   }
 
   //Handle prone effect
@@ -798,6 +802,49 @@ export class SR5Actor extends Actor {
     
   }
 
+  //Handle Elemental Damage : Fire
+  async fireDamageEffect(){
+    //debugger;
+    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "acidDamage");
+    if (existingEffect) return;
+    let effect = {
+      name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageFire")})`,
+      type: "itemEffect",
+      "data.type": "fireDamage",
+      "data.target": game.i18n.localize("SR5.PenaltyValuePhysical"),
+      "data.value": 3,
+      "data.durationType": "special",
+      "data.duration": 0,
+    }
+    ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+    await this.createEmbeddedDocuments("Item", [effect]);
+
+    /*Pour déterminer si quelque chose s’enflamme, lancez Armure + Protection ignifuge - PA du feu (voir la table de pénétration d’armure du feu, ci-dessous). 
+    Le seuil de ce test est le nombre de succès excédentaires obtenus lors du test d’attaque. 
+    Si l’objet réussit le test, il ne prend pas feu (pour l’instant). 
+    Quand quelque chose prend feu, la Valeur de Dommage initiale du feu est de 3. 
+    Ces dommages sont infligés à la fin de chaque tour de combat, 
+    et le VD augmente de 1 au début de chaque tour de combat suivant jusqu’à ce que l’objet soit complètement détruit, ou que le feu soit éteint. 
+    Il est possible de lutter contre le feu en faisant un test d’Agilité + Intuition, chaque succès réduisant la VD de 1. 
+    */
+  }
+
+  async checkIfCatchFire (fireTreshold, source, force){
+    //debugger;
+    //Effectuer le jet 
+    let ap = -6
+    let fireType = "weapon";
+    if (source === "spell"){ 
+      fireType = "magical";
+      ap = force;
+    }
+    let rollInfo = {
+      fireType: fireType,
+			incomingPA: ap,
+			fireTreshold: fireTreshold,
+    }
+    this.rollTest("resistFire", null, rollInfo);
+  }
 
   //Reboot deck = reset Overwatch score and delete any marks on or from the actor
   async rebootDeck() {

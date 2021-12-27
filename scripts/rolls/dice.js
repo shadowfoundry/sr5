@@ -464,6 +464,9 @@ export class SR5_Dice {
 			case "compilingResistance":
 				SR5_Dice.addCompilingResistanceInfoToCard(cardData, author);				
 				break;
+			case "resistFire":
+				SR5_Dice.addResistFireInfoToCard(cardData, author);
+				break;
 			case "attribute":
 			case "languageSkill":
             case "knowledgeSkill":
@@ -506,6 +509,7 @@ export class SR5_Dice {
 			cardData.button.resistance = true;
 			cardData.damageValue = cardData.damageValueBase + netHits;
 			cardData.damageResistanceType = "physicalDamage";
+			if (cardData.damageElement === "fire") {cardData.fireTreshold = netHits;}
 			if (author.type === "actorDrone" || author.type === "actorVehicle") {
 				if (cardData.damageType === "stun" && cardData.damageElement === "electricity") {
 					cardData.damageType = "physical";
@@ -950,6 +954,17 @@ export class SR5_Dice {
 		} else {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.FailedCompiling");
+		}
+	}
+
+	static async addResistFireInfoToCard(cardData, author){
+		if (cardData.test.hits < cardData.fireTreshold) {
+			cardData.button.catchFire = true;
+			cardData.button.actionEnd = false;
+		} else {
+			cardData.button.catchFire = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = "Ne prend pas feu"//game.i18n.localize("SR5.FailedCompiling");
 		}
 	}
 
