@@ -1,3 +1,26 @@
+export class SR5Token extends Token {
+
+    /** @override */
+    get isVisible() {
+        // Only GM users can see hidden tokens
+        const gm = game.user.isGM;
+        if ( this.data.hidden && !gm ) return false;
+
+        // Some tokens are always visible
+        if ( !canvas.sight.tokenVision ) return true;
+        if ( this._controlled ) return true;
+    
+        // Otherwise test visibility against current sight polygons    
+        if ( canvas.sight.sources.has(this.sourceId) ) return true;
+        const tolerance = Math.min(this.w, this.h) / 4;
+        
+        // Here is the override: add the caller to function
+        return canvas.sight.testVisibility(this.center, {tolerance, object: this}, this);
+      }
+
+}
+
+
 /** @override to change effect position, border and background*/
 export const _drawEffect = async function(src, i, bg, w, tint) {
     bg.beginFill(0,0);
@@ -13,6 +36,7 @@ export const _drawEffect = async function(src, i, bg, w, tint) {
     bg.drawRoundedRect(icon.x + 1, icon.y + 1, w - 1, w - 1, 2);
 }
 
+// Add a graphical interface on top of token 
 export const addTokenLayer = async function(tokenDocument) {
     let container = canvas.tokens.get(tokenDocument.id);
     let tokenOverlay;
@@ -37,7 +61,7 @@ export const addTokenLayer = async function(tokenDocument) {
 export const _drawOverlay = async function({src, tint}={}) {
     if ( !src ) return;
 
-    //Add custom texture on top of token
+    //Add custom overlay texture on top of token
     const bgtex = await loadTexture("systems/sr5/img/ui/TokenOverlay.png");
     const textureSize = this.data.height * canvas.grid.size;
     bgtex.orig = { height: textureSize, width: textureSize, x: -textureSize, y: -textureSize };

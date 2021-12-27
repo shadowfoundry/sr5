@@ -271,7 +271,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-radius: 3px;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   font-size: 20px;
   border-bottom: 0px;
   padding-top: 5px;
@@ -702,7 +702,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: none;
   border: 0;
   border-radius: 0;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   font-size: 20px;
   text-align: left;
   padding: 10px 5px 0px 2px;
@@ -733,7 +733,7 @@ input[type=range]:focus::-ms-fill-upper {
   object-fit: cover;
 }
 .app.window-app.actor .window-content .SR-Header .SR-EspritType {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   font-size: 20px;
   background-image: linear-gradient(45deg, rgba(147, 16, 4, 0.5), 80%, #931004), url("../img/ui/SR5_BG_Sidebar.jpg");
   border: 2px solid #000001;
@@ -746,7 +746,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin-top: 1px;
 }
 .app.window-app.actor .window-content .SR-Header .SR-EspritType select {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   font-size: 16px;
   color: #fffffe;
   margin-top: -2px;
@@ -755,7 +755,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-bottom: none;
 }
 .app.window-app.actor .window-content .SR-Header .SR-AppareilType {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   font-size: 12px;
   background-color: #0c9394;
   border: 2px solid #000001;
@@ -801,6 +801,43 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.actor .window-content .SR-MainWindows input.specialisation {
   padding-left: 8px;
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"] {
+  position: relative;
+  margin: 0;
+  border: 1px solid #0c9394;
+  height: 12px;
+  width: 12px;
+  border-radius: 3px;
+  appearance: none;
+  outline: 0;
+  cursor: pointer;
+  transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::before {
+  position: relative;
+  content: '';
+  display: block;
+  top: -1px;
+  left: 2.5px;
+  width: 30%;
+  height: 80%;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked {
+  content: '✔';
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.5);
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 .app.window-app.actor .window-content .SR-ActorMainCentre {
   margin-left: 10px;
@@ -1207,12 +1244,12 @@ input[type=range]:focus::-ms-fill-upper {
 /* Fonts
 /* ----------------------------------------- */
 @font-face {
-  font-family: "Njord Regular";
-  src: url("../sr5-licensed/fonts/njord_regular.otf"), url("./fonts/Riviera.otf");
+  font-family: "sr5foundry_primary";
+  src: url("../sr5-licensed/fonts/sr5foundry_primary.otf"), url("./fonts/Riviera.otf");
 }
 @font-face {
-  font-family: "Njord Alternate";
-  src: url("../sr5-licensed/fonts/njord_alternate.otf"), url("./fonts/Elianto-Regular.otf");
+  font-family: "sr5foundry_secondary";
+  src: url("../sr5-licensed/fonts/sr5foundry_secondary.otf"), url("./fonts/Elianto-Regular.otf");
 }
 @font-face {
   font-family: "amplitude_regular";
@@ -2751,6 +2788,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] select,
 .app.window-app[id^=rolltable-sheet-] select,
 .app.window-app[id^=cards-sheet-] select,
+.app.window-app[id^=ambient-light-config-] select,
 .app.window-app.macro-sheet select {
   border: 1px solid #931004;
   color: #fffffe;
@@ -2766,6 +2804,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] select:focus,
 .app.window-app[id^=rolltable-sheet-] select:focus,
 .app.window-app[id^=cards-sheet-] select:focus,
+.app.window-app[id^=ambient-light-config-] select:focus,
 .app.window-app.macro-sheet select:focus {
   box-shadow: 0 0 5px #0c9394;
   border: 1px solid #0c9394;
@@ -2781,6 +2820,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] select::before,
 .app.window-app[id^=rolltable-sheet-] select::before,
 .app.window-app[id^=cards-sheet-] select::before,
+.app.window-app[id^=ambient-light-config-] select::before,
 .app.window-app.macro-sheet select::before {
   background-color: #000001;
 }
@@ -2795,6 +2835,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] option,
 .app.window-app[id^=rolltable-sheet-] option,
 .app.window-app[id^=cards-sheet-] option,
+.app.window-app[id^=ambient-light-config-] option,
 .app.window-app.macro-sheet option {
   background-color: #000001;
 }
@@ -2809,6 +2850,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] option:hover,
 .app.window-app[id^=rolltable-sheet-] option:hover,
 .app.window-app[id^=cards-sheet-] option:hover,
+.app.window-app[id^=ambient-light-config-] option:hover,
 .app.window-app.macro-sheet option:hover {
   background-color: #0c9394;
 }
@@ -2823,6 +2865,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button,
 .app.window-app[id^=rolltable-sheet-] button,
 .app.window-app[id^=cards-sheet-] button,
+.app.window-app[id^=ambient-light-config-] button,
 .app.window-app.macro-sheet button,
 .app.window-app.form a.display-mode,
 .app.window-app.scene-sheet a.display-mode,
@@ -2835,11 +2878,12 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode,
 .app.window-app[id^=rolltable-sheet-] a.display-mode,
 .app.window-app[id^=cards-sheet-] a.display-mode,
+.app.window-app[id^=ambient-light-config-] a.display-mode,
 .app.window-app.macro-sheet a.display-mode {
   position: relative;
   display: block;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   text-align: center;
   border-radius: 3px;
@@ -2865,6 +2909,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button:hover,
 .app.window-app[id^=rolltable-sheet-] button:hover,
 .app.window-app[id^=cards-sheet-] button:hover,
+.app.window-app[id^=ambient-light-config-] button:hover,
 .app.window-app.macro-sheet button:hover,
 .app.window-app.form a.display-mode:hover,
 .app.window-app.scene-sheet a.display-mode:hover,
@@ -2877,6 +2922,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode:hover,
 .app.window-app[id^=rolltable-sheet-] a.display-mode:hover,
 .app.window-app[id^=cards-sheet-] a.display-mode:hover,
+.app.window-app[id^=ambient-light-config-] a.display-mode:hover,
 .app.window-app.macro-sheet a.display-mode:hover {
   color: #fffffe;
   background-color: rgba(12, 147, 148, 0.5);
@@ -2894,6 +2940,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button:hover:before,
 .app.window-app[id^=rolltable-sheet-] button:hover:before,
 .app.window-app[id^=cards-sheet-] button:hover:before,
+.app.window-app[id^=ambient-light-config-] button:hover:before,
 .app.window-app.macro-sheet button:hover:before,
 .app.window-app.form a.display-mode:hover:before,
 .app.window-app.scene-sheet a.display-mode:hover:before,
@@ -2906,6 +2953,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode:hover:before,
 .app.window-app[id^=rolltable-sheet-] a.display-mode:hover:before,
 .app.window-app[id^=cards-sheet-] a.display-mode:hover:before,
+.app.window-app[id^=ambient-light-config-] a.display-mode:hover:before,
 .app.window-app.macro-sheet a.display-mode:hover:before {
   left: 0%;
   right: auto;
@@ -2922,6 +2970,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button:before,
 .app.window-app[id^=rolltable-sheet-] button:before,
 .app.window-app[id^=cards-sheet-] button:before,
+.app.window-app[id^=ambient-light-config-] button:before,
 .app.window-app.macro-sheet button:before,
 .app.window-app.form a.display-mode:before,
 .app.window-app.scene-sheet a.display-mode:before,
@@ -2934,6 +2983,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode:before,
 .app.window-app[id^=rolltable-sheet-] a.display-mode:before,
 .app.window-app[id^=cards-sheet-] a.display-mode:before,
+.app.window-app[id^=ambient-light-config-] a.display-mode:before,
 .app.window-app.macro-sheet a.display-mode:before {
   display: block;
   position: absolute;
@@ -2958,6 +3008,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="text"],
 .app.window-app[id^=rolltable-sheet-] input[type="text"],
 .app.window-app[id^=cards-sheet-] input[type="text"],
+.app.window-app[id^=ambient-light-config-] input[type="text"],
 .app.window-app.macro-sheet input[type="text"],
 .app.window-app.form input[type="number"],
 .app.window-app.scene-sheet input[type="number"],
@@ -2970,6 +3021,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="number"],
 .app.window-app[id^=rolltable-sheet-] input[type="number"],
 .app.window-app[id^=cards-sheet-] input[type="number"],
+.app.window-app[id^=ambient-light-config-] input[type="number"],
 .app.window-app.macro-sheet input[type="number"],
 .app.window-app.form input[type="color"],
 .app.window-app.scene-sheet input[type="color"],
@@ -2982,6 +3034,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="color"],
 .app.window-app[id^=rolltable-sheet-] input[type="color"],
 .app.window-app[id^=cards-sheet-] input[type="color"],
+.app.window-app[id^=ambient-light-config-] input[type="color"],
 .app.window-app.macro-sheet input[type="color"] {
   color: #fffffe;
   border: 1px solid #931004;
@@ -2998,6 +3051,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="text"]:focus,
 .app.window-app[id^=rolltable-sheet-] input[type="text"]:focus,
 .app.window-app[id^=cards-sheet-] input[type="text"]:focus,
+.app.window-app[id^=ambient-light-config-] input[type="text"]:focus,
 .app.window-app.macro-sheet input[type="text"]:focus,
 .app.window-app.form input[type="number"]:focus,
 .app.window-app.scene-sheet input[type="number"]:focus,
@@ -3010,6 +3064,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="number"]:focus,
 .app.window-app[id^=rolltable-sheet-] input[type="number"]:focus,
 .app.window-app[id^=cards-sheet-] input[type="number"]:focus,
+.app.window-app[id^=ambient-light-config-] input[type="number"]:focus,
 .app.window-app.macro-sheet input[type="number"]:focus,
 .app.window-app.form input[type="color"]:focus,
 .app.window-app.scene-sheet input[type="color"]:focus,
@@ -3022,6 +3077,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="color"]:focus,
 .app.window-app[id^=rolltable-sheet-] input[type="color"]:focus,
 .app.window-app[id^=cards-sheet-] input[type="color"]:focus,
+.app.window-app[id^=ambient-light-config-] input[type="color"]:focus,
 .app.window-app.macro-sheet input[type="color"]:focus {
   box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
   border: 1px solid #0c9394;
@@ -3037,6 +3093,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="text"]::placeholder,
 .app.window-app[id^=rolltable-sheet-] input[type="text"]::placeholder,
 .app.window-app[id^=cards-sheet-] input[type="text"]::placeholder,
+.app.window-app[id^=ambient-light-config-] input[type="text"]::placeholder,
 .app.window-app.macro-sheet input[type="text"]::placeholder,
 .app.window-app.form input[type="number"]::placeholder,
 .app.window-app.scene-sheet input[type="number"]::placeholder,
@@ -3049,6 +3106,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="number"]::placeholder,
 .app.window-app[id^=rolltable-sheet-] input[type="number"]::placeholder,
 .app.window-app[id^=cards-sheet-] input[type="number"]::placeholder,
+.app.window-app[id^=ambient-light-config-] input[type="number"]::placeholder,
 .app.window-app.macro-sheet input[type="number"]::placeholder,
 .app.window-app.form input[type="color"]::placeholder,
 .app.window-app.scene-sheet input[type="color"]::placeholder,
@@ -3061,6 +3119,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="color"]::placeholder,
 .app.window-app[id^=rolltable-sheet-] input[type="color"]::placeholder,
 .app.window-app[id^=cards-sheet-] input[type="color"]::placeholder,
+.app.window-app[id^=ambient-light-config-] input[type="color"]::placeholder,
 .app.window-app.macro-sheet input[type="color"]::placeholder {
   color: #931004;
 }
@@ -3075,6 +3134,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"],
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"],
 .app.window-app[id^=cards-sheet-] input[type="checkbox"],
+.app.window-app[id^=ambient-light-config-] input[type="checkbox"],
 .app.window-app.macro-sheet input[type="checkbox"] {
   position: relative;
   color: #931004;
@@ -3096,6 +3156,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]::before,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]::before,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]::before,
+.app.window-app[id^=ambient-light-config-] input[type="checkbox"]::before,
 .app.window-app.macro-sheet input[type="checkbox"]::before {
   position: relative;
   content: '';
@@ -3120,6 +3181,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]:checked,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked,
+.app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked,
 .app.window-app.macro-sheet input[type="checkbox"]:checked {
   color: #fffffe;
   border-color: #0c9394;
@@ -3136,6 +3198,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked::before,
+.app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked::before {
   opacity: 1;
 }
@@ -3150,6 +3213,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
@@ -3164,6 +3228,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h2,
 .app.window-app[id^=rolltable-sheet-] h2,
 .app.window-app[id^=cards-sheet-] h2,
+.app.window-app[id^=ambient-light-config-] h2,
 .app.window-app.macro-sheet h2,
 .app.window-app.form h3,
 .app.window-app.scene-sheet h3,
@@ -3176,8 +3241,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h3,
 .app.window-app[id^=rolltable-sheet-] h3,
 .app.window-app[id^=cards-sheet-] h3,
+.app.window-app[id^=ambient-light-config-] h3,
 .app.window-app.macro-sheet h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
   color: #fffffe;
   padding-left: 5px;
@@ -3193,6 +3259,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h2,
 .app.window-app[id^=rolltable-sheet-] h2,
 .app.window-app[id^=cards-sheet-] h2,
+.app.window-app[id^=ambient-light-config-] h2,
 .app.window-app.macro-sheet h2 {
   text-align: center;
   border-bottom: 1px solid #0c9394;
@@ -3210,6 +3277,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h3,
 .app.window-app[id^=rolltable-sheet-] h3,
 .app.window-app[id^=cards-sheet-] h3,
+.app.window-app[id^=ambient-light-config-] h3,
 .app.window-app.macro-sheet h3 {
   border-bottom: 1px solid #931004;
   border-top: 1px solid #931004;
@@ -3226,6 +3294,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] span.units,
 .app.window-app[id^=rolltable-sheet-] span.units,
 .app.window-app[id^=cards-sheet-] span.units,
+.app.window-app[id^=ambient-light-config-] span.units,
 .app.window-app.macro-sheet span.units {
   color: #0c9394;
 }
@@ -3240,6 +3309,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item.active,
 .app.window-app[id^=rolltable-sheet-] nav .item.active,
 .app.window-app[id^=cards-sheet-] nav .item.active,
+.app.window-app[id^=ambient-light-config-] nav .item.active,
 .app.window-app.macro-sheet nav .item.active {
   color: #fffffe;
   border: none;
@@ -3264,6 +3334,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item.active:hover,
 .app.window-app[id^=rolltable-sheet-] nav .item.active:hover,
 .app.window-app[id^=cards-sheet-] nav .item.active:hover,
+.app.window-app[id^=ambient-light-config-] nav .item.active:hover,
 .app.window-app.macro-sheet nav .item.active:hover {
   height: 33px;
   border-bottom: none;
@@ -3279,6 +3350,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item:hover,
 .app.window-app[id^=rolltable-sheet-] nav .item:hover,
 .app.window-app[id^=cards-sheet-] nav .item:hover,
+.app.window-app[id^=ambient-light-config-] nav .item:hover,
 .app.window-app.macro-sheet nav .item:hover {
   height: 29px;
   border-bottom: 1px solid #0c9394;
@@ -3294,6 +3366,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=rolltable-sheet-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=cards-sheet-] footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=ambient-light-config-] footer button:not(:nth-child(0n+1)),
 .app.window-app.macro-sheet footer button:not(:nth-child(0n+1)) {
   margin-left: 10px;
 }
@@ -3308,6 +3381,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content,
 .app.window-app[id^=rolltable-sheet-] .window-content,
 .app.window-app[id^=cards-sheet-] .window-content,
+.app.window-app[id^=ambient-light-config-] .window-content,
 .app.window-app.macro-sheet .window-content {
   padding: 8px;
   background-image: linear-gradient(rgba(0, 0, 1, 0.45), rgba(0, 0, 1, 0.45)), url("../img/ui/SR5_BG_Sidebar.jpg");
@@ -3326,6 +3400,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content header.form-header,
 .app.window-app[id^=rolltable-sheet-] .window-content header.form-header,
 .app.window-app[id^=cards-sheet-] .window-content header.form-header,
+.app.window-app[id^=ambient-light-config-] .window-content header.form-header,
 .app.window-app.macro-sheet .window-content header.form-header {
   border-top: none;
   border-bottom: none;
@@ -3342,6 +3417,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content .form-header,
 .app.window-app[id^=rolltable-sheet-] .window-content .form-header,
 .app.window-app[id^=cards-sheet-] .window-content .form-header,
+.app.window-app[id^=ambient-light-config-] .window-content .form-header,
 .app.window-app.macro-sheet .window-content .form-header {
   margin-top: 5px;
 }
@@ -3356,6 +3432,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content .notes,
 .app.window-app[id^=rolltable-sheet-] .window-content .notes,
 .app.window-app[id^=cards-sheet-] .window-content .notes,
+.app.window-app[id^=ambient-light-config-] .window-content .notes,
 .app.window-app.macro-sheet .window-content .notes {
   color: #0c9394;
   line-height: 14px;
@@ -3372,6 +3449,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=command],
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command],
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=command],
+.app.window-app[id^=ambient-light-config-] .window-content textarea[name=command],
 .app.window-app.macro-sheet .window-content textarea[name=command] {
   background-color: rgba(147, 16, 4, 0.25);
   border: 1px solid #931004;
@@ -3388,6 +3466,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=command]:focus,
+.app.window-app[id^=ambient-light-config-] .window-content textarea[name=command]:focus,
 .app.window-app.macro-sheet .window-content textarea[name=command]:focus {
   border: 1px solid #0c9394;
   outline: none;
@@ -3405,6 +3484,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=command]::selection,
+.app.window-app[id^=ambient-light-config-] .window-content textarea[name=command]::selection,
 .app.window-app.macro-sheet .window-content textarea[name=command]::selection {
   background-color: rgba(12, 147, 148, 0.5);
 }
@@ -3419,6 +3499,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=description],
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=description],
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=description],
+.app.window-app[id^=ambient-light-config-] .window-content textarea[name=description],
 .app.window-app.macro-sheet .window-content textarea[name=description] {
   color: #fffffe;
   border: 1px solid #931004;
@@ -3435,6 +3516,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content .command,
 .app.window-app[id^=rolltable-sheet-] .window-content .command,
 .app.window-app[id^=cards-sheet-] .window-content .command,
+.app.window-app[id^=ambient-light-config-] .window-content .command,
 .app.window-app.macro-sheet .window-content .command {
   margin-bottom: 10px;
 }
@@ -3460,7 +3542,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.journal-sheet .window-content input {
   background: none;
   color: #fffffe;
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
   border: none;
   text-align: center;
@@ -3484,7 +3566,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.journal-sheet .window-content h2,
 .app.window-app.journal-sheet .window-content h3,
 .app.window-app.journal-sheet .window-content h4 {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   color: #000001;
 }
@@ -3524,7 +3606,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 25px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -3594,7 +3676,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin-bottom: 10px;
 }
 .app.window-app.filepicker nav.tabs a {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
 }
 .app.sidebar-popout .window-header {
@@ -3626,7 +3708,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: #000001;
 }
 #navigation #scene-list {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
 }
 #navigation #scene-list .scene {
@@ -3715,7 +3797,7 @@ input[type=range]:focus::-ms-fill-upper {
   transition: opacity 0.5s ease-out 0s;
 }
 #sr5help h3 {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(0, 189, 202, 0.5);
@@ -3768,7 +3850,7 @@ input[type=range]:focus::-ms-fill-upper {
   padding-left: 5px;
 }
 #hotbar .macro .macro-key {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
 }
 #hotbar .macro.inactive {
@@ -3785,7 +3867,7 @@ input[type=range]:focus::-ms-fill-upper {
   box-shadow: 0 0 4px #0c9394 inset;
 }
 #hotbar .bar-controls {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   color: #fffffe;
   height: 50px;
@@ -3818,7 +3900,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: auto;
 }
 #players h3 {
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
 }
 #players ol {
@@ -4023,7 +4105,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 20px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -4091,14 +4173,14 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list li.folder > .folder-header {
   background: rgba(12, 147, 148, 0.25);
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header {
   background: rgba(147, 16, 4, 0.25);
   position: relative;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   -webkit-transition: all 1s ease;
@@ -4153,14 +4235,14 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list .directory-item li.folder > .folder-header {
   background: rgba(12, 147, 148, 0.25);
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
 }
 .sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header {
   background: rgba(147, 16, 4, 0.25);
   position: relative;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   -webkit-transition: all 1s ease;
@@ -4199,7 +4281,7 @@ input[type=range]:focus::-ms-fill-upper {
   text-shadow: 0 0 8px rgba(12, 147, 148, 0.1);
 }
 #settings h2 {
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
@@ -4296,8 +4378,11 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(147, 16, 4, 0.25);
 }
 #combat #combat-round .encounters h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
+}
+#combat #combat-round .encounters h3.encounter-title {
+  margin-left: 0px;
 }
 #combat #combat-round .encounters h4 {
   color: #fffffe;
@@ -4359,7 +4444,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-tracker li.combatant .token-initiative .initiative {
   font-size: 1.5em;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   text-shadow: none;
   font-weight: normal;
@@ -4369,7 +4454,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-controls {
   border-top: 2px solid #0c9394;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
 }
@@ -4388,7 +4473,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-color: rgba(12, 147, 148, 0.5);
 }
 #scenes .scene h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
 }
 #scenes .scene a:hover {
@@ -4421,7 +4506,7 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(147, 16, 4, 0.5);
   border-top: 1px Solid #931004;
   border-bottom: 1px Solid #931004;
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
   height: 28px;
   margin-bottom: 5px;
@@ -4429,7 +4514,7 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
 }
 #compendium h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
   border-width: 1px 0 1px 0;
   border-color: #931004;
@@ -4486,7 +4571,7 @@ input[type=range]:focus::-ms-fill-upper {
 #av-config nav.tabs {
   border-bottom: 1px solid #0c9394;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
 }
 #client-settings .content .form-group,
@@ -4624,7 +4709,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 20px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -4666,7 +4751,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #player-config label {
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
 }
 #player-config .avatar {
@@ -4737,6 +4822,19 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  /*&:before {
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    height: calc(100% - 2px);
+                    width: 0px;
+                    z-index: -1;
+                    content: '';
+                    background: fade(@subColor, 25%);
+                    background-origin: border-box;
+                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                }*/
 }
 [id^=app-] .compendium.directory li.directory-item:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
@@ -4750,18 +4848,6 @@ input[type=range]:focus::-ms-fill-upper {
   right: auto;
   width: 100%;
 }
-[id^=app-] .compendium.directory li.directory-item:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: calc(100% - 2px);
-  width: 0px;
-  content: '';
-  background: rgba(12, 147, 148, 0.25);
-  background-origin: border-box;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
 [id^=app-] .compendium.directory img {
   border: 1px solid #0c9394;
   border-radius: 3px;
@@ -4774,14 +4860,14 @@ input[type=range]:focus::-ms-fill-upper {
 #menu {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-size: cover;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   border: 2px solid #931004;
 }
 #menu #menu-items li {
   position: relative;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 1.5em;
   text-align: center;
@@ -4825,7 +4911,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 20px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -4892,7 +4978,7 @@ input[type=range]:focus::-ms-fill-upper {
   color: #931004;
 }
 #dependencies .dependency-item h2 {
-  font-family: "Njord Alternate";
+  font-family: "sr5foundry_secondary";
   text-transform: uppercase;
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
@@ -4904,7 +4990,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #dependencies .dependency-item h3 {
   background: rgba(147, 16, 4, 0.5);
-  font-family: "Njord Regular";
+  font-family: "sr5foundry_primary";
   text-transform: uppercase;
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;

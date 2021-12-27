@@ -271,7 +271,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-radius: 3px;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   font-size: 20px;
   border-bottom: 0px;
   padding-top: 5px;
@@ -702,7 +702,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: none;
   border: 0;
   border-radius: 0;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   font-size: 20px;
   text-align: left;
   padding: 10px 5px 0px 2px;
@@ -733,7 +733,7 @@ input[type=range]:focus::-ms-fill-upper {
   object-fit: cover;
 }
 .app.window-app.actor .window-content .SR-Header .SR-EspritType {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   font-size: 20px;
   background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
   border: 2px solid #000001;
@@ -746,7 +746,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin-top: 1px;
 }
 .app.window-app.actor .window-content .SR-Header .SR-EspritType select {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   font-size: 16px;
   color: #fffffe;
   margin-top: -2px;
@@ -755,7 +755,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-bottom: none;
 }
 .app.window-app.actor .window-content .SR-Header .SR-AppareilType {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   font-size: 12px;
   background-color: #839c88;
   border: 2px solid #000001;
@@ -1207,11 +1207,11 @@ input[type=range]:focus::-ms-fill-upper {
 /* Fonts
 /* ----------------------------------------- */
 @font-face {
-  font-family: "Njord Regular";
-  src: url("../sr5-licensed/fonts/njord_regular.otf"), url("./fonts/Riviera.otf");
+  font-family: "sr6foundry_primary";
+  src: url("../sr5-licensed/fonts/sr6foundry_primary.otf"), url("./fonts/Riviera.otf");
 }
 @font-face {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   src: url("../sr5-licensed/fonts/njord_alternate.otf"), url("./fonts/Elianto-Regular.otf");
 }
 @font-face {
@@ -2839,7 +2839,7 @@ input[type=range]:focus::-ms-fill-upper {
   position: relative;
   display: block;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   text-align: center;
   border-radius: 3px;
@@ -3177,7 +3177,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=rolltable-sheet-] h3,
 .app.window-app[id^=cards-sheet-] h3,
 .app.window-app.macro-sheet h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
   color: #fffffe;
   padding-left: 5px;
@@ -3460,7 +3460,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.journal-sheet .window-content input {
   background: none;
   color: #fffffe;
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
   border: none;
   text-align: center;
@@ -3484,7 +3484,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.journal-sheet .window-content h2,
 .app.window-app.journal-sheet .window-content h3,
 .app.window-app.journal-sheet .window-content h4 {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   color: #000001;
 }
@@ -3524,7 +3524,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 25px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -3594,7 +3594,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin-bottom: 10px;
 }
 .app.window-app.filepicker nav.tabs a {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
 }
 .app.sidebar-popout .window-header {
@@ -3626,7 +3626,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: #000001;
 }
 #navigation #scene-list {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
 }
 #navigation #scene-list .scene {
@@ -3715,7 +3715,7 @@ input[type=range]:focus::-ms-fill-upper {
   transition: opacity 0.5s ease-out 0s;
 }
 #sr5help h3 {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   padding-bottom: 4px;
   border-bottom: 1px solid rgba(0, 189, 202, 0.5);
@@ -3768,7 +3768,7 @@ input[type=range]:focus::-ms-fill-upper {
   padding-left: 5px;
 }
 #hotbar .macro .macro-key {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
 }
 #hotbar .macro.inactive {
@@ -3785,7 +3785,7 @@ input[type=range]:focus::-ms-fill-upper {
   box-shadow: 0 0 4px #839c88 inset;
 }
 #hotbar .bar-controls {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   color: #fffffe;
   height: 50px;
@@ -3818,7 +3818,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: auto;
 }
 #players h3 {
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
 }
 #players ol {
@@ -4023,7 +4023,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 20px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -4091,14 +4091,14 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list li.folder > .folder-header {
   background: rgba(131, 156, 136, 0.25);
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header {
   background: rgba(178, 0, 122, 0.25);
   position: relative;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   -webkit-transition: all 1s ease;
@@ -4153,14 +4153,14 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list .directory-item li.folder > .folder-header {
   background: rgba(131, 156, 136, 0.25);
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
 }
 .sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header {
   background: rgba(178, 0, 122, 0.25);
   position: relative;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   -webkit-transition: all 1s ease;
@@ -4199,7 +4199,7 @@ input[type=range]:focus::-ms-fill-upper {
   text-shadow: 0 0 8px rgba(131, 156, 136, 0.1);
 }
 #settings h2 {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
   border-top: 1px solid #b2007a;
   border-bottom: 1px solid #b2007a;
@@ -4296,7 +4296,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(178, 0, 122, 0.25);
 }
 #combat #combat-round .encounters h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
 }
 #combat #combat-round .encounters h4 {
@@ -4359,7 +4359,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-tracker li.combatant .token-initiative .initiative {
   font-size: 1.5em;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   text-shadow: none;
   font-weight: normal;
@@ -4369,7 +4369,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-controls {
   border-top: 2px solid #839c88;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
 }
@@ -4388,7 +4388,7 @@ input[type=range]:focus::-ms-fill-upper {
   border-color: rgba(131, 156, 136, 0.5);
 }
 #scenes .scene h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
 }
 #scenes .scene a:hover {
@@ -4421,7 +4421,7 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(178, 0, 122, 0.5);
   border-top: 1px Solid #b2007a;
   border-bottom: 1px Solid #b2007a;
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
   height: 28px;
   margin-bottom: 5px;
@@ -4429,7 +4429,7 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
 }
 #compendium h3 {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
   border-width: 1px 0 1px 0;
   border-color: #b2007a;
@@ -4486,7 +4486,7 @@ input[type=range]:focus::-ms-fill-upper {
 #av-config nav.tabs {
   border-bottom: 1px solid #839c88;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
 }
 #client-settings .content .form-group,
@@ -4624,7 +4624,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 20px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -4666,7 +4666,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #player-config label {
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
 }
 #player-config .avatar {
@@ -4737,6 +4737,19 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  /*&:before {
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    height: calc(100% - 2px);
+                    width: 0px;
+                    z-index: -1;
+                    content: '';
+                    background: fade(@subColor, 25%);
+                    background-origin: border-box;
+                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                }*/
 }
 [id^=app-] .compendium.directory li.directory-item:not(:last-child) {
   box-shadow: 0 1px 0 rgba(178, 0, 122, 0.5);
@@ -4750,18 +4763,6 @@ input[type=range]:focus::-ms-fill-upper {
   right: auto;
   width: 100%;
 }
-[id^=app-] .compendium.directory li.directory-item:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: calc(100% - 2px);
-  width: 0px;
-  content: '';
-  background: rgba(131, 156, 136, 0.25);
-  background-origin: border-box;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
 [id^=app-] .compendium.directory img {
   border: 1px solid #839c88;
   border-radius: 3px;
@@ -4774,14 +4775,14 @@ input[type=range]:focus::-ms-fill-upper {
 #menu {
   background-image: url("../img/ui/SR6_BG_Sidebar.jpg");
   background-size: cover;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   border: 2px solid #b2007a;
 }
 #menu #menu-items li {
   position: relative;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 1.5em;
   text-align: center;
@@ -4825,7 +4826,7 @@ input[type=range]:focus::-ms-fill-upper {
   display: block;
   line-height: 20px;
   color: #fffffe;
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
@@ -4892,7 +4893,7 @@ input[type=range]:focus::-ms-fill-upper {
   color: #b2007a;
 }
 #dependencies .dependency-item h2 {
-  font-family: "Njord Alternate";
+  font-family: "sr6foundry_secondary";
   text-transform: uppercase;
   border-top: 1px solid #b2007a;
   border-bottom: 1px solid #b2007a;
@@ -4904,7 +4905,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #dependencies .dependency-item h3 {
   background: rgba(178, 0, 122, 0.5);
-  font-family: "Njord Regular";
+  font-family: "sr6foundry_primary";
   text-transform: uppercase;
   border-top: 1px solid #b2007a;
   border-bottom: 1px solid #b2007a;
