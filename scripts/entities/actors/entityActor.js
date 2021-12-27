@@ -273,6 +273,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateMovements(actor);
         SR5_CharacterUtility.updateAstralValues(actor);
         SR5_CharacterUtility.updateEncumbrance(actor);
+        SR5_CharacterUtility.handleVision(actor);
         break;
       case "actorSprite":
         SR5_CharacterUtility.updateSpriteValues(actor);
@@ -311,6 +312,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateMovements(actor);
         SR5_CharacterUtility.updateTradition(actor);
         SR5_CharacterUtility.updateAstralValues(actor);
+        SR5_CharacterUtility.handleVision(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);

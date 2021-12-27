@@ -2177,7 +2177,7 @@ SR5.statusEffects = [
     icon: "systems/sr5/img/status/StatusProneOn.svg",
     id: "prone",
     label: "SR5.STATUSES_Prone",
-    },
+  },
 ];
 
 CONFIG.statusEffects = SR5.statusEffects;

@@ -1816,6 +1816,8 @@
   "SR5.HELP_AstralDamage"                     : "Astral Damage",
   "SR5.HELP_AstralDefense"                    : "Astrale Defense",
   "SR5.HELP_AstralDefenseMsg"                 : "Click to roll an Astral Defense Test",
+  "SR5.HELP_AstralPerception"                 : "Astral perception",
+  "SR5.HELP_AstralPreceptionMsg"              : "Click to activate or desactivate Astral perception",
   "SR5.HELP_AstralTracking"                   : "Astral Tracking",
   "SR5.HELP_AstralTrackingMsg"                : "Click to roll an Astral Tracking Test",
   "SR5.HELP_AttackRollMsg"                    : "Click to roll an Attack Test with this weapon.",

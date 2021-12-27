@@ -17,7 +17,9 @@ import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_Dice } from "./rolls/dice.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
 import { SR5Combat, _getInitiativeFormula } from "./srcombat.js";
-import { _drawEffect, addTokenLayer, _drawOverlay } from "./token.js";
+import { SR5Token, _drawEffect, addTokenLayer, _drawOverlay } from "./token.js";
+import { SR5SightLayer } from "./vision.js";
+//import { SRAmbiantLight } from "./vision.js";
 import { SR5CombatTracker } from "./srcombat-tracker.js";
 import  SR5TokenHud from "./interface/tokenHud.js";
 import { checkDependencies } from "./apps/dependencies.js"
@@ -52,12 +54,15 @@ export const registerHooks = function () {
     CONFIG.Item.documentClass = SR5Item;
     CONFIG.Combat.documentClass = SR5Combat;
     CONFIG.ui.combat = SR5CombatTracker;
+    CONFIG.Canvas.layers.sight.layerClass = SR5SightLayer;
+    CONFIG.Token.objectClass = SR5Token;
 
     // ACTIVATE HOOKS DEBUG
     CONFIG.debug.hooks = false;
 
     // Patch Core Functions
     Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
+
 
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
@@ -254,6 +259,7 @@ export const registerHooks = function () {
     if (tokenOverlay){
       await addTokenLayer(tokenDocument);
     }
+    console.log(tokenDocument);
   });
 
   Hooks.on("preDeleteToken", (scene, token) => {
@@ -301,6 +307,23 @@ export const registerHooks = function () {
     if (game.combat){
       SR5Combat.changeInitInCombat(document);
     }
+    if (data.data.vision){
+      canvas.sight.refresh()
+    }
+  });
+
+  Hooks.on("deleteActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("createActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("lightingRefresh", () => {
+    for (const source of canvas.sight.sources) {
+
+      }
   });
 
 }

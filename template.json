@@ -2893,6 +2893,8 @@
       },
       "visionTemplate": {
         "vision": {
+          "astral": false,
+          "astralIsChecked": false,
           "lowLight": false,
           "thermographic": false
         }

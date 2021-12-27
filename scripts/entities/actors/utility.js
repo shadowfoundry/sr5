@@ -536,6 +536,13 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  static handleVision(actor){
+    let data = actor.data;
+    if (actor.type === "actorSpirit") data.vision.astral = true;
+    if (data.initiatives.astralInit.isActive) data.vision.astral = true;
+    if (data.vision.astralIsChecked) data.vision.astral = true;
+  }
+
   static applyRacialModifers(actor) {
     let lists = actor.lists, data = actor.data;
     let label = `${game.i18n.localize(lists.metatypes[data.biography.characterMetatype])}`;
