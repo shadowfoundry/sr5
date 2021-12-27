@@ -2072,11 +2072,13 @@ SR5.effectTypes = {
   iceAttack                 : "SR5.EffectTypeIceAttack",
   electricityDamage         : "SR5.ElementalDamage",
   acidDamage                : "SR5.ElementalDamage",
+  fireDamage                : "SR5.ElementalDamage",
 }
 
 SR5.effectDuration = {
   round                     : "SR5.CombatTurn",
   permanent                 : "SR5.DurationPermanent",
+  special                   : "SR5.DurationSpecial"
 }
 
 SR5.specialProperties = {
@@ -2089,6 +2091,12 @@ SR5.transactionsTypes = {
   gain                      : "SR5.CharacterGain",
   loss                      : "SR5.CharacterExpense",
 };
+
+SR5.fireType = {
+  natural                   : "SR5.FireNatural",
+  magical                   : "SR5.FireMagic",
+  weapon                    : "SR5.FireWeapon",
+}
 
 
 //-----------------------------------//

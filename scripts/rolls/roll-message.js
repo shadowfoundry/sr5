@@ -264,6 +264,10 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.applyIceEffect(messageData, matrixActionAuthor, actor);
                     SR5_RollMessage.updateChatButton(message, "iceEffect");
                     break;
+                case "msgTest_catchFire":
+                    actor.fireDamageEffect(messageData);
+                    SR5_RollMessage.updateChatButton(message, "catchFire");
+                    break;
                 default:
             }
         }

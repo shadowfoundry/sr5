@@ -285,11 +285,9 @@ export class SR5_Roll {
                             damageElement: chatData.damageElement,
                             dicePoolBase : resistanceValue
                         }
-                        if (chatData.damageSource === "spell"){
-                            optionalData = mergeObject(optionalData,{
-                                damageSource: "spell",
-                            });
-                        }
+                        if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
+                        if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
+                        
 
                         break;
                     case "directSpellMana":       
@@ -391,6 +389,18 @@ export class SR5_Roll {
                 }
                 break;
 
+            case "resistFire":
+                title = `${game.i18n.localize("SR5.TryToNotCatchFire")} (${chatData.fireTreshold})`//`${game.i18n.localize("SR5.MovementTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.movements[rollKey])}`;
+                dicePool = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value;
+                optionalData = {
+                    //chatActionType: "msgTest_damage",
+                    incomingPA: chatData.incomingPA,
+                    fireTreshold: chatData.fireTreshold,
+                    dicePoolBase : dicePool,
+                }
+
+
+                break;
             case "matrixIceAttack":
                 title = `${game.i18n.localize("SR5.IceAttack")}`;
                 dicePool = actorData.matrix.ice.attackDicepool;
