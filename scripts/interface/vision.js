@@ -32,7 +32,7 @@ export class SR5SightLayer extends SightLayer {
           let callerData = caller.document.actor.data;
           let actor = source.object.document.actor.data;
           //console.log(actor);
-          if (callerData.data.initiatives.astralInit.isActive && !actor.data.vision.astral) return false
+          if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data?.vision?.astral) return false
         }
       }
 
@@ -64,4 +64,25 @@ export class SR5SightLayer extends SightLayer {
     return false;
   }
 
+}
+
+  /** @override */
+export const drawSight = function() {
+  const c = new PIXI.Container();
+  const fov = c.addChild(new PIXI.LegacyGraphics());
+  if (this.object?.document?.actor?.data?.data?.vision?.astral && game.settings.get("sr5", "sr5AstralOverlay")) {
+    let bgtex = PIXI.Texture.from("systems/sr5/img/ui/astral.jpg");
+    fov.beginTextureFill({
+      texture: bgtex,
+      alpha: 0.8,
+    }).drawCircle(this.x, this.y, this.radius).endFill();
+    fov.blendMode = 4; //4 ou 18
+  } else {
+    fov.beginFill(0xFFFFFF).drawCircle(this.x, this.y, this.radius).endFill();
+  }
+  
+  const los = c.addChild(new PIXI.LegacyGraphics());
+  los.beginFill(0xFFFFFF).drawShape(this.los).endFill();
+  c.mask = los;
+  return c;
 }

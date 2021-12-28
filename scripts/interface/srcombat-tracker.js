@@ -1,4 +1,4 @@
-import { SR5Combat } from "./srcombat.js";
+import { SR5Combat } from "../system/srcombat.js";
 
 //Custom Combat Tracker
 export class SR5CombatTracker extends CombatTracker {

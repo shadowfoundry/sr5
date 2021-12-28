@@ -4395,6 +4395,11 @@ input[type=range]:focus::-ms-fill-upper {
   color: #0c9394;
   text-shadow: 1px 1px 5px #000001;
 }
+#combat #combat-tracker li.combatant {
+  line-height: 60px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
 #combat #combat-tracker li.combatant.hidden {
   color: rgba(12, 147, 148, 0.5);
 }
@@ -4406,6 +4411,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-tracker li.combatant .token-name h4 {
   padding-left: 0px;
+  font-size: 16px;
 }
 #combat #combat-tracker li.combatant .token-name h4:hover {
   background-size: 0;
@@ -4413,8 +4419,14 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-tracker li.combatant .token-name h4.hasPlayed {
   color: rgba(255, 255, 254, 0.25);
 }
+#combat #combat-tracker li.combatant .token-name .combatant-controls {
+  flex: 0 0 27px;
+  font-size: var(--font-size-17);
+  line-height: 25px;
+}
 #combat #combat-tracker li.combatant .token-name .combatant-control {
   color: #931004;
+  flex: 0 0 23px;
 }
 #combat #combat-tracker li.combatant .token-name .combatant-control:hover {
   color: rgba(12, 147, 148, 0.5);
@@ -4422,9 +4434,13 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-tracker li.combatant .token-name .combatant-control.active {
   color: #0c9394;
 }
+#combat #combat-tracker li.combatant .token-name img.token-effect {
+  width: 23px;
+  height: 23px;
+}
 #combat #combat-tracker li.combatant .token-image {
-  height: 44px;
-  width: 44px;
+  height: 55px;
+  width: 55px;
 }
 #combat #combat-tracker li.combatant .roll {
   background: url("../img/icons/SR5_InitDicesOff.svg") no-repeat;

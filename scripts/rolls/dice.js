@@ -3,7 +3,7 @@ import { SR5_SystemHelpers } from "../system/utility.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
 import { SR5_RollMessage } from "./roll-message.js";
-import { SR5Combat } from "../srcombat.js";
+import { SR5Combat } from "../system/srcombat.js";
 import SR5_RollDialog from "./roll-dialog.js";
 
 export class SR5_Dice {

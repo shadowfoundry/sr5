@@ -5,7 +5,8 @@ import { SR5_UtilityItem } from "../items/utilityItem.js";
 import { SR5_CharacterUtility } from "./utility.js";
 import { SR5_CompendiumUtility } from "./utilityCompendium.js";
 import { SR5_Roll } from "../../rolls/roll.js";
-import { SR5Combat } from "../../srcombat.js";
+import { SR5Combat } from "../../system/srcombat.js";
+import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
 
 /**
@@ -664,23 +665,12 @@ export class SR5Actor extends Actor {
 
   //Handle prone effect
   async createProneEffect(damage, actorData, gelAmmo){
+    debugger;
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "prone") return;
     }
-
-    let effect = {
-      label: game.i18n.localize("SR5.STATUSES_Prone"),
-      origin: "damageTaken",
-      icon: "systems/sr5/img/status/StatusProneOn.svg",
-      flags: {
-        core: {
-            active: true,
-            statusId: "prone"
-        }
-      },
-    }
-
-    this.createEmbeddedDocuments('ActiveEffect', [effect]);
+    let effect = await _getSRStatusEffect("prone");
+    await this.createEmbeddedDocuments('ActiveEffect', [effect]);
     if (damage >= 10) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
     else if (gelAmmo < 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
     else ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
@@ -691,20 +681,8 @@ export class SR5Actor extends Actor {
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "dead") return;
     }
-
-    let effect = {
-      label: game.i18n.localize("SR5.STATUSES_Dead_F"),
-      origin: "damageTaken",
-      icon: "systems/sr5/img/status/StatusDeadOn.svg",
-      flags: {
-        core: {
-            active: true,
-            statusId: "dead"
-        }
-      },
-    }
-
-    this.createEmbeddedDocuments('ActiveEffect', [effect]); 
+    let effect = await _getSRStatusEffect("dead");
+    await this.createEmbeddedDocuments('ActiveEffect', [effect]); 
     ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.INFO_DamageActorDead")}`);
   }
 
@@ -713,20 +691,8 @@ export class SR5Actor extends Actor {
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "unconscious") return;
     }
-
-    let effect = {
-      label: game.i18n.localize("SR5.STATUSES_Unconscious_F"),
-      origin: "damageTaken",
-      icon: "systems/sr5/img/status/StatusUnconsciousOn.svg",
-      flags: {
-        core: {
-            active: true,
-            statusId: "unconscious"
-        }
-      },
-    }
-
-    this.createEmbeddedDocuments('ActiveEffect', [effect]); 
+    let effect = await _getSRStatusEffect("dead")
+    await this.createEmbeddedDocuments('ActiveEffect', [effect]); 
     ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.INFO_DamageActorKo")}`);
   }
 
@@ -807,7 +773,7 @@ export class SR5Actor extends Actor {
   //Handle Elemental Damage : Fire
   async fireDamageEffect(){
     //debugger;
-    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "acidDamage");
+    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "fireDamage");
     if (existingEffect) return;
     let effect = {
       name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageFire")})`,
@@ -820,15 +786,8 @@ export class SR5Actor extends Actor {
     }
     ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
     await this.createEmbeddedDocuments("Item", [effect]);
-
-    /*Pour déterminer si quelque chose s’enflamme, lancez Armure + Protection ignifuge - PA du feu (voir la table de pénétration d’armure du feu, ci-dessous). 
-    Le seuil de ce test est le nombre de succès excédentaires obtenus lors du test d’attaque. 
-    Si l’objet réussit le test, il ne prend pas feu (pour l’instant). 
-    Quand quelque chose prend feu, la Valeur de Dommage initiale du feu est de 3. 
-    Ces dommages sont infligés à la fin de chaque tour de combat, 
-    et le VD augmente de 1 au début de chaque tour de combat suivant jusqu’à ce que l’objet soit complètement détruit, ou que le feu soit éteint. 
-    Il est possible de lutter contre le feu en faisant un test d’Agilité + Intuition, chaque succès réduisant la VD de 1. 
-    */
+    let statusEffect = await _getSRStatusEffect("catchFire");
+    await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
   }
 
   async checkIfCatchFire (fireTreshold, source, force){

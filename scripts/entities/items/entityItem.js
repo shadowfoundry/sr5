@@ -1,6 +1,6 @@
 import { SR5_UtilityItem } from "./utilityItem.js";
 import { SR5_CharacterUtility } from "../actors/utility.js";
-import AbilityTemplate from "../../canvas-template.js";
+import AbilityTemplate from "../../interface/canvas-template.js";
 import { SR5_EntityHelpers } from "../helpers.js";
 import { SR5_Roll } from "../../rolls/roll.js";
 import { SR5 } from "../../config.js";

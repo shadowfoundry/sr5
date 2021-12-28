@@ -1,4 +1,4 @@
-import { SR5Combat } from "./srcombat.js";
+import { SR5Combat } from "./system/srcombat.js";
 import { SR5_SystemHelpers } from "./system/utility.js";
 import { SR5Actor } from "./entities/actors/entityActor.js";
 

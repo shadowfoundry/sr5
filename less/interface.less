@@ -1321,6 +1321,10 @@
     #combat-tracker {
         li.combatant {
 
+            line-height: 60px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+
             &.hidden {
                 color: fade(@subColor, 50%);
             }
@@ -1336,6 +1340,7 @@
             .token-name {
                 h4 {
                     padding-left: 0px;
+                    font-size: 16px;
 
                     &:hover {
                         background-size: 0;
@@ -1346,8 +1351,15 @@
                     }
                 }
 
+                .combatant-controls {
+                    flex: 0 0 27px;
+                    font-size: var(--font-size-17);
+                    line-height: 25px;
+                }
                 .combatant-control {
                     color: @mainColor;
+                    flex: 0 0 23px;
+                    
 
                     &:hover {
                         color: fade(@subColor, 50%);
@@ -1357,11 +1369,16 @@
                         color: @subColor;
                     }
                 }
+
+                img.token-effect {
+                    width: 23px;
+                    height: 23px;
+                }
             }
 
             .token-image{
-                height: 44px;
-                width: 44px;
+                height: 55px;
+                width: 55px;
             }
 
             .roll {

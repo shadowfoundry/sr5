@@ -1208,6 +1208,8 @@
   "SR5.SETTINGS.LoggingLevelError"            : "Erreurs uniquement",
   "SR5.SETTINGS.LoggingLevelInfo"             : "Informations (erreurs et avertissements inclus)",
   "SR5.SETTINGS.LoggingLevelWarning"          : "Avertissements (erreurs incluses)",
+  "SR5.SETTINGS_AstralOverlay_T"              : "Overlay de Perception astrale",
+  "SR5.SETTINGS_AstralOverlay_D"              : "Activer la surcouche de couleur si le token est en Perception astrale",
   "SR5.SETTINGS_DevLogActive_D"               : "Afficher les messages de développement du système Shadowrun 5 dans la console du navigateur ou de l'application.",
   "SR5.SETTINGS_DevLogActive_T"               : "Activer le journal de développement",
   "SR5.SETTINGS_DevLogLevel_D"                : "Niveau de filtrage des messages de développement affichés.",
