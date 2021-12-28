@@ -62,6 +62,7 @@ export const registerHooks = function () {
     Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
     VisionSource.prototype.drawSight = drawSight;
 
+
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("SR5", SR5ActorSheet, {
@@ -268,6 +269,23 @@ export const registerHooks = function () {
         if (catchFireEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [catchFireEffect.id]);
       }
     }
+    if (data.data.vision){
+      canvas.sight.refresh()
+    }
+  });
+
+  Hooks.on("deleteActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("createActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("lightingRefresh", () => {
+    for (const source of canvas.sight.sources) {
+
+      }
   });
 
   Hooks.on("deleteActiveEffect", (effect) =>{
