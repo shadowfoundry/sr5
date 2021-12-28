@@ -860,8 +860,7 @@ export class SR5_Roll {
             default:
 
         }
-        //console.log(actor);
-        //console.log(actor.toObject(false));
+
         let dialogData = {
             title: title,
             actor: actor.toObject(false),

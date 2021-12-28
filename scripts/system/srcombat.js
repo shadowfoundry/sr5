@@ -283,7 +283,6 @@ export class SR5Combat extends Combat {
 	}
 
 	async rollNPC(){
-		console.log("hoi");
 		const combat = await super.rollNPC();
 		if (combat.turn !== 0) await combat.update({turn: 0});
 		return combat;
@@ -299,7 +298,6 @@ export class SR5Combat extends Combat {
 		const updates = [];
 		const messages = [];
 		for ( let [i, id] of ids.entries() ) {
-			//debugger;
 			// Get Combatant data (non-strictly)
 			const combatant = this.combatants.get(id);
 			if ( !combatant?.isOwner ) return results;
@@ -554,7 +552,6 @@ export class SR5Combat extends Combat {
 
 //Custom Initiative formula
 export const _getInitiativeFormula = function() {
-	console.log("_getInitiativeFormula");
 	const actor = this.actor;
 	if ( !actor ) return "1d6";
 
@@ -564,6 +561,5 @@ export const _getInitiativeFormula = function() {
 	if (this.data.flags.sr5?.blitz) initiativeDice = "5d6";
 
 	const parts = [initiative, initiativeDice];
-	console.log(parts);
 	return parts.filter((p) => p !== null).join(" + ");
 }

@@ -2,14 +2,11 @@ export class SR5SightLayer extends SightLayer {
 
   /** @override */
   testVisibility(point, {tolerance=2, object=null}={}, caller) {
-    //console.log(caller);
     const visionSources = this.sources;
     const lightSources = canvas.lighting.sources;
     const d = canvas.dimensions;
     if ( !visionSources.size ) return game.user.isGM;
 
-    
-    //console.log(visionSources);
     // Determine the array of offset points to test
     const t = tolerance;
     const offsets = t > 0 ? [[0, 0],[-t,0],[t,0],[0,-t],[0,t],[-t,-t],[-t,t],[t,t],[t,-t]] : [[0,0]];
@@ -25,13 +22,11 @@ export class SR5SightLayer extends SightLayer {
 
     // Check vision sources
     for ( let source of visionSources.values() ) {
-      //console.log(source);
       //Overrid to Manage astral Perception
       if (caller){
         if (caller.document?.actor && source.object?.document?.actor){
           let callerData = caller.document.actor.data;
           let actor = source.object.document.actor.data;
-          //console.log(actor);
           if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data?.vision?.astral) return false
         }
       }

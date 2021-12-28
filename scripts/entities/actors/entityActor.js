@@ -658,14 +658,13 @@ export class SR5Actor extends Actor {
       await this.acidDamageEffect(damage, options.damageSource);
     } 
     if (options.damageElement === "fire"){
-      if (this.data.data.itemsProperties.armor.value <= 0) this.fireDamageEffect()
-      else  await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
+      if (this.data.data.itemsProperties.armor.value <= 0) await this.fireDamageEffect()
+      else await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
     }
   }
 
   //Handle prone effect
   async createProneEffect(damage, actorData, gelAmmo){
-    debugger;
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "prone") return;
     }
@@ -726,6 +725,8 @@ export class SR5Actor extends Actor {
       ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
       await SR5Combat.changeInitInCombat(this, -5);
       await this.createEmbeddedDocuments("Item", [effect]);
+      let statusEffect = await _getSRStatusEffect("electricityDamage");
+      await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
   }
 
@@ -765,6 +766,8 @@ export class SR5Actor extends Actor {
       ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
       await SR5Combat.changeInitInCombat(this, -5);
       await this.createEmbeddedDocuments("Item", [effect]);
+      let statusEffect = await _getSRStatusEffect("acidDamage");
+      await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
     
@@ -772,7 +775,6 @@ export class SR5Actor extends Actor {
 
   //Handle Elemental Damage : Fire
   async fireDamageEffect(){
-    //debugger;
     let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "fireDamage");
     if (existingEffect) return;
     let effect = {
@@ -786,13 +788,11 @@ export class SR5Actor extends Actor {
     }
     ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
     await this.createEmbeddedDocuments("Item", [effect]);
-    let statusEffect = await _getSRStatusEffect("catchFire");
+    let statusEffect = await _getSRStatusEffect("fireDamage");
     await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
   }
 
   async checkIfCatchFire (fireTreshold, source, force){
-    //debugger;
-    //Effectuer le jet 
     let ap = -6
     let fireType = "weapon";
     if (source === "spell"){ 

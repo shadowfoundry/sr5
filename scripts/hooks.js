@@ -247,7 +247,7 @@ export const registerHooks = function () {
     if (game.combat) SR5Combat.changeInitInCombat(document);
     if (data.data?.vision) canvas.sight.refresh()
   
-    let astralVisionEffect = document.effects.find(e => e.origin = "handleVisionAstral")
+    let astralVisionEffect = document.effects.find(e => e.data.origin === "handleVisionAstral")
     if (document.data.data.vision?.astral){
       if (!astralVisionEffect){
         let astralEffect = await _getSRStatusEffect("handleVisionAstral");
@@ -256,21 +256,14 @@ export const registerHooks = function () {
     } else {
       if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
     }
-
-    //let truc = document.effects.find(e => e.origin = "catchFire")
+    //let truc = document.effects.find(e => e.data.origin = "handleVisionAstral")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
   });
 
   Hooks.on("deleteItem", async (item) =>{
-    console.log(item);
     if (item.type === "itemEffect"){
-      if (item.data.data.type === "fireDamage"){
-        let catchFireEffect = item.actor.effects.find(e => e.origin = "catchFire")
-        if (catchFireEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [catchFireEffect.id]);
-      }
-    }
-    if (data.data.vision){
-      canvas.sight.refresh()
+      let statusEffect = item.actor.effects.find(e => e.data.origin === item.data.data.type);
+      if (statusEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
     }
   });
 

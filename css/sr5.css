@@ -4396,7 +4396,7 @@ input[type=range]:focus::-ms-fill-upper {
   text-shadow: 1px 1px 5px #000001;
 }
 #combat #combat-tracker li.combatant {
-  line-height: 60px;
+  line-height: 50px;
   padding-top: 2px;
   padding-bottom: 2px;
 }

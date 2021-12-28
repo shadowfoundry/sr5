@@ -56,15 +56,41 @@ export const _getSRStatusEffect = async function(origin) {
                 },
             }
             
-        case "catchFire":
+        case "fireDamage":
             return effect = {
                 label: game.i18n.localize("SR5.CatchFire"),
-                origin: "catchFire",
+                origin: "fireDamage",
                 icon: "systems/sr5/img/status/StatusInFireOn.svg",
                 flags: {
                     core: {
                         active: true,
-                        statusId: "catchFire"
+                        statusId: "fireDamage"
+                    }
+                },
+            }
+            break;
+        case "acidDamage":
+            return effect = {
+                label: game.i18n.localize("SR5.Acid"),
+                origin: "acidDamage",
+                icon: "systems/sr5/img/status/StatusAcidOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "acidDamage"
+                    }
+                },
+            }
+            break;
+        case "electricityDamage":
+            return effect = {
+                label: game.i18n.localize("SR5.Acid"),
+                origin: "electricityDamage",
+                icon: "systems/sr5/img/status/StatusElectricityOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "electricityDamage"
                     }
                 },
             }
