@@ -136,13 +136,13 @@ input[type=range]:focus::-ms-fill-upper {
 /* ----------------------------------------- */
 /* Couleur
 /* ----------------------------------------- */
-.SR-CoulVert {
+.SR-SubColor {
   color: #839c88;
 }
-.SR-CoulVert50 {
+.SR-SubColor50 {
   color: rgba(131, 156, 136, 0.5);
 }
-.SR-CoulVert25 {
+.SR-SubColor25 {
   color: rgba(131, 156, 136, 0.25);
 }
 .SR-MainColor {
@@ -151,10 +151,10 @@ input[type=range]:focus::-ms-fill-upper {
 .SR-popColor {
   color: #00bdca;
 }
-.SR-CoulBlanc {
+.SR-NeutralLightColor {
   color: #fffffe;
 }
-.SR-CoulGris {
+.SR-GreyColor {
   color: rgba(0, 0, 1, 0.7);
 }
 .SR-LightGreyColor {
@@ -163,11 +163,8 @@ input[type=range]:focus::-ms-fill-upper {
 /* ----------------------------------------- */
 /* Format, spacer, lignes
 /* ----------------------------------------- */
-.SR-Gras {
+.SR-Bold {
   font-family: "srfoundry_bold";
-}
-.SR-Fin {
-  font-family: "srfoundry_regular";
 }
 .SR-TextRight {
   text-align: right;
@@ -377,6 +374,13 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.SR-Item .window-content .SR-MainWindows select {
   border-bottom: 1px solid rgba(131, 156, 136, 0.25);
   border-radius: 0px;
+  /*option:nth-child(1) {
+                    color: fade(@subColor, 50%);
+                }
+
+                option:nth-child(1n+2) {
+                    color: fade(@neutralDarkColor, 70%);
+                }*/
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows select:focus {
   box-shadow: none;
@@ -384,12 +388,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows select:invalid {
   color: rgba(131, 156, 136, 0.5);
-}
-.app.window-app.SR-Item .window-content .SR-MainWindows select option:nth-child(1) {
-  color: rgba(131, 156, 136, 0.5);
-}
-.app.window-app.SR-Item .window-content .SR-MainWindows select option:nth-child(1n+2) {
-  color: rgba(0, 0, 1, 0.7);
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColGauche {
   height: 295px;
@@ -669,6 +667,13 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.actor .window-content select {
   border-bottom: 1px solid rgba(131, 156, 136, 0.25);
   border-radius: 0px;
+  /*option:nth-child(1) {
+                color: fade(@subColor, 50%);
+            }
+
+            option:nth-child(1n+2) {
+                color: fade(@neutralDarkColor, 70%);
+            }*/
 }
 .app.window-app.actor .window-content select:focus {
   box-shadow: none;
@@ -676,12 +681,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.actor .window-content select:invalid {
   color: rgba(131, 156, 136, 0.5);
-}
-.app.window-app.actor .window-content select option:nth-child(1) {
-  color: rgba(131, 156, 136, 0.5);
-}
-.app.window-app.actor .window-content select option:nth-child(1n+2) {
-  color: rgba(0, 0, 1, 0.7);
 }
 .app.window-app.actor .window-content #SR-Attributs > * select {
   color: #000001;

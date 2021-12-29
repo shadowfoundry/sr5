@@ -4,7 +4,7 @@
         {{#ife data.type "grenadeLauncher"}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.miniGrenadeTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -13,7 +13,7 @@
         {{else ife data.type "missileLauncher"}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.ammunitionLauncherTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -22,7 +22,7 @@
         {{else ife data.type "assaultCannon"}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.ammunitionCannonTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -34,7 +34,7 @@
             (eq data.type "harpoonGuns"))}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.ammunitionCrossbowTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -43,7 +43,7 @@
         {{else ife data.type "bow"}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.ammunitionBowTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -60,7 +60,7 @@
         {{else ife data.type "exoticRangedWeapon"}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.allAmmunitionTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -69,7 +69,7 @@
         {{else}}
             <select name="data.ammunition.type" required>
             {{#select data.ammunition.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.ammunitionTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}

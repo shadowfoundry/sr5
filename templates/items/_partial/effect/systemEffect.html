@@ -20,7 +20,7 @@
 			<div class="col-5 SR-PaddingRight5">
 				<select name="data.systemEffects.{{@key}}.category" required>
 					{{#select category}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					<option value="baseOwnItem">{{localize 'SR5.BaseOwnedItem'}}</option>
 					<option value="specialCase">{{localize 'SR5.SpecialCase'}}</option>
 					<option value="specificRollEffect">{{localize 'SR5.SpecificRollEffect'}}</option>
@@ -33,7 +33,7 @@
 				{{#if category}}
 				<select name="data.systemEffects.{{@key}}.value" required>
 				{{#select value}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 
 					{{#ife category 'baseOwnItem'}}
 						{{#each (lookup ../lists 'actorTypes')}}

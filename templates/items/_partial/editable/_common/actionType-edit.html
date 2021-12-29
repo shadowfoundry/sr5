@@ -3,7 +3,7 @@
     <div class="col-7">
         <select name="data.actionType" data-dtype="{{data.actionType}}" required>
         {{#select data.actionType}}
-            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.actionTypes}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}

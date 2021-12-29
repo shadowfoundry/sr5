@@ -3,7 +3,7 @@
     <div class="col-7">
         <select name="data.gender" data-dtype="String" required>
         {{#select data.gender}}
-            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.genders}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}

@@ -1,13 +1,13 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'allAmmunitionTypes' data.type)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'allAmmunitionTypes' data.type)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponType'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'allWeaponsTypes' data.class)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'allWeaponsTypes' data.class)}}</span>
     </p>
 </li>
 {{#if (or 
@@ -29,7 +29,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.CaseType'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'ammunitionCaseType' data.caseType)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'ammunitionCaseType' data.caseType)}}</span>
     </p>
 </li>
 {{/if}}

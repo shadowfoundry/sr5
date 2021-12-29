@@ -48,7 +48,7 @@
 					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.metatype" name=""
 						data-dtype="String">
 						{{#select data.metatype}}
-						<option value="">{{localize 'SR5.ChooseOne'}}</option>
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 						{{#each ../actor.lists.metatypes}}
 						<option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
 						{{/each}}

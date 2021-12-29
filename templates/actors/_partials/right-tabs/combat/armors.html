@@ -55,7 +55,7 @@
 					<div class="col-6"></div>
 					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-thumbtack SR-CoulVert25"></em>
+							<em class="fas fa-sm fa-thumbtack SR-SubColor25"></em>
 						</p>
 					</div>					
 				</div>
@@ -64,7 +64,7 @@
 				<div class="grid">
 					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-wifi SR-CoulVert25"></em>
+							<em class="fas fa-sm fa-wifi SR-SubColor25"></em>
 						</p>
 					</div>
 					<div class="col-6 SR-TextRight">
@@ -80,7 +80,7 @@
 		{{else if (eq data.isPlugged false)}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				<p class="{{#if data.isAccessory}}SR-CoulVert{{/if}}">{{name}}</p>
+				<p class="{{#if data.isAccessory}}SR-SubColor{{/if}}">{{name}}</p>
 			</div>
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.ArmorRating'}}"
 			  data-helpDetailsItem="data.armorValue"
@@ -103,7 +103,7 @@
 							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}"
 								data-binding="data.isActive"
 								data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
-								<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-CoulVert{{/if}}"></em></a>
+								<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em></a>
 						</p>
 					</div>
 				</div>
@@ -115,7 +115,7 @@
 					  data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}"
 					>
 						{{#if data.wirelessTurnedOn}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-CoulVert"></em></a>
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-SubColor"></em></a>
 						{{else}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
 						{{/if}}
@@ -143,7 +143,7 @@
 					<div class="col-6"></div>
 					<div class="col-6">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-CoulVert{{else}}SR-CoulVert25{{/if}}"></em>
+							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
 					
@@ -153,7 +153,7 @@
 				<div class="grid">
 					<div class="col-6">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-CoulVert{{else}}SR-CoulVert25{{/if}}"></em>
+							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
 					<div class="col-6 SR-TextRight">

@@ -1,6 +1,6 @@
 <!-- Matrix Monitor -->
 {{#ifne data.matrix.deviceType "host"}}
-	<div class="SR-PaddingLeft10 SR-TextUppercase SR-CoulBlanc SR-Gras">{{localize 'SR5.ConditionMonitorMatrixShort'}}</div>
+	<div class="SR-PaddingLeft10 SR-TextUppercase SR-NeutralLightColor SR-Bold">{{localize 'SR5.ConditionMonitorMatrixShort'}}</div>
 	<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.matrix.current"
 	  data-helpTitle="{{localize 'SR5.MatrixMonitor'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
 		{{#each data.conditionMonitors.matrix.boxes as |box index|}}

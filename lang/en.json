@@ -427,6 +427,7 @@
   "SR5.DefenseTest"                           : "Defense test",
   "SR5.Delete"                                : "Delete",
   "SR5.Dependants"                            : "Dependants",
+  "SR5.Derived"                               : "Derived",
   "SR5.DerivedAttributes"                     : "Derived Attributes",
   "SR5.DerivedAttributeTest"                  : "Derived Attribute Test",
   "SR5.Description"                           : "Description",

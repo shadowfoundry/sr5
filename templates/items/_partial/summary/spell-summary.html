@@ -1,13 +1,13 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation 'spellCategories' data.category)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'spellCategories' data.category)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">
+        <span class="col-auto SR-GreyColor">
             {{#if data.category}}
                 {{#ife data.category 'illusion'}}{{findTranslation 'spellIllusionTypes' data.subCategory}} {{findTranslation 'spellIllusionSens' data.illusionSense}}{{/ife}}
                 {{#ife data.category 'combat'}}{{findTranslation 'spellCombatTypes' data.subCategory}}{{/ife}}
@@ -24,7 +24,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">
+        <span class="col-auto SR-GreyColor">
             {{#if data.damageValue.base}}
                 {{data.damageValue.base}}{{findTranslation 'damageTypesShort' data.damageType}} ({{findTranslation 'specialDamageTypes' data.damageElement}})
             {{else}}

@@ -6,7 +6,7 @@
     <div class="col-7">
         <select name="data.testFirstAttribute" data-dtype="String">
             {{#select data.testFirstAttribute}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.allAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -19,7 +19,7 @@
     <div class="col-7">
         <select name="data.testSecondAttribute" data-dtype="String">
             {{#select data.testSecondAttribute}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.allAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}

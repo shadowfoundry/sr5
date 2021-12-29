@@ -68,10 +68,10 @@
 				  	{{augmented.value}}
 				</div>
 				{{else}}
-			  	<div class="col-6 SR-CoulVert50">{{findTranslation 'characterAttributes' @key}}</div>
-			  	<div class="col-2 SR-TextCenter SR-CoulVert50"></div>
-			  	<div class="col-2 SR-TextCenter SR-CoulVert50" data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'characterAttributes' @key)}}" data-helpDetails="data.attributes.{{@key}}.natural">{{natural.value}}</div>
-			  	<div class="col-2 SR-TextCenter SR-CoulVert50" data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'characterAttributes' @key)}}" data-helpDetails="data.attributes.{{@key}}.augmented">{{augmented.value}}</div>
+			  	<div class="col-6 SR-SubColor50">{{findTranslation 'characterAttributes' @key}}</div>
+			  	<div class="col-2 SR-TextCenter SR-SubColor50"></div>
+			  	<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'characterAttributes' @key)}}" data-helpDetails="data.attributes.{{@key}}.natural">{{natural.value}}</div>
+			  	<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'characterAttributes' @key)}}" data-helpDetails="data.attributes.{{@key}}.augmented">{{augmented.value}}</div>
 				{{/if}}
 			{{else ife ../actor.type 'actorDrone'}}
 				<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>

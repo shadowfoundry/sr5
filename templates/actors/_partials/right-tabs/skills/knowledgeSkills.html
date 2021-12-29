@@ -45,7 +45,7 @@
 					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name=""
 						data-dtype="String">
 						{{#select data.type}}
-						<option value="">{{localize 'SR5.ChooseOne'}}</option>
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 						{{#each ../actor.lists.knowledgeSkillTypes}}
 						<option value="{{@key}}">{{findTranslation 'knowledgeSkillTypes' @key}}</option>
 						{{/each}}

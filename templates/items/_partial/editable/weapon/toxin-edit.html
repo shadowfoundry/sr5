@@ -3,7 +3,7 @@
     <div class="col-7">
         <select name="data.toxin.type" required>
         {{#select data.toxin.type}}
-            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.toxinTypes}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}

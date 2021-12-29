@@ -3,7 +3,7 @@
     <div class="col-7">
         <select name="data.ammunition.casing" required>
         {{#select data.ammunition.casing}}
-            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.reloadingMethods}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}
