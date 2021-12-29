@@ -1,6 +1,6 @@
 import { SR5_EntityHelpers } from "../helpers.js";
 import { SR5_SystemHelpers } from "../../system/utility.js";
-import { SR5Combat } from "../../srcombat.js";
+import { SR5Combat } from "../../system/srcombat.js";
 import { SR5 } from "../../config.js";
 
 
@@ -534,6 +534,13 @@ export class SR5_CharacterUtility extends Actor {
           i.data.data.freeSustain = true;
         }
     }
+  }
+
+  static handleVision(actor){
+    let data = actor.data;
+    if (actor.type === "actorSpirit") data.vision.astral = true;
+    if (data.initiatives.astralInit.isActive) data.vision.astral = true;
+    if (data.vision.astralIsChecked) data.vision.astral = true;
   }
 
   static applyRacialModifers(actor) {

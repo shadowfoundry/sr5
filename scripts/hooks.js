@@ -14,14 +14,15 @@ import { SR5AppareilSheet } from "./entities/actors/deviceSheet.js";
 import { SR5SpriteSheet } from "./entities/actors/spriteSheet.js";
 import { SR5Item } from "./entities/items/entityItem.js";
 import { SR5ItemSheet } from "./entities/items/itemSheet.js";
-import { SR5_Dice } from "./rolls/dice.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
-import { SR5Combat, _getInitiativeFormula } from "./srcombat.js";
-import { _drawEffect, addTokenLayer, _drawOverlay } from "./token.js";
-import { SR5CombatTracker } from "./srcombat-tracker.js";
+import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js";
+import { SR5Token } from "./interface/token.js";
+import { SR5SightLayer, drawSight } from "./interface/vision.js";
+import { SR5CombatTracker } from "./interface/srcombat-tracker.js";
+import { _getSRStatusEffect } from "./system/effectsList.js";
 import  SR5TokenHud from "./interface/tokenHud.js";
 import { checkDependencies } from "./apps/dependencies.js"
-import { measureDistances } from "./canvas.js";
+import { measureDistances } from "./interface/canvas.js";
 import  SR5SceneConfig  from "./interface/sceneConfig.js";
 import * as macros from "./interface/macros.js";
 import Migration from "./migration.js";
@@ -31,7 +32,6 @@ export const registerHooks = function () {
     SR5_SystemHelpers.registerSystemSettings();
     SR5_SystemHelpers.srLogPublic(`Welcome to the Sixth World, chummer!`);
     SR5_SystemHelpers.srLogPublic(`Remember: Never, ever, cut a deal with a dragon!`);
-
     SR5_SystemHelpers.srLog(2, `Initializing game system`);
 
     // Create a namespace within the game global
@@ -52,12 +52,16 @@ export const registerHooks = function () {
     CONFIG.Item.documentClass = SR5Item;
     CONFIG.Combat.documentClass = SR5Combat;
     CONFIG.ui.combat = SR5CombatTracker;
+    CONFIG.Canvas.layers.sight.layerClass = SR5SightLayer;
+    CONFIG.Token.objectClass = SR5Token;
 
     // ACTIVATE HOOKS DEBUG
     CONFIG.debug.hooks = false;
 
     // Patch Core Functions
     Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
+    VisionSource.prototype.drawSight = drawSight;
+
 
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
@@ -109,13 +113,10 @@ export const registerHooks = function () {
       }
     }
     
-
     //Socket
     SR5_SocketHandler.registerSocketListeners();
 
-    SR5_SystemHelpers.srLog(2, `Finished initializing game system`);
-
-    
+    SR5_SystemHelpers.srLog(2, `Finished initializing game system`);  
   });
 
   Hooks.once("ready", function () {
@@ -133,7 +134,7 @@ export const registerHooks = function () {
 
     // Perform the migration
     if (needsMigration) {
-     new game.sr5.migration().migrateWorld();
+      new game.sr5.migration().migrateWorld();
     }
 
     canvas.hud.token = new SR5TokenHud();
@@ -158,7 +159,7 @@ export const registerHooks = function () {
       if (tokenOverlay){
         for (let token of canvas.tokens.placeables) {
           if(token.actor){
-            await addTokenLayer(token);
+            await SR5Token.addTokenLayer(token);
           }
         }
       }
@@ -172,11 +173,8 @@ export const registerHooks = function () {
     if ( !game.user.isGM ) return;
     for (let combatant of combat.combatants){
       let actor;
-      if (!combatant.actor.isToken) {
-        actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
-      } else {
-        actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
-      }
+      if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
+      else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
       actor.unsetFlag("sr5", "cumulativeDefense");
     }
   });
@@ -197,63 +195,18 @@ export const registerHooks = function () {
     }
   });
 
-  Hooks.once("setup", async function () {
-
-    let mainColorElement = document.getElementById("players");
-    let mainColorRGB = window.getComputedStyle(mainColorElement, null).getPropertyValue("border-color");
-    let mainColorArray = mainColorRGB.slice(mainColorRGB.indexOf("(") + 1, mainColorRGB.indexOf(")")).split(", ");
-    let mainColor = mainColorArray.map(function convertToFloat(number) {
-      return number / 255;
-    });
-    let subColorElement = document.getElementById("sidebar");
-    let subColorRGB = window.getComputedStyle(subColorElement, null).getPropertyValue("border-left-color");
-    let subColorArray = subColorRGB.slice(subColorRGB.indexOf("(") + 1, subColorRGB.indexOf(")")).split(", ");
-    let subColor = subColorArray.map(function convertToFloat(number) {
-      return number / 255;
-    });
-
-    Token.prototype._drawBar = function (number, bar, data) {
-      bar.scale.set(0.95, 0.5);
-      const val = Number(data.value);
-      let h = Math.max(canvas.dimensions.size / 12, 8);
-      if (this.data.height >= 2) h *= 1.6; // Enlarge the bar for large tokens
-      // Draw the bar
-      bar.clear().beginFill(PIXI.utils.rgb2hex(subColor), 0.7).lineStyle(0.5, 0x000000, 1);
-      // each max draw a green rectangle in background
-      for (let index = 0; index < data.max; index++) {
-        bar.drawRect(index * (this.w / data.max), 0, this.w / data.max, h);
-      }
-      // each actual value draw a rectangle from dark green to red
-      bar.beginFill(PIXI.utils.rgb2hex(mainColor), 0.7).lineStyle(0.5, 0x000000, 1);
-      for (let index = 0; index < Math.clamped(val, 0, data.max); index++) {
-        bar.drawRect(index * (this.w / data.max), 0, this.w / data.max, h);
-      }
-      // Set position
-      let posY = number === 0 ? this.h - (h-2) : 2;
-      bar.position.set(2.5, (posY));
-    };
-
-    Token.prototype._drawEffect = _drawEffect;
-    Token.prototype._drawOverlay = _drawOverlay;
-
-  });
-
   Hooks.on("preCreateToken", (tokenDocument) => {
     if (tokenDocument.data.img.includes("systems/sr5/img/actors/")) tokenDocument.data.update({img: tokenDocument.actor.img});
   });
 
   Hooks.on("createToken", async function(tokenDocument) {
     const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
-    if (tokenOverlay){
-      await addTokenLayer(tokenDocument);
-    }
+    if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
   });
 
   Hooks.on("updateToken", async function(tokenDocument) {
     const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
-    if (tokenOverlay){
-      await addTokenLayer(tokenDocument);
-    }
+    if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
   });
 
   Hooks.on("preDeleteToken", (scene, token) => {
@@ -275,32 +228,65 @@ export const registerHooks = function () {
     });
 
     let actor;
-    if (!combatant.actor.isToken) {
-      actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
-    } else {
-      actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
-    }
+    if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
+    else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
     actor.setFlag("sr5", "cumulativeDefense", 0);
   });
 
   Hooks.on("updateCombatant", (combatant) => {
     if (combatant.isDefeated && !combatant.data.flags.sr5.hasPlayed){
-      combatant.update({
-        "flags.sr5.hasPlayed": true,
-      })
+      combatant.update({"flags.sr5.hasPlayed": true,})
     }
   });
 
   Hooks.on("updateItem", async(document, data, options, userId) => {
-    if (document.isOwned && game.combat){
-      SR5Combat.changeInitInCombat(document.actor);
-    }
+    if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {
-    if (game.combat){
-      SR5Combat.changeInitInCombat(document);
+    if (game.combat) SR5Combat.changeInitInCombat(document);
+    if (data.data?.vision) canvas.sight.refresh()
+  
+    let astralVisionEffect = document.effects.find(e => e.data.origin === "handleVisionAstral")
+    if (document.data.data.vision?.astral){
+      if (!astralVisionEffect){
+        let astralEffect = await _getSRStatusEffect("handleVisionAstral");
+        await document.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
+      }
+    } else {
+      if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
     }
+    //let truc = document.effects.find(e => e.data.origin = "handleVisionAstral")
+    //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
+  });
+
+  Hooks.on("deleteItem", async (item) =>{
+    if (item.type === "itemEffect"){
+      let statusEffect = item.actor.effects.find(e => e.data.origin === item.data.data.type);
+      if (statusEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+    }
+  });
+
+  Hooks.on("deleteActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("createActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("lightingRefresh", () => {
+    for (const source of canvas.sight.sources) {
+
+      }
+  });
+
+  Hooks.on("deleteActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  });
+
+  Hooks.on("createActiveEffect", (effect) =>{
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
   });
 
 }

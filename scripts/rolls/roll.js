@@ -4,7 +4,7 @@ import { SR5_Dice } from "./dice.js";
 import { SR5_RollMessage } from "./roll-message.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
-import AbilityTemplate from "../canvas-template.js";
+import AbilityTemplate from "../interface/canvas-template.js";
 import { SR5_SystemHelpers } from "../system/utility.js";
 
 export class SR5_Roll {
@@ -860,8 +860,7 @@ export class SR5_Roll {
             default:
 
         }
-        //console.log(actor);
-        //console.log(actor.toObject(false));
+
         let dialogData = {
             title: title,
             actor: actor.toObject(false),

@@ -5,7 +5,8 @@ import { SR5_UtilityItem } from "../items/utilityItem.js";
 import { SR5_CharacterUtility } from "./utility.js";
 import { SR5_CompendiumUtility } from "./utilityCompendium.js";
 import { SR5_Roll } from "../../rolls/roll.js";
-import { SR5Combat } from "../../srcombat.js";
+import { SR5Combat } from "../../system/srcombat.js";
+import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
 
 /**
@@ -273,6 +274,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateMovements(actor);
         SR5_CharacterUtility.updateAstralValues(actor);
         SR5_CharacterUtility.updateEncumbrance(actor);
+        SR5_CharacterUtility.handleVision(actor);
         break;
       case "actorSprite":
         SR5_CharacterUtility.updateSpriteValues(actor);
@@ -311,6 +313,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateMovements(actor);
         SR5_CharacterUtility.updateTradition(actor);
         SR5_CharacterUtility.updateAstralValues(actor);
+        SR5_CharacterUtility.handleVision(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);
@@ -603,24 +606,15 @@ export class SR5Actor extends Actor {
           actorData.data.conditionMonitors.overflow.current += carriedDamage;
           actorData.data.conditionMonitors.physical.current = actorData.data.conditionMonitors.physical.value;
         }
-
-        if (actorData.data.conditionMonitors.stun.current >= actorData.data.conditionMonitors.stun.value) await this.createKoEffect();
-        if (actorData.data.conditionMonitors.physical.current >= actorData.data.conditionMonitors.physical.value) await this.createDeadEffect();
-        if ((damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10)
-          && actorData.data.conditionMonitors.stun.current < actorData.data.conditionMonitors.stun.value
-          && actorData.data.conditionMonitors.physical.current < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
         break;
       case "actorGrunt":
         actorData.data.conditionMonitors.condition.current += damage;
         ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-        if (actorData.data.conditionMonitors.condition.current >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
-        else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10) await this.createProneEffect(damage, actorData, gelAmmo);
         break;
       case "actorDrone":
         if (damageType === "physical") {
           actorData.data.conditionMonitors.condition.current += damage;
           ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-          if (actorData.data.conditionMonitors.condition.current >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
           if (actorData.data.controlMode === "rigging"){
             let controler = SR5_EntityHelpers.getRealActorFromID(actorData.data.vehicleOwner.id)
             let chatData = {
@@ -641,13 +635,34 @@ export class SR5Actor extends Actor {
         if (options.matrixDamageValue) {
           actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
           ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
-          if (actorData.data.conditionMonitors.matrix.current >= actorData.data.conditionMonitors.matrix.value) await this.createDeadEffect();
         }
         break;
     }
     
     await this.update(actorData);
 
+    //Status
+    switch (actorData.type){
+      case "actorPc":
+      case "actorSpirit":
+        if (actorData.data.conditionMonitors.physical.current >= actorData.data.conditionMonitors.physical.value) await this.createDeadEffect();
+        else if (actorData.data.conditionMonitors.stun.current >= actorData.data.conditionMonitors.stun.value) await this.createKoEffect();
+        else if ((damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10)
+          && actorData.data.conditionMonitors.stun.current < actorData.data.conditionMonitors.stun.value
+          && actorData.data.conditionMonitors.physical.current < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
+          break;
+      case "actorGrunt":
+      case "actorDrone":
+        if (actorData.data.conditionMonitors.condition.current >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
+        else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
+        break;
+      case "actorSprite":
+      case "actorDevice":
+        if (actorData.data.conditionMonitors.matrix.current >= actorData.data.conditionMonitors.matrix.value) await this.createDeadEffect();
+        break;
+    }
+
+    //Special Element Damage
     if (options.damageElement === "electricity" && actorData.type !== "actorDrone"){
       await this.electricityDamageEffect();
     } 
@@ -655,8 +670,8 @@ export class SR5Actor extends Actor {
       await this.acidDamageEffect(damage, options.damageSource);
     } 
     if (options.damageElement === "fire"){
-      if (this.data.data.itemsProperties.armor.value <= 0) this.fireDamageEffect()
-      else  await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
+      if (this.data.data.itemsProperties.armor.value <= 0) await this.fireDamageEffect()
+      else await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
     }
   }
 
@@ -665,20 +680,8 @@ export class SR5Actor extends Actor {
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "prone") return;
     }
-
-    let effect = {
-      label: game.i18n.localize("SR5.STATUSES_Prone"),
-      origin: "damageTaken",
-      icon: "systems/sr5/img/status/StatusProneOn.svg",
-      flags: {
-        core: {
-            active: true,
-            statusId: "prone"
-        }
-      },
-    }
-
-    this.createEmbeddedDocuments('ActiveEffect', [effect]);
+    let effect = await _getSRStatusEffect("prone");
+    await this.createEmbeddedDocuments('ActiveEffect', [effect]);
     if (damage >= 10) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
     else if (gelAmmo < 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
     else ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
@@ -689,20 +692,8 @@ export class SR5Actor extends Actor {
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "dead") return;
     }
-
-    let effect = {
-      label: game.i18n.localize("SR5.STATUSES_Dead_F"),
-      origin: "damageTaken",
-      icon: "systems/sr5/img/status/StatusDeadOn.svg",
-      flags: {
-        core: {
-            active: true,
-            statusId: "dead"
-        }
-      },
-    }
-
-    this.createEmbeddedDocuments('ActiveEffect', [effect]); 
+    let effect = await _getSRStatusEffect("dead");
+    await this.createEmbeddedDocuments('ActiveEffect', [effect]); 
     ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.INFO_DamageActorDead")}`);
   }
 
@@ -711,20 +702,8 @@ export class SR5Actor extends Actor {
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "unconscious") return;
     }
-
-    let effect = {
-      label: game.i18n.localize("SR5.STATUSES_Unconscious_F"),
-      origin: "damageTaken",
-      icon: "systems/sr5/img/status/StatusUnconsciousOn.svg",
-      flags: {
-        core: {
-            active: true,
-            statusId: "unconscious"
-        }
-      },
-    }
-
-    this.createEmbeddedDocuments('ActiveEffect', [effect]); 
+    let effect = await _getSRStatusEffect("unconscious")
+    await this.createEmbeddedDocuments('ActiveEffect', [effect]); 
     ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.INFO_DamageActorKo")}`);
   }
 
@@ -758,6 +737,8 @@ export class SR5Actor extends Actor {
       ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
       await SR5Combat.changeInitInCombat(this, -5);
       await this.createEmbeddedDocuments("Item", [effect]);
+      let statusEffect = await _getSRStatusEffect("electricityDamage");
+      await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
   }
 
@@ -789,7 +770,7 @@ export class SR5Actor extends Actor {
         name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
         type: "itemEffect",
         "data.type": "acidDamage",
-        "data.target": armor.name,
+        "data.target": `${game.i18n.localize("SR5.Armor")}, ${game.i18n.localize("SR5.Damage")}`,
         "data.value": damage,
         "data.durationType": "round",
         "data.duration": duration,
@@ -797,6 +778,8 @@ export class SR5Actor extends Actor {
       ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
       await SR5Combat.changeInitInCombat(this, -5);
       await this.createEmbeddedDocuments("Item", [effect]);
+      let statusEffect = await _getSRStatusEffect("acidDamage");
+      await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
     
@@ -804,8 +787,7 @@ export class SR5Actor extends Actor {
 
   //Handle Elemental Damage : Fire
   async fireDamageEffect(){
-    //debugger;
-    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "acidDamage");
+    let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "fireDamage");
     if (existingEffect) return;
     let effect = {
       name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageFire")})`,
@@ -818,20 +800,11 @@ export class SR5Actor extends Actor {
     }
     ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
     await this.createEmbeddedDocuments("Item", [effect]);
-
-    /*Pour déterminer si quelque chose s’enflamme, lancez Armure + Protection ignifuge - PA du feu (voir la table de pénétration d’armure du feu, ci-dessous). 
-    Le seuil de ce test est le nombre de succès excédentaires obtenus lors du test d’attaque. 
-    Si l’objet réussit le test, il ne prend pas feu (pour l’instant). 
-    Quand quelque chose prend feu, la Valeur de Dommage initiale du feu est de 3. 
-    Ces dommages sont infligés à la fin de chaque tour de combat, 
-    et le VD augmente de 1 au début de chaque tour de combat suivant jusqu’à ce que l’objet soit complètement détruit, ou que le feu soit éteint. 
-    Il est possible de lutter contre le feu en faisant un test d’Agilité + Intuition, chaque succès réduisant la VD de 1. 
-    */
+    let statusEffect = await _getSRStatusEffect("fireDamage");
+    await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
   }
 
   async checkIfCatchFire (fireTreshold, source, force){
-    //debugger;
-    //Effectuer le jet 
     let ap = -6
     let fireType = "weapon";
     if (source === "spell"){ 

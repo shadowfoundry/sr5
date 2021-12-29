@@ -73,6 +73,17 @@ export class SR5_SystemHelpers {
       type: Boolean,
       onChange: () => window.location.reload()
     });
+
+    // Add astral color overlay
+    game.settings.register("sr5", "sr5AstralOverlay", {
+      name: "SR5.SETTINGS_AstralOverlay_T",
+      hint: "SR5.SETTINGS_AstralOverlay_D",
+      scope: "client",
+      config: true,
+      default: false,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    });
   }
 
   /* Display Shadowrun Themed Log Entries Based on Logging Level

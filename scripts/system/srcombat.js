@@ -1,6 +1,6 @@
-import { SR5_CharacterUtility } from "./entities/actors/utility.js";
-import { SR5_EntityHelpers } from "./entities/helpers.js";
-import { SR5_SocketHandler } from "./socket.js";
+import { SR5_CharacterUtility } from "../entities/actors/utility.js";
+import { SR5_EntityHelpers } from "../entities/helpers.js";
+import { SR5_SocketHandler } from "../socket.js";
 
 export class SR5Combat extends Combat {
 	get initiativePass(){
@@ -282,7 +282,13 @@ export class SR5Combat extends Combat {
 		return combat;
 	}
 
-	async rollInitiative(ids, formula, {updateTurn = true, messageOptions = {} } = {}) {
+	async rollNPC(){
+		const combat = await super.rollNPC();
+		if (combat.turn !== 0) await combat.update({turn: 0});
+		return combat;
+	}
+
+	async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
 		
 		// Structure input data
 		ids = typeof ids === "string" ? [ids] : ids;
@@ -298,8 +304,9 @@ export class SR5Combat extends Combat {
 
 			// Produce an initiative roll for the Combatant
 			const roll = combatant.getInitiativeRoll(formula);
-			roll.evaluate({async: false});
+			await roll.evaluate({async: true});
 			let initiative = roll.total;
+
 			if (this.data.flags.sr5?.combatInitiativePass > 1){
 				let currentPass = this.data.flags.sr5?.combatInitiativePass - 1;
 				initiative -= (currentPass * 10);
@@ -357,7 +364,7 @@ export class SR5Combat extends Combat {
 		await this.updateEmbeddedDocuments("Combatant", updates);
 
 		// Ensure the turn order remains with the same combatant
-		if ( updateTurn ) {
+		if ( updateTurn && currentId ) {
 			await this.update({turn: this.turns.findIndex(t => t.id === currentId)});
 		}
 

@@ -12,7 +12,7 @@
         }
 
         &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
-        &#permission, &[id^=playlist-config-], &[id^=rolltable-sheet-], &[id^=cards-sheet-], &.macro-sheet {
+        &#permission, &[id^=playlist-config-], &[id^=rolltable-sheet-], &[id^=cards-sheet-], &[id^=ambient-light-config-], &.macro-sheet {
             select{
                 border: 1px solid @mainColor;
                 color: @neutralLightColor;
@@ -1300,6 +1300,9 @@
                 font-family: @SR_FontTitleAlter;
                 text-transform: uppercase;
             }
+            h3.encounter-title {
+                margin-left: 0px;
+            }
             h4 {
                 color: @neutralLightColor;
             }
@@ -1318,6 +1321,10 @@
     #combat-tracker {
         li.combatant {
 
+            line-height: 50px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+
             &.hidden {
                 color: fade(@subColor, 50%);
             }
@@ -1333,6 +1340,7 @@
             .token-name {
                 h4 {
                     padding-left: 0px;
+                    font-size: 16px;
 
                     &:hover {
                         background-size: 0;
@@ -1343,8 +1351,15 @@
                     }
                 }
 
+                .combatant-controls {
+                    flex: 0 0 27px;
+                    font-size: var(--font-size-17);
+                    line-height: 25px;
+                }
                 .combatant-control {
                     color: @mainColor;
+                    flex: 0 0 23px;
+                    
 
                     &:hover {
                         color: fade(@subColor, 50%);
@@ -1354,11 +1369,16 @@
                         color: @subColor;
                     }
                 }
+
+                img.token-effect {
+                    width: 23px;
+                    height: 23px;
+                }
             }
 
             .token-image{
-                height: 44px;
-                width: 44px;
+                height: 55px;
+                width: 55px;
             }
 
             .roll {
@@ -1856,7 +1876,7 @@
                 -moz-transition: all 1s ease;
                 -o-transition: all 1s ease;
                 transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                //z-index: 1;
+                
 
                 &:not(:last-child) {
                 box-shadow: 0 1px 0 fade(@mainColor, 50%);
@@ -1873,19 +1893,19 @@
                     width: 100%;
                 }
 
-                &:before {
+                /*&:before {
                     display: block;
                     position: absolute;
                     top: 0px;
                     right: 0px;
                     height: calc(100% - 2px);
                     width: 0px;
-                    //z-index: -1;
+                    z-index: -1;
                     content: '';
                     background: fade(@subColor, 25%);
                     background-origin: border-box;
                     transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                }
+                }*/
             }
 
             img {
