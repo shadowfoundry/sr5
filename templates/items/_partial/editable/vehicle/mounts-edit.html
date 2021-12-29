@@ -10,7 +10,7 @@
     <div class="col-4">
         <select name="data.mount.{{@key}}.type" required>
         {{#select this.type }}
-            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each ../lists.mountTypes}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}

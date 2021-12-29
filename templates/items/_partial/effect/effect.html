@@ -27,36 +27,49 @@
 			<div class="col-3 SR-PaddingRight5">
 				<select name="data.customEffects.{{@key}}.category" required>
 					{{#select category}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
-					<option value="characterAttributes">{{localize 'SR5.Attributes'}}</option>
-					<option value="characterSpecialAttributes">{{localize 'SR5.SpecialAttributes'}}</option>
-					<option value="characterInitiatives">{{localize 'SR5.Initiatives'}}</option>
-					<option value="characterLimits">{{localize 'SR5.Limits'}}</option>
-					<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
-					<option value="characterResistances">{{localize 'SR5.Resistances'}}</option>
-					<option value="essence">{{localize 'SR5.Essence'}}</option>
-					<option value="characterDerivedAttributes">{{localize 'SR5.DerivedAttributes'}}</option>
-					<option value="penaltyTypes">{{localize 'SR5.Penalties'}}</option>
-					<option value="visionTypes">{{localize 'SR5.Vision'}}</option>
-					<option value="movements">{{localize 'SR5.Movement'}}</option>
-					<option value="weightActions">{{localize 'SR5.CarryingGear'}}</option>
-					<option value="reach">{{localize 'SR5.CharacterReach'}}</option>
-					<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>
-					<option value="skills">{{localize 'SR5.Skills'}}</option>
-					<option value="matrixAttributes">{{localize 'SR5.MatrixAttributes'}}</option>
-					<option value="matrixResistances">{{localize 'SR5.MatrixResistances'}}</option>
-					<option value="matrixActions">{{localize 'SR5.MatrixActions'}}</option>
-					<option value="matrixValues">{{localize 'SR5.MatrixPlane'}}</option>
-					<option value="programs">{{localize 'SR5.Programs'}}</option>
-					<option value="astralValues">{{localize 'SR5.AstralPlane'}}</option>
-					<option value="adeptValues">{{localize 'SR5.AdeptPowers'}}</option>
-					<option value="characterConditionMonitors">{{localize 'SR5.ConditionMonitors'}}</option>
-					<option value="characterOtherMonitors">{{localize 'SR5.OtherMonitors'}}</option>
-					<option value="specialProperties">{{localize 'SR5.Special'}}</option>
-					<option value="itemArmor">{{localize 'SR5.Armor'}}</option>
-					<option value="weaponEffectTargets">{{localize 'SR5.Weapons'}}</option>
-					<option value="vehicle">{{localize 'SR5.Vehicle'}}</option>
-					<option value="custom">{{localize 'SR5.GENERAL_Custom'}}...</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+					<optgroup label="{{localize 'SR5.Attributes'}}">
+						<option value="characterAttributes">{{localize 'SR5.Attributes'}}</option>
+						<option value="characterSpecialAttributes">{{localize 'SR5.SpecialAttributes'}}</option>
+						<option value="essence">{{localize 'SR5.Essence'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.DerivedAttributes'}}">
+						<option value="characterInitiatives">{{localize 'SR5.Initiatives'}}</option>
+						<option value="characterLimits">{{localize 'SR5.Limits'}}</option>
+						<option value="reach">{{localize 'SR5.CharacterReach'}}</option>
+						<option value="characterDerivedAttributes">{{localize 'SR5.DerivedAttributes'}}</option>
+						<option value="movements">{{localize 'SR5.Movement'}}</option>
+						<option value="weightActions">{{localize 'SR5.CarryingGear'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Skills'}}">
+						<option value="skills">{{localize 'SR5.Skills'}}</option>
+						<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Damage'}}">
+						<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
+						<option value="characterResistances">{{localize 'SR5.Resistances'}}</option>
+						<option value="itemArmor">{{localize 'SR5.Armor'}}</option>
+						<option value="characterConditionMonitors">{{localize 'SR5.ConditionMonitors'}}</option>
+						<option value="penaltyTypes">{{localize 'SR5.Penalties'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Matrix'}}">
+						<option value="matrixAttributes">{{localize 'SR5.MatrixAttributes'}}</option>
+						<option value="matrixResistances">{{localize 'SR5.MatrixResistances'}}</option>
+						<option value="matrixActions">{{localize 'SR5.MatrixActions'}}</option>
+						<option value="matrixValues">{{localize 'SR5.MatrixPlane'}}</option>
+						<option value="programs">{{localize 'SR5.Programs'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Magic'}}">
+						<option value="astralValues">{{localize 'SR5.AstralPlane'}}</option>
+						<option value="adeptValues">{{localize 'SR5.AdeptPowers'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Special'}}">
+						<option value="visionTypes">{{localize 'SR5.Vision'}}</option>
+						<option value="specialProperties">{{localize 'SR5.Special'}}</option>
+						<option value="weaponEffectTargets">{{localize 'SR5.Weapons'}}</option>
+						<option value="vehicle">{{localize 'SR5.Vehicle'}}</option>
+						<option value="custom">{{localize 'SR5.GENERAL_Custom'}}...</option>
+					</optgroup>		
 					{{/select}}
 				</select>
 			</div>
@@ -64,30 +77,26 @@
 			<div class="col-4 SR-PaddingRight5">
 				{{#if category}}
 				{{#ife category 'custom'}}
-				<input type="text" data-dtype="Text" name="data.customEffects.{{@key}}.target" value="{{target}}"
-					placeholder="data.">
+				<input type="text" data-dtype="Text" name="data.customEffects.{{@key}}.target" value="{{target}}" placeholder="data.">
 				{{else}}
 				<select name="data.customEffects.{{@key}}.target" required>
 					{{#select target}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 
 					{{#ife category 'characterAttributes'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
 						</option>
-						<option value="data.attributes.{{@key}}.augmented">{{localize this}} [{{localize
-							'SR5.Augmented'}}]</option>
+						<option value="data.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'characterSpecialAttributes'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.specialAttributes.{{@key}}.natural">{{localize this}} [{{localize
-							'SR5.Natural'}}]</option>
-						<option value="data.specialAttributes.{{@key}}.augmented">{{localize this}} [{{localize
-							'SR5.Augmented'}}]</option>
+						<option value="data.specialAttributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
+						<option value="data.specialAttributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					</optgroup>
 					{{/each}}
 
@@ -95,8 +104,7 @@
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.initiatives.{{@key}}">{{localize this}}</option>
-						<option value="data.initiatives.{{@key}}.dice">{{localize this}} [{{localize
-							'SR5.NumberOfDice'}}]</option>
+						<option value="data.initiatives.{{@key}}.dice">{{localize this}} [{{localize 'SR5.NumberOfDice'}}]</option>
 					</optgroup>
 					{{/each}}
 
@@ -109,8 +117,7 @@
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.defenses.{{@key}}">{{localize this}}</option>
-						<option value="data.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]
-						</option>
+						<option value="data.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 					</optgroup>
 					{{/each}}
 
@@ -120,8 +127,7 @@
 					<optgroup label="{{localize this}}">
 						{{#ife @key 'specialDamage'}}
 						{{#each (lookup ../../lists 'specialDamageTypes')}}
-						<option value="data.resistances.specialDamage.{{@key}}">{{localize @../this}} ({{localize
-							this}})</option>
+						<option value="data.resistances.specialDamage.{{@key}}">{{localize @../this}} ({{localize this}})</option>
 						{{/each}}
 						{{else ife @key 'disease'}}
 						{{#each (lookup ../../lists 'propagationVectors')}}
@@ -141,8 +147,7 @@
 					{{/each}}
 					<optgroup label="{{localize 'SR5.DirectSpell'}}">
 						<option value="data.resistances.directSpellMana">{{localize 'SR5.DirectSpellMana'}}</option>
-						<option value="data.resistances.directSpellPhysical">{{localize 'SR5.DirectSpellPhysical'}}
-						</option>
+						<option value="data.resistances.directSpellPhysical">{{localize 'SR5.DirectSpellPhysical'}}</option>
 					</optgroup>
 
 					{{else ife category 'essence'}}
@@ -155,11 +160,7 @@
 
 					{{else ife category 'penaltyTypes'}}
 					{{#each (lookup ../lists category)}}
-					<optgroup label="{{localize this}}">
-						<option value="data.penalties.{{@key}}.actual">{{localize this}}</option>
-						<option value="data.penalties.{{@key}}.minimum">{{localize this}} [{{localize
-							'SR5.GENERAL_Minimum_F'}}]</option>
-					</optgroup>
+					<option value="data.penalties.{{@key}}.actual">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'visionTypes'}}
@@ -170,28 +171,21 @@
 					{{else ife category 'movements'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.movements.{{@key}}.movement">{{localize this}} [{{localize 'SR5.Base'}}]
-						</option>
-						<option value="data.movements.{{@key}}.extraMovement">{{localize this}} [{{localize
-							'SR5.Extra'}}]</option>
-						<option value="data.movements.{{@key}}.maximum">{{localize this}} [{{localize
-							'SR5.GENERAL_Maximum_F'}}]</option>
+						<option value="data.movements.{{@key}}.movement">{{localize this}} [{{localize 'SR5.Base'}}]</option>
+						<option value="data.movements.{{@key}}.extraMovement">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
+						<option value="data.movements.{{@key}}.maximum">{{localize this}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
 						<option value="data.movements.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]
 						</option>
-						<option value="data.movements.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]
-						</option>
+						<option value="data.movements.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'weightActions'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.weightActions.{{@key}}.baseWeight">{{localize this}} [{{localize
-							'SR5.Base'}}]</option>
-						<option value="data.weightActions.{{@key}}.extraWeight">{{localize this}} [{{localize
-							'SR5.Extra'}}]</option>
-						<option value="data.weightActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]
-						</option>
+						<option value="data.weightActions.{{@key}}.baseWeight">{{localize this}} [{{localize 'SR5.Base'}}]</option>
+						<option value="data.weightActions.{{@key}}.extraWeight">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
+						<option value="data.weightActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
 					</optgroup>
 					{{/each}}
 
@@ -206,21 +200,17 @@
 					{{else ife category 'skills'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.skills.{{@key}}.rating">{{localize this}} [{{localize 'SR5.Rating'}}]
-						</option>
-						<option value="data.skills.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]
-						</option>
+						<option value="data.skills.{{@key}}.rating">{{localize this}} [{{localize 'SR5.Rating'}}]</option>
+						<option value="data.skills.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
 						<option value="data.skills.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 						{{#if (or (eq @key 'banishing') (eq @key 'binding') (eq @key 'summoning'))}}
 						{{#each ../../lists.spiritTypes}}
-						<option value="data.skills.{{@../key}}.spiritType.{{@key}}">{{localize @../this}} ({{localize
-							this}}) [{{localize 'SR5.SpiritTypeBonus'}}]</option>
+						<option value="data.skills.{{@../key}}.spiritType.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpiritTypeBonus'}}]</option>
 						{{/each}}
 						{{else if (or (eq @key 'counterspelling') (eq @key 'spellcasting') (eq @key
 						'ritualSpellcasting'))}}
 						{{#each ../../lists.spellCategories}}
-						<option value="data.skills.{{@../key}}.spellCategory.{{@key}}">{{localize @../this}} ({{localize
-							this}}) [{{localize 'SR5.SpellCategoryBonus'}}]</option>
+						<option value="data.skills.{{@../key}}.spellCategory.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpellCategoryBonus'}}]</option>
 						{{/each}}
 						{{/if}}
 					</optgroup>
@@ -239,12 +229,10 @@
 					{{else ife category 'matrixActions'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.matrix.actions.{{@key}}.test">{{localize this}} [{{localize
-							'SR5.DicePool'}}]</option>
+						<option value="data.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
 						<option value="data.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]
 						</option>
-						<option value="data.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize
-							'SR5.DefenseDicePool'}}]</option>
+						<option value="data.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
 					</optgroup>
 					{{/each}}
 
@@ -265,26 +253,18 @@
 
 					{{else ife category 'adeptValues'}}
 					<option value="data.magic.powerPoints">{{localize 'SR5.PowerPoints'}}</option>
-					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize
-						'SR5.GENERAL_Maximum_F'}}]</option>
+					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
 
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.conditionMonitors.{{@key}}">{{localize this}} [{{localize 'SR5.Boxes'}}]
-						</option>
-						<option value="data.penalties.{{@key}}.minimum">{{localize this}} [{{localize
-							'SR5.GENERAL_Minimum_F'}}]</option>
-						<option value="data.penalties.{{@key}}.step">{{localize this}} [{{localize 'SR5.PenaltyStep'}}]
-						</option>
+						<option value="data.conditionMonitors.{{@key}}">{{localize this}} [{{localize 'SR5.Boxes'}}]</option>
+						<option value="data.penalties.{{@key}}.step">{{localize this}} [{{localize 'SR5.PenaltyStep'}}]</option>
 					</optgroup>
 					{{/each}}
-
-					{{else ife category 'characterOtherMonitors'}}
-					{{#each (lookup ../lists category)}}
-					<option value="data.conditionMonitors.{{@key}}">{{localize 'SR5.Boxes'}} [{{localize this}}]
-					</option>
-					{{/each}}
+					<optgroup label="{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}}">
+						<option value="data.conditionMonitors.overflow">{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}} [{{localize 'SR5.Boxes'}}]</option>
+					</optgroup>
 
 					{{else ife category 'specialProperties'}}
 					{{#each (lookup ../lists category)}}
@@ -304,8 +284,7 @@
 
 					{{else ife category 'vehicle'}}
 					<option value="data.vehicleTest.test">{{localize 'SR5.VehicleTest'}}</option>
-					<option value="data.vehicleTest.limit">{{localize 'SR5.VehicleTest'}} ({{localize 'SR5.Limit'}})
-					</option>
+					<option value="data.vehicleTest.limit">{{localize 'SR5.VehicleTest'}} ({{localize 'SR5.Limit'}})</option>
 					{{/ife}}
 
 					{{/select}}
@@ -320,7 +299,7 @@
 						{{#ife this.target 'data.itemsProperties.weapon.damageValue'}}
 							<select name="data.customEffects.{{@key}}.type" required>
 								{{#select type}}
-								<option value="">{{localize 'SR5.ChooseOne'}}</option>
+								<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 								{{#each ../lists.meleeWeaponTypes}}
 								<option value="{{@key}}">{{localize this}}</option>
 								{{/each}}
@@ -330,7 +309,7 @@
 						{{#ife this.target 'data.itemsProperties.weapon.accuracy'}}
 							<select name="data.customEffects.{{@key}}.type" required>
 								{{#select type}}
-								<option value="">{{localize 'SR5.ChooseOne'}}</option>
+								<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 								{{#each ../lists.combatSkills}}
 								<option value="{{@key}}">{{localize this}}</option>
 								{{/each}}
@@ -357,7 +336,7 @@
 			<div class="col-2 SR-SelectCenter SR-PaddingRight5">
 				<select name="data.customEffects.{{@key}}.value" required>
 					{{#select value}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					<option value="true">{{localize 'SR5.On'}}</option>
 					<option value="false">{{localize 'SR5.Off'}}</option>
 					{{/select}}

@@ -7,7 +7,7 @@
     <div class="col-7">
         <select name="data.testSkill" data-dtype="String">
             {{#select data.testSkill}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.spriteSkills}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -21,7 +21,7 @@
     <div class="col-7">
         <select name="data.testLimit" data-dtype="String">
             {{#select data.testLimit}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.deckerAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}

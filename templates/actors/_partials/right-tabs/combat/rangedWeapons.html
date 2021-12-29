@@ -43,7 +43,7 @@
 				  data-helpTitle="{{localize 'SR5.Specialization'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
 					{{#if data.weaponSkill.specialization}}
-				  	<em class="fab fa-sm fa-gripfire SR-CoulVert" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></em>
+				  	<em class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></em>
 					{{else}}
 				  	<em class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></em>
 					{{/if}}
@@ -103,7 +103,7 @@
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
 						  data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
-							<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-CoulVert{{/if}}"></em>
+							<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em>
 						</a>
 					</div>
 				</div>
@@ -115,7 +115,7 @@
 					  data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}"
 					>
 						{{#if data.wirelessTurnedOn}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-CoulVert"></em></a>
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-SubColor"></em></a>
 						{{else}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
 						{{/if}}

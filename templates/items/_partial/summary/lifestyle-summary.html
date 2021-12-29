@@ -1,21 +1,21 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.FullAddress'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{data.streetAddress}},<br>{{data.city}} ({{data.country}})</span>
+        <span class="col-auto SR-GreyColor">{{data.streetAddress}},<br>{{data.city}} ({{data.country}})</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.LinkedIdentity'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.linkedIdentity}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.linkedIdentity}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.PrepaidMonths'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">
+        <span class="col-auto SR-GreyColor">
         {{#if data.rent.bought}}
             {{localize 'SR5.LifeStyleBought'}}
         {{else}}

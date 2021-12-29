@@ -168,15 +168,19 @@
 
                 &:invalid {
                     color: fade(@subColor, 50%);
+
+                    option, optgroup{
+                        color: fade(@neutralDarkColor, 70%);
+                    }
                 }
 
-                option:nth-child(1) {
+                /*option:nth-child(1) {
                     color: fade(@subColor, 50%);
                 }
 
                 option:nth-child(1n+2) {
                     color: fade(@neutralDarkColor, 70%);
-                }
+                }*/
             }
 
             .SR-ItemColGauche {

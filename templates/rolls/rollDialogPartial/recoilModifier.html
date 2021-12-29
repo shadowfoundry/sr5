@@ -2,7 +2,7 @@
     <div class="col-2">
         {{localize 'SR5.Recoil'}}{{localize 'SR5.Colons'}}
     </div>
-    <div class="col-9 SR-CoulGris SR-TextRight SR-PaddingRight10">
+    <div class="col-9 SR-GreyColor SR-TextRight SR-PaddingRight10">
         <span><input disabled type="number" class="SR-RecoilInput" name="recoilBase" value="{{actor.data.recoilCompensation.value}}" placeholder="0" data-dtype="Number"/></span>
         <span>({{localize 'SR5.HELP_CalculationBase'}})</span>
         <span class="hideWeaponRecoil">+<input disabled type="number"class="SR-RecoilInput" name="recoilWeapon" value="{{item.data.recoilCompensation.value}}" placeholder="0" data-dtype="Number"/></span>

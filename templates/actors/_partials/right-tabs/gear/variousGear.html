@@ -42,12 +42,12 @@
 				<div class="grid">
 					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-thumbtack SR-CoulVert25"></em>
+							<em class="fas fa-sm fa-thumbtack SR-SubColor25"></em>
 						</p>
 					</div>
 					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-wifi SR-CoulVert25"></em>
+							<em class="fas fa-sm fa-wifi SR-SubColor25"></em>
 						</p>
 					</div>
 				</div>
@@ -82,7 +82,7 @@
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_DrugToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_DrugToggleMsg'}}">
 						{{#if data.isActive}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
-							<em class="fas fa-cannabis SR-CoulVert"></em>
+							<em class="fas fa-cannabis SR-SubColor"></em>
 						</a>
 						{{else}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
@@ -94,7 +94,7 @@
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
 						{{#if data.isActive}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
-							<em class="fas fa-sm fa-thumbtack SR-CoulVert"></em>
+							<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
 						</a>
 						{{else}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
@@ -107,7 +107,7 @@
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_DrugContrecoupToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_DrugContrecoupToggleMsg'}}">
 						{{#if data.wirelessTurnedOn}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.Unequip'}}">
-							<em class="fas fa-virus SR-CoulVert"></em>
+							<em class="fas fa-virus SR-SubColor"></em>
 						</a>
 						{{else}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.Equip'}}">
@@ -119,11 +119,11 @@
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
 						{{#if data.wirelessTurnedOn}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
-							<em class="fas fa-sm fa-wifi SR-CoulVert"></em>
+							<em class="fas fa-sm fa-wifi SR-SubColor"></em>
 						</a>
 						{{else}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
-							<em class="fas fa-sm fa-wifi SR-CoulVert25"></em>
+							<em class="fas fa-sm fa-wifi SR-SubColor25"></em>
 						</a>
 						{{/if}}
 					</div>
@@ -149,12 +149,12 @@
 				<div class="grid">
 					<div class="col-6">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-CoulVert{{else}}SR-CoulVert25{{/if}}"></em>
+							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
 					<div class="col-6">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-CoulVert{{else}}SR-CoulVert25{{/if}}"></em>
+							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
 				</div>

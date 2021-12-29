@@ -333,19 +333,23 @@ export class SR5Item extends Item {
   }
 
   /** Overide Item's create Dialog to hide certain items and sort them alphabetically*/
-  static async createDialog(data={}, options={}){
+  static async createDialog(data={}, {parent=null, pack=null, ...options}={}) {
     // Collect data
     const documentName = this.metadata.name;
-    const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemPreparation"];
-    const originalTypes = game.system.entityTypes.Item;
+    const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect"];
+    const originalTypes = game.system.documentTypes[documentName];
     const types = originalTypes.filter(
       (itemType) => !hiddenTypes.includes(itemType)
     );
+    const folders = parent ? [] : game.folders.filter(f => (f.data.type === documentName) && f.displayed);
     const title = game.i18n.localize('SR5.DIALOG_CreateNewItem');
     
-    // Render the entity creation form
-    const html = await renderTemplate(`templates/sidebar/entity-create.html`, {
+    // Render the document creation form
+    const html = await renderTemplate(`templates/sidebar/document-create.html`, {
       name: game.i18n.localize('SR5.DIALOG_NewItem'),
+      folder: data.folder,
+      folders: folders,
+      hasFolders: folders.length >= 1,
       type: types[0],
       types: types.reduce((obj, t) => {
         const label = CONFIG[documentName]?.typeLabels?.[t] ?? t;
@@ -363,10 +367,10 @@ export class SR5Item extends Item {
       callback: html => {
         const form = html[0].querySelector("form");
         const fd = new FormDataExtended(form);
-        data = foundry.utils.mergeObject(data, fd.toObject());
+        foundry.utils.mergeObject(data, fd.toObject(), {inplace: true});
         if ( !data.folder ) delete data["folder"];
         if ( types.length === 1 ) data.type = types[0];
-        return this.create(data, {renderSheet: true});
+        return this.create(data, {parent, pack, renderSheet: true});
       },
       rejectClose: false,
       options: options

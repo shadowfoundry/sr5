@@ -14,7 +14,7 @@
     <div class="col-7">
         <select name="data.damageType">
         {{#select data.damageType}}
-            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.damageTypes}}
             <option value="{{@key}}">{{findTranslation 'damageTypes' @key}}</option>
             {{/each}}

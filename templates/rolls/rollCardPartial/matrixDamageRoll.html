@@ -4,16 +4,16 @@
         <div class="col-10">{{localize 'SR5.MatrixDamage'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-2 SR-TextRight">{{matrixDamageValue}}</div>
     </li>
-    <li class="grid SR-CoulGris">
+    <li class="grid SR-GreyColor">
         <div class="col-10">{{localize 'SR5.MatrixDamageBase'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-2 SR-TextRight">{{matrixDamageValueBase}}</div>
     </li>
-    <li class="grid SR-CoulGris">
+    <li class="grid SR-GreyColor">
         <div class="col-10">{{localize 'SR5.NetHits'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-2 SR-TextRight">+{{matrixDamageMod.netHits}}</div>
     </li>
     {{#if (isdefined matrixDamageMod.markQty)}}
-    <li class="grid SR-CoulGris">
+    <li class="grid SR-GreyColor">
         <div class="col-10">{{localize 'SR5.Marks'}} 
             ({{matrixDamageMod.markQty}} *2{{#if matrixDamageMod.muggerIsActive}} *2 [{{localize 'SR5.ProgramMugger'}}]{{/if}}{{#if matrixDamageMod.guardIsActive}} /2 [{{localize 'SR5.ProgramGuard'}}]{{/if}})
             {{localize 'SR5.Colons'}}
@@ -22,7 +22,7 @@
     </li>
     {{/if}}
     {{#if (gt matrixDamageMod.hammerDamage 0)}}
-    <li class="grid SR-CoulGris">
+    <li class="grid SR-GreyColor">
         <div class="col-10">{{localize 'SR5.ProgramHammer'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-2 SR-TextRight">+{{matrixDamageMod.hammerDamage}}</div>
     </li>

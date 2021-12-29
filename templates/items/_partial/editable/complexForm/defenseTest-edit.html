@@ -6,7 +6,7 @@
 	<div class="col-7">
 		<select name="data.defenseAttribute" data-dtype="String">
 		{{#select data.defenseAttribute}}
-			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.allAttributes}}
 			<option value="{{@key}}">{{localize this}}</option>
 			{{/each}}
@@ -21,7 +21,7 @@
 	<div class="col-7">
 		<select name="data.defenseMatrixAttribute" data-dtype="String">
 		{{#select data.defenseMatrixAttribute}}
-			<option value="">{{localize 'SR5.ChooseOne'}}</option>
+			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.deckerAttributes}}
 			<option value="{{@key}}">{{localize this}}</option>
 			{{/each}}

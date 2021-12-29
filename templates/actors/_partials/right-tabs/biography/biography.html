@@ -31,7 +31,7 @@
 				  data-helpMessage="{{localize 'SR5.HELP_BioMetatypeMsg'}}">
 					<select name="data.biography.characterMetatype" data-dtype="String" required>
 						{{#select data.biography.characterMetatype}}
-						<option value="">{{localize 'SR5.ChooseOne'}}</option>
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 						{{#each actor.lists.metatypes}}
 						<option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
 						{{/each}}
@@ -63,7 +63,7 @@
 				  data-helpMessage="{{localize 'SR5.HELP_BioGenderMsg'}}">
 					<select name="data.biography.characterGender" data-dtype="String" required>
 						{{#select data.biography.characterGender}}
-						<option value="">{{localize 'SR5.ChooseOne'}}</option>
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 						{{#each actor.lists.genders}}
 						<option value="{{@key}}">{{findTranslation 'genders' @key}}</option>
 						{{/each}}

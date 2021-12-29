@@ -9,7 +9,7 @@
             <div class="col-7">
                 <select name="data.optionalPowers.power1" data-dtype="String" required>
                     {{#select data.optionalPowers.power1}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each (lookup lists (concat "spiritOptionalPowers" data.type))}}
                         <option value="{{@key}}">{{localize this}}</option>
                         {{/each}}
@@ -24,7 +24,7 @@
             <div class="col-7">
                 <select name="data.optionalPowers.power2" data-dtype="String" required>
                     {{#select data.optionalPowers.power2}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each (lookup lists (concat "spiritOptionalPowers" data.type))}}
                         {{#if (ne @key ../data.optionalPowers.power1)}}
                         <option value="{{@key}}">{{localize this}}</option>
@@ -41,7 +41,7 @@
             <div class="col-7">
                 <select name="data.optionalPowers.power3" data-dtype="String" required>
                     {{#select data.optionalPowers.power3}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each (lookup lists (concat "spiritOptionalPowers" data.type))}}
                         {{#if (and (ne @key ../data.optionalPowers.power1) (ne @key ../data.optionalPowers.power2))}}
                         <option value="{{@key}}">{{localize this}}</option>
@@ -58,7 +58,7 @@
             <div class="col-7">
                 <select name="data.optionalPowers.power4" data-dtype="String" required>
                     {{#select data.optionalPowers.power4}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each (lookup lists (concat "spiritOptionalPowers" data.type))}}
                         {{#if (and (ne @key ../data.optionalPowers.power1) (ne @key ../data.optionalPowers.power2) (ne @key ../data.optionalPowers.power3))}}
                         <option value="{{@key}}">{{localize this}}</option>
@@ -75,7 +75,7 @@
             <div class="col-7">
                 <select name="data.optionalPowers.power5" data-dtype="String" required>
                     {{#select data.optionalPowers.power5}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each (lookup lists (concat "spiritOptionalPowers" data.type))}}
                         {{#if (and (ne @key ../data.optionalPowers.power1) (ne @key ../data.optionalPowers.power2) (ne @key ../data.optionalPowers.power3) (ne @key ../data.optionalPowers.power4))}}
                         <option value="{{@key}}">{{localize this}}</option>

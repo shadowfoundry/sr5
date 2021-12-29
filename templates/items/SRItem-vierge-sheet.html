@@ -89,7 +89,7 @@
                 <div class="col-7">
                   <select name="data.categorie.value" data-dtype="{{data.categorie.type}}" required>
                     {{#select data.categorie.value}}
-                      <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                      <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                       {{#each vehiculeCategorie}}
                         <option value="{{@key}}">{{localize this}}</option>
                       {{/each}}
@@ -103,7 +103,7 @@
                   {{#ife data.categorie.value "vehicule"}}
                     <select name="data.type.value" data-dtype="{{data.type.type}}" required>
                       {{#select data.type.value}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each vehiculeTypes}}
                           <option value="{{@key}}">{{localize this}}</option>
                         {{/each}}
@@ -113,7 +113,7 @@
                   {{#ife data.categorie.value "drone"}}
                     <select name="data.type.value" data-dtype="{{data.type.type}}" required>
                       {{#select data.type.value}}
-                        <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                         {{#each droneTypes}}
                           <option value="{{@key}}">{{localize this}}</option>
                         {{/each}}
@@ -186,7 +186,7 @@
                     <div class="col-3">
                       <select name="data.monture.{{@key}}.type" required>
                         {{#select this.type }}
-                          <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                          <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                           {{#each ../config.mountTypes}}
                             <option value="{{@key}}">{{localize this}}</option>
                           {{/each}}

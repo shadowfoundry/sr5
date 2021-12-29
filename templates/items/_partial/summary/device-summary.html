@@ -2,7 +2,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation "deckTypes" data.type)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckTypes" data.type)}}</span>
     </p>
 </li>
 
@@ -14,7 +14,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.DeviceAttributesArray'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.attributesCollection.value1}} | {{valueOrDash data.attributesCollection.value2}} |
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributesCollection.value1}} | {{valueOrDash data.attributesCollection.value2}} |
             {{valueOrDash data.attributesCollection.value3}} | {{valueOrDash data.attributesCollection.value4}}
         </span>
     </p>
@@ -26,7 +26,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Programs'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.program.max}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.program.max}}</span>
     </p>
 </li>
 {{/if}}
@@ -36,13 +36,13 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.CommlinkModule'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation "deckModules" data.module)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckModules" data.module)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.CommlinkDongle'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation "deckDongles" data.dongle)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckDongles" data.dongle)}}</span>
     </p>
 </li>
 {{/ife}}

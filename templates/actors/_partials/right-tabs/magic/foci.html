@@ -51,7 +51,7 @@
 					data-item-id="{{_id}}" required>
 					<!-- TODO check this -->
 					{{#select data.sustainedSpell}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					{{#each data.spellChoices as |name type|}}
 					<option value="{{name}}">{{name}}</option>
 					{{/each}}
@@ -63,7 +63,7 @@
 				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
 					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
 						data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
-						<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-CoulVert{{/if}}"></em></a>
+						<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em></a>
 				</p>
 			</div>
 			<div class="col-1 grid SR-TextRight">

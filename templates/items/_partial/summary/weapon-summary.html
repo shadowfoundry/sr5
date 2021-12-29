@@ -1,7 +1,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponType'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">
+        <span class="col-auto SR-GreyColor">
             {{#ife data.category "rangedWeapon"}}
                 {{valueOrDash (findTranslation "rangedWeaponTypes" data.type)}}
             {{/ife}}
@@ -15,21 +15,21 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Accuracy'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.accuracy.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.accuracy.value}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.damageValue.value}}{{findTranslation "damageTypesShort" data.damageType}}{{#if data.damageElement}} ({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.damageValue.value}}{{findTranslation "damageTypesShort" data.damageType}}{{#if data.damageElement}} ({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.armorPenetration.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.armorPenetration.value}}</span>
     </p>
 
 </li>
@@ -37,7 +37,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Blast'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.blast.radius}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.blast.radius}}</span>
     </p>
 </li>
 {{/ife}}
@@ -46,7 +46,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponReach'}} ({{localize 'SR5.MeterUnit'}}){{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.reach.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.reach.value}}</span>
     </p>
 </li>
 {{/ife}}
@@ -55,35 +55,35 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponModes'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.firingMode.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.firingMode.value}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.RecoilCompensation'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.recoilCompensation.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.recoilCompensation.value}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponRange'}} ({{localize 'SR5.MeterUnit'}}){{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.range.short.value}}/{{valueOrDash data.range.medium.value}}/{{valueOrDash data.range.long.value}}/{{valueOrDash data.range.extreme.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.range.short.value}}/{{valueOrDash data.range.medium.value}}/{{valueOrDash data.range.long.value}}/{{valueOrDash data.range.extreme.value}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Ammunition'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.ammunition.max}} ({{findTranslation "allAmmunitionTypes" data.ammunition.type}})</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.ammunition.max}} ({{findTranslation "allAmmunitionTypes" data.ammunition.type}})</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.ReloadingMethodShort'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash (findTranslation "reloadingMethods" data.ammunition.casing)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "reloadingMethods" data.ammunition.casing)}}</span>
     </p>
 </li>
 {{/ife}}
@@ -92,21 +92,21 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponRange'}} ({{localize 'SR5.MeterUnit'}}){{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.range.short.value}}/{{valueOrDash data.range.medium.value}}/{{valueOrDash data.range.long.value}}/{{valueOrDash data.range.extreme.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.range.short.value}}/{{valueOrDash data.range.medium.value}}/{{valueOrDash data.range.long.value}}/{{valueOrDash data.range.extreme.value}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Blast'}} ({{localize 'SR5.MeterUnit'}}){{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.blast.radius}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.blast.radius}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Aerodynamic'}} {{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">
+        <span class="col-auto SR-GreyColor">
             {{#if data.aerodynamic}}
                 {{localize 'SR5.Yes'}}
             {{else}}
@@ -120,27 +120,27 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.DeviceRating'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.deviceRating}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.deviceRating}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.ConcealabilityModifierShort'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.concealment.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.concealment.value}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.RequiredHands'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris">{{valueOrDash data.requiredHands}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.requiredHands}}</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Quantity'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-CoulGris"><input type="number" data-dtype="Number" name="data.quantity" value="{{data.quantity}}" placeholder="0" /></span>
+        <span class="col-auto SR-GreyColor"><input type="number" data-dtype="Number" name="data.quantity" value="{{data.quantity}}" placeholder="0" /></span>
     </p>
 </li>

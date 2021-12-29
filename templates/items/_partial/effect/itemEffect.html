@@ -34,7 +34,7 @@
             <div class="col-4 SR-PaddingRight5">
                 <select name="data.itemEffects.{{@key}}.target" required>
                     {{#select target}}
-					<option value="">{{localize 'SR5.ChooseOne'}}</option>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 
                     {{#if (eq ../document.type 'itemArmor')}}
                     <option value="data.armorValue">{{localize 'SR5.ArmorRating'}}</option>

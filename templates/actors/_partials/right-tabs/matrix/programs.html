@@ -34,7 +34,7 @@
 			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_ProgramToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramToggleMsg'}}">
 				<p class="SR-TextCenter">
 				{{#if data.isActive}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{localize 'SR5.StopProgram'}}"><em class="fas fa-sm fa-upload SR-CoulVert"></em></a>
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{localize 'SR5.StopProgram'}}"><em class="fas fa-sm fa-upload SR-SubColor"></em></a>
 				{{else}}
 					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{localize 'SR5.StartProgram'}}"><em class="fas fa-sm fa-upload"></em></a>
 				{{/if}}
@@ -60,12 +60,12 @@
 			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerMsg'}}">
 				{{#if data.isActive}}
-					<em class="fas fa-sm fa-upload SR-CoulVert"></em>
+					<em class="fas fa-sm fa-upload SR-SubColor"></em>
 				{{else}}
-					<em class="fas fa-sm fa-upload SR-CoulVert25"></em>
+					<em class="fas fa-sm fa-upload SR-SubColor25"></em>
 				{{/if}}
 			</div>
-			<div class="col-1 SR-TextRight"><em class="fas fa-user-cog SR-CoulVert25"></em></div>
+			<div class="col-1 SR-TextRight"><em class="fas fa-user-cog SR-SubColor25"></em></div>
 		</li>
 		{{/if}}
 		{{/each}}

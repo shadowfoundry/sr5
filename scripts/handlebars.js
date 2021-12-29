@@ -181,7 +181,7 @@ export const registerHandlebarsHelpers = function () {
   Handlebars.registerHelper('dropdownOptions', function () {
     let valueTypes = Array.from(arguments); valueTypes.pop(); // => options, ignoring it
     if (!valueTypes.length) { SR5_SystemHelpers.srLog(1, `No value types in 'dropdownOptions' HBS helper`); return; }
-    let outputHTML = '<option value="">' + game.i18n.localize('SR5.ChooseOne') + '</option>';
+    let outputHTML = '<option class="SR-LightGreyColor" value="">' + game.i18n.localize('SR5.ChooseOne') + '</option>';
     for (let valueType of Object.values(valueTypes)) {
       if (SR5.customEffectsTypes[valueType] === undefined) { SR5_SystemHelpers.srLog(1, `Unknown ${valueType} value type in 'dropdownOptions' HBS helper`); return; }
       outputHTML += `<option value="${valueType}">${game.i18n.localize(SR5.customEffectsTypes[valueType])}</option>`;

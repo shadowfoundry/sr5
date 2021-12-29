@@ -23,63 +23,63 @@
   </div>
   {{#ife item.type 'itemContact'}}
     <div class="col-3 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.ContactLoyaltyShort'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.loyalty}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.ContactLoyaltyShort'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.loyalty}}</span>
     </div>
     <div class="col-3 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.ContactConnectionShort'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.connection}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.ContactConnectionShort'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.connection}}</span>
     </div>
   {{else ife item.type 'itemAdeptPower'}}
     <div class="col-3 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.PowerPointsCostShort'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.powerPointsCost.value}} {{localize 'SR5.PowerPointsShort'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.PowerPointsCostShort'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.powerPointsCost.value}} {{localize 'SR5.PowerPointsShort'}}</span>
     </div>
     <div class="col-3 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.Rating'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.itemRating}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Rating'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.itemRating}}</span>
     </div>
   {{else ife item.type 'itemKarma'}}
     <div class="col-6 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.Karma'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.change}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Karma'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.change}}</span>
     </div>
   {{else ife item.type 'itemNuyen'}}
     <div class="col-6 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.Nuyens'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash (nuyen data.change)}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Nuyens'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash (nuyen data.change)}}</span>
     </div>
   {{else ife item.type 'itemSpell'}}
     <div class="col-3 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.SpellType'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash (findTranslation 'spellTypesShort' data.type)}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.SpellType'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash (findTranslation 'spellTypesShort' data.type)}}</span>
     </div>
     <div class="col-3 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.SpellDrain'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.drainModifier}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.SpellDrain'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.drainModifier}}</span>
     </div>
   {{else ife item.type 'itemComplexForm'}}
     <div class="col-6 SR-TextRight">
-      <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.Fading'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.fadingModifier}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Fading'}}{{localize 'SR5.Colons'}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.fadingModifier}}</span>
     </div>
   {{else ife item.type 'itemQuality'}}
   <div class="col-3">
-    <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.Rating'}}{{localize 'SR5.Colons'}}</span>
-    <span class="SR-TextUppercase SR-Gras">{{valueOrDash data.itemRating}}</span>
+    <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Rating'}}{{localize 'SR5.Colons'}}</span>
+    <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.itemRating}}</span>
   </div>
   <div class="col-3 SR-TextRight">
-    <span class="SR-TextUppercase SR-Gras">{{localize 'SR5.KarmaCost'}}{{localize 'SR5.Colons'}}</span>
-    <span class="SR-TextUppercase SR-Gras">{{data.karmaCost}}</span>
+    <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.KarmaCost'}}{{localize 'SR5.Colons'}}</span>
+    <span class="SR-TextUppercase SR-Bold">{{data.karmaCost}}</span>
   </div>
   {{else ife item.type 'itemSprite'}}
   {{else}}
     <div class="col-6 SR-TextRight">
       <span class="SR-TextUppercase">{{localize 'SR5.Price'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras" data-helpTitle="{{localize 'SR5.Price'}}"
+      <span class="SR-TextUppercase SR-Bold" data-helpTitle="{{localize 'SR5.Price'}}"
       data-helpDetails="data.price">{{valueOrDash (nuyen data.price.value)}}</span>&nbsp;
       <span class="SR-TextUppercase">{{localize 'SR5.Availability'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Gras" data-helpTitle="{{localize 'SR5.Availability'}}"
+      <span class="SR-TextUppercase SR-Bold" data-helpTitle="{{localize 'SR5.Availability'}}"
       data-helpDetails="data.availability">{{valueOrDash data.availability.value (findTranslation 'legalTypesShort' data.legality)}}</span>
     </div>
   {{/ife}}

@@ -6,7 +6,7 @@
         {{#ife data.category "rangedWeapon"}}
             <select name="data.type" required>
             {{#select data.type}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.rangedWeaponTypes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
@@ -15,7 +15,7 @@
         {{else ife data.category "meleeWeapon"}}
             <select name="data.type" required>
                 {{#select data.type}}
-                    <option value="">{{localize 'SR5.ChooseOne'}}</option>
+                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.meleeWeaponTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
                     {{/each}}
