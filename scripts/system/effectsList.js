@@ -33,7 +33,7 @@ export const _getSRStatusEffect = async function(origin) {
         case "prone":
             return effect = {
                 label: game.i18n.localize("SR5.STATUSES_Prone"),
-                origin: "damageTaken",
+                origin: "prone",
                 icon: "systems/sr5/img/status/StatusProneOn.svg",
                 flags: {
                     core: {
