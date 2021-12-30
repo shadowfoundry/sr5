@@ -169,6 +169,7 @@ export const preloadHandlebarsTemplates = async function () {
     //Right Tab - Bio partials
     "systems/sr5/templates/actors/_partials/right-tabs/biography/biography.html",
     "systems/sr5/templates/actors/_partials/right-tabs/biography/description.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/biography/descriptionGrunt.html",
     "systems/sr5/templates/actors/_partials/right-tabs/biography/background.html",
     "systems/sr5/templates/actors/_partials/right-tabs/biography/karma.html",
 

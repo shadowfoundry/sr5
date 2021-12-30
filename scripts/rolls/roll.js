@@ -141,6 +141,10 @@ export class SR5_Roll {
             case "knowledgeSkill":
                 title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + item.name}`;
                 dicePool = itemData.value;
+                optionalData = {
+                    "switch.specialization": true,
+                    "switch.extended": true,
+                }
                 break;
 
             case "skillDicePool":
@@ -669,7 +673,7 @@ export class SR5_Roll {
 
                     if (itemData.category === "meleeWeapon") {
                         optionalData = mergeObject(optionalData, {attackerReach: itemData.reach.value,});
-                        if (distance > (itemData.reach.value + 0.5)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
+                        if (distance > (itemData.reach.value + 1)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                     } else { 
                         // Handle weapon ranged based on distance
                         if (distance < itemData.range.short.value) rangeModifier = 0;

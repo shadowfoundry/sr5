@@ -1,0 +1,51 @@
+.SR-Editor{
+    .editor {
+        .editor-edit {
+            background: transparent;
+            color: white;
+        }
+
+        .tox {
+            .tox-editor-container {
+                .tox-editor-header {
+                    .tox-toolbar-overlord {
+                        background-color: transparent;
+                        .tox-toolbar {
+                            &__primary {
+                                background: none;
+                                background-color: transparent;
+                                box-shadow: none;
+                                border-bottom: 1px solid @subColor;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .tox-tbtn {
+                color: @neutralDarkColor;
+                border-radius: 1px;
+                height: 25px;
+
+                svg {
+                    fill: fade(@neutralDarkColor, 50%);
+                }
+
+                &:hover {
+                    background: fade(@subColor, 25%);
+                    color: @neutralDarkColor;
+
+                    svg {
+                        fill: @neutralDarkColor;
+                    }
+                }
+            }
+        }
+
+        .editor-content {
+            //min-height: 75px;
+            overflow-y: inherit;
+        }
+    }
+
+}

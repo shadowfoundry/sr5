@@ -5021,3 +5021,34 @@ input[type=range]:focus::-ms-fill-upper {
   font-size: 1.5em;
   margin: 20px 0 12px 0;
 }
+.SR-Editor .editor .editor-edit {
+  background: transparent;
+  color: white;
+}
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord {
+  background-color: transparent;
+}
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary {
+  background: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid #0c9394;
+}
+.SR-Editor .editor .tox .tox-tbtn {
+  color: #000001;
+  border-radius: 1px;
+  height: 25px;
+}
+.SR-Editor .editor .tox .tox-tbtn svg {
+  fill: rgba(0, 0, 1, 0.5);
+}
+.SR-Editor .editor .tox .tox-tbtn:hover {
+  background: rgba(12, 147, 148, 0.25);
+  color: #000001;
+}
+.SR-Editor .editor .tox .tox-tbtn:hover svg {
+  fill: #000001;
+}
+.SR-Editor .editor .editor-content {
+  overflow-y: inherit;
+}
