@@ -1988,6 +1988,7 @@
   "SR5.HELP_PreparationSustainMsg"            : "Cliquez pour activer ou désactiver la préparation.",
   "SR5.HELP_ProgramsControler"                : "Programme du Contrôleur<br>({key})",
   "SR5.HELP_ProgramsControlerMsg"             : "Utilisez la feuille du Contrôleur pour activer ou désactiver ce programme.",
+  "SR5.HELP_ProgramsControlerDisabledMsg"     : "Un autosoft local est activé, les autosoft du Contrôleur ne peuvent l'être en même temps.",
   "SR5.HELP_ProgramsMax"                      : "Programmes Maximum",
   "SR5.HELP_ProgramsLoaded"                   : "Programmes actuellement chargés",
   "SR5.HELP_ProgramToggle"                    : "Charger le programme<br>({key})",

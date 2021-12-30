@@ -757,6 +757,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.actor .window-content .SR-Header .SR-EspritType select:focus {
   border-bottom: none;
 }
+.app.window-app.actor .window-content .SR-Header .SR-EspritType select option:not(.SR-LightGreyColor) {
+  color: rgba(0, 0, 1, 0.7);
+}
 .app.window-app.actor .window-content .SR-Header .SR-AppareilType {
   font-family: "srfoundry_primary";
   font-size: 12px;
