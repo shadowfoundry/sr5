@@ -58,6 +58,11 @@
 			<div class="col-6">{{name}}</div>
 			<div class="col-2 SR-TextCenter">{{findTranslation 'programTypes' data.type}}</div>
 			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
+			{{#if ../data.matrix.hasLocalAutosoftRunning}}
+			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerDisabledMsg'}}">
+				<em class="fas fa-times-circle SR-SubColor25"></em>
+			</div>
+			{{else}}
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerMsg'}}">
 				{{#if data.isActive}}
 					<em class="fas fa-sm fa-upload SR-SubColor"></em>
@@ -65,6 +70,7 @@
 					<em class="fas fa-sm fa-upload SR-SubColor25"></em>
 				{{/if}}
 			</div>
+			{{/if}}
 			<div class="col-1 SR-TextRight"><em class="fas fa-user-cog SR-SubColor25"></em></div>
 		</li>
 		{{/if}}

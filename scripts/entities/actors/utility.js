@@ -2718,9 +2718,13 @@ export class SR5_CharacterUtility extends Actor {
 
   static applyAutosoftEffect(actor){
     let controler = actor.flags.sr5.vehicleControler;
+    let hasLocalAutosoftRunning = actor.items.find(a => a.data.data.type === "autosoft" && a.data.data.isActive);
+    if (hasLocalAutosoftRunning) actor.data.matrix.hasLocalAutosoftRunning = true;
+    else actor.data.matrix.hasLocalAutosoftRunning = false;
+    
     if (actor.data.controlMode === "autopilot"){
       for (let i of controler.items){
-        if (i.type === "itemProgram" && i.data.type === "autosoft" && i.data.isActive){
+        if (i.type === "itemProgram" && i.data.type === "autosoft" && i.data.isActive && !hasLocalAutosoftRunning){
           if (i.data.isModelBased){
             if (i.data.model === actor.data.model){
               if (Object.keys(i.data.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);

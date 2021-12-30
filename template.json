@@ -3043,6 +3043,7 @@
           "deviceSubType": "",
           "deviceName": "",
           "isLinkLocked": false,
+          "hasLocalAutosoftRunning":false,
           "runningSilent": false,
           "overwatchScore": 0,
           "concentration": false,
