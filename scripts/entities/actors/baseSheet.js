@@ -251,9 +251,11 @@ export class ActorSheetSR5 extends ActorSheet {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
-
+    let newItem = item.toObject();
+    console.log(newItem);
+    if (newItem.data.accessory.length) newItem.data.accessory = [];
     SR5_SystemHelpers.srLog(2, `Creating a new clone of item '${item.name}'`, item);
-    return this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
+    return this.actor.createEmbeddedDocuments("Item", [newItem]);
   }
 
   /* -------------------------------------------- */
