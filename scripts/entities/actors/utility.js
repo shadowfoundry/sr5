@@ -2849,6 +2849,7 @@ export class SR5_CharacterUtility extends Actor {
             let modValue = -targetObject.base + (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, modValue * customEffect.multiplier, isMultiplier, cumulative);
             break;
+          //currently disabled in effects.html
           case "ratingReplace":
             targetObject.modifiers= [];
             customEffect.value = (item.data.itemRating || 0);

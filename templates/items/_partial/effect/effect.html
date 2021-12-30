@@ -56,18 +56,19 @@
 						<option value="matrixAttributes">{{localize 'SR5.MatrixAttributes'}}</option>
 						<option value="matrixResistances">{{localize 'SR5.MatrixResistances'}}</option>
 						<option value="matrixActions">{{localize 'SR5.MatrixActions'}}</option>
-						<option value="matrixValues">{{localize 'SR5.MatrixPlane'}}</option>
+						<!--<option value="matrixValues">{{localize 'SR5.ProgramsMax'}}</option>-->
 						<option value="programs">{{localize 'SR5.Programs'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Magic'}}">
-						<option value="astralValues">{{localize 'SR5.AstralPlane'}}</option>
-						<option value="adeptValues">{{localize 'SR5.AdeptPowers'}}</option>
+						<option value="astralValues">{{localize 'SR5.Magic'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Vehicle'}}">
+						<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Special'}}">
 						<option value="visionTypes">{{localize 'SR5.Vision'}}</option>
-						<option value="specialProperties">{{localize 'SR5.Special'}}</option>
+						<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
 						<option value="weaponEffectTargets">{{localize 'SR5.Weapons'}}</option>
-						<option value="vehicle">{{localize 'SR5.Vehicle'}}</option>
 						<option value="custom">{{localize 'SR5.GENERAL_Custom'}}...</option>
 					</optgroup>		
 					{{/select}}
@@ -159,9 +160,7 @@
 					{{/each}}
 
 					{{else ife category 'penaltyTypes'}}
-					{{#each (lookup ../lists category)}}
-					<option value="data.penalties.{{@key}}.actual">{{localize this}}</option>
-					{{/each}}
+					<option value="data.penalties.special.actual">{{localize 'SR5.PenaltyValueSpecial'}}</option>
 
 					{{else ife category 'visionTypes'}}
 					{{#each (lookup ../lists category)}}
@@ -230,19 +229,20 @@
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
-						<option value="data.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]
-						</option>
+						<option value="data.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 						<option value="data.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
 					</optgroup>
 					{{/each}}
 
-					{{else ife category 'matrixValues'}}
-					<option value="data.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
+					
+					
 
 					{{else ife category 'programs'}}
+					<option value="data.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
 					{{#each (lookup ../lists category)}}
 					<option value="data.matrix.programs.{{@key}}.isActive">{{localize this}}</option>
 					{{/each}}
+					
 
 					{{else ife category 'astralValues'}}
 					<option value="data.magic.astralDamage">{{localize 'SR5.AstralDamage'}}</option>
@@ -250,10 +250,8 @@
 					<option value="data.magic.astralTracking">{{localize 'SR5.AstralTracking'}}</option>
 					<option value="data.magic.passThroughBarrier">{{localize 'SR5.PassThroughBarrier'}}</option>
 					<option value="data.magic.drainResistance">{{localize 'SR5.DrainResistance'}}</option>
-
-					{{else ife category 'adeptValues'}}
-					<option value="data.magic.powerPoints">{{localize 'SR5.PowerPoints'}}</option>
 					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
+					
 
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
@@ -324,7 +322,7 @@
 								{{else if (includes target '.vision.')}}
 									{{dropdownOptions 'boolean'}}
 								{{else}}
-									{{dropdownOptions 'value' 'rating' 'hits' 'valueReplace' 'ratingReplace'}}
+									{{dropdownOptions 'value' 'rating' 'hits' 'valueReplace'}}
 								{{/if}}
 							{{/select}}
 						</select>
