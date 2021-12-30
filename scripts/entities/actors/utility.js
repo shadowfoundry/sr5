@@ -1897,6 +1897,8 @@ export class SR5_CharacterUtility extends Actor {
           if (data.skills[key].canDefault) {
             data.skills[key].test.base = 0;
             SR5_EntityHelpers.updateModifier(data.skills[key].test, game.i18n.localize('SR5.Defaulting'), game.i18n.localize('SR5.Skill'), -1);
+          } else {
+            data.skills[key].test.modifiers = [];
           }
         }
         this.applyPenalty("condition", data.skills[key].test, actor);

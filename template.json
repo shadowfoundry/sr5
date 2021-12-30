@@ -4131,7 +4131,8 @@
         }
       },
       "biography": {
-        "characterMetatype": ""
+        "characterMetatype": "",
+        "description": ""        
       },
       "activeSpecialAttribute": "magic",
       "skills": {

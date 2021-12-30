@@ -106,10 +106,12 @@ export const registerHooks = function () {
       case "SR6": {
         $('link[href="systems/sr5/css/sr5.css"]').prop("disabled", true);
         $("head").append('<link href="systems/sr5/css/sr6.css" rel="stylesheet" type="text/css" media="all">');
+        CONFIG.TinyMCE.content_css = CONFIG.TinyMCE.content_css.concat("systems/sr5/css/sr6.css");
         break;
       }
       default : {
         $('link[href="systems/sr5/css/sr5.css"]').prop("disabled", false);
+        CONFIG.TinyMCE.content_css = "systems/sr5/css/sr5.css";
       }
     }
     
