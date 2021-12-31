@@ -1,0 +1,18 @@
+<!-- VISIONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete SR-TextUppercase">
+			<div class="col-12">{{localize 'SR5.VisionTypes'}}</div>
+		</li>
+        {{#if data.vision.lowLight}}
+        <li class="grid">
+            <div class="col-12">{{localize 'SR5.LowLightVision'}}</div>
+        </li>
+        {{/if}}
+        {{#if data.vision.thermographic}}
+        <li class="grid">
+            <div class="col-12">{{localize 'SR5.ThermographicVision'}}</div>
+        </li>
+        {{/if}}
+    </ul>
+</div>

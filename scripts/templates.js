@@ -114,6 +114,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     //Left Tab - Qualities partials
     "systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/qualities/visions.html",
 
     //Right Tab - Skills partials
     "systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html",

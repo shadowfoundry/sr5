@@ -2896,7 +2896,11 @@
           "astral": false,
           "astralIsChecked": false,
           "lowLight": false,
-          "thermographic": false
+          "lowLightNatural": false,
+          "lowLightAugmented": false,
+          "thermographic": false,
+          "thermographicNatural": false,
+          "thermographicAugmented": false
         }
       },
       "recoilTemplate":{

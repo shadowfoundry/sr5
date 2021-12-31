@@ -393,8 +393,10 @@ SR5.skillCategories = {
 
 // Vision Types
 SR5.visionTypes = {
-  lowLight                  : "SR5.LowLightVision",
-  thermographic             : "SR5.ThermographicVision",
+  lowLightNatural           : "SR5.LowLightVisionNatural",
+  lowLightAugmented         : "SR5.LowLightVisionAugmented",
+  thermographicNatural      : "SR5.ThermographicVisionNatural",
+  thermographicAugmented    : "SR5.ThermographicVisionAugmented",
   astral                    : "SR5.AstralPerception",
 };
 

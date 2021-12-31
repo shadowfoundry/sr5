@@ -274,6 +274,8 @@ export class SR5_CharacterUtility extends Actor {
       for (let key of Object.keys(lists.visionTypes)) {
         data.vision[key] = false;
       }
+      data.vision.lowLight = false;
+      data.vision.thermographic = false;
     }
 
     // Reset Special properties
@@ -541,7 +543,9 @@ export class SR5_CharacterUtility extends Actor {
     if (actor.type === "actorSpirit") data.vision.astral = true;
     if (data.initiatives.astralInit.isActive) data.vision.astral = true;
     if (data.vision.astralIsChecked) data.vision.astral = true;
-  }
+    if (data.vision.lowLightNatural || data.vision.lowLightAugmented) data.vision.lowLight = true;
+    if (data.vision.thermographicNatural || data.vision.thermographicAugmented) data.vision.thermographic = true;
+  } 
 
   static applyRacialModifers(actor) {
     let lists = actor.lists, data = actor.data;
@@ -551,7 +555,7 @@ export class SR5_CharacterUtility extends Actor {
       case "human":
         break;
       case "elf":
-        data.vision.lowLight = true;
+        data.vision.lowLightNatural = true;
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(data.attributes.agility.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 1);
           SR5_EntityHelpers.updateModifier(data.attributes.charisma.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 2);
@@ -559,7 +563,7 @@ export class SR5_CharacterUtility extends Actor {
         break;
       case "dwarf":
         // TODO : lifestyle cost * 1.2
-        data.vision.thermographic = true;
+        data.vision.thermographicNatural = true;
         for (let vector of Object.keys(lists.propagationVectors)) {
           SR5_EntityHelpers.updateModifier(data.resistances.disease[vector], label, `${game.i18n.localize('SR5.Metatype')}`, 2);
           SR5_EntityHelpers.updateModifier(data.resistances.toxin[vector], label, `${game.i18n.localize('SR5.Metatype')}`, 2);
@@ -572,7 +576,7 @@ export class SR5_CharacterUtility extends Actor {
         }        
         break;
       case "ork":
-        data.vision.lowLight = true;
+        data.vision.lowLightNatural = true;
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(data.attributes.body.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 3);
           SR5_EntityHelpers.updateModifier(data.attributes.strength.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 2);
@@ -582,7 +586,7 @@ export class SR5_CharacterUtility extends Actor {
         break;
       case "troll":
         // TODO : lifestyle cost * 2
-        data.vision.thermographic = true;
+        data.vision.thermographicNatural = true;
         SR5_EntityHelpers.updateModifier(data.reach, label, `${game.i18n.localize('SR5.Metatype')}`, 1);
         SR5_EntityHelpers.updateModifier(data.resistances.physicalDamage, label, `${game.i18n.localize('SR5.Metatype')}`, 1);
         if (actor.type === "actorGrunt") {
