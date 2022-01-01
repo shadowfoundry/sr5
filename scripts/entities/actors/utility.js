@@ -147,6 +147,13 @@ export class SR5_CharacterUtility extends Actor {
       data.itemsProperties.weapon.damageValue.modifiers = [];
     }
 
+    if (data.itemsProperties?.environmentalMod){
+      for (let key of Object.keys(lists.environmentalModifiers)){
+        data.itemsProperties.environmentalMod[key].value = 0;
+        data.itemsProperties.environmentalMod[key].modifiers = [];
+      }
+    }
+
     // Reset Essence
     if (data.essence) {
       data.essence.value = 0;
@@ -538,13 +545,38 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  //Handle vision types and environmental modifiers
   static handleVision(actor){
-    let data = actor.data;
+    let data = actor.data, lists = actor.lists;
     if (actor.type === "actorSpirit") data.vision.astral = true;
     if (data.initiatives.astralInit.isActive) data.vision.astral = true;
     if (data.vision.astralIsChecked) data.vision.astral = true;
-    if (data.vision.lowLightNatural || data.vision.lowLightAugmented) data.vision.lowLight = true;
-    if (data.vision.thermographicNatural || data.vision.thermographicAugmented) data.vision.thermographic = true;
+    if (data.vision.lowLightNatural || data.vision.lowLightAugmented) {
+      data.vision.lowLight = true;
+      if (data.vision.lowLightIsChecked){
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.LowLightVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -2, false, false);
+      }
+    }
+    if (data.vision.thermographicNatural || data.vision.thermographicAugmented){ 
+      data.vision.thermographic = true;
+      if (data.vision.thermographicIsChecked){
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.ThermographicVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -1, false, false);
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.visibility, `${game.i18n.localize('SR5.ThermographicVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -1, false, false);
+      }
+    }
+    if (data.vision.ultrasoundNatural || data.vision.ultrasoundAugmented){ 
+      data.vision.ultrasound = true;
+      if (data.vision.ultrasoundIsChecked){
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.visibility, `${game.i18n.localize('SR5.ThermographicVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -1, false, false);
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.UltrasoundVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -3, false, false);
+      }
+    }
+    //environmental modifiers
+    if (data.itemsProperties?.environmentalMod){
+      for (let key of Object.keys(lists.environmentalModifiers)){
+        SR5_EntityHelpers.updateValue(data.itemsProperties.environmentalMod[key]);
+      }
+    }
   } 
 
   static applyRacialModifers(actor) {

@@ -2896,11 +2896,17 @@
           "astral": false,
           "astralIsChecked": false,
           "lowLight": false,
+          "lowLightIsChecked": false,
           "lowLightNatural": false,
           "lowLightAugmented": false,
           "thermographic": false,
+          "thermographicIsChecked": false,
           "thermographicNatural": false,
-          "thermographicAugmented": false
+          "thermographicAugmented": false,
+          "ultrasound": false,
+          "ultrasoundIsChecked": false,
+          "ultrasoundNatural": false,
+          "ultrasoundAugmented": false
         }
       },
       "recoilTemplate":{
@@ -2993,6 +2999,33 @@
                 "base": 0,
                 "modifiers": []
               }
+            }
+          },
+          "environmentalMod":{
+            "visibility": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "light": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "glare": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "wind": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "range": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
             }
           }
         }
@@ -4249,6 +4282,7 @@
         "penaltiesTemplate",
         "visionTemplate",
         "specialPropertiesTemplate",
+        "itemsPropertiesTemplate",
         "magicUsageTemplate"
       ],
       "initiatives": {
@@ -4646,7 +4680,8 @@
     "actorDevice": {
       "templates": [
         "matrixUsageTemplate",
-        "penaltiesTemplate"
+        "penaltiesTemplate",
+        "itemsPropertiesTemplate"
       ],
       "isDirectlyConnected": false,
       "matrix":{

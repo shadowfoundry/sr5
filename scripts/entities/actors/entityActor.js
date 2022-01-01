@@ -456,6 +456,7 @@ export class SR5Actor extends Actor {
             if (mode[1].value)
               modes.push(game.i18n.localize(SR5.weaponModesAbbreviated[mode[0]]));
           }
+          SR5_UtilityItem._handleVisionAccessory(iData, actorData);
           break;
 
         case "itemFocus":

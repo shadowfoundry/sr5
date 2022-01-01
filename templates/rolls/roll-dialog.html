@@ -25,6 +25,8 @@
         {{#if (or (eq typeSub "rangedWeapon") (eq typeSub "grenade") )}}
         <!-- ATTACK - RANGE -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html}} 
+        <!-- ENVIRONMENTAL MODIFIERS -->
+        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
         {{/if}}
       {{/ife}}
 
@@ -98,6 +100,8 @@
         {{#if_g cumulativeDefense 0}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/defenseCumulativeModifier.html}}
         {{/if_g}}
+        <!-- ENVIRONMENTAL MODIFIERS -->
+        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
       {{/ife}}
       
       <!-- COVERS -->

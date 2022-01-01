@@ -223,6 +223,13 @@ export default class SR5_RollDialog extends Dialog {
             this.updateDicePoolValue(html);
         }
 
+        // Environmental modifier 
+        if (html.find('[name="dicePoolModEnvironmental"]')[0]){
+            this.dicePoolModifier.environmental = parseInt((html.find('[name="dicePoolModEnvironmental"]')[0].value || 0));
+            //this.data.data.dicePoolMod.defenseCumulative = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
+            this.updateDicePoolValue(html);
+        }
+
         // Range modifiers
         if (html.find('[name="dicePoolModRange"]')[0]){
             this.dicePoolModifier.range = parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));

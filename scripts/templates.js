@@ -407,6 +407,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html",
     "systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html",
     "systems/sr5/templates/rolls/rollDialogPartial/force.html",
     "systems/sr5/templates/rolls/rollDialogPartial/summoningModifier.html",

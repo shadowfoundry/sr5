@@ -6,13 +6,56 @@
 		</li>
         {{#if data.vision.lowLight}}
         <li class="grid">
-            <div class="col-12">{{localize 'SR5.LowLightVision'}}</div>
+            <div class="col-11">{{localize 'SR5.LowLightVision'}}</div>
+            <div class="col-1 SR-TextCenter"
+		  	  data-helpTitle="{{localize 'SR5.LowLightVision'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_VisionToggleMsg'}}"
+			>
+			    <input type="checkbox" name="data.vision.lowLightIsChecked" data-dtype="Boolean" {{checked data.vision.lowLightIsChecked}}>
+			</div>
         </li>
         {{/if}}
         {{#if data.vision.thermographic}}
         <li class="grid">
-            <div class="col-12">{{localize 'SR5.ThermographicVision'}}</div>
+            <div class="col-11">{{localize 'SR5.ThermographicVision'}}</div>
+            <div class="col-1 SR-TextCenter"
+		  	  data-helpTitle="{{localize 'SR5.ThermographicVision'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_VisionToggleMsg'}}"
+			>
+			    <input type="checkbox" name="data.vision.thermographicIsChecked" data-dtype="Boolean" {{checked data.vision.thermographicIsChecked}}>
+			</div>
         </li>
         {{/if}}
+        {{#if data.vision.ultrasound}}
+        <li class="grid">
+            <div class="col-11">{{localize 'SR5.UltrasoundVision'}}</div>
+            <div class="col-1 SR-TextCenter"
+		  	  data-helpTitle="{{localize 'SR5.UltrasoundVision'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_VisionToggleMsg'}}"
+			>
+			    <input type="checkbox" name="data.vision.ultrasoundIsChecked" data-dtype="Boolean" {{checked data.vision.ultrasoundIsChecked}}>
+			</div>
+        </li>
+        {{/if}}
+    </ul>
+</div>
+<!-- VISIONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete SR-TextUppercase">
+			<div class="col-12">{{localize 'SR5.EnvironmentalModifiersShort'}}</div>
+		</li>
+        {{#each data.itemsProperties.environmentalMod}}
+        <li class="grid">
+            <div class="col-11">{{findTranslation 'environmentalModifiers' @key}}</div>
+            <div class="col-1 SR-TextCenter"
+              data-helpTitle="{{localize 'SR5.HELP_EnvironmentalMod' key=(findTranslation 'environmentalModifiers' @key)}}"
+			  data-helpMessage="{{localize 'SR5.HELP_EnvironmentalModMsg'}}"
+              data-helpDetails="data.itemsProperties.environmentalMod.{{@key}}">
+                {{value}}
+            </div>
+        </li>
+        {{/each}}
+        
     </ul>
 </div>

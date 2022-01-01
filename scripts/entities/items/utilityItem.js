@@ -638,6 +638,7 @@ export class SR5_UtilityItem extends Actor {
 
   // Modifie les armes en fonction des accessoires
   static _handleWeaponAccessory(weapon, actor) {
+    
     for (let a of weapon.accessory) {   
       a.price = 0;
       switch (a.name) {
@@ -887,6 +888,21 @@ export class SR5_UtilityItem extends Actor {
         }
       }
 
+    }
+  }
+
+  //Handle if an accessory give environmental modifiers tracer weapon.ammunition.type
+  static _handleVisionAccessory(weapon, actor) {
+    if (weapon.ammunition.type === "tracer") {
+      SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
+      SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
+    }
+    for (let a of weapon.accessory) {
+      switch (a.name) {
+        case "imagingScope":
+          if (actor && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
+          break;
+      }
     }
   }
 

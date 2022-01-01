@@ -30,7 +30,8 @@ export class SR5_Roll {
             activeScene,
             backgroundCount,
             backgroundAlignement, 
-            sceneNoise;
+            sceneNoise,
+            sceneEnvironmentalMod;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -91,6 +92,7 @@ export class SR5_Roll {
             sceneNoise = -activeScene.getFlag("sr5", "matrixNoise") || 0;
             backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
             backgroundAlignement = activeScene.getFlag("sr5", "backgroundCountAlignement") || "";
+            sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData);
         }
 
         switch (rollType){
@@ -402,9 +404,8 @@ export class SR5_Roll {
                     fireTreshold: chatData.fireTreshold,
                     dicePoolBase : dicePool,
                 }
-
-
                 break;
+
             case "matrixIceAttack":
                 title = `${game.i18n.localize("SR5.IceAttack")}`;
                 dicePool = actorData.matrix.ice.attackDicepool;
@@ -534,6 +535,7 @@ export class SR5_Roll {
                 optionalData = {
                     cover: true,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                 }
                 break;
 
@@ -624,7 +626,8 @@ export class SR5_Roll {
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     "activeDefenses.block": actorData.skills?.unarmedCombat?.rating.value  || 0,
                     "activeDefenses.parryClubs": actorData.skills?.clubs?.rating.value  || 0,
-                    "activeDefenses.parryBlades": actorData.skills?.blades?.rating.value  || 0
+                    "activeDefenses.parryBlades": actorData.skills?.blades?.rating.value  || 0,
+                    "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                 });
                 break;
 
@@ -699,6 +702,7 @@ export class SR5_Roll {
                     incomingPA: itemData.armorPenetration.value,
                     targetRange: rangeModifier,
                     rc: recoilCompensation,
+                    "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                 });
                 break;
 

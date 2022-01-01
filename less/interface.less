@@ -205,6 +205,7 @@
                 .form-header {
                     margin-top: 5px;
                 }
+
                 .notes {
                     color: @subColor;
                     line-height: 14px;
@@ -246,6 +247,20 @@
                 &.tabs {
                     flex-wrap: wrap;
                     height: auto;
+
+                    a:not(:first-child) {
+                        margin-left: 10px;
+                    }
+                }
+            }
+
+            form {
+                .form-group {
+                    .form-fields {
+                        button {
+                            flex:0 0 35px;
+                        }
+                    }
                 }
             }
         }
