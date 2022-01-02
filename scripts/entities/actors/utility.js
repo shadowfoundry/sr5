@@ -546,11 +546,13 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   //Handle vision types and environmental modifiers
-  static handleVision(actor){
+  static async handleVision(actor){
     let data = actor.data, lists = actor.lists;
+
     if (actor.type === "actorSpirit") data.vision.astral = true;
     if (data.initiatives.astralInit.isActive) data.vision.astral = true;
     if (data.vision.astralIsChecked) data.vision.astral = true;
+    
     if (data.vision.lowLightNatural || data.vision.lowLightAugmented) {
       data.vision.lowLight = true;
       if (data.vision.lowLightIsChecked){

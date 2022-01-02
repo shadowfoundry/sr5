@@ -4379,6 +4379,7 @@
       "templates": [
         "matrixUsageTemplate",
         "recoilTemplate",
+        "visionTemplate",
         "itemsPropertiesTemplate"
       ],
       "attributes": {
@@ -4681,6 +4682,7 @@
       "templates": [
         "matrixUsageTemplate",
         "penaltiesTemplate",
+        "visionTemplate",
         "itemsPropertiesTemplate"
       ],
       "isDirectlyConnected": false,

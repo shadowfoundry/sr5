@@ -519,7 +519,7 @@ export class SR5_DiceHelper {
 
     //Handle environmental modifiers
     static handleEnvironmentalModifiers(scene, actor){
-        let actorData = actor.itemsProperties.environmentalMod
+        let actorData = actor.itemsProperties.environmentalMod;
         let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
         let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
         if (actor.vision.lowLightIsChecked && scene.getFlag("sr5", "environModLight") > 2) visibilityMod = 3;

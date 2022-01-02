@@ -1610,6 +1610,8 @@
   "SR5.UI_ChangePicture"                      : "Changer l'image",
   "SR5.UI_WarningMissingValues"               : "Attention ! Certaines valeurs requises pour cet objet de type '{type}' sont manquantes.",
   "SR5.UltrasoundVision"                      : "Vision ultrasonique",
+  "SR5.UltrasoundVisionNatural"               : "Vision ultrasonique (Naturelle)",
+  "SR5.UltrasoundVisionAugmented"             : "Vision ultrasonique (Augmentée)",
   "SR5.Unequip"                               : "Déséquiper",
   "SR5.UsePower"                              : "Utiliser le pouvoir",
   "SR5.Value"                                 : "Valeur",

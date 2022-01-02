@@ -899,8 +899,14 @@ export class SR5_UtilityItem extends Actor {
     }
     for (let a of weapon.accessory) {
       switch (a.name) {
+        case "flashLightInfrared":
+          if (actor.data.vision.thermographicIsChecked && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
+          break;
+        case "flashLightLowLight":
+          if (actor.data.vision.lowLightIsChecked && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
+          break;
         case "imagingScope":
-          if (actor && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
+          if (a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
           break;
       }
     }

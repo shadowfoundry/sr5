@@ -363,8 +363,17 @@ SR5.visionTypes = {
   lowLightAugmented         : "SR5.LowLightVisionAugmented",
   thermographicNatural      : "SR5.ThermographicVisionNatural",
   thermographicAugmented    : "SR5.ThermographicVisionAugmented",
+  ultrasoundNatural         : "SR5.UltrasoundVisionNatural",
+  ultrasoundAugmented       : "SR5.UltrasoundVisionAugmented",
   astral                    : "SR5.AstralPerception",
 };
+
+SR5.visionChecked = {
+  astralIsChecked           : "SR5.AstralPerception",
+  lowLightIsChecked         : "SR5.LowLightVision",
+  thermographicIsChecked    : "SR5.ThermographicVision",
+  ultrasoundIsChecked       : "SR5.UltrasoundVision",
+}
 
 //Environmental Modifiers
 SR5.environmentalModifiers = {

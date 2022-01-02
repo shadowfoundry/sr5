@@ -232,17 +232,22 @@ export default class SR5_RollDialog extends Dialog {
 
         // Range modifiers
         if (html.find('[name="dicePoolModRange"]')[0]){
-            this.dicePoolModifier.range = parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));
-            this.data.data.dicePoolMod.range = parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));
-            html.find('[name="targetRange"]')[0].value = -parseInt((html.find('[name="dicePoolModRange"]')[0].value || 0));
-            
+            let baseRange = parseInt(html.find('[name="targetRange"]')[0].value);
+            baseRange += this.data.data.actor.data.itemsProperties.environmentalMod.range.value;
+            let rangevalue = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
+            html.find('[name="dicePoolModRange"]')[0].value = rangevalue;
+            this.dicePoolModifier.range = rangevalue;
+            this.data.data.dicePoolMod.range = rangevalue;
             this.updateDicePoolValue(html);
         }
         
         html.find(".range").change(ev => {
-            html.find('[name="dicePoolModRange"]')[0].value = -(parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.range = -(parseInt(ev.target.value) || 0);
-            this.dicePoolModifier.range = -(parseInt(ev.target.value) || 0);
+            let baseRange = parseInt(html.find('[name="targetRange"]')[0].value);
+            baseRange += this.data.data.actor.data.itemsProperties.environmentalMod.range.value;
+            let rangevalue = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
+            html.find('[name="dicePoolModRange"]')[0].value = rangevalue;
+            this.dicePoolModifier.range = rangevalue;
+            this.data.data.dicePoolMod.range = rangevalue;
             this.updateDicePoolValue(html);
         });
 
