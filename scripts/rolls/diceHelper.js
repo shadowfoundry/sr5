@@ -518,15 +518,18 @@ export class SR5_DiceHelper {
     }
 
     //Handle environmental modifiers
-    static handleEnvironmentalModifiers(scene, actor){
+    static handleEnvironmentalModifiers(scene, actor, melee){
         let actorData = actor.itemsProperties.environmentalMod;
         let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
         let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
-        if (actor.vision.lowLightIsChecked && scene.getFlag("sr5", "environModLight") > 2) visibilityMod = 3;
+        if (actor.visions.lowLight.isActive && scene.getFlag("sr5", "environModLight") > 2) visibilityMod = 3;
         let glareMod = Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + actorData.glare.value, 0);
         let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
 
         let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
+        if (melee){
+            arrayMod = [visibilityMod, lightMod, glareMod];
+        }
         let finalMod = Math.max(...arrayMod);
 
         if (finalMod > 0 && finalMod < 4) {
@@ -553,6 +556,8 @@ export class SR5_DiceHelper {
                 return -6;
             case 4:
                 return -10;
+            default:
+                return 0;
         }
     }
 }

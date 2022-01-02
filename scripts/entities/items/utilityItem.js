@@ -893,20 +893,32 @@ export class SR5_UtilityItem extends Actor {
 
   //Handle if an accessory give environmental modifiers tracer weapon.ammunition.type
   static _handleVisionAccessory(weapon, actor) {
-    if (weapon.ammunition.type === "tracer") {
+    if (weapon.ammunition.type === "tracer" && weapon.isActive) {
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
     }
     for (let a of weapon.accessory) {
       switch (a.name) {
         case "flashLightInfrared":
-          if (actor.data.vision.thermographicIsChecked && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
+          if (actor.data.visions.thermographic.isActive && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
           break;
         case "flashLightLowLight":
-          if (actor.data.vision.lowLightIsChecked && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
+          if (actor.data.visions.lowLight.isActive && a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
           break;
         case "imagingScope":
           if (a.isActive && weapon.isActive) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
+          break;
+        case "smartgunSystemInternal":
+        case "smartgunSystemExternal":
+          let hasSmartlink = false;
+          for (let i of actor.items){
+            if ((i.type === "itemAugmentation" || i.type === "itemGear") && i.data.data.isActive && Object.keys(i.data.data.customEffects).length){
+              for (let [key, data] of Object.entries(i.data.data.customEffects)){
+                if (data.target === 'data.specialProperties.smartlink' && (data.value > 0)) hasSmartlink = true;
+              }
+            }
+          }
+          if (a.isActive && weapon.isActive && hasSmartlink) SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
           break;
       }
     }

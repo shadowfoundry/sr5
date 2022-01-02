@@ -27,7 +27,7 @@ export class SR5SightLayer extends SightLayer {
         if (caller.document?.actor && source.object?.document?.actor){
           let callerData = caller.document.actor.data;
           let actor = source.object.document.actor.data;
-          if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data?.vision?.astral) return false
+          if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data?.visions?.astral.isActive) return false
         }
       }
 

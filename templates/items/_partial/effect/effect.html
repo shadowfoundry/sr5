@@ -167,7 +167,8 @@
 
 					{{else ife category 'visionTypes'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.vision.{{@key}}">{{localize this}}</option>
+					<option value="data.visions.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
+					<option value="data.visions.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					{{/each}}
 
 					{{else ife category 'environmentalModifiers'}}
@@ -328,7 +329,7 @@
 							{{#select type}}
 								{{#if (endsWith target '.isActive')}}
 									{{dropdownOptions 'boolean'}}
-								{{else if (includes target '.vision.')}}
+								{{else if (includes target '.visions.')}}
 									{{dropdownOptions 'boolean'}}
 								{{else}}
 									{{dropdownOptions 'value' 'rating' 'hits' 'valueReplace'}}

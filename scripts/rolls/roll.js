@@ -92,7 +92,6 @@ export class SR5_Roll {
             sceneNoise = -activeScene.getFlag("sr5", "matrixNoise") || 0;
             backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
             backgroundAlignement = activeScene.getFlag("sr5", "backgroundCountAlignement") || "";
-            sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData);
         }
 
         switch (rollType){
@@ -584,6 +583,10 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         reach: reach,
                     });
+                    sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
+                    optionalData = mergeObject(optionalData, {
+                        "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
+                    });
                 }  
 
                 if (canvas.scene && chatData.type === "spell" && chatData.item.data.range === "area"){
@@ -676,6 +679,7 @@ export class SR5_Roll {
                     if (itemData.category === "meleeWeapon") {
                         optionalData = mergeObject(optionalData, {attackerReach: itemData.reach.value,});
                         if (distance > (itemData.reach.value + 1)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
+                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     } else { 
                         // Handle weapon ranged based on distance
                         if (distance < itemData.range.short.value) rangeValue = 0;
@@ -689,6 +693,7 @@ export class SR5_Roll {
                             ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                             return;
                         }
+                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, false);
                     }
                 }
 

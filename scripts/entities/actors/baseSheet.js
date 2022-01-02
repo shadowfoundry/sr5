@@ -74,7 +74,8 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".sidekickDestroy").click(this._OnSidekickDestroy.bind(this));
     // Dismiss Actor
     html.find(".dismissActor").click(this._OnDismissActor.bind(this));
-
+    // Switch vision
+    html.find(".vision-switch").click(this._onVisionSwitch.bind(this));
     // Switch initiatives
     html.find(".init-switch").click(this._onInitiativeSwitch.bind(this));
 
@@ -202,6 +203,11 @@ export class ActorSheetSR5 extends ActorSheet {
   _onInitiativeSwitch(event) {
     let wantedInitiative = $(event.currentTarget).attr("data-binding");
     SR5_CharacterUtility.switchToInitiative(this.actor, wantedInitiative);
+  }
+
+  _onVisionSwitch(event){
+    let wantedVision = $(event.currentTarget).attr("data-binding");
+    SR5_CharacterUtility.switchVision(this.actor, wantedVision);
   }
 
   /**

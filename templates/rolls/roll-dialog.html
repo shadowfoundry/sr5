@@ -25,9 +25,9 @@
         {{#if (or (eq typeSub "rangedWeapon") (eq typeSub "grenade") )}}
         <!-- ATTACK - RANGE -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html}} 
+        {{/if}}
         <!-- ENVIRONMENTAL MODIFIERS -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
-        {{/if}}
       {{/ife}}
 
       <!-- ATTRIBUTE CHOICE -->
@@ -97,6 +97,8 @@
         <!-- ACTIVE DEFENSE -->
         {{#if (eq typeSub "meleeWeapon")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
+        <!-- ENVIRONMENTAL MODIFIERS -->
+        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
         {{/if}}
         <!-- CUMULATIVE DEFENSE -->
         {{#if_g cumulativeDefense 0}}

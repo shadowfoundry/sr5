@@ -359,20 +359,17 @@ SR5.skillCategories = {
 
 // Vision Types
 SR5.visionTypes = {
-  lowLightNatural           : "SR5.LowLightVisionNatural",
-  lowLightAugmented         : "SR5.LowLightVisionAugmented",
-  thermographicNatural      : "SR5.ThermographicVisionNatural",
-  thermographicAugmented    : "SR5.ThermographicVisionAugmented",
-  ultrasoundNatural         : "SR5.UltrasoundVisionNatural",
-  ultrasoundAugmented       : "SR5.UltrasoundVisionAugmented",
+  lowLight                  : "SR5.LowLightVision",
+  thermographic             : "SR5.ThermographicVision",
+  ultrasound                : "SR5.UltrasoundVision",
   astral                    : "SR5.AstralPerception",
 };
 
-SR5.visionChecked = {
-  astralIsChecked           : "SR5.AstralPerception",
-  lowLightIsChecked         : "SR5.LowLightVision",
-  thermographicIsChecked    : "SR5.ThermographicVision",
-  ultrasoundIsChecked       : "SR5.UltrasoundVision",
+SR5.visionActive = {
+  //astralIsChecked         : "SR5.AstralPerception",
+  lowLight                  : "SR5.LowLightVision",
+  thermographic             : "SR5.ThermographicVision",
+  ultrasound                : "SR5.UltrasoundVision",
 }
 
 //Environmental Modifiers

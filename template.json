@@ -2892,21 +2892,31 @@
         }
       },
       "visionTemplate": {
-        "vision": {
-          "astral": false,
-          "astralIsChecked": false,
-          "lowLight": false,
-          "lowLightIsChecked": false,
-          "lowLightNatural": false,
-          "lowLightAugmented": false,
-          "thermographic": false,
-          "thermographicIsChecked": false,
-          "thermographicNatural": false,
-          "thermographicAugmented": false,
-          "ultrasound": false,
-          "ultrasoundIsChecked": false,
-          "ultrasoundNatural": false,
-          "ultrasoundAugmented": false
+        "visions": {
+          "astral": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          },
+          "lowLight": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          },
+          "thermographic": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          },
+          "ultrasound": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          }
         }
       },
       "recoilTemplate":{
