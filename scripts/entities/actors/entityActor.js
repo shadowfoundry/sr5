@@ -580,9 +580,13 @@ export class SR5Actor extends Actor {
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data),
-        gelAmmo = 0;
+        gelAmmo = 0,
+        damageReduction = 0;
+
     actorData = actorData.toObject(false);
     if (options.ammoType === "gel") gelAmmo = -2;
+    if (actorData.data.specialProperties?.damageReduction) damageReduction = actorData.data.specialProperties.damageReduction.value;
+    if (damage > 1) damage -= damageReduction;
 
     switch (actorData.type){
       case "actorPc":

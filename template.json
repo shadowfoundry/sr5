@@ -2942,6 +2942,11 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "damageReduction":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },

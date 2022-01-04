@@ -2119,6 +2119,7 @@ SR5.specialProperties = {
   concentration             : "SR5.Concentration",
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
+  damageReduction           : "SR5.DamageReduction",
 }
 
 SR5.transactionsTypes = {

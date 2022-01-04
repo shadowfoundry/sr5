@@ -164,6 +164,9 @@
 
 					{{else ife category 'penaltyTypes'}}
 					<option value="data.penalties.special.actual">{{localize 'SR5.PenaltyValueSpecial'}}</option>
+					<!--<option value="data.penalties.stun.minimum">{{localize 'SR5.PenaltyValueStun'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
+					<option value="data.penalties.condition.minimum">{{localize 'SR5.PenaltyValueCondition'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
+					<option value="data.penalties.physical.minimum">{{localize 'SR5.PenaltyValuePhysical'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option> -->
 
 					{{else ife category 'visionTypes'}}
 					{{#each (lookup ../lists category)}}

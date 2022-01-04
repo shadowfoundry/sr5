@@ -1007,6 +1007,7 @@
   "SR5.PenaltyStep"                           : "Seuil de pénalité",
   "SR5.PenaltyValueMagic"                     : "Maintien de sort",
   "SR5.PenaltyValueMatrix"                    : "Sources matricielles",
+  "SR5.PenaltyValueCondition"                  : "Moniteur de condition",
   "SR5.PenaltyValuePhysical"                  : "Moniteur de condition (Physique)",
   "SR5.PenaltyValueSpecial"                   : "Effet externe",
   "SR5.PenaltyValueStun"                      : "Moniteur de condition (Étourdissant)",

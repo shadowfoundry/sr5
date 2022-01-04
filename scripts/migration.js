@@ -137,7 +137,6 @@ export default class Migration {
     	if (actor.data) {
 			//Do stuff on Actor
 			if(actor.type !== "actorDrone") updateData["data.penalties.-=resonance"] = null;
-			console.log(actor);
 			if(actor.data.vision) updateData["data.-=vision"] = null;
     	}
 
