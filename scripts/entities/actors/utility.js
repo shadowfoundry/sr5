@@ -147,6 +147,13 @@ export class SR5_CharacterUtility extends Actor {
       data.itemsProperties.weapon.damageValue.modifiers = [];
     }
 
+    if (data.itemsProperties?.environmentalMod){
+      for (let key of Object.keys(lists.environmentalModifiers)){
+        data.itemsProperties.environmentalMod[key].value = 0;
+        data.itemsProperties.environmentalMod[key].modifiers = [];
+      }
+    }
+
     // Reset Essence
     if (data.essence) {
       data.essence.value = 0;
@@ -270,9 +277,11 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     // Reset Vision
-    if (data.vision) {
+    if (data.visions) {
       for (let key of Object.keys(lists.visionTypes)) {
-        data.vision[key] = false;
+        data.visions[key].hasVision = false;
+        data.visions[key].natural = false;
+        data.visions[key].augmented = false;
       }
     }
 
@@ -536,11 +545,70 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
-  static handleVision(actor){
-    let data = actor.data;
-    if (actor.type === "actorSpirit") data.vision.astral = true;
-    if (data.initiatives.astralInit.isActive) data.vision.astral = true;
-    if (data.vision.astralIsChecked) data.vision.astral = true;
+  //Handle vision types and environmental modifiers
+  static async handleVision(actor){
+    let data = actor.data, lists = actor.lists;
+
+    if (actor.type === "actorSpirit") {
+      data.visions.astral.natural = true;
+      data.visions.astral.hasVision = true;
+      data.visions.astral.isActive = true;
+    }
+    if (data.initiatives.astralInit.isActive) data.visions.augmented = true;
+    if (data.visions.astral.natural || data.visions.augmented) data.visions.astral.hasVision = true;
+    if (data.visions.astral.isActive) data.visions.astral.hasVision = true;
+    
+    if (data.visions.astral.isActive){
+      SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.visibility, `${game.i18n.localize('SR5.AstralPerception')}`, `${game.i18n.localize('SR5.VisionType')}`, -4, false, false);
+      SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.AstralPerception')}`, `${game.i18n.localize('SR5.VisionType')}`, -4, false, false);
+      SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.glare, `${game.i18n.localize('SR5.AstralPerception')}`, `${game.i18n.localize('SR5.VisionType')}`, -4, false, false);
+      SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.wind, `${game.i18n.localize('SR5.AstralPerception')}`, `${game.i18n.localize('SR5.VisionType')}`, -4, false, false);
+    }
+
+    if (data.visions.lowLight.natural || data.visions.lowLight.augmented) {
+      data.visions.lowLight.hasVision = true;
+      if (data.visions.lowLight.isActive){
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.LowLightVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -2, false, false);
+      }
+    }
+    if (data.visions.thermographic.natural || data.visions.thermographic.augmented){ 
+      data.visions.thermographic.hasVision = true;
+      if (data.visions.thermographic.isActive){
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.ThermographicVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -1, false, false);
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.visibility, `${game.i18n.localize('SR5.ThermographicVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -1, false, false);
+      }
+    }
+    if (data.visions.ultrasound.natural || data.visions.ultrasound.augmented){ 
+      data.visions.ultrasound.hasVision = true;
+      if (data.visions.ultrasound.isActive){
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.visibility, `${game.i18n.localize('SR5.ThermographicVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -1, false, false);
+        SR5_EntityHelpers.updateModifier(data.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.UltrasoundVision')}`, `${game.i18n.localize('SR5.VisionType')}`, -3, false, false);
+      }
+    }
+    //environmental modifiers
+    if (data.itemsProperties?.environmentalMod){
+      for (let key of Object.keys(lists.environmentalModifiers)){
+        SR5_EntityHelpers.updateValue(data.itemsProperties.environmentalMod[key]);
+      }
+    }
+  } 
+
+  static async switchVision(actor, vision){
+    let data = duplicate(actor.data.data),
+        lists = actor.data.lists,
+        currentVision;
+
+    for (let key of Object.keys(lists.visionActive)){
+      if (data.visions[key].isActive) currentVision = key;
+    }
+
+    for (let key of Object.keys(lists.visionActive)){
+      if (key === vision && key === currentVision) data.visions[key].isActive = false;
+      else if (key === vision) data.visions[key].isActive = true;
+      else data.visions[key].isActive = false;
+    }
+
+    await actor.update({ 'data': data });
   }
 
   static applyRacialModifers(actor) {
@@ -551,7 +619,7 @@ export class SR5_CharacterUtility extends Actor {
       case "human":
         break;
       case "elf":
-        data.vision.lowLight = true;
+        data.visions.lowLight.natural = true;
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(data.attributes.agility.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 1);
           SR5_EntityHelpers.updateModifier(data.attributes.charisma.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 2);
@@ -559,7 +627,7 @@ export class SR5_CharacterUtility extends Actor {
         break;
       case "dwarf":
         // TODO : lifestyle cost * 1.2
-        data.vision.thermographic = true;
+        data.visions.thermographic.natural = true;
         for (let vector of Object.keys(lists.propagationVectors)) {
           SR5_EntityHelpers.updateModifier(data.resistances.disease[vector], label, `${game.i18n.localize('SR5.Metatype')}`, 2);
           SR5_EntityHelpers.updateModifier(data.resistances.toxin[vector], label, `${game.i18n.localize('SR5.Metatype')}`, 2);
@@ -572,7 +640,7 @@ export class SR5_CharacterUtility extends Actor {
         }        
         break;
       case "ork":
-        data.vision.lowLight = true;
+        data.visions.lowLight.natural = true;
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(data.attributes.body.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 3);
           SR5_EntityHelpers.updateModifier(data.attributes.strength.natural, label, `${game.i18n.localize('SR5.Metatype')}`, 2);
@@ -582,7 +650,7 @@ export class SR5_CharacterUtility extends Actor {
         break;
       case "troll":
         // TODO : lifestyle cost * 2
-        data.vision.thermographic = true;
+        data.visions.thermographic.natural = true;
         SR5_EntityHelpers.updateModifier(data.reach, label, `${game.i18n.localize('SR5.Metatype')}`, 1);
         SR5_EntityHelpers.updateModifier(data.resistances.physicalDamage, label, `${game.i18n.localize('SR5.Metatype')}`, 1);
         if (actor.type === "actorGrunt") {
@@ -1294,9 +1362,11 @@ export class SR5_CharacterUtility extends Actor {
     let data = duplicate(actor.data.data),
         initiatives = data.initiatives,
         currentInitiative = this.findActiveInitiative(actor.data);
-
+    
     if (currentInitiative) initiatives[currentInitiative].isActive = false;
+    if (currentInitiative === "astralInit") data.visions.astral.isActive = false;
     initiatives[initiative].isActive = true;
+    if (initiative === "astralInit") data.visions.astral.isActive = true;
 
     await actor.update({ 'data': data });
 

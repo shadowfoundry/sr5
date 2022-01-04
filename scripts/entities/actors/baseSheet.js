@@ -74,7 +74,8 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".sidekickDestroy").click(this._OnSidekickDestroy.bind(this));
     // Dismiss Actor
     html.find(".dismissActor").click(this._OnDismissActor.bind(this));
-
+    // Switch vision
+    html.find(".vision-switch").click(this._onVisionSwitch.bind(this));
     // Switch initiatives
     html.find(".init-switch").click(this._onInitiativeSwitch.bind(this));
 
@@ -204,6 +205,11 @@ export class ActorSheetSR5 extends ActorSheet {
     SR5_CharacterUtility.switchToInitiative(this.actor, wantedInitiative);
   }
 
+  _onVisionSwitch(event){
+    let wantedVision = $(event.currentTarget).attr("data-binding");
+    SR5_CharacterUtility.switchVision(this.actor, wantedVision);
+  }
+
   /**
    * Handle creating a new Owned Item for the actor using initial data defined in the HTML dataset
    * @param {Event} event   The originating click event
@@ -252,7 +258,6 @@ export class ActorSheetSR5 extends ActorSheet {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     let newItem = item.toObject();
-    console.log(newItem);
     if (newItem.data.accessory.length) newItem.data.accessory = [];
     SR5_SystemHelpers.srLog(2, `Creating a new clone of item '${item.name}'`, item);
     return this.actor.createEmbeddedDocuments("Item", [newItem]);

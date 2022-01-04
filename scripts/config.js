@@ -44,24 +44,6 @@ SR5.allAttributes = {
   ...SR5.characterSpecialAttributes
 }
 
-// Attributes for sprite powers
-SR5.spritePowerAttributes = {
-  willpower                 : "SR5.Willpower",
-  logic                     : "SR5.Logic",
-  intuition                 : "SR5.Intuition",
-  charisma                  : "SR5.Charisma",
-  resonance                 : "SR5.Resonance",
-};
-
-SR5.spritePowerDefenseAttributes = {
-  willpower                 : "SR5.Willpower",
-  logic                     : "SR5.Logic",
-  intuition                 : "SR5.Intuition",
-  charisma                  : "SR5.Charisma",
-  resonance                 : "SR5.Resonance",
-  deviceRating              : "SR5.DeviceRating",
-};
-
 // Initiatives
 SR5.characterInitiatives = {
   physicalInit              : "SR5.InitiativePhysicalShort",
@@ -75,22 +57,6 @@ SR5.characterLimits = {
   mentalLimit               : "SR5.MentalLimitShort",
   physicalLimit             : "SR5.PhysicalLimitShort",
   socialLimit               : "SR5.SocialLimitShort",
-};
-
-SR5.testLimits = {
-  astralLimit               : "SR5.AstralLimitShort",
-  mentalLimit               : "SR5.MentalLimitShort",
-  physicalLimit             : "SR5.PhysicalLimitShort",
-  socialLimit               : "SR5.SocialLimitShort",
-  accuracy                  : "SR5.Accuracy",
-  force                     : "SR5.Force",
-  spiritForce               : "SR5.SpiritForce",
-  attack                    : "SR5.MatrixAttack",
-  dataProcessing            : "SR5.DataProcessing",
-  firewall                  : "SR5.Firewall",
-  noiseReduction            : "SR5.NoiseReduction",
-  sharing                   : "SR5.Sharing",
-  sleaze                    : "SR5.Sleaze",
 };
 
 // Defensive Actions
@@ -395,170 +361,24 @@ SR5.skillCategories = {
 SR5.visionTypes = {
   lowLight                  : "SR5.LowLightVision",
   thermographic             : "SR5.ThermographicVision",
+  ultrasound                : "SR5.UltrasoundVision",
   astral                    : "SR5.AstralPerception",
 };
 
-// Matrix Attributes
-SR5.matrixAttributes = {
-  attack                    : "SR5.MatrixAttack",
-  dataProcessing            : "SR5.DataProcessing",
-  firewall                  : "SR5.Firewall",
-  noiseReduction            : "SR5.NoiseReduction",
-  sharing                   : "SR5.Sharing",
-  sleaze                    : "SR5.Sleaze",
-};
-
-// Deck Attributes
-SR5.deckerAttributes = {
-  attack                    : "SR5.MatrixAttack",
-  dataProcessing            : "SR5.DataProcessing",
-  firewall                  : "SR5.Firewall",
-  sleaze                    : "SR5.Sleaze",
-};
-
-// Common Programs
-SR5.commonPrograms = {
-  browse                    : "SR5.ProgramBrowse",
-  configurator              : "SR5.ProgramConfigurator",
-  edit                      : "SR5.ProgramEdit",
-  encryption                : "SR5.ProgramEncryption",
-  signalScrub               : "SR5.ProgramSignalScrub",
-  toolbox                   : "SR5.ProgramToolbox",
-  virtualMachine            : "SR5.ProgramVirtualMachine",
-};
-
-// Hacking Programs
-SR5.hackingPrograms = {
-  armor                     : "SR5.ProgramArmor",
-  babyMonitor               : "SR5.ProgramBabyMonitor",
-  biofeedback               : "SR5.ProgramBiofeedback",
-  biofeedbackFilter         : "SR5.ProgramBiofeedbackFilter",
-  blackout                  : "SR5.ProgramBlackout",
-  decryption                : "SR5.ProgramDecryption",
-  defuse                    : "SR5.ProgramDefuse",
-  demolition                : "SR5.ProgramDemolition",
-  exploit                   : "SR5.ProgramExploit",
-  fork                      : "SR5.ProgramFork",
-  guard                     : "SR5.ProgramGuard",
-  hammer                    : "SR5.ProgramHammer",
-  lockdown                  : "SR5.ProgramLockdown",
-  mugger                    : "SR5.ProgramMugger",
-  shell                     : "SR5.ProgramShell",
-  sneak                     : "SR5.ProgramSneak",
-  stealth                   : "SR5.ProgramStealth",
-  track                     : "SR5.ProgramTrack",
-  wrapper                   : "SR5.ProgramWrapper",
+SR5.visionActive = {
+  //astralIsChecked         : "SR5.AstralPerception",
+  lowLight                  : "SR5.LowLightVision",
+  thermographic             : "SR5.ThermographicVision",
+  ultrasound                : "SR5.UltrasoundVision",
 }
 
-// Common Programs
-SR5.autosoftPrograms = {
-  clearsight                : "SR5.ProgramClearsight",
-  electronicWarfare         : "SR5.ProgramElectronicWarfare",
-  evasion                   : "SR5.ProgramEvasion",
-  maneuvering               : "SR5.ProgramManeuvering",
-  stealthAutosoft           : "SR5.ProgramStealthAutosoft",
-  targeting                 : "SR5.ProgramTargeting",
-};
-
-// Programs
-SR5.programs = {
-  ...SR5.commonPrograms,
-  ...SR5.hackingPrograms,
-  ...SR5.autosoftPrograms,
-};
-
-// Matrix Resistances
-SR5.matrixResistances = {
-  biofeedback               : "SR5.BiofeedbackDamage",
-  dataBomb                  : "SR5.DataBomb",
-  dumpshock                 : "SR5.Dumpshock",
-  fading                    : "SR5.Fading",
-  matrixDamage              : "SR5.MatrixDamage",
-};
-
-// Matrix Rolled Actions
-SR5.matrixRolledActions = {
-  bruteForce                : "SR5.MatrixActionBruteForce",
-  checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
-  controlDevice             : "SR5.MatrixActionControlDevice",
-  crackFile                 : "SR5.MatrixActionCrackFile",
-  crashProgram              : "SR5.MatrixActionCrashProgram",
-  dataSpike                 : "SR5.MatrixActionDataSpike",
-  disarmDataBomb            : "SR5.MatrixActionDisarmDataBomb",
-  editFile                  : "SR5.MatrixActionEditFile",
-  eraseMark                 : "SR5.MatrixActionEraseMark",
-  eraseMatrixSignature      : "SR5.MatrixActionEraseMatrixSignature",
-  formatDevice              : "SR5.MatrixActionFormatDevice",
-  garbageInGarbageOut       : "SR5.MatrixActionGarbageInGarbageOut",
-  hackOnTheFly              : "SR5.MatrixActionHackOnTheFly",
-  hide                      : "SR5.MatrixActionHide",
-  jackOut                   : "SR5.MatrixActionJackOut",
-  jamSignals                : "SR5.MatrixActionJamSignals",
-  jumpIntoRiggedDevice      : "SR5.MatrixActionJumpIntoRiggedDevice",
-  matrixPerception          : "SR5.MatrixActionMatrixPerception",
-  matrixSearch              : "SR5.MatrixActionMatrixSearch",
-  rebootDevice              : "SR5.MatrixActionRebootDevice",
-  setDataBomb               : "SR5.MatrixActionSetDataBomb",
-  snoop                     : "SR5.MatrixActionSnoop",
-  spoofCommand              : "SR5.MatrixActionSpoofCommand",
-  traceIcon                 : "SR5.MatrixActionTraceIcon",
-  trackback                 : "SR5.MatrixActionTrackback",
-};
-
-// Matrix Non Rolled Actions
-SR5.matrixOtherActions = {
-  changeIcon                : "SR5.MatrixActionChangeIcon",
-  enterOrExitHost           : "SR5.MatrixActionEnterOrExitHost",
-  gridHop                   : "SR5.MatrixActionGridHop",
-  inviteMark                : "SR5.MatrixActionInviteMark",
-  sendMessage               : "SR5.MatrixActionSendMessage",
-  switchInterfaceMode       : "SR5.MatrixActionSwitchInterfaceMode",
-  loadProgram               : "SR5.MatrixActionLoadProgram",
-  switchTwoMatrixAttributes : "SR5.MatrixActionSwitchTwoMatrixAttributes",
-  swapTwoPrograms           : "SR5.MatrixActionSwapTwoPrograms",
-  unloadProgram             : "SR5.MatrixActionUnloadProgram",
-};
-
-// Resonance Actions
-SR5.resonanceActions = {
-  callOrDismissSprite       : "SR5.MatrixActionCallOrDismissSprite",
-  commandSprite             : "SR5.MatrixActionCommandSprite",
-  compileSprite             : "SR5.MatrixActionCompileSprite",
-  decompileSprite           : "SR5.MatrixActionDecompileSprite",
-  eraseResonanceSignature   : "SR5.MatrixActionEraseResonanceSignature",
-  killComplexForm           : "SR5.MatrixActionKillComplexForm",
-  registerSprite            : "SR5.MatrixActionRegisterSprite",
-  threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
-};
-
-SR5.matrixActions = {
-  ...SR5.matrixRolledActions,
-  ...SR5.matrixOtherActions,
-};
-
-// Complex Form Targets
-SR5.complexFormTargets = {
-  device                    : "SR5.ComplexFormTargetDevice",
-  file                      : "SR5.ComplexFormTargetFile",
-  persona                   : "SR5.ComplexFormTargetPersona",
-  self                      : "SR5.ComplexFormTargetSelf",
-  sprite                    : "SR5.ComplexFormTargetSprite",
-};
-
-// Sprite Types
-SR5.spriteTypes = {
-  courier                   : "SR5.SpriteCourier",
-  crack                     : "SR5.SpriteCrack",
-  data                      : "SR5.SpriteData",
-  fault                     : "SR5.SpriteFault",
-  machine                   : "SR5.SpriteMachine",
-}
-
-// Addiction types
-SR5.addictionTypes = {
-  both                      : "SR5.AddictionBoth",
-  physiological             : "SR5.AddictionPhysiological",
-  psychological             : "SR5.AddictionPsychological",
+//Environmental Modifiers
+SR5.environmentalModifiers = {
+  visibility                : "SR5.EnvironmentalModVisibility",
+  light                     : "SR5.EnvironmentalModLight",
+  glare                     : "SR5.EnvironmentalModGlare",
+  wind                      : "SR5.EnvironmentalModWind",
+  range                     : "SR5.EnvironmentalModRange",
 }
 
 // Genders
@@ -576,7 +396,6 @@ SR5.metatypes = {
   ork                       : "SR5.MetatypeOrc",
   troll                     : "SR5.MetatypeTroll",
 };
-
 
 // Lifestyle Types
 SR5.lifestyleTypes = {
@@ -596,6 +415,10 @@ SR5.lifestyleOptions = {
   extraSecure               : "SR5.LifeStyleOptionExtraSecure",
   dangerousArea             : "SR5.LifeStyleOptionDangerousArea",
 };
+
+//-----------------------------------//
+//            WEAPONS                //
+//-----------------------------------//
 
 // Weapon Firing Modes
 SR5.weaponModes = {
@@ -940,6 +763,11 @@ SR5.toxinEffects = {
   paralysis                 : "SR5.ToxinEffectParalysis",
 };
 
+
+//-----------------------------------//
+//              ITEMS                //
+//-----------------------------------//
+
 // Types de Légalité
 SR5.legalTypes = {
   R                         : "SR5.Restricted",
@@ -963,6 +791,17 @@ SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
   ...SR5.valueMultipliersNoRating
 };
+
+// Addiction types
+SR5.addictionTypes = {
+  both                      : "SR5.AddictionBoth",
+  physiological             : "SR5.AddictionPhysiological",
+  psychological             : "SR5.AddictionPsychological",
+}
+
+//-----------------------------------//
+//             AUGMENTATIONS         //
+//-----------------------------------//
 
 // Types d'Augmentations
 SR5.augmentationTypes = {
@@ -992,7 +831,7 @@ SR5.augmentationGrades = {
 };
 
 //-----------------------------------//
-//               ROLL                //
+//         ROLL & MODIFIERS          //
 //-----------------------------------//
 
 SR5.extendedInterval = {
@@ -1013,8 +852,24 @@ SR5.extendedIntervals = {
   month                     : "SR5.Months",
 };
 
+SR5.testLimits = {
+  astralLimit               : "SR5.AstralLimitShort",
+  mentalLimit               : "SR5.MentalLimitShort",
+  physicalLimit             : "SR5.PhysicalLimitShort",
+  socialLimit               : "SR5.SocialLimitShort",
+  accuracy                  : "SR5.Accuracy",
+  force                     : "SR5.Force",
+  spiritForce               : "SR5.SpiritForce",
+  attack                    : "SR5.MatrixAttack",
+  dataProcessing            : "SR5.DataProcessing",
+  firewall                  : "SR5.Firewall",
+  noiseReduction            : "SR5.NoiseReduction",
+  sharing                   : "SR5.Sharing",
+  sleaze                    : "SR5.Sleaze",
+};
+
 //-----------------------------------//
-//    CONNAISSANCES & TRAITS         //
+//        KNOWLEDGE & SKILLS         //
 //-----------------------------------//
 
 // Types de Traits
@@ -1035,6 +890,11 @@ SR5.knowledgeSkillTypes = {
   street                    : "SR5.KnowledgeSkillStreet",
   tactics                   : "SR5.KnowledgeSkillTactics",
 };
+
+
+//-----------------------------------//
+//                MAGIC              //
+//-----------------------------------//
 
 // Magic Types
 SR5.magicTypes = {
@@ -1199,9 +1059,183 @@ SR5.focusTypes = {
   qi                        : "SR5.FocusQi",
 };
 
+// Attributes for sprite powers
+SR5.spritePowerAttributes = {
+  willpower                 : "SR5.Willpower",
+  logic                     : "SR5.Logic",
+  intuition                 : "SR5.Intuition",
+  charisma                  : "SR5.Charisma",
+  resonance                 : "SR5.Resonance",
+};
+
+SR5.spritePowerDefenseAttributes = {
+  willpower                 : "SR5.Willpower",
+  logic                     : "SR5.Logic",
+  intuition                 : "SR5.Intuition",
+  charisma                  : "SR5.Charisma",
+  resonance                 : "SR5.Resonance",
+  deviceRating              : "SR5.DeviceRating",
+};
+
 //-----------------------------------//
-//         DECK & PROGRAMMES         //
+//             MATRIX                //
 //-----------------------------------//
+// Matrix Attributes
+SR5.matrixAttributes = {
+  attack                    : "SR5.MatrixAttack",
+  dataProcessing            : "SR5.DataProcessing",
+  firewall                  : "SR5.Firewall",
+  noiseReduction            : "SR5.NoiseReduction",
+  sharing                   : "SR5.Sharing",
+  sleaze                    : "SR5.Sleaze",
+};
+
+// Deck Attributes
+SR5.deckerAttributes = {
+  attack                    : "SR5.MatrixAttack",
+  dataProcessing            : "SR5.DataProcessing",
+  firewall                  : "SR5.Firewall",
+  sleaze                    : "SR5.Sleaze",
+};
+
+// Common Programs
+SR5.commonPrograms = {
+  browse                    : "SR5.ProgramBrowse",
+  configurator              : "SR5.ProgramConfigurator",
+  edit                      : "SR5.ProgramEdit",
+  encryption                : "SR5.ProgramEncryption",
+  signalScrub               : "SR5.ProgramSignalScrub",
+  toolbox                   : "SR5.ProgramToolbox",
+  virtualMachine            : "SR5.ProgramVirtualMachine",
+};
+
+// Hacking Programs
+SR5.hackingPrograms = {
+  armor                     : "SR5.ProgramArmor",
+  babyMonitor               : "SR5.ProgramBabyMonitor",
+  biofeedback               : "SR5.ProgramBiofeedback",
+  biofeedbackFilter         : "SR5.ProgramBiofeedbackFilter",
+  blackout                  : "SR5.ProgramBlackout",
+  decryption                : "SR5.ProgramDecryption",
+  defuse                    : "SR5.ProgramDefuse",
+  demolition                : "SR5.ProgramDemolition",
+  exploit                   : "SR5.ProgramExploit",
+  fork                      : "SR5.ProgramFork",
+  guard                     : "SR5.ProgramGuard",
+  hammer                    : "SR5.ProgramHammer",
+  lockdown                  : "SR5.ProgramLockdown",
+  mugger                    : "SR5.ProgramMugger",
+  shell                     : "SR5.ProgramShell",
+  sneak                     : "SR5.ProgramSneak",
+  stealth                   : "SR5.ProgramStealth",
+  track                     : "SR5.ProgramTrack",
+  wrapper                   : "SR5.ProgramWrapper",
+}
+
+// Common Programs
+SR5.autosoftPrograms = {
+  clearsight                : "SR5.ProgramClearsight",
+  electronicWarfare         : "SR5.ProgramElectronicWarfare",
+  evasion                   : "SR5.ProgramEvasion",
+  maneuvering               : "SR5.ProgramManeuvering",
+  stealthAutosoft           : "SR5.ProgramStealthAutosoft",
+  targeting                 : "SR5.ProgramTargeting",
+};
+
+// Programs
+SR5.programs = {
+  ...SR5.commonPrograms,
+  ...SR5.hackingPrograms,
+  ...SR5.autosoftPrograms,
+};
+
+// Matrix Resistances
+SR5.matrixResistances = {
+  biofeedback               : "SR5.BiofeedbackDamage",
+  dataBomb                  : "SR5.DataBomb",
+  dumpshock                 : "SR5.Dumpshock",
+  fading                    : "SR5.Fading",
+  matrixDamage              : "SR5.MatrixDamage",
+};
+
+// Matrix Rolled Actions
+SR5.matrixRolledActions = {
+  bruteForce                : "SR5.MatrixActionBruteForce",
+  checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
+  controlDevice             : "SR5.MatrixActionControlDevice",
+  crackFile                 : "SR5.MatrixActionCrackFile",
+  crashProgram              : "SR5.MatrixActionCrashProgram",
+  dataSpike                 : "SR5.MatrixActionDataSpike",
+  disarmDataBomb            : "SR5.MatrixActionDisarmDataBomb",
+  editFile                  : "SR5.MatrixActionEditFile",
+  eraseMark                 : "SR5.MatrixActionEraseMark",
+  eraseMatrixSignature      : "SR5.MatrixActionEraseMatrixSignature",
+  formatDevice              : "SR5.MatrixActionFormatDevice",
+  garbageInGarbageOut       : "SR5.MatrixActionGarbageInGarbageOut",
+  hackOnTheFly              : "SR5.MatrixActionHackOnTheFly",
+  hide                      : "SR5.MatrixActionHide",
+  jackOut                   : "SR5.MatrixActionJackOut",
+  jamSignals                : "SR5.MatrixActionJamSignals",
+  jumpIntoRiggedDevice      : "SR5.MatrixActionJumpIntoRiggedDevice",
+  matrixPerception          : "SR5.MatrixActionMatrixPerception",
+  matrixSearch              : "SR5.MatrixActionMatrixSearch",
+  rebootDevice              : "SR5.MatrixActionRebootDevice",
+  setDataBomb               : "SR5.MatrixActionSetDataBomb",
+  snoop                     : "SR5.MatrixActionSnoop",
+  spoofCommand              : "SR5.MatrixActionSpoofCommand",
+  traceIcon                 : "SR5.MatrixActionTraceIcon",
+  trackback                 : "SR5.MatrixActionTrackback",
+};
+
+// Matrix Non Rolled Actions
+SR5.matrixOtherActions = {
+  changeIcon                : "SR5.MatrixActionChangeIcon",
+  enterOrExitHost           : "SR5.MatrixActionEnterOrExitHost",
+  gridHop                   : "SR5.MatrixActionGridHop",
+  inviteMark                : "SR5.MatrixActionInviteMark",
+  sendMessage               : "SR5.MatrixActionSendMessage",
+  switchInterfaceMode       : "SR5.MatrixActionSwitchInterfaceMode",
+  loadProgram               : "SR5.MatrixActionLoadProgram",
+  switchTwoMatrixAttributes : "SR5.MatrixActionSwitchTwoMatrixAttributes",
+  swapTwoPrograms           : "SR5.MatrixActionSwapTwoPrograms",
+  unloadProgram             : "SR5.MatrixActionUnloadProgram",
+};
+
+// Resonance Actions
+SR5.resonanceActions = {
+  callOrDismissSprite       : "SR5.MatrixActionCallOrDismissSprite",
+  commandSprite             : "SR5.MatrixActionCommandSprite",
+  compileSprite             : "SR5.MatrixActionCompileSprite",
+  decompileSprite           : "SR5.MatrixActionDecompileSprite",
+  eraseResonanceSignature   : "SR5.MatrixActionEraseResonanceSignature",
+  killComplexForm           : "SR5.MatrixActionKillComplexForm",
+  registerSprite            : "SR5.MatrixActionRegisterSprite",
+  threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
+};
+
+SR5.matrixActions = {
+  ...SR5.matrixRolledActions,
+  ...SR5.matrixOtherActions,
+};
+
+// Complex Form Targets
+SR5.complexFormTargets = {
+  device                    : "SR5.ComplexFormTargetDevice",
+  file                      : "SR5.ComplexFormTargetFile",
+  persona                   : "SR5.ComplexFormTargetPersona",
+  self                      : "SR5.ComplexFormTargetSelf",
+  sprite                    : "SR5.ComplexFormTargetSprite",
+};
+
+// Sprite Types
+SR5.spriteTypes = {
+  courier                   : "SR5.SpriteCourier",
+  crack                     : "SR5.SpriteCrack",
+  data                      : "SR5.SpriteData",
+  fault                     : "SR5.SpriteFault",
+  machine                   : "SR5.SpriteMachine",
+}
+
 SR5.matrixActionsDefenses = {
   editFile                  : "SR5.MatrixActionEditFile",
   eraseMark                 : "SR5.MatrixActionEraseMark",
@@ -2085,6 +2119,7 @@ SR5.specialProperties = {
   concentration             : "SR5.Concentration",
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
+  damageReduction           : "SR5.DamageReduction",
 }
 
 SR5.transactionsTypes = {

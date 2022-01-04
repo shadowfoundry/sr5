@@ -2892,11 +2892,31 @@
         }
       },
       "visionTemplate": {
-        "vision": {
-          "astral": false,
-          "astralIsChecked": false,
-          "lowLight": false,
-          "thermographic": false
+        "visions": {
+          "astral": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          },
+          "lowLight": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          },
+          "thermographic": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          },
+          "ultrasound": {
+            "hasVision": false,
+            "isActive": false,
+            "natural": false,
+            "augmented": false
+          }
         }
       },
       "recoilTemplate":{
@@ -2919,6 +2939,11 @@
             "modifiers": []
           },
           "controlRig": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "damageReduction":{
             "value": 0,
             "base": 0,
             "modifiers": []
@@ -2989,6 +3014,33 @@
                 "base": 0,
                 "modifiers": []
               }
+            }
+          },
+          "environmentalMod":{
+            "visibility": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "light": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "glare": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "wind": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "range": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
             }
           }
         }
@@ -4245,6 +4297,7 @@
         "penaltiesTemplate",
         "visionTemplate",
         "specialPropertiesTemplate",
+        "itemsPropertiesTemplate",
         "magicUsageTemplate"
       ],
       "initiatives": {
@@ -4341,6 +4394,7 @@
       "templates": [
         "matrixUsageTemplate",
         "recoilTemplate",
+        "visionTemplate",
         "itemsPropertiesTemplate"
       ],
       "attributes": {
@@ -4642,7 +4696,9 @@
     "actorDevice": {
       "templates": [
         "matrixUsageTemplate",
-        "penaltiesTemplate"
+        "penaltiesTemplate",
+        "visionTemplate",
+        "itemsPropertiesTemplate"
       ],
       "isDirectlyConnected": false,
       "matrix":{

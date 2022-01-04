@@ -3530,6 +3530,12 @@ input[type=range]:focus::-ms-fill-upper {
   flex-wrap: wrap;
   height: auto;
 }
+.app.window-app.scene-sheet nav.sheet-tabs.tabs a:not(:first-child) {
+  margin-left: 10px;
+}
+.app.window-app.scene-sheet form .form-group .form-fields button {
+  flex: 0 0 35px;
+}
 .app.window-app.journal-sheet .window-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
   background-size: auto 80px, auto 80px, cover;

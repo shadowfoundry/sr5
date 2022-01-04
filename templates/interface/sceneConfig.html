@@ -6,6 +6,7 @@
         <a class="item" data-tab="grid"><i class="fas fa-ruler"></i> {{localize "SCENES.HeaderGrid"}}</a>
         <a class="item" data-tab="lighting"><i class="fas fas fa-lightbulb"></i> {{localize "SCENES.HeaderVision"}}</a>
         <a class="item" data-tab="ambience"><i class="fas fa-cloud-sun"></i> {{localize "SCENES.HeaderAmbience"}}</a>
+        <a class="item" data-tab="environmentalMod"><i class="fas fa-cloud-sun-rain"></i> {{localize "SR5.EnvironmentalModifiers"}}</a>
         <a class="item" data-tab="matrixNoise"><i class="fas fa-wifi"></i> {{localize "SR5.SceneMatrixNoise"}}</a>
         <a class="item" data-tab="backgroundCount"><i class="fab fa-hornbill"></i> {{localize "SR5.SceneBackgroundCount"}}</a>
     </nav>
@@ -249,6 +250,58 @@
     </div>
 
     <!-- BEGIN CUSTOM SR5 PART -->
+    <!-- Environmental modifiers -->
+    <div class="tab" data-tab="environmentalMod">
+        <div class="form-group">
+            <p class="notes">{{localize 'SR5.SceneEnvironmentalMsg'}}</p>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModVisibility'}}</label>
+            <select name="flags.sr5.environModVisibility">
+                {{#select data.flags.sr5.environModVisibility}}
+                    <option value="0">{{localize 'SR5.EnvironmentalVisibilityClear'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalVisibilityLight'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalVisibilityModerate'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalVisibilityHeavy'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModLight'}}</label>
+            <select name="flags.sr5.environModLight">
+                {{#select data.flags.sr5.environModLight}}
+                    <option value="0">{{localize 'SR5.EnvironmentalLightFull'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalLightPartial'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalLightDim'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalLightDarkness'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModGlare'}}</label>
+            <select name="flags.sr5.environModGlare">
+                {{#select data.flags.sr5.environModGlare}}
+                    <option value="0">{{localize 'SR5.EnvironmentalGlareNo'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalGlareWeak'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalGlareModerate'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalGlareBlinding'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModWind'}}</label>
+            <select name="flags.sr5.environModWind">
+                {{#select data.flags.sr5.environModWind}}
+                    <option value="0">{{localize 'SR5.EnvironmentalWindNone'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalWindLight'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalWindModerate'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalWindStrong'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+
+    </div>
+
     <!-- Matrix Noise -->
     <div class="tab" data-tab="matrixNoise">
         <div class="form-group">

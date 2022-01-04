@@ -26,6 +26,8 @@
         <!-- ATTACK - RANGE -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html}} 
         {{/if}}
+        <!-- ENVIRONMENTAL MODIFIERS -->
+        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
       {{/ife}}
 
       <!-- ATTRIBUTE CHOICE -->
@@ -93,7 +95,11 @@
           {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
         {{/ife}}
         <!-- ACTIVE DEFENSE -->
+        {{#if (eq typeSub "meleeWeapon")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
+        <!-- ENVIRONMENTAL MODIFIERS -->
+        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
+        {{/if}}
         <!-- CUMULATIVE DEFENSE -->
         {{#if_g cumulativeDefense 0}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/defenseCumulativeModifier.html}}

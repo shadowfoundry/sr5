@@ -114,6 +114,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     //Left Tab - Qualities partials
     "systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/qualities/visions.html",
 
     //Right Tab - Skills partials
     "systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html",
@@ -406,6 +407,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html",
     "systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html",
     "systems/sr5/templates/rolls/rollDialogPartial/force.html",
     "systems/sr5/templates/rolls/rollDialogPartial/summoningModifier.html",

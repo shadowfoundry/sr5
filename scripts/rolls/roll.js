@@ -30,7 +30,8 @@ export class SR5_Roll {
             activeScene,
             backgroundCount,
             backgroundAlignement, 
-            sceneNoise;
+            sceneNoise,
+            sceneEnvironmentalMod;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -402,9 +403,8 @@ export class SR5_Roll {
                     fireTreshold: chatData.fireTreshold,
                     dicePoolBase : dicePool,
                 }
-
-
                 break;
+
             case "matrixIceAttack":
                 title = `${game.i18n.localize("SR5.IceAttack")}`;
                 dicePool = actorData.matrix.ice.attackDicepool;
@@ -583,6 +583,10 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         reach: reach,
                     });
+                    sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
+                    optionalData = mergeObject(optionalData, {
+                        "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
+                    });
                 }  
 
                 if (canvas.scene && chatData.type === "spell" && chatData.item.data.range === "area"){
@@ -624,7 +628,7 @@ export class SR5_Roll {
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     "activeDefenses.block": actorData.skills?.unarmedCombat?.rating.value  || 0,
                     "activeDefenses.parryClubs": actorData.skills?.clubs?.rating.value  || 0,
-                    "activeDefenses.parryBlades": actorData.skills?.blades?.rating.value  || 0
+                    "activeDefenses.parryBlades": actorData.skills?.blades?.rating.value  || 0,
                 });
                 break;
 
@@ -647,7 +651,8 @@ export class SR5_Roll {
                 let cumulativeRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
                 recoilCompensation -= cumulativeRecoil;
 
-                let rangeModifier = 0;
+                //let rangeModifier = 0;
+                let rangeValue = 0;
                 // Get actor and target position and calcul range modifiers
                 if (canvas.scene){
                     // Get attacker position
@@ -674,12 +679,13 @@ export class SR5_Roll {
                     if (itemData.category === "meleeWeapon") {
                         optionalData = mergeObject(optionalData, {attackerReach: itemData.reach.value,});
                         if (distance > (itemData.reach.value + 1)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
+                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     } else { 
                         // Handle weapon ranged based on distance
-                        if (distance < itemData.range.short.value) rangeModifier = 0;
-                        else if (distance < itemData.range.medium.value) rangeModifier = -1;
-                        else if (distance < itemData.range.long.value) rangeModifier = -3;
-                        else if (distance < itemData.range.extreme.value) rangeModifier = -6;
+                        if (distance < itemData.range.short.value) rangeValue = 0;
+                        else if (distance < itemData.range.medium.value) rangeValue = 1;
+                        else if (distance < itemData.range.long.value) rangeValue = 2;
+                        else if (distance < itemData.range.extreme.value) rangeValue = 3;
                         else if (distance > itemData.range.extreme.value) {
                             if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher"){
                                 SR5_RollMessage.removeTemplate(null, item.id)
@@ -687,6 +693,7 @@ export class SR5_Roll {
                             ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                             return;
                         }
+                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, false);
                     }
                 }
 
@@ -697,8 +704,9 @@ export class SR5_Roll {
                     damageType: itemData.damageType,
                     damageElement: itemData.damageElement,
                     incomingPA: itemData.armorPenetration.value,
-                    targetRange: rangeModifier,
+                    targetRange: rangeValue,
                     rc: recoilCompensation,
+                    "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                 });
                 break;
 

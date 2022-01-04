@@ -72,7 +72,6 @@ export class SR5Token extends Token {
     /** @override to add custom texture **/
     async _drawOverlay({src, tint}={}) {
         if ( !src ) return;
-        console.log(this);
         //Add custom overlay texture on top of token
         const bgtex = await loadTexture("systems/sr5/img/ui/TokenOverlay.png");
         const textureSize = this.data.height * canvas.grid.size;

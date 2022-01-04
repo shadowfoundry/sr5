@@ -65,8 +65,11 @@
 					<optgroup label="{{localize 'SR5.Vehicle'}}">
 						<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
 					</optgroup>
+					<optgroup label="{{localize 'SR5.Vision'}}">
+						<option value="visionTypes">{{localize 'SR5.VisionTypes'}}</option>
+						<option value="environmentalModifiers">{{localize 'SR5.EnvironmentalModifiers'}}</option>
+					</optgroup>
 					<optgroup label="{{localize 'SR5.Special'}}">
-						<option value="visionTypes">{{localize 'SR5.Vision'}}</option>
 						<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
 						<option value="weaponEffectTargets">{{localize 'SR5.Weapons'}}</option>
 						<option value="custom">{{localize 'SR5.GENERAL_Custom'}}...</option>
@@ -161,11 +164,21 @@
 
 					{{else ife category 'penaltyTypes'}}
 					<option value="data.penalties.special.actual">{{localize 'SR5.PenaltyValueSpecial'}}</option>
+					<!--<option value="data.penalties.stun.minimum">{{localize 'SR5.PenaltyValueStun'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
+					<option value="data.penalties.condition.minimum">{{localize 'SR5.PenaltyValueCondition'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
+					<option value="data.penalties.physical.minimum">{{localize 'SR5.PenaltyValuePhysical'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option> -->
 
 					{{else ife category 'visionTypes'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.vision.{{@key}}">{{localize this}}</option>
+					<option value="data.visions.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
+					<option value="data.visions.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					{{/each}}
+
+					{{else ife category 'environmentalModifiers'}}
+					{{#each (lookup ../lists category)}}
+					<option value="data.itemsProperties.environmentalMod.{{@key}}">{{localize this}}</option>
+					{{/each}}
+					
 
 					{{else ife category 'movements'}}
 					{{#each (lookup ../lists category)}}
@@ -319,7 +332,7 @@
 							{{#select type}}
 								{{#if (endsWith target '.isActive')}}
 									{{dropdownOptions 'boolean'}}
-								{{else if (includes target '.vision.')}}
+								{{else if (includes target '.visions.')}}
 									{{dropdownOptions 'boolean'}}
 								{{else}}
 									{{dropdownOptions 'value' 'rating' 'hits' 'valueReplace'}}
