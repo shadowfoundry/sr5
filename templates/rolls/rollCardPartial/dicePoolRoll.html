@@ -150,3 +150,10 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseReduction}}</div>
 </li>
 {{/if}}
+<!--Perception type mod Dicepool-->
+{{#if (and (isdefined dicePoolMod.perception) (gt dicePoolMod.perception 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SkillPerceptionType'}} ({{findTranslation 'perceptionTypes' perceptionType}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.perception}}</div>
+</li>
+{{/if}}

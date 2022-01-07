@@ -29,6 +29,7 @@ export default class SR5_RollDialog extends Dialog {
             if (modifiedLimit < 0) modifiedLimit = 0;
             html.find('[name="modifiedLimit"]')[0].value = modifiedLimit;
         }
+        this.data.data.limitBase = parseInt(html.find('[name="baseLimit"]')[0].value);
     }
 
     updateDrainValue(html) {
@@ -414,6 +415,24 @@ export default class SR5_RollDialog extends Dialog {
             this.updateFadingValue(html);
         });
 
-        
+        // Perception types
+        html.find('[name="perceptionType"]').change(ev => {
+            let key = ev.target.value;
+            let modifier = 0;
+            let limitMod = 0;
+            if (key !== ""){
+                modifier = this.data.data.actor.data.skills.perception.perceptionType[key].test.value;
+                limitMod = this.data.data.actor.data.skills.perception.perceptionType[key].limit.value;
+            }
+            this.data.data.perceptionType = key;
+            this.data.data.dicePoolMod.perception = modifier;
+            this.dicePoolModifier.perceptionType = modifier;
+            this.data.data.limitMod.perception = limitMod;
+            this.limitModifier.perceptionType = limitMod;
+            html.find('[name="perceptionValue"]')[0].value = modifier;
+            html.find('[name="limitModPerception"]')[0].value = limitMod;
+            this.updateDicePoolValue(html);
+            this.updateLimitValue(html);
+        });
     }
 }

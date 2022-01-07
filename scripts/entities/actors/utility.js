@@ -271,6 +271,17 @@ export class SR5_CharacterUtility extends Actor {
                   };
                 }
               }
+              break;
+            case "perception":
+              for (let type of Object.keys(lists.perceptionTypes)){
+                if (data.skills[key].perceptionType[type]) {
+                  data.skills[key].perceptionType[type].test.value = 0;
+                  data.skills[key].perceptionType[type].test.modifiers = [];
+                  data.skills[key].perceptionType[type].limit.base = 0;
+                  data.skills[key].perceptionType[type].limit.value = 0;
+                  data.skills[key].perceptionType[type].limit.modifiers = [];
+                }
+              }
           }
         }
       }
@@ -463,7 +474,9 @@ export class SR5_CharacterUtility extends Actor {
           case "condition":
             if (data.conditionMonitors[key]) {
               SR5_EntityHelpers.updateValue(data.penalties[key].step);
-              data.penalties[key].actual.base = -Math.floor(data.conditionMonitors[key].current / data.penalties[key].step.value);
+              SR5_EntityHelpers.updateValue(data.penalties[key].boxReduction);
+              data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].current - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
+              if (data.penalties[key].actual.base > 0) data.penalties[key].actual.base = 0;
             }
             break;
           case "matrix":
@@ -2011,6 +2024,11 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateDicePool(data.skills.summoning.spiritType[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.binding.spiritType[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.banishing.spiritType[key], 0);
+      }
+
+      for (let key of Object.keys(lists.perceptionTypes)){
+        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].test, 0);
+        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].limit, 0);
       }
     }
   }

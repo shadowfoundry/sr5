@@ -415,7 +415,7 @@
               "base": 0,
               "modifiers": []
             },
-            "minimum": {
+            "boxReduction":{
               "base": 0,
               "value": 0,
               "modifiers": []
@@ -432,7 +432,7 @@
               "base": 0,
               "modifiers": []
             },
-            "minimum": {
+            "boxReduction":{
               "base": 0,
               "value": 0,
               "modifiers": []
@@ -449,7 +449,7 @@
               "base": 0,
               "modifiers": []
             },
-            "minimum": {
+            "boxReduction":{
               "base": 0,
               "value": 0,
               "modifiers": []
@@ -2645,7 +2645,69 @@
             "skillGroup": "",
             "category": "physicalSkills",
             "canDefault": true,
-            "specializations": ""
+            "specializations": "",
+            "perceptionType":{
+              "sight": {
+                "test": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                },
+                "limit": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                }
+              },
+              "hearing": {
+                "test": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                },
+                "limit": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                }
+              },
+              "smell": {
+                "test": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                },
+                "limit": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                }
+              },
+              "touch": {
+                "test": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                },
+                "limit": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                }
+              },
+              "taste": {
+                "test": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                },
+                "limit": {
+                  "value": 0,
+                  "base": 0,
+                  "modifiers": []
+                }
+              }
+            }
           },
           "tracking": {
             "rating": {
@@ -4628,7 +4690,69 @@
           "skillGroup": "",
           "category": "physicalSkills",
           "canDefault": true,
-          "specializations": ""
+          "specializations": "",
+          "perceptionType":{
+            "sight": {
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "value": 0,
+                "base": "mentalLimit",
+                "modifiers": []
+              }
+            },
+            "hearing": {
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "value": 0,
+                "base": "mentalLimit",
+                "modifiers": []
+              }
+            },
+            "smell": {
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "value": 0,
+                "base": "mentalLimit",
+                "modifiers": []
+              }
+            },
+            "touch": {
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "value": 0,
+                "base": "mentalLimit",
+                "modifiers": []
+              }
+            },
+            "taste": {
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "value": 0,
+                "base": "mentalLimit",
+                "modifiers": []
+              }
+            }
+          }
         },
         "sneaking": {
           "rating": {

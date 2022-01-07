@@ -218,9 +218,9 @@ export class SR5_Dice {
 						}
 						if (dialogData.force) dialogData.limit = dialogData.force;
 						if (dialogData.level) dialogData.limit = dialogData.level;
-						if (dialogData.limitMod.various){ 
-							dialogData.limit += dialogData.limitMod.various;
-							dialogData.hasLimitMod = true;
+						for (let key in dialogData.limitMod){
+							dialogData.limit += dialogData.limitMod[key];
+							if (dialogData.limitMod[key] !== 0) dialogData.hasLimitMod = true;
 						}
 						for (let key in dialogData.dicePoolMod){
 							dialogData.dicePool += dialogData.dicePoolMod[key];

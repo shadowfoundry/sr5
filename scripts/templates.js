@@ -432,6 +432,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/drain.html",
     "systems/sr5/templates/rolls/rollDialogPartial/drainBase.html",
     "systems/sr5/templates/rolls/rollDialogPartial/recklessSpellcasting.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html",
 
 
     /************************************************************************************* */

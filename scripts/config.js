@@ -357,6 +357,14 @@ SR5.skillCategories = {
   vehicleSkills             : "SR5.SkillCategoryVehicles",
 };
 
+SR5.perceptionTypes = {
+  sight                     : "SR5.SkillPerceptionSight",
+  hearing                   : "SR5.SkillPerceptionHearing",
+  smell                     : "SR5.SkillPerceptionSmell",
+  touch                     : "SR5.SkillPerceptionTouch",
+  taste                     : "SR5.SkillPerceptionTaste",
+}
+
 // Vision Types
 SR5.visionTypes = {
   lowLight                  : "SR5.LowLightVision",

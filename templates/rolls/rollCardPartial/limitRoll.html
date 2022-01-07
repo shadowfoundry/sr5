@@ -15,8 +15,20 @@
     </div>
 </li>
 {{#if hasLimitMod}}
-<li class="grid SR-PaddingTop5">
+<li class="grid SR-PaddingTop5 SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.LimitBase'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{limitBase}}</div>
+</li>
+{{/if}}
+{{#if (and (isdefined limitMod.various) (ne limitMod.various 0) )}}
+<li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.LimitModifiers'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{limitMod.various}}</div>
+</li>
+{{/if}}
+{{#if (and (isdefined limitMod.perception) (ne limitMod.perception 0) )}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SkillPerceptionType'}} ({{findTranslation 'perceptionTypes' perceptionType}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{limitMod.perception}}</div>
 </li>
 {{/if}}

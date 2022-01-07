@@ -72,6 +72,10 @@
 
       <!-- SPECIFIC SKILL TEST -->
       {{#if (or (eq type 'skill') (eq type 'skillDicePool'))}}
+        <!-- PERCEPTION -->
+        {{#ife typeSub "perception"}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
+        {{/ife}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
