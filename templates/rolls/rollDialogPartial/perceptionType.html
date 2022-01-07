@@ -1,0 +1,16 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6">
+        <select class="" name="perceptionType">
+            {{#select perceptionType}}
+                <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each lists.perceptionTypes}}
+                <option value="{{@key}}">{{findTranslation 'perceptionTypes' @key}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="perceptionValue" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

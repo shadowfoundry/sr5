@@ -225,6 +225,12 @@
 						<option value="data.skills.{{@../key}}.spellCategory.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpellCategoryBonus'}}]</option>
 						{{/each}}
 						{{/if}}
+						{{#if (eq @key 'perception')}}
+						{{#each ../../lists.perceptionTypes}}
+						<option value="data.skills.{{@../key}}.perceptionType.{{@key}}.test">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.DicePool'}}]</option>
+						<option value="data.skills.{{@../key}}.perceptionType.{{@key}}.limit">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.Limit'}}]</option>
+						{{/each}}
+						{{/if}}
 					</optgroup>
 					{{/each}}
 
@@ -270,6 +276,7 @@
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.conditionMonitors.{{@key}}">{{localize this}} [{{localize 'SR5.Boxes'}}]</option>
+						<option value="data.penalties.{{@key}}.boxReduction">{{localize this}} [{{localize 'SR5.BoxReduction'}}]</option>
 						<option value="data.penalties.{{@key}}.step">{{localize this}} [{{localize 'SR5.PenaltyStep'}}]</option>
 					</optgroup>
 					{{/each}}
