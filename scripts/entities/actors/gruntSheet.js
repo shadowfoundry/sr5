@@ -28,7 +28,9 @@ export class SR5GruntSheet extends ActorSheetSR5 {
   }
 
   getData() {
-    const data ={};
+    const data ={
+      editable: this.isEditable,
+    };
     const actorData = this.actor.data.toObject(false);
     data.actor = actorData;
     data.data = actorData.data;

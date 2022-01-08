@@ -32,6 +32,11 @@
 			{{else}}
 			<li class="grid" data-matrix="{{a}}">
 				<div class="col-5">{{findTranslation 'matrixActions' @key}}</div>
+				{{#if (or (and (eq limit.linkedAttribute 'sleaze') (lt ../data.matrix.attributes.sleaze.value 1)) (and (eq limit.linkedAttribute 'attack') (lt ../data.matrix.attributes.attack.value 1)) )}}
+				<div class="col-2 SR-TextCenter">-</div>
+				<div class="col-1 SR-TextCenter">-</div>
+				<div class="col-1 SR-TextCenter">-</div>
+				{{else}}
 				<div class="col-2 SR-TextCenter">{{findTranslation 'actionTypes' actionType}}</div>
 				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixAction" data-rollkey="{{@key}}"
 				  data-helpTitle="{{localize 'SR5.DicePool'}}"
@@ -45,6 +50,7 @@
 				  data-helpDetails="data.matrix.actions.{{@key}}.limit">
 				  	{{valueOrDash limit.value}}
 				</div>
+				{{/if}}
 				{{#if_ge defense.dicePool 1}}
 				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
