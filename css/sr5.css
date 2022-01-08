@@ -1049,6 +1049,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.actor .window-content .SR-Editor .tox-sidebar-wrap {
   min-height: 200px;
 }
+.app.window-app.actor .window-content .SR-Editor.grunteditor .tox-sidebar-wrap {
+  min-height: 425px;
+}
 /* ----------------------------------------- */
 /* Images
 /* ----------------------------------------- */

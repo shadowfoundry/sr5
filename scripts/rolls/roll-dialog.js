@@ -28,8 +28,8 @@ export default class SR5_RollDialog extends Dialog {
             let modifiedLimit = limitModifier + parseInt(html.find('[name="baseLimit"]')[0].value)
             if (modifiedLimit < 0) modifiedLimit = 0;
             html.find('[name="modifiedLimit"]')[0].value = modifiedLimit;
+            this.data.data.limitBase = parseInt(html.find('[name="baseLimit"]')[0].value);
         }
-        this.data.data.limitBase = parseInt(html.find('[name="baseLimit"]')[0].value);
     }
 
     updateDrainValue(html) {

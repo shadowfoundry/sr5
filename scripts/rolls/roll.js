@@ -90,8 +90,9 @@ export class SR5_Roll {
         if (canvas.scene) {
             activeScene = game.scenes.active;
             sceneNoise = -activeScene.getFlag("sr5", "matrixNoise") || 0;
-            backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
             backgroundAlignement = activeScene.getFlag("sr5", "backgroundCountAlignement") || "";
+            if (backgroundAlignement === actorData.magic?.tradition) backgroundCount = 0;
+            else backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
         }
 
         switch (rollType){
