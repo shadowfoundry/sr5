@@ -576,6 +576,14 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.test.hits})`;
                 dicePool = actorData.defenses.defend.dicePool;
                 typeSub = chatData.typeSub;
+                let cover = true;
+
+                if (chatData.firingMode === "SF"){
+                    dicePool = actorData.attributes.reaction.augmented.value + (actorData.specialAttributes?.edge?.augmented?.value || 0);
+                    cover = false;
+                    optionalData = mergeObject(optionalData, {firingMode: "SF",});
+                }
+
 
                 if (typeSub === "meleeWeapon"){
                     let reach = (actorData.reach?.value || 0) - chatData.attackerReach;
@@ -624,7 +632,7 @@ export class SR5_Roll {
                     incomingFiringMode: chatData.firingModeDefenseMod,
                     cumulativeDefense: cumulativeDefense,
                     hits: chatData.test.hits,
-                    cover: true,
+                    cover: cover,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     "activeDefenses.block": actorData.skills?.unarmedCombat?.rating.value  || 0,

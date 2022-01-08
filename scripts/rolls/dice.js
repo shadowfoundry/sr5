@@ -507,7 +507,8 @@ export class SR5_Dice {
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.SuccessfulDefense")}`;
 		} else {
 			cardData.button.resistance = true;
-			cardData.damageValue = cardData.damageValueBase + netHits;
+			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase
+			else cardData.damageValue = cardData.damageValueBase + netHits;
 			cardData.damageResistanceType = "physicalDamage";
 			if (cardData.damageElement === "fire") {cardData.fireTreshold = netHits;}
 			if (author.type === "actorDrone" || author.type === "actorVehicle") {
