@@ -179,8 +179,15 @@ export class SR5_CharacterUtility extends Actor {
       for (let key of Object.keys(lists.penaltyTypes)) {
         data.penalties[key].actual.value = 0;
         data.penalties[key].actual.modifiers = [];
-        data.penalties[key].minimum.value = 0;
-        data.penalties[key].minimum.modifiers = [];
+        if (data.penalties[key].damageReduction){
+          data.penalties[key].damageReduction.value = 0;
+          data.penalties[key].damageReduction.modifiers = [];
+        }
+        if (data.penalties[key].step){
+          data.penalties[key].step.base = 3;
+          data.penalties[key].step.value = 0;
+          data.penalties[key].step.modifiers = [];
+        }
       }
     }
 

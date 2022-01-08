@@ -465,11 +465,6 @@
               "value": 0,
               "base": 0,
               "modifiers": []
-            },
-            "minimum": {
-              "base": 0,
-              "value": 0,
-              "modifiers": []
             }
           },
           "magic": {
@@ -477,22 +472,12 @@
               "value": 0,
               "base": 0,
               "modifiers": []
-            },
-            "minimum": {
-              "base": 0,
-              "value": 0,
-              "modifiers": []
             }
           },
           "special": {
             "actual": {
               "value": 0,
               "base": 0,
-              "modifiers": []
-            },
-            "minimum": {
-              "base": 0,
-              "value": 0,
               "modifiers": []
             }
           }
