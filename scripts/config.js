@@ -443,6 +443,16 @@ SR5.weaponModesAbbreviated = {
   fullyAutomatic            : "SR5.WeaponModeFAShort",
 };
 
+SR5.weaponModesCode = {
+  SS                        : "SR5.WeaponModeSSShort",
+  SA                        : "SR5.WeaponModeSAShort",
+  SB                        : "SR5.WeaponModeSBShort",
+  BF                        : "SR5.WeaponModeBFShort",
+  LB                        : "SR5.WeaponModeLBShort",
+  FAs                       : "SR5.WeaponModeFA",
+  SF                        : "SR5.WeaponModeSF",
+};
+
 // Weapon Ranges
 SR5.weaponRanges ={
   short                     : "SR5.WeaponRangeShort",

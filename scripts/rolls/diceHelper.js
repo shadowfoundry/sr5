@@ -115,7 +115,7 @@ export class SR5_DiceHelper {
             case "FAc":
                 return 10;
             case "SF":
-                return 20;
+                return 0;
             default: return 0;
         }
     }

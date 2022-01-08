@@ -1,3 +1,4 @@
+{{#if (ne firingMode 'SF')}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.AttackFiringMode'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-PaddingRight10">
@@ -14,3 +15,4 @@
         <input disabled type="number" class="" name="dicePoolModDefenseFiringMode" value="{{incomingFiringMode}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{/if}}
