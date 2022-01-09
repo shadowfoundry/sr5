@@ -272,7 +272,14 @@ export class SR5_Dice {
 						//Update combatant if Active defense or full defense is used.
 						if (dialogData.dicePoolMod.defenseFull || (dialogData.activeDefenseMode !== "none")){
 							let initModifier = 0;
-							if (dialogData.dicePoolMod.defenseFull) initModifier += -10;
+							if (dialogData.dicePoolMod.defenseFull){
+								let fullDefenseEffect = realActor.effects.find(e => e.data.origin === "fullDefense");
+								let isInFullDefense = (fullDefenseEffect) ? true : false;
+								if (!isInFullDefense){
+									initModifier += -10;
+									SR5_DiceHelper.applyFullDefenseEffect(realActor);
+								}
+							}
 							if (dialogData.activeDefenseMode) initModifier += SR5_DiceHelper.convertActiveDefenseToInitModifier(dialogData.activeDefenseMode);
 							if (initModifier < 0) SR5Combat.changeInitInCombat(realActor, initModifier);
 						}

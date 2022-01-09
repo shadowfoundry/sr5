@@ -1,6 +1,7 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utility.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
+import { _getSRStatusEffect } from "../system/effectsList.js"
 import { SR5_Dice } from "./dice.js";
 
 
@@ -559,5 +560,10 @@ export class SR5_DiceHelper {
             default:
                 return 0;
         }
+    }
+
+    static async applyFullDefenseEffect(actor){
+        let effect = await _getSRStatusEffect("fullDefenseMode");
+        actor.createEmbeddedDocuments("ActiveEffect", [effect]);
     }
 }

@@ -1049,6 +1049,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.actor .window-content .SR-Editor .tox-sidebar-wrap {
   min-height: 200px;
 }
+.app.window-app.actor .window-content .SR-Editor.grunteditor .tox-sidebar-wrap {
+  min-height: 425px;
+}
 /* ----------------------------------------- */
 /* Images
 /* ----------------------------------------- */
@@ -3530,6 +3533,12 @@ input[type=range]:focus::-ms-fill-upper {
   flex-wrap: wrap;
   height: auto;
 }
+.app.window-app.scene-sheet nav.sheet-tabs.tabs a:not(:first-child) {
+  margin-left: 10px;
+}
+.app.window-app.scene-sheet form .form-group .form-fields button {
+  flex: 0 0 35px;
+}
 .app.window-app.journal-sheet .window-content {
   background-image: url("../img/ui/SR6_BG_NoteTop.png"), url("../img/ui/SR6_BG_NoteBottom.png"), url("../img/ui/SR6_BG_Blanc.jpg");
   background-size: auto 80px, auto 80px, cover;
@@ -4440,6 +4449,9 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-tracker li.combatant .token-name .combatant-control.active {
   color: #839c88;
 }
+#combat #combat-tracker li.combatant .token-name .token-effect {
+  height: 23px;
+}
 #combat #combat-tracker li.combatant .token-name img.token-effect {
   width: 23px;
   height: 23px;
@@ -5020,4 +5032,35 @@ input[type=range]:focus::-ms-fill-upper {
   padding: 3px 8px;
   font-size: 1.5em;
   margin: 20px 0 12px 0;
+}
+.SR-Editor .editor .editor-edit {
+  background: transparent;
+  color: white;
+}
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord {
+  background-color: transparent;
+}
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary {
+  background: none;
+  background-color: transparent;
+  box-shadow: none;
+  border-bottom: 1px solid #839c88;
+}
+.SR-Editor .editor .tox .tox-tbtn {
+  color: #000001;
+  border-radius: 1px;
+  height: 25px;
+}
+.SR-Editor .editor .tox .tox-tbtn svg {
+  fill: rgba(0, 0, 1, 0.5);
+}
+.SR-Editor .editor .tox .tox-tbtn:hover {
+  background: rgba(131, 156, 136, 0.25);
+  color: #000001;
+}
+.SR-Editor .editor .tox .tox-tbtn:hover svg {
+  fill: #000001;
+}
+.SR-Editor .editor .editor-content {
+  overflow-y: inherit;
 }

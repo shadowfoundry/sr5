@@ -105,6 +105,7 @@ export default class SR5_RollDialog extends Dialog {
         this.limitModifier = {};
         this.drainModifier = {};
         this.fadingModifier = {};
+        let actor = this.data.data.actor;
 
         if (html.find('[name="matrixSceneNoiseValue"]')[0]) this.updateMatrixNoise(html);
         this.updateDicePoolValue(html);
@@ -210,6 +211,17 @@ export default class SR5_RollDialog extends Dialog {
         });
 
         // Full Defense modifiers
+        if (html.find(".fullDefense")){
+            let fullDefenseEffect = actor.effects.find(e => e.origin === "fullDefense");
+			let isInFullDefense = (fullDefenseEffect) ? true : false;
+            if (isInFullDefense){
+                html.find('[name="fullDefense"]')[0].value = this.data.data.defenseFull;
+                html.find('[name="dicePoolModFullDefense"]')[0].value = this.data.data.defenseFull;
+                this.data.data.dicePoolMod.defenseFull = this.data.data.defenseFull;
+                this.dicePoolModifier.fullDefense = this.data.data.defenseFull;
+                this.updateDicePoolValue(html);
+            }
+        }
         html.find(".fullDefense").change(ev => {
             html.find('[name="dicePoolModFullDefense"]')[0].value = (parseInt(ev.target.value) || 0);
             this.data.data.dicePoolMod.defenseFull = (parseInt(ev.target.value) || 0);
