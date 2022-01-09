@@ -127,7 +127,7 @@
         <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">{{localize 'SR5.Defend'}}</button>
       {{/if}}
 
-      {{#if button.spell}}
+      {{#if (and button.spell (or (eq typeSub "indirect") (eq typeSub "direct")) ) }}
         <button class="messageAction {{testType}}" data-action="{{testType}}" data-type="{{chatActionType}}">
           {{#ife typeSub "indirect"}}{{localize 'SR5.Defend'}}{{/ife}}
           {{#ife typeSub "direct"}}{{localize 'SR5.ResistDirectSpell'}}{{/ife}}
