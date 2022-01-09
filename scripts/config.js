@@ -960,12 +960,11 @@ SR5.spellTypesShort = {
 SR5.spellCombatTypes = {
   direct                    : "SR5.CombatSpellTypeDirect",
   indirect                  : "SR5.CombatSpellTypeIndirect",
-  elemental                 : "SR5.CombatSpellTypeElemental",
 };
+
 SR5.spellCombatTypesShort = {
   direct                    : "SR5.CombatSpellTypeDirectShort",
   indirect                  : "SR5.CombatSpellTypeIndirectShort",
-  elemental                 : "SR5.CombatSpellTypeElementalShort",
 };
 
 // Type de durées de sort

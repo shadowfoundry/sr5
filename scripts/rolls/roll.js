@@ -31,7 +31,8 @@ export class SR5_Roll {
             backgroundCount,
             backgroundAlignement, 
             sceneNoise,
-            sceneEnvironmentalMod;
+            sceneEnvironmentalMod,
+            originalMessage;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -94,6 +95,8 @@ export class SR5_Roll {
             if (backgroundAlignement === actorData.magic?.tradition) backgroundCount = 0;
             else backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
         }
+
+        if (chatData) originalMessage = chatData.originalMessage
 
         switch (rollType){
             case "attribute":
@@ -897,6 +900,7 @@ export class SR5_Roll {
             typeSub: typeSub,
             testType: testType,
             button: {},
+            originalMessage: originalMessage,
         };
 
         if (item) {

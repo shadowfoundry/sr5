@@ -258,7 +258,7 @@ export class ActorSheetSR5 extends ActorSheet {
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     let newItem = item.toObject();
-    if (newItem.data.accessory.length) newItem.data.accessory = [];
+    if (newItem.data.accessory?.length) newItem.data.accessory = [];
     SR5_SystemHelpers.srLog(2, `Creating a new clone of item '${item.name}'`, item);
     return this.actor.createEmbeddedDocuments("Item", [newItem]);
   }
@@ -381,9 +381,11 @@ export class ActorSheetSR5 extends ActorSheet {
   async _onEditItemValue(event) {
     let id = $(event.currentTarget).parents(".item").attr("data-item-id");
     let target = $(event.currentTarget).attr("data-binding");
-    let original = this.actor.items.get(id);
-    let item = original.toObject(false);
-    
+    let actor = this.actor.toObject(false);
+    let actorData = actor.data;
+    let itemList = duplicate(this.actor.items);
+    let item = itemList.find((i) => i._id === id);
+
     let value = event.target.value;
     if ($(event.currentTarget).attr("data-dtype") === "Number")
       value = Number(event.target.value);
@@ -395,19 +397,27 @@ export class ActorSheetSR5 extends ActorSheet {
 
     //Spécial, pour les decks, désactiver les autres decks lorsque l'un d'entre eux et équipé
     if (item.type === "itemDevice" && target !== "data.conditionMonitors.matrix.current") {
-      for (let otherItem of this.actor.items) {
-        if (otherItem.type === "itemDevice") {
-          await otherItem.update({ "data.isActive": false });
-        }
+      for (let otherItem of itemList) {
+        if (otherItem.type === "itemDevice" && (otherItem._id !== id)) otherItem.data.isActive = false;
       }
+      
+      for (let key of Object.keys(actorData.matrix.attributes)){
+        actorData.matrix.attributes[key].base = 0;
+      }
+      actorData.matrix.attributesCollection.value1 = 0;
+      actorData.matrix.attributesCollection.value2 = 0;
+      actorData.matrix.attributesCollection.value3 = 0;
+      actorData.matrix.attributesCollection.value4 = 0;
+      actorData.matrix.attributesCollection.value1isSet = false;
+      actorData.matrix.attributesCollection.value2isSet = false;
+      actorData.matrix.attributesCollection.value3isSet = false;
+      actorData.matrix.attributesCollection.value4isSet = false;
     }
 
-    //Spécial, pour les armures, désactiver les autres armures sauf les cumulables.
+    //Special case for armor
     if (target === "data.isActive" && item.type === "itemArmor" && !item.data.isCumulative) {
-      for (let otherItem of this.actor.items) {
-        if (otherItem.type === "itemArmor" && !otherItem.data.data.isCumulative) {
-          await otherItem.update({ "data.isActive": false });
-        }
+      for (let otherItem of itemList) {
+        if (otherItem.type === "itemArmor" && !otherItem.data.isCumulative && (otherItem._id !== id)) otherItem.data.isActive = false;
       }
     }
     
@@ -421,17 +431,22 @@ export class ActorSheetSR5 extends ActorSheet {
 
     if (item.data.accessory?.length){
       for (let a of item.data.accessory){
-        let accessory = this.actor.items.find(i => i.id === a._id);
+        let accessory = itemList.find(i => i._id === a._id);
         if (accessory) {
-          await accessory.update({
-            "data.isActive": item.data.isActive,
-            "data.wirelessTurnedOn": item.data.wirelessTurnedOn,
-          });
+          accessory.data.isActive = item.data.isActive;
+          accessory.data.wirelessTurnedOn = item.data.wirelessTurnedOn;
         }
       }
     }
 
-    this.actor.updateEmbeddedDocuments("Item", [item]);
+      await this.actor.update({
+        "data": actorData,
+        "items": itemList,
+      })
+      if (this.actor.isToken){
+        this.actor.sheet.render();
+      }
+
   }
 
   /* -------------------------------------------- */

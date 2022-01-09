@@ -80,6 +80,8 @@ export class SR5_RollMessage {
         let speaker = ChatMessage.getSpeaker(),
             actor,
             messageData = message.data.flags.sr5data;
+
+        messageData.originalMessage = message
     
         //Opposed test : need to select a Token to operate
         if (action === "opposedTest") {
@@ -131,15 +133,12 @@ export class SR5_RollMessage {
             switch (type) {
                 case "msgTest_attackResistance":
                     actor.rollTest("resistanceCard", null, messageData);
-                    SR5_RollMessage.updateChatButton(message, "resistance");
                     break;
                 case "msgTest_drainResistance":
                     actor.rollTest("drainCard", null, messageData);
-                    SR5_RollMessage.updateChatButton(message, "drainResistance");
                     break;
                 case "msgTest_fadingResistance":
                     actor.rollTest("fadingCard", null, messageData);
-                    SR5_RollMessage.updateChatButton(message, "fadingResistance");
                     break;
                 case "msgTest_damage":
                     actor.takeDamage(messageData);
@@ -147,7 +146,6 @@ export class SR5_RollMessage {
                     break;
                 case "msgTest_matrixResistance":
                     actor.rollTest("matrixResistance", messageData.matrixResistanceType, messageData);
-                    SR5_RollMessage.updateChatButton(message, "matrixResistance");
                     break;
                 case "msgTest_templatePlace":
                     let item = actor.items.get(messageData.item._id);

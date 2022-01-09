@@ -560,6 +560,7 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
+		SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
 	}
 
 	static async addSpellInfoToCard(cardData, author){
@@ -631,6 +632,7 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDrain")}`;
 		}
+		SR5_RollMessage.updateChatButton(cardData.originalMessage, "drainResistance");
 	}
 
 	static async addComplexFormInfoToCard(cardData, author){
@@ -671,6 +673,7 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoFading")}`;
 		}
+		SR5_RollMessage.updateChatButton(cardData.originalMessage, "fadingResistance");
 	}
 
 	static async addMatrixActionInfoToCard(cardData, author){
@@ -773,6 +776,7 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
+		SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
 	}
 	
 	static async addMatrixIceAttackInfoToCard(cardData, author){
