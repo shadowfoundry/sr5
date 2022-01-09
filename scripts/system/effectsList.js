@@ -71,7 +71,7 @@ export const _getSRStatusEffect = async function(origin) {
             break;
         case "acidDamage":
             return effect = {
-                label: game.i18n.localize("SR5.Acid"),
+                label: game.i18n.localize("SR5.ElementalDamageAcid"),
                 origin: "acidDamage",
                 icon: "systems/sr5/img/status/StatusAcidOn.svg",
                 flags: {
@@ -84,13 +84,26 @@ export const _getSRStatusEffect = async function(origin) {
             break;
         case "electricityDamage":
             return effect = {
-                label: game.i18n.localize("SR5.Acid"),
+                label: game.i18n.localize("SR5.ElementalDamageElectricity"),
                 origin: "electricityDamage",
                 icon: "systems/sr5/img/status/StatusElectricityOn.svg",
                 flags: {
                     core: {
                         active: true,
                         statusId: "electricityDamage"
+                    }
+                },
+            }
+            break;
+        case "fullDefenseMode":
+            return effect = {
+                label: game.i18n.localize("SR5.FullDefense"),
+                origin: "fullDefense",
+                icon: "systems/sr5/img/status/StatusFullDefense.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "fullDefense"
                     }
                 },
             }

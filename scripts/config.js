@@ -2230,6 +2230,12 @@ SR5.statusEffects = [
     id: "prone",
     label: "SR5.STATUSES_Prone",
   },
+  {
+    icon: "systems/sr5/img/status/StatusFullDefense.svg",
+    id: "fullDefense",
+    label: "SR5.STATUSES_FullDefense",
+    origin: "fullDefense"
+  },
 ];
 
 CONFIG.statusEffects = SR5.statusEffects;
