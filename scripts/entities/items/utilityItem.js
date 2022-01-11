@@ -318,10 +318,15 @@ export class SR5_UtilityItem extends Actor {
             break;
           case "manual":
             SR5_EntityHelpers.updateModifier(weapon.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.test.dicePool);
+            if (actorData.data.passiveTargeting) weapon.accuracy.base = actorData.data.attributes.sensor.augmented.value;
             break;
           case "remote":
             SR5_EntityHelpers.updateModifier(weapon.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.rating.value, false, true);
             SR5_EntityHelpers.updateModifier(weapon.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.Logic')})`, game.i18n.localize('SR5.ControlMode'), controlerData.attributes.logic.augmented.value, false, true);
+            if (actorData.data.passiveTargeting) {
+              if (actorData.data.attributes.sensor.augmented.value > controlerData.matrix.attributes.dataProcessing.value) weapon.accuracy.base = controlerData.matrix.attributes.dataProcessing.value;
+              else weapon.accuracy.base = actorData.data.attributes.sensor.augmented.value;
+            }
             break;
           case "rigging":
             SR5_EntityHelpers.updateModifier(weapon.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.test.dicePool);
@@ -331,6 +336,7 @@ export class SR5_UtilityItem extends Actor {
               SR5_EntityHelpers.updateModifier(weapon.accuracy, game.i18n.localize('SR5.ControlRig'), game.i18n.localize('SR5.Augmentation'), controlerData.specialProperties.controlRig.value);
             }
             if (controlerData.matrix.userMode === "hotsim") SR5_EntityHelpers.updateModifier(weapon.weaponSkill, game.i18n.localize('SR5.VirtualRealityHotSimShort'), game.i18n.localize('SR5.MatrixUserMode'), 1);
+            if (actorData.data.passiveTargeting) weapon.accuracy.base = actorData.data.attributes.sensor.augmented.value;
             SR5_EntityHelpers.updateValue(weapon.accuracy);
             break;
           default:
@@ -355,8 +361,7 @@ export class SR5_UtilityItem extends Actor {
         }
       }
     }  
-      SR5_EntityHelpers.updateDicePool(weapon.weaponSkill);
-      if (weapon.weaponSkill.dicePool < 0) weapon.weaponSkill.dicePool = 0;
+      SR5_EntityHelpers.updateDicePool(weapon.weaponSkill, 0);
   }
 
   // Reset les modifs d'armes
@@ -372,6 +377,12 @@ export class SR5_UtilityItem extends Actor {
         }
         for (let modifier of actor.data.itemsProperties.weapon.damageValue.modifiers) {
           if (modifier.type === weapon.weaponSkill.category) weapon.damageValue.modifiers = weapon.damageValue.modifiers.concat(modifier);
+        }
+      }
+
+      if (actor.type === "actorDrone"){
+        if (actor.data.controlMode === "manual" && actor.data.passiveTargeting){
+          
         }
       }
     }

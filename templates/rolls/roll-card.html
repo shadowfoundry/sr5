@@ -250,6 +250,16 @@
       {{#if button.catchFire}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_catchFire">{{localize 'SR5.CatchFire'}}</button> 
       {{/if}}
+
+      <!-- SENSOR TARGETING -->
+      {{#if button.sensorTargeting}}
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_sensorDefense">{{localize 'SR5.Defend'}}</button> 
+      {{/if}}
+
+      <!-- SENSOR LOCK TARGET -->
+      {{#if button.targetLocked}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_targetLocked">{{localize 'SR5.SensorLockedTarget'}}</button> 
+      {{/if}}
     </div>
 
   </div>

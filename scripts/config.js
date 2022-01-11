@@ -1402,6 +1402,15 @@ SR5.vehicleActions = {
   stunt                     : "SR5.Stunt",
 }
 
+//Target signature
+SR5.targetSignature = {
+  vehicleLarge              : "SR5.SignatureVehicleLarge",
+  vehicleElectric           : "SR5.SignatureVehicleElectric",
+  metahuman                 : "SR5.SignatureMetahuman",
+  drone                     : "SR5.SignatureDrone",
+  droneMicro                : "SR5.SignatureDroneMicro",
+}
+
 //-----------------------------------//
 //             ESPRITS               //
 //-----------------------------------//
@@ -2124,6 +2133,7 @@ SR5.effectTypes = {
   electricityDamage         : "SR5.ElementalDamage",
   acidDamage                : "SR5.ElementalDamage",
   fireDamage                : "SR5.ElementalDamage",
+  sensorLock                : "SR5.SensorTargetingActive",
 }
 
 SR5.effectDuration = {

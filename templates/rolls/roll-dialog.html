@@ -150,6 +150,16 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
       {{/if}}
 
+      <!-- SIGNATURE TARGETING -->
+      {{#ife type "activeSensorTargeting"}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/signature.html}}
+      {{/ife}}
+
+      <!-- SENSOR LOCK -->
+      {{#if switch.isSensorLocked}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html}}
+      {{/if}}
+
       <!-- LIMIT -->
       {{#if limit}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
@@ -159,6 +169,7 @@
       {{#if (and (eq type "attack") (eq typeSub "rangedWeapon") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}
       {{/if}}
+
     </ul>
   </div>
 

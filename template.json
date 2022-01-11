@@ -4799,6 +4799,7 @@
           "modifiers": []
         }
       },
+      "passiveTargeting": false,
       "creatorId": "",
       "creatorItemId": ""
     },

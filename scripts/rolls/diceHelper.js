@@ -248,11 +248,11 @@ export class SR5_DiceHelper {
 
     // Update Matrix Damage to a Deck
     static async updateMatrixDamage(cardData, netHits, defender){
-        let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.matrixActionAuthor),
+        let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
             attackerData = attacker?.data.data,
             damage = cardData.matrixDamageValueBase,
             mark = 0,
-            markItem = defender.items.find((i) => i.data.owner === cardData.matrixActionAuthor);
+            markItem = defender.items.find((i) => i.data.owner === cardData.originalActionAuthor);
 
         cardData.matrixDamageMod = {};
         cardData.matrixDamageMod.netHits = netHits;
@@ -518,6 +518,24 @@ export class SR5_DiceHelper {
         }
     }
 
+    //create sensor lock effect
+    static async lockTarget(messageData, drone, target){
+        let value = messageData.test.hits - messageData.hits;
+        let effect = {
+            name: game.i18n.localize("SR5.EffectSensorLock"),
+            type: "itemEffect",
+            "data.type": "sensorLock",
+            "data.ownerID": drone.data._id,
+            "data.ownerName": drone.name,
+            "data.duration": "permanent",
+            "data.target": game.i18n.localize("SR5.Defense"),
+            "data.value": value,
+        };
+        target.createEmbeddedDocuments("Item", [effect]);
+        let statusEffect = await _getSRStatusEffect("sensorLock");
+        await target.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
+    }
+
     //Handle environmental modifiers
     static handleEnvironmentalModifiers(scene, actor, melee){
         let actorData = actor.itemsProperties.environmentalMod;
@@ -557,6 +575,24 @@ export class SR5_DiceHelper {
                 return -6;
             case 4:
                 return -10;
+            default:
+                return 0;
+        }
+    }
+
+    //Get signature modifier
+    static convertSignatureToDicePoolMod(signature){
+        switch (signature){
+            case "vehicleLarge":
+                return 3;
+            case "vehicleElectric":
+                return -3;
+            case "metahuman":
+                return -3;
+            case "drone":
+                return -3;
+            case "droneMicro":
+                return -6;
             default:
                 return 0;
         }

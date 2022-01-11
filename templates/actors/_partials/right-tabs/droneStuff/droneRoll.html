@@ -1,0 +1,32 @@
+<!-- DRONE STUFF -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-10 SR-TextUppercase">{{localize 'SR5.VehicleActions'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
+			<div class="col-1">{{localize 'SR5.Limit'}}</div>
+		</li>
+        <li class="grid">
+            <div class="col-10">{{localize 'SR5.VehicleTest'}}</div>
+            <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="vehicleTest" data-rollkey="vehicleTest"
+            data-helpTitle="{{localize 'SR5.VehicleTest'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTestMsg'}}" data-helpDetails="data.vehicleTest.test">
+                {{data.vehicleTest.test.dicePool}}
+            </div>
+            <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.Limit'}}"
+              data-helpDetails="data.vehicleTest.limit">
+                {{data.vehicleTest.limit.value}}
+            </div>
+        </li>
+        <li class="grid">
+            <div class="col-10">{{localize 'SR5.SensorTargetingActive'}}</div>
+            <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="activeSensorTargeting" data-rollkey="activeSensorTargeting"
+              data-helpTitle="{{localize 'SR5.SensorTargetingActive'}}" data-helpMessage="{{localize 'SR5.HELP_SensorTargetingActive'}}" data-helpDetails="data.skills.perception.test">
+                {{data.skills.perception.test.dicePool}}
+            </div>
+            <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.Limit'}}"
+            data-helpDetails="data.skills.perception.limit">
+                {{data.skills.perception.limit.value}}
+            </div>
+        </li>
+	</ul>
+</div>

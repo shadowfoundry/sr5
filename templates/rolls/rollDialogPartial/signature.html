@@ -1,0 +1,16 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.TargetSize'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-PaddingRight10">
+        <select class="" name="signatureSize">
+            {{#select signatureSize}}
+                <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.targetSignature}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModSignature" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

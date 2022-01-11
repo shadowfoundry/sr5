@@ -239,7 +239,6 @@ export default class SR5_RollDialog extends Dialog {
         // Environmental modifier 
         if (html.find('[name="dicePoolModEnvironmental"]')[0]){
             this.dicePoolModifier.environmental = parseInt((html.find('[name="dicePoolModEnvironmental"]')[0].value || 0));
-            //this.data.data.dicePoolMod.defenseCumulative = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
             this.updateDicePoolValue(html);
         }
 
@@ -446,5 +445,21 @@ export default class SR5_RollDialog extends Dialog {
             this.updateDicePoolValue(html);
             this.updateLimitValue(html);
         });
+
+        //signature
+        html.find('[name="signatureSize"]').change(ev => {
+            let modifier = SR5_DiceHelper.convertSignatureToDicePoolMod(ev.target.value);
+            this.dicePoolModifier.signatureType = modifier;
+            this.data.data.signatureType = ev.target.value;
+            this.data.data.dicePoolMod.signatureType = modifier;
+            html.find('[name="dicePoolModSignature"]')[0].value = modifier;
+            this.updateDicePoolValue(html);
+        });
+
+        //Locked by sensor
+        if (html.find('[name="sensorLockMod"]')[0]){
+            this.dicePoolModifier.sensorLockMod = parseInt((html.find('[name="sensorLockMod"]')[0].value || 0));
+            this.updateDicePoolValue(html);
+        }
     }
 }
