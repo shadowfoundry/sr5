@@ -108,6 +108,19 @@ export const _getSRStatusEffect = async function(origin) {
                 },
             }
             break;
+        case "sensorLock":
+            return effect = {
+                label: game.i18n.localize("SR5.EffectSensorLock"),
+                origin: "sensorLock",
+                icon: "systems/sr5/img/status/StatusSensorLock.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "sensorLock"
+                    }
+                },
+            }
+            break;
         default: return null
     }
 }

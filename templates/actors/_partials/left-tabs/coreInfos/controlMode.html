@@ -44,23 +44,22 @@
         </li>
         <li class="grid">
             <div class="col-10">{{localize 'SR5.Vehicle_RI_S'}}</div>
-            <div class="col-1" data-helpTitle="{{localize 'SR5.HELP_VehicleRiggerInterface'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleRiggerInterfaceMsg'}}">
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_VehicleRiggerInterface'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleRiggerInterfaceMsg'}}">
                 <input type="checkbox" name="data.riggerInterface" data-dtype="Boolean" {{checked data.riggerInterface}}>
             </div>
         </li>
         {{#ifne data.vehicleOwner.id ""}}
         <li class="grid">
             <div class="col-10">{{localize 'SR5.DEVICE_TYPE_SlavedDevice_F'}}</div>
-            <div class="col-1" data-helpTitle="{{localize 'SR5.HELP_VehicleSlaved'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleSlavedMsg'}}">
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_VehicleSlaved'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleSlavedMsg'}}">
                 <input type="checkbox" name="data.slaved" data-dtype="Boolean" {{checked data.slaved}}>
             </div>
         </li>
         {{/ifne}}
         <li class="grid">
-            <div class="col-10">{{localize 'SR5.VehicleTest'}}</div>
-            <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="vehicleTest" data-rollkey="vehicleTest"
-            data-helpTitle="{{localize 'SR5.VehicleTest'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTestMsg'}}" data-helpDetails="data.vehicleTest.test">
-                {{data.vehicleTest.test.dicePool}}
+            <div class="col-10">{{localize 'SR5.SensorTargetingPassive'}}</div>
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.SensorTargetingPassive'}}" data-helpMessage="{{localize 'SR5.HELP_SensorTargetingPassiveMsg'}}">
+                <input type="checkbox" name="data.passiveTargeting" data-dtype="Boolean" {{checked data.passiveTargeting}}>
             </div>
         </li>
     </ul>

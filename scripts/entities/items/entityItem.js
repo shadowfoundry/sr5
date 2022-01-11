@@ -41,8 +41,8 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleWeaponAccessory(data, owner);
         SR5_UtilityItem._handleWeaponAmmunition(data);
         SR5_UtilityItem._generateWeaponRange(data, owner);
-        SR5_UtilityItem._generateWeaponDamage(data, owner);
         SR5_UtilityItem._generateWeaponDicepool(itemData, owner);
+        SR5_UtilityItem._generateWeaponDamage(data, owner);
         data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         SR5_UtilityItem._handleItemPrice(data);

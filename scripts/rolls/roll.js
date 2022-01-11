@@ -431,7 +431,7 @@ export class SR5_Roll {
                 optionalData = {
                     hits: chatData.test.hits,
                     iceType: chatData.typeSub,
-                    matrixActionAuthor: chatData?.matrixActionAuthor,
+                    originalActionAuthor: chatData?.originalActionAuthor,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     mark: chatData?.mark,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
@@ -497,7 +497,7 @@ export class SR5_Roll {
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     hits: chatData?.test.hits,
-                    matrixActionAuthor: chatData?.matrixActionAuthor,
+                    originalActionAuthor: chatData?.originalActionAuthor,
                     mark: chatData?.mark,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                 }
@@ -512,7 +512,7 @@ export class SR5_Roll {
                     matrixDamageValue: chatData.matrixDamageValue,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     damageType: chatData.damageType,
-                    matrixActionAuthor: chatData.matrixActionAuthor,
+                    originalActionAuthor: chatData.originalActionAuthor,
                 }
                 break;
 
@@ -618,6 +618,15 @@ export class SR5_Roll {
                 if (chatData.type === "spell"){
                     optionalData = mergeObject(optionalData,{
                         damageSource: "spell",
+                    });
+                }
+
+                //Handle sensor locked
+                let sensorLocked = actor.items.find(i => (i.type === "itemEffect") && (i.data.data.type === "sensorLock") && (i.data.data.ownerID === chatData.speakerId) );
+                if(sensorLocked){
+                    optionalData = mergeObject(optionalData, {
+                        "dicePoolMod.sensorLockMod": sensorLocked.data.data.value,
+                        "switch.isSensorLocked": true,
                     });
                 }
 
@@ -881,8 +890,29 @@ export class SR5_Roll {
                 dicePool = actorData.vehicleTest.test.dicePool;
                 limit = actorData.vehicleTest.limit.value;
                 break;
-            default:
 
+            case "activeSensorTargeting":
+                title = `${game.i18n.localize("SR5.SensorTargeting")}`;
+                dicePool = actorData.skills.perception.test.dicePool;
+                limit = actorData.skills.perception.limit.value;
+                break;
+
+            case "activeSensorDefense":
+                title = `${game.i18n.localize("SR5.SensorDefense")}`;
+                if (actor.type === "actorDrone"){
+                    dicePool = actorData.skills.sneaking.test.dicePool;
+                    limit = actorData.skills.sneaking.limit.value;
+                } else {
+                    dicePool = actorData.skills.sneaking.test.dicePool;
+                    limit = actorData.limits.physicalLimit.value;
+                }
+
+                optionalData = {
+                    originalActionAuthor: chatData.originalActionAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
+            default:
         }
 
         let dialogData = {

@@ -176,6 +176,9 @@ export const preloadHandlebarsTemplates = async function () {
 
     //Right Tab - Effects partials
     "systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html",
+
+    //Right Tab - Drone
+    "systems/sr5/templates/actors/_partials/right-tabs/droneStuff/droneRoll.html",
     
 
     /************************************************************************************* */
@@ -433,6 +436,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/drainBase.html",
     "systems/sr5/templates/rolls/rollDialogPartial/recklessSpellcasting.html",
     "systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/signature.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html",
 
 
     /************************************************************************************* */
