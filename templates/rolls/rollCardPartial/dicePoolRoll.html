@@ -132,7 +132,7 @@
 <!--Matrix Range Noise mod Dicepool-->
 {{#if (isdefined dicePoolMod.matrixNoiseRange)}}
 <li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.MatrixNoise'}} ({{findTranslation 'matrixNoiseDistance' noiseRange}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.MatrixNoise'}} ({{findTranslation 'matrixNoiseDistance' matrixNoiseRange}}){{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseRange}}</div>
 </li>
 {{/if}}
@@ -148,6 +148,20 @@
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.NoiseReduction'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseReduction}}</div>
+</li>
+{{/if}}
+<!--Public Grid modifiers-->
+{{#if (and (isdefined dicePoolMod.publicGrid) (lt dicePoolMod.publicGrid 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.GridPublicOn'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.publicGrid}}</div>
+</li>
+{{/if}}
+<!--Grid modifiers-->
+{{#if (and (isdefined dicePoolMod.differentGrid) (lt dicePoolMod.differentGrid 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.GridTargetDifferent'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.differentGrid}}</div>
 </li>
 {{/if}}
 <!--Perception type mod Dicepool-->

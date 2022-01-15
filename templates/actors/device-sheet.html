@@ -16,6 +16,13 @@
 					{{#if (eq data.matrix.deviceType 'ice')}}
 					{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
 					{{/if}}
+					<div class="SRBlockSheet">
+						<ul>
+							<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
+						</ul>
+					</div>
 					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
 					</div>
 				</div>

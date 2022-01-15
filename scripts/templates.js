@@ -97,7 +97,6 @@ export const preloadHandlebarsTemplates = async function () {
     //Left Tab - Matrix user partials
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/noDevice.html",
-    "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/userMode.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/collection.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/noiseReduction.html",
@@ -111,6 +110,9 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixPrograms.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixInit.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html",
 
     //Left Tab - Qualities partials
     "systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html",
@@ -438,6 +440,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html",
     "systems/sr5/templates/rolls/rollDialogPartial/signature.html",
     "systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html",
 
 
     /************************************************************************************* */

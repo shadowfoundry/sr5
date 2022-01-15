@@ -444,38 +444,46 @@ export class SR5_Roll {
                 limit = matrixAction.limit.value;
                 typeSub = rollKey;
                 if (matrixAction.defense.dicePool) testType = "opposedTest";
+                if (actorData.matrix.userGrid === "public"){
+                    optionalData = mergeObject(optionalData, {
+                        "switch.publicGrid": true,
+                    });
+                }
                 
                 //Check target's Marks before rolling if a target is selected.
-                if (game.user.targets.size && matrixAction.neededMarks > 0) {
-                    let attaquantID;
-                    if (this.token) attaquantID = this.token.data.id;
-                    else attaquantID = this.data.id;
+                if (game.user.targets.size) {
                     const targeted = game.user.targets;
                     const cibles = Array.from(targeted);
                     for (let t of cibles) {
-                        let markItem = t.actor.data.items.find((i) => i.data.owner === attaquantID);
-                        if (markItem === undefined || markItem?.value < matrixAction.neededMarks) {
-                            ui.notifications.info(game.i18n.localize("SR5.NotEnoughMarksOnTarget"));
-                            return;
+                        optionalData = mergeObject(optionalData, {
+                            targetGrid: t.actor.data.data.matrix.userGrid,
+                        });
+                        if (matrixAction.neededMarks > 0){
+                            let markItem = t.actor.data.items.find((i) => i.data.owner === speakerId);
+                            if (markItem === undefined || markItem?.value < matrixAction.neededMarks) {
+                                ui.notifications.info(game.i18n.localize("SR5.NotEnoughMarksOnTarget"));
+                                return;
+                            }
                         }
                     }
                 }
 
-                optionalData = {
+                optionalData = mergeObject(optionalData, {
                     limitType: matrixAction.limit.linkedAttribute,
                     chatActionType: "msgTest_matrixDefense",
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
+                    matrixNoiseRange: "wired",
+                    matrixNoiseScene: sceneNoise,
                     "dicePoolMod.matrixNoiseScene": sceneNoise,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
-                }
+                });
                 
                 if (typeSub === "dataSpike"){
                     optionalData = mergeObject(optionalData, {
                         matrixDamageValueBase: actorData.matrix.attributes.attack.value,
                     });
                 }
-
                 break;
 
             case "matrixSimpleDefense":
@@ -526,8 +534,6 @@ export class SR5_Roll {
                     chatActionType: "msgTest_resonanceDefense",
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
-                    "dicePoolMod.matrixNoiseScene": sceneNoise,
-                    "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                 }
                 break;
 
@@ -806,6 +812,12 @@ export class SR5_Roll {
                     defenseMatrixAttribute: itemData.defenseMatrixAttribute,
                     "dicePoolMod.matrixNoiseScene": sceneNoise,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
+                }
+
+                if (actorData.matrix.userGrid === "public"){
+                    optionalData = mergeObject(optionalData, {
+                        "switch.publicGrid": true,
+                    });
                 }
                 break;
             

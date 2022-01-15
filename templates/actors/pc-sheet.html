@@ -37,7 +37,15 @@
 						<div class="tab" data-group="gauche" data-tab="tab-deck">
 							{{#if data.matrix.deviceName}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/userMode.html}}
+							<div class="SRBlockSheet">
+								<ul>
+									<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
+									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
+									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixInit.html}}
+									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
+								</ul>
+							</div>
+							
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixPrograms.html}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/overwatchScore.html}}

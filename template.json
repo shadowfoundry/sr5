@@ -3095,6 +3095,7 @@
       "matrixUsageTemplate": {
         "matrix": {
           "userMode": "ar",
+          "userGrid": "local",
           "attributesCollection": {
             "value1": 0,
             "value2": 0,

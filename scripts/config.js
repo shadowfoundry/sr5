@@ -1336,6 +1336,14 @@ SR5.matrixNoiseDistance = {
   farAway                   : "SR5.MatrixDistanceGreater",
 }
 
+//Matrix grid
+SR5.gridTypes = {
+  public                    :"SR5.GridPublic",
+  local                     :"SR5.GridLocal",
+  global                    :"SR5.GridGlobal",
+  host                      :"SR5.GridHost",
+}
+
 //-----------------------------------//
 //            VEHICULES              //
 //-----------------------------------//
@@ -2172,7 +2180,7 @@ SR5.itemTypes = {
   itemAmmunition            : "ITEM.TypeItemammunition",
   itemComplexForm           : "ITEM.TypeItemcomplexform",
   itemContact               : "ITEM.TypeItemcontact",
-  itemDevice                : "ITEM.TypeitemDevice",
+  itemDevice                : "ITEM.TypeItemdevice",
   itemEcho                  : "ITEM.TypeItemecho",
   itemFocus                 : "ITEM.TypeItemfocus",
   itemGear                  : "ITEM.TypeItemgear",

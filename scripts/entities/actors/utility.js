@@ -373,7 +373,6 @@ export class SR5_CharacterUtility extends Actor {
           data.matrix.actions[key].defense.dicePool = 0;
           data.matrix.actions[key].defense.modifiers = [];
         }
-      }
 
       // Reset Resonance Actions
       if (data.matrix.resonanceActions) {
@@ -391,6 +390,12 @@ export class SR5_CharacterUtility extends Actor {
 
       // Reset Concentration
       data.matrix.concentration = false;
+      }
+      
+      //Reset public grid if Grid rules are not active
+      if (!game.settings.get("sr5", "sr5MatrixGridRules")){
+        data.matrix.userGrid = "local";
+      }
     }
 
     if (data.magic) {

@@ -4691,6 +4691,9 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
   border-bottom: 1px solid #931004;
 }
+.dialog .window-content .dialog-content .SR5jet {
+  height: auto;
+}
 .dialog .window-content .dialog-content .SR5jet input {
   background: none;
   color: #000001;
