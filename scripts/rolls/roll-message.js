@@ -280,6 +280,7 @@ export class SR5_RollMessage {
 
     //Update the stat of a chatMessage button
     static updateChatButton(message, buttonToUpdate){
+        if (message.data.flags.sr5data.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
         let newMessage = duplicate(message.data.flags.sr5data);
         newMessage.button[buttonToUpdate] = !newMessage.button[buttonToUpdate];
         switch (buttonToUpdate) {
