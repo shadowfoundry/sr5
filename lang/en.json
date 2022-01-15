@@ -1254,6 +1254,8 @@
   "SR5.SETTINGS.LoggingLevelError"            : "Errors only",
   "SR5.SETTINGS.LoggingLevelInfo"             : "Informations (including errors and warnings)",
   "SR5.SETTINGS.LoggingLevelWarning"          : "Warnings (including errors)",
+  "SR5.SETTINGS_MatrixGridRules_T"            : "Use Matrix Grids",
+  "SR5.SETTINGS_MatrixGridRules_D"            : "Activate or desactivate Matrix grid rules (Core rulebook, p.233-234)",
   "SR5.SETTINGS_AstralOverlay_T"              : "Astral perception overlay",
   "SR5.SETTINGS_AstralOverlay_D"              : "Activate vision color overlay of token using astral perception",
   "SR5.SETTINGS_DevLogActive_D"               : "Display Shadowrun 5 system development messages in the browser/app console.",

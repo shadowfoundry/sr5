@@ -373,7 +373,6 @@ export class SR5_CharacterUtility extends Actor {
           data.matrix.actions[key].defense.dicePool = 0;
           data.matrix.actions[key].defense.modifiers = [];
         }
-      }
 
       // Reset Resonance Actions
       if (data.matrix.resonanceActions) {
@@ -391,6 +390,12 @@ export class SR5_CharacterUtility extends Actor {
 
       // Reset Concentration
       data.matrix.concentration = false;
+      }
+      
+      //Reset public grid if Grid rules are not active
+      if (!game.settings.get("sr5", "sr5MatrixGridRules")){
+        data.matrix.userGrid = "local";
+      }
     }
 
     if (data.magic) {
@@ -2536,12 +2541,6 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.sleaze.value );
     matrixActions.checkOverwatchScore.defense.base = 6;
-
-    // handle public grid penalty
-    if (matrix.userGrid === "public"){
-      SR5_EntityHelpers.updateModifier(data.penalties.matrix.actual, `${game.i18n.localize('SR5.Grid')}`, `${game.i18n.localize('SR5.GridPublic')}`, -2);
-      SR5_CharacterUtility.updatePenalties(actor);
-    }
 
     // handle final calculation
     for (let key of Object.keys(lists.matrixActions)) {

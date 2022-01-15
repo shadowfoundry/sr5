@@ -2180,7 +2180,7 @@ SR5.itemTypes = {
   itemAmmunition            : "ITEM.TypeItemammunition",
   itemComplexForm           : "ITEM.TypeItemcomplexform",
   itemContact               : "ITEM.TypeItemcontact",
-  itemDevice                : "ITEM.TypeitemDevice",
+  itemDevice                : "ITEM.TypeItemdevice",
   itemEcho                  : "ITEM.TypeItemecho",
   itemFocus                 : "ITEM.TypeItemfocus",
   itemGear                  : "ITEM.TypeItemgear",

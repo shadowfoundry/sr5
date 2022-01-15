@@ -1254,6 +1254,8 @@
   "SR5.SETTINGS.LoggingLevelError"            : "Erreurs uniquement",
   "SR5.SETTINGS.LoggingLevelInfo"             : "Informations (erreurs et avertissements inclus)",
   "SR5.SETTINGS.LoggingLevelWarning"          : "Avertissements (erreurs incluses)",
+  "SR5.SETTINGS_MatrixGridRules_T"            : "Utiliser les Grilles matricielles",
+  "SR5.SETTINGS_MatrixGridRules_D"            : "Activer ou désactiver les règles de gestion des Grilles pour la Matrice (Livre de base, p.234-235).",
   "SR5.SETTINGS_AstralOverlay_T"              : "Overlay de Perception astrale",
   "SR5.SETTINGS_AstralOverlay_D"              : "Activer la surcouche de couleur si le token est en Perception astrale",
   "SR5.SETTINGS_DevLogActive_D"               : "Afficher les messages de développement du système Shadowrun 5 dans la console du navigateur ou de l'application.",

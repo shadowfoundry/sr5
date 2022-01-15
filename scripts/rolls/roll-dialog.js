@@ -69,10 +69,24 @@ export default class SR5_RollDialog extends Dialog {
             noiseReduction = 0;
         if (html.find('[name="matrixRange"]')[0].value === 'wired') {
             $(html).find(".hideMatrixNoise").hide();
+            if(game.settings.get("sr5", "sr5MatrixGridRules")){
+                this.dicePoolModifier.differentGrid = 0;
+                this.data.data.dicePoolMod.differentGrid = 0;
+                if (html.find('[name="publicGridMod"]')[0]){
+                    this.dicePoolModifier.publicGrid = 0;
+                    this.data.data.dicePoolMod.publicGrid = 0;
+                    html.find('[name="publicGridMod"]')[0].value = 0;
+                }
+            }
         } else {
             $(html).find(".hideMatrixNoise").show();
             noiseRangeMod = SR5_DiceHelper.convertMatrixDistanceToDiceMod(html.find('[name="matrixRange"]')[0].value);
-            sceneNoise = this.data.data.dicePoolMod.matrixNoiseScene;  
+            if (html.find('[name="publicGridMod"]')[0] && game.settings.get("sr5", "sr5MatrixGridRules")){
+                this.dicePoolModifier.publicGrid = -2;
+                this.data.data.dicePoolMod.publicGrid = -2;
+                html.find('[name="publicGridMod"]')[0].value = -2;
+            }
+            sceneNoise = this.data.data.matrixNoiseScene;  
             noiseReduction = this.data.data.actor.data.matrix.attributes.noiseReduction.value;
             if (noiseReduction > (-noiseRangeMod - sceneNoise)) noiseReduction = (-noiseRangeMod - sceneNoise);
             if ((noiseRangeMod + sceneNoise) === 0) noiseReduction = 0;
@@ -80,8 +94,9 @@ export default class SR5_RollDialog extends Dialog {
             if (noiseValue > 0) noiseValue = 0;
         }
         this.data.data.dicePoolMod.matrixNoiseRange = noiseRangeMod;
-        this.data.data.noiseRange = html.find('[name="matrixRange"]')[0].value;
+        this.data.data.matrixNoiseRange = html.find('[name="matrixRange"]')[0].value;
         this.data.data.dicePoolMod.matrixNoiseReduction = noiseReduction;
+        this.data.data.dicePoolMod.matrixNoiseScene = sceneNoise; 
         if (html.find('[name="matrixNoiseReduction"]')[0]) html.find('[name="matrixNoiseReduction"]')[0].value = noiseReduction;
         this.dicePoolModifier.matrixNoise = noiseValue;
         html.find('[name="matrixNoiseRangeValue"]')[0].value = noiseRangeMod;
@@ -115,13 +130,16 @@ export default class SR5_RollDialog extends Dialog {
         this.limitModifier = {};
         this.drainModifier = {};
         this.fadingModifier = {};
+        if (game.settings.get("sr5", "sr5MatrixGridRules")) this.data.data.rulesMatrixGrid = true;
+        else this.data.data.rulesMatrixGrid = false;
         let actor = this.data.data.actor;
         let dialogData = this.data.data;
+
 
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
-        
+
         if (html.find('[name="armor"]')[0]){
             this.dicePoolModifier.armorModifier = parseInt((html.find('[name="armor"]')[0].value || 0));
             this.updateDicePoolValue(html);
@@ -322,8 +340,6 @@ export default class SR5_RollDialog extends Dialog {
             this.updateMatrixNoise(html);
         }
 
-        //if (html.find('[name="matrixSceneNoiseValue"]')[0]) this.updateMatrixNoise(html);
-
         // Limit modifier
         html.find(".limitModifier").change(ev => {
             html.find('[name="limitModVarious"]')[0].value = (parseInt(ev.target.value) || 0);
@@ -474,21 +490,41 @@ export default class SR5_RollDialog extends Dialog {
         }
 
         //Grid
-        html.find('[name="targetGrid"]').change(ev => {
-            let targetGrid = html.find('[name="targetGrid"]')[0].value;
-            console.log(dialogData);
-            console.log(targetGrid);
-            if (targetGrid !== actor.data.matrix.userGrid && targetGrid !== "none"){
-                this.dicePoolModifier.differentGrid = -2;
+        if (game.settings.get("sr5", "sr5MatrixGridRules")){
+            if (html.find('[name="publicGridMod"]')[0]){
+                dialogData.dicePoolMod.publicGrid = -2;
                 this.updateDicePoolValue(html);
-                html.find('[name="dicePoolModGridTarget"]')[0].value = -2;
-                dialogData.dicePoolMod.differentGrid = -2;
-            } else {
-                this.dicePoolModifier.differentGrid = 0;
-                this.updateDicePoolValue(html);
-                html.find('[name="dicePoolModGridTarget"]')[0].value = 0;
-                dialogData.dicePoolMod.differentGrid = 0;
             }
-        });
+
+            if (html.find('[name="targetGrid"]')[0]){
+                let targetGrid = html.find('[name="targetGrid"]')[0].value;
+                if (targetGrid !== actor.data.matrix.userGrid && targetGrid !== "none"){
+                    this.dicePoolModifier.differentGrid = -2;
+                    this.updateDicePoolValue(html);
+                    html.find('[name="dicePoolModGridTarget"]')[0].value = -2;
+                    dialogData.dicePoolMod.differentGrid = -2;
+                } else {
+                    this.dicePoolModifier.differentGrid = 0;
+                    this.updateDicePoolValue(html);
+                    html.find('[name="dicePoolModGridTarget"]')[0].value = 0;
+                    dialogData.dicePoolMod.differentGrid = 0;
+                }
+            }
+                
+            html.find('[name="targetGrid"]').change(ev => {
+                let targetGrid = html.find('[name="targetGrid"]')[0].value;
+                if (targetGrid !== actor.data.matrix.userGrid && targetGrid !== "none"){
+                    this.dicePoolModifier.differentGrid = -2;
+                    this.updateDicePoolValue(html);
+                    html.find('[name="dicePoolModGridTarget"]')[0].value = -2;
+                    dialogData.dicePoolMod.differentGrid = -2;
+                } else {
+                    this.dicePoolModifier.differentGrid = 0;
+                    this.updateDicePoolValue(html);
+                    html.find('[name="dicePoolModGridTarget"]')[0].value = 0;
+                    dialogData.dicePoolMod.differentGrid = 0;
+                }
+            });
+        }
     }
 }

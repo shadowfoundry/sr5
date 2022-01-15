@@ -38,6 +38,8 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
     data.actor.lists = this.actor.data.lists;
     data.owner = this.actor.isOwner
     data.filters = this._filters;
+    if (game.settings.get("sr5", "sr5MatrixGridRules")) data.rulesMatrixGrid = true;
+    else data.rulesMatrixGrid = false;
     return data;
   }
 

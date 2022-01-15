@@ -20,6 +20,13 @@
 						</div>
 						<!-- MATRIX USER LEFT TAB -->
 						<div class="tab" data-group="gauche" data-tab="tab-deck">
+							<div class="SRBlockSheet">
+								<ul>
+									<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
+									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
+									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
+								</ul>
+							</div>
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixPrograms.html}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}

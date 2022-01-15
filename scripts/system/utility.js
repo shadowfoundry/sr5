@@ -84,6 +84,17 @@ export class SR5_SystemHelpers {
       type: Boolean,
       onChange: () => window.location.reload()
     });
+
+    // Matrix Grid Rules
+    game.settings.register("sr5", "sr5MatrixGridRules", {
+      name: "SR5.SETTINGS_MatrixGridRules_T",
+      hint: "SR5.SETTINGS_MatrixGridRules_D",
+      scope: "world",
+      config: true,
+      default: true,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    });
   }
 
   /* Display Shadowrun Themed Log Entries Based on Logging Level
