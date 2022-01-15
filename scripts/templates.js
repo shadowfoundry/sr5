@@ -438,6 +438,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html",
     "systems/sr5/templates/rolls/rollDialogPartial/signature.html",
     "systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html",
 
 
     /************************************************************************************* */

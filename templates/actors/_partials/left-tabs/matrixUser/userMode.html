@@ -52,6 +52,18 @@
 					+{{data.initiatives.matrixInit.dice.value}}d6
 				</div>
 			</li>
+			<li class="grid">
+				<div class="col-3">{{localize 'SR5.Grid'}}</div>
+				<div class="col-9">
+					<select name="data.matrix.userGrid" data-dtype="String" required>
+						{{#select data.matrix.userGrid}}
+							{{#each actor.lists.gridTypes}}
+								<option value="{{@key}}">{{findTranslation 'gridTypes' @key}}</option>
+							{{/each}}
+						{{/select}}
+					</select>
+				</div>
+			</li>
 		{{/ifne}}
 	</ul>
 </div>

@@ -2537,6 +2537,12 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.sleaze.value );
     matrixActions.checkOverwatchScore.defense.base = 6;
 
+    // handle public grid penalty
+    if (matrix.userGrid === "public"){
+      SR5_EntityHelpers.updateModifier(data.penalties.matrix.actual, `${game.i18n.localize('SR5.Grid')}`, `${game.i18n.localize('SR5.GridPublic')}`, -2);
+      SR5_CharacterUtility.updatePenalties(actor);
+    }
+
     // handle final calculation
     for (let key of Object.keys(lists.matrixActions)) {
       if (matrixActions[key].defense) {

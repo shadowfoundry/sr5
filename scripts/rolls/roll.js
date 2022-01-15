@@ -444,6 +444,12 @@ export class SR5_Roll {
                 limit = matrixAction.limit.value;
                 typeSub = rollKey;
                 if (matrixAction.defense.dicePool) testType = "opposedTest";
+                if (actorData.matrix.userGrid === "public"){
+                    optionalData = mergeObject(optionalData, {
+                        "switch.publicGrid": true,
+                        "dicePoolMod.publicGrid": -2,
+                    });
+                }
                 
                 //Check target's Marks before rolling if a target is selected.
                 if (game.user.targets.size && matrixAction.neededMarks > 0) {
@@ -461,21 +467,21 @@ export class SR5_Roll {
                     }
                 }
 
-                optionalData = {
+                optionalData = mergeObject(optionalData, {
                     limitType: matrixAction.limit.linkedAttribute,
                     chatActionType: "msgTest_matrixDefense",
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
+                    matrixNoiseRange: "wired",
                     "dicePoolMod.matrixNoiseScene": sceneNoise,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
-                }
+                });
                 
                 if (typeSub === "dataSpike"){
                     optionalData = mergeObject(optionalData, {
                         matrixDamageValueBase: actorData.matrix.attributes.attack.value,
                     });
                 }
-
                 break;
 
             case "matrixSimpleDefense":

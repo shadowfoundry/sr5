@@ -3,9 +3,11 @@ import { SR5_DiceHelper } from "./diceHelper.js";
 export default class SR5_RollDialog extends Dialog {
 
     static get defaultOptions() {
-        const options = super.defaultOptions;
-        options.resizable = false;
-        return options;
+        return mergeObject(super.defaultOptions, {
+            height: 'auto',
+            resizable: false,
+          });
+        
     }
 
     updateDicePoolValue(html) {
@@ -60,26 +62,34 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
-    updateMatrixNoise(html){
-        let noiseValue = 0;
-        let noiseRangeMod = SR5_DiceHelper.convertMatrixDistanceToDiceMod(html.find('[name="matrixRange"]')[0].value);
+    async updateMatrixNoise(html){
+        let noiseValue = 0,
+            noiseRangeMod = 0,
+            sceneNoise = 0,
+            noiseReduction = 0;
+        if (html.find('[name="matrixRange"]')[0].value === 'wired') {
+            $(html).find(".hideMatrixNoise").hide();
+        } else {
+            $(html).find(".hideMatrixNoise").show();
+            noiseRangeMod = SR5_DiceHelper.convertMatrixDistanceToDiceMod(html.find('[name="matrixRange"]')[0].value);
+            sceneNoise = this.data.data.dicePoolMod.matrixNoiseScene;  
+            noiseReduction = this.data.data.actor.data.matrix.attributes.noiseReduction.value;
+            if (noiseReduction > (-noiseRangeMod - sceneNoise)) noiseReduction = (-noiseRangeMod - sceneNoise);
+            if ((noiseRangeMod + sceneNoise) === 0) noiseReduction = 0;
+            noiseValue = noiseRangeMod + sceneNoise + noiseReduction;
+            if (noiseValue > 0) noiseValue = 0;
+        }
         this.data.data.dicePoolMod.matrixNoiseRange = noiseRangeMod;
         this.data.data.noiseRange = html.find('[name="matrixRange"]')[0].value;
-        let sceneNoise = this.data.data.dicePoolMod.matrixNoiseScene || 0;  
-        let noiseReduction = this.data.data.actor.data.matrix.attributes.noiseReduction.value;
-        if (noiseReduction > (-noiseRangeMod - sceneNoise)) noiseReduction = (-noiseRangeMod - sceneNoise);
-        if ((noiseRangeMod + sceneNoise) === 0) noiseReduction = 0;
         this.data.data.dicePoolMod.matrixNoiseReduction = noiseReduction;
         if (html.find('[name="matrixNoiseReduction"]')[0]) html.find('[name="matrixNoiseReduction"]')[0].value = noiseReduction;
-
-        noiseValue = noiseRangeMod + sceneNoise + noiseReduction;
-        if (noiseValue > 0) noiseValue = 0;
         this.dicePoolModifier.matrixNoise = noiseValue;
-        
         html.find('[name="matrixNoiseRangeValue"]')[0].value = noiseRangeMod;
         if (html.find('[name="matrixSceneNoiseValue"]')[0]) html.find('[name="matrixSceneNoiseValue"]')[0].value = sceneNoise;
         html.find('[name="matrixNoise"]')[0].value = noiseValue;
         this.updateDicePoolValue(html);
+        let element = document.getElementById(this.id);
+        element.style.height = "auto";
     }
 
     calculRecoil(html){
@@ -106,13 +116,12 @@ export default class SR5_RollDialog extends Dialog {
         this.drainModifier = {};
         this.fadingModifier = {};
         let actor = this.data.data.actor;
+        let dialogData = this.data.data;
 
-        if (html.find('[name="matrixSceneNoiseValue"]')[0]) this.updateMatrixNoise(html);
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
         
-
         if (html.find('[name="armor"]')[0]){
             this.dicePoolModifier.armorModifier = parseInt((html.find('[name="armor"]')[0].value || 0));
             this.updateDicePoolValue(html);
@@ -134,7 +143,7 @@ export default class SR5_RollDialog extends Dialog {
         // Various modifiers
         html.find('[name="dicePoolModVarious"]').change(ev => {
             this.dicePoolModifier.variousModifier = (parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.various =  (parseInt(ev.target.value) || 0);
+            dialogData.dicePoolMod.various =  (parseInt(ev.target.value) || 0);
             this.updateDicePoolValue(html);
         });
 
@@ -143,11 +152,11 @@ export default class SR5_RollDialog extends Dialog {
             if (ev.target.value) {
               html.find('[name="dicePoolModSpecialization"]')[0].value = 2;
               this.dicePoolModifier.specialization = 2;
-              this.data.data.dicePoolMod.specialization = 2;
+              dialogData.dicePoolMod.specialization = 2;
             } else {
               html.find('[name="dicePoolModSpecialization"]')[0].value = 0;
               this.dicePoolModifier.specialization = 0;
-              this.data.data.dicePoolMod.specialization = 0;
+              dialogData.dicePoolMod.specialization = 0;
             }
             this.updateDicePoolValue(html);
         });
@@ -155,17 +164,17 @@ export default class SR5_RollDialog extends Dialog {
         // Penalties modifiers
         html.find(".penaltyMod").change(ev => {
             html.find('[name="dicePoolModPenalty"]')[0].value = (parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.penalty = (parseInt(ev.target.value) || 0)
+            dialogData.dicePoolMod.penalty = (parseInt(ev.target.value) || 0)
             this.dicePoolModifier.penalties = (parseInt(ev.target.value) || 0);
             this.updateDicePoolValue(html);
         });
 
         // Attribute modifiers
         html.find(".attribute").change(ev => {
-            let value = SR5_DiceHelper.getAttributeValue(ev.target.value, this.data.data.actor);
+            let value = SR5_DiceHelper.getAttributeValue(ev.target.value, actor);
             html.find('[name="dicePoolModAttribute"]')[0].value = value;
-            if (ev.target.value !== "none") this.data.data.attributeKey = ev.target.value;
-            this.data.data.dicePoolMod.attribute = value;
+            if (ev.target.value !== "none") dialogData.attributeKey = ev.target.value;
+            dialogData.dicePoolMod.attribute = value;
             this.dicePoolModifier.attributeFirst = value;
             this.updateDicePoolValue(html);
         });
@@ -173,23 +182,23 @@ export default class SR5_RollDialog extends Dialog {
         // Incoming Firing Mode modifiers
         if (html.find('[name="incomingFiringMode"]')[0]){
             this.dicePoolModifier.incomingFiringMode = parseInt((html.find('[name="incomingFiringMode"]')[0].value || 0));
-            this.data.data.dicePoolMod.defenseFiringMode = parseInt((html.find('[name="incomingFiringMode"]')[0].value || 0));
+            dialogData.dicePoolMod.defenseFiringMode = parseInt((html.find('[name="incomingFiringMode"]')[0].value || 0));
             this.updateDicePoolValue(html);
         }
 
         html.find(".incomingFiringMode").change(ev => {
             html.find('[name="dicePoolModDefenseFiringMode"]')[0].value = (parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.defenseFiringMode = (parseInt(ev.target.value) || 0);
+            dialogData.dicePoolMod.defenseFiringMode = (parseInt(ev.target.value) || 0);
             this.dicePoolModifier.incomingFiringMode = (parseInt(ev.target.value) || 0);
             this.updateDicePoolValue(html);
         });
 
         // Defense modifiers
         html.find(".defenseMode").change(ev => {
-            let value = SR5_DiceHelper.convertActiveDefenseToMod(html.find('[name="defenseMode"]')[0].value, this.data.data.activeDefenses);
+            let value = SR5_DiceHelper.convertActiveDefenseToMod(html.find('[name="defenseMode"]')[0].value, dialogData.activeDefenses);
             html.find('[name="dicePoolModDefenseActive"]')[0].value = value;
-            this.data.data.dicePoolMod.defenseActive = value;
-            this.data.data.activeDefenseMode = html.find('[name="defenseMode"]')[0].value;
+            dialogData.dicePoolMod.defenseActive = value;
+            dialogData.activeDefenseMode = html.find('[name="defenseMode"]')[0].value;
             this.dicePoolModifier.defenseMode = value;
             this.updateDicePoolValue(html);
           });
@@ -198,14 +207,14 @@ export default class SR5_RollDialog extends Dialog {
         // Cumulative Defense 
         if (html.find('[name="dicePoolModDefenseCumulative"]')[0]){
             this.dicePoolModifier.cumulativeDefense = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
-            this.data.data.dicePoolMod.defenseCumulative = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
+            dialogData.dicePoolMod.defenseCumulative = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
             this.updateDicePoolValue(html);
         }
 
         // Cover modifiers
         html.find(".cover").change(ev => {
             html.find('[name="dicePoolModCover"]')[0].value = (parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.defenseCover = (parseInt(ev.target.value) || 0);
+            dialogData.dicePoolMod.defenseCover = (parseInt(ev.target.value) || 0);
             this.dicePoolModifier.cover = (parseInt(ev.target.value) || 0);
             this.updateDicePoolValue(html);
         });
@@ -215,16 +224,16 @@ export default class SR5_RollDialog extends Dialog {
             let fullDefenseEffect = actor.effects.find(e => e.origin === "fullDefense");
 			let isInFullDefense = (fullDefenseEffect) ? true : false;
             if (isInFullDefense){
-                html.find('[name="fullDefense"]')[0].value = this.data.data.defenseFull;
-                html.find('[name="dicePoolModFullDefense"]')[0].value = this.data.data.defenseFull;
-                this.data.data.dicePoolMod.defenseFull = this.data.data.defenseFull;
-                this.dicePoolModifier.fullDefense = this.data.data.defenseFull;
+                html.find('[name="fullDefense"]')[0].value = dialogData.defenseFull;
+                html.find('[name="dicePoolModFullDefense"]')[0].value = dialogData.defenseFull;
+                dialogData.dicePoolMod.defenseFull = dialogData.defenseFull;
+                this.dicePoolModifier.fullDefense = dialogData.defenseFull;
                 this.updateDicePoolValue(html);
             }
         }
         html.find(".fullDefense").change(ev => {
             html.find('[name="dicePoolModFullDefense"]')[0].value = (parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.defenseFull = (parseInt(ev.target.value) || 0);
+            dialogData.dicePoolMod.defenseFull = (parseInt(ev.target.value) || 0);
             this.dicePoolModifier.fullDefense = (parseInt(ev.target.value) || 0);
             this.updateDicePoolValue(html);
         });
@@ -232,7 +241,7 @@ export default class SR5_RollDialog extends Dialog {
         // Reach modifiers
         if (html.find('[name="reachValue"]')[0]){
             this.dicePoolModifier.range = parseInt((html.find('[name="reachValue"]')[0].value || 0));
-            this.data.data.dicePoolMod.reach = parseInt((html.find('[name="reachValue"]')[0].value || 0));
+            dialogData.dicePoolMod.reach = parseInt((html.find('[name="reachValue"]')[0].value || 0));
             this.updateDicePoolValue(html);
         }
 
@@ -245,50 +254,50 @@ export default class SR5_RollDialog extends Dialog {
         // Range modifiers
         if (html.find('[name="dicePoolModRange"]')[0]){
             let baseRange = parseInt(html.find('[name="targetRange"]')[0].value);
-            baseRange += this.data.data.actor.data.itemsProperties.environmentalMod.range.value;
+            baseRange += actor.data.itemsProperties.environmentalMod.range.value;
             let rangevalue = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
             html.find('[name="dicePoolModRange"]')[0].value = rangevalue;
             this.dicePoolModifier.range = rangevalue;
-            this.data.data.dicePoolMod.range = rangevalue;
+            dialogData.dicePoolMod.range = rangevalue;
             this.updateDicePoolValue(html);
         }
         
         html.find(".range").change(ev => {
             let baseRange = parseInt(html.find('[name="targetRange"]')[0].value);
-            baseRange += this.data.data.actor.data.itemsProperties.environmentalMod.range.value;
+            baseRange += actor.data.itemsProperties.environmentalMod.range.value;
             let rangevalue = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
             html.find('[name="dicePoolModRange"]')[0].value = rangevalue;
             this.dicePoolModifier.range = rangevalue;
-            this.data.data.dicePoolMod.range = rangevalue;
+            dialogData.dicePoolMod.range = rangevalue;
             this.updateDicePoolValue(html);
         });
 
         // Recoil and firing mode
         if (html.find('[name="firingMode"]')[0]){
             let recoil = this.calculRecoil(html);
-            this.data.data.firingMode = html.find('[name="firingMode"]')[0].value;
+            dialogData.firingMode = html.find('[name="firingMode"]')[0].value;
             html.find('[name="rcModifier"]')[0].value = recoil;
             this.dicePoolModifier.recoiCompensation = recoil;
-            this.data.data.dicePoolMod.recoil = recoil;
+            dialogData.dicePoolMod.recoil = recoil;
             this.updateDicePoolValue(html);
         }
 
         html.find(".firingMode").change(ev => {
-            this.data.data.firingMode = html.find('[name="firingMode"]')[0].value;
+            dialogData.firingMode = html.find('[name="firingMode"]')[0].value;
             let recoil = this.calculRecoil(html);
             html.find('[name="rcModifier"]')[0].value = recoil;
             this.dicePoolModifier.recoiCompensation = recoil;
-            this.data.data.dicePoolMod.recoil = recoil;
+            dialogData.dicePoolMod.recoil = recoil;
             this.updateDicePoolValue(html);
         });
 
         html.find(".resetRecoil").click(event => {
             event.preventDefault();
-            let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actor._id)
+            let actor = SR5_EntityHelpers.getRealActorFromID(actor._id)
             actor.resetRecoil();
-            this.data.data.rc += this.data.data.actor.flags.sr5.cumulativeRecoil;
-            this.data.data.dicePoolMod.recoil = 0;
-            this.data.data.actor.flags.sr5.cumulativeRecoil = 0;
+            dialogData.rc += actor.flags.sr5.cumulativeRecoil;
+            dialogData.dicePoolMod.recoil = 0;
+            actor.flags.sr5.cumulativeRecoil = 0;
             let recoil = this.calculRecoil(html);
             html.find('[name="rcModifier"]')[0].value = recoil;
             this.dicePoolModifier.recoiCompensation = recoil;
@@ -298,7 +307,7 @@ export default class SR5_RollDialog extends Dialog {
         // Mark modifiers
         html.find(".mark").change(ev => {
             html.find('[name="dicePoolModMarkWanted"]')[0].value = -(parseInt(ev.target.value) || 0);
-            this.data.data.dicePoolMod.matrixMarkWanted = -(parseInt(ev.target.value) || 0);
+            dialogData.dicePoolMod.matrixMarkWanted = -(parseInt(ev.target.value) || 0);
             this.dicePoolModifier.mark = -(parseInt(ev.target.value) || 0);
             this.updateDicePoolValue(html);
         }); 
@@ -313,10 +322,12 @@ export default class SR5_RollDialog extends Dialog {
             this.updateMatrixNoise(html);
         }
 
+        //if (html.find('[name="matrixSceneNoiseValue"]')[0]) this.updateMatrixNoise(html);
+
         // Limit modifier
         html.find(".limitModifier").change(ev => {
             html.find('[name="limitModVarious"]')[0].value = (parseInt(ev.target.value) || 0);
-            this.data.data.limitMod.various = (parseInt(ev.target.value) || 0);
+            dialogData.limitMod.various = (parseInt(ev.target.value) || 0);
             this.limitModifier.variousModifier = (parseInt(ev.target.value) || 0);
             this.updateLimitValue(html);
         }); 
@@ -325,18 +336,18 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="extendedValue"]').change(ev => {
             let value = html.find('[name="extendedValue"]')[0].value;
             if (value === "true") {
-                this.data.data.extendedTest = true;
+                dialogData.extendedTest = true;
                 document.getElementById("interval").style.display = "block";
             }
             else {
-                this.data.data.extendedTest = false;
+                dialogData.extendedTest = false;
                 document.getElementById("interval").style.display = "none";
             }
         }); 
 
         //Sprite
         if (html.find('[name="spriteType"]')[0]){
-            this.data.data.spriteType = html.find('[name="spriteType"]')[0].value;
+            dialogData.spriteType = html.find('[name="spriteType"]')[0].value;
         }
 
         // Spirit type modifier       
@@ -344,12 +355,12 @@ export default class SR5_RollDialog extends Dialog {
             let spiritType = html.find('[name="spiritType"]')[0].value;
             if (spiritType !== ""){
                 let modifier = 0;
-                for (let mod of this.data.data.actor.data.skills.summoning.spiritType[spiritType].modifiers){
+                for (let mod of actor.data.skills.summoning.spiritType[spiritType].modifiers){
                     if (mod) modifier += parseInt(mod.value);
                 }
                 html.find('[name="summoningSpiritTypeModifier"]')[0].value = modifier;
                 this.dicePoolModifier.summoningSpiritType = modifier;
-                this.data.data.spiritType = spiritType;
+                dialogData.spiritType = spiritType;
                 this.updateDicePoolValue(html);
             }
         }; 
@@ -357,19 +368,19 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="spiritType"]').change(ev => {
             let spiritType = ev.target.value;
             let modifier = 0;
-            for (let mod of this.data.data.actor.data.skills.summoning.spiritType[spiritType].modifiers){
+            for (let mod of actor.data.skills.summoning.spiritType[spiritType].modifiers){
                 if (mod) modifier += parseInt(mod.value);
             }
             html.find('[name="summoningSpiritTypeModifier"]')[0].value = modifier;
             this.dicePoolModifier.summoningSpiritType = modifier;
-            this.data.data.spiritType = spiritType;
+            dialogData.spiritType = spiritType;
             this.updateDicePoolValue(html);
         }); 
 
         if (html.find('[name="backgroundCount"]')[0]){
             let backgroundCount = parseInt(html.find('[name="backgroundCount"]')[0].value);
             this.dicePoolModifier.backgroundCount = backgroundCount;
-            this.data.data.dicePoolMod.backgroundCount = backgroundCount;
+            dialogData.dicePoolMod.backgroundCount = backgroundCount;
             this.updateDicePoolValue(html);
         }
 
@@ -385,7 +396,7 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="recklessSpellcasting"]').change(ev => {
             let recklessSpellcasting = parseInt(html.find('[name="recklessSpellcasting"]')[0].value);
             html.find('[name="recklessSpellcastingValue"]')[0].value = recklessSpellcasting;
-            this.data.data.drainMod.recklessSpellcasting = recklessSpellcasting;
+            dialogData.drainMod.recklessSpellcasting = recklessSpellcasting;
             this.drainModifier.recklessSpellcasting = recklessSpellcasting;
             this.updateDrainValue(html);
         });
@@ -393,8 +404,8 @@ export default class SR5_RollDialog extends Dialog {
         // Preparation trigger modifiers
         if (html.find('[name="preparationTrigger"]')[0]){
             this.drainModifier.preparationTrigger = parseInt(html.find('[name="triggerValue"]')[0].value);
-            this.data.data.preparationTrigger = html.find('[name="preparationTrigger"]')[0].value;
-            this.data.data.drainMod.trigger = parseInt(html.find('[name="triggerValue"]')[0].value);
+            dialogData.preparationTrigger = html.find('[name="preparationTrigger"]')[0].value;
+            dialogData.drainMod.trigger = parseInt(html.find('[name="triggerValue"]')[0].value);
             this.updateDrainValue(html);
         }
 
@@ -411,8 +422,8 @@ export default class SR5_RollDialog extends Dialog {
                 default: value = 0;
             }
             html.find('[name="triggerValue"]')[0].value = value;
-            this.data.data.drainMod.trigger = value;
-            this.data.data.preparationTrigger = html.find('[name="preparationTrigger"]')[0].value;
+            dialogData.drainMod.trigger = value;
+            dialogData.preparationTrigger = html.find('[name="preparationTrigger"]')[0].value;
             this.drainModifier.preparationTrigger = value;
             this.updateDrainValue(html);
         });
@@ -432,13 +443,13 @@ export default class SR5_RollDialog extends Dialog {
             let modifier = 0;
             let limitMod = 0;
             if (key !== ""){
-                modifier = this.data.data.actor.data.skills.perception.perceptionType[key].test.value;
-                limitMod = this.data.data.actor.data.skills.perception.perceptionType[key].limit.value;
+                modifier = actor.data.skills.perception.perceptionType[key].test.value;
+                limitMod = actor.data.skills.perception.perceptionType[key].limit.value;
             }
-            this.data.data.perceptionType = key;
-            this.data.data.dicePoolMod.perception = modifier;
+            dialogData.perceptionType = key;
+            dialogData.dicePoolMod.perception = modifier;
             this.dicePoolModifier.perceptionType = modifier;
-            this.data.data.limitMod.perception = limitMod;
+            dialogData.limitMod.perception = limitMod;
             this.limitModifier.perceptionType = limitMod;
             html.find('[name="perceptionValue"]')[0].value = modifier;
             html.find('[name="limitModPerception"]')[0].value = limitMod;
@@ -450,8 +461,8 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="signatureSize"]').change(ev => {
             let modifier = SR5_DiceHelper.convertSignatureToDicePoolMod(ev.target.value);
             this.dicePoolModifier.signatureType = modifier;
-            this.data.data.signatureType = ev.target.value;
-            this.data.data.dicePoolMod.signatureType = modifier;
+            dialogData.signatureType = ev.target.value;
+            dialogData.dicePoolMod.signatureType = modifier;
             html.find('[name="dicePoolModSignature"]')[0].value = modifier;
             this.updateDicePoolValue(html);
         });
@@ -461,5 +472,23 @@ export default class SR5_RollDialog extends Dialog {
             this.dicePoolModifier.sensorLockMod = parseInt((html.find('[name="sensorLockMod"]')[0].value || 0));
             this.updateDicePoolValue(html);
         }
+
+        //Grid
+        html.find('[name="targetGrid"]').change(ev => {
+            let targetGrid = html.find('[name="targetGrid"]')[0].value;
+            console.log(dialogData);
+            console.log(targetGrid);
+            if (targetGrid !== actor.data.matrix.userGrid && targetGrid !== "none"){
+                this.dicePoolModifier.differentGrid = -2;
+                this.updateDicePoolValue(html);
+                html.find('[name="dicePoolModGridTarget"]')[0].value = -2;
+                dialogData.dicePoolMod.differentGrid = -2;
+            } else {
+                this.dicePoolModifier.differentGrid = 0;
+                this.updateDicePoolValue(html);
+                html.find('[name="dicePoolModGridTarget"]')[0].value = 0;
+                dialogData.dicePoolMod.differentGrid = 0;
+            }
+        });
     }
 }
