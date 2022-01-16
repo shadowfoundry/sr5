@@ -315,7 +315,6 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateAstralValues(actor);
         SR5_CharacterUtility.handleVision(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
-        this.prepareWifiItems();
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);
           SR5_CharacterUtility.updateNuyens(actor);
@@ -343,8 +342,15 @@ export class SR5Actor extends Actor {
           }
           break;
 
-        case "itemPower":
         case "itemGear":
+          actorData.data.matrix.potentialPanObject.gears[i.id] = i.name;
+          if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.gears[i.id] = i.name;
+          if (iData.isActive && Object.keys(iData.customEffects).length) {
+            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
+          }
+          break;
+
+        case "itemPower":
         case "itemMetamagic":
         case "itemEcho":
           if (iData.isActive && Object.keys(iData.customEffects).length) {
@@ -380,6 +386,8 @@ export class SR5Actor extends Actor {
               SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
             }
           }
+          if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.armors[i.id] = i.name;
+          actorData.data.matrix.potentialPanObject.armors[i.id] = i.name;
           break;
 
         case "itemAugmentation":
@@ -390,6 +398,8 @@ export class SR5Actor extends Actor {
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
+          if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.augmentations[i.id] = i.name;
+          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.augmentations[i.id] = i.name;
           break;
 
         case "itemAdeptPower":
@@ -458,6 +468,10 @@ export class SR5Actor extends Actor {
               modes.push(game.i18n.localize(SR5.weaponModesAbbreviated[mode[0]]));
           }
           SR5_UtilityItem._handleVisionAccessory(iData, actorData);
+          if(actorData.data.matrix){ 
+            if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.weapons[i.id] = i.name;
+            actorData.data.matrix.potentialPanObject.weapons[i.id] = i.name;
+          }
           break;
 
         case "itemFocus":
@@ -571,20 +585,6 @@ export class SR5Actor extends Actor {
     }
   }
 
-  prepareWifiItems(actor){
-    const actorData = this.data;
-    actorData.data.matrix.wifiItems = {};
-
-    for (let i of actorData.items) {
-      if ((i.data.type === "itemAugmentation" || i.data.type === "itemArmor" || i.data.type === "itemGear" || i.data.type === "itemWeapon") 
-      && i.data.data.isActive && i.data.data.wirelessTurnedOn){
-        console.log(i);
-        actorData.data.matrix.wifiItems[i.id] = i.name;
-        //actorData.data.matrix.wifiItems.push(i);
-        //actorData.data.matrix.wifiItems.push(i.toObject(false));
-      }
-    }
-  }
   //Roll a test
   rollTest(rollType, rollKey, chatData){
     SR5_Roll.actorRoll(this, rollType, rollKey, chatData);

@@ -113,6 +113,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixInit.html",
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/pan.html",
 
     //Left Tab - Qualities partials
     "systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html",

@@ -496,36 +496,53 @@ export class SR5_Roll {
             break;
 
             case "matrixDefense":
-                if (chatData.typeSub === "dataSpike"){
-                    console.log(chatData);
-                    console.log(actor.data.data.matrix.wifiItems);
-                }
                 if (actor.type === "actorSpirit") return;
                 title = `${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                 dicePool = matrixAction.defense.dicePool;
+
+                //Handle item targeted
+                if (chatData.matrixTargetDevice && chatData.matrixTargetDevice !== "device"){
+                    let targetItem = actor.items.find(i => i.id === chatData.matrixTargetDevice);
+                    console.log(targetItem);
+                    //if (targetItem.data.data.isSlavedToPan && ())
+                    title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
+                    dicePool = targetItem.data.data.deviceRating * 2;
+                    optionalData = mergeObject(optionalData, {
+                        matrixTargetItem: targetItem,
+                    });  
+                }
+
                 typeSub = rollKey;
 
-                optionalData = {
+                optionalData = mergeObject(optionalData, {
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     hits: chatData?.test.hits,
                     originalActionAuthor: chatData?.originalActionAuthor,
                     mark: chatData?.mark,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
-                }
+                });
                 break;
 
             case "matrixResistance":
-                //let resistance = rollKey.matrixResistanceType;
                 title = `${game.i18n.localize("SR5.TakeOnDamageMatrix")} (${chatData.matrixDamageValue})`;
                 dicePool = actorData.matrix.resistances[rollKey].dicePool;
-                optionalData = {
+
+                if (chatData.matrixTargetItem){
+                    title = `${chatData.matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
+                    dicePool = chatData.matrixTargetItem.data.deviceRating * 2;
+                    optionalData = mergeObject(optionalData, {
+                        matrixTargetItem: chatData.matrixTargetItem._id,
+                    }); 
+                }
+
+                optionalData = mergeObject(optionalData, {
                     chatActionType: "msgTest_damage",
                     matrixDamageValue: chatData.matrixDamageValue,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     damageType: chatData.damageType,
                     originalActionAuthor: chatData.originalActionAuthor,
-                }
+                });
                 break;
 
             case "resonanceAction":

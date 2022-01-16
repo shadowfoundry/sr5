@@ -3928,7 +3928,24 @@
               }
             }
           },
-          "submersionGrade": 0
+          "submersionGrade": 0,
+          "connectedObject":{
+            "augmentations":{},
+            "weapons":{},
+            "armors":{},
+            "gears":{}
+          },
+          "potentialPanObject":{
+            "augmentations":{},
+            "weapons":{},
+            "armors":{},
+            "gears":{}
+          },
+          "pan":{
+            "max": 0,
+            "current": 0,
+            "content":[]
+          }
         }
       },
       "magicUsageTemplate": {
@@ -5087,7 +5104,8 @@
             "current": 0,
             "boxes": []
           }
-        }
+        },
+        "isSlavedToPan": false
       },
       "templateCapacity": {
         "capacity": {
@@ -5344,7 +5362,12 @@
       },
       "module": "",
       "dongle": "",
-      "modifiers": []
+      "modifiers": [], 
+      "pan":{
+        "max": 0,
+        "current": 0,
+        "content":[]
+      }
     },
     "itemGear": {
       "templates": [

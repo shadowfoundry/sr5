@@ -1,8 +1,8 @@
 <form>
 	<div class="form-group">
-	  	<select name="target" data-dtype="String">
+	  	<select name="itemToAdd" data-dtype="String">
 		{{#select item}}
-		  	<option value="device">{{device}}</option>
+        <option value="none">{{localize 'SR5.ChooseItemToPan'}}</option>
 		  	{{#if list.augmentations}}
 				<optgroup label="{{localize 'SR5.Augmentations'}}">
 					{{#each list.augmentations}}

@@ -1,0 +1,26 @@
+<div class="SRBlockSheet">
+    <ul>
+        <li class="grid SR-LigneEnTete">
+            <div class="col-11 SR-TextUppercase">{{localize 'SR5.PersonnalAreaNetwork'}}</div>
+            <div class="col-1 SR-TextCenter">
+                {{#if owner}}
+                <p class="SR-TextCenter add-item">
+                    <a class="addItemToPan" data-title="{{localize 'SR5.Add'}}"><em class="fas fa-plus"></em></a>
+                </p>
+                {{/if}}
+            </div>
+        </li>
+        <li class="grid">
+            <div class="col-10">{{localize 'SR5.PanCurrentDevices'}}</div>
+            <div class="col-2 SR-TextCenter">{{data.matrix.pan.current}}/{{data.matrix.pan.max}}</div>
+        </li>
+        {{#each data.matrix.pan.content}}
+        <li class="grid panItems">
+            <div class="col-11">{{name}}</div>
+            <div class="col-1 SR-TextCenter">
+                <a class="deleteItemFromPan" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-key="{{_id}}"><i class="fas fa-trash"></i></a>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+</div>

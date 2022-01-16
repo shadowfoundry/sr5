@@ -396,6 +396,22 @@ export class SR5_CharacterUtility extends Actor {
       if (!game.settings.get("sr5", "sr5MatrixGridRules")){
         data.matrix.userGrid = "local";
       }
+
+      //Reset connected Objects
+      if (data.matrix.connectedObject){
+        data.matrix.connectedObject.augmentations = {};
+        data.matrix.connectedObject.weapons = {};
+        data.matrix.connectedObject.armors = {};
+        data.matrix.connectedObject.gears = {};
+      }
+
+      //Reset potential PanO Objects
+      if (data.matrix.potentialPanObject){
+        data.matrix.potentialPanObject.augmentations = {};
+        data.matrix.potentialPanObject.weapons = {};
+        data.matrix.potentialPanObject.armors = {};
+        data.matrix.potentialPanObject.gears = {};
+      }
     }
 
     if (data.magic) {
@@ -2431,6 +2447,10 @@ export class SR5_CharacterUtility extends Actor {
         SR5_SystemHelpers.srLog(1, `Unknown '${deck.data.type}' deck type in generateMatrixAttributes()`);
         return;
     }
+
+    //PAN
+    //console.log(deck);
+    matrix.pan = deck.data.pan;
 
     SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0)
     SR5_EntityHelpers.updateValue(matrix.programsCurrentActive, 0)

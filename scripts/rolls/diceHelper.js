@@ -232,18 +232,26 @@ export class SR5_DiceHelper {
     }
 
     /** Apply Matrix Damage to a Dack
-   * @param {Object} targetActor - The Target Actor who owns the deck
-   * @param {Object} damageValue - Number of damage box
+   * @param {Object} targetActor - The Target Actor who owns the deck/item
+   * @param {Object} messageData - Message data
    * @param {Object} attacker - Actor who do the damage
    */
-    static applyDamageToDecK(targetActor, damageValue, attacker) {
-        let deck = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
-        let newDeck = duplicate(deck.data);
+    static applyDamageToDecK(targetActor, messageData, attacker) {
+        let damageValue = messageData.matrixDamageValue;
+        let targetItem;
+        if (messageData.matrixTargetItem){
+            targetItem = targetActor.items.find((item) => item.id === messageData.matrixTargetItem);
+        } else {
+            targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
+        }
+        
+        let newItem = duplicate(targetItem.data);
         if (targetActor.data.data.matrix.programs.virtualMachine.isActive) damageValue += 1;
-        newDeck.data.conditionMonitors.matrix.current += damageValue;
-        deck.update(newDeck);
+        newItem.data.conditionMonitors.matrix.current += damageValue;
+        targetItem.update(newItem);
+
         if (attacker) ui.notifications.info(`${attacker.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
-        else ui.notifications.info(`${targetActor.name} (${deck.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+        else ui.notifications.info(`${targetActor.name} (${targetItem.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
     }
 
     // Update Matrix Damage to a Deck
@@ -604,15 +612,20 @@ export class SR5_DiceHelper {
     }
 
     static async chooseMatrixDefender(messageData, actor){
-        console.log(messageData);
-        console.log(actor);
         let cancel = true;
+        let list = {};
+        for (let key of Object.keys(actor.data.data.matrix.connectedObject)){
+            if (Object.keys(actor.data.data.matrix.connectedObject[key]).length) {
+                list[key] = SR5_EntityHelpers.sortObjectValue(actor.data.data.matrix.connectedObject[key]);
+            }
+        }
         let dialogData = {
-            itemList: actor.data.data.matrix.wifiItems,
+            device: actor.data.data.matrix.deviceName,
+            list: list,
         };
         renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData).then((dlg) => {
             new Dialog({
-              title: game.i18n.localize('SR5.Target'),
+              title: game.i18n.localize('SR5.ChooseMatrixTarget'),
               content: dlg,
               buttons: {
                 ok: {
@@ -628,9 +641,12 @@ export class SR5_DiceHelper {
               close: (html) => {
                 if (cancel) return;
                 let targetItem = html.find("[name=target]").val();
-                console.log(targetItem);
+                messageData.matrixTargetDevice = targetItem;
+                //console.log(targetItem);
+                //console.log(messageData);
+                actor.rollTest("matrixDefense", messageData.typeSub, messageData);
               },
             }).render(true);
-          });
+        });
     }
 }

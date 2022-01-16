@@ -233,7 +233,7 @@ export class SR5_RollMessage {
                         if (originalActionAuthor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive && (item.data.data.type === "livingPersona" || item.data.data.type === "headcase"))){
                             originalActionAuthor.takeDamage(messageData);
                         } else {
-                            SR5_DiceHelper.applyDamageToDecK(originalActionAuthor, messageData.matrixDamageValue, actor);
+                            SR5_DiceHelper.applyDamageToDecK(originalActionAuthor, messageData, actor);
                         }
                     } else {
                         originalActionAuthor.takeDamage(messageData);
@@ -245,7 +245,7 @@ export class SR5_RollMessage {
                         if (actor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive && (item.data.data.type === "livingPersona" || item.data.data.type === "headcase"))){
                             actor.takeDamage(messageData);
                         } else {
-                            SR5_DiceHelper.applyDamageToDecK(actor, messageData.matrixDamageValue);
+                            SR5_DiceHelper.applyDamageToDecK(actor, messageData);
                         }
                     } else {
                         actor.takeDamage(messageData);

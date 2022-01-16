@@ -78,6 +78,9 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".vision-switch").click(this._onVisionSwitch.bind(this));
     // Switch initiatives
     html.find(".init-switch").click(this._onInitiativeSwitch.bind(this));
+    // Add item to PAN
+    html.find(".addItemToPan").click(this._onAddItemToPan.bind(this));
+    html.find(".deleteItemFromPan").click(this._onDeleteItemFromPan.bind(this));
 
     // Affiche les compétences
     html.find(".hidden").hide();
@@ -724,4 +727,77 @@ export class ActorSheetSR5 extends ActorSheet {
       }
     }
   }
+
+  async _onAddItemToPan(event){
+    let actor = this.actor.data;
+    let deck = this.actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+    let cancel = true;
+    let list = {};
+    if (actor.data.matrix.pan.current === actor.data.matrix.pan.max){
+      ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_PanIsFull")}`);
+      return;
+    }
+
+    for (let key of Object.keys(actor.data.matrix.potentialPanObject)){
+        if (Object.keys(actor.data.matrix.potentialPanObject[key]).length) {
+          list[key] = SR5_EntityHelpers.sortObjectValue(actor.data.matrix.potentialPanObject[key]);
+        }
+      }
+    let dialogData = {
+      list: list,
+    };
+
+    renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData).then((dlg) => {
+      new Dialog({
+        title: game.i18n.localize('SR5.ChooseItemToPan'),
+        content: dlg,
+        buttons: {
+          ok: {
+            label: "Ok",
+            callback: () => (cancel = false),
+          },
+          cancel: {
+            label : "Cancel",
+            callback: () => (cancel = true),
+          },
+        },
+        default: "ok",
+        close: (html) => {
+          if (cancel) return;
+          let targetItem = html.find("[name=itemToAdd]").val();
+          if (targetItem === "none") return;
+          let item = actor.items.find(i => i.id === targetItem);
+          let itemToAdd = item.toObject(false);
+          console.log(itemToAdd);
+          itemToAdd.data.isSlavedToPan = true;
+          item.update({"data": itemToAdd.data});
+          let currentPan = duplicate(deck.data.data.pan);
+          currentPan.content.push(itemToAdd);
+          currentPan.current += 1;
+          deck.update({
+            "data.pan": currentPan,
+          });
+        },
+      }).render(true);
+  });
+  }
+
+  async _onDeleteItemFromPan(event){
+    event.preventDefault();
+    await this._onSubmit(event); // Submit any unsaved changes
+    let index = $(event.currentTarget).attr("data-index");
+    let itemId = $(event.currentTarget).attr("data-key");
+
+    let item = this.actor.items.find(i => i.id === itemId);
+    let newItem = duplicate(item.data.data);
+    newItem.isSlavedToPan = false;
+    item.update({"data": newItem,});
+
+    let deck = this.actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+    let currentPan = duplicate(deck.data.data.pan);
+    currentPan.content.splice(index, 1)
+    currentPan.current -=1;
+    deck.update({"data.pan": currentPan,});
+  }
+
 }
