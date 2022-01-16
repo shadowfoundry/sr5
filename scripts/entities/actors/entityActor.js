@@ -315,6 +315,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateAstralValues(actor);
         SR5_CharacterUtility.handleVision(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
+        this.prepareWifiItems();
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);
           SR5_CharacterUtility.updateNuyens(actor);
@@ -570,6 +571,20 @@ export class SR5Actor extends Actor {
     }
   }
 
+  prepareWifiItems(actor){
+    const actorData = this.data;
+    actorData.data.matrix.wifiItems = {};
+
+    for (let i of actorData.items) {
+      if ((i.data.type === "itemAugmentation" || i.data.type === "itemArmor" || i.data.type === "itemGear" || i.data.type === "itemWeapon") 
+      && i.data.data.isActive && i.data.data.wirelessTurnedOn){
+        console.log(i);
+        actorData.data.matrix.wifiItems[i.id] = i.name;
+        //actorData.data.matrix.wifiItems.push(i);
+        //actorData.data.matrix.wifiItems.push(i.toObject(false));
+      }
+    }
+  }
   //Roll a test
   rollTest(rollType, rollKey, chatData){
     SR5_Roll.actorRoll(this, rollType, rollKey, chatData);

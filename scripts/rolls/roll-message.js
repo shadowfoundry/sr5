@@ -97,7 +97,11 @@ export class SR5_RollMessage {
                     actor.rollTest("defenseCard", null, messageData);
                     break;
                 case "msgTest_matrixDefense":
-                    actor.rollTest("matrixDefense", messageData.typeSub, messageData);
+                    if (messageData.typeSub === "dataSpike") {
+                        SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
+                    } else {
+                        actor.rollTest("matrixDefense", messageData.typeSub, messageData);
+                    }
                     break;
                 case "msgTest_attackResistance":
                     actor.rollTest("resistanceCard", null, messageData);
