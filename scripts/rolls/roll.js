@@ -496,6 +496,10 @@ export class SR5_Roll {
             break;
 
             case "matrixDefense":
+                if (chatData.typeSub === "dataSpike"){
+                    console.log(chatData);
+                    console.log(actor.data.data.matrix.wifiItems);
+                }
                 if (actor.type === "actorSpirit") return;
                 title = `${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                 dicePool = matrixAction.defense.dicePool;
