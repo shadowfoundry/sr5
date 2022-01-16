@@ -602,4 +602,35 @@ export class SR5_DiceHelper {
         let effect = await _getSRStatusEffect("fullDefenseMode");
         actor.createEmbeddedDocuments("ActiveEffect", [effect]);
     }
+
+    static async chooseMatrixDefender(messageData, actor){
+        console.log(messageData);
+        console.log(actor);
+        let cancel = true;
+        let dialogData = {
+            itemList: actor.data.data.matrix.wifiItems,
+        };
+        renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData).then((dlg) => {
+            new Dialog({
+              title: game.i18n.localize('SR5.Target'),
+              content: dlg,
+              buttons: {
+                ok: {
+                  label: "Ok",
+                  callback: () => (cancel = false),
+                },
+                cancel: {
+                  label : "Cancel",
+                  callback: () => (cancel = true),
+                },
+              },
+              default: "ok",
+              close: (html) => {
+                if (cancel) return;
+                let targetItem = html.find("[name=target]").val();
+                console.log(targetItem);
+              },
+            }).render(true);
+          });
+    }
 }
