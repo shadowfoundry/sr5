@@ -323,6 +323,10 @@ export default class SR5_RollDialog extends Dialog {
         });
 
         // Mark modifiers
+        if (html.find('[name="dicePoolModMarkWanted"]')[0]) {
+            dialogData.dicePoolMod.matrixMarkWanted = -(html.find('[name="dicePoolModMarkWanted"]')[0].value);
+        }
+
         html.find(".mark").change(ev => {
             html.find('[name="dicePoolModMarkWanted"]')[0].value = -(parseInt(ev.target.value) || 0);
             dialogData.dicePoolMod.matrixMarkWanted = -(parseInt(ev.target.value) || 0);

@@ -2448,8 +2448,6 @@ export class SR5_CharacterUtility extends Actor {
         return;
     }
 
-    //PAN
-    //console.log(deck);
     matrix.pan = deck.data.pan;
 
     SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0)

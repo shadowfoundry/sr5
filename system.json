@@ -1,167 +1,247 @@
 {
-    "name": "sr5",
-    "title": "Shadowrun 5",
-    "description": "A comprehensive ruleset to play Shadowrun 5th Edition with Foundry VTT.",
-    "version": "0.0.4.2",
-    "author": "Karmaroms, deurk",
-    "templateVersion": 2,
-    "scripts": [],
-    "esmodules": ["sr5.js"],
-    "styles": ["css/sr5.css"],
-    "packs": [{
-        "name": "fr_weapons",
-        "label": "[fr] Armes",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_weapons.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_armors",
-        "label": "[fr] Armures",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_armors.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_augmentations",
-        "label": "[fr] Augmentations",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_augmentations.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_devices",
-        "label": "[fr] Appareils (Commlinks, Decks,...)",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_devices.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_gear",
-        "label": "[fr] Équipement",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_gear.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_foci",
-        "label": "[fr] Focus",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_foci.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_metamagics",
-        "label": "[fr] Métamagies",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_metamagics.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_powers-adepts",
-        "label": "[fr] Pouvoirs d'adeptes",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_powers-adepts.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_powers-creatures",
-        "label": "[fr] Pouvoirs de créatures",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_powers-creatures.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_powers-sprites",
-        "label": "[fr] Pouvoirs de sprites",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_powers-sprites.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_powers-headcases",
-        "label": "[fr] Pouvoirs de défractés",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_powers-headcases.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_programs",
-        "label": "[fr] Programmes",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_programs.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_spells",
-        "label": "[fr] Sorts",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_spells.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_qualities-positive",
-        "label": "[fr] Traits (Avantages)",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_qualities-positive.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_qualities-negative",
-        "label": "[fr] Traits (Défauts)",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_qualities-negative.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_complex-forms",
-        "label": "[fr] Formes Complexes",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_complex-forms.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_echoes",
-        "label": "[fr] Échos",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_echoes.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_vehicles",
-        "label": "[fr] Véhicules",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_vehicles.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_drones",
-        "label": "[fr] Drones",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_drones.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_drugs",
-        "label": "[fr] Drogues",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_drugs.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_ammo",
-        "label": "[fr] Munitions",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_ammo.db",
-        "entity": "Item"
-    }, {
-        "name": "fr_archetypes",
-        "label": "[fr] Archétypes",
-        "system": "sr5",
-        "path": "./sr5-licensed/packs/fr_archetypes.db",
-        "entity": "Actor"
-    }],
-    "languages": [{
-        "lang": "en",
-        "name": "English",
-        "path": "lang/en.json"
-    }, {
-        "lang": "fr",
-        "name": "Français",
-        "path": "lang/fr.json"
-    }],
-    "dependencies": [{
-        "name": "sr5-ui-overrides",
-        "version": "0.0.1"
-    }],
-    "socket": true,
-    "initiative": "1d6",
-    "gridDistance": 1,
-    "gridUnits": "m",
-    "minimumCoreVersion": "9",
-    "compatibleCoreVersion": "9.242",
-    "background": "./img/sr5SplashScreen.jpg",
-    "url": "https://github.com/shadowfoundry/sr5",
-    "manifest": "https://github.com/shadowfoundry/sr5/releases/download/latest/system.json",
-    "download": "https://github.com/shadowfoundry/sr5/releases/download/latest/sr5.zip"
+  "name": "sr5",
+  "title": "Shadowrun 5",
+  "description": "A comprehensive ruleset to play Shadowrun 5th Edition with Foundry VTT.",
+  "author": "Karmaroms, deurk",
+  "authors": [],
+  "url": "https://github.com/shadowfoundry/sr5",
+  "flags": {},
+  "version": "0.0.4.2",
+  "minimumCoreVersion": "9",
+  "compatibleCoreVersion": "9.242",
+  "scripts": [],
+  "esmodules": [
+    "sr5.js"
+  ],
+  "styles": [
+    "css/sr5.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    },
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "fr_weapons",
+      "label": "[fr] Armes",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_weapons.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_armors",
+      "label": "[fr] Armures",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_armors.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_augmentations",
+      "label": "[fr] Augmentations",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_augmentations.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_devices",
+      "label": "[fr] Appareils (Commlinks, Decks,...)",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_devices.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_gear",
+      "label": "[fr] Équipement",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_gear.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_foci",
+      "label": "[fr] Focus",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_foci.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_metamagics",
+      "label": "[fr] Métamagies",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_metamagics.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_powers-adepts",
+      "label": "[fr] Pouvoirs d'adeptes",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_powers-adepts.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_powers-creatures",
+      "label": "[fr] Pouvoirs de créatures",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_powers-creatures.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_powers-sprites",
+      "label": "[fr] Pouvoirs de sprites",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_powers-sprites.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_powers-headcases",
+      "label": "[fr] Pouvoirs de défractés",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_powers-headcases.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_programs",
+      "label": "[fr] Programmes",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_programs.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_spells",
+      "label": "[fr] Sorts",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_spells.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_qualities-positive",
+      "label": "[fr] Traits (Avantages)",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_qualities-positive.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_qualities-negative",
+      "label": "[fr] Traits (Défauts)",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_qualities-negative.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_complex-forms",
+      "label": "[fr] Formes Complexes",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_complex-forms.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_echoes",
+      "label": "[fr] Échos",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_echoes.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_vehicles",
+      "label": "[fr] Véhicules",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_vehicles.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_drones",
+      "label": "[fr] Drones",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_drones.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_drugs",
+      "label": "[fr] Drogues",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_drugs.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_ammo",
+      "label": "[fr] Munitions",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_ammo.db",
+      "entity": "Item",
+      "type": "Item",
+      "private": false
+    },
+    {
+      "name": "fr_archetypes",
+      "label": "[fr] Archétypes",
+      "system": "sr5",
+      "path": "./sr5-licensed/packs/fr_archetypes.db",
+      "entity": "Actor",
+      "type": "Actor",
+      "private": false
+    }
+  ],
+  "system": [],
+  "dependencies": [
+    {
+      "name": "sr5-ui-overrides",
+      "version": "0.0.1",
+      "type": "module"
+    }
+  ],
+  "socket": true,
+  "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
+  "download": "https://github.com/shadowfoundry/sr5/releases/latest/download/sr5.zip",
+  "protected": false,
+  "background": "./img/sr5SplashScreen.jpg",
+  "initiative": "1d6",
+  "gridDistance": 1,
+  "gridUnits": "m"
 }

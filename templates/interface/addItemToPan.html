@@ -1,7 +1,16 @@
-<form>
+<form name="pan">
+	<div class="form-group">
+		<select name="actor" data-dtype="String">
+			{{#select actor}}
+			{{#each actorList}}
+			<option value="{{@key}}">{{this}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+	</div>
 	<div class="form-group">
 	  	<select name="itemToAdd" data-dtype="String">
-		{{#select item}}
+		{{#select itemToAdd}}
         <option value="none">{{localize 'SR5.ChooseItemToPan'}}</option>
 		  	{{#if list.augmentations}}
 				<optgroup label="{{localize 'SR5.Augmentations'}}">

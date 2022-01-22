@@ -315,7 +315,6 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateAstralValues(actor);
         SR5_CharacterUtility.handleVision(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
-        this.prepareWifiItems();
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);
           SR5_CharacterUtility.updateNuyens(actor);
@@ -344,7 +343,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemGear":
-          actorData.data.matrix.potentialPanObject.gears[i.id] = i.name;
+          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.gears[i.uuid] = i.name;
           if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.gears[i.id] = i.name;
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
@@ -388,7 +387,7 @@ export class SR5Actor extends Actor {
             }
           }
           if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.armors[i.id] = i.name;
-          actorData.data.matrix.potentialPanObject.armors[i.id] = i.name;
+          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.armors[i.uuid] = i.name;
           break;
 
         case "itemAugmentation":
@@ -400,7 +399,7 @@ export class SR5Actor extends Actor {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
           if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.augmentations[i.id] = i.name;
-          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.augmentations[i.id] = i.name;
+          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.augmentations[i.uuid] = i.name;
           break;
 
         case "itemAdeptPower":
@@ -471,7 +470,7 @@ export class SR5Actor extends Actor {
           SR5_UtilityItem._handleVisionAccessory(iData, actorData);
           if(actorData.data.matrix){ 
             if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.weapons[i.id] = i.name;
-            actorData.data.matrix.potentialPanObject.weapons[i.id] = i.name;
+            if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.weapons[i.uuid] = i.name;
           }
           break;
 
@@ -586,20 +585,6 @@ export class SR5Actor extends Actor {
     }
   }
 
-  prepareWifiItems(actor){
-    const actorData = this.data;
-    actorData.data.matrix.wifiItems = {};
-
-    for (let i of actorData.items) {
-      if ((i.data.type === "itemAugmentation" || i.data.type === "itemArmor" || i.data.type === "itemGear" || i.data.type === "itemWeapon") 
-      && i.data.data.isActive && i.data.data.wirelessTurnedOn){
-        console.log(i);
-        actorData.data.matrix.wifiItems[i.id] = i.name;
-        //actorData.data.matrix.wifiItems.push(i);
-        //actorData.data.matrix.wifiItems.push(i.toObject(false));
-      }
-    }
-  }
   //Roll a test
   rollTest(rollType, rollKey, chatData){
     SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
@@ -885,9 +870,16 @@ export class SR5Actor extends Actor {
     //Retire les marks du perso sur les autres acteurs.
     for (let a of game.actors) {
       for (let i of a.data.items) {
-        if (i.type === "itemMark" && i.data.owner === actorID) {
-          await a.deleteEmbeddedDocuments("Item", [i.id]);
+        console.log(i);
+        if (i.data.data.mark?.length){
+
+          //let newItem = duplicate(i.data)
+          //newItem.data.mark.filter(el => el.id === actorID);
+          //i.update({"data": newItem});
         }
+        //if (i.type === "itemMark" && i.data.owner === actorID) {
+        //  await a.deleteEmbeddedDocuments("Item", [i.id]);
+        //}
       }
     }
 
@@ -1097,6 +1089,52 @@ export class SR5Actor extends Actor {
   static async _handleDismissSidekickSocketMessage(message) {
     await SR5Actor.dimissSidekick(message.data.actor);
 	}
+
+  static async addItemtoPan(targetItem, actorId){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
+        deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
+        item = await fromUuid(targetItem),
+        itemToAdd = item.toObject(false);
+
+    console.log(item);
+    console.log(itemToAdd)
+    itemToAdd.data.isSlavedToPan = true;
+    itemToAdd.data.panMaster = actorId;
+    await item.update({"data": itemToAdd.data});
+    
+    let currentPan = duplicate(deck.data.data.pan);
+    let panObject = {
+      "name": item.name,
+      "uuid": targetItem,
+    }
+    currentPan.content.push(panObject);
+    currentPan.current += 1;
+    await deck.update({"data.pan": currentPan,});
+  }
+
+  static async _handleAddItemToPanSocketMessage(message){
+    await SR5Actor.addItemtoPan(message.data.targetItem, message.data.actorId);
+  }
+
+  static async deleteItemFromPan(targetItem, index, actorId){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
+        deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
+        item = await fromUuid(targetItem),
+        newItem = duplicate(item.data.data);
+
+    newItem.isSlavedToPan = false;
+    newItem.panMaster = "";
+    await item.update({"data": newItem,});
+
+    let currentPan = duplicate(deck.data.data.pan);
+    currentPan.content.splice(index, 1)
+    currentPan.current -=1;
+    await deck.update({"data.pan": currentPan,});
+  }
+
+  static async _handleDeleteItemFromPanSocketMessage(message){
+    await SR5Actor.deleteItemFromPan(message.data.targetItem, message.data.index, message.data.actorId);
+  }
 
 }
 

@@ -195,8 +195,58 @@ export class SR5_DiceHelper {
    * @param {Object} attackerID - Actor ID who wants to put a mark
    * @param {Object} mark - Number of Marks to put
    */
-    static async markActor(targetActor, attackerID, mark) {
+    static async markActor(targetActor, attackerID, mark, message) {
         let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID);
+        console.log(message);
+        let item = targetActor.data.items.find((i) => i.data._id === message.matrixTargetItem._id);
+        console.log(item);
+        let itemToMark = duplicate(item.data.data);
+        console.log(itemToMark);
+        // If item is already marked, increase marks
+        let existingMark;
+        for (let m of itemToMark.mark){
+            if (m.id === attackerID) {
+                m.value += mark;
+                existingMark = true;
+            }
+        }
+        // Add new mark to item        
+        if (!existingMark){
+            let newMark = {
+                "id": attackerID,
+                "value": mark,
+                "ownerName": attacker.name,
+            }
+            itemToMark.mark.push(newMark)
+        }
+        console.log(itemToMark);
+        //item.update({"data": itemToMark});
+
+        //Add mark info to attacker deck;
+        let attackerDeck = attacker.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+        let deckData = duplicate(attackerDeck.data.data);
+        //If item is already marked, update value
+        let alreadyMarked = false;
+        for (let m of deckData.markedItems){
+            if (m.uuid === item.uuid) {
+                m.value += mark;
+                alreadyMarked = true;
+            }
+        }
+        if (!alreadyMarked){
+            let newMark = {
+                "uuid": item.uuid,
+                "value": mark,
+                "itemName": item.name,
+                'itemOwner': item.actor.name,
+            }
+            deckData.markedItems.push(newMark);
+        }
+        console.log(deckData);
+        attackerDeck.update({"data": deckData});
+
+
+        /*let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID);
         // slaved device and Ice share their marks with server.
         if (attacker.isToken && attacker.type === "actorDevice") attackerID = attacker.id;
         // If defender already marked, increase marks
@@ -214,8 +264,8 @@ export class SR5_DiceHelper {
                 "data.value": mark,
             };
             targetActor.createEmbeddedDocuments("Item", [markData]);
-        }
-        ui.notifications.info(`${attacker.data.name} ${game.i18n.format("SR5.INFO_ActorPutMark", {mark: mark})} ${targetActor.name}`);
+        }*/
+        //ui.notifications.info(`${attacker.data.name} ${game.i18n.format("SR5.INFO_ActorPutMark", {mark: mark})} ${targetActor.name}`);
     }
 
     /** Find if an Actor has a Mark item with the same ID as the attacker
@@ -223,12 +273,16 @@ export class SR5_DiceHelper {
    * @param {Object} attackerID - The ID of the attacker who wants to mark
    * @return {Object} the mark item
    */
-    static async findMarkValue(targetActor, attackerID){
-        if (targetActor.data.items.find((i) => i.data.data.owner === attackerID)) {
+    static async findMarkValue(item, attackerID){
+        for (let [key, value] of Object.entries(item.data.marks)){
+            if (key === attackerID) return value;
+            else return false;
+        }
+        /*if (targetActor.data.items.find((i) => i.data.data.owner === attackerID)) {
             let i = targetActor.data.items.find((i) => i.data.data.owner === attackerID);
             let iMark = targetActor.items.get(i.id);
             return iMark;
-        } else return false;
+        } else return false;*/
     }
 
     /** Apply Matrix Damage to a Dack
@@ -642,8 +696,6 @@ export class SR5_DiceHelper {
                 if (cancel) return;
                 let targetItem = html.find("[name=target]").val();
                 messageData.matrixTargetDevice = targetItem;
-                //console.log(targetItem);
-                //console.log(messageData);
                 actor.rollTest("matrixDefense", messageData.typeSub, messageData);
               },
             }).render(true);

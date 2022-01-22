@@ -5105,7 +5105,9 @@
             "boxes": []
           }
         },
-        "isSlavedToPan": false
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "mark":[]
       },
       "templateCapacity": {
         "capacity": {
@@ -5367,7 +5369,8 @@
         "max": 0,
         "current": 0,
         "content":[]
-      }
+      },
+      "markedItems": []
     },
     "itemGear": {
       "templates": [

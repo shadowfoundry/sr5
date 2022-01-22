@@ -496,24 +496,28 @@ export class SR5_Roll {
             break;
 
             case "matrixDefense":
-                if (chatData.typeSub === "dataSpike"){
-                    console.log(chatData);
-                    console.log(actor.data.data.matrix.wifiItems);
-                }
                 if (actor.type === "actorSpirit") return;
                 title = `${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                 dicePool = matrixAction.defense.dicePool;
-
                 //Handle item targeted
                 if (chatData.matrixTargetDevice && chatData.matrixTargetDevice !== "device"){
                     let targetItem = actor.items.find(i => i.id === chatData.matrixTargetDevice);
-                    console.log(targetItem);
-                    //if (targetItem.data.data.isSlavedToPan && ())
-                    title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
-                    dicePool = targetItem.data.data.deviceRating * 2;
+                    if (!targetItem.data.data.isSlavedToPan){
+                        title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
+                        dicePool = targetItem.data.data.deviceRating * 2;
+                    } else {
+                        let panMaster = SR5_EntityHelpers.getRealActorFromID(targetItem.data.data.panMaster);
+                        let panMasterDefense = panMaster.data.data.matrix.actions[rollKey].defense.dicePool;
+                        dicePool = Math.max(targetItem.data.data.deviceRating * 2, panMasterDefense);
+                    }
                     optionalData = mergeObject(optionalData, {
                         matrixTargetItem: targetItem,
                     });  
+                } else {
+                    let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+                    optionalData = mergeObject(optionalData, {
+                        matrixTargetItem: deck,
+                    });
                 }
 
                 typeSub = rollKey;

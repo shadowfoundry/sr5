@@ -97,7 +97,13 @@ export class SR5_RollMessage {
                     actor.rollTest("defenseCard", null, messageData);
                     break;
                 case "msgTest_matrixDefense":
-                    if (messageData.typeSub === "dataSpike") {
+                    if (messageData.typeSub === "dataSpike" 
+                        || messageData.typeSub === "controlDevice"
+                        || messageData.typeSub === "formatDevice"
+                        || messageData.typeSub === "hackOnTheFly"
+                        || messageData.typeSub === "spoofCommand"
+                        || messageData.typeSub === "bruteForce"
+                        || messageData.typeSub === "rebootDevice") {
                         SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
                     } else {
                         actor.rollTest("matrixDefense", messageData.typeSub, messageData);
@@ -202,7 +208,7 @@ export class SR5_RollMessage {
                     SR5_Dice.extendedRoll(message, actor);
                     break;
                 case "msgTest_attackerAddMark":
-                    SR5_DiceHelper.markActor(actor, messageData.originalActionAuthor, messageData.mark);
+                    SR5_DiceHelper.markActor(actor, messageData.originalActionAuthor, messageData.mark, messageData);
                     // Si le défenseur est un objet asservi, placer la marque sur le serveur
                     if (actor.data.data.matrix.deviceType === "slavedDevice") {
                         for (let server of game.actors) {
@@ -215,7 +221,7 @@ export class SR5_RollMessage {
                         let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
                         SR5_DiceHelper.markActor(controler, messageData.originalActionAuthor, messageData.mark);
                     }
-                    SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
+                    //SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
                     break;
                 case "msgTest_defenderAddMark":
                     let attackerID;
