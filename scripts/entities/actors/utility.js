@@ -2449,6 +2449,8 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     matrix.pan = deck.data.pan;
+    matrix.marks = deck.data.marks;
+    matrix.markedItems = deck.data.markedItems;
 
     SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0)
     SR5_EntityHelpers.updateValue(matrix.programsCurrentActive, 0)

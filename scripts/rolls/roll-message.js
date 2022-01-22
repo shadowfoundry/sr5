@@ -208,18 +208,20 @@ export class SR5_RollMessage {
                     SR5_Dice.extendedRoll(message, actor);
                     break;
                 case "msgTest_attackerAddMark":
-                    SR5_DiceHelper.markActor(actor, messageData.originalActionAuthor, messageData.mark, messageData);
+                    console.log(messageData);
+                    //SR5_DiceHelper.markItem(actor, messageData.mark, messageData);
+                    SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
                     // Si le défenseur est un objet asservi, placer la marque sur le serveur
                     if (actor.data.data.matrix.deviceType === "slavedDevice") {
                         for (let server of game.actors) {
                             if (server.id === actor.id && server.data.data.matrix.deviceType === "host") {
-                                SR5_DiceHelper.markActor(server, messageData.originalActionAuthor, messageData.mark);
+                                SR5_DiceHelper.markDeviceAAA(server, messageData.originalActionAuthor, messageData.mark);
                             }
                         }
                     }
                     if (actor.data.type === "actorDrone" && actor.data.data.vehicleOwner.id){
                         let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
-                        SR5_DiceHelper.markActor(controler, messageData.originalActionAuthor, messageData.mark);
+                        SR5_DiceHelper.markDevice(controler, messageData.originalActionAuthor, messageData.mark);
                     }
                     //SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
                     break;
@@ -227,8 +229,8 @@ export class SR5_RollMessage {
                     let attackerID;
                     if (actor.isToken) attackerID = actor.token.id;
                     else attackerID = actor.id;
-                    SR5_DiceHelper.markActor(originalActionAuthor, attackerID, 1);
-                    SR5_RollMessage.updateChatButton(message, "defenderPlaceMark");
+                    SR5_DiceHelper.markDevice(originalActionAuthor, attackerID, 1);
+                    //SR5_RollMessage.updateChatButton(message, "defenderPlaceMark");
                     break;
                 case "msgTest_increaseOverwatch":
                     originalActionAuthor.overwatchIncrease(messageData.test.hits);

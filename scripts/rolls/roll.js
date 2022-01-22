@@ -399,13 +399,15 @@ export class SR5_Roll {
                 break;
 
             case "resistFire":
-                title = `${game.i18n.localize("SR5.TryToNotCatchFire")} (${chatData.fireTreshold})`//`${game.i18n.localize("SR5.MovementTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.movements[rollKey])}`;
-                dicePool = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value;
+                title = `${game.i18n.localize("SR5.TryToNotCatchFire")} (${chatData.fireTreshold})`
+                dicePool = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value + chatData.incomingPA;
+                let armored = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value;
                 optionalData = {
                     //chatActionType: "msgTest_damage",
+                    armor: armored,
                     incomingPA: chatData.incomingPA,
                     fireTreshold: chatData.fireTreshold,
-                    dicePoolBase : dicePool,
+                    dicePoolBase : 0,
                 }
                 break;
 

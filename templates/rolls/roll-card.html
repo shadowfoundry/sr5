@@ -174,11 +174,12 @@
       {{/if}}
 
       {{#if button.attackerPlaceMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_attackerAddMark">{{localize 'SR5.PlaceMarkTo' key=mark name=speakerActor}}</button>
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_attackerAddMark">{{localize 'SR5.AttackerPlaceMarkTo' key=mark item=matrixTargetItem.name name=speakerActor}}</button>
+        {{log this}}
       {{/if}}
 
       {{#if button.defenderPlaceMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderAddMark">{{localize 'SR5.PlaceMarkTo' key=mark name=attackerName}}</button>
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderAddMark">{{localize 'SR5.DefenderPlaceMarkTo' key=mark item=matrixTargetItem.name name=attackerName}}</button>
       {{/if}}
 
       {{#if button.defenderDoMatrixDamage}}

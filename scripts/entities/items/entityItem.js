@@ -104,7 +104,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
         data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
-        data.pan.max = data.deviceRating * 3;
+        if (itemData.type !== "livingPersona" || itemData.type !== "headcase") data.pan.max = data.deviceRating * 3;
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemFocus":
@@ -189,6 +189,15 @@ export class SR5Item extends Item {
           game.i18n.localize(lists.augmentationGrades[data.grade]),
           game.i18n.localize("SR5.ItemRating") + ` ${data.itemRating}`,
         );
+        if (data.marks.length){
+          for (let m of data.marks){
+            tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
+          }
+        }
+        if (data.isSlavedToPan){
+          let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+          tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
+        }
         break;
       case "itemWeapon":
         if (data.category === "rangedWeapon"){
@@ -214,6 +223,15 @@ export class SR5Item extends Item {
           tags.push(
             game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${data.range.short.value}/${data.range.medium.value}/${data.range.long.value}/${data.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
           );
+        }
+        if (data.marks.length){
+          for (let m of data.marks){
+            tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
+          }
+        }
+        if (data.isSlavedToPan){
+          let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+          tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
         }
         break;
       case "itemPreparation":
@@ -250,6 +268,18 @@ export class SR5Item extends Item {
         }
         if (this.data.type === "itemSpell") tags.push(game.i18n.localize(`SR5.SpellDrain`) + game.i18n.localize(`SR5.Colons`) + ` ${data.drainModifier}`);
         break;
+      case "itemGear":
+        if (data.marks.length){
+          for (let m of data.marks){
+            tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
+          }
+        }
+        if (data.isSlavedToPan){
+          let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+          tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
+        }
+        break;
+        
       default:
     }
 

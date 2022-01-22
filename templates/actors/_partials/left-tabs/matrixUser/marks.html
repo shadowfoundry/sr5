@@ -5,26 +5,12 @@
 		<li class="grid SR-LigneEnTete">
 			<div class="col-11 SR-TextUppercase">{{localize 'SR5.Marks'}}</div>
 			<div class="col-1">
-				<!--
-				{{#if owner}}
-					<p class="SR-TextCenter add-item">
-						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemMark"><em class="fas fa-plus"></em></a>
-					</p>
-				{{/if}}
-				-->
 			</div>
 		</li>
-		{{#each actor.marks as |item i|}}
+		{{#each data.matrix.marks}}
 		<li class="item grid" data-item-id="{{item._id}}">
-			<div class="col-10 deplie">{{item.name}}</div>
-			<div class="col-2">
-				{{#if ../owner}}
-					<p class="SR-TextCenter">
-						<a class="item-edit" data-title="{{localize 'SR5.Edit'}}"><em class="fas fa-sm fa-edit"></em></a>
-						<a class="item-delete" data-title="{{localize 'SR5.Delete'}}"><em class="fas fa-sm fa-trash"></em></a>
-					</p>
-				{{/if}}
-			</div>
+			<div class="col-11">{{ownerName}}</div>
+			<div class="col-1 SR-TextCenter">{{value}}</div>
 		</li>
 		{{/each}}
 	</ul>

@@ -565,6 +565,7 @@ export class SR5Actor extends Actor {
             if (iData.type ==="riggerCommandConsole") {
               if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actorData);
             }
+            if (iData.type === "livingPersona" || iData.type === "headcase") iData.pan.max = actorData.data.matrix.deviceRating * 3;
             i.prepareData();
           }
           break;
@@ -841,58 +842,63 @@ export class SR5Actor extends Actor {
 
   //Reboot deck = reset Overwatch score and delete any marks on or from the actor
   async rebootDeck() {
+    let actorID = (this.isToken ? this.token.id : this.id);
+    let dataToUpdate = {};
+    let updatedItems = duplicate(this.data.items);
     
-    let actorID = (this.token ? this.token.data.id : this.data.id);
-
-    //Retire toutes les marks sur l'acteur
-    let marks = this.data.items.filter((i) => i.type === "itemMark");
-    let deletions = marks.map((i) => i.id);
-    await this.deleteEmbeddedDocuments("Item", deletions); // Deletes multiple EmbeddedEntity objects
-
-    //Delete ICE effects from Deck
-    let iceEffects = this.data.items.filter((i) => (i.type === "itemEffect" && i.data.data.type === "iceAttack"));
-    deletions = iceEffects.map((i) => i.id);
-    await this.deleteEmbeddedDocuments("Item", deletions); // Deletes multiple EmbeddedEntity objects
-
     //Reset le SS à 0
-    let actor = this.data.toObject(false);
-    actor.data.matrix.attributes.attack.base = 0;
-    actor.data.matrix.attributes.dataProcessing.base = 0;
-    actor.data.matrix.attributes.firewall.base = 0;
-    actor.data.matrix.attributes.sleaze.base = 0;
-    actor.data.matrix.attributesCollection.value1isSet = false;
-    actor.data.matrix.attributesCollection.value2isSet = false;
-    actor.data.matrix.attributesCollection.value3isSet = false;
-    actor.data.matrix.attributesCollection.value4isSet = false;
-    actor.data.matrix.overwatchScore = 0;
-    this.update(actor);
-
-    //Retire les marks du perso sur les autres acteurs.
-    for (let a of game.actors) {
-      for (let i of a.data.items) {
-        console.log(i);
-        if (i.data.data.mark?.length){
-
-          //let newItem = duplicate(i.data)
-          //newItem.data.mark.filter(el => el.id === actorID);
-          //i.update({"data": newItem});
-        }
-        //if (i.type === "itemMark" && i.data.owner === actorID) {
-        //  await a.deleteEmbeddedDocuments("Item", [i.id]);
-        //}
-      }
+    let actorData = duplicate(this.data.data);
+    actorData.matrix.attributes.attack.base = 0;
+    actorData.matrix.attributes.dataProcessing.base = 0;
+    actorData.matrix.attributes.firewall.base = 0;
+    actorData.matrix.attributes.sleaze.base = 0;
+    actorData.matrix.attributesCollection.value1isSet = false;
+    actorData.matrix.attributesCollection.value2isSet = false;
+    actorData.matrix.attributesCollection.value3isSet = false;
+    actorData.matrix.attributesCollection.value4isSet = false;
+    actorData.matrix.overwatchScore = 0;
+    
+    //Delete marks on others actors
+    if (actorData.matrix.markedItems.length) {
+      await this.deleteMarksOnActor(actorData, actorID);
     }
 
-    //Retire les marks du perso sur les autres tokens.
-    for (let token of canvas.tokens.placeables) {
-      for (let i of token.actor.data.items) {
-        if (i.type === "itemMark" && i.data.owner === actorID) {
-          await token.actor.deleteEmbeddedDocuments("Item", [i.id]);
-        }
+    //Delete marks from owned items
+    let index=0;
+    for (let i of updatedItems){
+      if (i.data.marks?.length) i.data.marks = [];
+      //Reset Marked items
+      if (i.data.markedItems?.length) i.data.markedItems = [];
+      //Delete ICE effects from Deck
+      if (i.type === "itemEffect" && i.data.data.type === "iceAttack"){
+        updatedItems.splice(index, 1);
+        index--;
       }
+      index++;
     }
 
-    ui.notifications.info(`${actor.data.matrix.deviceName} ${game.i18n.localize("SR5.Rebooted")}.`);
+    dataToUpdate = mergeObject(dataToUpdate, {
+      "data": actorData,
+      "items": updatedItems,
+    });
+    this.update(dataToUpdate);
+
+    ui.notifications.info(`${actorData.matrix.deviceName} ${game.i18n.localize("SR5.Rebooted")}.`);
+  }
+
+  //Delete Marks on Others actors
+  async deleteMarksOnActor(actorData, actorID){
+    for (let m of actorData.matrix.markedItems){
+      let itemToClean = await fromUuid(m.uuid);
+      let cleanData = duplicate(itemToClean.data.data);
+      for (let i = 0; i < cleanData.marks.length; i++){
+        if (cleanData.marks[i].ownerId === actorID) {
+          cleanData.marks.splice(i, 1);
+          i--;
+        }
+      }
+      itemToClean.update({"data" : cleanData});
+    }
   }
 
   //Raise owerwatch score

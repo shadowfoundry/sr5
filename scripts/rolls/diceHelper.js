@@ -190,102 +190,125 @@ export class SR5_DiceHelper {
         else return actor.data.attributes[key].augmented.value;
     }
 
-    /** Put a mark on Actor
-   * @param {Object} targetActor - The Target Actor
+    /** Put a mark on a specific Item
+   * @param {Object} targetActor - The Actor who owns the item
    * @param {Object} attackerID - Actor ID who wants to put a mark
    * @param {Object} mark - Number of Marks to put
+   * @param {Object} targetItem - Target item
    */
-    static async markActor(targetActor, attackerID, mark, message) {
-        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID);
-        console.log(message);
-        let item = targetActor.data.items.find((i) => i.data._id === message.matrixTargetItem._id);
-        console.log(item);
-        let itemToMark = duplicate(item.data.data);
-        console.log(itemToMark);
+    static async markItem(targetActor, attackerID, mark, targetItem) {
+        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
+            item = targetActor.data.items.find((i) => i.data._id === targetItem._id),
+            itemToMark = duplicate(item.data.data),
+            existingMark = false;
+
         // If item is already marked, increase marks
-        let existingMark;
-        for (let m of itemToMark.mark){
-            if (m.id === attackerID) {
+        for (let m of itemToMark.marks){
+            if (m.ownerId === attackerID) {
                 m.value += mark;
+                if (m.value > 3) m.value = 3;
                 existingMark = true;
             }
         }
-        // Add new mark to item        
+        // Add new mark to item
         if (!existingMark){
             let newMark = {
-                "id": attackerID,
+                "ownerId": attackerID,
                 "value": mark,
                 "ownerName": attacker.name,
             }
-            itemToMark.mark.push(newMark)
+            itemToMark.marks.push(newMark)
         }
-        console.log(itemToMark);
-        //item.update({"data": itemToMark});
+        await item.update({"data": itemToMark});
 
-        //Add mark info to attacker deck;
-        let attackerDeck = attacker.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-        let deckData = duplicate(attackerDeck.data.data);
+        //Update attacker deck with data
+        SR5_DiceHelper.updateDeckMarkedItems(attackerID, item, mark)
+
+        if (itemToMark.isSlavedToPan){
+            SR5_DiceHelper.markPanMaster(itemToMark, attackerID, mark);
+        }
+    }
+
+    static async markPanMaster(itemToMark, attackerID, mark){
+        let panMaster = SR5_EntityHelpers.getRealActorFromID(itemToMark.panMaster);
+        let masterDevice = panMaster.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+        SR5_DiceHelper.markItem(panMaster, attackerID, mark, masterDevice.toObject(false));
+    }
+
+    //Add mark info to attacker deck
+    static async updateDeckMarkedItems(ownerID, markedItem, mark){
+        let owner = SR5_EntityHelpers.getRealActorFromID(ownerID),
+            ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
+            deckData = duplicate(ownerDeck.data.data),
+            alreadyMarked = false;
+
         //If item is already marked, update value
-        let alreadyMarked = false;
         for (let m of deckData.markedItems){
-            if (m.uuid === item.uuid) {
+            if (m.uuid === markedItem.uuid) {
                 m.value += mark;
+                if (m.value > 3) m.value = 3;
                 alreadyMarked = true;
             }
         }
         if (!alreadyMarked){
             let newMark = {
-                "uuid": item.uuid,
+                "uuid": markedItem.uuid,
                 "value": mark,
-                "itemName": item.name,
-                'itemOwner': item.actor.name,
+                "itemName": markedItem.name,
+                'itemOwner': markedItem.actor.name,
             }
             deckData.markedItems.push(newMark);
         }
-        console.log(deckData);
-        attackerDeck.update({"data": deckData});
-
-
-        /*let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID);
-        // slaved device and Ice share their marks with server.
-        if (attacker.isToken && attacker.type === "actorDevice") attackerID = attacker.id;
-        // If defender already marked, increase marks
-        let existingMark = await SR5_DiceHelper.findMarkValue(targetActor, attackerID);
-        if (existingMark) {
-            let newMark = existingMark.data.data.value + mark;
-            // Keep number of marks under 3
-            if (newMark > 3) newMark = 3;
-            existingMark.update({"data.value": newMark});
-        } else {
-            let markData = {
-                name: attacker.data.name,
-                type: "itemMark",
-                "data.owner": attackerID,
-                "data.value": mark,
-            };
-            targetActor.createEmbeddedDocuments("Item", [markData]);
-        }*/
-        //ui.notifications.info(`${attacker.data.name} ${game.i18n.format("SR5.INFO_ActorPutMark", {mark: mark})} ${targetActor.name}`);
+        await ownerDeck.update({"data": deckData});
     }
+
+    static async markDevice(targetActor, attackerID, mark){
+        //debugger;
+        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
+            ownerDeck = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
+            deckData = duplicate(ownerDeck.data.data),
+            existingMark = false;
+        
+        // If item is already marked, increase marks
+        for (let m of deckData.marks){
+            if (m.ownerId === attackerID) {
+                m.value += mark;
+                if (m.value > 3) m.value = 3;
+                existingMark = true;
+            }
+        }
+        // Add new mark to item
+        if (!existingMark){
+            let newMark = {
+                "ownerId": attackerID,
+                "value": mark,
+                "ownerName": attacker.name,
+            }
+            deckData.marks.push(newMark)
+        }
+        await ownerDeck.update({"data": deckData});
+        SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
+    }
+
+    //Il faut pouvoir marker un item spécifique, un deck, ou un actor
+    //Il faut pouvoir savoir si un item, un deck ou un actor à déjà une mark...
 
     /** Find if an Actor has a Mark item with the same ID as the attacker
    * @param {Object} targetActor - The Target Actor who owns the Mark
    * @param {Object} attackerID - The ID of the attacker who wants to mark
    * @return {Object} the mark item
    */
-    static async findMarkValue(item, attackerID){
-        for (let [key, value] of Object.entries(item.data.marks)){
-            if (key === attackerID) return value;
-            else return false;
-        }
-        /*if (targetActor.data.items.find((i) => i.data.data.owner === attackerID)) {
-            let i = targetActor.data.items.find((i) => i.data.data.owner === attackerID);
-            let iMark = targetActor.items.get(i.id);
-            return iMark;
-        } else return false;*/
+    static async findMarkValue(item, ownerID){
+        console.log(item);
+        if (item.marks.length) {
+            for (let m of item.marks){
+                if (m.ownerId === ownerID) return m.value;
+            }
+            return 0;
+        } else return 0;
     }
 
-    /** Apply Matrix Damage to a Dack
+    /** Apply Matrix Damage to a Deck
    * @param {Object} targetActor - The Target Actor who owns the deck/item
    * @param {Object} messageData - Message data
    * @param {Object} attacker - Actor who do the damage

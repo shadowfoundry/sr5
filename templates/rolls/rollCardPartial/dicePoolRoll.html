@@ -171,3 +171,10 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.perception}}</div>
 </li>
 {{/if}}
+<!--Resist Fire, Armor Penetration type mod Dicepool-->
+{{#if (eq type 'resistFire')}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{incomingPA}}</div>
+</li>
+{{/if}}
