@@ -86,6 +86,7 @@ export class SR5_RollMessage {
         //Opposed test : need to select a Token to operate
         if (action === "opposedTest") {
             actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
+            console.log(actor);
             if (actor == null) {
                 ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`);
                 return;
@@ -97,13 +98,14 @@ export class SR5_RollMessage {
                     actor.rollTest("defenseCard", null, messageData);
                     break;
                 case "msgTest_matrixDefense":
-                    if (messageData.typeSub === "dataSpike" 
+                    if ((messageData.typeSub === "dataSpike" 
                         || messageData.typeSub === "controlDevice"
                         || messageData.typeSub === "formatDevice"
                         || messageData.typeSub === "hackOnTheFly"
                         || messageData.typeSub === "spoofCommand"
                         || messageData.typeSub === "bruteForce"
-                        || messageData.typeSub === "rebootDevice") {
+                        || messageData.typeSub === "rebootDevice")
+                        && (actor.data.type !== "actorDevice" && actor.data.type !== "actorSprite" && actor.data.type !== "actorDrone")){
                         SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
                     } else {
                         actor.rollTest("matrixDefense", messageData.typeSub, messageData);
@@ -209,16 +211,19 @@ export class SR5_RollMessage {
                     break;
                 case "msgTest_attackerAddMark":
                     console.log(messageData);
-                    //SR5_DiceHelper.markItem(actor, messageData.mark, messageData);
-                    SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
+                    if (actor.data.type === "actorDevice"){
+                        SR5_DiceHelper.markActor(actor, messageData.originalActionAuthor, messageData.mark);
+                    } else {
+                        SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
+                    }
                     // Si le défenseur est un objet asservi, placer la marque sur le serveur
-                    if (actor.data.data.matrix.deviceType === "slavedDevice") {
+                    /*if (actor.data.data.matrix.deviceType === "slavedDevice") {
                         for (let server of game.actors) {
                             if (server.id === actor.id && server.data.data.matrix.deviceType === "host") {
-                                SR5_DiceHelper.markDeviceAAA(server, messageData.originalActionAuthor, messageData.mark);
+                                SR5_DiceHelper.markDevice(server, messageData.originalActionAuthor, messageData.mark);
                             }
                         }
-                    }
+                    }*/
                     if (actor.data.type === "actorDrone" && actor.data.data.vehicleOwner.id){
                         let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
                         SR5_DiceHelper.markDevice(controler, messageData.originalActionAuthor, messageData.mark);

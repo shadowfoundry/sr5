@@ -263,7 +263,6 @@ export class SR5_DiceHelper {
     }
 
     static async markDevice(targetActor, attackerID, mark){
-        //debugger;
         let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
             ownerDeck = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
             deckData = duplicate(ownerDeck.data.data),
@@ -290,6 +289,32 @@ export class SR5_DiceHelper {
         SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
     }
 
+    static async markActor(targetActor, attackerID, mark){
+        debugger;
+        let actorData = duplicate(targetActor.data),
+            attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
+            existingMark = false;
+        
+        // If item is already marked, increase marks
+        for (let m of actorData.data.matrix.marks){
+            if (m.ownerId === attackerID) {
+                m.value += mark;
+                if (m.value > 3) m.value = 3;
+                existingMark = true;
+            }
+        }
+        // Add new mark to item
+        if (!existingMark){
+            let newMark = {
+                "ownerId": attackerID,
+                "value": mark,
+                "ownerName": attacker.name,
+            }
+            actorData.data.matrix.marks.push(newMark)
+        }
+        targetActor.update(actorData);
+        //SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
+    }
     //Il faut pouvoir marker un item spécifique, un deck, ou un actor
     //Il faut pouvoir savoir si un item, un deck ou un actor à déjà une mark...
 

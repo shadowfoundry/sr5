@@ -866,7 +866,13 @@ export class SR5Actor extends Actor {
     //Delete marks from owned items
     let index=0;
     for (let i of updatedItems){
-      if (i.data.marks?.length) i.data.marks = [];
+      if (i.data.marks?.length) {
+        console.log(i);
+        for (let m of i.data.mark){
+          this.deleteMarkInfo(m.id, i._id);
+        }
+        i.data.marks = [];
+      }
       //Reset Marked items
       if (i.data.markedItems?.length) i.data.markedItems = [];
       //Delete ICE effects from Deck
@@ -886,7 +892,7 @@ export class SR5Actor extends Actor {
     ui.notifications.info(`${actorData.matrix.deviceName} ${game.i18n.localize("SR5.Rebooted")}.`);
   }
 
-  //Delete Marks on Others actors
+  //Delete Marks on Other actors
   async deleteMarksOnActor(actorData, actorID){
     for (let m of actorData.matrix.markedItems){
       let itemToClean = await fromUuid(m.uuid);
@@ -899,6 +905,24 @@ export class SR5Actor extends Actor {
       }
       itemToClean.update({"data" : cleanData});
     }
+  }
+
+  //Delete Mark info on other actors
+  async deleteMarkInfo(actorID, item){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorID),
+        deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
+        deckData = duplicate(deck.data.data),
+        index=0;
+    
+    for (let m of deckData.markedItems){
+      if (m.uuid.includes(item)){
+        deckData.markedItems.splice(index, 1);
+        index--;
+      }
+      index++;
+    }
+
+    deck.update({"data": deckData});
   }
 
   //Raise owerwatch score
