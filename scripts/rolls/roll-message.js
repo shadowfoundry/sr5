@@ -86,7 +86,6 @@ export class SR5_RollMessage {
         //Opposed test : need to select a Token to operate
         if (action === "opposedTest") {
             actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
-            console.log(actor);
             if (actor == null) {
                 ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`);
                 return;
@@ -210,32 +209,28 @@ export class SR5_RollMessage {
                     SR5_Dice.extendedRoll(message, actor);
                     break;
                 case "msgTest_attackerAddMark":
-                    console.log(messageData);
-                    if (actor.data.type === "actorDevice"){
-                        SR5_DiceHelper.markActor(actor, messageData.originalActionAuthor, messageData.mark);
-                    } else {
-                        SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
-                    }
-                    // Si le défenseur est un objet asservi, placer la marque sur le serveur
-                    /*if (actor.data.data.matrix.deviceType === "slavedDevice") {
+                    await SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
+                    // if defender is a slaved device, add mark to host
+                    if (actor.data.data.matrix.deviceType === "slavedDevice" || actor.data.data.matrix.deviceType === "ice") {
                         for (let server of game.actors) {
                             if (server.id === actor.id && server.data.data.matrix.deviceType === "host") {
-                                SR5_DiceHelper.markDevice(server, messageData.originalActionAuthor, messageData.mark);
+                               await SR5_DiceHelper.markDevice(server, messageData.originalActionAuthor, messageData.mark);
                             }
                         }
-                    }*/
-                    if (actor.data.type === "actorDrone" && actor.data.data.vehicleOwner.id){
-                        let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
-                        SR5_DiceHelper.markDevice(controler, messageData.originalActionAuthor, messageData.mark);
                     }
-                    //SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
+                    // if defender is a drone and is slaved, add mark to master
+                    if (actor.data.type === "actorDrone" && actor.data.data.slaved){
+                        let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
+                        await SR5_DiceHelper.markDevice(controler, messageData.originalActionAuthor, messageData.mark);
+                    }
+                    SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
                     break;
                 case "msgTest_defenderAddMark":
                     let attackerID;
                     if (actor.isToken) attackerID = actor.token.id;
                     else attackerID = actor.id;
-                    SR5_DiceHelper.markDevice(originalActionAuthor, attackerID, 1);
-                    //SR5_RollMessage.updateChatButton(message, "defenderPlaceMark");
+                    await SR5_DiceHelper.markDevice(originalActionAuthor, attackerID, 1);
+                    SR5_RollMessage.updateChatButton(message, "defenderPlaceMark");
                     break;
                 case "msgTest_increaseOverwatch":
                     originalActionAuthor.overwatchIncrease(messageData.test.hits);

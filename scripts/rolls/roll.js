@@ -430,6 +430,8 @@ export class SR5_Roll {
                 iceFirstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value || 0;
                 iceSecondAttribute = actorData.matrix.attributes[chatData.defenseSecondAttribute].value || 0;
                 dicePool = iceFirstAttribute + iceSecondAttribute;
+                let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+
                 optionalData = {
                     hits: chatData.test.hits,
                     iceType: chatData.typeSub,
@@ -437,6 +439,7 @@ export class SR5_Roll {
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     mark: chatData?.mark,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    matrixTargetItem: deck.toObject(false),
                 }
                 break;
 
@@ -513,12 +516,12 @@ export class SR5_Roll {
                         dicePool = Math.max(targetItem.data.data.deviceRating * 2, panMasterDefense);
                     }
                     optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: targetItem,
+                        matrixTargetItem: targetItem.toObject(false),
                     });  
                 } else {
                     let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
                     optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: deck,
+                        matrixTargetItem: deck.toObject(false),
                     });
                 }
 
@@ -537,8 +540,7 @@ export class SR5_Roll {
             case "matrixResistance":
                 title = `${game.i18n.localize("SR5.TakeOnDamageMatrix")} (${chatData.matrixDamageValue})`;
                 dicePool = actorData.matrix.resistances[rollKey].dicePool;
-
-                if (chatData.matrixTargetItem){
+                if (chatData.matrixTargetItem && chatData.matrixTargetItem?.data?.type !== "baseDevice" && chatData.matrixTargetItem?.data?.type !== "livingPersona" && chatData.matrixTargetItem?.data?.type !== "headcase"){
                     title = `${chatData.matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
                     dicePool = chatData.matrixTargetItem.data.deviceRating * 2;
                     optionalData = mergeObject(optionalData, {

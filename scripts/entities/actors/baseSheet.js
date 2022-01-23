@@ -758,7 +758,6 @@ export class ActorSheetSR5 extends ActorSheet {
       for (let token of canvas.tokens.placeables) {
         if (token.actor.isToken && (token.actor.type === "actorGrunt")) {
           actorList[token.id] = token.name;
-          console.log(token);
         }
       }
     }

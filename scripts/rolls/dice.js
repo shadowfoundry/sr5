@@ -84,7 +84,7 @@ export class SR5_Dice {
 		newMessage.test.dices = chance.dices.concat(dicesKeeped);
 		newMessage.secondeChanceUsed = true;
 		newMessage.pushLimitUsed = true;
-		SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
+		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
 		if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		//Retranche 1 à la chance actuel de l'acteur
@@ -111,7 +111,7 @@ export class SR5_Dice {
 		newMessage.dicePool = dicePool;
 		newMessage.test.dicePool = dicePool;
 		newMessage.extendedRoll += 1;
-		SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
+		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
 		if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		SR5_RollMessage.updateRollCard(message, newMessage);
@@ -129,7 +129,7 @@ export class SR5_Dice {
 		newMessage.test.dices = newRoll.dices.concat(messageData.test.dices);
 		newMessage.secondeChanceUsed = true;
 		newMessage.pushLimitUsed = true;
-		SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
+		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
 		if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		//Retranche 1 à la chance actuel de l'acteur
@@ -179,7 +179,7 @@ export class SR5_Dice {
 					data: dialogData,
 					buttons: buttons,
 					default: "roll",
-					close: (html) => {
+					close: async (html) => {
 						if (cancel) {
 							if (dialogData.button.removeTemplate) SR5_Dice.removeTemplate(null, dialogData.item.id);
 							//Remove last cumulative Defense if roll is cancelled.
@@ -261,7 +261,7 @@ export class SR5_Dice {
 						if (dialogData.type === "matrixAction" && (dialogData.typeSub === "hackOnTheFly" || dialogData.typeSub === "bruteForce")){
 							dialogData.mark = SR5_DiceHelper.calculMark(-dialogData.dicePoolMod.matrixMarkWanted);
 						}
-						SR5_Dice.srDicesAddInfoToCard(cardData, actor);
+						await SR5_Dice.srDicesAddInfoToCard(cardData, actor);
 
 						// Return roll result and card info to chat message.
 						SR5_Dice.renderRollCard(cardData);
@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		console.log(chatData.flags.sr5data);
+		//console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -441,7 +441,7 @@ export class SR5_Dice {
 				SR5_Dice.addMatrixIceAttackInfoToCard(cardData, author);
 				break;
 			case "iceDefense":
-				SR5_Dice.addIceDefenseInfoToCard(cardData, author);
+				await SR5_Dice.addIceDefenseInfoToCard(cardData, author);
 				break;
 			case "lift":
 				cardData.weightTotal = cardData.derivedBaseValue + (cardData.test.hits * cardData.derivedExtraValue);
@@ -805,7 +805,10 @@ export class SR5_Dice {
 	
 	static async addIceDefenseInfoToCard(cardData, author){		
 		let netHits = cardData.hits - cardData.test.hits,
-			existingMark, markedActor;
+			existingMark, markedActor,
+			originalActor = await SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor);
+
+		cardData.attackerName = originalActor.name;
 
 		if (netHits <= 0) {
 			cardData.button.actionEnd = true;
@@ -839,7 +842,7 @@ export class SR5_Dice {
 				case "iceSparky":
 					cardData.button.matrixResistance = true;
 					cardData.matrixResistanceType = "matrixDamage";
-					cardData.matrixDamageValue = SR5_DiceHelper.updateMatrixDamage(cardData.matrixDamageValueBase, netHits, cardData.originalActionAuthor, author);
+					await SR5_DiceHelper.updateMatrixDamage(cardData, netHits, author);
 					if ((cardData.iceType === "iceBlaster" || cardData.iceType === "iceBlack") && (!cardData.actor.data.matrix.isLinkLocked)) {
 						cardData.button.iceEffect = true;
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.LinkLockConnection");
@@ -847,10 +850,12 @@ export class SR5_Dice {
 					break;
 				case "iceCrash":
 					markedActor = SR5_EntityHelpers.getRealActorFromID(author._id);
-					existingMark = await SR5_DiceHelper.findMarkValue(markedActor, cardData.originalActionAuthor);
-					if (existingMark.data.data.value >= 1) {
+					existingMark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, originalActor.id);
+					if (existingMark >= 1) {
 						cardData.button.iceEffect = true;
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.MatrixActionCrashProgram");
+					} else {
+						cardData.button.iceEffect = false;
 					}
 					break;
 				case "iceJammer":
@@ -870,22 +875,27 @@ export class SR5_Dice {
 					}
 					break;
 				case "icePatrol":
+					cardData.button.iceEffect = false;
 					break;
 				case "iceProbe":
 					cardData.button.attackerPlaceMark = true;
+					cardData.button.iceEffect = false;
 					cardData.mark = 1;
 					break;
 				case "iceScramble":
 					markedActor = SR5_EntityHelpers.getRealActorFromID(author._id);
-					existingMark = await SR5_DiceHelper.findMarkValue(markedActor, cardData.originalActionAuthor);
-					if (existingMark.data.data.value >= 3) {
+					existingMark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, originalActor.id);
+					if (existingMark >= 3) {
 						cardData.button.iceEffect = true;
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.DeviceReboot");
+					} else {
+						cardData.button.iceEffect = false;
 					}
 					break;
 				case "iceTarBaby":
 					if (cardData.actor.data.matrix.isLinkLocked) {
 						cardData.button.attackerPlaceMark = true;
+						cardData.button.iceEffect = false;
 						cardData.mark = 1;
 					} else {
 						cardData.button.iceEffect = true;
@@ -895,8 +905,8 @@ export class SR5_Dice {
 				case "iceTrack":
 					//si 2 marks sur l'acteur géolocalisé
 					markedActor = SR5_EntityHelpers.getRealActorFromID(author._id);
-					existingMark = await SR5_DiceHelper.findMarkValue(markedActor, cardData.originalActionAuthor);
-					if (existingMark.data.data.value >= 2) {
+					existingMark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, originalActor.id);
+					if (existingMark >= 2) {
 						cardData.button.iceEffect = true;
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.Geolocated")
 					}

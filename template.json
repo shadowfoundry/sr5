@@ -5444,6 +5444,7 @@
         "value": 0,
         "max": 0
       },
+      "decks": [],
       "isRegistered": false,
       "conditionMonitors":{
         "matrix": {
@@ -5724,6 +5725,7 @@
       "weapons": [],
       "ammunitions": [],
       "armors": [],
+      "decks": [],
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,

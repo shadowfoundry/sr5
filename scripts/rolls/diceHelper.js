@@ -200,8 +200,13 @@ export class SR5_DiceHelper {
         let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
             item = targetActor.data.items.find((i) => i.data._id === targetItem._id),
             itemToMark = duplicate(item.data.data),
-            existingMark = false;
+            existingMark = false,
+            realAttackerID = attackerID;
 
+        //If attacker is an ice use serveur id to mark
+        if(attacker.data.data.matrix.deviceType === "ice" && attacker.isToken){
+            realAttackerID = attacker.id;
+        }
         // If item is already marked, increase marks
         for (let m of itemToMark.marks){
             if (m.ownerId === attackerID) {
@@ -213,7 +218,7 @@ export class SR5_DiceHelper {
         // Add new mark to item
         if (!existingMark){
             let newMark = {
-                "ownerId": attackerID,
+                "ownerId": realAttackerID,
                 "value": mark,
                 "ownerName": attacker.name,
             }
@@ -222,13 +227,14 @@ export class SR5_DiceHelper {
         await item.update({"data": itemToMark});
 
         //Update attacker deck with data
-        SR5_DiceHelper.updateDeckMarkedItems(attackerID, item, mark)
+        await SR5_DiceHelper.updateDeckMarkedItems(realAttackerID, item, mark);
 
         if (itemToMark.isSlavedToPan){
             SR5_DiceHelper.markPanMaster(itemToMark, attackerID, mark);
         }
     }
 
+    //Add mark to pan Master of the item
     static async markPanMaster(itemToMark, attackerID, mark){
         let panMaster = SR5_EntityHelpers.getRealActorFromID(itemToMark.panMaster);
         let masterDevice = panMaster.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
@@ -262,6 +268,7 @@ export class SR5_DiceHelper {
         await ownerDeck.update({"data": deckData});
     }
 
+    //Add mark to main Device
     static async markDevice(targetActor, attackerID, mark){
         let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
             ownerDeck = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
@@ -286,45 +293,16 @@ export class SR5_DiceHelper {
             deckData.marks.push(newMark)
         }
         await ownerDeck.update({"data": deckData});
-        SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
+        await SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
     }
 
-    static async markActor(targetActor, attackerID, mark){
-        debugger;
-        let actorData = duplicate(targetActor.data),
-            attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
-            existingMark = false;
-        
-        // If item is already marked, increase marks
-        for (let m of actorData.data.matrix.marks){
-            if (m.ownerId === attackerID) {
-                m.value += mark;
-                if (m.value > 3) m.value = 3;
-                existingMark = true;
-            }
-        }
-        // Add new mark to item
-        if (!existingMark){
-            let newMark = {
-                "ownerId": attackerID,
-                "value": mark,
-                "ownerName": attacker.name,
-            }
-            actorData.data.matrix.marks.push(newMark)
-        }
-        targetActor.update(actorData);
-        //SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
-    }
-    //Il faut pouvoir marker un item spécifique, un deck, ou un actor
-    //Il faut pouvoir savoir si un item, un deck ou un actor à déjà une mark...
-
+    //Add mark to 
     /** Find if an Actor has a Mark item with the same ID as the attacker
    * @param {Object} targetActor - The Target Actor who owns the Mark
    * @param {Object} attackerID - The ID of the attacker who wants to mark
    * @return {Object} the mark item
    */
     static async findMarkValue(item, ownerID){
-        console.log(item);
         if (item.marks.length) {
             for (let m of item.marks){
                 if (m.ownerId === ownerID) return m.value;
@@ -361,15 +339,17 @@ export class SR5_DiceHelper {
         let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
             attackerData = attacker?.data.data,
             damage = cardData.matrixDamageValueBase,
-            mark = 0,
-            markItem = defender.items.find((i) => i.data.owner === cardData.originalActionAuthor);
+            mark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, cardData.originalActionAuthor);
 
+        if (attacker.type === "actorDevice"){
+            if (attacker.data.data.matrix.deviceType = "ice"){
+                mark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, attacker.id);
+            }
+        }
         cardData.matrixDamageMod = {};
         cardData.matrixDamageMod.netHits = netHits;
-        if (markItem !== undefined) {
-            mark = markItem.data.value;
-            cardData.matrixDamageMod.markQty = mark;
-        }
+        cardData.matrixDamageMod.markQty = mark;
+        
         //Mugger program
         if (mark > 0 && attackerData.matrix.programs.mugger.isActive) {
             mark = mark * 2;

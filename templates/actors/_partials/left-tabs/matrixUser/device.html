@@ -3,7 +3,7 @@
 	<ul>
 		<li class="grid SR-LigneEnTete">
 			<div class="col-10 SR-TextUppercase">{{data.matrix.deviceName}}</div>
-			{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt') (eq actor.type 'actorDevice') )}}
+			{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt') (eq actor.type 'actorDevice') (eq actor.type 'actorDrone'))}}
 			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.DeviceReboot'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_DeviceRebootMsg'}}">
 				<a class="reset-deck" data-title="{{localize 'SR5.DeviceReboot'}}"><em class="fas fa-sm fa-sync"></em></a>
