@@ -41,6 +41,9 @@
       {{#if (eq typeSub 'dataSpike')}}
         {{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
       {{/if}}
+      {{#if (and (eq type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
+      {{/if}}
       <!--Limit info-->
       {{#if test.limit}}
         {{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
@@ -153,6 +156,12 @@
         </button>
       {{/if}}
 
+      {{#if button.takenMatrixDamage}}
+        <button class="messageAction SR-CardButtonHit endTest" data-action="" data-type="">
+          {{matrixDamageValue}} {{localize 'SR5.AppliedMatrixDamage'}} 
+        </button>
+      {{/if}}
+
       {{#if button.summonSpiritResist}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_summonSpiritResist">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
@@ -174,11 +183,11 @@
       {{/if}}
 
       {{#if button.attackerPlaceMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_attackerAddMark">{{localize 'SR5.PlaceMarkTo' key=mark name=speakerActor}}</button>
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_attackerAddMark">{{localize 'SR5.AttackerPlaceMarkTo' key=mark item=matrixTargetItem.name name=speakerActor}}</button>
       {{/if}}
 
       {{#if button.defenderPlaceMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderAddMark">{{localize 'SR5.PlaceMarkTo' key=mark name=attackerName}}</button>
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_defenderAddMark">{{localize 'SR5.DefenderPlaceMarkTo' key=mark item=matrixTargetItem.name name=attackerName}}</button>
       {{/if}}
 
       {{#if button.defenderDoMatrixDamage}}
@@ -260,6 +269,17 @@
       {{#if button.targetLocked}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_targetLocked">{{localize 'SR5.SensorLockedTarget'}}</button> 
       {{/if}}
+
+      <!-- JACK OUT MATRIX ACTION RESISTANCE -->
+      {{#if button.jackOut}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_jackOut">{{localize 'SR5.MatrixActionJackOutResistance'}}</button> 
+      {{/if}}
+
+      <!-- JACK OUT SUCCED -->
+      {{#if button.jackOutSuccess}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_jackOutSucced">{{localize 'SR5.MatrixActionJackOutSuccess'}}</button> 
+      {{/if}}
+      
     </div>
 
   </div>

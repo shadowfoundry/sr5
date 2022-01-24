@@ -175,6 +175,10 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}
       {{/if}}
 
+      <!-- RESIST FIRE -->
+      {{#if (eq type "resistFire")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
+      {{/if}}
     </ul>
   </div>
 

@@ -1,0 +1,46 @@
+<form name="pan">
+	<div class="form-group">
+		<select name="actor" data-dtype="String">
+			{{#select actor}}
+			{{#each actorList}}
+			<option value="{{@key}}">{{this}}</option>
+			{{/each}}
+			{{/select}}
+		</select>
+	</div>
+	<div class="form-group">
+	  	<select name="itemToAdd" data-dtype="String">
+		{{#select itemToAdd}}
+        <option value="none">{{localize 'SR5.ChooseItemToPan'}}</option>
+		  	{{#if list.augmentations}}
+				<optgroup label="{{localize 'SR5.Augmentations'}}">
+					{{#each list.augmentations}}
+					<option value="{{@key}}">{{this}}</option>
+					{{/each}}
+				</optgroup>
+		  	{{/if}}
+		  	{{#if list.weapons}}
+		  		<optgroup label="{{localize 'SR5.Weapons'}}">
+					{{#each list.weapons}}
+					<option value="{{@key}}">{{this}}</option>
+					{{/each}}
+		  		</optgroup>
+		  	{{/if}}
+		  	{{#if list.armors}}
+				<optgroup label="{{localize 'SR5.Armors'}}">
+			  		{{#each list.armors}}
+			  		<option value="{{@key}}">{{this}}</option>
+			  		{{/each}}
+				</optgroup>
+		  	{{/if}}
+		  	{{#if list.gears}}
+		  		<optgroup label="{{localize 'SR5.Gear'}}">
+					{{#each list.gears}}
+					<option value="{{@key}}">{{this}}</option>
+					{{/each}}
+		  			</optgroup>
+		  	{{/if}}
+		{{/select}}
+		</select>
+	</div>
+</form>

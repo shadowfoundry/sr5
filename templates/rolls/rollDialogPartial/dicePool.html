@@ -11,11 +11,11 @@
 <!-- BASE DICE POOL -->
 <li class="grid">
 	<div class="col-11">{{localize 'SR5.BaseDicePool'}}{{localize 'SR5.Colons'}}</div>
-	{{#ife typeSub "physicalDamage"}}
+	{{#if (or (eq typeSub "physicalDamage") (eq type "resistFire") )}}
 		<div class="col-1 SR-TextCenter"><input disabled type="number" class="" name="baseDicePool" value="{{dicePoolBase}}" placeholder="0" data-dtype="Number" /></div>
 	{{else}}
 	 	<div class="col-1 SR-TextCenter"><input disabled type="number" class="" name="baseDicePool" value="{{dicePool}}" placeholder="0" data-dtype="Number" /></div>
-	{{/ife}}
+	{{/if}}
 </li>
 
   <!-- USER DICEPOLL MODIFIER -->

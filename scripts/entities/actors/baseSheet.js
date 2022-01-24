@@ -3,6 +3,7 @@ import { SR5_EntityHelpers } from "../helpers.js";
 import { SR5_UtilityItem } from "../items/utilityItem.js";
 import { SR5_CharacterUtility } from "./utility.js";
 import { SR5_SocketHandler } from "../../socket.js";
+import SR5_PanDialog from "../../interface/pan-dialog.js";
 import { SR5 } from "../../config.js";
 import { SR5Actor } from "./entityActor.js";
 
@@ -78,6 +79,9 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".vision-switch").click(this._onVisionSwitch.bind(this));
     // Switch initiatives
     html.find(".init-switch").click(this._onInitiativeSwitch.bind(this));
+    // Add item to PAN
+    html.find(".addItemToPan").click(this._onAddItemToPan.bind(this));
+    html.find(".deleteItemFromPan").click(this._onDeleteItemFromPan.bind(this));
 
     // Affiche les compétences
     html.find(".hidden").hide();
@@ -724,4 +728,101 @@ export class ActorSheetSR5 extends ActorSheet {
       }
     }
   }
+
+  async _onAddItemToPan(event){
+    let actor = this.actor.data,
+        cancel = true,
+        list = {},
+        actorList = {},
+        baseActor = this.actor.id;
+
+    if (actor.data.matrix.pan.current === actor.data.matrix.pan.max){
+      ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_PanIsFull")}`);
+      return;
+    }
+
+    for (let key of Object.keys(actor.data.matrix.potentialPanObject)){
+      if (Object.keys(actor.data.matrix.potentialPanObject[key]).length) {
+        list[key] = SR5_EntityHelpers.sortObjectValue(actor.data.matrix.potentialPanObject[key]);
+      }
+    }
+
+    for (let a of game.actors){
+      if (a.data.type === "actorPc" || (a.data.type === "actorGrunt" && a.data.token.actorLink)){
+        if (game.user.isGM) actorList[a.id] = a.name;
+        else if (a.hasPlayerOwner) actorList[a.id] = a.name;
+      }
+    }   
+
+    if (canvas.scene && game.user.isGM){
+      for (let token of canvas.tokens.placeables) {
+        if (token.actor.isToken && (token.actor.type === "actorGrunt")) {
+          actorList[token.id] = token.name;
+        }
+      }
+    }
+
+    if (this.actor.isToken) baseActor = this.actor.token.id;
+
+    let dialogData = {
+      actor: baseActor,
+      list: list,
+      actorList: actorList,
+    };
+
+    renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData).then((dlg) => {
+      new SR5_PanDialog({
+        title: game.i18n.localize('SR5.ChooseItemToPan'),
+        content: dlg,
+        data: dialogData,
+        buttons: {
+          ok: {
+            label: "Ok",
+            callback: () => (cancel = false),
+          },
+          cancel: {
+            label : "Cancel",
+            callback: () => (cancel = true),
+          },
+        },
+        default: "ok",
+        close: (html) => {
+          if (cancel) return;
+          let targetItem = html.find("[name=itemToAdd]").val();
+          if (targetItem === "none") return;
+          if (!game.user?.isGM) {
+            SR5_SocketHandler.emitForGM("addItemToPan", {
+              targetItem: targetItem,
+              actorId: baseActor,
+            });
+          } else {  
+            SR5Actor.addItemtoPan(targetItem, baseActor);
+          }
+          
+        },
+      }).render(true);
+  });
+  }
+
+  async _onDeleteItemFromPan(event){
+    event.preventDefault();
+    await this._onSubmit(event); // Submit any unsaved changes
+    let index = $(event.currentTarget).attr("data-index");
+    let itemId = $(event.currentTarget).attr("data-key");
+    let actor = this.actor.id;
+    if (this.actor.isToken) actor = this.actor.token.id;
+
+    if (!game.user?.isGM) {
+      SR5_SocketHandler.emitForGM("deleteItemFromPan", {
+        targetItem: itemId,
+        index: index,
+        actorId: actor,
+      });
+    } else {  
+      SR5Actor.deleteItemFromPan(itemId, index, actor);
+    }
+
+    
+  }
+
 }

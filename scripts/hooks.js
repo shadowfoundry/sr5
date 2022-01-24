@@ -131,7 +131,7 @@ export const registerHooks = function () {
     // Determine whether a system migration is required and feasible
     if ( !game.user.isGM ) return;
     const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-    const NEEDS_MIGRATION_VERSION = "0.0.3.7";
+    const NEEDS_MIGRATION_VERSION = "0.0.4.2";
     const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
     // Perform the migration
@@ -287,8 +287,24 @@ export const registerHooks = function () {
     if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
   });
 
-  Hooks.on("createActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+  Hooks.on("createActor", async (actor) =>{
+    //Add itemDevice to Drone/Sprite if they have none.
+    if (actor.type === "actorDrone" || actor.type === "actorSprite"){
+      let hasDevice = false;
+      for (let i of actor.items){
+        if (i.type === "itemDevice") hasDevice = true;
+      }
+
+      if (!hasDevice){
+        let deviceItem = {
+          "name": game.i18n.localize("SR5.Device"),
+          "type": "itemDevice",
+          "data.isActive": true,
+          "data.type": "baseDevice",
+        }
+        await actor.createEmbeddedDocuments("Item", [deviceItem]);
+      }
+    }
   });
 
 }

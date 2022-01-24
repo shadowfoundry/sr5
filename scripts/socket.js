@@ -9,6 +9,8 @@ export class SR5_SocketHandler {
             "doInitPass": [SR5Combat._handleDoInitPassSocketMessage],
             "createSidekick": [SR5Actor._handlecreateSidekickSocketMessage],
             "dismissSidekick": [SR5Actor._handleDismissSidekickSocketMessage],
+            "addItemToPan": [SR5Actor._handleAddItemToPanSocketMessage],
+            "deleteItemFromPan": [SR5Actor._handleDeleteItemFromPanSocketMessage],
         }
 
         game.socket.on(`system.sr5`, async (message) => {
@@ -32,7 +34,6 @@ export class SR5_SocketHandler {
 
     static async emit(type, data) {
         const message = SR5_SocketHandler._createMessage(type, data);
-        //console.trace('Emiting Shadowrun5e system socket message', message);
         await game.socket.emit(`system.sr5`, message);
     }
 
@@ -43,7 +44,6 @@ export class SR5_SocketHandler {
         if (!gmUser) return SR5_SystemHelpers.srLog(1, 'No active GM user! One GM must be active for this action to work.');
 
         const message = SR5_SocketHandler._createMessage(type, data, gmUser.id);
-//        console.trace('Emiting Shadowrun5e system socket message', message);
         await game.socket.emit(`system.sr5`, message);
     }
 }

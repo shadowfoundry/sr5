@@ -97,7 +97,18 @@ export class SR5_RollMessage {
                     actor.rollTest("defenseCard", null, messageData);
                     break;
                 case "msgTest_matrixDefense":
-                    actor.rollTest("matrixDefense", messageData.typeSub, messageData);
+                    if ((messageData.typeSub === "dataSpike" 
+                        || messageData.typeSub === "controlDevice"
+                        || messageData.typeSub === "formatDevice"
+                        || messageData.typeSub === "hackOnTheFly"
+                        || messageData.typeSub === "spoofCommand"
+                        || messageData.typeSub === "bruteForce"
+                        || messageData.typeSub === "rebootDevice")
+                        && (actor.data.type !== "actorDevice" && actor.data.type !== "actorSprite" && actor.data.type !== "actorDrone")){
+                        SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
+                    } else {
+                        actor.rollTest("matrixDefense", messageData.typeSub, messageData);
+                    }
                     break;
                 case "msgTest_attackResistance":
                     actor.rollTest("resistanceCard", null, messageData);
@@ -198,18 +209,19 @@ export class SR5_RollMessage {
                     SR5_Dice.extendedRoll(message, actor);
                     break;
                 case "msgTest_attackerAddMark":
-                    SR5_DiceHelper.markActor(actor, messageData.originalActionAuthor, messageData.mark);
-                    // Si le défenseur est un objet asservi, placer la marque sur le serveur
-                    if (actor.data.data.matrix.deviceType === "slavedDevice") {
+                    await SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
+                    // if defender is a slaved device, add mark to host
+                    if (actor.data.data.matrix.deviceType === "slavedDevice" || actor.data.data.matrix.deviceType === "ice") {
                         for (let server of game.actors) {
                             if (server.id === actor.id && server.data.data.matrix.deviceType === "host") {
-                                SR5_DiceHelper.markActor(server, messageData.originalActionAuthor, messageData.mark);
+                               await SR5_DiceHelper.markDevice(server, messageData.originalActionAuthor, messageData.mark);
                             }
                         }
                     }
-                    if (actor.data.type === "actorDrone" && actor.data.data.vehicleOwner.id){
+                    // if defender is a drone and is slaved, add mark to master
+                    if (actor.data.type === "actorDrone" && actor.data.data.slaved){
                         let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
-                        SR5_DiceHelper.markActor(controler, messageData.originalActionAuthor, messageData.mark);
+                        await SR5_DiceHelper.markDevice(controler, messageData.originalActionAuthor, messageData.mark);
                     }
                     SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
                     break;
@@ -217,7 +229,7 @@ export class SR5_RollMessage {
                     let attackerID;
                     if (actor.isToken) attackerID = actor.token.id;
                     else attackerID = actor.id;
-                    SR5_DiceHelper.markActor(originalActionAuthor, attackerID, 1);
+                    await SR5_DiceHelper.markDevice(originalActionAuthor, attackerID, 1);
                     SR5_RollMessage.updateChatButton(message, "defenderPlaceMark");
                     break;
                 case "msgTest_increaseOverwatch":
@@ -229,7 +241,7 @@ export class SR5_RollMessage {
                         if (originalActionAuthor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive && (item.data.data.type === "livingPersona" || item.data.data.type === "headcase"))){
                             originalActionAuthor.takeDamage(messageData);
                         } else {
-                            SR5_DiceHelper.applyDamageToDecK(originalActionAuthor, messageData.matrixDamageValue, actor);
+                            SR5_DiceHelper.applyDamageToDecK(originalActionAuthor, messageData, actor);
                         }
                     } else {
                         originalActionAuthor.takeDamage(messageData);
@@ -241,7 +253,7 @@ export class SR5_RollMessage {
                         if (actor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive && (item.data.data.type === "livingPersona" || item.data.data.type === "headcase"))){
                             actor.takeDamage(messageData);
                         } else {
-                            SR5_DiceHelper.applyDamageToDecK(actor, messageData.matrixDamageValue);
+                            SR5_DiceHelper.applyDamageToDecK(actor, messageData);
                         }
                     } else {
                         actor.takeDamage(messageData);
@@ -255,7 +267,6 @@ export class SR5_RollMessage {
                 case "msgTest_attackerDoBiofeedbackDamage":
                     if (actor.type === "actorDrone") actor = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id)
                     actor.rollTest("resistanceCard", null, messageData);
-                    SR5_RollMessage.updateChatButton(message, "attackerDoBiofeedbackDamage");
                     break;
                 case "msgTest_scatter":
                     SR5_DiceHelper.rollScatter(messageData);
@@ -273,6 +284,14 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.lockTarget(messageData, originalActionAuthor, actor);
                     SR5_RollMessage.updateChatButton(message, "targetLocked");
                     break;
+                case "msgTest_jackOut":
+                    SR5_DiceHelper.rollJackOut(messageData);
+                    SR5_RollMessage.updateChatButton(message, "jackOut");
+                    break;
+                case "msgTest_jackOutSucced":
+                    SR5_DiceHelper.jackOut(messageData);
+                    SR5_RollMessage.updateChatButton(message, "jackOutSuccess");
+                    break;
                 default:
             }
         }
@@ -280,10 +299,13 @@ export class SR5_RollMessage {
 
     //Update the stat of a chatMessage button
     static updateChatButton(message, buttonToUpdate){
-        if (message.data.flags.sr5data.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
+        if (message.data?.flags?.sr5data?.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
         let newMessage = duplicate(message.data.flags.sr5data);
         newMessage.button[buttonToUpdate] = !newMessage.button[buttonToUpdate];
         switch (buttonToUpdate) {
+            case "takeMatrixDamage":
+                newMessage.button.takenMatrixDamage = true;
+                break;
             case "takeDamage":
                 newMessage.button.takenDamage = true;
                 break;

@@ -311,8 +311,8 @@ export default class SR5_RollDialog extends Dialog {
 
         html.find(".resetRecoil").click(event => {
             event.preventDefault();
-            let actor = SR5_EntityHelpers.getRealActorFromID(actor._id)
-            actor.resetRecoil();
+            let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
+            resetedActor.resetRecoil();
             dialogData.rc += actor.flags.sr5.cumulativeRecoil;
             dialogData.dicePoolMod.recoil = 0;
             actor.flags.sr5.cumulativeRecoil = 0;
@@ -323,6 +323,10 @@ export default class SR5_RollDialog extends Dialog {
         });
 
         // Mark modifiers
+        if (html.find('[name="dicePoolModMarkWanted"]')[0]) {
+            dialogData.dicePoolMod.matrixMarkWanted = -(html.find('[name="dicePoolModMarkWanted"]')[0].value);
+        }
+
         html.find(".mark").change(ev => {
             html.find('[name="dicePoolModMarkWanted"]')[0].value = -(parseInt(ev.target.value) || 0);
             dialogData.dicePoolMod.matrixMarkWanted = -(parseInt(ev.target.value) || 0);

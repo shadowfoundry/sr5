@@ -1,0 +1,14 @@
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-10 SR-TextUppercase">{{localize 'SR5.MarkedDevices'}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.Marks'}}</div>
+		</li>
+		{{#each data.matrix.markedItems}}
+		<li class="item grid" data-item-id="{{item._id}}">
+			<div class="col-10">{{itemOwner}} [{{itemName}}]</div>
+			<div class="col-2 SR-TextCenter">{{value}}</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

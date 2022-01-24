@@ -190,60 +190,148 @@ export class SR5_DiceHelper {
         else return actor.data.attributes[key].augmented.value;
     }
 
-    /** Put a mark on Actor
-   * @param {Object} targetActor - The Target Actor
+    /** Put a mark on a specific Item
+   * @param {Object} targetActor - The Actor who owns the item
    * @param {Object} attackerID - Actor ID who wants to put a mark
    * @param {Object} mark - Number of Marks to put
+   * @param {Object} targetItem - Target item
    */
-    static async markActor(targetActor, attackerID, mark) {
-        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID);
-        // slaved device and Ice share their marks with server.
-        if (attacker.isToken && attacker.type === "actorDevice") attackerID = attacker.id;
-        // If defender already marked, increase marks
-        let existingMark = await SR5_DiceHelper.findMarkValue(targetActor, attackerID);
-        if (existingMark) {
-            let newMark = existingMark.data.data.value + mark;
-            // Keep number of marks under 3
-            if (newMark > 3) newMark = 3;
-            existingMark.update({"data.value": newMark});
-        } else {
-            let markData = {
-                name: attacker.data.name,
-                type: "itemMark",
-                "data.owner": attackerID,
-                "data.value": mark,
-            };
-            targetActor.createEmbeddedDocuments("Item", [markData]);
+    static async markItem(targetActor, attackerID, mark, targetItem) {
+        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
+            item = targetActor.data.items.find((i) => i.data._id === targetItem._id),
+            itemToMark = duplicate(item.data.data),
+            existingMark = false,
+            realAttackerID = attackerID;
+
+        //If attacker is an ice use serveur id to mark
+        if(attacker.data.data.matrix.deviceType === "ice" && attacker.isToken){
+            realAttackerID = attacker.id;
         }
-        ui.notifications.info(`${attacker.data.name} ${game.i18n.format("SR5.INFO_ActorPutMark", {mark: mark})} ${targetActor.name}`);
+        // If item is already marked, increase marks
+        for (let m of itemToMark.marks){
+            if (m.ownerId === realAttackerID) {
+                m.value += mark;
+                if (m.value > 3) m.value = 3;
+                existingMark = true;
+            }
+        }
+        // Add new mark to item
+        if (!existingMark){
+            let newMark = {
+                "ownerId": realAttackerID,
+                "value": mark,
+                "ownerName": attacker.name,
+            }
+            itemToMark.marks.push(newMark)
+        }
+        await item.update({"data": itemToMark});
+
+        //Update attacker deck with data
+        await SR5_DiceHelper.updateDeckMarkedItems(realAttackerID, item, mark);
+
+        if (itemToMark.isSlavedToPan){
+            SR5_DiceHelper.markPanMaster(itemToMark, attackerID, mark);
+        }
     }
 
+    //Add mark to pan Master of the item
+    static async markPanMaster(itemToMark, attackerID, mark){
+        let panMaster = SR5_EntityHelpers.getRealActorFromID(itemToMark.panMaster);
+        let masterDevice = panMaster.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+        SR5_DiceHelper.markItem(panMaster, attackerID, mark, masterDevice.toObject(false));
+    }
+
+    //Add mark info to attacker deck
+    static async updateDeckMarkedItems(ownerID, markedItem, mark){
+        let owner = SR5_EntityHelpers.getRealActorFromID(ownerID),
+            ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
+            deckData = duplicate(ownerDeck.data.data),
+            alreadyMarked = false;
+
+        //If item is already marked, update value
+        for (let m of deckData.markedItems){
+            if (m.uuid === markedItem.uuid) {
+                m.value += mark;
+                if (m.value > 3) m.value = 3;
+                alreadyMarked = true;
+            }
+        }
+        if (!alreadyMarked){
+            let newMark = {
+                "uuid": markedItem.uuid,
+                "value": mark,
+                "itemName": markedItem.name,
+                'itemOwner': markedItem.actor.name,
+            }
+            deckData.markedItems.push(newMark);
+        }
+        await ownerDeck.update({"data": deckData});
+    }
+
+    //Add mark to main Device
+    static async markDevice(targetActor, attackerID, mark){
+        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
+            ownerDeck = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
+            deckData = duplicate(ownerDeck.data.data),
+            existingMark = false;
+        
+        // If item is already marked, increase marks
+        for (let m of deckData.marks){
+            if (m.ownerId === attackerID) {
+                m.value += mark;
+                if (m.value > 3) m.value = 3;
+                existingMark = true;
+            }
+        }
+        // Add new mark to item
+        if (!existingMark){
+            let newMark = {
+                "ownerId": attackerID,
+                "value": mark,
+                "ownerName": attacker.name,
+            }
+            deckData.marks.push(newMark)
+        }
+        await ownerDeck.update({"data": deckData});
+        await SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
+    }
+
+    //Add mark to 
     /** Find if an Actor has a Mark item with the same ID as the attacker
    * @param {Object} targetActor - The Target Actor who owns the Mark
    * @param {Object} attackerID - The ID of the attacker who wants to mark
    * @return {Object} the mark item
    */
-    static async findMarkValue(targetActor, attackerID){
-        if (targetActor.data.items.find((i) => i.data.data.owner === attackerID)) {
-            let i = targetActor.data.items.find((i) => i.data.data.owner === attackerID);
-            let iMark = targetActor.items.get(i.id);
-            return iMark;
-        } else return false;
+    static async findMarkValue(item, ownerID){
+        if (item.marks.length) {
+            for (let m of item.marks){
+                if (m.ownerId === ownerID) return m.value;
+            }
+            return 0;
+        } else return 0;
     }
 
-    /** Apply Matrix Damage to a Dack
-   * @param {Object} targetActor - The Target Actor who owns the deck
-   * @param {Object} damageValue - Number of damage box
+    /** Apply Matrix Damage to a Deck
+   * @param {Object} targetActor - The Target Actor who owns the deck/item
+   * @param {Object} messageData - Message data
    * @param {Object} attacker - Actor who do the damage
    */
-    static applyDamageToDecK(targetActor, damageValue, attacker) {
-        let deck = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
-        let newDeck = duplicate(deck.data);
+    static applyDamageToDecK(targetActor, messageData, attacker) {
+        let damageValue = messageData.matrixDamageValue;
+        let targetItem;
+        if (messageData.matrixTargetItem){
+            targetItem = targetActor.items.find((item) => item.id === messageData.matrixTargetItem);
+        } else {
+            targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
+        }
+        
+        let newItem = duplicate(targetItem.data);
         if (targetActor.data.data.matrix.programs.virtualMachine.isActive) damageValue += 1;
-        newDeck.data.conditionMonitors.matrix.current += damageValue;
-        deck.update(newDeck);
+        newItem.data.conditionMonitors.matrix.current += damageValue;
+        targetItem.update(newItem);
+
         if (attacker) ui.notifications.info(`${attacker.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
-        else ui.notifications.info(`${targetActor.name} (${deck.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+        else ui.notifications.info(`${targetActor.name} (${targetItem.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
     }
 
     // Update Matrix Damage to a Deck
@@ -251,15 +339,17 @@ export class SR5_DiceHelper {
         let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
             attackerData = attacker?.data.data,
             damage = cardData.matrixDamageValueBase,
-            mark = 0,
-            markItem = defender.items.find((i) => i.data.owner === cardData.originalActionAuthor);
+            mark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, cardData.originalActionAuthor);
 
+        if (attacker.type === "actorDevice"){
+            if (attacker.data.data.matrix.deviceType = "ice"){
+                mark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, attacker.id);
+            }
+        }
         cardData.matrixDamageMod = {};
         cardData.matrixDamageMod.netHits = netHits;
-        if (markItem !== undefined) {
-            mark = markItem.data.value;
-            cardData.matrixDamageMod.markQty = mark;
-        }
+        cardData.matrixDamageMod.markQty = mark;
+        
         //Mugger program
         if (mark > 0 && attackerData.matrix.programs.mugger.isActive) {
             mark = mark * 2;
@@ -493,15 +583,15 @@ export class SR5_DiceHelper {
             case "iceBlack":
             case "iceTarBaby":
                 effect = mergeObject(effect, {
-                name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
-                    "data.target": "",
-                    "data.value": "",
+                    name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
+                    "data.target": game.i18n.localize("SR5.EffectLinkLockedConnection"),
+                    "data.value": ice.data.data.matrix.attributes.attack.value + ice.data.data.matrix.deviceRating,
                     "data.customEffects": {
                         "0": {
                             "category": "special",
                             "target": "data.matrix.isLinkLocked",
                             "type": "boolean",
-                            "value": true,
+                            "value": "true",
                         }
                     },
                 });
@@ -601,5 +691,87 @@ export class SR5_DiceHelper {
     static async applyFullDefenseEffect(actor){
         let effect = await _getSRStatusEffect("fullDefenseMode");
         actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+    }
+
+    static async chooseMatrixDefender(messageData, actor){
+        let cancel = true;
+        let list = {};
+        for (let key of Object.keys(actor.data.data.matrix.connectedObject)){
+            if (Object.keys(actor.data.data.matrix.connectedObject[key]).length) {
+                list[key] = SR5_EntityHelpers.sortObjectValue(actor.data.data.matrix.connectedObject[key]);
+            }
+        }
+        let dialogData = {
+            device: actor.data.data.matrix.deviceName,
+            list: list,
+        };
+        renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData).then((dlg) => {
+            new Dialog({
+              title: game.i18n.localize('SR5.ChooseMatrixTarget'),
+              content: dlg,
+              buttons: {
+                ok: {
+                  label: "Ok",
+                  callback: () => (cancel = false),
+                },
+                cancel: {
+                  label : "Cancel",
+                  callback: () => (cancel = true),
+                },
+              },
+              default: "ok",
+              close: (html) => {
+                if (cancel) return;
+                let targetItem = html.find("[name=target]").val();
+                messageData.matrixTargetDevice = targetItem;
+                actor.rollTest("matrixDefense", messageData.typeSub, messageData);
+              },
+            }).render(true);
+        });
+    }
+
+    static async rollJackOut(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        actor = actor.toObject(false);
+        let dicePool;
+
+        let itemEffectID;
+        for (let i of actor.items){
+            if (i.type === "itemEffect"){
+                if (Object.keys(i.data.customEffects).length){
+                    for (let e of Object.values(i.data.customEffects)){
+                        if (e.target === "data.matrix.isLinkLocked"){
+                            dicePool = i.data.value;
+                            itemEffectID = i._id;
+                        }
+                    }
+                }
+            }
+        }
+
+        let cardData = {
+            type: "jackOutResistance",
+            title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${message.test.hits})`,
+            dicePool: dicePool, 
+            button: {},
+            actor: actor,
+            originalActionAuthor: message.originalActionAuthor,
+            itemEffectID: itemEffectID,   
+            hits: message.test.hits,
+            speakerId: message.speakerId,
+            speakerActor: message.speakerActor,
+            speakerImg: message.speakerImg,
+        };
+
+        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        cardData.test = result;
+
+        SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        SR5_Dice.renderRollCard(cardData);
+    }
+
+    static async jackOut(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
     }
 }

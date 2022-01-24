@@ -396,6 +396,22 @@ export class SR5_CharacterUtility extends Actor {
       if (!game.settings.get("sr5", "sr5MatrixGridRules")){
         data.matrix.userGrid = "local";
       }
+
+      //Reset connected Objects
+      if (data.matrix.connectedObject){
+        data.matrix.connectedObject.augmentations = {};
+        data.matrix.connectedObject.weapons = {};
+        data.matrix.connectedObject.armors = {};
+        data.matrix.connectedObject.gears = {};
+      }
+
+      //Reset potential PanO Objects
+      if (data.matrix.potentialPanObject){
+        data.matrix.potentialPanObject.augmentations = {};
+        data.matrix.potentialPanObject.weapons = {};
+        data.matrix.potentialPanObject.armors = {};
+        data.matrix.potentialPanObject.gears = {};
+      }
     }
 
     if (data.magic) {
@@ -896,10 +912,12 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   // Update Vehicle Decking
-  static updateVehicleDecking(actor) {
+  static updateVehicleDecking(actor, deck) {
     let lists = actor.lists, data = actor.data;
     data.matrix.deviceRating = data.attributes.pilot.augmented.value;
     data.matrix.programsMaximumActive.value = Math.ceil(data.matrix.deviceRating / 2);
+    data.matrix.marks = deck.data.marks;
+    data.matrix.markedItems = deck.data.markedItems;
 
     for (let key of Object.keys(lists.matrixAttributes)) {
       data.matrix.attributes[key].base = 0;
@@ -2432,6 +2450,10 @@ export class SR5_CharacterUtility extends Actor {
         return;
     }
 
+    matrix.pan = deck.data.pan;
+    matrix.marks = deck.data.marks;
+    matrix.markedItems = deck.data.markedItems;
+
     SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0)
     SR5_EntityHelpers.updateValue(matrix.programsCurrentActive, 0)
 
@@ -2652,11 +2674,12 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
-  static generateDeviceMatrix(actor) {
-    let lists = actor.lists;
-    let data = actor.data;
-    let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions;
+  static generateDeviceMatrix(actor, deck) {
+    let lists = actor.lists, data = actor.data,
+        matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions;
 
+    data.matrix.marks = deck.data.marks;
+    data.matrix.markedItems = deck.data.markedItems;
     matrix.deviceName = actor.name;
 
     if (matrix.deviceType === "host"){
@@ -2741,9 +2764,12 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateDicePool(matrixResistances.matrixDamage);
   }
 
-  static generateSpriteMatrix(actor) {
+  static generateSpriteMatrix(actor, deck) {
     let lists = actor.lists, data = actor.data, matrix = data.matrix;
     let matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions;
+
+    data.matrix.marks = deck.data.marks;
+    data.matrix.markedItems = deck.data.markedItems;
 
     matrix.deviceRating = data.level;
     //Handle base matrix attributes
@@ -2917,8 +2943,6 @@ export class SR5_CharacterUtility extends Actor {
 
       if (!skipCustomEffect) {    
         if (!customEffect.multiplier) customEffect.multiplier = 1;
-
-        //Modifier type
 
         //Special case for items'effects which modify all weapons weared by the actor
         if (customEffect.category === "weaponEffectTargets"){

@@ -110,7 +110,7 @@ export default class Migration {
 
 		// Handle migration failures
 		catch (err) {
-			err.message = `Failed wfrp4e system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
+			err.message = `Failed sr5 system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
 			console.error(err);
 		}
 		}
@@ -138,6 +138,26 @@ export default class Migration {
 			//Do stuff on Actor
 			if(actor.type !== "actorDrone") updateData["data.penalties.-=resonance"] = null;
 			if(actor.data.vision) updateData["data.-=vision"] = null;
+
+			//Add itemDevice to actor if there is not TO REMOVE ON 0.4.4
+			if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorDevice"){
+				let hasDevice = false;
+				for (let i of actor.items){
+					if (i.type === "itemDevice") hasDevice = true;
+				}
+
+				if (!hasDevice){
+					let deviceItem = {
+						"name": game.i18n.localize("SR5.Device"),
+          				"type": "itemDevice",
+					}
+					deviceItem.data = {
+						"isActive": true,
+						"type": "baseDevice",
+					}
+					actor.document.createEmbeddedDocuments("Item", [deviceItem]);
+				}
+			}
     	}
 
 		// Migrate Owned Items

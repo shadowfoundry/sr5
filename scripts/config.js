@@ -2182,6 +2182,7 @@ SR5.itemTypes = {
   itemContact               : "ITEM.TypeItemcontact",
   itemDevice                : "ITEM.TypeItemdevice",
   itemEcho                  : "ITEM.TypeItemecho",
+  itemEffect                : "ITEM.TypeItemeffect",
   itemFocus                 : "ITEM.TypeItemfocus",
   itemGear                  : "ITEM.TypeItemgear",
   itemKarma                 : "ITEM.TypeItemkarma",
