@@ -2944,8 +2944,6 @@ export class SR5_CharacterUtility extends Actor {
       if (!skipCustomEffect) {    
         if (!customEffect.multiplier) customEffect.multiplier = 1;
 
-        //Modifier type
-
         //Special case for items'effects which modify all weapons weared by the actor
         if (customEffect.category === "weaponEffectTargets"){
           if (customEffect.target === "data.itemsProperties.weapon.accuracy"){

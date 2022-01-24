@@ -140,7 +140,7 @@ export default class Migration {
 			if(actor.data.vision) updateData["data.-=vision"] = null;
 
 			//Add itemDevice to actor if there is not TO REMOVE ON 0.4.4
-			if (actor.type === "actorDrone" || actor.type === "actorSprite"){
+			if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorDevice"){
 				let hasDevice = false;
 				for (let i of actor.items){
 					if (i.type === "itemDevice") hasDevice = true;

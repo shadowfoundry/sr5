@@ -487,6 +487,9 @@ export class SR5_Dice {
 			case "resistance":
 			case "matrixSimpleDefense":
 				break;
+			case "jackOutResistance":
+				SR5_Dice.addJackOutDefenseInfoToCard(cardData, author);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -573,7 +576,8 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
-		SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
+		if (cardData.typeSub === "biofeedbackDamage") SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
+		else if (cardData.typeSub !== "dumpshock") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
 	}
 
 	static async addSpellInfoToCard(cardData, author){
@@ -692,6 +696,7 @@ export class SR5_Dice {
 	static async addMatrixActionInfoToCard(cardData, author){
 		if (cardData.test.hits > 0) {
 			if (cardData.testType === "opposedTest") cardData.button.matrixAction = true;
+			if (cardData.typeSub === "jackOut" && author.data.matrix.isLinkLocked) cardData.button.jackOut = true;
 			cardData.originalActionAuthor = cardData.speakerId;
 		} else {
 			cardData.button.matrixAction = false;
@@ -824,6 +829,7 @@ export class SR5_Dice {
 					if (cardData.actor.data.matrix.attributes.firewall.value > 0) {
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.EffectReduceFirewall");
 					} else {
+						cardData.button.iceEffect = false;
 						cardData.button.takeMatrixDamage = true;
 						cardData.matrixDamageValue = netHits;
 					}
@@ -832,6 +838,7 @@ export class SR5_Dice {
 					if (cardData.actor.data.matrix.attributes.dataProcessing.value > 0) {
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.EffectReduceDataProcessing");
 					} else {
+						cardData.button.iceEffect = false;
 						cardData.button.takeMatrixDamage = true;
 						cardData.matrixDamageValue = netHits;
 					}
@@ -840,6 +847,7 @@ export class SR5_Dice {
 				case "iceBlaster":
 				case "iceBlack":
 				case "iceSparky":
+					cardData.button.iceEffect = false;
 					cardData.button.matrixResistance = true;
 					cardData.matrixResistanceType = "matrixDamage";
 					await SR5_DiceHelper.updateMatrixDamage(cardData, netHits, author);
@@ -862,6 +870,7 @@ export class SR5_Dice {
 					if (cardData.actor.data.matrix.attributes.attack.value > 0) {
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.EffectReduceAttack");
 					} else {
+						cardData.button.iceEffect = false;
 						cardData.button.takeMatrixDamage = true;
 						cardData.matrixDamageValue = netHits;
 					}
@@ -870,6 +879,7 @@ export class SR5_Dice {
 					if (cardData.actor.data.matrix.attributes.dataProcessing.value > 0) {
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.EffectReduceSleaze");
 					} else {
+						cardData.button.iceEffect = false;
 						cardData.button.takeMatrixDamage = true;
 						cardData.matrixDamageValue = netHits;
 					}
@@ -883,7 +893,6 @@ export class SR5_Dice {
 					cardData.mark = 1;
 					break;
 				case "iceScramble":
-					markedActor = SR5_EntityHelpers.getRealActorFromID(author._id);
 					existingMark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, originalActor.id);
 					if (existingMark >= 3) {
 						cardData.button.iceEffect = true;
@@ -1008,7 +1017,6 @@ export class SR5_Dice {
 		}
 	}
 
-	//SR5_Dice.addSensorDefenseInfoToCard(cardData, author);
 	static async addSensorDefenseInfoToCard(cardData, author){
 		if (cardData.test.hits < cardData.hits) {
 			cardData.button.targetLocked = true;
@@ -1016,6 +1024,16 @@ export class SR5_Dice {
 			cardData.button.targetLocked = false;
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.SuccessfulDefense");
+		}
+	}
+
+	static async addJackOutDefenseInfoToCard(cardData, author){
+		if (cardData.test.hits < cardData.hits) {
+			cardData.button.jackOutSuccess = true;
+		} else {
+			cardData.button.jackOutSuccess = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionJackOutFailed");
 		}
 	}
 }

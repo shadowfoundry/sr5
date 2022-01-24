@@ -343,7 +343,7 @@ export class SR5_Roll {
                         break;
                     case "dumpshock":
                         dicePool = actorData.matrix.resistances.dumpshock.dicePool;
-                        typeSub = "biofeedbackDamage";
+                        typeSub = "dumpshock";
                         title = `${game.i18n.localize("SR5.ResistDumpshock")} (6)`;
                         let dumpshockType;
                         if (actorData.matrix.userMode === "coldsim") dumpshockType = "stun";
@@ -448,7 +448,13 @@ export class SR5_Roll {
                 dicePool = matrixAction.test.dicePool;
                 limit = matrixAction.limit.value;
                 typeSub = rollKey;
-                if (matrixAction.defense.dicePool) testType = "opposedTest";
+                if (matrixAction.defense.dicePool) {
+                    if (typeSub === "jackOut" && actorData.matrix.isLinkLocked){
+                        testType = "nonOpposedTest";
+                    } else {
+                        testType = "opposedTest";
+                    }
+                }
                 if (actorData.matrix.userGrid === "public"){
                     optionalData = mergeObject(optionalData, {
                         "switch.publicGrid": true,

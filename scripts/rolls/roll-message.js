@@ -267,7 +267,6 @@ export class SR5_RollMessage {
                 case "msgTest_attackerDoBiofeedbackDamage":
                     if (actor.type === "actorDrone") actor = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id)
                     actor.rollTest("resistanceCard", null, messageData);
-                    SR5_RollMessage.updateChatButton(message, "attackerDoBiofeedbackDamage");
                     break;
                 case "msgTest_scatter":
                     SR5_DiceHelper.rollScatter(messageData);
@@ -285,6 +284,14 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.lockTarget(messageData, originalActionAuthor, actor);
                     SR5_RollMessage.updateChatButton(message, "targetLocked");
                     break;
+                case "msgTest_jackOut":
+                    SR5_DiceHelper.rollJackOut(messageData);
+                    SR5_RollMessage.updateChatButton(message, "jackOut");
+                    break;
+                case "msgTest_jackOutSucced":
+                    SR5_DiceHelper.jackOut(messageData);
+                    SR5_RollMessage.updateChatButton(message, "jackOutSuccess");
+                    break;
                 default:
             }
         }
@@ -292,10 +299,13 @@ export class SR5_RollMessage {
 
     //Update the stat of a chatMessage button
     static updateChatButton(message, buttonToUpdate){
-        if (message.data.flags.sr5data.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
+        if (message.data?.flags?.sr5data?.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
         let newMessage = duplicate(message.data.flags.sr5data);
         newMessage.button[buttonToUpdate] = !newMessage.button[buttonToUpdate];
         switch (buttonToUpdate) {
+            case "takeMatrixDamage":
+                newMessage.button.takenMatrixDamage = true;
+                break;
             case "takeDamage":
                 newMessage.button.takenDamage = true;
                 break;

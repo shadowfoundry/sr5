@@ -209,7 +209,7 @@ export class SR5_DiceHelper {
         }
         // If item is already marked, increase marks
         for (let m of itemToMark.marks){
-            if (m.ownerId === attackerID) {
+            if (m.ownerId === realAttackerID) {
                 m.value += mark;
                 if (m.value > 3) m.value = 3;
                 existingMark = true;
@@ -583,15 +583,15 @@ export class SR5_DiceHelper {
             case "iceBlack":
             case "iceTarBaby":
                 effect = mergeObject(effect, {
-                name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
-                    "data.target": "",
-                    "data.value": "",
+                    name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
+                    "data.target": game.i18n.localize("SR5.EffectLinkLockedConnection"),
+                    "data.value": ice.data.data.matrix.attributes.attack.value + ice.data.data.matrix.deviceRating,
                     "data.customEffects": {
                         "0": {
                             "category": "special",
                             "target": "data.matrix.isLinkLocked",
                             "type": "boolean",
-                            "value": true,
+                            "value": "true",
                         }
                     },
                 });
@@ -728,5 +728,50 @@ export class SR5_DiceHelper {
               },
             }).render(true);
         });
+    }
+
+    static async rollJackOut(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        actor = actor.toObject(false);
+        let dicePool;
+
+        let itemEffectID;
+        for (let i of actor.items){
+            if (i.type === "itemEffect"){
+                if (Object.keys(i.data.customEffects).length){
+                    for (let e of Object.values(i.data.customEffects)){
+                        if (e.target === "data.matrix.isLinkLocked"){
+                            dicePool = i.data.value;
+                            itemEffectID = i._id;
+                        }
+                    }
+                }
+            }
+        }
+
+        let cardData = {
+            type: "jackOutResistance",
+            title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${message.test.hits})`,
+            dicePool: dicePool, 
+            button: {},
+            actor: actor,
+            originalActionAuthor: message.originalActionAuthor,
+            itemEffectID: itemEffectID,   
+            hits: message.test.hits,
+            speakerId: message.speakerId,
+            speakerActor: message.speakerActor,
+            speakerImg: message.speakerImg,
+        };
+
+        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        cardData.test = result;
+
+        SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        SR5_Dice.renderRollCard(cardData);
+    }
+
+    static async jackOut(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
     }
 }
