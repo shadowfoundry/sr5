@@ -451,7 +451,10 @@ export class SR5_Roll {
                 if (matrixAction.defense.dicePool) {
                     if (typeSub === "jackOut" && actorData.matrix.isLinkLocked){
                         testType = "nonOpposedTest";
-                    } else {
+                    } else if (typeSub === "eraseMark"){
+                        testType = "nonOpposedTest";
+                    }
+                    else {
                         testType = "opposedTest";
                     }
                 }
@@ -515,7 +518,7 @@ export class SR5_Roll {
                     let targetItem = actor.items.find(i => i.id === chatData.matrixTargetDevice);
                     if (!targetItem.data.data.isSlavedToPan){
                         title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
-                        dicePool = targetItem.data.data.deviceRating * 2;
+                        dicePool = targetItem.data.data.deviceRating * 2 || 0;
                     } else {
                         let panMaster = SR5_EntityHelpers.getRealActorFromID(targetItem.data.data.panMaster);
                         let panMasterDefense = panMaster.data.data.matrix.actions[rollKey].defense.dicePool;
@@ -960,6 +963,16 @@ export class SR5_Roll {
 
                 optionalData = {
                     originalActionAuthor: chatData.originalActionAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
+                
+            case "eraseMark":
+                title = `${game.i18n.localize("SR5.MarkResistance")}`;                
+                dicePool = chatData.dicePool;
+                optionalData = {
+                    markOwner: chatData.markOwner,
+                    markeditem: chatData.markeditem,
                     hits: chatData.test.hits,
                 }
                 break;

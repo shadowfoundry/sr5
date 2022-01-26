@@ -490,6 +490,8 @@ export class SR5_Dice {
 			case "jackOutResistance":
 				SR5_Dice.addJackOutDefenseInfoToCard(cardData, author);
 				break;
+			case "eraseMark":
+				SR5_Dice.addEraseMarkInfoToCard(cardData, author);
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -697,6 +699,7 @@ export class SR5_Dice {
 		if (cardData.test.hits > 0) {
 			if (cardData.testType === "opposedTest") cardData.button.matrixAction = true;
 			if (cardData.typeSub === "jackOut" && author.data.matrix.isLinkLocked) cardData.button.jackOut = true;
+			if (cardData.typeSub === "eraseMark") cardData.button.eraseMark = true;
 			cardData.originalActionAuthor = cardData.speakerId;
 		} else {
 			cardData.button.matrixAction = false;
@@ -1034,6 +1037,17 @@ export class SR5_Dice {
 			cardData.button.jackOutSuccess = false;
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionJackOutFailed");
+		}
+	}
+
+	static async addEraseMarkInfoToCard(cardData, author){
+		SR5_RollMessage.updateChatButton(cardData.originalMessage, "eraseMark");
+		if (cardData.test.hits < cardData.hits) {
+			cardData.button.eraseMarkSuccess = true;
+		} else {
+			cardData.button.eraseMarkSuccess = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionEraseMarkFailed");
 		}
 	}
 }

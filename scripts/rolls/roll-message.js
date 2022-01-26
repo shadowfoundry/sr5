@@ -292,6 +292,13 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.jackOut(messageData);
                     SR5_RollMessage.updateChatButton(message, "jackOutSuccess");
                     break;
+                case "msgTest_eraseMark":
+                    SR5_DiceHelper.eraseMarkChoice(messageData);
+                    break;
+                case "msgTest_eraseMarkSucced":
+                    SR5_DiceHelper.eraseMark(messageData);
+                    SR5_RollMessage.updateChatButton(message, "eraseMarkSuccess");
+                    break;
                 default:
             }
         }
@@ -311,6 +318,10 @@ export class SR5_RollMessage {
                 break;
             case "removeTemplate":
                 newMessage.button.placeTemplate = false;
+                break;
+            case "eraseMarkSuccess":
+                newMessage.button.actionEnd = true;
+                newMessage.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionEraseMarkSuccess");
                 break;
             default:
         }
