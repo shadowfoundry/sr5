@@ -774,4 +774,75 @@ export class SR5_DiceHelper {
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
     }
+
+    static async eraseMarkChoice(messageData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionAuthor),
+            cancel = true,
+            target;
+
+        if (game.user.targets.size) {
+            const targeted = game.user.targets;
+            const targets = Array.from(targeted);
+            for (let t of targets) {
+                target = t.document;
+            }
+            if (target) actor = target.getActor();
+        }
+
+        let markedItems = actor.items.filter(i => i.data.data.marks?.length > 0);
+        let dialogData = {
+            list: markedItems,
+        };
+
+        if (!markedItems.length) {
+            return ui.notifications.info(`${actor.name}: ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
+        }
+      
+        renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData).then((dlg) => {
+            new Dialog({
+              title: game.i18n.localize('SR5.ChooseMarkToErase'),
+              content: dlg,
+              data: dialogData,
+              buttons: {
+                ok: {
+                  label: "Ok",
+                  callback: () => (cancel = false),
+                },
+                cancel: {
+                  label : "Cancel",
+                  callback: () => (cancel = true),
+                },
+              },
+              default: "ok",
+              close: (html) => {
+                if (cancel) return;
+                let targetItem = html.find("[name=item]").val(),
+                    item = markedItems.find(i => i.id === targetItem),
+                    markOwner = SR5_EntityHelpers.getRealActorFromID(item.data.data.marks[0].ownerId),
+                    dicePool = markOwner.data.data.matrix.actions.eraseMark.defense.dicePool;
+                messageData = mergeObject(messageData, {
+                    markOwner: markOwner.id,
+                    dicePool: dicePool,
+                    markeditem: item.uuid,
+                });
+                actor.rollTest("eraseMark", "", messageData);
+              },
+            }).render(true);
+        });
+    }
+
+    static async eraseMark(messageData, data){
+        let markOwner = SR5_EntityHelpers.getRealActorFromID(messageData.markOwner),
+            item = await fromUuid(messageData.markeditem),
+            itemData = duplicate(item.data.data);
+
+        for (let i = 0; i < itemData.marks.length; i++){
+            if (itemData.marks[i].ownerId === messageData.markOwner) {
+                itemData.marks.splice(i, 1);
+                i--;
+            }
+        }
+        await item.update({"data": itemData});
+        await markOwner.deleteMarkInfo(messageData.markOwner, messageData.markeditem);
+    }
 }
