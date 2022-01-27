@@ -883,14 +883,28 @@ export class SR5Actor extends Actor {
     
     //Delete marks on others actors
     if (actorData.matrix.markedItems.length) {
-      await this.deleteMarksOnActor(actorData, actorID);
+      if (!game.user?.isGM) {
+        SR5_SocketHandler.emitForGM("deleteMarksOnActor", {
+          actorData: actorData,
+          actorID: actorID,
+        });
+      } else {  
+        await SR5Actor.deleteMarksOnActor(actorData, actorID);
+      }      
     }
 
     //Delete marks from owned items
     for (let i of updatedItems){
       if (i.data.marks && i.data.marks?.length) {
         for (let m of i.data.marks){
-          await this.deleteMarkInfo(m.ownerId, i._id);
+          if (!game.user?.isGM) {
+            SR5_SocketHandler.emitForGM("deleteMarkInfo", {
+              actorID: m.ownerId,
+              item: i._id,
+            });
+          } else {  
+            await SR5Actor.deleteMarkInfo(m.ownerId, i._id);
+          }
         }
         i.data.marks = [];
       }
@@ -915,7 +929,7 @@ export class SR5Actor extends Actor {
   }
 
   //Delete Marks on Other actors
-  async deleteMarksOnActor(actorData, actorID){
+  static async deleteMarksOnActor(actorData, actorID){
     for (let m of actorData.matrix.markedItems){
       let itemToClean = await fromUuid(m.uuid);
       if (itemToClean) {
@@ -933,8 +947,13 @@ export class SR5Actor extends Actor {
     }
   }
 
+  //Socket for deletings marks on other actors;
+  static async _socketDeleteMarksOnActor(message) {
+    await SR5Actor.deleteMarksOnActor(message.data.actorData, message.data.actorID);
+	}
+
   //Delete Mark info on other actors
-  async deleteMarkInfo(actorID, item){
+  static async deleteMarkInfo(actorID, item){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorID),
         deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
         deckData = duplicate(deck.data.data),
@@ -951,16 +970,26 @@ export class SR5Actor extends Actor {
     await deck.update({"data": deckData});
   }
 
+  //Socket for deletings marks info other actors;
+  static async _socketDeleteMarkInfo(message) {
+    await SR5Actor.deleteMarkInfo(message.data.actorID, message.data.item);
+	}
+
   //Raise owerwatch score
-  overwatchIncrease(defenseHits) {
-    let actorData = duplicate(this.data);
-    //Vérifie que le SS existe, si non, le crée
+  static async overwatchIncrease(defenseHits, actorId) {
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
+    let actorData = duplicate(actor.data);
+    
     if (actorData.data.matrix.overwatchScore === null) actorData.data.matrix.overwatchScore = 0;
-    //Ajoute le résultat du jet du défenseur au SS de l'attaquant
     actorData.data.matrix.overwatchScore += defenseHits;
-    this.update(actorData);
-    ui.notifications.info(`${this.name}, ${game.i18n.localize("SR5.OverwatchScoreActual")} ${actorData.data.matrix.overwatchScore}`);
+    actor.update(actorData);
+    ui.notifications.info(`${actor.name}, ${game.i18n.localize("SR5.OverwatchScoreActual")} ${actorData.data.matrix.overwatchScore}`);
   }
+
+  //Socket for increasing overwatch score;
+  static async _socketOverwatchIncrease(message) {
+    await SR5Actor.overwatchIncrease(message.data.defenseHits, message.data.actorId);
+	}
 
   //Reset Cumulative Recoil
   resetRecoil(){
@@ -1081,7 +1110,7 @@ export class SR5Actor extends Actor {
   }
 
   //Socket for creating sidekick;
-  static async _handlecreateSidekickSocketMessage(message) {
+  static async _socketCreateSidekick(message) {
     await SR5Actor.createSidekick(message.data.item, message.data.userId, message.data.actorId);
 	}
 
@@ -1159,7 +1188,7 @@ export class SR5Actor extends Actor {
   }
 
   //Socket to dismiss sidekick;
-  static async _handleDismissSidekickSocketMessage(message) {
+  static async _socketDismissSidekick(message) {
     await SR5Actor.dimissSidekick(message.data.actor);
 	}
 
@@ -1183,7 +1212,7 @@ export class SR5Actor extends Actor {
     await deck.update({"data.pan": currentPan,});
   }
 
-  static async _handleAddItemToPanSocketMessage(message){
+  static async _socketAddItemToPan(message){
     await SR5Actor.addItemtoPan(message.data.targetItem, message.data.actorId);
   }
 
@@ -1203,7 +1232,7 @@ export class SR5Actor extends Actor {
     await deck.update({"data.pan": currentPan,});
   }
 
-  static async _handleDeleteItemFromPanSocketMessage(message){
+  static async _socketDeleteItemFromPan(message){
     await SR5Actor.deleteItemFromPan(message.data.targetItem, message.data.index, message.data.actorId);
   }
 
