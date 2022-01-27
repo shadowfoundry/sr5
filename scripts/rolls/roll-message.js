@@ -3,8 +3,8 @@ import { SR5_SystemHelpers } from "../system/utility.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
-import { SR5Combat } from "../system/srcombat.js";
-import SR5_RollDialog from "./roll-dialog.js";
+import { SR5_SocketHandler } from "../socket.js";
+import { SR5Actor } from "../entities/actors/entityActor.js";
 
 export class SR5_RollMessage {
 
@@ -214,14 +214,21 @@ export class SR5_RollMessage {
                     if (actor.data.data.matrix.deviceType === "slavedDevice" || actor.data.data.matrix.deviceType === "ice") {
                         for (let server of game.actors) {
                             if (server.id === actor.id && server.data.data.matrix.deviceType === "host") {
-                               await SR5_DiceHelper.markDevice(server, messageData.originalActionAuthor, messageData.mark);
+                               await SR5_DiceHelper.markDevice(server.id, messageData.originalActionAuthor, messageData.mark);
                             }
                         }
                     }
                     // if defender is a drone and is slaved, add mark to master
                     if (actor.data.type === "actorDrone" && actor.data.data.slaved){
-                        let controler = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id);
-                        await SR5_DiceHelper.markDevice(controler, messageData.originalActionAuthor, messageData.mark);
+                        if (!game.user?.isGM) {
+                            SR5_SocketHandler.emitForGM("markDevice", {
+                                targetActor: actor.data.data.vehicleOwner.id,
+                                attackerID: originalActionAuthor,
+                                mark: mark,
+                            });
+                        } else { 
+                            await SR5_DiceHelper.markDevice(actor.data.data.vehicleOwner.id, messageData.originalActionAuthor, messageData.mark);
+                        }
                     }
                     SR5_RollMessage.updateChatButton(message, "attackerPlaceMark");
                     break;
@@ -229,11 +236,27 @@ export class SR5_RollMessage {
                     let attackerID;
                     if (actor.isToken) attackerID = actor.token.id;
                     else attackerID = actor.id;
-                    await SR5_DiceHelper.markDevice(originalActionAuthor, attackerID, 1);
+                    if (!game.user?.isGM) {
+                        SR5_SocketHandler.emitForGM("markDevice", {
+                            targetActor: originalActionAuthor.id,
+                            attackerID: attackerID,
+                            mark: 1,
+                        });
+                      } else {  
+                        await SR5_DiceHelper.markDevice(originalActionAuthor.id, attackerID, 1);
+                    }
+                    
                     SR5_RollMessage.updateChatButton(message, "defenderPlaceMark");
                     break;
                 case "msgTest_increaseOverwatch":
-                    originalActionAuthor.overwatchIncrease(messageData.test.hits);
+                    if (!game.user?.isGM) {
+                        SR5_SocketHandler.emitForGM("overwatchIncrease", {
+                            defenseHits: messageData.test.hits,
+                            actorId: originalActionAuthor.id,
+                        });
+                      } else {  
+                        await SR5Actor.overwatchIncrease(messageData.test.hits, originalActionAuthor.id);
+                    }
                     SR5_RollMessage.updateChatButton(message, "overwatch");
                     break;
                 case "msgTest_defenderDoDeckDamage":

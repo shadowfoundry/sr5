@@ -3,6 +3,7 @@ import { SR5_SystemHelpers } from "../system/utility.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { _getSRStatusEffect } from "../system/effectsList.js"
 import { SR5_Dice } from "./dice.js";
+import { SR5_SocketHandler } from "../socket.js";
 
 
 export class SR5_DiceHelper {
@@ -227,11 +228,26 @@ export class SR5_DiceHelper {
         await item.update({"data": itemToMark});
 
         //Update attacker deck with data
-        await SR5_DiceHelper.updateDeckMarkedItems(realAttackerID, item, mark);
-
-        if (itemToMark.isSlavedToPan){
-            SR5_DiceHelper.markPanMaster(itemToMark, attackerID, mark);
+        if (!game.user?.isGM) {
+            SR5_SocketHandler.emitForGM("updateDeckMarkedItems", {
+                ownerID: realAttackerID,
+                markedItem: item.uuid,
+                mark: mark,
+            });
+            if (itemToMark.isSlavedToPan){
+                SR5_SocketHandler.emitForGM("markPanMaster", {
+                    itemToMark: itemToMark,
+                    attackerID: attackerID,
+                    mark: mark,
+                });
+            }
+          } else {  
+            await SR5_DiceHelper.updateDeckMarkedItems(realAttackerID, item.uuid, mark);
+            if (itemToMark.isSlavedToPan){
+                SR5_DiceHelper.markPanMaster(itemToMark, attackerID, mark);
+            }
         }
+        
     }
 
     //Add mark to pan Master of the item
@@ -241,16 +257,22 @@ export class SR5_DiceHelper {
         SR5_DiceHelper.markItem(panMaster, attackerID, mark, masterDevice.toObject(false));
     }
 
+    //Socket for adding marks to pan Master of the item
+    static async _socketMarkPanMaster(message) {
+        await SR5_DiceHelper.markPanMaster(message.data.itemToMark, message.data.attackerID, message.data.mark);
+	}
+
     //Add mark info to attacker deck
     static async updateDeckMarkedItems(ownerID, markedItem, mark){
         let owner = SR5_EntityHelpers.getRealActorFromID(ownerID),
             ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
             deckData = duplicate(ownerDeck.data.data),
+            itemMarked = await fromUuid(markedItem),
             alreadyMarked = false;
 
         //If item is already marked, update value
         for (let m of deckData.markedItems){
-            if (m.uuid === markedItem.uuid) {
+            if (m.uuid === itemMarked.uuid) {
                 m.value += mark;
                 if (m.value > 3) m.value = 3;
                 alreadyMarked = true;
@@ -258,19 +280,25 @@ export class SR5_DiceHelper {
         }
         if (!alreadyMarked){
             let newMark = {
-                "uuid": markedItem.uuid,
+                "uuid": itemMarked.uuid,
                 "value": mark,
-                "itemName": markedItem.name,
-                'itemOwner': markedItem.actor.name,
+                "itemName": itemMarked.name,
+                'itemOwner': itemMarked.actor.name,
             }
             deckData.markedItems.push(newMark);
         }
         await ownerDeck.update({"data": deckData});
     }
 
+    //Socket for updating marks items on other actors;
+    static async _socketUpdateDeckMarkedItems(message) {
+        await SR5_DiceHelper.updateDeckMarkedItems(message.data.ownerID, message.data.markedItem, message.data.mark);
+	}
+
     //Add mark to main Device
-    static async markDevice(targetActor, attackerID, mark){
-        let attacker = SR5_EntityHelpers.getRealActorFromID(attackerID),
+    static async markDevice(targetActorID, attackerID, mark){
+        let attacker = await SR5_EntityHelpers.getRealActorFromID(attackerID),
+            targetActor = await SR5_EntityHelpers.getRealActorFromID(targetActorID),
             ownerDeck = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive),
             deckData = duplicate(ownerDeck.data.data),
             existingMark = false;
@@ -293,10 +321,15 @@ export class SR5_DiceHelper {
             deckData.marks.push(newMark)
         }
         await ownerDeck.update({"data": deckData});
-        await SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck, mark);
+        await SR5_DiceHelper.updateDeckMarkedItems(attackerID, ownerDeck.uuid, mark);
     }
 
-    //Add mark to 
+    //Socket for adding marks to main Device;
+    static async _socketMarkDevice(message) {
+        await SR5_DiceHelper.markDevice(message.data.targetActor, message.data.attackerID, message.data.mark);
+	}
+
+
     /** Find if an Actor has a Mark item with the same ID as the attacker
    * @param {Object} targetActor - The Target Actor who owns the Mark
    * @param {Object} attackerID - The ID of the attacker who wants to mark

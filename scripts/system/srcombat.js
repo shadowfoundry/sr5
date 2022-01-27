@@ -398,7 +398,7 @@ export class SR5Combat extends Combat {
 		return Math.max(score -10, 0);
 	}
 
-	static async _handleDoNextRoundSocketMessage(message) {
+	static async _socketDoNextRound(message) {
 		if (!message.data.hasOwnProperty('id') && typeof message.data.id !== 'string') {
 				console.error(`SR5Combat Socket Message 'DoNextRound' data.id must be a string (combat id) but is ${typeof message.data} (${message.data})!`);
 				return;
@@ -407,7 +407,7 @@ export class SR5Combat extends Combat {
 		return await SR5Combat.handleNextRound(message.data.id);
 	}
 
-	static async _handleDoInitPassSocketMessage(message) {
+	static async _socketDoInitPass(message) {
 		if (!message.data.hasOwnProperty('id') && typeof message.data.id !== 'string') {
 				console.error(`SR5Combat Socket Message 'DoInitPass' data.id must be a string (combat id) but is ${typeof message.data} (${message.data})!`);
 				return;
