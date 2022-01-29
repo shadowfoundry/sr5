@@ -322,6 +322,9 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.eraseMark(messageData);
                     SR5_RollMessage.updateChatButton(message, "eraseMarkSuccess");
                     break;
+                case "msgTest_checkOverwatchScore":
+                    SR5_DiceHelper.rollOverwatchDefense(messageData);
+                    //SR5_RollMessage.updateChatButton(message, "checkOverwatchScoreDefense");
                 default:
             }
         }

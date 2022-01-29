@@ -1028,6 +1028,7 @@
   "SR5.OverwatchScore"                        : "Score de surveillance",
   "SR5.OverwatchScoreActual"                  : "Score de surveillance actuel :",
   "SR5.OverwatchScoreShort"                   : "SS",
+  "SR5.OverwatchResistance"                   : "Résistance de la surveillance",
   "SR5.OwnerEffects"                          : "Effets sur le propriétaire",
   "SR5.PAN"                                   : "PAN",
   "SR5.PanCurrentDevices"                     : "Appareils asservis",

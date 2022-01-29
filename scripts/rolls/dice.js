@@ -700,6 +700,7 @@ export class SR5_Dice {
 			if (cardData.testType === "opposedTest") cardData.button.matrixAction = true;
 			if (cardData.typeSub === "jackOut" && author.data.matrix.isLinkLocked) cardData.button.jackOut = true;
 			if (cardData.typeSub === "eraseMark") cardData.button.eraseMark = true;
+			if (cardData.typeSub === "checkOverwatchScore") cardData.button.checkOverwatchScoreDefense = true;
 			cardData.originalActionAuthor = cardData.speakerId;
 		} else {
 			cardData.button.matrixAction = false;

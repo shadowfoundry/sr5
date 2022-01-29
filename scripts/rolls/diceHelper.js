@@ -938,4 +938,8 @@ export class SR5_DiceHelper {
         await item.update({"data": itemData});
         await markOwner.deleteMarkInfo(messageData.markOwner, messageData.markeditem);
     }
+
+    static async rollOverwatchDefense(messageData){
+        
+    }
 }
