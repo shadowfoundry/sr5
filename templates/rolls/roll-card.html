@@ -297,7 +297,15 @@
       {{#if button.matrixSearchSuccess}}
       <button class="messageAction SR-CardButtonHit endTest" data-action="" data-type="">
         {{localize 'SR5.MatrixSearchSuccess'}}  [{{matrixSearchDuration }}]</button> 
-      {{/if}}   
+      {{/if}}
+
+      <!-- CHECK OVERWATCH MATRIX ACTION RESISTANCE -->
+      {{#if button.checkOverwatchScoreDefense}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_checkOverwatchScore">{{localize 'SR5.OverwatchResistance'}}</button> 
+      {{/if}}
+      
+      
+      
     </div>
   </div>
 </div>

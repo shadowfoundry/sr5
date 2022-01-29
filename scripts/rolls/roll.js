@@ -453,6 +453,8 @@ export class SR5_Roll {
                         testType = "nonOpposedTest";
                     } else if (typeSub === "eraseMark"){
                         testType = "nonOpposedTest";
+                    } else if (typeSub === "checkOverwatchScore"){
+                        testType = "nonOpposedTest";
                     }
                     else {
                         testType = "opposedTest";
