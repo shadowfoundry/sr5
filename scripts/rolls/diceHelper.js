@@ -185,6 +185,66 @@ export class SR5_DiceHelper {
         }
     }
 
+    //convert matrix search to dice mod
+    static convertMatrixSearchToTreshold (type){
+        switch (type){
+            case "general":
+                return 1;
+            case "limited":
+                return 3;
+            case "hidden":
+                return 6;
+            default: return 0;
+        }
+    }
+
+    //convert matrix search info to interval multiplier for an extended test
+    static convertMatrixSearchTypeToTime (type){
+        switch (type){
+            case "general":
+                return 1;
+            case "limited":
+                return 30;
+            case "hidden":
+                return 12;
+            default: return 1;
+        }
+    }
+
+    //convert matrix search info to interval multiplier for an extended test
+    static convertMatrixSearchTypeToUnitTime (type){
+        switch (type){
+            case "general":
+            case "limited":
+                return "minute";
+            case "hidden":
+                return "hour";
+            default: return "minute";
+        }
+    }
+
+    //Get time spent on a matrix search
+    static async getMatrixSearchDuration(cardData, netHits){
+        let timeSpent, duration = "";
+        cardData.matrixSearchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.matrixSearchType);
+		cardData.matrixSearchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.matrixSearchType);
+
+        if (cardData.matrixSearchUnit === "minute") timeSpent = (cardData.matrixSearchTime * 60)/netHits;
+        if (cardData.matrixSearchUnit === "hour") timeSpent = (cardData.matrixSearchTime * 60 * 60)/netHits;
+        
+        let time = new Date(null);
+        time.setSeconds(timeSpent);
+        let seconds = time.getSeconds();
+        let minutes = time.getMinutes();
+        let hours = time.getHours()-1;
+        
+        if (hours) duration = `${hours}${game.i18n.localize("SR5.HoursUnit")} `;
+        if (minutes) duration += `${minutes}${game.i18n.localize("SR5.MinuteUnit")} `;
+        if (seconds) duration += `${seconds}${game.i18n.localize("SR5.SecondUnit")} `;
+        
+        return duration;
+    }
+
     //Get augmented attribute value from attribute name
     static getAttributeValue(key, actor){
         if (key === "none") return 0;

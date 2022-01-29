@@ -1344,6 +1344,13 @@ SR5.gridTypes = {
   host                      :"SR5.GridHost",
 }
 
+//Matrix Search information type
+SR5.matrixSearchInfoType = {
+  general                   :"SR5.MatrixSearchInfoTypeGeneral",
+  limited                   :"SR5.MatrixSearchInfoTypeLimited",
+  hidden                    :"SR5.MatrixSearchInfoTypeHidden",
+}
+
 //-----------------------------------//
 //            VEHICULES              //
 //-----------------------------------//

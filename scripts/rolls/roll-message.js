@@ -81,7 +81,7 @@ export class SR5_RollMessage {
             actor,
             messageData = message.data.flags.sr5data;
 
-        messageData.originalMessage = message
+        messageData.originalMessage = message;
     
         //Opposed test : need to select a Token to operate
         if (action === "opposedTest") {
@@ -329,6 +329,7 @@ export class SR5_RollMessage {
 
     //Update the stat of a chatMessage button
     static updateChatButton(message, buttonToUpdate){
+        if (!message.id) message = game.messages.get(message._id);
         if (message.data?.flags?.sr5data?.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
         let newMessage = duplicate(message.data.flags.sr5data);
         newMessage.button[buttonToUpdate] = !newMessage.button[buttonToUpdate];

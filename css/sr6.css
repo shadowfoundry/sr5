@@ -4691,6 +4691,9 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
   border-bottom: 1px solid #b2007a;
 }
+.dialog .window-content .dialog-content .SR5jet {
+  height: auto;
+}
 .dialog .window-content .dialog-content .SR5jet input {
   background: none;
   color: #000001;
@@ -4731,6 +4734,9 @@ input[type=range]:focus::-ms-fill-upper {
   width: 10px;
   text-align: center;
   min-width: 0px;
+}
+.dialog .window-content .dialog-content .SR5jet hr {
+  color: rgba(0, 0, 1, 0.7);
 }
 .dialog .dialog-buttons {
   background-image: url("../img/ui/SR6_BG_Dialog.png");

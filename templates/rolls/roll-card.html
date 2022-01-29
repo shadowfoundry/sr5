@@ -108,6 +108,9 @@
       {{#if button.actionEnd}}
         <button class="messageAction SR-CardButtonHit endTest" data-action="" data-type="">
           {{button.actionEndTitle}}
+          {{#if (eq typeSub 'matrixSearch')}}
+            [{{matrixSearchDuration}}]
+          {{/if}}
         </button>
       {{/if}}
 
@@ -288,9 +291,13 @@
       <!-- ERASED MARK SUCCED -->
       {{#if button.eraseMarkSuccess}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_eraseMarkSucced">{{localize 'SR5.MatrixActionEraseMark'}}</button> 
-      {{/if}}
-      
-    </div>
+      {{/if}}   
 
+      <!-- MATRIX SEARCH SUCCED -->
+      {{#if button.matrixSearchSuccess}}
+      <button class="messageAction SR-CardButtonHit endTest" data-action="" data-type="">
+        {{localize 'SR5.MatrixSearchSuccess'}}  [{{matrixSearchDuration }}]</button> 
+      {{/if}}   
+    </div>
   </div>
 </div>

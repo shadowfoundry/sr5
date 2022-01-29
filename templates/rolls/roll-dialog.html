@@ -133,6 +133,10 @@
           {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html}}
         {{/if}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html}}
+        <!-- MATRIX SEARCH -->
+        {{#if (eq typeSub "matrixSearch")}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html}}
+        {{/if}}
       {{/ife}}
 
       <!-- RESONANCE ACTION -->

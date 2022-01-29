@@ -4735,6 +4735,10 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
   min-width: 0px;
 }
+.dialog .window-content .dialog-content .SR5jet .SR-TopSeparator {
+  border-top: 1px solid rgba(12, 147, 148, 0.35);
+  margin-top: 5px;
+}
 .dialog .dialog-buttons {
   background-image: url("../img/ui/SR5_BG_Dialog.png");
   background-size: contain;
