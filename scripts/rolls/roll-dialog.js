@@ -134,7 +134,6 @@ export default class SR5_RollDialog extends Dialog {
         else this.data.data.rulesMatrixGrid = false;
         let actor = this.data.data.actor;
         let dialogData = this.data.data;
-        console.log(dialogData);
         
 
         this.updateDicePoolValue(html);
@@ -355,7 +354,7 @@ export default class SR5_RollDialog extends Dialog {
 
         // Extended test
         html.find('[name="extendedValue"]').change(ev => {
-            let value = html.find('[name="extendedValue"]')[0].value;
+            let value = ev.target.value;
             if (value === "true") {
                 dialogData.extendedTest = true;
                 document.getElementById("interval").style.display = "block";
@@ -496,7 +495,7 @@ export default class SR5_RollDialog extends Dialog {
 
         //Grid
         if (game.settings.get("sr5", "sr5MatrixGridRules")){
-            if (html.find('[name="publicGridMod"]')[0]){
+            if (html.find('[name="publicGridMod"]')[0] && (html.find('[name="matrixRange"]')[0].value !== "wired")) {
                 dialogData.dicePoolMod.publicGrid = -2;
                 this.updateDicePoolValue(html);
             }
@@ -532,24 +531,15 @@ export default class SR5_RollDialog extends Dialog {
             });
         }
 
-        //Matrix Search
-        if (dialogData.typeSub === "matrixSearch"){
-            html.find('[name="extendedValue"]')[0].value = true;
+        //Matrix Search  
+        if (html.find('[name="searchType"]')[0]){
+            dialogData.matrixSearchType = html.find('[name="searchType"]')[0].value;
         }
 
-        html.find('[name="searchModifier"]').change(ev => {
-            let searchModifier = SR5_DiceHelper.convertMatrixSearchToDiceMod(html.find('[name="searchModifier"]')[0].value);
-            html.find('[name="dicePoolModMatrixSearch"]')[0].value = searchModifier;
-            dialogData.dicePoolMod.matrixSearchMod = searchModifier;
-            dialogData.matrixSearchType = html.find('[name="searchModifier"]')[0].value;
-            this.dicePoolModifier.matrixSearchMod = searchModifier;
-            this.updateDicePoolValue(html);
-        });
-
         html.find('[name="searchType"]').change(ev => {
-            let searchType = html.find('[name="searchType"]')[0].value;
-            
+            dialogData.matrixSearchType = html.find('[name="searchType"]')[0].value;
         });
 
     }
+
 }

@@ -81,9 +81,7 @@ export class SR5_RollMessage {
             actor,
             messageData = message.data.flags.sr5data;
 
-        messageData.originalMessage = message
-        console.log(messageData.originalMessage);
-        console.log(message.toObject(false));
+        messageData.originalMessage = message;
     
         //Opposed test : need to select a Token to operate
         if (action === "opposedTest") {
