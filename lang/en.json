@@ -844,6 +844,8 @@
   "SR5.MatrixActionCallOrDismissSprite"       : "Call/Dismiss Sprite",
   "SR5.MatrixActionChangeIcon"                : "Change Icon",
   "SR5.MatrixActionCheckOverwatchScore"       : "Check Overwatch Score",
+  "SR5.MatrixActionCheckOverwatchScoreFailed" : "Failde Overwatch check",
+  "SR5.MatrixActionCheckOverwatchScoreSuccess": "Overwatch score: ",
   "SR5.MatrixActionCommandSprite"             : "Command Sprite",
   "SR5.MatrixActionCompileSprite"             : "Compile Sprite",
   "SR5.MatrixActionControlDevice"             : "Control Device",

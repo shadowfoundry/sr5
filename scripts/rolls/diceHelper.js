@@ -939,7 +939,28 @@ export class SR5_DiceHelper {
         await markOwner.deleteMarkInfo(messageData.markOwner, messageData.markeditem);
     }
 
-    static async rollOverwatchDefense(messageData){
-        
+    static async rollOverwatchDefense(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        actor = actor.toObject(false);
+        let dicePool = 6;
+
+        let cardData = {
+            type: "overwatchResistance",
+            title: `${game.i18n.localize("SR5.OverwatchResistance")} (${message.test.hits})`,
+            dicePool: dicePool, 
+            button: {},
+            actor: actor,
+            originalActionAuthor: message.originalActionAuthor, 
+            hits: message.test.hits,
+            speakerId: message.speakerId,
+            speakerActor: message.speakerActor,
+            speakerImg: message.speakerImg,
+        };
+
+        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        cardData.test = result;
+
+        SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        SR5_Dice.renderRollCard(cardData);
     }
 }

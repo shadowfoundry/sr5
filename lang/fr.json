@@ -844,6 +844,8 @@
   "SR5.MatrixActionCallOrDismissSprite"       : "Appeler/Renvoyer un sprite",
   "SR5.MatrixActionChangeIcon"                : "Changer son icone",
   "SR5.MatrixActionCheckOverwatchScore"       : "Vérifier son score de surveillance",
+  "SR5.MatrixActionCheckOverwatchScoreFailed" : "Echec de la vérification",
+  "SR5.MatrixActionCheckOverwatchScoreSuccess": "Score de surveillance: ",
   "SR5.MatrixActionCommandSprite"             : "Donner un order à un sprite",
   "SR5.MatrixActionCompileSprite"             : "Compiler un sprite",
   "SR5.MatrixActionControlDevice"             : "Contrôler un appareil",

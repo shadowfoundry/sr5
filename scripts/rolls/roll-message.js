@@ -324,7 +324,7 @@ export class SR5_RollMessage {
                     break;
                 case "msgTest_checkOverwatchScore":
                     SR5_DiceHelper.rollOverwatchDefense(messageData);
-                    //SR5_RollMessage.updateChatButton(message, "checkOverwatchScoreDefense");
+                    SR5_RollMessage.updateChatButton(message, "checkOverwatchScoreDefense");
                 default:
             }
         }

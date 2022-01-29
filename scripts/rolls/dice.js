@@ -492,6 +492,8 @@ export class SR5_Dice {
 				break;
 			case "eraseMark":
 				SR5_Dice.addEraseMarkInfoToCard(cardData, author);
+			case "overwatchResistance":
+				SR5_Dice.addOverwatchResistanceInfoToCard(cardData, author);
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -1066,5 +1068,15 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionEraseMarkFailed");
 		}
+	}
+
+	static async addOverwatchResistanceInfoToCard(cardData, author){
+		let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor)
+		let currentOS = attacker.data.data.matrix.overwatchScore;
+		cardData.attackerName = attacker.name;
+		cardData.button.actionEnd = true;
+		if (cardData.test.hits > 0) cardData.button.overwatch = true;
+		if (cardData.test.hits < cardData.hits) cardData.button.actionEndTitle = `${game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreSuccess")} ${currentOS}`;
+		else cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreFailed");
 	}
 }
