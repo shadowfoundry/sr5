@@ -1,0 +1,18 @@
+<li class="grid">
+    <li class="grid">
+        <div class="col-5">{{localize 'SR5.MatrixSearchInformationComplexity'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-6 SR-PaddingRight10">
+            <select class="" name="searchModifier">
+                {{#select searchModifier}}
+                    <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.matrixSearchModifiers}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div class="col-1 SR-TextCenter">
+            <input disabled type="number" class="" name="dicePoolModMatrixSearch" value="" placeholder="0" data-dtype="Number" />
+        </div>
+    </li>
+</li>

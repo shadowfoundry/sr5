@@ -185,6 +185,18 @@ export class SR5_DiceHelper {
         }
     }
 
+    //convert matrix distance to dice mod
+    static convertMatrixSearchToDiceMod (search){
+        switch (search){
+            case "specialized":
+                return -1;
+            case "obscure":
+                return -2;
+            case "onAnotherGrid":
+                return -2;
+            default: return 0;
+        }
+    }
     //Get augmented attribute value from attribute name
     static getAttributeValue(key, actor){
         if (key === "none") return 0;

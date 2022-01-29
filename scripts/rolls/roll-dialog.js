@@ -134,7 +134,8 @@ export default class SR5_RollDialog extends Dialog {
         else this.data.data.rulesMatrixGrid = false;
         let actor = this.data.data.actor;
         let dialogData = this.data.data;
-
+        console.log(dialogData);
+        
 
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
@@ -530,5 +531,25 @@ export default class SR5_RollDialog extends Dialog {
                 }
             });
         }
+
+        //Matrix Search
+        if (dialogData.typeSub === "matrixSearch"){
+            html.find('[name="extendedValue"]')[0].value = true;
+        }
+
+        html.find('[name="searchModifier"]').change(ev => {
+            let searchModifier = SR5_DiceHelper.convertMatrixSearchToDiceMod(html.find('[name="searchModifier"]')[0].value);
+            html.find('[name="dicePoolModMatrixSearch"]')[0].value = searchModifier;
+            dialogData.dicePoolMod.matrixSearchMod = searchModifier;
+            dialogData.matrixSearchType = html.find('[name="searchModifier"]')[0].value;
+            this.dicePoolModifier.matrixSearchMod = searchModifier;
+            this.updateDicePoolValue(html);
+        });
+
+        html.find('[name="searchType"]').change(ev => {
+            let searchType = html.find('[name="searchType"]')[0].value;
+            
+        });
+
     }
 }

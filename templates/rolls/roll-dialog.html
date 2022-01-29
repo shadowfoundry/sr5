@@ -1,6 +1,7 @@
 <form class="SR5jet">
   <div class="">
     <ul>
+      {{log this}}
       <!-- DICEPOOL -->
       {{> systems/sr5/templates/rolls/rollDialogPartial/dicePool.html}}
 
@@ -133,6 +134,11 @@
           {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html}}
         {{/if}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html}}
+        <!-- MATRIX SEARCH -->
+        {{#if (eq typeSub "matrixSearch")}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearchType.html}}
+        {{/if}}
       {{/ife}}
 
       <!-- RESONANCE ACTION -->

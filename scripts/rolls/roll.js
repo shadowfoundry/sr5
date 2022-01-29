@@ -493,6 +493,12 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                 });
                 
+                if (typeSub === "matrixSearch"){
+                    optionalData = mergeObject(optionalData, {
+                        "switch.extended": true,
+                    });
+                }
+
                 if (typeSub === "dataSpike"){
                     optionalData = mergeObject(optionalData, {
                         matrixDamageValueBase: actorData.matrix.attributes.attack.value,
