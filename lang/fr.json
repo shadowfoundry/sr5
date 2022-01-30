@@ -521,6 +521,7 @@
   "SR5.EffectReduceFirewall"                  : "Réduction de Firewall",
   "SR5.EffectReduceSleaze"                    : "Réduction de Corruption",
   "SR5.EffectSensorLock"                      : "Vérouillé par senseurs",
+  "SR5.EffectSignalJam"                       : "Brouillage de signal",
   "SR5.EffectTypeIceAttack"                   : "Attaque de CI",
   "SR5.Electricity"                           : "Electricité",
   "SR5.ElementalDamage"                       : "Dommage élémentaire",

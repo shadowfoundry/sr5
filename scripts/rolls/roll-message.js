@@ -325,6 +325,9 @@ export class SR5_RollMessage {
                 case "msgTest_checkOverwatchScore":
                     SR5_DiceHelper.rollOverwatchDefense(messageData);
                     SR5_RollMessage.updateChatButton(message, "checkOverwatchScoreDefense");
+                case "msgTest_jamSignal":
+                    SR5_DiceHelper.jamSignals(messageData);
+                    //SR5_RollMessage.updateChatButton(message, "matrixJamSignals");
                 default:
             }
         }

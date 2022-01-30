@@ -3946,6 +3946,11 @@
             "max": 0,
             "current": 0,
             "content":[]
+          },
+          "noise": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },

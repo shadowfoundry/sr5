@@ -304,7 +304,10 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_checkOverwatchScore">{{localize 'SR5.OverwatchResistance'}}</button> 
       {{/if}}
       
-      
+      <!-- CHECK OVERWATCH MATRIX ACTION RESISTANCE -->
+      {{#if button.matrixJamSignals}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_jamSignal">{{localize 'SR5.MatrixActionJamSignals'}}</button> 
+      {{/if}}
       
     </div>
   </div>

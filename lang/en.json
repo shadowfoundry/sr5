@@ -521,6 +521,7 @@
   "SR5.EffectReduceFirewall"                  : "Firewall reduction",
   "SR5.EffectReduceSleaze"                    : "Sleaze reduction",
   "SR5.EffectSensorLock"                      : "Locked by sensor",
+  "SR5.EffectSignalJam"                       : "Signal jamming",
   "SR5.EffectTypeIceAttack"                   : "ICE Attack",
   "SR5.Electricity"                           : "Electricity",
   "SR5.ElementalDamage"                       : "Elemental damage",

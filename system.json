@@ -238,7 +238,7 @@
   ],
   "socket": true,
   "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
-  "download": "https://github.com/shadowfoundry/sr5/releases/latest/download/sr5.zip",
+  "download": "https://github.com/shadowfoundry/sr5/releases/download/0.0.4.7/sr5.zip",
   "protected": false,
   "background": "./img/sr5SplashScreen.jpg",
   "initiative": "1d6",
