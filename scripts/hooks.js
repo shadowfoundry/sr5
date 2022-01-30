@@ -246,6 +246,7 @@ export const registerHooks = function () {
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {
+    console.log(data);
     if (game.combat) SR5Combat.changeInitInCombat(document);
     if (data.data?.visions) canvas.sight.refresh()
   
@@ -263,28 +264,38 @@ export const registerHooks = function () {
   });
 
   Hooks.on("deleteItem", async (item) =>{
+    console.log(item);
     if (item.type === "itemEffect"){
-      let statusEffect = item.actor.effects.find(e => e.data.origin === item.data.data.type);
+      let statusEffect = await item.actor.effects.find(e => e.data.origin === item.data.data.type);
       if (statusEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
-    }
+    }/*
+    if (item.data.data.type === "signalJam"){
+      for (let token of canvas.tokens.placeables) {
+        if(token.actor && token.actor.id !== item.actor.id){
+          let itemToDelete = await token.actor.data.items.find(i => i.data.data.type === "signalJammed" && i.data.data.ownerID === item.actor.id);
+          if (itemToDelete){
+            let tokenActor = await token.document.getActor();
+            await tokenActor.deleteEmbeddedDocuments("Item", [itemToDelete.id]);
+          }
+        }
+      }
+    }*/
   });
 
   Hooks.on("deleteActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
+    if (effect.data.flags.core?.statusId === "signalJam") canvas.sight.refresh()
   });
 
   Hooks.on("createActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
+    if (effect.data.flags.core?.statusId === "signalJam") canvas.sight.refresh();
   });
 
   Hooks.on("lightingRefresh", () => {
     for (const source of canvas.sight.sources) {
 
       }
-  });
-
-  Hooks.on("deleteActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
   });
 
   Hooks.on("createActor", async (actor) =>{

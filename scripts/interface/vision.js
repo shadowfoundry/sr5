@@ -1,3 +1,6 @@
+import { SR5_EffectArea } from "../system/effectArea.js";
+import { SR5_EntityHelpers } from "../entities/helpers.js";
+
 export class SR5SightLayer extends SightLayer {
 
   /** @override */
@@ -22,14 +25,18 @@ export class SR5SightLayer extends SightLayer {
 
     // Check vision sources
     for ( let source of visionSources.values() ) {
-      //Overrid to Manage astral Perception
+      //Override Start here
       if (caller){
         if (caller.document?.actor && source.object?.document?.actor){
           let callerData = caller.document.actor.data;
-          let actor = source.object.document.actor.data;
-          if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data?.visions?.astral.isActive) return false
+          let actor = SR5_EntityHelpers.getRealActorFromID(source.object.document.id);
+          //Jam signals management
+          SR5_EffectArea.manageJam(caller, source);
+          //Astral Perception management
+          if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data.data?.visions?.astral.isActive) return false
         }
       }
+      //End of Override
 
       if ( !source.active ) continue;               // The source may be currently inactive
       if ( !hasLOS || (!hasFOV && requireFOV) ) {   // Do we need to test for LOS?
