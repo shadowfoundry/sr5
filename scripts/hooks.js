@@ -19,6 +19,7 @@ import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js";
 import { SR5Token } from "./interface/token.js";
 import { SR5SightLayer, drawSight } from "./interface/vision.js";
 import { SR5CombatTracker } from "./interface/srcombat-tracker.js";
+import { SR5_EffectArea } from "./system/effectArea.js";
 import { _getSRStatusEffect } from "./system/effectsList.js";
 import  SR5TokenHud from "./interface/tokenHud.js";
 import { checkDependencies } from "./apps/dependencies.js"
@@ -209,6 +210,7 @@ export const registerHooks = function () {
   Hooks.on("updateToken", async function(tokenDocument) {
     const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
     if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
+    SR5_EffectArea.tokenAura(tokenDocument);
   });
 
   Hooks.on("preDeleteToken", (scene, token) => {
@@ -263,28 +265,32 @@ export const registerHooks = function () {
   });
 
   Hooks.on("deleteItem", async (item) =>{
-    if (item.type === "itemEffect"){
-      let statusEffect = item.actor.effects.find(e => e.data.origin === item.data.data.type);
-      if (statusEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+    if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
+      if (item.data.data.type === "signalJam"){
+        let actorID = item.parent.id
+        if (item.parent.isToken) actorID = item.parent.token.id;
+        SR5_EffectArea.onJamEnd(actorID);
+      }
     }
   });
 
   Hooks.on("deleteActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
   });
 
   Hooks.on("createActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
+    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
+    if (effect.data.flags.core?.statusId === "signalJam") {
+      let actorID = effect.parent.id
+      if (effect.parent.isToken) actorID = effect.parent.token.id;
+      SR5_EffectArea.onJamCreation(actorID);
+    }
   });
 
   Hooks.on("lightingRefresh", () => {
     for (const source of canvas.sight.sources) {
 
       }
-  });
-
-  Hooks.on("deleteActiveEffect", (effect) =>{
-    if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh()
   });
 
   Hooks.on("createActor", async (actor) =>{

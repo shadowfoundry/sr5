@@ -336,6 +336,8 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset Link Lock
       if (data.matrix.isLinkLocked) data.matrix.isLinkLocked = false;
+      //Reset Jamming
+      if (data.matrix.isJamming) data.matrix.isJamming = false;
 
       // Reset Matrix Programs
       if (data.matrix.programsCurrentActive) {
@@ -356,6 +358,12 @@ export class SR5_CharacterUtility extends Actor {
       for (let key of Object.keys(lists.matrixResistances)) {
         data.matrix.resistances[key].dicePool = 0;
         data.matrix.resistances[key].modifiers = [];
+      }
+
+      // Reset Matrix Noise
+      if (data.matrix.noise) {
+        data.matrix.noise.value = 0;
+        data.matrix.noise.modifiers = [];
       }
 
       // Reset Matrix Marks
@@ -944,6 +952,7 @@ export class SR5_CharacterUtility extends Actor {
     }
     
     SR5_EntityHelpers.updateDicePool(data.matrix.resistances.matrixDamage);
+    SR5_EntityHelpers.updateValue(data.matrix.noise);
   }
 
 
@@ -2453,9 +2462,9 @@ export class SR5_CharacterUtility extends Actor {
     matrix.pan = deck.data.pan;
     matrix.marks = deck.data.marks;
     matrix.markedItems = deck.data.markedItems;
-
-    SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0)
-    SR5_EntityHelpers.updateValue(matrix.programsCurrentActive, 0)
+    SR5_EntityHelpers.updateValue(matrix.noise);
+    SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0);
+    SR5_EntityHelpers.updateValue(matrix.programsCurrentActive, 0);
 
     for (let key of Object.keys(lists.matrixAttributes)) {
       SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
@@ -2762,6 +2771,8 @@ export class SR5_CharacterUtility extends Actor {
     //Handle resistances
     matrixResistances.matrixDamage.base = matrix.deviceRating + matrixAttributes.firewall.value;
     SR5_EntityHelpers.updateDicePool(matrixResistances.matrixDamage);
+
+    SR5_EntityHelpers.updateValue(matrix.noise)
   }
 
   static generateSpriteMatrix(actor, deck) {
@@ -2823,6 +2834,8 @@ export class SR5_CharacterUtility extends Actor {
     //Handle resistances
     matrixResistances.matrixDamage.base = matrix.deviceRating + matrixAttributes.firewall.value;
     SR5_EntityHelpers.updateDicePool(matrixResistances.matrixDamage);
+
+    SR5_EntityHelpers.updateValue(matrix.noise)
   }
 
   static async updateControledVehicle(actor){ 

@@ -530,6 +530,7 @@ export class SR5Actor extends Actor {
           if (Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
+          if (iData.type === "signalJam") actorData.data.matrix.isJamming = true;
           break;
 
         case "itemLanguage":

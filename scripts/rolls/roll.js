@@ -490,8 +490,8 @@ export class SR5_Roll {
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     matrixNoiseRange: "wired",
-                    matrixNoiseScene: sceneNoise,
-                    "dicePoolMod.matrixNoiseScene": sceneNoise,
+                    matrixNoiseScene: sceneNoise + actorData.matrix.noise.value,
+                    "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                 });
                 
@@ -854,7 +854,7 @@ export class SR5_Roll {
                     actorResonance: actorData.specialAttributes.resonance.augmented.value,
                     defenseAttribute: itemData.defenseAttribute,
                     defenseMatrixAttribute: itemData.defenseMatrixAttribute,
-                    "dicePoolMod.matrixNoiseScene": sceneNoise,
+                    "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                 }
 

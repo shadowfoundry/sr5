@@ -1,7 +1,7 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utility.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
-import { _getSRStatusEffect } from "../system/effectsList.js"
+import { _getSRStatusEffect } from "../system/effectsList.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_SocketHandler } from "../socket.js";
 
@@ -962,5 +962,31 @@ export class SR5_DiceHelper {
 
         SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
         SR5_Dice.renderRollCard(cardData);
+    }
+
+    static async jamSignals(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        let effect = {
+            name: game.i18n.localize("SR5.EffectSignalJam"),
+            type: "itemEffect",
+            "data.type": "signalJam",
+            "data.ownerID": message.actor._id,
+            "data.ownerName": message.actor.name,
+            "data.duration": "permanent",
+            "data.target": game.i18n.localize("SR5.MatrixNoise"),
+            "data.value": -message.test.hits,
+            "data.customEffects": {
+                "0": {
+                    "category": "matrixAttributes",
+                    "target": "data.matrix.noise",
+                    "type": "value",
+                    "value": -message.test.hits,
+                    "forceAdd": true,
+                }
+            },
+        };
+        await actor.createEmbeddedDocuments("Item", [effect]);
+        let statusEffect = await _getSRStatusEffect("signalJam", -message.test.hits);
+        await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 }

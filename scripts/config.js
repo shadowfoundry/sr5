@@ -2149,6 +2149,8 @@ SR5.effectTypes = {
   acidDamage                : "SR5.ElementalDamage",
   fireDamage                : "SR5.ElementalDamage",
   sensorLock                : "SR5.SensorTargetingActive",
+  signalJam                 : "SR5.EffectSignalJam",
+  signalJammed              : "SR5.EffectSignalJammed",
 }
 
 SR5.effectDuration = {

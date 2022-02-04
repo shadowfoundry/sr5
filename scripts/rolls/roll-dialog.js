@@ -86,7 +86,7 @@ export default class SR5_RollDialog extends Dialog {
                 this.data.data.dicePoolMod.publicGrid = -2;
                 html.find('[name="publicGridMod"]')[0].value = -2;
             }
-            sceneNoise = this.data.data.matrixNoiseScene;  
+            sceneNoise = this.data.data.matrixNoiseScene;
             noiseReduction = this.data.data.actor.data.matrix.attributes.noiseReduction.value;
             if (noiseReduction > (-noiseRangeMod - sceneNoise)) noiseReduction = (-noiseRangeMod - sceneNoise);
             if ((noiseRangeMod + sceneNoise) === 0) noiseReduction = 0;

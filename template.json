@@ -3143,6 +3143,7 @@
           "deviceSubType": "",
           "deviceName": "",
           "isLinkLocked": false,
+          "isJamming": false,
           "hasLocalAutosoftRunning":false,
           "runningSilent": false,
           "overwatchScore": 0,
@@ -3946,6 +3947,11 @@
             "max": 0,
             "current": 0,
             "content":[]
+          },
+          "noise": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },

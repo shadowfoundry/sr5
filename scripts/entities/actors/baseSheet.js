@@ -82,6 +82,9 @@ export class ActorSheetSR5 extends ActorSheet {
     // Add item to PAN
     html.find(".addItemToPan").click(this._onAddItemToPan.bind(this));
     html.find(".deleteItemFromPan").click(this._onDeleteItemFromPan.bind(this));
+    // Stop jamming signals
+    html.find(".stop-jamming").click(this._onStopJamming.bind(this));
+    
 
     // Affiche les compétences
     html.find(".hidden").hide();
@@ -294,17 +297,26 @@ export class ActorSheetSR5 extends ActorSheet {
    * @param {Event} event   The originating click event
    * @private
    */
-  _onItemDelete(event) {
+  async _onItemDelete(event) {
     event.preventDefault();
     const li = event.currentTarget.closest(".item");
     const item = this.actor.items.get(li.dataset.itemId);
     if (event.ctrlKey) {
-      if ( item ) return item.delete();
+      if ( item ) {
+        await item.delete();
+        return 
+      }
     } else {
       Dialog.confirm({
         title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}`,
         content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + game.i18n.format('SR5.DIALOG_WarningPermanentDelete', {type: game.i18n.localize("ITEM.Type" + item.type.replace(/^\w/, c => c.toUpperCase())), actor: this.actor.name, itemName: item.name}) + "</p>",
-        yes: () => item.delete(),
+        yes: () => {
+          item.delete();
+          if (item.type === "itemEffect"){
+            let statusEffect = this.actor.effects.find(e => e.data.origin === item.data.data.type);
+            if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+          }
+        },
       });
     }
   }
@@ -821,8 +833,14 @@ export class ActorSheetSR5 extends ActorSheet {
     } else {  
       SR5Actor.deleteItemFromPan(itemId, index, actor);
     }
+  }
 
-    
+  async _onStopJamming(event){
+    event.preventDefault();
+    let jammingItem = this.actor.items.find(i => i.data.data.type === "signalJam");
+    let statusEffect = this.actor.effects.find(e => e.data.origin === "signalJam");
+    if (statusEffect) await this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+    await this.actor.deleteEmbeddedDocuments("Item", [jammingItem.id]);
   }
 
 }

@@ -698,7 +698,7 @@ export class SR5_Dice {
 	}
 
 	static async addMatrixActionInfoToCard(cardData, author){
-		if (cardData.test.hits > 0 && cardData.typeSub !== "matrixSearch") {
+		if (cardData.test.hits > 0 && (cardData.typeSub !== "matrixSearch" || cardData.typeSub !== "jamSignals")) {
 			if (cardData.testType === "opposedTest") cardData.button.matrixAction = true;
 			if (cardData.typeSub === "jackOut" && author.data.matrix.isLinkLocked) cardData.button.jackOut = true;
 			if (cardData.typeSub === "eraseMark") cardData.button.eraseMark = true;
@@ -724,6 +724,16 @@ export class SR5_Dice {
 			}
 			cardData.matrixSearchDuration = await SR5_DiceHelper.getMatrixSearchDuration(cardData, netHits);
 			cardData.title = `${game.i18n.localize("SR5.MatrixActionTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[cardData.typeSub])} (${cardData.matrixSearchTreshold})`;
+		}
+		//Jam Signals special case
+		if (cardData.typeSub === "jamSignals"){
+			if (cardData.test.hits > 0){
+				cardData.button.matrixJamSignals = true;
+			} else {
+				cardData.button.matrixJamSignals = false;
+				cardData.button.actionEnd = true;
+				cardData.button.actionEndTitle = game.i18n.localize("SR5.ActionFailure");
+			}
 		}
 	}
 

@@ -1,5 +1,5 @@
 //Return an effect item based on origin
-export const _getSRStatusEffect = async function(origin) {
+export const _getSRStatusEffect = async function(origin, value) {
     let effect;
 
     switch (origin){
@@ -54,8 +54,7 @@ export const _getSRStatusEffect = async function(origin) {
                         statusId: "astralVision"
                     }
                 },
-            }
-            
+            }           
         case "fireDamage":
             return effect = {
                 label: game.i18n.localize("SR5.CatchFire"),
@@ -68,7 +67,6 @@ export const _getSRStatusEffect = async function(origin) {
                     }
                 },
             }
-            break;
         case "acidDamage":
             return effect = {
                 label: game.i18n.localize("SR5.ElementalDamageAcid"),
@@ -81,7 +79,6 @@ export const _getSRStatusEffect = async function(origin) {
                     }
                 },
             }
-            break;
         case "electricityDamage":
             return effect = {
                 label: game.i18n.localize("SR5.ElementalDamageElectricity"),
@@ -94,7 +91,6 @@ export const _getSRStatusEffect = async function(origin) {
                     }
                 },
             }
-            break;
         case "fullDefenseMode":
             return effect = {
                 label: game.i18n.localize("SR5.FullDefense"),
@@ -107,7 +103,6 @@ export const _getSRStatusEffect = async function(origin) {
                     }
                 },
             }
-            break;
         case "sensorLock":
             return effect = {
                 label: game.i18n.localize("SR5.EffectSensorLock"),
@@ -120,7 +115,32 @@ export const _getSRStatusEffect = async function(origin) {
                     }
                 },
             }
-            break;
+        case "signalJam":
+            return effect = {
+                label: game.i18n.localize("SR5.EffectSignalJam"),
+                origin: "signalJam",
+                icon: "systems/sr5/img/status/StatusJamSignalsOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "signalJam",
+                        value: value,
+                    }
+                },
+            }
+        case "signalJammed":
+            return effect = {
+                label: game.i18n.localize("SR5.EffectSignalJammed"),
+                origin: "signalJammed",
+                icon: "systems/sr5/img/status/StatusJammedSignalsOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "signalJammed",
+                        value: value,
+                    }
+                },
+            }
         default: return null
     }
 }
