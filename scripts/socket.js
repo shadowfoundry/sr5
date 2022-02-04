@@ -45,7 +45,7 @@ export class SR5_SocketHandler {
     static async emitForGM(type, data) {
         if (game.user.isGM) return SR5_SystemHelpers.srLog(1, 'Active user is GM, abort');
 
-        const gmUser = game.users.find(user => user.isGM);
+        const gmUser = game.users.find(user => user.isGM && user.active);
         if (!gmUser) return SR5_SystemHelpers.srLog(1, 'No active GM user!');
 
         const message = SR5_SocketHandler._createMessage(type, data, gmUser.id);
