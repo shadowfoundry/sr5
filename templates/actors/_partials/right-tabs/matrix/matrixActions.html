@@ -34,7 +34,13 @@
 				{{/if}}
 			{{else}}
 			<li class="grid" data-matrix="{{a}}">
-				<div class="col-5">{{findTranslation 'matrixActions' @key}}</div>
+				<div class="col-5">
+					{{#if (and (eq @key 'jamSignals') (eq ../data.matrix.isJamming true) )}}
+					<a class="stop-jamming" data-helpTitle="{{localize 'SR5.HELP_Jamming'}}"
+					data-helpMessage="{{localize 'SR5.HELP_JammingMsg'}}"><em class="fas fa-rss"></em></a>
+					{{/if}}
+					{{findTranslation 'matrixActions' @key}}
+				</div>
 				{{#if (or (and (eq limit.linkedAttribute 'sleaze') (lt ../data.matrix.attributes.sleaze.value 1)) (and (eq limit.linkedAttribute 'attack') (lt ../data.matrix.attributes.attack.value 1)) )}}
 				<div class="col-2 SR-TextCenter">-</div>
 				<div class="col-1 SR-TextCenter">-</div>

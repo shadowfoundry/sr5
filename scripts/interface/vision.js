@@ -27,17 +27,11 @@ export class SR5SightLayer extends SightLayer {
     for ( let source of visionSources.values() ) {
       //Override Start here
       if (caller){
-        if (caller.document?.actor && source.object?.document?.actor){
-          let callerData = caller.document.actor.data;
-          let actor = SR5_EntityHelpers.getRealActorFromID(source.object.document.id);
-          //Jam signals management
-          SR5_EffectArea.manageJam(caller, source);
-          //Astral Perception management
-          if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data.data?.visions?.astral.isActive) return false
-        }
+        let callerData = caller.document.actor.data;
+        let actor = SR5_EntityHelpers.getRealActorFromID(source.object.document.id);
+        if (callerData.data?.initiatives?.astralInit?.isActive && !actor.data.data?.visions?.astral.isActive) return false;
       }
       //End of Override
-
       if ( !source.active ) continue;               // The source may be currently inactive
       if ( !hasLOS || (!hasFOV && requireFOV) ) {   // Do we need to test for LOS?
         if ( points.some(p => source.los.contains(p.x, p.y)) ) {

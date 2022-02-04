@@ -490,6 +490,8 @@ export class SR5Combat extends Combat {
 					//Delete effect if duration < 0;
 					if (effect.data.duration <= 0){
 						await actor.deleteEmbeddedDocuments("Item", [item.id]);
+						let statusEffect = actor.effects.find(e => e.data.origin === item.data.data.type);
+        				if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
 						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: effect.name})}`);
 					} else {
 						await item.update(effect);

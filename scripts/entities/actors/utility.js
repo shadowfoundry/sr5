@@ -336,6 +336,8 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset Link Lock
       if (data.matrix.isLinkLocked) data.matrix.isLinkLocked = false;
+      //Reset Jamming
+      if (data.matrix.isJamming) data.matrix.isJamming = false;
 
       // Reset Matrix Programs
       if (data.matrix.programsCurrentActive) {

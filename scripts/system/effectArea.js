@@ -2,64 +2,104 @@
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SystemHelpers } from "../system/utility.js";
 import { _getSRStatusEffect } from "../system/effectsList.js"
+import { SR5_SocketHandler } from "../socket.js";
 
 export class SR5_EffectArea {
 
-    //Jam signals management
-    static async manageJam(caller, source){
-        let callerData = caller.document.actor.data;
-        let actor = SR5_EntityHelpers.getRealActorFromID(source.object.document.id);
-        
-        if (actor.data.effects.find(e => e.data.origin === "signalJam")) await SR5_EffectArea.signalJamArea(source.object.id, caller.id);
-        if (actor.data.effects.find(e => e.data.origin === "signalJammed")) await SR5_EffectArea.signalJammedArea(source.object.id, caller.id);
-        if (callerData.effects.find(e => e.data.origin === "signalJammed")) await SR5_EffectArea.signalJammedArea(source.object.id, caller.id);
-        if (callerData.effects.find(e => e.data.origin === "signalJam")) await SR5_EffectArea.signalJamArea(caller.id, source.object.id);
-    }
-
-    static async signalJamArea(jammerTokenID, jammedTokenID) {
-        let jammerToken = await canvas.scene.tokens.get(jammerTokenID);
-        let jammedToken = await canvas.scene.tokens.get(jammedTokenID);
-        let jammerActor = await jammerToken.getActor();
-        let jammedActor = await jammedToken.getActor();
-        let jammedEffect = await jammedActor.items.find(i => i.data.data.type === "signalJammed" && i.data.data.ownerID === jammerActor.id);
-        let distance = await SR5_SystemHelpers.getDistanceBetweenTwoPoint(jammerToken._object._validPosition, jammedToken._object._validPosition);
-
-        if (distance > 100) {
-            if (jammedEffect){
-                await jammedActor.deleteEmbeddedDocuments("Item", [jammedEffect.id]);
-                return;
-            } else return;
-        }
-        if (jammedEffect) return;
-
-        let jamEffect = await jammerActor.items.find(i => i.data.data.type === "signalJam" && i.data.data.ownerID === jammerActor.id);
-        if (jamEffect) await SR5_EffectArea.createJammedEffect(jammerActor, jammedActor, jamEffect.data.data.value);
-    }
-
-    static async signalJammedArea(jammedTokenID, jammerTokenID) {
-        //debugger;
-        let jammerToken = await canvas.scene.tokens.get(jammerTokenID);
-        let jammedToken = await canvas.scene.tokens.get(jammedTokenID);
-        let jammerActor = await jammerToken.getActor();
-        let jammedActor = await jammedToken.getActor();
-        let jammedEffect = await jammedActor.items.find(i => i.data.data.type === "signalJammed" && i.data.data.ownerID === jammerActor.id);
-        let jamEffect = await jammerActor.items.find(i => i.data.data.type === "signalJam" && i.data.data.ownerID === jammerActor.id);
-        let distance = await SR5_SystemHelpers.getDistanceBetweenTwoPoint(jammerToken._object._validPosition, jammedToken._object._validPosition);
-
-        if (!jamEffect && jammedEffect) {
-            await jammedActor.deleteEmbeddedDocuments("Item", [jammedEffect.id]);
-            return;
-        }
-        if (!jammedEffect && distance > 100) return;
-        if (!jammedEffect && distance <=100){
-            return SR5_EffectArea.signalJamArea(jammerTokenID, jammedTokenID);
-        }
-        if (distance > 100) {
-            await jammedActor.deleteEmbeddedDocuments("Item", [jammedEffect.id]);
-            return;
+    //Manage token aura
+    static async tokenAura(token){
+        const scene = game.scenes.get(token._object.scene.id);
+        for (let t of scene.data.tokens){
+            if (t.id !== token.id) {
+                let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(token._object._validPosition, t._object._validPosition);
+                SR5_EffectArea.checkAuraJamming(token, t, distance)
+            }
         }
     }
 
+    //Check jamming aura change
+    static async checkAuraJamming(active, passive, distance){
+        let actor = active.getActor();
+        let passivActor = passive.getActor();
+        let actorJammedEffect = actor.items.find(i => i.data.data.type === "signalJammed");
+        let actorJamEffect =  actor.items.find(i => i.data.data.type === "signalJam");
+        let passiveJammedEffect = passivActor.items.find(i => i.data.data.type === "signalJammed");
+        let passiveJamEffect = passivActor.items.find(i => i.data.data.type === "signalJam");
+        //passive token is jamming
+        if (passiveJamEffect){
+            //check distance
+            if (distance > 100) {
+                if (actorJammedEffect?.data?.data?.ownerID === passivActor.id){
+                    if (game.user?.isGM) {
+                        let jammedActiveEffect = actor.data.effects.find(i => i.data.origin === "signalJammed");
+                        await actor.deleteEmbeddedDocuments("ActiveEffect", [jammedActiveEffect.id]);
+                        await actor.deleteEmbeddedDocuments("Item", [actorJammedEffect.id]);
+                    }
+                }
+            } else {
+                if (actorJammedEffect?.data?.data?.ownerID !== passivActor.id){ 
+                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(passivActor, actor, passiveJamEffect.data.data.value);
+                }
+            }
+        }
+        //active token is jamming
+        if (actorJamEffect){
+            //check distance
+            if (distance <= 100) {
+                if (passiveJammedEffect?.data?.data?.ownerID !== actor.id){
+                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(actor, passivActor, actorJamEffect.data.data.value);
+                }
+            } else {
+                if (passiveJammedEffect?.data?.data?.ownerID === actor.id){
+                    if (game.user?.isGM) {
+                        let jammedActiveEffect = passivActor.data.effects.find(i => i.data.origin === "signalJammed");
+                        await passivActor.deleteEmbeddedDocuments("ActiveEffect", [jammedActiveEffect.id]);
+                        await passivActor.deleteEmbeddedDocuments("Item", [passiveJammedEffect.id]);
+                    }
+                }
+            }
+        }
+    }
+
+    //Start jamming
+    static async onJamCreation(actorID){
+        if (!canvas.scene) return;
+        let activeActor = SR5_EntityHelpers.getRealActorFromID(actorID);
+        let activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorID);
+        let jamEffect =  activeActor.items.find(i => i.data.data.type === "signalJam" && i.data.data.ownerID === activeActor.id);
+
+        for (let token of canvas.tokens.placeables){
+            if (token.id !== activeToken.id){
+                let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id);
+                let distance =  SR5_SystemHelpers.getDistanceBetweenTwoPoint(activeToken._validPosition, token._validPosition);
+                let jammedEffect = tokenActor.data.items.find(i => i.data.data.type === "signalJammed" && i.data.data.ownerID === actorID);
+                if (distance < 100 && !jammedEffect){
+                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(activeActor, tokenActor, jamEffect.data.data.value);
+                }
+            }
+        }
+    }
+
+    //End jamming
+    static async onJamEnd(actorID){
+        if (!canvas.scene) return;
+        let activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorID);
+        for (let token of canvas.tokens.placeables){
+            if (token.id !== activeToken.id){
+                let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id);
+                let jammedEffect = tokenActor.data.items.find(i => i.data.data.type === "signalJammed" && i.data.data.ownerID === actorID);
+                if (jammedEffect) {
+                    let jammedActiveEffect = tokenActor.data.effects.find(i => i.data.origin === "signalJammed");
+                    if (game.user?.isGM){
+                        await tokenActor.deleteEmbeddedDocuments("ActiveEffect", [jammedActiveEffect.id]);
+                        await tokenActor.deleteEmbeddedDocuments("Item", [jammedEffect.id]);
+                    }
+                }
+            }
+        }
+    }
+
+    //Create jammed effect on target based on jammer
     static async createJammedEffect(jammer, jammed, value){
         let effect = {
             name: game.i18n.localize("SR5.EffectSignalJammed"),
@@ -80,10 +120,10 @@ export class SR5_EffectArea {
                 }
             },
         };
-        //console.log(targetActor);
-        await jammed.createEmbeddedDocuments("Item", [effect]);
+        
         let statusEffect = await _getSRStatusEffect("signalJammed", value);
+        await jammed.createEmbeddedDocuments("Item", [effect]);
         await jammed.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
-    }
+    }    
 
 }

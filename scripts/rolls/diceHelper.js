@@ -965,7 +965,6 @@ export class SR5_DiceHelper {
     }
 
     static async jamSignals(message){
-        console.log(message);
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         let effect = {
             name: game.i18n.localize("SR5.EffectSignalJam"),

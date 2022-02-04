@@ -19,6 +19,7 @@ import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js";
 import { SR5Token } from "./interface/token.js";
 import { SR5SightLayer, drawSight } from "./interface/vision.js";
 import { SR5CombatTracker } from "./interface/srcombat-tracker.js";
+import { SR5_EffectArea } from "./system/effectArea.js";
 import { _getSRStatusEffect } from "./system/effectsList.js";
 import  SR5TokenHud from "./interface/tokenHud.js";
 import { checkDependencies } from "./apps/dependencies.js"
@@ -209,6 +210,7 @@ export const registerHooks = function () {
   Hooks.on("updateToken", async function(tokenDocument) {
     const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
     if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
+    SR5_EffectArea.tokenAura(tokenDocument);
   });
 
   Hooks.on("preDeleteToken", (scene, token) => {
@@ -246,7 +248,6 @@ export const registerHooks = function () {
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {
-    console.log(data);
     if (game.combat) SR5Combat.changeInitInCombat(document);
     if (data.data?.visions) canvas.sight.refresh()
   
@@ -264,32 +265,26 @@ export const registerHooks = function () {
   });
 
   Hooks.on("deleteItem", async (item) =>{
-    console.log(item);
-    if (item.type === "itemEffect"){
-      let statusEffect = await item.actor.effects.find(e => e.data.origin === item.data.data.type);
-      if (statusEffect) await item.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
-    }/*
-    if (item.data.data.type === "signalJam"){
-      for (let token of canvas.tokens.placeables) {
-        if(token.actor && token.actor.id !== item.actor.id){
-          let itemToDelete = await token.actor.data.items.find(i => i.data.data.type === "signalJammed" && i.data.data.ownerID === item.actor.id);
-          if (itemToDelete){
-            let tokenActor = await token.document.getActor();
-            await tokenActor.deleteEmbeddedDocuments("Item", [itemToDelete.id]);
-          }
-        }
+    if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
+      if (item.data.data.type === "signalJam"){
+        let actorID = item.parent.id
+        if (item.parent.isToken) actorID = item.parent.token.id;
+        SR5_EffectArea.onJamEnd(actorID);
       }
-    }*/
+    }
   });
 
   Hooks.on("deleteActiveEffect", (effect) =>{
     if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
-    if (effect.data.flags.core?.statusId === "signalJam") canvas.sight.refresh()
   });
 
   Hooks.on("createActiveEffect", (effect) =>{
     if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
-    if (effect.data.flags.core?.statusId === "signalJam") canvas.sight.refresh();
+    if (effect.data.flags.core?.statusId === "signalJam") {
+      let actorID = effect.parent.id
+      if (effect.parent.isToken) actorID = effect.parent.token.id;
+      SR5_EffectArea.onJamCreation(actorID);
+    }
   });
 
   Hooks.on("lightingRefresh", () => {
