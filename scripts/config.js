@@ -2151,6 +2151,7 @@ SR5.effectTypes = {
   sensorLock                : "SR5.SensorTargetingActive",
   signalJam                 : "SR5.EffectSignalJam",
   signalJammed              : "SR5.EffectSignalJammed",
+  linkLock                  : "SR5.EffectLinkLockedConnection",
 }
 
 SR5.effectDuration = {

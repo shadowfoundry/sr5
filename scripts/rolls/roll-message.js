@@ -299,6 +299,10 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.applyIceEffect(messageData, originalActionAuthor, actor);
                     SR5_RollMessage.updateChatButton(message, "iceEffect");
                     break;
+                case "msgTest_linkLock":
+                    SR5_DiceHelper.linkLock(originalActionAuthor, actor);
+                    SR5_RollMessage.updateChatButton(message, "linkLock");
+                    break;
                 case "msgTest_catchFire":
                     actor.fireDamageEffect(messageData);
                     SR5_RollMessage.updateChatButton(message, "catchFire");

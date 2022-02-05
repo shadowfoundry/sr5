@@ -260,7 +260,7 @@ export const registerHooks = function () {
     } else {
       if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
     }
-    //let truc = document.effects.find(e => e.data.origin = "signalJammed")
+    //let truc = document.effects.find(e => e.data.origin = "linkLock")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
   });
 

@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -822,8 +822,11 @@ export class SR5_Dice {
 					if ((attackerData.matrix.programs.biofeedback.isActive && defender.data.matrix.userMode === "hotSim") || (attackerData.matrix.deviceSubType === "iceBlack")) cardData.damageType = "physical";
 				}
 			}
+			//Link Lock
+			if (attackerData.matrix.programs.lockdown.isActive) cardData.button.linkLock = true;
 		} else {
 			cardData.button.actionEnd = true;
+			cardData.button.linklock = false;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
 		SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
