@@ -207,10 +207,10 @@ export const registerHooks = function () {
     if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
   });
 
-  Hooks.on("updateToken", async function(tokenDocument) {
+  Hooks.on("updateToken", async function(tokenDocument, change) {
     const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
     if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
-    SR5_EffectArea.tokenAura(tokenDocument);
+    if (change.x || change.y) SR5_EffectArea.tokenAura(tokenDocument);
   });
 
   Hooks.on("preDeleteToken", (scene, token) => {
@@ -260,15 +260,16 @@ export const registerHooks = function () {
     } else {
       if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
     }
-    //let truc = document.effects.find(e => e.data.origin = "handleVisionAstral")
+    //let truc = document.effects.find(e => e.data.origin = "signalJammed")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
   });
 
   Hooks.on("deleteItem", async (item) =>{
     if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
       if (item.data.data.type === "signalJam"){
+        console.log(item);
         let actorID = item.parent.id
-        if (item.parent.isToken) actorID = item.parent.token.id;
+        //if (item.parent.isToken) actorID = item.parent.token.id;
         SR5_EffectArea.onJamEnd(actorID);
       }
     }

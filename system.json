@@ -6,9 +6,9 @@
   "authors": [],
   "url": "https://github.com/shadowfoundry/sr5",
   "flags": {},
-  "version": "0.0.4.9",
+  "version": "0.0.4.10",
   "minimumCoreVersion": "9",
-  "compatibleCoreVersion": "9.245",
+  "compatibleCoreVersion": "9.249",
   "scripts": [],
   "esmodules": [
     "sr5.js"
