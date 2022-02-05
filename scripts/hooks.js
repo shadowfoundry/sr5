@@ -12,6 +12,7 @@ import { SR5GruntSheet } from "./entities/actors/gruntSheet.js";
 import { SR5DroneSheet } from "./entities/actors/droneSheet.js";
 import { SR5AppareilSheet } from "./entities/actors/deviceSheet.js";
 import { SR5SpriteSheet } from "./entities/actors/spriteSheet.js";
+import { SR5AgentSheet } from "./entities/actors/agentSheet.js";
 import { SR5Item } from "./entities/items/entityItem.js";
 import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
@@ -88,6 +89,10 @@ export const registerHooks = function () {
     });
     Actors.registerSheet("SR5", SR5SpriteSheet, {
       types: ["actorSprite"],
+      makeDefault: true
+    });
+    Actors.registerSheet("SR5", SR5AgentSheet, {
+      types: ["actorAgent"],
       makeDefault: true
     });
     Items.unregisterSheet("core", ItemSheet);

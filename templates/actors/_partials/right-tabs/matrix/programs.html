@@ -40,12 +40,39 @@
 				{{/if}}
 				</p>
 			</div>
-			<div class="col-1 grid SR-TextRight">
+			<div class="col-1">
+				<div class="grid">
 				{{#if ../owner}}
-				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
-					<em class="fas fa-sm fa-edit item-management"></em>
-				</a>
+
+					{{#if (eq data.type 'agent')}}
+					<div class="col-6 SR-TextCenter">
+						{{#if data.isCreated}}
+						<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+						data-helpTitle="{{localize 'SR5.HELP_SpriteDismiss'key=name}}"
+						data-helpMessage="{{localize 'SR5.HELP_SpriteDismissMsg'}}">
+							<em class="fas fa-flip-both fa-external-link-alt"></em>
+						</a>
+						{{else}}
+						<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+						data-helpTitle="{{localize 'SR5.HELP_SpriteCreate'key=name}}"
+						data-helpMessage="{{localize 'SR5.HELP_SpriteCreateMsg'}}">
+							<em class="fas fa-external-link-alt"></em>
+						</a>					
+						{{/if}}
+					</div>
+					{{/if}}
+
+					{{#if data.isCreated}}
+					{{else}}
+					<div class="col-6 SR-TextRight">
+					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+						<em class="fas fa-sm fa-edit item-management"></em>
+					</a>
+					{{/if}}
+					</div>
 				{{/if}}
+				</div>
+				
 			</div>
 
 		</li>

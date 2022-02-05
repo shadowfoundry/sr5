@@ -2838,6 +2838,31 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(matrix.noise)
   }
 
+  static generateAgentValues(actor){
+    let lists = actor.lists;
+    console.log(actor);
+    let actorData = actor.data;
+    if(!actorData.creatorData) return;
+    let creatorMatrix = actorData.creatorData.data.matrix;
+    console.log(creatorMatrix);
+    //Agent attributes are equal to the rating (Kill code page 26)
+    for (let key of Object.keys(lists.characterAttributes)) {
+      actorData.attributes[key].augmented.value = actorData.rating;
+    }
+    //Agent matrix attributes are the same as decker attributes
+    for (let key of Object.keys(lists.deckerAttributes)) {
+      actorData.matrix.attributes[key].base = creatorMatrix.attributes[key].value;
+      SR5_EntityHelpers.updateValue(actorData.matrix.attributes[key], 0);
+    }
+    //Agent skills are equal to program rating
+    for (let key of Object.keys(lists.agentSkills)){
+      actorData.skills[key].rating.base = actorData.rating;
+      SR5_EntityHelpers.updateValue(actorData.skills[key].rating, 0);
+      actorData.skills[key].test.base = actorData.skills[key].rating.value;
+      SR5_EntityHelpers.updateDicePool(actorData.skills[key].test, 0);
+    }
+  }
+
   static async updateControledVehicle(actor){ 
     if (game.actors) {
       for (let a of game.actors) {

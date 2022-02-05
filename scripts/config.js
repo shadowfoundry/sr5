@@ -333,6 +333,12 @@ SR5.spriteSkills = {
   hardware                  : "SR5.SkillHardware",
 }
 
+SR5.agentSkills = {
+  computer                  : "SR5.SkillComputer",
+  hacking                   : "SR5.SkillHacking",
+  cybercombat               : "SR5.SkillCybercombat",
+}
+
 // Skills
 SR5.skills = {
   ...SR5.combatSkills,
@@ -2226,6 +2232,7 @@ SR5.actorTypes = {
   actorPc                   : "ACTOR.TypeActorpc",
   actorSpirit               : "ACTOR.TypeActorspirit",
   actorSprite               : "ACTOR.TypeActorsprite",
+  actorAgent                : "ACTOR.TypeActoragent",
 };
 
 //-----------------------------------//

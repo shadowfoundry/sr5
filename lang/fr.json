@@ -1849,6 +1849,7 @@
   "SR5.WillpowerShort"                        : "VOL",
   "SR5.WirelessMode"                          : "Connexion sans fil",
   "SR5.Yes"                                   : "Oui",
+  "ACTOR.TypeActoragent"                      : "Agent",
   "ACTOR.TypeActordevice"                     : "Appareil",
   "ACTOR.TypeActordrone"                      : "Drone ou véhicule",
   "ACTOR.TypeActorgrunt"                      : "Brute ou créature",

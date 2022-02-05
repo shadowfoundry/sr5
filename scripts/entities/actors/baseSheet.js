@@ -691,7 +691,7 @@ export class ActorSheetSR5 extends ActorSheet {
 
   }
 
-  //Handle spirit summoning
+  //Handle the creation of a 'side kick'
   async _OnSidekickCreate(event){
     event.preventDefault();
     const id = event.currentTarget.closest(".item").dataset.itemId;

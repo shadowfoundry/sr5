@@ -137,6 +137,7 @@ export class SR5Actor extends Actor {
 
     let actorLink = false;
     if (this.type === "actorPc") actorLink = true;
+    if (this.type === "actorAgent") actorLink = true;
     if (this.type === "actorSpirit" && this.data.data.creatorId !== "") actorLink = true;
     if (this.type === "actorDrone" && this.data.data.creatorId !== "") actorLink = true;
     if (this.type === "actorSprite" && this.data.data.creatorId !== "") actorLink = true;
@@ -189,6 +190,7 @@ export class SR5Actor extends Actor {
         break;
       case "actorDevice":
       case "actorSprite":
+      case "actorAgent":
         this.data.update({
           "token.lockRotation": true,
           "token.actorLink": actorLink,
@@ -297,6 +299,10 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateSkills(actor);
       case "actorDevice":
         SR5_CharacterUtility.updateConditionMonitors(actor);
+        break;
+      case "actorAgent":
+        SR5_CharacterUtility.generateAgentValues(actor);
+        SR5_CharacterUtility.generateMatrixActions(actor);
         break;
       case "actorPc":
       case "actorGrunt":
@@ -1009,6 +1015,8 @@ export class SR5Actor extends Actor {
       petType = "actorDrone";
     } else if (item.type === "itemSprite") {
       petType = "actorSprite";
+    } else if (item.type === "itemProgram") {
+      petType = "actorAgent";
     }
     
     let img;
@@ -1106,6 +1114,17 @@ export class SR5Actor extends Actor {
       });
     }
 
+    if (item.type === "itemProgram") {
+      console.log("agent tout risque");
+      let creatorData = SR5_EntityHelpers.getRealActorFromID(actorId);
+      creatorData = creatorData.toObject(false);
+      data = mergeObject(data, {
+        "data.creatorId": actorId,
+        "data.creatorItemId": item._id,
+        "data.creatorData": creatorData,
+        "data.rating": itemData.itemRating,
+      });
+    }
     //Create actor
     await Actor.createDocuments([data]);
   }

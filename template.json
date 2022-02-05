@@ -6,7 +6,8 @@
       "actorSpirit",
       "actorDrone",
       "actorDevice",
-      "actorSprite"
+      "actorSprite",
+      "actorAgent"
     ],
     "templates": {
       "characterAttributesTemplate": {
@@ -5034,6 +5035,163 @@
         "value": 0,
         "max": 0
       }
+    },
+    "actorAgent":{
+      "templates": [
+        "characterAttributesTemplate",
+        "characterResonanceAttributesTemplate",
+        "matrixUsageTemplate",
+        "penaltiesTemplate"
+      ],
+      "initiatives": {
+        "matrixInit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "dice": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isActive": true
+        }
+      },
+      "skills": {
+        "computer": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "hacking": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "electronicWarfare": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "cybercombat": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "hardware": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        },
+        "software": {
+          "rating": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "test": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "linkedAttribute": "logic",
+          "limit": {
+            "value": 0,
+            "base": "mentalLimit",
+            "modifiers": []
+          }
+        }
+      },
+      "conditionMonitors": {
+        "matrix": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "current": 0,
+          "boxes": []
+        }
+      },
+      "statusBars" : {
+        "matrix": {
+          "value": 0,
+          "max": 0
+        }
+      },
+      "limits": {
+        "mentalLimit": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "rating": 0,
+      "creatorId": "",
+      "creatorItemId": "",
+      "creatorData": ""
     }
   },
   "Item": {
