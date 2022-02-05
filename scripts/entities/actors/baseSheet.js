@@ -304,6 +304,8 @@ export class ActorSheetSR5 extends ActorSheet {
     if (event.ctrlKey) {
       if ( item ) {
         await item.delete();
+        let statusEffect = this.actor.effects.find(e => e.data.origin === item.data.data.type);
+        if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
         return 
       }
     } else {
