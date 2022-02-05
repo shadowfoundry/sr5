@@ -115,6 +115,18 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
+        case "linkLock":
+            return effect = {
+                label: game.i18n.localize("SR5.EffectLinkLockedConnection"),
+                origin: "linkLock",
+                icon: "systems/sr5/img/status/StatusLinkLock.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "linkLock"
+                    }
+                },
+            }
         case "signalJam":
             return effect = {
                 label: game.i18n.localize("SR5.EffectSignalJam"),

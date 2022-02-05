@@ -676,6 +676,7 @@ export class SR5_DiceHelper {
             case "iceBlack":
             case "iceTarBaby":
                 effect = mergeObject(effect, {
+                    "data.type": "linkLock",
                     name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
                     "data.target": game.i18n.localize("SR5.EffectLinkLockedConnection"),
                     "data.value": ice.data.data.matrix.attributes.attack.value + ice.data.data.matrix.deviceRating,
@@ -689,6 +690,7 @@ export class SR5_DiceHelper {
                     },
                 });
                 target.createEmbeddedDocuments("Item", [effect]);
+                ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${ice.name}`);
                 break;
             case "iceSparky":
             case "iceKiller":
@@ -699,6 +701,32 @@ export class SR5_DiceHelper {
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${messageData.iceType}' type in applyIceEffect`);
         }
+    }
+
+    //create link lock effet
+    static async linkLock(attacker, target){
+        let effect = {
+            type: "itemEffect",
+            "data.type": "linkLock",
+            "data.ownerID": attacker.data._id,
+            "data.ownerName": attacker.name,
+            "data.duration": "permanent",
+            name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
+            "data.target": game.i18n.localize("SR5.EffectLinkLockedConnection"),
+            "data.value": attacker.data.data.matrix.actions.jackOut.defense.dicePool,
+            "data.customEffects": {
+                "0": {
+                    "category": "special",
+                    "target": "data.matrix.isLinkLocked",
+                    "type": "boolean",
+                    "value": "true",
+                }
+            },
+        };
+        target.createEmbeddedDocuments("Item", [effect]);
+        let statusEffect = await _getSRStatusEffect("linkLock");
+        await target.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
+        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${attacker.name}`);
     }
 
     //create sensor lock effect
@@ -866,6 +894,8 @@ export class SR5_DiceHelper {
     static async jackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
+        let statusEffect = actor.effects.find(e => e.data.origin === "linkLock");
+        if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
     }
 
     static async eraseMarkChoice(messageData){
