@@ -267,6 +267,18 @@ export const registerHooks = function () {
     }
     //let truc = document.effects.find(e => e.data.origin = "linkLock")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
+
+    if(document.type === "actorAgent"){
+      if (data.data.conditionMonitors?.matrix){
+        console.log(document);
+        //let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
+        /*let ownerDeck = document.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+        let deckData = ownerDeck.toObject(false);
+        deckData.data.conditionMonitors.matrix = document.data.data.conditionMonitors.matrix;
+        console.log(deckData);
+        await ownerDeck.update({"data": deckData,});*/
+      }
+    }
   });
 
   Hooks.on("deleteItem", async (item) =>{
@@ -293,15 +305,10 @@ export const registerHooks = function () {
     }
   });
 
-  Hooks.on("lightingRefresh", () => {
-    for (const source of canvas.sight.sources) {
-
-      }
-  });
-
   Hooks.on("createActor", async (actor) =>{
-    //Add itemDevice to Drone/Sprite if they have none.
-    if (actor.type === "actorDrone" || actor.type === "actorSprite"){
+    //Add itemDevice to Drone/Sprite/Agent if they have none.
+    if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorAgent"){
+      debugger;
       let hasDevice = false;
       for (let i of actor.items){
         if (i.type === "itemDevice") hasDevice = true;

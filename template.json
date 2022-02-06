@@ -5723,6 +5723,7 @@
         "templateCustomEffects",
         "templateRating"
       ],
+      "decks": [],
       "type": "",
       "model": "",
       "isModelBased": false

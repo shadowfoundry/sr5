@@ -917,42 +917,7 @@ export class SR5_CharacterUtility extends Actor {
     for (let key of Object.keys(lists.matrixAttributes)) {
       matrixAttributes[key].base = data.level;
     }
-  }
-
-  // Update Vehicle Decking
-  static updateVehicleDecking(actor, deck) {
-    let lists = actor.lists, data = actor.data;
-    data.matrix.deviceRating = data.attributes.pilot.augmented.value;
-    data.matrix.programsMaximumActive.value = Math.ceil(data.matrix.deviceRating / 2);
-    data.matrix.marks = deck.data.marks;
-    data.matrix.markedItems = deck.data.markedItems;
-
-    for (let key of Object.keys(lists.matrixAttributes)) {
-      data.matrix.attributes[key].base = 0;
-      SR5_EntityHelpers.updateModifier(data.matrix.attributes[key], game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.LinkedAttribute'), data.matrix.deviceRating);
-      SR5_EntityHelpers.updateValue(data.matrix.attributes[key]);
-    }
-
-    if (actor.data.vehicleOwner.id && data.slaved){
-      let controler = actor.flags.sr5.vehicleControler.data;
-      data.matrix.resistances.matrixDamage.base = controler.matrix.resistances.matrixDamage.dicePool;
-      for (let key of Object.keys(lists.matrixActionsDefenses)) {
-        data.matrix.actions[key].defense.base = 0;
-        SR5_EntityHelpers.updateModifier(data.matrix.actions[key].defense, game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.Controler'), controler.matrix.actions[key].defense.dicePool);
-        SR5_EntityHelpers.updateDicePool(data.matrix.actions[key].defense);
-      }
-    } else {
-      for (let key of Object.keys(lists.matrixActionsDefenses)) {
-        data.matrix.actions[key].defense.base = 0;
-        SR5_EntityHelpers.updateModifier(data.matrix.actions[key].defense, game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.LinkedAttribute'), data.matrix.deviceRating);
-        SR5_EntityHelpers.updateModifier(data.matrix.actions[key].defense, game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.LinkedAttribute'), data.matrix.deviceRating);
-        SR5_EntityHelpers.updateDicePool(data.matrix.actions[key].defense);
-      }
-      data.matrix.resistances.matrixDamage.base = data.matrix.deviceRating + data.matrix.attributes.firewall.value;
-    }
-    
-    SR5_EntityHelpers.updateDicePool(data.matrix.resistances.matrixDamage);
-    SR5_EntityHelpers.updateValue(data.matrix.noise);
+    data.matrix.deviceRating = data.level;
   }
 
 
@@ -1191,7 +1156,6 @@ export class SR5_CharacterUtility extends Actor {
   // Handle Actors Condition Monitors
   static updateConditionMonitors(actor) {
     let lists = actor.lists, data = actor.data, conditionMonitors = data.conditionMonitors, attributes = data.attributes, specialAttributes = data.specialAttributes;
-
     if (actor.type == "actorSpirit") {
       if (data.type == "homunculus" || data.type == "watcher") {
         delete data.conditionMonitors.physical;
@@ -2477,119 +2441,30 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   // Generate Matrix resistances, actions, actions defenses, user mode....
-  static generateMatrixData(deck, actor) {
+  static generateResonanceMatrix(deck, actor) {
     let lists = actor.lists;
-    let data = actor.data, attributes = data.attributes, specialAttributes = data.specialAttributes, skills = data.skills;
-    let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions, resonanceActions = matrix.resonanceActions;
+    let data = actor.data, specialAttributes = data.specialAttributes, skills = data.skills;
+    let matrix = data.matrix, resonanceActions = matrix.resonanceActions;
 
-    matrixResistances.matrixDamage.base = 0;
-    matrixResistances.biofeedback.base = 0;
-    matrixResistances.dumpshock.base = 0;
-    matrixResistances.dataBomb.base = 0;
-    matrixResistances.fading.base = 0;
-    switch(deck.data.type){
-      case "commlink":
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        break;
-      case "cyberdeck":
-      case "riggerCommandConsole":
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        break;
-      case "livingPersona":
-      case "headcase":
-        SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
-        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-        resonanceActions.compileSprite.test.base = 0;
-        SR5_EntityHelpers.updateModifier(resonanceActions.compileSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(resonanceActions.compileSprite.test,`${game.i18n.localize('SR5.MatrixActionCompileSprite')}`, `${game.i18n.localize('SR5.Skill')}`, skills.compiling.rating.value);
-        resonanceActions.decompileSprite.test.base = 0;
-        SR5_EntityHelpers.updateModifier(resonanceActions.decompileSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(resonanceActions.decompileSprite.test,`${game.i18n.localize('SR5.MatrixActionDecompileSprite')}`, `${game.i18n.localize('SR5.Skill')}`, skills.decompiling.rating.value);
-        resonanceActions.eraseResonanceSignature.test.base = 0;
-        SR5_EntityHelpers.updateModifier(resonanceActions.eraseResonanceSignature.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(resonanceActions.eraseResonanceSignature.test,`${game.i18n.localize('SR5.SkillComputer')}`, `${game.i18n.localize('SR5.Skill')}`, skills.computer.rating.value);
-        resonanceActions.killComplexForm.test.base = 0;
-        SR5_EntityHelpers.updateModifier(resonanceActions.killComplexForm.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(resonanceActions.killComplexForm.test,`${game.i18n.localize('SR5.SkillSoftware')}`, `${game.i18n.localize('SR5.Skill')}`, skills.software.rating.value);
-        resonanceActions.registerSprite.test.base = 0;
-        SR5_EntityHelpers.updateModifier(resonanceActions.registerSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(resonanceActions.registerSprite.test,`${game.i18n.localize('SR5.SkillRegistering')}`, `${game.i18n.localize('SR5.Skill')}`, skills.registering.rating.value);
-        resonanceActions.threadComplexForm.test.base = 0;
-        SR5_EntityHelpers.updateModifier(resonanceActions.threadComplexForm.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-        SR5_EntityHelpers.updateModifier(resonanceActions.threadComplexForm.test,`${game.i18n.localize('SR5.SkillSoftware')}`, `${game.i18n.localize('SR5.Skill')}`, skills.software.rating.value);
-        break;
-      default:
-        SR5_SystemHelpers.srLog(1, `Unknown '${deck.data.type}' deck type in generateMatrixData()`);
-        return;
-    }
-
-    for (let key of Object.keys(lists.matrixResistances)) {
-      SR5_EntityHelpers.updateDicePool(matrixResistances[key]);
-    }
-
-    //Calcul les réserve de dés des défenses aux actions
-    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.logic.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.logic.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.logic.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.logic.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.sleaze.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.firewall.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.DataProcessing')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.dataProcessing.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.logic.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.attack.value );
-    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, matrixAttributes.sleaze.value );
-    matrixActions.checkOverwatchScore.defense.base = 6;
-
-    // handle final calculation
-    for (let key of Object.keys(lists.matrixActions)) {
-      if (matrixActions[key].defense) {
-        // defenses
-        this.applyPenalty("condition", matrixActions[key].defense, actor);
-        this.applyPenalty("matrix", matrixActions[key].defense, actor);
-        this.applyPenalty("magic", matrixActions[key].defense, actor);
-        this.applyPenalty("special", matrixActions[key].defense, actor);
-        SR5_EntityHelpers.updateDicePool(matrixActions[key].defense, 0);
-      }
-    }
-
+    resonanceActions.compileSprite.test.base = 0;
+    SR5_EntityHelpers.updateModifier(resonanceActions.compileSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+    SR5_EntityHelpers.updateModifier(resonanceActions.compileSprite.test,`${game.i18n.localize('SR5.MatrixActionCompileSprite')}`, `${game.i18n.localize('SR5.Skill')}`, skills.compiling.rating.value);
+    resonanceActions.decompileSprite.test.base = 0;
+    SR5_EntityHelpers.updateModifier(resonanceActions.decompileSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+    SR5_EntityHelpers.updateModifier(resonanceActions.decompileSprite.test,`${game.i18n.localize('SR5.MatrixActionDecompileSprite')}`, `${game.i18n.localize('SR5.Skill')}`, skills.decompiling.rating.value);
+    resonanceActions.eraseResonanceSignature.test.base = 0;
+    SR5_EntityHelpers.updateModifier(resonanceActions.eraseResonanceSignature.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+    SR5_EntityHelpers.updateModifier(resonanceActions.eraseResonanceSignature.test,`${game.i18n.localize('SR5.SkillComputer')}`, `${game.i18n.localize('SR5.Skill')}`, skills.computer.rating.value);
+    resonanceActions.killComplexForm.test.base = 0;
+    SR5_EntityHelpers.updateModifier(resonanceActions.killComplexForm.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+    SR5_EntityHelpers.updateModifier(resonanceActions.killComplexForm.test,`${game.i18n.localize('SR5.SkillSoftware')}`, `${game.i18n.localize('SR5.Skill')}`, skills.software.rating.value);
+    resonanceActions.registerSprite.test.base = 0;
+    SR5_EntityHelpers.updateModifier(resonanceActions.registerSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+    SR5_EntityHelpers.updateModifier(resonanceActions.registerSprite.test,`${game.i18n.localize('SR5.SkillRegistering')}`, `${game.i18n.localize('SR5.Skill')}`, skills.registering.rating.value);
+    resonanceActions.threadComplexForm.test.base = 0;
+    SR5_EntityHelpers.updateModifier(resonanceActions.threadComplexForm.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+    SR5_EntityHelpers.updateModifier(resonanceActions.threadComplexForm.test,`${game.i18n.localize('SR5.SkillSoftware')}`, `${game.i18n.localize('SR5.Skill')}`, skills.software.rating.value);
+ 
     // handle resonance final calculation
     for (let key of Object.keys(lists.resonanceActions)) {
       if (resonanceActions[key].test){
@@ -2604,9 +2479,7 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateDicePool(resonanceActions[key].test);
         if (resonanceActions[key].test.dicePool < 0) resonanceActions[key].test.dicePool = 0;
         //limit
-        if (resonanceActions[key].limit){
-          SR5_EntityHelpers.updateValue(resonanceActions[key].limit);
-        }
+        if (resonanceActions[key].limit) SR5_EntityHelpers.updateValue(resonanceActions[key].limit);
       }
     }
   }
@@ -2688,6 +2561,189 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  static generateMatrixActionsDefenses(actor) {
+    let lists = actor.lists;
+    let data = actor.data;
+    let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
+    let intuitionValue, willpowerValue, logicValue, firewallValue, sleazeValue, dataProcessingValue, attackValue;
+
+    if (actor.type === "actorPc" || actor.type === "actorGrunt" || actor.type === "actorAgent"){
+      intuitionValue = data.attributes.intuition.augmented.value;
+      willpowerValue = data.attributes.willpower.augmented.value;
+      logicValue = data.attributes.logic.augmented.value;
+      firewallValue = matrixAttributes.firewall.value;
+      sleazeValue = matrixAttributes.sleaze.value;
+      dataProcessingValue = matrixAttributes.dataProcessing.value;
+      attackValue = matrixAttributes.attack.value;
+    }
+
+    if (actor.type === "actorDevice" || actor.type === "actorSprite" || actor.type === "actorDrone") {
+      if ((matrix.deviceType === "slavedDevice" && data.isDirectlyConnected) || matrix.deviceType === "device" || actor.type === "actorDrone") {
+        intuitionValue = matrix.deviceRating;
+        willpowerValue = matrix.deviceRating;
+        logicValue = matrix.deviceRating;
+        firewallValue = matrix.deviceRating;
+        sleazeValue = matrix.deviceRating;
+        dataProcessingValue = matrix.deviceRating;
+        attackValue = matrix.deviceRating;
+      } else {
+        intuitionValue = matrix.deviceRating;
+        willpowerValue = matrix.deviceRating;
+        logicValue = matrix.deviceRating;
+        firewallValue = matrixAttributes.firewall.value;
+        sleazeValue = matrixAttributes.sleaze.value;
+        dataProcessingValue = matrixAttributes.dataProcessing.value;
+        attackValue = matrixAttributes.attack.value;
+      }
+    }
+
+    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, sleazeValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.DataProcessing')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, dataProcessingValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, attackValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, sleazeValue);
+    matrixActions.checkOverwatchScore.defense.base = 6;
+
+    //Special case for drone slaved to a Rigger
+    if (actor.type === "actorDrone") {
+      if (data.vehicleOwner.id && data.slaved){
+        let controler = actor.flags.sr5.vehicleControler.data;        
+        for (let key of Object.keys(lists.matrixActionsDefenses)) {
+          data.matrix.actions[key].defense.base = 0;
+          SR5_EntityHelpers.updateModifier(data.matrix.actions[key].defense, game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.Controler'), controler.matrix.actions[key].defense.dicePool);
+        }
+      } 
+    }
+
+    // handle final calculation
+    for (let key of Object.keys(lists.matrixActions)) {
+      if (matrixActions[key].defense) {
+        this.applyPenalty("condition", matrixActions[key].defense, actor);
+        this.applyPenalty("matrix", matrixActions[key].defense, actor);
+        this.applyPenalty("magic", matrixActions[key].defense, actor);
+        this.applyPenalty("special", matrixActions[key].defense, actor);
+        SR5_EntityHelpers.updateDicePool(matrixActions[key].defense, 0);
+      }
+    }
+  }
+
+  static generateMatrixResistances(actor, deck){
+    let lists = actor.lists;
+    let data = actor.data, attributes = data.attributes, specialAttributes = data.specialAttributes;
+    let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances;
+
+    matrixResistances.matrixDamage.base = 0;
+    matrixResistances.biofeedback.base = 0;
+    matrixResistances.dumpshock.base = 0;
+    matrixResistances.dataBomb.base = 0;
+    matrixResistances.fading.base = 0;
+    switch(deck.data.type){
+      case "commlink":
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        break;
+      case "cyberdeck":
+      case "riggerCommandConsole":
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        break;
+      case "livingPersona":
+      case "headcase":
+        SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
+        SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        break;
+      case "baseDevice":
+        if (actor.type === "actorDrone"){
+          if (actor.data.vehicleOwner.id && data.slaved){
+            let controler = actor.flags.sr5.vehicleControler.data;
+            SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Controler')}`, controler.matrix.resistances.matrixDamage.dicePool);
+          } else {
+            SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, data.matrix.deviceRating);
+            SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, data.matrix.attributes.firewall.value);
+          }
+        } else if (actor.type === "actorDevice"){
+          SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, data.matrix.deviceRating);
+          SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, data.matrix.attributes.firewall.value);
+        } else if (actor.type === "actorSprite"){
+          SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Level')}`, matrix.deviceRating);
+          SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+          SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Level')}`, matrix.deviceRating);
+          SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        } else if (actor.type === "actorAgent"){
+          SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`,data.rating);
+          SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+          SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`, data.rating);
+          SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+        }
+        break;
+      default:
+        SR5_SystemHelpers.srLog(1, `Unknown '${deck.data.type}' deck type in generateMatrixResistances()`);
+        return;
+    }
+
+    for (let key of Object.keys(lists.matrixResistances)) {
+      SR5_EntityHelpers.updateDicePool(matrixResistances[key]);
+    }
+  }
+
+  static generateVehicleMatrix(actor, deck) {
+    let lists = actor.lists, data = actor.data;
+
+    data.matrix.deviceRating = data.attributes.pilot.augmented.value;
+    data.matrix.programsMaximumActive.value = Math.ceil(data.matrix.deviceRating / 2);
+    data.matrix.marks = deck.data.marks;
+    data.matrix.markedItems = deck.data.markedItems;
+
+    for (let key of Object.keys(lists.matrixAttributes)) {
+      data.matrix.attributes[key].base = 0;
+      SR5_EntityHelpers.updateModifier(data.matrix.attributes[key], game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.LinkedAttribute'), data.matrix.deviceRating);
+      SR5_EntityHelpers.updateValue(data.matrix.attributes[key]);
+    } 
+
+    SR5_EntityHelpers.updateValue(data.matrix.noise);
+  }
+
   static generateDeviceMatrix(actor, deck) {
     let lists = actor.lists, data = actor.data,
         matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions;
@@ -2759,23 +2815,6 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
       }
     }
-    //Handle Defenses
-    if ((matrix.deviceType === "slavedDevice" && data.isDirectlyConnected)
-      || matrix.deviceType === "device") {
-      for (let key of Object.keys(lists.matrixActionsDefenses)) {
-        matrixActions[key].defense.base = matrix.deviceRating * 2.
-        SR5_EntityHelpers.updateDicePool(matrixActions[key].defense, 0);
-      }
-    } else {
-      for (let key of Object.keys(lists.matrixActionsDefenses)) {
-        matrixActions[key].defense.base = matrix.deviceRating + matrix.attributes.firewall.value;
-        SR5_EntityHelpers.updateDicePool(matrixActions[key].defense, 0);
-      }
-    }
-
-    //Handle resistances
-    matrixResistances.matrixDamage.base = matrix.deviceRating + matrixAttributes.firewall.value;
-    SR5_EntityHelpers.updateDicePool(matrixResistances.matrixDamage);
 
     SR5_EntityHelpers.updateValue(matrix.noise)
   }
@@ -2786,8 +2825,8 @@ export class SR5_CharacterUtility extends Actor {
 
     data.matrix.marks = deck.data.marks;
     data.matrix.markedItems = deck.data.markedItems;
-
     matrix.deviceRating = data.level;
+
     //Handle base matrix attributes
     for (let key of Object.keys(lists.matrixAttributes)) {
       matrixAttributes[key].base = matrix.deviceRating;
@@ -2830,28 +2869,15 @@ export class SR5_CharacterUtility extends Actor {
       SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
     }
 
-    //Handle Defenses
-    for (let key of Object.keys(lists.matrixActionsDefenses)) {
-      matrixActions[key].defense.base = matrix.deviceRating + matrix.attributes.firewall.value;
-      SR5_EntityHelpers.updateDicePool(matrixActions[key].defense, 0);
-    }
-
-    //Handle resistances
-    matrixResistances.matrixDamage.base = matrix.deviceRating + matrixAttributes.firewall.value;
-    SR5_EntityHelpers.updateDicePool(matrixResistances.matrixDamage);
-
     SR5_EntityHelpers.updateValue(matrix.noise)
   }
 
-  static generateAgentValues(actor){
+  static generateAgentMatrix(actor){
     let lists = actor.lists;
-    console.log(actor);
     let actorData = actor.data;
     if(!actorData.creatorData) return;
-    let matrixResistances = actorData.matrix.resistances;
-    let matrixAttributes = actorData.matrix.attributes;
-    let creatorMatrix = actorData.creatorData.data.matrix;
-    console.log(creatorMatrix);
+    let matrixAttributes = actorData.matrix.attributes, creatorMatrix = actorData.creatorData.data.matrix;
+    console.log(actorData.creatorData);
     //Agent attributes are equal to the rating (Kill code page 26)
     for (let key of Object.keys(lists.characterAttributes)) {
       actorData.attributes[key].augmented.value = actorData.rating;
@@ -2868,18 +2894,20 @@ export class SR5_CharacterUtility extends Actor {
       actorData.skills[key].test.base = actorData.skills[key].rating.value;
       SR5_EntityHelpers.updateDicePool(actorData.skills[key].test, 0);
     }
-    //Resistance
-    SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`,actorData.rating);
-    SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-    SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, actorData.attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-    SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, actorData.attributes.willpower.augmented.value);
-    SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-    SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`, actorData.rating);
-    SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-    for (let key of Object.keys(lists.matrixResistances)) {
-      SR5_EntityHelpers.updateDicePool(actorData.matrix.resistances[key]);
-    }
+    //Noise
+    SR5_EntityHelpers.updateValue(actorData.matrix.noise)
+    //Grid
+    actorData.userGrid = creatorMatrix.userGrid;
+    actorData.matrix.deviceRating = creatorMatrix.deviceRating;
+    //Condition monitor
+    //actorData.conditionMonitors.matrix = actorData.creatorMonitor;
+  }
+
+  static async updateOwnerDeck(agent){
+    if(!agent.data.creatorData) return;
+    //let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
+    //let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+    //console.log(ownerDeck);
   }
 
   static async updateControledVehicle(actor){ 
