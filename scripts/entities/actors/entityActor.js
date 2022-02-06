@@ -303,6 +303,7 @@ export class SR5Actor extends Actor {
       case "actorAgent":
         SR5_CharacterUtility.generateAgentValues(actor);
         SR5_CharacterUtility.generateMatrixActions(actor);
+        SR5_CharacterUtility.updateInitiativeMatrix(actor);
         break;
       case "actorPc":
       case "actorGrunt":

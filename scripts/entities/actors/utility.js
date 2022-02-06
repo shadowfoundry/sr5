@@ -1378,6 +1378,11 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(initMat, `${game.i18n.localize('SR5.DataProcessing')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, matrixAttributes.dataProcessing.value);
         SR5_EntityHelpers.updateModifier(initMat.dice, `${game.i18n.localize(lists.spriteTypes[data.type])}`, `${game.i18n.localize('ACTOR.TypeActorsprite')}`, 4);
         break;
+      case "actorAgent":
+        SR5_EntityHelpers.updateModifier(initMat,`${game.i18n.localize('SR5.Rating')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, data.rating);
+        SR5_EntityHelpers.updateModifier(initMat, `${game.i18n.localize('SR5.DataProcessing')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, matrixAttributes.dataProcessing.value);
+        SR5_EntityHelpers.updateModifier(initMat.dice, `${game.i18n.localize(lists.spriteTypes[data.type])}`, `${game.i18n.localize('ACTOR.TypeActoragent')}`, 4);
+        break;
       case "actorDevice":
       //case "actorDrone":
         SR5_EntityHelpers.updateModifier(initMat,`${game.i18n.localize('SR5.DeviceRating')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, data.matrix.deviceRating);
@@ -2843,6 +2848,8 @@ export class SR5_CharacterUtility extends Actor {
     console.log(actor);
     let actorData = actor.data;
     if(!actorData.creatorData) return;
+    let matrixResistances = actorData.matrix.resistances;
+    let matrixAttributes = actorData.matrix.attributes;
     let creatorMatrix = actorData.creatorData.data.matrix;
     console.log(creatorMatrix);
     //Agent attributes are equal to the rating (Kill code page 26)
@@ -2851,8 +2858,8 @@ export class SR5_CharacterUtility extends Actor {
     }
     //Agent matrix attributes are the same as decker attributes
     for (let key of Object.keys(lists.deckerAttributes)) {
-      actorData.matrix.attributes[key].base = creatorMatrix.attributes[key].value;
-      SR5_EntityHelpers.updateValue(actorData.matrix.attributes[key], 0);
+      matrixAttributes[key].base = creatorMatrix.attributes[key].value;
+      SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
     }
     //Agent skills are equal to program rating
     for (let key of Object.keys(lists.agentSkills)){
@@ -2860,6 +2867,18 @@ export class SR5_CharacterUtility extends Actor {
       SR5_EntityHelpers.updateValue(actorData.skills[key].rating, 0);
       actorData.skills[key].test.base = actorData.skills[key].rating.value;
       SR5_EntityHelpers.updateDicePool(actorData.skills[key].test, 0);
+    }
+    //Resistance
+    SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`,actorData.rating);
+    SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+    SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, actorData.attributes.willpower.augmented.value);
+    SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+    SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, actorData.attributes.willpower.augmented.value);
+    SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+    SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`, actorData.rating);
+    SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+    for (let key of Object.keys(lists.matrixResistances)) {
+      SR5_EntityHelpers.updateDicePool(actorData.matrix.resistances[key]);
     }
   }
 
