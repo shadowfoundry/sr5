@@ -2872,12 +2872,17 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(matrix.noise)
   }
 
-  static generateAgentMatrix(actor){
+  static generateAgentMatrix(actor, deck){
     let lists = actor.lists;
     let actorData = actor.data;
     if(!actorData.creatorData) return;
     let matrixAttributes = actorData.matrix.attributes, creatorMatrix = actorData.creatorData.data.matrix;
-    console.log(actorData.creatorData);
+
+    actorData.matrix.marks = deck.data.marks;
+    actorData.matrix.markedItems = deck.data.markedItems;
+    //Device
+    actorData.matrix.deviceRating = creatorMatrix.deviceRating;
+
     //Agent attributes are equal to the rating (Kill code page 26)
     for (let key of Object.keys(lists.characterAttributes)) {
       actorData.attributes[key].augmented.value = actorData.rating;
@@ -2898,16 +2903,42 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(actorData.matrix.noise)
     //Grid
     actorData.userGrid = creatorMatrix.userGrid;
-    actorData.matrix.deviceRating = creatorMatrix.deviceRating;
-    //Condition monitor
-    //actorData.conditionMonitors.matrix = actorData.creatorMonitor;
   }
 
-  static async updateOwnerDeck(agent){
+  static async updateAgentOwner(agent){
     if(!agent.data.creatorData) return;
-    //let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
-    //let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-    //console.log(ownerDeck);
+    if(!canvas.scene) return;
+    let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
+    let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);    
+    let newDeck = duplicate(ownerDeck);
+    if (newDeck.data.conditionMonitors.matrix.current !== agent.data.conditionMonitors.matrix.current){
+      newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
+      ownerDeck.update(newDeck);
+    }
+  }
+
+  static async updateAgent(actor, deck){
+    if (game.actors) {
+      for (let a of game.actors) {
+        if(a.data.type === "actorAgent" && a.data.data.creatorId === actor._id){
+          let agent = duplicate(a);
+          agent.data.conditionMonitors.matrix = deck.data.conditionMonitors.matrix;
+          agent.data.creatorData = actor.toObject(false);
+          a.update(agent);
+        }
+      }
+    }
+  }
+
+  static applyProgramToAgent(actor){
+    let actorData = actor.data;
+    if(!actorData.creatorData) return;
+    for (let i of actorData.creatorData.items){
+      if (i.type === "itemProgram" && (i.data.type === "common" || i.data.type === "hacking")){
+        if (Object.keys(i.data.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
+      }
+    }
+
   }
 
   static async updateControledVehicle(actor){ 

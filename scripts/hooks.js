@@ -267,26 +267,12 @@ export const registerHooks = function () {
     }
     //let truc = document.effects.find(e => e.data.origin = "linkLock")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
-
-    if(document.type === "actorAgent"){
-      if (data.data.conditionMonitors?.matrix){
-        console.log(document);
-        //let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
-        /*let ownerDeck = document.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-        let deckData = ownerDeck.toObject(false);
-        deckData.data.conditionMonitors.matrix = document.data.data.conditionMonitors.matrix;
-        console.log(deckData);
-        await ownerDeck.update({"data": deckData,});*/
-      }
-    }
   });
 
   Hooks.on("deleteItem", async (item) =>{
     if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
       if (item.data.data.type === "signalJam"){
-        console.log(item);
         let actorID = item.parent.id
-        //if (item.parent.isToken) actorID = item.parent.token.id;
         SR5_EffectArea.onJamEnd(actorID);
       }
     }
@@ -308,7 +294,6 @@ export const registerHooks = function () {
   Hooks.on("createActor", async (actor) =>{
     //Add itemDevice to Drone/Sprite/Agent if they have none.
     if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorAgent"){
-      debugger;
       let hasDevice = false;
       for (let i of actor.items){
         if (i.type === "itemDevice") hasDevice = true;

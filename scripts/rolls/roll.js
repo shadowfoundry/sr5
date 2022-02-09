@@ -340,6 +340,11 @@ export class SR5_Roll {
                             damageType: damageType,
                             damageValueBase: chatData.damageValue,
                         }
+                        if (chatData.button.defenderDoBiofeedbackDamage){
+                            optionalData = mergeObject(optionalData, {
+                                defenderDoBiofeedbackDamage: true,
+                            });
+                        }
                         break;
                     case "dumpshock":
                         dicePool = actorData.matrix.resistances.dumpshock.dicePool;
@@ -551,11 +556,11 @@ export class SR5_Roll {
             case "matrixResistance":
                 title = `${game.i18n.localize("SR5.TakeOnDamageMatrix")} (${chatData.matrixDamageValue})`;
                 dicePool = actorData.matrix.resistances[rollKey].dicePool;
-                if (chatData.matrixTargetItem && chatData.matrixTargetItem?.data?.type !== "livingPersona" && chatData.matrixTargetItem?.data?.type !== "headcase"){ //check this: chatData.matrixTargetItem?.data?.type !== "baseDevice"
+                if (chatData.matrixTargetItem && chatData.matrixTargetItem?.data?.type !== "baseDevice" && chatData.matrixTargetItem?.data?.type !== "livingPersona" && chatData.matrixTargetItem?.data?.type !== "headcase"){ //check this: 
                     title = `${chatData.matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
                     dicePool = chatData.matrixTargetItem.data.deviceRating * 2;
                     optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: chatData.matrixTargetItem._id,
+                        matrixTargetItem: chatData.matrixTargetItem,
                     }); 
                 }
 

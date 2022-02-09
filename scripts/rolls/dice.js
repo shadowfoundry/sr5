@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		console.log(chatData.flags.sr5data);
+		//console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -580,8 +580,10 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
-		if (cardData.typeSub === "biofeedbackDamage") SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
-		else if (cardData.typeSub !== "dumpshock") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
+		if (cardData.typeSub === "biofeedbackDamage"){
+			if (!cardData.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
+			else SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
+		} else if (cardData.typeSub !== "dumpshock") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
 	}
 
 	static async addSpellInfoToCard(cardData, author){
@@ -757,7 +759,7 @@ export class SR5_Dice {
 				if (netHits < 0) {
 					cardData.button.defenderDoMatrixDamage = true;
 					cardData.matrixDamageValue = netHits * -1;
-					if (defender.data.matrix.programs.biofeedback.isActive || defender.data.matrix.programs.blackout.isActive
+					if ((defender.data.matrix.programs.biofeedback.isActive || defender.data.matrix.programs.blackout.isActive)
 					  && attackerData.matrix.userMode !== "ar"
 					  && (attacker.data.type === "actorPc" || attacker.data.type === "actorGrunt")) {
 						cardData.button.defenderDoBiofeedbackDamage = true;

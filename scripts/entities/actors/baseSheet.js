@@ -447,6 +447,12 @@ export class ActorSheetSR5 extends ActorSheet {
       }
     }
 
+    if (item.type === "itemProgram" && target === "data.isCreated"){
+      let oldValue = getProperty(item, "data.isActive");
+      value = !oldValue;
+      setProperty(item, "data.isActive", value);
+    }
+
     if (item.data.accessory?.length){
       for (let a of item.data.accessory){
         let accessory = itemList.find(i => i._id === a._id);
