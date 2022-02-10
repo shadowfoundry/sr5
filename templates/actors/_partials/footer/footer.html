@@ -8,7 +8,7 @@
 		{{else if (eq actor.type 'actorDrone')}}
 			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
 			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.html }}
-		{{else if (or (eq actor.type 'actorDevice') (eq actor.type 'actorSprite') )}}
+		{{else if (or (eq actor.type 'actorDevice') (eq actor.type 'actorSprite') (eq actor.type 'actorAgent') )}}
 			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.html }}
 		{{/if}}
 

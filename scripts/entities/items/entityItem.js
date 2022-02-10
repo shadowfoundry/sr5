@@ -387,7 +387,8 @@ export class SR5Item extends Item {
         obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t;
         return SR5_EntityHelpers.sortObjectValue(obj);
       }, {}),
-      hasTypes: types.length > 1
+      hasTypes: types.length > 1,
+      presets: CONFIG.Cards.presets
     });
     
     // Render the confirmation dialog window
@@ -395,12 +396,16 @@ export class SR5Item extends Item {
       title: title,
       content: html,
       label: title,
-      callback: html => {
+      callback: async html => {
         const form = html[0].querySelector("form");
         const fd = new FormDataExtended(form);
         foundry.utils.mergeObject(data, fd.toObject(), {inplace: true});
         if ( !data.folder ) delete data["folder"];
-        if ( types.length === 1 ) data.type = types[0];
+        const preset = CONFIG.Cards.presets[data.preset];
+        if ( preset && (preset.type === data.type) ) {
+          const presetData = await fetch(preset.src).then(r => r.json());
+          data = foundry.utils.mergeObject(presetData, data);
+        }
         return this.create(data, {parent, pack, renderSheet: true});
       },
       rejectClose: false,

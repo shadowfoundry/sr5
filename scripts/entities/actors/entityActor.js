@@ -14,6 +14,54 @@ import { SR5_SocketHandler } from "../../socket.js";
  */
 
 export class SR5Actor extends Actor {
+
+  /** Overide Actor's create Dialog to hide certain type and sort them alphabetically*/
+  static async createDialog(data={}, {parent=null, pack=null, ...options}={}) {
+
+    // Collect data
+    const documentName = this.metadata.name;
+    const hiddenTypes = ["actorAgent"];
+    const originalTypes = game.system.documentTypes[documentName];
+    const types = originalTypes.filter(
+      (actorType) => !hiddenTypes.includes(actorType)
+    );
+    const folders = parent ? [] : game.folders.filter(f => (f.data.type === documentName) && f.displayed);
+    const label = game.i18n.localize(this.metadata.label);
+    const title = game.i18n.format("DOCUMENT.Create", {type: label});
+
+    // Render the document creation form
+    const html = await renderTemplate(`templates/sidebar/document-create.html`, {
+      name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
+      folder: data.folder,
+      folders: folders,
+      hasFolders: folders.length >= 1,
+      type: data.type || types[0],
+      types: types.reduce((obj, t) => {
+        const label = CONFIG[documentName]?.typeLabels?.[t] ?? t;
+        obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t;
+        return SR5_EntityHelpers.sortObjectValue(obj);
+      }, {}),
+      hasTypes: types.length > 1
+    });
+
+    // Render the confirmation dialog window
+    return Dialog.prompt({
+      title: title,
+      content: html,
+      label: title,
+      callback: html => {
+        const form = html[0].querySelector("form");
+        const fd = new FormDataExtended(form);
+        foundry.utils.mergeObject(data, fd.toObject(), {inplace: true});
+        if ( !data.folder ) delete data["folder"];
+        if ( types.length === 1 ) data.type = types[0];
+        return this.create(data, {parent, pack, renderSheet: true});
+      },
+      rejectClose: false,
+      options: options
+    });
+  }
+
   static async create(data, options) {
     if (!data.img) {
       data.img = `systems/sr5/img/actors/${data.type}.svg`;
@@ -102,6 +150,7 @@ export class SR5Actor extends Actor {
       break;
       case "actorDevice":
       case "actorDrone":
+      case "actorAgent":
         baseItems = {
           "name": game.i18n.localize("SR5.Device"),
           "type": "itemDevice",
@@ -137,6 +186,7 @@ export class SR5Actor extends Actor {
 
     let actorLink = false;
     if (this.type === "actorPc") actorLink = true;
+    if (this.type === "actorAgent") actorLink = true;
     if (this.type === "actorSpirit" && this.data.data.creatorId !== "") actorLink = true;
     if (this.type === "actorDrone" && this.data.data.creatorId !== "") actorLink = true;
     if (this.type === "actorSprite" && this.data.data.creatorId !== "") actorLink = true;
@@ -189,6 +239,7 @@ export class SR5Actor extends Actor {
         break;
       case "actorDevice":
       case "actorSprite":
+      case "actorAgent":
         this.data.update({
           "token.lockRotation": true,
           "token.actorLink": actorLink,
@@ -230,17 +281,14 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.applyRacialModifers(actor);
         break;
       case "actorDrone":
-        SR5_CharacterUtility.resetCalculatedValues(actor);
-        break;
       case "actorDevice":
+      case "actorSprite":
+      case "actorAgent":
         SR5_CharacterUtility.resetCalculatedValues(actor);
         break;
       case "actorSpirit":
         if (!data.hasOwnProperty("type")) data.type = actor.flags.spiritType;
         if (data.force < 1) data.force = parseInt(actor.flags.spiritForce);
-        SR5_CharacterUtility.resetCalculatedValues(actor);
-        break;
-      case "actorSprite":
         SR5_CharacterUtility.resetCalculatedValues(actor);
         break;
       default:
@@ -295,8 +343,13 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateLimits(actor);
         SR5_CharacterUtility.generateSpriteSkills(actor);
         SR5_CharacterUtility.updateSkills(actor);
+        SR5_CharacterUtility.updateConditionMonitors(actor);
       case "actorDevice":
         SR5_CharacterUtility.updateConditionMonitors(actor);
+        break;
+      case "actorAgent":
+        SR5_CharacterUtility.applyProgramToAgent(actor);
+        SR5_CharacterUtility.updateAgentOwner(actor);
         break;
       case "actorPc":
       case "actorGrunt":
@@ -568,28 +621,45 @@ export class SR5Actor extends Actor {
           if (actorData.type === "actorPc" || actorData.type === "actorGrunt"){
             if (iData.isActive === true){
               SR5_CharacterUtility.generateMatrixAttributes(i.data, actorData);
-              SR5_CharacterUtility.generateMatrixData(i.data, actorData);
+              SR5_CharacterUtility.generateMatrixResistances(actorData, i.data);
               SR5_CharacterUtility.generateMatrixActions(actorData);
+              SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
               SR5_CharacterUtility.updateInitiativeMatrix(actorData);
               if (iData.type ==="riggerCommandConsole") {
                 if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actorData);
               }
-              if (iData.type === "livingPersona" || iData.type === "headcase") iData.pan.max = actorData.data.matrix.deviceRating * 3;
+              if (iData.type ==="cyberdeck") {
+                if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateAgent(actorData, i.data);
+              }
+              if (iData.type === "livingPersona" || iData.type === "headcase") {
+                SR5_CharacterUtility.generateResonanceMatrix(i.data, actorData);
+                iData.pan.max = actorData.data.matrix.deviceRating * 3;
+              }
               i.prepareData();
             }
-          }
-          if (actorData.type === "actorDrone"){
-            SR5_CharacterUtility.updateVehicleDecking(actorData, i.data);
-          }
-          if (actorData.type === "actorDevice"){
+          } else if (actorData.type === "actorDrone"){
+            SR5_CharacterUtility.generateVehicleMatrix(actorData, i.data);
+            SR5_CharacterUtility.generateMatrixResistances(actorData, i.data);
+            SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
+          } else if (actorData.type === "actorDevice"){
             SR5_CharacterUtility.generateDeviceMatrix(actorData, i.data);
+            SR5_CharacterUtility.generateMatrixResistances(actorData, i.data);
+            SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
             if (actorData.data.matrix.deviceType === "ice") {
               SR5_CharacterUtility.updateInitiativeMatrix(actorData);
             }           
-          }
-          if (actorData.type === "actorSprite"){
+          } else if (actorData.type === "actorSprite"){
             SR5_CharacterUtility.generateSpriteMatrix(actorData, i.data);
+            SR5_CharacterUtility.generateMatrixResistances(actorData, i.data);
             SR5_CharacterUtility.generateMatrixActions(actorData);
+            SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
+            SR5_CharacterUtility.updateInitiativeMatrix(actorData);
+          } else if (actorData.type === "actorAgent"){
+            SR5_CharacterUtility.generateAgentMatrix(actorData, i.data);
+            SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
+            SR5_CharacterUtility.generateMatrixActions(actorData);
+            SR5_CharacterUtility.generateMatrixResistances(actorData, i.data);
+            SR5_CharacterUtility.updateConditionMonitors(actorData);
             SR5_CharacterUtility.updateInitiativeMatrix(actorData);
           }
           break;
@@ -675,6 +745,7 @@ export class SR5Actor extends Actor {
           ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
         }
         break;
+      case "actorAgent":
       case "actorSprite":
       case "actorDevice":
         if (options.matrixDamageValue) {
@@ -1009,11 +1080,13 @@ export class SR5Actor extends Actor {
       petType = "actorDrone";
     } else if (item.type === "itemSprite") {
       petType = "actorSprite";
+    } else if (item.type === "itemProgram") {
+      petType = "actorAgent";
     }
-    
+
     let img;
-    if (item.img !== "") img = item.img;
-    else img = `systems/sr5/img/actors/${petType}.svg`;
+    if (item.img === `systems/sr5/img/items/${item.type}.svg`) img = `systems/sr5/img/actors/${petType}.svg`;
+    else img = item.img;
 
     // Handle base data for Actor Creation
     let data = {
@@ -1066,6 +1139,27 @@ export class SR5Actor extends Actor {
         "data.creatorId": actorId,
         "data.creatorItemId": item._id,
         "data.conditionMonitors.matrix.current": itemData.conditionMonitors.matrix.current,
+        "items": baseItems,
+      });
+    }
+
+    if (item.type === "itemProgram") {
+      let baseItems = [];
+      let ownerDeck = ownerActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+      if(!ownerDeck) return;
+      for (let deck of itemData.decks) {
+        deck.data.marks = [];
+        baseItems.push(deck);
+      }
+
+      let creatorData = SR5_EntityHelpers.getRealActorFromID(actorId);
+      creatorData = creatorData.toObject(false);
+      data = mergeObject(data, {
+        "data.creatorId": actorId,
+        "data.creatorItemId": item._id,
+        "data.creatorData": creatorData,
+        "data.conditionMonitors.matrix": ownerDeck.data.data.conditionMonitors.matrix,
+        "data.rating": itemData.itemRating,
         "items": baseItems,
       });
     }
@@ -1123,6 +1217,7 @@ export class SR5Actor extends Actor {
     modifiedItem = modifiedItem.toObject(false);
 
     if (actor.type === "actorSpirit"){
+      modifiedItem.img = actor.img;
       modifiedItem.data.services.value = actor.data.services.value;
       modifiedItem.data.services.max = actor.data.services.max;
       modifiedItem.data.conditionMonitors.physical.current = actor.data.conditionMonitors.physical.current;
@@ -1137,12 +1232,23 @@ export class SR5Actor extends Actor {
       for (let a of actor.items){
         if (a.type === "itemDevice") decks.push(a);
       }
+      modifiedItem.img = actor.img;
       modifiedItem.data.decks = decks;
       modifiedItem.data.tasks.value = actor.data.tasks.value;
       modifiedItem.data.tasks.max = actor.data.tasks.max;
       modifiedItem.data.conditionMonitors.matrix.current = actor.data.conditionMonitors.matrix.current;
       modifiedItem.data.isRegistered = actor.data.isRegistered;
       modifiedItem.data.isCreated = false;
+      itemOwner.update(modifiedItem);
+    }
+
+    if (actor.type === "actorAgent"){
+    let decks = [];
+      for (let a of actor.items){
+        if (a.type === "itemDevice") decks.push(a);
+      }
+      modifiedItem.img = actor.img;
+      modifiedItem.data.decks = decks;
       itemOwner.update(modifiedItem);
     }
 
@@ -1159,6 +1265,7 @@ export class SR5Actor extends Actor {
         if (a.type === "itemArmor") armors.push(a);
         if (a.type === "itemDevice") decks.push(a);
       }
+      modifiedItem.img = actor.img;
       modifiedItem.data.autosoft = autosoft;
       modifiedItem.data.weapons = weapons;
       modifiedItem.data.ammunitions = ammunitions;

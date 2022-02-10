@@ -97,7 +97,7 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        SR5_Dice.srDicesAddInfoToCard(cardData, data.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, data.actor);
         SR5_Dice.renderRollCard(cardData);
     }
 
@@ -409,11 +409,11 @@ export class SR5_DiceHelper {
    * @param {Object} messageData - Message data
    * @param {Object} attacker - Actor who do the damage
    */
-    static applyDamageToDecK(targetActor, messageData, attacker) {
+    static applyDamageToDecK(targetActor, messageData, defender) {
         let damageValue = messageData.matrixDamageValue;
         let targetItem;
-        if (messageData.matrixTargetItem){
-            targetItem = targetActor.items.find((item) => item.id === messageData.matrixTargetItem);
+        if (messageData.matrixTargetItem && !defender){
+            targetItem = targetActor.items.find((item) => item.id === messageData.matrixTargetItem._id);
         } else {
             targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
         }
@@ -423,7 +423,7 @@ export class SR5_DiceHelper {
         newItem.data.conditionMonitors.matrix.current += damageValue;
         targetItem.update(newItem);
 
-        if (attacker) ui.notifications.info(`${attacker.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
+        if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
         else ui.notifications.info(`${targetActor.name} (${targetItem.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
     }
 
@@ -675,22 +675,7 @@ export class SR5_DiceHelper {
             case "iceBlaster":
             case "iceBlack":
             case "iceTarBaby":
-                effect = mergeObject(effect, {
-                    "data.type": "linkLock",
-                    name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
-                    "data.target": game.i18n.localize("SR5.EffectLinkLockedConnection"),
-                    "data.value": ice.data.data.matrix.attributes.attack.value + ice.data.data.matrix.deviceRating,
-                    "data.customEffects": {
-                        "0": {
-                            "category": "special",
-                            "target": "data.matrix.isLinkLocked",
-                            "type": "boolean",
-                            "value": "true",
-                        }
-                    },
-                });
-                target.createEmbeddedDocuments("Item", [effect]);
-                ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${ice.name}`);
+                await SR5_DiceHelper.linkLock(ice, target);
                 break;
             case "iceSparky":
             case "iceKiller":
@@ -887,7 +872,7 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
         SR5_Dice.renderRollCard(cardData);
     }
 
@@ -990,7 +975,7 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
         SR5_Dice.renderRollCard(cardData);
     }
 
