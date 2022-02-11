@@ -19,7 +19,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
   static get defaultOptions() {
     const options = super.defaultOptions;
     return mergeObject(super.defaultOptions, {
-      template: "systems/sr5_dev/templates/actors/grunt-sheet.html",
+      template: "systems/sr5/templates/actors/grunt-sheet.html",
       width: 800,
       height: 618,
       resizable: false,
