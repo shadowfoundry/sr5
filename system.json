@@ -1,12 +1,12 @@
 {
-  "name": "sr5_dev",
-  "title": "Shadowrun 5_vLocal",
+  "name": "sr5",
+  "title": "Shadowrun 5",
   "description": "A comprehensive ruleset to play Shadowrun 5th Edition with Foundry VTT.",
   "author": "Karmaroms, deurk",
   "authors": [],
   "url": "https://github.com/shadowfoundry/sr5",
   "flags": {},
-  "version": "0.0.4.11",
+  "version": "0.0.4.12",
   "minimumCoreVersion": "9",
   "compatibleCoreVersion": "9.249",
   "scripts": [],
@@ -27,7 +27,7 @@
       "name": "Français",
       "path": "lang/fr.json"
     }
-      ],
+  ],
   "packs": [
     {
       "name": "fr_weapons",
@@ -237,6 +237,8 @@
     }
   ],
   "socket": true,
+  "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
+  "download": "https://github.com/shadowfoundry/sr5/releases/download/0.0.4.7/sr5.zip",
   "protected": false,
   "background": "./img/sr5SplashScreen.jpg",
   "initiative": "1d6",
