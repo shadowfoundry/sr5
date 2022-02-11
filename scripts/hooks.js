@@ -12,6 +12,7 @@ import { SR5GruntSheet } from "./entities/actors/gruntSheet.js";
 import { SR5DroneSheet } from "./entities/actors/droneSheet.js";
 import { SR5AppareilSheet } from "./entities/actors/deviceSheet.js";
 import { SR5SpriteSheet } from "./entities/actors/spriteSheet.js";
+import { SR5AgentSheet } from "./entities/actors/agentSheet.js";
 import { SR5Item } from "./entities/items/entityItem.js";
 import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
@@ -88,6 +89,10 @@ export const registerHooks = function () {
     });
     Actors.registerSheet("SR5", SR5SpriteSheet, {
       types: ["actorSprite"],
+      makeDefault: true
+    });
+    Actors.registerSheet("SR5", SR5AgentSheet, {
+      types: ["actorAgent"],
       makeDefault: true
     });
     Items.unregisterSheet("core", ItemSheet);
@@ -267,9 +272,7 @@ export const registerHooks = function () {
   Hooks.on("deleteItem", async (item) =>{
     if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
       if (item.data.data.type === "signalJam"){
-        console.log(item);
         let actorID = item.parent.id
-        //if (item.parent.isToken) actorID = item.parent.token.id;
         SR5_EffectArea.onJamEnd(actorID);
       }
     }
@@ -288,15 +291,9 @@ export const registerHooks = function () {
     }
   });
 
-  Hooks.on("lightingRefresh", () => {
-    for (const source of canvas.sight.sources) {
-
-      }
-  });
-
   Hooks.on("createActor", async (actor) =>{
-    //Add itemDevice to Drone/Sprite if they have none.
-    if (actor.type === "actorDrone" || actor.type === "actorSprite"){
+    //Add itemDevice to Drone/Sprite/Agent if they have none.
+    if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorAgent"){
       let hasDevice = false;
       for (let i of actor.items){
         if (i.type === "itemDevice") hasDevice = true;

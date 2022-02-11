@@ -1895,6 +1895,7 @@
   "SR5.WillpowerShort"                        : "WIL",
   "SR5.WirelessMode"                          : "Wireless Mode",
   "SR5.Yes"                                   : "Yes",
+  "ACTOR.TypeActoragent"                      : "Agent",
   "ACTOR.TypeActordevice"                     : "Device",
   "ACTOR.TypeActordrone"                      : "Drone or Vehicle",
   "ACTOR.TypeActorgrunt"                      : "Grunt or Creature",

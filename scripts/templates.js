@@ -42,6 +42,7 @@ export const preloadHandlebarsTemplates = async function () {
       "systems/sr5/templates/actors/_partials/header/nav/actorGrunt.html",
       "systems/sr5/templates/actors/_partials/header/nav/actorSpirit.html",
       "systems/sr5/templates/actors/_partials/header/nav/actorSprite.html",
+      "systems/sr5/templates/actors/_partials/header/nav/actorAgent.html",
 
         // Actor sheet - Headers - Navigation parts
         "systems/sr5/templates/actors/_partials/header/navParts/coreInfos.html",

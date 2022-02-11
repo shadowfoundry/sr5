@@ -60,7 +60,7 @@ export class SR5_RollMessage {
                 newMessage = duplicate(message.data.flags.sr5data);
 
             newMessage.test[button.attr("data-edit-type")] = parseInt(ev.target.value);
-            SR5_Dice.srDicesAddInfoToCard(newMessage, actor.data);
+            await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.data);
             if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
             //Update message with new data
             SR5_RollMessage.updateRollCard(message, newMessage); 
@@ -104,7 +104,7 @@ export class SR5_RollMessage {
                         || messageData.typeSub === "spoofCommand"
                         || messageData.typeSub === "bruteForce"
                         || messageData.typeSub === "rebootDevice")
-                        && (actor.data.type !== "actorDevice" && actor.data.type !== "actorSprite" && actor.data.type !== "actorDrone")){
+                        && (actor.data.type !== "actorDevice" && actor.data.type !== "actorSprite" && actor.data.type !== "actorDrone" && actor.data.type !== "actorAgent")){
                         SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
                     } else {
                         actor.rollTest("matrixDefense", messageData.typeSub, messageData);
@@ -285,7 +285,6 @@ export class SR5_RollMessage {
                     break;
                 case "msgTest_defenderDoBiofeedbackDamage":
                     originalActionAuthor.rollTest("resistanceCard", null, messageData);
-                    SR5_RollMessage.updateChatButton(message, "defenderDoBiofeedbackDamage");
                     break;
                 case "msgTest_attackerDoBiofeedbackDamage":
                     if (actor.type === "actorDrone") actor = SR5_EntityHelpers.getRealActorFromID(actor.data.data.vehicleOwner.id)
