@@ -129,6 +129,7 @@ export const preloadHandlebarsTemplates = async function () {
     //Right Tab - Combat partials
     "systems/sr5/templates/actors/_partials/right-tabs/combat/rangedWeapons.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/meleeWeapons.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/spiritWeapons.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html",
@@ -327,6 +328,9 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/lifestyle/linkedIdentity-edit.html",
         "systems/sr5/templates/items/_partial/editable/lifestyle/address-edit.html",
         "systems/sr5/templates/items/_partial/editable/lifestyle/options-edit.html",
+
+        //Martial Arts
+        "systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html",
 
         //Nuyen
         "systems/sr5/templates/items/_partial/editable/nuyen/type-edit.html",

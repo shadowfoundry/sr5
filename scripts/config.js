@@ -1095,6 +1095,57 @@ SR5.spritePowerDefenseAttributes = {
 };
 
 //-----------------------------------//
+//             MARTIAL ARTS          //
+//-----------------------------------//
+// Martial Arts types
+SR5.martialArtsTypes = {
+blocks52 : "SR5.martialArtsType52blocks",
+aikido : "SR5.martialArtsTypeaikido",
+arnisdemano : "SR5.martialArtsTypearnisdemano",
+bartitsu : "SR5.martialArtsTypebartitsu",
+boxingbrawler : "SR5.martialArtsTypeboxingbrawler",
+boxingclassic : "SR5.martialArtsTypeboxingclassic",
+boxingswarming : "SR5.martialArtsTypeboxingswarming",
+capoeira : "SR5.martialArtsTypecapoeira",
+carromeleg : "SR5.martialArtsTypecarromeleg",
+chakramfighting : "SR5.martialArtsTypechakramfighting",
+drunkenboxing : "SR5.martialArtsTypedrunkenboxing",
+fioredeiliberi : "SR5.martialArtsTypefioredeiliberi",
+firefight : "SR5.martialArtsTypefirefight",
+gunkata : "SR5.martialArtsTypegunkata",
+jeetkunedo : "SR5.martialArtsTypejeetkunedo",
+jogodupau : "SR5.martialArtsTypejogodupau",
+jujitsu : "SR5.martialArtsTypejujitsu",
+karate : "SR5.martialArtsTypekarate",
+kenjutsu : "SR5.martialArtsTypekenjutsu",
+knighterranttactical : "SR5.martialArtsTypeknighterranttactical",
+kravmaga : "SR5.martialArtsTypekravmaga",
+kunstdesfechtens : "SR5.martialArtsTypekunstdesfechtens",
+kyujutsu : "SR5.martialArtsTypekyujutsu",
+laverdaderadestreza : "SR5.martialArtsTypelaverdaderadestreza",
+lonestartactical : "SR5.martialArtsTypelonestartactical",
+muaythai : "SR5.martialArtsTypemuaythai",
+ninjutsu : "SR5.martialArtsTypeninjutsu",
+okichitaw : "SR5.martialArtsTypeokichitaw",
+parkour : "SR5.martialArtsTypeparkour",
+pentjaksilat : "SR5.martialArtsTypepentjaksilat",
+quarterstafffighting : "SR5.martialArtsTypequarterstafffighting",
+sangreyacero : "SR5.martialArtsTypesangreyacero",
+taekwondo : "SR5.martialArtsTypetaekwondo",
+thecowboyway : "SR5.martialArtsTypethecowboyway",
+turkisharchery : "SR5.martialArtsTypeturkisharchery",
+whipfighting : "SR5.martialArtsTypewhipfighting",
+wildcat : "SR5.martialArtsTypewildcat",
+wrestlingmma : "SR5.martialArtsTypewrestlingmma",
+wrestlingprofessionnal : "SR5.martialArtsTypewrestlingprofessionnal",
+wrestlingsport : "SR5.martialArtsTypewrestlingsport",
+wrestlingsumo : "SR5.martialArtsTypewrestlingsumo",
+wudangsword : "SR5.martialArtsTypewudangsword",
+};
+
+
+
+//-----------------------------------//
 //             MATRIX                //
 //-----------------------------------//
 // Matrix Attributes
@@ -2200,6 +2251,7 @@ SR5.itemTypes = {
   itemLanguage              : "ITEM.TypeItemlanguage",
   itemLifestyle             : "ITEM.TypeItemlifestyle",
   itemMark                  : "ITEM.TypeItemmark",
+  itemMartialArt            : "ITEM.TypeItemmartialart",
   itemMetamagic             : "ITEM.TypeItemmetamagic",
   itemNuyen                 : "ITEM.TypeItemnuyen",
   itemPower                 : "ITEM.TypeItempower",

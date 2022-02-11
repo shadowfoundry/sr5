@@ -1,6 +1,6 @@
 {
-  "name": "sr5",
-  "title": "Shadowrun 5",
+  "name": "sr5_dev",
+  "title": "Shadowrun 5_vLocal",
   "description": "A comprehensive ruleset to play Shadowrun 5th Edition with Foundry VTT.",
   "author": "Karmaroms, deurk",
   "authors": [],
@@ -26,11 +26,6 @@
       "lang": "fr",
       "name": "Français",
       "path": "lang/fr.json"
-    },
-    {
-      "lang": "de",
-      "name": "Deutsch",
-      "path": "lang/de.json"
     }
       ],
   "packs": [
@@ -242,8 +237,6 @@
     }
   ],
   "socket": true,
-  "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
-  "download": "https://github.com/shadowfoundry/sr5/releases/download/0.0.4.7/sr5.zip",
   "protected": false,
   "background": "./img/sr5SplashScreen.jpg",
   "initiative": "1d6",
