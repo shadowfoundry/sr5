@@ -159,6 +159,10 @@ export class SR5_UtilityItem extends Actor {
       data.armorValue.modifiers = [];
     }
 
+    if (data.isWireless){
+      if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) data.conditionMonitors.matrix.current = data.conditionMonitors.matrix.value;
+    }
+
     if (itemData.type === "itemSpell") {
       data.freeSustain = false;
       data.damageValue.modifiers = [];
@@ -1409,6 +1413,7 @@ export class SR5_UtilityItem extends Actor {
           if (typeof i.data.data.accessory === "object") i.data.data.accessory = Object.values(i.data.data.accessory);
           let accessory = i.data.data.accessory.find(a => a._id === gear._id)
           if (accessory){
+            gear.data.wirelessTurnedOn = i.data.data.wirelessTurnedOn;
             gear.data.isPlugged = true;
             return;
           }      

@@ -92,6 +92,14 @@
 			</div>
 			<div class="col-1">
 				<div class="grid">
+					{{#if (gte data.conditionMonitors.matrix.current data.conditionMonitors.matrix.value)}}
+					<div class="col-6 SR-TextCenter"
+					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
+					>
+					<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
+					</div>
+					{{else}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}"
@@ -102,6 +110,7 @@
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
 						{{/if}}
 					</div>
+					{{/if}}
 					<div class="col-6 SR-TextRight">
 						{{#if ../owner}}
 						<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">

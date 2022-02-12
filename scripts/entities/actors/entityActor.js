@@ -630,6 +630,13 @@ export class SR5Actor extends Actor {
               }
               if (iData.type ==="cyberdeck") {
                 if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateAgent(actorData, i.data);
+                if (iData.conditionMonitors.matrix.current >= iData.conditionMonitors.matrix.value) {
+                  if (actorData.data.matrix.userMode === "coldsim" || actorData.data.matrix.userMode === "hotsim"){
+                    /*let messageData = {damageResistanceType: "dumpshock"};
+                    actor.rollTest("resistanceCard", null, messageData);*/
+                    console.log(actorData);
+                  }
+                }
               }
               if (iData.type === "livingPersona" || iData.type === "headcase") {
                 SR5_CharacterUtility.generateResonanceMatrix(i.data, actorData);
@@ -1343,6 +1350,8 @@ export class SR5Actor extends Actor {
   static async _socketDeleteItemFromPan(message){
     await SR5Actor.deleteItemFromPan(message.data.targetItem, message.data.index, message.data.actorId);
   }
+
+  //deleteAllItemsFromPan(){}
 
 }
 

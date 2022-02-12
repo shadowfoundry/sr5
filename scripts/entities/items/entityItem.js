@@ -47,6 +47,9 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
+        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+          data.wirelessTurnedOn = false;
+        }
         break;
       case "itemAmmunition":
         SR5_UtilityItem._handleAmmoPrice(data);
@@ -66,6 +69,9 @@ export class SR5Item extends Item {
         break
       case "itemAugmentation":
         SR5_UtilityItem._handleAugmentation(data);
+        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+          data.wirelessTurnedOn = false;
+        }
         if (owner){
           if (data.isAccessory) {
             SR5_UtilityItem._checkIfAccessoryIsPlugged(itemData, owner);
@@ -89,6 +95,9 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemConcealment(data);
         data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
+        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+          data.wirelessTurnedOn = false;
+        }
         if (owner){
           if (data.isAccessory) {
             SR5_UtilityItem._checkIfAccessoryIsPlugged(itemData, owner);
