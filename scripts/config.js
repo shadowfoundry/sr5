@@ -430,6 +430,15 @@ SR5.lifestyleOptions = {
   dangerousArea             : "SR5.LifeStyleOptionDangerousArea",
 };
 
+// Reputation
+
+SR5.reputationTypes = {
+  streetCred                : "SR5.ReputationStreetCred",
+  notoriety                 : "SR5.ReputationNotoriety",
+  publicAwareness           : "SR5.ReputationPublicAwareness",
+}
+
+
 //-----------------------------------//
 //            WEAPONS                //
 //-----------------------------------//

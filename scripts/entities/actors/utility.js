@@ -480,6 +480,24 @@ export class SR5_CharacterUtility extends Actor {
       data.karma.modifiers = [];
     }
 
+    // Reset StreetCred
+    if (data.streetCred) {
+      data.streetCred.value = 0;
+      data.streetCred.modifiers = [];
+    }
+
+    // Reset Notoriety
+    if (data.notoriety) {
+      data.notoriety.value = 0;
+      data.notoriety.modifiers = [];
+    }
+
+    // Reset Public Awareness
+    if (data.publicAwareness) {
+      data.publicAwareness.value = 0;
+      data.publicAwareness.modifiers = [];
+    }
+
     // Reset Nuyen
     if (data.nuyen) {
       data.nuyen.value = 0;
@@ -496,6 +514,18 @@ export class SR5_CharacterUtility extends Actor {
 
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
+  }
+
+  static updateStreetCred(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.streetCred);
+  }
+
+  static updateNotoriety(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.notoriety);
+  }
+
+  static updatePublicAwareness(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.publicAwareness);
   }
 
   static updatePenalties(actor) {

@@ -1,0 +1,57 @@
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
+		
+		<li class="grid">
+			<div class="col-10">{{localize 'SR5.RunningSilent'}}</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.RunningSilent'}}"
+              data-helpMessage="{{localize 'SR5.HELP_RunningSilentMsg'}}"
+			>
+				<input type="checkbox" name="data.matrix.runningSilent" data-dtype="Boolean" {{checked data.matrix.runningSilent}}>
+			</div>
+		</li>
+
+		{{#ifne actor.type 'actorSprite'}}
+			<li class="grid"
+			  data-helpTitle="{{localize 'SR5.MatrixUserMode'}}"
+              data-helpMessage="{{localize 'SR5.HELP_MatrixUserModeMsg'}}"
+			>
+				{{#if (or (eq data.matrix.deviceType "livingPersona") (eq data.matrix.deviceType "headcase"))}}
+					<select name="data.matrix.userMode" data-dtype="String" required>
+					{{#select data.matrix.userMode}}
+						{{#each actor.lists.personaModes}}
+							<option value="{{@key}}">{{findTranslation 'deckModes' @key}}</option>
+							{{/each}}
+					{{/select}}
+					</select>
+				{{else}}
+					<select name="data.matrix.userMode" data-dtype="String" required>
+					{{#select data.matrix.userMode}}
+						{{#each actor.lists.deckModes}}
+							<option value="{{@key}}">{{findTranslation 'deckModes' @key}}</option>
+						{{/each}}
+					{{/select}}
+					</select>
+				{{/if}}
+			</li>
+			
+			
+			<li class="grid">
+				<div class="col-9">{{localize 'SR5.InitiativeMatrix'}}</div>
+				<div class="col-1 SR-TextCenter"
+				  data-helpTitle="{{localize 'SR5.HELP_InitiativeRating' key=(findTranslation 'characterInitiatives' 'matrixInit')}}"
+			  	  data-helpDetails="data.initiatives.matrixInit"
+				>
+					{{data.initiatives.matrixInit.value}}
+				</div>
+				<div class="col-2 SR-TextCenter"
+				  data-helpTitle="{{localize 'SR5.HELP_InitiativeDices' key=(findTranslation 'characterInitiatives' 'matrixInit')}}"
+			 	  data-helpDetails="data.initiatives.matrixInit.dice"
+				>
+					+{{data.initiatives.matrixInit.dice.value}}d6
+				</div>
+			</li>
+		{{/ifne}}
+	</ul>
+</div>

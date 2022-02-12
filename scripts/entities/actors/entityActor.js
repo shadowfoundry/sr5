@@ -376,6 +376,9 @@ export class SR5Actor extends Actor {
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);
           SR5_CharacterUtility.updateNuyens(actor);
+          SR5_CharacterUtility.updateStreetCred(actor);
+          SR5_CharacterUtility.updateNotoriety(actor);
+          SR5_CharacterUtility.updatePublicAwareness(actor);
         }
         break;
       default:

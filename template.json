@@ -4131,6 +4131,21 @@
         "base": 0,
         "modifiers": []
       },
+      "streetCred": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "notoriety": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "publicAwareness": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "specialAttributes": {
         "edge": {
           "natural": {
