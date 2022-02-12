@@ -5211,6 +5211,7 @@
       "itemLanguage",
       "itemLifestyle",
       "itemMark",
+      "itemMartialArt",
       "itemMetamagic",
       "itemEcho",
       "itemNuyen",
@@ -5659,6 +5660,14 @@
     "itemMark": {
       "value": 0,
       "owner": ""
+    },
+    "itemMartialArt": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation"
+      ],
+      "rank": 0
     },
     "itemMetamagic": {
       "templates": [

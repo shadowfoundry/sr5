@@ -1,0 +1,37 @@
+<form class="{{cssClass}}" autocomplete="off">
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header-simple.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+			<section class="sr-tabs">
+
+				<!-- SUMMARY TAB-->
+				<div class="tab grid" data-group="primary" data-tab="tab-info">
+					<div class="col-12">
+						<ul>
+					<!-- General information title -->
+					{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+					<!-- Type -->
+					{{> systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html}}
+				</ul>
+
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+					</div>
+				</div>
+
+				<!-- CUSTOM EFFECTS -->
+				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
+					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+				</div>
+
+			</section>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer-simple.html}}
+
+	</div>
+</form> 
