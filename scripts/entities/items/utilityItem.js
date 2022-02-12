@@ -59,6 +59,9 @@ export class SR5_UtilityItem extends Actor {
       case "itemMetamagic":
         displayName = game.i18n.localize("SR5.MetamagicNew");
         break;
+      case "itemMartialArt":
+        displayName = game.i18n.localize("SR5.MartialArtNew");
+      break;
       case "itemContact":
         displayName = game.i18n.localize("SR5.ContactNew");
         break;

@@ -116,6 +116,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const sins = [];
     const vehicles = [];
     const marks = [];
+    const martialArts = []
     const powers = [];
     const preparations = [];
     const complexForms = [];
@@ -147,6 +148,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemSin") sins.push(i);
       else if (i.type === "itemVehicle") vehicles.push(i);
       else if (i.type === "itemMark") marks.push(i);
+      else if (i.type === "itemMartialArt") martialArts.push(i);
       else if (i.type === "itemPower") powers.push(i);
       else if (i.type === "itemPreparation") preparations.push(i);
       else if (i.type === "itemComplexForm") complexForms.push(i);
@@ -178,6 +180,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.sins = sins;
     actor.vehicles = vehicles;
     actor.marks = marks;
+    actor.martialArts = martialArts;
     actor.powers = powers;
     actor.preparations = preparations;
     actor.complexForms = complexForms;
