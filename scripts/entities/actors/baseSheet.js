@@ -839,7 +839,7 @@ export class ActorSheetSR5 extends ActorSheet {
         actorId: actor,
       });
     } else {  
-      SR5Actor.deleteItemFromPan(itemId, index, actor);
+      SR5Actor.deleteItemFromPan(itemId, actor, index);
     }
   }
 

@@ -104,7 +104,8 @@ export class SR5_RollMessage {
                         || messageData.typeSub === "spoofCommand"
                         || messageData.typeSub === "bruteForce"
                         || messageData.typeSub === "rebootDevice")
-                        && (actor.data.type !== "actorDevice" && actor.data.type !== "actorSprite" && actor.data.type !== "actorDrone" && actor.data.type !== "actorAgent")){
+                        && (actor.data.type !== "actorDevice" && actor.data.type !== "actorSprite" && actor.data.type !== "actorDrone" && actor.data.type !== "actorAgent")
+                        && (actor.data.data.matrix.pan.content.length)){
                         SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
                     } else {
                         actor.rollTest("matrixDefense", messageData.typeSub, messageData);
