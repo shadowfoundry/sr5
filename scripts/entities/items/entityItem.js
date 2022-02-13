@@ -113,7 +113,9 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
         data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
-        if (itemData.type !== "livingPersona" || itemData.type !== "headcase") data.pan.max = data.deviceRating * 3;
+        if ((data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) && (data.type !== "baseDevice")) {
+          data.isActive = false;
+        }
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemFocus":

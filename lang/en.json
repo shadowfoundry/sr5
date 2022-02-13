@@ -1951,6 +1951,7 @@
   "SR5.HELP_BoundedButtonMsg"                 : "Click to bound or unbound spirit.",
   "SR5.HELP_BrickedItem"                      : "{key} is bricked",
   "SR5.HELP_BrickedItemMsg"                   : "Reduce damage track to be able to reactivate wifi.",
+  "SR5.HELP_BrickedDeviceMsg"                 : "Reduce damage track to be able to reactivate item.",
   "SR5.HELP_CalculationBase"                  : "Base",
   "SR5.HELP_CalculationDetails"               : "Calculation Details",
   "SR5.HELP_CalculationTotal"                 : "Total",
