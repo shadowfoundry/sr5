@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -389,6 +389,7 @@ export class SR5_Dice {
 		cardData.button.iceEffect = false;
 		cardData.button.summonSpirit = false;
 		cardData.button.compileSprite = false;
+		cardData.button.spriteDefense = false;
 		cardData.button.extended = false;
 
 		if (cardData.extendedTest){
@@ -494,6 +495,9 @@ export class SR5_Dice {
 				SR5_Dice.addEraseMarkInfoToCard(cardData, author);
 			case "overwatchResistance":
 				SR5_Dice.addOverwatchResistanceInfoToCard(cardData, author);
+			case "decompilingResistance":
+				SR5_Dice.addDecompilingResistanceInfoToCard(cardData, author);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -1016,6 +1020,10 @@ export class SR5_Dice {
 			cardData.invocaAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
+		if (cardData.typeSub === "decompileSprite"){
+			cardData.button.spriteDefense = true;
+			cardData.invocaAuthor = cardData.speakerId;
+		}
 	}
 
 	static async addCompilingResistanceInfoToCard(cardData, author){ 
@@ -1093,5 +1101,21 @@ export class SR5_Dice {
 		if (cardData.test.hits > 0) cardData.button.overwatch = true;
 		if (cardData.test.hits < cardData.hits) cardData.button.actionEndTitle = `${game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreSuccess")} ${currentOS}`;
 		else cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreFailed");
+	}
+
+	static async addDecompilingResistanceInfoToCard(cardData, author){
+		let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.invocaAuthor);
+		if (cardData.test.hits < cardData.hits) {
+			cardData.netHits = cardData.test.hits - cardData.hits;
+			cardData.button.reduceTask = true;
+
+		} else {
+			cardData.button.removeTask = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.ResistDecompilingSuccess");
+		}
+		if (cardData.test.hits > 0){
+
+		}
 	}
 }

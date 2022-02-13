@@ -126,6 +126,11 @@ export class SR5_RollMessage {
                 case "msgTest_sensorDefense":
                     actor.rollTest("activeSensorDefense", null, messageData);
                     break;
+                case "msgTest_spriteDefense":
+                    console.log("hu");
+                    actor.rollTest("decompilingResistance", null, messageData);
+                    break;
+                        
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatListeners`);
             }
@@ -329,9 +334,13 @@ export class SR5_RollMessage {
                 case "msgTest_checkOverwatchScore":
                     SR5_DiceHelper.rollOverwatchDefense(messageData);
                     SR5_RollMessage.updateChatButton(message, "checkOverwatchScoreDefense");
+                    break;
                 case "msgTest_jamSignal":
                     SR5_DiceHelper.jamSignals(messageData);
                     SR5_RollMessage.updateChatButton(message, "matrixJamSignals");
+                    break;
+                case "msgTest_reduceTask":
+                    SR5_DiceHelper.reduceSpriteTask(messageData);
                 default:
             }
         }
@@ -357,6 +366,11 @@ export class SR5_RollMessage {
                 newMessage.button.actionEnd = true;
                 newMessage.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionEraseMarkSuccess");
                 break;
+            case "reduceTask":
+                newMessage.button.actionEnd = true;
+                if ((newMessage.actor.data.tasks.value + newMessage.netHits) <= 0 ) {
+                    newMessage.button.actionEndTitle = game.i18n.localize("SR5.DecompiledSprite");
+                } else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_TasksReduced', {task: newMessage.netHits})}`;
             default:
         }
         SR5_RollMessage.updateRollCard(message, newMessage);     
