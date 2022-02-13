@@ -423,6 +423,7 @@ export class SR5Actor extends Actor {
           }
           break;
 
+        case "itemMartialArt":
         case "itemPreparation":
           if (iData.isActive && Object.keys(iData.customEffects)) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
