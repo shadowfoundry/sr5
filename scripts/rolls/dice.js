@@ -831,7 +831,7 @@ export class SR5_Dice {
 			cardData.button.linklock = false;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
-		SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
+		if (cardData.originalMessage.data?.flags?.sr5data?.button?.matrixResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
 	}
 	
 	static async addMatrixIceAttackInfoToCard(cardData, author){
