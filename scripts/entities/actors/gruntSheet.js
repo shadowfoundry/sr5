@@ -102,6 +102,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     const spells = [];
     const focuses = [];
     const adeptPowers = [];
+    const martialArts = [];
     const metamagics = [];
     const gears = [];
     const spirits = [];
@@ -128,6 +129,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
       else if (i.type === "itemArmor") armors.push(i);
       else if (i.type === "itemAugmentation") augmentations.push(i);
       else if (i.type === "itemAdeptPower") adeptPowers.push(i);
+      else if (i.type === "itemMartialArt") martialArts.push(i);
       else if (i.type === "itemMetamagic") metamagics.push(i);
       else if (i.type === "itemGear") gears.push(i);
       else if (i.type === "itemSpirit") spirits.push(i);
@@ -154,6 +156,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     actor.spells = spells;
     actor.focuses = focuses;
     actor.adeptPowers = adeptPowers;
+    actor.martialArts = martialArts;
     actor.metamagics = metamagics;
     actor.spirits = spirits;
     actor.gears = gears;
