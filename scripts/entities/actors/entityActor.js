@@ -1324,26 +1324,42 @@ export class SR5Actor extends Actor {
     await SR5Actor.addItemtoPan(message.data.targetItem, message.data.actorId);
   }
 
-  static async deleteItemFromPan(targetItem, index, actorId){
+  static async deleteItemFromPan(targetItem, actorId, index){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
         deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
-        item = await fromUuid(targetItem),
-        newItem = duplicate(item.data.data);
-
-    newItem.isSlavedToPan = false;
-    newItem.panMaster = "";
-    await item.update({"data": newItem,});
+        item = await fromUuid(targetItem);
+        
+    if (item) {
+      let newItem = duplicate(item.data.data);
+      newItem.isSlavedToPan = false;
+      newItem.panMaster = "";
+      await item.update({"data": newItem,});
+    }
 
     let currentPan = duplicate(deck.data.data.pan);
-    currentPan.content.splice(index, 1)
-    currentPan.current -=1;
+    if (index){
+      currentPan.content.splice(index, 1);
+      currentPan.current -=1;
+    } else {
+      index = 0;
+      let isExisting;
+      for (let p of currentPan.content){
+        isExisting = await fromUuid(p.uuid);
+        if (!isExisting){
+          currentPan.content.splice(index, 1);
+          currentPan.current -=1;
+          index--;
+        }
+        index++;
+      }
+    }
+    
     await deck.update({"data.pan": currentPan,});
   }
 
   static async _socketDeleteItemFromPan(message){
-    await SR5Actor.deleteItemFromPan(message.data.targetItem, message.data.index, message.data.actorId);
+    await SR5Actor.deleteItemFromPan(message.data.targetItem, message.data.actorId, message.data.index);
   }
-
 }
 
 CONFIG.Actor.documentClass = SR5Actor;
