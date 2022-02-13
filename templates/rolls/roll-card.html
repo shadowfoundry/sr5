@@ -177,8 +177,19 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_createSpirit">{{localize 'SR5.SummonSpirit'}}</button>
       {{/if}}
 
+      <!-- COMPILE SPRITE -->
       {{#if button.compileSprite}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_createSprite">{{localize 'SR5.CompileSprite'}}</button>
+      {{/if}}
+
+      <!-- DECOMPILE SPRITE -->
+      {{#if button.spriteDefense}}
+      <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="msgTest_spriteDefense">{{localize 'SR5.SpriteResistance'}}</button>
+      {{/if}}
+
+      <!-- REMOVE TASK FROM SPRITE -->
+      {{#if button.reduceTask}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reduceTask">{{localize 'SR5.ReduceTask'}} ({{netHits}})</button>
       {{/if}}
 
       {{#if button.matrixResistance}}

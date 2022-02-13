@@ -983,6 +983,16 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+            case "decompilingResistance":
+                title = `${game.i18n.localize("SR5.ResistDecompiling")}`; 
+                dicePool = actorData.level;
+                if (actorData.isRegistered) dicePool += actorData.compilerResonance;
+                console.log(chatData);
+                optionalData = {
+                    invocaAuthor: chatData.invocaAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
             default:
         }
 
