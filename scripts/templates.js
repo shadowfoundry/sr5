@@ -135,6 +135,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html",
 
     //Right Tab - Gear partials
     "systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.html",
