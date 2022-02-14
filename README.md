@@ -50,6 +50,7 @@ The system is heavily automatised, main features are:
 - Knowledge skill
 - Language skill
 - Lifestyle
+- Martial arts
 - Metamagic
 - Echo
 - Nuyen
@@ -57,6 +58,7 @@ The system is heavily automatised, main features are:
 - Preparation
 - Program (hacking, autosoft...)
 - Quality
+- Reputation
 - Sin
 - Spell
 - Spirit
