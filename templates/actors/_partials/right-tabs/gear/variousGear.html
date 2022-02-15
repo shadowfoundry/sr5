@@ -116,6 +116,14 @@
 						{{/if}}
 					</div>
 					{{else}}
+					{{#if (gte data.conditionMonitors.matrix.current data.conditionMonitors.matrix.value)}}
+					<div class="col-6 SR-TextCenter"
+					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
+					>
+					<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
+					</div>
+					{{else}}
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
 						{{#if data.wirelessTurnedOn}}
 						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
@@ -127,6 +135,7 @@
 						</a>
 						{{/if}}
 					</div>
+					{{/if}}
 					{{/if}}
 				</div>
 			</div>
@@ -152,11 +161,20 @@
 							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
+					{{#if (gte ../data.conditionMonitors.matrix.current ../data.conditionMonitors.matrix.value)}}
+					<div class="col-6 SR-TextCenter"
+					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
+					>
+					<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
+					</div>
+					{{else}}
 					<div class="col-6">
 						<p class="SR-TextCenter">
 							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
+					{{/if}}
 				</div>
 			</div>
 			<div class="col-1">

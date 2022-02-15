@@ -421,6 +421,15 @@ export class SR5_DiceHelper {
         let newItem = duplicate(targetItem.data);
         if (targetActor.data.data.matrix.programs.virtualMachine.isActive) damageValue += 1;
         newItem.data.conditionMonitors.matrix.current += damageValue;
+        if (newItem.data.conditionMonitors.matrix.current >= newItem.data.conditionMonitors.matrix.value){
+            if (targetActor.data.data.matrix.userMode !== "ar"){
+                let dumpshockData = {damageResistanceType: "dumpshock"};
+                targetActor.rollTest("resistanceCard", null, dumpshockData);
+                ui.notifications.info(`${targetActor.name} ${game.i18n.localize("SR5.INFO_IsDisconnected")}.`);
+            }
+            newItem.data.isActive = false;
+            newItem.data.wirelessTurnedOn = false;
+          }
         targetItem.update(newItem);
 
         if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 

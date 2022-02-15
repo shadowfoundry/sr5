@@ -276,6 +276,20 @@ export const registerHooks = function () {
         SR5_EffectArea.onJamEnd(actorID);
       }
     }
+    //Remove isSlavedToPan switch if PAN master is deleted
+    if (item.data.data.pan?.content?.length){
+      for (let i of item.data.data.pan.content){
+        let panItem = await fromUuid(i.uuid);
+        let newItem = duplicate(panItem.data.data);
+        newItem.isSlavedToPan = false;
+        newItem.panMaster = "";
+        await panItem.update({"data": newItem,});
+      }
+    }
+    //Remove item from PAN if it was slaved
+    if (item.data.data.isSlavedToPan){
+      SR5Actor.deleteItemFromPan(item.uuid, item.data.data.panMaster, null);
+    }
   });
 
   Hooks.on("deleteActiveEffect", (effect) =>{

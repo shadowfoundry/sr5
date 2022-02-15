@@ -43,32 +43,37 @@
 				</div>
 				<div class="col-1">
 					<div class="grid">
-						<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
-							<p class="SR-TextCenter">
-								{{#if data.isActive}}
-								<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
-									<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
-								</a>
-								{{else}}
-								<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
-									<em class="fas fa-sm fa-thumbtack"></em>
-								</a>
-								{{/if}}
-							</p>
+						{{#if (gte data.conditionMonitors.matrix.current data.conditionMonitors.matrix.value)}}
+						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}" data-helpMessage="{{localize 'SR5.HELP_BrickedDeviceMsg'}}">
+							<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
 						</div>
-						<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
-							<p class="SR-TextCenter">
-								{{#if data.wirelessTurnedOn}}
-								<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
-									<em class="fas fa-sm fa-wifi SR-SubColor"></em>
-								</a>
-								{{else}}
-								<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
-									<em class="fas fa-sm fa-wifi"></em>
-								</a>
-								{{/if}}
-							</p>
+						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}" data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}">
+							<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
 						</div>
+						{{else}}
+						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+							{{#if data.isActive}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+								<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
+							</a>
+							{{else}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+								<em class="fas fa-sm fa-thumbtack"></em>
+							</a>
+							{{/if}}
+						</div>
+						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
+							{{#if data.wirelessTurnedOn}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
+								<em class="fas fa-sm fa-wifi SR-SubColor"></em>
+							</a>
+							{{else}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
+								<em class="fas fa-sm fa-wifi"></em>
+							</a>
+							{{/if}}
+						</div>
+						{{/if}}
 					</div>
 				</div>
 				<div class="col-1 grid SR-TextRight">

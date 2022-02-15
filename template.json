@@ -2995,6 +2995,11 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "notoriety":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },
@@ -5667,6 +5672,7 @@
         "templateCustomEffects",
         "templateActivation"
       ],
+      "actionType": "",
       "rank": 0
     },
     "itemMetamagic": {

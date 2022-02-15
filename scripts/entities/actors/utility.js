@@ -496,8 +496,25 @@ export class SR5_CharacterUtility extends Actor {
 
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
+    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.Karma')}`, `${game.i18n.localize('SR5.Karma')}`, Math.round(actor.data.karma.value/10), false, false);
   }
 
+<<<<<<< Updated upstream
+=======
+  static updateStreetCred(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.streetCred);
+  }
+
+  static updateNotoriety(actor) {
+    if (actor.data.specialProperties.notoriety.value) SR5_EntityHelpers.updateModifier(actor.data.notoriety, `${game.i18n.localize('SR5.ReputationNotoriety')}`, `${game.i18n.localize('SR5.Qualities')}`, actor.data.specialProperties.notoriety.value);
+    SR5_EntityHelpers.updateValue(actor.data.notoriety);
+  }
+
+  static updatePublicAwareness(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.publicAwareness);
+  }
+
+>>>>>>> Stashed changes
   static updatePenalties(actor) {
     if (!actor) { SR5_SystemHelpers.srLog(1, `Missing or invalid actor in call to 'updatePenalties()'`); return; }
     if (!actor.data.penalties) { SR5_SystemHelpers.srLog(1, `No penalties properties for '${actor.name}' actor in call to 'updatePenalties()'`); return; }
