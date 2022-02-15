@@ -1262,7 +1262,7 @@
   "SR5.ReloadingBelt"                         : "Bande",
   "SR5.ReloadingBreakAction"                  : "Canon basculant",
   "SR5.ReloadingClip"                         : "Chargeur",
-  "SR5.ReloadingCyclinder"                    : "Barillet",
+  "SR5.ReloadingCylinder"                     : "Barillet",
   "SR5.ReloadingDrum"                         : "Tambour",
   "SR5.ReloadingInternalMag"                  : "Magasin interne",
   "SR5.ReloadingMethod"                       : "Méthode de rechargement",
