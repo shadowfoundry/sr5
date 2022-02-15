@@ -135,6 +135,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html",
 
     //Right Tab - Gear partials
     "systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.html",
@@ -172,6 +173,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/right-tabs/social/contacts.html",
     "systems/sr5/templates/actors/_partials/right-tabs/social/lifestyles.html",
     "systems/sr5/templates/actors/_partials/right-tabs/social/sins.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/social/reputation.html",
 
     //Right Tab - Bio partials
     "systems/sr5/templates/actors/_partials/right-tabs/biography/biography.html",
