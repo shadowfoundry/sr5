@@ -5687,6 +5687,7 @@
         "templateCustomEffects",
         "templateActivation"
       ],
+      "actionType": "",
       "rank": 0
     },
     "itemMetamagic": {

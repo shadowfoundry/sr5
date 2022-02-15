@@ -1157,7 +1157,6 @@ wrestlingsumo : "SR5.martialArtsTypewrestlingsumo",
 wudangsword : "SR5.martialArtsTypewudangsword",
 };
 
-
 //-----------------------------------//
 //             MATRIX                //
 //-----------------------------------//
