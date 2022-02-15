@@ -104,6 +104,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const spells = [];
     const focuses = [];
     const adeptPowers = [];
+    const martialArts = [];
     const metamagics = [];
     const gears = [];
     const spirits = [];
@@ -116,6 +117,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const sins = [];
     const vehicles = [];
     const marks = [];
+    const martialArts = []
     const powers = [];
     const preparations = [];
     const complexForms = [];
@@ -135,6 +137,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemArmor") armors.push(i);
       else if (i.type === "itemAugmentation") augmentations.push(i);
       else if (i.type === "itemAdeptPower") adeptPowers.push(i);
+      else if (i.type === "itemMartialArt") martialArts.push(i);
       else if (i.type === "itemMetamagic") metamagics.push(i);
       else if (i.type === "itemGear") gears.push(i);
       else if (i.type === "itemSpirit") spirits.push(i);
@@ -147,6 +150,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemSin") sins.push(i);
       else if (i.type === "itemVehicle") vehicles.push(i);
       else if (i.type === "itemMark") marks.push(i);
+      else if (i.type === "itemMartialArt") martialArts.push(i);
       else if (i.type === "itemPower") powers.push(i);
       else if (i.type === "itemPreparation") preparations.push(i);
       else if (i.type === "itemComplexForm") complexForms.push(i);
@@ -166,6 +170,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.spells = spells;
     actor.focuses = focuses;
     actor.adeptPowers = adeptPowers;
+    actor.martialArts = martialArts;
     actor.metamagics = metamagics;
     actor.spirits = spirits;
     actor.gears = gears;
@@ -178,6 +183,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.sins = sins;
     actor.vehicles = vehicles;
     actor.marks = marks;
+    actor.martialArts = martialArts;
     actor.powers = powers;
     actor.preparations = preparations;
     actor.complexForms = complexForms;

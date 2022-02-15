@@ -430,8 +430,6 @@ SR5.lifestyleOptions = {
   dangerousArea             : "SR5.LifeStyleOptionDangerousArea",
 };
 
-<<<<<<< Updated upstream
-=======
 // Reputation
 
 SR5.reputationTypes = {
@@ -440,7 +438,6 @@ SR5.reputationTypes = {
   publicAwareness           : "SR5.ReputationPublicAwareness",
 }
 
->>>>>>> Stashed changes
 //-----------------------------------//
 //            WEAPONS                //
 //-----------------------------------//
@@ -1159,8 +1156,6 @@ wrestlingsport : "SR5.martialArtsTypewrestlingsport",
 wrestlingsumo : "SR5.martialArtsTypewrestlingsumo",
 wudangsword : "SR5.martialArtsTypewudangsword",
 };
-
-
 
 //-----------------------------------//
 //             MATRIX                //
