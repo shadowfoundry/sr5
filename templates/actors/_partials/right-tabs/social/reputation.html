@@ -1,0 +1,31 @@
+<!-- REPUTATION -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-12 SR-TextUppercase">{{localize 'SR5.CharacterReputation'}}</div>
+		</li>
+		<li class="grid">
+			<div class="col-12"></div>
+		</li>
+		<li class="grid">
+			<div class="col-3 SR-TextRight">{{localize 'SR5.ReputationStreetCred'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold changeValueByClick" data-binding="data.streetCred.base"
+  data-helpTitle="{{localize 'SR5.HELP_ReputationStreetCredEdit'}}"
+  data-helpMessage="{{localize 'SR5.HELP_ReputationStreetCredEditMsg'}}">
+    {{data.streetCred.value}}
+			</div>
+			<div class="col-3 SR-TextRight">{{localize 'SR5.ReputationNotoriety'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold changeValueByClick" data-binding="data.notoriety.base"
+  data-helpTitle="{{localize 'SR5.HELP_ReputationNotorietyEdit'}}"
+  data-helpMessage="{{localize 'SR5.HELP_ReputationNotorietyEditMsg'}}">
+    {{data.notoriety.value}}
+			</div>
+			<div class="col-3 SR-TextRight">{{localize 'SR5.ReputationPublicAwareness'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold changeValueByClick" data-binding="data.publicAwareness.base"
+  data-helpTitle="{{localize 'SR5.HELP_ReputationPublicAwarenessEdit'}}"
+  data-helpMessage="{{localize 'SR5.HELP_ReputationPublicAwarenessEditMsg'}}">
+    {{data.publicAwareness.value}}
+			</div>
+		</li>
+	</ul>
+</div>

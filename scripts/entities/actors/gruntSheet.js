@@ -215,6 +215,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
         break;
       case "itemAdeptPower":
       case "itemPower":
+      case "itemMartialArt" :  
         if (itemData.data.actionType === "permanent") itemData.data.isActive = true;
         return super._onDropItemCreate(itemData);
         break;
