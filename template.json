@@ -931,7 +931,34 @@
             "skillGroup": "enchantingGroup",
             "category": "magicSkills",
             "canDefault": false,
-            "specializations": ""
+            "specializations": "",
+            "spellCategory": {
+              "combat": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "detection": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "illusion": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "manipulation": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "health": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
           },
           "pilotAircraft": {
             "rating": {
@@ -4481,7 +4508,10 @@
       "summonerMagic": 0,
       "creatorId": "",
       "creatorItemId": "",
-      "isBounded": false
+      "isBounded": false,
+      "magic": {
+        "tradition": ""
+        }
     },
     "actorDrone": {
       "templates": [
@@ -5587,6 +5617,9 @@
       },
       "isBounded": false,
       "summonerMagic": 0,
+      "magic": {
+        "tradition": ""
+      },
       "isCreated": false,
       "attributes": {
         "body": 0,

@@ -248,6 +248,7 @@ export class SR5_CharacterUtility extends Actor {
             case "spellcasting":
             case "counterspelling":
             case "ritualSpellcasting":
+            case "alchemy": 
               for (let category of Object.keys(lists.spellCategories)) {
                 if (data.skills[key].spellCategory[category]) {
                   data.skills[key].spellCategory[category].base = 0;
@@ -1797,6 +1798,7 @@ export class SR5_CharacterUtility extends Actor {
     skills.astralCombat.rating.base = data.force.value;
     skills.assensing.rating.base = data.force.value;
     skills.perception.rating.base = data.force.value;
+    data.magic.tradition = actor.data.magic.tradition;
 
     switch (data.type) {
       case "homunculus":
@@ -2052,9 +2054,14 @@ export class SR5_CharacterUtility extends Actor {
           data.skills.ritualSpellcasting.spellCategory[key].base = data.skills.ritualSpellcasting.rating.base;
           data.skills.ritualSpellcasting.spellCategory[key].modifiers = data.skills.ritualSpellcasting.spellCategory[key].modifiers.concat(data.skills.ritualSpellcasting.test.modifiers);
         }
+        if (data.skills.alchemy.rating.value > 0) {
+          data.skills.alchemy.spellCategory[key].base = data.skills.alchemy.rating.base;
+          data.skills.alchemy.spellCategory[key].modifiers = data.skills.alchemy.spellCategory[key].modifiers.concat(data.skills.alchemy.test.modifiers);
+        }
         SR5_EntityHelpers.updateDicePool(data.skills.spellcasting.spellCategory[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.counterspelling.spellCategory[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.ritualSpellcasting.spellCategory[key], 0);
+        SR5_EntityHelpers.updateDicePool(data.skills.alchemy.spellCategory[key], 0);
       }
 
       for (let key of Object.keys(lists.spiritTypes)) {
