@@ -993,6 +993,15 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+            case "registeringResistance":
+                if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
+                title = game.i18n.localize("SR5.ResistRegistering"); 
+                dicePool = actorData.level * 2;
+                optionalData = {
+                    invocaAuthor: chatData.invocaAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
             default:
         }
 

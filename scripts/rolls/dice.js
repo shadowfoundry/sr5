@@ -389,7 +389,7 @@ export class SR5_Dice {
 		cardData.button.iceEffect = false;
 		cardData.button.summonSpirit = false;
 		cardData.button.compileSprite = false;
-		cardData.button.spriteDefense = false;
+		cardData.button.spriteDecompileDefense = false;
 		cardData.button.extended = false;
 
 		if (cardData.extendedTest){
@@ -497,6 +497,9 @@ export class SR5_Dice {
 				SR5_Dice.addOverwatchResistanceInfoToCard(cardData, author);
 			case "decompilingResistance":
 				SR5_Dice.addDecompilingResistanceInfoToCard(cardData, author);
+				break;
+			case "registeringResistance":
+				SR5_Dice.addRegisteringResistanceInfoToCard(cardData, author);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
@@ -1022,7 +1025,11 @@ export class SR5_Dice {
 			cardData.hits = cardData.test.hits;
 		}
 		if (cardData.typeSub === "decompileSprite"){
-			cardData.button.spriteDefense = true;
+			cardData.button.spriteDecompileDefense = true;
+			cardData.invocaAuthor = cardData.speakerId;
+		}
+		if (cardData.typeSub === "registerSprite"){
+			cardData.button.spriteRegisterDefense = true;
 			cardData.invocaAuthor = cardData.speakerId;
 		}
 	}
@@ -1106,8 +1113,8 @@ export class SR5_Dice {
 
 	static async addDecompilingResistanceInfoToCard(cardData, author){
 		let newMessage = duplicate(cardData.originalMessage.flags.sr5data);
-        if (newMessage.button.spriteDefense) newMessage.button.spriteDefense = !newMessage.button.spriteDefense;
-
+        if (newMessage.button.spriteDecompileDefense) newMessage.button.spriteDecompileDefense = !newMessage.button.spriteDecompileDefense;
+		cardData.button.fadingResistance = false;
 		if (cardData.test.hits < cardData.hits) {
 			cardData.netHits = cardData.test.hits - cardData.hits;
 			cardData.button.reduceTask = true;
@@ -1115,6 +1122,30 @@ export class SR5_Dice {
 			cardData.button.reduceTask = false;
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.ResistDecompilingSuccess");
+		}
+		if (cardData.test.hits > 0){
+			if (!newMessage.button.fadingResistanceActive){
+				newMessage.button.fadingResistance = !newMessage.button.fadingResistance;
+				newMessage.button.fadingResistanceActive = true;
+			}
+			newMessage.fadingValue = cardData.test.hits;
+		}
+		
+		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
+	}
+
+	static async addRegisteringResistanceInfoToCard(cardData, author){
+		let newMessage = duplicate(cardData.originalMessage.flags.sr5data);
+        if (newMessage.button.spriteRegisterDefense) newMessage.button.spriteRegisterDefense = !newMessage.button.spriteRegisterDefense;
+		cardData.button.fadingResistance = false;
+
+		if (cardData.test.hits < cardData.hits) {
+			cardData.netHits = cardData.hits - cardData.test.hits;
+			cardData.button.registerSprite = true;
+		} else {
+			cardData.button.registerSprite = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.RegisteringFailed");
 		}
 		if (cardData.test.hits > 0){
 			if (!newMessage.button.fadingResistanceActive){
