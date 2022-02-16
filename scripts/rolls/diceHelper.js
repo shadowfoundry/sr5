@@ -1025,6 +1025,15 @@ export class SR5_DiceHelper {
         }
         await actor.update({'data': data});
         ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
-        if (cardData.originalMessage.flags.sr5data.button.reduceTask) SR5_RollMessage.updateChatButton(message.originalMessage, "reduceTask");
+    }
+
+    static async registerSprite(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
+        let data = duplicate(actor.data.data);
+        data.isRegistered = true;
+        data.tasks.value += message.netHits;
+        data.tasks.max += message.netHits;
+        await actor.update({'data': data});
+        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
     }
 }

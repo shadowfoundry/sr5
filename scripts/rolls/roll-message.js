@@ -133,10 +133,12 @@ export class SR5_RollMessage {
                 case "msgTest_sensorDefense":
                     actor.rollTest("activeSensorDefense", null, messageData);
                     break;
-                case "msgTest_spriteDefense":
+                case "msgTest_spriteDecompileDefense":
                     actor.rollTest("decompilingResistance", null, messageData);
                     break;
-                        
+                case "msgTest_spriteRegisterDefense":
+                    actor.rollTest("registeringResistance", null, messageData);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatListeners`);
             }
@@ -347,6 +349,12 @@ export class SR5_RollMessage {
                     break;
                 case "msgTest_reduceTask":
                     SR5_DiceHelper.reduceSpriteTask(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reduceTask");
+                    break;
+                case "msgTest_registerSprite":
+                    SR5_DiceHelper.registerSprite(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "registerSprite");
+                    break;
                 default:
             }
         }
