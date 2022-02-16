@@ -235,6 +235,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/summary/drug-summary.html",
         "systems/sr5/templates/items/_partial/summary/focus-summary.html",
         "systems/sr5/templates/items/_partial/summary/lifestyle-summary.html",
+        "systems/sr5/templates/items/_partial/summary/martialArt-summary.html",
         "systems/sr5/templates/items/_partial/summary/power-summary.html",
         "systems/sr5/templates/items/_partial/summary/preparation-summary.html",
         "systems/sr5/templates/items/_partial/summary/program-summary.html",
