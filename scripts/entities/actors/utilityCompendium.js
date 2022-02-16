@@ -11,7 +11,7 @@ export class SR5_CompendiumUtility extends Actor {
 		let language = await game.settings.get("core", "language");
 		if (!language) SR5_SystemHelpers.srLog(0, "Could not determine core language used in getBaseItems()");
 
-		let compendiumName = `sr5.${language}_${compendium}`;
+		let compendiumName = `sr5-Item-Full-${language}.${language}_${compendium}`;
 		const compendiumPack = game.packs.find((p) => p.collection == compendiumName);
 		if (!compendiumPack){
 	  		SR5_SystemHelpers.srLog(1, `No compendium named '${compendiumName}' found, could not add items to actor`);
