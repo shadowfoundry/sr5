@@ -420,6 +420,7 @@
   "SR5.DeckTypeHeadcase"                      : "Headcase",
   "SR5.DeckTypeLivingPersona"                 : "Living Persona",
   "SR5.DeckTypeRiggerCommandConsole"          : "Rigger Command Console",
+  "SR5.DecompiledSprite"                      : "Sprite is decompiled",
   "SR5.Defaulting"                            : "Defaulting",
   "SR5.Defend"                                : "Defend",
   "SR5.DefendingIndirectSpell"                : "Defending (Indirect Spell)",
@@ -1253,6 +1254,7 @@
   "SR5.Recoil"                                : "Recoil",
   "SR5.RecoilCompensation"                    : "Recoil Compensation",
   "SR5.RecoilCompensationShort"               : "RC",
+  "SR5.ReduceTask"                            : "Reduce Tasks",
   "SR5.Registered"                            : "Registered",
   "SR5.RegisteredSprite"                      : "Registered sprite",
   "SR5.ReloadingBelt"                         : "Belt Fed",
@@ -1279,6 +1281,8 @@
   "SR5.ResistDrain"                           : "Resist Drain",
   "SR5.ResistDumpshock"                       : "Resist to Dumpshock",
   "SR5.Resisted"                              : "Resisted !",
+  "SR5.ResistDecompiling"                     : "Resist Decompiling",
+  "SR5.ResistDecompilingSuccess"              : "Resist Decompiling successful",
   "SR5.ResistFading"                          : "Resist Fading",
   "SR5.ResistMatrixDamage"                    : "Resist Matrix Damage",
   "SR5.Resonance"                             : "Resonance",
@@ -2308,9 +2312,11 @@
   "SR5.INFO_NoMarksToDelete"                  : "no Marks to delete",
   "SR5.INFO_IsLinkLocked"                     : "is link-locked by",
   "SR5.INFO_IsDisconnected"                   : "is disconnected",
+  "SR5.INFO_TasksReduced"                     : "tasks reduced by {task}",
   "SR5.WARN_NoForce"                          : "You don't have declared Force. Magic is applied by default.",
   "SR5.WARN_NoLevel"                          : "You don't have declared Level. Resonance is applied by default.",
   "SR5.WARN_NoActor"                          : "You must select an Actor first.",
   "SR5.WARN_NoActiveScene"                    : "No active scene !",
-  "SR5.WARN_NoTemplateInScene"                : "No template in scene !"
+  "SR5.WARN_NoTemplateInScene"                : "No template in scene !",
+  "SR5.WARN_NotASprite"                       : "You must select a sprite !"
 }
