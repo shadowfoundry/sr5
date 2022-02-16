@@ -2317,5 +2317,6 @@
   "SR5.WARN_NoLevel"                          : "You don't have declared Level. Resonance is applied by default.",
   "SR5.WARN_NoActor"                          : "You must select an Actor first.",
   "SR5.WARN_NoActiveScene"                    : "No active scene !",
-  "SR5.WARN_NoTemplateInScene"                : "No template in scene !"
+  "SR5.WARN_NoTemplateInScene"                : "No template in scene !",
+  "SR5.WARN_NotASprite"                       : "You must select a sprite !"
 }

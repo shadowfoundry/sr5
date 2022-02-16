@@ -1025,8 +1025,6 @@ export class SR5_DiceHelper {
         }
         await actor.update({'data': data});
         ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
-        SR5_RollMessage.updateChatButton(message.originalMessage, "reduceTask");
-        
-        //SR5_RollMessage.updateChatButton(message.originalMessage, "spriteDecompiled");
+        if (cardData.originalMessage.flags.sr5data.button.reduceTask) SR5_RollMessage.updateChatButton(message.originalMessage, "reduceTask");
     }
 }

@@ -984,10 +984,10 @@ export class SR5_Roll {
                 }
                 break;
             case "decompilingResistance":
-                title = `${game.i18n.localize("SR5.ResistDecompiling")}`; 
+                if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
+                title = game.i18n.localize("SR5.ResistDecompiling"); 
                 dicePool = actorData.level;
                 if (actorData.isRegistered) dicePool += actorData.compilerResonance;
-                console.log(chatData);
                 optionalData = {
                     invocaAuthor: chatData.invocaAuthor,
                     hits: chatData.test.hits,

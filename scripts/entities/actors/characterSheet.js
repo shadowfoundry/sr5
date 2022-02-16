@@ -104,7 +104,6 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const spells = [];
     const focuses = [];
     const adeptPowers = [];
-    const martialArts = [];
     const metamagics = [];
     const gears = [];
     const spirits = [];
