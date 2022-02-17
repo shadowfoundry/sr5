@@ -2324,6 +2324,105 @@ export class SR5_CharacterUtility extends Actor {
             magic.elements.health = "fire";
             magic.isPossessed = false;
             break;
+          case "norse":
+            magic.drainResistance.linkedAttribute = "charisma";
+            magic.elements.combat = "guardian";
+            magic.elements.detection = "earth";
+            magic.elements.illusion = "air";
+            magic.elements.manipulation = "fire";
+            magic.elements.health = "plant";
+            magic.isPossessed = false;
+            break;
+          case "cosmic":
+              magic.drainResistance.linkedAttribute = "logic";
+              magic.elements.combat = "earth";
+              magic.elements.detection = "guidance";
+              magic.elements.illusion = "air";
+              magic.elements.manipulation = "fire";
+              magic.elements.health = "water";
+              magic.isPossessed = false;
+              break;
+            case "elderGod":
+              magic.drainResistance.linkedAttribute = "intuition";
+              magic.elements.combat = "task";
+              magic.elements.detection = "guardian";
+              magic.elements.illusion = "fire";
+              magic.elements.manipulation = "water";
+              magic.elements.health = "earth";
+              magic.isPossessed = false;
+              break;
+            case "greenMagic":
+              magic.drainResistance.linkedAttribute = "charisma";
+              magic.elements.combat = "plant";
+              magic.elements.detection = "earth";
+              magic.elements.illusion = "air";
+              magic.elements.manipulation = "fire";
+              magic.elements.health = "water";
+              magic.isPossessed = false;
+              break;
+            case "missionists":
+              magic.drainResistance.linkedAttribute = "charisma";
+              magic.elements.combat = "man";
+              magic.elements.detection = "air";
+              magic.elements.illusion = "fire";
+              magic.elements.manipulation = "earth";
+              magic.elements.health = "water";
+              magic.isPossessed = false;
+              break;
+            case "necroMagic":
+              magic.drainResistance.linkedAttribute = "logic";
+              magic.elements.combat = "man";
+              magic.elements.detection = "beast";
+              magic.elements.illusion = "earth";
+              magic.elements.manipulation = "fire";
+              magic.elements.health = "plant";
+              magic.isPossessed = false;
+              break;
+            case "olympianism":
+              magic.drainResistance.linkedAttribute = "logic";
+              magic.elements.combat = "guardian";
+              magic.elements.detection = "air";
+              magic.elements.illusion = "water";
+              magic.elements.manipulation = "fire";
+              magic.elements.health = "earth";
+              magic.isPossessed = false;
+              break;
+            case "planarMagic":
+              magic.drainResistance.linkedAttribute = "logic";
+              magic.elements.combat = "guardian";
+              magic.elements.detection = "guidance";
+              magic.elements.illusion = "air";
+              magic.elements.manipulation = "task";
+              magic.elements.health = "water";
+              magic.isPossessed = false;
+              break;
+            case "redMagic":
+              magic.drainResistance.linkedAttribute = "intuition";
+              magic.elements.combat = "beast";
+              magic.elements.detection = "air";
+              magic.elements.illusion = "earth";
+              magic.elements.manipulation = "man";
+              magic.elements.health = "water";
+              magic.isPossessed = false;
+              break;
+            case "romani":
+              magic.drainResistance.linkedAttribute = "willpower";
+              magic.elements.combat = "fire";
+              magic.elements.detection = "air";
+              magic.elements.illusion = "water";
+              magic.elements.manipulation = "earth";
+              magic.elements.health = "plant";
+              magic.isPossessed = false;
+              break;
+            case "tarot":
+              magic.drainResistance.linkedAttribute = "logic";
+              magic.elements.combat = "air";
+              magic.elements.detection = "fire";
+              magic.elements.illusion = "man";
+              magic.elements.manipulation = "earth";
+              magic.elements.health = "water";
+              magic.isPossessed = false;
+              break;
           default:
             magic.drainResistance.linkedAttribute = null;
             magic.elements.combat = null;
