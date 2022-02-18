@@ -62,8 +62,8 @@ export default class SR5Template extends MeasuredTemplate {
     };
 
     // Cancel the workflow (right-click)
-    handlers.rc = (event) => {
-      this.layer.preview.removeChildren();
+    handlers.rc = event => {
+      this.layer._onDragLeftCancel(event);
       canvas.stage.off("mousemove", handlers.mm);
       canvas.stage.off("mousedown", handlers.lc);
       canvas.app.view.oncontextmenu = null;
@@ -78,7 +78,7 @@ export default class SR5Template extends MeasuredTemplate {
       // Confirm final snapped position
       const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2);
       this.data.update(destination);
-      await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [this.data]);
+      canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [this.data]);
       if (item.type === "itemWeapon"){
         item.rollTest("weapon");
         if (this.actorSheet._minimized) this.actorSheet.maximize();
