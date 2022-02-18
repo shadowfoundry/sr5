@@ -434,6 +434,7 @@ export class SR5_RollMessage {
             ["data.services.max"]: messageData.hits - messageData.test.hits,
             ["data.services.value"]: messageData.hits - messageData.test.hits,
             ["data.summonerMagic"]: messageData.actor.data.specialAttributes.magic.augmented.value,
+            ["data.magic.tradition"]: messageData.actor.data.magic.tradition,
         };
         return spirit;
     }
