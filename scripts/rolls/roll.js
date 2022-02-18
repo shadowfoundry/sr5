@@ -832,19 +832,21 @@ export class SR5_Roll {
                 }
                 break;
 
-            case "preparationFormula":
-                title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
-                dicePool = actorData.skills.alchemy.test.dicePool;
-                optionalData = {
-                    "switch.specialization": true,
-                    "drainMod.spell": itemData.drainModifier,
-                    drainType: "stun",
-                    force: actorData.specialAttributes.magic.augmented.value,
-                    actorMagic: actorData.specialAttributes.magic.augmented.value,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
-                }
-                break;
+                case "preparationFormula":
+                    let alchemicalSpellCategories = itemData.category;
+                    typeSub = itemData.subCategory;
+                    title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
+                    dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
+                    optionalData = {
+                        "switch.specialization": true,
+                        "drainMod.spell": itemData.drainModifier,
+                        drainType: "stun",
+                        force: actorData.specialAttributes.magic.augmented.value,
+                        actorMagic: actorData.specialAttributes.magic.augmented.value,
+                        "sceneData.backgroundCount": backgroundCount,
+                        "sceneData.backgroundAlignement": backgroundAlignement,
+                    }
+                    break;
 
             case "complexForm":
                 title = `${game.i18n.localize("SR5.Thread")} ${item.name}`;

@@ -958,6 +958,17 @@ SR5.traditionTypes = {
   wiccaGardnerian           : "SR5.TraditionWiccaGardnerian",
   wuxing                    : "SR5.TraditionWuxing",
   zoroastrianism            : "SR5.TraditionZoroastrianism",
+  norse                     : "SR5.TraditionNorse",
+  cosmic                    : "SR5.TraditionCosmic",
+  elderGod                  : "SR5.TraditionElderGod",
+  greenMagic                : "SR5.TraditionGreenMagic",
+  missionists               : "SR5.TraditionMissionists",
+  necroMagic                : "SR5.TraditionNecroMagic",
+  olympianism               : "SR5.TraditionOlympianism",
+  pathofPariah              : "SR5.TraditionPathofPariah",
+  planarMagic               : "SR5.TraditionPlanarMagic",
+  redMagic                  : "SR5.TraditionRedMagic",
+  romani                    : "SR5.TraditionRomani",
 };
 
 // Types de sorts
