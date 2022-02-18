@@ -91,7 +91,7 @@ export class SR5_Dice {
 		actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
-		SR5_RollMessage.updateRollCard(message, newMessage); 
+		SR5_RollMessage.updateRollCard(message.data, newMessage); 
 	}
 
 	//Handle extended roll
@@ -114,7 +114,7 @@ export class SR5_Dice {
 		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
 		if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
-		SR5_RollMessage.updateRollCard(message, newMessage);
+		SR5_RollMessage.updateRollCard(message.data, newMessage);
 	}
 	
 	static async pushTheLimit(message, actor) {
@@ -136,7 +136,7 @@ export class SR5_Dice {
 		actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
-		SR5_RollMessage.updateRollCard(message, newMessage);
+		SR5_RollMessage.updateRollCard(message.data, newMessage);
 	}
 
 	/** Prepare the roll window
@@ -389,6 +389,7 @@ export class SR5_Dice {
 		cardData.button.iceEffect = false;
 		cardData.button.summonSpirit = false;
 		cardData.button.compileSprite = false;
+		cardData.button.spriteDecompileDefense = false;
 		cardData.button.extended = false;
 
 		if (cardData.extendedTest){
@@ -494,6 +495,12 @@ export class SR5_Dice {
 				SR5_Dice.addEraseMarkInfoToCard(cardData, author);
 			case "overwatchResistance":
 				SR5_Dice.addOverwatchResistanceInfoToCard(cardData, author);
+			case "decompilingResistance":
+				SR5_Dice.addDecompilingResistanceInfoToCard(cardData, author);
+				break;
+			case "registeringResistance":
+				SR5_Dice.addRegisteringResistanceInfoToCard(cardData, author);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -570,20 +577,21 @@ export class SR5_Dice {
 			if (hardenedArmor > 0) {
 			  ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}: ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
 			  cardData.test.hits += hardenedArmor;
-      }
+      		}
 		}
-		let damageValue = cardData.damageValueBase - cardData.test.hits;
+		let damageValue = cardData.damageValueBase - cardData.test.hits
 		cardData.damageValue = damageValue;
-		if (damageValue > 0) {
-			cardData.button.takeDamage = true;
-		} else {
+		if (damageValue > 0) cardData.button.takeDamage = true;
+		else {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
 		if (cardData.typeSub === "biofeedbackDamage"){
-			if (!cardData.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
-			else SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
-		} else if (cardData.typeSub !== "dumpshock") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
+			if (!cardData.defenderDoBiofeedbackDamage && cardData.originalMessage.flags.sr5data.button.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
+			else if (cardData.originalMessage.flags.sr5data.button.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
+		} else if (cardData.typeSub !== "dumpshock" && cardData.originalMessage.flags.sr5data.button.resistance){
+			SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
+		}
 	}
 
 	static async addSpellInfoToCard(cardData, author){
@@ -655,7 +663,7 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDrain")}`;
 		}
-		SR5_RollMessage.updateChatButton(cardData.originalMessage, "drainResistance");
+		if (cardData.originalMessage.flags.sr5data.button.drainResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "drainResistance");
 	}
 
 	static async addComplexFormInfoToCard(cardData, author){
@@ -696,7 +704,7 @@ export class SR5_Dice {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoFading")}`;
 		}
-		SR5_RollMessage.updateChatButton(cardData.originalMessage, "fadingResistance");
+		if (cardData.originalMessage.flags.sr5data.button.fadingResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "fadingResistance");
 	}
 
 	static async addMatrixActionInfoToCard(cardData, author){
@@ -831,7 +839,7 @@ export class SR5_Dice {
 			cardData.button.linklock = false;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDamage")}`;
 		}
-		if (cardData.originalMessage.data?.flags?.sr5data?.button?.matrixResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
+		if (cardData.originalMessage.flags?.sr5data?.button?.matrixResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
 	}
 	
 	static async addMatrixIceAttackInfoToCard(cardData, author){
@@ -1016,6 +1024,14 @@ export class SR5_Dice {
 			cardData.invocaAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
+		if (cardData.typeSub === "decompileSprite"){
+			cardData.button.spriteDecompileDefense = true;
+			cardData.invocaAuthor = cardData.speakerId;
+		}
+		if (cardData.typeSub === "registerSprite"){
+			cardData.button.spriteRegisterDefense = true;
+			cardData.invocaAuthor = cardData.speakerId;
+		}
 	}
 
 	static async addCompilingResistanceInfoToCard(cardData, author){ 
@@ -1075,7 +1091,7 @@ export class SR5_Dice {
 	}
 
 	static async addEraseMarkInfoToCard(cardData, author){
-		SR5_RollMessage.updateChatButton(cardData.originalMessage, "eraseMark");
+		if (cardData.originalMessage.flags.sr5data.button.eraseMark) SR5_RollMessage.updateChatButton(cardData.originalMessage, "eraseMark");
 		if (cardData.test.hits < cardData.hits) {
 			cardData.button.eraseMarkSuccess = true;
 		} else {
@@ -1093,5 +1109,52 @@ export class SR5_Dice {
 		if (cardData.test.hits > 0) cardData.button.overwatch = true;
 		if (cardData.test.hits < cardData.hits) cardData.button.actionEndTitle = `${game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreSuccess")} ${currentOS}`;
 		else cardData.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreFailed");
+	}
+
+	static async addDecompilingResistanceInfoToCard(cardData, author){
+		let newMessage = duplicate(cardData.originalMessage.flags.sr5data);
+        if (newMessage.button.spriteDecompileDefense) newMessage.button.spriteDecompileDefense = !newMessage.button.spriteDecompileDefense;
+		cardData.button.fadingResistance = false;
+		if (cardData.test.hits < cardData.hits) {
+			cardData.netHits = cardData.test.hits - cardData.hits;
+			cardData.button.reduceTask = true;
+		} else {
+			cardData.button.reduceTask = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.ResistDecompilingSuccess");
+		}
+		if (cardData.test.hits > 0){
+			if (!newMessage.button.fadingResistanceActive){
+				newMessage.button.fadingResistance = !newMessage.button.fadingResistance;
+				newMessage.button.fadingResistanceActive = true;
+			}
+			newMessage.fadingValue = cardData.test.hits;
+		}
+		
+		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
+	}
+
+	static async addRegisteringResistanceInfoToCard(cardData, author){
+		let newMessage = duplicate(cardData.originalMessage.flags.sr5data);
+        if (newMessage.button.spriteRegisterDefense) newMessage.button.spriteRegisterDefense = !newMessage.button.spriteRegisterDefense;
+		cardData.button.fadingResistance = false;
+
+		if (cardData.test.hits < cardData.hits) {
+			cardData.netHits = cardData.hits - cardData.test.hits;
+			cardData.button.registerSprite = true;
+		} else {
+			cardData.button.registerSprite = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.RegisteringFailed");
+		}
+		if (cardData.test.hits > 0){
+			if (!newMessage.button.fadingResistanceActive){
+				newMessage.button.fadingResistance = !newMessage.button.fadingResistance;
+				newMessage.button.fadingResistanceActive = true;
+			}
+			newMessage.fadingValue = cardData.test.hits;
+		}
+		
+		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
 	}
 }

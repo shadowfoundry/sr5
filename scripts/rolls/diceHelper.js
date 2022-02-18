@@ -4,6 +4,7 @@ import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { _getSRStatusEffect } from "../system/effectsList.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_SocketHandler } from "../socket.js";
+import { SR5_RollMessage } from "./roll-message.js";
 
 
 export class SR5_DiceHelper {
@@ -1012,5 +1013,27 @@ export class SR5_DiceHelper {
         await actor.createEmbeddedDocuments("Item", [effect]);
         let statusEffect = await _getSRStatusEffect("signalJam", -message.test.hits);
         await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
+    }
+
+    static async reduceSpriteTask(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
+        let data = duplicate(actor.data.data);
+        data.tasks.value += message.netHits;
+        if (data.tasks.value < 0) {
+            data.tasks.value = 0;
+            message.isDecompiled = true;
+        }
+        await actor.update({'data': data});
+        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
+    }
+
+    static async registerSprite(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
+        let data = duplicate(actor.data.data);
+        data.isRegistered = true;
+        data.tasks.value += message.netHits;
+        data.tasks.max += message.netHits;
+        await actor.update({'data': data});
+        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
     }
 }
