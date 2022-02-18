@@ -196,6 +196,7 @@
   "SR5.AppliedMatrixDamage"                   : "Dommages matriciels appliqués",
   "SR5.ApplyDamage"                           : "Appliquer les dommages",
   "SR5.ApplyDrain"                            : "Appliquer le drain",
+  "SR5.ApplyEffect"                           : "Appliquer l'effet",
   "SR5.Armor"                                 : "Armure",
   "SR5.ArmorAccessory"                        : "Accessoire d'armure",
   "SR5.ArmorEncumbrance"                      : "Encombrement d'armure",

@@ -3188,6 +3188,11 @@ export class SR5_CharacterUtility extends Actor {
         skipCustomEffect = true;
       }
 
+      // For transferable effect
+      if (customEffect.transfer){ 
+        skipCustomEffect = true;
+      }
+
       if (item.type === "itemDrug"){
         if (!item.data.isActive && !customEffect.wifi) skipCustomEffect = true;
       }

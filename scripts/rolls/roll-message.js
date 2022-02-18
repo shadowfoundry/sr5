@@ -139,6 +139,9 @@ export class SR5_RollMessage {
                 case "msgTest_spriteRegisterDefense":
                     actor.rollTest("registeringResistance", null, messageData);
                     break;
+                case "msgTest_applyEffect":
+                    actor.applyExternalEffect(messageData);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatListeners`);
             }

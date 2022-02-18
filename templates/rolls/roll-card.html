@@ -335,6 +335,10 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_linkLock">{{localize 'SR5.MatrixLinkLock'}}</button> 
       {{/if}}
       
+      <!-- APPLY EFFECT -->
+      {{#if button.applyEffect}}
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_applyEffect">{{localize 'SR5.ApplyEffect'}}</button> 
+      {{/if}}
     </div>
   </div>
 </div>

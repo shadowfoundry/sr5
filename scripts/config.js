@@ -2227,12 +2227,14 @@ SR5.effectTypes = {
   signalJam                 : "SR5.EffectSignalJam",
   signalJammed              : "SR5.EffectSignalJammed",
   linkLock                  : "SR5.EffectLinkLockedConnection",
+  itemComplexForm           : "ITEM.TypeItemcomplexform",
 }
 
 SR5.effectDuration = {
   round                     : "SR5.CombatTurn",
   permanent                 : "SR5.DurationPermanent",
-  special                   : "SR5.DurationSpecial"
+  special                   : "SR5.DurationSpecial",
+  sustained                 : "SR5.DurationSustainedShort",
 }
 
 SR5.specialProperties = {

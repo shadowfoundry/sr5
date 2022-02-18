@@ -870,6 +870,16 @@ export class SR5_Roll {
                         "switch.publicGrid": true,
                     });
                 }
+
+                //Check if an effect is transferable and give the necessary infos
+                for (let e of Object.values(itemData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
                 break;
             
             case "complexFormDefense":

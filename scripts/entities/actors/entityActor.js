@@ -1365,6 +1365,39 @@ export class SR5Actor extends Actor {
   static async _socketDeleteItemFromPan(message){
     await SR5Actor.deleteItemFromPan(message.data.targetItem, message.data.actorId, message.data.index);
   }
+
+  //Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
+  async applyExternalEffect(data){
+    let item = data.item;
+    console.log(data);
+    for (let e of Object.values(item.data.customEffects)){
+      if (e.transfer) {
+        let value;
+        if (e.type === "hits") value = data.test.hits;
+        let itemEffect = {
+          name: item.name,
+          type: "itemEffect",
+          "data.target": e.target,
+          "data.value": value,
+          "data.type": item.type,
+          "data.ownerID": data.actor._id,
+          "data.ownerName": data.actor.name,
+          "data.duration": "sustained",
+          "data.customEffects": {
+            "0": {
+                "category": e.category,
+                "target": e.target,
+                "type": "value",
+                "value": value,
+                "forceAdd": true,
+              }
+          },
+        };
+        this.createEmbeddedDocuments("Item", [itemEffect]);
+      }
+    }
+  }
+
 }
 
 CONFIG.Actor.documentClass = SR5Actor;

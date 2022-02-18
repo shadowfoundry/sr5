@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -670,7 +670,8 @@ export class SR5_Dice {
 		cardData.button.fadingResistance = true;
 		if (cardData.test.hits > 0) {
 			cardData.hits = cardData.test.hits;
-			cardData.button.complexForm = true;
+			if (cardData.defenseAttribute !== "" & cardData.defenseMatrixAttribute !== "") cardData.button.complexForm = true;
+			if (cardData.switch.transferEffect) cardData.button.applyEffect = true;
 		} else {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.ThreadingFailure");
