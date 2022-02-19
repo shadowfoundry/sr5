@@ -2372,7 +2372,7 @@ export class SR5_CharacterUtility extends Actor {
             case "necroMagic":
               magic.drainResistance.linkedAttribute = "logic";
               magic.elements.combat = "man";
-              magic.elements.detection = "beast";
+              magic.elements.detection = "beasts";
               magic.elements.illusion = "earth";
               magic.elements.manipulation = "fire";
               magic.elements.health = "plant";
@@ -2398,7 +2398,7 @@ export class SR5_CharacterUtility extends Actor {
               break;
             case "redMagic":
               magic.drainResistance.linkedAttribute = "intuition";
-              magic.elements.combat = "beast";
+              magic.elements.combat = "beasts";
               magic.elements.detection = "air";
               magic.elements.illusion = "earth";
               magic.elements.manipulation = "man";
