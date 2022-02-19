@@ -671,7 +671,7 @@ export class SR5_Dice {
 		if (cardData.test.hits > 0) {
 			cardData.hits = cardData.test.hits;
 			if (cardData.defenseAttribute !== "" & cardData.defenseMatrixAttribute !== "") cardData.button.complexForm = true;
-			if (cardData.switch.transferEffect) cardData.button.applyEffect = true;
+			if (cardData.switch?.transferEffect) cardData.button.applyEffect = true;
 		} else {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.ThreadingFailure");

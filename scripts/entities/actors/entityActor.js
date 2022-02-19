@@ -1382,6 +1382,7 @@ export class SR5Actor extends Actor {
           "data.type": item.type,
           "data.ownerID": data.actor._id,
           "data.ownerName": data.actor.name,
+          "data.ownerItem": data.itemUuid,
           "data.duration": "sustained",
           "data.customEffects": {
             "0": {
@@ -1393,9 +1394,51 @@ export class SR5Actor extends Actor {
               }
           },
         };
-        this.createEmbeddedDocuments("Item", [itemEffect]);
+        await this.createEmbeddedDocuments("Item", [itemEffect]);
+        console.log(this);
+        let effect;
+        if (this.isToken){
+          effect = this.token.data.items.find(i => i.data.ownerItem === data.itemUuid);
+        } else {
+          effect = this.items.find(i => i.data.data.ownerItem === data.itemUuid);
+        }
+        console.log(effect);
+        if (!game.user?.isGM) {
+          SR5_SocketHandler.emitForGM("linkEffectToSource", {
+            actorID: data.actor._id,
+            targetItem: data.itemUuid,
+            effectUuid: effect.uuid,
+          });
+        } else {  
+          await SR5Actor.linkEffectToSource(data.actor._id, data.itemUuid, effect.uuid);
+        }
       }
     }
+  }
+
+  //Update the source Item of an external Effect
+  static async linkEffectToSource(actorId, targetItem, effectUuid){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
+        item = await fromUuid(targetItem),
+        newItem = duplicate(item.data.data);
+
+    newItem.isActive = true;
+    newItem.targetOfEffect.push(effectUuid);
+    await item.update({"data": newItem});
+  }
+
+  static async _socketLinkEffectToSource(message){
+    await SR5Actor.linkEffectToSource(message.data.actorId, message.data.targetItem, message.data.effectUuid);
+  }
+
+  static async deleteSustainedEffect(targetItem){
+    let item = await fromUuid(targetItem);
+    if (item) await item.parent.deleteEmbeddedDocuments("Item", [item.id]);
+    else SR5_SystemHelpers.srLog(1, `No item to delete in deleteSustainedEffect()`);
+  }
+
+  static async _socketDeleteSustainedEffect(message){
+    await SR5Actor.deleteSustainedEffect(message.data.targetItem);
   }
 
 }
