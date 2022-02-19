@@ -216,12 +216,50 @@
 					<p>{{name}}</p>
 				{{/if}}
 			</div>
-			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
-			  data-helpTitle="{{localize 'SR5.HELP_PreparationFormula' key=name}}"
-			  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
-			  data-helpDetails="data.skills.alchemy.test">
-				{{../data.skills.alchemy.test.dicePool}}
-			</div>
+			{{#if (gt ../data.skills.alchemy.test.dicePool 0) }}
+				{{#ife data.category "combat"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
+			  	  data-helpDetails="data.skills.alchemy.spellCategory.combat">
+					{{../data.skills.alchemy.spellCategory.combat.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "detection"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
+			  	  data-helpDetails="data.skills.alchemy.spellCategory.detection">
+					{{../data.skills.alchemy.spellCategory.detection.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "illusion"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
+			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
+			  	  data-helpDetails="data.skills.alchemy.spellCategory.illusion">
+					{{../data.skills.alchemy.spellCategory.illusion.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "manipulation"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
+			  	  data-helpTitle="{{localize 'SR5.HELP_PreparationFormula'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
+			  	  data-helpDetails="data.skills.alchemy.spellCategory.manipulation">
+					{{../data.skills.alchemy.spellCategory.manipulation.dicePool}}
+				</div>
+				{{/ife}}
+				{{#ife data.category "health"}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
+			  	  data-helpTitle="{{localize 'SR5.HELP_PreparationFormula'}}"
+			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
+			  	  data-helpDetails="data.skills.alchemy.spellCategory.health">
+					{{../data.skills.alchemy.spellCategory.health.dicePool}}
+				</div>
+				{{/ife}}
+			{{else}}
+				<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}	
 			<div class="col-7"></div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}

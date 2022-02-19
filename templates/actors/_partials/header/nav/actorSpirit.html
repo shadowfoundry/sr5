@@ -30,12 +30,13 @@
   data-helpTitle="{{localize 'SR5.HELP_MaterializingButton'}}" 
   data-helpMessage="{{localize 'SR5.HELP_MaterializingButtonMsg'}}"
   >
-    <input id="materializeIcon" type="checkbox" name="data.isMaterializing" data-dtype="Boolean" {{checked data.isMaterializing}} {{#ife data.type 'homunculus'}}disabled{{/ife}}>
-    {{#if data.isMaterializing}}
-    <label for="materializeIcon" class="active">{{> systems/sr5/img/icons/nav-materialize.svg.hbs}}</label>
-    {{else}}
-    <label for="materializeIcon">{{> systems/sr5/img/icons/nav-materialize.svg.hbs}}</label>
-    {{/if}}
+  {{#if data.isMaterializing}}
+  <input class="init-switch" id="materializeIcon" type="checkbox" name="data.isMaterializing" data-dtype="Boolean" data-binding="astralInit" {{checked data.isMaterializing}} {{#ife data.type 'homunculus'}}disabled{{/ife}}>
+  <label for="materializeIcon" class="active">{{> systems/sr5/img/icons/nav-materialize.svg.hbs}}</label>
+  {{else}}
+  <input class="init-switch" id="materializeIcon" type="checkbox" name="data.isMaterializing" data-dtype="Boolean" data-binding="physicalInit" {{checked data.isMaterializing}} {{#ife data.type 'homunculus'}}disabled{{/ife}}>
+  <label for="materializeIcon">{{> systems/sr5/img/icons/nav-materialize.svg.hbs}}</label>
+  {{/if}}
 </div>
 {{/ifne}}
 

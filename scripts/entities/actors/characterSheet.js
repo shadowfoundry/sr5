@@ -116,7 +116,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const sins = [];
     const vehicles = [];
     const marks = [];
-    const martialArts = []
+    const martialArts = [];
     const powers = [];
     const preparations = [];
     const complexForms = [];

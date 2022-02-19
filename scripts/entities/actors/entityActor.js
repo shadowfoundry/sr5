@@ -1120,6 +1120,7 @@ export class SR5Actor extends Actor {
         "data.summonerMagic": itemData.summonerMagic,
         "data.creatorId": actorId,
         "data.creatorItemId": item._id,
+        "data.magic.tradition": itemData.magic.tradition,
         "data.conditionMonitors.physical.current": itemData.conditionMonitors.physical.current,
         "data.conditionMonitors.stun.current": itemData.conditionMonitors.stun.current,
         "items": baseItems,

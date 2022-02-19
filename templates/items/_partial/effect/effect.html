@@ -219,8 +219,7 @@
 						{{#each ../../lists.spiritTypes}}
 						<option value="data.skills.{{@../key}}.spiritType.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpiritTypeBonus'}}]</option>
 						{{/each}}
-						{{else if (or (eq @key 'counterspelling') (eq @key 'spellcasting') (eq @key
-						'ritualSpellcasting'))}}
+						{{else if (or (eq @key 'counterspelling') (eq @key 'spellcasting') (eq @key 'ritualSpellcasting') (eq @key 'alchemy'))}}
 						{{#each ../../lists.spellCategories}}
 						<option value="data.skills.{{@../key}}.spellCategory.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpellCategoryBonus'}}]</option>
 						{{/each}}
