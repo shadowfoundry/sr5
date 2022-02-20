@@ -7,20 +7,26 @@
 			<div class="col-3 SR-TextUppercase">{{localize 'SR5.Category'}}</div>
 			<div class="col-4 SR-TextUppercase">{{localize 'SR5.Property'}}</div>
 			<div class="col-2 SR-TextUppercase">{{localize 'SR5.ModificationType'}}</div>
-			<div class="col-2">
+			<div class="col-3">
 				<div class="grid">
-					<div class="col-4 SR-TextUppercase SR-TextCenter">{{autoLabel 'SR5.ModificationValue' 1}}</div>
-					<div class="col-4 SR-TextUppercase SR-TextCenter">{{autoLabel 'SR5.ModificationMultiplier' 1}}</div>
-					<div class="col-4"><p class="SR-TextCenter" data-title="{{localize 'SR5.WirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></p></div>
+					<div class="col-9">
+						<div class="grid">
+							<div class="col-3 SR-TextUppercase SR-TextCenter">{{autoLabel 'SR5.ModificationValue' 1}}</div>
+							<div class="col-3 SR-TextUppercase SR-TextCenter">{{autoLabel 'SR5.ModificationMultiplier' 1}}</div>
+							<div class="col-3"><p class="SR-TextCenter" data-title="{{localize 'SR5.WirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></p></div>
+							<div class="col-3 SR-TextCenter">{{localize 'SR5.TransferEffectShort'}}</div>
+						</div>
+					</div>
+					<div class="col-3 SR-TextRight">
+						{{#if owner}}
+						<a class="subItem" data-title="{{localize 'SR5.Add'}}" data-binding="customEffects" data-action="add">
+						<em class="fas fa-plus"></em>
+						</a>
+						{{/if}}
+					</div>
 				</div>
 			</div>
-			<div class="col-1 SR-TextRight">
-				{{#if owner}}
-				<a class="subItem" data-title="{{localize 'SR5.Add'}}" data-binding="customEffects" data-action="add">
-					<em class="fas fa-plus"></em>
-				</a>
-				{{/if}}
-			</div>
+			
 		</li>
 		{{#each data.customEffects}}
 		<li class="grid subItemManagement" data-key="{{@key}}">
@@ -237,6 +243,7 @@
 					{{#each (lookup ../lists category)}}
 					<option value="data.matrix.attributes.{{@key}}">{{localize this}}</option>
 					{{/each}}
+					<option value="data.matrix.noise">{{localize 'SR5.MatrixNoise'}}</option>
 
 					{{else ife category 'matrixResistances'}}
 					{{#each (lookup ../lists category)}}
@@ -341,7 +348,7 @@
 								{{else if (includes target '.visions.')}}
 									{{dropdownOptions 'boolean'}}
 								{{else}}
-									{{dropdownOptions 'value' 'rating' 'hits' 'valueReplace'}}
+									{{dropdownOptions 'value' 'rating' 'hits' 'netHits' 'valueReplace'}}
 								{{/if}}
 							{{/select}}
 						</select>
@@ -349,55 +356,61 @@
 				{{/if}}
 			</div>
 
-			{{#if (eq type 'boolean')}}
-			<div class="col-2 SR-SelectCenter SR-PaddingRight5">
-				<select name="data.customEffects.{{@key}}.value" required>
-					{{#select value}}
-					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-					<option value="true">{{localize 'SR5.On'}}</option>
-					<option value="false">{{localize 'SR5.Off'}}</option>
-					{{/select}}
-				</select>
-			</div>
-			{{else}}
-			<div class="col-2">
+			<div class="col-3">
 				<div class="grid">
-					<div class="col-4 SR-TextCenter SR-PaddingRight5">
-						{{#if type}}
-							{{#if (and (eq type 'valueReplace') (eq target 'data.attributes.agility.natural') (eq ../data.category 'cyberlimbs') )}}
-								<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{../data.cyberlimbs.agility.value}}">
-							{{else if (and (eq type 'valueReplace') (eq target 'data.attributes.strength.natural') (eq ../data.category 'cyberlimbs') )}}
-								<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{../data.cyberlimbs.strength.value}}">
-							{{else if (or (eq type 'value') (eq type 'valueReplace') (eq category 'weaponEffectTargets'))}}
-								<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{value}}">
-							{{else if (or (eq type 'rating') (eq type 'ratingReplace') )}}
-								{{../data.itemRating}}
-							{{else ife type 'hits'}}
-								{{#if ../data.hits}}{{../data.hits}}{{else}}0{{/if}}
+					<div class="col-9">
+						<div class="grid">
+							{{#if (eq type 'boolean')}}
+							<div class="col-12 SR-SelectCenter SR-PaddingRight5">
+								<select name="data.customEffects.{{@key}}.value" required>
+									{{#select value}}
+									<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+									<option value="true">{{localize 'SR5.On'}}</option>
+									<option value="false">{{localize 'SR5.Off'}}</option>
+									{{/select}}
+								</select>
+							</div>
+							{{else}}
+							<div class="col-3 SR-TextCenter">
+								{{#if type}}
+									{{#if (and (eq type 'valueReplace') (eq target 'data.attributes.agility.natural') (eq ../data.category 'cyberlimbs') )}}
+										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{../data.cyberlimbs.agility.value}}">
+									{{else if (and (eq type 'valueReplace') (eq target 'data.attributes.strength.natural') (eq ../data.category 'cyberlimbs') )}}
+										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{../data.cyberlimbs.strength.value}}">
+									{{else if (or (eq type 'value') (eq type 'valueReplace') (eq category 'weaponEffectTargets'))}}
+										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{value}}">
+									{{else if (or (eq type 'rating') (eq type 'ratingReplace') )}}
+										{{../data.itemRating}}
+									{{else ife type 'hits'}}
+										{{#if ../data.hits}}{{../data.hits}}{{else}}0{{/if}}
+									{{/if}}
+								{{/if}}
+							</div>
+
+							<div class="col-3 SR-TextCenter">
+								{{#if type}}
+								<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.multiplier" value="{{multiplier}}" placeholder="1">
+								{{/if}}
+							</div>
+
+							<div class="col-3 SR-TextCenter">
+								<input type="checkbox" name="data.customEffects.{{@key}}.wifi" data-dtype="Boolean" {{checked wifi}}>
+							</div>
+							<div class="col-3 SR-TextCenter">
+								<input type="checkbox" name="data.customEffects.{{@key}}.transfer" data-dtype="Boolean" {{checked transfer}}>
+							</div>
 							{{/if}}
-						{{/if}}
+						</div>							
 					</div>
-
-					<div class="col-4 SR-TextCenter">
-						{{#if type}}
-						<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.multiplier"
-							value="{{multiplier}}" placeholder="1">
-						{{/if}}
+					
+					<div class="col-3 SR-TextRight">
+						<a class="subItem" data-title="{{localize 'SR5.Clone'}}" data-index="{{@key}}" data-binding="customEffects" data-action="clone"><em class="fa fa-sm fa-clone"></em></a>
+						<a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="customEffects" data-action="delete"><em class="fa fa-sm fa-trash"></em></a>
 					</div>
-
-					<div class="col-4 SR-TextCenter">
-						<input type="checkbox" name="data.customEffects.{{@key}}.wifi" data-dtype="Boolean" {{checked wifi}}>
-					</div>
+						
 				</div>
-			</div>
-			{{/if}}
+			</div>	
 
-			<div class="col-1 SR-TextRight">
-				<a class="subItem" data-title="{{localize 'SR5.Clone'}}" data-index="{{@key}}"
-					data-binding="customEffects" data-action="clone"><em class="fa fa-sm fa-clone"></em></a>
-				<a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}"
-					data-binding="customEffects" data-action="delete"><em class="fa fa-sm fa-trash"></em></a>
-			</div>
 		</li>
 		{{/each}}
 	</ul>

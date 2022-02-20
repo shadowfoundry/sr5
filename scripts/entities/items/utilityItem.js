@@ -163,7 +163,8 @@ export class SR5_UtilityItem extends Actor {
     }
 
     if (data.isWireless){
-      if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) data.conditionMonitors.matrix.current = data.conditionMonitors.matrix.value;
+      data.conditionMonitors.matrix.value = 0;
+      data.conditionMonitors.matrix.modifiers = [];
     }
 
     if (itemData.type === "itemSpell") {
@@ -284,8 +285,22 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(item.armorValue, 0);
   }
 
+  static _handleMatrixMonitor(item){
+    switch (item.type){
+      case "itemSprite":
+        item.data.conditionMonitors.matrix.base = Math.ceil(item.data.itemRating/ 2) + 8;
+        break;
+      case "itemVehicle":
+        item.data.conditionMonitors.matrix.base = Math.ceil(item.data.attributes.pilot / 2) + 8;
+        break;
+      default: item.data.conditionMonitors.matrix.base = Math.ceil(item.data.deviceRating / 2) + 8;
+    }
+    
+    SR5_EntityHelpers.updateValue(item.data.conditionMonitors.matrix, 0);
+  }
+
   ////////////////////// ARMES ///////////////////////
-  // Définit la sous-famille d'arme
+  // Manage bow specific
   static _handleBow(weapon) {
     if (weapon.data.type === "bow") {
       SR5_EntityHelpers.updateModifier(weapon.data.price, weapon.name, game.i18n.localize('SR5.ItemRating'), ((weapon.data.price.base * weapon.data.itemRating) - 100));
@@ -295,7 +310,7 @@ export class SR5_UtilityItem extends Actor {
     }
   }
 
-  // Calcul la RDD des armes
+  // Generate Weapon dicepool
   static _generateWeaponDicepool(item, actorData) {
     let weapon = item.data;
     if (actorData) {
@@ -371,7 +386,6 @@ export class SR5_UtilityItem extends Actor {
       SR5_EntityHelpers.updateDicePool(weapon.weaponSkill, 0);
   }
 
-  // Reset les modifs d'armes
   static _generateWeaponDamage(weapon, actor) {
     if (actor) {
       if (weapon.accuracy.isPhysicalLimitBased) weapon.accuracy.base = actor.data.limits.physicalLimit.value;
@@ -1009,8 +1023,6 @@ export class SR5_UtilityItem extends Actor {
     this._handleItemPrice(augmentation);
     this._handleItemAvailability(augmentation);
     this._handleItemEssenceCost(augmentation);
-    augmentation.conditionMonitors.matrix.value = Math.ceil(augmentation.deviceRating / 2) + 8;
-    SR5_EntityHelpers.GenerateMonitorBoxes(augmentation, 'matrix');
   }
 
   ////////////////// SORTS ////////////////////

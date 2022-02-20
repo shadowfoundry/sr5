@@ -463,13 +463,30 @@ export class ActorSheetSR5 extends ActorSheet {
       }
     }
 
-      await this.actor.update({
-        "data": actorData,
-        "items": itemList,
-      })
-      if (this.actor.isToken){
-        this.actor.sheet.render();
+    await this.actor.update({
+      "data": actorData,
+      "items": itemList,
+    })
+    if (this.actor.isToken){
+      this.actor.sheet.render();
+    }
+
+    //Delete effects linked to sustaining
+    if (item.type === "itemComplexForm" && target === "data.isActive"){      
+      if (!item.data.isActive && item.data.targetOfEffect.length) {
+        for (let e of item.data.targetOfEffect){
+          if (!game.user?.isGM) {
+            await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {
+              targetItem: e,
+            });
+          } else {  
+            await SR5Actor.deleteSustainedEffect(e);
+          }
+        }
+        item.data.targetOfEffect = [];
+        this.actor.updateEmbeddedDocuments("Item", [item]);
       }
+    }
 
   }
 

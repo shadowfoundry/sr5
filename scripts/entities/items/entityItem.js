@@ -43,7 +43,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._generateWeaponRange(data, owner);
         SR5_UtilityItem._generateWeaponDicepool(itemData, owner);
         SR5_UtilityItem._generateWeaponDamage(data, owner);
-        data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
+        SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
@@ -69,6 +69,8 @@ export class SR5Item extends Item {
         break
       case "itemAugmentation":
         SR5_UtilityItem._handleAugmentation(data);
+        SR5_UtilityItem._handleMatrixMonitor(itemData);
+        SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
@@ -88,12 +90,13 @@ export class SR5Item extends Item {
           if (Object.keys(data.itemEffects).length) {
             SR5_UtilityItem.applyItemEffects(itemData);
           }
-          SR5_UtilityItem._handleArmorValue(data);}
+          SR5_UtilityItem._handleArmorValue(data);
+        }
         SR5_UtilityItem._handleItemCapacity(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
         SR5_UtilityItem._handleItemConcealment(data);
-        data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
+        SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
@@ -112,7 +115,10 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleCommlink(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
-        data.conditionMonitors.matrix.value = Math.ceil(data.deviceRating / 2) + 8;
+        if (Object.keys(data.itemEffects).length) {
+          SR5_UtilityItem.applyItemEffects(itemData);
+        }
+        SR5_UtilityItem._handleMatrixMonitor(itemData);
         if ((data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) && (data.type !== "baseDevice")) {
           data.isActive = false;
         }
@@ -149,7 +155,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemAvailability(data);
         break;
       case "itemSprite":
-        data.conditionMonitors.matrix.value = Math.ceil(data.itemRating/ 2) + 8;
+        SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemVehicle":
@@ -157,7 +163,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleVehicle(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
-        data.conditionMonitors.matrix.value = Math.ceil(data.attributes.pilot / 2) + 8;
+        SR5_UtilityItem._handleMatrixMonitor(itemData);
         if (data.type === "drone") data.conditionMonitors.condition.base = Math.ceil((data.attributes.body / 2) + 6);
         else data.conditionMonitors.condition.base = Math.ceil((data.attributes.body / 2) + 12);
         SR5_EntityHelpers.updateValue(data.conditionMonitors.condition, 1)

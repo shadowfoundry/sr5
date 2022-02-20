@@ -18,6 +18,8 @@ export class SR5_SocketHandler {
             "markPanMaster": [SR5_DiceHelper._socketMarkPanMaster],
             "markDevice": [SR5_DiceHelper._socketMarkDevice],
             "overwatchIncrease": [SR5Actor._socketOverwatchIncrease],
+            "linkEffectToSource": [SR5Actor._socketLinkEffectToSource],
+            "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
         }
 
         game.socket.on(`system.sr5`, async (message) => {

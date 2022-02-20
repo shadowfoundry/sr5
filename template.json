@@ -5854,7 +5854,8 @@
       "detectionSense": "",
       "healthEssence": false,
       "freeSustain": false,
-      "preparation": false
+      "preparation": false,
+      "targetOfEffect":[]
     },
     "itemPreparation": {
       "templates": [
@@ -5905,7 +5906,8 @@
         "duration": "",
         "defenseAttribute":"",
         "defenseMatrixAttribute":"" ,
-        "freeSustain": false
+        "freeSustain": false,
+        "targetOfEffect":[]
       },
     "itemQuality": {
       "templates": [
@@ -5998,7 +6000,9 @@
       "durationType":"",
       "value": "",
       "ownerID":"",
-      "ownerName":""
+      "ownerName":"",
+      "ownerItem":"",
+      "hasEffectOnItem": "false"
     },
     "itemDrug":{
       "templates": [

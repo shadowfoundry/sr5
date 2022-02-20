@@ -275,6 +275,13 @@ export const registerHooks = function () {
         let actorID = item.parent.id
         SR5_EffectArea.onJamEnd(actorID);
       }
+      if (item.type === "itemEffect"){
+        if (item.data.data.hasEffectOnItem){
+          if (item.parent.isToken) await SR5Actor.deleteItemEffectFromItem(item.parent.token.id, item.data.data.ownerItem);
+          else await SR5Actor.deleteItemEffectFromItem(item.parent.id, item.data.data.ownerItem);
+        }
+      }
+
     }
     //Remove isSlavedToPan switch if PAN master is deleted
     if (item.data.data.pan?.content?.length){

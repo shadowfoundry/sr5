@@ -853,6 +853,8 @@ export class SR5_Roll {
                 dicePool = actorData.matrix.resonanceActions.threadComplexForm.test.dicePool;                
                 for (let e of itemData.systemEffects){
                     if (e.value === "sre_ResonanceSpike") typeSub = "resonanceSpike";
+                    if (e.value === "sre_Derezz") typeSub = "derezz";
+                    if (e.value === "sre_Redundancy") typeSub = "redundancy";
                 }
                 optionalData = {
                     fadingModifier: itemData.fadingModifier,
@@ -869,6 +871,26 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         "switch.publicGrid": true,
                     });
+                }
+
+                //Check if an effect is transferable on taget actor and give the necessary infos
+                for (let e of Object.values(itemData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
+
+                //Check if an effect is transferable on target item and give the necessary infos
+                for (let e of Object.values(itemData.itemEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffectOnItem": true,
+                        });
+                    }
                 }
                 break;
             
@@ -900,8 +922,27 @@ export class SR5_Roll {
                 typeSub = chatData.typeSub;
                 optionalData = {
                     hits: chatData.test.hits,
+                    originalActionAuthor: chatData?.originalActionAuthor,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                 }
+
+                //Check if an effect is transferable and give the necessary infos
+                if (chatData.switch.transferEffect){
+                    optionalData = mergeObject(optionalData, {
+                        "itemUuid": chatData.itemUuid,
+                        "switch.transferEffect": true,
+                    });
+                }
+                //Check if an effect is transferable and give the necessary infos
+                /*for (let e of Object.values(chatData.item.data.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                            originalItem: chatData.item,
+                        });
+                    }
+                }*/
                 break;
 
             case "power":
