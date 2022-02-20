@@ -1314,6 +1314,8 @@ SR5.matrixActions = {
 SR5.complexFormTargets = {
   device                    : "SR5.ComplexFormTargetDevice",
   file                      : "SR5.ComplexFormTargetFile",
+  host                      : "SR5.ComplexFormTargetHost",
+  ice                       : "SR5.DEVICE_TYPE_Ice_F",
   persona                   : "SR5.ComplexFormTargetPersona",
   self                      : "SR5.ComplexFormTargetSelf",
   sprite                    : "SR5.ComplexFormTargetSprite",
@@ -2215,6 +2217,7 @@ SR5.customEffectsTypes = {
   rating                    : "SR5.Rating",
   ratingReplace             : "SR5.RatingReplace",
   hits                      : "SR5.DiceHits",
+  netHits                   : "SR5.NetHits",
   boolean                   : "SR5.Boolean",
 };
 
@@ -2228,13 +2231,15 @@ SR5.effectTypes = {
   signalJammed              : "SR5.EffectSignalJammed",
   linkLock                  : "SR5.EffectLinkLockedConnection",
   itemComplexForm           : "ITEM.TypeItemcomplexform",
+  derezz                    : "SR5.Derezz",
 }
 
 SR5.effectDuration = {
   round                     : "SR5.CombatTurn",
   permanent                 : "SR5.DurationPermanent",
   special                   : "SR5.DurationSpecial",
-  sustained                 : "SR5.DurationSustainedShort",
+  sustained                 : "SR5.DurationSustained",
+  reboot                    : "SR5.UntilReboot",
 }
 
 SR5.specialProperties = {

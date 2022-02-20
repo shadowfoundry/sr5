@@ -335,9 +335,19 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_linkLock">{{localize 'SR5.MatrixLinkLock'}}</button> 
       {{/if}}
       
-      <!-- APPLY EFFECT -->
+      <!-- APPLY EFFECT (CHOOSE TARGET) -->
       {{#if button.applyEffect}}
         <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_applyEffect">{{localize 'SR5.ApplyEffect'}}</button> 
+      {{/if}}
+
+      <!-- APPLY EFFECT (AUTO TARGET) -->
+      {{#if button.applyEffectAuto}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_applyEffectAuto">{{localize 'SR5.ApplyEffect'}}</button> 
+      {{/if}}
+
+      <!-- APPLY EFFECT ON ITEM(CHOOSE TARGET) -->
+      {{#if button.applyEffectOnItem}}
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_applyEffectOnItem">{{localize 'SR5.ApplyEffect'}}</button> 
       {{/if}}
     </div>
   </div>

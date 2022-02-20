@@ -670,26 +670,36 @@ export class SR5_Dice {
 		cardData.button.fadingResistance = true;
 		if (cardData.test.hits > 0) {
 			cardData.hits = cardData.test.hits;
+			cardData.originalActionAuthor = cardData.speakerId;
 			if (cardData.defenseAttribute !== "" & cardData.defenseMatrixAttribute !== "") cardData.button.complexForm = true;
-			if (cardData.switch?.transferEffect) cardData.button.applyEffect = true;
+			else {
+				if (cardData.switch?.transferEffect) cardData.button.applyEffect = true;
+				if (cardData.switch?.transferEffectOnItem) cardData.button.applyEffectOnItem = true;
+			}
 		} else {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.ThreadingFailure");
+			cardData.button.applyEffect = false;
+			cardData.button.applyEffectOnItem = false;
 		}
 	}
 	
 	static async addComplexFormDefenseInfoToCard(cardData, author){
-		let netHits = cardData.hits - cardData.test.hits;
-		if (netHits <= 0) {
+		cardData.netHits = cardData.hits - cardData.test.hits;
+		if (cardData.netHits <= 0) {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.SuccessfulDefense")}`;
+			cardData.button.applyEffectAuto = false;
 		} else {
-			if (cardData.typeSub === "resonanceSpike"){
-				cardData.matrixDamageValue = netHits;
+			if (cardData.typeSub === "resonanceSpike" || cardData.typeSub === "derezz"){
+				cardData.matrixDamageValue = cardData.netHits;
 				cardData.button.takeMatrixDamage = true;
 			} else {
-				cardData.button.actionEnd = true;
-				cardData.button.actionEndTitle = game.i18n.localize("SR5.DefenseFailure");
+				if (cardData.switch?.transferEffect) cardData.button.applyEffectAuto = true;
+				else {
+					cardData.button.actionEnd = true;
+					cardData.button.actionEndTitle = game.i18n.localize("SR5.DefenseFailure");
+				}
 			}
 		}
 	}

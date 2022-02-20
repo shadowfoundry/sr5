@@ -243,6 +243,7 @@
 					{{#each (lookup ../lists category)}}
 					<option value="data.matrix.attributes.{{@key}}">{{localize this}}</option>
 					{{/each}}
+					<option value="data.matrix.noise">{{localize 'SR5.MatrixNoise'}}</option>
 
 					{{else ife category 'matrixResistances'}}
 					{{#each (lookup ../lists category)}}
@@ -347,7 +348,7 @@
 								{{else if (includes target '.visions.')}}
 									{{dropdownOptions 'boolean'}}
 								{{else}}
-									{{dropdownOptions 'value' 'rating' 'hits' 'valueReplace'}}
+									{{dropdownOptions 'value' 'rating' 'hits' 'netHits' 'valueReplace'}}
 								{{/if}}
 							{{/select}}
 						</select>

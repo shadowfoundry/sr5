@@ -62,10 +62,10 @@ export class SR5_RollMessage {
             newMessage.test[button.attr("data-edit-type")] = parseInt(ev.target.value);
 
             //update the original message data to stay sinchronous on hide/show buttons
-            let updatedOriginalMessage;
             if (newMessage.originalMessage){
-                updatedOriginalMessage = await game.messages.get(newMessage.originalMessage._id);
-                newMessage.originalMessage = updatedOriginalMessage.data;
+                let updatedOriginalMessage = await game.messages.get(newMessage.originalMessage._id);
+                let flagdata = await duplicate(updatedOriginalMessage.data.flags.sr5data);
+                newMessage.originalMessage.flags.sr5data = flagdata;
                 await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.data);
             }
             if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
@@ -140,7 +140,12 @@ export class SR5_RollMessage {
                     actor.rollTest("registeringResistance", null, messageData);
                     break;
                 case "msgTest_applyEffect":
-                    actor.applyExternalEffect(messageData);
+                    actor.applyExternalEffect(messageData, "customEffects");
+                    SR5_RollMessage.updateChatButton(message.data, "applyEffect");
+                    break;
+                case "msgTest_applyEffectOnItem":
+                    actor.applyExternalEffect(messageData, "itemEffects");
+                    SR5_RollMessage.updateChatButton(message.data, "applyEffectOnItem");
                     break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatListeners`);
@@ -298,6 +303,10 @@ export class SR5_RollMessage {
                     } else {
                         actor.takeDamage(messageData);
                     }
+                    //Special case for Derezz Complex Form.
+                    if (messageData.typeSub === "derezz"){
+                        SR5_DiceHelper.applyDerezzEffect(messageData, originalActionAuthor, actor);
+                    }
                     SR5_RollMessage.updateChatButton(message.data, "takeMatrixDamage");
                     break;
                 case "msgTest_defenderDoBiofeedbackDamage":
@@ -357,6 +366,10 @@ export class SR5_RollMessage {
                 case "msgTest_registerSprite":
                     SR5_DiceHelper.registerSprite(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "registerSprite");
+                    break;
+                case "msgTest_applyEffectAuto":
+                    actor.applyExternalEffect(messageData, "customEffects");
+                    SR5_RollMessage.updateChatButton(message.data, "applyEffectAuto");
                     break;
                 default:
             }

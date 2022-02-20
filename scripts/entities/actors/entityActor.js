@@ -994,9 +994,9 @@ export class SR5Actor extends Actor {
     });
     await this.update(dataToUpdate);
 
-    //Delete ICE effects from Deck
+    //Delete effects from Deck
     for (let i of this.items){
-      if (i.type === "itemEffect" && i.data.data.type === "iceAttack"){
+      if (i.type === "itemEffect" && i.data.data.durationType === "reboot"){
         await this.deleteEmbeddedDocuments("Item", [i.id]);
       }
     }
@@ -1367,42 +1367,56 @@ export class SR5Actor extends Actor {
   }
 
   //Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
-  async applyExternalEffect(data){
-    let item = data.item;
-    console.log(data);
-    for (let e of Object.values(item.data.customEffects)){
+  async applyExternalEffect(data, effectType){
+    let item = await fromUuid(data.itemUuid);
+    let itemData = item.data;
+
+    for (let e of Object.values(itemData.data[effectType])){
       if (e.transfer) {
         let value;
+        let targetName = SR5_EntityHelpers.getLabelByKey(e.target);
         if (e.type === "hits") value = data.test.hits;
+        else if (e.type === "netHits") value = data.netHits * (e.multiplier || 1)
+
+        //Create the itemEffect
         let itemEffect = {
-          name: item.name,
+          name: itemData.name,
           type: "itemEffect",
-          "data.target": e.target,
+          "data.target": targetName,
           "data.value": value,
-          "data.type": item.type,
+          "data.type": itemData.type,
           "data.ownerID": data.actor._id,
           "data.ownerName": data.actor.name,
           "data.ownerItem": data.itemUuid,
-          "data.duration": "sustained",
-          "data.customEffects": {
-            "0": {
-                "category": e.category,
-                "target": e.target,
-                "type": "value",
-                "value": value,
-                "forceAdd": true,
-              }
-          },
+          "data.duration": 0,
+          "data.durationType": "sustained",
+          
         };
-        await this.createEmbeddedDocuments("Item", [itemEffect]);
-        console.log(this);
-        let effect;
-        if (this.isToken){
-          effect = this.token.data.items.find(i => i.data.ownerItem === data.itemUuid);
-        } else {
-          effect = this.items.find(i => i.data.data.ownerItem === data.itemUuid);
+
+        if (effectType === "customEffects"){
+          itemEffect = mergeObject(itemEffect, {
+            "data.customEffects": {
+              "0": {
+                  "category": e.category,
+                  "target": e.target,
+                  "type": "value",
+                  "value": value,
+                  "forceAdd": true,
+                }
+            },
+          });
+        } else if (effectType === "itemEffects"){
+          itemEffect = mergeObject(itemEffect, {
+            "data.hasEffectOnItem": true,
+          });
         }
-        console.log(effect);
+        await this.createEmbeddedDocuments("Item", [itemEffect]);
+
+        //Link Effect to source owner
+        let effect;
+        if (this.isToken) effect = this.token.actor.items.find(i => i.data.data.ownerItem === data.itemUuid);
+        else effect = this.items.find(i => i.data.data.ownerItem === data.itemUuid);
+
         if (!game.user?.isGM) {
           SR5_SocketHandler.emitForGM("linkEffectToSource", {
             actorID: data.actor._id,
@@ -1411,6 +1425,31 @@ export class SR5Actor extends Actor {
           });
         } else {  
           await SR5Actor.linkEffectToSource(data.actor._id, data.itemUuid, effect.uuid);
+        }
+
+        //If effect is on Item, update it
+        if (effectType === "itemEffects"){
+          let itemToUpdate;
+          //Find the item
+          if (data.typeSub === "redundancy"){
+            if (this.isToken) itemToUpdate = this.token.actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+            else itemToUpdate = this.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+          }
+          //Add effect to Item
+          if (itemToUpdate){
+            let newItem = itemToUpdate.toObject(false);
+            let effectItem ={
+              "name": itemData.name,
+              "target": e.target,
+              "wifi": false,
+              "type": "value",
+              "value": value,
+              "multiplier": 1,
+              "ownerItem": data.itemUuid,
+            }
+            newItem.data.itemEffects.push(effectItem);
+            await this.updateEmbeddedDocuments("Item", [newItem]);
+          }
         }
       }
     }
@@ -1434,13 +1473,35 @@ export class SR5Actor extends Actor {
   static async deleteSustainedEffect(targetItem){
     let item = await fromUuid(targetItem);
     if (item) await item.parent.deleteEmbeddedDocuments("Item", [item.id]);
-    else SR5_SystemHelpers.srLog(1, `No item to delete in deleteSustainedEffect()`);
+    else SR5_SystemHelpers.srLog(2, `No item to delete in deleteSustainedEffect()`);
   }
 
   static async _socketDeleteSustainedEffect(message){
     await SR5Actor.deleteSustainedEffect(message.data.targetItem);
   }
 
+  //Delete an effect on an item when parent's ItemEffect is deleted
+  static async deleteItemEffectFromItem(actorId, parentItemEffect){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
+        index, dataToUpdate;
+        
+    for (let i of actor.items){
+      let needUpdate = false;
+      if (i.data.data.itemEffects.length){
+        dataToUpdate = duplicate(i.data.data)
+        index = 0;
+        for (let e of dataToUpdate.itemEffects){
+          if (e.ownerItem === parentItemEffect){
+            dataToUpdate.itemEffects.splice(index, 1);
+            needUpdate = true;
+            index--;
+          }
+          index++;
+        }
+        if (needUpdate) await i.update({"data": dataToUpdate,});
+      }
+    }
+  }
 }
 
 CONFIG.Actor.documentClass = SR5Actor;

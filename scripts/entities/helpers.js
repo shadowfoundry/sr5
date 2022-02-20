@@ -267,4 +267,16 @@ export class SR5_EntityHelpers {
     sortable = Object.fromEntries(sortable)
     return sortable;
   }
+
+  static getLabelByKey(key){
+    let newKey = ""
+    if (key.includes("data.matrix.attributes")){
+      newKey = key.slice(23);
+      return `${game.i18n.localize(SR5.matrixAttributes[newKey])}`;
+    } else if (key === "data.conditionMonitors.matrix"){
+      return game.i18n.localize("SR5.MatrixMonitor");
+    } else {
+      return newKey;
+    }
+  }
 }

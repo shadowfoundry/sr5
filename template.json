@@ -6001,7 +6001,8 @@
       "value": "",
       "ownerID":"",
       "ownerName":"",
-      "ownerItem":""
+      "ownerItem":"",
+      "hasEffectOnItem": "false"
     },
     "itemDrug":{
       "templates": [

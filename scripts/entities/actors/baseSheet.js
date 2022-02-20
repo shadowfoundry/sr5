@@ -477,7 +477,7 @@ export class ActorSheetSR5 extends ActorSheet {
         for (let e of item.data.targetOfEffect){
           if (!game.user?.isGM) {
             await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {
-              targetItem: itemId,
+              targetItem: e,
             });
           } else {  
             await SR5Actor.deleteSustainedEffect(e);
