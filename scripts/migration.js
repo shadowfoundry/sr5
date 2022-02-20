@@ -138,6 +138,10 @@ export default class Migration {
 			//Do stuff on Actor
 			if(actor.type !== "actorDrone") updateData["data.penalties.-=resonance"] = null;
 			if(actor.data.vision) updateData["data.-=vision"] = null;
+			if (actor.type === "actorSpirit"){
+				if(actor.data.magic.magicType === "") updateData["actor.data.magic.magicType"] = "spirit";
+			}
+			
 
 			//Add itemDevice to actor if there is not TO REMOVE ON 0.4.4
 			if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorDevice"){
