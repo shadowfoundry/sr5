@@ -18,6 +18,22 @@ export class SR5_EntityHelpers {
     return this.parseModifiers(modifiersArray, "sum");
   }
 
+  static modifiersOnlyPositivesSum(modifiersArray) {
+    if (modifiersArray === undefined || !Array.isArray(modifiersArray)) {
+      SR5_SystemHelpers.srLog(1, `Missing or non-array variable sent to 'modifiersOnlyPositivesSum()'`, (modifiersArray ? modifiersArray : ''));
+      return;
+    }
+    return this.parseModifiers(modifiersArray, "sumPositives");
+  }
+
+  static modifiersOnlyNegativesSum(modifiersArray) {
+    if (modifiersArray === undefined || !Array.isArray(modifiersArray)) {
+      SR5_SystemHelpers.srLog(1, `Missing or non-array variable sent to 'modifiersOnlyNegativesSum()'`, (modifiersArray ? modifiersArray : ''));
+      return;
+    }
+    return this.parseModifiers(modifiersArray, "sumNegatives");
+  }
+
   static modifiersProduct(modifiersArray) {
     if (modifiersArray === undefined || !Array.isArray(modifiersArray)) {
       SR5_SystemHelpers.srLog(1, `Missing or non-array variable sent to 'modifiersProduct()'`, (modifiersArray ? modifiersArray : ''));
@@ -41,6 +57,16 @@ export class SR5_EntityHelpers {
       switch (parsingType) {
         case "sum":
           if (!modifier.isMultiplier) {
+            totalModifiers = totalModifiers + modifier.value * 1;
+          }
+          break;
+        case "sumPositives":
+          if (!modifier.isMultiplier && modifier.value > 0) {
+            totalModifiers = totalModifiers + modifier.value * 1;
+          }
+          break;
+        case "sumNegatives":
+          if (!modifier.isMultiplier && modifier.value < 0) {
             totalModifiers = totalModifiers + modifier.value * 1;
           }
           break;
@@ -176,7 +202,7 @@ export class SR5_EntityHelpers {
     }
     return actorPosition;
   }
-  
+
   // Return object with properties sorted alphabetically by translated terms, using keys from a "table" from config.js
   // NOTE: no assumptions should be made regarding order of properties in an object so it might not work for all browsers
   static sortByTranslatedTerm(object, table) {
