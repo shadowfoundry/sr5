@@ -277,7 +277,6 @@ export const registerHooks = function () {
       }
       if (item.type === "itemEffect"){
         if (item.data.data.hasEffectOnItem){
-          console.log(item);
           if (item.parent.isToken) await SR5Actor.deleteItemEffectFromItem(item.parent.token.id, item.data.data.ownerItem);
           else await SR5Actor.deleteItemEffectFromItem(item.parent.id, item.data.data.ownerItem);
         }
