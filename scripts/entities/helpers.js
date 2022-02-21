@@ -65,6 +65,11 @@ export class SR5_EntityHelpers {
             totalModifiers = totalModifiers + modifier.value * 1;
           }
           break;
+        case "gain":
+            if (!modifier.isMultiplier && modifier.source.startsWith("Gain")) {
+              totalModifiers = totalModifiers + modifier.value * 1;
+            }
+            break;
         case "sumNegatives":
           if (!modifier.isMultiplier && modifier.value < 0) {
             totalModifiers = totalModifiers + modifier.value * 1;
