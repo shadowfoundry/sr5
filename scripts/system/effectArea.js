@@ -114,7 +114,7 @@ export class SR5_EffectArea {
             "data.type": "signalJammed",
             "data.ownerID": jammer.id,
             "data.ownerName": jammer.name,
-            "data.duration": "permanent",
+            "data.durationType": "permanent",
             "data.target": game.i18n.localize("SR5.MatrixNoise"),
             "data.value": value,
             "data.customEffects": {

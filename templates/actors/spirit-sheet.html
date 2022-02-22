@@ -28,6 +28,7 @@
 						<!-- MAGIC USER LEFT TAB -->
 						<div class="tab" data-group="gauche" data-tab="tab-magie">
               				{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html}}
 						</div>
 					</section>
 				</div>
@@ -38,6 +39,9 @@
 							{{> systems/sr5/templates/actors/_partials/right-tabs/combat/spiritWeapons.html}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
+							{{#if (or (eq data.type 'man') (eq data.type 'insectCaretaker') (eq data.type 'insectNymph') (eq data.type 'insectQueen') (eq data.type 'plague') (eq data.type 'shedimMaster'))}}
+							{{> systems/sr5/templates/actors/_partials/right-tabs/magic/spells.html}}
+							{{/if}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
 						</section>
 					</div>

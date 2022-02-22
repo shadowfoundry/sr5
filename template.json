@@ -931,7 +931,34 @@
             "skillGroup": "enchantingGroup",
             "category": "magicSkills",
             "canDefault": false,
-            "specializations": ""
+            "specializations": "",
+            "spellCategory": {
+              "combat": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "detection": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "illusion": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "manipulation": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "health": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            }
           },
           "pilotAircraft": {
             "rating": {
@@ -4481,7 +4508,17 @@
       "summonerMagic": 0,
       "creatorId": "",
       "creatorItemId": "",
-      "isBounded": false
+      "isBounded": false,
+      "magic": {
+        "tradition": "",
+        "magicType": "spirit",
+        "drainResistance": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "linkedAttribute": ""
+          }
+        }
     },
     "actorDrone": {
       "templates": [
@@ -5586,6 +5623,16 @@
         "max": 0
       },
       "isBounded": false,
+      "magic": {
+        "tradition": "",
+        "magicType": "spirit",
+        "drainResistance": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "linkedAttribute": ""
+          }
+      },
       "summonerMagic": 0,
       "isCreated": false,
       "attributes": {
@@ -5807,7 +5854,8 @@
       "detectionSense": "",
       "healthEssence": false,
       "freeSustain": false,
-      "preparation": false
+      "preparation": false,
+      "targetOfEffect":[]
     },
     "itemPreparation": {
       "templates": [
@@ -5858,7 +5906,8 @@
         "duration": "",
         "defenseAttribute":"",
         "defenseMatrixAttribute":"" ,
-        "freeSustain": false
+        "freeSustain": false,
+        "targetOfEffect":[]
       },
     "itemQuality": {
       "templates": [
@@ -5951,7 +6000,9 @@
       "durationType":"",
       "value": "",
       "ownerID":"",
-      "ownerName":""
+      "ownerName":"",
+      "ownerItem":"",
+      "hasEffectOnItem": "false"
     },
     "itemDrug":{
       "templates": [

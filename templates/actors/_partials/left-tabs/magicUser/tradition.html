@@ -20,6 +20,7 @@
 		  				</select>
 					</div>
 	  			</li>
+				{{#ifne data.magic.magicType 'spirit'}}
 	  			<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionCombat'}}</p></div>
 					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.combat)}}</p></div>
@@ -40,6 +41,7 @@
 					<div class="col-10"><p>{{localize 'SR5.TraditionManipulation'}}</p></div>
 					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.manipulation)}}</p></div>
 				</li>
+				{{/ifne}}
 			</ul>
 		</div>
 	{{/ifne}}

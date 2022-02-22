@@ -832,25 +832,29 @@ export class SR5_Roll {
                 }
                 break;
 
-            case "preparationFormula":
-                title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
-                dicePool = actorData.skills.alchemy.test.dicePool;
-                optionalData = {
-                    "switch.specialization": true,
-                    "drainMod.spell": itemData.drainModifier,
-                    drainType: "stun",
-                    force: actorData.specialAttributes.magic.augmented.value,
-                    actorMagic: actorData.specialAttributes.magic.augmented.value,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
-                }
-                break;
+                case "preparationFormula":
+                    let alchemicalSpellCategories = itemData.category;
+                    typeSub = itemData.subCategory;
+                    title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
+                    dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
+                    optionalData = {
+                        "switch.specialization": true,
+                        "drainMod.spell": itemData.drainModifier,
+                        drainType: "stun",
+                        force: actorData.specialAttributes.magic.augmented.value,
+                        actorMagic: actorData.specialAttributes.magic.augmented.value,
+                        "sceneData.backgroundCount": backgroundCount,
+                        "sceneData.backgroundAlignement": backgroundAlignement,
+                    }
+                    break;
 
             case "complexForm":
                 title = `${game.i18n.localize("SR5.Thread")} ${item.name}`;
                 dicePool = actorData.matrix.resonanceActions.threadComplexForm.test.dicePool;                
                 for (let e of itemData.systemEffects){
                     if (e.value === "sre_ResonanceSpike") typeSub = "resonanceSpike";
+                    if (e.value === "sre_Derezz") typeSub = "derezz";
+                    if (e.value === "sre_Redundancy") typeSub = "redundancy";
                 }
                 optionalData = {
                     fadingModifier: itemData.fadingModifier,
@@ -867,6 +871,26 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         "switch.publicGrid": true,
                     });
+                }
+
+                //Check if an effect is transferable on taget actor and give the necessary infos
+                for (let e of Object.values(itemData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
+
+                //Check if an effect is transferable on target item and give the necessary infos
+                for (let e of Object.values(itemData.itemEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffectOnItem": true,
+                        });
+                    }
                 }
                 break;
             
@@ -898,8 +922,27 @@ export class SR5_Roll {
                 typeSub = chatData.typeSub;
                 optionalData = {
                     hits: chatData.test.hits,
+                    originalActionAuthor: chatData?.originalActionAuthor,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                 }
+
+                //Check if an effect is transferable and give the necessary infos
+                if (chatData.switch.transferEffect){
+                    optionalData = mergeObject(optionalData, {
+                        "itemUuid": chatData.itemUuid,
+                        "switch.transferEffect": true,
+                    });
+                }
+                //Check if an effect is transferable and give the necessary infos
+                /*for (let e of Object.values(chatData.item.data.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                            originalItem: chatData.item,
+                        });
+                    }
+                }*/
                 break;
 
             case "power":

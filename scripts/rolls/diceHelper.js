@@ -592,7 +592,7 @@ export class SR5_DiceHelper {
             "data.type": "iceAttack",
             "data.ownerID": ice.data._id,
             "data.ownerName": ice.name,
-            "data.duration": "permanent",
+            "data.durationType": "reboot",
         };
         switch(messageData.iceType){
             case "iceAcid":
@@ -705,7 +705,7 @@ export class SR5_DiceHelper {
             "data.type": "linkLock",
             "data.ownerID": attacker.data._id,
             "data.ownerName": attacker.name,
-            "data.duration": "permanent",
+            "data.durationType": "permanent",
             name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
             "data.target": game.i18n.localize("SR5.EffectLinkLockedConnection"),
             "data.value": attacker.data.data.matrix.actions.jackOut.defense.dicePool,
@@ -733,7 +733,7 @@ export class SR5_DiceHelper {
             "data.type": "sensorLock",
             "data.ownerID": drone.data._id,
             "data.ownerName": drone.name,
-            "data.duration": "permanent",
+            "data.durationType": "permanent",
             "data.target": game.i18n.localize("SR5.Defense"),
             "data.value": value,
         };
@@ -997,7 +997,8 @@ export class SR5_DiceHelper {
             "data.type": "signalJam",
             "data.ownerID": message.actor._id,
             "data.ownerName": message.actor.name,
-            "data.duration": "permanent",
+            "data.duration": 0,
+            "data.durationType": "permanent",
             "data.target": game.i18n.localize("SR5.MatrixNoise"),
             "data.value": -message.test.hits,
             "data.customEffects": {
@@ -1035,5 +1036,29 @@ export class SR5_DiceHelper {
         data.tasks.max += message.netHits;
         await actor.update({'data': data});
         ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
+    }
+
+    static async applyDerezzEffect(message, sourceActor, target){
+        let itemEffect = {
+            name: game.i18n.localize("SR5.EffectReduceFirewall"),
+            type: "itemEffect",
+            "data.target": game.i18n.localize("SR5.Firewall"),
+            "data.value": -message.matrixDamageValue,
+            "data.type": "derezz",
+            "data.ownerID": sourceActor.id,
+            "data.ownerName": sourceActor.name,
+            "data.duration": 0,
+            "data.durationType": "reboot",
+            "data.customEffects": {
+              "0": {
+                  "category": "matrixAttributes",
+                  "target": "data.matrix.attributes.firewall",
+                  "type": "value",
+                  "value": -message.matrixDamageValue,
+                  "forceAdd": true,
+                }
+            },
+        };
+        if (!target.items.find(i => i.data.data.type === "derezz")) await target.createEmbeddedDocuments("Item", [itemEffect]);
     }
 }

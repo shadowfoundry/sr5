@@ -8,7 +8,7 @@ export default class Migration {
 			try {
 			  const updateData = this.migrateItemData(i.toObject());
 			  if (!foundry.utils.isObjectEmpty(updateData)) {
-				console.log(`Migrating Item entity ${i.name}`);
+				console.log(`Migrating Item documment ${i.name}`);
 				await i.update(updateData, { enforceTypes: false });
 			  }
 			} catch (err) {
@@ -75,8 +75,8 @@ export default class Migration {
 	 * @return {Promise}
 	 */
 	async migrateCompendium(pack) {
-		const entity = pack.metadata.entity;
-		if (!["Actor", "Item", "Scene"].includes(entity)) return;
+		const document = pack.metadata.document;
+		if (!["Actor", "Item", "Scene"].includes(document)) return;
 
 		// Unlock the pack for editing
 		const wasLocked = pack.locked;
@@ -90,7 +90,7 @@ export default class Migration {
 		for (let doc of documents) {
 		let updateData = {};
 		try {
-			switch (entity) {
+			switch (document) {
 			case "Actor":
 				updateData = this.migrateActorData(doc.data);
 				break;
@@ -105,19 +105,19 @@ export default class Migration {
 			// Save the entry, if data was changed
 			if (foundry.utils.isObjectEmpty(updateData)) continue;
 			await doc.update(updateData);
-			console.log(`Migrated ${entity} entity ${doc.name} in Compendium ${pack.collection}`);
+			console.log(`Migrated ${document} document ${doc.name} in Compendium ${pack.collection}`);
 		}
 
 		// Handle migration failures
 		catch (err) {
-			err.message = `Failed sr5 system migration for entity ${doc.name} in pack ${pack.collection}: ${err.message}`;
+			err.message = `Failed sr5 system migration for document ${doc.name} in pack ${pack.collection}: ${err.message}`;
 			console.error(err);
 		}
 		}
 
 		// Apply the original locked status for the pack
 		await pack.configure({ locked: wasLocked });
-		console.log(`Migrated all ${entity} entities from Compendium ${pack.collection}`);
+		console.log(`Migrated all ${document} entities from Compendium ${pack.collection}`);
 	};
 
 	/* -------------------------------------------- */
@@ -138,24 +138,30 @@ export default class Migration {
 			//Do stuff on Actor
 			if(actor.type !== "actorDrone") updateData["data.penalties.-=resonance"] = null;
 			if(actor.data.vision) updateData["data.-=vision"] = null;
+			if (actor.type === "actorSpirit"){
+				if(actor.data.magic.magicType === "") updateData["data.magic.magicType"] = "spirit";
+			}
+			
 
 			//Add itemDevice to actor if there is not TO REMOVE ON 0.4.4
 			if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorDevice"){
 				let hasDevice = false;
-				for (let i of actor.items){
-					if (i.type === "itemDevice") hasDevice = true;
-				}
+				if (actor.items){
+					for (let i of actor.items){
+						if (i.type === "itemDevice") hasDevice = true;
+					}
 
-				if (!hasDevice){
-					let deviceItem = {
-						"name": game.i18n.localize("SR5.Device"),
-          				"type": "itemDevice",
+					if (!hasDevice){
+						let deviceItem = {
+							"name": game.i18n.localize("SR5.Device"),
+							"type": "itemDevice",
+						}
+						deviceItem.data = {
+							"isActive": true,
+							"type": "baseDevice",
+						}
+						actor.document.createEmbeddedDocuments("Item", [deviceItem]);
 					}
-					deviceItem.data = {
-						"isActive": true,
-						"type": "baseDevice",
-					}
-					actor.document.createEmbeddedDocuments("Item", [deviceItem]);
 				}
 			}
     	}
