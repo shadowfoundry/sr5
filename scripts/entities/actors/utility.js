@@ -515,7 +515,7 @@ export class SR5_CharacterUtility extends Actor {
 
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
-    let KarmaGained = SR5_EntityHelpers.parseModifiers(actor.data.karma.modifiers, "gain");
+    let KarmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
     SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.Karma')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, false);
   }
 
