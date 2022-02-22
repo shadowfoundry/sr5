@@ -61,17 +61,12 @@ export class SR5_EntityHelpers {
           }
           break;
         case "sumPositives":
-          if (!modifier.isMultiplier && modifier.value > 0) {
+          if (!modifier.isMultiplier && modifier.type.split("_").pop() == 'gain') {
             totalModifiers = totalModifiers + modifier.value * 1;
           }
           break;
-        case "gain":
-          if (!modifier.isMultiplier && modifier.type.startsWith("gain", 27)) {
-              totalModifiers = totalModifiers + modifier.value * 1;
-            }
-            break;
         case "sumNegatives":
-          if (!modifier.isMultiplier && modifier.value < 0) {
+          if (!modifier.isMultiplier && modifier.type.split("_").pop() == 'loss') {
             totalModifiers = totalModifiers + modifier.value * 1;
           }
           break;
