@@ -66,7 +66,7 @@ export class SR5_EntityHelpers {
           }
           break;
         case "gain":
-            if (!modifier.isMultiplier && modifier.source.startsWith("Gain")) {
+          if (!modifier.isMultiplier && modifier.type.startsWith("gain", 27)) {
               totalModifiers = totalModifiers + modifier.value * 1;
             }
             break;
