@@ -1061,4 +1061,67 @@ export class SR5_DiceHelper {
         };
         if (!target.items.find(i => i.data.data.type === "derezz")) await target.createEmbeddedDocuments("Item", [itemEffect]);
     }
+
+    static async complexFormResistance(message){
+        let targetedComplexForm = await fromUuid(message.targetComplexForm);
+        let dicePool = targetedComplexForm.data.data.threaderResonance + targetedComplexForm.data.data.level;
+
+        let cardData = {
+            button: {},
+            actor: message.actor,    
+            hits: message.test.hits,
+            speakerId: message.speakerId,
+            speakerActor: message.speakerActor,
+            speakerImg: message.speakerImg,
+            targetComplexForm: message.targetComplexForm,
+            type: "complexFormResistance",
+        };
+
+        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        cardData.test = result;
+
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        SR5_Dice.renderRollCard(cardData);
+    }
+
+    static async reduceComplexForm(message){
+        let targetedComplexForm = await fromUuid(message.targetComplexForm),
+            newComplexForm = duplicate(targetedComplexForm.data.data);
+
+        newComplexForm.hits += message.netHits;
+        if (newComplexForm.hits <= 0){
+            newComplexForm.hits = 0;
+            newComplexForm.isActive = false;
+            for (let e of newComplexForm.targetOfEffect){
+                let effect = await fromUuid(e);
+                if (!game.user?.isGM){
+                    SR5_SocketHandler.emitForGM("deleteItem", {
+                        item: e,
+                    });
+                } else await effect.delete();
+            }
+            newComplexForm.targetOfEffect = [];
+        }
+
+        if (!game.user?.isGM){
+            console.log("tee")
+            SR5_SocketHandler.emitForGM("reduceComplexForm", {
+                target: targetedComplexForm.uuid,
+                data: newComplexForm,
+            });
+        } else await targetedComplexForm.update({'data': newComplexForm});
+    }
+
+    //Socket for reducing complex form
+    static async _socketReduceComplexForm(message) {
+        console.log(message);
+        let target = await fromUuid(message.data.target);
+        await target.update({'data': message.data.data});
+	}
+
+    static async _socketDeleteItem(message){
+        console.log(message);
+        let item = await fromUuid(message.data.item);
+        await item.delete();
+    }
 }

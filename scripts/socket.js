@@ -20,6 +20,8 @@ export class SR5_SocketHandler {
             "overwatchIncrease": [SR5Actor._socketOverwatchIncrease],
             "linkEffectToSource": [SR5Actor._socketLinkEffectToSource],
             "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
+            "reduceComplexForm": [SR5_DiceHelper._socketReduceComplexForm],
+            "deleteItem": [SR5_DiceHelper._socketDeleteItem],
         }
 
         game.socket.on(`system.sr5`, async (message) => {

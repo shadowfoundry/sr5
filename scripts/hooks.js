@@ -6,6 +6,7 @@ import { preloadHandlebarsTemplates } from "./templates.js";
 import { SR5_SocketHandler } from "./socket.js";
 import { SR5Actor } from "./entities/actors/entityActor.js";
 import { SR5_CharacterUtility } from "./entities/actors/utility.js";
+import { SR5_UtilityItem } from "./entities/items/utilityItem.js";
 import { SR5ActorSheet } from "./entities/actors/characterSheet.js";
 import { SR5SpiritSheet } from "./entities/actors/spiritSheet.js";
 import { SR5GruntSheet } from "./entities/actors/gruntSheet.js";
@@ -250,6 +251,9 @@ export const registerHooks = function () {
 
   Hooks.on("updateItem", async(document, data, options, userId) => {
     if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
+    if (document.isOwned && document.type === "itemComplexForm" && document.data.data.targetOfEffect.length){
+      await SR5_UtilityItem.keepSynchronousWithParent(document);
+    }
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {

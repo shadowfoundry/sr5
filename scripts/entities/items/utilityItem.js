@@ -1450,6 +1450,33 @@ export class SR5_UtilityItem extends Actor {
     }
   }
 
+  //Keep an effect synchronous with his parent complex form or a spell
+  static async keepSynchronousWithParent(item){
+    let updatedItem, targetItem, actor;
+    let index = 0;
+    for (let e of item.data.data.targetOfEffect){
+      targetItem = await fromUuid(e);
+      if (targetItem.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(targetItem.actor.token.id);
+      else actor = SR5_EntityHelpers.getRealActorFromID(targetItem.actor.id);
+      
+      for (let i of actor.items){
+        if (i.type === "itemEffect"){
+          for (let t of item.data.data.targetOfEffect){
+            if (t === i.uuid){
+              updatedItem = duplicate(i.data.data);
+              updatedItem.value = item.data.data.hits;
+              for (let e of Object.values(updatedItem.customEffects)){
+                e.value = item.data.data.hits;
+              }
+              await i.update({'data': updatedItem});
+            }
+          }
+        }
+      }
+      index++;
+    }
+  }
+
   static applyItemEffects(item){
     for (let customEffect of Object.values(item.data.itemEffects)) {
       let skipCustomEffect = false,

@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -391,6 +391,8 @@ export class SR5_Dice {
 		cardData.button.compileSprite = false;
 		cardData.button.spriteDecompileDefense = false;
 		cardData.button.extended = false;
+		cardData.button.killComplexFormResistance = false;
+		cardData.button.reduceComplexForm = false;
 
 		if (cardData.extendedTest){
 			cardData.extendedIntervalValue = cardData.extendedMultiplier * cardData.extendedRoll;
@@ -500,6 +502,9 @@ export class SR5_Dice {
 				break;
 			case "registeringResistance":
 				SR5_Dice.addRegisteringResistanceInfoToCard(cardData, author);
+				break;
+			case "complexFormResistance":
+				SR5_Dice.addComplexFormResistanceInfoToCard(cardData, author);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
@@ -1043,6 +1048,9 @@ export class SR5_Dice {
 			cardData.button.spriteRegisterDefense = true;
 			cardData.invocaAuthor = cardData.speakerId;
 		}
+		if (cardData.typeSub === "killComplexForm" && cardData.test.hits > 0){
+			cardData.button.killComplexFormResistance = true;
+		}
 	}
 
 	static async addCompilingResistanceInfoToCard(cardData, author){ 
@@ -1167,5 +1175,15 @@ export class SR5_Dice {
 		}
 		
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
+	}
+
+	static async addComplexFormResistanceInfoToCard(cardData, author){
+		if (cardData.test.hits >= cardData.hits){
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.KillComplexFormFailed");
+		} else {
+			cardData.netHits = cardData.test.hits - cardData.hits;
+			cardData.button.reduceComplexForm = true;
+		}
 	}
 }

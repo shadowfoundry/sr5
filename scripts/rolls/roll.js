@@ -584,6 +584,21 @@ export class SR5_Roll {
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                 }
+
+                if (typeSub === "killComplexForm" && canvas.scene){
+                    if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
+                    else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
+                    else {
+                        let targets = Array.from(game.user.targets);
+                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        let complexFormList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
+                        optionalData = mergeObject(optionalData, {
+                            hasTarget: true,
+                            complexFormList: complexFormList,
+                        });
+                    }
+                }
                 break;
 
             case "defense":
@@ -832,21 +847,21 @@ export class SR5_Roll {
                 }
                 break;
 
-                case "preparationFormula":
-                    let alchemicalSpellCategories = itemData.category;
-                    typeSub = itemData.subCategory;
-                    title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
-                    dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
-                    optionalData = {
-                        "switch.specialization": true,
-                        "drainMod.spell": itemData.drainModifier,
-                        drainType: "stun",
-                        force: actorData.specialAttributes.magic.augmented.value,
-                        actorMagic: actorData.specialAttributes.magic.augmented.value,
-                        "sceneData.backgroundCount": backgroundCount,
-                        "sceneData.backgroundAlignement": backgroundAlignement,
-                    }
-                    break;
+            case "preparationFormula":
+                let alchemicalSpellCategories = itemData.category;
+                typeSub = itemData.subCategory;
+                title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
+                dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
+                optionalData = {
+                    "switch.specialization": true,
+                    "drainMod.spell": itemData.drainModifier,
+                    drainType: "stun",
+                    force: actorData.specialAttributes.magic.augmented.value,
+                    actorMagic: actorData.specialAttributes.magic.augmented.value,
+                    "sceneData.backgroundCount": backgroundCount,
+                    "sceneData.backgroundAlignement": backgroundAlignement,
+                }
+                break;
 
             case "complexForm":
                 title = `${game.i18n.localize("SR5.Thread")} ${item.name}`;
@@ -1026,6 +1041,7 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+
             case "decompilingResistance":
                 if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                 title = game.i18n.localize("SR5.ResistDecompiling"); 
@@ -1036,6 +1052,7 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+
             case "registeringResistance":
                 if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                 title = game.i18n.localize("SR5.ResistRegistering"); 
@@ -1073,6 +1090,6 @@ export class SR5_Roll {
         }
 
         mergeObject(dialogData, optionalData);
-        SR5_Dice.prepareRollDialog(dialogData);
+        await SR5_Dice.prepareRollDialog(dialogData);
     }
 }

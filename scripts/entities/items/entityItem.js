@@ -179,6 +179,7 @@ export class SR5Item extends Item {
             data.vector.value.push(game.i18n.localize(SR5.propagationVectors[key]));
           }
         }
+        break;
       default:
     }
 

@@ -66,9 +66,11 @@ export class SR5_RollMessage {
                 let updatedOriginalMessage = await game.messages.get(newMessage.originalMessage._id);
                 let flagdata = await duplicate(updatedOriginalMessage.data.flags.sr5data);
                 newMessage.originalMessage.flags.sr5data = flagdata;
-                await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.data);
             }
+
+            await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.data);
             if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+
             //Update message with new data
             await SR5_RollMessage.updateRollCard(message.data, newMessage); 
         });
@@ -370,6 +372,14 @@ export class SR5_RollMessage {
                 case "msgTest_applyEffectAuto":
                     actor.applyExternalEffect(messageData, "customEffects");
                     SR5_RollMessage.updateChatButton(message.data, "applyEffectAuto");
+                    break;
+                case "msgTest_killComplexFormResistance":
+                    SR5_DiceHelper.complexFormResistance(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "killComplexFormResistance");
+                    break;
+                case "msgTest_reduceComplexForm":
+                    SR5_DiceHelper.reduceComplexForm(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reduceComplexForm");
                     break;
                 default:
             }

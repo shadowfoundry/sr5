@@ -349,6 +349,18 @@
       {{#if button.applyEffectOnItem}}
         <button class="messageAction opposedTest" data-action="opposedTest" data-type="msgTest_applyEffectOnItem">{{localize 'SR5.ApplyEffect'}}</button> 
       {{/if}}
+
+      <!-- KILL COMPLEX FORM RESISTANCE -->
+      {{#if button.killComplexFormResistance}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_killComplexFormResistance">{{localize 'SR5.ComplexFormResistance'}}</button> 
+      {{/if}}
+
+      <!-- KILL COMPLEX FORM REDUCE -->
+      {{#if button.reduceComplexForm}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reduceComplexForm">{{localize 'SR5.ReduceComplexFormSuccess'}} ({{netHits}})</button> 
+      {{/if}}
+      
+      
     </div>
   </div>
 </div>
