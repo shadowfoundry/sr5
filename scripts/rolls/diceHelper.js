@@ -1089,6 +1089,8 @@ export class SR5_DiceHelper {
             newComplexForm = duplicate(targetedComplexForm.data.data);
 
         newComplexForm.hits += message.netHits;
+
+        //If Complex form is reduce to 0, delete it
         if (newComplexForm.hits <= 0){
             newComplexForm.hits = 0;
             newComplexForm.isActive = false;
@@ -1101,26 +1103,41 @@ export class SR5_DiceHelper {
                 } else await effect.delete();
             }
             newComplexForm.targetOfEffect = [];
+        //else, update effect linked to complex form
+        } else {
+            for (let e of newComplexForm.targetOfEffect){
+                let effect = await fromUuid(e);
+                let updatedEffect = effect.data.data;
+                updatedEffect.value = newComplexForm.hits;
+                for (let cs of Object.values(updatedEffect.customEffects)){
+                    cs.value = newComplexForm.hits;
+                }
+                if (!game.user?.isGM){
+                    SR5_SocketHandler.emitForGM("updateItem", {
+                        item: e,
+                        data: updatedEffect,
+                    });
+                } else await effect.update({'data': updatedEffect});
+                
+            }
         }
 
+        //Update complex form item
         if (!game.user?.isGM){
-            console.log("tee")
-            SR5_SocketHandler.emitForGM("reduceComplexForm", {
-                target: targetedComplexForm.uuid,
+            SR5_SocketHandler.emitForGM("updateItem", {
+                item: targetedComplexForm.uuid,
                 data: newComplexForm,
             });
         } else await targetedComplexForm.update({'data': newComplexForm});
     }
 
-    //Socket for reducing complex form
-    static async _socketReduceComplexForm(message) {
-        console.log(message);
-        let target = await fromUuid(message.data.target);
+    //Socket for updating an item
+    static async _socketUpdateItem(message) {
+        let target = await fromUuid(message.data.item);
         await target.update({'data': message.data.data});
 	}
-
+    //Socket for deleting an item
     static async _socketDeleteItem(message){
-        console.log(message);
         let item = await fromUuid(message.data.item);
         await item.delete();
     }

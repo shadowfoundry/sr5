@@ -1451,7 +1451,7 @@ export class SR5_UtilityItem extends Actor {
   }
 
   //Keep an effect synchronous with his parent complex form or a spell
-  static async keepSynchronousWithParent(item){
+  /*static async keepSynchronousWithParent(item){
     let updatedItem, targetItem, actor;
     let index = 0;
     for (let e of item.data.data.targetOfEffect){
@@ -1476,6 +1476,11 @@ export class SR5_UtilityItem extends Actor {
       index++;
     }
   }
+
+  static async _socketKeepSynchronousWithParent(message){
+    let item = await fromUuid(message.data.document)
+    SR5_UtilityItem.keepSynchronousWithParent(item);
+  }*/
 
   static applyItemEffects(item){
     for (let customEffect of Object.values(item.data.itemEffects)) {
