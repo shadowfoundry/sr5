@@ -1,6 +1,7 @@
 import { SR5Combat } from "./system/srcombat.js";
 import { SR5_SystemHelpers } from "./system/utility.js";
 import { SR5Actor } from "./entities/actors/entityActor.js";
+import { SR5_UtilityItem } from "./entities/items/utilityItem.js";
 import { SR5_DiceHelper } from "./rolls/diceHelper.js";
 
 export class SR5_SocketHandler {
@@ -20,6 +21,10 @@ export class SR5_SocketHandler {
             "overwatchIncrease": [SR5Actor._socketOverwatchIncrease],
             "linkEffectToSource": [SR5Actor._socketLinkEffectToSource],
             "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
+            "deleteItem": [SR5_DiceHelper._socketDeleteItem],
+            "updateItem": [SR5_DiceHelper._socketUpdateItem],
+            //"keepSynchronousWithParent": [SR5_UtilityItem._socketkeepSynchronousWithParent],
+            
         }
 
         game.socket.on(`system.sr5`, async (message) => {

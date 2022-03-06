@@ -46,26 +46,25 @@ export class SR5_DiceHelper {
     * @param {Object} message - The origin message
     */
     static async createItemResistance(message) {
-        let data = message.data.flags.sr5data;
-        let actor = SR5_EntityHelpers.getRealActorFromID(data.invocaAuthor);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
         actor = actor.toObject(false);
         let dicePool;
 
         let cardData = {
             button: {},
             actor: actor,
-            invocaAuthor: data.invocaAuthor,    
-            hits: data.hits,
-            speakerId: data.speakerId,
-            speakerActor: data.speakerActor,
-            speakerImg: data.speakerImg,
+            ownerAuthor: message.ownerAuthor,    
+            hits: message.hits,
+            speakerId: message.speakerId,
+            speakerActor: message.speakerActor,
+            speakerImg: message.speakerImg,
         };
 
         //Spirit resistance
-        if (data.typeSub === "summoning"){
+        if (message.typeSub === "summoning"){
             cardData = mergeObject(cardData, {
-                spiritType: data.spiritType,
-                force: data.force,
+                spiritType: message.spiritType,
+                force: message.force,
                 type: "summoningResistance",
                 title: `${game.i18n.localize("SR5.SummoningResistance")} (${cardData.hits})`,
             });
@@ -73,10 +72,10 @@ export class SR5_DiceHelper {
         }
 
         //Sprite resistance
-        if (data.typeSub === "compileSprite"){
+        if (message.typeSub === "compileSprite"){
             cardData = mergeObject(cardData, {
-                spriteType: data.spriteType,
-                level: data.level,
+                spriteType: message.spriteType,
+                level: message.level,
                 type: "compilingResistance",
                 title: `${game.i18n.localize("SR5.CompilingResistance")} (${cardData.hits})`,
             });
@@ -84,21 +83,34 @@ export class SR5_DiceHelper {
         }
 
         //Preparation resistance
-        if (data.type === "preparationFormula"){
+        if (message.type === "preparationFormula"){
             cardData = mergeObject(cardData, {
-                item: data.item,
-                force: data.force,
-                preparationTrigger : data.preparationTrigger,
+                item: message.item,
+                force: message.force,
+                preparationTrigger : message.preparationTrigger,
                 type: "preparationResistance",
                 title: `${game.i18n.localize("SR5.PreparationResistance")} (${cardData.hits})`,
             });
             dicePool = cardData.force;    
         }
 
+        //Complexe forme resistance
+        if (message.type === "resonanceAction" && message.typeSub === "killComplexForm"){
+            let targetedComplexForm = await fromUuid(message.targetComplexForm);
+            dicePool = targetedComplexForm.data.data.threaderResonance + targetedComplexForm.data.data.level;
+            cardData = mergeObject(cardData, {
+                targetComplexForm: message.targetComplexForm,
+                hits: message.test.hits,
+                type: "complexFormResistance",
+                title: `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetedComplexForm.name})`,
+            });
+
+        }
+
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, data.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
         SR5_Dice.renderRollCard(cardData);
     }
 
@@ -1060,5 +1072,63 @@ export class SR5_DiceHelper {
             },
         };
         if (!target.items.find(i => i.data.data.type === "derezz")) await target.createEmbeddedDocuments("Item", [itemEffect]);
+    }
+
+    static async reduceComplexForm(message){
+        let targetedComplexForm = await fromUuid(message.targetComplexForm),
+            newComplexForm = duplicate(targetedComplexForm.data.data);
+
+        newComplexForm.hits += message.netHits;
+
+        //If Complex form is reduce to 0, delete it
+        if (newComplexForm.hits <= 0){
+            newComplexForm.hits = 0;
+            newComplexForm.isActive = false;
+            for (let e of newComplexForm.targetOfEffect){
+                let effect = await fromUuid(e);
+                if (!game.user?.isGM){
+                    SR5_SocketHandler.emitForGM("deleteItem", {
+                        item: e,
+                    });
+                } else await effect.delete();
+            }
+            newComplexForm.targetOfEffect = [];
+        //else, update effect linked to complex form
+        } else {
+            for (let e of newComplexForm.targetOfEffect){
+                let effect = await fromUuid(e);
+                let updatedEffect = effect.data.data;
+                updatedEffect.value = newComplexForm.hits;
+                for (let cs of Object.values(updatedEffect.customEffects)){
+                    cs.value = newComplexForm.hits;
+                }
+                if (!game.user?.isGM){
+                    SR5_SocketHandler.emitForGM("updateItem", {
+                        item: e,
+                        data: updatedEffect,
+                    });
+                } else await effect.update({'data': updatedEffect});
+                
+            }
+        }
+
+        //Update complex form item
+        if (!game.user?.isGM){
+            SR5_SocketHandler.emitForGM("updateItem", {
+                item: targetedComplexForm.uuid,
+                data: newComplexForm,
+            });
+        } else await targetedComplexForm.update({'data': newComplexForm});
+    }
+
+    //Socket for updating an item
+    static async _socketUpdateItem(message) {
+        let target = await fromUuid(message.data.item);
+        await target.update({'data': message.data.data});
+	}
+    //Socket for deleting an item
+    static async _socketDeleteItem(message){
+        let item = await fromUuid(message.data.item);
+        await item.delete();
     }
 }
