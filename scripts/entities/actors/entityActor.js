@@ -1487,7 +1487,6 @@ export class SR5Actor extends Actor {
   static async deleteItemEffectFromItem(actorId, parentItemEffect){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
         index, dataToUpdate;
-    
     for (let i of actor.items){
       let needUpdate = false;
       if (i.data.data.itemEffects?.length){
