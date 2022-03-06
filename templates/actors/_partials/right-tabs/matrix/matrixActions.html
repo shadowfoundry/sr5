@@ -35,10 +35,22 @@
 			{{else}}
 			<li class="grid" data-matrix="{{a}}">
 				<div class="col-5">
+					<!--Specialization Icon-->
+					<a class="toggle-actorValue" data-dtype="Boolean" data-binding="data.matrix.actions.{{@key}}.specialization"
+				  	  data-helpTitle="{{localize 'SR5.Specialization'}}" data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
+					{{#if specialization}}
+				  	<em class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></em>
+					{{else}}
+				  	<em class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></em>
+					{{/if}}
+			  	</a>
+					<!--End Specialization Icon-->
+					<!--Jamming Signal Icon-->
 					{{#if (and (eq @key 'jamSignals') (eq ../data.matrix.isJamming true) )}}
 					<a class="stop-jamming" data-helpTitle="{{localize 'SR5.HELP_Jamming'}}"
 					data-helpMessage="{{localize 'SR5.HELP_JammingMsg'}}"><em class="fas fa-rss"></em></a>
 					{{/if}}
+					<!--End Jamming Signal Icon-->
 					{{findTranslation 'matrixActions' @key}}
 				</div>
 				{{#if (or (and (eq limit.linkedAttribute 'sleaze') (lt ../data.matrix.attributes.sleaze.value 1)) (and (eq limit.linkedAttribute 'attack') (lt ../data.matrix.attributes.attack.value 1)) )}}

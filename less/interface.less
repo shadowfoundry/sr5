@@ -158,29 +158,26 @@
             }
 
             nav {
+                border-bottom: 1px solid @subColor;
+                
                 .item {
+                    color: @subColor;
+                    line-height: 25px;
+                    text-align: center;
+
                     &.active {
                         color: @neutralLightColor;
                         border: none;
                         box-shadow: none;
                         border-radius: 5px;
-                        height: 33px;
-                        background-image: url(@UpArrow);
-                        background-repeat: no-repeat;
-                        background-origin: border-box;
-                        background-position-y: bottom;
-                        background-position-x: center;
-                        background-size: 5%;
 
                         &:hover {
-                            height: 33px;
                             border-bottom: none;
                         }
                     }
 
                     &:hover {
-                        height: 29px;
-                        border-bottom: 1px solid @subColor;
+                        color: @mainColor;
                     }
                 }
             }
@@ -650,7 +647,10 @@
 }
 
 #ui-bottom {
-    margin-left: -95px;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
     background-image: url(@MacroBar);
     background-origin: border-box;
     background-repeat: no-repeat, no-repeat;
@@ -744,7 +744,7 @@
 #controls {
     
     ol.main-controls {
-        padding-left: 10px;
+        //padding-left: 10px;
         width: 55px;
     }
 

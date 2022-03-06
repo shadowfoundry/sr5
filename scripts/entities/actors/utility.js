@@ -2686,6 +2686,9 @@ export class SR5_CharacterUtility extends Actor {
         if (matrix.userMode === "hotsim") {
           SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.VirtualRealityHotSimShort'), game.i18n.localize('SR5.MatrixUserMode'), 2);
         }
+        if (matrixActions[key].specialization){
+          SR5_EntityHelpers.updateModifier(matrixActions[key].test, `${game.i18n.localize('SR5.Specialization')}`, `${game.i18n.localize('SR5.Skill')}`, 2, false, true);
+        }
         this.applyPenalty("condition", matrixActions[key].test, actor);
         this.applyPenalty("matrix", matrixActions[key].test, actor);
         this.applyPenalty("magic", matrixActions[key].test, actor);
