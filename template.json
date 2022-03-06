@@ -3323,6 +3323,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 4,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3344,6 +3345,7 @@
               "actionType": "special",
               "increaseOverwatchScore": true,
               "neededMarks": "S",
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3365,6 +3367,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3386,6 +3389,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 1,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3407,6 +3411,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": "3",
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3428,6 +3433,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": "0",
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3449,6 +3455,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 3,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3470,6 +3477,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3491,6 +3499,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3512,6 +3521,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3533,6 +3543,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 3,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3554,6 +3565,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3575,6 +3587,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3596,6 +3609,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3617,6 +3631,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3638,6 +3653,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3659,6 +3675,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 3,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3680,6 +3697,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3701,6 +3719,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 3,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3722,6 +3741,7 @@
               "actionType": "special",
               "increaseOverwatchScore": false,
               "neededMarks": "S",
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3743,6 +3763,7 @@
               "actionType": "special",
               "increaseOverwatchScore": false,
               "neededMarks": 4,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3764,6 +3785,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3785,6 +3807,7 @@
               "actionType": "simple",
               "increaseOverwatchScore": false,
               "neededMarks": 4,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3806,6 +3829,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 2,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3827,6 +3851,7 @@
               "actionType": "simple",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3900,6 +3925,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3909,6 +3935,7 @@
             "decompileSprite": {
               "actionType": "complex",
               "increaseOverwatchScore": false,
+              "specialization": false,
               "neededMarks": 0,
               "test": {
                 "dicePool": 0,
@@ -3920,6 +3947,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3936,6 +3964,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3946,6 +3975,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,
@@ -3956,6 +3986,7 @@
               "actionType": "complex",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
+              "specialization": false,
               "test": {
                 "dicePool": 0,
                 "base": 0,

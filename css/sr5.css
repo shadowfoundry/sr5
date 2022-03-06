@@ -38,6 +38,9 @@ select {
   /* useful when width is set to anything other than 100% */
   margin-left: -4px;
 }
+option {
+  background: none;
+}
 .clear-height {
   height: auto !important;
   border: 0!important;
@@ -3307,6 +3310,38 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.macro-sheet span.units {
   color: #0c9394;
 }
+.app.window-app.form nav,
+.app.window-app.scene-sheet nav,
+.app.window-app.token-sheet nav,
+.app.window-app.combat-sheet nav,
+.app.window-app.folder-edit nav,
+.app.window-app[id^=app-]:not(.dialog) nav,
+.app.window-app.app.window-app[id^=permission-] nav,
+.app.window-app#permission nav,
+.app.window-app[id^=playlist-config-] nav,
+.app.window-app[id^=rolltable-sheet-] nav,
+.app.window-app[id^=cards-sheet-] nav,
+.app.window-app[id^=ambient-light-config-] nav,
+.app.window-app.macro-sheet nav {
+  border-bottom: 1px solid #0c9394;
+}
+.app.window-app.form nav .item,
+.app.window-app.scene-sheet nav .item,
+.app.window-app.token-sheet nav .item,
+.app.window-app.combat-sheet nav .item,
+.app.window-app.folder-edit nav .item,
+.app.window-app[id^=app-]:not(.dialog) nav .item,
+.app.window-app.app.window-app[id^=permission-] nav .item,
+.app.window-app#permission nav .item,
+.app.window-app[id^=playlist-config-] nav .item,
+.app.window-app[id^=rolltable-sheet-] nav .item,
+.app.window-app[id^=cards-sheet-] nav .item,
+.app.window-app[id^=ambient-light-config-] nav .item,
+.app.window-app.macro-sheet nav .item {
+  color: #0c9394;
+  line-height: 25px;
+  text-align: center;
+}
 .app.window-app.form nav .item.active,
 .app.window-app.scene-sheet nav .item.active,
 .app.window-app.token-sheet nav .item.active,
@@ -3324,13 +3359,6 @@ input[type=range]:focus::-ms-fill-upper {
   border: none;
   box-shadow: none;
   border-radius: 5px;
-  height: 33px;
-  background-image: url("../img/ui/SR5_UpArrowGreen.svg");
-  background-repeat: no-repeat;
-  background-origin: border-box;
-  background-position-y: bottom;
-  background-position-x: center;
-  background-size: 5%;
 }
 .app.window-app.form nav .item.active:hover,
 .app.window-app.scene-sheet nav .item.active:hover,
@@ -3345,7 +3373,6 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=cards-sheet-] nav .item.active:hover,
 .app.window-app[id^=ambient-light-config-] nav .item.active:hover,
 .app.window-app.macro-sheet nav .item.active:hover {
-  height: 33px;
   border-bottom: none;
 }
 .app.window-app.form nav .item:hover,
@@ -3361,8 +3388,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=cards-sheet-] nav .item:hover,
 .app.window-app[id^=ambient-light-config-] nav .item:hover,
 .app.window-app.macro-sheet nav .item:hover {
-  height: 29px;
-  border-bottom: 1px solid #0c9394;
+  color: #931004;
 }
 .app.window-app.form footer button:not(:nth-child(0n+1)),
 .app.window-app.scene-sheet footer button:not(:nth-child(0n+1)),
@@ -3851,7 +3877,10 @@ input[type=range]:focus::-ms-fill-upper {
   animation: glow 1.5s ease-in-out infinite alternate;
 }
 #ui-bottom {
-  margin-left: -95px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
   background-image: url("../img/ui/SR5_BG_MacroBar.png");
   background-origin: border-box;
   background-repeat: no-repeat, no-repeat;
@@ -3930,7 +3959,6 @@ input[type=range]:focus::-ms-fill-upper {
   background-position: -35px -215px;
 }
 #controls ol.main-controls {
-  padding-left: 10px;
   width: 55px;
 }
 #controls ol:nth-of-type(3n) {

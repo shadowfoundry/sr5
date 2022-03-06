@@ -50,11 +50,13 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".item-edit").click(this._onItemEdit.bind(this));
     html.find(".item-delete").click(this._onItemDelete.bind(this));
     html.find(".item-management").mousedown(this._onItemManagement.bind(this));    
-    //Modifications des valeur d'Item depuis l'Actor
+    //Edit item value from actor sheet
     html.find(".edit-value").focusout(this._onEditItemValue.bind(this));
     html.find(".select-value").change(this._onEditItemValue.bind(this));
     html.find(".toggle-value").click(this._onEditItemValue.bind(this));
     html.find(".changeValueByClick").mousedown(this._onChangeValueByClick.bind(this));
+    //
+    html.find(".toggle-actorValue").click(this._onEditActorValue.bind(this));
     //Choose controler
     html.find(".chooseControler").click(this._onChooseControler.bind(this));
     //Recharge les armes
@@ -395,7 +397,7 @@ export class ActorSheetSR5 extends ActorSheet {
   }
 
   /* -------------------------------------------- */
-  // Gère l'édition de valeur d'Item depuis un input dans la feuille de perso
+  // Edit Item value from Actor Sheet
   async _onEditItemValue(event) {
     let id = $(event.currentTarget).parents(".item").attr("data-item-id");
     let target = $(event.currentTarget).attr("data-binding");
@@ -553,6 +555,24 @@ export class ActorSheetSR5 extends ActorSheet {
       this.actor.update(entity);
     }
   }
+
+  /* -------------------------------------------- */
+  //Change value of an actor by click
+  _onEditActorValue(event){
+    let target = $(event.currentTarget).attr("data-binding");
+    let actor = this.actor.toObject(false);
+    
+    
+    let value = event.target.value;
+    if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
+      let oldValue = getProperty(actor, target);
+      value = !oldValue;
+    }
+    setProperty(actor, target, value);
+    let actorData = actor.data;
+    this.actor.update({'data': actorData})
+  }
+
 
   /* -------------------------------------------- */
   // Reset actor recoil to 0

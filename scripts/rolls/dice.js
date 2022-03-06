@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
