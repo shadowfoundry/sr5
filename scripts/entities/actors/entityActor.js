@@ -501,7 +501,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemComplexForm":
-          SR5_UtilityItem._handleComplexForm(iData);
+          SR5_UtilityItem._handleComplexForm(iData, actorData);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -667,6 +667,9 @@ export class SR5Actor extends Actor {
             SR5_CharacterUtility.updateInitiativeMatrix(actorData);
           }
           break;
+        case "itemComplexForm":
+          iData.threaderResonance = actorData.data.specialAttributes.resonance.augmented.value;
+          break
         case "itemArmor":
         case "itemGear":
         case "itemAugmentation":
@@ -1484,10 +1487,9 @@ export class SR5Actor extends Actor {
   static async deleteItemEffectFromItem(actorId, parentItemEffect){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
         index, dataToUpdate;
-        
     for (let i of actor.items){
       let needUpdate = false;
-      if (i.data.data.itemEffects.length){
+      if (i.data.data.itemEffects?.length){
         dataToUpdate = duplicate(i.data.data)
         index = 0;
         for (let e of dataToUpdate.itemEffects){

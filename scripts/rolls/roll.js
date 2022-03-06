@@ -584,6 +584,28 @@ export class SR5_Roll {
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                 }
+
+                if (typeSub === "killComplexForm" && canvas.scene){
+                    if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
+                    else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
+                    else {
+                        let targets = Array.from(game.user.targets);
+                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        let complexFormList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
+                        let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemComplexForm");
+                        for (let e of Object.values(currentEffectList)){
+                            let parentItem = await fromUuid(e.data.data.ownerItem);
+                            if (complexFormList.find((i) => i.id != parentItem.id)) complexFormList.push(parentItem);
+                        }
+                        if (complexFormList.length !== 0){
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                complexFormList: complexFormList,
+                            });
+                        }
+                    }
+                }
                 break;
 
             case "defense":
@@ -832,21 +854,21 @@ export class SR5_Roll {
                 }
                 break;
 
-                case "preparationFormula":
-                    let alchemicalSpellCategories = itemData.category;
-                    typeSub = itemData.subCategory;
-                    title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
-                    dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
-                    optionalData = {
-                        "switch.specialization": true,
-                        "drainMod.spell": itemData.drainModifier,
-                        drainType: "stun",
-                        force: actorData.specialAttributes.magic.augmented.value,
-                        actorMagic: actorData.specialAttributes.magic.augmented.value,
-                        "sceneData.backgroundCount": backgroundCount,
-                        "sceneData.backgroundAlignement": backgroundAlignement,
-                    }
-                    break;
+            case "preparationFormula":
+                let alchemicalSpellCategories = itemData.category;
+                typeSub = itemData.subCategory;
+                title = `${game.i18n.localize("SR5.PreparationCreate")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
+                dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
+                optionalData = {
+                    "switch.specialization": true,
+                    "drainMod.spell": itemData.drainModifier,
+                    drainType: "stun",
+                    force: actorData.specialAttributes.magic.augmented.value,
+                    actorMagic: actorData.specialAttributes.magic.augmented.value,
+                    "sceneData.backgroundCount": backgroundCount,
+                    "sceneData.backgroundAlignement": backgroundAlignement,
+                }
+                break;
 
             case "complexForm":
                 title = `${game.i18n.localize("SR5.Thread")} ${item.name}`;
@@ -933,16 +955,6 @@ export class SR5_Roll {
                         "switch.transferEffect": true,
                     });
                 }
-                //Check if an effect is transferable and give the necessary infos
-                /*for (let e of Object.values(chatData.item.data.customEffects)){
-                    if (e.transfer) {
-                        optionalData = mergeObject(optionalData, {
-                            "itemUuid": item.uuid,
-                            "switch.transferEffect": true,
-                            originalItem: chatData.item,
-                        });
-                    }
-                }*/
                 break;
 
             case "power":
@@ -1026,22 +1038,24 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+
             case "decompilingResistance":
                 if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                 title = game.i18n.localize("SR5.ResistDecompiling"); 
                 dicePool = actorData.level;
                 if (actorData.isRegistered) dicePool += actorData.compilerResonance;
                 optionalData = {
-                    invocaAuthor: chatData.invocaAuthor,
+                    ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,
                 }
                 break;
+
             case "registeringResistance":
                 if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                 title = game.i18n.localize("SR5.ResistRegistering"); 
                 dicePool = actorData.level * 2;
                 optionalData = {
-                    invocaAuthor: chatData.invocaAuthor,
+                    ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,
                 }
                 break;
@@ -1073,6 +1087,6 @@ export class SR5_Roll {
         }
 
         mergeObject(dialogData, optionalData);
-        SR5_Dice.prepareRollDialog(dialogData);
+        await SR5_Dice.prepareRollDialog(dialogData);
     }
 }

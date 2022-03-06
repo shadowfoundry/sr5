@@ -1,0 +1,12 @@
+<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+    <div class="col-12">{{localize 'SR5.Target'}}</div>
+</li>
+<li class="grid">
+	<select name="targetComplexForm" data-dtype="String">
+	{{#select item}}
+		{{#each complexFormList}}
+		<option value="{{uuid}}">{{name}}</option>
+		{{/each}}
+	{{/select}}
+	</select>
+</li>

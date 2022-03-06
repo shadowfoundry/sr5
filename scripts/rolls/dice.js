@@ -320,7 +320,7 @@ export class SR5_Dice {
 		if (cardData.test.rollMode === "blindroll") chatData["blind"] = true;
 		else if (cardData.test.rollMode === "selfroll") chatData["whisper"] = [game.user];
 
-		if (cardData.invocaAuthor) chatData.speaker.token = cardData.invocaAuthor;
+		if (cardData.ownerAuthor) chatData.speaker.token = cardData.ownerAuthor;
 
 		let userActive = game.users.get(chatData.user);
 
@@ -391,6 +391,8 @@ export class SR5_Dice {
 		cardData.button.compileSprite = false;
 		cardData.button.spriteDecompileDefense = false;
 		cardData.button.extended = false;
+		cardData.button.killComplexFormResistance = false;
+		cardData.button.reduceComplexForm = false;
 
 		if (cardData.extendedTest){
 			cardData.extendedIntervalValue = cardData.extendedMultiplier * cardData.extendedRoll;
@@ -500,6 +502,9 @@ export class SR5_Dice {
 				break;
 			case "registeringResistance":
 				SR5_Dice.addRegisteringResistanceInfoToCard(cardData, author);
+				break;
+			case "complexFormResistance":
+				SR5_Dice.addComplexFormResistanceInfoToCard(cardData, author);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
@@ -633,7 +638,7 @@ export class SR5_Dice {
 	
 	static async addPreparationFormulaInfoToCard(cardData, author){
 		cardData.button.drainResistance = true;
-		cardData.invocaAuthor = cardData.speakerId;
+		cardData.ownerAuthor = cardData.speakerId;
 		if (cardData.test.hits > 0) {
 			cardData.button.preparationResist = true;
 			cardData.hits = cardData.test.hits;
@@ -709,7 +714,7 @@ export class SR5_Dice {
 		if (damageValue > 0) {
 			cardData.button.takeDamage = true;
 			cardData.damageValue = damageValue;
-			if (cardData.hits > cardData.actorResonance) cardData.damageType = "physical";
+			if (cardData.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damageType = "physical";
 			else cardData.damageType = "stun";
 		} else {
 			cardData.button.actionEnd = true;
@@ -985,7 +990,7 @@ export class SR5_Dice {
 	static async addSkillInfoToCard(cardData, author){
 		if (cardData.typeSub === "summoning") {
 			cardData.button.summonSpiritResist = true;
-			cardData.invocaAuthor = cardData.speakerId;
+			cardData.ownerAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
 	}
@@ -1030,18 +1035,25 @@ export class SR5_Dice {
 	}
 
 	static async addResonanceActionInfoToCard(cardData, author){
+		cardData.ownerAuthor = cardData.speakerId;
 		if (cardData.typeSub === "compileSprite"){
 			cardData.button.compileSpriteResist = true;
-			cardData.invocaAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
 		if (cardData.typeSub === "decompileSprite"){
 			cardData.button.spriteDecompileDefense = true;
-			cardData.invocaAuthor = cardData.speakerId;
 		}
 		if (cardData.typeSub === "registerSprite"){
 			cardData.button.spriteRegisterDefense = true;
-			cardData.invocaAuthor = cardData.speakerId;
+		}
+		if (cardData.typeSub === "killComplexForm" && cardData.targetComplexForm) {
+			let complexForm = await fromUuid(cardData.targetComplexForm);
+			cardData.fadingValue = complexForm.data.data.fadingValue;
+			if (complexForm.data.data.level > cardData.actor.data.specialAttributes.resonance.augmented.value) cardData.fadingType = "physical";
+			else cardData.fadingType = "stun";
+			cardData.button.fadingResistance = true;
+			
+			if (cardData.test.hits > 0) cardData.button.killComplexFormResistance = true;
 		}
 	}
 
@@ -1167,5 +1179,15 @@ export class SR5_Dice {
 		}
 		
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
+	}
+
+	static async addComplexFormResistanceInfoToCard(cardData, author){
+		if (cardData.test.hits >= cardData.hits){
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.KillComplexFormFailed");
+		} else {
+			cardData.netHits = cardData.test.hits - cardData.hits;
+			cardData.button.reduceComplexForm = true;
+		}
 	}
 }
