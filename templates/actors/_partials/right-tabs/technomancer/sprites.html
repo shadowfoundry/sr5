@@ -3,9 +3,9 @@
 	<ul>
 		<li class="SR-LigneEnTete grid">
 			<div class="col-5 SR-TextUppercase">{{localize 'SR5.CompiledSprites'}}</div>
-			<div class="col-2 SR-TextCenter">{{localize 'SR5.SpriteTasks'}}</div>
-			<div class="col-2 SR-TextCenter">{{localize 'SR5.Level'}}</div>
-			<div class="col-2"></div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.SpriteTasks'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.Level'}}</div>
+			<div class="col-4"></div>
 			<div class="col-1">
 				{{#if owner}}
 				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemSprite')}}" 
@@ -28,29 +28,27 @@
 				<p>{{findTranslation 'spriteTypes' data.type}} ({{name}})</p>
 				{{/if}}
 			</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.tasks.value"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.tasks.value"
 			  data-helpTitle="{{localize 'SR5.HELP_SpriteService' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SpriteServiceMsg'}}">
 				{{data.tasks.value}}/{{#if data.tasks.max}}{{data.tasks.max}}{{else}}0{{/if}}
 			</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
-			<div class="col-1"></div>
-			<div class="col-1">
-				<div class="col-1 SR-TextCenter">
-					{{#if data.isCreated}}
-					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
-					  data-helpTitle="{{localize 'SR5.HELP_SpriteDismiss'key=name}}"
-					  data-helpMessage="{{localize 'SR5.HELP_SpriteDismissMsg'}}">
-						<em class="fas fa-flip-both fa-external-link-alt"></em>
-					</a>
-					{{else}}
-					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
-					  data-helpTitle="{{localize 'SR5.HELP_SpriteCreate'key=name}}"
-					  data-helpMessage="{{localize 'SR5.HELP_SpriteCreateMsg'}}">
-						<em class="fas fa-external-link-alt"></em>
-					</a>					
-					{{/if}}
-				</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
+			<div class="col-3"></div>
+			<div class="col-1 SR-TextCenter">
+				{{#if data.isCreated}}
+				<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+				  data-helpTitle="{{localize 'SR5.HELP_SpriteDismiss'key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_SpriteDismissMsg'}}">
+					<em class="fas fa-flip-both fa-external-link-alt"></em>
+				</a>
+				{{else}}
+				<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+				  data-helpTitle="{{localize 'SR5.HELP_SpriteCreate'key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_SpriteCreateMsg'}}">
+					<em class="fas fa-external-link-alt"></em>
+				</a>					
+				{{/if}}
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}

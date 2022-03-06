@@ -57,22 +57,24 @@
 			<div class="col-1">
 				<p class="SR-TextCenter" data-title="{{findTranslation 'spellDurations'data.duration}}">
 					{{#if data.duration}}
-					{{#ife data.duration "sustained"}}
-					{{#if data.isActive}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
-						data-title="{{localize 'SR5.StopSustainingSpell'}}">
-						<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
-					</a>
+						{{#ife data.duration "sustained"}}
+							{{#if data.isActive}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+								data-title="{{localize 'SR5.StopSustainingSpell'}}">
+								<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
+							</a>
+							{{else}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+								data-title="{{localize 'SR5.SustainSpell'}}">
+								<em class="fas fa-sm fa-praying-hands"></em>
+							</a>
+							{{/if}}
+						{{else}}
+							{{findTranslation 'spellDurationsShort' data.duration}}
+						{{/ife}}
 					{{else}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
-						data-title="{{localize 'SR5.SustainSpell'}}">
-						<em class="fas fa-sm fa-praying-hands"></em>
-					</a>
+						-
 					{{/if}}
-					{{else}}
-					{{findTranslation 'spellDurationsShort' data.duration}}
-					{{/ife}}
-					{{else}}-{{/if}}
 				</p>
 			</div>
 			<div class="col-1 SR-TextCenter">{{data.fadingValue}}</div>

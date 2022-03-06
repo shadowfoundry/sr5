@@ -558,7 +558,7 @@ export class SR5Actor extends Actor {
             case "qi":
               break;
             case "sustaining":
-              iData.spellChoices = SR5_UtilityItem._focusMaintien(iData, actorData);
+              iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actorData);
               if (iData.isActive){
                 let sustainedSpell = actorData.items.find(s => s.name == iData.sustainedSpell)
                 if (sustainedSpell
@@ -590,10 +590,10 @@ export class SR5Actor extends Actor {
           if (iData.type === "signalJam") actorData.data.matrix.isJamming = true;
           break;
 
+        case "itemSprite":
         case "itemLanguage":
         case "itemKnowledge":
         case "itemMark":
-        case "itemSprite":
         case "itemLifestyle":
         case "itemSin":
         case "itemVehicle":

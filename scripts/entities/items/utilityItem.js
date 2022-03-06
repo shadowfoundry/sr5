@@ -1089,10 +1089,10 @@ export class SR5_UtilityItem extends Actor {
     this._handleItemAvailability(focus);
   }
 
-  static _focusMaintien(focus, actor) {
+  static _generateSustainFocusSpellList(focus, actor) {
     let spellList = [];
     for (let i of actor.items) {
-      if (i.type === "itemSpell" && i.data.data.category === focus.subType) {
+      if (i.type === "itemSpell" && i.data.data.category === focus.subType && !i.data.data.preparation) {
         spellList.push(i.name);
       }
     }
