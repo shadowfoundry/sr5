@@ -593,11 +593,14 @@ export class SR5_Roll {
                         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
                         let complexFormList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
-                        //let effectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemComplexForm");
-                        //let choiceList = complexFormList.concat(effectList)
+                        let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemComplexForm");
+                        for (let e of Object.values(currentEffectList)){
+                            let parentItem = await fromUuid(e.data.data.ownerItem);
+                            if (complexFormList.find((i) => i.id != parentItem.id)) complexFormList.push(parentItem);
+                        }
                         optionalData = mergeObject(optionalData, {
                             hasTarget: true,
-                            complexFormList: complexFormList, //choiceList
+                            complexFormList: complexFormList,
                         });
                     }
                 }

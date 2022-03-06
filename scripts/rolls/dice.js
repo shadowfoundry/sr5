@@ -333,7 +333,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		console.log(chatData.flags.sr5data);
+		//console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}
@@ -714,7 +714,7 @@ export class SR5_Dice {
 		if (damageValue > 0) {
 			cardData.button.takeDamage = true;
 			cardData.damageValue = damageValue;
-			if (cardData.hits > cardData.actorResonance) cardData.damageType = "physical";
+			if (cardData.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damageType = "physical";
 			else cardData.damageType = "stun";
 		} else {
 			cardData.button.actionEnd = true;
@@ -1048,8 +1048,14 @@ export class SR5_Dice {
 			cardData.button.spriteRegisterDefense = true;
 			cardData.invocaAuthor = cardData.speakerId;
 		}
-		if (cardData.typeSub === "killComplexForm" && cardData.test.hits > 0){
-			cardData.button.killComplexFormResistance = true;
+		if (cardData.typeSub === "killComplexForm") {
+			let complexForm = await fromUuid(cardData.targetComplexForm);
+			cardData.fadingValue = complexForm.data.data.fadingValue;
+			if (complexForm.data.data.level > cardData.actor.data.specialAttributes.resonance.augmented.value) cardData.fadingType = "physical";
+			else cardData.fadingType = "stun";
+			cardData.button.fadingResistance = true;
+			
+			if (cardData.test.hits > 0) cardData.button.killComplexFormResistance = true;
 		}
 	}
 
