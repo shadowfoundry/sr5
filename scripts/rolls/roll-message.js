@@ -194,15 +194,15 @@ export class SR5_RollMessage {
                     SR5_RollMessage.removeTemplate(message, messageData.item._id);
                     break;
                 case "msgTest_summonSpiritResist":
-                    SR5_DiceHelper.createItemResistance(message);
+                    SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "summonSpiritResist");
                     break;
                 case "msgTest_compileSpriteResist":
-                    SR5_DiceHelper.createItemResistance(message);
+                    SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "compileSpriteResist");
                     break;
                 case "msgTest_preparationResist":
-                    SR5_DiceHelper.createItemResistance(message);
+                    SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "preparationResist");
                     break;
                 case "msgTest_createSpirit":
@@ -374,11 +374,11 @@ export class SR5_RollMessage {
                     SR5_RollMessage.updateChatButton(message.data, "applyEffectAuto");
                     break;
                 case "msgTest_killComplexFormResistance":
-                    SR5_DiceHelper.complexFormResistance(messageData);
+                    SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "killComplexFormResistance");
                     break;
                 case "msgTest_reduceComplexForm":
-                    SR5_DiceHelper.reduceComplexForm(messageData);
+                    await SR5_DiceHelper.reduceComplexForm(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceComplexForm");
                     break;
                 default:
@@ -408,9 +408,15 @@ export class SR5_RollMessage {
                 break;
             case "reduceTask":
                 newMessage.button.actionEnd = true;
-                if ((newMessage.actor.data.tasks.value + newMessage.netHits) <= 0 ) {
-                    newMessage.button.actionEndTitle = game.i18n.localize("SR5.DecompiledSprite");
-                } else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_TasksReduced', {task: newMessage.netHits})}`;
+                if ((newMessage.actor.data.tasks.value + newMessage.netHits) <= 0 ) newMessage.button.actionEndTitle = game.i18n.localize("SR5.DecompiledSprite");
+                else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_TasksReduced', {task: newMessage.netHits})}`;
+                break;
+            case "reduceComplexForm":
+                newMessage.button.actionEnd = true;
+                let targetedComplexForm = await fromUuid(newMessage.targetComplexForm);
+                if (targetedComplexForm.data.data.hits <= 0) newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
+                else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: newMessage.netHits})}`
+                break;
             default:
         }
         await SR5_RollMessage.updateRollCard(message.data, newMessage);     

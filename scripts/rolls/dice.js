@@ -320,7 +320,7 @@ export class SR5_Dice {
 		if (cardData.test.rollMode === "blindroll") chatData["blind"] = true;
 		else if (cardData.test.rollMode === "selfroll") chatData["whisper"] = [game.user];
 
-		if (cardData.invocaAuthor) chatData.speaker.token = cardData.invocaAuthor;
+		if (cardData.ownerAuthor) chatData.speaker.token = cardData.ownerAuthor;
 
 		let userActive = game.users.get(chatData.user);
 
@@ -638,7 +638,7 @@ export class SR5_Dice {
 	
 	static async addPreparationFormulaInfoToCard(cardData, author){
 		cardData.button.drainResistance = true;
-		cardData.invocaAuthor = cardData.speakerId;
+		cardData.ownerAuthor = cardData.speakerId;
 		if (cardData.test.hits > 0) {
 			cardData.button.preparationResist = true;
 			cardData.hits = cardData.test.hits;
@@ -990,7 +990,7 @@ export class SR5_Dice {
 	static async addSkillInfoToCard(cardData, author){
 		if (cardData.typeSub === "summoning") {
 			cardData.button.summonSpiritResist = true;
-			cardData.invocaAuthor = cardData.speakerId;
+			cardData.ownerAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
 	}
@@ -1035,20 +1035,18 @@ export class SR5_Dice {
 	}
 
 	static async addResonanceActionInfoToCard(cardData, author){
+		cardData.ownerAuthor = cardData.speakerId;
 		if (cardData.typeSub === "compileSprite"){
 			cardData.button.compileSpriteResist = true;
-			cardData.invocaAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
 		if (cardData.typeSub === "decompileSprite"){
 			cardData.button.spriteDecompileDefense = true;
-			cardData.invocaAuthor = cardData.speakerId;
 		}
 		if (cardData.typeSub === "registerSprite"){
 			cardData.button.spriteRegisterDefense = true;
-			cardData.invocaAuthor = cardData.speakerId;
 		}
-		if (cardData.typeSub === "killComplexForm") {
+		if (cardData.typeSub === "killComplexForm" && cardData.targetComplexForm) {
 			let complexForm = await fromUuid(cardData.targetComplexForm);
 			cardData.fadingValue = complexForm.data.data.fadingValue;
 			if (complexForm.data.data.level > cardData.actor.data.specialAttributes.resonance.augmented.value) cardData.fadingType = "physical";

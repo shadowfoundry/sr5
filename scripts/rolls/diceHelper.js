@@ -46,26 +46,25 @@ export class SR5_DiceHelper {
     * @param {Object} message - The origin message
     */
     static async createItemResistance(message) {
-        let data = message.data.flags.sr5data;
-        let actor = SR5_EntityHelpers.getRealActorFromID(data.invocaAuthor);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
         actor = actor.toObject(false);
         let dicePool;
 
         let cardData = {
             button: {},
             actor: actor,
-            invocaAuthor: data.invocaAuthor,    
-            hits: data.hits,
-            speakerId: data.speakerId,
-            speakerActor: data.speakerActor,
-            speakerImg: data.speakerImg,
+            ownerAuthor: message.ownerAuthor,    
+            hits: message.hits,
+            speakerId: message.speakerId,
+            speakerActor: message.speakerActor,
+            speakerImg: message.speakerImg,
         };
 
         //Spirit resistance
-        if (data.typeSub === "summoning"){
+        if (message.typeSub === "summoning"){
             cardData = mergeObject(cardData, {
-                spiritType: data.spiritType,
-                force: data.force,
+                spiritType: message.spiritType,
+                force: message.force,
                 type: "summoningResistance",
                 title: `${game.i18n.localize("SR5.SummoningResistance")} (${cardData.hits})`,
             });
@@ -73,10 +72,10 @@ export class SR5_DiceHelper {
         }
 
         //Sprite resistance
-        if (data.typeSub === "compileSprite"){
+        if (message.typeSub === "compileSprite"){
             cardData = mergeObject(cardData, {
-                spriteType: data.spriteType,
-                level: data.level,
+                spriteType: message.spriteType,
+                level: message.level,
                 type: "compilingResistance",
                 title: `${game.i18n.localize("SR5.CompilingResistance")} (${cardData.hits})`,
             });
@@ -84,21 +83,34 @@ export class SR5_DiceHelper {
         }
 
         //Preparation resistance
-        if (data.type === "preparationFormula"){
+        if (message.type === "preparationFormula"){
             cardData = mergeObject(cardData, {
-                item: data.item,
-                force: data.force,
-                preparationTrigger : data.preparationTrigger,
+                item: message.item,
+                force: message.force,
+                preparationTrigger : message.preparationTrigger,
                 type: "preparationResistance",
                 title: `${game.i18n.localize("SR5.PreparationResistance")} (${cardData.hits})`,
             });
             dicePool = cardData.force;    
         }
 
+        //Complexe forme resistance
+        if (message.type === "resonanceAction" && message.typeSub === "killComplexForm"){
+            let targetedComplexForm = await fromUuid(message.targetComplexForm);
+            dicePool = targetedComplexForm.data.data.threaderResonance + targetedComplexForm.data.data.level;
+            cardData = mergeObject(cardData, {
+                targetComplexForm: message.targetComplexForm,
+                hits: message.test.hits,
+                type: "complexFormResistance",
+                title: `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetedComplexForm.name})`,
+            });
+
+        }
+
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, data.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
         SR5_Dice.renderRollCard(cardData);
     }
 
@@ -1060,28 +1072,6 @@ export class SR5_DiceHelper {
             },
         };
         if (!target.items.find(i => i.data.data.type === "derezz")) await target.createEmbeddedDocuments("Item", [itemEffect]);
-    }
-
-    static async complexFormResistance(message){
-        let targetedComplexForm = await fromUuid(message.targetComplexForm);
-        let dicePool = targetedComplexForm.data.data.threaderResonance + targetedComplexForm.data.data.level;
-
-        let cardData = {
-            button: {},
-            actor: message.actor,    
-            hits: message.test.hits,
-            speakerId: message.speakerId,
-            speakerActor: message.speakerActor,
-            speakerImg: message.speakerImg,
-            targetComplexForm: message.targetComplexForm,
-            type: "complexFormResistance",
-        };
-
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
-        cardData.test = result;
-
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
-        SR5_Dice.renderRollCard(cardData);
     }
 
     static async reduceComplexForm(message){

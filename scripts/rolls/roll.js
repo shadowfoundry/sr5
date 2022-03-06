@@ -598,10 +598,12 @@ export class SR5_Roll {
                             let parentItem = await fromUuid(e.data.data.ownerItem);
                             if (complexFormList.find((i) => i.id != parentItem.id)) complexFormList.push(parentItem);
                         }
-                        optionalData = mergeObject(optionalData, {
-                            hasTarget: true,
-                            complexFormList: complexFormList,
-                        });
+                        if (complexFormList.length !== 0){
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                complexFormList: complexFormList,
+                            });
+                        }
                     }
                 }
                 break;
@@ -953,16 +955,6 @@ export class SR5_Roll {
                         "switch.transferEffect": true,
                     });
                 }
-                //Check if an effect is transferable and give the necessary infos
-                /*for (let e of Object.values(chatData.item.data.customEffects)){
-                    if (e.transfer) {
-                        optionalData = mergeObject(optionalData, {
-                            "itemUuid": item.uuid,
-                            "switch.transferEffect": true,
-                            originalItem: chatData.item,
-                        });
-                    }
-                }*/
                 break;
 
             case "power":
@@ -1053,7 +1045,7 @@ export class SR5_Roll {
                 dicePool = actorData.level;
                 if (actorData.isRegistered) dicePool += actorData.compilerResonance;
                 optionalData = {
-                    invocaAuthor: chatData.invocaAuthor,
+                    ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,
                 }
                 break;
@@ -1063,7 +1055,7 @@ export class SR5_Roll {
                 title = game.i18n.localize("SR5.ResistRegistering"); 
                 dicePool = actorData.level * 2;
                 optionalData = {
-                    invocaAuthor: chatData.invocaAuthor,
+                    ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,
                 }
                 break;
