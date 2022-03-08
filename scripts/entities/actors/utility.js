@@ -399,6 +399,7 @@ export class SR5_CharacterUtility extends Actor {
 
       // Reset Concentration
       data.matrix.concentration = false;
+      data.matrix.complexFormList = {};
       }
 
       //Reset public grid if Grid rules are not active
