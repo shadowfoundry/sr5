@@ -3171,6 +3171,7 @@
               "modifiers": []
             }
           },
+          "complexFormList":{},
           "deviceRating": 0,
           "deviceType": "",
           "deviceSubType": "",
@@ -5717,7 +5718,8 @@
           "current": 0,
           "boxes": []
         }
-      }
+      },
+      "sustainedComplexForm": []
     },
     "itemFocus": {
       "templates": [

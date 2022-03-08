@@ -501,7 +501,8 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemComplexForm":
-          SR5_UtilityItem._handleComplexForm(iData, actorData);
+          if (!iData.freeSustain) actorData.data.matrix.complexFormList[i.id] = i.name;
+          SR5_UtilityItem._handleComplexForm(i, this);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }

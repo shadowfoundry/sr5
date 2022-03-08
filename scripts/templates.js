@@ -374,6 +374,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/sprite/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/sprite/taskMax-edit.html",
         "systems/sr5/templates/items/_partial/editable/sprite/registered-edit.html",
+        "systems/sr5/templates/items/_partial/editable/sprite/complexFormSustain-edit.html",
 
         //Preparation
         "systems/sr5/templates/items/_partial/editable/preparation/lynchpin-edit.html",

@@ -1115,11 +1115,18 @@ export class SR5_UtilityItem extends Actor {
   }
 
   //Handle complex form
-  static _handleComplexForm(i, actorData) {
+  static _handleComplexForm(complexForm, actor) {
     // Fading calculation
-    i.fadingValue = i.fadingModifier + (i.level || 0);
-    if (i.fadingValue < 2) {
-      i.fadingValue = 2;
+    complexForm.data.data.fadingValue = complexForm.data.data.fadingModifier + (complexForm.data.data.level || 0);
+    if (complexForm.data.data.fadingValue < 2) complexForm.data.data.fadingValue = 2;
+
+    //Check if complex form is sustained by a sprite
+    for (let i of actor.items){
+      if (i.type === "itemSprite" && i.data.data.isRegistered){
+        for (let c of Object.values(i.data.data.sustainedComplexForm)){
+          if (c.name === complexForm.id) complexForm.data.data.freeSustain = true;
+        }
+      }
     }
   }
 
@@ -1449,38 +1456,6 @@ export class SR5_UtilityItem extends Actor {
       }
     }
   }
-
-  //Keep an effect synchronous with his parent complex form or a spell
-  /*static async keepSynchronousWithParent(item){
-    let updatedItem, targetItem, actor;
-    let index = 0;
-    for (let e of item.data.data.targetOfEffect){
-      targetItem = await fromUuid(e);
-      if (targetItem.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(targetItem.actor.token.id);
-      else actor = SR5_EntityHelpers.getRealActorFromID(targetItem.actor.id);
-      
-      for (let i of actor.items){
-        if (i.type === "itemEffect"){
-          for (let t of item.data.data.targetOfEffect){
-            if (t === i.uuid){
-              updatedItem = duplicate(i.data.data);
-              updatedItem.value = item.data.data.hits;
-              for (let e of Object.values(updatedItem.customEffects)){
-                e.value = item.data.data.hits;
-              }
-              await i.update({'data': updatedItem});
-            }
-          }
-        }
-      }
-      index++;
-    }
-  }
-
-  static async _socketKeepSynchronousWithParent(message){
-    let item = await fromUuid(message.data.document)
-    SR5_UtilityItem.keepSynchronousWithParent(item);
-  }*/
 
   static applyItemEffects(item){
     for (let customEffect of Object.values(item.data.itemEffects)) {

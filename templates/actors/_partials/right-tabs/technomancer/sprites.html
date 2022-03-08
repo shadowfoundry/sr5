@@ -5,7 +5,8 @@
 			<div class="col-5 SR-TextUppercase">{{localize 'SR5.CompiledSprites'}}</div>
 			<div class="col-1 SR-TextCenter">{{localize 'SR5.SpriteTasks'}}</div>
 			<div class="col-1 SR-TextCenter">{{localize 'SR5.Level'}}</div>
-			<div class="col-4"></div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.Registered'}}</div>
+			<div class="col-2"></div>
 			<div class="col-1">
 				{{#if owner}}
 				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemSprite')}}" 
@@ -34,7 +35,14 @@
 				{{data.tasks.value}}/{{#if data.tasks.max}}{{data.tasks.max}}{{else}}0{{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
-			<div class="col-3"></div>
+			<div class="col-2 SR-TextCenter">
+				{{#if data.isRegistered}}
+					{{localize 'SR5.Yes'}}
+				{{else}}
+					{{localize 'SR5.No'}}
+				{{/if}}
+			</div>
+			<div class="col-1"></div>
 			<div class="col-1 SR-TextCenter">
 				{{#if data.isCreated}}
 				<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
