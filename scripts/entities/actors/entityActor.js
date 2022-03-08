@@ -501,7 +501,8 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemComplexForm":
-          SR5_UtilityItem._handleComplexForm(iData, actorData);
+          if (!iData.freeSustain) actorData.data.matrix.complexFormList[i.id] = i.name;
+          SR5_UtilityItem._handleComplexForm(i, this);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -558,7 +559,7 @@ export class SR5Actor extends Actor {
             case "qi":
               break;
             case "sustaining":
-              iData.spellChoices = SR5_UtilityItem._focusMaintien(iData, actorData);
+              iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actorData);
               if (iData.isActive){
                 let sustainedSpell = actorData.items.find(s => s.name == iData.sustainedSpell)
                 if (sustainedSpell
@@ -590,10 +591,10 @@ export class SR5Actor extends Actor {
           if (iData.type === "signalJam") actorData.data.matrix.isJamming = true;
           break;
 
+        case "itemSprite":
         case "itemLanguage":
         case "itemKnowledge":
         case "itemMark":
-        case "itemSprite":
         case "itemLifestyle":
         case "itemSin":
         case "itemVehicle":
