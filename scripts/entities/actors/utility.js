@@ -2152,6 +2152,11 @@ export class SR5_CharacterUtility extends Actor {
           magic.elements.manipulation = tradition.spiritManipulation;
           magic.elements.health = tradition.spiritHealth;
           magic.possession = tradition.possession;
+
+          if (tradition.systemEffects.length){
+            let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
+            magic.tradition = traditionType.value;
+          }
         }
     }
 
@@ -2852,17 +2857,17 @@ export class SR5_CharacterUtility extends Actor {
     // Attributes modifiers
     for (let key of Object.keys(lists.characterPhysicalAttributes)) {
       if (actorAttribute[key].augmented.base < spiritForce) {
-        SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", Math.floor(spiritForce / 2));
+        SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", Math.floor(spiritForce / 2));
       }
     }
     for (let key of Object.keys(lists.characterMentalAttributes)) {
       let mod = spiritAttributes[key] - actorAttribute[key].augmented.base;
-      SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", mod);
+      SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
     }
     for (let key of Object.keys(lists.characterSpecialAttributes)) {
       if(spiritAttributes[key]){
         let mod = spiritAttributes[key] - data.specialAttributes[key].augmented.base;
-        SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", mod);
+        SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
       }
     }
 
@@ -2870,7 +2875,7 @@ export class SR5_CharacterUtility extends Actor {
     for (let key of Object.keys(lists.skillGroups)){
       if (data.skillGroups[key]){
         let mod = data.skillGroups[key].base;
-        SR5_EntityHelpers.updateModifier(data.skillGroups[key], `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", -mod);
+        SR5_EntityHelpers.updateModifier(data.skillGroups[key], `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
       }
     }
     for (let key of Object.keys(lists.skills)) {
@@ -2878,10 +2883,10 @@ export class SR5_CharacterUtility extends Actor {
         let spiritSkill = spirit.data.data.skill.find(skill => skill === key);
         if (spiritSkill === key) {
           let mod = spiritForce - data.skills[key].rating.value;
-          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", mod);
+          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
         } else {
           let mod = data.skills[key].rating.base;
-          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", -mod);
+          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
         }
       }
     }
@@ -2890,7 +2895,7 @@ export class SR5_CharacterUtility extends Actor {
     data.initiatives.physicalInit.dice.base = 2;
 
     // Penalties modifiers (rules are so cryptic, I prefer to simplify and just put a "bonus" to penalty)
-    SR5_EntityHelpers.updateModifier(data.penalties.condition.actual, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", spiritForce);
+    SR5_EntityHelpers.updateModifier(data.penalties.condition.actual, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", spiritForce);
 
   }
 

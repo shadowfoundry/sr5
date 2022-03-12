@@ -1,0 +1,48 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.DrainAttribute'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "allAttributes" data.drainAttribute)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.TraditionSpiritCombat'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypes" data.spiritCombat)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.TraditionSpiritDetection'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypes" data.spiritDetection)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.TraditionSpiritIllusion'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypes" data.spiritIllusion)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.TraditionSpiritManipulation'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypes" data.spiritManipulation)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.TraditionSpiritHealth'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypes" data.spiritHealth)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.PossessionTradition'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{#if data.possession}}{{localize 'SR5.Yes'}}{{else}}{{localize 'SR5.No'}}{{/if}}</span>
+    </p>
+</li>

@@ -970,6 +970,10 @@ SR5.traditionTypes = {
   redMagic                  : "SR5.TraditionRedMagic",
   romani                    : "SR5.TraditionRomani",
   tarot                     : "SR5.TraditionTarot",
+  insect                    : "SR5.TraditionInsect",
+  toxic                     : "SR5.TraditionToxic",
+  egyptian                  : "SR5.TraditionEgyptian",
+  draconic                  : "SR5.TraditionEgyptian",
 };
 
 // Types de sorts
@@ -2295,6 +2299,7 @@ SR5.itemTypes = {
   itemSpirit                : "ITEM.TypeItemspirit",
   itemSprite                : "ITEM.TypeItemsprite",
   itemSpritePower           : "ITEM.TypeItemspritepower",
+  itemTradition             : "ITEM.TypeItemtradition",
   itemVehicle               : "ITEM.TypeItemvehicle",
   itemWeapon                : "ITEM.TypeItemweapon",
 };

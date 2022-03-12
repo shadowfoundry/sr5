@@ -4,7 +4,7 @@
         <select name="data.drainAttribute" data-dtype="String">
             {{#select data.drainAttribute}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.characterMentalAttributes}}
+                {{#each lists.allAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
             {{/select}}

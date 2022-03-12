@@ -100,6 +100,8 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "itemEcho":
         displayName = game.i18n.localize("SR5.EchoNew");
+      case "itemTradition":
+        displayName = game.i18n.localize("SR5.TraditionNew");
       break;
       default:
         displayName = false;

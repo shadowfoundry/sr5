@@ -202,6 +202,13 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   /** @override */
   async _onDropItemCreate(itemData) {
     switch(itemData.type){
+      case "itemTradition":
+        for (let i of this.actor.items){
+          if (i.data.type === "itemTradition") {
+            return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
+          }
+        }
+        break;
       case "itemDevice":
         for (let i of this.actor.items){
           if (i.data.type === "itemDevice" && i.data.data.isActive) {

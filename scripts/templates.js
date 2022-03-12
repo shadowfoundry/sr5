@@ -246,6 +246,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/summary/sprite-summary.html",
         "systems/sr5/templates/items/_partial/summary/vehicle-summary.html",
         "systems/sr5/templates/items/_partial/summary/weapon-summary.html",
+        "systems/sr5/templates/items/_partial/summary/tradition-summary.html",
         
     // Item sheet block editable
     "systems/sr5/templates/items/_partial/editable/_common/description-edit.html",
