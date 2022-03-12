@@ -6,20 +6,18 @@
 	  			<li class="grid SR-LigneEnTete">
 					<div class="col-12"><p class=" SR-TextUppercase ">{{localize 'SR5.MagicalTradition'}}</p></div>
 	  			</li>
-	  			<li class="grid">
-					<div class="col-12" 
-					data-helpTitle="{{localize 'SR5.HELP_MagicalTradition'}}"
-					data-helpMessage="{{localize 'SR5.HELP_MagicalTraditionMsg'}}">
-		  				<select name="data.magic.tradition" data-dtype="String">
-						{{#select data.magic.tradition}}
-							<option value="">{{localize 'SR5.None'}}</option>
-							{{#each actor.lists.traditionTypes}}
-							<option value="{{@key}}">{{localize this}}</option>
-							{{/each}}
-						{{/select}}
-		  				</select>
+				{{#each actor.traditions}}
+				<li class="item grid" data-item-id="{{_id}}">
+					<div class="col-11">{{name}}</div>
+					<div class="col-1 grid SR-TextRight">
+						{{#if ../owner}}
+						<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+							<em class="fas fa-sm fa-edit item-management"></em>
+						</a>
+						{{/if}}
 					</div>
 	  			</li>
+				  {{/each}}
 				{{#ifne data.magic.magicType 'spirit'}}
 	  			<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionCombat'}}</p></div>

@@ -376,6 +376,11 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/sprite/registered-edit.html",
         "systems/sr5/templates/items/_partial/editable/sprite/complexFormSustain-edit.html",
 
+        //Tradition
+        "systems/sr5/templates/items/_partial/editable/tradition/drain-edit.html",
+        "systems/sr5/templates/items/_partial/editable/tradition/spirits-edit.html",
+        "systems/sr5/templates/items/_partial/editable/tradition/possession-edit.html",
+
         //Preparation
         "systems/sr5/templates/items/_partial/editable/preparation/lynchpin-edit.html",
         "systems/sr5/templates/items/_partial/editable/preparation/trigger-edit.html",
