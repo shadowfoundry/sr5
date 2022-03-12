@@ -60,6 +60,7 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
     const spells = [];
     const powers = [];
     const effects = [];
+    const traditions = [];
 
     // Iterate through items, allocating to containers
     for (let i of actor.items) {
@@ -67,12 +68,14 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
       else if (i.type === "itemWeapon") weapons.push(i);
       else if (i.type === "itemPower") powers.push(i);
       else if (i.type === "itemEffect") effects.push(i);
+      else if (i.type === "itemTradition") traditions.push(i);
     }
 
     actor.weapons = weapons;
     actor.spells = spells;
     actor.powers = powers;
     actor.effects = effects;
+    actor.traditions = traditions;
   }
 
   activateListeners(html) {
@@ -82,6 +85,13 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
   /** @override */
   async _onDropItemCreate(itemData) {
     switch(itemData.type){
+      case "itemTradition":
+        for (let i of this.actor.items){
+          if (i.data.type === "itemTradition") {
+            return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
+          }
+        }
+        break;
       case "itemWeapon":
         for (let i of this.actor.items){
           if (i.data.type === "itemWeapon" && i.data.data.isActive && (i.data.data.category === itemData.data.category)) {
@@ -95,6 +105,7 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
         if (itemData.data.actionType === "permanent") itemData.data.isActive = true;
         return super._onDropItemCreate(itemData);
         break;
+      case "itemTradition":
       case "itemSpell":
       case "itemEffect":
         return super._onDropItemCreate(itemData);

@@ -1,0 +1,13 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.DrainAttribute'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.drainAttribute" data-dtype="String">
+            {{#select data.drainAttribute}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.allAttributes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

@@ -234,6 +234,14 @@ export class ActorSheetSR5 extends ActorSheet {
       SR5_SystemHelpers.srLog(2, `Aborting item creation of '${type}' type`);
       return false;
     }
+    if (type === "itemTradition"){
+      for (let i of this.actor.items){
+        if (i.type === "itemTradition"){
+          return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
+        }
+      }
+    }
+
     const itemData = {
       name: `${itemName.capitalize()}`,
       type: type,

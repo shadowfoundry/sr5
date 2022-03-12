@@ -462,7 +462,7 @@ export class SR5_CharacterUtility extends Actor {
       data.magic.drainResistance.linkedAttribute = "";
 
       // Reset Possession
-      data.magic.isPossessed = false;
+      data.magic.possession = false;
 
     }
 
@@ -2124,7 +2124,7 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   // Magical Traditions Calculations
-  static updateTradition(actor) {
+  static updateTradition(actor, tradition) {
     let data = actor.data, lists = actor.lists, magic = data.magic, specialAttributes = data.specialAttributes;
 
     if (!magic.magicType) {
@@ -2132,313 +2132,36 @@ export class SR5_CharacterUtility extends Actor {
       return;
     }
 
-    switch (magic.magicType) {
-      case "adept":
+    magic.powerPoints.base = 0;
+    magic.possession = false;
+    magic.powerPoints.maximum.base = 0;
+
+    if (magic.magicType === "adept"){
         magic.tradition = "";
         magic.drainResistance.linkedAttribute = "body";
         for (let category of Object.keys(lists.spellCategories)) {
           magic.elements[category] = "";
-        }
-        magic.powerPoints.base = 0;
-        SR5_EntityHelpers.updateValue(magic.powerPoints);
+        }    
         magic.powerPoints.maximum.base = specialAttributes.magic.augmented.value;
-        SR5_EntityHelpers.updateValue(magic.powerPoints.maximum);
-        magic.isPossessed = false;
-        break;
-      case "mysticalAdept":
-      case "magician":
-      case "aspectedMagician":
-        if (magic.magicType == "mysticalAdept") {
-        magic.powerPoints.base = 0;
-        SR5_EntityHelpers.updateValue(magic.powerPoints);
-        magic.powerPoints.maximum.base = 0;
-        SR5_EntityHelpers.updateValue(magic.powerPoints.maximum);
+    } else {
+        if (tradition){
+          magic.drainResistance.linkedAttribute = tradition.drainAttribute;
+          magic.elements.combat = tradition.spiritCombat;
+          magic.elements.detection = tradition.spiritDetection;
+          magic.elements.illusion = tradition.spiritIllusion;
+          magic.elements.manipulation = tradition.spiritManipulation;
+          magic.elements.health = tradition.spiritHealth;
+          magic.possession = tradition.possession;
+
+          if (tradition.systemEffects.length){
+            let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
+            magic.tradition = traditionType.value;
+          }
         }
-        switch (magic.tradition) {
-          case "aztec":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "guardian";
-            magic.elements.detection = "fire";
-            magic.elements.illusion = "water";
-            magic.elements.manipulation = "beasts";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "buddhism":
-            magic.drainResistance.linkedAttribute = "intuition";
-            magic.elements.combat = "air";
-            magic.elements.detection = "guidance";
-            magic.elements.illusion = "fire";
-            magic.elements.manipulation = "water";
-            magic.elements.health = "earth";
-            magic.isPossessed = false;
-            break;
-          case "qabbalism":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "air";
-            magic.elements.detection = "earth";
-            magic.elements.illusion = "water";
-            magic.elements.manipulation = "task";
-            magic.elements.health = "fire";
-            magic.isPossessed = true;
-            break;
-          case "chamanism":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "beasts";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "man";
-            magic.elements.health = "earth";
-            magic.isPossessed = false;
-            break;
-          case "druid":
-            magic.drainResistance.linkedAttribute = "intuition";
-            magic.elements.combat = "beasts";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "earth";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "hermeticism":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "air";
-            magic.elements.illusion = "water";
-            magic.elements.manipulation = "earth";
-            magic.elements.health = "man";
-            magic.isPossessed = false;
-            break;
-          case "hinduism":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "beasts";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "earth";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "islam":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "guardian";
-            magic.elements.detection = "earth";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "fire";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "chaosMagic":
-            magic.drainResistance.linkedAttribute = "intuition";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "air";
-            magic.elements.illusion = "man";
-            magic.elements.manipulation = "water";
-            magic.elements.health = "earth";
-            magic.isPossessed = false;
-            break;
-          case "blackMagic":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "man";
-            magic.elements.health = "earth";
-            magic.isPossessed = false;
-            break;
-          case "shinto":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "air";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "beasts";
-            magic.elements.manipulation = "man";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "christianTheurgy":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "earth";
-            magic.elements.manipulation = "guidance";
-            magic.elements.health = "air";
-            magic.isPossessed = false;
-            break;
-          case "sioux":
-            magic.drainResistance.linkedAttribute = "intuition";
-            magic.elements.combat = "beasts";
-            magic.elements.detection = "plant";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "guardian";
-            magic.elements.health = "fire";
-            magic.isPossessed = false;
-            break;
-          case "vodou":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "guardian";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "guidance";
-            magic.elements.manipulation = "task";
-            magic.elements.health = "man";
-            magic.isPossessed = true;
-            break;
-          case "pathOfTheWheel":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "earth";
-            magic.elements.detection = "guidance";
-            magic.elements.illusion = "water";
-            magic.elements.manipulation = "fire";
-            magic.elements.health = "air";
-            magic.isPossessed = false;
-            break;
-          case "wicca":
-            magic.drainResistance.linkedAttribute = "intuition";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "earth";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "wiccaGardnerian":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "earth";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "wuxing":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "fire";
-            magic.elements.detection = "earth";
-            magic.elements.illusion = "water";
-            magic.elements.manipulation = "guidance";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "zoroastrianism":
-            magic.drainResistance.linkedAttribute = "logic";
-            magic.elements.combat = "man";
-            magic.elements.detection = "water";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "plant";
-            magic.elements.health = "fire";
-            magic.isPossessed = false;
-            break;
-          case "norse":
-            magic.drainResistance.linkedAttribute = "charisma";
-            magic.elements.combat = "guardian";
-            magic.elements.detection = "earth";
-            magic.elements.illusion = "air";
-            magic.elements.manipulation = "fire";
-            magic.elements.health = "plant";
-            magic.isPossessed = false;
-            break;
-          case "cosmic":
-              magic.drainResistance.linkedAttribute = "logic";
-              magic.elements.combat = "earth";
-              magic.elements.detection = "guidance";
-              magic.elements.illusion = "air";
-              magic.elements.manipulation = "fire";
-              magic.elements.health = "water";
-              magic.isPossessed = false;
-              break;
-            case "elderGod":
-              magic.drainResistance.linkedAttribute = "intuition";
-              magic.elements.combat = "task";
-              magic.elements.detection = "guardian";
-              magic.elements.illusion = "fire";
-              magic.elements.manipulation = "water";
-              magic.elements.health = "earth";
-              magic.isPossessed = false;
-              break;
-            case "greenMagic":
-              magic.drainResistance.linkedAttribute = "charisma";
-              magic.elements.combat = "plant";
-              magic.elements.detection = "earth";
-              magic.elements.illusion = "air";
-              magic.elements.manipulation = "fire";
-              magic.elements.health = "water";
-              magic.isPossessed = false;
-              break;
-            case "missionists":
-              magic.drainResistance.linkedAttribute = "charisma";
-              magic.elements.combat = "man";
-              magic.elements.detection = "air";
-              magic.elements.illusion = "fire";
-              magic.elements.manipulation = "earth";
-              magic.elements.health = "water";
-              magic.isPossessed = false;
-              break;
-            case "necroMagic":
-              magic.drainResistance.linkedAttribute = "logic";
-              magic.elements.combat = "man";
-              magic.elements.detection = "beasts";
-              magic.elements.illusion = "earth";
-              magic.elements.manipulation = "fire";
-              magic.elements.health = "plant";
-              magic.isPossessed = false;
-              break;
-            case "olympianism":
-              magic.drainResistance.linkedAttribute = "logic";
-              magic.elements.combat = "guardian";
-              magic.elements.detection = "air";
-              magic.elements.illusion = "water";
-              magic.elements.manipulation = "fire";
-              magic.elements.health = "earth";
-              magic.isPossessed = false;
-              break;
-            case "planarMagic":
-              magic.drainResistance.linkedAttribute = "logic";
-              magic.elements.combat = "guardian";
-              magic.elements.detection = "guidance";
-              magic.elements.illusion = "air";
-              magic.elements.manipulation = "task";
-              magic.elements.health = "water";
-              magic.isPossessed = false;
-              break;
-            case "redMagic":
-              magic.drainResistance.linkedAttribute = "intuition";
-              magic.elements.combat = "beasts";
-              magic.elements.detection = "air";
-              magic.elements.illusion = "earth";
-              magic.elements.manipulation = "man";
-              magic.elements.health = "water";
-              magic.isPossessed = false;
-              break;
-            case "romani":
-              magic.drainResistance.linkedAttribute = "willpower";
-              magic.elements.combat = "fire";
-              magic.elements.detection = "air";
-              magic.elements.illusion = "water";
-              magic.elements.manipulation = "earth";
-              magic.elements.health = "plant";
-              magic.isPossessed = false;
-              break;
-            case "tarot":
-              magic.drainResistance.linkedAttribute = "logic";
-              magic.elements.combat = "air";
-              magic.elements.detection = "fire";
-              magic.elements.illusion = "man";
-              magic.elements.manipulation = "earth";
-              magic.elements.health = "water";
-              magic.isPossessed = false;
-              break;
-          default:
-            magic.drainResistance.linkedAttribute = null;
-            magic.elements.combat = null;
-            magic.elements.detection = null;
-            magic.elements.illusion = null;
-            magic.elements.manipulation = null;
-            magic.elements.health = null;
-            magic.isPossessed = false;
-            break;
-        }
-        break;
-      default:
-        SR5_SystemHelpers.srLog(1, `Unknown '${magic.magicType}' magic type in updateTradition()`);
     }
+
+    SR5_EntityHelpers.updateValue(magic.powerPoints);
+    SR5_EntityHelpers.updateValue(magic.powerPoints.maximum);
   }
 
   // Magic and Astral Calculations
@@ -3134,17 +2857,17 @@ export class SR5_CharacterUtility extends Actor {
     // Attributes modifiers
     for (let key of Object.keys(lists.characterPhysicalAttributes)) {
       if (actorAttribute[key].augmented.base < spiritForce) {
-        SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", Math.floor(spiritForce / 2));
+        SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", Math.floor(spiritForce / 2));
       }
     }
     for (let key of Object.keys(lists.characterMentalAttributes)) {
       let mod = spiritAttributes[key] - actorAttribute[key].augmented.base;
-      SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", mod);
+      SR5_EntityHelpers.updateModifier(actorAttribute[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
     }
     for (let key of Object.keys(lists.characterSpecialAttributes)) {
       if(spiritAttributes[key]){
         let mod = spiritAttributes[key] - data.specialAttributes[key].augmented.base;
-        SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", mod);
+        SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
       }
     }
 
@@ -3152,7 +2875,7 @@ export class SR5_CharacterUtility extends Actor {
     for (let key of Object.keys(lists.skillGroups)){
       if (data.skillGroups[key]){
         let mod = data.skillGroups[key].base;
-        SR5_EntityHelpers.updateModifier(data.skillGroups[key], `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", -mod);
+        SR5_EntityHelpers.updateModifier(data.skillGroups[key], `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
       }
     }
     for (let key of Object.keys(lists.skills)) {
@@ -3160,10 +2883,10 @@ export class SR5_CharacterUtility extends Actor {
         let spiritSkill = spirit.data.data.skill.find(skill => skill === key);
         if (spiritSkill === key) {
           let mod = spiritForce - data.skills[key].rating.value;
-          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", mod);
+          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
         } else {
           let mod = data.skills[key].rating.base;
-          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", -mod);
+          SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
         }
       }
     }
@@ -3172,7 +2895,7 @@ export class SR5_CharacterUtility extends Actor {
     data.initiatives.physicalInit.dice.base = 2;
 
     // Penalties modifiers (rules are so cryptic, I prefer to simplify and just put a "bonus" to penalty)
-    SR5_EntityHelpers.updateModifier(data.penalties.condition.actual, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "Possesion", spiritForce);
+    SR5_EntityHelpers.updateModifier(data.penalties.condition.actual, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", spiritForce);
 
   }
 

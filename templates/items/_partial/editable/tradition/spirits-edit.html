@@ -1,0 +1,65 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.TraditionSpiritCombat'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.spiritCombat" data-dtype="String">
+            {{#select data.spiritCombat}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spiritTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.TraditionSpiritDetection'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.spiritDetection" data-dtype="String">
+            {{#select data.spiritDetection}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spiritTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.TraditionSpiritIllusion'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.spiritIllusion" data-dtype="String">
+            {{#select data.spiritIllusion}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spiritTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.TraditionSpiritManipulation'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.spiritManipulation" data-dtype="String">
+            {{#select data.spiritManipulation}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spiritTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.TraditionSpiritHealth'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.spiritHealth" data-dtype="String">
+            {{#select data.spiritHealth}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.spiritTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
