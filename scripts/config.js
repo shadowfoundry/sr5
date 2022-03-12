@@ -973,7 +973,7 @@ SR5.traditionTypes = {
   insect                    : "SR5.TraditionInsect",
   toxic                     : "SR5.TraditionToxic",
   egyptian                  : "SR5.TraditionEgyptian",
-  draconic                  : "SR5.TraditionEgyptian",
+  draconic                  : "SR5.TraditionDraconic",
 };
 
 // Types de sorts

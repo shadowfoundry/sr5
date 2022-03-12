@@ -208,6 +208,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
             return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
           }
         }
+        return super._onDropItemCreate(itemData);
         break;
       case "itemDevice":
         for (let i of this.actor.items){
