@@ -594,7 +594,6 @@ export class SR5Actor extends Actor {
         case "itemTradition":
           SR5_CharacterUtility.updateTradition(actorData, iData);
           break;
-
         case "itemSprite":
         case "itemLanguage":
         case "itemKnowledge":
