@@ -124,6 +124,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const echoes = [];
     const ammunitions = [];
     const effects = [];
+    const traditions = [];
 
     // Iterate through items, allocating to containers
     for (let i of actor.items) {
@@ -158,6 +159,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemAmmunition") ammunitions.push(i);
       else if (i.type === "itemEffect") effects.push(i);
       else if (i.type === "itemDrug") gears.push(i);
+      else if (i.type === "itemTradition") traditions.push(i);
     }
 
     actor.knowledges = knowledges;
@@ -190,6 +192,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.echoes = echoes;
     actor.ammunitions = ammunitions;
     actor.effects = effects;
+    actor.traditions = traditions;
   }
 
   activateListeners(html) {
@@ -199,6 +202,13 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   /** @override */
   async _onDropItemCreate(itemData) {
     switch(itemData.type){
+      case "itemTradition":
+        for (let i of this.actor.items){
+          if (i.data.type === "itemTradition") {
+            return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
+          }
+        }
+        break;
       case "itemDevice":
         for (let i of this.actor.items){
           if (i.data.type === "itemDevice" && i.data.data.isActive) {

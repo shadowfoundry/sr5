@@ -25,6 +25,7 @@
 					<option value="specialCase">{{localize 'SR5.SpecialCase'}}</option>
 					<option value="specificRollEffect">{{localize 'SR5.SpecificRollEffect'}}</option>
 					<option value="spiritPower">{{localize 'SR5.SpiritPower'}}</option>
+					<option value="tradition">{{localize 'SR5.HELP_MagicalTradition'}}</option>
 					{{/select}}
 				</select>
 			</div>
@@ -60,6 +61,12 @@
 
 					{{#ife category 'spiritPower'}}
 						{{#each (lookup ../lists 'AllSpiritPowers')}}
+						<option value="{{@key}}">{{localize this}}</option>	
+						{{/each}}						
+					{{/ife}}
+
+					{{#ife category 'tradition'}}
+						{{#each (lookup ../lists 'traditionTypes')}}
 						<option value="{{@key}}">{{localize this}}</option>	
 						{{/each}}						
 					{{/ife}}

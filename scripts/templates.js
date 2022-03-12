@@ -246,6 +246,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/summary/sprite-summary.html",
         "systems/sr5/templates/items/_partial/summary/vehicle-summary.html",
         "systems/sr5/templates/items/_partial/summary/weapon-summary.html",
+        "systems/sr5/templates/items/_partial/summary/tradition-summary.html",
         
     // Item sheet block editable
     "systems/sr5/templates/items/_partial/editable/_common/description-edit.html",
@@ -375,6 +376,11 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/sprite/taskMax-edit.html",
         "systems/sr5/templates/items/_partial/editable/sprite/registered-edit.html",
         "systems/sr5/templates/items/_partial/editable/sprite/complexFormSustain-edit.html",
+
+        //Tradition
+        "systems/sr5/templates/items/_partial/editable/tradition/drain-edit.html",
+        "systems/sr5/templates/items/_partial/editable/tradition/spirits-edit.html",
+        "systems/sr5/templates/items/_partial/editable/tradition/possession-edit.html",
 
         //Preparation
         "systems/sr5/templates/items/_partial/editable/preparation/lynchpin-edit.html",

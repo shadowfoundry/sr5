@@ -4,22 +4,34 @@
   		<div class="SRBlockSheet">
 			<ul>
 	  			<li class="grid SR-LigneEnTete">
-					<div class="col-12"><p class=" SR-TextUppercase ">{{localize 'SR5.MagicalTradition'}}</p></div>
-	  			</li>
-	  			<li class="grid">
-					<div class="col-12" 
-					data-helpTitle="{{localize 'SR5.HELP_MagicalTradition'}}"
-					data-helpMessage="{{localize 'SR5.HELP_MagicalTraditionMsg'}}">
-		  				<select name="data.magic.tradition" data-dtype="String">
-						{{#select data.magic.tradition}}
-							<option value="">{{localize 'SR5.None'}}</option>
-							{{#each actor.lists.traditionTypes}}
-							<option value="{{@key}}">{{localize this}}</option>
-							{{/each}}
-						{{/select}}
-		  				</select>
+					<div class="col-11"><p class=" SR-TextUppercase ">{{localize 'SR5.MagicalTradition'}}</p></div>
+					<div class="col-1">
+						{{#if owner}}
+						<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemGear')}}" 
+						data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+							<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemTradition"><em class="fas fa-plus"></em></a>
+						</p>
+						{{/if}}
 					</div>
 	  			</li>
+				{{#if (and (eq data.magic.magicType 'spirit') (ne data.creatorId ''))}}
+					<li class="">
+						{{findTranslation 'traditionTypes' data.magic.tradition}}
+					</li>
+				{{else}}
+					{{#each actor.traditions}}
+					<li class="item grid" data-item-id="{{_id}}">
+						<div class="col-11">{{name}}</div>
+						<div class="col-1 grid SR-TextRight">
+							{{#if ../owner}}
+							<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+								<em class="fas fa-sm fa-edit item-management"></em>
+							</a>
+							{{/if}}
+						</div>
+					</li>
+					{{/each}}
+				{{/if}}
 				{{#ifne data.magic.magicType 'spirit'}}
 	  			<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionCombat'}}</p></div>
