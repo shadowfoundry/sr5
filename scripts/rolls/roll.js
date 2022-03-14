@@ -32,7 +32,8 @@ export class SR5_Roll {
             backgroundAlignement, 
             sceneNoise,
             sceneEnvironmentalMod,
-            originalMessage;
+            originalMessage,
+            effectsList;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -179,6 +180,28 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                 }
+                if (typeSub === "counterspelling" && canvas.scene){
+                    if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
+                    else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
+                    else {
+                        let targets = Array.from(game.user.targets);
+                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        effectsList = targetActor.items.filter(i => i.type === "itemSpell" && i.data.data.isActive);
+                        let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemSpell");
+                        for (let e of Object.values(currentEffectList)){
+                            let parentItem = await fromUuid(e.data.data.ownerItem);
+                            if (effectsList.length === 0) effectsList.push(parentItem);
+                            else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                        }
+                        if (effectsList.length !== 0){
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                effectsList: effectsList,
+                            });
+                        }
+                    }
+                }
                 break;
 
             case "resistance":
@@ -324,6 +347,7 @@ export class SR5_Roll {
                             damageElement: chatData.damageElement,
                         }
                         break;
+
                     case "biofeedback":
                         dicePool = actorData.matrix.resistances.biofeedback.dicePool;
                         typeSub = "biofeedbackDamage";
@@ -592,16 +616,17 @@ export class SR5_Roll {
                         let targets = Array.from(game.user.targets);
                         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                        let complexFormList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
+                        effectsList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
                         let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemComplexForm");
                         for (let e of Object.values(currentEffectList)){
                             let parentItem = await fromUuid(e.data.data.ownerItem);
-                            if (complexFormList.find((i) => i.id != parentItem.id)) complexFormList.push(parentItem);
+                            if (effectsList.length === 0) effectsList.push(parentItem);
+                            if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
                         }
-                        if (complexFormList.length !== 0){
+                        if (effectsList.length !== 0){
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                complexFormList: complexFormList,
+                                effectsList: effectsList,
                             });
                         }
                     }
@@ -830,6 +855,26 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         "button.placeTemplate": true,
                     });
+                }
+
+                //Check if an effect is transferable on taget actor and give the necessary infos
+                for (let e of Object.values(itemData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
+
+                //Check if an effect is transferable on target item and give the necessary infos
+                for (let e of Object.values(itemData.itemEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffectOnItem": true,
+                        });
+                    }
                 }
                 break;
 

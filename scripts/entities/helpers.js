@@ -301,6 +301,8 @@ export class SR5_EntityHelpers {
       return `${game.i18n.localize(SR5.matrixAttributes[newKey])}`;
     } else if (key === "data.conditionMonitors.matrix"){
       return game.i18n.localize("SR5.MatrixMonitor");
+    } else if (key === "data.itemsProperties.armor"){
+      return game.i18n.localize("SR5.Armor");
     } else {
       return newKey;
     }

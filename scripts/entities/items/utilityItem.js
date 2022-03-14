@@ -1031,8 +1031,10 @@ export class SR5_UtilityItem extends Actor {
 
   //Handle spell
   static _handleSpell(i, actorData) {
+    //Add magic attribute to item
+    i.data.casterMagic = actorData.data.specialAttributes.magic.augmented.value;
 
-    // Calcul des dégâts en fonction du type de sort
+    //Damage based on spell type
     if (i.data.category === "combat") {
       i.data.damageValue.base = 0;
       if (i.data.subCategory === "indirect") {
@@ -1047,12 +1049,12 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    // Calcul de la portée 
+    //Handle range
     i.data.spellAreaOfEffect.base = 0;
     if (i.data.range === "area" || i.data.category === "detection"){
       SR5_EntityHelpers.updateModifier(i.data.spellAreaOfEffect, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), parseInt(i.data.force || 0), false, true);
     }
-    //des sorts de détection
+    //Range for detection spell
     if (i.data.category === "detection") {
       SR5_EntityHelpers.updateModifier(i.data.spellAreaOfEffect, game.i18n.localize('SR5.SpellRangeShort'), game.i18n.localize('SR5.SpellCategoryDetection'), actorData.data.specialAttributes.magic.augmented.value, true, true);
       if (i.data.spellAreaExtended === true) {
@@ -1061,7 +1063,7 @@ export class SR5_UtilityItem extends Actor {
     }
     SR5_EntityHelpers.updateValue(i.data.spellAreaOfEffect, 0);
 
-    // Calcul du Drain modifié
+    //Modified drain value
     i.data.drainValue.base = 0;
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), (i.data.force || 0), false, true);
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drainModifier, false, true);

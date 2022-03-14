@@ -540,12 +540,12 @@ export default class SR5_RollDialog extends Dialog {
             dialogData.matrixSearchType = html.find('[name="searchType"]')[0].value;
         });
 
-        //Kill Complex Form
-        if (html.find('[name="targetComplexForm"]')[0]){
-            dialogData.targetComplexForm = html.find('[name="targetComplexForm"]')[0].value;
+        //Kill Complex Form or CounterSpell
+        if (html.find('[name="targetEffect"]')[0]){
+            dialogData.targetEffect = html.find('[name="targetEffect"]')[0].value;
         }
-        html.find('[name="targetComplexForm"]').change(ev => {
-            dialogData.targetComplexForm = html.find('[name="targetComplexForm"]')[0].value;
+        html.find('[name="targetEffect"]').change(ev => {
+            dialogData.targetEffect = html.find('[name="targetEffect"]')[0].value;
         });
     }
 
