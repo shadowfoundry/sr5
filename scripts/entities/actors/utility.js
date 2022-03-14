@@ -464,6 +464,9 @@ export class SR5_CharacterUtility extends Actor {
       // Reset Possession
       data.magic.possession = false;
 
+      // Reset counterspelling
+      data.magic.counterSpellPool.value = 0;
+      data.magic.counterSpellPool.modifiers = [];
     }
 
     // Reset Monitors
@@ -2234,6 +2237,13 @@ export class SR5_CharacterUtility extends Actor {
     this.applyPenalty("special", magic.astralTracking, actor);
     SR5_EntityHelpers.updateDicePool(magic.astralTracking, 0);
 
+  }
+
+  //
+  static updateCounterSpellPool(actor){
+    let data = actor.data, lists = actor.lists, magic = data.magic, attributes = data.attributes, specialAttributes = data.specialAttributes, skills = data.skills;
+    magic.counterSpellPool.base = skills.counterspelling.rating.value;
+    SR5_EntityHelpers.updateValue(magic.counterSpellPool);
   }
 
   // Generate Matrix attributes

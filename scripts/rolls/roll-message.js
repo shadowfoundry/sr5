@@ -377,9 +377,17 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "killComplexFormResistance");
                     break;
+                case "msgTest_dispellResistance":
+                    SR5_DiceHelper.createItemResistance(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "dispellResistance");
+                    break;
                 case "msgTest_reduceComplexForm":
-                    await SR5_DiceHelper.reduceComplexForm(messageData);
+                    await SR5_DiceHelper.reduceTransferedEffect(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceComplexForm");
+                    break;
+                case "msgTest_reduceSpell":
+                    await SR5_DiceHelper.reduceTransferedEffect(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reduceSpell");
                     break;
                 default:
             }
@@ -413,7 +421,7 @@ export class SR5_RollMessage {
                 break;
             case "reduceComplexForm":
                 newMessage.button.actionEnd = true;
-                let targetedComplexForm = await fromUuid(newMessage.targetComplexForm);
+                let targetedComplexForm = await fromUuid(newMessage.targetEffect);
                 if (targetedComplexForm.data.data.hits <= 0) newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
                 else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: newMessage.netHits})}`
                 break;

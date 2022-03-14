@@ -59,7 +59,13 @@
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>
 			{{/if}}
-			<div class="col-1"></div>
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.magic.counterSpellPool.current"
+			  data-helpTitle="{{localize 'SR5.HELP_CounterSpellPool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_CounterSpellPoolMsg'}}">
+				{{#if (eq @key 'counterspelling')}}
+				{{../data.magic.counterSpellPool.current}} / {{../data.magic.counterSpellPool.value}}
+				{{/if}}
+			</div>
 		</li>
 		{{/if}}
 		{{/each}}

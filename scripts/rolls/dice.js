@@ -506,6 +506,9 @@ export class SR5_Dice {
 			case "complexFormResistance":
 				SR5_Dice.addComplexFormResistanceInfoToCard(cardData, author);
 				break;
+			case "spellResistance":
+				SR5_Dice.addSpellResistanceInfoToCard(cardData, author);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -604,6 +607,8 @@ export class SR5_Dice {
 		if (cardData.test.hits > 0) {
 			cardData.hits = cardData.test.hits;
 			cardData.button.spell = true;
+			if (cardData.switch?.transferEffect) cardData.button.applyEffect = true;
+			if (cardData.switch?.transferEffectOnItem) cardData.button.applyEffectOnItem = true;
 			if (cardData.typeSub === "indirect") {
 				cardData.damageValue = cardData.force;
 				cardData.incomingPA = -cardData.force;
@@ -993,6 +998,17 @@ export class SR5_Dice {
 			cardData.ownerAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
+		if (cardData.typeSub === "counterspelling" && cardData.targetEffect) {
+			cardData.ownerAuthor = cardData.speakerId;
+			let spell = await fromUuid(cardData.targetEffect);
+			cardData.drainValue = spell.data.data.drainValue.value;
+			if (spell.data.data.force > cardData.actor.data.specialAttributes.magic.augmented.value) cardData.drainType = "physical";
+			else cardData.drainType = "stun";
+			cardData.button.drainResistance = true;
+				
+			if (cardData.test.hits > 0) cardData.button.dispellResistance = true;
+			else cardData.button.dispellResistance = false;
+		}
 	}
 	
 	static async addSummoningResistanceInfoToCard(cardData, author){
@@ -1046,8 +1062,8 @@ export class SR5_Dice {
 		if (cardData.typeSub === "registerSprite"){
 			cardData.button.spriteRegisterDefense = true;
 		}
-		if (cardData.typeSub === "killComplexForm" && cardData.targetComplexForm) {
-			let complexForm = await fromUuid(cardData.targetComplexForm);
+		if (cardData.typeSub === "killComplexForm" && cardData.targetEffect) {
+			let complexForm = await fromUuid(cardData.targetEffect);
 			cardData.fadingValue = complexForm.data.data.fadingValue;
 			if (complexForm.data.data.level > cardData.actor.data.specialAttributes.resonance.augmented.value) cardData.fadingType = "physical";
 			else cardData.fadingType = "stun";
@@ -1188,6 +1204,16 @@ export class SR5_Dice {
 		} else {
 			cardData.netHits = cardData.test.hits - cardData.hits;
 			cardData.button.reduceComplexForm = true;
+		}
+	}
+
+	static async addSpellResistanceInfoToCard(cardData, author){
+		if (cardData.test.hits >= cardData.hits){
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.DispellingFailed");
+		} else {
+			cardData.netHits = cardData.test.hits - cardData.hits;
+			cardData.button.reduceSpell = true;
 		}
 	}
 }

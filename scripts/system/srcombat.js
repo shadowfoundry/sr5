@@ -480,6 +480,9 @@ export class SR5Combat extends Combat {
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
 
+		let actorData = deepClone (actor.data);
+		actorData = actorData.toObject(false);
+
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
 				let effect = duplicate(item.data);
@@ -548,10 +551,17 @@ export class SR5Combat extends Combat {
 			
 		}
 
+		//Remove full defense effect
 		if (actor.effects.find(e => e.data.origin === "fullDefense")){
 			let effectToRemove = actor.effects.find(e => e.data.origin === "fullDefense")
 			await actor.deleteEmbeddedDocuments("ActiveEffect", [effectToRemove.id]);
 			ui.notifications.info(`${combatant.name} ${game.i18n.localize("SR5.INFO_FullDefenseEnd")}`);
+		}
+
+		//Reset Spell defense dice pool
+		if (actorData.data.magic.counterSpellPool.current !== actorData.data.magic.counterSpellPool.value){
+			actorData.data.magic.counterSpellPool.current = actorData.data.magic.counterSpellPool.value;
+			await actor.update(actorData);
 		}
 	}
 

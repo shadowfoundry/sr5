@@ -2,9 +2,9 @@
     <div class="col-12">{{localize 'SR5.Target'}}</div>
 </li>
 <li class="grid">
-	<select name="targetComplexForm" data-dtype="String">
+	<select name="targetEffect" data-dtype="String">
 	{{#select item}}
-		{{#each complexFormList}}
+		{{#each effectsList}}
 		<option value="{{uuid}}">{{name}}</option>
 		{{/each}}
 	{{/select}}
