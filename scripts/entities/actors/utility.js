@@ -530,6 +530,7 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   static updatePublicAwareness(actor) {
+    if (actor.data.specialProperties.publicAwareness.value) SR5_EntityHelpers.updateModifier(actor.data.publicAwareness, `${game.i18n.localize('SR5.ReputationPublicAwareness')}`, `${game.i18n.localize('SR5.Qualities')}`, actor.data.specialProperties.publicAwareness.value);
     SR5_EntityHelpers.updateValue(actor.data.publicAwareness);
   }
 
