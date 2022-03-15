@@ -577,7 +577,7 @@
 }
 
 #sr5help {
-  z-index: 999;
+  z-index: 0;
   position: fixed;
   background: none;
   color: @neutralLightColor;
@@ -592,11 +592,12 @@
   width: auto;
   max-width: 300px;
   opacity: 0;
-  transition: opacity .5s ease-out 2s;
+  transition: opacity .5s ease-out 2s, z-index 4s;
 
   &.active {
     opacity: 1;
     transition: opacity .5s ease-out 0s;
+    z-index: 999;
   }
 
   h3 {

@@ -3816,7 +3816,7 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(147, 16, 4, 0.75);
 }
 #sr5help {
-  z-index: 999;
+  z-index: 0;
   position: fixed;
   background: none;
   color: #fffffe;
@@ -3831,11 +3831,12 @@ input[type=range]:focus::-ms-fill-upper {
   width: auto;
   max-width: 300px;
   opacity: 0;
-  transition: opacity 0.5s ease-out 2s;
+  transition: opacity 0.5s ease-out 2s, z-index 4s;
 }
 #sr5help.active {
   opacity: 1;
   transition: opacity 0.5s ease-out 0s;
+  z-index: 999;
 }
 #sr5help h3 {
   font-family: "srfoundry_primary";
