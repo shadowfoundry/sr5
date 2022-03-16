@@ -3831,7 +3831,7 @@ input[type=range]:focus::-ms-fill-upper {
   width: auto;
   max-width: 300px;
   opacity: 0;
-  transition: opacity 0.5s ease-out 2s, z-index 4s;
+  transition: opacity 0.5s ease-out 2s, z-index 3.5s;
 }
 #sr5help.active {
   opacity: 1;
