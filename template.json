@@ -3027,6 +3027,11 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "publicAwareness":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },
