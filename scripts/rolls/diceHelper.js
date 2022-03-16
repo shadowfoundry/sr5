@@ -94,17 +94,28 @@ export class SR5_DiceHelper {
             dicePool = cardData.force;    
         }
 
-        //Complexe forme resistance
+        //Complex form resistance
         if (message.type === "resonanceAction" && message.typeSub === "killComplexForm"){
-            let targetedComplexForm = await fromUuid(message.targetComplexForm);
+            let targetedComplexForm = await fromUuid(message.targetEffect);
             dicePool = targetedComplexForm.data.data.threaderResonance + targetedComplexForm.data.data.level;
             cardData = mergeObject(cardData, {
-                targetComplexForm: message.targetComplexForm,
+                targetEffect: message.targetEffect,
                 hits: message.test.hits,
                 type: "complexFormResistance",
                 title: `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetedComplexForm.name})`,
             });
+        }
 
+        //Spell Resistance
+        if (message.typeSub === "counterspelling"){
+            let targetedSpell = await fromUuid(message.targetEffect);
+            dicePool = targetedSpell.data.data.casterMagic + targetedSpell.data.data.force;
+            cardData = mergeObject(cardData, {
+                targetEffect: message.targetEffect,
+                hits: message.test.hits,
+                type: "spellResistance",
+                title: `${game.i18n.localize("SR5.SpellResistance")} (${targetedSpell.name})`,
+            });
         }
 
         let result = SR5_Dice.srd6({ dicePool: dicePool });
@@ -1074,17 +1085,17 @@ export class SR5_DiceHelper {
         if (!target.items.find(i => i.data.data.type === "derezz")) await target.createEmbeddedDocuments("Item", [itemEffect]);
     }
 
-    static async reduceComplexForm(message){
-        let targetedComplexForm = await fromUuid(message.targetComplexForm),
-            newComplexForm = duplicate(targetedComplexForm.data.data);
+    static async reduceTransferedEffect(message){
+        let targetedEffect = await fromUuid(message.targetEffect),
+            newEffect = duplicate(targetedEffect.data.data);
 
-        newComplexForm.hits += message.netHits;
+        newEffect.hits += message.netHits;
 
-        //If Complex form is reduce to 0, delete it
-        if (newComplexForm.hits <= 0){
-            newComplexForm.hits = 0;
-            newComplexForm.isActive = false;
-            for (let e of newComplexForm.targetOfEffect){
+        //If item hits are reduce to 0, delete it
+        if (newEffect.hits <= 0){
+            newEffect.hits = 0;
+            newEffect.isActive = false;
+            for (let e of newEffect.targetOfEffect){
                 let effect = await fromUuid(e);
                 if (!game.user?.isGM){
                     SR5_SocketHandler.emitForGM("deleteItem", {
@@ -1092,15 +1103,15 @@ export class SR5_DiceHelper {
                     });
                 } else await effect.delete();
             }
-            newComplexForm.targetOfEffect = [];
-        //else, update effect linked to complex form
+            newEffect.targetOfEffect = [];
+        //else, update effect linked
         } else {
-            for (let e of newComplexForm.targetOfEffect){
+            for (let e of newEffect.targetOfEffect){
                 let effect = await fromUuid(e);
                 let updatedEffect = effect.data.data;
-                updatedEffect.value = newComplexForm.hits;
+                updatedEffect.value = newEffect.hits;
                 for (let cs of Object.values(updatedEffect.customEffects)){
-                    cs.value = newComplexForm.hits;
+                    cs.value = newEffect.hits;
                 }
                 if (!game.user?.isGM){
                     SR5_SocketHandler.emitForGM("updateItem", {
@@ -1108,17 +1119,16 @@ export class SR5_DiceHelper {
                         data: updatedEffect,
                     });
                 } else await effect.update({'data': updatedEffect});
-                
             }
         }
 
         //Update complex form item
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
-                item: targetedComplexForm.uuid,
-                data: newComplexForm,
+                item: targetedEffect.uuid,
+                data: newEffect,
             });
-        } else await targetedComplexForm.update({'data': newComplexForm});
+        } else await targetedEffect.update({'data': newEffect});
     }
 
     //Socket for updating an item

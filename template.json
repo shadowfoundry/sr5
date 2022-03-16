@@ -4075,7 +4075,13 @@
             "linkedAttribute": ""
           },
           "possession": false,
-          "hasAstralProjection": false
+          "hasAstralProjection": false,
+          "counterSpellPool":{
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "current": 0
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -5881,6 +5887,7 @@
         "modifiers": []
       },
       "force": 0,
+      "casterMagic": 0,
       "spellAreaOfEffect": {
         "value": 0,
         "base": 0,

@@ -460,7 +460,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/chooseComplexFormTarget.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html",
 
 
     /************************************************************************************* */

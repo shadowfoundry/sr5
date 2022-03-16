@@ -4,7 +4,13 @@
 	<ul>
 		<li class="grid SR-LigneEnTete SR-TextUppercase">
 			<div class="col-10">{{localize 'SR5.OverwatchScore'}}</div>
-			<div class="col-2 SR-TextCenter SR-NeutralLightColor">{{data.matrix.overwatchScore}}</div>
+			<div class="col-2 SR-TextCenter SR-NeutralLightColor {{#if data.isGM}}changeValueByClick {{/if}}" data-binding="data.matrix.overwatchScore"
+			{{#if data.isGM}}
+			  data-helpTitle="{{localize 'SR5.HELP_OverwatchScoreEdit'}}"
+              data-helpMessage="{{localize 'SR5.HELP_OverwatchScoreEditMsg'}}"
+			{{/if}}
+			>
+				{{data.matrix.overwatchScore}}</div>
 		</li>
 	</ul>
 </div>

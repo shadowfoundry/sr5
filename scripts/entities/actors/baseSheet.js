@@ -22,7 +22,7 @@ export class ActorSheetSR5 extends ActorSheet {
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      scrollY: [".SR-ActorMainCentre"],
+      scrollY: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
       tabs: [
         {
           navSelector: ".tabs",
@@ -482,7 +482,7 @@ export class ActorSheetSR5 extends ActorSheet {
     }
 
     //Delete effects linked to sustaining
-    if (item.type === "itemComplexForm" && target === "data.isActive"){      
+    if ((item.type === "itemComplexForm" || item.type === "itemSpell") && target === "data.isActive"){      
       if (!item.data.isActive && item.data.targetOfEffect.length) {
         for (let e of item.data.targetOfEffect){
           if (!game.user?.isGM) {

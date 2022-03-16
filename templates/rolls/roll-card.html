@@ -360,6 +360,16 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reduceComplexForm">{{localize 'SR5.ReduceComplexFormSuccess'}} ({{netHits}})</button> 
       {{/if}}
 
+      <!-- DISPELL RESISTANCE -->
+      {{#if button.dispellResistance}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_dispellResistance">{{localize 'SR5.SpellResistance'}}</button> 
+      {{/if}}
+
+      <!-- SPELL REDUCE -->
+      {{#if button.reduceSpell}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reduceSpell">{{localize 'SR5.ReduceSpell'}} ({{netHits}})</button> 
+      {{/if}}
+
     </div>
   </div>
 </div>

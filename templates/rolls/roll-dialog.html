@@ -149,7 +149,7 @@
         {{/ife}}
         <!-- KILL COMPLEX FORM - CHOOSE TARGET -->
         {{#if hasTarget}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/chooseComplexFormTarget.html}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
         {{/if}}
       {{/ife}}
 
@@ -186,6 +186,11 @@
       <!-- RESIST FIRE -->
       {{#if (eq type "resistFire")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
+      {{/if}}
+
+      <!-- COUNTER SPELL - CHOOSE TARGET -->
+      {{#if (and (eq typeSub "counterspelling") hasTarget)}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
       {{/if}}
     </ul>
   </div>

@@ -2235,6 +2235,7 @@ SR5.effectTypes = {
   signalJammed              : "SR5.EffectSignalJammed",
   linkLock                  : "SR5.EffectLinkLockedConnection",
   itemComplexForm           : "ITEM.TypeItemcomplexform",
+  itemSpell                : "ITEM.TypeItemspell",
   derezz                    : "SR5.Derezz",
 }
 
