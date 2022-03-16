@@ -216,7 +216,15 @@ export class SR5_Dice {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
 							dialogData.level = actor.data.specialAttributes.resonance.augmented.value;
 						}
-						if (dialogData.force) dialogData.limit = dialogData.force;
+						if (dialogData.force){
+							dialogData.limit = dialogData.force;
+							let reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
+							if (!isNaN(reagentsSpent)) {
+								dialogData.limit = reagentsSpent;
+								dialogData.limitType = "reagents";
+								realActor.update({ "data.magic.reagents": actor.data.magic.reagents - reagentsSpent});
+							}
+						}
 						if (dialogData.level) dialogData.limit = dialogData.level;
 						for (let key in dialogData.limitMod){
 							dialogData.limit += dialogData.limitMod[key];
@@ -333,7 +341,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		}
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 		ChatMessage.create(chatData);
 	}

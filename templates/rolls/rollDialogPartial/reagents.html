@@ -1,0 +1,14 @@
+<li class="grid">
+    <div class="col-7">{{localize 'SR5.Reagents'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4">
+        <select class="reagents" name="reagents">
+        {{#select reagents}}
+            <option value="">{{localize 'SR5.No'}}</option>
+            <option value="true">{{localize 'SR5.Yes'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter" id="useReagents">
+        <input type="number" name="reagentsSpent" value="{{reagentsSpent}}" data-dtype="Number" placeholder="0" />
+    </div>
+</li>

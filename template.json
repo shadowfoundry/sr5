@@ -4076,7 +4076,8 @@
             "base": 0,
             "modifiers": [],
             "current": 0
-          }
+          },
+          "reagents": 0
         }
       },
       "sheetPreferencesTemplate": {
