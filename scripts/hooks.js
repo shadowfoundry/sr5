@@ -251,13 +251,6 @@ export const registerHooks = function () {
 
   Hooks.on("updateItem", async(document, data, options, userId) => {
     if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
-    /*if (document.isOwned && document.type === "itemComplexForm" && document.data.data.targetOfEffect.length){
-      if ( !game.user.isGM ){
-        SR5_SocketHandler.emitForGM("keepSynchronousWithParent", {
-          document: document.uuid,
-      });
-      } else await SR5_UtilityItem.keepSynchronousWithParent(document);
-    }*/
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {

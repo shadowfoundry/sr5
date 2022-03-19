@@ -2373,5 +2373,6 @@
   "SR5.WARN_NoActiveScene"                    : "No active scene !",
   "SR5.WARN_NoTemplateInScene"                : "No template in scene !",
   "SR5.WARN_NotASprite"                       : "You must select a sprite !",
-  "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})"
+  "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})",
+  "SR5.WARN_InvalidActorType"                 : "Invalid Actor Type for this action."
 }

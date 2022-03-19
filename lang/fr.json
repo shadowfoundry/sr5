@@ -2373,5 +2373,6 @@
   "SR5.WARN_NoActiveScene"                    : "Pas de scène active !",
   "SR5.WARN_NoTemplateInScene"                : "Pas de gabarit dans la scène !",
   "SR5.WARN_NotASprite"                       : "Vous devez sélectionner un sprite !",
-  "SR5.WARN_MaxReagents"                      : "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})"
+  "SR5.WARN_MaxReagents"                      : "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})",
+  "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action."
 }
