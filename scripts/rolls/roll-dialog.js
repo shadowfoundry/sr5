@@ -564,13 +564,11 @@ export default class SR5_RollDialog extends Dialog {
 
         html.find('[name="reagentsSpent"]').change(ev => {
             let value = ev.target.value;
-            console.log(actor);
             if (value > actor.data.magic.reagents){
                 value = actor.data.magic.reagents;
                 html.find('[name="reagentsSpent"]')[0].value = value;
                 ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
             }
-            console.log(value);
         }); 
     }
 

@@ -179,6 +179,7 @@ export class SR5_Roll {
                     limitType: skill.limit.base,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
+                    dicePoolComposition: actorData.skills[rollKey].test.modifiers,
                 }
                 if (typeSub === "counterspelling" && canvas.scene){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
@@ -1115,6 +1116,7 @@ export class SR5_Roll {
             speakerId: speakerId,
             speakerImg: speakerImg,
             dicePool: dicePool,
+            dicePoolComposition: {},
             dicePoolMod: {},
             limit: limit,
             limitMod: {},
