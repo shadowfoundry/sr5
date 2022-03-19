@@ -49,7 +49,9 @@
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Skills'}}">
 						<option value="skills">{{localize 'SR5.Skills'}}</option>
-						<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>
+						<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>						
+						<option value="languagesSkills">{{localize 'SR5.LanguagesSkills'}}</option>
+						<option value="knowledgeSkills">{{localize 'SR5.KnowledgeSkills'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Damage'}}">
 						<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
@@ -214,6 +216,12 @@
 					{{#each (lookup ../lists category)}}
 					<option value="data.skillGroups.{{@key}}">{{localize this}}</option>
 					{{/each}}
+
+					{{else ife category 'languagesSkills'}}
+					<option value="data.specialProperties.language">{{localize 'SR5.LanguagesSkills'}}</option>
+
+					{{else ife category 'knowledgeSkills'}}
+					<option value="data.specialProperties.knowledge">{{localize 'SR5.KnowledgeSkills'}}</option>
 
 					{{else ife category 'skills'}}
 					{{#each (lookup ../lists category)}}

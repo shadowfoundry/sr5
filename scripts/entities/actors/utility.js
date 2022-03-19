@@ -2103,6 +2103,7 @@ export class SR5_CharacterUtility extends Actor {
 
     let label = `${game.i18n.localize(lists.characterAttributes[knowledge.linkedAttribute])}`;
     SR5_EntityHelpers.updateModifier(knowledge, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[knowledge.linkedAttribute].augmented.value);
+    if (actor.data.specialProperties.knowledge.value) SR5_EntityHelpers.updateModifier(knowledge, `${game.i18n.localize('SR5.Qualities')}`, `${game.i18n.localize('SR5.Language')}`, actor.data.specialProperties.knowledge.value);
     this.applyPenalty("condition", knowledge, actor);
     this.applyPenalty("matrix", knowledge, actor);
     this.applyPenalty("magic", knowledge, actor);
@@ -2116,6 +2117,7 @@ export class SR5_CharacterUtility extends Actor {
 
     if (!language.isNative) {
       SR5_EntityHelpers.updateModifier(language, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
+      if (actor.data.specialProperties.language.value) SR5_EntityHelpers.updateModifier(language, `${game.i18n.localize('SR5.Qualities')}`, `${game.i18n.localize('SR5.Language')}`, actor.data.specialProperties.language.value);
       this.applyPenalty("condition", language, actor);
       this.applyPenalty("matrix", language, actor);
       this.applyPenalty("magic", language, actor);
