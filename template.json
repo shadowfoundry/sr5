@@ -3032,6 +3032,16 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "language":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "knowledge":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },

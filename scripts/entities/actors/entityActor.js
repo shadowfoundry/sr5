@@ -263,10 +263,10 @@ export class SR5Actor extends Actor {
     if (!this.data.name)
       this.data.name = "[" + game.i18n.localize("SR5.New") + "]" + this.entity;
     this.prepareBaseData();
-    this.prepareEmbeddedDocuments();
+    this.prepareEmbeddedDocuments(); // first pass on items to add bonuses from the items to the characters
     this.prepareDerivedData();
     this.sortLists(this.data.data);
-    this.updateItems(this);
+    this.updateItems(this); // second pass on items to get characters data for final items calculations
   }
 
   prepareBaseData() {

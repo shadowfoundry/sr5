@@ -2255,6 +2255,8 @@ SR5.specialProperties = {
   damageReduction           : "SR5.DamageReduction",
   notoriety                 : "SR5.ReputationNotoriety",  
   publicAwareness           : "SR5.ReputationPublicAwareness",
+  language                  : "SR5.LanguagesSkills",
+  knowledge                 : "SR5.KnowledgeSkills",
 }
 
 SR5.transactionsTypes = {
