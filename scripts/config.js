@@ -2253,7 +2253,8 @@ SR5.specialProperties = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
-  notoriety                 : "SR5.ReputationNotoriety",
+  notoriety                 : "SR5.ReputationNotoriety",  
+  publicAwareness           : "SR5.ReputationPublicAwareness",
 }
 
 SR5.transactionsTypes = {

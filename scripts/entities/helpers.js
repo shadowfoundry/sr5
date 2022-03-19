@@ -176,12 +176,13 @@ export class SR5_EntityHelpers {
   static getRealActorFromID(actorID){
     let actor, token, tokenDocument;
     actor = game.actors.get(actorID);
+    if (actor) return actor;
     if (canvas.scene){
       token = canvas.tokens.get(actorID);
       if (token){
         const scene = game.scenes.get(token.scene.id);
         tokenDocument = scene.tokens.get(actorID);
-        if (tokenDocument) actor = tokenDocument.getActor();
+        actor = tokenDocument.actor;
       }
     }
     return actor;
