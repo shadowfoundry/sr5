@@ -1258,6 +1258,7 @@
   "SR5.RatingShort"                           : "Rat.",
   "SR5.Reaction"                              : "Reaction",
   "SR5.ReactionShort"                         : "REA",
+  "SR5.Reagents"                              : "Reagents",
   "SR5.Rebooted"                              : "has rebooted",
   "SR5.RecklessSpellcasting"                  : "Reckless spellcasting",
   "SR5.Recoil"                                : "Recoil",
@@ -2208,6 +2209,7 @@
   "SR5.HELP_QuantityMsg"                      : "Left click to remove 1 unit (hold Control for 10 units).<br>Right click to add 1 unit (hold Control for 10 units).",
   "SR5.HELP_Rating"                           : "Rating<br>({key})",
   "SR5.HELP_RatingMsg"                        : "Edit Rating : right click to increase, left click to decrease.",
+  "SR5.HELP_ReagentsEditMsg"                  : "Edit Reagents : right click to increase, left click to decrease.",
   "SR5.HELP_RegisterButton"                   : "Register Sprite",
   "SR5.HELP_RegisterButtonMsg"                : "Click to register or unregister sprite.",
   "SR5.HELP_ReputationStreetCredEdit"         : "Edit Street Cred",
@@ -2370,5 +2372,6 @@
   "SR5.WARN_NoActor"                          : "You must select an Actor first.",
   "SR5.WARN_NoActiveScene"                    : "No active scene !",
   "SR5.WARN_NoTemplateInScene"                : "No template in scene !",
-  "SR5.WARN_NotASprite"                       : "You must select a sprite !"
+  "SR5.WARN_NotASprite"                       : "You must select a sprite !",
+  "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})"
 }

@@ -9,6 +9,12 @@
     <div class="col-2 SR-TextRight">{{dicePoolBase}}</div>
 </li>
 {{/if}}
+<!--Base Dicepool composition-->
+<li class="SR-GreyColor">
+    {{#each dicePoolComposition}}
+    <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}})</span> 
+    {{/each}}
+</li>
 <!--Attribute mod Dicepool-->
 {{#if (isdefined dicePoolMod.attribute)}}
 <li class="grid SR-GreyColor">

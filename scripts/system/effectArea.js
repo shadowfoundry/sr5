@@ -19,17 +19,18 @@ export class SR5_EffectArea {
 
     //Check jamming aura change
     static async checkAuraJamming(active, passive, distance){
-        let actor = active.getActor();
-        let passivActor = passive.getActor();
+        let actor = SR5_EntityHelpers.getRealActorFromID(active.id);
+        let passiveActor = SR5_EntityHelpers.getRealActorFromID(passive.id);
+
         let actorJammedEffect = actor.items.find(i => i.data.data.type === "signalJammed");
         let actorJamEffect = actor.items.find(i => i.data.data.type === "signalJam");
-        let passiveJammedEffect = passivActor.items.find(i => i.data.data.type === "signalJammed");
-        let passiveJamEffect = passivActor.items.find(i => i.data.data.type === "signalJam");
+        let passiveJammedEffect = passiveActor.items.find(i => i.data.data.type === "signalJammed");
+        let passiveJamEffect = passiveActor.items.find(i => i.data.data.type === "signalJam");
         //passive token is jamming
         if (passiveJamEffect){
             //check distance
             if (distance > 100) {
-                if (actorJammedEffect?.data?.data?.ownerID === passivActor.id){
+                if (actorJammedEffect?.data?.data?.ownerID === passiveActor.id){
                     if (game.user?.isGM) {
                         let jammedActiveEffect = actor.data.effects.find(i => i.data.origin === "signalJammed");
                         if (jammedActiveEffect){
@@ -39,8 +40,8 @@ export class SR5_EffectArea {
                     }
                 }
             } else {
-                if (actorJammedEffect?.data?.data?.ownerID !== passivActor.id){ 
-                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(passivActor, actor, passiveJamEffect.data.data.value);
+                if (actorJammedEffect?.data?.data?.ownerID !== passiveActor.id){ 
+                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(passiveActor, actor, passiveJamEffect.data.data.value);
                 }
             }
         }
@@ -49,14 +50,14 @@ export class SR5_EffectArea {
             //check distance
             if (distance <= 100) {
                 if (passiveJammedEffect?.data?.data?.ownerID !== actor.id){
-                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(actor, passivActor, actorJamEffect.data.data.value);
+                    if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(actor, passiveActor, actorJamEffect.data.data.value);
                 }
             } else {
                 if (passiveJammedEffect?.data?.data?.ownerID === actor.id){
                     if (game.user?.isGM) {
-                        let jammedActiveEffect = passivActor.data.effects.find(i => i.data.origin === "signalJammed");
-                        await passivActor.deleteEmbeddedDocuments("ActiveEffect", [jammedActiveEffect.id]);
-                        await passivActor.deleteEmbeddedDocuments("Item", [passiveJammedEffect.id]);
+                        let jammedActiveEffect = passiveActor.data.effects.find(i => i.data.origin === "signalJammed");
+                        await passiveActor.deleteEmbeddedDocuments("ActiveEffect", [jammedActiveEffect.id]);
+                        await passiveActor.deleteEmbeddedDocuments("Item", [passiveJammedEffect.id]);
                     }
                 }
             }
