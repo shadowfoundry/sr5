@@ -197,7 +197,11 @@ export class SR5_Dice {
 								"data.conditionMonitors.edge.current": actor.data.conditionMonitors.edge.current + 1,
 							});
 						}		
-						
+
+						//Verify if reagents are used, if so, remove from actor
+						let reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
+						if (!isNaN(reagentsSpent)) realActor.update({ "data.magic.reagents": actor.data.magic.reagents - reagentsSpent});
+
 						// Apply modifiers from dialog window
 						if (dialogData.spiritType) dialogData.dicePool = actor.data.skills.summoning.spiritType[dialogData.spiritType].dicePool;
 						if (dialogData.extendedTest === true){
@@ -216,7 +220,13 @@ export class SR5_Dice {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
 							dialogData.level = actor.data.specialAttributes.resonance.augmented.value;
 						}
-						if (dialogData.force) dialogData.limit = dialogData.force;
+						if (dialogData.force || dialogData.typeSub === "counterspelling"){
+							if (dialogData.force) dialogData.limit = dialogData.force;			
+							if (!isNaN(reagentsSpent)) {
+								dialogData.limit = reagentsSpent;
+								dialogData.limitType = "reagents";
+							}
+						}
 						if (dialogData.level) dialogData.limit = dialogData.level;
 						for (let key in dialogData.limitMod){
 							dialogData.limit += dialogData.limitMod[key];

@@ -139,6 +139,7 @@ export default class SR5_RollDialog extends Dialog {
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
+        if (document.getElementById("useReagents")) document.getElementById("useReagents").style.display = "none";
 
         if (html.find('[name="armor"]')[0]){
             this.dicePoolModifier.armorModifier = parseInt((html.find('[name="armor"]')[0].value || 0));
@@ -547,6 +548,28 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="targetEffect"]').change(ev => {
             dialogData.targetEffect = html.find('[name="targetEffect"]')[0].value;
         });
+
+        //Reagents use
+        html.find('[name="reagents"]').change(ev => {
+            let value = ev.target.value;
+            if (value === "true") {
+                dialogData.reagentsUsed = true;
+                document.getElementById("useReagents").style.display = "block";
+            }
+            else {
+                dialogData.reagentsUsed = false;
+                document.getElementById("useReagents").style.display = "none";
+            }
+        }); 
+
+        html.find('[name="reagentsSpent"]').change(ev => {
+            let value = ev.target.value;
+            if (value > actor.data.magic.reagents){
+                value = actor.data.magic.reagents;
+                html.find('[name="reagentsSpent"]')[0].value = value;
+                ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
+            }
+        }); 
     }
 
 }

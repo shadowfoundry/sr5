@@ -898,6 +898,7 @@ SR5.testLimits = {
   noiseReduction            : "SR5.NoiseReduction",
   sharing                   : "SR5.Sharing",
   sleaze                    : "SR5.Sleaze",
+  reagents                  : "SR5.Reagents",
 };
 
 //-----------------------------------//

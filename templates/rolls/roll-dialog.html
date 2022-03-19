@@ -39,6 +39,9 @@
       {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
+        {{#if (gt actor.data.magic.reagents 0)}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+        {{/if}}
       {{/if}}
 
       {{#if (eq type "preparation")}}
@@ -176,6 +179,9 @@
       <!-- LIMIT -->
       {{#if limit}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
+        {{#if (and (eq typeSub "counterspelling") (gt actor.data.magic.reagents 0))}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+        {{/if}}
       {{/if}}
 
       <!-- ATTACK - AMMO -->

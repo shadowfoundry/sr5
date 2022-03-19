@@ -94,6 +94,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html",
     "systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html",
     "systems/sr5/templates/actors/_partials/left-tabs/magicUser/initiation.html",
+    "systems/sr5/templates/actors/_partials/left-tabs/magicUser/reagents.html",
 
     //Left Tab - Matrix user partials
     "systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html",
@@ -461,6 +462,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html",
     "systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/reagents.html",
 
 
     /************************************************************************************* */
