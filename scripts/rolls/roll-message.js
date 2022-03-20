@@ -141,6 +141,9 @@ export class SR5_RollMessage {
                 case "msgTest_spriteRegisterDefense":
                     actor.rollTest("registeringResistance", null, messageData);
                     break;
+                case "msgTest_spiritBindingDefense":
+                    actor.rollTest("bindingResistance", null, messageData);
+                    break;
                 case "msgTest_applyEffect":
                     actor.applyExternalEffect(messageData, "customEffects");
                     SR5_RollMessage.updateChatButton(message.data, "applyEffect");
@@ -163,10 +166,9 @@ export class SR5_RollMessage {
             actor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.speakerId);
     
             // If there is a matrix action Author, get the Actor to do stuff with him later
-            let originalActionAuthor;
-            if (messageData.originalActionAuthor){
-                originalActionAuthor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionAuthor)
-            }
+            let originalActionAuthor, targetActor;
+            if (messageData.originalActionAuthor) originalActionAuthor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionAuthor);
+            if (messageData.targetActor) targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.targetActor);
     
             switch (type) {
                 case "msgTest_attackResistance":
@@ -380,6 +382,13 @@ export class SR5_RollMessage {
                 case "msgTest_reduceSpell":
                     await SR5_DiceHelper.reduceTransferedEffect(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceSpell");
+                    break;
+                case "msgTest_targetBindingDefense":
+                    targetActor.rollTest("bindingResistance", null, messageData);
+                    break;
+                case "msgTest_bindSpirit":
+                    SR5_DiceHelper.bindSpirit(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "bindSpirit");
                     break;
                 default:
             }

@@ -220,7 +220,7 @@ export class SR5_Dice {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
 							dialogData.level = actor.data.specialAttributes.resonance.augmented.value;
 						}
-						if (dialogData.force || dialogData.typeSub === "counterspelling"){
+						if (dialogData.force || dialogData.typeSub === "counterspelling" || dialogData.typeSub === "binding"){
 							if (dialogData.force) dialogData.limit = dialogData.force;			
 							if (!isNaN(reagentsSpent)) {
 								dialogData.limit = reagentsSpent;
@@ -518,6 +518,9 @@ export class SR5_Dice {
 				break;
 			case "spellResistance":
 				SR5_Dice.addSpellResistanceInfoToCard(cardData, author);
+				break;
+			case "bindingResistance":
+				SR5_Dice.addBindingResistanceInfoToCard(cardData, author);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
@@ -1003,13 +1006,16 @@ export class SR5_Dice {
 	}
 
 	static async addSkillInfoToCard(cardData, author){
+		cardData.ownerAuthor = cardData.speakerId;
 		if (cardData.typeSub === "summoning") {
 			cardData.button.summonSpiritResist = true;
-			cardData.ownerAuthor = cardData.speakerId;
 			cardData.hits = cardData.test.hits;
 		}
+		if (cardData.typeSub === "binding"){
+			if (cardData.hasTarget) cardData.button.targetBindingDefense = true;
+			else cardData.button.spiritBindingDefense = true;
+		}
 		if (cardData.typeSub === "counterspelling" && cardData.targetEffect) {
-			cardData.ownerAuthor = cardData.speakerId;
 			let spell = await fromUuid(cardData.targetEffect);
 			cardData.drainValue = spell.data.data.drainValue.value;
 			if (spell.data.data.force > cardData.actor.data.specialAttributes.magic.augmented.value) cardData.drainType = "physical";
@@ -1225,5 +1231,30 @@ export class SR5_Dice {
 			cardData.netHits = cardData.test.hits - cardData.hits;
 			cardData.button.reduceSpell = true;
 		}
+	}
+
+	static async addBindingResistanceInfoToCard(cardData, author){
+		let newMessage = duplicate(cardData.originalMessage.flags.sr5data);
+        if (newMessage.button.spiritBindingDefense) newMessage.button.spiritBindingDefense = !newMessage.button.spiritBindingDefense;
+		if (newMessage.button.targetBindingDefense) newMessage.button.targetBindingDefense = !newMessage.button.targetBindingDefense;
+		cardData.button.drainResistance = false;
+
+		if (cardData.test.hits < cardData.hits) {
+			cardData.netHits = cardData.hits - cardData.test.hits;
+			cardData.button.bindSpirit = true;
+		} else {
+			cardData.button.bindSpirit = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.BindingFailed");
+		}
+		if (cardData.test.hits > 0){
+			if (!newMessage.button.drainResistanceActive){
+				newMessage.button.drainResistance = !newMessage.button.drainResistance;
+				newMessage.button.drainResistanceActive = true;
+			}
+			newMessage.drainValue = cardData.test.hits;
+		}
+		
+		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
 	}
 }

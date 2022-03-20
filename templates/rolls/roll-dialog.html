@@ -179,8 +179,14 @@
       <!-- LIMIT -->
       {{#if limit}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
-        {{#if (and (eq typeSub "counterspelling") (gt actor.data.magic.reagents 0))}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+        {{#if (gt actor.data.magic.reagents 0)}}
+          <!-- REAGENTS -->
+          {{#if (eq typeSub "counterspelling")}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+          {{/if}}
+          {{#if (and (eq typeSub "binding") hasTarget)}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+          {{/if}}
         {{/if}}
       {{/if}}
 

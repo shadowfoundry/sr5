@@ -394,6 +394,7 @@ export class SR5_CharacterUtility extends Actor {
           data.matrix.actions[key].defense.dicePool = 0;
           data.matrix.actions[key].defense.modifiers = [];
         }
+      }
 
       // Reset Resonance Actions
       if (data.matrix.resonanceActions) {
@@ -412,7 +413,6 @@ export class SR5_CharacterUtility extends Actor {
       // Reset Concentration
       data.matrix.concentration = false;
       data.matrix.complexFormList = {};
-      }
 
       //Reset public grid if Grid rules are not active
       if (!game.settings.get("sr5", "sr5MatrixGridRules")){
@@ -434,6 +434,9 @@ export class SR5_CharacterUtility extends Actor {
         data.matrix.potentialPanObject.armors = {};
         data.matrix.potentialPanObject.gears = {};
       }
+
+      //Reset regiseterd sprite
+      data.matrix.registeredSprite.current = 0;
     }
 
     if (data.magic) {
@@ -479,6 +482,9 @@ export class SR5_CharacterUtility extends Actor {
       // Reset counterspelling
       data.magic.counterSpellPool.value = 0;
       data.magic.counterSpellPool.modifiers = [];
+
+      //Reset bounded spirit
+      data.magic.boundedSpirit.current = 0;
     }
 
     // Reset Monitors
@@ -2251,6 +2257,7 @@ export class SR5_CharacterUtility extends Actor {
     this.applyPenalty("special", magic.astralTracking, actor);
     SR5_EntityHelpers.updateDicePool(magic.astralTracking, 0);
 
+    magic.boundedSpirit.max = specialAttributes.magic.augmented.value;
   }
 
   //
@@ -2332,6 +2339,8 @@ export class SR5_CharacterUtility extends Actor {
     let lists = actor.lists;
     let data = actor.data, specialAttributes = data.specialAttributes, skills = data.skills;
     let matrix = data.matrix, resonanceActions = matrix.resonanceActions;
+
+    matrix.registeredSprite.max = specialAttributes.resonance.augmented.value;
 
     resonanceActions.compileSprite.test.base = 0;
     SR5_EntityHelpers.updateModifier(resonanceActions.compileSprite.test, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);

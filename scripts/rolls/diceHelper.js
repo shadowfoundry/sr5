@@ -1070,6 +1070,36 @@ export class SR5_DiceHelper {
         data.tasks.max += message.netHits;
         await actor.update({'data': data});
         ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
+
+        if (data.creatorItemId){
+            let creator = SR5_EntityHelpers.getRealActorFromID(data.creatorId);
+            let itemSideKick = creator.items.find(i => i.id === data.creatorItemId);
+            let itemData = duplicate(itemSideKick.data.data);
+            itemData.isRegistered = true;
+            itemData.tasks.value += message.netHits;
+            itemData.tasks.max += message.netHits;
+            await itemSideKick.update({'data' : itemData});
+        }
+    }
+
+    static async bindSpirit(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
+        let data = duplicate(actor.data.data);
+        data.isBounded = true;
+        data.services.value += message.netHits;
+        data.services.max += message.netHits;
+        await actor.update({'data': data});
+        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: message.netHits})}`);
+
+        if (data.creatorItemId){
+            let creator = SR5_EntityHelpers.getRealActorFromID(data.creatorId);
+            let itemSideKick = creator.items.find(i => i.id === data.creatorItemId);
+            let itemData = duplicate(itemSideKick.data.data);
+            itemData.isBounded = true;
+            itemData.services.value += message.netHits;
+            itemData.services.max += message.netHits;
+            await itemSideKick.update({'data' : itemData});
+        }
     }
 
     static async applyDerezzEffect(message, sourceActor, target){
