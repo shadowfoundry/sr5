@@ -181,6 +181,7 @@ export class SR5_Roll {
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     dicePoolComposition: actorData.skills[rollKey].test.modifiers,
                 }
+                //Counterspell 
                 if (typeSub === "counterspelling" && canvas.scene){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
@@ -201,6 +202,22 @@ export class SR5_Roll {
                                 effectsList: effectsList,
                             });
                         }
+                    }
+                }
+
+                //Binding, if a spirit is targeted
+                if (typeSub === "binding" && canvas.scene){
+                    if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
+                    else if (game.user.targets.size) {
+                        let targets = Array.from(game.user.targets);
+                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        if (targetActor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+                        limit = targetActor.data.data.force.value;
+                        optionalData = mergeObject(optionalData, {
+                            hasTarget: true,
+                            targetActor: targetActorId,
+                        });
                     }
                 }
                 break;
@@ -1101,6 +1118,15 @@ export class SR5_Roll {
                 if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                 title = game.i18n.localize("SR5.ResistRegistering"); 
                 dicePool = actorData.level * 2;
+                optionalData = {
+                    ownerAuthor: chatData.ownerAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
+            case "bindingResistance":
+                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
+                title = game.i18n.localize("SR5.ResistBinding");
+                dicePool = actorData.force.value * 2;
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,

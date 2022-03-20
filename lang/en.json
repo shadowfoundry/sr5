@@ -260,6 +260,9 @@
   "SR5.BikeAbbrev"                            : "Bi.",
   "SR5.BikeFull"                              : "Bike",
   "SR5.BikeLetter"                            : "B",
+  "SR5.Binded"                                : "Bounded",
+  "SR5.BindSpirit"                            : "Bind Spirit",
+  "SR5.BindingFailed"                         : "Binding failed",
   "SR5.BiofeedbackDamage"                     : "Biofeedback Damage",
   "SR5.Biography"                             : "Biography",
   "SR5.BirthDate"                             : "Birth Date",
@@ -1299,6 +1302,8 @@
   "SR5.ResistDrain"                           : "Resist Drain",
   "SR5.ResistDumpshock"                       : "Resist to Dumpshock",
   "SR5.Resisted"                              : "Resisted !",
+  "SR5.ResistBinding"                         : "Resist Binding",
+  "SR5.ResistBindingSuccess"                  : "Resist Binding successful",
   "SR5.ResistDecompiling"                     : "Resist Decompiling",
   "SR5.ResistDecompilingSuccess"              : "Resist Decompiling successful",
   "SR5.ResistRegistering"                     : "Resist Registering",
@@ -2362,6 +2367,7 @@
   "SR5.INFO_ComplexFormReduced"               : "{name} reduced by {hits}",
   "SR5.INFO_ComplexFormKilled"                : "{name} is killed",
   "SR5.INFO_SpriteRegistered"                 : "is registered. Tasks augmented by {task}",
+  "SR5.INFO_SpiritBounded"                    : "is bounded. Services augmented by {service}",
   "SR5.WARN_OnlyOneTradition"                 : "You can have only one tradition.",
   "SR5.WARN_TargetChooseOne"                  : "You must choose a target (token)",
   "SR5.WARN_TargetTooMany"                    : "You must choose only one target (token)",
@@ -2371,6 +2377,8 @@
   "SR5.WARN_NoActiveScene"                    : "No active scene !",
   "SR5.WARN_NoTemplateInScene"                : "No template in scene !",
   "SR5.WARN_NotASprite"                       : "You must select a sprite !",
+  "SR5.WARN_NotASpirit"                       : "You must select a spirit !",
   "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})",
-  "SR5.WARN_InvalidActorType"                 : "Invalid Actor Type for this action."
+  "SR5.WARN_InvalidActorType"                 : "Invalid Actor Type for this action.",
+  "SR5.WARN_SpiritAlreadyBounded"             : "Spirit is already bounded."
 }

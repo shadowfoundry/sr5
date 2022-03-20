@@ -370,6 +370,20 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reduceSpell">{{localize 'SR5.ReduceSpell'}} ({{netHits}})</button> 
       {{/if}}
 
+      <!-- BINDING RESISTANCE -->
+      {{#if button.spiritBindingDefense}}
+        <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="msgTest_spiritBindingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+      {{/if}}
+
+      <!-- BINDING RESISTANCE (Target already choosed)-->
+      {{#if button.targetBindingDefense}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_targetBindingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+      {{/if}}
+
+      <!-- BIND SPIRIT -->
+      {{#if button.bindSpirit}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_bindSpirit">{{localize 'SR5.BindSpirit'}}</button>
+      {{/if}}
     </div>
   </div>
 </div>

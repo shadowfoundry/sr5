@@ -475,9 +475,8 @@ export class SR5Actor extends Actor {
 
         case "itemSpirit":
           SR5_UtilityItem._handleSpirit(iData);
-          if (iData.isActive) {
-            SR5_CharacterUtility._actorModifPossession(i, actorData);
-          }
+          if (iData.isBounded) actorData.data.magic.boundedSpirit.current ++;
+          if (iData.isActive) SR5_CharacterUtility._actorModifPossession(i, actorData);
           break;
 
         case "itemDevice":
@@ -598,6 +597,9 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemSprite":
+          if (iData.isRegistered) actorData.data.matrix.registeredSprite.current ++;
+          break;
+
         case "itemLanguage":
         case "itemKnowledge":
         case "itemMark":
@@ -1029,7 +1031,6 @@ export class SR5Actor extends Actor {
         await itemToClean.update({"data" : cleanData});
         //For Host, keep slaved device marks synchro
         if (itemToClean.parent.data.data.matrix.deviceType === "host") SR5_DiceHelper.markSlavedDevice(itemToClean.parent.id);
-        console.log(itemToClean);
       } else {
         SR5_SystemHelpers.srLog(1, `No Item to Clean in deleteMarksOnActor()`);
       }

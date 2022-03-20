@@ -260,6 +260,9 @@
   "SR5.BikeAbbrev"                            : "Mot.",
   "SR5.BikeFull"                              : "Moto",
   "SR5.BikeLetter"                            : "M",
+  "SR5.Binded"                                : "Lié",
+  "SR5.BindSpirit"                            : "Lier l'esprit",
+  "SR5.BindingFailed"                         : "Échec du lien d'esprit",
   "SR5.BiofeedbackDamage"                     : "Dommages de biofeedback",
   "SR5.Biography"                             : "Biographie",
   "SR5.BirthDate"                             : "Date de maissance",
@@ -1299,6 +1302,8 @@
   "SR5.ResistDrain"                           : "Résister au drain",
   "SR5.ResistDumpshock"                       : "Résister au Choc d'éjection",
   "SR5.Resisted"                              : "Resisté !",
+  "SR5.ResistBinding"                         : "Résister au lien d'esprit",
+  "SR5.ResistBindingSuccess"                  : "Résistance au lien d'esprit réussie",
   "SR5.ResistDecompiling"                     : "Résister à la décompilation",
   "SR5.ResistDecompilingSuccess"              : "Résistance à la décompilation réussie",
   "SR5.ResistRegistering"                     : "Résister à l'inscription",
@@ -2362,6 +2367,7 @@
   "SR5.INFO_ComplexFormReduced"               : "{name} réduit(e) de {hits}",
   "SR5.INFO_ComplexFormKilled"                : "{name} est tué(e)",
   "SR5.INFO_SpriteRegistered"                 : "est inscrit. Tâches augmentées de {task}",
+  "SR5.INFO_SpiritBounded"                    : "est lié. Services augmentés de {service}",
   "SR5.WARN_OnlyOneTradition"                 : "Vous ne pouvez avoir qu'une seule tradition.",
   "SR5.WARN_TargetChooseOne"                  : "Vous devez sélectionner une cible (token)",
   "SR5.WARN_TargetTooMany"                    : "Vous ne devez sélectionner qu'une seule cible (token)",
@@ -2371,6 +2377,8 @@
   "SR5.WARN_NoActiveScene"                    : "Pas de scène active !",
   "SR5.WARN_NoTemplateInScene"                : "Pas de gabarit dans la scène !",
   "SR5.WARN_NotASprite"                       : "Vous devez sélectionner un sprite !",
+  "SR5.WARN_NotASpirit"                       : "Vous devez sélectionner un esprit !",
   "SR5.WARN_MaxReagents"                      : "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})",
-  "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action."
+  "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action.",
+  "SR5.WARN_SpiritAlreadyBounded"             : "Cet esprit est déjà lié."
 }
