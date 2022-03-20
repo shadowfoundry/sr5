@@ -169,45 +169,54 @@ export class SR5_Roll {
                     dicePoolComposition: actorData.skills[rollKey].test.modifiers,
                 });
 
-                //Counterspell 
-                if (typeSub === "counterspelling" && canvas.scene){
+                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
                         let targets = Array.from(game.user.targets);
                         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                        effectsList = targetActor.items.filter(i => i.type === "itemSpell" && i.data.data.isActive);
-                        let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemSpell");
-                        for (let e of Object.values(currentEffectList)){
-                            let parentItem = await fromUuid(e.data.data.ownerItem);
-                            if (effectsList.length === 0) effectsList.push(parentItem);
-                            else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                        
+                        //Counterspell 
+                        if (typeSub === "counterspelling"){
+                            effectsList = targetActor.items.filter(i => i.type === "itemSpell" && i.data.data.isActive);
+                            let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemSpell");
+                            for (let e of Object.values(currentEffectList)){
+                                let parentItem = await fromUuid(e.data.data.ownerItem);
+                                if (effectsList.length === 0) effectsList.push(parentItem);
+                                else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                            }
+                            if (effectsList.length !== 0){
+                                optionalData = mergeObject(optionalData, {
+                                    hasTarget: true,
+                                    effectsList: effectsList,
+                                });
+                            }
                         }
-                        if (effectsList.length !== 0){
+
+                        //Binding
+                        if (typeSub === "binding"){
+                            if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                            if (targetActor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+                            limit = targetActor.data.data.force.value;
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                effectsList: effectsList,
+                                targetActor: targetActorId,
                             });
                         }
+
+                        //Banishing
+                        if (typeSub === "banishing"){
+                            if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                targetActor: targetActorId,
+                            });
+                        }
+
                     }
                 }
 
-                //Binding, if a spirit is targeted
-                if (typeSub === "binding" && canvas.scene){
-                    if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
-                    else if (game.user.targets.size) {
-                        let targets = Array.from(game.user.targets);
-                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
-                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                        if (targetActor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
-                        limit = targetActor.data.data.force.value;
-                        optionalData = mergeObject(optionalData, {
-                            hasTarget: true,
-                            targetActor: targetActorId,
-                        });
-                    }
-                }
                 break;
 
             case "resistance":
@@ -1111,10 +1120,22 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+
             case "bindingResistance":
-                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
+                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
                 title = game.i18n.localize("SR5.ResistBinding");
                 dicePool = actorData.force.value * 2;
+                optionalData = {
+                    ownerAuthor: chatData.ownerAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
+            
+            case "banishingResistance":
+                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                title = game.i18n.localize("SR5.ResistBanishing");
+                dicePool = actorData.force.value;
+                if (actorData.isBounded) dicePool += actorData.summonerMagic;
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,

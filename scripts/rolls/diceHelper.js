@@ -1062,6 +1062,18 @@ export class SR5_DiceHelper {
         ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
     }
 
+    static async reduceSpiritService(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
+        let data = duplicate(actor.data.data);
+        data.services.value -= message.netHits;
+        if (data.services.value < 0) {
+            data.services.value = 0;
+            message.isBanished = true;
+        }
+        await actor.update({'data': data});
+        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: message.netHits})}`);
+    }
+
     static async registerSprite(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
         let data = duplicate(actor.data.data);
