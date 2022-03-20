@@ -1224,9 +1224,10 @@ export class SR5Actor extends Actor {
         "data.conditionMonitors.matrix.current": itemData.conditionMonitors.matrix.current,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
-        "data.slaved": true,
+        "data.slaved": itemData.slaved,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,
+        "data.controlMode": itemData.controlMode,
         "flags.sr5.vehicleControler": ownerActor.data.toObject(false),
         "items": baseItems,
       });
@@ -1304,6 +1305,9 @@ export class SR5Actor extends Actor {
       modifiedItem.data.armors = armors;
       modifiedItem.data.decks = decks;
       modifiedItem.data.model = actor.data.model;
+      modifiedItem.data.slaved = actor.data.slaved;
+      modifiedItem.data.controlMode = actor.data.controlMode;
+      modifiedItem.data.riggerInterface = actor.data.riggerInterface;
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
@@ -1319,12 +1323,12 @@ export class SR5Actor extends Actor {
       itemOwner.update(modifiedItem);
     }
 
-    await Actor.deleteDocuments([actor._id]);
     if (canvas.scene){
       for (let token of canvas.tokens.placeables) {
-        if (token.data.actorId === actor._id) token.document.delete();
+        if (token.data.actorId === actor._id) await token.document.delete();
       }
     }
+    await Actor.deleteDocuments([actor._id]);    
   }
 
   //Socket to dismiss sidekick;
