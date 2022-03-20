@@ -113,36 +113,6 @@ export class SR5_Roll {
                 }
                 break;
 
-            case "skill":
-                title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
-                dicePool = actorData.skills[rollKey].rating.value;
-                typeSub = rollKey;
-                //TODO : find a solution for skill with limit depending on item.
-                switch(rollKey){
-                    case "spellcasting":
-                    case "preparationForce":
-                    case "vehicleHandling":
-                    case "weaponAccuracy":
-                    case "formulaForce":
-                    case "spiritForce":
-                        limit = 0;
-                        break;
-                    default:
-                        limit = skill.limit.value;
-                }
-                optionalData = {
-                    "switch.attribute": true,
-                    attributeKey: actorData.skills[rollKey].linkedAttribute,
-                    "switch.penalty": true,
-                    penaltyValue: penalties,
-                    "switch.specialization": true,
-                    "switch.extended": true,
-                    limitType: skill.limit.base,
-                    "sceneData.backgroundCount" : backgroundCount,
-                    "sceneData.backgroundAlignement" : backgroundAlignement,
-                }
-                break;
-
             case "languageSkill":
             case "knowledgeSkill":
                 title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + item.name}`;
@@ -153,12 +123,28 @@ export class SR5_Roll {
                 }
                 break;
 
+            case "skill":
             case "skillDicePool":
                 if (actor.data.type === "actorDrone") {
                     if (actorData.controlMode === "autopilot") title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.vehicleAttributes[skill.linkedAttribute])}`;
                     else title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
                 } else title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[skill.linkedAttribute])}`;
-                dicePool = actorData.skills[rollKey].test.dicePool;
+                
+                if (rollType === "skill") {
+                    title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
+                    dicePool = actorData.skills[rollKey].rating.value;
+                    optionalData = mergeObject(optionalData, {
+                        hasTarget: true,
+                        effectsList: effectsList,
+                        "switch.attribute": true,
+                        attributeKey: actorData.skills[rollKey].linkedAttribute,
+                        "switch.penalty": true,
+                        penaltyValue: penalties,
+                    });
+                } else {
+                    dicePool = actorData.skills[rollKey].test.dicePool;
+                }
+                
                 typeSub = rollKey;
                 //TODO : find a solution for skill with limit depending on item.
                 switch(rollKey){
@@ -173,14 +159,16 @@ export class SR5_Roll {
                     default:
                         limit = skill.limit.value;
                 }
-                optionalData = {
+
+                optionalData = mergeObject(optionalData, {
                     "switch.extended": true,
                     "switch.specialization": true,
                     limitType: skill.limit.base,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     dicePoolComposition: actorData.skills[rollKey].test.modifiers,
-                }
+                });
+
                 //Counterspell 
                 if (typeSub === "counterspelling" && canvas.scene){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
