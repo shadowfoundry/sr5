@@ -6010,6 +6010,7 @@
         "sensor": 0
       },
       "seating": 0,
+      "controlMode": "",
       "riggerInterface": false,
       "mount": [],
       "autosoft": [],
