@@ -2379,5 +2379,6 @@
   "SR5.WARN_NotASprite"                       : "Vous devez sélectionner un sprite !",
   "SR5.WARN_NotASpirit"                       : "Vous devez sélectionner un esprit !",
   "SR5.WARN_MaxReagents"                      : "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})",
-  "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action."
+  "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action.",
+  "SR5.WARN_SpiritAlreadyBounded"             : "Cet esprit est déjà lié."
 }

@@ -212,6 +212,7 @@ export class SR5_Roll {
                         let targets = Array.from(game.user.targets);
                         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        if (targetActor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
                         limit = targetActor.data.data.force.value;
                         optionalData = mergeObject(optionalData, {
                             hasTarget: true,

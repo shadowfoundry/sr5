@@ -142,6 +142,7 @@ export class SR5_RollMessage {
                     actor.rollTest("registeringResistance", null, messageData);
                     break;
                 case "msgTest_spiritBindingDefense":
+                    if (actor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
                     actor.rollTest("bindingResistance", null, messageData);
                     break;
                 case "msgTest_applyEffect":
