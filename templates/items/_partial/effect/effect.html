@@ -50,8 +50,6 @@
 					<optgroup label="{{localize 'SR5.Skills'}}">
 						<option value="skills">{{localize 'SR5.Skills'}}</option>
 						<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>						
-						<option value="languagesSkills">{{localize 'SR5.LanguagesSkills'}}</option>
-						<option value="knowledgeSkills">{{localize 'SR5.KnowledgeSkills'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Damage'}}">
 						<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
@@ -76,6 +74,9 @@
 					<optgroup label="{{localize 'SR5.Vision'}}">
 						<option value="visionTypes">{{localize 'SR5.VisionTypes'}}</option>
 						<option value="environmentalModifiers">{{localize 'SR5.EnvironmentalModifiers'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.OtherCategories'}}">
+						<option value="reputationTypes">{{localize 'SR5.CharacterReputation'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Special'}}">
 						<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
@@ -217,12 +218,6 @@
 					<option value="data.skillGroups.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
-					{{else ife category 'languagesSkills'}}
-					<option value="data.specialProperties.language">{{localize 'SR5.LanguagesSkills'}}</option>
-
-					{{else ife category 'knowledgeSkills'}}
-					<option value="data.specialProperties.knowledge">{{localize 'SR5.KnowledgeSkills'}}</option>
-
 					{{else ife category 'skills'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
@@ -246,6 +241,12 @@
 						{{/if}}
 					</optgroup>
 					{{/each}}
+					<optgroup label="{{localize 'SR5.LanguagesSkills'}}">
+						<option value="data.languageSkills">{{localize 'SR5.Languages'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.KnowledgeSkills'}}">
+						<option value="data.knowledgeSkills">{{localize 'SR5.Knowledges'}}</option>						
+					</optgroup>
 
 					{{else ife category 'matrixAttributes'}}
 					{{#each (lookup ../lists category)}}
@@ -267,16 +268,12 @@
 					</optgroup>
 					{{/each}}
 
-					
-					
-
 					{{else ife category 'programs'}}
 					<option value="data.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
 					{{#each (lookup ../lists category)}}
 					<option value="data.matrix.programs.{{@key}}.isActive">{{localize this}}</option>
 					{{/each}}
 					
-
 					{{else ife category 'astralValues'}}
 					<option value="data.magic.astralDamage">{{localize 'SR5.AstralDamage'}}</option>
 					<option value="data.magic.astralDefense">{{localize 'SR5.AstralDefense'}}</option>
@@ -285,7 +282,6 @@
 					<option value="data.magic.drainResistance">{{localize 'SR5.DrainResistance'}}</option>
 					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
 					
-
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
@@ -297,6 +293,11 @@
 					<optgroup label="{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}}">
 						<option value="data.conditionMonitors.overflow">{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}} [{{localize 'SR5.Boxes'}}]</option>
 					</optgroup>
+
+					{{else ife category 'reputationTypes'}}
+					{{#each (lookup ../lists category)}}
+					<option value="data.{{@key}}">{{localize this}}</option>
+					{{/each}}
 
 					{{else ife category 'specialProperties'}}
 					{{#each (lookup ../lists category)}}
