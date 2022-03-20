@@ -141,6 +141,10 @@ export class SR5_RollMessage {
                 case "msgTest_spriteRegisterDefense":
                     actor.rollTest("registeringResistance", null, messageData);
                     break;
+                case "msgTest_spiritBindingDefense":
+                    if (actor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+                    actor.rollTest("bindingResistance", null, messageData);
+                    break;
                 case "msgTest_applyEffect":
                     actor.applyExternalEffect(messageData, "customEffects");
                     SR5_RollMessage.updateChatButton(message.data, "applyEffect");
@@ -163,10 +167,9 @@ export class SR5_RollMessage {
             actor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.speakerId);
     
             // If there is a matrix action Author, get the Actor to do stuff with him later
-            let originalActionAuthor;
-            if (messageData.originalActionAuthor){
-                originalActionAuthor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionAuthor)
-            }
+            let originalActionAuthor, targetActor;
+            if (messageData.originalActionAuthor) originalActionAuthor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionAuthor);
+            if (messageData.targetActor) targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.targetActor);
     
             switch (type) {
                 case "msgTest_attackResistance":
@@ -233,25 +236,17 @@ export class SR5_RollMessage {
                     SR5_Dice.extendedRoll(message, actor);
                     break;
                 case "msgTest_attackerAddMark":
-                    await SR5_DiceHelper.markItem(actor, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
-                    // if defender is a slaved device, add mark to host
-                    if (actor.data.data.matrix.deviceType === "slavedDevice" || actor.data.data.matrix.deviceType === "ice") {
-                        for (let server of game.actors) {
-                            if (server.id === actor.id && server.data.data.matrix.deviceType === "host") {
-                               await SR5_DiceHelper.markDevice(server.id, messageData.originalActionAuthor, messageData.mark);
-                            }
-                        }
-                    }
+                    await SR5_DiceHelper.markItem(actor.id, messageData.originalActionAuthor, messageData.mark, messageData.matrixTargetItem);
                     // if defender is a drone and is slaved, add mark to master
                     if (actor.data.type === "actorDrone" && actor.data.data.slaved){
                         if (!game.user?.isGM) {
-                            SR5_SocketHandler.emitForGM("markDevice", {
+                            SR5_SocketHandler.emitForGM("markItem", {
                                 targetActor: actor.data.data.vehicleOwner.id,
                                 attackerID: originalActionAuthor,
                                 mark: mark,
                             });
                         } else { 
-                            await SR5_DiceHelper.markDevice(actor.data.data.vehicleOwner.id, messageData.originalActionAuthor, messageData.mark);
+                            await SR5_DiceHelper.markItem(actor.data.data.vehicleOwner.id, messageData.originalActionAuthor, messageData.mark);
                         }
                     }
                     SR5_RollMessage.updateChatButton(message.data, "attackerPlaceMark");
@@ -261,13 +256,13 @@ export class SR5_RollMessage {
                     if (actor.isToken) attackerID = actor.token.id;
                     else attackerID = actor.id;
                     if (!game.user?.isGM) {
-                        SR5_SocketHandler.emitForGM("markDevice", {
+                        SR5_SocketHandler.emitForGM("markItem", {
                             targetActor: originalActionAuthor.id,
                             attackerID: attackerID,
                             mark: 1,
                         });
                       } else {  
-                        await SR5_DiceHelper.markDevice(originalActionAuthor.id, attackerID, 1);
+                        await SR5_DiceHelper.markItem(originalActionAuthor.id, attackerID, 1);
                     }
                     
                     SR5_RollMessage.updateChatButton(message.data, "defenderPlaceMark");
@@ -388,6 +383,13 @@ export class SR5_RollMessage {
                 case "msgTest_reduceSpell":
                     await SR5_DiceHelper.reduceTransferedEffect(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceSpell");
+                    break;
+                case "msgTest_targetBindingDefense":
+                    targetActor.rollTest("bindingResistance", null, messageData);
+                    break;
+                case "msgTest_bindSpirit":
+                    SR5_DiceHelper.bindSpirit(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "bindSpirit");
                     break;
                 default:
             }

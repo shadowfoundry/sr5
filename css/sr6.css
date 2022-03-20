@@ -1,24 +1,4 @@
 /* ----------------------------------------- */
-/* Fonts
-/* ----------------------------------------- */
-@font-face {
-  font-family: "srfoundry_primary";
-  src: url("fonts/srfoundry_primary.otf");
-}
-@font-face {
-  font-family: "srfoundry_secondary";
-  src: url("fonts/srfoundry_secondary.otf");
-}
-@font-face {
-  font-family: "srfoundry_regular";
-  src: url("fonts/srfoundry_regular.otf");
-}
-@font-face {
-  font-family: "srfoundry_bold";
-  font-weight: bold;
-  src: url("fonts/srfoundry_bold.otf");
-}
-/* ----------------------------------------- */
 /* Modif du navigateur
 /* ----------------------------------------- */
 ::-webkit-scrollbar {
@@ -1078,20 +1058,27 @@ input[type=range]:focus::-ms-fill-upper {
 /* ----------------------------------------- */
 /* Images
 /* ----------------------------------------- */
+#chat-log .message.SRCustomMessage {
+  background-color: #fffffe;
+  color: #000001;
+  border: 2px solid #b2007a;
+  line-height: normal;
+}
 #chat-log .message.SRCustomMessage .message-content {
   padding: 0px;
 }
 #chat-log .message {
-  background-color: #fffffe;
+  background-color: rgba(131, 156, 136, 0.25);
   border-radius: 5px;
-  border-color: #839c88;
-  border: 2px solid;
-  color: #000001;
+  border: 2px solid #839c88;
+  color: rgba(255, 255, 254, 0.95);
   margin-bottom: 5px;
   padding-bottom: 5px;
+  line-height: 17px;
 }
 #chat-log .message .message-content {
   padding: 5px 5px 0px 5px;
+  font-family: "srfoundry_regular";
 }
 #chat-log .message input {
   width: 30px;
@@ -1125,6 +1112,64 @@ input[type=range]:focus::-ms-fill-upper {
   flex: 0 0 25px;
   margin-right: 5px;
   border-color: #95046f;
+}
+#chat-log .message .part-header {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: "srfoundry_bold";
+  border-bottom: none;
+}
+#chat-log .message .dice-tooltip .part-total {
+  border: 1px solid #b2007a;
+  background-color: rgba(178, 0, 122, 0.5);
+  color: #fffffe;
+}
+#chat-log .message .dice-tooltip .dice-rolls .roll.d6 {
+  background-image: none;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  margin-right: 2.55px;
+  margin-left: 2.55px;
+  margin-bottom: 5px;
+  padding-top: 1px;
+  border: 1px solid #b2007a;
+  line-height: 17px;
+  font-family: "srfoundry_regular";
+  font-size: 0.9em;
+  font-weight: normal;
+}
+#chat-log .message .dice-formula {
+  padding-top: 5px;
+  padding-bottom: 15px;
+  background-image: url("../img/ui/SR6_BG_ChatMessage.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-family: "srfoundry_bold";
+  text-transform: uppercase;
+  color: #fffffe;
+  font-size: 1em;
+  margin: auto;
+  text-align: center;
+}
+#chat-log .message .dice-total {
+  font-family: "srfoundry_bold";
+  text-transform: uppercase;
+  color: #fffffe;
+  text-align: center;
+  line-height: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 5px;
+  background-color: #b2007a;
+  margin-bottom: 0px;
+  border: 0px;
+  border-radius: 0px;
+  font-size: 1em;
 }
 #chat-log .message .SR-CardHeader {
   padding-top: 5px;
@@ -1265,12 +1310,35 @@ input[type=range]:focus::-ms-fill-upper {
   color: #839c88;
   box-shadow: none;
 }
+.dice-roll .dice-formula {
+  background: none;
+}
 .SR5-message-edit {
   width: 20px;
 }
 .SR5-message-chance {
   width: 20px;
   text-align: right;
+}
+/* ----------------------------------------- */
+/* Fonts
+/* ----------------------------------------- */
+@font-face {
+  font-family: "srfoundry_primary";
+  src: url("./fonts/srfoundry_primary.otf");
+}
+@font-face {
+  font-family: "srfoundry_secondary";
+  src: url("./fonts/srfoundry_secondary.otf");
+}
+@font-face {
+  font-family: "srfoundry_regular";
+  src: url("./fonts/srfoundry_regular.otf");
+}
+@font-face {
+  font-family: "srfoundry_bold";
+  font-weight: bold;
+  src: url("./fonts/srfoundry_bold.otf");
 }
 .SR5iconActor {
   height: 32px;
@@ -3816,7 +3884,7 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(178, 0, 122, 0.75);
 }
 #sr5help {
-  z-index: 999;
+  z-index: 0;
   position: fixed;
   background: none;
   color: #fffffe;
@@ -3831,11 +3899,12 @@ input[type=range]:focus::-ms-fill-upper {
   width: auto;
   max-width: 300px;
   opacity: 0;
-  transition: opacity 0.5s ease-out 2s;
+  transition: opacity 0.5s ease-out 2s, z-index 3.5s;
 }
 #sr5help.active {
   opacity: 1;
   transition: opacity 0.5s ease-out 0s;
+  z-index: 999;
 }
 #sr5help h3 {
   font-family: "srfoundry_primary";

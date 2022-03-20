@@ -8,6 +8,7 @@ import { SR5_Roll } from "../../rolls/roll.js";
 import { SR5Combat } from "../../system/srcombat.js";
 import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
+import { SR5_DiceHelper } from "../../rolls/diceHelper.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Shadowrun 5.
@@ -263,10 +264,10 @@ export class SR5Actor extends Actor {
     if (!this.data.name)
       this.data.name = "[" + game.i18n.localize("SR5.New") + "]" + this.entity;
     this.prepareBaseData();
-    this.prepareEmbeddedDocuments();
+    this.prepareEmbeddedDocuments(); // first pass on items to add bonuses from the items to the characters
     this.prepareDerivedData();
     this.sortLists(this.data.data);
-    this.updateItems(this);
+    this.updateItems(this); // second pass on items to get characters data for final items calculations
   }
 
   prepareBaseData() {
@@ -474,9 +475,8 @@ export class SR5Actor extends Actor {
 
         case "itemSpirit":
           SR5_UtilityItem._handleSpirit(iData);
-          if (iData.isActive) {
-            SR5_CharacterUtility._actorModifPossession(i, actorData);
-          }
+          if (iData.isBounded) actorData.data.magic.boundedSpirit.current ++;
+          if (iData.isActive) SR5_CharacterUtility._actorModifPossession(i, actorData);
           break;
 
         case "itemDevice":
@@ -490,6 +490,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemProgram":
+          if (actorData.type ==="actorDrone" && actorData.data.controlMode !== "autopilot") iData.isActive = false;
           if (iData.type === "common" || iData.type === "hacking" || iData.type === "autosoft" || iData.type === "agent"){
             if (iData.isActive) SR5_EntityHelpers.updateModifier(actorData.data.matrix.programsCurrentActive,`${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, 1);
           }
@@ -596,6 +597,9 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemSprite":
+          if (iData.isRegistered) actorData.data.matrix.registeredSprite.current ++;
+          break;
+
         case "itemLanguage":
         case "itemKnowledge":
         case "itemMark":
@@ -642,8 +646,8 @@ export class SR5Actor extends Actor {
               }
               if (iData.type === "livingPersona" || iData.type === "headcase") {
                 SR5_CharacterUtility.generateResonanceMatrix(i.data, actorData);
-                iData.pan.max = actorData.data.matrix.deviceRating * 3;
               }
+              iData.pan.max = actorData.data.matrix.deviceRating * 3;
               i.prepareData();
             }
           } else if (actorData.type === "actorDrone"){
@@ -968,7 +972,7 @@ export class SR5Actor extends Actor {
     //Delete marks on others actors
     if (actorData.matrix.markedItems.length) {
       if (!game.user?.isGM) {
-        SR5_SocketHandler.emitForGM("deleteMarksOnActor", {
+        await SR5_SocketHandler.emitForGM("deleteMarksOnActor", {
           actorData: actorData,
           actorID: actorID,
         });
@@ -982,7 +986,7 @@ export class SR5Actor extends Actor {
       if (i.data.marks && i.data.marks?.length) {
         for (let m of i.data.marks){
           if (!game.user?.isGM) {
-            SR5_SocketHandler.emitForGM("deleteMarkInfo", {
+            await SR5_SocketHandler.emitForGM("deleteMarkInfo", {
               actorID: m.ownerId,
               item: i._id,
             });
@@ -1024,7 +1028,9 @@ export class SR5Actor extends Actor {
             i--;
           }
         }
-        itemToClean.update({"data" : cleanData});
+        await itemToClean.update({"data" : cleanData});
+        //For Host, keep slaved device marks synchro
+        if (itemToClean.parent.data.data.matrix.deviceType === "host") SR5_DiceHelper.markSlavedDevice(itemToClean.parent.id);
       } else {
         SR5_SystemHelpers.srLog(1, `No Item to Clean in deleteMarksOnActor()`);
       }
@@ -1038,8 +1044,10 @@ export class SR5Actor extends Actor {
 
   //Delete Mark info on other actors
   static async deleteMarkInfo(actorID, item){
-    let actor = SR5_EntityHelpers.getRealActorFromID(actorID),
-        deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorID);
+    if (!actor) return SR5_SystemHelpers.srLog(1, `No Actor in deleteMarkInfo()`);
+    
+    let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
         deckData = duplicate(deck.data.data),
         index=0;
     
@@ -1052,6 +1060,18 @@ export class SR5Actor extends Actor {
     }
 
     await deck.update({"data": deckData});
+
+    //For host, update all unlinked token with same marked items
+    if (actor.data.data.matrix.deviceType === "host" && canvas.scene){
+      for (let token of canvas.tokens.placeables){
+          if (token.actor.id === actorID) {
+              let tokenDeck = token.actor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+              let tokenDeckData = duplicate(tokenDeck.data.data);
+              tokenDeckData.markedItems = deckData.markedItems;
+              await tokenDeck.update({"data": tokenDeckData});
+          }
+      }
+    }
   }
 
   //Socket for deletings marks info other actors;
@@ -1205,9 +1225,10 @@ export class SR5Actor extends Actor {
         "data.conditionMonitors.matrix.current": itemData.conditionMonitors.matrix.current,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
-        "data.slaved": true,
+        "data.slaved": itemData.slaved,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,
+        "data.controlMode": itemData.controlMode,
         "flags.sr5.vehicleControler": ownerActor.data.toObject(false),
         "items": baseItems,
       });
@@ -1285,6 +1306,9 @@ export class SR5Actor extends Actor {
       modifiedItem.data.armors = armors;
       modifiedItem.data.decks = decks;
       modifiedItem.data.model = actor.data.model;
+      modifiedItem.data.slaved = actor.data.slaved;
+      modifiedItem.data.controlMode = actor.data.controlMode;
+      modifiedItem.data.riggerInterface = actor.data.riggerInterface;
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
@@ -1300,12 +1324,12 @@ export class SR5Actor extends Actor {
       itemOwner.update(modifiedItem);
     }
 
-    await Actor.deleteDocuments([actor._id]);
     if (canvas.scene){
       for (let token of canvas.tokens.placeables) {
-        if (token.data.actorId === actor._id) token.document.delete();
+        if (token.data.actorId === actor._id) await token.document.delete();
       }
     }
+    await Actor.deleteDocuments([actor._id]);    
   }
 
   //Socket to dismiss sidekick;

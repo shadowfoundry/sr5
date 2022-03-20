@@ -57,16 +57,16 @@ export class SR5Item extends Item {
         break;
       case "itemSpell":
         if (owner) SR5_UtilityItem._handleSpell(itemData, owner);
-        break
+        break;
       case "itemPreparation":
         if (owner) SR5_UtilityItem._handlePreparation(itemData, owner);
         break;
       case "itemKnowledge":
         if (owner) SR5_CharacterUtility._generateKnowledgeSkills(data, owner);
-        break
+        break;
       case "itemLanguage":
         if (owner) SR5_CharacterUtility._generateLanguageSkills(data, owner);
-        break
+        break;
       case "itemAugmentation":
         SR5_UtilityItem._handleAugmentation(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);

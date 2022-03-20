@@ -1,19 +1,27 @@
 #chat-log {
-  .message.SRCustomMessage .message-content{
-    padding:0px;
+  .message.SRCustomMessage {
+    background-color: @neutralLightColor;
+    color: @neutralDarkColor;
+    border          : 2px solid @mainColor;
+    line-height: normal;
+
+    .message-content{
+      padding:0px;
+    }
   }
 
   .message {
-    background-color: fade(@neutralLightColor, 100%);
+    background-color: fade(@subColor, 25%);
     border-radius   : 5px;
-    border-color    : @subColor;
-    border          : 2px solid;
-    color           : @neutralDarkColor;
+    border          : 2px solid @subColor;
+    color           : fade(@neutralLightColor, 95%);
     margin-bottom   : 5px;
     padding-bottom  : 5px;
+    line-height     : 17px;
 
     .message-content {
       padding:5px 5px 0px 5px;
+      font-family       : @SR_BodyText;
     }
 
     input {
@@ -52,6 +60,75 @@
         margin-right: 5px;
         border-color: #95046f;
       }
+    }
+  
+    .part-header {
+      margin-left       : 5px;
+      margin-right      : 5px;
+      font-family       : @SR_BodyTextBold;
+      border-bottom: none;
+    }
+
+    .dice-tooltip {
+      .part-total {
+        //background: fade(@mainColor, 50%);
+        border          : 1px solid @mainColor;
+          background-color: fade(@mainColor, 50%);
+          color           : @neutralLightColor;
+      }
+
+      .dice-rolls .roll.d6 {
+        background-image  : none;
+        height            : 20px;
+        width             : 20px;
+        text-align        : center;
+        margin-right      : 2.55px;
+        margin-left       : 2.55px;
+        margin-bottom     : 5px;
+        padding-top       : 1px;
+        border            : 1px solid @mainColor;
+        line-height       : 17px;
+        font-family       : @SR_BodyText;
+        font-size         : @SR_FontSizeSmall ;
+        font-weight       : normal;
+      }
+    }
+
+    .dice-formula {
+      padding-top        : 5px;
+      padding-bottom     : 15px;
+      text-align         : center;
+      background-image   : url(@ChatMessage);
+      background-repeat  : no-repeat;
+      background-size    : cover;
+      background-position: bottom;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      font-family   : @SR_BodyTextBold;
+      text-transform: uppercase;
+      color         : @neutralLightColor;
+      font-size     : @SR_FontSizeNormal;
+      margin        : auto;
+      text-align    : center; 
+    }
+
+    .dice-total {
+      margin-top    : 5px;
+      font-family   : @SR_BodyTextBold;
+      text-transform: uppercase;
+      color         : @neutralLightColor;
+      font-size     : @SR_FontSizeNormal;
+      text-align    : center;
+      line-height   : 20px;
+      margin-left     : 0px;
+      margin-right    : 0px;
+      margin-top      : 5px;
+      background-color: @mainColor;
+      margin-bottom   : 0px;
+      border          : 0px;
+      border-radius   : 0px;
+      font-size: 1em;
     }
 
     .SR-CardHeader {
@@ -222,7 +299,9 @@
 
 
 
-
+.dice-roll .dice-formula {
+  background: none;
+}
 
 
 

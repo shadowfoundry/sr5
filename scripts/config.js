@@ -361,6 +361,8 @@ SR5.skillCategories = {
   socialSkills              : "SR5.SkillCategorySocial",
   technicalSkills           : "SR5.SkillCategoryTechnical",
   vehicleSkills             : "SR5.SkillCategoryVehicles",
+  languageSkills            : "SR5.LanguagesSkills",
+  knowledgeSkills           : "SR5.KnowledgeSkills",
 };
 
 SR5.perceptionTypes = {
@@ -2253,8 +2255,6 @@ SR5.specialProperties = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
-  notoriety                 : "SR5.ReputationNotoriety",  
-  publicAwareness           : "SR5.ReputationPublicAwareness",
 }
 
 SR5.transactionsTypes = {

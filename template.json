@@ -2964,6 +2964,16 @@
             "canDefault": true,
             "specializations": ""
           }
+        },
+        "languageSkills":{
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "knowledgeSkills":{
+          "value": 0,
+          "base": 0,
+          "modifiers": []
         }
       },
       "visionTemplate": {
@@ -3019,16 +3029,6 @@
             "modifiers": []
           },
           "damageReduction":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "notoriety":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "publicAwareness":{
             "value": 0,
             "base": 0,
             "modifiers": []
@@ -4022,6 +4022,10 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "registeredSprite":{
+            "current": 0,
+            "max": 0
           }
         }
       },
@@ -4082,7 +4086,11 @@
             "modifiers": [],
             "current": 0
           },
-          "reagents": 0
+          "reagents": 0,
+          "boundedSpirit":{
+            "current": 0,
+            "max": 0
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -6010,6 +6018,7 @@
         "sensor": 0
       },
       "seating": 0,
+      "controlMode": "",
       "riggerInterface": false,
       "mount": [],
       "autosoft": [],

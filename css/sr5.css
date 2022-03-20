@@ -1058,20 +1058,27 @@ input[type=range]:focus::-ms-fill-upper {
 /* ----------------------------------------- */
 /* Images
 /* ----------------------------------------- */
+#chat-log .message.SRCustomMessage {
+  background-color: #fffffe;
+  color: #000001;
+  border: 2px solid #931004;
+  line-height: normal;
+}
 #chat-log .message.SRCustomMessage .message-content {
   padding: 0px;
 }
 #chat-log .message {
-  background-color: #fffffe;
+  background-color: rgba(12, 147, 148, 0.25);
   border-radius: 5px;
-  border-color: #0c9394;
-  border: 2px solid;
-  color: #000001;
+  border: 2px solid #0c9394;
+  color: rgba(255, 255, 254, 0.95);
   margin-bottom: 5px;
   padding-bottom: 5px;
+  line-height: 17px;
 }
 #chat-log .message .message-content {
   padding: 5px 5px 0px 5px;
+  font-family: "srfoundry_regular";
 }
 #chat-log .message input {
   width: 30px;
@@ -1105,6 +1112,64 @@ input[type=range]:focus::-ms-fill-upper {
   flex: 0 0 25px;
   margin-right: 5px;
   border-color: #95046f;
+}
+#chat-log .message .part-header {
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: "srfoundry_bold";
+  border-bottom: none;
+}
+#chat-log .message .dice-tooltip .part-total {
+  border: 1px solid #931004;
+  background-color: rgba(147, 16, 4, 0.5);
+  color: #fffffe;
+}
+#chat-log .message .dice-tooltip .dice-rolls .roll.d6 {
+  background-image: none;
+  height: 20px;
+  width: 20px;
+  text-align: center;
+  margin-right: 2.55px;
+  margin-left: 2.55px;
+  margin-bottom: 5px;
+  padding-top: 1px;
+  border: 1px solid #931004;
+  line-height: 17px;
+  font-family: "srfoundry_regular";
+  font-size: 0.9em;
+  font-weight: normal;
+}
+#chat-log .message .dice-formula {
+  padding-top: 5px;
+  padding-bottom: 15px;
+  background-image: url("../img/ui/SR5_BG_ChatMessage.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  font-family: "srfoundry_bold";
+  text-transform: uppercase;
+  color: #fffffe;
+  font-size: 1em;
+  margin: auto;
+  text-align: center;
+}
+#chat-log .message .dice-total {
+  font-family: "srfoundry_bold";
+  text-transform: uppercase;
+  color: #fffffe;
+  text-align: center;
+  line-height: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 5px;
+  background-color: #931004;
+  margin-bottom: 0px;
+  border: 0px;
+  border-radius: 0px;
+  font-size: 1em;
 }
 #chat-log .message .SR-CardHeader {
   padding-top: 5px;
