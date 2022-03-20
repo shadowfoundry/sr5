@@ -158,6 +158,9 @@ export const registerHooks = function () {
 
   Hooks.on("renderChatMessage", (app, html, data) => {
     if (!app.isRoll) SR5_RollMessage.chatListeners(html, data);
+    if (app.isRoll){
+      html[0].classList.add("SRCustomMessage");
+    }
   });
 
   Hooks.on("canvasInit", function() {
