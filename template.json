@@ -2964,6 +2964,16 @@
             "canDefault": true,
             "specializations": ""
           }
+        },
+        "languageSkills":{
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "knowledgeSkills":{
+          "value": 0,
+          "base": 0,
+          "modifiers": []
         }
       },
       "visionTemplate": {
@@ -3019,26 +3029,6 @@
             "modifiers": []
           },
           "damageReduction":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "notoriety":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "publicAwareness":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "language":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "knowledge":{
             "value": 0,
             "base": 0,
             "modifiers": []

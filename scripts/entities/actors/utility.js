@@ -295,6 +295,18 @@ export class SR5_CharacterUtility extends Actor {
       }
     }
 
+    // Reset Language Skills
+    if (data.languageSkills) {
+      data.languageSkills.value = 0;
+      data.languageSkills.modifiers = [];
+    }
+
+    // Reset Knowledge Skills
+    if (data.knowledgeSkills) {
+      data.knowledgeSkills.value = 0;
+      data.knowledgeSkills.modifiers = [];
+    }
+
     // Reset Vision
     if (data.visions) {
       for (let key of Object.keys(lists.visionTypes)) {
@@ -485,19 +497,15 @@ export class SR5_CharacterUtility extends Actor {
       data.karma.modifiers = [];
     }
 
-    // Reset StreetCred
+    // Reset Reputation
     if (data.streetCred) {
       data.streetCred.value = 0;
       data.streetCred.modifiers = [];
     }
-
-    // Reset Notoriety
     if (data.notoriety) {
       data.notoriety.value = 0;
       data.notoriety.modifiers = [];
     }
-
-    // Reset Public Awareness
     if (data.publicAwareness) {
       data.publicAwareness.value = 0;
       data.publicAwareness.modifiers = [];
@@ -520,7 +528,7 @@ export class SR5_CharacterUtility extends Actor {
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
     let KarmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
-    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.Karma')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, false);
+    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, false);
   }
 
   static updateStreetCred(actor) {
@@ -528,12 +536,10 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   static updateNotoriety(actor) {
-    if (actor.data.specialProperties.notoriety.value) SR5_EntityHelpers.updateModifier(actor.data.notoriety, `${game.i18n.localize('SR5.ReputationNotoriety')}`, `${game.i18n.localize('SR5.Qualities')}`, actor.data.specialProperties.notoriety.value);
     SR5_EntityHelpers.updateValue(actor.data.notoriety);
   }
 
   static updatePublicAwareness(actor) {
-    if (actor.data.specialProperties.publicAwareness.value) SR5_EntityHelpers.updateModifier(actor.data.publicAwareness, `${game.i18n.localize('SR5.ReputationPublicAwareness')}`, `${game.i18n.localize('SR5.Qualities')}`, actor.data.specialProperties.publicAwareness.value);
     SR5_EntityHelpers.updateValue(actor.data.publicAwareness);
   }
 
@@ -2106,8 +2112,8 @@ export class SR5_CharacterUtility extends Actor {
 
     let label = `${game.i18n.localize(lists.characterAttributes[knowledge.linkedAttribute])}`;
     SR5_EntityHelpers.updateModifier(knowledge, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[knowledge.linkedAttribute].augmented.value);
-    if (actor.data.specialProperties.knowledge.modifiers) {
-      knowledge.modifiers = knowledge.modifiers.concat(actor.data.specialProperties.knowledge.modifiers);
+    if (actor.data.knowledgeSkills.modifiers) {
+      knowledge.modifiers = knowledge.modifiers.concat(actor.data.knowledgeSkills.modifiers);
     }
     this.applyPenalty("condition", knowledge, actor);
     this.applyPenalty("matrix", knowledge, actor);
@@ -2122,8 +2128,8 @@ export class SR5_CharacterUtility extends Actor {
 
     if (!language.isNative) {
       SR5_EntityHelpers.updateModifier(language, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-    if (actor.data.specialProperties.language.modifiers) {
-      language.modifiers = language.modifiers.concat(actor.data.specialProperties.language.modifiers);
+    if (actor.data.languageSkills.modifiers) {
+      language.modifiers = language.modifiers.concat(actor.data.languageSkills.modifiers);
     }
       this.applyPenalty("condition", language, actor);
       this.applyPenalty("matrix", language, actor);
