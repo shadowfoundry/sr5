@@ -50,6 +50,10 @@
 					</a>					
 					{{/if}}
 				</p>
+				{{else if (and (eq ../actor.type 'actorDrone') (ne ../actor.data.controlMode 'autopilot') )}}
+				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerDisabledMsg'}}">
+					<em class="fas fa-times-circle SR-SubColor25"></em>
+				</p>
 				{{else}}
 				<p class="SR-TextCenter">
 				{{#if data.isActive}}

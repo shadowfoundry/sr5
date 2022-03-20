@@ -455,6 +455,7 @@ export class SR5_Roll {
                 break
             
             case "iceDefense":
+                if (actor.type !== "actorPc" && actor.type !== "actorGrunt") return ui.notifications.warn(game.i18n.localize('SR5.WARN_InvalidActorType'));
                 title = game.i18n.localize("SR5.Defense");
                 let iceFirstAttribute, iceSecondAttribute;
                 iceFirstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value || 0;

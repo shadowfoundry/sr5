@@ -587,6 +587,7 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   static applyPenalty(penalty, property, actor) {
+    if (actor.type === "actorDrone") return;
     if (!penalty || !property || !actor) { SR5_SystemHelpers.srLog(1, `Missing or invalid parameter in call to 'applyPenalty()'`); return; }
     if (!actor.data.penalties) { SR5_SystemHelpers.srLog(3, `No existing penalties on '${actor.name}' actor in call to 'applyPenalty()'`); return; }
     let lists = actor.lists, data = actor.data;
@@ -2455,6 +2456,13 @@ export class SR5_CharacterUtility extends Actor {
     let data = actor.data;
     let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
     let intuitionValue, willpowerValue, logicValue, firewallValue, sleazeValue, dataProcessingValue, attackValue;
+    let controlerLabelIntuition = "";
+    let controlerLabelWillpower = "";
+    let controlerLabelLogic = "";
+    let controlerLabelFirewall = "";
+    let controlerLabelSleaze = "";
+    let controlerLabelDataProcessing = "";
+    let controlerLabelAttack = "";
 
     if (actor.type === "actorPc" || actor.type === "actorGrunt" || actor.type === "actorAgent"){
       intuitionValue = data.attributes.intuition.augmented.value;
@@ -2464,72 +2472,96 @@ export class SR5_CharacterUtility extends Actor {
       sleazeValue = matrixAttributes.sleaze.value;
       dataProcessingValue = matrixAttributes.dataProcessing.value;
       attackValue = matrixAttributes.attack.value;
+    } else if (actor.type === "actorSprite" || (actor.type === "actorDevice" && matrix.deviceType !== "slavedDevice")){ 
+      intuitionValue = matrix.deviceRating;
+      willpowerValue = matrix.deviceRating;
+      logicValue = matrix.deviceRating;
+      firewallValue = matrixAttributes.firewall.value;
+      sleazeValue = matrixAttributes.sleaze.value;
+      dataProcessingValue = matrixAttributes.dataProcessing.value;
+      attackValue = matrixAttributes.attack.value;
+    } else if (actor.type === "actorDrone" && data.vehicleOwner.id && data.slaved) {
+      let controler = actor.flags.sr5.vehicleControler.data;
+      
+      if (controler.attributes.intuition.augmented.value > matrix.deviceRating){
+        intuitionValue = controler.attributes.intuition.augmented.value;
+        controlerLabelIntuition = `(${game.i18n.localize('SR5.Controler')})`;
+      } else intuitionValue = matrix.deviceRating;
+
+      if (controler.attributes.willpower.augmented.value > matrix.deviceRating){
+        willpowerValue = controler.attributes.willpower.augmented.value;
+        controlerLabelWillpower = `(${game.i18n.localize('SR5.Controler')})`;
+      } else willpowerValue = matrix.deviceRating;
+      
+      if (controler.attributes.logic.augmented.value > matrix.deviceRating){
+        logicValue = controler.attributes.logic.augmented.value;
+        controlerLabelLogic = `(${game.i18n.localize('SR5.Controler')})`;
+      } else logicValue = matrix.deviceRating;
+      
+      if (controler.matrix.attributes.firewall.value > matrix.deviceRating){
+        firewallValue = controler.matrix.attributes.firewall.value;
+        controlerLabelFirewall = `(${game.i18n.localize('SR5.Controler')})`;
+      } else firewallValue = matrix.deviceRating;
+      
+      if (controler.matrix.attributes.sleaze.value > matrix.deviceRating){
+        sleazeValue = controler.matrix.attributes.sleaze.value;
+        controlerLabelSleaze = `(${game.i18n.localize('SR5.Controler')})`;
+      } else sleazeValue = matrix.deviceRating;
+      
+      if (controler.matrix.attributes.dataProcessing.value > matrix.deviceRating){
+        dataProcessingValue = controler.matrix.attributes.dataProcessing.value;
+        controlerLabelDataProcessing = `(${game.i18n.localize('SR5.Controler')})`;
+      } else dataProcessingValue = matrix.deviceRating;
+      
+      if (controler.matrix.attributes.attack.value > matrix.deviceRating){
+        attackValue = controler.matrix.attributes.attack.value;
+        controlerLabelAttack = `(${game.i18n.localize('SR5.Controler')})`;
+      } else attackValue = matrix.deviceRating;
+    } else {
+      intuitionValue = matrix.deviceRating;
+      willpowerValue = matrix.deviceRating;
+      logicValue = matrix.deviceRating;
+      firewallValue = matrix.deviceRating;
+      sleazeValue = matrix.deviceRating;
+      dataProcessingValue = matrix.deviceRating;
+      attackValue = matrix.deviceRating;
     }
 
-    if (actor.type === "actorDevice" || actor.type === "actorSprite" || actor.type === "actorDrone") {
-      if ((matrix.deviceType === "slavedDevice" && data.isDirectlyConnected) || matrix.deviceType === "device" || actor.type === "actorDrone") {
-        intuitionValue = matrix.deviceRating;
-        willpowerValue = matrix.deviceRating;
-        logicValue = matrix.deviceRating;
-        firewallValue = matrix.deviceRating;
-        sleazeValue = matrix.deviceRating;
-        dataProcessingValue = matrix.deviceRating;
-        attackValue = matrix.deviceRating;
-      } else {
-        intuitionValue = matrix.deviceRating;
-        willpowerValue = matrix.deviceRating;
-        logicValue = matrix.deviceRating;
-        firewallValue = matrixAttributes.firewall.value;
-        sleazeValue = matrixAttributes.sleaze.value;
-        dataProcessingValue = matrixAttributes.dataProcessing.value;
-        attackValue = matrixAttributes.attack.value;
-      }
-    }
+    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelLogic}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelLogic}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelLogic}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelLogic}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelSleaze}`, sleazeValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.DataProcessing')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelDataProcessing}`, dataProcessingValue );
+    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelLogic}`, logicValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelAttack}`, attackValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelSleaze}`, sleazeValue);
 
-    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.editFile.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.snoop.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.hackOnTheFly.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.spoofCommand.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.garbageInGarbageOut.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.bruteForce.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.matrixPerception.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, sleazeValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.dataSpike.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.crashProgram.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.jumpIntoRiggedDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.rebootDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, firewallValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, intuitionValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.hide.defense, `${game.i18n.localize('SR5.DataProcessing')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, dataProcessingValue );
-    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.Logic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, logicValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, attackValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, willpowerValue);
-    SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')}`, sleazeValue);
     matrixActions.checkOverwatchScore.defense.base = 6;
 
-    //Special case for drone slaved to a Rigger
-    if (actor.type === "actorDrone") {
-      if (data.vehicleOwner.id && data.slaved){
-        let controler = actor.flags.sr5.vehicleControler.data;
-        for (let key of Object.keys(lists.matrixActionsDefenses)) {
-          data.matrix.actions[key].defense.base = 0;
-          SR5_EntityHelpers.updateModifier(data.matrix.actions[key].defense, game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.Controler'), controler.matrix.actions[key].defense.dicePool);
-        }
-      }
-    }
 
     // handle final calculation
     for (let key of Object.keys(lists.matrixActions)) {
@@ -2854,6 +2886,8 @@ export class SR5_CharacterUtility extends Actor {
     let hasLocalAutosoftRunning = actor.items.find(a => a.data.data.type === "autosoft" && a.data.data.isActive);
     if (hasLocalAutosoftRunning) actor.data.matrix.hasLocalAutosoftRunning = true;
     else actor.data.matrix.hasLocalAutosoftRunning = false;
+
+    if (actor.data.controlMode !== "autopilot") actor.data.matrix.hasLocalAutosoftRunning = false;
 
     if (actor.data.controlMode === "autopilot"){
       for (let i of controler.items){
