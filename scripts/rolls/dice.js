@@ -522,6 +522,9 @@ export class SR5_Dice {
 			case "bindingResistance":
 				SR5_Dice.addBindingResistanceInfoToCard(cardData, author);
 				break;
+			case "banishingResistance":
+				SR5_Dice.addBanishingResistanceInfoToCard(cardData, author);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -1015,6 +1018,10 @@ export class SR5_Dice {
 			if (cardData.hasTarget) cardData.button.targetBindingDefense = true;
 			else cardData.button.spiritBindingDefense = true;
 		}
+		if (cardData.typeSub === "banishing"){
+			if (cardData.hasTarget) cardData.button.targetBanishingDefense = true;
+			else cardData.button.spiritBanishingDefense = true;
+		}
 		if (cardData.typeSub === "counterspelling" && cardData.targetEffect) {
 			let spell = await fromUuid(cardData.targetEffect);
 			cardData.drainValue = spell.data.data.drainValue.value;
@@ -1184,6 +1191,7 @@ export class SR5_Dice {
 				newMessage.button.fadingResistanceActive = true;
 			}
 			newMessage.fadingValue = cardData.test.hits;
+			if (newMessage.fadingValue < 2) newMessage.fadingValue = 2;
 		}
 		
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
@@ -1208,6 +1216,7 @@ export class SR5_Dice {
 				newMessage.button.fadingResistanceActive = true;
 			}
 			newMessage.fadingValue = cardData.test.hits;
+			if (newMessage.fadingValue < 2) newMessage.fadingValue = 2;
 		}
 		
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
@@ -1253,6 +1262,33 @@ export class SR5_Dice {
 				newMessage.button.drainResistanceActive = true;
 			}
 			newMessage.drainValue = cardData.test.hits;
+			if (newMessage.drainValue < 2) newMessage.drainValue = 2;
+		}
+		
+		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
+	}
+
+	static async addBanishingResistanceInfoToCard(cardData, author){
+		let newMessage = duplicate(cardData.originalMessage.flags.sr5data);
+        if (newMessage.button.spiritBanishingDefense) newMessage.button.spiritBanishingDefense = !newMessage.button.spiritBanishingDefense;
+		if (newMessage.button.targetBanishingDefense) newMessage.button.targetBanishingDefense = !newMessage.button.targetBanishingDefense;
+		cardData.button.drainResistance = false;
+
+		if (cardData.test.hits < cardData.hits) {
+			cardData.netHits = cardData.hits - cardData.test.hits;
+			cardData.button.reduceService = true;
+		} else {
+			cardData.button.reduceService = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.BanishingFailed");
+		}
+		if (cardData.test.hits > 0){
+			if (!newMessage.button.drainResistanceActive){
+				newMessage.button.drainResistance = !newMessage.button.drainResistance;
+				newMessage.button.drainResistanceActive = true;
+			}
+			newMessage.drainValue = cardData.test.hits;
+			if (newMessage.drainValue < 2) newMessage.drainValue = 2;
 		}
 		
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);

@@ -380,9 +380,24 @@
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_targetBindingDefense">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
+      <!-- BANISHING RESISTANCE -->
+      {{#if button.spiritBanishingDefense}}
+        <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="msgTest_spiritBanishingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+      {{/if}}
+
+      <!-- BANISHING RESISTANCE (Target already choosed)-->
+      {{#if button.targetBanishingDefense}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_targetBanishingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+      {{/if}}
+
       <!-- BIND SPIRIT -->
       {{#if button.bindSpirit}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_bindSpirit">{{localize 'SR5.BindSpirit'}}</button>
+      {{/if}}
+
+      <!-- REMOVE SERVICE FROM SPIRIT -->
+      {{#if button.reduceService}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reduceService">{{localize 'SR5.ReduceService'}} ({{netHits}})</button>
       {{/if}}
     </div>
   </div>
