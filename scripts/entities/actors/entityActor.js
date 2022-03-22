@@ -490,9 +490,13 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemProgram":
-          if (actorData.type ==="actorDrone" && actorData.data.controlMode !== "autopilot") iData.isActive = false;
-          if (iData.type === "common" || iData.type === "hacking" || iData.type === "autosoft" || iData.type === "agent"){
-            if (iData.isActive) SR5_EntityHelpers.updateModifier(actorData.data.matrix.programsCurrentActive,`${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, 1);
+          SR5_SystemHelpers.srLog(3, 'program', actorData);
+          if (actorData.type === "actorDrone" && actorData.data.controlMode !== "autopilot") iData.isActive = false;
+          if (iData.type === "common" || iData.type === "hacking" || iData.type === "autosoft" || iData.type === "agent") {
+            if (iData.isActive) {
+              SR5_EntityHelpers.updateModifier(actorData.data.matrix.programsCurrentActive, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, 1);
+              SR5_EntityHelpers.updateValue(actorData.data.matrix.programsCurrentActive, 0);
+            }
           }
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             if (actorData.type === "actorDrone") SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
