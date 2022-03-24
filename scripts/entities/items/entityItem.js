@@ -55,9 +55,6 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleAmmoPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
         break;
-      case "itemSpell":
-        if (owner) SR5_UtilityItem._handleSpell(itemData, owner);
-        break;
       case "itemPreparation":
         if (owner) SR5_UtilityItem._handlePreparation(itemData, owner);
         break;

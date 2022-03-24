@@ -35,6 +35,11 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
       {{/if}}
 
+      <!-- SPIRIT AID -->
+      {{#if switch.spiritAid}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html}}
+      {{/if}}
+
       <!-- SPELLS - FORCE - BACKGROUND COUNT -->
       {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
@@ -47,7 +52,7 @@
       {{#if (eq type "preparation")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
       {{/if}}
-      
+
       <!-- DRAIN -->
       {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/drain.html}}
@@ -184,7 +189,7 @@
           {{#if (eq typeSub "counterspelling")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
           {{/if}}
-          {{#if (and (eq typeSub "binding") hasTarget)}}
+          {{#if (and (or (eq typeSub "binding") (eq typeSub "banishing")) hasTarget)}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
           {{/if}}
         {{/if}}

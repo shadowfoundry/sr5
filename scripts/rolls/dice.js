@@ -278,6 +278,21 @@ export class SR5_Dice {
 
 						//Update items according to roll
 						if (dialogData.item) SR5_DiceHelper.srDicesUpdateItem(cardData, realActor);
+
+						//Update spirit if spirit aid is used
+						if (dialogData.dicePoolMod.spiritAid > 0){
+							let spiritItem = await fromUuid(dialogData.spiritAidId);
+							let spiritItemData = duplicate(spiritItem.data.data);
+        					spiritItemData.services.value -= 1;
+        					await spiritItem.update({'data': spiritItemData});
+							ui.notifications.info(`${spiritItem.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`);
+							let spiritActor = game.actors.find(a => a.data.data.creatorItemId === spiritItem.id);
+							if (spiritActor){
+        						let spiritActorData = duplicate(spiritActor.data.data);
+								spiritActorData.services.value -= 1;
+								await spiritActor.update({'data': spiritActorData});
+							}
+						}
 						
 						//Update combatant if Active defense or full defense is used.
 						if (dialogData.dicePoolMod.defenseFull || (dialogData.activeDefenseMode !== "none")){

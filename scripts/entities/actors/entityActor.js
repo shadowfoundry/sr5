@@ -422,6 +422,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemSpell":
+          if (!iData.freeSustain && !iData.preparation) actorData.data.magic.spellList[i.id] = i.name;  
           SR5_UtilityItem._handleSpell(i.data, actorData);
           if (iData.isActive && Object.keys(iData.customEffects)) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
@@ -678,13 +679,22 @@ export class SR5Actor extends Actor {
           break;
         case "itemComplexForm":
           iData.threaderResonance = actorData.data.specialAttributes.resonance.augmented.value;
-          break
+          break;
         case "itemArmor":
         case "itemGear":
         case "itemAugmentation":
           if (Object.keys(iData.accessory).length) SR5_UtilityItem._updatePluggedAccessory(i.data, actorData);
           break;
         case "itemSpell":
+          iData.casterMagic = actorData.data.specialAttributes.magic.augmented.value;
+          break;
+        case "itemSpirit":
+          if (iData.isBounded){
+            for (let [key, value] of Object.entries(actorData.data.magic.elements)){
+              if(iData.type === value) iData.spellType = key;
+            }
+          }
+          break;
         case "itemWeapon":
         case "itemKnowledge":
         case "itemLanguage":
@@ -1142,7 +1152,7 @@ export class SR5Actor extends Actor {
       data = mergeObject(data, {
         "data.type": itemData.type,
         "data.force.base": itemData.itemRating,
-        "data.isBounded": itemData.isBound,
+        "data.isBounded": itemData.isBounded,
         "data.services.value": itemData.services.value,
         "data.services.max": itemData.services.max,
         "data.summonerMagic": itemData.summonerMagic,

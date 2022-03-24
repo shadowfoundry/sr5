@@ -140,6 +140,7 @@ export default class SR5_RollDialog extends Dialog {
         this.updateLimitValue(html);
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
         if (document.getElementById("useReagents")) document.getElementById("useReagents").style.display = "none";
+        if (document.getElementById("useSpiritAid")) document.getElementById("useSpiritAid").style.display = "none";
 
         if (html.find('[name="armor"]')[0]){
             this.dicePoolModifier.armorModifier = parseInt((html.find('[name="armor"]')[0].value || 0));
@@ -570,6 +571,23 @@ export default class SR5_RollDialog extends Dialog {
                 ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
             }
         }); 
+
+        //Spirit aid
+        html.find('[name="spiritAid"]').change(ev => {
+            let value = ev.target.value;
+            if (value === "true") {
+                document.getElementById("useSpiritAid").style.display = "block";
+                this.dicePoolModifier.spiritAid = dialogData.spiritAidMod;
+                this.updateDicePoolValue(html);
+                dialogData.dicePoolMod.spiritAid = dialogData.spiritAidMod;
+            }
+            else {    
+                document.getElementById("useSpiritAid").style.display = "none";
+                this.dicePoolModifier.spiritAid = 0;
+                this.updateDicePoolValue(html);
+                dialogData.dicePoolMod.spiritAid = 0;
+            }
+        });
     }
 
 }
