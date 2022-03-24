@@ -1,0 +1,20 @@
+<li class="grid">
+    <div class="col-7">
+        {{#if (eq type 'spell')}}
+            {{localize 'SR5.AidSorcery'}}{{localize 'SR5.Colons'}}
+        {{else}}
+        {{localize 'SR5.SpiritAid'}}{{localize 'SR5.Colons'}}
+        {{/if}}
+    </div>
+    <div class="col-4">
+        <select class="spiritAid" name="spiritAid">
+        {{#select spiritAid}}
+            <option value="">{{localize 'SR5.No'}}</option>
+            <option value="true">{{localize 'SR5.Yes'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter" id="useSpiritAid">
+        <input type="number" name="spiritAidMod" value="{{spiritAidMod}}" data-dtype="Number" placeholder="0" />
+    </div>
+</li>

@@ -370,6 +370,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/spirit/serviceMax-edit.html",
         "systems/sr5/templates/items/_partial/editable/spirit/bound-edit.html",
         "systems/sr5/templates/items/_partial/editable/spirit/optionalPowers-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spirit/spellSustain-edit.html",
 
         //Sprite
         "systems/sr5/templates/items/_partial/editable/sprite/level-edit.html",
@@ -463,6 +464,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html",
     "systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html",
     "systems/sr5/templates/rolls/rollDialogPartial/reagents.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
 
 
     /************************************************************************************* */

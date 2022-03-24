@@ -443,6 +443,7 @@ export class SR5_CharacterUtility extends Actor {
 
       // Reset Concentration
       data.magic.concentration = false;
+      data.magic.spellList = {};
 
       // Reset Elements
       for (let key of Object.keys(lists.spellCategories)) {

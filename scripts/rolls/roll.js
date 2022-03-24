@@ -33,7 +33,8 @@ export class SR5_Roll {
             sceneNoise,
             sceneEnvironmentalMod,
             originalMessage,
-            effectsList;
+            effectsList,
+            spiritHelp;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -892,6 +893,16 @@ export class SR5_Roll {
                         });
                     }
                 }
+
+                //Check if a spirit can aid sorcery
+                spiritHelp = actor.items.find(i => (i.type === "itemSpirit" && i.data.data.isBounded && i.data.data.spellType === itemData.category && i.data.data.services.value > 0));
+                if (spiritHelp){
+                    optionalData = mergeObject(optionalData, {
+                        "spiritAidId": spiritHelp.uuid,
+                        "spiritAidMod": spiritHelp.data.data.itemRating,
+                        "switch.spiritAid": true,
+                    });
+                }
                 break;
 
             case "preparation":
@@ -929,6 +940,16 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                 }
+
+                //Check if a spirit can aid sorcery
+                spiritHelp = actor.items.find(i => (i.type === "itemSpirit" && i.data.data.isBounded && i.data.data.spellType === itemData.category && i.data.data.services.value > 0));
+                if (spiritHelp){
+                     optionalData = mergeObject(optionalData, {
+                         "spiritAidId": spiritHelp.uuid,
+                         "spiritAidMod": spiritHelp.data.data.itemRating,
+                         "switch.spiritAid": true,
+                     });
+                 }
                 break;
 
             case "complexForm":
