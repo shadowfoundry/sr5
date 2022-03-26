@@ -22,6 +22,13 @@
     <div class="col-2 SR-TextRight">+{{dicePoolMod.attribute}}</div>
 </li>
 {{/if}}
+<!--Attribute mod Dicepool-->
+{{#if (isdefined dicePoolMod.edge)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.Edge'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">+{{dicePoolMod.edge}}</div>
+</li>
+{{/if}}
 <!--Penalty mod Dicepool-->
 {{#if (isdefined dicePoolMod.penalty)}}
 <li class="grid SR-GreyColor">

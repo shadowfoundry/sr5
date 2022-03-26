@@ -147,7 +147,21 @@ export class SR5_Dice {
 		let actor = dialogData.actor;
 		let realActor = SR5_EntityHelpers.getRealActorFromID(dialogData.speakerId);
 		let template = "systems/sr5/templates/rolls/roll-dialog.html";
-		
+
+		//Handle Edge
+		let hasEdge = false;
+		let edgeActor = realActor;
+		if (actor.data.specialAttributes?.edge) {
+			if (actor.data.conditionMonitors.edge.current < actor.data.specialAttributes.edge.augmented.value) hasEdge = true;
+		}
+		if (actor.type === "actorSpirit" && actor.data.creatorId){
+			let creator = SR5_EntityHelpers.getRealActorFromID(actor.data.creatorId);
+			if (creator.data.data.conditionMonitors.edge.current < creator.data.data.specialAttributes.edge.augmented.value){
+				hasEdge = true;
+				edgeActor = creator;
+			}
+		}
+
 		let buttons = {
 			roll: {
 				label: game.i18n.localize("SR5.RollDice"),
@@ -155,19 +169,17 @@ export class SR5_Dice {
 				callback: () => (cancel = false),
 			},
 		}
-		if (actor.data.specialAttributes?.edge){
-			if ((actor.data.conditionMonitors.edge.current < actor.data.specialAttributes.edge.augmented.value) && (dialogData.type !== "preparation")){
-				buttons = mergeObject(buttons, {
-					edge: {
-						label: game.i18n.localize("SR5.PushTheLimit"),
-						icon: '<i class="fas fa-bomb"></i>',
-						callback: () => {
-							edge = true;
-							cancel = false;
-						},
+		if (hasEdge && dialogData.type !== "preparation"){
+			buttons = mergeObject(buttons, {
+				edge: {
+					label: game.i18n.localize("SR5.PushTheLimit"),
+					icon: '<i class="fas fa-bomb"></i>',
+					callback: () => {
+						edge = true;
+						cancel = false;
 					},
-				});
-			}
+				},
+			});
 		}
 
 		return new Promise((resolve) => {
@@ -191,10 +203,10 @@ export class SR5_Dice {
 						}
 
 						// Push the limits
-						if (edge && actor) {
-							dialogData.dicePool += actor.data.specialAttributes.edge.augmented.value;
-							realActor.update({
-								"data.conditionMonitors.edge.current": actor.data.conditionMonitors.edge.current + 1,
+						if (edge && edgeActor) {
+							dialogData.dicePoolMod.edge = edgeActor.data.data.specialAttributes.edge.augmented.value;
+							edgeActor.update({
+								"data.conditionMonitors.edge.current": edgeActor.data.data.conditionMonitors.edge.current + 1,
 							});
 						}		
 
