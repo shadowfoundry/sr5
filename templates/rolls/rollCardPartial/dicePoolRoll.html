@@ -15,6 +15,13 @@
     <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}})</span> 
     {{/each}}
 </li>
+<!--Push the limit mod Dicepool-->
+{{#if (isdefined dicePoolMod.pushTheLimit)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PushTheLimit'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">+{{dicePoolMod.pushTheLimit}}</div>
+</li>
+{{/if}}
 <!--Attribute mod Dicepool-->
 {{#if (isdefined dicePoolMod.attribute)}}
 <li class="grid SR-GreyColor">

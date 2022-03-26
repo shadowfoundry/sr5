@@ -63,8 +63,7 @@ export class SR5_Dice {
 	 */
 	static async secondeChance(message, actor) {
 		let messageData = message.data.flags.sr5data;
-
-		//Effectue le jet de dés avec la nouvelle réserve
+		//Re roll failed dices
 		let dicePool = messageData.test.dicePool - messageData.test.hits;
 		if (dicePool < 0) dicePool = 0;
 		let limit = messageData.test.limit - messageData.test.hits;
@@ -87,8 +86,11 @@ export class SR5_Dice {
 		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
 		if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
-		//Retranche 1 à la chance actuel de l'acteur
-		actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
+		//Remove 1 to actor's Edge
+		if (messageData.actor.type === "actorSpirit"){
+			let creator = SR5_EntityHelpers.getRealActorFromID(messageData.actor.data.creatorId);
+			creator.update({ "data.conditionMonitors.edge.current": creator.data.data.conditionMonitors.edge.current + 1 });
+		} else actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
 		SR5_RollMessage.updateRollCard(message.data, newMessage); 
@@ -119,8 +121,14 @@ export class SR5_Dice {
 	
 	static async pushTheLimit(message, actor) {
 		let messageData = message.data.flags.sr5data;
+		let dicePool, creator;
+		if (messageData.actor.type === "actorSpirit"){
+			creator = SR5_EntityHelpers.getRealActorFromID(messageData.actor.data.creatorId);
+			dicePool = creator.data.data.specialAttributes.edge.augmented.value;
+		} else dicePool = actor.data.data.specialAttributes.edge.augmented.value;
+
 		let newRoll = SR5_Dice.srd6({ 
-			dicePool: actor.data.data.specialAttributes.edge.augmented.value, 
+			dicePool: dicePool, 
 			explose: true 
 		});
 
@@ -129,11 +137,16 @@ export class SR5_Dice {
 		newMessage.test.dices = newRoll.dices.concat(messageData.test.dices);
 		newMessage.secondeChanceUsed = true;
 		newMessage.pushLimitUsed = true;
+		newMessage.dicePoolMod.pushTheLimit = dicePool;
+		newMessage.dicePoolModHas = true;
+		newMessage.test.dicePool += dicePool;
 		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
 		if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
-		//Retranche 1 à la chance actuel de l'acteur
-		actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
+		//Remove 1 to actor's Edge
+		if (messageData.actor.type === "actorSpirit"){
+			creator.update({ "data.conditionMonitors.edge.current": creator.data.data.conditionMonitors.edge.current + 1 });
+		} else actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
 		SR5_RollMessage.updateRollCard(message.data, newMessage);
@@ -329,6 +342,12 @@ export class SR5_Dice {
 	static async renderRollCard(cardData) {
 		if (cardData.actor.type === "actorPc") {
 			if (cardData.actor.data.conditionMonitors.edge.current >= cardData.actor.data.specialAttributes.edge.augmented.value) {
+				cardData.secondeChanceUsed = true;
+				cardData.pushLimitUsed = true;
+			}
+		} else if (cardData.actor.type === "actorSpirit" && cardData.actor.data.creatorId){
+			let creator = SR5_EntityHelpers.getRealActorFromID(cardData.actor.data.creatorId);
+			if (creator.data.data.conditionMonitors.edge.current >= creator.data.data.specialAttributes.edge.augmented.value){
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
