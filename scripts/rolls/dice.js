@@ -245,7 +245,7 @@ export class SR5_Dice {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
 							dialogData.level = actor.data.specialAttributes.resonance.augmented.value;
 						}
-						if (dialogData.force || dialogData.switch.canUseReagents){
+						if (dialogData.force || dialogData.switch?.canUseReagents){
 							if (dialogData.force) dialogData.limit = dialogData.force;			
 							if (!isNaN(reagentsSpent)) {
 								dialogData.limit = reagentsSpent;
