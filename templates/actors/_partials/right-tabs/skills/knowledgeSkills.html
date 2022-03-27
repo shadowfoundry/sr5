@@ -16,7 +16,7 @@
 			</div>
 			<div class="col-1 SR-TextRight">
 				{{#if owner}}
-				<p data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemKnowledge')}}" 
+				<p data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemKnowledge')}}"
 				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemKnowledge">
 						<em class="fas fa-plus"></em>
@@ -35,14 +35,14 @@
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsNameMsg'}}">
 					<p class="SR-PaddingRight5 {{#if (missing data.type data.base)}}incomplete{{/if}}">
 						<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text"
-							class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+							class="edit-value" name="knowledge.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 					</p>
 				</div>
 				<div class="col-3 SR-SelectCenter SR-PaddingRight5"
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsTypeMsg'}}"
 				>
-					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name=""
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name="knowledge.{{_id}}.type"
 						data-dtype="String">
 						{{#select data.type}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
@@ -57,11 +57,11 @@
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsRatingMsg'}}"
 				>
 					<input data-item-id="{{_id}}" data-binding="data.base" data-dtype="Number" type="text"
-						class="input edit-value" name="" value="{{data.base}}" onfocus="this.select()">
+						class="input edit-value" name="knowledge.{{_id}}.base" value="{{data.base}}" onfocus="this.select()">
 				</div>
 				<div class="col-1"
 					data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
-					data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsMsg'}}" 
+					data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsMsg'}}"
 					data-helpItemId="{{_id}}"
 					data-helpDetailsItem="data"
 				>
@@ -70,7 +70,7 @@
 					{{else}}
 					<p class="SR-TextCenter">-</p>
 					{{/if}}
-				</div> 
+				</div>
 				<div class="col-1 SR-TextRight">
 					{{#if ../owner}}
 					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">

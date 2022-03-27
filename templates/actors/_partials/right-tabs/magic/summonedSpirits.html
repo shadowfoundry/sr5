@@ -2,17 +2,11 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="SR-LigneEnTete grid">
-			<div class="col-6 SR-TextUppercase">
-				{{localize 'SR5.SummonedSpirits'}} ({{localize 'SR5.Binded'}} {{data.magic.boundedSpirit.current}}/{{data.magic.boundedSpirit.max}})
-			</div>
-			<div class="col-2 SR-TextCenter" data-title="{{localize 'SR5.SpiritServices'}}">
-				{{localize 'SR5.SpiritServicesShort'}}
-			</div>
-			<div class="col-2 SR-TextCenter" data-title="{{localize 'SR5.SpiritForce'}}">
-				{{localize 'SR5.SpiritForceShort'}}
-			</div>
-			<div class="col-1">
-			</div>
+			<div class="col-5 SR-TextUppercase">{{localize 'SR5.SummonedSpirits'}} ({{localize 'SR5.Binded'}} {{data.magic.boundedSpirit.current}}/{{data.magic.boundedSpirit.max}})</div>
+			<div class="col-1 SR-TextCenter" data-title="{{localize 'SR5.SpiritServices'}}">{{localize 'SR5.SpiritServicesShort'}}</div>
+			<div class="col-2 SR-TextCenter" data-title="{{localize 'SR5.SpiritForce'}}">{{localize 'SR5.SpiritForceShort'}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.Bounded'}}</div>
+			<div class="col-1"></div>
 			<div class="col-1">
 				{{#if owner}}
 				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemSpirit')}}" 
@@ -26,7 +20,7 @@
 		</li>
 		{{#each actor.spirits}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-6">
+			<div class="col-5">
 				{{#if (missing data.type data.itemRating)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeEsprit')}}">
@@ -35,13 +29,18 @@
 				<p>{{findTranslation 'spiritTypes' data.type}} ({{name}})</p>
 				{{/if}}
 			</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.services.value"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.services.value"
 			  data-helpTitle="{{localize 'SR5.HELP_SpiritService' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SpiritServiceMsg'}}">
 				{{data.services.value}}/{{#if data.services.max}}{{data.services.max}}{{else}}0{{/if}}
 			</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
 			<div class="col-2 SR-TextCenter">
-				{{valueOrDash data.itemRating}}
+				{{#if data.isBounded}}
+					{{localize 'SR5.Yes'}}
+				{{else}}
+					{{localize 'SR5.No'}}
+				{{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter">
 				<!-- TODO check possession -->

@@ -145,6 +145,9 @@ export class SR5_RollMessage {
                     if (actor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
                     actor.rollTest("bindingResistance", null, messageData);
                     break;
+                case "msgTest_spiritBanishingDefense":
+                    actor.rollTest("banishingResistance", null, messageData);
+                    break;
                 case "msgTest_applyEffect":
                     actor.applyExternalEffect(messageData, "customEffects");
                     SR5_RollMessage.updateChatButton(message.data, "applyEffect");
@@ -376,6 +379,18 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "dispellResistance");
                     break;
+                case "msgTest_disjointingResistance":
+                    SR5_DiceHelper.createItemResistance(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "disjointingResistance");
+                    break;
+                case "msgTest_enchantmentResistance":
+                    SR5_DiceHelper.createItemResistance(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "enchantmentResistance");
+                    break;
+                case "msgTest_desactivateFocus":
+                    SR5_DiceHelper.desactivateFocus(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "desactivateFocus");
+                    break;
                 case "msgTest_reduceComplexForm":
                     await SR5_DiceHelper.reduceTransferedEffect(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceComplexForm");
@@ -387,10 +402,20 @@ export class SR5_RollMessage {
                 case "msgTest_targetBindingDefense":
                     targetActor.rollTest("bindingResistance", null, messageData);
                     break;
+                case "msgTest_targetBanishingDefense":
+                    targetActor.rollTest("banishingResistance", null, messageData);
+                    break;
                 case "msgTest_bindSpirit":
                     SR5_DiceHelper.bindSpirit(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "bindSpirit");
                     break;
+                case "msgTest_reduceService":
+                    SR5_DiceHelper.reduceSpiritService(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reduceService");
+                    break;
+                case "msgTest_reducePreparationPotency":
+                    SR5_DiceHelper.reduceTransferedEffect(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reducePreparationPotency");
                 default:
             }
         }
@@ -420,6 +445,11 @@ export class SR5_RollMessage {
                 newMessage.button.actionEnd = true;
                 if ((newMessage.actor.data.tasks.value + newMessage.netHits) <= 0 ) newMessage.button.actionEndTitle = game.i18n.localize("SR5.DecompiledSprite");
                 else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_TasksReduced', {task: newMessage.netHits})}`;
+                break;
+            case "reduceService":
+                newMessage.button.actionEnd = true;
+                if ((newMessage.actor.data.services.value - newMessage.netHits) <= 0 ) newMessage.button.actionEndTitle = game.i18n.localize("SR5.BanishedSpirit");
+                else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ServicesReduced', {service: newMessage.netHits})}`;
                 break;
             case "reduceComplexForm":
                 newMessage.button.actionEnd = true;
@@ -496,7 +526,7 @@ export class SR5_RollMessage {
         return sprite;
     }
 
-    //Build compiled sprite
+    //Build Preparation
     static async buildPreparation(messageData){
         let preparation = {
             "data": messageData.item.data,
@@ -510,6 +540,7 @@ export class SR5_RollMessage {
             ["data.force"]: messageData.force,
             ["data.freeSustain"]: true,
             ["data.hits"]: 0,
+            ["data.drainValue"]: messageData.item.data.drainValue,
         });
         return preparation;
     }

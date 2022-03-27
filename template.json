@@ -4090,7 +4090,8 @@
           "boundedSpirit":{
             "current": 0,
             "max": 0
-          }
+          },
+          "spellList":{}
         }
       },
       "sheetPreferencesTemplate": {
@@ -5715,7 +5716,9 @@
         "stun": {
           "current": 0
         }
-      }
+      },
+      "sustainedSpell": [],
+      "spellType": ""
     },
     "itemSprite": {
       "templates": [
@@ -5925,6 +5928,11 @@
       "duration": "",
       "type": "",
       "force": 0,
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "spellAreaOfEffect": {
         "value": 0,
         "base": 0,

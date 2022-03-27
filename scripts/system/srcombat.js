@@ -28,8 +28,8 @@ export class SR5Combat extends Combat {
 			initiative: Number(combatant.initiative) + adjustment,
 			"flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
       		"flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
-		}		
-		if (!combatant.data.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId) ) { 
+		}
+		if (!combatant.data.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId) ) {
 			let actualCombatant = combatant.combat.combatants.find(c => c.id === combatant.combat.current.combatantId);
 			if (actualCombatant.initiative > (combatant.initiative + adjustment)) {
 				udpateData = mergeObject(udpateData, {
@@ -83,7 +83,7 @@ export class SR5Combat extends Combat {
 		for (const combatant of combat.combatants) {
 			const initiative = SR5Combat.reduceIniResultAfterPass(Number(combatant.initiative));
 			await combatant.update({
-				initiative: initiative, 
+				initiative: initiative,
 				"flags.sr5.hasPlayed": combatant.isDefeated,
 				"flags.sr5.baseCombatantInitiative": initiative,
 			});
@@ -95,24 +95,24 @@ export class SR5Combat extends Combat {
 	}
 
 	static async handleNextRound(combatId){
-		//console.log("nouveau round");
-		const combat = game.combats?.get(combatId);
-		if (!combat) return;
-		await combat.resetAll();
-		for (let combatant of combat.combatants){
-			combatant.update({
-				"flags.sr5.seizeInitiative" : false,
-				"flags.sr5.blitz" : false,
-				"flags.sr5.hasPlayed" : combatant.isDefeated,
-			  });
-			await SR5Combat.decreaseEffectDuration(combatant);
-		}
-		await SR5Combat.setInitiativePass(combat, 1);
-		await combat.rollAll();
+    //SR5_SystemHelpers.srLog(3, "New combat round");
+    const combat = game.combats?.get(combatId);
+    if (!combat) return;
+    await combat.resetAll();
+    for (let combatant of combat.combatants) {
+      combatant.update({
+        "flags.sr5.seizeInitiative": false,
+        "flags.sr5.blitz": false,
+        "flags.sr5.hasPlayed": combatant.isDefeated,
+      });
+      await SR5Combat.decreaseEffectDuration(combatant);
+    }
+    await SR5Combat.setInitiativePass(combat, 1);
+    await combat.rollAll();
 
-		const turn = 0;
-		await combat.update({turn});
-	}
+    const turn = 0;
+    await combat.update({ turn });
+  }
 
 	setupTurns(){
 		// Determine the turn order and the current turn
@@ -121,7 +121,7 @@ export class SR5Combat extends Combat {
 
 		// Update state tracking
 		let c = turns[this.data.turn];
-		 
+
 		this.current = {
 			round: this.data.round,
 			turn: this.data.turn,
@@ -250,7 +250,7 @@ export class SR5Combat extends Combat {
 	async startCombat() {
 		await SR5Combat.setInitiativePass(this, 1);
 		await this.update({
-			round: 1, 
+			round: 1,
 			turn: 0,
 		});
 		await this.rollAll();
@@ -289,7 +289,7 @@ export class SR5Combat extends Combat {
 	}
 
 	async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
-		
+
 		// Structure input data
 		ids = typeof ids === "string" ? [ids] : ids;
 		const currentId = this.combatant.id;
@@ -347,17 +347,17 @@ export class SR5Combat extends Combat {
 						"core.initiativeRoll": true,
 						"img": combatant.img,
 						css: "SRCustomMessage",
-					}, 
+					},
 				},
 				messageOptions
 			);
-			
+
 			let chatData = new ChatMessage(messageData, {create: false})
 			// Play 1 sound for the whole rolled set
 			if ( i > 0 ) chatData.sound = null;
 			messages.push(chatData.toObject());
 		}
-		
+
 		if ( !updates.length ) return this;
 
 		// Update multiple combatants
@@ -457,10 +457,10 @@ export class SR5Combat extends Combat {
 			  	}
 				if (isNaN(initRatingChange)) initRatingChange = 0;
 			  	let initFinalChange = initRatingChange + initDiceChange;
-			  
+
 			  	if (initRatingChange !== 0  || initDiceChange !== 0) {
 				  	await SR5Combat.adjustInitiative(combatant, initFinalChange);
-				  	let signDice ="", signRating="", initRatingValue = Math.abs(initRatingChange), initDiceValue = Math.abs(diceResult); 
+				  	let signDice ="", signRating="", initRatingValue = Math.abs(initRatingChange), initDiceValue = Math.abs(diceResult);
 				  	if (sign < 0) signDice = "-"
 				  	else signDice = "+"
 				  	if (initRatingChange > 0) signRating = "+"
@@ -548,7 +548,7 @@ export class SR5Combat extends Combat {
 					await item.update(effect);
 				}
 			}
-			
+
 		}
 
 		//Remove full defense effect

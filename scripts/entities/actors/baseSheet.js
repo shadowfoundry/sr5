@@ -49,9 +49,9 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".item-clone").click(this._onItemClone.bind(this));
     html.find(".item-edit").click(this._onItemEdit.bind(this));
     html.find(".item-delete").click(this._onItemDelete.bind(this));
-    html.find(".item-management").mousedown(this._onItemManagement.bind(this));    
+    html.find(".item-management").mousedown(this._onItemManagement.bind(this));
     //Edit item value from actor sheet
-    html.find(".edit-value").focusout(this._onEditItemValue.bind(this));
+    html.find(".edit-value").change(this._onEditItemValue.bind(this));
     html.find(".select-value").change(this._onEditItemValue.bind(this));
     html.find(".toggle-value").click(this._onEditItemValue.bind(this));
     html.find(".changeValueByClick").mousedown(this._onChangeValueByClick.bind(this));
@@ -86,7 +86,7 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".deleteItemFromPan").click(this._onDeleteItemFromPan.bind(this));
     // Stop jamming signals
     html.find(".stop-jamming").click(this._onStopJamming.bind(this));
-    
+
 
     // Affiche les compétences
     html.find(".hidden").hide();
@@ -160,7 +160,7 @@ export class ActorSheetSR5 extends ActorSheet {
     if (!canvas.ready) return;
     let dragData = {};
     const target = event.currentTarget;
-    
+
     if (target.dataset.matrixattribute){
       dragData.value = target.dataset.matrixattribute;
       dragData.valueFromCollection = target.id;
@@ -191,8 +191,8 @@ export class ActorSheetSR5 extends ActorSheet {
         for (let [key, value] of Object.entries(actorData.data.matrix.attributesCollection)){
           if (value === existingValue){
             setProperty(actorData, `data.matrix.attributesCollection.${key}isSet`, false);
-            break;      
-          } 
+            break;
+          }
         }
       }
       setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
@@ -316,7 +316,7 @@ export class ActorSheetSR5 extends ActorSheet {
         await item.delete();
         let statusEffect = this.actor.effects.find(e => e.data.origin === item.data.data.type);
         if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
-        return 
+        return
       }
     } else {
       Dialog.confirm({
@@ -338,7 +338,7 @@ export class ActorSheetSR5 extends ActorSheet {
   _onItemManagement(event){
     event.preventDefault();
     switch (event.button) {
-      case 0: 
+      case 0:
         if (event.shiftKey) this._onItemDelete(event);
         else if (event.ctrlKey) this._onItemClone(event);
         else this._onItemEdit(event)
@@ -377,14 +377,14 @@ export class ActorSheetSR5 extends ActorSheet {
       div.find(".tag-summary").click((event) => {
         let i =  $(event.currentTarget).attr("data-index");
         let gameEffect = expandData.properties[i][1];
-        
+
         let tagDiv = $(`<div class="item-properties tag-description ${i}">${gameEffect}</div>`);
 
         if (div.hasClass("expandedTag") && div.hasClass(i)){
           let tagSummary = div.children(".tag-description");
           tagSummary.slideUp(200, () => tagSummary.remove());
           div.removeClass(i);
-        } else if (div.hasClass("expandedTag")) { 
+        } else if (div.hasClass("expandedTag")) {
           let tagSummary = div.children(".tag-description");
           tagSummary.slideUp(200, () => tagSummary.remove());
           div.removeClass();
@@ -392,14 +392,14 @@ export class ActorSheetSR5 extends ActorSheet {
           div.addClass(i);
           div.append(tagDiv.hide());
           tagDiv.slideDown(200);
-        } else {                    
+        } else {
           div.append(tagDiv.hide());
           div.addClass(i);
           tagDiv.slideDown(200);
         }
         div.toggleClass("expandedTag");
       });
-      
+
     }
     li.toggleClass("expanded");
   }
@@ -428,7 +428,7 @@ export class ActorSheetSR5 extends ActorSheet {
       for (let otherItem of itemList) {
         if (otherItem.type === "itemDevice" && (otherItem._id !== id)) otherItem.data.isActive = false;
       }
-      
+
       for (let key of Object.keys(actorData.matrix.attributes)){
         actorData.matrix.attributes[key].base = 0;
       }
@@ -448,7 +448,7 @@ export class ActorSheetSR5 extends ActorSheet {
         if (otherItem.type === "itemArmor" && !otherItem.data.isCumulative && (otherItem._id !== id)) otherItem.data.isActive = false;
       }
     }
-    
+
     if (item.type === "itemDrug") {
       if (target === "data.isActive"){
         setProperty(item, "data.wirelessTurnedOn", false);
@@ -482,14 +482,14 @@ export class ActorSheetSR5 extends ActorSheet {
     }
 
     //Delete effects linked to sustaining
-    if ((item.type === "itemComplexForm" || item.type === "itemSpell") && target === "data.isActive"){      
+    if ((item.type === "itemComplexForm" || item.type === "itemSpell") && target === "data.isActive"){
       if (!item.data.isActive && item.data.targetOfEffect.length) {
         for (let e of item.data.targetOfEffect){
           if (!game.user?.isGM) {
             await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {
               targetItem: e,
             });
-          } else {  
+          } else {
             await SR5Actor.deleteSustainedEffect(e);
           }
         }
@@ -505,21 +505,21 @@ export class ActorSheetSR5 extends ActorSheet {
   _onChangeValueByClick(event) {
     let id = $(event.currentTarget).parents(".item").attr("data-item-id"),
         target = $(event.currentTarget).attr("data-binding"),
-        entity, 
+        entity,
         original;
-    
+
     if (id) original = this.actor.items.get(id);
     else original = this.actor;
 
     entity = original.toObject(false);
     let value = getProperty(entity, target);
     switch (event.button) {
-      case 0: 
+      case 0:
         if (event.ctrlKey && target === "data.quantity") value -= 10;
         else value--;
         if (value < 0) value = 0;
         break;
-      case 2: 
+      case 2:
         if ((target === "data.matrix.attributes.sharing.base") || (target === "data.matrix.attributes.noiseReduction.base")){
           let deviceRating = entity.data.matrix.deviceRating;
           let noiseReduction = entity.data.matrix.attributes.noiseReduction.base;
@@ -532,7 +532,7 @@ export class ActorSheetSR5 extends ActorSheet {
                 setProperty(entity, "data.matrix.attributes.noiseReduction.base", (noiseReduction - 1));
                 value++;
               } else {
-                console.log("valeur maximale");
+                SR5_SystemHelpers.srLog(3, "Reached maximum value");
               }
             }
           }
@@ -544,7 +544,7 @@ export class ActorSheetSR5 extends ActorSheet {
                 setProperty(entity, "data.matrix.attributes.sharing.base", (sharing - 1));
                 value++;
               } else {
-                console.log("valeur maximale");
+                SR5_SystemHelpers.srLog(3, "Reached maximum value");
               }
             }
           }
@@ -569,8 +569,8 @@ export class ActorSheetSR5 extends ActorSheet {
   _onEditActorValue(event){
     let target = $(event.currentTarget).attr("data-binding");
     let actor = this.actor.toObject(false);
-    
-    
+
+
     let value = event.target.value;
     if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
       let oldValue = getProperty(actor, target);
@@ -642,7 +642,7 @@ export class ActorSheetSR5 extends ActorSheet {
       document.querySelector("#sr5helpTitle").innerHTML = $(event.currentTarget).attr("data-helpTitle");
 
       if ($(event.currentTarget).attr("data-helpMessage")) document.querySelector("#sr5helpMessage").innerHTML = "<div class='helpMessage'><em>" + $(event.currentTarget).attr("data-helpMessage") + "</em></div>";
-      
+
       let details = $(event.currentTarget).attr("data-helpDetails");
       if (details) {
         property = SR5_EntityHelpers.resolveObjectPath(`actor.data.${details}`, this);
@@ -654,7 +654,7 @@ export class ActorSheetSR5 extends ActorSheet {
         let detailsItem = $(event.currentTarget).attr("data-helpDetailsItem");
         property = SR5_EntityHelpers.resolveObjectPath(`data.${detailsItem}`, item);
       }
-      
+
       if (property) {
         let detailsHTML = `${game.i18n.localize('SR5.HELP_CalculationDetails')}<ul>`;
         if (property.modifiers && property.modifiers.length) {
@@ -696,7 +696,7 @@ export class ActorSheetSR5 extends ActorSheet {
           if (a.hasPlayerOwner) controlerList[a.id] = a.name;
         }
       }
-    }    
+    }
     let cancel = true;
     let dialogData = {
       controlerList: controlerList,
@@ -734,7 +734,7 @@ export class ActorSheetSR5 extends ActorSheet {
               "data.vehicleOwner.name": "",
               "data.controlMode": "autopilot"
             });
-            this.actor.unsetFlag("sr5", "vehicleControler");  
+            this.actor.unsetFlag("sr5", "vehicleControler");
           }
         },
       }).render(true);
@@ -752,8 +752,8 @@ export class ActorSheetSR5 extends ActorSheet {
     item = item.toObject(false);
     if (!game.user?.isGM) {
       await SR5_SocketHandler.emitForGM("createSidekick", {
-        item: item, 
-        userId: game.user.id, 
+        item: item,
+        userId: game.user.id,
         actorId: actorId,
       });
     } else {
@@ -788,7 +788,7 @@ export class ActorSheetSR5 extends ActorSheet {
         await SR5_SocketHandler.emitForGM("dismissSidekick", {
           actor: sidekick,
         });
-      } else {  
+      } else {
         SR5Actor.dimissSidekick(sidekick);
       }
     }
@@ -817,7 +817,7 @@ export class ActorSheetSR5 extends ActorSheet {
         if (game.user.isGM) actorList[a.id] = a.name;
         else if (a.hasPlayerOwner) actorList[a.id] = a.name;
       }
-    }   
+    }
 
     if (canvas.scene && game.user.isGM){
       for (let token of canvas.tokens.placeables) {
@@ -860,10 +860,10 @@ export class ActorSheetSR5 extends ActorSheet {
               targetItem: targetItem,
               actorId: baseActor,
             });
-          } else {  
+          } else {
             SR5Actor.addItemtoPan(targetItem, baseActor);
           }
-          
+
         },
       }).render(true);
   });
@@ -883,7 +883,7 @@ export class ActorSheetSR5 extends ActorSheet {
         index: index,
         actorId: actor,
       });
-    } else {  
+    } else {
       SR5Actor.deleteItemFromPan(itemId, actor, index);
     }
   }

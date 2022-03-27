@@ -33,7 +33,10 @@ export class SR5_Roll {
             sceneNoise,
             sceneEnvironmentalMod,
             originalMessage,
-            effectsList;
+            effectsList,
+            spiritHelp,
+            canUseReagents = false,
+            canBeExtended = true;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -98,6 +101,8 @@ export class SR5_Roll {
         }
 
         if (chatData) originalMessage = chatData.originalMessage
+        //Reagents
+        if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
 
         switch (rollType){
             case "attribute":
@@ -108,7 +113,7 @@ export class SR5_Roll {
                 optionalData = {
                     "switch.attribute": true,
                     "switch.penalty": true,
-                    "switch.extended": true,
+                    "switch.extended": canBeExtended,
                     penaltyValue: penalties,
                 }
                 break;
@@ -119,7 +124,7 @@ export class SR5_Roll {
                 dicePool = itemData.value;
                 optionalData = {
                     "switch.specialization": true,
-                    "switch.extended": true,
+                    "switch.extended": canBeExtended,
                 }
                 break;
 
@@ -146,68 +151,89 @@ export class SR5_Roll {
                 }
                 
                 typeSub = rollKey;
-                //TODO : find a solution for skill with limit depending on item.
-                switch(rollKey){
-                    case "spellcasting":
-                    case "preparationForce":
-                    case "vehicleHandling":
-                    case "weaponAccuracy":
-                    case "formulaForce":
-                    case "spiritForce":
-                        limit = 0;
+                limit = skill.limit.value;
+
+                //Switch management
+                switch (typeSub) {
+                    case "counterspelling":
+                    case "binding":
+                    case "banishing":
+                    case "summoning":
+                    case "disenchanting":
+                        canBeExtended = false;
                         break;
                     default:
-                        limit = skill.limit.value;
+                        canUseReagents = false;
                 }
 
                 optionalData = mergeObject(optionalData, {
-                    "switch.extended": true,
+                    "switch.extended": canBeExtended,
                     "switch.specialization": true,
+                    "switch.canUseReagents": canUseReagents,
                     limitType: skill.limit.base,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     dicePoolComposition: actorData.skills[rollKey].test.modifiers,
                 });
 
-                //Counterspell 
-                if (typeSub === "counterspelling" && canvas.scene){
+                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
                         let targets = Array.from(game.user.targets);
                         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                        effectsList = targetActor.items.filter(i => i.type === "itemSpell" && i.data.data.isActive);
-                        let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemSpell");
-                        for (let e of Object.values(currentEffectList)){
-                            let parentItem = await fromUuid(e.data.data.ownerItem);
-                            if (effectsList.length === 0) effectsList.push(parentItem);
-                            else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                        
+                        //Counterspell 
+                        if (typeSub === "counterspelling"){
+                            effectsList = targetActor.items.filter(i => i.type === "itemSpell" && i.data.data.isActive);
+                            let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemSpell");
+                            for (let e of Object.values(currentEffectList)){
+                                let parentItem = await fromUuid(e.data.data.ownerItem);
+                                if (effectsList.length === 0) effectsList.push(parentItem);
+                                else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                            }
+                            if (effectsList.length !== 0){
+                                optionalData = mergeObject(optionalData, {
+                                    hasTarget: true,
+                                    effectsList: effectsList,
+                                });
+                            }
                         }
-                        if (effectsList.length !== 0){
+
+                        //Binding
+                        if (typeSub === "binding"){
+                            if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                            if (targetActor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+                            limit = targetActor.data.data.force.value;
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                effectsList: effectsList,
+                                targetActor: targetActorId,
                             });
+                        }
+
+                        //Banishing
+                        if (typeSub === "banishing"){
+                            if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                targetActor: targetActorId,
+                            });
+                        }
+
+                        //Disenchanting
+                        if (typeSub === "disenchanting"){
+                            effectsList = targetActor.items.filter(i => (i.type === "itemFocus" && i.data.data.isActive) || i.type === "itemPreparation");
+                            if (effectsList.length !== 0){
+                                optionalData = mergeObject(optionalData, {
+                                    hasTarget: true,
+                                    effectsList: effectsList,
+                                });
+                            }
                         }
                     }
                 }
 
-                //Binding, if a spirit is targeted
-                if (typeSub === "binding" && canvas.scene){
-                    if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
-                    else if (game.user.targets.size) {
-                        let targets = Array.from(game.user.targets);
-                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
-                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                        if (targetActor.data.data.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
-                        limit = targetActor.data.data.force.value;
-                        optionalData = mergeObject(optionalData, {
-                            hasTarget: true,
-                            targetActor: targetActorId,
-                        });
-                    }
-                }
                 break;
 
             case "resistance":
@@ -551,6 +577,8 @@ export class SR5_Roll {
                 if (actor.type === "actorSpirit") return;
                 title = `${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                 dicePool = matrixAction.defense.dicePool;
+                typeSub = rollKey;
+
                 //Handle item targeted
                 if (chatData.matrixTargetDevice && chatData.matrixTargetDevice !== "device"){
                     let targetItem = actor.items.find(i => i.id === chatData.matrixTargetDevice);
@@ -562,17 +590,11 @@ export class SR5_Roll {
                         let panMasterDefense = panMaster.data.data.matrix.actions[rollKey].defense.dicePool;
                         dicePool = Math.max(targetItem.data.data.deviceRating * 2, panMasterDefense);
                     }
-                    optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: targetItem.toObject(false),
-                    });  
+                    optionalData = mergeObject(optionalData, {matrixTargetItem: targetItem.toObject(false),});  
                 } else {
                     let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
-                    optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: deck.toObject(false),
-                    });
+                    optionalData = mergeObject(optionalData, {matrixTargetItem: deck.toObject(false),});
                 }
-
-                typeSub = rollKey;
 
                 optionalData = mergeObject(optionalData, {
                     matrixActionType: matrixAction.limit.linkedAttribute,
@@ -857,6 +879,7 @@ export class SR5_Roll {
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
+                    "switch.canUseReagents": canUseReagents,
                 }
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {
@@ -882,6 +905,16 @@ export class SR5_Roll {
                             "switch.transferEffectOnItem": true,
                         });
                     }
+                }
+
+                //Check if a spirit can aid sorcery
+                spiritHelp = actor.items.find(i => (i.type === "itemSpirit" && i.data.data.isBounded && i.data.data.spellType === itemData.category && i.data.data.services.value > 0));
+                if (spiritHelp){
+                    optionalData = mergeObject(optionalData, {
+                        "spiritAidId": spiritHelp.uuid,
+                        "spiritAidMod": spiritHelp.data.data.itemRating,
+                        "switch.spiritAid": true,
+                    });
                 }
                 break;
 
@@ -913,6 +946,7 @@ export class SR5_Roll {
                 dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
                 optionalData = {
                     "switch.specialization": true,
+                    "switch.canUseReagents": canUseReagents,
                     "drainMod.spell": itemData.drainModifier,
                     drainType: "stun",
                     force: actorData.specialAttributes.magic.augmented.value,
@@ -920,6 +954,16 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                 }
+
+                //Check if a spirit can aid sorcery
+                spiritHelp = actor.items.find(i => (i.type === "itemSpirit" && i.data.data.isBounded && i.data.data.spellType === itemData.category && i.data.data.services.value > 0));
+                if (spiritHelp){
+                     optionalData = mergeObject(optionalData, {
+                         "spiritAidId": spiritHelp.uuid,
+                         "spiritAidMod": spiritHelp.data.data.itemRating,
+                         "switch.spiritAid": true,
+                     });
+                 }
                 break;
 
             case "complexForm":
@@ -1111,10 +1155,22 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+
             case "bindingResistance":
-                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
+                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
                 title = game.i18n.localize("SR5.ResistBinding");
                 dicePool = actorData.force.value * 2;
+                optionalData = {
+                    ownerAuthor: chatData.ownerAuthor,
+                    hits: chatData.test.hits,
+                }
+                break;
+            
+            case "banishingResistance":
+                if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                title = game.i18n.localize("SR5.ResistBanishing");
+                dicePool = actorData.force.value;
+                if (actorData.isBounded) dicePool += actorData.summonerMagic;
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,

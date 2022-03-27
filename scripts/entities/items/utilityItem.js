@@ -1031,9 +1031,7 @@ export class SR5_UtilityItem extends Actor {
 
   //Handle spell
   static _handleSpell(i, actorData) {
-    //Add magic attribute to item
-    i.data.casterMagic = actorData.data.specialAttributes.magic.augmented.value;
-
+    
     //Damage based on spell type
     if (i.data.category === "combat") {
       i.data.damageValue.base = 0;
@@ -1068,6 +1066,15 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), (i.data.force || 0), false, true);
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drainModifier, false, true);
     SR5_EntityHelpers.updateValue(i.data.drainValue, 2);
+
+    //Check if spell is sustained by a spirit
+    for (let item of actorData.items){
+      if (item.type === "itemSpirit" && item.data.data.isBounded){
+        for (let s of Object.values(item.data.data.sustainedSpell)){
+          if (s.name === i._id) i.data.freeSustain = true;
+        }
+      }
+    }
   }
 
   //Handle Preparation
