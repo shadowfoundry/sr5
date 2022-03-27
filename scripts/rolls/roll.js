@@ -340,7 +340,7 @@ export class SR5_Roll {
                         dicePool = resistanceValue + modifiedArmor;
 
                         optionalData = {
-                            chatActionType: "msgTest_damage",
+                            chatActionType: "damage",
                             incomingPA: chatData.incomingPA,
                             armor: armor,
                             ammoType: chatData.ammoType,
@@ -360,7 +360,7 @@ export class SR5_Roll {
                         dicePool = actorData.resistances[chatData.damageResistanceType].dicePool;
                         typeSub = "spellDamage";
                         optionalData = {
-                            chatActionType: "msgTest_damage",
+                            chatActionType: "damage",
                             damageValueBase: chatData.damageValue,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -373,7 +373,7 @@ export class SR5_Roll {
                         dicePool = actorData.resistances[chatData.damageResistanceType].dicePool;
                         typeSub = "manaSpellDamage";
                         optionalData = {
-                            chatActionType: "msgTest_damage",
+                            chatActionType: "damage",
                             damageValueBase: chatData.damageValue,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -392,7 +392,7 @@ export class SR5_Roll {
                             else if (actorData.matrix.userMode === "hotsim") damageType = "physical";
                         }
                         optionalData = {
-                            chatActionType: "msgTest_damage",
+                            chatActionType: "damage",
                             damageType: damageType,
                             damageValueBase: chatData.damageValue,
                         }
@@ -410,7 +410,7 @@ export class SR5_Roll {
                         if (actorData.matrix.userMode === "coldsim") dumpshockType = "stun";
                         else if (actorData.matrix.userMode === "hotsim") dumpshockType = "physical";
                         optionalData = {
-                            chatActionType: "msgTest_damage",
+                            chatActionType: "damage",
                             damageType: dumpshockType,
                             damageValueBase: 6,
                         }
@@ -464,7 +464,7 @@ export class SR5_Roll {
                 dicePool = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value + chatData.incomingPA;
                 let armored = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value;
                 optionalData = {
-                    //chatActionType: "msgTest_damage",
+                    //chatActionType: "damage",
                     armor: armored,
                     incomingPA: chatData.incomingPA,
                     fireTreshold: chatData.fireTreshold,
@@ -477,7 +477,7 @@ export class SR5_Roll {
                 dicePool = actorData.matrix.ice.attackDicepool;
                 limit = actorData.matrix.attributes.attack.value;
                 optionalData = {
-                    chatActionType: "msgTest_iceDefense",
+                    chatActionType: "iceDefense",
                     typeSub: actorData.matrix.deviceSubType,
                     matrixDamageValue: actorData.matrix.attributes.attack.value,
                     defenseFirstAttribute: actorData.matrix.ice.defenseFirstAttribute,
@@ -548,7 +548,7 @@ export class SR5_Roll {
 
                 optionalData = mergeObject(optionalData, {
                     limitType: matrixAction.limit.linkedAttribute,
-                    chatActionType: "msgTest_matrixDefense",
+                    chatActionType: "matrixDefense",
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     matrixNoiseRange: "wired",
@@ -618,7 +618,7 @@ export class SR5_Roll {
                 }
 
                 optionalData = mergeObject(optionalData, {
-                    chatActionType: "msgTest_damage",
+                    chatActionType: "damage",
                     matrixDamageValue: chatData.matrixDamageValue,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     damageType: chatData.damageType,
@@ -633,7 +633,7 @@ export class SR5_Roll {
                 typeSub = rollKey;
             
                 optionalData = {
-                    chatActionType: "msgTest_resonanceDefense",
+                    chatActionType: "resonanceDefense",
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                 }
@@ -678,7 +678,7 @@ export class SR5_Roll {
                 dicePool = actorData.matrix.resistances.fading.dicePool;
                 if (chatData.hits > actorData.specialAttributes.resonance.augmented.value) chatData.fadingType = "physical";
                 optionalData = {
-                    chatActionType: "msgTest_damage",
+                    chatActionType: "damage",
                     fadingValue: chatData.fadingValue,
                     fadingType: chatData.fadingType,
                     actorResonance: chatData.actorResonance,
@@ -692,7 +692,7 @@ export class SR5_Roll {
                 dicePool = actorData.magic.drainResistance.dicePool;
                 if (chatData.hits > actorData.specialAttributes.magic.augmented.value) chatData.drainType = "physical";
                 optionalData = {
-                    chatActionType: "msgTest_damage",
+                    chatActionType: "damage",
                     drainValue: chatData.drainValue,
                     drainType: chatData.drainType,
                     actorMagic: chatData.actorMagic,
@@ -765,7 +765,7 @@ export class SR5_Roll {
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
 
                 optionalData = mergeObject(optionalData, {
-                    chatActionType: "msgTest_attackResistance",
+                    chatActionType: "attackResistance",
                     damageElement: chatData.damageElement,
                     damageValue: chatData.damageValue,
                     damageValueBase: chatData.damageValue,

@@ -595,14 +595,14 @@ export class SR5_Dice {
 			cardData.button.resistance = true;
 			cardData.damageValue = cardData.damageValueBase;
 			cardData.damageResistanceType = "physicalDamage";
-			cardData.chatActionType = "msgTest_attackResistance";
+			cardData.chatActionType = "attackResistance";
 		} else if (cardData.test.hits > 0) {
 			cardData.button.attack = true;
 			if (cardData.typeSub === "rangedWeapon") {
-				cardData.chatActionType = "msgTest_defenseRangedWeaponn";
+				cardData.chatActionType = "defenseRangedWeaponn";
 				cardData.ammoType = cardData.item.data.ammunition.type;
 			}
-			else if (cardData.typeSub === "meleeWeapon") cardData.chatActionType = "msgTest_defenseMeleeWeapon";
+			else if (cardData.typeSub === "meleeWeapon") cardData.chatActionType = "defenseMeleeWeapon";
 			cardData.damageResistanceType = "physicalDamage";
 		} else {
 			cardData.button.actionEnd = true;
@@ -687,13 +687,13 @@ export class SR5_Dice {
 			if (cardData.typeSub === "indirect") {
 				cardData.damageValue = cardData.force;
 				cardData.incomingPA = -cardData.force;
-				cardData.chatActionType = "msgTest_defenseRangedWeaponn";
+				cardData.chatActionType = "defenseRangedWeaponn";
 				cardData.testType = "opposedTest";
 				cardData.damageResistanceType = "physicalDamage";
 			}
 			if (cardData.typeSub === "direct") {
 				cardData.damageValue = cardData.test.hits;
-				cardData.chatActionType = "msgTest_attackResistance";
+				cardData.chatActionType = "attackResistance";
 				cardData.testType = "opposedTest";
 				if (cardData.spellType === "mana") cardData.damageResistanceType = "directSpellMana";
 				else cardData.damageResistanceType = "directSpellPhysical";
