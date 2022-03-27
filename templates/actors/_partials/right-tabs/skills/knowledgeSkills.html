@@ -42,7 +42,7 @@
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsTypeMsg'}}"
 				>
-					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name=""
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name="knowledge.{{_id}}.type"
 						data-dtype="String">
 						{{#select data.type}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>

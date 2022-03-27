@@ -51,7 +51,7 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".item-delete").click(this._onItemDelete.bind(this));
     html.find(".item-management").mousedown(this._onItemManagement.bind(this));
     //Edit item value from actor sheet
-    html.find(".edit-value").focusout(this._onEditItemValue.bind(this));
+    html.find(".edit-value").change(this._onEditItemValue.bind(this));
     html.find(".select-value").change(this._onEditItemValue.bind(this));
     html.find(".toggle-value").click(this._onEditItemValue.bind(this));
     html.find(".changeValueByClick").mousedown(this._onChangeValueByClick.bind(this));
