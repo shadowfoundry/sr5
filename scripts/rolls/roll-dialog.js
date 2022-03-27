@@ -23,11 +23,13 @@ export default class SR5_RollDialog extends Dialog {
 
     updateLimitValue(html) {
         if (html.find('[name="baseLimit"]')[0]){
+            let modifiedLimit = parseInt(html.find('[name="baseLimit"]')[0].value)
             let limitModifier = 0;
-            for (let value of Object.values(this.limitModifier)){
-                limitModifier += value;
+            for (let [key, value] of Object.entries(this.limitModifier)){
+                if (key === "reagents") modifiedLimit = value;
+                else limitModifier += value;
             }
-            let modifiedLimit = limitModifier + parseInt(html.find('[name="baseLimit"]')[0].value)
+            modifiedLimit += limitModifier;
             if (modifiedLimit < 0) modifiedLimit = 0;
             html.find('[name="modifiedLimit"]')[0].value = modifiedLimit;
             this.data.data.limitBase = parseInt(html.find('[name="baseLimit"]')[0].value);
@@ -567,9 +569,11 @@ export default class SR5_RollDialog extends Dialog {
             let value = ev.target.value;
             if (value > actor.data.magic.reagents){
                 value = actor.data.magic.reagents;
-                html.find('[name="reagentsSpent"]')[0].value = value;
                 ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
             }
+            html.find('[name="reagentsSpent"]')[0].value = value;
+            this.limitModifier.reagents = parseInt(value);
+            this.updateLimitValue(html);
         }); 
 
         //Spirit aid

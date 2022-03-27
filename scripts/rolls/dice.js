@@ -245,8 +245,8 @@ export class SR5_Dice {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
 							dialogData.level = actor.data.specialAttributes.resonance.augmented.value;
 						}
-						if (dialogData.force || dialogData.typeSub === "counterspelling" || dialogData.typeSub === "binding"){
-							if (dialogData.force) dialogData.limit = dialogData.force;
+						if (dialogData.force || dialogData.switch.canUseReagents){
+							if (dialogData.force) dialogData.limit = dialogData.force;			
 							if (!isNaN(reagentsSpent)) {
 								dialogData.limit = reagentsSpent;
 								dialogData.limitType = "reagents";
@@ -578,6 +578,12 @@ export class SR5_Dice {
 			case "banishingResistance":
 				SR5_Dice.addBanishingResistanceInfoToCard(cardData, author);
 				break;
+			case "enchantmentResistance":
+				SR5_Dice.addEnchantmentResistanceInfoToCard(cardData, author);
+				break;
+			case "disjointingResistance":
+				SR5_Dice.addDisjointingResistanceInfoToCard(cardData, author);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
 		}
@@ -736,8 +742,11 @@ export class SR5_Dice {
 		if (damageValue > 0) {
 			cardData.button.takeDamage = true;
 			cardData.damageValue = damageValue;
-			if (cardData.hits > cardData.actorMagic) cardData.damageType = "physical";
-			else cardData.damageType = "stun";
+			if (cardData.drainType) cardData.damageType = cardData.drainType;
+			else {
+				if (cardData.hits > cardData.actorMagic) cardData.damageType = "physical";
+				else cardData.damageType = "stun";
+			}
 		} else {
 			cardData.button.actionEnd = true;
 			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.NoDrain")}`;
@@ -1063,27 +1072,39 @@ export class SR5_Dice {
 
 	static async addSkillInfoToCard(cardData, author){
 		cardData.ownerAuthor = cardData.speakerId;
+		let itemTarget;
 		if (cardData.typeSub === "summoning") {
 			cardData.button.summonSpiritResist = true;
 			cardData.hits = cardData.test.hits;
-		}
-		if (cardData.typeSub === "binding"){
+		} else if (cardData.typeSub === "binding"){
 			if (cardData.hasTarget) cardData.button.targetBindingDefense = true;
 			else cardData.button.spiritBindingDefense = true;
-		}
-		if (cardData.typeSub === "banishing"){
+		} else if (cardData.typeSub === "banishing"){
 			if (cardData.hasTarget) cardData.button.targetBanishingDefense = true;
 			else cardData.button.spiritBanishingDefense = true;
-		}
-		if (cardData.typeSub === "counterspelling" && cardData.targetEffect) {
-			let spell = await fromUuid(cardData.targetEffect);
-			cardData.drainValue = spell.data.data.drainValue.value;
-			if (spell.data.data.force > cardData.actor.data.specialAttributes.magic.augmented.value) cardData.drainType = "physical";
+		} else if (cardData.typeSub === "counterspelling" && cardData.targetEffect) {
+			itemTarget = await fromUuid(cardData.targetEffect);
+			cardData.drainValue = itemTarget.data.data.drainValue.value;
+			if (itemTarget.data.data.force > cardData.actor.data.specialAttributes.magic.augmented.value) cardData.drainType = "physical";
 			else cardData.drainType = "stun";
 			cardData.button.drainResistance = true;
-
 			if (cardData.test.hits > 0) cardData.button.dispellResistance = true;
 			else cardData.button.dispellResistance = false;
+		} else if (cardData.typeSub === "disenchanting" && cardData.targetEffect) {
+			itemTarget = await fromUuid(cardData.targetEffect);
+			if (itemTarget.type === "itemPreparation"){
+				cardData.drainValue = itemTarget.data.data.drainValue.value;
+				if (cardData.test.hits > cardData.actor.data.specialAttributes.magic.augmented.value) cardData.drainType = "physical";
+				else cardData.drainType = "stun";
+				cardData.button.drainResistance = true;
+			}
+			if (cardData.test.hits > 0) {
+				if (itemTarget.type === "itemFocus") cardData.button.enchantmentResistance = true;
+				if (itemTarget.type === "itemPreparation") cardData.button.disjointingResistance = true;
+			} else {
+				cardData.button.enchantmentResistance = false;
+				cardData.button.enchantmentResistanceP = false;
+			}
 		}
 	}
 
@@ -1345,5 +1366,28 @@ export class SR5_Dice {
 		}
 
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
+	}
+
+	static async addEnchantmentResistanceInfoToCard(cardData, author){
+		cardData.drainValue = cardData.test.hits;
+		if (cardData.drainValue > 0) cardData.button.drainResistance = true;
+		if (cardData.hits > cardData.test.hits) {
+			cardData.button.desactivateFocus = true;
+		} else {
+			cardData.button.desactivateFocus = false;
+			cardData.button.actionEnd = true;
+			cardData.button.actionEndTitle = `${game.i18n.localize("SR5.DisenchantFailed")}`;
+		}
+	}
+
+	static async addDisjointingResistanceInfoToCard(cardData){
+		if (cardData.test.hits >= cardData.hits){
+			cardData.button.actionEnd = true;
+			cardData.button.reducePreparationPotency = false;
+			cardData.button.actionEndTitle = game.i18n.localize("SR5.DisjointingFailed");
+		} else {
+			cardData.netHits = cardData.test.hits - cardData.hits;
+			cardData.button.reducePreparationPotency = true;
+		}
 	}
 }

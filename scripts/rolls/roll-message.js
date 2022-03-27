@@ -379,6 +379,18 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "dispellResistance");
                     break;
+                case "msgTest_disjointingResistance":
+                    SR5_DiceHelper.createItemResistance(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "disjointingResistance");
+                    break;
+                case "msgTest_enchantmentResistance":
+                    SR5_DiceHelper.createItemResistance(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "enchantmentResistance");
+                    break;
+                case "msgTest_desactivateFocus":
+                    SR5_DiceHelper.desactivateFocus(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "desactivateFocus");
+                    break;
                 case "msgTest_reduceComplexForm":
                     await SR5_DiceHelper.reduceTransferedEffect(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceComplexForm");
@@ -401,6 +413,9 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.reduceSpiritService(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceService");
                     break;
+                case "msgTest_reducePreparationPotency":
+                    SR5_DiceHelper.reduceTransferedEffect(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reducePreparationPotency");
                 default:
             }
         }
@@ -511,7 +526,7 @@ export class SR5_RollMessage {
         return sprite;
     }
 
-    //Build compiled sprite
+    //Build Preparation
     static async buildPreparation(messageData){
         let preparation = {
             "data": messageData.item.data,
@@ -525,6 +540,7 @@ export class SR5_RollMessage {
             ["data.force"]: messageData.force,
             ["data.freeSustain"]: true,
             ["data.hits"]: 0,
+            ["data.drainValue"]: messageData.item.data.drainValue,
         });
         return preparation;
     }
