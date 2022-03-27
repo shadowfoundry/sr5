@@ -32,7 +32,7 @@ export class SR5_Dice {
 				d.glitch = true;
 				totalGlitch ++;
 			}
-		} 
+		}
 
 		if (totalGlitch > dicePool/2){
 			glitchRoll = true;
@@ -41,7 +41,7 @@ export class SR5_Dice {
 				criticalGlitchRoll = true;
 			}
 		}
-		
+
 		let rollResult = {
 			dicePool: dicePool,
 			hits: rollJSON.terms[0].total,
@@ -93,7 +93,7 @@ export class SR5_Dice {
 		} else actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
-		SR5_RollMessage.updateRollCard(message.data, newMessage); 
+		SR5_RollMessage.updateRollCard(message.data, newMessage);
 	}
 
 	//Handle extended roll
@@ -118,7 +118,7 @@ export class SR5_Dice {
 
 		SR5_RollMessage.updateRollCard(message.data, newMessage);
 	}
-	
+
 	static async pushTheLimit(message, actor) {
 		let messageData = message.data.flags.sr5data;
 		let dicePool, creator;
@@ -127,9 +127,9 @@ export class SR5_Dice {
 			dicePool = creator.data.data.specialAttributes.edge.augmented.value;
 		} else dicePool = actor.data.data.specialAttributes.edge.augmented.value;
 
-		let newRoll = SR5_Dice.srd6({ 
-			dicePool: dicePool, 
-			explose: true 
+		let newRoll = SR5_Dice.srd6({
+			dicePool: dicePool,
+			explose: true
 		});
 
 		let newMessage = duplicate(messageData);
@@ -221,7 +221,7 @@ export class SR5_Dice {
 							edgeActor.update({
 								"data.conditionMonitors.edge.current": edgeActor.data.data.conditionMonitors.edge.current + 1,
 							});
-						}		
+						}
 
 						//Verify if reagents are used, if so, remove from actor
 						let reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
@@ -231,7 +231,7 @@ export class SR5_Dice {
 						if (dialogData.spiritType) dialogData.dicePool = actor.data.skills.summoning.spiritType[dialogData.spiritType].dicePool;
 						if (dialogData.extendedTest === true){
 							let extendedMultiplier = parseInt(html.find('[name="extendedMultiplier"]').val());
-							if (isNaN(extendedMultiplier)) extendedMultiplier = 1;  
+							if (isNaN(extendedMultiplier)) extendedMultiplier = 1;
 							dialogData.extendedRoll = 1;
 							dialogData.extendedMultiplier = extendedMultiplier;
 							dialogData.extendedInterval = html.find('[name="extendedTime"]').val();
@@ -246,7 +246,7 @@ export class SR5_Dice {
 							dialogData.level = actor.data.specialAttributes.resonance.augmented.value;
 						}
 						if (dialogData.force || dialogData.typeSub === "counterspelling" || dialogData.typeSub === "binding"){
-							if (dialogData.force) dialogData.limit = dialogData.force;			
+							if (dialogData.force) dialogData.limit = dialogData.force;
 							if (!isNaN(reagentsSpent)) {
 								dialogData.limit = reagentsSpent;
 								dialogData.limitType = "reagents";
@@ -318,7 +318,7 @@ export class SR5_Dice {
 								await spiritActor.update({'data': spiritActorData});
 							}
 						}
-						
+
 						//Update combatant if Active defense or full defense is used.
 						if (dialogData.dicePoolMod.defenseFull || (dialogData.activeDefenseMode !== "none")){
 							let initModifier = 0;
@@ -356,48 +356,55 @@ export class SR5_Dice {
 			cardData.pushLimitUsed = true;
 		}
 
-		const templateData = cardData;
-		const template = `systems/sr5/templates/rolls/roll-card.html`;
-		const html = await renderTemplate(template, templateData);
-				
-		let chatData = {
-			roll: cardData.test.r,
-			rollMode: cardData.test.rollMode,
-			user: game.user.id,
-			content: html,
-			speaker: {
-				actor: cardData.speakerId,
-				token: cardData.speakerId,
-				alias: cardData.speakerActor,
-			},
-		};
+    const templateData = cardData;
+    const template = `systems/sr5/templates/rolls/roll-card.html`;
+    const html = await renderTemplate(template, templateData);
 
-		if (["gmroll", "blindroll"].includes(cardData.test.rollMode)) chatData["whisper"] = ChatMessage.getWhisperRecipients("GM").map(u => u.id);
-		if (cardData.test.rollMode === "blindroll") chatData["blind"] = true;
-		else if (cardData.test.rollMode === "selfroll") chatData["whisper"] = [game.user];
+    let chatData = {
+      roll: cardData.test.r,
+      rollMode: cardData.test.rollMode,
+      user: game.user.id,
+      content: html,
+      speaker: {
+        actor: cardData.speakerId,
+        token: cardData.speakerId,
+        alias: cardData.speakerActor,
+      },
+    };
 
-		if (cardData.ownerAuthor) chatData.speaker.token = cardData.ownerAuthor;
+    if (["gmroll", "blindroll"].includes(cardData.test.rollMode))
+      chatData["whisper"] = ChatMessage.getWhisperRecipients("GM").map(
+        (u) => u.id
+      );
+    if (cardData.test.rollMode === "blindroll") chatData["blind"] = true;
+    else if (cardData.test.rollMode === "selfroll")
+      chatData["whisper"] = [game.user];
 
-		let userActive = game.users.get(chatData.user);
+    if (cardData.ownerAuthor) chatData.speaker.token = cardData.ownerAuthor;
 
-		chatData.flags = {
-			sr5data: cardData,
-			sr5template: template,
-			img: cardData.speakerImg,
-			css: "SRCustomMessage",
-			speakerId: cardData.speakerId,
-			borderColor: userActive.color,
-		}
+    let userActive = game.users.get(chatData.user);
 
-		//console.log(chatData.flags.sr5data);
-		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
-		ChatMessage.create(chatData);
-	}
+    chatData.flags = {
+      sr5data: cardData,
+      sr5template: template,
+      img: cardData.speakerImg,
+      css: "SRCustomMessage",
+      speakerId: cardData.speakerId,
+      borderColor: userActive.color,
+    };
+
+    //SR5_SystemHelpers.srLog(3, chatData.flags.sr5data);
+    await SR5_Dice.showDiceSoNice(
+      cardData.test.originalRoll,
+      cardData.test.rollMode
+    );
+    ChatMessage.create(chatData);
+  }
 
 	 /**
 	 * Add support for the Dice So Nice module
-	 * @param {Object} roll 
-	 * @param {String} rollMode 
+	 * @param {Object} roll
+	 * @param {String} rollMode
 	 */
 	static async showDiceSoNice(roll, rollMode) {
 		if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
@@ -528,7 +535,7 @@ export class SR5_Dice {
 				SR5_Dice.addResonanceActionInfoToCard(cardData, author);
 				break;
 			case "compilingResistance":
-				SR5_Dice.addCompilingResistanceInfoToCard(cardData, author);				
+				SR5_Dice.addCompilingResistanceInfoToCard(cardData, author);
 				break;
 			case "resistFire":
 				SR5_Dice.addResistFireInfoToCard(cardData, author);
@@ -542,7 +549,7 @@ export class SR5_Dice {
 			case "attribute":
 			case "languageSkill":
             case "knowledgeSkill":
-			case "defense":  
+			case "defense":
 			case "resistance":
 			case "matrixSimpleDefense":
 				break;
@@ -639,7 +646,7 @@ export class SR5_Dice {
 			}
 		}
 	}
-	
+
 	static async addResistanceInfoToCard(cardData, author){
 		//Add automatic succes to Spirit TO-DO : change this when Materialization is up.
 		if (author.type === "actorSpirit" && (cardData.typeSub === "physicalDamage" || cardData.typeSub === "stun")) {
@@ -702,7 +709,7 @@ export class SR5_Dice {
 			}
 		}
 	}
-	
+
 	static async addPreparationFormulaInfoToCard(cardData, author){
 		cardData.button.drainResistance = true;
 		cardData.ownerAuthor = cardData.speakerId;
@@ -714,7 +721,7 @@ export class SR5_Dice {
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.PreparationCreateFailed");
 		}
 	}
-	
+
 	static async addPreparationResistanceInfoToCard(cardData, author) {
 		if (cardData.hits > cardData.test.hits) {
 			cardData.button.createPreparation = true;
@@ -755,7 +762,7 @@ export class SR5_Dice {
 			cardData.button.applyEffectOnItem = false;
 		}
 	}
-	
+
 	static async addComplexFormDefenseInfoToCard(cardData, author){
 		cardData.netHits = cardData.hits - cardData.test.hits;
 		if (cardData.netHits <= 0) {
@@ -775,7 +782,7 @@ export class SR5_Dice {
 			}
 		}
 	}
-	
+
 	static async addFadingInfoToCard(cardData, author){
 		let damageValue = cardData.fadingValue - cardData.test.hits;
 		if (damageValue > 0) {
@@ -891,7 +898,7 @@ export class SR5_Dice {
 			}
 		}
 	}
-	
+
 	static async addMatrixResistanceInfoToCard(cardData, author){
 		let damageValue = cardData.matrixDamageValueBase - cardData.test.hits;
 		cardData.matrixDamageValue = damageValue;
@@ -901,12 +908,12 @@ export class SR5_Dice {
 			let defender = author,
 				attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
 				attackerData = attacker?.data.data;
-			if ( attackerData.matrix.programs.biofeedback.isActive 
-			  || attackerData.matrix.programs.blackout.isActive 
+			if ( attackerData.matrix.programs.biofeedback.isActive
+			  || attackerData.matrix.programs.blackout.isActive
 			  || (attackerData.matrix.deviceSubType === "iceBlack")
 			  || (attackerData.matrix.deviceSubType === "iceBlaster")
 			  || (attackerData.matrix.deviceSubType === "iceSparky") ) {
-				if (((defender.type === "actorPc" || defender.type === "actorGrunt") && (defender.data.matrix.userMode !== "ar")) 
+				if (((defender.type === "actorPc" || defender.type === "actorGrunt") && (defender.data.matrix.userMode !== "ar"))
 				  || (defender.type === "actorDrone" && defender.data.controlMode === "rigging")) {
 					cardData.button.attackerDoBiofeedbackDamage = true;
 					cardData.damageResistanceType = "biofeedback";
@@ -924,7 +931,7 @@ export class SR5_Dice {
 		}
 		if (cardData.originalMessage.flags?.sr5data?.button?.matrixResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
 	}
-	
+
 	static async addMatrixIceAttackInfoToCard(cardData, author){
 		if (cardData.test.hits > 0) {
 			cardData.button.iceDefense = true;
@@ -935,8 +942,8 @@ export class SR5_Dice {
 			cardData.button.actionEndTitle = game.i18n.localize("SR5.ActionFailure");
 		}
 	}
-	
-	static async addIceDefenseInfoToCard(cardData, author){		
+
+	static async addIceDefenseInfoToCard(cardData, author){
 		let netHits = cardData.hits - cardData.test.hits,
 			existingMark, markedActor,
 			originalActor = await SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor);
@@ -1048,9 +1055,9 @@ export class SR5_Dice {
 						cardData.button.iceEffectTitle = game.i18n.localize("SR5.Geolocated")
 					}
 					break;
-				default: 
+				default:
 					SR5_SystemHelpers.srLog(1, `Unknown '${cardData.iceType}' type in srDicesAddInfoToCard`);
-			}          
+			}
 		}
 	}
 
@@ -1074,12 +1081,12 @@ export class SR5_Dice {
 			if (spell.data.data.force > cardData.actor.data.specialAttributes.magic.augmented.value) cardData.drainType = "physical";
 			else cardData.drainType = "stun";
 			cardData.button.drainResistance = true;
-				
+
 			if (cardData.test.hits > 0) cardData.button.dispellResistance = true;
 			else cardData.button.dispellResistance = false;
 		}
 	}
-	
+
 	static async addSummoningResistanceInfoToCard(cardData, author){
 		let damageValue = cardData.test.hits * 2;
 		if (damageValue === 0) damageValue = 2;
@@ -1137,12 +1144,12 @@ export class SR5_Dice {
 			if (complexForm.data.data.level > cardData.actor.data.specialAttributes.resonance.augmented.value) cardData.fadingType = "physical";
 			else cardData.fadingType = "stun";
 			cardData.button.fadingResistance = true;
-			
+
 			if (cardData.test.hits > 0) cardData.button.killComplexFormResistance = true;
 		}
 	}
 
-	static async addCompilingResistanceInfoToCard(cardData, author){ 
+	static async addCompilingResistanceInfoToCard(cardData, author){
 		let damageValue = cardData.test.hits * 2;
 		if (damageValue === 0) damageValue = 2;
 		cardData.button.fadingResistance = true;
@@ -1239,7 +1246,7 @@ export class SR5_Dice {
 			newMessage.fadingValue = cardData.test.hits;
 			if (newMessage.fadingValue < 2) newMessage.fadingValue = 2;
 		}
-		
+
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
 	}
 
@@ -1264,7 +1271,7 @@ export class SR5_Dice {
 			newMessage.fadingValue = cardData.test.hits;
 			if (newMessage.fadingValue < 2) newMessage.fadingValue = 2;
 		}
-		
+
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
 	}
 
@@ -1310,7 +1317,7 @@ export class SR5_Dice {
 			newMessage.drainValue = cardData.test.hits;
 			if (newMessage.drainValue < 2) newMessage.drainValue = 2;
 		}
-		
+
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
 	}
 
@@ -1336,7 +1343,7 @@ export class SR5_Dice {
 			newMessage.drainValue = cardData.test.hits;
 			if (newMessage.drainValue < 2) newMessage.drainValue = 2;
 		}
-		
+
 		SR5_RollMessage.updateRollCard(cardData.originalMessage, newMessage);
 	}
 }
