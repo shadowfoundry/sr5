@@ -44,7 +44,7 @@
       {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
-        {{#if (gt actor.data.magic.reagents 0)}}
+        {{#if switch.canUseReagents}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
         {{/if}}
       {{/if}}
@@ -184,14 +184,9 @@
       <!-- LIMIT -->
       {{#if limit}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
-        {{#if (gt actor.data.magic.reagents 0)}}
-          <!-- REAGENTS -->
-          {{#if (eq typeSub "counterspelling")}}
-            {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
-          {{/if}}
-          {{#if (and (or (eq typeSub "binding") (eq typeSub "banishing")) hasTarget)}}
-            {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
-          {{/if}}
+        <!-- REAGENTS -->
+        {{#if switch.canUseReagents}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
         {{/if}}
       {{/if}}
 

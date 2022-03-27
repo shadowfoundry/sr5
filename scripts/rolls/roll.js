@@ -34,7 +34,9 @@ export class SR5_Roll {
             sceneEnvironmentalMod,
             originalMessage,
             effectsList,
-            spiritHelp;
+            spiritHelp,
+            canUseReagents = false,
+            canBeExtended = true;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -99,6 +101,8 @@ export class SR5_Roll {
         }
 
         if (chatData) originalMessage = chatData.originalMessage
+        //Reagents
+        if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
 
         switch (rollType){
             case "attribute":
@@ -109,7 +113,7 @@ export class SR5_Roll {
                 optionalData = {
                     "switch.attribute": true,
                     "switch.penalty": true,
-                    "switch.extended": true,
+                    "switch.extended": canBeExtended,
                     penaltyValue: penalties,
                 }
                 break;
@@ -120,7 +124,7 @@ export class SR5_Roll {
                 dicePool = itemData.value;
                 optionalData = {
                     "switch.specialization": true,
-                    "switch.extended": true,
+                    "switch.extended": canBeExtended,
                 }
                 break;
 
@@ -147,23 +151,25 @@ export class SR5_Roll {
                 }
                 
                 typeSub = rollKey;
-                //TODO : find a solution for skill with limit depending on item.
-                switch(rollKey){
-                    case "spellcasting":
-                    case "preparationForce":
-                    case "vehicleHandling":
-                    case "weaponAccuracy":
-                    case "formulaForce":
-                    case "spiritForce":
-                        limit = 0;
+                limit = skill.limit.value;
+
+                //Switch management
+                switch (typeSub) {
+                    case "counterspelling":
+                    case "binding":
+                    case "banishing":
+                    case "summoning":
+                    case "disenchanting":
+                        canBeExtended = false;
                         break;
                     default:
-                        limit = skill.limit.value;
+                        canUseReagents = false;
                 }
 
                 optionalData = mergeObject(optionalData, {
-                    "switch.extended": true,
+                    "switch.extended": canBeExtended,
                     "switch.specialization": true,
+                    "switch.canUseReagents": canUseReagents,
                     limitType: skill.limit.base,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
@@ -571,6 +577,8 @@ export class SR5_Roll {
                 if (actor.type === "actorSpirit") return;
                 title = `${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                 dicePool = matrixAction.defense.dicePool;
+                typeSub = rollKey;
+
                 //Handle item targeted
                 if (chatData.matrixTargetDevice && chatData.matrixTargetDevice !== "device"){
                     let targetItem = actor.items.find(i => i.id === chatData.matrixTargetDevice);
@@ -582,17 +590,11 @@ export class SR5_Roll {
                         let panMasterDefense = panMaster.data.data.matrix.actions[rollKey].defense.dicePool;
                         dicePool = Math.max(targetItem.data.data.deviceRating * 2, panMasterDefense);
                     }
-                    optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: targetItem.toObject(false),
-                    });  
+                    optionalData = mergeObject(optionalData, {matrixTargetItem: targetItem.toObject(false),});  
                 } else {
                     let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
-                    optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: deck.toObject(false),
-                    });
+                    optionalData = mergeObject(optionalData, {matrixTargetItem: deck.toObject(false),});
                 }
-
-                typeSub = rollKey;
 
                 optionalData = mergeObject(optionalData, {
                     matrixActionType: matrixAction.limit.linkedAttribute,
@@ -877,6 +879,7 @@ export class SR5_Roll {
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
+                    "switch.canUseReagents": canUseReagents,
                 }
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {
@@ -943,6 +946,7 @@ export class SR5_Roll {
                 dicePool = actorData.skills.alchemy.spellCategory[alchemicalSpellCategories].dicePool;
                 optionalData = {
                     "switch.specialization": true,
+                    "switch.canUseReagents": canUseReagents,
                     "drainMod.spell": itemData.drainModifier,
                     drainType: "stun",
                     force: actorData.specialAttributes.magic.augmented.value,
