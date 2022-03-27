@@ -35,7 +35,7 @@
 			<div class="col-5 SR-PaddingRight5"
 			  data-helpTitle="{{localize 'SR5.HELP_SkillSpecialization' key=(findTranslation 'skills' @key)}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SkillSpecializationMsg'}}">
-				<input type="text" class="specialisation" name="data.skills.{{@key}}.specializations" value="{{specializations}}">
+				<input type="text" class="specialisation" name="data.skills.{{@key}}.specializations" value="{{specializations}}" onfocus="this.select()">
 			</div>
 		  {{else}}
 			<div class="col-5"></div>

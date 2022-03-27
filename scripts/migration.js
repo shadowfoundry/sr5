@@ -8,7 +8,7 @@ export default class Migration {
 			try {
 			  const updateData = this.migrateItemData(i.toObject());
 			  if (!foundry.utils.isObjectEmpty(updateData)) {
-				console.log(`Migrating Item documment ${i.name}`);
+				SR5_SystemHelpers.srLog(2, `Migrating Item documment ${i.name}`);
 				await i.update(updateData, { enforceTypes: false });
 			  }
 			} catch (err) {
@@ -36,7 +36,7 @@ export default class Migration {
 			try {
 			  const updateData = this.migrateActorData(a.data);
 			  if (!foundry.utils.isObjectEmpty(updateData)) {
-				console.log(`Migrating Actor entity ${a.name}`);
+				SR5_SystemHelpers.srLog(2, o`Migrating Actor entity ${a.name}`);
 				await a.update(updateData, { enforceTypes: false });
 			  }
 			} catch (err) {
@@ -50,7 +50,7 @@ export default class Migration {
 			try {
 			  const updateData = this.migrateSceneData(s.data);
 			  if (!foundry.utils.isObjectEmpty(updateData)) {
-				console.log(`Migrating Scene entity ${s.name}`);
+				SR5_SystemHelpers.srLog(2, `Migrating Scene entity ${s.name}`);
 				await s.update(updateData, { enforceTypes: false });
 				// If we do not do this, then synthetic token actors remain in cache
 				// with the un-updated actorData.
@@ -105,7 +105,7 @@ export default class Migration {
 			// Save the entry, if data was changed
 			if (foundry.utils.isObjectEmpty(updateData)) continue;
 			await doc.update(updateData);
-			console.log(`Migrated ${document} document ${doc.name} in Compendium ${pack.collection}`);
+			SR5_SystemHelpers.srLog(2, `Migrated ${document} document ${doc.name} in Compendium ${pack.collection}`);
 		}
 
 		// Handle migration failures
@@ -117,7 +117,7 @@ export default class Migration {
 
 		// Apply the original locked status for the pack
 		await pack.configure({ locked: wasLocked });
-		console.log(`Migrated all ${document} entities from Compendium ${pack.collection}`);
+		SR5_SystemHelpers.srLog(2,`Migrated all ${document} entities from Compendium ${pack.collection}`);
 	};
 
 	/* -------------------------------------------- */
@@ -141,7 +141,7 @@ export default class Migration {
 			if (actor.type === "actorSpirit"){
 				if(actor.data.magic.magicType === "") updateData["data.magic.magicType"] = "spirit";
 			}
-			
+
 
 			//Add itemDevice to actor if there is not TO REMOVE ON 0.4.4
 			if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorDevice"){
@@ -200,7 +200,7 @@ export default class Migration {
 		// Scrub system data
 		const model = game.system.model.Actor[actorData.type];
 		actorData.data = filterObject(actorData.data, model);
-		
+
 		// Return the scrubbed data
 		return actorData;
 	}
@@ -285,7 +285,7 @@ export default class Migration {
 					});
 					delete update[embeddedName];
 				});
-		
+
 				mergeObject(t.actorData, update);
 			}
 			return t;
