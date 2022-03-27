@@ -5928,6 +5928,11 @@
       "duration": "",
       "type": "",
       "force": 0,
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "spellAreaOfEffect": {
         "value": 0,
         "base": 0,

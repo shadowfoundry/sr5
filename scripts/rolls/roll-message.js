@@ -413,6 +413,9 @@ export class SR5_RollMessage {
                     SR5_DiceHelper.reduceSpiritService(messageData);
                     SR5_RollMessage.updateChatButton(message.data, "reduceService");
                     break;
+                case "msgTest_reducePreparationPotency":
+                    SR5_DiceHelper.reduceTransferedEffect(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, "reducePreparationPotency");
                 default:
             }
         }
@@ -523,7 +526,7 @@ export class SR5_RollMessage {
         return sprite;
     }
 
-    //Build compiled sprite
+    //Build Preparation
     static async buildPreparation(messageData){
         let preparation = {
             "data": messageData.item.data,
@@ -537,6 +540,7 @@ export class SR5_RollMessage {
             ["data.force"]: messageData.force,
             ["data.freeSustain"]: true,
             ["data.hits"]: 0,
+            ["data.drainValue"]: messageData.item.data.drainValue,
         });
         return preparation;
     }

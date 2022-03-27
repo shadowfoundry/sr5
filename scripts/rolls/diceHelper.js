@@ -48,7 +48,7 @@ export class SR5_DiceHelper {
     static async createItemResistance(message) {
         let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
         actor = actor.toObject(false);
-        let dicePool;
+        let dicePool, targetItem, type, title;
 
         let cardData = {
             button: {},
@@ -96,37 +96,46 @@ export class SR5_DiceHelper {
 
         //Complex form resistance
         if (message.type === "resonanceAction" && message.typeSub === "killComplexForm"){
-            let targetedComplexForm = await fromUuid(message.targetEffect);
-            dicePool = targetedComplexForm.data.data.threaderResonance + targetedComplexForm.data.data.level;
+            targetItem = await fromUuid(message.targetEffect);
+            dicePool = targetItem.data.data.threaderResonance + targetItem.data.data.level;
             cardData = mergeObject(cardData, {
                 targetEffect: message.targetEffect,
                 hits: message.test.hits,
                 type: "complexFormResistance",
-                title: `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetedComplexForm.name})`,
+                title: `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetItem.name})`,
             });
         }
 
         //Spell Resistance
         if (message.typeSub === "counterspelling"){
-            let targetedSpell = await fromUuid(message.targetEffect);
-            dicePool = targetedSpell.data.data.casterMagic + targetedSpell.data.data.force;
+            targetItem = await fromUuid(message.targetEffect);
+            dicePool = targetItem.data.data.casterMagic + targetItem.data.data.force;
             cardData = mergeObject(cardData, {
                 targetEffect: message.targetEffect,
                 hits: message.test.hits,
                 type: "spellResistance",
-                title: `${game.i18n.localize("SR5.SpellResistance")} (${targetedSpell.name})`,
+                title: `${game.i18n.localize("SR5.SpellResistance")} (${targetItem.name})`,
             });
         }
 
         //Enchantment Resistance
         if (message.typeSub === "disenchanting"){
-            let targetedEnchantment = await fromUuid(message.targetEffect);
-            dicePool = targetedEnchantment.parent.data.data.specialAttributes.magic.augmented.value + targetedEnchantment.data.data.itemRating;
+            targetItem = await fromUuid(message.targetEffect);
+            if (targetItem.type === "itemFocus") {
+                dicePool = targetItem.parent.data.data.specialAttributes.magic.augmented.value + targetItem.data.data.itemRating;
+                type = "enchantmentResistance";
+                title = `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetItem.name})`
+            }
+            if (targetItem.type === "itemPreparation") {
+                dicePool = targetItem.parent.data.data.specialAttributes.magic.augmented.value + targetItem.data.data.force;
+                type = "disjointingResistance";
+                title = `${game.i18n.localize("SR5.DisjointingResistance")} (${targetItem.name})`;
+            }
             cardData = mergeObject(cardData, {
                 targetEffect: message.targetEffect,
                 hits: message.test.hits,
-                type: "enchantmentResistance",
-                title: `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetedEnchantment.name})`,
+                type: type,
+                title: title,
             });
         }
 
@@ -1165,42 +1174,48 @@ export class SR5_DiceHelper {
 
     static async reduceTransferedEffect(message){
         let targetedEffect = await fromUuid(message.targetEffect),
-            newEffect = duplicate(targetedEffect.data.data);
+            newEffect = duplicate(targetedEffect.data.data),
+            key = "hits";
 
-        newEffect.hits += message.netHits;
+        if (targetedEffect.type ==="itemPreparation") key = "potency";
+        newEffect[key] += message.netHits;
 
         //If item hits are reduce to 0, delete it
-        if (newEffect.hits <= 0){
-            newEffect.hits = 0;
+        if (newEffect[key] <= 0){
+            newEffect[key] = 0;
             newEffect.isActive = false;
-            for (let e of newEffect.targetOfEffect){
-                let effect = await fromUuid(e);
-                if (!game.user?.isGM){
-                    SR5_SocketHandler.emitForGM("deleteItem", {
-                        item: e,
-                    });
-                } else await effect.delete();
+            if (newEffect.targetOfEffect) {
+                for (let e of newEffect.targetOfEffect){
+                    let effect = await fromUuid(e);
+                    if (!game.user?.isGM){
+                        SR5_SocketHandler.emitForGM("deleteItem", {
+                            item: e,
+                        });
+                    } else await effect.delete();
+                }
             }
             newEffect.targetOfEffect = [];
         //else, update effect linked
-        } else {
-            for (let e of newEffect.targetOfEffect){
-                let effect = await fromUuid(e);
-                let updatedEffect = effect.data.data;
-                updatedEffect.value = newEffect.hits;
-                for (let cs of Object.values(updatedEffect.customEffects)){
-                    cs.value = newEffect.hits;
+        } else if (key !== "potency"){
+            if (newEffect.targetOfEffect) {
+                for (let e of newEffect.targetOfEffect){
+                    let effect = await fromUuid(e);
+                    let updatedEffect = effect.data.data;
+                    updatedEffect.value = newEffect.hits;
+                    for (let cs of Object.values(updatedEffect.customEffects)){
+                        cs.value = newEffect.hits;
+                    }
+                    if (!game.user?.isGM){
+                        SR5_SocketHandler.emitForGM("updateItem", {
+                            item: e,
+                            data: updatedEffect,
+                        });
+                    } else await effect.update({'data': updatedEffect});
                 }
-                if (!game.user?.isGM){
-                    SR5_SocketHandler.emitForGM("updateItem", {
-                        item: e,
-                        data: updatedEffect,
-                    });
-                } else await effect.update({'data': updatedEffect});
             }
         }
 
-        //Update complex form item
+        //Update item
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
                 item: targetedEffect.uuid,

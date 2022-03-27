@@ -414,6 +414,12 @@
       {{#if button.disjointingResistance}}
         <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_disjointingResistance">{{localize 'SR5.DisjointingResistance'}}</button> 
       {{/if}}
+
+      <!-- REDUCE PREPARATION POTENCY -->
+      {{#if button.reducePreparationPotency}}
+        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="msgTest_reducePreparationPotency">{{localize 'SR5.ReducePreparationPotency'}} ({{netHits}})</button> 
+      {{/if}}
+      
     </div>
   </div>
 </div>
