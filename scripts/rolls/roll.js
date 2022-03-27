@@ -170,7 +170,7 @@ export class SR5_Roll {
                     dicePoolComposition: actorData.skills[rollKey].test.modifiers,
                 });
 
-                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing")){
+                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
@@ -215,6 +215,16 @@ export class SR5_Roll {
                             });
                         }
 
+                        //Disenchanting
+                        if (typeSub === "disenchanting"){
+                            effectsList = targetActor.items.filter(i => (i.type === "itemFocus" && i.data.data.isActive) || i.type === "itemPreparation");
+                            if (effectsList.length !== 0){
+                                optionalData = mergeObject(optionalData, {
+                                    hasTarget: true,
+                                    effectsList: effectsList,
+                                });
+                            }
+                        }
                     }
                 }
 

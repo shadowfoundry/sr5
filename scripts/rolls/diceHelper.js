@@ -118,6 +118,18 @@ export class SR5_DiceHelper {
             });
         }
 
+        //Enchantment Resistance
+        if (message.typeSub === "disenchanting"){
+            let targetedEnchantment = await fromUuid(message.targetEffect);
+            dicePool = targetedEnchantment.parent.data.data.specialAttributes.magic.augmented.value + targetedEnchantment.data.data.itemRating;
+            cardData = mergeObject(cardData, {
+                targetEffect: message.targetEffect,
+                hits: message.test.hits,
+                type: "enchantmentResistance",
+                title: `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetedEnchantment.name})`,
+            });
+        }
+
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
@@ -1112,6 +1124,19 @@ export class SR5_DiceHelper {
             itemData.services.max += message.netHits;
             await itemSideKick.update({'data' : itemData});
         }
+    }
+
+    static async desactivateFocus(message){
+        let item = await fromUuid(message.targetEffect),
+            itemData = duplicate(item.data.data);
+        
+        itemData.isActive = false;
+        if (!game.user?.isGM){
+            SR5_SocketHandler.emitForGM("updateItem", {
+                item: item,
+                data: itemData,
+            });
+        } else await item.update({'data': itemData});
     }
 
     static async applyDerezzEffect(message, sourceActor, target){

@@ -205,8 +205,8 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
       {{/if}}
 
-      <!-- COUNTER SPELL - CHOOSE TARGET -->
-      {{#if (and (eq typeSub "counterspelling") hasTarget)}}
+      <!-- COUNTER SPELL / DISENCHANTING - CHOOSE TARGET -->
+      {{#if (and (or (eq typeSub "counterspelling") (eq typeSub "disenchanting")) hasTarget)}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
       {{/if}}
     </ul>
