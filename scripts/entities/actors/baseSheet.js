@@ -532,7 +532,7 @@ export class ActorSheetSR5 extends ActorSheet {
                 setProperty(entity, "data.matrix.attributes.noiseReduction.base", (noiseReduction - 1));
                 value++;
               } else {
-                console.log("valeur maximale");
+                SR5_SystemHelpers.srLog(3, "Reached maximum value");
               }
             }
           }
@@ -544,7 +544,7 @@ export class ActorSheetSR5 extends ActorSheet {
                 setProperty(entity, "data.matrix.attributes.sharing.base", (sharing - 1));
                 value++;
               } else {
-                console.log("valeur maximale");
+                SR5_SystemHelpers.srLog(3, "Reached maximum value");
               }
             }
           }
