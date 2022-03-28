@@ -37,7 +37,7 @@
 			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsNativeMsg'}}">
 				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isNative">
-					<em class="{{#if data.isNative}}fas fa-check-square SR-SubColor{{else}}far fa-square{{/if}}"></em>
+          <input type="checkbox" name="language.{{_id}}.isNative" {{checked data.isNative}}>
 				</a>
 			</div>
 			{{#if data.isNative}}
