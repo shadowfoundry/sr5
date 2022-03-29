@@ -371,6 +371,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateRecoil(actor);
         SR5_CharacterUtility.updateMovements(actor);
         SR5_CharacterUtility.updateAstralValues(actor);
+        SR5_CharacterUtility.updatePowerPoints(actor);
         SR5_CharacterUtility.updateCounterSpellPool(actor);
         SR5_CharacterUtility.handleVision(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);

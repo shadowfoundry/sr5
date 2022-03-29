@@ -2147,6 +2147,30 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  // Update adept power point
+  static updatePowerPoints(actor) {
+    let data = actor.data, lists = actor.lists, magic = data.magic, specialAttributes = data.specialAttributes;
+    magic.powerPoints.base = 0;
+    magic.powerPoints.maximum.base = 0;
+    if (!magic.magicType) {
+      SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
+      return;
+    }
+
+    if (magic.magicType === "adept"){
+      magic.tradition = "";
+      magic.drainResistance.linkedAttribute = "body";
+      for (let category of Object.keys(lists.spellCategories)) {
+        magic.elements[category] = "";
+      }    
+      magic.powerPoints.maximum.base = specialAttributes.magic.augmented.value;
+    }
+
+    SR5_EntityHelpers.updateValue(magic.powerPoints);
+    SR5_EntityHelpers.updateValue(magic.powerPoints.maximum);
+
+  }
+
   // Magical Traditions Calculations
   static updateTradition(actor, tradition) {
     let data = actor.data, lists = actor.lists, magic = data.magic, specialAttributes = data.specialAttributes;
@@ -2155,37 +2179,21 @@ export class SR5_CharacterUtility extends Actor {
       SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
       return;
     }
-
-    magic.powerPoints.base = 0;
     magic.possession = false;
-    magic.powerPoints.maximum.base = 0;
 
-    if (magic.magicType === "adept"){
-        magic.tradition = "";
-        magic.drainResistance.linkedAttribute = "body";
-        for (let category of Object.keys(lists.spellCategories)) {
-          magic.elements[category] = "";
-        }    
-        magic.powerPoints.maximum.base = specialAttributes.magic.augmented.value;
-    } else {
-        if (tradition){
-          magic.drainResistance.linkedAttribute = tradition.drainAttribute;
-          magic.elements.combat = tradition.spiritCombat;
-          magic.elements.detection = tradition.spiritDetection;
-          magic.elements.illusion = tradition.spiritIllusion;
-          magic.elements.manipulation = tradition.spiritManipulation;
-          magic.elements.health = tradition.spiritHealth;
-          magic.possession = tradition.possession;
-
-          if (tradition.systemEffects.length){
-            let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
-            magic.tradition = traditionType.value;
-          }
-        }
-    }
-
-    SR5_EntityHelpers.updateValue(magic.powerPoints);
-    SR5_EntityHelpers.updateValue(magic.powerPoints.maximum);
+    if (tradition){
+      magic.drainResistance.linkedAttribute = tradition.drainAttribute;
+      magic.elements.combat = tradition.spiritCombat;
+      magic.elements.detection = tradition.spiritDetection;
+      magic.elements.illusion = tradition.spiritIllusion;
+      magic.elements.manipulation = tradition.spiritManipulation;
+      magic.elements.health = tradition.spiritHealth;
+      magic.possession = tradition.possession;
+      if (tradition.systemEffects.length){
+        let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
+        magic.tradition = traditionType.value;
+      }
+    }    
   }
 
   // Magic and Astral Calculations
