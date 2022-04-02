@@ -160,7 +160,7 @@ export class SR5_RollMessage {
                     break;
                 case "takeDamage":
                     actor.takeDamage(messageData);
-                    SR5_RollMessage.changeChatButton(message.data, "takeDamage");
+                    SR5_RollMessage.updateChatButton(message.data, "takeDamage");
                     break;
                 case "matrixResistance":
                     actor.rollTest(type, messageData.matrixResistanceType, messageData);
@@ -241,7 +241,7 @@ export class SR5_RollMessage {
                     } else {
                         originalActionAuthor.takeDamage(messageData);
                     }
-                    SR5_RollMessage.updateChatButton(message.data, type);
+                    await SR5_RollMessage.updateChatButton(message.data, type);
                     break;
                 case "takeMatrixDamage":
                     if (actor.data.type === "actorPc" || actor.data.type === "actorGrunt"){
@@ -326,7 +326,7 @@ export class SR5_RollMessage {
                 case "dispellResistance":
                 case "disjointingResistance":
                 case "enchantmentResistance":
-                case "summonSpiritResist":
+                case "summoningResistance":
                 case "compileSpriteResist":
                 case "preparationResist":
                     SR5_DiceHelper.createItemResistance(messageData);
@@ -358,29 +358,55 @@ export class SR5_RollMessage {
     }
 
     //Update the stat of a chatMessage button
-    static async changeChatButton(message, buttonToUpdate){
+    static async updateChatButton(message, buttonToUpdate){
         if (buttonToUpdate === undefined) return;
-        message = game.messages.get(message._id);
-        let newMessage = duplicate(message.data.flags.sr5data);
-        console.log(newMessage);
-        for (let key in newMessage.buttons){
-            console.log(key);
-            if (key === buttonToUpdate) delete newMessage.buttons[key];
-        }
 
+        //Delete useless buttons
+        message = game.messages.get(message._id);
+        let messageData = duplicate(message.data.flags.sr5data);
+        for (let key in messageData.buttons){
+            if (key === buttonToUpdate) await message.update({[`flags.sr5data.buttons.-=${key}`]: null});
+        }
+        messageData = duplicate(message.data.flags.sr5data);
+
+        //Special cases : add buttons or end action description
+        let endLabel;
         switch (buttonToUpdate) {
             case "takeDamage":
-                newMessage.buttons.takenDamage = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${newMessage.damageValue}${game.i18n.localize(SR5.damageTypesShort[newMessage.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                break;
+            case "takeMatrixDamage":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.matrixDamageValue} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                break;
+            case "eraseMarkSuccess":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionEraseMarkSuccess"));
+                break;
+            case "reduceTask":
+                if ((messageData.actor.data.tasks.value - messageData.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.DecompiledSprite");
+                else endLabel = `${game.i18n.format('SR5.INFO_TasksReduced', {task: messageData.netHits})}`;
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
+                break;
+            case "reduceService":
+                if ((messageData.actor.data.services.value - messageData.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.BanishedSpirit");
+                else endLabel = `${game.i18n.format('SR5.INFO_ServicesReduced', {service: messageData.netHits})}`;
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
+                break;
+            case "reduceComplexForm":
+                let targetedComplexForm = await fromUuid(messageData.targetEffect);
+                if (targetedComplexForm.data.data.hits <= 0) endLabel = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
+                else endLabel = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: messageData.netHits})}`
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
                 break;
             default:
         }
 
         //Remove Edge action so it can't be used after action end
-        newMessage.secondeChanceUsed = true;
-        newMessage.pushLimitUsed = true;
+        messageData.secondeChanceUsed = true;
+        messageData.pushLimitUsed = true;
         //Remove Edit success button
-        newMessage.editResult = false;
-        await SR5_RollMessage.updateRollCard(message.data, newMessage);
+        messageData.editResult = false;
+        //await message.update({'flags.sr5data': messageData});
+        await SR5_RollMessage.updateRollCard(message.data, messageData);
     }
 
     static generateChatButton(testType, actionType, label){
@@ -392,45 +418,19 @@ export class SR5_RollMessage {
         return button;
     }
     //Update the stat of a chatMessage button
-    static async updateChatButton(message, buttonToUpdate){
+    /*static async updateChatButton(message, buttonToUpdate){
         message = game.messages.get(message._id);
         if (message.data?.flags?.sr5data?.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
         let newMessage = duplicate(message.data.flags.sr5data);
         newMessage.button[buttonToUpdate] = !newMessage.button[buttonToUpdate];
         switch (buttonToUpdate) {
-            case "takeMatrixDamage":
-                newMessage.button.takenMatrixDamage = true;
-                break;
-            case "takeDamage":
-                newMessage.button.takenDamage = true;
-                break;
             case "removeTemplate":
                 newMessage.button.placeTemplate = false;
-                break;
-            case "eraseMarkSuccess":
-                newMessage.button.actionEnd = true;
-                newMessage.button.actionEndTitle = game.i18n.localize("SR5.MatrixActionEraseMarkSuccess");
-                break;
-            case "reduceTask":
-                newMessage.button.actionEnd = true;
-                if ((newMessage.actor.data.tasks.value - newMessage.netHits) <= 0 ) newMessage.button.actionEndTitle = game.i18n.localize("SR5.DecompiledSprite");
-                else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_TasksReduced', {task: newMessage.netHits})}`;
-                break;
-            case "reduceService":
-                newMessage.button.actionEnd = true;
-                if ((newMessage.actor.data.services.value - newMessage.netHits) <= 0 ) newMessage.button.actionEndTitle = game.i18n.localize("SR5.BanishedSpirit");
-                else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ServicesReduced', {service: newMessage.netHits})}`;
-                break;
-            case "reduceComplexForm":
-                newMessage.button.actionEnd = true;
-                let targetedComplexForm = await fromUuid(newMessage.targetEffect);
-                if (targetedComplexForm.data.data.hits <= 0) newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
-                else newMessage.button.actionEndTitle = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: newMessage.netHits})}`
                 break;
             default:
         }
         await SR5_RollMessage.updateRollCard(message.data, newMessage);
-    }
+    }*/
 
     //Update data on roll chatMessage
     static async updateRollCard(message, newMessage){
@@ -447,10 +447,10 @@ export class SR5_RollMessage {
                 "flags.sr5data": newMessage,
                 content: html,
             })
-            .then((newMsg) => {
+            /*.then((newMsg) => {
                 ui.chat.updateMessage(newMsg);
                 return newMsg;
-            });
+            });*/
         });
     }
 

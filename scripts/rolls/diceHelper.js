@@ -921,7 +921,7 @@ export class SR5_DiceHelper {
         }
 
         let cardData = {
-            type: "jackOutResistance",
+            type: "jackOutDefense",
             title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${message.test.hits})`,
             dicePool: dicePool, 
             button: {},

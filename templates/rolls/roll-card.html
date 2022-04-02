@@ -167,8 +167,8 @@
         </button>
       {{/if}}
 
-      {{#if button.summonSpiritResist}}
-        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="summonSpiritResist">{{localize 'SR5.SpiritResistance'}}</button>
+      {{#if button.summoningResistance}}
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="summoningResistance">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
       {{#if button.compileSpriteResist}}
@@ -185,17 +185,17 @@
       {{/if}}
 
       <!-- DECOMPILE SPRITE -->
-      {{#if button.spriteDecompileDefense}}
+      {{#if button.decompilingResistance}}
       <button class="messageAction opposedTest owner" data-action="opposedTest" data-type="decompilingResistance">{{localize 'SR5.SpriteResistance'}}</button>
       {{/if}}
 
       <!-- DECOMPILE SPRITE (Target already chosen)-->
-      {{#if button.targetDecompilingDefense}}
+      {{#if button.decompilingResistance}}
         <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="targetDecompileDefense">{{localize 'SR5.SpriteResistance'}}</button>
       {{/if}}
 
       <!-- REGISTER SPRITE RESISTANCE -->
-      {{#if button.spriteRegisterDefense}}
+      {{#if button.registeringResistance}}
       <button class="messageAction opposedTest owner" data-action="opposedTest" data-type="registeringResistance">{{localize 'SR5.SpriteResistance'}}</button>
       {{/if}}
 
