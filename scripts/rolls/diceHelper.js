@@ -1071,28 +1071,22 @@ export class SR5_DiceHelper {
         await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
-    static async reduceSpriteTask(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
-        let data = duplicate(actor.data.data);
-        data.tasks.value += message.netHits;
-        if (data.tasks.value < 0) {
-            data.tasks.value = 0;
-            message.isDecompiled = true;
-        }
-        await actor.update({'data': data});
-        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
-    }
+    static async reduceSideckickService(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId),
+            data = duplicate(actor.data.data),
+            key;
 
-    static async reduceSpiritService(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
-        let data = duplicate(actor.data.data);
-        data.services.value -= message.netHits;
-        if (data.services.value < 0) {
-            data.services.value = 0;
-            message.isBanished = true;
+        if (actor.type === "actorSprite"){
+            key = "tasks";
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
+        } else if (actor.type === "actorSpirit"){
+            key = "services";
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: message.netHits})}`);
         }
+        data[key].value -= message.netHits;
+        if (data[key].value < 0) data[key].value = 0;
         await actor.update({'data': data});
-        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: message.netHits})}`);
+        
     }
 
     static async registerSprite(message){

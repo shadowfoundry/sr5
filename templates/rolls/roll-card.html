@@ -5,7 +5,7 @@
     </div>
   </header>
 
-  <div class="SR-CardContent chat-button-owner">
+  <div class="SR-CardContent owner">
     <ul>
       <li>
         <div class="SR-CardDices">
@@ -54,12 +54,14 @@
   <div class="SR-CardButton">
     <div class="SR-CardButtonHit grid">
       <div class="col-2">
+        {{#if editResult}}
         <a class="chat-button-gm edit-toggle" title="{{localize 'SR5.EditResult'}}"><i class="fas fa-edit"></i></a>
+        {{/if}}
         {{#if button.placeTemplate}}
-          <a class="messageAction chat-button-owner" title="{{localize 'SR5.PlaceTemplate'}}" data-action="nonOpposedTest" data-type="templatePlace"><i class="fas fa-bullseye"></i></a>
+          <a class="messageAction owner" title="{{localize 'SR5.PlaceTemplate'}}" data-action="nonOpposedTest" data-type="templatePlace"><i class="fas fa-bullseye"></i></a>
         {{/if}}
         {{#if button.removeTemplate}}
-          <a class="messageAction chat-button-owner" title="{{localize 'SR5.RemoveTemplate'}}" data-action="nonOpposedTest" data-type="templateRemove"><i class="fas fa-ban"></i></a>
+          <a class="messageAction owner" title="{{localize 'SR5.RemoveTemplate'}}" data-action="nonOpposedTest" data-type="templateRemove"><i class="fas fa-ban"></i></a>
         {{/if}}
       </div>
       <div class="col-8">
@@ -93,11 +95,11 @@
       <div class="col-2">
         {{#if (or (eq secondeChanceUsed true) (eq type 'preparation'))}}
         {{else}}
-          <a class="messageAction chat-button-owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
+          <a class="messageAction owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
         {{/if}}
         {{#if (or (eq pushLimitUsed true) (eq type 'preparation'))}}
         {{else}}
-          <a class="messageAction chat-button-owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>
+          <a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>
         {{/if}}
       </div>
     </div>
@@ -116,7 +118,7 @@
 
       <!-- EXTENDED TEST -->
       {{#if button.extended}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="extended">
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="extended">
           {{localize 'SR5.NewRoll'}}
         </button>
       {{/if}}
@@ -166,87 +168,92 @@
       {{/if}}
 
       {{#if button.summonSpiritResist}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="summonSpiritResist">{{localize 'SR5.SpiritResistance'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="summonSpiritResist">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
       {{#if button.compileSpriteResist}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="compileSpriteResist">{{localize 'SR5.SpriteResistance'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="compileSpriteResist">{{localize 'SR5.SpriteResistance'}}</button>
       {{/if}}
 
       {{#if button.summonSpirit}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="summonSpirit">{{localize 'SR5.SummonSpirit'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="summonSpirit">{{localize 'SR5.SummonSpirit'}}</button>
       {{/if}}
 
       <!-- COMPILE SPRITE -->
       {{#if button.compileSprite}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="compileSprite">{{localize 'SR5.CompileSprite'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="compileSprite">{{localize 'SR5.CompileSprite'}}</button>
       {{/if}}
 
       <!-- DECOMPILE SPRITE -->
       {{#if button.spriteDecompileDefense}}
-      <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="spriteDecompileDefense">{{localize 'SR5.SpriteResistance'}}</button>
+      <button class="messageAction opposedTest owner" data-action="opposedTest" data-type="decompilingResistance">{{localize 'SR5.SpriteResistance'}}</button>
+      {{/if}}
+
+      <!-- DECOMPILE SPRITE (Target already chosen)-->
+      {{#if button.targetDecompilingDefense}}
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="targetDecompileDefense">{{localize 'SR5.SpriteResistance'}}</button>
       {{/if}}
 
       <!-- REGISTER SPRITE RESISTANCE -->
       {{#if button.spriteRegisterDefense}}
-      <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="spriteRegisterDefense">{{localize 'SR5.SpriteResistance'}}</button>
+      <button class="messageAction opposedTest owner" data-action="opposedTest" data-type="registeringResistance">{{localize 'SR5.SpriteResistance'}}</button>
       {{/if}}
 
       <!-- REMOVE TASK FROM SPRITE -->
       {{#if button.reduceTask}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="reduceTask">{{localize 'SR5.ReduceTask'}} ({{netHits}})</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="reduceTask">{{localize 'SR5.ReduceTask'}} ({{netHits}})</button>
       {{/if}}
 
       <!-- REGISTER SPRITE -->
       {{#if button.registerSprite}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="registerSprite">{{localize 'SR5.HELP_RegisterButton'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="registerSprite">{{localize 'SR5.HELP_RegisterButton'}}</button>
       {{/if}}
 
       {{#if button.matrixResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="matrixResistance">{{localize 'SR5.TakeOnDamageMatrix'}} ({{matrixDamageValue}})</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="matrixResistance">{{localize 'SR5.TakeOnDamageMatrix'}} ({{matrixDamageValue}})</button>
       {{/if}}
 
       {{#if button.attackerPlaceMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="attackerAddMark">{{localize 'SR5.AttackerPlaceMarkTo' key=mark item=matrixTargetItem.name name=speakerActor}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="attackerPlaceMark">{{localize 'SR5.AttackerPlaceMarkTo' key=mark item=matrixTargetItem.name name=speakerActor}}</button>
       {{/if}}
 
       {{#if button.defenderPlaceMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="defenderAddMark">{{localize 'SR5.DefenderPlaceMarkTo' key=mark item=matrixTargetItem.name name=attackerName}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="defenderAddMark">{{localize 'SR5.DefenderPlaceMarkTo' key=mark item=matrixTargetItem.name name=attackerName}}</button>
       {{/if}}
 
       {{#if button.defenderDoMatrixDamage}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="defenderDoDeckDamage">{{localize 'SR5.DoMatrixDamage' key=matrixDamageValue name=attackerName}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="defenderDoMatrixDamage">{{localize 'SR5.DoMatrixDamage' key=matrixDamageValue name=attackerName}}</button>
       {{/if}}
 
       {{#if button.attackerDoBiofeedbackDamage}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="attackerDoBiofeedbackDamage">{{localize 'SR5.TakeOnDamageBiofeedback'}} (VD: {{damageValue}}{{findTranslation 'damageTypesShort' damageType}})</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="attackerDoBiofeedbackDamage">{{localize 'SR5.TakeOnDamageBiofeedback'}} (VD: {{damageValue}}{{findTranslation 'damageTypesShort' damageType}})</button>
       {{/if}}
 
       {{#if button.defenderDoBiofeedbackDamage}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="defenderDoBiofeedbackDamage">{{localize 'SR5.DoBiofeedBackDamage' damage=matrixDamageValue damageType=(findTranslation 'damageTypesShort' damageType) name=attackerName }}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="defenderDoBiofeedbackDamage">{{localize 'SR5.DoBiofeedBackDamage' damage=matrixDamageValue damageType=(findTranslation 'damageTypesShort' damageType) name=attackerName }}</button>
       {{/if}}
 
       {{#if button.takeMatrixDamage}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="takeMatrixDamage">{{localize 'SR5.ApplyDamage'}} ({{matrixDamageValue}})</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="takeMatrixDamage">{{localize 'SR5.ApplyDamage'}} ({{matrixDamageValue}})</button>
       {{/if}}
 
       {{#if button.overwatch}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="increaseOverwatch">{{localize 'SR5.IncreaseOverwatch' name=attackerName score=test.hits}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="overwatch">{{localize 'SR5.IncreaseOverwatch' name=attackerName score=test.hits}}</button>
       {{/if}}
 
       <!-- GRENADE SCATTER -->
       {{#if button.scatter}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="scatter">{{localize 'SR5.Scatter'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="scatter">{{localize 'SR5.Scatter'}}</button>
       {{/if}}
 
       <!-- RESIST DRAIN TEST -->
-      {{#if button.drainResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="drainResistance">{{localize 'SR5.ResistDrain'}} ({{drainValue}})</button>
+      {{#if button.drainCard}}
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="drainCard">{{localize 'SR5.ResistDrain'}} ({{drainValue}})</button>
       {{/if}}
 
       <!-- RESIST FADING TEST -->
       {{#if button.fadingResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="fadingResistance">{{localize 'SR5.ResistFading'}} ({{fadingValue}})</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="fadingCard">{{localize 'SR5.ResistFading'}} ({{fadingValue}})</button>
       {{/if}}
 
       <!-- COMPLEX FORM DEFENSE TEST -->
@@ -266,52 +273,52 @@
 
       <!-- ICE EFFECT -->
       {{#if button.iceEffect}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="iceEffect">{{button.iceEffectTitle}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="iceEffect">{{button.iceEffectTitle}}</button>
       {{/if}}
 
       <!-- CREATE PREPARATION ITEM -->
       {{#if button.preparationResist}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="preparationResist">{{localize 'SR5.PreparationResistance'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="preparationResist">{{localize 'SR5.PreparationResistance'}}</button>
       {{/if}}
 
       <!-- CREATE PREPARATION ITEM -->
       {{#if button.createPreparation}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="createPreparation">{{localize 'SR5.PreparationCreate'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="createPreparation">{{localize 'SR5.PreparationCreate'}}</button>
       {{/if}}
 
       <!-- CATCH FIRE -->
       {{#if button.catchFire}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="catchFire">{{localize 'SR5.CatchFire'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="catchFire">{{localize 'SR5.CatchFire'}}</button> 
       {{/if}}
 
       <!-- SENSOR TARGETING -->
       {{#if button.sensorTargeting}}
-        <button class="messageAction opposedTest" data-action="opposedTest" data-type="sensorDefense">{{localize 'SR5.Defend'}}</button> 
+        <button class="messageAction opposedTest" data-action="opposedTest" data-type="activeSensorDefense">{{localize 'SR5.Defend'}}</button> 
       {{/if}}
 
       <!-- SENSOR LOCK TARGET -->
       {{#if button.targetLocked}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="targetLocked">{{localize 'SR5.SensorLockedTarget'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="targetLocked">{{localize 'SR5.SensorLockedTarget'}}</button> 
       {{/if}}
 
       <!-- JACK OUT MATRIX ACTION RESISTANCE -->
       {{#if button.jackOut}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="jackOut">{{localize 'SR5.MatrixActionJackOutResistance'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="jackOut">{{localize 'SR5.MatrixActionJackOutResistance'}}</button> 
       {{/if}}
 
       <!-- JACK OUT SUCCED -->
       {{#if button.jackOutSuccess}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="jackOutSucced">{{localize 'SR5.MatrixActionJackOutSuccess'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="jackOutSuccess">{{localize 'SR5.MatrixActionJackOutSuccess'}}</button> 
       {{/if}}
 
       <!-- ERASED MARK MATRIX ACTION RESISTANCE -->
       {{#if button.eraseMark}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="eraseMark">{{localize 'SR5.ChooseMarkToErase'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="eraseMark">{{localize 'SR5.ChooseMarkToErase'}}</button> 
       {{/if}}
 
       <!-- ERASED MARK SUCCED -->
       {{#if button.eraseMarkSuccess}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="eraseMarkSucced">{{localize 'SR5.MatrixActionEraseMark'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="eraseMarkSuccess">{{localize 'SR5.MatrixActionEraseMark'}}</button> 
       {{/if}}   
 
       <!-- MATRIX SEARCH SUCCED -->
@@ -321,18 +328,18 @@
       {{/if}}
 
       <!-- CHECK OVERWATCH MATRIX ACTION RESISTANCE -->
-      {{#if button.checkOverwatchScoreDefense}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="checkOverwatchScore">{{localize 'SR5.OverwatchResistance'}}</button> 
+      {{#if button.checkOverwatchScore}}
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="checkOverwatchScore">{{localize 'SR5.OverwatchResistance'}}</button> 
       {{/if}}
       
       <!-- CHECK OVERWATCH MATRIX ACTION RESISTANCE -->
       {{#if button.matrixJamSignals}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="jamSignal">{{localize 'SR5.MatrixActionJamSignals'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="matrixJamSignals">{{localize 'SR5.MatrixActionJamSignals'}}</button> 
       {{/if}}
 
       <!-- CHECK OVERWATCH MATRIX ACTION RESISTANCE -->
       {{#if button.linkLock}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="linkLock">{{localize 'SR5.MatrixLinkLock'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="linkLock">{{localize 'SR5.MatrixLinkLock'}}</button> 
       {{/if}}
       
       <!-- APPLY EFFECT (CHOOSE TARGET) -->
@@ -342,7 +349,7 @@
 
       <!-- APPLY EFFECT (AUTO TARGET) -->
       {{#if button.applyEffectAuto}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="applyEffectAuto">{{localize 'SR5.ApplyEffect'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="applyEffectAuto">{{localize 'SR5.ApplyEffect'}}</button> 
       {{/if}}
 
       <!-- APPLY EFFECT ON ITEM(CHOOSE TARGET) -->
@@ -352,72 +359,72 @@
 
       <!-- KILL COMPLEX FORM RESISTANCE -->
       {{#if button.killComplexFormResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="killComplexFormResistance">{{localize 'SR5.ComplexFormResistance'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="killComplexFormResistance">{{localize 'SR5.ComplexFormResistance'}}</button> 
       {{/if}}
 
       <!-- KILL COMPLEX FORM REDUCE -->
       {{#if button.reduceComplexForm}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="reduceComplexForm">{{localize 'SR5.ReduceComplexFormSuccess'}} ({{netHits}})</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="reduceComplexForm">{{localize 'SR5.ReduceComplexFormSuccess'}} ({{netHits}})</button> 
       {{/if}}
 
       <!-- DISPELL RESISTANCE -->
       {{#if button.dispellResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="dispellResistance">{{localize 'SR5.SpellResistance'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="dispellResistance">{{localize 'SR5.SpellResistance'}}</button> 
       {{/if}}
 
       <!-- SPELL REDUCE -->
       {{#if button.reduceSpell}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="reduceSpell">{{localize 'SR5.ReduceSpell'}} ({{netHits}})</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="reduceSpell">{{localize 'SR5.ReduceSpell'}} ({{netHits}})</button> 
       {{/if}}
 
       <!-- BINDING RESISTANCE -->
       {{#if button.spiritBindingDefense}}
-        <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="spiritBindingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+        <button class="messageAction opposedTest owner" data-action="opposedTest" data-type="bindingResistance">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
-      <!-- BINDING RESISTANCE (Target already choosed)-->
+      <!-- BINDING RESISTANCE (Target already chosen)-->
       {{#if button.targetBindingDefense}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="targetBindingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="bindingResistance">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
       <!-- BANISHING RESISTANCE -->
       {{#if button.spiritBanishingDefense}}
-        <button class="messageAction opposedTest chat-button-owner" data-action="opposedTest" data-type="spiritBanishingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+        <button class="messageAction opposedTest owner" data-action="opposedTest" data-type="banishingResistance">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
-      <!-- BANISHING RESISTANCE (Target already choosed)-->
+      <!-- BANISHING RESISTANCE (Target already chosen)-->
       {{#if button.targetBanishingDefense}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="targetBanishingDefense">{{localize 'SR5.SpiritResistance'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="banishingResistance">{{localize 'SR5.SpiritResistance'}}</button>
       {{/if}}
 
       <!-- BIND SPIRIT -->
       {{#if button.bindSpirit}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="bindSpirit">{{localize 'SR5.BindSpirit'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="bindSpirit">{{localize 'SR5.BindSpirit'}}</button>
       {{/if}}
 
       <!-- REMOVE SERVICE FROM SPIRIT -->
       {{#if button.reduceService}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="reduceService">{{localize 'SR5.ReduceService'}} ({{netHits}})</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="reduceService">{{localize 'SR5.ReduceService'}} ({{netHits}})</button>
       {{/if}}
 
       <!-- ENCHANTMENT RESISTANCE -->
       {{#if button.enchantmentResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="enchantmentResistance">{{localize 'SR5.EnchantmentResistance'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="enchantmentResistance">{{localize 'SR5.EnchantmentResistance'}}</button> 
       {{/if}}
 
       <!-- TURN OFF ENCHANTMENT -->
       {{#if button.desactivateFocus}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="desactivateFocus">{{localize 'SR5.DesactivateFocus'}}</button>
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="desactivateFocus">{{localize 'SR5.DesactivateFocus'}}</button>
       {{/if}}
 
       <!-- PREPARATION DISJOINTING -->
       {{#if button.disjointingResistance}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="disjointingResistance">{{localize 'SR5.DisjointingResistance'}}</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="disjointingResistance">{{localize 'SR5.DisjointingResistance'}}</button> 
       {{/if}}
 
       <!-- REDUCE PREPARATION POTENCY -->
       {{#if button.reducePreparationPotency}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="reducePreparationPotency">{{localize 'SR5.ReducePreparationPotency'}} ({{netHits}})</button> 
+        <button class="messageAction nonOpposedTest owner" data-action="nonOpposedTest" data-type="reducePreparationPotency">{{localize 'SR5.ReducePreparationPotency'}} ({{netHits}})</button> 
       {{/if}}
       
     </div>

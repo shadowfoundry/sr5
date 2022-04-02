@@ -1416,7 +1416,6 @@ export class SR5Actor extends Actor {
   async applyExternalEffect(data, effectType){
     let item = await fromUuid(data.itemUuid);
     let itemData = item.data;
-
     for (let e of Object.values(itemData.data[effectType])){
       if (e.transfer) {
         let value;
@@ -1460,8 +1459,21 @@ export class SR5Actor extends Actor {
 
         //Link Effect to source owner
         let effect;
-        if (this.isToken) effect = this.token.actor.items.find(i => i.data.data.ownerItem === data.itemUuid);
-        else effect = this.items.find(i => i.data.data.ownerItem === data.itemUuid);
+        if (this.isToken) {
+          for (let i of this.token.actor.items){
+            if (i.data.data.ownerItem === data.itemUuid){
+              if (!Object.keys(itemData.data.targetOfEffect).length) effect = i;
+              else for (let e of Object.values(itemData.data.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+            }
+          }
+        } else {
+          for (let i of this.items){
+            if (i.data.data.ownerItem === data.itemUuid){
+              if (!Object.keys(itemData.data.targetOfEffect).length) effect = i;
+              else for (let e of Object.values(itemData.data.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+            }
+          }
+        }
 
         if (!game.user?.isGM) {
           SR5_SocketHandler.emitForGM("linkEffectToSource", {

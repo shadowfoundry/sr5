@@ -638,24 +638,37 @@ export class SR5_Roll {
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                 }
 
-                if (typeSub === "killComplexForm" && canvas.scene){
+                if (game.user.targets.size && (typeSub === "killComplexForm" || typeSub === "decompileSprite")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
                         let targets = Array.from(game.user.targets);
                         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                        effectsList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
-                        let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemComplexForm");
-                        for (let e of Object.values(currentEffectList)){
-                            let parentItem = await fromUuid(e.data.data.ownerItem);
-                            if (effectsList.length === 0) effectsList.push(parentItem);
-                            if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+
+                        //Kill Complex Form
+                        if (typeSub === "killComplexForm"){
+                            effectsList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.data.data.isActive);
+                            let currentEffectList = targetActor.items.filter(i => i.type === "itemEffect" && i.data.data.type === "itemComplexForm");
+                            for (let e of Object.values(currentEffectList)){
+                                let parentItem = await fromUuid(e.data.data.ownerItem);
+                                if (effectsList.length === 0) effectsList.push(parentItem);
+                                if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                            }
+                            if (effectsList.length !== 0){
+                                optionalData = mergeObject(optionalData, {
+                                    hasTarget: true,
+                                    effectsList: effectsList,
+                                });
+                            }
                         }
-                        if (effectsList.length !== 0){
+
+                        //Decompiling
+                        if (typeSub === "decompileSprite"){
+                            if (targetActor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                effectsList: effectsList,
+                                targetActor: targetActorId,
                             });
                         }
                     }
@@ -765,7 +778,7 @@ export class SR5_Roll {
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
 
                 optionalData = mergeObject(optionalData, {
-                    chatActionType: "attackResistance",
+                    chatActionType: "resistanceCard",
                     damageElement: chatData.damageElement,
                     damageValue: chatData.damageValue,
                     damageValueBase: chatData.damageValue,
