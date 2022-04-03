@@ -206,7 +206,7 @@ export class SR5_Dice {
 					default: "roll",
 					close: async (html) => {
 						if (cancel) {
-							if (dialogData.button.removeTemplate) SR5_Dice.removeTemplate(null, dialogData.item.id);
+							if (dialogData.templateRemove) SR5_Dice.removeTemplate(null, dialogData.item.id);
 							//Remove last cumulative Defense if roll is cancelled.
 							if (actor.flags?.sr5?.cumulativeDefense){
 								let actualDefense = actor.flags.sr5.cumulativeDefense;
@@ -470,12 +470,15 @@ export class SR5_Dice {
 			case "preparation":
 				SR5_Dice.addSpellInfoToCard(cardData, author);
 				break;
+			case "activeSensorTargeting":
 			case "preparationFormula":
-				SR5_Dice.addPreparationFormulaInfoToCard(cardData, author);
+			case "matrixIceAttack":
+			case "spritePower":
+			case "power":
+				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
+				SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
-			case "preparationResistance":
-				SR5_Dice.addPreparationResistanceInfoToCard(cardData, author);
-				break;
+			
 			case "drainCard":
 				SR5_Dice.addDrainInfoToCard(cardData, author);
 				break;
@@ -497,9 +500,6 @@ export class SR5_Dice {
 			case "matrixResistance":
 				SR5_Dice.addMatrixResistanceInfoToCard(cardData, author);
 				break;
-			case "matrixIceAttack":
-				SR5_Dice.addMatrixIceAttackInfoToCard(cardData, author);
-				break;
 			case "iceDefense":
 				await SR5_Dice.addIceDefenseInfoToCard(cardData, author);
 				break;
@@ -513,14 +513,8 @@ export class SR5_Dice {
 			case "skillDicePool":
 				SR5_Dice.addSkillInfoToCard(cardData, author);
 				break;
-			case "power":
-				SR5_Dice.addPowerInfoToCard(cardData, author);
-				break;
 			case "powerDefense":
 				SR5_Dice.addPowerDefenseInfoToCard(cardData, author);
-				break;
-			case "spritePower":
-				SR5_Dice.addSpritePowerInfoToCard(cardData, author);
 				break;
 			case "resonanceAction":
 				SR5_Dice.addResonanceActionInfoToCard(cardData, author);
@@ -528,17 +522,15 @@ export class SR5_Dice {
 			case "resistFire":
 				SR5_Dice.addResistFireInfoToCard(cardData, author);
 				break;
-			case "activeSensorTargeting":
-				SR5_Dice.addSensorTargetingInfoToCard(cardData, author);
 				break;
+			case "preparationResistance":
 			case "summoningResistance":
 			case "compilingResistance":
 			case "activeSensorDefense":
 			case "jackOutDefense":
+			case "eraseMark":
 				SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
 				break;
-			case "eraseMark":
-				SR5_Dice.addEraseMarkInfoToCard(cardData, author);
 			case "overwatchResistance":
 				SR5_Dice.addOverwatchResistanceInfoToCard(cardData, author);
 			case "registeringResistance":
@@ -589,6 +581,7 @@ export class SR5_Dice {
 	}
 
 	static async addDefenseInfoToCard(cardData, author){
+		console.log("addDefenseInfoToCard");
 		let netHits = cardData.hits - cardData.test.hits;
 		if (netHits <= 0) {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
@@ -635,8 +628,8 @@ export class SR5_Dice {
 	}
 
 	static async addResistanceInfoToCard(cardData, author){
-		//Remove Defense chat button from previous chat message
-		SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+		//Remove Resist chat button from previous chat message
+		if (cardData.originalMessage?.flags?.sr5data?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
 
 		//Add automatic succes to Spirit TO-DO : change this when Materialization is up.
 		if (author.type === "actorSpirit" && (cardData.typeSub === "physicalDamage" || cardData.typeSub === "stun")) {
@@ -648,20 +641,20 @@ export class SR5_Dice {
 		}
 
 		cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
-		if (cardData.damageValue > 0) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest","damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
+		if (cardData.damageValue > 0) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
 
 		//Special case for Biofeedback damage
 		//WARNING : COME BACK LATER
-		if (cardData.typeSub === "biofeedbackDamage"){
+		/*if (cardData.typeSub === "biofeedbackDamage"){
 			if (!cardData.defenderDoBiofeedbackDamage && cardData.originalMessage.flags.sr5data.button.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
 			else if (cardData.originalMessage.flags.sr5data.button.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
 		} else if (cardData.typeSub !== "dumpshock" && cardData.originalMessage.flags.sr5data.button.resistance){
 			SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistance");
-		}
+		}*/
 	}
 
-	static async addSpellInfoToCard(cardData, author){
+	static async addSpellInfoToCard(cardData){
 		let actionType, label;
 
 		//Add Resist Drain chat button
@@ -716,28 +709,6 @@ export class SR5_Dice {
 		}
 	}
 
-	static async addPreparationFormulaInfoToCard(cardData){
-		cardData.ownerAuthor = cardData.speakerId;
-
-		if (cardData.test.hits > 0) {
-			cardData.hits = cardData.test.hits;
-			cardData.buttons.preparationResist = SR5_RollMessage.generateChatButton("nonOpposedTest", "preparationResist", game.i18n.localize("SR5.PreparationResistance"));
-		} else { 
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.PreparationCreateFailed"));
-		}
-
-		//Add Resist Drain chat button
-		cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
-	}
-
-	static async addPreparationResistanceInfoToCard(cardData) {
-		if (cardData.hits > cardData.test.hits) {
-			cardData.buttons.createPreparation = SR5_RollMessage.generateChatButton("nonOpposedTest", "createPreparation", game.i18n.localize("SR5.PreparationCreate"));
-		} else {
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.PreparationCreateFailed"));
-		}
-	}
-
 	static async addDrainInfoToCard(cardData) {
 		let damageValue = cardData.drainValue - cardData.test.hits;
 
@@ -751,7 +722,7 @@ export class SR5_Dice {
 				else cardData.damageType = "stun";
 			}
 			//Add drain damage button
-			cardData.buttons.takeDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
+			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
 		} else {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoDrain"));
 		}
@@ -800,7 +771,7 @@ export class SR5_Dice {
 			cardData.damageValue = damageValue;
 			if (cardData.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damageType = "physical";
 			else cardData.damageType = "stun";
-			cardData.buttons.takeDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
+			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
 		} else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoFading"));
 
 		if (cardData.originalMessage.flags.sr5data.button.fadingResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "fadingCard");
@@ -923,17 +894,6 @@ export class SR5_Dice {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoDamage"));
 		}
 		if (cardData.originalMessage.flags?.sr5data?.button?.matrixResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "matrixResistance");
-	}
-
-	static async addMatrixIceAttackInfoToCard(cardData){
-		cardData.originalActionAuthor = cardData.speakerId;
-		cardData.hits = cardData.test.hits;
-
-		if (cardData.test.hits > 0) {
-			cardData.buttons.iceDefense = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceDefense", game.i18n.localize("SR5.Defend"));	
-		} else {
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.ActionFailure"));
-		}
 	}
 
 	static async addIceDefenseInfoToCard(cardData, author){
@@ -1077,26 +1037,11 @@ export class SR5_Dice {
 		}
 	}
 
-	static async addPowerInfoToCard(cardData){
-		if (cardData.defenseFirstAttribute){
-			if (cardData.test.hits > 0) cardData.buttons.powerDefense = SR5_RollMessage.generateChatButton("nonOpposedTest", "powerDefense", game.i18n.localize("SR5.Defend"));
-		}
-	}
-
 	static async addPowerDefenseInfoToCard(cardData){
 		if (cardData.test.hits >= cardData.hits) {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
 		} else {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.DefenseFailure"));
-		}
-	}
-
-	static async addSpritePowerInfoToCard(cardData){
-		if (cardData.test.hits > 0) {
-			cardData.hits = cardData.test.hits;
-			//cardData.buttons.complexForm = true;
-		} else {
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PowerFailure"));
 		}
 	}
 
@@ -1125,7 +1070,6 @@ export class SR5_Dice {
 		}
 	}
 
-
 	static async addResistFireInfoToCard(cardData){
 		if (cardData.test.hits < cardData.fireTreshold) {
 			cardData.buttons.catchFire = SR5_RollMessage.generateChatButton("nonOpposedTest", "catchFire", game.i18n.localize("SR5.CatchFire"));
@@ -1134,14 +1078,50 @@ export class SR5_Dice {
 		}
 	}
 
-	static async addSensorTargetingInfoToCard(cardData){
+	static async addActionHitInfoToCard(cardData, type){
+		let key, label, labelEnd, testType;
 		cardData.hits = cardData.test.hits;
 		cardData.originalActionAuthor = cardData.speakerId;
+		cardData.ownerAuthor = cardData.speakerId;
+
+		switch (type){
+			case "activeSensorTargeting":
+				label = game.i18n.localize("SR5.MatrixActionJackOutSuccess");
+				labelEnd = game.i18n.localize("SR5.SensorTargetingActiveFailed");
+				key = "activeSensorDefense";
+				testType = "opposedTest";
+				break;
+			case "preparationResist":
+				label = game.i18n.localize("SR5.PreparationResistance");
+				labelEnd = game.i18n.localize("SR5.PreparationCreateFailed");
+				key = "preparationResist";
+				testType = "nonOpposedTest";
+				cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
+				break;
+			case "matrixIceAttack":
+				label = game.i18n.localize("SR5.Defend");
+				labelEnd = game.i18n.localize("SR5.ActionFailure");
+				key = "matrixIceAttack";
+				testType = "opposedTest";
+				break;
+			case "spritePower":
+				label = game.i18n.localize("SR5.Defend");
+				labelEnd = game.i18n.localize("SR5.PowerFailure");
+				key = "";
+				testType = "opposedTest";
+				break;
+			case "power":
+				label = game.i18n.localize("SR5.Defend");
+				labelEnd = game.i18n.localize("SR5.PowerFailure");
+				key = "powerDefense";
+				testType = "opposedTest";
+				break;
+		}
 
 		if (cardData.test.hits > 0) {
-			cardData.buttons.activeSensorDefense = SR5_RollMessage.generateChatButton("nonOpposedTest", "activeSensorDefense", game.i18n.localize("SR5.Defend"));
+			cardData.buttons[key] = SR5_RollMessage.generateChatButton(testType, key, label);
 		} else {
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SensorTargetingActiveFailed"));
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
 		}
 	}
 
@@ -1159,6 +1139,11 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.SuccessfulDefense");
 				key = "targetLocked";
 				break;
+			case "preparationResistance":
+				label = game.i18n.localize("SR5.PreparationCreate");
+				labelEnd = game.i18n.localize("SR5.PreparationCreateFailed");
+				key = "createPreparation";
+				break;
 			case "compilingResistance":
 				label = game.i18n.localize("SR5.CompileSprite");
 				labelEnd = game.i18n.localize("SR5.FailedCompiling");
@@ -1175,19 +1160,16 @@ export class SR5_Dice {
 				if (cardData.drainValue === 0) cardData.drainValue = 2;
 				cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
 				break;
+			case "eraseMark":
+				label = game.i18n.localize("SR5.MatrixActionEraseMark");
+				labelEnd = game.i18n.localize("SR5.MatrixActionEraseMarkFailed");
+				key = "eraseMarkSuccess";
+				if (cardData.originalMessage.flags.sr5data.button.eraseMark) SR5_RollMessage.updateChatButton(cardData.originalMessage, "eraseMark");
+				break;
 		}
 
 		if (cardData.test.hits < cardData.hits) cardData.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
 		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
-	}
-
-	static async addEraseMarkInfoToCard(cardData){
-		if (cardData.originalMessage.flags.sr5data.button.eraseMark) SR5_RollMessage.updateChatButton(cardData.originalMessage, "eraseMark");
-		if (cardData.test.hits < cardData.hits) {
-			cardData.buttons.eraseMarkSuccess = SR5_RollMessage.generateChatButton("nonOpposedTest", "eraseMarkSuccess", game.i18n.localize("SR5.MatrixActionEraseMark"));
-		} else {
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.MatrixActionEraseMarkFailed"));
-		}
 	}
 
 	static async addOverwatchResistanceInfoToCard(cardData){

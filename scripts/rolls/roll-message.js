@@ -72,6 +72,7 @@ export class SR5_RollMessage {
             if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
             //Update message with new data
+            await message.update({[`flags.sr5data.-=buttons`]: null});
             await SR5_RollMessage.updateRollCard(message.data, newMessage); 
         });
     }
@@ -118,7 +119,7 @@ export class SR5_RollMessage {
                 case "powerDefense":
                 case "resistanceCard":
                 case "complexFormDefense":
-                case "iceDefense":
+                case "matrixIceAttack":
                 case "activeSensorDefense":
                 case "decompilingResistance":
                 case "registeringResistance":
@@ -158,9 +159,9 @@ export class SR5_RollMessage {
                 case "fadingCard":
                     actor.rollTest(type, null, messageData);
                     break;
-                case "takeDamage":
+                case "damage":
                     actor.takeDamage(messageData);
-                    SR5_RollMessage.updateChatButton(message.data, "takeDamage");
+                    SR5_RollMessage.updateChatButton(message.data, "damage");
                     break;
                 case "matrixResistance":
                     actor.rollTest(type, messageData.matrixResistanceType, messageData);
@@ -168,7 +169,7 @@ export class SR5_RollMessage {
                 case "templatePlace":
                     let item = actor.items.get(messageData.item._id);
                     item.placeGabarit();
-                    SR5_RollMessage.updateChatButton(message.data, "removeTemplate");
+                    SR5_RollMessage.updateChatButton(message.data, "templatePlace");
                     break;
                 case "templateRemove":
                     SR5_RollMessage.removeTemplate(message, messageData.item._id);
@@ -368,11 +369,11 @@ export class SR5_RollMessage {
             if (key === buttonToUpdate) await message.update({[`flags.sr5data.buttons.-=${key}`]: null});
         }
         messageData = duplicate(message.data.flags.sr5data);
-
+        console.log(messageData);
         //Special cases : add buttons or end action description
         let endLabel;
         switch (buttonToUpdate) {
-            case "takeDamage":
+            case "damage":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
                 break;
             case "takeMatrixDamage":
@@ -400,15 +401,23 @@ export class SR5_RollMessage {
             default:
         }
 
-        //Remove Edge action so it can't be used after action end
-        messageData.secondeChanceUsed = true;
-        messageData.pushLimitUsed = true;
-        //Remove Edit success button
-        messageData.editResult = false;
-        //await message.update({'flags.sr5data': messageData});
+        if (buttonToUpdate === "templateRemove") messageData.templateRemove = false;
+        if (buttonToUpdate === "templatePlace") {
+            messageData.templateRemove = true;
+            messageData.templatePlace = false;
+        }
+
+        //Remove Edge action & Edit succes so it can't be used after action end
+        if (buttonToUpdate !== "templateRemove" && buttonToUpdate !== "templatePlace"){
+            messageData.secondeChanceUsed = true;
+            messageData.pushLimitUsed = true;
+            messageData.editResult = false;
+        }
+
         await SR5_RollMessage.updateRollCard(message.data, messageData);
     }
 
+    //Return data for a chat button
     static generateChatButton(testType, actionType, label){
         let button = {
             testType: testType,
@@ -417,20 +426,6 @@ export class SR5_RollMessage {
         }
         return button;
     }
-    //Update the stat of a chatMessage button
-    /*static async updateChatButton(message, buttonToUpdate){
-        message = game.messages.get(message._id);
-        if (message.data?.flags?.sr5data?.typeSub === "grenade" && buttonToUpdate !== "scatter") return;
-        let newMessage = duplicate(message.data.flags.sr5data);
-        newMessage.button[buttonToUpdate] = !newMessage.button[buttonToUpdate];
-        switch (buttonToUpdate) {
-            case "removeTemplate":
-                newMessage.button.placeTemplate = false;
-                break;
-            default:
-        }
-        await SR5_RollMessage.updateRollCard(message.data, newMessage);
-    }*/
 
     //Update data on roll chatMessage
     static async updateRollCard(message, newMessage){
@@ -457,17 +452,17 @@ export class SR5_RollMessage {
     //Remove a template from scene on click
     static async removeTemplate(message, itemId){
         if (!canvas.scene){
-            SR5_RollMessage.updateChatButton(message.data, "removeTemplate");
+            SR5_RollMessage.updateChatButton(message.data, "templateRemove");
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
         let template = canvas.scene.data.templates.find((t) => t.data.flags.item === itemId);
         if (template){
             canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [template.id]);
-            if (message) SR5_RollMessage.updateChatButton(message.data, "removeTemplate");
+            if (message) SR5_RollMessage.updateChatButton(message.data, "templateRemove");
         } else {
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
-            if (message) SR5_RollMessage.updateChatButton(message.data, "removeTemplate");
+            if (message) SR5_RollMessage.updateChatButton(message.data, "templateRemove");
         }
     }
 

@@ -835,7 +835,7 @@ export class SR5_Roll {
                         typeSub = "grenade";
                         target = SR5_SystemHelpers.getTemplateItemPosition(entity.id); 
                         optionalData = mergeObject(optionalData, {
-                            "button.removeTemplate": true,
+                            "templateRemove": true,
                         });
                     }
                     // Calcul distance between Attacker and Target
@@ -896,7 +896,7 @@ export class SR5_Roll {
                 }
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {
-                        "button.placeTemplate": true,
+                        "templatePlace": true,
                     });
                 }
 
@@ -947,7 +947,7 @@ export class SR5_Roll {
                 }
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {
-                        "button.placeTemplate": true,
+                        "templatePlace": true,
                     });
                 }
                 break;
@@ -1071,6 +1071,7 @@ export class SR5_Roll {
                 dicePool = itemData.test.dicePool;
                 if (itemData.defenseFirstAttribute && itemData.defenseSecondAttribute){
                     optionalData = {
+                        typeSub: "powerWithDefense",
                         defenseFirstAttribute: itemData.defenseFirstAttribute || 0,
                         defenseSecondAttribute: itemData.defenseSecondAttribute || 0,
                         "sceneData.backgroundCount": backgroundCount,
