@@ -1,6 +1,7 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utility.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
+import { SR5Actor } from "../entities/actors/entityActor.js";
 import { _getSRStatusEffect } from "../system/effectsList.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_SocketHandler } from "../socket.js";
@@ -1016,7 +1017,7 @@ export class SR5_DiceHelper {
             }
         }
         await item.update({"data": itemData});
-        await markOwner.deleteMarkInfo(messageData.markOwner, messageData.markeditem);
+        await SR5Actor.deleteMarkInfo(messageData.markOwner, messageData.markeditem)
     }
 
     static async rollOverwatchDefense(message){

@@ -168,7 +168,7 @@ export class SR5_RollMessage {
                     break;
                 case "templatePlace":
                     let item = actor.items.get(messageData.item._id);
-                    item.placeGabarit();
+                    await item.placeGabarit();
                     SR5_RollMessage.updateChatButton(message.data, "templatePlace");
                     break;
                 case "templateRemove":
@@ -366,10 +366,10 @@ export class SR5_RollMessage {
         message = game.messages.get(message._id);
         let messageData = duplicate(message.data.flags.sr5data);
         for (let key in messageData.buttons){
-            if (key === buttonToUpdate) await message.update({[`flags.sr5data.buttons.-=${key}`]: null});
+            if (key === buttonToUpdate) await message.update({[`flags.sr5data.buttons.-=${key}`]: null}, {render: false});
         }
         messageData = duplicate(message.data.flags.sr5data);
-        console.log(messageData);
+
         //Special cases : add buttons or end action description
         let endLabel;
         switch (buttonToUpdate) {
@@ -442,10 +442,6 @@ export class SR5_RollMessage {
                 "flags.sr5data": newMessage,
                 content: html,
             })
-            /*.then((newMsg) => {
-                ui.chat.updateMessage(newMsg);
-                return newMsg;
-            });*/
         });
     }
 
