@@ -297,6 +297,75 @@ export class SR5_DiceHelper {
         else return actor.data.attributes[key].augmented.value;
     }
 
+    //Handle environmental modifiers
+    static handleEnvironmentalModifiers(scene, actor, melee){
+        let actorData = actor.itemsProperties.environmentalMod;
+        let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
+        let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
+        if (actor.visions.lowLight.isActive && scene.getFlag("sr5", "environModLight") > 2) visibilityMod = 3;
+        let glareMod = Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + actorData.glare.value, 0);
+        let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
+
+        let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
+        if (melee){
+            arrayMod = [visibilityMod, lightMod, glareMod];
+        }
+        let finalMod = Math.max(...arrayMod);
+
+        if (finalMod > 0 && finalMod < 4) {
+            let nbrOfMaxValue = 0;
+            for (let i = 0; i < arrayMod.length; i++) {
+                if (arrayMod[i] === finalMod) nbrOfMaxValue++;
+            }
+            if (nbrOfMaxValue > 1) finalMod++;
+        }
+
+        let dicePoolMod = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(finalMod);
+        return dicePoolMod;
+    }
+
+    //Convert environmental modifier to dice pool modifier
+    static convertEnvironmentalModToDicePoolMod(modifier){
+        switch (modifier){
+            case 0:
+                return 0;
+            case 1:
+                return -1;
+            case 2:
+                return -3;
+            case 3:
+                return -6;
+            case 4:
+                return -10;
+            default:
+                return 0;
+        }
+    }
+
+    //Get signature modifier
+    static convertSignatureToDicePoolMod(signature){
+        switch (signature){
+            case "vehicleLarge":
+                return 3;
+            case "vehicleElectric":
+                return -3;
+            case "metahuman":
+                return -3;
+            case "drone":
+                return -3;
+            case "droneMicro":
+                return -6;
+            default:
+                return 0;
+        }
+    }
+
+    //Apply Full defense effect to an actor
+    static async applyFullDefenseEffect(actor){
+        let effect = await _getSRStatusEffect("fullDefenseMode");
+        actor.createEmbeddedDocuments("ActiveEffect", [effect]);
+    }
+
     /** Put a mark on a specific Item
    * @param {Object} targetActor - The Actor who owns the item
    * @param {Object} attackerID - Actor ID who wants to put a mark
@@ -798,73 +867,6 @@ export class SR5_DiceHelper {
         await target.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
-    //Handle environmental modifiers
-    static handleEnvironmentalModifiers(scene, actor, melee){
-        let actorData = actor.itemsProperties.environmentalMod;
-        let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
-        let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
-        if (actor.visions.lowLight.isActive && scene.getFlag("sr5", "environModLight") > 2) visibilityMod = 3;
-        let glareMod = Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + actorData.glare.value, 0);
-        let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
-
-        let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
-        if (melee){
-            arrayMod = [visibilityMod, lightMod, glareMod];
-        }
-        let finalMod = Math.max(...arrayMod);
-
-        if (finalMod > 0 && finalMod < 4) {
-            let nbrOfMaxValue = 0;
-            for (let i = 0; i < arrayMod.length; i++) {
-                if (arrayMod[i] === finalMod) nbrOfMaxValue++;
-            }
-            if (nbrOfMaxValue > 1) finalMod++;
-        }
-
-        let dicePoolMod = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(finalMod);
-        return dicePoolMod;
-    }
-
-    static convertEnvironmentalModToDicePoolMod(modifier){
-        switch (modifier){
-            case 0:
-                return 0;
-            case 1:
-                return -1;
-            case 2:
-                return -3;
-            case 3:
-                return -6;
-            case 4:
-                return -10;
-            default:
-                return 0;
-        }
-    }
-
-    //Get signature modifier
-    static convertSignatureToDicePoolMod(signature){
-        switch (signature){
-            case "vehicleLarge":
-                return 3;
-            case "vehicleElectric":
-                return -3;
-            case "metahuman":
-                return -3;
-            case "drone":
-                return -3;
-            case "droneMicro":
-                return -6;
-            default:
-                return 0;
-        }
-    }
-
-    static async applyFullDefenseEffect(actor){
-        let effect = await _getSRStatusEffect("fullDefenseMode");
-        actor.createEmbeddedDocuments("ActiveEffect", [effect]);
-    }
-
     static async chooseMatrixDefender(messageData, actor){
         let cancel = true;
         let list = {};
@@ -1090,42 +1092,36 @@ export class SR5_DiceHelper {
         
     }
 
-    static async registerSprite(message){
+    static async enslavedSidekick(message, type){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
         let data = duplicate(actor.data.data);
-        data.isRegistered = true;
-        data.tasks.value += message.netHits;
-        data.tasks.max += message.netHits;
-        await actor.update({'data': data});
-        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
 
-        if (data.creatorItemId){
-            let creator = SR5_EntityHelpers.getRealActorFromID(data.creatorId);
-            let itemSideKick = creator.items.find(i => i.id === data.creatorItemId);
-            let itemData = duplicate(itemSideKick.data.data);
-            itemData.isRegistered = true;
-            itemData.tasks.value += message.netHits;
-            itemData.tasks.max += message.netHits;
-            await itemSideKick.update({'data' : itemData});
+        if (type === "registerSprite"){
+            data.isRegistered = true;
+            data.tasks.value += message.netHits;
+            data.tasks.max += message.netHits;
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
+        } else if (type === "bindSpirit"){
+            data.isBounded = true;
+            data.services.value += message.netHits;
+            data.services.max += message.netHits;
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: message.netHits})}`);
         }
-    }
-
-    static async bindSpirit(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
-        let data = duplicate(actor.data.data);
-        data.isBounded = true;
-        data.services.value += message.netHits;
-        data.services.max += message.netHits;
         await actor.update({'data': data});
-        ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: message.netHits})}`);
-
+        
         if (data.creatorItemId){
             let creator = SR5_EntityHelpers.getRealActorFromID(data.creatorId);
             let itemSideKick = creator.items.find(i => i.id === data.creatorItemId);
             let itemData = duplicate(itemSideKick.data.data);
-            itemData.isBounded = true;
-            itemData.services.value += message.netHits;
-            itemData.services.max += message.netHits;
+            if (type === "registerSprite"){
+                itemData.isRegistered = true;
+                itemData.tasks.value += message.netHits;
+                itemData.tasks.max += message.netHits;
+            } else if (type === "bindSpirit"){
+                itemData.isBounded = true;
+                itemData.services.value += message.netHits;
+                itemData.services.max += message.netHits;
+            }
             await itemSideKick.update({'data' : itemData});
         }
     }

@@ -124,6 +124,7 @@ export class SR5_RollMessage {
                 case "decompilingResistance":
                 case "registeringResistance":
                 case "banishingResistance":
+                case "iceDefense":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "bindingResistance":
@@ -316,7 +317,8 @@ export class SR5_RollMessage {
                     SR5_RollMessage.updateChatButton(message.data, type);
                     break;
                 case "registerSprite":
-                    SR5_DiceHelper.registerSprite(messageData);
+                case "bindSpirit":
+                    SR5_DiceHelper.enslavedSidekick(messageData, type);
                     SR5_RollMessage.updateChatButton(message.data, type);
                     break;
                 case "applyEffectAuto":
@@ -347,11 +349,7 @@ export class SR5_RollMessage {
                 case "banishingResistance":
                 case "decompilingResistance":
                     targetActor.rollTest(type, null, messageData);
-                    break;
-                case "bindSpirit":
-                    SR5_DiceHelper.bindSpirit(messageData);
-                    SR5_RollMessage.updateChatButton(message.data, type);
-                    break;
+                    break;         
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
