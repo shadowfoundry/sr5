@@ -152,11 +152,11 @@
         <!-- NOISE -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html}}
         <!-- SPRITE - LEVEL AND TYPE -->
-        {{#ife typeSub "compileSprite"}}
+        {{#if (eq typeSub "compileSprite")}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.html}}
-        {{/ife}}
+        {{/if}}
         <!-- KILL COMPLEX FORM - CHOOSE TARGET -->
-        {{#if hasTarget}}
+        {{#if (and (eq typeSub "killComplexForm") hasTarget)}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
         {{/if}}
       {{/ife}}

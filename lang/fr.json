@@ -1683,7 +1683,8 @@
   "SR5.SubmarineLetter"                       : "M",
   "SR5.SubmersionGrade"                       : "Grade de Submersion",
   "SR5.Subtype"                               : "Sous-type",
-  "SR5.SuccessfulDefense"                     : "Défense réussie !",
+  "SR5.SuccessfulAttack"                      : "Attaque réussie",
+  "SR5.SuccessfulDefense"                     : "Défense réussie",
   "SR5.Summary"                               : "Résumé",
   "SR5.SummonedSpirit"                        : "Esprit invoqué",
   "SR5.SummonedSpirits"                       : "Esprits invoqués",
@@ -2397,5 +2398,6 @@
   "SR5.WARN_NotASpirit"                       : "Vous devez sélectionner un esprit !",
   "SR5.WARN_MaxReagents"                      : "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})",
   "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action.",
-  "SR5.WARN_SpiritAlreadyBounded"             : "Cet esprit est déjà lié."
+  "SR5.WARN_SpiritAlreadyBounded"             : "Cet esprit est déjà lié.",
+  "SR5.WARN_DontHavePerm"                     : "Vous ne disposez pas de la permission !"
 }

@@ -1683,6 +1683,7 @@
   "SR5.SubmarineLetter"                       : "S",
   "SR5.SubmersionGrade"                       : "Submersion Grade",
   "SR5.Subtype"                               : "Subtype",
+  "SR5.SuccessfulAttack"                      : "Successful Attack",
   "SR5.SuccessfulDefense"                     : "Successful Defense",
   "SR5.Summary"                               : "Summary",
   "SR5.SummonedSpirit"                        : "Summoned Spirit",
@@ -2397,5 +2398,6 @@
   "SR5.WARN_NotASpirit"                       : "You must select a spirit !",
   "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})",
   "SR5.WARN_InvalidActorType"                 : "Invalid Actor Type for this action.",
-  "SR5.WARN_SpiritAlreadyBounded"             : "Spirit is already bounded."
+  "SR5.WARN_SpiritAlreadyBounded"             : "Spirit is already bounded.",
+  "SR5.WARN_DontHavePerm"                     : "You don't have permission !"
 }
