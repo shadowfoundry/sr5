@@ -1224,14 +1224,26 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(147, 16, 4, 0.5);
   color: #fffffe;
 }
+#chat-log .message .SR-CardContent .SR-CardDices .succes.edge {
+  box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
+}
+#chat-log .message .SR-CardContent .SR-CardDices .exploded {
+  background-color: rgba(147, 16, 4, 0.75);
+}
 #chat-log .message .SR-CardContent .SR-CardDices .echec {
   border: 1px solid #0c9394;
   color: #0c9394;
+}
+#chat-log .message .SR-CardContent .SR-CardDices .echec.edge {
+  box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
 #chat-log .message .SR-CardContent .SR-CardDices .glitch {
   border: 1px solid #0c9394;
   color: #fffffe;
   background-color: rgba(12, 147, 148, 0.5);
+}
+#chat-log .message .SR-CardContent .SR-CardDices .glitch.edge {
+  box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
 #chat-log .message .SR-CardContent .SR5-message-hit {
   background-color: #960570;
@@ -1309,6 +1321,9 @@ input[type=range]:focus::-ms-fill-upper {
 #chat-log .message .SR-CardButton .nonOpposedTest:hover {
   color: #0c9394;
   box-shadow: none;
+}
+.dice-roll .dice-formula {
+  background: none;
 }
 .SR5-message-edit {
   width: 20px;

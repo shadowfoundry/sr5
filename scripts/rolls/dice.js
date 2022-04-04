@@ -13,7 +13,7 @@ export class SR5_Dice {
 	 * @param {Number} limit - Le nombre maximum de succèse
 	 * @param {Boolean} explose - Détermine si les 6 explose
 	 */
-	static srd6({ dicePool, limit, explose }) {
+	static srd6({ dicePool, limit, explose, edgeRoll }) {
 		let formula = `${dicePool}d6`;
 		if (explose) formula += "x6";
 		if (limit) formula += `kh${limit}`;
@@ -32,6 +32,7 @@ export class SR5_Dice {
 				d.glitch = true;
 				totalGlitch ++;
 			}
+			if (edgeRoll) d.edge = true;
 		}
 
 		if (totalGlitch > dicePool/2){
@@ -68,7 +69,7 @@ export class SR5_Dice {
 		if (dicePool < 0) dicePool = 0;
 		let limit = messageData.test.limit - messageData.test.hits;
 		if (limit < 0) limit = 0;
-		let chance = SR5_Dice.srd6({ dicePool: dicePool, limit: limit });
+		let chance = SR5_Dice.srd6({ dicePool: dicePool, limit: limit, edgeRoll: true,});
 		let chanceHit;
 		if (chance.hits > limit) chanceHit = limit;
 		else chanceHit = chance.hits;
@@ -80,7 +81,7 @@ export class SR5_Dice {
 		//Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
 		let newMessage = duplicate(messageData);
 		newMessage.test.hits = messageData.test.hits + chanceHit;
-		newMessage.test.dices = chance.dices.concat(dicesKeeped);
+		newMessage.test.dices = dicesKeeped.concat(chance.dices);
 		newMessage.secondeChanceUsed = true;
 		newMessage.pushLimitUsed = true;
 		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor);
@@ -122,6 +123,8 @@ export class SR5_Dice {
 	static async pushTheLimit(message, actor) {
 		let messageData = message.data.flags.sr5data;
 		let dicePool, creator;
+
+		//If roller is a bounder spirit, use actor Edge instead
 		if (messageData.actor.type === "actorSpirit"){
 			creator = SR5_EntityHelpers.getRealActorFromID(messageData.actor.data.creatorId);
 			dicePool = creator.data.data.specialAttributes.edge.augmented.value;
@@ -129,12 +132,13 @@ export class SR5_Dice {
 
 		let newRoll = SR5_Dice.srd6({
 			dicePool: dicePool,
-			explose: true
+			explose: true,
+			edgeRoll: true,
 		});
 
 		let newMessage = duplicate(messageData);
 		newMessage.test.hits = messageData.test.hits + newRoll.hits;
-		newMessage.test.dices = newRoll.dices.concat(messageData.test.dices);
+		newMessage.test.dices = messageData.test.dices.concat(newRoll.dices);
 		newMessage.secondeChanceUsed = true;
 		newMessage.pushLimitUsed = true;
 		newMessage.dicePoolMod.pushTheLimit = dicePool;
@@ -445,7 +449,6 @@ export class SR5_Dice {
 	}
 
 	static async srDicesAddInfoToCard(cardData, author) {
-		console.log(cardData);
 		//Reset button
 		cardData.buttons = {};
 
@@ -579,7 +582,6 @@ export class SR5_Dice {
 	}
 
 	static async addDefenseInfoToCard(cardData, author){
-		console.log("addDefenseInfoToCard");
 		let netHits = cardData.hits - cardData.test.hits;
 		if (netHits <= 0) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
 		else {
