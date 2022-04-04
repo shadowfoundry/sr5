@@ -1224,14 +1224,26 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(178, 0, 122, 0.5);
   color: #fffffe;
 }
+#chat-log .message .SR-CardContent .SR-CardDices .succes.edge {
+  box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
+}
+#chat-log .message .SR-CardContent .SR-CardDices .exploded {
+  background-color: rgba(178, 0, 122, 0.75);
+}
 #chat-log .message .SR-CardContent .SR-CardDices .echec {
   border: 1px solid #839c88;
   color: #839c88;
+}
+#chat-log .message .SR-CardContent .SR-CardDices .echec.edge {
+  box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
 #chat-log .message .SR-CardContent .SR-CardDices .glitch {
   border: 1px solid #839c88;
   color: #fffffe;
   background-color: rgba(131, 156, 136, 0.5);
+}
+#chat-log .message .SR-CardContent .SR-CardDices .glitch.edge {
+  box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
 #chat-log .message .SR-CardContent .SR5-message-hit {
   background-color: #960570;

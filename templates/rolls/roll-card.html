@@ -11,12 +11,12 @@
         <div class="SR-CardDices">
           {{#each test.dices as |dice d|}}
             {{#if dice.success}}
-              <div class="SR-Dice succes">{{dice.result}}</div>
+              <div class="SR-Dice succes {{#if dice.exploded}}exploded{{/if}} {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
             {{else}}
               {{#if dice.glitch}}
-                <div class="SR-Dice glitch">{{dice.result}}</div>
+                <div class="SR-Dice glitch {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
               {{else}}
-                <div class="SR-Dice echec">{{dice.result}}</div>
+                <div class="SR-Dice echec {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
               {{/if}}
             {{/if}}
           {{/each}}
