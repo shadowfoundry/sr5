@@ -106,6 +106,18 @@ export class ActorSheetSR5 extends ActorSheet {
       this._render(true);
     });
 
+    //
+    html.find(".filtre-nuyen-gains").click((event) => {
+      event.preventDefault();
+      this._shownNuyenGains = !this._shownNuyenGains;
+      this._render(true);
+    });
+    html.find(".filtre-nuyen-expenses").click((event) => {
+      event.preventDefault();
+      this._shownNuyenExpenses = !this._shownNuyenExpenses;
+      this._render(true);
+    });
+
     // Item Dragging
     if (this.actor.isOwner) {
       /* Item Dragging */
