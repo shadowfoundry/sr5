@@ -7,6 +7,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   constructor(...args) {
     super(...args);
 
+    this._shownNuyenGains = true;
+    this._shownNuyenExpenses = true;
     this._shownUntrainedSkills = false;
     this._shownNonRollableMatrixActions = false;
     this._shownUntrainedGroups = false;
@@ -41,7 +43,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       i.labels = item.labels;
     }
     data.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-    
+
     this._prepareItems(data.actor);
     this._prepareSkills(data.actor);
     this._prepareSkillGroups(data.actor);
@@ -78,9 +80,9 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 
   _prepareMatrixActions(actor) {
     const activeMatrixActions = {};
-    let hasAttack = (actor.data.matrix.attributes.attack.value > 0) ? true : false; 
-    let hasSleaze = (actor.data.matrix.attributes.sleaze.value > 0) ? true : false; 
-    
+    let hasAttack = (actor.data.matrix.attributes.attack.value > 0) ? true : false;
+    let hasSleaze = (actor.data.matrix.attributes.sleaze.value > 0) ? true : false;
+
     for (let [key, matrixAction] of Object.entries(actor.data.matrix.actions)) {
       let linkedAttribute = matrixAction.limit?.linkedAttribute;
       if ( (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
@@ -144,7 +146,10 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemDevice") cyberdecks.push(i);
       else if (i.type === "itemProgram") programs.push(i);
       else if (i.type === "itemKarma") karmas.push(i);
-      else if (i.type === "itemNuyen") nuyens.push(i);
+      else if (i.type === "itemNuyen") {
+        if (i.data.type == "gain" && this._shownNuyenGains) nuyens.push(i);
+        if (i.data.type == "loss" && this._shownNuyenExpenses) nuyens.push(i);
+        }
       else if (i.type === "itemContact") contacts.push(i);
       else if (i.type === "itemLifestyle") lifestyles.push(i);
       else if (i.type === "itemSin") sins.push(i);
@@ -245,13 +250,13 @@ export class SR5ActorSheet extends ActorSheetSR5 {
         break;
       case "itemAdeptPower":
       case "itemPower":
-      case "itemMartialArt" : 
+      case "itemMartialArt" :
         if (itemData.data.actionType === "permanent") itemData.data.isActive = true;
         return super._onDropItemCreate(itemData);
         break;
       default:
         return super._onDropItemCreate(itemData);
-    }        
+    }
   }
-  
+
 }

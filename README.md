@@ -67,6 +67,10 @@ The system is heavily automatised, main features are:
 - Vehicle
 - Weapon
 
+## Installation
+In Foundry VTT systems windows, use the following link in the `Manifest URL` field:
+https://github.com/shadowfoundry/sr5/releases/latest/download/system.json
+
 ## Thanks
 A big thanks to Moo Man, Atropos, and all the amazing developpers behind a lot of Foundry systems. I've learned a lot with your systems.
 None of this should be here without my 'coding bro' deurk. "Coeur avec les mains".
