@@ -22,7 +22,7 @@
 			</div>
 			<div class="col-1">
 				{{#if owner}}
-				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemAdeptPower')}}" 
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemAdeptPower')}}"
 				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemAdeptPower"><em class="fas fa-plus"></em></a>
 				</p>
@@ -51,7 +51,10 @@
 				<p class="SR-TextCenter">{{valueOrDash data.powerPointsCost.value}}</p>
 			</div>
 			<div class="col-1">
-				<p class="SR-TextCenter">{{valueOrDash data.itemRating}}</p>
+				<p class="SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			      data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+        {{valueOrDash data.itemRating}}</p>
 			</div>
 			<div class="col-2">
 				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'actionTypes' data.actionType)}}</p>

@@ -181,24 +181,40 @@
           margin-right : 2.55px;
           margin-left  : 2.55px;
           margin-bottom: 5px;
-          padding-top  : 1px;
+          padding-top  : 1px;          
         }
 
         .succes {
           border          : 1px solid @mainColor;
           background-color: fade(@mainColor, 50%);
           color           : @neutralLightColor;
+
+          &.edge {
+            box-shadow   : 2px 2px 3px fade(@neutralDarkColor, 50%);
+          }
+        }
+
+        .exploded {
+          background-color: fade(@mainColor, 75%);
         }
 
         .echec {
           border: 1px solid @subColor;
           color : @subColor;
+
+          &.edge {
+            box-shadow   : 2px 2px 3px fade(@neutralDarkColor, 50%);
+          }
         }
 
         .glitch {
           border          : 1px solid @subColor;
           color           : @neutralLightColor;
           background-color: fade(@subColor, 50%);
+
+          &.edge {
+            box-shadow   : 2px 2px 3px fade(@neutralDarkColor, 50%);
+          }
         }
       }
 

@@ -585,7 +585,7 @@ export default class SR5_RollDialog extends Dialog {
                 this.updateDicePoolValue(html);
                 dialogData.dicePoolMod.spiritAid = dialogData.spiritAidMod;
             }
-            else {    
+            else {
                 document.getElementById("useSpiritAid").style.display = "none";
                 this.dicePoolModifier.spiritAid = 0;
                 this.updateDicePoolValue(html);
