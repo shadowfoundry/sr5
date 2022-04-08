@@ -3926,8 +3926,9 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #sr5help ul {
   list-style-type: circle;
-  list-style-position: inside;
+  list-style-position: outside;
   text-align: left;
+  padding-left: 12px;
 }
 #sr5help .helpMessage {
   padding-bottom: 8px;
@@ -4811,6 +4812,12 @@ input[type=range]:focus::-ms-fill-upper {
   padding-top: 0;
   padding-bottom: 0;
   border-radius: 0;
+}
+.dialog .window-content .dialog-content .SR5jet select {
+  text-align-last: right;
+}
+.dialog .window-content .dialog-content .SR5jet option {
+  direction: rtl;
 }
 .dialog .window-content .dialog-content .SR5jet li {
   line-height: 18px;

@@ -362,10 +362,12 @@ export default class SR5_RollDialog extends Dialog {
             if (value === "true") {
                 dialogData.extendedTest = true;
                 document.getElementById("interval").style.display = "block";
+                document.getElementById("extendedSpace").style.display = "none";
             }
             else {
                 dialogData.extendedTest = false;
                 document.getElementById("interval").style.display = "none";
+                document.getElementById("extendedSpace").style.display = "block";
             }
         }); 
 
