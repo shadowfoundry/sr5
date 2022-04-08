@@ -179,9 +179,9 @@ export class SR5_CharacterUtility extends Actor {
       for (let key of Object.keys(lists.penaltyTypes)) {
         data.penalties[key].actual.value = 0;
         data.penalties[key].actual.modifiers = [];
-        if (data.penalties[key].damageReduction){
-          data.penalties[key].damageReduction.value = 0;
-          data.penalties[key].damageReduction.modifiers = [];
+        if (data.penalties[key].boxReduction){
+          data.penalties[key].boxReduction.value = 0;
+          data.penalties[key].boxReduction.modifiers = [];
         }
         if (data.penalties[key].step){
           data.penalties[key].step.base = 3;
@@ -2035,9 +2035,9 @@ export class SR5_CharacterUtility extends Actor {
         }
         SR5_EntityHelpers.updateValue(data.skills[key].rating, 0);
         if (data.skills[key].rating.value) {
-          data.skills[key].test.base = data.skills[key].rating.base;
+          data.skills[key].test.base = 0;
+          if (data.skills[key].rating.base > 0) SR5_EntityHelpers.updateModifier(data.skills[key].test, `${game.i18n.localize(lists.skills[key])}`, `${game.i18n.localize('SR5.SkillRating')}`, data.skills[key].rating.base);
           data.skills[key].test.modifiers = data.skills[key].test.modifiers.concat(data.skills[key].rating.modifiers);
-          //data.skills[key].rating.value;
         } else {
           if (data.skills[key].canDefault) {
             data.skills[key].test.base = 0;
@@ -2063,19 +2063,15 @@ export class SR5_CharacterUtility extends Actor {
     if (actor.type !== "actorSprite"){
       for (let key of Object.keys(lists.spellCategories)) {
         if (data.skills.spellcasting.rating.value > 0) {
-          data.skills.spellcasting.spellCategory[key].base = data.skills.spellcasting.rating.base;
           data.skills.spellcasting.spellCategory[key].modifiers = data.skills.spellcasting.spellCategory[key].modifiers.concat(data.skills.spellcasting.test.modifiers);
         }
         if (data.skills.counterspelling.rating.value > 0) {
-          data.skills.counterspelling.spellCategory[key].base = data.skills.counterspelling.rating.base;
           data.skills.counterspelling.spellCategory[key].modifiers = data.skills.counterspelling.spellCategory[key].modifiers.concat(data.skills.counterspelling.test.modifiers);
         }
         if (data.skills.ritualSpellcasting.rating.value > 0) {
-          data.skills.ritualSpellcasting.spellCategory[key].base = data.skills.ritualSpellcasting.rating.base;
           data.skills.ritualSpellcasting.spellCategory[key].modifiers = data.skills.ritualSpellcasting.spellCategory[key].modifiers.concat(data.skills.ritualSpellcasting.test.modifiers);
         }
         if (data.skills.alchemy.rating.value > 0) {
-          data.skills.alchemy.spellCategory[key].base = data.skills.alchemy.rating.base;
           data.skills.alchemy.spellCategory[key].modifiers = data.skills.alchemy.spellCategory[key].modifiers.concat(data.skills.alchemy.test.modifiers);
         }
         SR5_EntityHelpers.updateDicePool(data.skills.spellcasting.spellCategory[key], 0);
@@ -2085,9 +2081,9 @@ export class SR5_CharacterUtility extends Actor {
       }
 
       for (let key of Object.keys(lists.spiritTypes)) {
-        data.skills.summoning.spiritType[key].base = data.skills.summoning.test.dicePool;
-        data.skills.binding.spiritType[key].base = data.skills.binding.test.dicePool;
-        data.skills.banishing.spiritType[key].base = data.skills.banishing.test.dicePool;
+        data.skills.summoning.spiritType[key].modifiers = data.skills.summoning.spiritType[key].modifiers.concat(data.skills.summoning.test.modifiers);
+        data.skills.binding.spiritType[key].modifiers = data.skills.binding.spiritType[key].modifiers.concat(data.skills.binding.test.modifiers);
+        data.skills.banishing.spiritType[key].modifiers = data.skills.banishing.spiritType[key].modifiers.concat(data.skills.banishing.test.modifiers);
         SR5_EntityHelpers.updateDicePool(data.skills.summoning.spiritType[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.binding.spiritType[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.banishing.spiritType[key], 0);

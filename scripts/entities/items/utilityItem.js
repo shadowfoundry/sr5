@@ -375,7 +375,7 @@ export class SR5_UtilityItem extends Actor {
           SR5_SystemHelpers.srLog(1, `Unknown weapon skill '${actorSkill}' in '_generateWeaponDicepool()'`);
           weapon.weaponSkill.base = 0;
         } else {
-          weapon.weaponSkill.base = actorData.data.skills[actorSkill].rating.base;
+          weapon.weaponSkill.base = 0;
           weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
           //Special case : bow
           if (weapon.type === "bow" && (actorData.data.attributes.strength.augmented.value < weapon.itemRating)){
@@ -1433,9 +1433,9 @@ export class SR5_UtilityItem extends Actor {
     let skill = 0;
     if (power.testSkill) {
       skill = actor.data.skills[power.testSkill].rating.value;
-      power.test.base = (skill || 0) + actor.data.level;
+      SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(SR5.skills[power.testSkill]), game.i18n.localize('SR5.Skill'), skill, false, true);
+      SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize('SR5.Level'), game.i18n.localize('SR5.LinkedAttribute'), actor.data.level, false, true);
     }
-    
     SR5_EntityHelpers.updateDicePool(power.test);
   }
 

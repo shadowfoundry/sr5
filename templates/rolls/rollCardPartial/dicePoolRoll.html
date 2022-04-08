@@ -12,7 +12,7 @@
 <!--Base Dicepool composition-->
 <li class="SR-GreyColor">
     {{#each dicePoolComposition}}
-    <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}})</span> 
+    <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}}){{#unless @last}}, {{/unless}}</span> 
     {{/each}}
 </li>
 <!--Push the limit mod Dicepool-->
