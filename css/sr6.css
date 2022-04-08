@@ -567,6 +567,62 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(131, 156, 136, 0.05);
   border: 1px solid #839c88;
 }
+.app.window-app.actor .window-content .unfoldLight:hover::before {
+  color: rgba(255, 255, 254, 0.75);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f102 ";
+}
+.app.window-app.actor .window-content .unfoldLight::before {
+  color: rgba(255, 255, 254, 0.25);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f107 ";
+}
+.app.window-app.actor .window-content .foldLight:hover::before {
+  color: rgba(255, 255, 254, 0.75);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f103 ";
+}
+.app.window-app.actor .window-content .foldLight::before {
+  color: rgba(255, 255, 254, 0.25);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f106 ";
+}
+.app.window-app.actor .window-content .unfoldDark:hover::before {
+  color: rgba(178, 0, 122, 0.75);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f102 ";
+}
+.app.window-app.actor .window-content .unfoldDark::before {
+  color: rgba(178, 0, 122, 0.25);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f107 ";
+}
+.app.window-app.actor .window-content .foldDark:hover::before {
+  color: rgba(178, 0, 122, 0.75);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f103 ";
+}
+.app.window-app.actor .window-content .foldDark::before {
+  color: rgba(178, 0, 122, 0.25);
+  padding-right: 3px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f106 ";
+}
 .app.window-app.actor .window-content .SR-LigneEnTete {
   padding: 0 3px 0 3px;
   font-size: 1em;
@@ -582,20 +638,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.actor .window-content .SR-LigneEnTete a:hover {
   color: #839c88;
-}
-.app.window-app.actor .window-content .SR-LigneEnTete .depliable:hover::before {
-  color: #839c88;
-  padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f103 ";
-}
-.app.window-app.actor .window-content .SR-LigneEnTete .depliable::before {
-  color: #fffffe;
-  padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  content: "\f103 ";
 }
 .app.window-app.actor .window-content .SR-LigneEnTete.vert {
   background-image: linear-gradient(45deg, rgba(131, 156, 136, 0.5), 80%, #839c88), url("../img/ui/SR6_BG_Sidebar.jpg");
@@ -651,7 +693,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a.toggle-value:hover,
 .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a.reload-ammo:hover {
-  color: rgba(131, 156, 136, 0.5);
+  color: rgba(131, 156, 136, 0);
 }
 .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary {
   padding-bottom: 3px;
@@ -855,7 +897,7 @@ input[type=range]:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid #b2007a;
 }
-.app.window-app.actor .window-content .SR-ActorMainCentre li:hover:not(.SR-LigneEnTete) {
+.app.window-app.actor .window-content .SR-ActorMainCentre li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
   background-color: rgba(131, 156, 136, 0.1);
 }
 .app.window-app.actor .window-content .SR-AppareilMainCentre {
@@ -3926,9 +3968,9 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #sr5help ul {
   list-style-type: circle;
-  list-style-position: inside;
+  list-style-position: outside;
   text-align: left;
-  text-indent: -20px;
+  padding-left: 12px;
 }
 #sr5help .helpMessage {
   padding-bottom: 8px;
