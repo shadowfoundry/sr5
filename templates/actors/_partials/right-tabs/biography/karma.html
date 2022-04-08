@@ -19,14 +19,14 @@
 	<ul>
 		<li class="SR-LigneEnTete vert grid">
 			<div class="col-9">
-				<p class=" SR-TextUppercase depliable">{{localize 'SR5.PastRuns'}}</p>
+				<p class="filtre-karma-gains SR-TextUppercase depliable">{{localize 'SR5.PastRuns'}}</p>
 			</div>
 			<div class="col-2">
 				<p class=" SR-TextCenterOverflow">{{localize 'SR5.KarmaGained'}}</p>
 			</div>
 			<div class="col-1">
 				{{#if owner}}
-				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.PastRuns')}}" 
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.PastRuns')}}"
 				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemKarma" data-subtype="gain">
 						<em class="fas fa-plus"></em>
@@ -74,7 +74,7 @@
 	<ul>
 		<li class="SR-LigneEnTete vert grid">
 			<div class="col-9">
-				<p class=" SR-TextUppercase depliable">{{localize 'SR5.CharacterImprovements'}}</p>
+				<p class="filtre-karma-expenses SR-TextUppercase depliable">{{localize 'SR5.CharacterImprovements'}}</p>
 			</div>
 			<div class="col-2">
 				<p class=" SR-TextCenterOverflow">{{localize 'SR5.KarmaSpent'}}</p>
@@ -82,7 +82,7 @@
 			<div class="col-1">
 				{{#if owner}}
 				<p class="SR-TextRight add-item"
-				  data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.CharacterImprovements')}}" 
+				  data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.CharacterImprovements')}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemKarma" data-subtype="loss"><em class="fas fa-plus"></em></a>
 				</p>

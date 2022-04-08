@@ -7,6 +7,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   constructor(...args) {
     super(...args);
 
+    this._shownKarmaGains = true;
+    this._shownKarmaExpenses = true;
     this._shownNuyenGains = true;
     this._shownNuyenExpenses = true;
     this._shownUntrainedSkills = false;
@@ -145,11 +147,14 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemSpirit") spirits.push(i);
       else if (i.type === "itemDevice") cyberdecks.push(i);
       else if (i.type === "itemProgram") programs.push(i);
-      else if (i.type === "itemKarma") karmas.push(i);
+      else if (i.type === "itemKarma") {
+        if (i.data.type == "gain" && this._shownKarmaGains) karmas.push(i);
+        if (i.data.type == "loss" && this._shownKarmaExpenses) karmas.push(i);
+      }
       else if (i.type === "itemNuyen") {
         if (i.data.type == "gain" && this._shownNuyenGains) nuyens.push(i);
         if (i.data.type == "loss" && this._shownNuyenExpenses) nuyens.push(i);
-        }
+      }
       else if (i.type === "itemContact") contacts.push(i);
       else if (i.type === "itemLifestyle") lifestyles.push(i);
       else if (i.type === "itemSin") sins.push(i);
