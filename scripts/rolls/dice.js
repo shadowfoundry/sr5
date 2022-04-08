@@ -408,7 +408,7 @@ export class SR5_Dice {
       borderColor: userActive.color,
     };
 
-    //SR5_SystemHelpers.srLog(3, chatData.flags.sr5data);
+    //console.log(chatData.flags.sr5data);
     //Handle Dice so Nice
 	await SR5_Dice.showDiceSoNice(
       cardData.test.originalRoll,
@@ -793,11 +793,11 @@ export class SR5_Dice {
 		}
 
 		if (cardData.test.hits > 0) {
-			if (cardData.testType === "opposedTest") cardData.buttons.matrixAction = SR5_RollMessage.generateChatButton("opposedTest", "matrixDefense", game.i18n.localize("SR5.Defend"));
 			if (cardData.typeSub === "jackOut" && author.data.matrix.isLinkLocked) cardData.buttons.jackOut = SR5_RollMessage.generateChatButton("nonOpposedTest", "jackOut", game.i18n.localize("SR5.MatrixActionJackOutResistance"));
-			if (cardData.typeSub === "eraseMark") cardData.buttons.eraseMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "eraseMark", game.i18n.localize("SR5.ChooseMarkToErase"));
-			if (cardData.typeSub === "checkOverwatchScore") cardData.buttons.checkOverwatchScore = SR5_RollMessage.generateChatButton("nonOpposedTest", "checkOverwatchScore", game.i18n.localize("SR5.OverwatchResistance"));
-			if (cardData.typeSub === "jamSignals") cardData.buttons.matrixJamSignals = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixJamSignals", game.i18n.localize("SR5.MatrixActionJamSignals"));
+			else if (cardData.typeSub === "eraseMark") cardData.buttons.eraseMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "eraseMark", game.i18n.localize("SR5.ChooseMarkToErase"));
+			else if (cardData.typeSub === "checkOverwatchScore") cardData.buttons.checkOverwatchScore = SR5_RollMessage.generateChatButton("nonOpposedTest", "checkOverwatchScore", game.i18n.localize("SR5.OverwatchResistance"));
+			else if (cardData.typeSub === "jamSignals") cardData.buttons.matrixJamSignals = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixJamSignals", game.i18n.localize("SR5.MatrixActionJamSignals"));
+			else cardData.buttons.matrixAction = SR5_RollMessage.generateChatButton("opposedTest", "matrixDefense", game.i18n.localize("SR5.Defend"));
 		} else {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.ActionFailure"));
 		}
@@ -1031,12 +1031,12 @@ export class SR5_Dice {
 	static async addResonanceActionInfoToCard(cardData){
 		cardData.ownerAuthor = cardData.speakerId;
 		cardData.hits = cardData.test.hits;
-
+		let testType = cardData.hasTarget ? "nonOpposedTest" : "opposedTest";
+		
 		if (cardData.typeSub === "compileSprite"){
 			cardData.buttons.compileSpriteResist = SR5_RollMessage.generateChatButton("nonOpposedTest", "compileSpriteResist", game.i18n.localize("SR5.SpriteResistance"));
 		}
 		if (cardData.typeSub === "decompileSprite"){
-			let testType = cardData.hasTarget ? "nonOpposedTest" : "opposedTest";
 			cardData.buttons.decompilingResistance = SR5_RollMessage.generateChatButton(testType, "decompilingResistance", game.i18n.localize("SR5.SpriteResistance"));
 		}
 		if (cardData.typeSub === "registerSprite"){

@@ -179,9 +179,9 @@ export class SR5_CharacterUtility extends Actor {
       for (let key of Object.keys(lists.penaltyTypes)) {
         data.penalties[key].actual.value = 0;
         data.penalties[key].actual.modifiers = [];
-        if (data.penalties[key].damageReduction){
-          data.penalties[key].damageReduction.value = 0;
-          data.penalties[key].damageReduction.modifiers = [];
+        if (data.penalties[key].boxReduction){
+          data.penalties[key].boxReduction.value = 0;
+          data.penalties[key].boxReduction.modifiers = [];
         }
         if (data.penalties[key].step){
           data.penalties[key].step.base = 3;
@@ -985,7 +985,7 @@ export class SR5_CharacterUtility extends Actor {
         data.specialAttributes[key].augmented.base = data.specialAttributes[key].natural.value;
         if (key == 'magic' || key == 'resonance') {
           if (data.essence?.base - data.essence?.value) {
-            SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), '', -1 * Math.ceil(data.essence.base - data.essence.value));
+            SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), game.i18n.localize('SR5.Augmentations'), -1 * Math.ceil(data.essence.base - data.essence.value));
           }
         }
         SR5_EntityHelpers.updateValue(data.specialAttributes[key].augmented, 0);
@@ -2035,9 +2035,9 @@ export class SR5_CharacterUtility extends Actor {
         }
         SR5_EntityHelpers.updateValue(data.skills[key].rating, 0);
         if (data.skills[key].rating.value) {
-          data.skills[key].test.base = data.skills[key].rating.base;
+          data.skills[key].test.base = 0;
+          if (data.skills[key].rating.base > 0) SR5_EntityHelpers.updateModifier(data.skills[key].test, `${game.i18n.localize(lists.skills[key])}`, `${game.i18n.localize('SR5.SkillRating')}`, data.skills[key].rating.base);
           data.skills[key].test.modifiers = data.skills[key].test.modifiers.concat(data.skills[key].rating.modifiers);
-          //data.skills[key].rating.value;
         } else {
           if (data.skills[key].canDefault) {
             data.skills[key].test.base = 0;
@@ -2063,19 +2063,15 @@ export class SR5_CharacterUtility extends Actor {
     if (actor.type !== "actorSprite"){
       for (let key of Object.keys(lists.spellCategories)) {
         if (data.skills.spellcasting.rating.value > 0) {
-          data.skills.spellcasting.spellCategory[key].base = data.skills.spellcasting.rating.base;
           data.skills.spellcasting.spellCategory[key].modifiers = data.skills.spellcasting.spellCategory[key].modifiers.concat(data.skills.spellcasting.test.modifiers);
         }
         if (data.skills.counterspelling.rating.value > 0) {
-          data.skills.counterspelling.spellCategory[key].base = data.skills.counterspelling.rating.base;
           data.skills.counterspelling.spellCategory[key].modifiers = data.skills.counterspelling.spellCategory[key].modifiers.concat(data.skills.counterspelling.test.modifiers);
         }
         if (data.skills.ritualSpellcasting.rating.value > 0) {
-          data.skills.ritualSpellcasting.spellCategory[key].base = data.skills.ritualSpellcasting.rating.base;
           data.skills.ritualSpellcasting.spellCategory[key].modifiers = data.skills.ritualSpellcasting.spellCategory[key].modifiers.concat(data.skills.ritualSpellcasting.test.modifiers);
         }
         if (data.skills.alchemy.rating.value > 0) {
-          data.skills.alchemy.spellCategory[key].base = data.skills.alchemy.rating.base;
           data.skills.alchemy.spellCategory[key].modifiers = data.skills.alchemy.spellCategory[key].modifiers.concat(data.skills.alchemy.test.modifiers);
         }
         SR5_EntityHelpers.updateDicePool(data.skills.spellcasting.spellCategory[key], 0);
@@ -2085,17 +2081,17 @@ export class SR5_CharacterUtility extends Actor {
       }
 
       for (let key of Object.keys(lists.spiritTypes)) {
-        data.skills.summoning.spiritType[key].base = data.skills.summoning.test.dicePool;
-        data.skills.binding.spiritType[key].base = data.skills.binding.test.dicePool;
-        data.skills.banishing.spiritType[key].base = data.skills.banishing.test.dicePool;
+        data.skills.summoning.spiritType[key].modifiers = data.skills.summoning.spiritType[key].modifiers.concat(data.skills.summoning.test.modifiers);
+        data.skills.binding.spiritType[key].modifiers = data.skills.binding.spiritType[key].modifiers.concat(data.skills.binding.test.modifiers);
+        data.skills.banishing.spiritType[key].modifiers = data.skills.banishing.spiritType[key].modifiers.concat(data.skills.banishing.test.modifiers);
         SR5_EntityHelpers.updateDicePool(data.skills.summoning.spiritType[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.binding.spiritType[key], 0);
         SR5_EntityHelpers.updateDicePool(data.skills.banishing.spiritType[key], 0);
       }
 
       for (let key of Object.keys(lists.perceptionTypes)){
-        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].test, 0);
-        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].limit, 0);
+        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].test);
+        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].limit);
       }
     }
   }
@@ -2162,7 +2158,7 @@ export class SR5_CharacterUtility extends Actor {
       magic.drainResistance.linkedAttribute = "body";
       for (let category of Object.keys(lists.spellCategories)) {
         magic.elements[category] = "";
-      }    
+      }
       magic.powerPoints.maximum.base = specialAttributes.magic.augmented.value;
     }
 
@@ -2193,7 +2189,7 @@ export class SR5_CharacterUtility extends Actor {
         let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
         magic.tradition = traditionType.value;
       }
-    }    
+    }
   }
 
   // Magic and Astral Calculations
@@ -2490,7 +2486,7 @@ export class SR5_CharacterUtility extends Actor {
       sleazeValue = matrixAttributes.sleaze.value;
       dataProcessingValue = matrixAttributes.dataProcessing.value;
       attackValue = matrixAttributes.attack.value;
-    } else if (actor.type === "actorSprite" || (actor.type === "actorDevice" && matrix.deviceType !== "slavedDevice")){ 
+    } else if (actor.type === "actorSprite" || (actor.type === "actorDevice" && matrix.deviceType !== "slavedDevice")){
       intuitionValue = matrix.deviceRating;
       willpowerValue = matrix.deviceRating;
       logicValue = matrix.deviceRating;
@@ -2500,7 +2496,7 @@ export class SR5_CharacterUtility extends Actor {
       attackValue = matrixAttributes.attack.value;
     } else if (actor.type === "actorDrone" && data.vehicleOwner.id && data.slaved) {
       let controler = actor.flags.sr5.vehicleControler.data;
-      
+
       if (controler.attributes.intuition.augmented.value > matrix.deviceRating){
         intuitionValue = controler.attributes.intuition.augmented.value;
         controlerLabelIntuition = `(${game.i18n.localize('SR5.Controler')})`;
@@ -2510,27 +2506,27 @@ export class SR5_CharacterUtility extends Actor {
         willpowerValue = controler.attributes.willpower.augmented.value;
         controlerLabelWillpower = `(${game.i18n.localize('SR5.Controler')})`;
       } else willpowerValue = matrix.deviceRating;
-      
+
       if (controler.attributes.logic.augmented.value > matrix.deviceRating){
         logicValue = controler.attributes.logic.augmented.value;
         controlerLabelLogic = `(${game.i18n.localize('SR5.Controler')})`;
       } else logicValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.firewall.value > matrix.deviceRating){
         firewallValue = controler.matrix.attributes.firewall.value;
         controlerLabelFirewall = `(${game.i18n.localize('SR5.Controler')})`;
       } else firewallValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.sleaze.value > matrix.deviceRating){
         sleazeValue = controler.matrix.attributes.sleaze.value;
         controlerLabelSleaze = `(${game.i18n.localize('SR5.Controler')})`;
       } else sleazeValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.dataProcessing.value > matrix.deviceRating){
         dataProcessingValue = controler.matrix.attributes.dataProcessing.value;
         controlerLabelDataProcessing = `(${game.i18n.localize('SR5.Controler')})`;
       } else dataProcessingValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.attack.value > matrix.deviceRating){
         attackValue = controler.matrix.attributes.attack.value;
         controlerLabelAttack = `(${game.i18n.localize('SR5.Controler')})`;

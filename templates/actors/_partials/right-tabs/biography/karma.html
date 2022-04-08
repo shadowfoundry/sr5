@@ -17,16 +17,16 @@
 <!-- PAST RUNS  -->
 <div class="SRBlockSheet">
 	<ul>
-		<li class="SR-LigneEnTete vert grid">
+		<li class="SR-EnTete grid">
 			<div class="col-9">
-				<p class=" SR-TextUppercase depliable">{{localize 'SR5.PastRuns'}}</p>
+				<p class="filterKarmaGains SR-TextUppercase unfoldDark">{{localize 'SR5.PastRuns'}}</p>
 			</div>
 			<div class="col-2">
 				<p class=" SR-TextCenterOverflow">{{localize 'SR5.KarmaGained'}}</p>
 			</div>
 			<div class="col-1">
 				{{#if owner}}
-				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.PastRuns')}}" 
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.PastRuns')}}"
 				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemKarma" data-subtype="gain">
 						<em class="fas fa-plus"></em>
@@ -52,14 +52,8 @@
 			</div>
 			{{#if ../owner}}
 			<div class="col-1 SR-TextRight">
-				<a class="item-edit" data-title="{{localize 'SR5.Edit'}}" data-helpTitle="{{localize 'SR5.HELP_ItemEdit' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemEditMsg'}}">
-					<em class="fas fa-sm fa-edit"></em>
-				</a>
-				<a class="item-clone" data-title="{{localize 'SR5.Clone'}}" data-helpTitle="{{localize 'SR5.HELP_ItemClone' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemCloneMsg'}}">
-					<em class="fas fa-sm fa-clone"></em>
-				</a>
-				<a class="item-delete" data-title="{{localize 'SR5.Delete'}}" data-helpTitle="{{localize 'SR5.HELP_ItemDelete' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemDeleteMsg'}}">
-					<em class="fas fa-sm fa-trash"></em>
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
 				</a>
 			</div>
 			{{/if}}
@@ -72,9 +66,9 @@
 <!-- IMPROVEMENTS -->
 <div class="SRBlockSheet">
 	<ul>
-		<li class="SR-LigneEnTete vert grid">
+		<li class="SR-EnTete grid">
 			<div class="col-9">
-				<p class=" SR-TextUppercase depliable">{{localize 'SR5.CharacterImprovements'}}</p>
+				<p class="filterKarmaExpenses SR-TextUppercase unfoldDark">{{localize 'SR5.CharacterImprovements'}}</p>
 			</div>
 			<div class="col-2">
 				<p class=" SR-TextCenterOverflow">{{localize 'SR5.KarmaSpent'}}</p>
@@ -82,7 +76,7 @@
 			<div class="col-1">
 				{{#if owner}}
 				<p class="SR-TextRight add-item"
-				  data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.CharacterImprovements')}}" 
+				  data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.CharacterImprovements')}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemKarma" data-subtype="loss"><em class="fas fa-plus"></em></a>
 				</p>
@@ -106,14 +100,8 @@
 			</div>
 			{{#if ../owner}}
 			<div class="col-1 SR-TextRight">
-				<a class="item-edit" data-title="{{localize 'SR5.Edit'}}" data-helpTitle="{{localize 'SR5.HELP_ItemEdit' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemEditMsg'}}">
-					<em class="fas fa-sm fa-edit"></em>
-				</a>
-				<a class="item-clone" data-title="{{localize 'SR5.Clone'}}" data-helpTitle="{{localize 'SR5.HELP_ItemClone' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemCloneMsg'}}">
-					<em class="fas fa-sm fa-clone"></em>
-				</a>
-				<a class="item-delete" data-title="{{localize 'SR5.Delete'}}" data-helpTitle="{{localize 'SR5.HELP_ItemDelete' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemDeleteMsg'}}">
-					<em class="fas fa-sm fa-trash"></em>
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
 				</a>
 			</div>
 			{{/if}}

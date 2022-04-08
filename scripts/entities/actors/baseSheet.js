@@ -88,7 +88,7 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find(".stop-jamming").click(this._onStopJamming.bind(this));
 
 
-    // Affiche les compétences
+    // Hide or display some information by clicking on headers allowing it
     html.find(".hidden").hide();
     html.find(".filtre-skill").click((event) => {
       event.preventDefault();
@@ -105,18 +105,35 @@ export class ActorSheetSR5 extends ActorSheet {
       this._shownNonRollableMatrixActions = !this._shownNonRollableMatrixActions;
       this._render(true);
     });
-
-    //
-    html.find(".filtre-nuyen-gains").click((event) => {
+    html.find(".filterNuyenGains").click((event) => {
       event.preventDefault();
       this._shownNuyenGains = !this._shownNuyenGains;
       this._render(true);
     });
-    html.find(".filtre-nuyen-expenses").click((event) => {
+    html.find(".filterNuyenExpenses").click((event) => {
       event.preventDefault();
       this._shownNuyenExpenses = !this._shownNuyenExpenses;
       this._render(true);
     });
+    html.find(".filterKarmaGains").click((event) => {
+      event.preventDefault();
+      this._shownKarmaGains = !this._shownKarmaGains;
+      this._render(true);
+    });
+    html.find(".filterKarmaExpenses").click((event) => {
+      event.preventDefault();
+      this._shownKarmaExpenses = !this._shownKarmaExpenses;
+      this._render(true);
+    });
+    // Light color indicator (for dark headers)
+    if (!this._shownUntrainedSkills) $(".filtre-skill").toggleClass("unfoldLight").toggleClass("foldLight");
+    if (!this._shownUntrainedGroups) $(".filtre-groupe").toggleClass("unfoldLight").toggleClass("foldLight");
+    if (!this._shownNonRollableMatrixActions) $(".filtre-matrixActions").toggleClass("unfoldLight").toggleClass("foldLight");
+    // Dark color indicator (for light headers)
+    if (!this._shownNuyenExpenses) $(".filterNuyenExpenses").toggleClass("unfoldDark").toggleClass("foldDark");
+    if (!this._shownNuyenGains) $(".filterNuyenGains").toggleClass("unfoldDark").toggleClass("foldDark");
+    if (!this._shownKarmaExpenses) $(".filterKarmaExpenses").toggleClass("unfoldDark").toggleClass("foldDark");
+    if (!this._shownKarmaGains) $(".filterKarmaGains").toggleClass("unfoldDark").toggleClass("foldDark");
 
     // Item Dragging
     if (this.actor.isOwner) {

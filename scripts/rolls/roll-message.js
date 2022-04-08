@@ -348,6 +348,7 @@ export class SR5_RollMessage {
                 case "bindingResistance":
                 case "banishingResistance":
                 case "decompilingResistance":
+                case "registeringResistance":
                     targetActor.rollTest(type, null, messageData);
                     break;         
                 default:

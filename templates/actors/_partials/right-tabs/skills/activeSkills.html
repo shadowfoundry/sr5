@@ -1,8 +1,8 @@
 <!-- ACTIVE SKILLS -->
-<div class="filtre-skill SRBlockSheet">
+<div class="SRBlockSheet">
 	<ul>
 		<li class="grid SR-LigneEnTete">
-			<div class="col-4 SR-TextUppercase {{#if (ne actor.type 'actorDrone')}}depliable{{/if}}" data-category="skill" id="SRSkill">
+			<div class="col-4 filtre-skill SR-TextUppercase {{#if (ne actor.type 'actorDrone')}}unfoldLight{{/if}}" data-category="skill" id="SRSkill">
 			  	{{#if (ne actor.type 'actorDrone')}}
 			  	<span data-helpTitle="{{localize 'SR5.ActiveSkills'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SkillsMsg'}}">{{localize 'SR5.ActiveSkills'}}</span>
