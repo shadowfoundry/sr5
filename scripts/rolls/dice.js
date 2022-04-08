@@ -408,7 +408,7 @@ export class SR5_Dice {
       borderColor: userActive.color,
     };
 
-    SR5_SystemHelpers.srLog(3, chatData.flags.sr5data);
+    //console.log(chatData.flags.sr5data);
     //Handle Dice so Nice
 	await SR5_Dice.showDiceSoNice(
       cardData.test.originalRoll,
