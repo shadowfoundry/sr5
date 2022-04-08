@@ -97,14 +97,14 @@
 
         .unfoldDark {
           &:hover::before {
-            color: fade(@subColor, 75%);
+            color: fade(@mainColor, 75%);
             padding-right: 3px;
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
             content: "\f102 ";
           }
           &::before {
-            color: fade(@subColor, 25%);
+            color: fade(@mainColor, 25%);
             padding-right: 3px;
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
@@ -114,14 +114,14 @@
 
         .foldDark {
           &:hover::before {
-            color: fade(@subColor, 75%);
+            color: fade(@mainColor, 75%);
             padding-right: 3px;
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
             content: "\f103 ";
           }
           &::before {
-            color: fade(@subColor, 25%);
+            color: fade(@mainColor, 25%);
             padding-right: 3px;
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
@@ -214,7 +214,7 @@
                     color: fade(@subColor, 25%);
 
                     &:hover {
-                        color: fade(@subColor, 50%);
+                        color: fade(@subColor, 0%);
                     }
                 }
             }
@@ -464,7 +464,7 @@
             overflow    : auto;
             border-left : 1px solid @mainColor;
 
-            li:hover:not(.SR-LigneEnTete) {
+            li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
                 background-color: fade(@subColor, 10%);
             }
         }
