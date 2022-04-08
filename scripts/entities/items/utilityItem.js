@@ -339,6 +339,7 @@ export class SR5_UtilityItem extends Actor {
                 }
               }
             }
+            if (actorData.data.passiveTargeting) weapon.accuracy.base = actorData.data.attributes.sensor.augmented.value;
             break;
           case "manual":
             SR5_EntityHelpers.updateModifier(weapon.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.test.dicePool);
