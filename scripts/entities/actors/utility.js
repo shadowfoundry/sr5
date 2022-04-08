@@ -2090,8 +2090,8 @@ export class SR5_CharacterUtility extends Actor {
       }
 
       for (let key of Object.keys(lists.perceptionTypes)){
-        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].test, 0);
-        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].limit, 0);
+        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].test);
+        SR5_EntityHelpers.updateValue(data.skills.perception.perceptionType[key].limit);
       }
     }
   }
