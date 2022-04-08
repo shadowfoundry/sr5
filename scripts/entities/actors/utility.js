@@ -985,7 +985,7 @@ export class SR5_CharacterUtility extends Actor {
         data.specialAttributes[key].augmented.base = data.specialAttributes[key].natural.value;
         if (key == 'magic' || key == 'resonance') {
           if (data.essence?.base - data.essence?.value) {
-            SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), '', -1 * Math.ceil(data.essence.base - data.essence.value));
+            SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), game.i18n.localize('SR5.Augmentations'), -1 * Math.ceil(data.essence.base - data.essence.value));
           }
         }
         SR5_EntityHelpers.updateValue(data.specialAttributes[key].augmented, 0);
@@ -2162,7 +2162,7 @@ export class SR5_CharacterUtility extends Actor {
       magic.drainResistance.linkedAttribute = "body";
       for (let category of Object.keys(lists.spellCategories)) {
         magic.elements[category] = "";
-      }    
+      }
       magic.powerPoints.maximum.base = specialAttributes.magic.augmented.value;
     }
 
@@ -2193,7 +2193,7 @@ export class SR5_CharacterUtility extends Actor {
         let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
         magic.tradition = traditionType.value;
       }
-    }    
+    }
   }
 
   // Magic and Astral Calculations
@@ -2490,7 +2490,7 @@ export class SR5_CharacterUtility extends Actor {
       sleazeValue = matrixAttributes.sleaze.value;
       dataProcessingValue = matrixAttributes.dataProcessing.value;
       attackValue = matrixAttributes.attack.value;
-    } else if (actor.type === "actorSprite" || (actor.type === "actorDevice" && matrix.deviceType !== "slavedDevice")){ 
+    } else if (actor.type === "actorSprite" || (actor.type === "actorDevice" && matrix.deviceType !== "slavedDevice")){
       intuitionValue = matrix.deviceRating;
       willpowerValue = matrix.deviceRating;
       logicValue = matrix.deviceRating;
@@ -2500,7 +2500,7 @@ export class SR5_CharacterUtility extends Actor {
       attackValue = matrixAttributes.attack.value;
     } else if (actor.type === "actorDrone" && data.vehicleOwner.id && data.slaved) {
       let controler = actor.flags.sr5.vehicleControler.data;
-      
+
       if (controler.attributes.intuition.augmented.value > matrix.deviceRating){
         intuitionValue = controler.attributes.intuition.augmented.value;
         controlerLabelIntuition = `(${game.i18n.localize('SR5.Controler')})`;
@@ -2510,27 +2510,27 @@ export class SR5_CharacterUtility extends Actor {
         willpowerValue = controler.attributes.willpower.augmented.value;
         controlerLabelWillpower = `(${game.i18n.localize('SR5.Controler')})`;
       } else willpowerValue = matrix.deviceRating;
-      
+
       if (controler.attributes.logic.augmented.value > matrix.deviceRating){
         logicValue = controler.attributes.logic.augmented.value;
         controlerLabelLogic = `(${game.i18n.localize('SR5.Controler')})`;
       } else logicValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.firewall.value > matrix.deviceRating){
         firewallValue = controler.matrix.attributes.firewall.value;
         controlerLabelFirewall = `(${game.i18n.localize('SR5.Controler')})`;
       } else firewallValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.sleaze.value > matrix.deviceRating){
         sleazeValue = controler.matrix.attributes.sleaze.value;
         controlerLabelSleaze = `(${game.i18n.localize('SR5.Controler')})`;
       } else sleazeValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.dataProcessing.value > matrix.deviceRating){
         dataProcessingValue = controler.matrix.attributes.dataProcessing.value;
         controlerLabelDataProcessing = `(${game.i18n.localize('SR5.Controler')})`;
       } else dataProcessingValue = matrix.deviceRating;
-      
+
       if (controler.matrix.attributes.attack.value > matrix.deviceRating){
         attackValue = controler.matrix.attributes.attack.value;
         controlerLabelAttack = `(${game.i18n.localize('SR5.Controler')})`;
