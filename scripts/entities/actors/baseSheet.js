@@ -117,6 +117,16 @@ export class ActorSheetSR5 extends ActorSheet {
       this._shownNuyenExpenses = !this._shownNuyenExpenses;
       this._render(true);
     });
+    html.find(".filtre-karma-gains").click((event) => {
+      event.preventDefault();
+      this._shownKarmaGains = !this._shownKarmaGains;
+      this._render(true);
+    });
+    html.find(".filtre-karma-expenses").click((event) => {
+      event.preventDefault();
+      this._shownKarmaExpenses = !this._shownKarmaExpenses;
+      this._render(true);
+    });
 
     // Item Dragging
     if (this.actor.isOwner) {
