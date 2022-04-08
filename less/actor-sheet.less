@@ -61,6 +61,74 @@
             }
         }
 
+        .unfoldLight {
+          &:hover::before {
+            color: fade(@neutralLightColor, 75%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f102 ";
+          }
+          &::before {
+            color: fade(@neutralLightColor, 25%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f107 ";
+          }
+        }
+
+        .foldLight {
+          &:hover::before {
+            color: fade(@neutralLightColor, 75%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f103 ";
+          }
+          &::before {
+            color: fade(@neutralLightColor, 25%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f106 ";
+          }
+        }
+
+        .unfoldDark {
+          &:hover::before {
+            color: fade(@subColor, 75%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f102 ";
+          }
+          &::before {
+            color: fade(@subColor, 25%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f107 ";
+          }
+        }
+
+        .foldDark {
+          &:hover::before {
+            color: fade(@subColor, 75%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f103 ";
+          }
+          &::before {
+            color: fade(@subColor, 25%);
+            padding-right: 3px;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            content: "\f106 ";
+          }
+        }
+
         .SR-LigneEnTete {
             padding: 0 3px 0 3px;
             font-size: @SR_FontSizeNormal;
@@ -78,26 +146,6 @@
 
                 &:hover {
                     color: @subColor;
-                }
-            }
-
-            .depliable {
-
-                &:hover::before {
-                    color: @subColor;
-                    padding-right: 3px;
-                    font-family: "Font Awesome 5 Free";
-                    font-weight: 900;
-                    content: "\f103 ";
-
-                }
-
-                &::before {
-                    color: @neutralLightColor;
-                    padding-right: 3px;
-                    font-family: "Font Awesome 5 Free";
-                    font-weight: 900;
-                    content: "\f103 ";
                 }
             }
 
@@ -300,7 +348,7 @@
                     }
                 }
 
-                
+
             }
 
             .SR-AppareilType {
@@ -334,7 +382,7 @@
                 }
 
                 input + label {
-                    cursor: pointer;	
+                    cursor: pointer;
                 }
             }
         }

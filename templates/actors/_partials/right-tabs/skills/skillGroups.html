@@ -1,9 +1,8 @@
 <!-- SKILL GROUPS -->
 <div class="SRBlockSheet">
-	<div class="filtre-groupe">
 		<ul>
 			<li class="grid SR-LigneEnTete">
-				<div class="col-9 SR-TextUppercase depliable" data-category="skills"
+				<div class="col-9 filtre-groupe SR-TextUppercase unfoldLight" data-category="skills"
 				data-helpTitle="{{localize 'SR5.SkillGroups'}}"
 				data-helpMessage="{{localize 'SR5.HELP_SkillGroupsMenuMsg'}}">
 					{{localize 'SR5.SkillGroups'}}
@@ -12,8 +11,6 @@
 				<div class="col-1 SR-TextCenter" data-category="skills">{{localize 'SR5.Value'}}</div>
 			</li>
 		</ul>
-	</div>
-	<div>
 		<ul class="SR-GroupeCompetences">
 			{{#each data.skillGroups}}
 			{{#unless isHidden}}
@@ -32,5 +29,4 @@
 			{{/unless}}
 			{{/each}}
 		</ul>
-	</div>
 </div>
