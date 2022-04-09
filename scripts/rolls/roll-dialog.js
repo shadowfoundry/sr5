@@ -136,13 +136,18 @@ export default class SR5_RollDialog extends Dialog {
         else this.data.data.rulesMatrixGrid = false;
         let actor = this.data.data.actor;
         let dialogData = this.data.data;
-        
 
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
         if (document.getElementById("useReagents")) document.getElementById("useReagents").style.display = "none";
         if (document.getElementById("useSpiritAid")) document.getElementById("useSpiritAid").style.display = "none";
+        
+        if (dialogData.type === "ritual"){
+            document.getElementById("useReagents").style.display = "block";
+            html.find('[name="reagents"]')[0].value = "true";
+            html.find('[name="reagentsSpent"]')[0].value = 1;
+        }
 
         if (html.find('[name="armor"]')[0]){
             this.dicePoolModifier.armorModifier = parseInt((html.find('[name="armor"]')[0].value || 0));
@@ -417,6 +422,17 @@ export default class SR5_RollDialog extends Dialog {
 
         html.find('[name="force"]').change(ev => {
             this.updateDrainValue(html);
+            let value = ev.target.value;
+            if (dialogData.type === "ritual"){
+                if (value > actor.data.magic.reagents){
+                    value = actor.data.magic.reagents;
+                    ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
+                    html.find('[name="force"]')[0].value = value;
+                }
+                document.getElementById("useReagents").style.display = "block";
+                html.find('[name="reagents"]')[0].value = "true";
+                html.find('[name="reagentsSpent"]')[0].value = value;
+            }
         });
 
         html.find('[name="recklessSpellcasting"]').change(ev => {

@@ -163,6 +163,7 @@ export class SR5_Roll {
                     case "banishing":
                     case "summoning":
                     case "disenchanting":
+                        optionalData = mergeObject(optionalData, {actorMagic: actorData.specialAttributes.magic.augmented.value,});
                         canBeExtended = false;
                         break;
                     default:
@@ -642,6 +643,7 @@ export class SR5_Roll {
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                     dicePoolComposition: resonanceAction.test.modifiers,
+                    actorResonance: actorData.specialAttributes.resonance.augmented.value,
                 }
 
                 if (game.user.targets.size && (typeSub === "killComplexForm" || typeSub === "decompileSprite" || typeSub === "registerSprite")){
@@ -947,6 +949,28 @@ export class SR5_Roll {
                         "spiritAidMod": spiritHelp.data.data.itemRating,
                         "switch.spiritAid": true,
                     });
+                }
+                break;
+
+            case "ritual":
+                if (!canUseReagents) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoReagents")}`);
+                title = `${game.i18n.localize("SR5.PerformRitual")} ${item.name}`;
+                if (itemData.spellLinkedType !== ""){
+                    dicePool = actorData.skills.ritualSpellcasting.test.dicePool;
+                    dicePoolComposition = actorData.skills.ritualSpellcasting.test.modifiers;
+                } else {
+                    dicePool = actorData.skills.ritualSpellcasting.spellCategory[itemData.spellLinkedType].dicePool;
+                    dicePoolComposition = actorData.skills.ritualSpellcasting.spellCategory[itemData.spellLinkedType].modifiers;
+                }
+
+                optionalData = {
+                    limitType: "force",
+                    force: 1,
+                    actorMagic: actorData.specialAttributes.magic.augmented.value,
+                    "sceneData.backgroundCount": backgroundCount,
+                    "sceneData.backgroundAlignement": backgroundAlignement,
+                    "switch.canUseReagents": canUseReagents,
+                    dicePoolComposition: dicePoolComposition,
                 }
                 break;
 

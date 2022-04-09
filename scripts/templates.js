@@ -154,6 +154,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html",
     "systems/sr5/templates/actors/_partials/right-tabs/magic/metamagics.html",
     "systems/sr5/templates/actors/_partials/right-tabs/magic/preparations.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/magic/rituals.html",
     
     //Right Tab - Matrix partials
     "systems/sr5/templates/actors/_partials/right-tabs/matrix/devices.html",
@@ -248,6 +249,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/summary/vehicle-summary.html",
         "systems/sr5/templates/items/_partial/summary/weapon-summary.html",
         "systems/sr5/templates/items/_partial/summary/tradition-summary.html",
+        "systems/sr5/templates/items/_partial/summary/ritual-summary.html",
         
     // Item sheet block editable
     "systems/sr5/templates/items/_partial/editable/_common/description-edit.html",
@@ -353,6 +355,10 @@ export const preloadHandlebarsTemplates = async function () {
         //Quality
         "systems/sr5/templates/items/_partial/editable/quality/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/quality/karmaCost-edit.html",
+
+        //Ritual
+        "systems/sr5/templates/items/_partial/editable/ritual/details-edit.html",
+        "systems/sr5/templates/items/_partial/editable/ritual/duration-edit.html",
 
         //Sin
         "systems/sr5/templates/items/_partial/editable/sin/nationality-edit.html",

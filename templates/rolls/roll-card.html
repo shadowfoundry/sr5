@@ -30,7 +30,7 @@
         {{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
       {{/if}}
       <!--Drain info-->
-      {{#if (or (eq type 'spell') (eq type 'preparationFormula'))}}
+      {{#if (or (eq type 'spell') (eq type 'preparationFormula') (eq type 'ritualResistance'))}}
         {{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.html}}
       {{/if}}
       <!--Summoning info-->

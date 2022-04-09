@@ -12,6 +12,7 @@ export class SR5_DiceHelper {
 
     // Update an item after a roll
     static async srDicesUpdateItem(cardData, actor) {
+        debugger;
         let item = actor.getEmbeddedDocument("Item", cardData.item._id);
         let newItem = duplicate(item.data);
         let firedAmmo = cardData.firedAmmo;
@@ -20,27 +21,29 @@ export class SR5_DiceHelper {
         if (!firedAmmo) firedAmmo = 1;
         if (newItem.type === "itemWeapon" && newItem.data.category === "rangedWeapon") {
             newItem.data.ammunition.value -= firedAmmo;
-            if (newItem.data.ammunition.value < 0) newItem.data.ammunition.value = 0;
-            item.update(newItem);
+            if (newItem.data.ammunition.value < 0) newItem.data.ammunition.value = 0;           
         }
-        //update spell force
-        if (newItem.type === "itemSpell") {
+        //update force and hits
+        if (newItem.type === "itemSpell" || newItem.type === "itemPreparation") {
             newItem.data.hits = cardData.test.hits;
             newItem.data.force = cardData.force;
-            item.update(newItem);
         }
-        //update preparation hits
-        if (newItem.type === "itemPreparation") {
-            newItem.data.hits = cardData.test.hits;
-            newItem.data.force = cardData.force;
-            item.update(newItem);
-        }
-        //update complex form level
+        //update level and hits
         if (newItem.type === "itemComplexForm") {
             newItem.data.hits = cardData.test.hits;
             newItem.data.level = cardData.level;
-            item.update(newItem);
         }
+        //Update net hits
+        if (newItem.type === "itemRitual") {
+            newItem.data.force = cardData.force;
+            newItem.data.hits = cardData.hits;
+            newItem.data.netHits = cardData.hits - cardData.test.hits;
+            if (newItem.data.netHits < 0) {
+                newItem.data.netHits = 0;                
+            }
+        }
+
+        item.update(newItem);
     }
 
     /** Handle spirit, sprite or preparation resistance
@@ -59,6 +62,7 @@ export class SR5_DiceHelper {
             speakerId: message.speakerId,
             speakerActor: message.speakerActor,
             speakerImg: message.speakerImg,
+            originalMessage: message.originalMessage,
         };
 
         //Spirit resistance
@@ -76,6 +80,7 @@ export class SR5_DiceHelper {
         if (message.typeSub === "compileSprite"){
             cardData = mergeObject(cardData, {
                 spriteType: message.spriteType,
+                actorResonance: message.actorResonance,
                 level: message.level,
                 type: "compilingResistance",
                 title: `${game.i18n.localize("SR5.CompilingResistance")} (${cardData.hits})`,
@@ -93,6 +98,18 @@ export class SR5_DiceHelper {
                 title: `${game.i18n.localize("SR5.PreparationResistance")} (${cardData.hits})`,
             });
             dicePool = cardData.force;    
+        }
+
+        //Ritual resistance
+        if (message.type === "ritual"){
+            cardData = mergeObject(cardData, {
+                item: message.item,
+                force: message.force,
+                reagentsSpent : message.reagentsSpent,
+                type: "ritualResistance",
+                title: `${game.i18n.localize("SR5.RitualResistance")} (${cardData.hits})`,
+            });
+            dicePool = cardData.force * 2;
         }
 
         //Complex form resistance
@@ -1224,5 +1241,19 @@ export class SR5_DiceHelper {
     static async _socketDeleteItem(message){
         let item = await fromUuid(message.data.item);
         await item.delete();
+    }
+
+    static async sealRitual(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
+        let item = actor.items.find(i => i.id === message.item._id),
+            itemData = duplicate(item.data.data);
+        
+        itemData.isActive = true;
+        if (!game.user?.isGM){
+            SR5_SocketHandler.emitForGM("updateItem", {
+                item: item,
+                data: itemData,
+            });
+        } else await item.update({'data': itemData});
     }
 }

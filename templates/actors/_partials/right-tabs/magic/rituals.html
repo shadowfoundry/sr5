@@ -1,0 +1,111 @@
+<!-- RITUALS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-3 SR-TextUppercase">{{localize 'SR5.Rituals'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter">{{localize 'SR5.SpellForceShort'}}</div>
+					<div class="col-6 SR-TextCenter">{{localize 'SR5.DiceHitsShort'}}</div>
+				</div>
+			</div>
+			<div class="col-3 SR-TextCenter">{{localize 'SR5.SpellLinked'}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.Duration'}}</div>
+			<div class="col-1 SR-TextCenter"><em class="fas fa-sm fa-thumbtack"></em></div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemRitual')}}" 
+				  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemRitual"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.rituals}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-3 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{name}}
+			</div>
+			{{#if (eq data.spellLinkedType "combat")}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="ritual"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RitualRollMsg'}}"
+			  data-helpDetails="data.skills.ritualSpellcasting.spellCategory.combat">
+				{{../data.skills.ritualSpellcasting.spellCategory.combat.dicePool}}
+			</div>
+			{{else if (eq data.spellLinkedType "detection")}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="ritual"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RitualRollMsg'}}"
+			  data-helpDetails="data.skills.ritualSpellcasting.spellCategory.detection">
+				{{../data.skills.ritualSpellcasting.spellCategory.detection.dicePool}}
+			</div>
+			{{else if (eq data.spellLinkedType "illusion")}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="ritual"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RitualRollMsg'}}"
+			  data-helpDetails="data.skills.ritualSpellcasting.spellCategory.illusion">
+				{{../data.skills.ritualSpellcasting.spellCategory.illusion.dicePool}}
+			</div>
+			{{else if (eq data.spellLinkedType "manipulation")}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="ritual"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RitualRollMsg'}}"
+			  data-helpDetails="data.skills.ritualSpellcasting.spellCategory.manipulation">
+				{{../data.skills.ritualSpellcasting.spellCategory.manipulation.dicePool}}
+			</div>
+			{{else if (eq data.spellLinkedType "health")}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="ritual"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RitualRollMsg'}}"
+			  data-helpDetails="data.skills.ritualSpellcasting.spellCategory.health">
+				{{../data.skills.ritualSpellcasting.spellCategory.health.dicePool}}
+			</div>
+			{{else}}
+			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="ritual"
+			  data-helpTitle="{{localize 'SR5.DicePool'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RitualRollMsg'}}"
+			  data-helpDetails="data.skills.ritualSpellcasting.test">
+				{{../data.skills.ritualSpellcasting.test.dicePool}}
+			</div>
+			{{/if}}
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.force" 
+					  data-helpTitle="{{localize 'SR5.HELP_SpellForce' key=name}}"
+			  		  data-helpMessage="{{localize 'SR5.HELP_SpellForceMsg'}}">
+						{{data.force}}
+					</div>
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.hits" 
+					  data-helpTitle="{{localize 'SR5.HELP_SpellHits' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_SpellHitsMsg'}}">
+						{{data.hits}}
+					</div>
+				</div>
+			</div>
+			<div class="col-3 SR-TextCenter">{{data.spellLinkedName}}</div>
+			<div class="col-2 SR-TextCenter">
+				{{#if (and (ne data.duration 'instantaneous') (ne data.duration 'sustained') (ne data.duration 'permanent'))}}
+				{{data.durationValue}} 
+				{{/if}}
+				{{findTranslation 'ritualDurations' data.duration}}
+			</div>
+			<div class="col-1 SR-TextCenter">
+				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+						data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+						<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em></a>
+				</p>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

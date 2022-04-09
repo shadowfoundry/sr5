@@ -5329,6 +5329,7 @@
       "itemPreparation",
       "itemProgram",
       "itemQuality",
+      "itemRitual",
       "itemSin",
       "itemSpell",
       "itemSpirit",
@@ -5948,6 +5949,41 @@
       "lynchpin": "",
       "trigger": "",
       "potency": 0,
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "itemRitual": {
+      "templates": [
+        "templateDescription",
+        "templateActivation",
+        "templateCustomEffects"
+      ],
+      "anchored": false,
+      "materialLink": false,
+      "minion": false,
+      "spell": false,
+      "spotter": false,
+      "durationToPerform": "",
+      "duration": "",
+      "durationMultiplier": "",
+      "durationMultiplierValue": 0,
+      "durationValue": 0,
+      "materialLinked": "",
+      "spellChoices":[],
+      "spellLinked": "",
+      "spellLinkedType": "",
+      "spellLinkedName": "",
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "force": 0,
+      "hits": 0,
+      "netHits": 0,
       "test": {
         "dicePool": 0,
         "base": 0,

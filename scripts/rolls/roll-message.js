@@ -139,6 +139,9 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "itemEffects");
                     SR5_RollMessage.updateChatButton(message.data, type);
                     break;
+                case "drainCard":
+                    actor.rollTest(type, null, messageData);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (opposed Test)`);
             }
@@ -325,6 +328,10 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "customEffects");
                     SR5_RollMessage.updateChatButton(message.data, type);
                     break;
+                case "ritualSealed":
+                    SR5_DiceHelper.sealRitual(messageData);
+                    SR5_RollMessage.updateChatButton(message.data, type);
+                    break;
                 case "killComplexFormResistance":
                 case "dispellResistance":
                 case "disjointingResistance":
@@ -332,6 +339,7 @@ export class SR5_RollMessage {
                 case "summoningResistance":
                 case "compileSpriteResist":
                 case "preparationResist":
+                case "ritualResistance":
                     SR5_DiceHelper.createItemResistance(messageData);
                     SR5_RollMessage.updateChatButton(message.data, type);
                     break;
