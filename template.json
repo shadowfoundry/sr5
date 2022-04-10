@@ -5969,26 +5969,15 @@
       "durationToPerform": "",
       "duration": "",
       "durationMultiplier": "",
-      "durationMultiplierValue": 0,
       "durationValue": 0,
       "materialLinked": "",
       "spellChoices":[],
       "spellLinked": "",
       "spellLinkedType": "",
       "spellLinkedName": "",
-      "drainValue": {
-        "value": 0,
-        "base": 0,
-        "modifiers": []
-      },
       "force": 0,
       "hits": 0,
-      "netHits": 0,
-      "test": {
-        "dicePool": 0,
-        "base": 0,
-        "modifiers": []
-      }
+      "netHits": 0
     },
     "itemComplexForm":{
       "templates": [
