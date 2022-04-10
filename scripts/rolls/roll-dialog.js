@@ -385,12 +385,10 @@ export default class SR5_RollDialog extends Dialog {
         if (html.find('[name="spiritType"]')[0]){        
             let spiritType = html.find('[name="spiritType"]')[0].value;
             if (spiritType !== ""){
-                let modifier = 0;
-                for (let mod of actor.data.skills.summoning.spiritType[spiritType].modifiers){
-                    if (mod) modifier += parseInt(mod.value);
-                }
+                let modifier = actor.data.skills.summoning.spiritType[spiritType].dicePool - actor.data.skills.summoning.test.dicePool;
                 html.find('[name="summoningSpiritTypeModifier"]')[0].value = modifier;
                 this.dicePoolModifier.summoningSpiritType = modifier;
+                dialogData.dicePoolMod.summoningSpiritType = modifier;
                 dialogData.spiritType = spiritType;
                 this.updateDicePoolValue(html);
             }
@@ -398,12 +396,10 @@ export default class SR5_RollDialog extends Dialog {
 
         html.find('[name="spiritType"]').change(ev => {
             let spiritType = ev.target.value;
-            let modifier = 0;
-            for (let mod of actor.data.skills.summoning.spiritType[spiritType].modifiers){
-                if (mod) modifier += parseInt(mod.value);
-            }
+            let modifier = actor.data.skills.summoning.spiritType[spiritType].dicePool - actor.data.skills.summoning.test.dicePool;
             html.find('[name="summoningSpiritTypeModifier"]')[0].value = modifier;
             this.dicePoolModifier.summoningSpiritType = modifier;
+            dialogData.dicePoolMod.summoningSpiritType = modifier;
             dialogData.spiritType = spiritType;
             this.updateDicePoolValue(html);
         }); 
