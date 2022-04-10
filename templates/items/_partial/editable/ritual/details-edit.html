@@ -1,0 +1,32 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Anchored'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.anchored" data-dtype="Boolean" {{checked data.anchored}} /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.MaterialLink'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.materialLink" data-dtype="Boolean" {{checked data.materialLink}} /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Minion'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.minion" data-dtype="Boolean" {{checked data.minion}} /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Spell'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.spell" data-dtype="Boolean" {{checked data.spell}} /></div>
+    {{#if data.spell}}
+    <div class="col-6">
+        <select name="data.spellLinked" data-dtype="String">
+		{{#select data.spellLinked}}
+			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+		    	{{#each data.spellChoices as |spell i|}}
+				<option value="{{spell.id}}">{{spell.name}}</option>
+				{{/each}}
+		{{/select}}
+		</select>
+    </div>
+    {{/if}}
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Spotter'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.spotter" data-dtype="Boolean" {{checked data.spotter}} /></div>
+</li>

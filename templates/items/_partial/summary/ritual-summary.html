@@ -1,0 +1,43 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Details'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">
+            {{#if data.anchored}}{{localize 'SR5.Anchored'}}{{/if}}
+            {{#if data.materialLink}}{{localize 'SR5.MaterialLink'}}{{/if}}
+            {{#if data.minion}}{{localize 'SR5.Minion'}}{{/if}}
+            {{#if data.spotter}}{{localize 'SR5.Spotter'}}{{/if}}
+            {{#if data.spell}}{{localize 'SR5.Spell'}}{{/if}}
+        </span>
+    </p>
+</li>
+{{#if data.spell}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpellLinked'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">
+            {{data.spellLinkedName}}
+        </span>
+    </p>
+</li>
+{{/if}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.DurationToPerform'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">
+            {{localize 'SR5.SpellForceShort'}} × {{findTranslation 'ritualDurations' data.durationToPerform}}
+        </span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Duration'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">
+            {{#if (and (ne data.duration 'instantaneous') (ne data.duration 'sustained') (ne data.duration 'permanent'))}}
+            {{data.durationValue}} 
+            {{/if}}
+            {{findTranslation 'ritualDurations' data.duration}}
+        </span>
+    </p>
+</li>
+
+

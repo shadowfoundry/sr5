@@ -1127,6 +1127,24 @@ SR5.spritePowerDefenseAttributes = {
   deviceRating              : "SR5.DeviceRating",
 };
 
+//Ritual duration
+SR5.ritualDurations = {
+  instantaneous             : "SR5.DurationInstantaneous",
+  sustained                 : "SR5.DurationSustained",
+  permanent                 : "SR5.DurationPermanent",
+  combatTurn                : "SR5.CombatTurns",
+  minute                    : "SR5.Minutes",
+  hour                      : "SR5.Hours",
+  day                       : "SR5.Days",
+  week                      : "SR5.Weeks",
+  month                     : "SR5.Months",
+};
+
+SR5.ritualDurationMultipliers = {
+  force                  : "SR5.Force",
+  netHits                : "SR5.NetHits",
+}
+
 //-----------------------------------//
 //             MARTIAL ARTS          //
 //-----------------------------------//
@@ -2297,6 +2315,7 @@ SR5.itemTypes = {
   itemPreparation           : "ITEM.TypeItempreparation",
   itemProgram               : "ITEM.TypeItemprogram",
   itemQuality               : "ITEM.TypeItemquality",
+  itemRitual                : "ITEM.TypeItemritual",
   itemSin                   : "ITEM.TypeItemsin",
   itemSpell                 : "ITEM.TypeItemspell",
   itemSpirit                : "ITEM.TypeItemspirit",

@@ -56,7 +56,10 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemAvailability(data);
         break;
       case "itemPreparation":
-        if (owner) SR5_UtilityItem._handlePreparation(itemData, owner);
+        if (owner) SR5_UtilityItem._handlePreparation(itemData);
+        break;
+      case "itemRitual":
+        if (owner) SR5_UtilityItem._handleRitual(itemData, owner);
         break;
       case "itemKnowledge":
         if (owner) SR5_CharacterUtility._generateKnowledgeSkills(data, owner);
@@ -294,7 +297,14 @@ export class SR5Item extends Item {
           tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
         }
         break;
-        
+      case "itemRitual":
+        if (data.anchored) tags.push(game.i18n.localize(`SR5.Anchored`));
+        if (data.materialLink) tags.push(game.i18n.localize(`SR5.MaterialLink`));
+        if (data.minion) tags.push(game.i18n.localize(`SR5.Minion`));
+        if (data.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
+        if (data.spell) tags.push(game.i18n.localize(`SR5.Spell`));
+        tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[data.durationToPerform])}`);
+        break;
       default:
     }
 

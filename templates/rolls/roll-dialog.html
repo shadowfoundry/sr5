@@ -41,7 +41,7 @@
       {{/if}}
 
       <!-- SPELLS - FORCE - BACKGROUND COUNT -->
-      {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
+      {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "ritual") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
         {{#if switch.canUseReagents}}
