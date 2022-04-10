@@ -105,6 +105,11 @@ export class ActorSheetSR5 extends ActorSheet {
       this._shownNonRollableMatrixActions = !this._shownNonRollableMatrixActions;
       this._render(true);
     });
+    html.find(".filterMatrixPrograms").click((event) => {
+      event.preventDefault();
+      this._shownInactiveMatrixPrograms = !this._shownInactiveMatrixPrograms;
+      this._render(true);
+    });
     html.find(".filterNuyenGains").click((event) => {
       event.preventDefault();
       this._shownNuyenGains = !this._shownNuyenGains;
@@ -129,6 +134,7 @@ export class ActorSheetSR5 extends ActorSheet {
     if (!this._shownUntrainedSkills) $(".filtre-skill").toggleClass("unfoldLight").toggleClass("foldLight");
     if (!this._shownUntrainedGroups) $(".filtre-groupe").toggleClass("unfoldLight").toggleClass("foldLight");
     if (!this._shownNonRollableMatrixActions) $(".filtre-matrixActions").toggleClass("unfoldLight").toggleClass("foldLight");
+    if (!this._shownInactiveMatrixPrograms) $(".filterMatrixPrograms").toggleClass("unfoldLight").toggleClass("foldLight");
     // Dark color indicator (for light headers)
     if (!this._shownNuyenExpenses) $(".filterNuyenExpenses").toggleClass("unfoldDark").toggleClass("foldDark");
     if (!this._shownNuyenGains) $(".filterNuyenGains").toggleClass("unfoldDark").toggleClass("foldDark");

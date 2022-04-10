@@ -13,6 +13,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     this._shownNuyenExpenses = true;
     this._shownUntrainedSkills = false;
     this._shownNonRollableMatrixActions = false;
+    this._shownInactiveMatrixPrograms = true;
     this._shownUntrainedGroups = false;
     this._filters = {
       skills: "",
@@ -147,7 +148,9 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemGear") gears.push(i);
       else if (i.type === "itemSpirit") spirits.push(i);
       else if (i.type === "itemDevice") cyberdecks.push(i);
-      else if (i.type === "itemProgram") programs.push(i);
+      else if (i.type === "itemProgram") {
+        if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+      }
       else if (i.type === "itemKarma") {
         if (i.data.type == "gain" && this._shownKarmaGains) karmas.push(i);
         if (i.data.type == "loss" && this._shownKarmaExpenses) karmas.push(i);

@@ -7,6 +7,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
   constructor(...args) {
     super(...args);
 
+    this._shownInactiveMatrixPrograms = true;
     this._shownUntrainedSkills = false;
     this._shownUntrainedGroups = false;
     this._filters = {
@@ -61,7 +62,9 @@ export class SR5DroneSheet extends ActorSheetSR5 {
     for (let i of actor.items) {
       if (i.type === "itemWeapon") weapons.push(i);
       else if (i.type === "itemArmor") armors.push(i);
-      else if (i.type === "itemProgram") programs.push(i);
+      else if (i.type === "itemProgram") {
+        if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+      }
       else if (i.type === "itemMark") marks.push(i);
       else if (i.type === "itemAmmunition") ammunitions.push(i);
       else if (i.type === "itemEffect") effects.push(i);
