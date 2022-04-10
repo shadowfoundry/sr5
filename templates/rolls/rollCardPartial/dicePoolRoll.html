@@ -205,3 +205,10 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.spiritAid}}</div>
 </li>
 {{/if}}
+<!--Summoning Spirit type mod Dicepool-->
+{{#if (and (isdefined dicePoolMod.summoningSpiritType) (ne dicePoolMod.summoningSpiritType 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SpiritTypeBonus'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.summoningSpiritType}}</div>
+</li>
+{{/if}}
