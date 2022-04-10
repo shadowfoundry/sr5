@@ -2,11 +2,16 @@
     <div class="col-12">{{localize 'SR5.Target'}}</div>
 </li>
 <li class="grid">
-	<select name="targetEffect" data-dtype="String">
-	{{#select item}}
-		{{#each effectsList}}
-		<option value="{{uuid}}">{{name}}</option>
-		{{/each}}
-	{{/select}}
-	</select>
+	<div class="col-11">
+		<select name="targetEffect" data-dtype="String">
+		{{#select item}}
+			{{#each effectsList}}
+			<option value="{{uuid}}">{{name}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+	<div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="targetEffectTypeModifier" value="" placeholder="0" data-dtype="Number" />
+    </div>
 </li>

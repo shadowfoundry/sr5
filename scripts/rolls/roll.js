@@ -195,7 +195,10 @@ export class SR5_Roll {
                             for (let e of Object.values(currentEffectList)){
                                 let parentItem = await fromUuid(e.data.data.ownerItem);
                                 if (effectsList.length === 0) effectsList.push(parentItem);
-                                else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                                else {
+                                    let itemAlreadyIn = effectsList.find((i) => i.id === parentItem.id);
+                                    if (!itemAlreadyIn) effectsList.push(parentItem);
+                                }
                             }
                             if (effectsList.length !== 0){
                                 optionalData = mergeObject(optionalData, {
@@ -661,7 +664,10 @@ export class SR5_Roll {
                             for (let e of Object.values(currentEffectList)){
                                 let parentItem = await fromUuid(e.data.data.ownerItem);
                                 if (effectsList.length === 0) effectsList.push(parentItem);
-                                if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                                else {
+                                    let itemAlreadyIn = effectsList.find((i) => i.id === parentItem.id);
+                                    if (!itemAlreadyIn) effectsList.push(parentItem);
+                                }
                             }
                             if (effectsList.length !== 0){
                                 optionalData = mergeObject(optionalData, {
