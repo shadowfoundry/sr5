@@ -126,6 +126,12 @@ export default class SR5_RollDialog extends Dialog {
         return modifiedRecoil || 0;
     }
 
+    async getTargetType(target){
+        let item = await fromUuid(target);
+        if (item.type === "itemSpell") return item.data.data.category;
+        else return null;
+    }
+
     activateListeners(html) {
         super.activateListeners(html);
         this.dicePoolModifier = {};
@@ -561,9 +567,25 @@ export default class SR5_RollDialog extends Dialog {
         //Kill Complex Form or CounterSpell
         if (html.find('[name="targetEffect"]')[0]){
             dialogData.targetEffect = html.find('[name="targetEffect"]')[0].value;
+            if (dialogData.typeSub === "counterspelling"){
+                this.getTargetType(dialogData.targetEffect).then((spellCategory) => {
+                    let modifier = actor.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.data.skills.counterspelling.test.dicePool;
+                    html.find('[name="targetEffectTypeModifier"]')[0].value = modifier;
+                    this.dicePoolModifier.spellCategory = modifier;
+                    dialogData.dicePoolMod.spellCategory = modifier;
+                });
+            }
         }
         html.find('[name="targetEffect"]').change(ev => {
             dialogData.targetEffect = html.find('[name="targetEffect"]')[0].value;
+            if (dialogData.typeSub === "counterspelling"){
+                this.getTargetType(dialogData.targetEffect).then((spellCategory) => {
+                    let modifier = actor.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.data.skills.counterspelling.test.dicePool;
+                    html.find('[name="targetEffectTypeModifier"]')[0].value = modifier;
+                    this.dicePoolModifier.spellCategory = modifier;
+                    dialogData.dicePoolMod.spellCategory = modifier;
+                });
+            }
         });
 
         //Reagents use
