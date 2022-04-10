@@ -19,24 +19,22 @@
 		{{/each}}
 		
 		<!-- Physical overflow -->
-		{{#ife data.conditionMonitors.physical.current data.conditionMonitors.physical.value}}
-			<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.overflow.current"
-			  data-helpTitle="{{localize 'SR5.ConditionMonitorPhysicalOverflow'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
-				{{#each data.conditionMonitors.overflow.boxes as |box index|}}
-					{{#if box.locked}}
-						<div class="boxes box-disabled" data-index="{{index}}">
-							<div class="SR-Case SR-CaseNeutralDarkColor"></div>
-						</div>
-					{{else if box.filled}}
-						<a class="boxes" data-index="{{index}}">
-							<div class="SR-Case SR-CaseMainColor"></div>
-						</a>
-					{{else}}
-						<a class="boxes" data-index="{{index}}">
-							<div class="SR-Case SR-CasePopColor"></div>
-						</a>
-					{{/if}}
-				{{/each}}
-			</div>
-		{{/ife}}
+		<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.overflow.current"
+			data-helpTitle="{{localize 'SR5.ConditionMonitorPhysicalOverflow'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
+			{{#each data.conditionMonitors.overflow.boxes as |box index|}}
+				{{#if box.locked}}
+					<div class="boxes box-disabled" data-index="{{index}}">
+						<div class="SR-Case SR-CaseNeutralDarkColor"></div>
+					</div>
+				{{else if box.filled}}
+					<a class="boxes" data-index="{{index}}">
+						<div class="SR-Case SR-CaseMainColor"></div>
+					</a>
+				{{else}}
+					<a class="boxes" data-index="{{index}}">
+						<div class="SR-Case SR-CaseSubColor"></div>
+					</a>
+				{{/if}}
+			{{/each}}
+		</div>
 	</div>

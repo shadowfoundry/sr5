@@ -148,7 +148,10 @@ export class SR5_EntityHelpers {
 
     conditionMonitors[monitorType].boxes = []
     for (let loop = 1; loop < monitorMaximum + 1; loop++) {
-      conditionMonitors[monitorType].boxes.push({ filled: (loop <= currentMonitorValue ? true : false) });
+      if (monitorType == 'overflow' && conditionMonitors['physical'].current < conditionMonitors['physical'].value)
+        conditionMonitors[monitorType].boxes.push({ filled: false, locked: true });
+      else
+        conditionMonitors[monitorType].boxes.push({ filled: (loop <= currentMonitorValue ? true : false) });
     }
   }
 
