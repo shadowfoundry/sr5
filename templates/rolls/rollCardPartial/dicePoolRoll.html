@@ -115,19 +115,19 @@
 </li>
 {{/if}}
 <!--Full defense mod Dicepool-->
-{{#if (isdefined dicePoolMod.defenseFull)}}
+{{#if (and (isdefined dicePoolMod.defenseFull) (ne dicePoolMod.defenseFull 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.FullDefense'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.defenseFull}}</div>
 </li>
 {{/if}}
 <!--Cover mod Dicepool-->
-{{#if_g dicePoolMod.defenseCover 0}}
+{{#if (and (isdefined dicePoolMod.defenseCover) (ne dicePoolMod.defenseCover 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.Cover'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.defenseCover}}</div>
 </li>
-{{/if_g}}
+{{/if}}
 <!--Armor mod Dicepool-->
 {{#if (isdefined armor)}}
 <li class="grid SR-GreyColor">
@@ -143,14 +143,14 @@
 </li>
 {{/if}}
 <!--Background Count mod Dicepool-->
-{{#if (isdefined dicePoolMod.backgroundCount)}}
+{{#if (and (isdefined dicePoolMod.backgroundCount) (ne dicePoolMod.backgroundCount 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.SceneBackgroundCount'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.backgroundCount}}</div>
 </li>
 {{/if}}
 <!--Matrix Range Noise mod Dicepool-->
-{{#if (isdefined dicePoolMod.matrixNoiseRange)}}
+{{#if (and (isdefined dicePoolMod.matrixNoiseRange) (ne dicePoolMod.matrixNoiseRange 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.MatrixNoise'}} ({{findTranslation 'matrixNoiseDistance' matrixNoiseRange}}){{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseRange}}</div>
@@ -205,11 +205,11 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.spiritAid}}</div>
 </li>
 {{/if}}
-<!--Summoning Spirit type mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.summoningSpiritType) (ne dicePoolMod.summoningSpiritType 0))}}
+<!--Spirit type mod Dicepool-->
+{{#if (and (isdefined dicePoolMod.spiritType) (ne dicePoolMod.spiritType 0))}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.SpiritTypeBonus'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.summoningSpiritType}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.spiritType}}</div>
 </li>
 {{/if}}
 <!--Spell category mod Dicepool-->
@@ -217,5 +217,26 @@
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.SpellCategoryBonus'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.spellCategory}}</div>
+</li>
+{{/if}}
+<!--Sensor lock mod Dicepool-->
+{{#if (and (isdefined dicePoolMod.sensorLockMod) (ne dicePoolMod.sensorLockMod 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SensorLockedTarget'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.sensorLockMod}}</div>
+</li>
+{{/if}}
+<!--Signature size mod Dicepool-->
+{{#if (and (isdefined dicePoolMod.signatureType) (ne dicePoolMod.signatureType 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.TargetSize'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.signatureType}}</div>
+</li>
+{{/if}}
+<!--Mark wanted mod Dicepool-->
+{{#if (and (isdefined dicePoolMod.matrixMarkWanted) (ne dicePoolMod.matrixMarkWanted 0))}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.NumberOfWantedMarks'}} ({{mark}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixMarkWanted}}</div>
 </li>
 {{/if}}

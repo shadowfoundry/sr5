@@ -37,7 +37,8 @@ export class SR5_Roll {
             spiritHelp,
             canUseReagents = false,
             canBeExtended = true,
-            dicePoolComposition;
+            dicePoolComposition,
+            rulesMatrixGrid = false;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -105,6 +106,8 @@ export class SR5_Roll {
         //Reagents
         if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
 
+        if (game.settings.get("sr5", "sr5MatrixGridRules")) rulesMatrixGrid = true;
+
         switch (rollType){
             case "attribute":
                 if (actor.data.type === "actorDrone") title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.vehicleAttributes[rollKey])}`;
@@ -141,6 +144,7 @@ export class SR5_Roll {
                 if (rollType === "skill") {
                     title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
                     dicePool = actorData.skills[rollKey].rating.value;
+                    dicePoolComposition = actorData.skills[rollKey].rating.modifiers;
                     optionalData = mergeObject(optionalData, {
                         hasTarget: true,
                         effectsList: effectsList,
@@ -151,6 +155,7 @@ export class SR5_Roll {
                     });
                 } else {
                     dicePool = actorData.skills[rollKey].test.dicePool;
+                    dicePoolComposition = actorData.skills[rollKey].test.modifiers;
                 }
                 
                 typeSub = rollKey;
@@ -177,7 +182,7 @@ export class SR5_Roll {
                     limitType: skill.limit.base,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
-                    dicePoolComposition: actorData.skills[rollKey].test.modifiers,
+                    dicePoolComposition: dicePoolComposition,
                 });
 
                 if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting")){
@@ -562,6 +567,7 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: matrixAction.test.modifiers,
+                    rulesMatrixGrid: rulesMatrixGrid,
                 });
                 
                 if (typeSub === "dataSpike"){
@@ -1048,6 +1054,7 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: actorData.matrix.resonanceActions.threadComplexForm.test.modifiers,
+                    rulesMatrixGrid: rulesMatrixGrid,
                 }
 
                 if (actorData.matrix.userGrid === "public"){

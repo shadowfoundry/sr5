@@ -471,6 +471,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html",
     "systems/sr5/templates/rolls/rollDialogPartial/reagents.html",
     "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
 
 
     /************************************************************************************* */
