@@ -1381,7 +1381,7 @@
   "SR5.Seconds"                               : "Secondes",
   "SR5.SecondUnit"                            : "s",
   "SR5.SensorDefense"                         : "Défense contre les senseurs",
-  "SR5.SensorLockedTarget"                    : "Verrouiller par les senseurs",
+  "SR5.SensorLockedTarget"                    : "Verrouillé par les senseurs",
   "SR5.SensorTargeting"                       : "Acquisition par senseurs",
   "SR5.SensorTargetingActive"                 : "Acquisition active",
   "SR5.SensorTargetingActiveFailed"           : "Acquisition échouée",
