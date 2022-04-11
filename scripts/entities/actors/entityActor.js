@@ -585,6 +585,13 @@ export class SR5Actor extends Actor {
           }
           break;
 
+        case "itemRitual":
+          iData.spellChoices = SR5_UtilityItem._generateSpellList(iData, actorData);
+          if (iData.isActive && Object.keys(iData.customEffects).length) {
+            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
+          }
+          break;
+
         case "itemDrug":
           if ((iData.isActive || iData.wirelessTurnedOn) && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);

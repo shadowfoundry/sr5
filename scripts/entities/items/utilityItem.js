@@ -100,8 +100,12 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "itemEcho":
         displayName = game.i18n.localize("SR5.EchoNew");
+        break;
       case "itemTradition":
         displayName = game.i18n.localize("SR5.TraditionNew");
+      break;
+      case "itemRitual":
+        displayName = game.i18n.localize("SR5.RitualNew");
       break;
       default:
         displayName = false;
@@ -1079,7 +1083,7 @@ export class SR5_UtilityItem extends Actor {
   }
 
   //Handle Preparation
-  static _handlePreparation(i, actorData){
+  static _handlePreparation(i){
     i.data.test.base = 0;
     SR5_EntityHelpers.updateModifier(i.data.test, game.i18n.localize('SR5.PreparationPotency'), game.i18n.localize('SR5.SkillSpellcasting'), (i.data.potency || 0), false, true);
     SR5_EntityHelpers.updateModifier(i.data.test, game.i18n.localize('SR5.Force'), game.i18n.localize('SR5.LinkedAttribute'), (i.data.force || 0), false, true);
@@ -1092,6 +1096,33 @@ export class SR5_UtilityItem extends Actor {
       power.powerPointsCost.value = power.powerPointsCost.base * power.itemRating;
     } else {
       power.powerPointsCost.value = power.powerPointsCost.base;
+    }
+  }
+
+  ////////////////////// RITUALS ///////////////////////
+  static _generateSpellList(ritual, actor) {
+    let spellList = [];
+    for (let i of actor.items) {
+      if (i.type === "itemSpell" && !i.data.data.preparation) {
+        spellList.push(i);
+      }
+    }
+    return spellList;
+  }
+
+  static _handleRitual(i, actorData){
+    if (i.data.spellLinked){
+      let spellLinked = actorData.items.find(s => s.id === i.data.spellLinked);
+      i.data.spellLinkedType = spellLinked.data.data.category;
+      i.data.spellLinkedName = spellLinked.name;
+    }
+    if (i.data.durationMultiplier === "force") {
+      if (i.data.force > 0) i.data.durationValue = i.data.force;
+      else i.data.durationValue = `(${game.i18n.localize('SR5.SpellForceShort')})`;
+    }
+    if (i.data.durationMultiplier === "netHits") {
+      if (i.data.netHits > 0) i.data.durationValue = i.data.netHits;
+      else i.data.durationValue = `(${game.i18n.localize('SR5.NetHits')})`;
     }
   }
 

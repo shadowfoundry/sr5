@@ -26,13 +26,15 @@ export class SR5_Dice {
 		//Glitch
 		let totalGlitch = 0,
 			glitchRoll = false,
-			criticalGlitchRoll = false;
+			criticalGlitchRoll = false,
+			realHits = 0;
 		for (let d of rollJSON.terms[0].results) {
 			if (d.result === 1) {
 				d.glitch = true;
 				totalGlitch ++;
 			}
 			if (edgeRoll) d.edge = true;
+			if (d.result >= 5) realHits ++;
 		}
 
 		if (totalGlitch > dicePool/2){
@@ -46,6 +48,7 @@ export class SR5_Dice {
 		let rollResult = {
 			dicePool: dicePool,
 			hits: rollJSON.terms[0].total,
+			realHits: realHits,
 			glitchRoll: glitchRoll,
 			criticalGlitchRoll: criticalGlitchRoll,
 			dices: rollJSON.terms[0].results,
@@ -229,10 +232,12 @@ export class SR5_Dice {
 
 						//Verify if reagents are used, if so, remove from actor
 						let reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
-						if (!isNaN(reagentsSpent)) realActor.update({ "data.magic.reagents": actor.data.magic.reagents - reagentsSpent});
+						if (!isNaN(reagentsSpent)) {
+							realActor.update({ "data.magic.reagents": actor.data.magic.reagents - reagentsSpent});
+							dialogData.reagentsSpent = reagentsSpent;
+						}
 
 						// Apply modifiers from dialog window
-						if (dialogData.spiritType) dialogData.dicePool = actor.data.skills.summoning.spiritType[dialogData.spiritType].dicePool;
 						if (dialogData.extendedTest === true){
 							let extendedMultiplier = parseInt(html.find('[name="extendedMultiplier"]').val());
 							if (isNaN(extendedMultiplier)) extendedMultiplier = 1;
@@ -251,7 +256,7 @@ export class SR5_Dice {
 						}
 						if (dialogData.force || dialogData.switch?.canUseReagents){
 							if (dialogData.force) dialogData.limit = dialogData.force;			
-							if (!isNaN(reagentsSpent)) {
+							if (!isNaN(reagentsSpent) && dialogData.type !== "ritual") {
 								dialogData.limit = reagentsSpent;
 								dialogData.limitType = "reagents";
 							}
@@ -408,7 +413,7 @@ export class SR5_Dice {
       borderColor: userActive.color,
     };
 
-    //console.log(chatData.flags.sr5data);
+    console.log(chatData.flags.sr5data);
     //Handle Dice so Nice
 	await SR5_Dice.showDiceSoNice(
       cardData.test.originalRoll,
@@ -477,6 +482,7 @@ export class SR5_Dice {
 			case "matrixIceAttack":
 			case "spritePower":
 			case "power":
+			case "ritual":
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
@@ -524,6 +530,7 @@ export class SR5_Dice {
 				SR5_Dice.addResistFireInfoToCard(cardData, author);
 				break;
 			case "preparationResistance":
+			case "ritualResistance":
 			case "summoningResistance":
 			case "compilingResistance":
 			case "activeSensorDefense":
@@ -722,7 +729,7 @@ export class SR5_Dice {
 		}
 
 		//Update previous message to remove Drain Resistance button
-		if (cardData.originalMessage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "drainCard");
+		if (cardData.originalMessage && cardData.originalMessage.flags.sr5data.type !== "ritualResistance") SR5_RollMessage.updateChatButton(cardData.originalMessage, "drainCard");
 	}
 
 	static async addFadingInfoToCard(cardData){
@@ -730,12 +737,18 @@ export class SR5_Dice {
 
 		if (damageValue > 0) {
 			cardData.damageValue = damageValue;
-			if (cardData.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damageType = "physical";
-			else cardData.damageType = "stun";
+			//Check if Fading is Stun or Physical
+			if (cardData.fadingType) cardData.damageType = cardData.fadingType;
+			else {
+				if (cardData.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damageType = "physical";
+				else cardData.damageType = "stun";
+			}
+			//Add fading damage button
 			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
 		} else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoFading"));
 
-		if (cardData.originalMessage.flags.sr5data.button.fadingResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "fadingCard");
+		//Update previous message to remove Fading Resistance button
+		if (cardData.originalMessage.flags.sr5data.buttons.fadingResistance) SR5_RollMessage.updateChatButton(cardData.originalMessage, "fadingResistance");
 	}
 
 	static async addComplexFormInfoToCard(cardData){
@@ -1099,6 +1112,11 @@ export class SR5_Dice {
 				key = "powerDefense";
 				testType = "opposedTest";
 				break;
+			case "ritual":
+				label = game.i18n.localize("SR5.RitualResistance");
+				labelEnd = game.i18n.localize("SR5.RitualFailed");
+				key = "ritualResistance";
+				testType = "nonOpposedTest";
 		}
 
 		if (cardData.test.hits > 0) {
@@ -1110,6 +1128,7 @@ export class SR5_Dice {
 
 	static async addDefenseResultInfoToCard(cardData, type){
 		let key, label, labelEnd;
+		let prevData = cardData.originalMessage?.flags?.sr5data;
 
 		switch (type){
 			case "jackOutDefense":
@@ -1132,7 +1151,9 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.FailedCompiling");
 				key = "compileSprite";
 				cardData.fadingValue = cardData.test.hits * 2;
-				if (cardData.fadingValue === 0) cardData.fadingValue = 2;
+				if (cardData.level > cardData.actorResonance) cardData.fadingType = "physical";
+				else cardData.fadingType = "stun";
+				if (cardData.fadingValue < 2) cardData.fadingValue = 2;
 				cardData.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fadingCard", `${game.i18n.localize("SR5.ResistFading")} (${cardData.fadingValue})`);
 				break;
 			case "summoningResistance":
@@ -1140,8 +1161,31 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.FailedSummon");
 				key = "summonSpirit";
 				cardData.drainValue = cardData.test.hits * 2;
-				if (cardData.drainValue === 0) cardData.drainValue = 2;
+				if (cardData.force > cardData.actorMagic) cardData.drainType = "physical";
+				else cardData.drainType = "stun";
+				if (cardData.drainValue < 2) cardData.drainValue = 2;
 				cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
+				break;
+			case "ritualResistance":
+				label = game.i18n.localize("SR5.RitualSuccess");
+				labelEnd = game.i18n.localize("SR5.RitualFailed");
+				cardData.drainValue = cardData.test.hits * 2;
+				if (prevData.test.realHits > prevData.actorMagic) cardData.drainType = "physical";
+				else cardData.drainType = "stun";
+				if (cardData.reagentsSpent > cardData.force) {
+					cardData.drainMod = {};
+					cardData.drainMod.hits = cardData.test.hits * 2;
+					cardData.drainValue -= (cardData.reagentsSpent - cardData.force);
+					cardData.drainMod.reagents = -(cardData.reagentsSpent - cardData.force);
+				}
+				key = "ritualSealed";
+				if (cardData.drainValue < 2) cardData.drainValue = 2;
+				cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("opposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
+
+				if (cardData.item.data.durationMultiplier === "netHits"){
+					let realActor = SR5_EntityHelpers.getRealActorFromID(cardData.actor._id);
+					SR5_DiceHelper.srDicesUpdateItem(cardData, realActor);
+				}
 				break;
 			case "eraseMark":
 				label = game.i18n.localize("SR5.MatrixActionEraseMark");

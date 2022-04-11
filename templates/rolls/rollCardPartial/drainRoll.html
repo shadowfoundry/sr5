@@ -4,15 +4,26 @@
     <div class="col-2 SR-TextRight">{{drainValue}}</div>
 </li>
 <!--Force-->
+{{#if (ne type 'ritualResistance')}}
 <li class="grid SR-PaddingTop5 SR-GreyColor">
     <div class="col-10">{{localize 'SR5.Force'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{force}}</div>
 </li>
+{{/if}}
 <!--Drain Modifier-->
+{{#if (isdefined drainMod.spell)}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.DrainModifier'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{drainMod.spell}}</div>
 </li>
+{{/if}}
+<!--Hits Modifier-->
+{{#if (isdefined drainMod.hits)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.DiceHits'}} ×2 {{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{drainMod.hits}}</div>
+</li>
+{{/if}}
 <!--Reckless Spellcasting Modifier-->
 {{#if (isdefined drainMod.recklessSpellcasting)}}
 <li class="grid SR-GreyColor">
@@ -27,5 +38,11 @@
     <div class="col-2 SR-TextRight">{{drainMod.trigger}}</div>
 </li>
 {{/if}}
-
+<!--Reagents Modifier-->
+{{#if (isdefined drainMod.reagents)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.Reagents'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{drainMod.reagents}}</div>
+</li>
+{{/if}}
 

@@ -5329,6 +5329,7 @@
       "itemPreparation",
       "itemProgram",
       "itemQuality",
+      "itemRitual",
       "itemSin",
       "itemSpell",
       "itemSpirit",
@@ -5953,6 +5954,30 @@
         "base": 0,
         "modifiers": []
       }
+    },
+    "itemRitual": {
+      "templates": [
+        "templateDescription",
+        "templateActivation",
+        "templateCustomEffects"
+      ],
+      "anchored": false,
+      "materialLink": false,
+      "minion": false,
+      "spell": false,
+      "spotter": false,
+      "durationToPerform": "",
+      "duration": "",
+      "durationMultiplier": "",
+      "durationValue": 0,
+      "materialLinked": "",
+      "spellChoices":[],
+      "spellLinked": "",
+      "spellLinkedType": "",
+      "spellLinkedName": "",
+      "force": 0,
+      "hits": 0,
+      "netHits": 0
     },
     "itemComplexForm":{
       "templates": [

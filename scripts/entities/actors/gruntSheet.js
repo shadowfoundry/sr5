@@ -9,6 +9,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 
     this._shownUntrainedSkills = false;
     this._shownNonRollableMatrixActions = false;
+    this._shownInactiveMatrixPrograms = true;
     this._shownUntrainedGroups = false;
     this._filters = {
       skills: "",
@@ -118,6 +119,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     const ammunitions = [];
     const effects = [];
     const traditions = [];
+    const rituals = [];
 
     // Iterate through items, allocating to containers
     for (let i of actor.items) {
@@ -135,7 +137,9 @@ export class SR5GruntSheet extends ActorSheetSR5 {
       else if (i.type === "itemGear") gears.push(i);
       else if (i.type === "itemSpirit") spirits.push(i);
       else if (i.type === "itemDevice") cyberdecks.push(i);
-      else if (i.type === "itemProgram") programs.push(i);
+      else if (i.type === "itemProgram") {
+        if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+      }
       else if (i.type === "itemVehicle") vehicles.push(i);
       else if (i.type === "itemMark") marks.push(i);
       else if (i.type === "itemPower") powers.push(i);
@@ -147,6 +151,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
       else if (i.type === "itemEffect") effects.push(i);
       else if (i.type === "itemDrug") gears.push(i);
       else if (i.type === "itemTradition") traditions.push(i);
+      else if (i.type === "itemRitual") rituals.push(i);
     }
 
     actor.knowledges = knowledges;
@@ -174,6 +179,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     actor.ammunitions = ammunitions;
     actor.effects = effects;
     actor.traditions = traditions;
+    actor.rituals = rituals;
   }
 
   activateListeners(html) {

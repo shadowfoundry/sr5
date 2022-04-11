@@ -37,7 +37,8 @@ export class SR5_Roll {
             spiritHelp,
             canUseReagents = false,
             canBeExtended = true,
-            dicePoolComposition;
+            dicePoolComposition,
+            rulesMatrixGrid = false;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -105,6 +106,8 @@ export class SR5_Roll {
         //Reagents
         if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
 
+        if (game.settings.get("sr5", "sr5MatrixGridRules")) rulesMatrixGrid = true;
+
         switch (rollType){
             case "attribute":
                 if (actor.data.type === "actorDrone") title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.vehicleAttributes[rollKey])}`;
@@ -141,6 +144,7 @@ export class SR5_Roll {
                 if (rollType === "skill") {
                     title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
                     dicePool = actorData.skills[rollKey].rating.value;
+                    dicePoolComposition = actorData.skills[rollKey].rating.modifiers;
                     optionalData = mergeObject(optionalData, {
                         hasTarget: true,
                         effectsList: effectsList,
@@ -151,6 +155,7 @@ export class SR5_Roll {
                     });
                 } else {
                     dicePool = actorData.skills[rollKey].test.dicePool;
+                    dicePoolComposition = actorData.skills[rollKey].test.modifiers;
                 }
                 
                 typeSub = rollKey;
@@ -163,6 +168,7 @@ export class SR5_Roll {
                     case "banishing":
                     case "summoning":
                     case "disenchanting":
+                        optionalData = mergeObject(optionalData, {actorMagic: actorData.specialAttributes.magic.augmented.value,});
                         canBeExtended = false;
                         break;
                     default:
@@ -176,7 +182,7 @@ export class SR5_Roll {
                     limitType: skill.limit.base,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
-                    dicePoolComposition: actorData.skills[rollKey].test.modifiers,
+                    dicePoolComposition: dicePoolComposition,
                 });
 
                 if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting")){
@@ -194,7 +200,10 @@ export class SR5_Roll {
                             for (let e of Object.values(currentEffectList)){
                                 let parentItem = await fromUuid(e.data.data.ownerItem);
                                 if (effectsList.length === 0) effectsList.push(parentItem);
-                                else if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                                else {
+                                    let itemAlreadyIn = effectsList.find((i) => i.id === parentItem.id);
+                                    if (!itemAlreadyIn) effectsList.push(parentItem);
+                                }
                             }
                             if (effectsList.length !== 0){
                                 optionalData = mergeObject(optionalData, {
@@ -558,6 +567,7 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: matrixAction.test.modifiers,
+                    rulesMatrixGrid: rulesMatrixGrid,
                 });
                 
                 if (typeSub === "dataSpike"){
@@ -642,6 +652,7 @@ export class SR5_Roll {
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                     dicePoolComposition: resonanceAction.test.modifiers,
+                    actorResonance: actorData.specialAttributes.resonance.augmented.value,
                 }
 
                 if (game.user.targets.size && (typeSub === "killComplexForm" || typeSub === "decompileSprite" || typeSub === "registerSprite")){
@@ -659,7 +670,10 @@ export class SR5_Roll {
                             for (let e of Object.values(currentEffectList)){
                                 let parentItem = await fromUuid(e.data.data.ownerItem);
                                 if (effectsList.length === 0) effectsList.push(parentItem);
-                                if (effectsList.find((i) => i.id != parentItem.id)) effectsList.push(parentItem);
+                                else {
+                                    let itemAlreadyIn = effectsList.find((i) => i.id === parentItem.id);
+                                    if (!itemAlreadyIn) effectsList.push(parentItem);
+                                }
                             }
                             if (effectsList.length !== 0){
                                 optionalData = mergeObject(optionalData, {
@@ -950,6 +964,28 @@ export class SR5_Roll {
                 }
                 break;
 
+            case "ritual":
+                if (!canUseReagents) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoReagents")}`);
+                title = `${game.i18n.localize("SR5.PerformRitual")} ${item.name}`;
+                if (itemData.spellLinkedType !== ""){
+                    dicePool = actorData.skills.ritualSpellcasting.test.dicePool;
+                    dicePoolComposition = actorData.skills.ritualSpellcasting.test.modifiers;
+                } else {
+                    dicePool = actorData.skills.ritualSpellcasting.spellCategory[itemData.spellLinkedType].dicePool;
+                    dicePoolComposition = actorData.skills.ritualSpellcasting.spellCategory[itemData.spellLinkedType].modifiers;
+                }
+
+                optionalData = {
+                    limitType: "force",
+                    force: 1,
+                    actorMagic: actorData.specialAttributes.magic.augmented.value,
+                    "sceneData.backgroundCount": backgroundCount,
+                    "sceneData.backgroundAlignement": backgroundAlignement,
+                    "switch.canUseReagents": canUseReagents,
+                    dicePoolComposition: dicePoolComposition,
+                }
+                break;
+
             case "preparation":
                 title = `${game.i18n.localize("SR5.PreparationUse")}${game.i18n.localize("SR5.Colons")} ${item.name}`;
                 dicePool = itemData.test.dicePool;
@@ -1018,6 +1054,7 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: actorData.matrix.resonanceActions.threadComplexForm.test.modifiers,
+                    rulesMatrixGrid: rulesMatrixGrid,
                 }
 
                 if (actorData.matrix.userGrid === "public"){

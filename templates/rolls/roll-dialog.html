@@ -41,7 +41,7 @@
       {{/if}}
 
       <!-- SPELLS - FORCE - BACKGROUND COUNT -->
-      {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
+      {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "ritual")  )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
         {{#if switch.canUseReagents}}
@@ -51,6 +51,11 @@
 
       {{#if (eq type "preparation")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
+      {{/if}}
+
+      <!-- TARGET TYPE MODIFIERS -->
+      {{#if (eq typeSub "binding")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html}}
       {{/if}}
 
       <!-- DRAIN -->
@@ -88,6 +93,9 @@
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/summoningModifier.html}}
+          {{#if switch.canUseReagents}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+          {{/if}}
         {{/ife}}
       {{/if}}
 
