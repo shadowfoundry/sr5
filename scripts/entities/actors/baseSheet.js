@@ -166,6 +166,17 @@ export class ActorSheetSR5 extends ActorSheet {
     html.find("[data-helpTitle]").mouseover(this._displayHelpText.bind(this));
     html.find("[data-helpTitle]").mouseout(this._hideHelpText.bind(this));
 
+    // Quick monitor reset on monitor's name right-click
+    html.find(".monitorReset").mousedown((e) => {
+    e.preventDefault();
+    if ((e.which === 3 || e.button === 2)) {
+        let actorData = duplicate(this.actor);
+        let monitor = $(e.currentTarget).attr("data-target");
+        setProperty(actorData, `data.conditionMonitors.${monitor}.current`, 0);
+        this.actor.update(actorData);
+      }
+    });
+
     // Gestion des cases de dégats
     html.find(".boxes:not(.box-disabled)").click((ev) => {
       let actorData = duplicate(this.actor);
