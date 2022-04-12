@@ -1050,6 +1050,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.actor .window-content .SR-CaseNeutralDarkColor {
   background: #000001;
+  border: 1px solid #97b79f;
 }
 .app.window-app.actor .window-content .SR-CaseMainColor {
   background: #931004;
