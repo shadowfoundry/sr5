@@ -494,6 +494,8 @@ export class SR5_CharacterUtility extends Actor {
         if (data.conditionMonitors[key]) {
           data.conditionMonitors[key].value = 0;
           data.conditionMonitors[key].modifiers = [];
+          data.conditionMonitors[key].actual.value = 0;
+          data.conditionMonitors[key].actual.modifiers = [];
         }
       }
     }
@@ -563,7 +565,7 @@ export class SR5_CharacterUtility extends Actor {
             if (data.conditionMonitors[key]) {
               SR5_EntityHelpers.updateValue(data.penalties[key].step);
               SR5_EntityHelpers.updateValue(data.penalties[key].boxReduction);
-              data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].current - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
+              data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].actual.value - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
               if (data.penalties[key].actual.base > 0) data.penalties[key].actual.base = 0;
             }
             break;
@@ -1217,7 +1219,11 @@ export class SR5_CharacterUtility extends Actor {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+          },
           "boxes": []
         };
         delete data.statusBars.physical;
@@ -1248,6 +1254,7 @@ export class SR5_CharacterUtility extends Actor {
             break;
           case "overflow":
             conditionMonitors[key].base = attributes.body.augmented.value;
+            if (conditionMonitors.physical.actual.value < conditionMonitors.physical.value) conditionMonitors[key].actual.base = 0;
             break;
           case "matrix":
             conditionMonitors[key].base = Math.ceil((data.matrix.deviceRating / 2) + 8);
@@ -1260,6 +1267,8 @@ export class SR5_CharacterUtility extends Actor {
             return;
         }
         SR5_EntityHelpers.updateValue(conditionMonitors[key], 1);
+        if (conditionMonitors[key].actual.value > conditionMonitors[key].value) conditionMonitors[key].actual.base = conditionMonitors[key].value;
+        SR5_EntityHelpers.updateValue(conditionMonitors[key].actual, 0);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, key);
         SR5_EntityHelpers.updateStatusBars(actor, key);
       }
@@ -2846,7 +2855,7 @@ export class SR5_CharacterUtility extends Actor {
     let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
     let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
     let newDeck = duplicate(ownerDeck);
-    if (newDeck.data.conditionMonitors.matrix.current !== agent.data.conditionMonitors.matrix.current){
+    if (newDeck.data.conditionMonitors.matrix.actual.value !== agent.data.conditionMonitors.matrix.actual.value){
       newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
       ownerDeck.update(newDeck);
     }
@@ -3000,6 +3009,7 @@ export class SR5_CharacterUtility extends Actor {
       if (targetObject === null) skipCustomEffect = true;
 
       if (!skipCustomEffect) {
+        SR5_SystemHelpers.srLog(3, `Applying Custom Effect for ${item.name}`);
         if (!customEffect.multiplier) customEffect.multiplier = 1;
 
         //Special case for items'effects which modify all weapons weared by the actor

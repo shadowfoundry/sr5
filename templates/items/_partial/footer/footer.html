@@ -2,7 +2,7 @@
   <div class="col-6 SR-MoniteurBar">
     {{#if data.conditionMonitors.matrix}}
       <div class="SR-TextUppercase">{{localize 'SR5.ConditionMonitorMatrixShort'}}</div>
-      <div class="SR-MoniteurCases" data-target="data.conditionMonitors.matrix.current">
+      <div class="SR-MoniteurCases" data-target="data.conditionMonitors.matrix.actual.base">
         {{#each data.conditionMonitors.matrix.boxes as |box index|}}
           {{#if box.locked}}
             <div class="boxes box-disabled" data-index="{{index}}">

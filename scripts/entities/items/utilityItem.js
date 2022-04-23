@@ -171,6 +171,15 @@ export class SR5_UtilityItem extends Actor {
     if (data.isWireless){
       data.conditionMonitors.matrix.value = 0;
       data.conditionMonitors.matrix.modifiers = [];
+      data.conditionMonitors.matrix.actual.value = 0;
+      data.conditionMonitors.matrix.actual.modifiers = [];
+    }
+
+    if (data.conditionMonitors?.condition) {
+      data.conditionMonitors.condition.value = 0;
+      data.conditionMonitors.condition.modifiers = [];
+      data.conditionMonitors.condition.actual.value = 0;
+      data.conditionMonitors.condition.actual.modifiers = [];
     }
 
     if (itemData.type === "itemSpell") {
@@ -302,6 +311,7 @@ export class SR5_UtilityItem extends Actor {
       default: item.data.conditionMonitors.matrix.base = Math.ceil(item.data.deviceRating / 2) + 8;
     }
     
+    SR5_EntityHelpers.updateValue(item.data.conditionMonitors.matrix.actual, 0);
     SR5_EntityHelpers.updateValue(item.data.conditionMonitors.matrix, 0);
   }
 

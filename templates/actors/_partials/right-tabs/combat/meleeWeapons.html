@@ -92,7 +92,7 @@
 			</div>
 			<div class="col-1">
 				<div class="grid">
-					{{#if (gte data.conditionMonitors.matrix.current data.conditionMonitors.matrix.value)}}
+					{{#if (gte data.conditionMonitors.matrix.actual.value data.conditionMonitors.matrix.value)}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"

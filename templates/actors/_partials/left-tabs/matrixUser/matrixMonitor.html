@@ -6,11 +6,11 @@
   		<ul>
 			<li class="item grid SR-LigneEnTete SR-TextUppercase" data-item-id="{{_id}}">
 				<div class="col-10">{{localize 'SR5.MatrixMonitor'}}</div>
-				<div class="col-2 changeValueByClick" data-binding="data.conditionMonitors.matrix.current" 
+				<div class="col-2 changeValueByClick" data-binding="data.conditionMonitors.matrix.actual.base" 
 				  data-helpTitle="{{localize 'SR5.MatrixMonitor'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorDeckMsg'}}">
 					<div class="grid">
 						<div class="col-6 SR-TextRight">
-							{{data.conditionMonitors.matrix.current}}/
+							{{data.conditionMonitors.matrix.actual.value}}/
 						</div>
 						<div class="col-2">
 							{{data.conditionMonitors.matrix.value}}

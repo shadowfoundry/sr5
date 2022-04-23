@@ -47,7 +47,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
-        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+        if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
         break;
@@ -71,7 +71,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleAugmentation(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
-        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+        if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
         if (owner){
@@ -98,7 +98,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemConcealment(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
-        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+        if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
         if (owner){
@@ -119,7 +119,7 @@ export class SR5Item extends Item {
           SR5_UtilityItem.applyItemEffects(itemData);
         }
         SR5_UtilityItem._handleMatrixMonitor(itemData);
-        if ((data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) && (data.type !== "baseDevice")) {
+        if ((data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) && (data.type !== "baseDevice")) {
           data.isActive = false;
         }
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
@@ -167,6 +167,7 @@ export class SR5Item extends Item {
         if (data.type === "drone") data.conditionMonitors.condition.base = Math.ceil((data.attributes.body / 2) + 6);
         else data.conditionMonitors.condition.base = Math.ceil((data.attributes.body / 2) + 12);
         SR5_EntityHelpers.updateValue(data.conditionMonitors.condition, 1)
+        SR5_EntityHelpers.updateValue(data.conditionMonitors.condition.actual, 0);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'condition');
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
