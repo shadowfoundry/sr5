@@ -125,6 +125,7 @@ export class SR5_RollMessage {
                 case "registeringResistance":
                 case "banishingResistance":
                 case "iceDefense":
+                case "resistSpell":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "bindingResistance":

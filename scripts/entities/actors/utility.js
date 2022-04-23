@@ -3024,6 +3024,8 @@ export class SR5_CharacterUtility extends Actor {
           }
         }
 
+        SR5_SystemHelpers.srLog(3, `Apply effect from '${item.name}'. Target: ${customEffect.target} / Value: ${customEffect.value}`)
+
         switch (customEffect.type) {
           case "rating":
             customEffect.value = (item.data.itemRating || 0);

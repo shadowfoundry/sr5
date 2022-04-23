@@ -45,6 +45,12 @@
 						<!-- Preparation formula -->
 						{{> systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html}}
 					</ul>
+					<!-- Defense Attributes -->
+					{{#if (and (eq data.resisted true) (ne data.category 'combat') )}}
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html}}
+					</ul>
+					{{/if}}
 				</div>
 
 				<!-- CUSTOM EFFECTS -->

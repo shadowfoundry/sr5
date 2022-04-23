@@ -548,6 +548,7 @@ export class SR5_Dice {
 				SR5_Dice.addSidekickResistanceInfoToCard(cardData, cardData.type);
 				break;
 			case "spellResistance":
+			case "resistSpell":
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":
@@ -672,7 +673,7 @@ export class SR5_Dice {
 		if (cardData.test.hits > 0) {
 			cardData.hits = cardData.test.hits;
 			//Handle Attack spell type
-			if (cardData.typeSub === "indirect" || cardData.typeSub === "direct") {
+			if (cardData.spellCategory === "combat") {
 				if (cardData.typeSub === "indirect") {
 					actionType = "defenseRangedWeapon";
 					label = game.i18n.localize("SR5.Defend");
@@ -688,7 +689,12 @@ export class SR5_Dice {
 				}
 				//Generate Resist spell chat button
 				cardData.buttons[actionType] = SR5_RollMessage.generateChatButton("opposedTest", actionType, label);
+			} else if (cardData.spellResisted) {
+				actionType = "resistSpell";
+				label = game.i18n.localize("SR5.ResistSpell");
+				cardData.buttons[actionType] = SR5_RollMessage.generateChatButton("opposedTest", actionType, label);
 			}
+			
 			//Handle spell Area
 			if (cardData.item.data.range === "area"){
 				cardData.spellArea = cardData.force;
@@ -697,6 +703,7 @@ export class SR5_Dice {
 					else cardData.spellArea = cardData.force * cardData.actorMagic;
 				}
 			}
+
 			//Generate apply effect on Actor chat button
 			if (cardData.switch?.transferEffect) cardData.buttons.applyEffect = SR5_RollMessage.generateChatButton("opposedTest", "applyEffect", game.i18n.localize("SR5.ApplyEffect"));
 			//Generate apply effect on Item chat button
@@ -1247,11 +1254,9 @@ export class SR5_Dice {
 				break;
 		}
 
-		if (cardData.test.hits < cardData.hits) {
-			cardData.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
-		} else {
-			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", labelEnd);
-		}
+		if (cardData.test.hits < cardData.hits) cardData.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
+		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", labelEnd);
+
 		if (cardData.test.hits > 0){
 			if (resistType === "fading"){
 				newMessage.fadingValue = cardData.test.hits;
@@ -1269,7 +1274,7 @@ export class SR5_Dice {
 	}
 
 	static async addResistanceResultInfoToCard(cardData, type){
-		let key, label, labelEnd;
+		let key, label, labelEnd, applyEffect = true;
 		cardData.netHits = cardData.test.hits - cardData.hits;
 
 		switch (type){
@@ -1295,11 +1300,21 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.DisjointingFailed");
 				key = "reducePreparationPotency";
 				break;
+			case "resistSpell":
+				cardData.netHits = cardData.hits - cardData.test.hits;
+				label = game.i18n.localize("SR5.ApplyEffect");
+				labelEnd = game.i18n.localize("SR5.SpellResisted");
+				key = "applyEffectAuto";
+				if (!cardData.switch?.transferEffect && !cardData.switch?.transferEffectOnItem) applyEffect = false
+				if (!cardData.originalMessage?.flags?.sr5data?.spellArea) SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistSpell");
+				break;
 			default :
 		}
 
 		if (cardData.test.hits >= cardData.hits)cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
-		else cardData.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
+		else {
+			if (applyEffect) cardData.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
+		}
 
 		if (cardData.drainValue > 0) cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
 	}

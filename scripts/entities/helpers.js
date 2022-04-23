@@ -303,12 +303,28 @@ export class SR5_EntityHelpers {
     if (key.includes("data.matrix.attributes")){
       newKey = key.slice(23);
       return `${game.i18n.localize(SR5.matrixAttributes[newKey])}`;
-    } else if (key === "data.conditionMonitors.matrix"){
-      return game.i18n.localize("SR5.MatrixMonitor");
-    } else if (key === "data.itemsProperties.armor"){
-      return game.i18n.localize("SR5.Armor");
+    } else if (key.includes("data.attributes")){
+      newKey = key.slice(16);
+      newKey = newKey.replace('.augmented','');
+      return `${game.i18n.localize(SR5.characterAttributes[newKey])}`;
+    } else if (key.includes("data.initiatives")){
+      newKey = key.slice(17);
+      return `${game.i18n.localize(SR5.characterInitiatives[newKey])}`;
     } else {
-      return newKey;
+      switch (key){
+        case "data.conditionMonitors.matrix":
+          return game.i18n.localize("SR5.MatrixMonitor");
+        case "data.itemsProperties.armor":
+          return game.i18n.localize("SR5.Armor");
+        case "data.penalties.special.actual":
+          return game.i18n.localize("SR5.GlobalPenalty");
+        case "data.defenses.defend":
+          return game.i18n.localize("SR5.Defenses");
+        default:
+          SR5_SystemHelpers.srLog(1, `Unknown '${key}' in 'getLabelByKey()'`);
+          return newKey;
+      }
     }
   }
+
 }
