@@ -414,6 +414,7 @@
   "SR5.Damage"                                : "Damage",
   "SR5.DamageDropOff"                         : "Damage drop-off (m)",
   "SR5.DamageReduction"                       : "Damage Reduction",
+  "SR5.DamageTemporary"                       : "Temporary Damage",
   "SR5.DamageType"                            : "Damage Type",
   "SR5.DamageTypePhysical"                    : "Physical",
   "SR5.DamageTypePhysicalShort"               : "P",

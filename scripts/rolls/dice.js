@@ -93,8 +93,8 @@ export class SR5_Dice {
 		//Remove 1 to actor's Edge
 		if (messageData.actor.type === "actorSpirit"){
 			let creator = SR5_EntityHelpers.getRealActorFromID(messageData.actor.data.creatorId);
-			creator.update({ "data.conditionMonitors.edge.current": creator.data.data.conditionMonitors.edge.current + 1 });
-		} else actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
+			creator.update({ "data.conditionMonitors.edge.actual.base": creator.data.data.conditionMonitors.edge.actual.base + 1 });
+		} else actor.update({ "data.conditionMonitors.edge.actual.base": actor.data.data.conditionMonitors.edge.actual.base + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
 		SR5_RollMessage.updateRollCard(message.data, newMessage);
@@ -152,8 +152,8 @@ export class SR5_Dice {
 
 		//Remove 1 to actor's Edge
 		if (messageData.actor.type === "actorSpirit"){
-			creator.update({ "data.conditionMonitors.edge.current": creator.data.data.conditionMonitors.edge.current + 1 });
-		} else actor.update({ "data.conditionMonitors.edge.current": actor.data.data.conditionMonitors.edge.current + 1 });
+			creator.update({ "data.conditionMonitors.edge.actual.base": creator.data.data.conditionMonitors.edge.actual.base + 1 });
+		} else actor.update({ "data.conditionMonitors.edge.actual.base": actor.data.data.conditionMonitors.edge.actual.base + 1 });
 
 		//Rafraichi le message avec les nouvelles infos.
 		SR5_RollMessage.updateRollCard(message.data, newMessage);
@@ -172,11 +172,11 @@ export class SR5_Dice {
 		let hasEdge = false;
 		let edgeActor = realActor;
 		if (actor.data.specialAttributes?.edge) {
-			if (actor.data.conditionMonitors.edge.current < actor.data.specialAttributes.edge.augmented.value) hasEdge = true;
+			if (actor.data.conditionMonitors.edge.actual.value < actor.data.specialAttributes.edge.augmented.value) hasEdge = true;
 		}
 		if (actor.type === "actorSpirit" && actor.data.creatorId){
 			let creator = SR5_EntityHelpers.getRealActorFromID(actor.data.creatorId);
-			if (creator.data.data.conditionMonitors.edge.current < creator.data.data.specialAttributes.edge.augmented.value){
+			if (creator.data.data.conditionMonitors.edge.actual.value < creator.data.data.specialAttributes.edge.augmented.value){
 				hasEdge = true;
 				edgeActor = creator;
 			}
@@ -226,7 +226,7 @@ export class SR5_Dice {
 						if (edge && edgeActor) {
 							dialogData.dicePoolMod.edge = edgeActor.data.data.specialAttributes.edge.augmented.value;
 							edgeActor.update({
-								"data.conditionMonitors.edge.current": edgeActor.data.data.conditionMonitors.edge.current + 1,
+								"data.conditionMonitors.edge.actual.base": edgeActor.data.data.conditionMonitors.edge.actual.base + 1,
 							});
 						}
 
@@ -354,13 +354,13 @@ export class SR5_Dice {
 
 		//Handle Edge use
 		if (cardData.actor.type === "actorPc") {
-			if (cardData.actor.data.conditionMonitors.edge.current >= cardData.actor.data.specialAttributes.edge.augmented.value) {
+			if (cardData.actor.data.conditionMonitors.edge.actual.value >= cardData.actor.data.specialAttributes.edge.augmented.value) {
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
 		} else if (cardData.actor.type === "actorSpirit" && cardData.actor.data.creatorId){
 			let creator = SR5_EntityHelpers.getRealActorFromID(cardData.actor.data.creatorId);
-			if (creator.data.data.conditionMonitors.edge.current >= creator.data.data.specialAttributes.edge.augmented.value){
+			if (creator.data.data.conditionMonitors.edge.actual.value >= creator.data.data.specialAttributes.edge.augmented.value){
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
@@ -413,7 +413,7 @@ export class SR5_Dice {
       borderColor: userActive.color,
     };
 
-    console.log(chatData.flags.sr5data);
+    //console.log(chatData.flags.sr5data);
     //Handle Dice so Nice
 	await SR5_Dice.showDiceSoNice(
       cardData.test.originalRoll,
@@ -636,9 +636,9 @@ export class SR5_Dice {
 	static async addResistanceInfoToCard(cardData, author){
 		//Remove Resist chat button from previous chat message, if necessary
 		let prevData = cardData.originalMessage?.flags?.sr5data;
-		if (prevData.type === "spell") {
+		if (prevData?.type === "spell") {
 			if (prevData.item.data.range !== "area") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
-		} else if (prevData.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+		} else if (prevData?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
 
 		//Add automatic succes to Spirit TO-DO : change this when Materialization is up.
 		if (author.type === "actorSpirit" && (cardData.typeSub === "physicalDamage" || cardData.typeSub === "stun")) {
@@ -892,7 +892,7 @@ export class SR5_Dice {
 			  || (attackerData.matrix.deviceSubType === "iceBlack")
 			  || (attackerData.matrix.deviceSubType === "iceBlaster")
 			  || (attackerData.matrix.deviceSubType === "iceSparky") ) {
-				if (((defender.type === "actorPc" || defender.type === "actorGrunt") && (defender.data.matrix.userMode !== "ar"))
+				if (((defender.type === "actorPc" || defender.type === "actorGrunt") && (defender.data.matrix.userMode !== "ar") && (cardData.matrixTargetItem.type === "itemDevice"))
 				  || (defender.type === "actorDrone" && defender.data.controlMode === "rigging")) {
 					cardData.damageResistanceType = "biofeedback";
 					cardData.damageValue = cardData.matrixDamageValueBase;

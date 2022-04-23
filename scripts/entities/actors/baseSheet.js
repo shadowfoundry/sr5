@@ -172,7 +172,7 @@ export class ActorSheetSR5 extends ActorSheet {
     if ((e.which === 3 || e.button === 2)) {
         let actorData = duplicate(this.actor);
         let monitor = $(e.currentTarget).attr("data-target");
-        setProperty(actorData, `data.conditionMonitors.${monitor}.current`, 0);
+        setProperty(actorData, `data.conditionMonitors.${monitor}.actual.base`, 0);
         this.actor.update(actorData);
       }
     });
@@ -192,9 +192,9 @@ export class ActorSheetSR5 extends ActorSheet {
       // Otherwise, value = index clicked
       else setProperty(actorData, target, index + 1);
 
-      if (target == 'data.conditionMonitors.physical.current' && getProperty(actorData, 'data.conditionMonitors.overflow.current')) {
-        if (actorData.data.conditionMonitors.physical.current < actorData.data.conditionMonitors.physical.value) {
-          setProperty(actorData, 'data.conditionMonitors.overflow.current', 0);
+      if (target == 'data.conditionMonitors.physical.actual.base' && getProperty(actorData, 'data.conditionMonitors.overflow.actual.value')) {
+        if (actorData.data.conditionMonitors.physical.actual.value < actorData.data.conditionMonitors.physical.value.value) {
+          setProperty(actorData, 'data.conditionMonitors.overflow.actual.base', 0);
         }
       }
 
@@ -470,7 +470,7 @@ export class ActorSheetSR5 extends ActorSheet {
     setProperty(item, target, value);
 
     //Spécial, pour les decks, désactiver les autres decks lorsque l'un d'entre eux et équipé
-    if (item.type === "itemDevice" && target !== "data.conditionMonitors.matrix.current") {
+    if (item.type === "itemDevice" && target !== "data.conditionMonitors.matrix.actual.base") {
       for (let otherItem of itemList) {
         if (otherItem.type === "itemDevice" && (otherItem._id !== id)) otherItem.data.isActive = false;
       }

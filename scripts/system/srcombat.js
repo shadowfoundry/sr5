@@ -45,9 +45,9 @@ export class SR5Combat extends Combat {
 		if (!actor) return;
 		let actorData = deepClone (actor.data);
 		actorData = actorData.toObject(false);
-		if (actorData.data.conditionMonitors.edge?.current < actorData.data.conditionMonitors.edge?.value){
+		if (actorData.data.conditionMonitors.edge?.actual?.value < actorData.data.conditionMonitors.edge?.value){
 			await combatant.setFlag("sr5", "seizeInitiative", true);
-			actorData.data.conditionMonitors.edge.current += 1;
+			actorData.data.conditionMonitors.edge.actual.base += 1;
 			await actor.update(actorData);
 			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiative")}`);
 		} else {
@@ -60,12 +60,12 @@ export class SR5Combat extends Combat {
 		if (!actor) return;
 		let actorData = deepClone (actor.data);
 		actorData = actorData.toObject(false);
-		if (actorData.data.conditionMonitors.edge?.current < actorData.data.conditionMonitors.edge?.value){
+		if (actorData.data.conditionMonitors.edge?.actual.value < actorData.data.conditionMonitors.edge?.value){
 			await combatant.update({
 				initiative: null,
 				"flags.sr5.blitz": true,
 			});
-			actorData.data.conditionMonitors.edge.current += 1;
+			actorData.data.conditionMonitors.edge.actual.base += 1;
 			await actor.update(actorData);
 			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitz")}`);
 		} else {

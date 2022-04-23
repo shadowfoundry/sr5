@@ -1,3 +1,5 @@
+import { SR5_SystemHelpers } from "./system/utility.js";
+
 export default class Migration {
 
 	async migrateWorld() {
@@ -36,7 +38,7 @@ export default class Migration {
 			try {
 			  const updateData = this.migrateActorData(a.data);
 			  if (!foundry.utils.isObjectEmpty(updateData)) {
-				SR5_SystemHelpers.srLog(2, o`Migrating Actor entity ${a.name}`);
+				SR5_SystemHelpers.srLog(2, `Migrating Actor entity ${a.name}`);
 				await a.update(updateData, { enforceTypes: false });
 			  }
 			} catch (err) {
@@ -164,6 +166,38 @@ export default class Migration {
 					}
 				}
 			}
+
+			//Change on conditionMonitors template to handle temporary damage
+			if (actor.data.conditionMonitors){
+				for (let key of Object.keys(actor.data.conditionMonitors)){
+					if (actor.data.conditionMonitors[key].current) {
+						if (key === "condition") {
+							updateData["data.conditionMonitors.condition.actual.base"] = actor.data.conditionMonitors.condition.current;
+							updateData["data.conditionMonitors.condition.-=current"] = null;
+						}
+						if (key === "matrix") {
+							updateData["data.conditionMonitors.matrix.actual.base"] = actor.data.conditionMonitors.matrix.current;
+							updateData["data.conditionMonitors.matrix.-=current"] = null;
+						}
+						if (key === "stun") {
+							updateData["data.conditionMonitors.stun.actual.base"] = actor.data.conditionMonitors.stun.current;
+							updateData["data.conditionMonitors.stun.-=current"] = null;
+						}
+						if (key === "physical") {
+							updateData["data.conditionMonitors.physical.actual.base"] = actor.data.conditionMonitors.physical.current;
+							updateData["data.conditionMonitors.physical.-=current"] = null;
+						}
+						if (key === "edge") {
+							updateData["data.conditionMonitors.edge.actual.base"] = actor.data.conditionMonitors.edge.current;
+							updateData["data.conditionMonitors.edge.-=current"] = null;
+						}
+						if (key === "overflow") {
+							updateData["data.conditionMonitors.overflow.actual.base"] = actor.data.conditionMonitors.overflow.current;
+							updateData["data.conditionMonitors.overflow.-=current"] = null;
+						}
+					}
+				}
+			}
     	}
 
 		// Migrate Owned Items
@@ -230,6 +264,25 @@ export default class Migration {
 				updateData["data.range.medium.base"] = 4;
 				updateData["data.range.long.base"] = 6;
 				updateData["data.range.extreme.base"] = 10;
+			}
+		}
+
+		if (item.data.conditionMonitors){
+			if (item.data.conditionMonitors.matrix) {
+				updateData["data.conditionMonitors.matrix.actual.base"] = item.data.conditionMonitors.matrix.current;
+				updateData["data.conditionMonitors.matrix.-=current"] = null;
+			}
+			if (item.data.conditionMonitors.condition) {
+				updateData["data.conditionMonitors.condition.actual.base"] = item.data.conditionMonitors.condition.current;
+				updateData["data.conditionMonitors.condition.-=current"] = null;
+			}
+			if (item.data.conditionMonitors.stun) {
+				updateData["data.conditionMonitors.stun.actual.base"] = item.data.conditionMonitors.stun.current;
+				updateData["data.conditionMonitors.stun.-=current"] = null;
+			}
+			if (item.data.conditionMonitors.physical) {
+				updateData["data.conditionMonitors.physical.actual.base"] = item.data.conditionMonitors.physical.current;
+				updateData["data.conditionMonitors.physical.-=current"] = null;
 			}
 		}
 

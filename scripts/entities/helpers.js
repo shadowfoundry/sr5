@@ -144,11 +144,11 @@ export class SR5_EntityHelpers {
     if (!entity || !monitorType) { SR5_SystemHelpers.srLog(1, `Missing 'actor' or 'monitorType' parameter for 'GenerateMonitorBoxes()'`); }
     if (!entity.conditionMonitors || !entity.conditionMonitors[monitorType]) { SR5_SystemHelpers.srLog(1, `Missing or non-existing '${monitorType}' condition monitor in 'GenerateMonitorBoxes()'`); }
     let conditionMonitors = entity.conditionMonitors;
-    let monitorMaximum = conditionMonitors[monitorType].value, currentMonitorValue = conditionMonitors[monitorType].current;
+    let monitorMaximum = conditionMonitors[monitorType].value, currentMonitorValue = conditionMonitors[monitorType].actual.value;
 
     conditionMonitors[monitorType].boxes = []
     for (let loop = 1; loop < monitorMaximum + 1; loop++) {
-      if (monitorType == 'overflow' && conditionMonitors['physical'].current < conditionMonitors['physical'].value)
+      if (monitorType == 'overflow' && conditionMonitors['physical'].actual.value < conditionMonitors['physical'].value)
         conditionMonitors[monitorType].boxes.push({ filled: false, locked: true });
       else
         conditionMonitors[monitorType].boxes.push({ filled: (loop <= currentMonitorValue ? true : false) });
@@ -157,7 +157,7 @@ export class SR5_EntityHelpers {
 
   static updateStatusBars(actor, monitorType) {
     let data = actor.data, conditionMonitors = data.conditionMonitors, statusBars = data.statusBars;
-    statusBars[monitorType].value = conditionMonitors[monitorType].current;
+    statusBars[monitorType].value = conditionMonitors[monitorType].actual.value;
     statusBars[monitorType].max = conditionMonitors[monitorType].value;
   }
 

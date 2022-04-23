@@ -4135,28 +4135,44 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "physical": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "edge": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "overflow": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4345,7 +4361,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4502,14 +4522,22 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "stun": {
           "value": 0,
           "base": 0,
-          "max": 0,
           "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4683,14 +4711,22 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "matrix": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4959,7 +4995,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5118,7 +5158,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5281,7 +5325,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5379,7 +5427,11 @@
             "value": 0,
             "base": 0,
             "modifiers": [],
-            "current": 0,
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
             "boxes": []
           }
         },
@@ -5712,10 +5764,18 @@
       },
       "conditionMonitors": {
         "physical": {
-          "current": 0
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
         },
         "stun": {
-          "current": 0
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
         }
       },
       "sustainedSpell": [],
@@ -5740,7 +5800,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -6067,14 +6131,22 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "matrix": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       }
