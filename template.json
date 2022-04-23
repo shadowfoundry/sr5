@@ -5914,7 +5914,10 @@
       "healthEssence": false,
       "freeSustain": false,
       "preparation": false,
-      "targetOfEffect":[]
+      "targetOfEffect":[],
+      "resisted": false,
+      "defenseFirstAttribute": "",
+      "defenseSecondAttribute": ""
     },
     "itemPreparation": {
       "templates": [

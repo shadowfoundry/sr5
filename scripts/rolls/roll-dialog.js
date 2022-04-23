@@ -589,7 +589,6 @@ export default class SR5_RollDialog extends Dialog {
 
     //Add Grid modifiers
     _addGridModifier(html, dialogData){
-        console.log("_addGridModifier");
         let targetGrid = html.find('[name="targetGrid"]')[0].value;
         if (targetGrid !== dialogData.actor.data.matrix.userGrid && targetGrid !== "none"){
             this.dicePoolModifier.differentGrid = -2;
