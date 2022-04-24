@@ -231,19 +231,21 @@ export const registerHooks = function () {
   Hooks.on("createCombatant", (combatant) => {
     let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.data);
 
-    combatant.update({
-      "flags.sr5.seizeInitiative" : false,
-      "flags.sr5.blitz" : false,
-      "flags.sr5.hasPlayed" : combatant.isDefeated,
-      "flags.sr5.cumulativeDefense" : 0,
-      "flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
-      "flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
-    });
-
-    let actor;
-    if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
-    else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
-    actor.setFlag("sr5", "cumulativeDefense", 0);
+    if (game.user.isGM){
+      combatant.update({
+        "flags.sr5.seizeInitiative" : false,
+        "flags.sr5.blitz" : false,
+        "flags.sr5.hasPlayed" : combatant.isDefeated,
+        "flags.sr5.cumulativeDefense" : 0,
+        "flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
+        "flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
+      });
+      
+      let actor;
+      if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
+      else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
+      actor.setFlag("sr5", "cumulativeDefense", 0);
+    }
   });
 
   Hooks.on("updateCombatant", (combatant) => {
