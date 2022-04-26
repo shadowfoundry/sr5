@@ -598,7 +598,7 @@ export class SR5_Dice {
 			//If materialized spirit : check weapon immunity
 			if (author.type === "actorSpirit") {
 				let immunity = (author.data.essence.value * 2) + cardData.incomingPA;
-				if (cardData.damageValue <= immunity) {
+				if (cardData.damageValue + netHits <= immunity) {
 					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NormalWeaponsImmunity"));
 					return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: author.data.essence.value * 2, pa: cardData.incomingPA, damage: cardData.damageValue})}`);
 				}
