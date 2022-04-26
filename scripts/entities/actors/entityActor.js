@@ -768,7 +768,7 @@ export class SR5Actor extends Actor {
           ui.notifications.info(`${this.name}: ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
         }
 
-        if (actorData.data.conditionMonitors.physical.actual.value > actorData.data.conditionMonitors.physical.value) {
+        if ((actorData.data.conditionMonitors.physical.actual.value > actorData.data.conditionMonitors.physical.value) && actorData.type === "actorPc") {
           let carriedDamage = actorData.data.conditionMonitors.physical.actual.value - actorData.data.conditionMonitors.physical.value;
           actorData.data.conditionMonitors.overflow.actual.base += carriedDamage;
           SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
