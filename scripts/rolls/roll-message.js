@@ -134,7 +134,7 @@ export class SR5_RollMessage {
                     break;
                 case "applyEffect":
                     actor.applyExternalEffect(messageData, "customEffects");
-                    SR5_RollMessage.updateChatButton(message.data, type);
+                    if (!messageData.spellArea > 0) SR5_RollMessage.updateChatButton(message.data, type);
                     break;
                 case "applyEffectOnItem":
                     actor.applyExternalEffect(messageData, "itemEffects");

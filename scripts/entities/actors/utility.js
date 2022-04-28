@@ -496,6 +496,7 @@ export class SR5_CharacterUtility extends Actor {
           data.conditionMonitors[key].modifiers = [];
           data.conditionMonitors[key].actual.value = 0;
           data.conditionMonitors[key].actual.modifiers = [];
+          if (data.conditionMonitors[key].actual.base < 0) data.conditionMonitors[key].actual.base = 0;
         }
       }
     }
