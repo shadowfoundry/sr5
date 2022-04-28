@@ -959,6 +959,17 @@ export class SR5_Roll {
                     }
                 }
 
+                //Check if an object can resist to spell
+                for (let e of Object.values(itemData.systemEffects)){
+                    console.log(e);
+                    if (e.value === "sre_ObjectResistance"){
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.objectResistanceTest": true,
+                        });
+                    }
+                }
+
                 //Check if a spirit can aid sorcery
                 spiritHelp = actor.items.find(i => (i.type === "itemSpirit" && i.data.data.isBounded && i.data.data.spellType === itemData.category && i.data.data.services.value > 0));
                 if (spiritHelp){
@@ -1340,6 +1351,13 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+            case "objectResistance":
+                title = game.i18n.localize("SR5.ObjectResistanceTest");
+                dicePool = 3;
+                optionalData = {
+                    hits: chatData.test.hits,
+                }
+                break;
             default:
         }
 
@@ -1358,7 +1376,6 @@ export class SR5_Roll {
             type: rollType,
             typeSub: typeSub,
             testType: testType,
-            button: {},
             originalMessage: originalMessage,
         };
 

@@ -181,6 +181,7 @@ export class SR5_Dice {
 				edgeActor = creator;
 			}
 		}
+		if (dialogData.type === "objectResistance")  hasEdge = false;
 
 		let buttons = {
 			roll: {
@@ -369,60 +370,65 @@ export class SR5_Dice {
 			cardData.pushLimitUsed = true;
 		}
 
-    const templateData = cardData;
-    const template = `systems/sr5/templates/rolls/roll-card.html`;
-    let html = await renderTemplate(template, templateData);
+		if (cardData.type === "objectResistance") {
+			cardData.secondeChanceUsed = true;
+			cardData.pushLimitUsed = true;
+		}
 
-	//Add chat buttons to chat card
-	let newHtml = $(html);
-	let divButtons = newHtml.find('[id="srButtonTest"]');
-	for (let button in cardData.buttons){
-		divButtons.append(`<button class="messageAction ${cardData.buttons[button].testType}" data-action="${cardData.buttons[button].testType}" data-type="${cardData.buttons[button].actionType}">${cardData.buttons[button].label}</button>`);
+		const templateData = cardData;
+		const template = `systems/sr5/templates/rolls/roll-card.html`;
+		let html = await renderTemplate(template, templateData);
+
+		//Add chat buttons to chat card
+		let newHtml = $(html);
+		let divButtons = newHtml.find('[id="srButtonTest"]');
+		for (let button in cardData.buttons){
+			divButtons.append(`<button class="messageAction ${cardData.buttons[button].testType}" data-action="${cardData.buttons[button].testType}" data-type="${cardData.buttons[button].actionType}">${cardData.buttons[button].label}</button>`);
+		}
+		html = newHtml[0].outerHTML;
+
+		let chatData = {
+		roll: cardData.test.r,
+		rollMode: cardData.test.rollMode,
+		user: game.user.id,
+		content: html,
+		speaker: {
+			actor: cardData.speakerId,
+			token: cardData.speakerId,
+			alias: cardData.speakerActor,
+		},
+		};
+
+		if (["gmroll", "blindroll"].includes(cardData.test.rollMode))
+		chatData["whisper"] = ChatMessage.getWhisperRecipients("GM").map(
+			(u) => u.id
+		);
+		if (cardData.test.rollMode === "blindroll") chatData["blind"] = true;
+		else if (cardData.test.rollMode === "selfroll") chatData["whisper"] = [game.user];
+
+		if (cardData.ownerAuthor) chatData.speaker.token = cardData.ownerAuthor;
+
+		let userActive = game.users.get(chatData.user);
+
+		chatData.flags = {
+		sr5data: cardData,
+		sr5template: template,
+		img: cardData.speakerImg,
+		css: "SRCustomMessage",
+		speakerId: cardData.speakerId,
+		borderColor: userActive.color,
+		};
+
+		//console.log(chatData.flags.sr5data);
+		//Handle Dice so Nice
+		await SR5_Dice.showDiceSoNice(
+		cardData.test.originalRoll,
+		cardData.test.rollMode
+		);
+
+		//Create chat message
+		ChatMessage.create(chatData);
 	}
-	html = newHtml[0].outerHTML;
-
-    let chatData = {
-      roll: cardData.test.r,
-      rollMode: cardData.test.rollMode,
-      user: game.user.id,
-      content: html,
-      speaker: {
-        actor: cardData.speakerId,
-        token: cardData.speakerId,
-        alias: cardData.speakerActor,
-      },
-    };
-
-    if (["gmroll", "blindroll"].includes(cardData.test.rollMode))
-      chatData["whisper"] = ChatMessage.getWhisperRecipients("GM").map(
-        (u) => u.id
-      );
-    if (cardData.test.rollMode === "blindroll") chatData["blind"] = true;
-    else if (cardData.test.rollMode === "selfroll") chatData["whisper"] = [game.user];
-
-    if (cardData.ownerAuthor) chatData.speaker.token = cardData.ownerAuthor;
-
-    let userActive = game.users.get(chatData.user);
-
-    chatData.flags = {
-      sr5data: cardData,
-      sr5template: template,
-      img: cardData.speakerImg,
-      css: "SRCustomMessage",
-      speakerId: cardData.speakerId,
-      borderColor: userActive.color,
-    };
-
-    console.log(chatData.flags.sr5data);
-    //Handle Dice so Nice
-	await SR5_Dice.showDiceSoNice(
-      cardData.test.originalRoll,
-      cardData.test.rollMode
-    );
-
-	//Create chat message
-    ChatMessage.create(chatData);
-  }
 
 	 /**
 	 * Add support for the Dice So Nice module
@@ -553,6 +559,9 @@ export class SR5_Dice {
 			case "enchantmentResistance":
 			case "disjointingResistance":
 				SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
+				break;
+			case "objectResistance":
+				SR5_Dice.addObjectResistanceResultInfoToCard(cardData);
 				break;
 			case "attribute":
 			case "languageSkill":
@@ -693,6 +702,13 @@ export class SR5_Dice {
 				actionType = "resistSpell";
 				label = game.i18n.localize("SR5.ResistSpell");
 				cardData.buttons[actionType] = SR5_RollMessage.generateChatButton("opposedTest", actionType, label);
+			} 
+			
+			//Handle object resistance 
+			if (cardData.switch.objectResistanceTest){
+				actionType = "objectResistance";
+				label = game.i18n.localize("SR5.ObjectResistanceTest");
+				cardData.buttons[actionType] = SR5_RollMessage.generateChatButton("nonOpposedTest", actionType, label);
 			}
 			
 			//Handle spell Area
@@ -1317,5 +1333,27 @@ export class SR5_Dice {
 		}
 
 		if (cardData.drainValue > 0) cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
+	}
+
+	static async addObjectResistanceResultInfoToCard(cardData){
+		let labelEnd;
+		cardData.netHits = cardData.hits - cardData.test.hits;
+		if (cardData.netHits > 0){
+			labelEnd = `${game.i18n.localize("SR5.ObjectResistanceFailed")} (${cardData.netHits})`;
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+
+			let prevData = cardData.originalMessage?.flags?.sr5data;
+			if (prevData?.type === "spell") {
+				let item = await fromUuid(prevData.itemUuid);
+				let newItem = duplicate(item.data.data);
+			    if (newItem.duration === "sustained") newItem.isActive = true;
+    			await item.update({"data": newItem});
+
+				if (!prevData.spellArea) await SR5_RollMessage.updateChatButton(cardData.originalMessage, "objectResistance");
+			}
+		} else {
+			labelEnd = game.i18n.localize("SR5.ObjectResistanceSuccess");
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+		}
 	}
 }
