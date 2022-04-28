@@ -1050,6 +1050,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.actor .window-content .SR-CaseNeutralDarkColor {
   background: #000001;
+  border: 1px solid #97b79f;
 }
 .app.window-app.actor .window-content .SR-CaseMainColor {
   background: #b2007a;
@@ -4602,11 +4603,11 @@ input[type=range]:focus::-ms-fill-upper {
   color: #839c88;
 }
 #combat #combat-tracker li.combatant .token-name .token-effect {
-  height: 23px;
+  height: 19px;
 }
 #combat #combat-tracker li.combatant .token-name img.token-effect {
-  width: 23px;
-  height: 23px;
+  width: 19px;
+  height: 19px;
 }
 #combat #combat-tracker li.combatant .token-image {
   height: 55px;

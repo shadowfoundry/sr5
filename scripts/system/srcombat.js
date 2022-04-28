@@ -73,6 +73,10 @@ export class SR5Combat extends Combat {
 		}
 	}
 
+	static async delayAction(combatant){
+		await combatant.setFlag("sr5", "delayedAction", true);
+	}
+
 	static async handleIniPass(combatId) {
 		const combat = game.combats?.get(combatId);
 		if (!combat) return;
@@ -114,7 +118,7 @@ export class SR5Combat extends Combat {
     await combat.update({ turn });
   }
 
-	setupTurns(){
+   	setupTurns(){
 		// Determine the turn order and the current turn
 		const turns = this.combatants.contents.sort(SR5Combat.sortByRERIC);
 		this.data.turn = Math.clamped(this.data.turn, 0, turns.length-1);
@@ -227,7 +231,13 @@ export class SR5Combat extends Combat {
 		// Just step from one combatant to the next!
 		if (nextTurn < this.turns.length) {
 			for (let combatant of this.combatants){
-				if (combatant.id === this.current.combatantId) await combatant.setFlag("sr5", "hasPlayed", true)
+				if (combatant.getFlag("sr5", "delayedAction")){
+					await combatant.unsetFlag("sr5", "delayedAction");
+					continue;
+				}
+				if (combatant.id === this.current.combatantId) {
+					await combatant.setFlag("sr5", "hasPlayed", true);
+				}
 			}
 			await this.update({turn: nextTurn});
 			return;
@@ -312,7 +322,11 @@ export class SR5Combat extends Combat {
 				initiative -= (currentPass * 10);
 				if (initiative < 0) initiative = 0;
 			}
-			updates.push({_id: id, initiative: initiative, "flags.sr5.baseCombatantInitiative": initiative});
+			updates.push({
+				_id: id, 
+				initiative: initiative, 
+				"flags.sr5.baseCombatantInitiative": initiative,
+			});
 
 			// Construct chat message data
 			let title;
@@ -559,7 +573,7 @@ export class SR5Combat extends Combat {
 		}
 
 		//Reset Spell defense dice pool
-		if (actorData.data.magic.counterSpellPool.current !== actorData.data.magic.counterSpellPool.value){
+		if (actorData.data.magic?.counterSpellPool?.current !== actorData.data.magic?.counterSpellPool?.value){
 			actorData.data.magic.counterSpellPool.current = actorData.data.magic.counterSpellPool.value;
 			await actor.update(actorData);
 		}

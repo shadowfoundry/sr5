@@ -731,6 +731,7 @@
   "SR5.Identity"                              : "Identité",
   "SR5.IncludeSpecializationBonus"            : "Inclure le bonus de spécialisation",
   "SR5.IncreaseOverwatch"                     : "Augmenter le SS de {name} de {score}",
+  "SR5.INIT_Delaying"                         : "Retarder son action",
   "SR5.INIT_MinusFive"                        : "-5 au score d'initiative",
   "SR5.INIT_MinusOne"                         : "-1 au score d'initiative",
   "SR5.INIT_MinusTen"                         : "-10 au score d'initiative",
