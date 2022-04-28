@@ -254,6 +254,10 @@ export const registerHooks = function () {
     }
   });
 
+  Hooks.on("closeCombatantConfig", (combatant) => {
+    combatant.document.update({"flags.sr5.baseCombatantInitiative": combatant.document.data.initiative,})
+  });
+
   Hooks.on("updateItem", async(document, data, options, userId) => {
     if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
   });
