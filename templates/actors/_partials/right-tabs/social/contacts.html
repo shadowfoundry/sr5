@@ -31,7 +31,7 @@
 		{{#each actor.contacts}}
 		<li class="item" data-item-id="{{_id}}" draggable="true">
 			<div class="grid">
-				<div class="col-4 SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
+				<div class="col-4 deplie SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactName' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactNameMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="" value="{{name}}" onfocus="this.select()">
