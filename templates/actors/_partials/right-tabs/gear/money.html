@@ -36,12 +36,12 @@
 			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenGainName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenGainNameMsg'}}">
 				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}">
-					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="nuyen.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
 			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="" value="{{data.amount}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{data.amount}}" onfocus="this.select()">
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
@@ -77,12 +77,12 @@
 			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenExpenseName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenExpenseNameMsg'}}">
 				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}">
-					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="" value="{{name}}" onfocus="this.select()">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="nuyen.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
 			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="" value="{{data.amount}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{data.amount}}" onfocus="this.select()">
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
