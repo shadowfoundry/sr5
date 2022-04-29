@@ -5920,6 +5920,15 @@
         "dicePool": 0,
         "base": 0,
         "modifiers": []
+      },
+      "targetOfEffect":[],
+      "hasDrain": false,
+      "drainType": "",
+      "drainMultiplier": 1,
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
       }
     },
     "itemProgram": {

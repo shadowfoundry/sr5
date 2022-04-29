@@ -1089,6 +1089,12 @@ SR5.actionTypes = {
   special                   : "SR5.ActionTypeSpecial",
 };
 
+//Adept powers drain types
+SR5.adeptPowerDrainTypes = {
+  rating                    : "SR5.ItemRating",
+  magic                     : "SR5.Magic",
+}
+
 // Focus
 SR5.focusTypes = {
   alchemical                : "SR5.FocusAlchemical",
@@ -2256,7 +2262,8 @@ SR5.effectTypes = {
   signalJammed              : "SR5.EffectSignalJammed",
   linkLock                  : "SR5.EffectLinkLockedConnection",
   itemComplexForm           : "ITEM.TypeItemcomplexform",
-  itemSpell                : "ITEM.TypeItemspell",
+  itemSpell                 : "ITEM.TypeItemspell",
+  itemAdeptPower            : "ITEM.TypeItemadeptpower",
   derezz                    : "SR5.Derezz",
 }
 

@@ -481,6 +481,7 @@ export class SR5_Dice {
 				break;
 			case "spell":
 			case "preparation":
+			case "adeptPower":
 				SR5_Dice.addSpellInfoToCard(cardData, author);
 				break;
 			case "activeSensorTargeting":
@@ -674,7 +675,7 @@ export class SR5_Dice {
 		let actionType, label;
 
 		//Add Resist Drain chat button
-		if (cardData.type === "spell") {
+		if (cardData.type === "spell" || (cardData.type === "adeptPower" && cardData.hasDrain)) {
 			cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);
 		}
 
@@ -1140,6 +1141,8 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.RitualFailed");
 				key = "ritualResistance";
 				testType = "nonOpposedTest";
+				break;
+			default:
 		}
 
 		if (cardData.test.hits > 0) {

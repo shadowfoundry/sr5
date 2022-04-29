@@ -1458,6 +1458,7 @@ export class SR5Actor extends Actor {
         else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
         else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
 
+        //Handle heal effect
         if (e.target.includes("removeDamage")){
           key = e.target.replace('.removeDamage','');
           newData = this.data.data;
@@ -1469,6 +1470,7 @@ export class SR5Actor extends Actor {
           } else continue;
         }
 
+        //Handle non resisted damage
         if (e.target.includes("addDamage")){
           key = e.target.replace('.addDamage','');
           newData = this.data.data;
@@ -1578,6 +1580,7 @@ export class SR5Actor extends Actor {
         newItem = duplicate(item.data.data);
 
     if (newItem.duration === "sustained") newItem.isActive = true;
+    if (item.type === "itemAdeptPower") newItem.isActive = true;
     newItem.targetOfEffect.push(effectUuid);
     await item.update({"data": newItem});
   }

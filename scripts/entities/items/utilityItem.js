@@ -198,6 +198,11 @@ export class SR5_UtilityItem extends Actor {
       data.test.modifiers = [];
     }
 
+    if (itemData.type === "itemAdeptPower"){
+      data.test.modifiers = [];
+      data.drainValue.modifiers = [];
+    }
+
     if (itemData.type === "itemPreparation"){
       data.test.modifiers = [];
     }
@@ -1137,6 +1142,14 @@ export class SR5_UtilityItem extends Actor {
       SR5_EntityHelpers.updateDicePool(power.test);
     }
 
+    if (power.hasDrain){
+      power.drainValue.base = 0;
+      if (power.drainType === "rating") SR5_EntityHelpers.updateModifier(power.drainValue, game.i18n.localize('SR5.ItemRating'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(power.itemRating * (power.drainMultiplier || 1)), false, true);
+      if (power.drainType === "magic") {
+        if (actor) SR5_EntityHelpers.updateModifier(power.drainValue, game.i18n.localize('SR5.Magic'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(actor.data.specialAttributes.magic.augmented.value * (power.drainMultiplier || 1)), false, true);
+      }
+      SR5_EntityHelpers.updateValue(power.drainValue);
+    }
   }
 
   ////////////////////// RITUALS ///////////////////////

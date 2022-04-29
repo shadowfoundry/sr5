@@ -2164,8 +2164,6 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     if (magic.magicType === "adept"){
-      magic.tradition = "";
-      magic.drainResistance.linkedAttribute = "body";
       for (let category of Object.keys(lists.spellCategories)) {
         magic.elements[category] = "";
       }
@@ -2243,6 +2241,7 @@ export class SR5_CharacterUtility extends Actor {
 
     magic.drainResistance.base = 0;
     SR5_EntityHelpers.updateModifier(magic.drainResistance, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+    if (magic.magicType === "adept") magic.drainResistance.linkedAttribute = "body";
     if (magic.drainResistance.linkedAttribute) {
       let label = `${game.i18n.localize(lists.characterAttributes[magic.drainResistance.linkedAttribute])}`;
       SR5_EntityHelpers.updateModifier(magic.drainResistance, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[magic.drainResistance.linkedAttribute].augmented.value);
