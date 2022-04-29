@@ -1199,6 +1199,7 @@ export class SR5_Roll {
                 break;
 
             case "power":
+            case "adeptPower":
                 title = `${game.i18n.localize("SR5.UsePower")} ${item.name}`;
                 dicePool = itemData.test.dicePool;
                 if (itemData.defenseFirstAttribute && itemData.defenseSecondAttribute){
@@ -1210,6 +1211,24 @@ export class SR5_Roll {
                         "sceneData.backgroundAlignement": backgroundAlignement,
                         dicePoolComposition: itemData.test.modifiers,
                     }
+                }
+
+                //Check if an effect is transferable on taget actor and give the necessary infos
+                for (let e of Object.values(itemData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
+
+                //Add drain roll if needed
+                if (rollType === "adeptPower" && itemData.hasDrain){
+                    optionalData = mergeObject(optionalData, {
+                        "hasDrain": true,
+                        "drainValue": itemData.drainValue.value,
+                    });
                 }
                 break;
 

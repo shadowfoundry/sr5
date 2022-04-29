@@ -1,0 +1,22 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.DrainResistanceTest'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="data.hasDrain" data-dtype="Boolean" {{checked data.hasDrain}} /></div>
+    {{#if data.hasDrain}}
+    <div class="col-3">
+        <select name="data.drainType" data-dtype="{{data.drainType}}" required>
+        {{#select data.drainType}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each lists.adeptPowerDrainTypes}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-2 SR-TextRight">
+        {{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" data-dtype="Number" name="data.drainMultiplier" value="{{data.drainMultiplier}}" placeholder="1">
+    </div>
+    {{/if}}
+</li>
