@@ -961,7 +961,6 @@ export class SR5_Roll {
 
                 //Check if an object can resist to spell
                 for (let e of Object.values(itemData.systemEffects)){
-                    console.log(e);
                     if (e.value === "sre_ObjectResistance"){
                         optionalData = mergeObject(optionalData, {
                             "itemUuid": item.uuid,

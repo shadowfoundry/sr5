@@ -3018,10 +3018,12 @@ export class SR5_CharacterUtility extends Actor {
           if (customEffect.target === "data.itemsProperties.weapon.accuracy"){
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            continue;
           }
           if (customEffect.target === "data.itemsProperties.weapon.damageValue"){
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            continue;
           }
         }
 
