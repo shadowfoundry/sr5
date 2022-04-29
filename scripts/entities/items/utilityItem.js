@@ -1101,12 +1101,42 @@ export class SR5_UtilityItem extends Actor {
   }
 
   //Handle power point cost
-  static _handleAdeptPower(power) {
+  static _handleAdeptPower(power, actor) {
+    let firstAttribute, secondAttibute;
+
     if (power.powerPointsCost.isRatingBased) {
       power.powerPointsCost.value = power.powerPointsCost.base * power.itemRating;
     } else {
       power.powerPointsCost.value = power.powerPointsCost.base;
     }
+
+    if (power.needRoll && actor) {
+      let firstLabel = game.i18n.localize(SR5.allAttributes[power.testFirstAttribute]);
+      if (power.testFirstAttribute){
+        if (power.testFirstAttribute === "edge" || power.testFirstAttribute === "magic" || power.testFirstAttribute === "resonance"){
+          firstAttribute = actor.data.specialAttributes[power.testFirstAttribute].augmented.value;
+        } else if (power.testFirstAttribute === "rating") {
+          firstAttribute = power.itemRating;
+          firstLabel = game.i18n.localize("SR5.ItemRating");
+        } else firstAttribute = actor.data.attributes[power.testFirstAttribute].augmented.value;
+      }
+  
+      let secondLabel = game.i18n.localize(SR5.allAttributes[power.testSecondAttribute]);
+      if (power.testSecondAttribute){
+        if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
+          secondAttibute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
+        } else if (power.testSecondAttribute === "rating") {
+          secondAttibute = power.itemRating;
+          secondLabel = game.i18n.localize("SR5.ItemRating");
+        } else secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
+      }
+
+      power.test.base = 0;
+      if (firstAttribute) SR5_EntityHelpers.updateModifier(power.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
+      if (secondAttibute) SR5_EntityHelpers.updateModifier(power.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttibute, false, true);
+      SR5_EntityHelpers.updateDicePool(power.test);
+    }
+
   }
 
   ////////////////////// RITUALS ///////////////////////
