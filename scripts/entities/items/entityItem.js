@@ -131,7 +131,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleSpirit(data);
         break;
       case "itemAdeptPower":
-        SR5_UtilityItem._handleAdeptPower(data);
+        SR5_UtilityItem._handleAdeptPower(data, owner);
         break;
       case "itemPower":
         if (owner) SR5_UtilityItem._handlePower(data, owner) 
@@ -255,6 +255,7 @@ export class SR5Item extends Item {
         break;
       case "itemPreparation":
       case "itemSpell":
+        tags.push(`${game.i18n.localize('SR5.SpellType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.spellTypes[data.type])}`);
         tags.push(game.i18n.localize(lists.spellCategories[data.category]));
         switch (data.category){
           case "combat":
@@ -285,7 +286,11 @@ export class SR5Item extends Item {
             break;
           default:
         }
-        if (this.data.type === "itemSpell") tags.push(game.i18n.localize(`SR5.SpellDrain`) + game.i18n.localize(`SR5.Colons`) + ` ${data.drainModifier}`);
+        if (this.data.type === "itemSpell") {
+          let plus = (data.drainModifier <= 0 ? "" : "+");
+          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drainModifier}`);
+          tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${data.drainValue.value}`);
+        }
         break;
       case "itemGear":
         if (data.marks.length){
@@ -305,6 +310,10 @@ export class SR5Item extends Item {
         if (data.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
         if (data.spell) tags.push(game.i18n.localize(`SR5.Spell`));
         tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[data.durationToPerform])}`);
+        break;
+      case "itemAdeptPower":
+        tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${data.powerPointsCost.value}`);
+        tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[data.actionType])}`);
         break;
       default:
     }

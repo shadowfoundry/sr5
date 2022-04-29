@@ -269,6 +269,8 @@ export const preloadHandlebarsTemplates = async function () {
 
         //Adept power
         "systems/sr5/templates/items/_partial/editable/adeptPower/powerPointCost-edit.html",
+        "systems/sr5/templates/items/_partial/editable/adeptPower/powerAction-edit.html",
+        "systems/sr5/templates/items/_partial/editable/adeptPower/testComponent-edit.html",
 
         //Ammunition
         "systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html",
