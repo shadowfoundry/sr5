@@ -312,6 +312,12 @@ export class SR5_EntityHelpers {
       return `${game.i18n.localize(SR5.characterInitiatives[newKey])}`;
     } else {
       switch (key){
+        case "data.conditionMonitors.stun.actual":
+          return `${game.i18n.localize("SR5.DamageTemporary")} (${game.i18n.localize("SR5.DamageTypeStun")})`;
+        case "data.conditionMonitors.physical.actual":
+          return `${game.i18n.localize("SR5.DamageTemporary")} (${game.i18n.localize("SR5.DamageTypePhysical")})`;
+        case "data.conditionMonitors.condition.actual":
+          return `${game.i18n.localize("SR5.DamageTemporary")} (${game.i18n.localize("SR5.DamageTypePhysical")})`;
         case "data.conditionMonitors.matrix":
           return game.i18n.localize("SR5.MatrixMonitor");
         case "data.itemsProperties.armor":

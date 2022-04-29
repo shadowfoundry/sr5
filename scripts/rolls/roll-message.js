@@ -134,7 +134,7 @@ export class SR5_RollMessage {
                     break;
                 case "applyEffect":
                     actor.applyExternalEffect(messageData, "customEffects");
-                    SR5_RollMessage.updateChatButton(message.data, type);
+                    if (!messageData.spellArea > 0) SR5_RollMessage.updateChatButton(message.data, type);
                     break;
                 case "applyEffectOnItem":
                     actor.applyExternalEffect(messageData, "itemEffects");
@@ -162,6 +162,7 @@ export class SR5_RollMessage {
                 case "resistanceCard":
                 case "drainCard":
                 case "fadingCard":
+                case "objectResistance":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
@@ -359,7 +360,7 @@ export class SR5_RollMessage {
                 case "decompilingResistance":
                 case "registeringResistance":
                     targetActor.rollTest(type, null, messageData);
-                    break;         
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }

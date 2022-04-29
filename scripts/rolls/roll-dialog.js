@@ -287,6 +287,9 @@ export default class SR5_RollDialog extends Dialog {
         //Add modifier depending of the type of item Targeted
         if (html.find('[name="targetEffect"]')[0]) this._addTargetItemModifier(html, dialogData);
         html.find('[name="targetEffect"]').change(ev => this._addTargetItemModifier(html, dialogData));
+
+        //Get Object Resistance Test base dicepool
+        html.find(".objectType").change(ev => this._getObjectTypeDicePool(ev, html, dialogData));
     }
 
     //Add Armor modifiers
@@ -677,4 +680,9 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
+    //Get Object Resistance Test base dicepool
+    _getObjectTypeDicePool(ev, html, dialogData){
+        html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
+        this.updateDicePoolValue(html);
+    }
 }

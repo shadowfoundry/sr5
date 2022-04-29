@@ -2,7 +2,11 @@
   <div class="">
     <ul>
       <!-- DICEPOOL -->
-      {{> systems/sr5/templates/rolls/rollDialogPartial/dicePool.html}}
+      {{#if (eq type "objectResistance")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html}}
+      {{else}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/dicePool.html}}
+      {{/if}}
 
       <!-- WOUND MODIFIER-->
       {{#if switch.penalty}}

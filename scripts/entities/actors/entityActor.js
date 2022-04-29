@@ -1448,12 +1448,38 @@ export class SR5Actor extends Actor {
   async applyExternalEffect(data, effectType){
     let item = await fromUuid(data.itemUuid);
     let itemData = item.data;
+
     for (let e of Object.values(itemData.data[effectType])){
       if (e.transfer) {
-        let value;
+        let value, key, newData;
+        
+        if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
+        else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
+        else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
+
+        if (e.target.includes("removeDamage")){
+          key = e.target.replace('.removeDamage','');
+          newData = this.data.data;
+          if(newData.conditionMonitors[key]){
+            newData.conditionMonitors[key].actual.base -= value;
+            SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0);
+            await this.update({"data": newData});
+            continue;
+          } else continue;
+        }
+
+        if (e.target.includes("addDamage")){
+          key = e.target.replace('.addDamage','');
+          newData = this.data.data;
+          if(newData.conditionMonitors[key]){
+            newData.conditionMonitors[key].actual.base += value;
+            SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0);
+            await this.update({"data": newData});
+            continue;
+          } else continue;
+        }
+
         let targetName = SR5_EntityHelpers.getLabelByKey(e.target);
-        if (e.type === "hits") value = data.test.hits;
-        else if (e.type === "netHits") value = data.netHits * (e.multiplier || 1)
 
         //Create the itemEffect
         let itemEffect = {
@@ -1467,7 +1493,6 @@ export class SR5Actor extends Actor {
           "data.ownerItem": data.itemUuid,
           "data.duration": 0,
           "data.durationType": "sustained",
-
         };
 
         if (effectType === "customEffects"){
@@ -1551,7 +1576,7 @@ export class SR5Actor extends Actor {
         item = await fromUuid(targetItem),
         newItem = duplicate(item.data.data);
 
-    newItem.isActive = true;
+    if (newItem.duration === "sustained") newItem.isActive = true;
     newItem.targetOfEffect.push(effectUuid);
     await item.update({"data": newItem});
   }
