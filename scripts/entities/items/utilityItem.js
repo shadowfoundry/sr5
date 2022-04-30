@@ -1282,6 +1282,111 @@ export class SR5_UtilityItem extends Actor {
         case "dangerousArea":
           priceMultiplier -= 0.2;
           break;
+        case "armory":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'armory', 'option', 1000);
+          break;
+        case "cleaningServiceStandard":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cleaningServiceStandard', 'option', 1000);
+          break;
+        case "cleaningServiceMage":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cleaningServiceMage', 'option', 1000);
+          break;
+        case "cleaningServicePollution":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cleaningServicePollution', 'option', 1000);
+          break;
+        case "discreetCleaningService":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'discreetCleaningService', 'option', 10000);
+          break;
+        case "discreetDeliveryman":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'discreetDeliveryman', 'option', 100);
+          break;
+        case "garageAirplane":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageAirplane', 'option', 20000);
+          break;
+        case "garageBoat":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageBoat', 'option', 5000);
+          break;
+        case "garageSmallCar":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageSmallCar', 'option', 100);
+          break;
+        case "garageLargeCar":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageLargeCar', 'option', 100);
+          break;
+        case "garageHelicopter":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageHelicopter', 'option', 10000);
+          break;
+        case "greenHouse":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'greenHouse', 'option', 500);
+          break;
+        case "gridSubscription":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'gridSubscription', 'option', 50);
+          break;
+        case "gym":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'gym', 'option', 300);
+          break;
+        case "indoorArboretum":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'indoorArboretum', 'option', 500);
+          break;
+        case "localBarPatron":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'localBarPatron', 'option', 25);
+          break;
+        case "merchandiseGoods":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'merchandiseGoods', 'option', 10000);
+          break;
+        case "merchandisePawnShop":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'merchandisePawnShop', 'option', 10000);
+          break;
+        case "merchandiseUsedGoods":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'merchandiseUsedGoods', 'option', 10000);
+          break;
+        case "panicRoom":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'panicRoom', 'option', 1000);
+          break;
+        case "patronConcerts":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsConcerts', 'option', 100);
+          break;
+        case "patronPrivateClub":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsPrivateClub', 'option', 200);
+          break;
+        case "patronPublicEntertainment":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsPublicEntertainment', 'option', 75);
+          break;
+        case "patronThemeParks":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsThemeParks', 'option', 100);
+          break;
+        case "privateRoom":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'privateRoom', 'option', 20);
+          break;
+        case "publicTransportation":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'publicTransportation', 'option', 50);
+          break;
+        case "railwayPass":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'railwayPass', 'option', 75);
+          break;
+        case "shootingRange":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'shootingRange', 'option', 500);
+          break;
+        case "soyProcessingUnit":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'soyProcessingUnit', 'option', 20);
+          break;
+        case "sportsCourt":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'sportsCourt', 'option', 300);
+          break;
+        case "swimmingPool":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'swimmingPool', 'option', 100);
+          break;
+        case "walkinFreezer":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'walkinFreezer', 'option', 1000);
+          break;
+        case "workshopFacility":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'workshopFacility', 'option', 2500);
+          break;
+        case "yard":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'yard', 'option', 50);
+          break;
+        case "zenDenBatCave":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'zenDenBatCave', 'option', 100);
+          break;
         default:
           SR5_SystemHelpers.srLog(1, `Unknown '${option}' option in _handleLifeStyle()`);
       }
