@@ -706,7 +706,7 @@ export class SR5_Dice {
 			} 
 			
 			//Handle object resistance 
-			if (cardData.switch.objectResistanceTest){
+			if (cardData.switch?.objectResistanceTest){
 				actionType = "objectResistance";
 				label = game.i18n.localize("SR5.ObjectResistanceTest");
 				cardData.buttons[actionType] = SR5_RollMessage.generateChatButton("nonOpposedTest", actionType, label);
@@ -729,6 +729,7 @@ export class SR5_Dice {
 		//Roll failed
 		else {
 			if (cardData.type === "spell") label = game.i18n.localize("SR5.SpellCastingFailed");
+			else if (cardData.type === "adeptPower") label = game.i18n.localize("SR5.PowerFailure");
 			else label = game.i18n.localize("SR5.PreparationCreateFailed");
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", label);
 		}
