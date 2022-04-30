@@ -1626,6 +1626,7 @@ SR5.spiritBasePowersbarren = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyEarth               : "SR5.SpiritPowerAllergyEarth",
 }
 
 SR5.spiritOptionalPowersbarren = {
@@ -1662,6 +1663,7 @@ SR5.spiritBasePowersblood = {
   energyDrain                : "SR5.SpiritPowerEnergyDrain",
   fear                       : "SR5.SpiritPowerFear",
   materialization            : "SR5.SpiritPowerMaterialization",
+  essenceLoss                : "SR5.SpiritPowerEssenceLoss",
 }
 
 SR5.spiritOptionalPowersblood = {
@@ -1701,6 +1703,7 @@ SR5.spiritBasePowersfire = {
   engulfFire                 : "SR5.SpiritPowerEngulfFire",
   materialization            : "SR5.SpiritPowerMaterialization",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyWater               : "SR5.SpiritPowerAllergyWater",
 }
 
 SR5.spiritOptionalPowersfire = {
@@ -1753,6 +1756,8 @@ SR5.spiritBasePowersinsectCaretaker = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   innateSpell                : "SR5.SpiritPowerInnateSpell",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectCaretaker = {
@@ -1769,6 +1774,8 @@ SR5.spiritBasePowersinsectNymph = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   innateSpell                : "SR5.SpiritPowerInnateSpell",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectNymph = {
@@ -1787,6 +1794,8 @@ SR5.spiritBasePowersinsectQueen = {
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
   wealth                     : "SR5.SpiritPowerWealth",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectQueen = {
@@ -1808,6 +1817,8 @@ SR5.spiritBasePowersinsectScout = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectScout = {
@@ -1825,6 +1836,8 @@ SR5.spiritBasePowersinsectSoldier = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectSoldier = {
@@ -1844,6 +1857,8 @@ SR5.spiritBasePowersinsectWorker = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectWorker = {
@@ -2052,6 +2067,8 @@ SR5.spiritBasePowersshedim = {
   paralyzingTouch            : "SR5.SpiritPowerParalyzingTouch",
   possession                 : "SR5.SpiritPowerPossession",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergySun                 : "SR5.SpiritPowerAllergySun",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersshedim = {
@@ -2079,6 +2096,8 @@ SR5.spiritBasePowersshedimMaster = {
   sapience                   : "SR5.SpiritPowerSapience",
   shadowCloak                : "SR5.SpiritPowerShadowCloak",
   spiritPact                 : "SR5.SpiritPowerSpiritPact",
+  allergySun                 : "SR5.SpiritPowerAllergySun",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersshedimMaster = {
@@ -2098,6 +2117,7 @@ SR5.spiritBasePowersludge = {
   mutagen                    : "SR5.SpiritPowerMutagen",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyWater               : "SR5.SpiritPowerAllergyWater",
 }
 
 SR5.spiritOptionalPowersludge = {
@@ -2134,6 +2154,7 @@ SR5.spiritBasePowerswater = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyFire                : "SR5.SpiritPowerAllergyFire",
 }
 
 SR5.spiritOptionalPowerswater = {
