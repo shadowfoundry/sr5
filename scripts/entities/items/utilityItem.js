@@ -1387,6 +1387,36 @@ export class SR5_UtilityItem extends Actor {
         case "zenDenBatCave":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'zenDenBatCave', 'option', 100);
           break;
+        case "angryDrunkReputation":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'angryDrunkReputation', 'option', 0);
+          break;
+        case "corporateOwned":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'corporateOwned', 'option', 0);
+          break;
+        case "hotelCalifornia":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'hotelCalifornia', 'option', 0);
+          break;
+        case "maidIsOut":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'maidIsOut', 'option', 0);
+          break;
+        case "notAHome":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'notAHome', 'option', 0);
+          break;
+        case "onlyGoodThingAbout":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'onlyGoodThingAbout', 'option', 0);
+          break;
+        case "safehouse":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'safehouse', 'option', 500);
+          break;
+        case "safetyThird":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'safetyThird', 'option', 0);
+          break;
+        case "thrifty":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'thrifty', 'option', -1000);
+          break;
+        case "wZone":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'wZone', 'option', -1000);
+          break;
         default:
           SR5_SystemHelpers.srLog(1, `Unknown '${option}' option in _handleLifeStyle()`);
       }

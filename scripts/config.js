@@ -465,6 +465,16 @@ SR5.lifestyleOptions = {
   workshopFacility          : "SR5.LifeStyleOptionWorkshopFacility",
   yard                      : "SR5.LifeStyleOptionYard",
   zenDenBatCave             : "SR5.LifeStyleOptionZenDenBatCave",
+  angryDrunkReputation      : "SR5.LifeStyleOptionAngryDrunkReputation",
+  corporateOwned            : "SR5.LifeStyleOptionCorporateOwned",
+  hotelCalifornia           : "SR5.LifeStyleOptionHotelCalifornia",
+  maidIsOut                 : "SR5.LifeStyleOptionMaidIsOut",
+  notAHome                  : "SR5.LifeStyleOptionNotAHome",
+  onlyGoodThingAbout        : "SR5.LifeStyleOptionOnlyGoodThingAbout",
+  safehouse                 : "SR5.LifeStyleOptionSafehouse",
+  safetyThird               : "SR5.LifeStyleOptionSafetyThird",
+  thrifty                   : "SR5.LifeStyleOptionThrifty",
+  wZone                     : "SR5.LifeStyleOptionWZone",
 };
 
 // Reputation
