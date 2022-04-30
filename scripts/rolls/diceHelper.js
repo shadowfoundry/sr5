@@ -23,7 +23,7 @@ export class SR5_DiceHelper {
             if (newItem.data.ammunition.value < 0) newItem.data.ammunition.value = 0;           
         }
         //update force and hits
-        if (newItem.type === "itemSpell" || newItem.type === "itemPreparation") {
+        if (newItem.type === "itemSpell" || newItem.type === "itemPreparation" || newItem.type === "itemAdeptPower") {
             newItem.data.hits = cardData.test.hits;
             newItem.data.force = cardData.force;
         }
