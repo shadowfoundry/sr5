@@ -23,7 +23,7 @@ SR5.characterPhysicalAttributes = {
   strength                  : "SR5.Strength",
 };
 
-// Metnal Attributes
+// Mental Attributes
 SR5.characterMentalAttributes = {
   willpower                 : "SR5.Willpower",
   logic                     : "SR5.Logic",
@@ -1670,6 +1670,7 @@ SR5.spiritOptionalPowersblood = {
   concealment                : "SR5.SpiritPowerConcealment",
   confusion                  : "SR5.SpiritPowerConfusion",
   guard                      : "SR5.SpiritPowerGuard",
+  hemoragy                   : "SR5.SpiritPowerHemoragy",
   movement                   : "SR5.SpiritPowerMovement",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   noxiousBreath              : "SR5.SpiritPowerNoxiousBreath",
@@ -2200,6 +2201,7 @@ SR5.AllSpiritPowers = {
   enhancedSenses             : "SR5.SpiritPowerEnhancedSenses",
   fear                       : "SR5.SpiritPowerFear",
   guard                      : "SR5.SpiritPowerGuard",
+  hemoragy                   : "SR5.SpiritPowerHemoragy",
   hiveMind                   : "SR5.SpiritPowerHiveMind",
   immunity                   : "SR5.SpiritPowerImmunity",
   influence                  : "SR5.SpiritPowerInfluence",
