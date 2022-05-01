@@ -509,6 +509,13 @@ export class ActorSheetSR5 extends ActorSheet {
       setProperty(item, "data.isActive", value);
     }
 
+    if (item.type === "itemAdeptPower" && !item.data.isActive && item.data.hasDrain && !item.data.needRoll){
+      let rollData = {
+        drainValue:  item.data.drainValue.value,
+      }
+      this.actor.rollTest("drainCard", null, rollData);
+    }
+
     if (item.data.accessory?.length){
       for (let a of item.data.accessory){
         let accessory = itemList.find(i => i._id === a._id);

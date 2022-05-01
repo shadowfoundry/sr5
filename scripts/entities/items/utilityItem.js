@@ -199,6 +199,7 @@ export class SR5_UtilityItem extends Actor {
     }
 
     if (itemData.type === "itemAdeptPower"){
+      data.test.dicePool = 0;
       data.test.modifiers = [];
       data.drainValue.modifiers = [];
     }
@@ -1123,6 +1124,12 @@ export class SR5_UtilityItem extends Actor {
         } else if (power.testFirstAttribute === "rating") {
           firstAttribute = power.itemRating;
           firstLabel = game.i18n.localize("SR5.ItemRating");
+        } else if (power.testFirstAttribute === "running") {
+          firstAttribute = actor.data.skills.running.rating.value;
+          firstLabel = game.i18n.localize("SR5.Skill");
+        } else if (power.testFirstAttribute === "leadership") {
+          firstAttribute = actor.data.skills.leadership.rating.value;
+          firstLabel = game.i18n.localize("SR5.Skill");
         } else firstAttribute = actor.data.attributes[power.testFirstAttribute].augmented.value;
       }
   
@@ -1133,6 +1140,12 @@ export class SR5_UtilityItem extends Actor {
         } else if (power.testSecondAttribute === "rating") {
           secondAttibute = power.itemRating;
           secondLabel = game.i18n.localize("SR5.ItemRating");
+        } else if (power.testSecondAttribute === "running") {
+          secondAttibute = actor.data.skills.running.rating.value;
+          secondLabel = game.i18n.localize("SR5.Skill");
+        } else if (power.testSecondAttribute === "leadership") {
+          secondAttibute = actor.data.skills.leadership.rating.value;
+          secondLabel = game.i18n.localize("SR5.Skill");
         } else secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
       }
 
