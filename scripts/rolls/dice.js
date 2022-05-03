@@ -605,9 +605,9 @@ export class SR5_Dice {
 		else {
 			cardData.damageResistanceType = "physicalDamage";
 
-			//If materialized spirit : check weapon immunity
-			if (author.type === "actorSpirit") {
-				let immunity = (author.data.essence.value * 2) + cardData.incomingPA;
+			//If Hardened Armor, check if damage do something
+			if ((author.data.specialProperties?.hardenedArmor.value > 0) && (cardData.damageSource !== "spell")) {
+				let immunity = author.data.specialProperties.hardenedArmor.value + cardData.incomingPA;
 				if (cardData.damageValue + netHits <= immunity) {
 					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NormalWeaponsImmunity"));
 					return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: author.data.essence.value * 2, pa: cardData.incomingPA, damage: cardData.damageValue})}`);
@@ -651,9 +651,9 @@ export class SR5_Dice {
 			if (prevData.item.data.range !== "area") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
 		} else if (prevData?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
 
-		//Add automatic succes to Spirit TO-DO : change this when Materialization is up.
-		if (author.type === "actorSpirit" && (cardData.typeSub === "physicalDamage" || cardData.typeSub === "stun")) {
-			let hardenedArmor = Math.floor((author.data.essence.value + cardData.incomingPA) / 2);
+		//Add automatic succes for Hardened Armor.
+		if ((author.data.specialProperties?.hardenedArmor.value > 0) && (cardData.damageSource !== "spell")) {
+			let hardenedArmor = Math.floor((author.data.specialProperties.hardenedArmor.value + cardData.incomingPA) / 2);
 			if (hardenedArmor > 0) {
 			  ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}: ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
 			  cardData.test.hits += hardenedArmor;

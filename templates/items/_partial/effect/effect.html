@@ -306,9 +306,11 @@
 					{{/each}}
 
 					{{else ife category 'specialProperties'}}
-					{{#each (lookup ../lists category)}}
+					{{#each ../lists.specialPropertiesList}}
 					<option value="data.specialProperties.{{@key}}">{{localize this}}</option>
 					{{/each}}
+					<option value="data.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
+					<option value="data.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
 
 					{{else ife category 'itemArmor'}}
 					<option value="data.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
@@ -355,6 +357,24 @@
 								{{/select}}
 							</select>
 						{{/ife}}
+					{{else if (eq this.target 'data.specialProperties.hardenedArmorType')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+							{{#each ../lists.hardenedArmorTypes}}
+							<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
+							{{/select}}
+						</select>
+					{{else if (eq this.target 'data.specialProperties.hardenedAstralArmorType')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+							{{#each ../lists.hardenedAstralArmorTypes}}
+							<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
+							{{/select}}
+						</select>
 					{{else}}
 						<select name="data.customEffects.{{@key}}.type" required>
 							{{#select type}}
@@ -396,7 +416,7 @@
 										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{value}}">
 									{{else if (or (eq type 'rating') (eq type 'ratingReplace') )}}
 										{{../data.itemRating}}
-									{{else ife type 'hits'}}
+									{{else if (eq type 'hits')}}
 										{{#if ../data.hits}}{{../data.hits}}{{else}}0{{/if}}
 									{{/if}}
 								{{/if}}

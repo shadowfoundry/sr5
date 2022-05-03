@@ -2303,6 +2303,15 @@ SR5.specialProperties = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
+  hardenedArmor             : "SR5.HardenedArmor",
+  hardenedAstralArmor       : "SR5.HardenedAstralArmor",
+}
+
+SR5.specialPropertiesList = {
+  concentration             : "SR5.Concentration",
+  controlRig                : "SR5.ControlRig",
+  smartlink                 : "SR5.Smartlink",
+  damageReduction           : "SR5.DamageReduction",
 }
 
 SR5.transactionsTypes = {
@@ -2314,6 +2323,18 @@ SR5.fireType = {
   natural                   : "SR5.FireNatural",
   magical                   : "SR5.FireMagic",
   weapon                    : "SR5.FireWeapon",
+}
+
+SR5.hardenedArmorTypes = {
+  rating                    : "SR5.ItemRating",
+  essence                   : "SR5.Essence",
+  essenceX2                 : "SR5.EssenceX2",
+  body                      : "SR5.Body"
+}
+
+SR5.hardenedAstralArmorTypes = {
+  rating                    : "SR5.ItemRating",
+  willpower                 : "SR5.Willpower"
 }
 
 

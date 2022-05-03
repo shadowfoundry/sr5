@@ -322,6 +322,10 @@ export class SR5_CharacterUtility extends Actor {
         data.specialProperties[key].value = 0;
         data.specialProperties[key].modifiers = [];
       }
+      data.specialProperties.hardenedArmorType = "";
+      data.specialProperties.hardenedArmorRating = 0;
+      data.specialProperties.hardenedAstralArmorType = "";
+      data.specialProperties.hardenedAstralArmorRating = "";
     }
 
     // Reset Vehicule Test
@@ -1028,7 +1032,51 @@ export class SR5_CharacterUtility extends Actor {
 
   // Generate Special Properties
   static updateSpecialProperties(actor) {
-    let lists = actor.lists, data = actor.data;
+    let lists = actor.lists, data = actor.data, armor = 0;
+
+    //Hardened Armor special property.
+    if (data.specialProperties.hardenedArmorType){
+      switch (data.specialProperties.hardenedArmorType){
+        case "essence":
+          armor = data.essence.value;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.Essence'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.Essence'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        case "essenceX2":
+          armor = data.essence.value * 2;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.EssenceX2'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.EssenceX2'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        case "body":
+          armor = data.attributes.body.augmented.value;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.Body'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.Body'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        case "rating":
+          armor = data.specialProperties.hardenedArmorRating;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        default:
+          SR5_SystemHelpers.srLog(3, `Unknown ${data.specialProperties.hardenedArmorType} Hardened Armor type in 'updateSpecialProperties()'`);
+      }
+    }
+
+    if (data.specialProperties.hardenedAstralArmorType){
+      switch (data.specialProperties.hardenedAstralArmorType){
+        case "willpower":
+          armor = data.attributes.willpower.augmented.value;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Willpower'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          break;
+        case "rating":
+          armor = data.specialProperties.hardenedAstralArmorRating;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          break;
+        default:
+          SR5_SystemHelpers.srLog(3, `Unknown ${data.specialProperties.hardenedAstralArmorType} Hardened Astral Armor type in 'updateSpecialProperties()'`);
+      }
+    }
+
     for (let key of Object.keys(lists.specialProperties)) {
       if (data.specialProperties[key]) {
         SR5_EntityHelpers.updateValue(data.specialProperties[key]);
@@ -3024,6 +3072,19 @@ export class SR5_CharacterUtility extends Actor {
             SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
             continue;
           }
+        }
+
+        //Special case for Hardened Armor
+        if (customEffect.target === "data.specialProperties.hardenedArmorType"){
+          setProperty(actor, customEffect.target, customEffect.type);
+          if (customEffect.type === "rating") setProperty(actor, "data.specialProperties.hardenedArmorRating", (item.data.itemRating || 0));
+          continue;
+        }
+
+        if (customEffect.target === "data.specialProperties.hardenedAstralArmorType"){
+          setProperty(actor, customEffect.target, customEffect.type);
+          if (customEffect.type === "rating") setProperty(actor, "data.specialProperties.hardenedAstralArmorRating", (item.data.itemRating || 0));
+          continue;
         }
 
         SR5_SystemHelpers.srLog(3, `Apply effect from '${item.name}'. Target: ${customEffect.target} / Value: ${customEffect.value}`)

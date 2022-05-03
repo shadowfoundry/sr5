@@ -322,6 +322,8 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateEssence(actor);
         SR5_CharacterUtility.updateSpecialAttributes(actor);
+        if (actor.data.isMaterializing) actor.data.specialProperties.hardenedArmorType = "essenceX2";
+        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
         SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateInitiativePhysical(actor);
@@ -354,10 +356,10 @@ export class SR5Actor extends Actor {
         break;
       case "actorPc":
       case "actorGrunt":
-        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateEssence(actor);
         SR5_CharacterUtility.updateSpecialAttributes(actor);
+        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
         SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateLimits(actor);

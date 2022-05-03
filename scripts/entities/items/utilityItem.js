@@ -1599,7 +1599,7 @@ export class SR5_UtilityItem extends Actor {
             SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
             break;
           default:
-            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, customEffect);
+            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);
         }
       }
     }
