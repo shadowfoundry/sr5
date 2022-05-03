@@ -259,6 +259,11 @@
       },
       "characterResistancesTemplate": {
         "resistances": {
+          "astralDamage": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "physicalDamage": {
             "dicePool": 0,
             "base": 0,
@@ -3029,6 +3034,20 @@
             "modifiers": []
           },
           "damageReduction":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "hardenedArmorType": "",
+          "hardenedArmorRating": 0,
+          "hardenedArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "hardenedAstralArmorType": "",
+          "hardenedAstralArmorRating": 0,
+          "hardenedAstralArmor":{
             "value": 0,
             "base": 0,
             "modifiers": []
