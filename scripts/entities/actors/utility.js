@@ -1067,10 +1067,12 @@ export class SR5_CharacterUtility extends Actor {
         case "willpower":
           armor = data.attributes.willpower.augmented.value;
           SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Willpower'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.resistances.astralDamage, game.i18n.localize('SR5.Willpower'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
           break;
         case "rating":
           armor = data.specialProperties.hardenedAstralArmorRating;
           SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.resistances.astralDamage, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
           break;
         default:
           SR5_SystemHelpers.srLog(3, `Unknown ${data.specialProperties.hardenedAstralArmorType} Hardened Astral Armor type in 'updateSpecialProperties()'`);
@@ -1701,6 +1703,10 @@ export class SR5_CharacterUtility extends Actor {
               SR5_EntityHelpers.updateModifier(resistances[key],`${game.i18n.localize('SR5.VehicleStat_ArmorShort')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.armor.augmented.value);
               SR5_EntityHelpers.updateDicePool(resistances[key], 0);
             }
+            break;
+          case "astralDamage":
+            SR5_EntityHelpers.updateModifier(resistances[key],`${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+            SR5_EntityHelpers.updateDicePool(resistances[key], 0);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown resistance '${key}' in 'updateResistances()'`);

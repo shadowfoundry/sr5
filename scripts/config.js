@@ -70,6 +70,7 @@ SR5.characterDefenses = {
 
 // Resistances
 SR5.characterResistances = {
+  astralDamage              : "SR5.AstralDamage",
   physicalDamage            : "SR5.Damage",
   crashDamage               : "SR5.CrashDamageResistance",
   directSpellMana           : "SR5.DirectSpellMana",

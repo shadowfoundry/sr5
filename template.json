@@ -259,6 +259,11 @@
       },
       "characterResistancesTemplate": {
         "resistances": {
+          "astralDamage": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "physicalDamage": {
             "dicePool": 0,
             "base": 0,
