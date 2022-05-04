@@ -371,6 +371,7 @@ export const preloadHandlebarsTemplates = async function () {
         //Spell
         "systems/sr5/templates/items/_partial/editable/spell/category-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/drainModifier-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html",
 

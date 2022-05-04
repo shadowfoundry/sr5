@@ -287,8 +287,8 @@ export class SR5Item extends Item {
           default:
         }
         if (this.data.type === "itemSpell") {
-          let plus = (data.drainModifier <= 0 ? "" : "+");
-          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drainModifier}`);
+          let plus = (data.drain.value <= 0 ? "" : "+");
+          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drain.value}`);
           tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${data.drainValue.value}`);
         }
         break;

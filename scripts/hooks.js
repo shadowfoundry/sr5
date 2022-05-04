@@ -138,7 +138,7 @@ export const registerHooks = function () {
     // Determine whether a system migration is required and feasible
     if ( !game.user.isGM ) return;
     const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-    const NEEDS_MIGRATION_VERSION = "0.0.5.8";
+    const NEEDS_MIGRATION_VERSION = "0.0.5.9";
     const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
     // Perform the migration

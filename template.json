@@ -5993,7 +5993,11 @@
       "range": "",
       "duration": "",
       "type": "",
-      "drainModifier": 0,
+      "drain": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "drainValue": {
         "value": 0,
         "base": 0,
@@ -6014,6 +6018,7 @@
       "healthEssence": false,
       "freeSustain": false,
       "preparation": false,
+      "fetish": false,
       "targetOfEffect":[],
       "resisted": false,
       "defenseFirstAttribute": "",

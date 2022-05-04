@@ -286,6 +286,13 @@ export default class Migration {
 			}
 		}
 
+		if (item.type == "itemSpell"){
+			if (item.data.drainModifier) {		
+				updateData["data.drain.base"] = item.data.drainModifier;
+				updateData["data.-=drainModifier"] = null;
+			}
+	}
+
 		// Migrate Effects
 		if (item.effects) {
 		const effects = item.effects.reduce((arr, e) => {

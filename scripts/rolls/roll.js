@@ -915,7 +915,7 @@ export class SR5_Roll {
                 dicePool = actorData.skills.spellcasting.spellCategory[spellCategory].dicePool;
                 
                 optionalData = {
-                    "drainMod.spell": itemData.drainModifier,
+                    "drainMod.spell": itemData.drain.value,
                     drainType: "stun",
                     damageType: itemData.damageType,
                     damageElement: itemData.damageElement,
@@ -1072,7 +1072,7 @@ export class SR5_Roll {
                 optionalData = {
                     "switch.specialization": true,
                     "switch.canUseReagents": canUseReagents,
-                    "drainMod.spell": itemData.drainModifier,
+                    "drainMod.spell": itemData.drain.value,
                     drainType: "stun",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
