@@ -1,0 +1,34 @@
+<!-- MODIFIED DICE POOL -->
+<li class="SR-LigneEnTete">
+	<div class="grid SR-TextUppercase">
+		<div class="col-11">{{localize 'SR5.ModifiedDicePool'}}</div>
+	  	<div class="col-1 SR-TextCenter">
+			<input disabled type="number" class="" name="modifiedDicePool" value="" placeholder="0" data-dtype="Number" />
+	  	</div>
+	</div>
+</li>
+
+<!-- BASE DICE POOL -->
+<li class="grid">
+	<div class="col-3">{{localize 'SR5.ObjectType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select class="objectType" name="objectType">
+            {{#select objectType}}
+            <option value="3">{{localize 'SR5.ObjectTypeNatural'}}</option>
+            <option value="6">{{localize 'SR5.ObjectTypeManufacturedLow'}}</option>
+            <option value="9">{{localize 'SR5.ObjectTypeManufacturedHigh'}}</option>
+			<option value="15">{{localize 'SR5.ObjectTypeHighlyProcessed'}}</option>
+            {{/select}}
+        </select>
+    </div>
+
+	<div class="col-1 SR-TextCenter"><input disabled type="number" class="" name="baseDicePool" value="{{dicePool}}" placeholder="0" data-dtype="Number" /></div>
+</li>
+
+  <!-- USER DICEPOLL MODIFIER -->
+<li class="grid">
+	<div class="col-11">{{localize 'SR5.VariousModifiers'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-1 SR-TextCenter">
+		<input type="number" name="dicePoolModVarious" value="{{dicePoolModVarious}}" data-dtype="Number" placeholder="0" />
+	</div>
+</li>

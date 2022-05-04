@@ -116,7 +116,7 @@
 						{{/if}}
 					</div>
 					{{else}}
-					{{#if (gte data.conditionMonitors.matrix.current data.conditionMonitors.matrix.value)}}
+					{{#if (gte data.conditionMonitors.matrix.actual.value data.conditionMonitors.matrix.value)}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
@@ -161,7 +161,7 @@
 							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
-					{{#if (gte ../data.conditionMonitors.matrix.current ../data.conditionMonitors.matrix.value)}}
+					{{#if (gte ../data.conditionMonitors.matrix.actual.value ../data.conditionMonitors.matrix.value)}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"

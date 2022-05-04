@@ -259,6 +259,11 @@
       },
       "characterResistancesTemplate": {
         "resistances": {
+          "astralDamage": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "physicalDamage": {
             "dicePool": 0,
             "base": 0,
@@ -3032,6 +3037,20 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "hardenedArmorType": "",
+          "hardenedArmorRating": 0,
+          "hardenedArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "hardenedAstralArmorType": "",
+          "hardenedAstralArmorRating": 0,
+          "hardenedAstralArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },
@@ -4135,28 +4154,44 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "physical": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "edge": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "overflow": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4345,7 +4380,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4502,14 +4541,22 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "stun": {
           "value": 0,
           "base": 0,
-          "max": 0,
           "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4683,14 +4730,22 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "matrix": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -4959,7 +5014,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5118,7 +5177,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5281,7 +5344,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5379,7 +5446,11 @@
             "value": 0,
             "base": 0,
             "modifiers": [],
-            "current": 0,
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
             "boxes": []
           }
         },
@@ -5712,10 +5783,18 @@
       },
       "conditionMonitors": {
         "physical": {
-          "current": 0
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
         },
         "stun": {
-          "current": 0
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
         }
       },
       "sustainedSpell": [],
@@ -5740,7 +5819,11 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       },
@@ -5848,6 +5931,23 @@
         "base":0,
         "modifiers": [],
         "isRatingBased": false
+      },
+      "needRoll": false,
+      "testFirstAttribute": "",
+      "testSecondAttribute": "",
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "targetOfEffect":[],
+      "hasDrain": false,
+      "drainType": "",
+      "drainMultiplier": 1,
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
       }
     },
     "itemProgram": {
@@ -5893,7 +5993,11 @@
       "range": "",
       "duration": "",
       "type": "",
-      "drainModifier": 0,
+      "drain": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "drainValue": {
         "value": 0,
         "base": 0,
@@ -5914,7 +6018,11 @@
       "healthEssence": false,
       "freeSustain": false,
       "preparation": false,
-      "targetOfEffect":[]
+      "fetish": false,
+      "targetOfEffect":[],
+      "resisted": false,
+      "defenseFirstAttribute": "",
+      "defenseSecondAttribute": ""
     },
     "itemPreparation": {
       "templates": [
@@ -6067,14 +6175,22 @@
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         },
         "matrix": {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "boxes": []
         }
       }

@@ -269,6 +269,9 @@ export const preloadHandlebarsTemplates = async function () {
 
         //Adept power
         "systems/sr5/templates/items/_partial/editable/adeptPower/powerPointCost-edit.html",
+        "systems/sr5/templates/items/_partial/editable/adeptPower/powerAction-edit.html",
+        "systems/sr5/templates/items/_partial/editable/adeptPower/testComponent-edit.html",
+        "systems/sr5/templates/items/_partial/editable/adeptPower/drain-edit.html",
 
         //Ammunition
         "systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html",
@@ -368,7 +371,9 @@ export const preloadHandlebarsTemplates = async function () {
         //Spell
         "systems/sr5/templates/items/_partial/editable/spell/category-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/drainModifier-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html",
 
         //Spirit
         "systems/sr5/templates/items/_partial/editable/spirit/force-edit.html",
@@ -472,6 +477,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/reagents.html",
     "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html",
 
 
     /************************************************************************************* */

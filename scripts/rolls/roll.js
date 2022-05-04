@@ -38,7 +38,8 @@ export class SR5_Roll {
             canUseReagents = false,
             canBeExtended = true,
             dicePoolComposition,
-            rulesMatrixGrid = false;
+            rulesMatrixGrid = false,
+            firstAttribute, secondAttribute;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -914,11 +915,13 @@ export class SR5_Roll {
                 dicePool = actorData.skills.spellcasting.spellCategory[spellCategory].dicePool;
                 
                 optionalData = {
-                    "drainMod.spell": itemData.drainModifier,
+                    "drainMod.spell": itemData.drain.value,
                     drainType: "stun",
                     damageType: itemData.damageType,
                     damageElement: itemData.damageElement,
                     spellType: itemData.type,
+                    spellCategory: itemData.category,
+                    spellResisted: itemData.resisted,
                     limitType: "force",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
@@ -926,6 +929,7 @@ export class SR5_Roll {
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     "switch.canUseReagents": canUseReagents,
                     dicePoolComposition: actorData.skills.spellcasting.spellCategory[spellCategory].modifiers,
+                    itemUuid: item.uuid,
                 }
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {
@@ -933,22 +937,34 @@ export class SR5_Roll {
                     });
                 }
 
-                //Check if an effect is transferable on taget actor and give the necessary infos
-                for (let e of Object.values(itemData.customEffects)){
-                    if (e.transfer) {
-                        optionalData = mergeObject(optionalData, {
-                            "itemUuid": item.uuid,
-                            "switch.transferEffect": true,
-                        });
+                if (!itemData.resisted){
+                    //Check if an effect is transferable on taget actor and give the necessary infos
+                    for (let e of Object.values(itemData.customEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": item.uuid,
+                                "switch.transferEffect": true,
+                            });
+                        }
+                    }
+
+                    //Check if an effect is transferable on target item and give the necessary infos
+                    for (let e of Object.values(itemData.itemEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": item.uuid,
+                                "switch.transferEffectOnItem": true,
+                            });
+                        }
                     }
                 }
 
-                //Check if an effect is transferable on target item and give the necessary infos
-                for (let e of Object.values(itemData.itemEffects)){
-                    if (e.transfer) {
+                //Check if an object can resist to spell
+                for (let e of Object.values(itemData.systemEffects)){
+                    if (e.value === "sre_ObjectResistance"){
                         optionalData = mergeObject(optionalData, {
                             "itemUuid": item.uuid,
-                            "switch.transferEffectOnItem": true,
+                            "switch.objectResistanceTest": true,
                         });
                     }
                 }
@@ -961,6 +977,46 @@ export class SR5_Roll {
                         "spiritAidMod": spiritHelp.data.data.itemRating,
                         "switch.spiritAid": true,
                     });
+                }
+                break;
+
+            case "resistSpell":
+                title = `${game.i18n.localize("SR5.ResistSpell")}${game.i18n.localize("SR5.Colons")} ${chatData.item.name}`;
+
+                firstAttribute = actorData.attributes[chatData.item.data.defenseFirstAttribute].augmented.value;
+                secondAttribute = actorData.attributes[chatData.item.data.defenseSecondAttribute].augmented.value;
+                dicePoolComposition = ([
+                    {source: game.i18n.localize(SR5.allAttributes[chatData.item.data.defenseFirstAttribute]), value: firstAttribute},
+                    {source: game.i18n.localize(SR5.allAttributes[chatData.item.data.defenseSecondAttribute]), value: secondAttribute},
+                ]);
+                dicePool = firstAttribute + secondAttribute;
+
+                optionalData = {
+                    hits: chatData.test.hits,
+                    dicePoolComposition: dicePoolComposition,
+                    itemUuid: chatData.itemUuid,
+                }
+
+                let spellItem = await fromUuid(chatData.itemUuid);
+                let spellData = spellItem.data.data;
+                //Check if an effect is transferable on taget actor and give the necessary infos
+                for (let e of Object.values(spellData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": spellItem.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
+
+                //Check if an effect is transferable on target item and give the necessary infos
+                for (let e of Object.values(spellData.itemEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": spellItem.uuid,
+                            "switch.transferEffectOnItem": true,
+                        });
+                    }
                 }
                 break;
 
@@ -1016,7 +1072,7 @@ export class SR5_Roll {
                 optionalData = {
                     "switch.specialization": true,
                     "switch.canUseReagents": canUseReagents,
-                    "drainMod.spell": itemData.drainModifier,
+                    "drainMod.spell": itemData.drain.value,
                     drainType: "stun",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
@@ -1143,6 +1199,7 @@ export class SR5_Roll {
                 break;
 
             case "power":
+            case "adeptPower":
                 title = `${game.i18n.localize("SR5.UsePower")} ${item.name}`;
                 dicePool = itemData.test.dicePool;
                 if (itemData.defenseFirstAttribute && itemData.defenseSecondAttribute){
@@ -1155,12 +1212,29 @@ export class SR5_Roll {
                         dicePoolComposition: itemData.test.modifiers,
                     }
                 }
+
+                //Check if an effect is transferable on taget actor and give the necessary infos
+                for (let e of Object.values(itemData.customEffects)){
+                    if (e.transfer) {
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.transferEffect": true,
+                        });
+                    }
+                }
+
+                //Add drain roll if needed
+                if (rollType === "adeptPower" && itemData.hasDrain){
+                    optionalData = mergeObject(optionalData, {
+                        "hasDrain": true,
+                        "drainValue": itemData.drainValue.value,
+                    });
+                }
                 break;
 
             case "powerDefense":
                 if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
                 title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${chatData.item.name}`;
-                let firstAttribute, secondAttribute;
                 if (chatData.defenseFirstAttribute === "edge" || chatData.defenseFirstAttribute === "magic" || chatData.defenseFirstAttribute === "resonance"){
                     firstAttribute = actorData.specialAttributes[chatData.defenseFirstAttribute].augmented.value;
                 } else {
@@ -1295,6 +1369,13 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+            case "objectResistance":
+                title = game.i18n.localize("SR5.ObjectResistanceTest");
+                dicePool = 3;
+                optionalData = {
+                    hits: chatData.test.hits,
+                }
+                break;
             default:
         }
 
@@ -1313,7 +1394,6 @@ export class SR5_Roll {
             type: rollType,
             typeSub: typeSub,
             testType: testType,
-            button: {},
             originalMessage: originalMessage,
         };
 

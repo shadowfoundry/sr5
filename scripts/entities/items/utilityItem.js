@@ -171,12 +171,22 @@ export class SR5_UtilityItem extends Actor {
     if (data.isWireless){
       data.conditionMonitors.matrix.value = 0;
       data.conditionMonitors.matrix.modifiers = [];
+      data.conditionMonitors.matrix.actual.value = 0;
+      data.conditionMonitors.matrix.actual.modifiers = [];
+    }
+
+    if (data.conditionMonitors?.condition) {
+      data.conditionMonitors.condition.value = 0;
+      data.conditionMonitors.condition.modifiers = [];
+      data.conditionMonitors.condition.actual.value = 0;
+      data.conditionMonitors.condition.actual.modifiers = [];
     }
 
     if (itemData.type === "itemSpell") {
       data.freeSustain = false;
       data.damageValue.modifiers = [];
       data.armorPenetration.modifiers = [];
+      data.drain.modifiers = [];
       data.drainValue.modifiers = [];
       data.spellAreaOfEffect.modifiers = [];
     }
@@ -187,6 +197,12 @@ export class SR5_UtilityItem extends Actor {
 
     if (itemData.type === "itemPower"){
       data.test.modifiers = [];
+    }
+
+    if (itemData.type === "itemAdeptPower"){
+      data.test.dicePool = 0;
+      data.test.modifiers = [];
+      data.drainValue.modifiers = [];
     }
 
     if (itemData.type === "itemPreparation"){
@@ -302,6 +318,7 @@ export class SR5_UtilityItem extends Actor {
       default: item.data.conditionMonitors.matrix.base = Math.ceil(item.data.deviceRating / 2) + 8;
     }
     
+    SR5_EntityHelpers.updateValue(item.data.conditionMonitors.matrix.actual, 0);
     SR5_EntityHelpers.updateValue(item.data.conditionMonitors.matrix, 0);
   }
 
@@ -1069,8 +1086,13 @@ export class SR5_UtilityItem extends Actor {
     //Modified drain value
     i.data.drainValue.base = 0;
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), (i.data.force || 0), false, true);
-    SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drainModifier, false, true);
+    SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drain.base, false, true);
+    if (i.data.fetish){
+      SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.DrainModifier'), -2, false, true);
+      SR5_EntityHelpers.updateModifier(i.data.drain, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.Fetish'), -2, false, true);
+    }
     SR5_EntityHelpers.updateValue(i.data.drainValue, 2);
+    SR5_EntityHelpers.updateValue(i.data.drain);
 
     //Check if spell is sustained by a spirit
     for (let item of actorData.items){
@@ -1091,11 +1113,61 @@ export class SR5_UtilityItem extends Actor {
   }
 
   //Handle power point cost
-  static _handleAdeptPower(power) {
+  static _handleAdeptPower(power, actor) {
+    let firstAttribute, secondAttibute;
+
     if (power.powerPointsCost.isRatingBased) {
       power.powerPointsCost.value = power.powerPointsCost.base * power.itemRating;
     } else {
       power.powerPointsCost.value = power.powerPointsCost.base;
+    }
+
+    if (power.needRoll && actor) {
+      let firstLabel = game.i18n.localize(SR5.allAttributes[power.testFirstAttribute]);
+      if (power.testFirstAttribute){
+        if (power.testFirstAttribute === "edge" || power.testFirstAttribute === "magic" || power.testFirstAttribute === "resonance"){
+          firstAttribute = actor.data.specialAttributes[power.testFirstAttribute].augmented.value;
+        } else if (power.testFirstAttribute === "rating") {
+          firstAttribute = power.itemRating;
+          firstLabel = game.i18n.localize("SR5.ItemRating");
+        } else if (power.testFirstAttribute === "running") {
+          firstAttribute = actor.data.skills.running.rating.value;
+          firstLabel = game.i18n.localize("SR5.Skill");
+        } else if (power.testFirstAttribute === "leadership") {
+          firstAttribute = actor.data.skills.leadership.rating.value;
+          firstLabel = game.i18n.localize("SR5.Skill");
+        } else firstAttribute = actor.data.attributes[power.testFirstAttribute].augmented.value;
+      }
+  
+      let secondLabel = game.i18n.localize(SR5.allAttributes[power.testSecondAttribute]);
+      if (power.testSecondAttribute){
+        if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
+          secondAttibute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
+        } else if (power.testSecondAttribute === "rating") {
+          secondAttibute = power.itemRating;
+          secondLabel = game.i18n.localize("SR5.ItemRating");
+        } else if (power.testSecondAttribute === "running") {
+          secondAttibute = actor.data.skills.running.rating.value;
+          secondLabel = game.i18n.localize("SR5.Skill");
+        } else if (power.testSecondAttribute === "leadership") {
+          secondAttibute = actor.data.skills.leadership.rating.value;
+          secondLabel = game.i18n.localize("SR5.Skill");
+        } else secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
+      }
+
+      power.test.base = 0;
+      if (firstAttribute) SR5_EntityHelpers.updateModifier(power.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
+      if (secondAttibute) SR5_EntityHelpers.updateModifier(power.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttibute, false, true);
+      SR5_EntityHelpers.updateDicePool(power.test);
+    }
+
+    if (power.hasDrain){
+      power.drainValue.base = 0;
+      if (power.drainType === "rating") SR5_EntityHelpers.updateModifier(power.drainValue, game.i18n.localize('SR5.ItemRating'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(power.itemRating * (power.drainMultiplier || 1)), false, true);
+      if (power.drainType === "magic") {
+        if (actor) SR5_EntityHelpers.updateModifier(power.drainValue, game.i18n.localize('SR5.Magic'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(actor.data.specialAttributes.magic.augmented.value * (power.drainMultiplier || 1)), false, true);
+      }
+      SR5_EntityHelpers.updateValue(power.drainValue);
     }
   }
 
@@ -1533,7 +1605,7 @@ export class SR5_UtilityItem extends Actor {
             SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
             break;
           default:
-            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, customEffect);
+            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);
         }
       }
     }

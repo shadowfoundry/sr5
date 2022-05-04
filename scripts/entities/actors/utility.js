@@ -322,6 +322,10 @@ export class SR5_CharacterUtility extends Actor {
         data.specialProperties[key].value = 0;
         data.specialProperties[key].modifiers = [];
       }
+      data.specialProperties.hardenedArmorType = "";
+      data.specialProperties.hardenedArmorRating = 0;
+      data.specialProperties.hardenedAstralArmorType = "";
+      data.specialProperties.hardenedAstralArmorRating = "";
     }
 
     // Reset Vehicule Test
@@ -494,6 +498,9 @@ export class SR5_CharacterUtility extends Actor {
         if (data.conditionMonitors[key]) {
           data.conditionMonitors[key].value = 0;
           data.conditionMonitors[key].modifiers = [];
+          data.conditionMonitors[key].actual.value = 0;
+          data.conditionMonitors[key].actual.modifiers = [];
+          if (data.conditionMonitors[key].actual.base < 0) data.conditionMonitors[key].actual.base = 0;
         }
       }
     }
@@ -563,7 +570,7 @@ export class SR5_CharacterUtility extends Actor {
             if (data.conditionMonitors[key]) {
               SR5_EntityHelpers.updateValue(data.penalties[key].step);
               SR5_EntityHelpers.updateValue(data.penalties[key].boxReduction);
-              data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].current - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
+              data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].actual.value - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
               if (data.penalties[key].actual.base > 0) data.penalties[key].actual.base = 0;
             }
             break;
@@ -1025,7 +1032,53 @@ export class SR5_CharacterUtility extends Actor {
 
   // Generate Special Properties
   static updateSpecialProperties(actor) {
-    let lists = actor.lists, data = actor.data;
+    let lists = actor.lists, data = actor.data, armor = 0;
+
+    //Hardened Armor special property.
+    if (data.specialProperties.hardenedArmorType){
+      switch (data.specialProperties.hardenedArmorType){
+        case "essence":
+          armor = data.essence.value;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.Essence'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.Essence'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        case "essenceX2":
+          armor = data.essence.value * 2;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.EssenceX2'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.EssenceX2'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        case "body":
+          armor = data.attributes.body.augmented.value;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.Body'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.Body'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        case "rating":
+          armor = data.specialProperties.hardenedArmorRating;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedArmor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.itemsProperties.armor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedArmor'), armor);
+          break;
+        default:
+          SR5_SystemHelpers.srLog(3, `Unknown ${data.specialProperties.hardenedArmorType} Hardened Armor type in 'updateSpecialProperties()'`);
+      }
+    }
+
+    if (data.specialProperties.hardenedAstralArmorType){
+      switch (data.specialProperties.hardenedAstralArmorType){
+        case "willpower":
+          armor = data.attributes.willpower.augmented.value;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Willpower'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.resistances.astralDamage, game.i18n.localize('SR5.Willpower'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          break;
+        case "rating":
+          armor = data.specialProperties.hardenedAstralArmorRating;
+          SR5_EntityHelpers.updateModifier(data.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          SR5_EntityHelpers.updateModifier(data.resistances.astralDamage, game.i18n.localize('SR5.Power'), game.i18n.localize('SR5.HardenedAstalArmor'), armor);
+          break;
+        default:
+          SR5_SystemHelpers.srLog(3, `Unknown ${data.specialProperties.hardenedAstralArmorType} Hardened Astral Armor type in 'updateSpecialProperties()'`);
+      }
+    }
+
     for (let key of Object.keys(lists.specialProperties)) {
       if (data.specialProperties[key]) {
         SR5_EntityHelpers.updateValue(data.specialProperties[key]);
@@ -1217,7 +1270,11 @@ export class SR5_CharacterUtility extends Actor {
           "value": 0,
           "base": 0,
           "modifiers": [],
-          "current": 0,
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+          },
           "boxes": []
         };
         delete data.statusBars.physical;
@@ -1248,6 +1305,7 @@ export class SR5_CharacterUtility extends Actor {
             break;
           case "overflow":
             conditionMonitors[key].base = attributes.body.augmented.value;
+            if (conditionMonitors.physical.actual.value < conditionMonitors.physical.value) conditionMonitors[key].actual.base = 0;
             break;
           case "matrix":
             conditionMonitors[key].base = Math.ceil((data.matrix.deviceRating / 2) + 8);
@@ -1260,6 +1318,8 @@ export class SR5_CharacterUtility extends Actor {
             return;
         }
         SR5_EntityHelpers.updateValue(conditionMonitors[key], 1);
+        if (conditionMonitors[key].actual.value > conditionMonitors[key].value) conditionMonitors[key].actual.base = conditionMonitors[key].value;
+        SR5_EntityHelpers.updateValue(conditionMonitors[key].actual, 0);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, key);
         SR5_EntityHelpers.updateStatusBars(actor, key);
       }
@@ -1643,6 +1703,10 @@ export class SR5_CharacterUtility extends Actor {
               SR5_EntityHelpers.updateModifier(resistances[key],`${game.i18n.localize('SR5.VehicleStat_ArmorShort')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.armor.augmented.value);
               SR5_EntityHelpers.updateDicePool(resistances[key], 0);
             }
+            break;
+          case "astralDamage":
+            SR5_EntityHelpers.updateModifier(resistances[key],`${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+            SR5_EntityHelpers.updateDicePool(resistances[key], 0);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown resistance '${key}' in 'updateResistances()'`);
@@ -2154,8 +2218,6 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     if (magic.magicType === "adept"){
-      magic.tradition = "";
-      magic.drainResistance.linkedAttribute = "body";
       for (let category of Object.keys(lists.spellCategories)) {
         magic.elements[category] = "";
       }
@@ -2233,6 +2295,7 @@ export class SR5_CharacterUtility extends Actor {
 
     magic.drainResistance.base = 0;
     SR5_EntityHelpers.updateModifier(magic.drainResistance, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+    if (magic.magicType === "adept") magic.drainResistance.linkedAttribute = "body";
     if (magic.drainResistance.linkedAttribute) {
       let label = `${game.i18n.localize(lists.characterAttributes[magic.drainResistance.linkedAttribute])}`;
       SR5_EntityHelpers.updateModifier(magic.drainResistance, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[magic.drainResistance.linkedAttribute].augmented.value);
@@ -2846,7 +2909,7 @@ export class SR5_CharacterUtility extends Actor {
     let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
     let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
     let newDeck = duplicate(ownerDeck);
-    if (newDeck.data.conditionMonitors.matrix.current !== agent.data.conditionMonitors.matrix.current){
+    if (newDeck.data.conditionMonitors.matrix.actual.value !== agent.data.conditionMonitors.matrix.actual.value){
       newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
       ownerDeck.update(newDeck);
     }
@@ -3000,6 +3063,7 @@ export class SR5_CharacterUtility extends Actor {
       if (targetObject === null) skipCustomEffect = true;
 
       if (!skipCustomEffect) {
+        SR5_SystemHelpers.srLog(3, `Applying Custom Effect for ${item.name}`);
         if (!customEffect.multiplier) customEffect.multiplier = 1;
 
         //Special case for items'effects which modify all weapons weared by the actor
@@ -3007,12 +3071,29 @@ export class SR5_CharacterUtility extends Actor {
           if (customEffect.target === "data.itemsProperties.weapon.accuracy"){
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            continue;
           }
           if (customEffect.target === "data.itemsProperties.weapon.damageValue"){
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            continue;
           }
         }
+
+        //Special case for Hardened Armor
+        if (customEffect.target === "data.specialProperties.hardenedArmorType"){
+          setProperty(actor, customEffect.target, customEffect.type);
+          if (customEffect.type === "rating") setProperty(actor, "data.specialProperties.hardenedArmorRating", (item.data.itemRating || 0));
+          continue;
+        }
+
+        if (customEffect.target === "data.specialProperties.hardenedAstralArmorType"){
+          setProperty(actor, customEffect.target, customEffect.type);
+          if (customEffect.type === "rating") setProperty(actor, "data.specialProperties.hardenedAstralArmorRating", (item.data.itemRating || 0));
+          continue;
+        }
+
+        SR5_SystemHelpers.srLog(3, `Apply effect from '${item.name}'. Target: ${customEffect.target} / Value: ${customEffect.value}`)
 
         switch (customEffect.type) {
           case "rating":

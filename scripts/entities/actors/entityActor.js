@@ -317,13 +317,15 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateConditionMonitors(actor);
         break;
       case "actorSpirit":
-        SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateSpiritValues(actor);
         SR5_CharacterUtility.updateSpiritAttributes(actor);
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateEssence(actor);
         SR5_CharacterUtility.updateSpecialAttributes(actor);
+        if (actor.data.isMaterializing) actor.data.specialProperties.hardenedArmorType = "essenceX2";
+        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
+        SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateInitiativePhysical(actor);
         SR5_CharacterUtility.updateInitiativeAstral(actor);
         SR5_CharacterUtility.updateLimits(actor);
@@ -354,11 +356,12 @@ export class SR5Actor extends Actor {
         break;
       case "actorPc":
       case "actorGrunt":
-        SR5_CharacterUtility.updateSpecialProperties(actor);
-        SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateEssence(actor);
         SR5_CharacterUtility.updateSpecialAttributes(actor);
+        SR5_CharacterUtility.updateSpecialProperties(actor);
+        SR5_CharacterUtility.updateConditionMonitors(actor);
+        SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateLimits(actor);
         SR5_CharacterUtility.updateInitiativePhysical(actor);
         SR5_CharacterUtility.updateInitiativeAstral(actor);
@@ -374,7 +377,6 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updatePowerPoints(actor);
         SR5_CharacterUtility.updateCounterSpellPool(actor);
         SR5_CharacterUtility.handleVision(actor);
-        SR5_CharacterUtility.updateConditionMonitors(actor);
         if (actor.type === "actorPc") {
           SR5_CharacterUtility.updateKarmas(actor);
           SR5_CharacterUtility.updateNuyens(actor);
@@ -469,7 +471,7 @@ export class SR5Actor extends Actor {
 
         case "itemAdeptPower":
           SR5_EntityHelpers.updateModifier(actorData.data.magic.powerPoints, i.name, `${game.i18n.localize(lists.itemTypes[i.type])}`, iData.powerPointsCost.value);
-          SR5_UtilityItem._handleAdeptPower(iData);
+          //SR5_UtilityItem._handleAdeptPower(iData);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -712,6 +714,7 @@ export class SR5Actor extends Actor {
         case "itemLanguage":
         case "itemPower":
         case "itemSpritePower":
+        case "itemAdeptPower":
           i.prepareData();
           break;
       }
@@ -729,7 +732,8 @@ export class SR5Actor extends Actor {
         damageType = options.damageType,
         actorData = deepClone(this.data),
         gelAmmo = 0,
-        damageReduction = 0;
+        damageReduction = 0,
+        realDamage;
 
     actorData = actorData.toObject(false);
     if (options.ammoType === "gel") gelAmmo = -2;
@@ -743,30 +747,51 @@ export class SR5Actor extends Actor {
           damage = options.matrixDamageValue;
           damageType = "stun";
         }
-        if (damageType === "stun") actorData.data.conditionMonitors.stun.current += damage;
-        else if (damageType === "physical") actorData.data.conditionMonitors.physical.current += damage;
-        ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
+        if (damageType === "stun") {
+          actorData.data.conditionMonitors.stun.actual.base += damage;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
+          if (actorData.data.conditionMonitors.stun.actual.value > actorData.data.conditionMonitors.stun.value){
+            realDamage = damage - (actorData.data.conditionMonitors.stun.actual.value - actorData.data.conditionMonitors.stun.value);
+          } else realDamage = damage;        
+        } else if (damageType === "physical") {
+          actorData.data.conditionMonitors.physical.actual.base += damage;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
+          if (actorData.data.conditionMonitors.physical.actual.value > actorData.data.conditionMonitors.physical.value) {
+            realDamage = damage - (actorData.data.conditionMonitors.physical.actual.value - actorData.data.conditionMonitors.physical.value);
+          } else realDamage = damage ;
+        }
+        if (realDamage > 0) ui.notifications.info(`${this.name}: ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 
-        if (actorData.data.conditionMonitors.stun.current > actorData.data.conditionMonitors.stun.value) {
-          let carriedDamage = actorData.data.conditionMonitors.stun.current - actorData.data.conditionMonitors.stun.value;
-          actorData.data.conditionMonitors.physical.current += carriedDamage;
-          actorData.data.conditionMonitors.stun.current = actorData.data.conditionMonitors.stun.value;
+        if (actorData.data.conditionMonitors.stun.actual.value > actorData.data.conditionMonitors.stun.value) {
+          let carriedDamage = actorData.data.conditionMonitors.stun.actual.value - actorData.data.conditionMonitors.stun.value;
+          actorData.data.conditionMonitors.physical.actual.base += carriedDamage;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.physical.actual, 0);
+          actorData.data.conditionMonitors.stun.actual.base = actorData.data.conditionMonitors.stun.value;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.stun.actual, 0);
           ui.notifications.info(`${this.name}: ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
         }
 
-        if (actorData.data.conditionMonitors.physical.current > actorData.data.conditionMonitors.physical.value) {
-          let carriedDamage = actorData.data.conditionMonitors.physical.current - actorData.data.conditionMonitors.physical.value;
-          actorData.data.conditionMonitors.overflow.current += carriedDamage;
-          actorData.data.conditionMonitors.physical.current = actorData.data.conditionMonitors.physical.value;
+        if ((actorData.data.conditionMonitors.physical.actual.value > actorData.data.conditionMonitors.physical.value) && actorData.type === "actorPc") {
+          let carriedDamage = actorData.data.conditionMonitors.physical.actual.value - actorData.data.conditionMonitors.physical.value;
+          actorData.data.conditionMonitors.overflow.actual.base += carriedDamage;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
+          actorData.data.conditionMonitors.physical.actual.base = actorData.data.conditionMonitors.physical.value;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.physical.actual, 0);
+          if (actorData.data.conditionMonitors.overflow.actual.value > actorData.data.conditionMonitors.overflow.value){
+            actorData.data.conditionMonitors.overflow.actual.base = actorData.data.conditionMonitors.overflow.value;
+            SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
+          }
         }
         break;
       case "actorGrunt":
-        actorData.data.conditionMonitors.condition.current += damage;
+        actorData.data.conditionMonitors.condition.actual.base += damage;
+        SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.condition.actual, 0);
         ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
         break;
       case "actorDrone":
         if (damageType === "physical") {
-          actorData.data.conditionMonitors.condition.current += damage;
+          actorData.data.conditionMonitors.condition.actual.base += damage;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.condition.actual, 0);
           ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
           if (actorData.data.controlMode === "rigging"){
             let controler = SR5_EntityHelpers.getRealActorFromID(actorData.data.vehicleOwner.id)
@@ -779,7 +804,8 @@ export class SR5Actor extends Actor {
         }
         if (options.damageElement === "electricity") options.matrixDamageValue = Math.floor(options.damageValue / 2);
         if (options.matrixDamageValue) {
-          actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
+          actorData.data.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.matrix.actual, 0);
           ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
         }
         break;
@@ -787,7 +813,8 @@ export class SR5Actor extends Actor {
       case "actorSprite":
       case "actorDevice":
         if (options.matrixDamageValue) {
-          actorData.data.conditionMonitors.matrix.current += options.matrixDamageValue;
+          actorData.data.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+          SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.matrix.actual, 0);
           ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
         }
         break;
@@ -799,20 +826,20 @@ export class SR5Actor extends Actor {
     switch (actorData.type){
       case "actorPc":
       case "actorSpirit":
-        if (actorData.data.conditionMonitors.physical.current >= actorData.data.conditionMonitors.physical.value) await this.createDeadEffect();
-        else if (actorData.data.conditionMonitors.stun.current >= actorData.data.conditionMonitors.stun.value) await this.createKoEffect();
+        if (actorData.data.conditionMonitors.physical.actual.value >= actorData.data.conditionMonitors.physical.value) await this.createDeadEffect();
+        else if (actorData.data.conditionMonitors.stun.actual.value >= actorData.data.conditionMonitors.stun.value) await this.createKoEffect();
         else if ((damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10)
-          && actorData.data.conditionMonitors.stun.current < actorData.data.conditionMonitors.stun.value
-          && actorData.data.conditionMonitors.physical.current < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
+          && actorData.data.conditionMonitors.stun.actual.value < actorData.data.conditionMonitors.stun.value
+          && actorData.data.conditionMonitors.physical.actual.value < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
           break;
       case "actorGrunt":
       case "actorDrone":
-        if (actorData.data.conditionMonitors.condition.current >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
+        if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
         break;
       case "actorSprite":
       case "actorDevice":
-        if (actorData.data.conditionMonitors.matrix.current >= actorData.data.conditionMonitors.matrix.value) await this.createDeadEffect();
+        if (actorData.data.conditionMonitors.matrix.actual.value >= actorData.data.conditionMonitors.matrix.value) await this.createDeadEffect();
         break;
     }
 
@@ -1171,8 +1198,8 @@ export class SR5Actor extends Actor {
         "data.creatorId": actorId,
         "data.creatorItemId": item._id,
         "data.magic.tradition": itemData.magic.tradition,
-        "data.conditionMonitors.physical.current": itemData.conditionMonitors.physical.current,
-        "data.conditionMonitors.stun.current": itemData.conditionMonitors.stun.current,
+        "data.conditionMonitors.physical.actual": itemData.conditionMonitors.physical.actual,
+        "data.conditionMonitors.stun.actual": itemData.conditionMonitors.stun.actual,
         "items": baseItems,
       });
     }
@@ -1193,7 +1220,7 @@ export class SR5Actor extends Actor {
         "data.compilerResonance": itemData.compilerResonance,
         "data.creatorId": actorId,
         "data.creatorItemId": item._id,
-        "data.conditionMonitors.matrix.current": itemData.conditionMonitors.matrix.current,
+        "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
         "items": baseItems,
       });
     }
@@ -1243,8 +1270,8 @@ export class SR5Actor extends Actor {
         "data.attributes.pilot.natural.base": itemData.attributes.pilot,
         "data.attributes.sensor.natural.base": itemData.attributes.sensor,
         "data.attributes.seating.natural.base": itemData.seating,
-        "data.conditionMonitors.condition.current": itemData.conditionMonitors.condition.current,
-        "data.conditionMonitors.matrix.current": itemData.conditionMonitors.matrix.current,
+        "data.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
+        "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
         "data.slaved": itemData.slaved,
@@ -1276,8 +1303,8 @@ export class SR5Actor extends Actor {
       modifiedItem.img = actor.img;
       modifiedItem.data.services.value = actor.data.services.value;
       modifiedItem.data.services.max = actor.data.services.max;
-      modifiedItem.data.conditionMonitors.physical.current = actor.data.conditionMonitors.physical.current;
-      modifiedItem.data.conditionMonitors.stun.current = actor.data.conditionMonitors.stun.current;
+      modifiedItem.data.conditionMonitors.physical.actual = actor.data.conditionMonitors.physical.actual;
+      modifiedItem.data.conditionMonitors.stun.actual = actor.data.conditionMonitors.stun.actual;
       modifiedItem.data.isBounded = actor.data.isBounded;
       modifiedItem.data.isCreated = false;
       itemOwner.update(modifiedItem);
@@ -1292,7 +1319,7 @@ export class SR5Actor extends Actor {
       modifiedItem.data.decks = decks;
       modifiedItem.data.tasks.value = actor.data.tasks.value;
       modifiedItem.data.tasks.max = actor.data.tasks.max;
-      modifiedItem.data.conditionMonitors.matrix.current = actor.data.conditionMonitors.matrix.current;
+      modifiedItem.data.conditionMonitors.matrix.actual = actor.data.conditionMonitors.matrix.actual;
       modifiedItem.data.isRegistered = actor.data.isRegistered;
       modifiedItem.data.isCreated = false;
       itemOwner.update(modifiedItem);
@@ -1339,8 +1366,8 @@ export class SR5Actor extends Actor {
       modifiedItem.data.attributes.pilot = actor.data.attributes.pilot.natural.base;
       modifiedItem.data.attributes.sensor = actor.data.attributes.sensor.natural.base;
       modifiedItem.data.seating = actor.data.attributes.seating.natural.base;
-      modifiedItem.data.conditionMonitors.condition.current = actor.data.conditionMonitors.condition.current;
-      modifiedItem.data.conditionMonitors.matrix.current = actor.data.conditionMonitors.matrix.current;
+      modifiedItem.data.conditionMonitors.condition.actual = actor.data.conditionMonitors.condition.actual;
+      modifiedItem.data.conditionMonitors.matrix.actual = actor.data.conditionMonitors.matrix.actual;
       modifiedItem.data.isCreated = false;
       modifiedItem.img = actor.img;
       itemOwner.update(modifiedItem);
@@ -1424,12 +1451,41 @@ export class SR5Actor extends Actor {
   async applyExternalEffect(data, effectType){
     let item = await fromUuid(data.itemUuid);
     let itemData = item.data;
+
     for (let e of Object.values(itemData.data[effectType])){
       if (e.transfer) {
-        let value;
+        let value, key, newData;
+
+        if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
+        else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
+        else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
+        else if (e.type === "rating") value = Math.floor(item.data.data.itemRating * (e.multiplier || 1));
+
+        //Handle heal effect
+        if (e.target.includes("removeDamage")){
+          key = e.target.replace('.removeDamage','');
+          newData = this.data.data;
+          if(newData.conditionMonitors[key]){
+            newData.conditionMonitors[key].actual.base -= value;
+            SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0);
+            await this.update({"data": newData});
+            continue;
+          } else continue;
+        }
+
+        //Handle non resisted damage
+        if (e.target.includes("addDamage")){
+          key = e.target.replace('.addDamage','');
+          newData = this.data.data;
+          if(newData.conditionMonitors[key]){
+            newData.conditionMonitors[key].actual.base += value;
+            SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0);
+            await this.update({"data": newData});
+            continue;
+          } else continue;
+        }
+
         let targetName = SR5_EntityHelpers.getLabelByKey(e.target);
-        if (e.type === "hits") value = data.test.hits;
-        else if (e.type === "netHits") value = data.netHits * (e.multiplier || 1)
 
         //Create the itemEffect
         let itemEffect = {
@@ -1443,7 +1499,6 @@ export class SR5Actor extends Actor {
           "data.ownerItem": data.itemUuid,
           "data.duration": 0,
           "data.durationType": "sustained",
-
         };
 
         if (effectType === "customEffects"){
@@ -1527,7 +1582,8 @@ export class SR5Actor extends Actor {
         item = await fromUuid(targetItem),
         newItem = duplicate(item.data.data);
 
-    newItem.isActive = true;
+    if (newItem.duration === "sustained") newItem.isActive = true;
+    if (item.type === "itemAdeptPower") newItem.isActive = true;
     newItem.targetOfEffect.push(effectUuid);
     await item.update({"data": newItem});
   }

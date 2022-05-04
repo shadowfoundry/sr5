@@ -1,6 +1,10 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</div>
+    {{#if (ne data.category "combat")}}
+    <div class="col-4">
+    {{else}}
     <div class="col-7">
+    {{/if}}
         <select name="data.category" data-dtype="String" required>
             {{#select data.category}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
@@ -10,6 +14,12 @@
             {{/select}}
         </select>
     </div>
+    {{#if (ne data.category "combat")}}
+    <div class="col-2 SR-TextRight">{{localize 'SR5.Opposed'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextRight">
+            <input type="checkbox" name="data.resisted" data-dtype="Boolean" {{checked data.resisted}} />
+        </div>
+    {{/if}}
 </li>
 
 {{#ife data.category "combat"}}

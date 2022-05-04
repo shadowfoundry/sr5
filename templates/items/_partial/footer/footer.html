@@ -2,7 +2,7 @@
   <div class="col-6 SR-MoniteurBar">
     {{#if data.conditionMonitors.matrix}}
       <div class="SR-TextUppercase">{{localize 'SR5.ConditionMonitorMatrixShort'}}</div>
-      <div class="SR-MoniteurCases" data-target="data.conditionMonitors.matrix.current">
+      <div class="SR-MoniteurCases" data-target="data.conditionMonitors.matrix.actual.base">
         {{#each data.conditionMonitors.matrix.boxes as |box index|}}
           {{#if box.locked}}
             <div class="boxes box-disabled" data-index="{{index}}">
@@ -56,7 +56,7 @@
     </div>
     <div class="col-3 SR-TextRight">
       <span class="SR-TextUppercase SR-Bold">{{localize 'SR5.SpellDrain'}}{{localize 'SR5.Colons'}}</span>
-      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.drainModifier}}</span>
+      <span class="SR-TextUppercase SR-Bold">{{valueOrDash data.drain.value}}</span>
     </div>
   {{else ife item.type 'itemComplexForm'}}
     <div class="col-6 SR-TextRight">

@@ -138,7 +138,7 @@ export const registerHooks = function () {
     // Determine whether a system migration is required and feasible
     if ( !game.user.isGM ) return;
     const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-    const NEEDS_MIGRATION_VERSION = "0.0.4.19";
+    const NEEDS_MIGRATION_VERSION = "0.0.5.9";
     const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
     // Perform the migration
@@ -231,25 +231,31 @@ export const registerHooks = function () {
   Hooks.on("createCombatant", (combatant) => {
     let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.data);
 
-    combatant.update({
-      "flags.sr5.seizeInitiative" : false,
-      "flags.sr5.blitz" : false,
-      "flags.sr5.hasPlayed" : combatant.isDefeated,
-      "flags.sr5.cumulativeDefense" : 0,
-      "flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
-      "flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
-    });
-
-    let actor;
-    if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
-    else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
-    actor.setFlag("sr5", "cumulativeDefense", 0);
+    if (game.user.isGM){
+      combatant.update({
+        "flags.sr5.seizeInitiative" : false,
+        "flags.sr5.blitz" : false,
+        "flags.sr5.hasPlayed" : combatant.isDefeated,
+        "flags.sr5.cumulativeDefense" : 0,
+        "flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
+        "flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
+      });
+      
+      let actor;
+      if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
+      else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
+      actor.setFlag("sr5", "cumulativeDefense", 0);
+    }
   });
 
   Hooks.on("updateCombatant", (combatant) => {
     if (combatant.isDefeated && !combatant.data.flags.sr5.hasPlayed){
       combatant.update({"flags.sr5.hasPlayed": true,})
     }
+  });
+
+  Hooks.on("closeCombatantConfig", (combatant) => {
+    combatant.document.update({"flags.sr5.baseCombatantInitiative": combatant.document.data.initiative,})
   });
 
   Hooks.on("updateItem", async(document, data, options, userId) => {

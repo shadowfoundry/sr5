@@ -47,7 +47,7 @@
 			</div>
 			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}" data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
 				{{#ife data.type "sustaining"}}
-				<select class="edit-value" name="" data-binding="data.sustainedSpell" data-dtype="String"
+				<select class="edit-value" name="sustainedSpell.{{_id}}.name" data-binding="data.sustainedSpell" data-dtype="String"
 					data-item-id="{{_id}}" required>
 					<!-- TODO check this -->
 					{{#select data.sustainedSpell}}

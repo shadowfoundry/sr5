@@ -40,9 +40,17 @@
 						{{> systems/sr5/templates/items/_partial/editable/adeptPower/powerPointCost-edit.html}}
 						<!-- Item rating -->
 						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
-						<!-- Item rating -->
-						{{> systems/sr5/templates/items/_partial/editable/_common/actionType-edit.html}}
+						<!-- Action and roll -->
+						{{> systems/sr5/templates/items/_partial/editable/adeptPower/powerAction-edit.html}}
+						<!-- Cause Drain -->
+						{{> systems/sr5/templates/items/_partial/editable/adeptPower/drain-edit.html}}
 					</ul>
+					<!-- Test Attributes -->
+					{{#if data.needRoll}}
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/adeptPower/testComponent-edit.html}}
+					</ul>
+					{{/if}}
 				</div>
 
 				<!-- CUSTOM EFFECTS -->

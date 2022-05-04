@@ -144,11 +144,11 @@ export class SR5_EntityHelpers {
     if (!entity || !monitorType) { SR5_SystemHelpers.srLog(1, `Missing 'actor' or 'monitorType' parameter for 'GenerateMonitorBoxes()'`); }
     if (!entity.conditionMonitors || !entity.conditionMonitors[monitorType]) { SR5_SystemHelpers.srLog(1, `Missing or non-existing '${monitorType}' condition monitor in 'GenerateMonitorBoxes()'`); }
     let conditionMonitors = entity.conditionMonitors;
-    let monitorMaximum = conditionMonitors[monitorType].value, currentMonitorValue = conditionMonitors[monitorType].current;
+    let monitorMaximum = conditionMonitors[monitorType].value, currentMonitorValue = conditionMonitors[monitorType].actual.value;
 
     conditionMonitors[monitorType].boxes = []
     for (let loop = 1; loop < monitorMaximum + 1; loop++) {
-      if (monitorType == 'overflow' && conditionMonitors['physical'].current < conditionMonitors['physical'].value)
+      if (monitorType == 'overflow' && conditionMonitors['physical'].actual.value < conditionMonitors['physical'].value)
         conditionMonitors[monitorType].boxes.push({ filled: false, locked: true });
       else
         conditionMonitors[monitorType].boxes.push({ filled: (loop <= currentMonitorValue ? true : false) });
@@ -157,7 +157,7 @@ export class SR5_EntityHelpers {
 
   static updateStatusBars(actor, monitorType) {
     let data = actor.data, conditionMonitors = data.conditionMonitors, statusBars = data.statusBars;
-    statusBars[monitorType].value = conditionMonitors[monitorType].current;
+    statusBars[monitorType].value = conditionMonitors[monitorType].actual.value;
     statusBars[monitorType].max = conditionMonitors[monitorType].value;
   }
 
@@ -303,12 +303,34 @@ export class SR5_EntityHelpers {
     if (key.includes("data.matrix.attributes")){
       newKey = key.slice(23);
       return `${game.i18n.localize(SR5.matrixAttributes[newKey])}`;
-    } else if (key === "data.conditionMonitors.matrix"){
-      return game.i18n.localize("SR5.MatrixMonitor");
-    } else if (key === "data.itemsProperties.armor"){
-      return game.i18n.localize("SR5.Armor");
+    } else if (key.includes("data.attributes")){
+      newKey = key.slice(16);
+      newKey = newKey.replace('.augmented','');
+      return `${game.i18n.localize(SR5.characterAttributes[newKey])}`;
+    } else if (key.includes("data.initiatives")){
+      newKey = key.slice(17);
+      return `${game.i18n.localize(SR5.characterInitiatives[newKey])}`;
     } else {
-      return newKey;
+      switch (key){
+        case "data.conditionMonitors.stun.actual":
+          return `${game.i18n.localize("SR5.DamageTemporary")} (${game.i18n.localize("SR5.DamageTypeStun")})`;
+        case "data.conditionMonitors.physical.actual":
+          return `${game.i18n.localize("SR5.DamageTemporary")} (${game.i18n.localize("SR5.DamageTypePhysical")})`;
+        case "data.conditionMonitors.condition.actual":
+          return `${game.i18n.localize("SR5.DamageTemporary")} (${game.i18n.localize("SR5.DamageTypePhysical")})`;
+        case "data.conditionMonitors.matrix":
+          return game.i18n.localize("SR5.MatrixMonitor");
+        case "data.itemsProperties.armor":
+          return game.i18n.localize("SR5.Armor");
+        case "data.penalties.special.actual":
+          return game.i18n.localize("SR5.GlobalPenalty");
+        case "data.defenses.defend":
+          return game.i18n.localize("SR5.Defenses");
+        default:
+          SR5_SystemHelpers.srLog(1, `Unknown '${key}' in 'getLabelByKey()'`);
+          return newKey;
+      }
     }
   }
+
 }

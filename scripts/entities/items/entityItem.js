@@ -47,7 +47,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
-        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+        if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
         break;
@@ -71,7 +71,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleAugmentation(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
-        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+        if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
         if (owner){
@@ -98,7 +98,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleItemConcealment(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
-        if (data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) {
+        if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
         if (owner){
@@ -119,7 +119,7 @@ export class SR5Item extends Item {
           SR5_UtilityItem.applyItemEffects(itemData);
         }
         SR5_UtilityItem._handleMatrixMonitor(itemData);
-        if ((data.conditionMonitors.matrix.current >= data.conditionMonitors.matrix.value) && (data.type !== "baseDevice")) {
+        if ((data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) && (data.type !== "baseDevice")) {
           data.isActive = false;
         }
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
@@ -131,7 +131,7 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleSpirit(data);
         break;
       case "itemAdeptPower":
-        SR5_UtilityItem._handleAdeptPower(data);
+        SR5_UtilityItem._handleAdeptPower(data, owner);
         break;
       case "itemPower":
         if (owner) SR5_UtilityItem._handlePower(data, owner) 
@@ -167,6 +167,7 @@ export class SR5Item extends Item {
         if (data.type === "drone") data.conditionMonitors.condition.base = Math.ceil((data.attributes.body / 2) + 6);
         else data.conditionMonitors.condition.base = Math.ceil((data.attributes.body / 2) + 12);
         SR5_EntityHelpers.updateValue(data.conditionMonitors.condition, 1)
+        SR5_EntityHelpers.updateValue(data.conditionMonitors.condition.actual, 0);
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'condition');
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
@@ -254,6 +255,7 @@ export class SR5Item extends Item {
         break;
       case "itemPreparation":
       case "itemSpell":
+        tags.push(`${game.i18n.localize('SR5.SpellType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.spellTypes[data.type])}`);
         tags.push(game.i18n.localize(lists.spellCategories[data.category]));
         switch (data.category){
           case "combat":
@@ -284,7 +286,11 @@ export class SR5Item extends Item {
             break;
           default:
         }
-        if (this.data.type === "itemSpell") tags.push(game.i18n.localize(`SR5.SpellDrain`) + game.i18n.localize(`SR5.Colons`) + ` ${data.drainModifier}`);
+        if (this.data.type === "itemSpell") {
+          let plus = (data.drain.value <= 0 ? "" : "+");
+          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drain.value}`);
+          tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${data.drainValue.value}`);
+        }
         break;
       case "itemGear":
         if (data.marks.length){
@@ -304,6 +310,10 @@ export class SR5Item extends Item {
         if (data.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
         if (data.spell) tags.push(game.i18n.localize(`SR5.Spell`));
         tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[data.durationToPerform])}`);
+        break;
+      case "itemAdeptPower":
+        tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${data.powerPointsCost.value}`);
+        tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[data.actionType])}`);
         break;
       default:
     }
