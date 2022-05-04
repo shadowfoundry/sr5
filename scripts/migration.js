@@ -288,8 +288,8 @@ export default class Migration {
 
 		if (item.type == "itemSpell"){
 			if (item.data.drainModifier) {		
-				updateData["data.drainModified?.base"] = item.data.drainModifier;
-				updateData["data.drainModifier"] = null;
+				updateData["data.drain.base"] = item.data.drainModifier;
+				updateData["data.-=drainModifier"] = null;
 			}
 	}
 

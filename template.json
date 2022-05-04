@@ -5974,7 +5974,7 @@
       "range": "",
       "duration": "",
       "type": "",
-      "drainModified": {
+      "drain": {
         "value": 0,
         "base": 0,
         "modifiers": []

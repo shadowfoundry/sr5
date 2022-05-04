@@ -186,7 +186,7 @@ export class SR5_UtilityItem extends Actor {
       data.freeSustain = false;
       data.damageValue.modifiers = [];
       data.armorPenetration.modifiers = [];
-      data.drainModified.modifiers = [];
+      data.drain.modifiers = [];
       data.drainValue.modifiers = [];
       data.spellAreaOfEffect.modifiers = [];
     }
@@ -1086,13 +1086,13 @@ export class SR5_UtilityItem extends Actor {
     //Modified drain value
     i.data.drainValue.base = 0;
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), (i.data.force || 0), false, true);
-    SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drainModified.base, false, true);
+    SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drain.base, false, true);
     if (i.data.fetish){
       SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.DrainModifier'), -2, false, true);
-      SR5_EntityHelpers.updateModifier(i.data.drainModified, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.Fetish'), -2, false, true);
+      SR5_EntityHelpers.updateModifier(i.data.drain, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.Fetish'), -2, false, true);
     }
     SR5_EntityHelpers.updateValue(i.data.drainValue, 2);
-    SR5_EntityHelpers.updateValue(i.data.drainModified);
+    SR5_EntityHelpers.updateValue(i.data.drain);
 
     //Check if spell is sustained by a spirit
     for (let item of actorData.items){
