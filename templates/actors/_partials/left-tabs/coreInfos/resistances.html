@@ -11,7 +11,7 @@
       </li>
       {{#each data.resistances}}
         <li class="grid">
-          {{#if (or (eq @key 'fatigue') (eq @key 'fall'))}}
+          {{#if (or (eq @key 'fatigue') (eq @key 'fall') (eq @key 'astralDamage'))}}
           {{else if (eq @key 'disease')}}
             <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ResistanceDiseaseChoice'}}"
             data-helpMessage="{{localize 'SR5.HELP_ResistanceDiseaseChoiceMsg'}}">
