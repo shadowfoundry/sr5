@@ -118,6 +118,7 @@ export class SR5_CharacterUtility extends Actor {
                 data.resistances[key][subkey].modifiers = [];
               }
               break;
+            case "astralDamage":
             case "physicalDamage":
             case "directSpellMana":
             case "directSpellPhysical":
