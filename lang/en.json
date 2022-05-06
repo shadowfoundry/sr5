@@ -2276,6 +2276,8 @@
   "SR5.HELP_ProgramsLoaded"                   : "Programs actually loaded",
   "SR5.HELP_ProgramToggle"                    : "Load program<br>({key})",
   "SR5.HELP_ProgramToggleMsg"                 : "Click to load or unload program.",
+  "SR5.HELP_QualityToggle"                    : "Activate quality<br>({key})",
+  "SR5.HELP_QualityToggleMsg"                 : "Click to activate or desactivate quality.",
   "SR5.HELP_Quantity"                         : "Quantity<br>({key})",
   "SR5.HELP_QuantityMsg"                      : "Left click to remove 1 unit (hold Control for 10 units).<br>Right click to add 1 unit (hold Control for 10 units).",
   "SR5.HELP_Rating"                           : "Rating<br>({key})",
