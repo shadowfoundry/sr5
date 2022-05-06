@@ -2,45 +2,35 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="grid SR-LigneEnTete">
-			<div class="col-9">
-				<p class="SR-TextUppercase">{{localize 'SR5.Qualities'}}</p>
-			</div>
-			<div class="col-1 SR-TextCenter">
-				<p data-title="{{localize 'SR5.Rating'}}">{{localize 'SR5.RatingShort'}}</p>
-			</div>
-			<div class="col-1 SR-TextCenter">
-				<p data-title="{{localize 'SR5.QualityType'}}">{{localize 'SR5.QualityTypeShort'}}</p>
-			</div>
+			<div class="col-10 SR-TextUppercase">{{localize 'SR5.Qualities'}}</div>
+			<div class="col-1 SR-TextCenter"><em class="fas fa-sm fa-thumbtack"></em></div>
 			<div class="col-1 SR-TextRight">
 				{{#if owner}}
-				<p class="add-item">
-					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemQuality"><em
-							class="fas fa-plus"></em></a>
-				</p>
+				<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemQuality"><em class="fas fa-plus"></em></a>
 				{{/if}}
 			</div>
 		</li>
 		{{#each actor.qualities}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-9 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+			<div class="col-10 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 				{{#if (missing data.type data.karmaCost)}}
-				<p class="incomplete"
-					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeTrait')}}">{{name}}
+				<p class="incomplete" data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeTrait')}}">
+					{{name}}
 				</p>
 				{{else}}
 				<p>{{name}}</p>
 				{{/if}}
 			</div>
-			<div class="col-1">
-				<p class="SR-TextCenter changeValueByClick" data-binding="data.itemRating"
-				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
-			      data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
-				  	{{valueOrDash data.itemRating}}
-				</p>
-			</div>
-			<div class="col-1">
-				<p class="SR-TextCenter" data-title="{{findTranslation 'qualityTypes' data.type}}">{{valueOrDash
-					(findTranslation 'qualityTypesShort' data.type)}}</p>
+			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_QualityToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_QualityToggleMsg'}}">
+				{{#if data.isActive}}
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+						<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
+					</a>
+				{{else}}
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+						<em class="fas fa-sm fa-thumbtack"></em>
+					</a>
+				{{/if}}
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}

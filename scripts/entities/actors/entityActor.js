@@ -401,12 +401,6 @@ export class SR5Actor extends Actor {
       let iData = i.data.data;
       SR5_SystemHelpers.srLog(3, `Parsing '${i.type}' item named '${i.name}'`, i);
       switch (i.type) {
-        case "itemQuality":
-          if (Object.keys(iData.customEffects).length) {
-            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
-          }
-          break;
-
         case "itemGear":
           if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.gears[i.uuid] = i.name;
           if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.gears[i.id] = i.name;
@@ -419,6 +413,8 @@ export class SR5Actor extends Actor {
         case "itemMetamagic":
         case "itemEcho":
         case "itemMartialArt":
+        case "itemPreparation":
+        case "itemQuality":
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -427,12 +423,6 @@ export class SR5Actor extends Actor {
         case "itemSpell":
           if (!iData.freeSustain && !iData.preparation) actorData.data.magic.spellList[i.id] = i.name;
           SR5_UtilityItem._handleSpell(i.data, actorData);
-          if (iData.isActive && Object.keys(iData.customEffects)) {
-            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
-          }
-          break;
-
-        case "itemPreparation":
           if (iData.isActive && Object.keys(iData.customEffects)) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -471,7 +461,6 @@ export class SR5Actor extends Actor {
 
         case "itemAdeptPower":
           SR5_EntityHelpers.updateModifier(actorData.data.magic.powerPoints, i.name, `${game.i18n.localize(lists.itemTypes[i.type])}`, iData.powerPointsCost.value);
-          //SR5_UtilityItem._handleAdeptPower(iData);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }

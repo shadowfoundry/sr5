@@ -2276,6 +2276,8 @@
   "SR5.HELP_ProgramsLoaded"                   : "Programmes actuellement chargés",
   "SR5.HELP_ProgramToggle"                    : "Charger le programme<br>({key})",
   "SR5.HELP_ProgramToggleMsg"                 : "Cliquez pour charger ou déchager le programme.",
+  "SR5.HELP_QualityToggle"                    : "Activer le trait<br>({key})",
+  "SR5.HELP_QualityToggleMsg"                 : "Cliquez pour activer ou désactvier le trait.",
   "SR5.HELP_Quantity"                         : "Quantité<br>({key})",
   "SR5.HELP_QuantityMsg"                      : "Clic gauche pour soustraire 1 unité (maintenez Control en même temps pour 10 unités).<br>Clic droit pour ajouter 1 unité (maintenez Control en même temps pour 10 unités).",
   "SR5.HELP_Rating"                           : "Indice<br>({key})",
