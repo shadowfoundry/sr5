@@ -178,6 +178,11 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
       {{/if}}
 
+      <!-- ASTRAL COMBAT DAMAGE CHOICE -->
+      {{#if switch.chooseDamageType}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html}}
+      {{/if}}
+
       <!-- TAKING ON DAMAGE -->
       {{#if (and (eq type "resistanceCard") (eq typeSub "physicalDamage") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}

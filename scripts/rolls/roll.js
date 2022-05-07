@@ -247,6 +247,16 @@ export class SR5_Roll {
                     }
                 }
 
+                if (typeSub === "astralCombat"){
+                    if (!actorData.visions.astral.isActive) 
+                    return ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {name:actor.name})}`);
+                    optionalData = mergeObject(optionalData, {
+                        damageValue: actorData.magic.astralDamage.value,
+                        damageValueBase: actorData.magic.astralDamage.value,
+                        "switch.extended": false,
+                        "switch.chooseDamageType": true,
+                    });
+                }
                 break;
 
             case "resistance":
@@ -348,7 +358,7 @@ export class SR5_Roll {
                             default:
                         }
 
-                        let modifiedArmor = armor + chatData.incomingPA;
+                        let modifiedArmor = armor + (chatData.incomingPA || 0);
                         if (modifiedArmor < 0) modifiedArmor = 0;
                         dicePool = resistanceValue + modifiedArmor;
 
@@ -426,6 +436,16 @@ export class SR5_Roll {
                             chatActionType: "damage",
                             damageType: dumpshockType,
                             damageValueBase: 6,
+                        }
+                        break;
+                    case "astralDamage":
+                        dicePool = actorData.resistances.astralDamage.dicePool;
+                        typeSub = "astralDamage";
+                        title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${chatData.damageValue})`;
+                        optionalData = {
+                            chatActionType: "damage",
+                            damageValueBase: chatData.damageValue,
+                            damageType: chatData.damageType,
                         }
                         break;
                     default:
@@ -774,7 +794,15 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     });
-                }  
+                }
+
+                if (typeSub === "astralCombat"){
+                    if ((actor.type === "actorDevice" || actor.type === "actorSprite") || !actorData.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_TargetIsNotInAstral", {name:actor.name})}`);
+                    title = `${game.i18n.localize("SR5.AstralDefenseTest")} (${chatData.test.hits})`;
+                    cover = false;
+                    dicePool = actorData.magic.astralDefense.dicePool;
+                    dicePoolComposition = actorData.magic.astralDefense.modifiers;
+                }
 
                 if (canvas.scene && chatData.type === "spell" && chatData.item.data.range === "area"){
                     // Spell position

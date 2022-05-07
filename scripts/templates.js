@@ -478,6 +478,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
 
 
     /************************************************************************************* */

@@ -603,7 +603,8 @@ export class SR5_Dice {
 		let netHits = cardData.hits - cardData.test.hits;
 		if (netHits <= 0) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
 		else {
-			cardData.damageResistanceType = "physicalDamage";
+			if (cardData.typeSub === "astralCombat") cardData.damageResistanceType = "astralDamage";
+			else cardData.damageResistanceType = "physicalDamage";
 
 			//If Hardened Armor, check if damage do something
 			if ((author.data.specialProperties?.hardenedArmor.value > 0) && (cardData.damageSource !== "spell")) {
@@ -1053,7 +1054,10 @@ export class SR5_Dice {
 						if (itemTarget.type === "itemPreparation") cardData.buttons.disjointingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "disjointingResistance", game.i18n.localize("SR5.DisjointingResistance"));
 					}
 				}
-			break;
+				break;
+			case "astralCombat":
+				if (cardData.test.hits > 0) cardData.buttons.defenseAstralCombat = SR5_RollMessage.generateChatButton("opposedTest","defenseAstralCombat",game.i18n.localize("SR5.Defend"));
+				break;
 			default:
 		}
 	}
