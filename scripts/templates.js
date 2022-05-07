@@ -338,6 +338,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/lifestyle/rent-edit.html",
         "systems/sr5/templates/items/_partial/editable/lifestyle/linkedIdentity-edit.html",
         "systems/sr5/templates/items/_partial/editable/lifestyle/address-edit.html",
+        "systems/sr5/templates/items/_partial/editable/lifestyle/categories-edit.html",
         "systems/sr5/templates/items/_partial/editable/lifestyle/options-edit.html",
 
         //Martial Arts

@@ -6105,6 +6105,29 @@
       "city": "",
       "country": "",
       "options": [],
+      "comforts": {
+        "value": 0,
+        "base": 0,
+        "max": 0,
+        "modifiers": []
+      },
+      "security": {
+        "value": 0,
+        "base": 0,
+        "max": 0,
+        "modifiers": []
+      },
+      "neighborhood": {
+        "value": 0,
+        "base": 0,
+        "max": 0,
+        "modifiers": []
+      },
+      "point": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "linkedIdentity": ""
     },
     "itemSin": {

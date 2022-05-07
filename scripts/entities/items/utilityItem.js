@@ -1238,28 +1238,102 @@ export class SR5_UtilityItem extends Actor {
     }
   }
 
-  ////////////////////// STYLE DE VIE  ///////////////////////
-  // Calcul le loyer des styles de vie
+ ////////////////////// STYLE DE VIE  ///////////////////////
+  // Calcul le loyer et les attributs des styles de vie
   static _handleLifeStyle(lifeStyle) {
     switch (lifeStyle.type) {
       case "luxury":
         lifeStyle.price.base = 100000;
+        lifeStyle.comforts.base = 5;
+        lifeStyle.comforts.max = 7;
+        lifeStyle.security.base = 5;
+        lifeStyle.security.max = 8;
+        lifeStyle.neighborhood.base = 5;
+        lifeStyle.neighborhood.max = 7;
+        lifeStyle.point.base = 12;
         break;
       case "high":
         lifeStyle.price.base = 10000;
+        lifeStyle.comforts.base = 4;
+        lifeStyle.comforts.max = 6;
+        lifeStyle.security.base = 4;
+        lifeStyle.security.max = 6;
+        lifeStyle.neighborhood.base = 5;
+        lifeStyle.neighborhood.max = 6;
+        lifeStyle.point.base = 6;
         break;
-      case "middle":
+      case "medium":
         lifeStyle.price.base = 5000;
+        lifeStyle.comforts.base = 3;
+        lifeStyle.comforts.max = 4;
+        lifeStyle.security.base = 3;
+        lifeStyle.security.max = 4;
+        lifeStyle.neighborhood.base = 4;
+        lifeStyle.neighborhood.max = 5;
+        lifeStyle.point.base = 4;
         break;
       case "low":
         lifeStyle.price.base = 2000;
+        lifeStyle.comforts.base = 2;
+        lifeStyle.comforts.max = 3;
+        lifeStyle.security.base = 2;
+        lifeStyle.security.max = 3;
+        lifeStyle.neighborhood.base = 2;
+        lifeStyle.neighborhood.max = 3;
+        lifeStyle.point.base = 3;
         break;
       case "squatter":
         lifeStyle.price.base = 500;
+        lifeStyle.comforts.base = 1;
+        lifeStyle.comforts.max = 2;
+        lifeStyle.security.base = 1;
+        lifeStyle.security.max = 2;
+        lifeStyle.neighborhood.base = 1;
+        lifeStyle.neighborhood.max = 2;
+        lifeStyle.point.base = 2;
         break;
       case "streets":
         lifeStyle.price.base = 0;
+        lifeStyle.comforts.base = 0;
+        lifeStyle.comforts.max = 1;
+        lifeStyle.security.base = 0;
+        lifeStyle.security.max = 1;
+        lifeStyle.neighborhood.base = 0;
+        lifeStyle.neighborhood.max = 1;
+        lifeStyle.point.base = 2;
         break;
+      case "boltHole":
+          lifeStyle.price.base = 1000;
+          lifeStyle.comforts.base = 1;
+          lifeStyle.comforts.max = 2;
+          lifeStyle.security.base = 1;
+          lifeStyle.security.max = 4;
+          lifeStyle.neighborhood.base = 1;
+          lifeStyle.neighborhood.max = 4;
+          lifeStyle.point.base = 4;
+          if (lifeStyle.options.indexOf("notAHome") == -1) {
+            lifeStyle.options.push("notAHome");
+          }
+        break;
+      case "traveler":
+          lifeStyle.price.base = 3000;
+          lifeStyle.comforts.base = 2;
+          lifeStyle.comforts.max = 4;
+          lifeStyle.security.base = 2;
+          lifeStyle.security.max = 4;
+          lifeStyle.neighborhood.base = 2;
+          lifeStyle.neighborhood.max = 4;
+      break;
+      case "commercial":
+          lifeStyle.price.base = 8000;
+          lifeStyle.comforts.base = 3;
+          lifeStyle.comforts.max = 4;
+          lifeStyle.security.base = 2;
+          lifeStyle.security.max = 4;
+          lifeStyle.neighborhood.base = 4;
+          lifeStyle.neighborhood.max = 6;
+          lifeStyle.point.base = 4;
+      break;
       default:
         lifeStyle.price.base = 0;
     }
@@ -1275,6 +1349,7 @@ export class SR5_UtilityItem extends Actor {
           break;
         case "difficultToFind":
           priceMultiplier += 0.1;
+          SR5_EntityHelpers.updateModifier(lifeStyle.point, 'difficultToFind', 'option', 1);
           break;
         case "extraSecure":
           priceMultiplier += 0.2;
@@ -1284,123 +1359,167 @@ export class SR5_UtilityItem extends Actor {
           break;
         case "armory":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'armory', 'option', 1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'armory', 'option', -2);
           break;
         case "cleaningServiceStandard":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cleaningServiceStandard', 'option', 1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'cleaningServiceStandard', 'option', -1);
           break;
         case "cleaningServiceMage":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cleaningServiceMage', 'option', 1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'cleaningServiceMage', 'option', -1);
           break;
         case "cleaningServicePollution":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cleaningServicePollution', 'option', 1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'cleaningServicePollution', 'option', -1);
           break;
         case "discreetCleaningService":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'discreetCleaningService', 'option', 10000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'discreetCleaningService', 'option', -4);
           break;
         case "discreetDeliveryman":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'discreetDeliveryman', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'discreetDeliveryman', 'option', -3);
           break;
         case "garageAirplane":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageAirplane', 'option', 20000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'garageAirplane', 'option', -4);
           break;
         case "garageBoat":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageBoat', 'option', 5000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'garageBoat', 'option', -3);
           break;
         case "garageSmallCar":
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageSmallCar', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageSmallCar', 'option', 50);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'garageSmallCar', 'option', -1);
           break;
         case "garageLargeCar":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageLargeCar', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'garageLargeCar', 'option', -2);
           break;
         case "garageHelicopter":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'garageHelicopter', 'option', 10000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'garageHelicopter', 'option', -4);
           break;
         case "greenHouse":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'greenHouse', 'option', 500);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'greenHouse', 'option', -2);
           break;
         case "gridSubscription":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'gridSubscription', 'option', 50);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'gridSubscription', 'option', -1);
           break;
         case "gym":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'gym', 'option', 300);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'gym', 'option', -2);
           break;
         case "indoorArboretum":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'indoorArboretum', 'option', 500);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'indoorArboretum', 'option', -2);
           break;
         case "localBarPatron":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'localBarPatron', 'option', 25);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'localBarPatron', 'option', -1);
           break;
         case "merchandiseGoods":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'merchandiseGoods', 'option', 10000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'merchandiseGoods', 'option', -1);
           break;
         case "merchandisePawnShop":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'merchandisePawnShop', 'option', 10000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'merchandisePawnShop', 'option', -2);
           break;
         case "merchandiseUsedGoods":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'merchandiseUsedGoods', 'option', 10000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'merchandiseUsedGoods', 'option', -2);
           break;
         case "panicRoom":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'panicRoom', 'option', 1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'panicRoom', 'option', -2);
           break;
         case "patronConcerts":
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsConcerts', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronConcerts', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'patronConcerts', 'option', -1);
           break;
         case "patronPrivateClub":
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsPrivateClub', 'option', 200);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronPrivateClub', 'option', 200);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'patronPrivateClub', 'option', -1);
           break;
         case "patronPublicEntertainment":
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsPublicEntertainment', 'option', 75);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronPublicEntertainment', 'option', 75);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'patronPublicEntertainment', 'option', -1);
           break;
         case "patronThemeParks":
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronOfTheArtsThemeParks', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'patronThemeParks', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'patronThemeParks', 'option', -1);
           break;
         case "privateRoom":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'privateRoom', 'option', 20);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'privateRoom', 'option', -1);
           break;
         case "publicTransportation":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'publicTransportation', 'option', 50);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'publicTransportation', 'option', -1);
           break;
         case "railwayPass":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'railwayPass', 'option', 75);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'railwayPass', 'option', -1);
           break;
         case "shootingRange":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'shootingRange', 'option', 500);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'shootingRange', 'option', -2);
           break;
         case "soyProcessingUnit":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'soyProcessingUnit', 'option', 20);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'soyProcessingUnit', 'option', -1);
           break;
         case "sportsCourt":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'sportsCourt', 'option', 300);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'sportsCourt', 'option', -2);
           break;
         case "swimmingPool":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'swimmingPool', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'swimmingPool', 'option', -1);
           break;
         case "walkinFreezer":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'walkinFreezer', 'option', 1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'walkinFreezer', 'option', -1);
           break;
         case "workshopFacility":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'workshopFacility', 'option', 2500);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'workshopFacility', 'option', -2);
           break;
         case "yard":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'yard', 'option', 50);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'yard', 'option', -2);
           break;
         case "zenDenBatCave":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'zenDenBatCave', 'option', 100);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'zenDenBatCave', 'option', -2);
           break;
-        case "angryDrunkReputation":
+          case "angryDrunkReputation":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'angryDrunkReputation', 'option', 0);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'angryDrunkReputation', 'option', 1);
           break;
         case "corporateOwned":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'corporateOwned', 'option', 0);
+            lifeStyle.comforts.max += 1;
+            lifeStyle.security.max += 1;
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'corporateOwned', 'option', -3);
           break;
         case "hotelCalifornia":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'hotelCalifornia', 'option', 0);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'hotelCalifornia', 'option', 1);
           break;
         case "maidIsOut":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'maidIsOut', 'option', 0);
+            lifeStyle.comforts.max -= 1;
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'maidIsOut', 'option', 1);
           break;
         case "notAHome":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'notAHome', 'option', 0);
+            lifeStyle.comforts.max -= 1;
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'notAHome', 'option', 1);
           break;
         case "onlyGoodThingAbout":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'onlyGoodThingAbout', 'option', 0);
@@ -1410,20 +1529,27 @@ export class SR5_UtilityItem extends Actor {
           break;
         case "safetyThird":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'safetyThird', 'option', 0);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'safetyThird', 'option', 1);
           break;
         case "thrifty":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'thrifty', 'option', -1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'thrifty', 'option', -2);
           break;
         case "wZone":
             SR5_EntityHelpers.updateModifier(lifeStyle.price, 'wZone', 'option', -1000);
+            SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, 'wZone', 'option', -1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'wZone', 'option', 1);
           break;
         default:
           SR5_SystemHelpers.srLog(1, `Unknown '${option}' option in _handleLifeStyle()`);
       }
     }
 
-    //TODO
-    //SR5_EntityHelpers.updateModifier(lifeStyle.price, 'specialWorkArea', 'option', priceMultiplier);
+    SR5_EntityHelpers.updateValue(lifeStyle.comforts,lifeStyle.comforts.base,lifeStyle.comforts.max);
+    SR5_EntityHelpers.updateValue(lifeStyle.security);
+    SR5_EntityHelpers.updateValue(lifeStyle.neighborhood);
+    SR5_EntityHelpers.updateValue(lifeStyle.point);
+
   }
 
   ////////////////////// VEHICULES  ///////////////////////

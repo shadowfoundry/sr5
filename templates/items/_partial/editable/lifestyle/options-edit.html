@@ -7,13 +7,15 @@
     </div>
 </li>
 
+{{#ife data.type "boltHole"}}
+
 {{#each data.options}}
 <li class="grid subItemManagement" data-key="{{@key}}">
     <div class="col-11">
         <select name="data.options.{{@key}}" required>
         {{#select this}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each ../lists.lifestyleOptions}}
+            {{#each ../lists.lifestyleOptionsBoltHole}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}
         {{/select}}
@@ -24,3 +26,165 @@
     </div>
 </li>
 {{/each}}
+
+{{else ife data.type "streets"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsStreets}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "squatter"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsSquatter}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "low"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsLow}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "medium"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsMedium}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "high"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsHigh}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "luxury"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsLuxury}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "traveler"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsTraveler}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{else ife data.type "commercial"}}
+
+{{#each data.options}}
+<li class="grid subItemManagement" data-key="{{@key}}">
+    <div class="col-11">
+        <select name="data.options.{{@key}}" required>
+        {{#select this}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ../lists.lifestyleOptionsCommercial}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextRight">
+        <a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{_id}}" data-binding="options" data-action="delete"><i class="fas fa-trash"></i></a>
+    </div>
+</li>
+{{/each}}
+
+{{/ife}}
