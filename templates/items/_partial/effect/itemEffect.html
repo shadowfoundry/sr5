@@ -44,6 +44,9 @@
                     {{#if (eq ../document.type 'itemArmor')}}
                     <option value="data.armorValue">{{localize 'SR5.ArmorRating'}}</option>
                     {{/if}}
+					{{#if (eq ../document.type 'itemWeapon')}}
+                    <option value="data.weaponSkill">{{localize 'SR5.DicePool'}}</option>
+                    {{/if}}
 					<option value="data.conditionMonitors.matrix">{{localize 'SR5.ConditionMonitorMatrix'}}</option>
                     {{/select}}
 				</select>

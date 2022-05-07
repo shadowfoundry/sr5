@@ -1214,6 +1214,41 @@ export class SR5_UtilityItem extends Actor {
     return spellList;
   }
 
+  static _generateWeaponFocusWeaponList(focus, actor) {
+    let weaponList = [];
+    for (let i of actor.items) {
+      if (i.type === "itemWeapon" && i.data.data.category === "meleeWeapon") {
+        let weapon = {
+          "name": i.name,
+          "id": i.id,
+        }
+        weaponList.push(weapon);
+      }
+    }
+    return weaponList;
+  }
+
+  static async _handleWeaponFocus(i, actor){
+    let focus = actor.items.find(w => w.data.data.linkedWeapon === i._id);
+    if (focus) {
+      if (focus.data.data.isActive){
+        i.data.isLinkedToFocus = true;
+        let effect = {
+          "name": `${focus.name}`,
+          "target": "data.weaponSkill",
+          "wifi": false,
+          "transfer": false,
+          "ownerItem": focus.id,
+          "type": "value",
+          "value": focus.data.data.itemRating,
+          "multiplier": 1
+        }
+        i.data.itemEffects.push(effect);
+      }
+      
+    }
+  }
+
   ////////////////////// DECK & PROGRAMMES ///////////////////////
   static _handleCommlink(commlink) {
     switch (commlink.module){

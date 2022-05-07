@@ -320,6 +320,7 @@ export const preloadHandlebarsTemplates = async function () {
         //Focus
         "systems/sr5/templates/items/_partial/editable/focus/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/focus/subType-edit.html",
+        "systems/sr5/templates/items/_partial/editable/focus/weaponLink-edit.html",
 
         //Karma
         "systems/sr5/templates/items/_partial/editable/karma/type-edit.html",
