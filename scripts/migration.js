@@ -198,6 +198,11 @@ export default class Migration {
 					}
 				}
 			}
+
+			//Change astralCombat limit
+			if (actor.data.skills?.astralCombat){
+				updateData["data.skills.astralCombat.limit.base"] = "astralLimit";
+			}
     	}
 
 		// Migrate Owned Items

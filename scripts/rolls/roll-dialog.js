@@ -290,6 +290,15 @@ export default class SR5_RollDialog extends Dialog {
 
         //Get Object Resistance Test base dicepool
         html.find(".objectType").change(ev => this._getObjectTypeDicePool(ev, html, dialogData));
+
+        //Get Damage type, for astral combat
+        if (html.find('[name="damageType"]')[0]) this._getDamageType(html, dialogData);
+        html.find('[name="damageType"]').change(ev => this._getDamageType(html, dialogData));
+    }
+
+    //Get Damage type, for astral combat
+    _getDamageType(html, dialogData){
+        dialogData.damageType = html.find('[name="damageType"]')[0].value;
     }
 
     //Add Armor modifiers

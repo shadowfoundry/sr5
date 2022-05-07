@@ -101,6 +101,7 @@ export class SR5_RollMessage {
             switch(type) {
                 case "defenseMeleeWeapon":
                 case "defenseRangedWeapon":
+                case "defenseAstralCombat":
                     actor.rollTest("defenseCard", null, messageData);
                     break;
                 case "matrixDefense":

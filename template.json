@@ -1482,7 +1482,7 @@
             "linkedAttribute": "willpower",
             "limit": {
               "value": 0,
-              "base": "weaponAccuracy",
+              "base": "astralLimit",
               "modifiers": []
             },
             "skillGroup": "",

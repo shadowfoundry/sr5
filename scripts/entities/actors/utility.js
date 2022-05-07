@@ -118,6 +118,7 @@ export class SR5_CharacterUtility extends Actor {
                 data.resistances[key][subkey].modifiers = [];
               }
               break;
+            case "astralDamage":
             case "physicalDamage":
             case "directSpellMana":
             case "directSpellPhysical":
@@ -2274,7 +2275,7 @@ export class SR5_CharacterUtility extends Actor {
       }
     }
 
-    if (magic.magicType == 'magician' || magic.magicType == 'aspectedMagician' || magic.magicType == 'mysticalAdept') {
+    if (magic.magicType == 'magician' || magic.magicType == 'aspectedMagician' || magic.magicType == 'mysticalAdept' || magic.magicType == 'spirit') {
       magic.passThroughBarrier.base = 0;
       SR5_EntityHelpers.updateModifier(magic.passThroughBarrier, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.charisma.augmented.value);
       SR5_EntityHelpers.updateModifier(magic.passThroughBarrier, `${game.i18n.localize('SR5.Magic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.magic.augmented.value);
