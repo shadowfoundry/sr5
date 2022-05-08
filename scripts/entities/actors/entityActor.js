@@ -540,6 +540,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemWeapon":
+          SR5_UtilityItem._checkIfWeaponIsFocus(i, this);
           let modes = (iData.weaponModes = []);
           for (let mode of Object.entries(iData.firingMode)) {
             if (mode[1].value)
@@ -571,11 +572,11 @@ export class SR5Actor extends Actor {
             case "qi":
               break;
             case "weapon":
-              iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(iData, actorData);
-              if (iData.linkedWeapon){
-                let linkedWeapon = actorData.items.find(w => w.id === iData.linkedWeapon);
-                iData.linkedWeaponName = linkedWeapon.name;
-              }
+                iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(i, this);
+                if (iData.linkedWeapon){
+                  let linkedWeapon = this.items.find(w => w.id === iData.linkedWeapon);
+                  iData.linkedWeaponName = linkedWeapon.name;
+                }
               break;
             case "sustaining":
               iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actorData);

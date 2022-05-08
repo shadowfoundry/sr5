@@ -1218,6 +1218,7 @@ export class SR5_UtilityItem extends Actor {
     let weaponList = [];
     for (let i of actor.items) {
       if (i.type === "itemWeapon" && i.data.data.category === "meleeWeapon") {
+        if (i.data.data.systemEffects.length) continue;
         let weapon = {
           "name": i.name,
           "id": i.id,
@@ -1228,11 +1229,16 @@ export class SR5_UtilityItem extends Actor {
     return weaponList;
   }
 
+  static async _checkIfWeaponIsFocus(i, actor){
+    let focus = actor.items.find(w => w.data.data.linkedWeapon === i.id);
+    if (focus) i.data.data.isLinkedToFocus = true;
+    else i.data.data.isLinkedToFocus = false;
+  }
+
   static async _handleWeaponFocus(i, actor){
     let focus = actor.items.find(w => w.data.data.linkedWeapon === i._id);
     if (focus) {
       if (focus.data.data.isActive){
-        i.data.isLinkedToFocus = true;
         let effect = {
           "name": `${focus.name}`,
           "target": "data.weaponSkill",
@@ -1244,8 +1250,7 @@ export class SR5_UtilityItem extends Actor {
           "multiplier": 1
         }
         i.data.itemEffects.push(effect);
-      }
-      
+      } 
     }
   }
 

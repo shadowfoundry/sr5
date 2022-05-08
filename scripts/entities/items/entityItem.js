@@ -127,7 +127,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemFocus":
-        SR5_UtilityItem._handleFocus(data);
+        SR5_UtilityItem._handleFocus(data);     
         break;
       case "itemSpirit":
         SR5_UtilityItem._handleSpirit(data);
