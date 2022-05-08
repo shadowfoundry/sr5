@@ -398,7 +398,8 @@ export class SR5_UtilityItem extends Actor {
           weapon.weaponSkill.base = 0;
         } else {
           weapon.weaponSkill.base = 0;
-          weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
+          if ((actorData.data.initiatives.astralInit.isActive || weapon.isUsedAsFocus) && weapon.isLinkedToFocus) weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills.astralCombat.test.modifiers);
+          else weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
           //Special case : bow
           if (weapon.type === "bow" && (actorData.data.attributes.strength.augmented.value < weapon.itemRating)){
             let malus = (actorData.data.attributes.strength.augmented.value - weapon.itemRating) * 3;
@@ -414,7 +415,8 @@ export class SR5_UtilityItem extends Actor {
     if (actor) {
       if (weapon.accuracy.isPhysicalLimitBased) weapon.accuracy.base = actor.data.limits.physicalLimit.value;
       if (weapon.damageValue.isStrengthBased && actor.type !=="actorDrone") {
-        SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.strength.augmented.value);
+        if ((actor.data.initiatives.astralInit.isActive || weapon.isUsedAsFocus) && weapon.isLinkedToFocus) SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.charisma.augmented.value);
+        else SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.strength.augmented.value);
       }
       if (actor.data.itemsProperties?.weapon) {
         for (let modifier of actor.data.itemsProperties.weapon.accuracy.modifiers) {

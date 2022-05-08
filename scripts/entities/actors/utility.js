@@ -792,6 +792,13 @@ export class SR5_CharacterUtility extends Actor {
       data.attributes[key].augmented.base = data.attributes[key].natural.value;
       SR5_EntityHelpers.updateValue(data.attributes[key].augmented, 0);
     }
+
+    if (data.initiatives.astralInit?.isActive && (actor.type == "actorPc" || actor.type == "actorGrunt")){
+      data.attributes.agility.augmented = data.attributes.logic.augmented;
+      data.attributes.body.augmented = data.attributes.willpower.augmented;
+      data.attributes.reaction.augmented = data.attributes.intuition.augmented;
+      data.attributes.strength.augmented = data.attributes.charisma.augmented;
+    }
   }
 
   static updateSpiritAttributes(actor) {

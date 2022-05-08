@@ -936,6 +936,25 @@ export class SR5_Roll {
                 });
                 break;
 
+
+            case "astralWeapon":
+                title = `${game.i18n.localize("SR5.AstralAttackWith")} ${item.name}`;
+                dicePool = itemData.weaponSkill.dicePool;
+
+                optionalData = mergeObject(optionalData, {
+                    limiteType: "accuracy",
+                    limit: itemData.accuracy.value, 
+                    damageValue: itemData.damageValue.value,
+                    damageValueBase: itemData.damageValue.value,
+                    dicePoolComposition: itemData.weaponSkill.modifiers,
+                    "switch.extended": false,
+                    "switch.chooseDamageType": true,
+                    "switch.specialization": true,
+                    type: "skillDicePool",
+                    typeSub: "astralCombat",
+                });
+                break;
+
             case "spell":
                 let spellCategory = itemData.category;
                 typeSub = itemData.subCategory;

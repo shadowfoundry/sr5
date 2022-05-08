@@ -5606,7 +5606,8 @@
         },
         "penetration": 0
       },
-      "isLinkedToFocus": false
+      "isLinkedToFocus": false,
+      "isUsedAsFocus": false
     },
     "itemArmor": {
       "templates": [
