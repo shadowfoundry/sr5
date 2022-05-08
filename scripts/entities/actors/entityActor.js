@@ -540,7 +540,6 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemWeapon":
-          SR5_UtilityItem._checkIfWeaponIsFocus(i, this);
           let modes = (iData.weaponModes = []);
           for (let mode of Object.entries(iData.firingMode)) {
             if (mode[1].value)

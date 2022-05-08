@@ -37,7 +37,7 @@
 		</li>
 	  	{{#each actor.weapons}}
 		{{#ife data.category "rangedWeapon"}}
-		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+		<li class="item grid {{#if ../data.initiatives.astralInit.isActive}}SR-SubColor50{{/if}}" data-item-id="{{_id}}" draggable="true">
 			<div class="col-4 deplie">
 			  	<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.weaponSkill.specialization"
 				  data-helpTitle="{{localize 'SR5.Specialization'}}"
@@ -50,25 +50,17 @@
 			  	</a>
 			  	<span data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">{{name}}</span>
 			</div>
-			{{#if (or (eq data.type 'grenadeLauncher') (eq data.type 'missileLauncher'))}}
-			<div class="col-1 roll-logo SR-TextCenter sr-rollGrenade" data-rolltype="weapon"
-			  data-helpTitle="{{localize 'SR5.DicePool'}}"
-			  data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
-			  data-helpDetailsItem="data.weaponSkill"
-			  data-helpItemId="{{_id}}"
-			>
-				{{data.weaponSkill.dicePool}}
-			</div>
+			{{#if ../data.initiatives.astralInit.isActive}}
+			<div class="col-1 SR-TextCenter"
+				data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_CantRollTestInAstral'}}">
 			{{else}}
-			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="weapon"
-			  data-helpTitle="{{localize 'SR5.DicePool'}}"
-			  data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
-			  data-helpDetailsItem="data.weaponSkill"
-			  data-helpItemId="{{_id}}"
-			>
-			  	{{data.weaponSkill.dicePool}}
-			</div>
+			<div class="col-1 SR-TextCenter roll-logo {{#if (or (eq data.type 'grenadeLauncher') (eq data.type 'missileLauncher'))}}sr-rollGrenade{{else}}sr-roll{{/if}} }} " 
+				data-rolltype="weapon" data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
+				data-helpDetailsItem="data.weaponSkill"	data-helpItemId="{{_id}}">
 			{{/if}}
+		  		{{data.weaponSkill.dicePool}}
+			</div>
+
 			<div class="col-2 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.DamageValue'}}"
 			  data-helpDetailsItem="data.damageValue"
