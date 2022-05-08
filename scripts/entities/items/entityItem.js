@@ -37,6 +37,8 @@ export class SR5Item extends Item {
         if (typeof data.accessory === "object") data.accessory = Object.values(data.accessory);
         if (data.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(data);
         if (data.ammunition.value > data.ammunition.max) data.ammunition.value = data.ammunition.max;
+        if (data.category === "meleeWeapon" && owner && !data.isLinkedToFocus) SR5_UtilityItem._handleWeaponFocus(itemData, owner);
+        if (Object.keys(data.itemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
         SR5_UtilityItem._handleBow(itemData);
         SR5_UtilityItem._handleWeaponAccessory(data, owner);
         SR5_UtilityItem._handleWeaponAmmunition(data);
@@ -125,7 +127,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemFocus":
-        SR5_UtilityItem._handleFocus(data);
+        SR5_UtilityItem._handleFocus(data);     
         break;
       case "itemSpirit":
         SR5_UtilityItem._handleSpirit(data);

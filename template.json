@@ -5605,7 +5605,8 @@
           "paralysis": false
         },
         "penetration": 0
-      }
+      },
+      "isLinkedToFocus": false
     },
     "itemArmor": {
       "templates": [
@@ -5840,7 +5841,10 @@
       "type": "",
       "subType": "",
       "spellChoices":[],
-      "sustainedSpell": ""
+      "weaponChoices":[],
+      "sustainedSpell": "",
+      "linkedWeapon":"",
+      "linkedWeaponName":""
     },
     "itemKarma": {
       "templates": [

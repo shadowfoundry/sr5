@@ -850,6 +850,7 @@
   "SR5.LineOfSightShort"                      : "CDV",
   "SR5.LinkedAttribute"                       : "Attribut lié",
   "SR5.LinkedIdentity"                        : "Identité liée",
+  "SR5.LinkedWeapon"                          : "Arme liée",
   "SR5.LinkLockConnection"                    : "Verrouiller la connexion",
   "SR5.LivingPersona"                         : "Persona incarné",
   "SR5.Logic"                                 : "Logique",
