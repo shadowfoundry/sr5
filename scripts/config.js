@@ -2288,6 +2288,7 @@ SR5.effectTypes = {
   itemComplexForm           : "ITEM.TypeItemcomplexform",
   itemSpell                 : "ITEM.TypeItemspell",
   itemAdeptPower            : "ITEM.TypeItemadeptpower",
+  itemPreparation           : "ITEM.TypeItempreparation",
   derezz                    : "SR5.Derezz",
 }
 

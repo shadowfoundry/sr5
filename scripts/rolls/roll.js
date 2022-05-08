@@ -1080,15 +1080,50 @@ export class SR5_Roll {
                     damageType: itemData.damageType,
                     damageElement: itemData.damageElement,
                     spellType: itemData.type,
+                    spellCategory: itemData.category,
+                    spellResisted: itemData.resisted,
                     force: itemData.force,
                     "sceneData.backgroundCount" : backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     dicePoolComposition: itemData.test.modifiers,
+                    itemUuid: item.uuid,
                 }
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {
                         "templatePlace": true,
                     });
+                }
+
+                if (!itemData.resisted){
+                    //Check if an effect is transferable on taget actor and give the necessary infos
+                    for (let e of Object.values(itemData.customEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": item.uuid,
+                                "switch.transferEffect": true,
+                            });
+                        }
+                    }
+
+                    //Check if an effect is transferable on target item and give the necessary infos
+                    for (let e of Object.values(itemData.itemEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": item.uuid,
+                                "switch.transferEffectOnItem": true,
+                            });
+                        }
+                    }
+                }
+
+                //Check if an object can resist to spell
+                for (let e of Object.values(itemData.systemEffects)){
+                    if (e.value === "sre_ObjectResistance"){
+                        optionalData = mergeObject(optionalData, {
+                            "itemUuid": item.uuid,
+                            "switch.objectResistanceTest": true,
+                        });
+                    }
                 }
                 break;
 
