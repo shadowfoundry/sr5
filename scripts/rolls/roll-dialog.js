@@ -294,6 +294,9 @@ export default class SR5_RollDialog extends Dialog {
         //Get Damage type, for astral combat
         if (html.find('[name="damageType"]')[0]) this._getDamageType(html, dialogData);
         html.find('[name="damageType"]').change(ev => this._getDamageType(html, dialogData));
+
+        //Add modifier for centering metamagic
+        html.find('[name="centering"]').change(ev => this._addCenteringModifier(ev, html, dialogData));
     }
 
     //Get Damage type, for astral combat
@@ -659,6 +662,22 @@ export default class SR5_RollDialog extends Dialog {
             this.dicePoolModifier.spiritAid = 0;
             this.updateDicePoolValue(html);
             dialogData.dicePoolMod.spiritAid = 0;
+        }
+    }
+
+    //Add modifier for Centering
+    _addCenteringModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        if (value === "true") {
+            this.dicePoolModifier.centering = dialogData.actor.data.magic.initiationGrade;
+            this.updateDicePoolValue(html);
+            dialogData.dicePoolMod.centering = dialogData.actor.data.magic.initiationGrade;
+            html.find('[name="dicePoolModCentering"]')[0].value = dialogData.actor.data.magic.initiationGrade;
+        } else {
+            this.dicePoolModifier.centering = 0;
+            this.updateDicePoolValue(html);
+            dialogData.dicePoolMod.centering = 0;
+            html.find('[name="dicePoolModCentering"]')[0].value = 0;
         }
     }
 

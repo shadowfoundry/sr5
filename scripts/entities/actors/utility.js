@@ -493,6 +493,7 @@ export class SR5_CharacterUtility extends Actor {
       data.magic.boundedSpirit.current = 0;
 
       //Reset metamagic
+      data.magic.metamagics.centering = false;
       data.magic.metamagics.quickening = false;
       data.magic.metamagics.shielding = false;
     }

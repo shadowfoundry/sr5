@@ -4112,6 +4112,7 @@
           },
           "spellList":{},
           "metamagics": {
+            "centering": false,
             "quickening": false,
             "shielding": false
           }

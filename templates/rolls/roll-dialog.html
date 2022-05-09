@@ -221,6 +221,11 @@
       {{#if (and (or (eq typeSub "counterspelling") (eq typeSub "disenchanting")) hasTarget)}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
       {{/if}}
+
+      <!-- CENTERING METAMAGIC -->
+      {{#if switch.centering}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
+      {{/if}}
     </ul>
   </div>
 

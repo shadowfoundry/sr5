@@ -744,6 +744,13 @@ export class SR5_Roll {
                     hits: chatData.hits,
                     dicePoolComposition: actorData.magic.drainResistance.modifiers,
                 };
+
+                //Centering metamagic
+                if (actorData.magic.metamagics.centering){
+                    optionalData = mergeObject(optionalData,{
+                        "switch.centering": true,
+                    });
+                }
                 break;
 
             case "drain":
