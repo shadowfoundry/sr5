@@ -494,6 +494,7 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset metamagic
       data.magic.metamagics.quickening = false;
+      data.magic.metamagics.shielding = false;
     }
 
     // Reset Monitors
@@ -2343,6 +2344,7 @@ export class SR5_CharacterUtility extends Actor {
   static updateCounterSpellPool(actor){
     let data = actor.data, lists = actor.lists, magic = data.magic, attributes = data.attributes, specialAttributes = data.specialAttributes, skills = data.skills;
     magic.counterSpellPool.base = skills.counterspelling.rating.value;
+    if (magic.metamagics.shielding) SR5_EntityHelpers.updateModifier(magic.counterSpellPool, `${game.i18n.localize('SR5.MetamagicShielding')}`, `${game.i18n.localize('SR5.Metamagic')}`, magic.initiationGrade); 
     SR5_EntityHelpers.updateValue(magic.counterSpellPool);
   }
 

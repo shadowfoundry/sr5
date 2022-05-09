@@ -4112,7 +4112,8 @@
           },
           "spellList":{},
           "metamagics": {
-            "quickening": false
+            "quickening": false,
+            "shielding": false
           }
         }
       },

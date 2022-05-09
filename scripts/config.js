@@ -1155,6 +1155,7 @@ SR5.ritualDurationMultipliers = {
 //Metamagics
 SR5.metamagics = {
   quickening               : "SR5.MetamagicQuickening",
+  shielding                : "SR5.MetamagicShielding",
 }
 
 //-----------------------------------//
