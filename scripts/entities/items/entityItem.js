@@ -57,6 +57,9 @@ export class SR5Item extends Item {
           data.wirelessTurnedOn = false;
         }
         break;
+      case "itemSpell":
+        if (data.quickening) data.freeSustain = true;
+        break;
       case "itemAmmunition":
         SR5_UtilityItem._handleAmmoPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);

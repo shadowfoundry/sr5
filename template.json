@@ -4110,7 +4110,10 @@
             "current": 0,
             "max": 0
           },
-          "spellList":{}
+          "spellList":{},
+          "metamagics": {
+            "quickening": false
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -6027,7 +6030,9 @@
       "targetOfEffect":[],
       "resisted": false,
       "defenseFirstAttribute": "",
-      "defenseSecondAttribute": ""
+      "defenseSecondAttribute": "",
+      "quickening": false,
+      "karmaSpent": 0
     },
     "itemPreparation": {
       "templates": [

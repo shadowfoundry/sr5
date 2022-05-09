@@ -1152,6 +1152,11 @@ SR5.ritualDurationMultipliers = {
   netHits                : "SR5.NetHits",
 }
 
+//Metamagics
+SR5.metamagics = {
+  quickening               : "SR5.MetamagicQuickening",
+}
+
 //-----------------------------------//
 //             MARTIAL ARTS          //
 //-----------------------------------//

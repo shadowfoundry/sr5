@@ -491,6 +491,9 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset bounded spirit
       data.magic.boundedSpirit.current = 0;
+
+      //Reset metamagic
+      data.magic.metamagics.quickening = false;
     }
 
     // Reset Monitors
