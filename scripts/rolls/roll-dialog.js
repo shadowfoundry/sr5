@@ -297,6 +297,9 @@ export default class SR5_RollDialog extends Dialog {
 
         //Add modifier for centering metamagic
         html.find('[name="centering"]').change(ev => this._addCenteringModifier(ev, html, dialogData));
+
+        //Add modifier for spell shaping metamagic
+        html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData));
     }
 
     //Get Damage type, for astral combat
@@ -711,6 +714,24 @@ export default class SR5_RollDialog extends Dialog {
     //Get Object Resistance Test base dicepool
     _getObjectTypeDicePool(ev, html, dialogData){
         html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
+        this.updateDicePoolValue(html);
+    }
+
+    //Add spell shaping metamagic modifiers
+    _addSpellShapingModifier(ev, html, dialogData){
+        let value = parseInt(ev.target.value);
+        if (value > 0) {
+            ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMin'));
+            value = 0;
+            html.find('[name="spellShaping"]')[0].value = 0;
+        } else if (-value > dialogData.actor.data.specialAttributes.magic.augmented.value){
+            value = -dialogData.actor.data.specialAttributes.magic.augmented.value;
+            html.find('[name="spellShaping"]')[0].value = value;
+            ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}));
+        }
+        this.dicePoolModifier.variousModifier = value;
+        dialogData.dicePoolMod.spellShaping = value;
+        dialogData.spellAreaMod = -value;
         this.updateDicePoolValue(html);
     }
 }

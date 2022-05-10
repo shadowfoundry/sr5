@@ -4114,7 +4114,8 @@
           "metamagics": {
             "centering": false,
             "quickening": false,
-            "shielding": false
+            "shielding": false,
+            "spellShaping": false 
           }
         }
       },

@@ -1029,6 +1029,7 @@
   "SR5.MetamagicCentering"                    : "Centering",
   "SR5.MetamagicQuickening"                   : "Quickening",
   "SR5.MetamagicShielding"                    : "Shielding",
+  "SR5.MetamagicSpellShaping"                 : "SpellShaping",
   "SR5.Metamagics"                            : "Metamagics",
   "SR5.Metatype"                              : "Metatype",
   "SR5.MetatypeDwarf"                         : "Dwarf",
@@ -2462,5 +2463,7 @@
   "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})",
   "SR5.WARN_InvalidActorType"                 : "Invalid Actor Type for this action.",
   "SR5.WARN_SpiritAlreadyBounded"             : "Spirit is already bounded.",
-  "SR5.WARN_DontHavePerm"                     : "You don't have permission !"
+  "SR5.WARN_DontHavePerm"                     : "You don't have permission !",
+  "SR5.WARN_SpellShapingMin"                  : "Penalty must be negative.",
+  "SR5.WARN_SpellShapingMaxMagic"             : "You may not take more dice worth of penalty than your Magic Rating."
 }

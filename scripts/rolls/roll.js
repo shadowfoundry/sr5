@@ -989,6 +989,12 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         "templatePlace": true,
                     });
+                    //Spell Shaping metamagic
+                    if (actorData.magic.metamagics.spellShaping){
+                        optionalData = mergeObject(optionalData, {
+                            "switch.spellShaping": true,
+                        });
+                    }
                 }
 
                 if (!itemData.resisted){
