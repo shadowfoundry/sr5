@@ -294,6 +294,12 @@ export default class SR5_RollDialog extends Dialog {
         //Get Damage type, for astral combat
         if (html.find('[name="damageType"]')[0]) this._getDamageType(html, dialogData);
         html.find('[name="damageType"]').change(ev => this._getDamageType(html, dialogData));
+
+        //Add modifier for centering metamagic
+        html.find('[name="centering"]').change(ev => this._addCenteringModifier(ev, html, dialogData));
+
+        //Add modifier for spell shaping metamagic
+        html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData));
     }
 
     //Get Damage type, for astral combat
@@ -662,6 +668,22 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
+    //Add modifier for Centering
+    _addCenteringModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        if (value === "true") {
+            this.dicePoolModifier.centering = dialogData.actor.data.magic.metamagics.centeringValue.value;
+            this.updateDicePoolValue(html);
+            dialogData.dicePoolMod.centering = dialogData.actor.data.magic.metamagics.centeringValue.value;
+            html.find('[name="dicePoolModCentering"]')[0].value = dialogData.actor.data.magic.metamagics.centeringValue.value;
+        } else {
+            this.dicePoolModifier.centering = 0;
+            this.updateDicePoolValue(html);
+            dialogData.dicePoolMod.centering = 0;
+            html.find('[name="dicePoolModCentering"]')[0].value = 0;
+        }
+    }
+
     //Add modifier depending of the type of the token Targeted
     _addTargetTypeModifier(html, dialogData){
         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
@@ -692,6 +714,24 @@ export default class SR5_RollDialog extends Dialog {
     //Get Object Resistance Test base dicepool
     _getObjectTypeDicePool(ev, html, dialogData){
         html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
+        this.updateDicePoolValue(html);
+    }
+
+    //Add spell shaping metamagic modifiers
+    _addSpellShapingModifier(ev, html, dialogData){
+        let value = parseInt(ev.target.value);
+        if (value > 0) {
+            ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMin'));
+            value = 0;
+            html.find('[name="spellShaping"]')[0].value = 0;
+        } else if (-value > dialogData.actor.data.magic.metamagics.spellShapingValue.value){
+            value = -dialogData.actor.data.magic.metamagics.spellShapingValue.value;
+            html.find('[name="spellShaping"]')[0].value = value;
+            ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}));
+        }
+        this.dicePoolModifier.variousModifier = value;
+        dialogData.dicePoolMod.spellShaping = value;
+        dialogData.spellAreaMod = -value;
         this.updateDicePoolValue(html);
     }
 }

@@ -715,7 +715,7 @@ export class SR5_Dice {
 			
 			//Handle spell Area
 			if (cardData.item.data.range === "area"){
-				cardData.spellArea = cardData.force;
+				cardData.spellArea = cardData.force + (cardData.spellAreaMod || 0);
 				if (cardData.item.data.category === "detection") {
 					if (cardData.item.data.spellAreaExtended === true) cardData.spellArea = cardData.force * cardData.actorMagic * 10;
 					else cardData.spellArea = cardData.force * cardData.actorMagic;

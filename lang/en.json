@@ -299,6 +299,7 @@
   "SR5.CarryingGear"                          : "Weights",
   "SR5.CarryingTest"                          : "Carrying Test",
   "SR5.CaseType"                              : "Case type",
+  "SR5.CasterMagic"                           : "Caster Magic",
   "SR5.CastSpell"                             : "Cast Spell",
   "SR5.CatchFire"                             : "Catch fire",
   "SR5.CatchFireResisted"                     : "Fire controled",
@@ -1025,6 +1026,10 @@
   "SR5.MentalLimitShort"                      : "Mental",
   "SR5.Metamagic"                             : "Metamagic",
   "SR5.MetamagicNew"                          : "New Metamagic",
+  "SR5.MetamagicCentering"                    : "Centering",
+  "SR5.MetamagicQuickening"                   : "Quickening",
+  "SR5.MetamagicShielding"                    : "Shielding",
+  "SR5.MetamagicSpellShaping"                 : "SpellShaping",
   "SR5.Metamagics"                            : "Metamagics",
   "SR5.Metatype"                              : "Metatype",
   "SR5.MetatypeDwarf"                         : "Dwarf",
@@ -1059,6 +1064,7 @@
   "SR5.ModificationValue"                     : "Value",
   "SR5.ModificationValueShort"                : "Val.",
   "SR5.ModifiedDicePool"                      : "Modified Dice Pool",
+  "SR5.Modifier"                              : "Modifier",
   "SR5.ModuleHotSim"                          : "Sim (Hot-Sim)",
   "SR5.ModuleStandardSim"                     : "Sim (Standard)",
   "SR5.Month"                                 : "Month",
@@ -1764,6 +1770,7 @@
   "SR5.ThermographicVisionAugmented"          : "Thermographic Vision (Augmented)",
   "SR5.ThermographicVisionNatural"            : "Thermographic Vision (Natural)",
   "SR5.Thread"                                : "Thread",
+  "SR5.ThreaderResonance"                     : "Threader Resonance",
   "SR5.ThreadingFailure"                      : "Threading failure",
   "SR5.Threshold"                             : "Threshold",
   "SR5.TotalGainedKarma"                      : "Total Awarded",
@@ -2457,5 +2464,7 @@
   "SR5.WARN_MaxReagents"                      : "You can't spend more reagents than you have ({reagents})",
   "SR5.WARN_InvalidActorType"                 : "Invalid Actor Type for this action.",
   "SR5.WARN_SpiritAlreadyBounded"             : "Spirit is already bounded.",
-  "SR5.WARN_DontHavePerm"                     : "You don't have permission !"
+  "SR5.WARN_DontHavePerm"                     : "You don't have permission !",
+  "SR5.WARN_SpellShapingMin"                  : "Penalty must be negative.",
+  "SR5.WARN_SpellShapingMaxMagic"             : "You may not take more dice worth of penalty than your Magic Rating."
 }

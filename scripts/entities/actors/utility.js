@@ -491,6 +491,16 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset bounded spirit
       data.magic.boundedSpirit.current = 0;
+
+      //Reset metamagic
+      data.magic.metamagics.centering = false;
+      data.magic.metamagics.quickening = false;
+      data.magic.metamagics.shielding = false;
+      data.magic.metamagics.spellShaping = false;
+      data.magic.metamagics.centeringValue.value = 0;
+      data.magic.metamagics.centeringValue.modifiers = [];
+      data.magic.metamagics.spellShapingValue.value = 0;
+      data.magic.metamagics.spellShapingValue.modifiers = [];
     }
 
     // Reset Monitors
@@ -2334,12 +2344,19 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateDicePool(magic.astralTracking, 0);
 
     magic.boundedSpirit.max = specialAttributes.magic.augmented.value;
+
+    //Metamagic stuff
+    magic.metamagics.centeringValue.base = magic.initiationGrade;
+    magic.metamagics.spellShapingValue.base = specialAttributes.magic.augmented.value;
+    SR5_EntityHelpers.updateValue(magic.metamagics.centeringValue, 0);
+    SR5_EntityHelpers.updateValue(magic.metamagics.spellShapingValue, 0);
   }
 
   //
   static updateCounterSpellPool(actor){
     let data = actor.data, lists = actor.lists, magic = data.magic, attributes = data.attributes, specialAttributes = data.specialAttributes, skills = data.skills;
     magic.counterSpellPool.base = skills.counterspelling.rating.value;
+    if (magic.metamagics.shielding) SR5_EntityHelpers.updateModifier(magic.counterSpellPool, `${game.i18n.localize('SR5.MetamagicShielding')}`, `${game.i18n.localize('SR5.Metamagic')}`, magic.initiationGrade); 
     SR5_EntityHelpers.updateValue(magic.counterSpellPool);
   }
 

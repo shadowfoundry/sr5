@@ -68,6 +68,7 @@
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Magic'}}">
 						<option value="astralValues">{{localize 'SR5.Magic'}}</option>
+						<option value="metamagics">{{localize 'SR5.Metamagic'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Vehicle'}}">
 						<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
@@ -285,6 +286,13 @@
 					<option value="data.magic.drainResistance">{{localize 'SR5.DrainResistance'}}</option>
 					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
 					
+					{{else ife category 'metamagics'}}
+					{{#each (lookup ../lists category)}}					
+					<option value="data.magic.metamagics.{{@key}}">{{localize this}}</option>
+					{{/each}}
+					<option value="data.magic.metamagics.centeringValue">{{localize 'SR5.MetamagicCentering'}} ({{localize 'SR5.Modifier'}})</option>
+					<option value="data.magic.metamagics.spellShapingValue">{{localize 'SR5.MetamagicSpellShaping'}} ({{localize 'SR5.Modifier'}})</option>
+
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
@@ -373,6 +381,16 @@
 							{{#each ../lists.hardenedAstralArmorTypes}}
 							<option value="{{@key}}">{{localize this}}</option>
 							{{/each}}
+							{{/select}}
+						</select>
+					{{else if (eq this.category 'metamagics')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+								{{#if (or (endsWith target '.centeringValue') (endsWith target '.spellShapingValue'))}}
+									{{dropdownOptions 'value' 'rating'}}
+								{{else}}
+									{{dropdownOptions 'boolean'}}
+								{{/if}}
 							{{/select}}
 						</select>
 					{{else}}

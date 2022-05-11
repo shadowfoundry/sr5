@@ -53,6 +53,12 @@
 						{{> systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html}}
 					</ul>
 					{{/if}}
+					<!-- Quickening -->
+					{{#if document.parent.data.data.magic.metamagics.quickening}}
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/spell/quickening-edit.html}}
+					</ul>
+					{{/if}}
 				</div>
 
 				<!-- CUSTOM EFFECTS -->

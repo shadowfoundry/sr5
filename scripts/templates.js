@@ -375,6 +375,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/quickening-edit.html",
 
         //Spirit
         "systems/sr5/templates/items/_partial/editable/spirit/force-edit.html",
@@ -480,6 +481,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html",
     "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/centering.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
 
 
     /************************************************************************************* */

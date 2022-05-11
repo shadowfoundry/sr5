@@ -4110,7 +4110,23 @@
             "current": 0,
             "max": 0
           },
-          "spellList":{}
+          "spellList":{},
+          "metamagics": {
+            "centering": false,
+            "centeringValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "quickening": false,
+            "shielding": false,
+            "spellShaping": false,
+            "spellShapingValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -6027,7 +6043,9 @@
       "targetOfEffect":[],
       "resisted": false,
       "defenseFirstAttribute": "",
-      "defenseSecondAttribute": ""
+      "defenseSecondAttribute": "",
+      "quickening": false,
+      "karmaSpent": 0
     },
     "itemPreparation": {
       "templates": [

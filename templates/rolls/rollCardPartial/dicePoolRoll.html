@@ -240,3 +240,17 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.matrixMarkWanted}}</div>
 </li>
 {{/if}}
+<!--Centering Modifier-->
+{{#if (isdefined dicePoolMod.centering)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.MetamagicCentering'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.centering}}</div>
+</li>
+{{/if}}
+<!--Spell Shaping Modifier-->
+{{#if (isdefined dicePoolMod.spellShaping)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.MetamagicSpellShaping'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.spellShaping}}</div>
+</li>
+{{/if}}

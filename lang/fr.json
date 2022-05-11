@@ -299,6 +299,7 @@
   "SR5.CarryingGear"                          : "Poids",
   "SR5.CarryingTest"                          : "Test de poids",
   "SR5.CaseType"                              : "Type de douille",
+  "SR5.CasterMagic"                           : "Magie du lanceur de sort",
   "SR5.CastSpell"                             : "Lancer le sort",
   "SR5.CatchFire"                             : "Prendre feu",
   "SR5.CatchFireResisted"                     : "Feu maitrisé",
@@ -1025,6 +1026,10 @@
   "SR5.MentalLimitShort"                      : "Mentale",
   "SR5.Metamagic"                             : "Métamagie",
   "SR5.MetamagicNew"                          : "Nouvelle métamagie",
+  "SR5.MetamagicCentering"                    : "Centrage",
+  "SR5.MetamagicQuickening"                   : "Activation",
+  "SR5.MetamagicShielding"                    : "Bouclier",
+  "SR5.MetamagicSpellShaping"                 : "Façonnage de sort",
   "SR5.Metamagics"                            : "Métamagies",
   "SR5.Metatype"                              : "Métatype",
   "SR5.MetatypeDwarf"                         : "Nain",
@@ -1059,6 +1064,7 @@
   "SR5.ModificationValue"                     : "Valeur",
   "SR5.ModificationValueShort"                : "Val.",
   "SR5.ModifiedDicePool"                      : "Réserve de dés modifiée",
+  "SR5.Modifier"                              : "Modificateur",
   "SR5.ModuleHotSim"                          : "Sim (hot sim)",
   "SR5.ModuleStandardSim"                     : "Sim (standard)",
   "SR5.Month"                                 : "Mois",
@@ -1764,6 +1770,7 @@
   "SR5.ThermographicVisionAugmented"          : "Vision thermographique (Augmentée)",
   "SR5.ThermographicVisionNatural"            : "Vision thermographique (Naturelle)",
   "SR5.Thread"                                : "Tisser",
+  "SR5.ThreaderResonance"                     : "Résonance du Tisseur",
   "SR5.ThreadingFailure"                      : "Échec du tissage",
   "SR5.Threshold"                             : "Seuil",
   "SR5.TotalGainedKarma"                      : "Total gagné",
@@ -2457,5 +2464,7 @@
   "SR5.WARN_MaxReagents"                      : "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})",
   "SR5.WARN_InvalidActorType"                 : "Type d'Acteur invalide pour cette action.",
   "SR5.WARN_SpiritAlreadyBounded"             : "Cet esprit est déjà lié.",
-  "SR5.WARN_DontHavePerm"                     : "Vous ne disposez pas de la permission !"
+  "SR5.WARN_DontHavePerm"                     : "Vous ne disposez pas de la permission !",
+  "SR5.WARN_SpellShapingMin"                  : "La pénalité doit être négative.",
+  "SR5.WARN_SpellShapingMaxMagic"             : "Vous ne pouvez pas subir un modificateur plus grand que votre indice de Magie ({magic})"
 }
