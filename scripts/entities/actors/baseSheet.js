@@ -486,6 +486,21 @@ export class ActorSheetSR5 extends ActorSheet {
       actorData.matrix.attributesCollection.value2isSet = false;
       actorData.matrix.attributesCollection.value3isSet = false;
       actorData.matrix.attributesCollection.value4isSet = false;
+
+      //Remove item from PAN
+      if (item.data.pan.content.length){
+        for (let obj of item.data.pan.content){
+          if (!game.user?.isGM) {
+            SR5_SocketHandler.emitForGM("deleteItemFromPan", {
+              targetItem: obj.uuid,
+              actorId: this.actor.id,
+            });
+          } else {
+            SR5Actor.deleteItemFromPan(obj.uuid, this.actor.id);
+          }
+        }
+        item.data.pan.content = [];
+      }
     }
 
     //Special case for armor
