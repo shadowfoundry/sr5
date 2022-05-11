@@ -497,6 +497,10 @@ export class SR5_CharacterUtility extends Actor {
       data.magic.metamagics.quickening = false;
       data.magic.metamagics.shielding = false;
       data.magic.metamagics.spellShaping = false;
+      data.magic.metamagics.centeringValue.value = 0;
+      data.magic.metamagics.centeringValue.modifiers = [];
+      data.magic.metamagics.spellShapingValue.value = 0;
+      data.magic.metamagics.spellShapingValue.modifiers = [];
     }
 
     // Reset Monitors
@@ -2340,6 +2344,12 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateDicePool(magic.astralTracking, 0);
 
     magic.boundedSpirit.max = specialAttributes.magic.augmented.value;
+
+    //Metamagic stuff
+    magic.metamagics.centeringValue.base = magic.initiationGrade;
+    magic.metamagics.spellShapingValue.base = specialAttributes.magic.augmented.value;
+    SR5_EntityHelpers.updateValue(magic.metamagics.centeringValue, 0);
+    SR5_EntityHelpers.updateValue(magic.metamagics.spellShapingValue, 0);
   }
 
   //

@@ -4113,9 +4113,19 @@
           "spellList":{},
           "metamagics": {
             "centering": false,
+            "centeringValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
             "quickening": false,
             "shielding": false,
-            "spellShaping": false 
+            "spellShaping": false,
+            "spellShapingValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
           }
         }
       },

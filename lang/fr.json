@@ -1064,6 +1064,7 @@
   "SR5.ModificationValue"                     : "Valeur",
   "SR5.ModificationValueShort"                : "Val.",
   "SR5.ModifiedDicePool"                      : "Réserve de dés modifiée",
+  "SR5.Modifier"                              : "Modificateur",
   "SR5.ModuleHotSim"                          : "Sim (hot sim)",
   "SR5.ModuleStandardSim"                     : "Sim (standard)",
   "SR5.Month"                                 : "Mois",

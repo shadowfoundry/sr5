@@ -290,6 +290,8 @@
 					{{#each (lookup ../lists category)}}					
 					<option value="data.magic.metamagics.{{@key}}">{{localize this}}</option>
 					{{/each}}
+					<option value="data.magic.metamagics.centeringValue">{{localize 'SR5.MetamagicCentering'}} ({{localize 'SR5.Modifier'}})</option>
+					<option value="data.magic.metamagics.spellShapingValue">{{localize 'SR5.MetamagicSpellShaping'}} ({{localize 'SR5.Modifier'}})</option>
 
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
@@ -383,7 +385,13 @@
 						</select>
 					{{else if (eq this.category 'metamagics')}}
 						<select name="data.customEffects.{{@key}}.type" required>
-							{{#select type}}{{dropdownOptions 'boolean'}}{{/select}}
+							{{#select type}}
+								{{#if (or (endsWith target '.centeringValue') (endsWith target '.spellShapingValue'))}}
+									{{dropdownOptions 'value' 'rating'}}
+								{{else}}
+									{{dropdownOptions 'boolean'}}
+								{{/if}}
+							{{/select}}
 						</select>
 					{{else}}
 						<select name="data.customEffects.{{@key}}.type" required>

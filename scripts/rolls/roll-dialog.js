@@ -672,10 +672,10 @@ export default class SR5_RollDialog extends Dialog {
     _addCenteringModifier(ev, html, dialogData){
         let value = ev.target.value;
         if (value === "true") {
-            this.dicePoolModifier.centering = dialogData.actor.data.magic.initiationGrade;
+            this.dicePoolModifier.centering = dialogData.actor.data.magic.metamagics.centeringValue.value;
             this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = dialogData.actor.data.magic.initiationGrade;
-            html.find('[name="dicePoolModCentering"]')[0].value = dialogData.actor.data.magic.initiationGrade;
+            dialogData.dicePoolMod.centering = dialogData.actor.data.magic.metamagics.centeringValue.value;
+            html.find('[name="dicePoolModCentering"]')[0].value = dialogData.actor.data.magic.metamagics.centeringValue.value;
         } else {
             this.dicePoolModifier.centering = 0;
             this.updateDicePoolValue(html);
@@ -724,8 +724,8 @@ export default class SR5_RollDialog extends Dialog {
             ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMin'));
             value = 0;
             html.find('[name="spellShaping"]')[0].value = 0;
-        } else if (-value > dialogData.actor.data.specialAttributes.magic.augmented.value){
-            value = -dialogData.actor.data.specialAttributes.magic.augmented.value;
+        } else if (-value > dialogData.actor.data.magic.metamagics.spellShapingValue.value){
+            value = -dialogData.actor.data.magic.metamagics.spellShapingValue.value;
             html.find('[name="spellShaping"]')[0].value = value;
             ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}));
         }
