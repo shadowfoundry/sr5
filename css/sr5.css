@@ -1297,6 +1297,13 @@ input[type=range]:focus::-ms-fill-upper {
   padding-left: 5px;
   padding-right: 5px;
 }
+#chat-log .message .SR-CardContent .SR-UlAssensing {
+  list-style: disc;
+  padding-left: 10px;
+}
+#chat-log .message .SR-CardContent .SR-ListAssensing {
+  display: list-item;
+}
 #chat-log .message .SR-CardButton {
   margin-top: 5px;
   font-family: "srfoundry_bold";
