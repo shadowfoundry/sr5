@@ -513,14 +513,17 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     // Reset Reputation
-    if (data.streetCred) {
-      data.streetCred.value = 0;
-      data.streetCred.modifiers = [];
-    }
+   
     if (data.notoriety) {
       data.notoriety.value = 0;
       data.notoriety.modifiers = [];
     }
+
+    if (data.streetCred) {
+      data.streetCred.value = 0;
+      data.streetCred.modifiers = [];
+    }
+
     if (data.publicAwareness) {
       data.publicAwareness.value = 0;
       data.publicAwareness.modifiers = [];
@@ -543,15 +546,19 @@ export class SR5_CharacterUtility extends Actor {
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
     let KarmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
-    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, false);
-  }
-
-  static updateStreetCred(actor) {
-    SR5_EntityHelpers.updateValue(actor.data.streetCred);
+    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, true);
   }
 
   static updateNotoriety(actor) {
     SR5_EntityHelpers.updateValue(actor.data.notoriety);
+    if (actor.data.notoriety.value < 0) {
+      SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.ReputationNotorietyNegative')}`, `${game.i18n.localize('SR5.ReputationNotoriety')}`, -actor.data.notoriety.value, false, true);
+      SR5_CharacterUtility.updateStreetCred(actor);    
+    }
+  }
+
+  static updateStreetCred(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.streetCred);
   }
 
   static updatePublicAwareness(actor) {
