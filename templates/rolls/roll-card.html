@@ -48,6 +48,10 @@
       {{#if test.limit}}
         {{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
       {{/if}}
+      <!--Assensing info-->
+      {{#if (eq typeSub 'assensing')}}
+        {{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html}}
+      {{/if}}
     </ul>
   </div>
 
