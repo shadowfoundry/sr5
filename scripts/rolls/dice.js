@@ -570,6 +570,7 @@ export class SR5_Dice {
 			case "defense":
 			case "resistance":
 			case "matrixSimpleDefense":
+			case "astralTracking":
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);

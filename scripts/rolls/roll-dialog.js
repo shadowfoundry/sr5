@@ -300,6 +300,14 @@ export default class SR5_RollDialog extends Dialog {
 
         //Add modifier for spell shaping metamagic
         html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData));
+
+        //Set extended test for Astral Traking
+        if (dialogData.type === "astralTracking"){
+            html.find('[name="extendedValue"]')[0].value = "true";
+            dialogData.extendedTest = true;
+            document.getElementById("interval").style.display = "block";
+            document.getElementById("extendedSpace").style.display = "none";
+        }
     }
 
     //Get Damage type, for astral combat
