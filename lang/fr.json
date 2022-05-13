@@ -221,6 +221,7 @@
   "SR5.AstralPlane"                           : "Plan astral",
   "SR5.AstralProjection"                      : "Projection astrale",
   "SR5.AstralTracking"                        : "Pistage astral",
+  "SR5.AstralTrackingTest"                    : "Test de Pistage astral",
   "SR5.AssensingResult1a"                     : "État général de santé du sujet (en bonne santé, blessé, malade…).",
   "SR5.AssensingResult1b"                     : "État général émotionnel ou impression du sujet (joyeux, triste, en colère, etc.).",
   "SR5.AssensingResult1c"                     : "Statut d’ordinaire ou d’Éveillé.",

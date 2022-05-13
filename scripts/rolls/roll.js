@@ -1471,7 +1471,17 @@ export class SR5_Roll {
                     hits: chatData.test.hits,
                 }
                 break;
+            case "astralTracking":
+                title = game.i18n.localize("SR5.AstralTrackingTest");
+                dicePool = actorData.magic.astralTracking.dicePool;
+                dicePoolComposition = actorData.magic.astralTracking.modifiers;
+                optionalData = {
+                    dicePoolComposition: dicePoolComposition,
+                    "switch.extended": true,
+                }
+                break;
             default:
+                SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
 
         let dialogData = {

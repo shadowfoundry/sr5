@@ -221,6 +221,7 @@
   "SR5.AstralPlane"                           : "Astral Plane",
   "SR5.AstralProjection"                      : "Astral Projection",
   "SR5.AstralTracking"                        : "Astral Tracking",
+  "SR5.AstralTrackingTest"                    : "Astral Tracking Test",
   "SR5.AssensingResult1a"                     : "The general state of the subject’s health (healthy, injured, ill, etc.).",
   "SR5.AssensingResult1b"                     : "The subject’s general emotional state or impression (happy, sad, angry, etc.).",
   "SR5.AssensingResult1c"                     : "Whether the subject is mundane or Awakened.",
