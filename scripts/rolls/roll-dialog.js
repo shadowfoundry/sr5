@@ -308,6 +308,17 @@ export default class SR5_RollDialog extends Dialog {
             document.getElementById("interval").style.display = "block";
             document.getElementById("extendedSpace").style.display = "none";
         }
+
+        //Calcul Mana Barrier DicePool
+        html.find('[name="manaBarrierRating"]').change(ev => this._calculManaBarrierDicePool(ev, html, dialogData));
+    }
+
+    //Calcul Mana Barrier DicePool
+    _calculManaBarrierDicePool(ev, html, dialogData){
+        let barrierRating = parseInt((html.find('[name="manaBarrierRating"]')[0].value || 1));
+        html.find('[name="baseDicePool"]')[0].value = barrierRating * 2;
+        this.data.data.dicePool = barrierRating * 2;
+        this.updateDicePoolValue(html);
     }
 
     //Get Damage type, for astral combat

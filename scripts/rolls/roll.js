@@ -19,6 +19,7 @@ export class SR5_Roll {
             testType = "nonOpposedTest",
             dicePool = 0,
             limit,
+            limitType,
             optionalData = {},
             matrixAction,
             resonanceAction,
@@ -868,7 +869,7 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.AttackWith")} ${item.name}`;
                 dicePool = itemData.weaponSkill.dicePool;
                 limit = itemData.accuracy.value;
-                let limitType = "accuracy";
+                limitType = "accuracy";
                 if (itemData.category === "grenade") {
                     limit = actorData.limits.physicalLimit.value;
                     limitType = "physicalLimit";
@@ -1475,9 +1476,29 @@ export class SR5_Roll {
                 title = game.i18n.localize("SR5.AstralTrackingTest");
                 dicePool = actorData.magic.astralTracking.dicePool;
                 dicePoolComposition = actorData.magic.astralTracking.modifiers;
+                limitType = "astral";
+                limit = actorData.limits.astralLimit.value;
                 optionalData = {
                     dicePoolComposition: dicePoolComposition,
                     "switch.extended": true,
+                }
+                break;
+            case "passThroughBarrier":
+                title = game.i18n.localize("SR5.PassThroughBarrierTest");
+                dicePool = actorData.magic.passThroughBarrier.dicePool;
+                dicePoolComposition = actorData.magic.passThroughBarrier.modifiers;
+                limitType = "astral";
+                limit = actorData.limits.astralLimit.value;
+                optionalData = {
+                    dicePoolComposition: dicePoolComposition,
+                }
+                break;
+            case "passThroughDefense":
+                title = game.i18n.localize("SR5.ManaBarrierResistance");
+                dicePool = 2;
+                optionalData = {
+                    hits: chatData.test.hits,
+                    manaBarrierRating: 1,
                 }
                 break;
             default:
