@@ -483,6 +483,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
     "systems/sr5/templates/rolls/rollDialogPartial/centering.html",
     "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
 
 
     /************************************************************************************* */
