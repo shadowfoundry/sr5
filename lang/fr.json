@@ -562,6 +562,7 @@
   "SR5.EdgeShort"                             : "CHC",
   "SR5.Edit"                                  : "Modifier",
   "SR5.EditResult"                            : "Modifier le nombre de succès obtenus",
+  "SR5.EffectApplied"                         : "Effet appliqué",
   "SR5.EffectLinkLockedConnection"            : "Connexion verrouillée",
   "SR5.EffectReduceAttack"                    : "Réduction d'Attaque",
   "SR5.EffectReduceDataProcessing"            : "Réduction de Traitement de Données",

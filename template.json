@@ -5936,7 +5936,8 @@
         "dicePool": 0,
         "base": 0,
         "modifiers": []
-      }
+      },
+      "targetOfEffect":[]
     },
     "itemAdeptPower": {
       "templates": [
