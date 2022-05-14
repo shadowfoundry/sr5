@@ -20,7 +20,7 @@
 				</div>
 				<div class="col-1">
 					{{#if owner}}
-					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemContact')}}" 
+					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemContact')}}"
 					  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemContact"><em class="fas fa-plus"></em></a>
 					</p>
@@ -31,7 +31,7 @@
 		{{#each actor.contacts}}
 		<li class="item" data-item-id="{{_id}}" draggable="true">
 			<div class="grid">
-				<div class="col-4 SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
+				<div class="col-4 deplie SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactName' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactNameMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="contact.{{_id}}.name" value="{{name}}" onfocus="this.select()">
