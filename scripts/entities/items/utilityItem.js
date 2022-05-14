@@ -744,6 +744,7 @@ export class SR5_UtilityItem extends Actor {
           }
           break;
         case "concealedQDHolster":
+          a.price = 275;
           if (a.isActive) SR5_EntityHelpers.updateModifier(weapon.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1);
           break;
         case "electronicFiring":
