@@ -523,7 +523,7 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     // Reset Reputation
-   
+
     if (data.notoriety) {
       data.notoriety.value = 0;
       data.notoriety.modifiers = [];
@@ -555,15 +555,16 @@ export class SR5_CharacterUtility extends Actor {
 
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
-    let KarmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
-    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, true);
+    let karmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
+    if (karmaGained > 9) SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(karmaGained/10), false, true);
   }
 
   static updateNotoriety(actor) {
     SR5_EntityHelpers.updateValue(actor.data.notoriety);
     if (actor.data.notoriety.value < 0) {
       SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.ReputationNotorietyNegative')}`, `${game.i18n.localize('SR5.ReputationNotoriety')}`, -actor.data.notoriety.value, false, true);
-      SR5_CharacterUtility.updateStreetCred(actor);    
+      SR5_CharacterUtility.updateStreetCred(actor);
+      actor.data.notoriety.value = 0;
     }
   }
 
@@ -2363,7 +2364,7 @@ export class SR5_CharacterUtility extends Actor {
   static updateCounterSpellPool(actor){
     let data = actor.data, lists = actor.lists, magic = data.magic, attributes = data.attributes, specialAttributes = data.specialAttributes, skills = data.skills;
     magic.counterSpellPool.base = skills.counterspelling.rating.value;
-    if (magic.metamagics.shielding) SR5_EntityHelpers.updateModifier(magic.counterSpellPool, `${game.i18n.localize('SR5.MetamagicShielding')}`, `${game.i18n.localize('SR5.Metamagic')}`, magic.initiationGrade); 
+    if (magic.metamagics.shielding) SR5_EntityHelpers.updateModifier(magic.counterSpellPool, `${game.i18n.localize('SR5.MetamagicShielding')}`, `${game.i18n.localize('SR5.Metamagic')}`, magic.initiationGrade);
     SR5_EntityHelpers.updateValue(magic.counterSpellPool);
   }
 
