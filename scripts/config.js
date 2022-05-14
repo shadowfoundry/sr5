@@ -23,7 +23,7 @@ SR5.characterPhysicalAttributes = {
   strength                  : "SR5.Strength",
 };
 
-// Metnal Attributes
+// Mental Attributes
 SR5.characterMentalAttributes = {
   willpower                 : "SR5.Willpower",
   logic                     : "SR5.Logic",
@@ -70,6 +70,7 @@ SR5.characterDefenses = {
 
 // Resistances
 SR5.characterResistances = {
+  astralDamage              : "SR5.AstralDamage",
   physicalDamage            : "SR5.Damage",
   crashDamage               : "SR5.CrashDamageResistance",
   directSpellMana           : "SR5.DirectSpellMana",
@@ -842,6 +843,9 @@ SR5.augmentationTypes = {
   bioware                   : "SR5.AugmentationTypeBioware",
   culturedBioware           : "SR5.AugmentationTypeCulturedBioware",
   cyberware                 : "SR5.AugmentationTypeCyberware",
+  genetech                  : "SR5.AugmentationTypeGenetech",
+  nanoware                  : "SR5.AugmentationTypeNanoware",
+  symbionts                 : "SR5.AugmentationTypeSymbionts",
 };
 
 // Catégories d'Augmentations
@@ -1089,6 +1093,12 @@ SR5.actionTypes = {
   special                   : "SR5.ActionTypeSpecial",
 };
 
+//Adept powers drain types
+SR5.adeptPowerDrainTypes = {
+  rating                    : "SR5.ItemRating",
+  magic                     : "SR5.Magic",
+}
+
 // Focus
 SR5.focusTypes = {
   alchemical                : "SR5.FocusAlchemical",
@@ -1143,6 +1153,14 @@ SR5.ritualDurations = {
 SR5.ritualDurationMultipliers = {
   force                  : "SR5.Force",
   netHits                : "SR5.NetHits",
+}
+
+//Metamagics
+SR5.metamagics = {
+  centering                : "SR5.MetamagicCentering",
+  quickening               : "SR5.MetamagicQuickening",
+  shielding                : "SR5.MetamagicShielding",
+  spellShaping             : "SR5.MetamagicSpellShaping",
 }
 
 //-----------------------------------//
@@ -1620,6 +1638,7 @@ SR5.spiritBasePowersbarren = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyEarth               : "SR5.SpiritPowerAllergyEarth",
 }
 
 SR5.spiritOptionalPowersbarren = {
@@ -1656,12 +1675,14 @@ SR5.spiritBasePowersblood = {
   energyDrain                : "SR5.SpiritPowerEnergyDrain",
   fear                       : "SR5.SpiritPowerFear",
   materialization            : "SR5.SpiritPowerMaterialization",
+  essenceLoss                : "SR5.SpiritPowerEssenceLoss",
 }
 
 SR5.spiritOptionalPowersblood = {
   concealment                : "SR5.SpiritPowerConcealment",
   confusion                  : "SR5.SpiritPowerConfusion",
   guard                      : "SR5.SpiritPowerGuard",
+  hemoragy                   : "SR5.SpiritPowerHemoragy",
   movement                   : "SR5.SpiritPowerMovement",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   noxiousBreath              : "SR5.SpiritPowerNoxiousBreath",
@@ -1695,6 +1716,7 @@ SR5.spiritBasePowersfire = {
   engulfFire                 : "SR5.SpiritPowerEngulfFire",
   materialization            : "SR5.SpiritPowerMaterialization",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyWater               : "SR5.SpiritPowerAllergyWater",
 }
 
 SR5.spiritOptionalPowersfire = {
@@ -1747,6 +1769,8 @@ SR5.spiritBasePowersinsectCaretaker = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   innateSpell                : "SR5.SpiritPowerInnateSpell",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectCaretaker = {
@@ -1763,6 +1787,8 @@ SR5.spiritBasePowersinsectNymph = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   innateSpell                : "SR5.SpiritPowerInnateSpell",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectNymph = {
@@ -1781,6 +1807,8 @@ SR5.spiritBasePowersinsectQueen = {
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
   wealth                     : "SR5.SpiritPowerWealth",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectQueen = {
@@ -1802,6 +1830,8 @@ SR5.spiritBasePowersinsectScout = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectScout = {
@@ -1819,6 +1849,8 @@ SR5.spiritBasePowersinsectSoldier = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectSoldier = {
@@ -1838,6 +1870,8 @@ SR5.spiritBasePowersinsectWorker = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectWorker = {
@@ -2046,6 +2080,8 @@ SR5.spiritBasePowersshedim = {
   paralyzingTouch            : "SR5.SpiritPowerParalyzingTouch",
   possession                 : "SR5.SpiritPowerPossession",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergySun                 : "SR5.SpiritPowerAllergySun",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersshedim = {
@@ -2073,6 +2109,8 @@ SR5.spiritBasePowersshedimMaster = {
   sapience                   : "SR5.SpiritPowerSapience",
   shadowCloak                : "SR5.SpiritPowerShadowCloak",
   spiritPact                 : "SR5.SpiritPowerSpiritPact",
+  allergySun                 : "SR5.SpiritPowerAllergySun",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersshedimMaster = {
@@ -2092,6 +2130,7 @@ SR5.spiritBasePowersludge = {
   mutagen                    : "SR5.SpiritPowerMutagen",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyWater               : "SR5.SpiritPowerAllergyWater",
 }
 
 SR5.spiritOptionalPowersludge = {
@@ -2128,6 +2167,7 @@ SR5.spiritBasePowerswater = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyFire                : "SR5.SpiritPowerAllergyFire",
 }
 
 SR5.spiritOptionalPowerswater = {
@@ -2173,6 +2213,7 @@ SR5.AllSpiritPowers = {
   enhancedSenses             : "SR5.SpiritPowerEnhancedSenses",
   fear                       : "SR5.SpiritPowerFear",
   guard                      : "SR5.SpiritPowerGuard",
+  hemoragy                   : "SR5.SpiritPowerHemoragy",
   hiveMind                   : "SR5.SpiritPowerHiveMind",
   immunity                   : "SR5.SpiritPowerImmunity",
   influence                  : "SR5.SpiritPowerInfluence",
@@ -2256,7 +2297,10 @@ SR5.effectTypes = {
   signalJammed              : "SR5.EffectSignalJammed",
   linkLock                  : "SR5.EffectLinkLockedConnection",
   itemComplexForm           : "ITEM.TypeItemcomplexform",
-  itemSpell                : "ITEM.TypeItemspell",
+  itemSpell                 : "ITEM.TypeItemspell",
+  itemAdeptPower            : "ITEM.TypeItemadeptpower",
+  itemPreparation           : "ITEM.TypeItempreparation",
+  itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
 }
 
@@ -2273,6 +2317,15 @@ SR5.specialProperties = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
+  hardenedArmor             : "SR5.HardenedArmor",
+  hardenedAstralArmor       : "SR5.HardenedAstralArmor",
+}
+
+SR5.specialPropertiesList = {
+  concentration             : "SR5.Concentration",
+  controlRig                : "SR5.ControlRig",
+  smartlink                 : "SR5.Smartlink",
+  damageReduction           : "SR5.DamageReduction",
 }
 
 SR5.transactionsTypes = {
@@ -2284,6 +2337,18 @@ SR5.fireType = {
   natural                   : "SR5.FireNatural",
   magical                   : "SR5.FireMagic",
   weapon                    : "SR5.FireWeapon",
+}
+
+SR5.hardenedArmorTypes = {
+  rating                    : "SR5.ItemRating",
+  essence                   : "SR5.Essence",
+  essenceX2                 : "SR5.EssenceX2",
+  body                      : "SR5.Body"
+}
+
+SR5.hardenedAstralArmorTypes = {
+  rating                    : "SR5.ItemRating",
+  willpower                 : "SR5.Willpower"
 }
 
 

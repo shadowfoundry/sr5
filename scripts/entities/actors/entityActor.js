@@ -322,6 +322,8 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateEssence(actor);
         SR5_CharacterUtility.updateSpecialAttributes(actor);
+        if (actor.data.isMaterializing) actor.data.specialProperties.hardenedArmorType = "essenceX2";
+        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
         SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateInitiativePhysical(actor);
@@ -354,10 +356,10 @@ export class SR5Actor extends Actor {
         break;
       case "actorPc":
       case "actorGrunt":
-        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateEssence(actor);
         SR5_CharacterUtility.updateSpecialAttributes(actor);
+        SR5_CharacterUtility.updateSpecialProperties(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
         SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateLimits(actor);
@@ -389,7 +391,7 @@ export class SR5Actor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    super.prepareEmbeddedDocuments();
+    //super.prepareEmbeddedDocuments();
 
     const actorData = this.data;
     const lists = SR5;
@@ -399,13 +401,8 @@ export class SR5Actor extends Actor {
       let iData = i.data.data;
       SR5_SystemHelpers.srLog(3, `Parsing '${i.type}' item named '${i.name}'`, i);
       switch (i.type) {
-        case "itemQuality":
-          if (Object.keys(iData.customEffects).length) {
-            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
-          }
-          break;
-
         case "itemGear":
+          i.prepareData();
           if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.gears[i.uuid] = i.name;
           if (iData.isActive && iData.wirelessTurnedOn) actorData.data.matrix.connectedObject.gears[i.id] = i.name;
           if (iData.isActive && Object.keys(iData.customEffects).length) {
@@ -414,15 +411,24 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemPower":
+          if (iData.isActive && Object.keys(iData.customEffects).length) {
+            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
+          }
+          break;
+
         case "itemMetamagic":
         case "itemEcho":
         case "itemMartialArt":
+        case "itemPreparation":
+        case "itemQuality":
+          i.prepareData();
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
           break;
 
         case "itemSpell":
+          i.prepareData();
           if (!iData.freeSustain && !iData.preparation) actorData.data.magic.spellList[i.id] = i.name;
           SR5_UtilityItem._handleSpell(i.data, actorData);
           if (iData.isActive && Object.keys(iData.customEffects)) {
@@ -430,13 +436,8 @@ export class SR5Actor extends Actor {
           }
           break;
 
-        case "itemPreparation":
-          if (iData.isActive && Object.keys(iData.customEffects)) {
-            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
-          }
-          break;
-
         case "itemArmor":
+          i.prepareData();
           let modifierType;
           SR5_UtilityItem._handleItemCapacity(iData);
           SR5_UtilityItem._handleItemPrice(iData);
@@ -456,6 +457,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemAugmentation":
+          i.prepareData();
           SR5_UtilityItem._handleAugmentation(iData, actorData);
           if (!iData.isAccessory) {
             SR5_EntityHelpers.updateModifier(actorData.data.essence, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, -iData.essenceCost.value);
@@ -469,19 +471,20 @@ export class SR5Actor extends Actor {
 
         case "itemAdeptPower":
           SR5_EntityHelpers.updateModifier(actorData.data.magic.powerPoints, i.name, `${game.i18n.localize(lists.itemTypes[i.type])}`, iData.powerPointsCost.value);
-          SR5_UtilityItem._handleAdeptPower(iData);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
           break;
 
         case "itemSpirit":
+          i.prepareData();
           SR5_UtilityItem._handleSpirit(iData);
           if (iData.isBounded) actorData.data.magic.boundedSpirit.current ++;
           if (iData.isActive) SR5_CharacterUtility._actorModifPossession(i, actorData);
           break;
 
         case "itemDevice":
+          i.prepareData();
           if (actorData.type === "actorPc" || actorData.type === "actorGrunt"){
             iData.conditionMonitors.matrix.value = Math.ceil(iData.deviceRating / 2) + 8;
             if (iData.isActive) {
@@ -492,7 +495,8 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemProgram":
-          SR5_SystemHelpers.srLog(3, 'program', actorData);
+          i.prepareData();
+          //SR5_SystemHelpers.srLog(3, 'program', actorData);
           if (actorData.type === "actorDrone" && actorData.data.controlMode !== "autopilot") iData.isActive = false;
           if (iData.type === "common" || iData.type === "hacking" || iData.type === "autosoft" || iData.type === "agent") {
             if (iData.isActive) {
@@ -508,6 +512,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemComplexForm":
+          i.prepareData();
           if (!iData.freeSustain) actorData.data.matrix.complexFormList[i.id] = i.name;
           SR5_UtilityItem._handleComplexForm(i, this);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
@@ -517,6 +522,7 @@ export class SR5Actor extends Actor {
 
         case "itemKarma":
         case "itemNuyen":
+          i.prepareData();
           let target;
           if (iData.amount && iData.type) {
             let resourceLabel = `${game.i18n.localize(lists.transactionsTypes[iData.type])} (${i.name})`;
@@ -551,7 +557,6 @@ export class SR5Actor extends Actor {
           let focusLabel = `${i.name} (${game.i18n.localize("SR5.Focus")})`;
           switch (iData.type) {
             case "alchemical":
-            case "weapon":
             case "banishing":
             case "masking":
             case "centering":
@@ -564,6 +569,13 @@ export class SR5Actor extends Actor {
             case "power":
             case "flexibleSignature":
             case "qi":
+              break;
+            case "weapon":
+                iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(i, this);
+                if (iData.linkedWeapon){
+                  let linkedWeapon = this.items.find(w => w.id === iData.linkedWeapon);
+                  iData.linkedWeaponName = linkedWeapon.name;
+                }
               break;
             case "sustaining":
               iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actorData);
@@ -586,6 +598,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemRitual":
+          i.prepareData();
           iData.spellChoices = SR5_UtilityItem._generateSpellList(iData, actorData);
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
@@ -593,12 +606,14 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemDrug":
+          i.prepareData();
           if ((iData.isActive || iData.wirelessTurnedOn) && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
           break;
 
         case "itemEffect":
+          i.prepareData();
           if (Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -606,22 +621,27 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemTradition":
+          i.prepareData();
           SR5_CharacterUtility.updateTradition(actorData, iData);
           break;
 
         case "itemSprite":
+          i.prepareData();
           if (iData.isRegistered) actorData.data.matrix.registeredSprite.current ++;
+          break;
+
+        case "itemLifestyle":
+        case "itemAmmunition":
+        case "itemSin":
+        case "itemVehicle":        
+          i.prepareData();
           break;
 
         case "itemLanguage":
         case "itemKnowledge":
         case "itemMark":
-        case "itemLifestyle":
-        case "itemSin":
-        case "itemVehicle":
         case "itemContact":
         case "itemCyberdeck":
-        case "itemAmmunition":
         case "itemSpritePower":
           break;
 
@@ -639,6 +659,7 @@ export class SR5Actor extends Actor {
   }
 
   updateItems(actor) {
+    //super.prepareEmbeddedDocuments();
     let actorData = actor.data;
     for (let i of actorData.items) {
       let iData = i.data.data;
@@ -661,7 +682,6 @@ export class SR5Actor extends Actor {
                 SR5_CharacterUtility.generateResonanceMatrix(i.data, actorData);
               }
               iData.pan.max = actorData.data.matrix.deviceRating * 3;
-              i.prepareData();
             }
           } else if (actorData.type === "actorDrone"){
             SR5_CharacterUtility.generateVehicleMatrix(actorData, i.data);
@@ -712,6 +732,7 @@ export class SR5Actor extends Actor {
         case "itemLanguage":
         case "itemPower":
         case "itemSpritePower":
+        case "itemAdeptPower":
           i.prepareData();
           break;
       }
@@ -1452,11 +1473,13 @@ export class SR5Actor extends Actor {
     for (let e of Object.values(itemData.data[effectType])){
       if (e.transfer) {
         let value, key, newData;
-        
+
         if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
         else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
         else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
+        else if (e.type === "rating") value = Math.floor(item.data.data.itemRating * (e.multiplier || 1));
 
+        //Handle heal effect
         if (e.target.includes("removeDamage")){
           key = e.target.replace('.removeDamage','');
           newData = this.data.data;
@@ -1468,6 +1491,7 @@ export class SR5Actor extends Actor {
           } else continue;
         }
 
+        //Handle non resisted damage
         if (e.target.includes("addDamage")){
           key = e.target.replace('.addDamage','');
           newData = this.data.data;
@@ -1577,6 +1601,7 @@ export class SR5Actor extends Actor {
         newItem = duplicate(item.data.data);
 
     if (newItem.duration === "sustained") newItem.isActive = true;
+    if (item.type === "itemAdeptPower") newItem.isActive = true;
     newItem.targetOfEffect.push(effectUuid);
     await item.update({"data": newItem});
   }

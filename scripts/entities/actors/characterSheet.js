@@ -149,7 +149,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemSpirit") spirits.push(i);
       else if (i.type === "itemDevice") cyberdecks.push(i);
       else if (i.type === "itemProgram") {
-        if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+        if (i.data.isActive === true || i.data.type === "agent" || this._shownInactiveMatrixPrograms) programs.push(i);
       }
       else if (i.type === "itemKarma") {
         if (i.data.type == "gain" && this._shownKarmaGains) karmas.push(i);

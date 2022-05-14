@@ -20,7 +20,7 @@
 				</div>
 				<div class="col-1">
 					{{#if owner}}
-					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemContact')}}" 
+					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemContact')}}"
 					  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemContact"><em class="fas fa-plus"></em></a>
 					</p>
@@ -34,18 +34,18 @@
 				<div class="col-4 deplie SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactName' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactNameMsg'}}">
-				  <p>{{name}}</p>	
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="contact.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</div>
 				<div class="col-4 SR-PaddingRight3 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactType' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactTypeMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="data.type" type="text"
-						class="edit-value" name="" value="{{data.type}}" onfocus="this.select()">
+						class="edit-value" name="contact.{{_id}}.type" value="{{data.type}}" onfocus="this.select()">
 				</div>
 				<div class="col-2 SR-PaddingRight3 SR-SelectCenter"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactMetatype' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactMetatypeMsg'}}">
-					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.metatype" name=""
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.metatype" name="contact.{{_id}}.metatype"
 						data-dtype="String">
 						{{#select data.metatype}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
@@ -61,13 +61,13 @@
 						  data-helpTitle="{{localize 'SR5.HELP_ContactLoyalty' key=name}}"
 				  		  data-helpMessage="{{localize 'SR5.HELP_ContactLoyaltyMsg'}}">
 							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.loyalty" type="text"
-								class="edit-value" name="" value="{{data.loyalty}}" onfocus="this.select()">
+								class="edit-value" name="contact.{{_id}}.loyalty" value="{{data.loyalty}}" onfocus="this.select()">
 						</div>
 						<div class="col-6 SR-PaddingRight3 SR-TextCenter"
 						  data-helpTitle="{{localize 'SR5.HELP_ContactConnection' key=name}}"
 				  		  data-helpMessage="{{localize 'SR5.HELP_ContactConnectionMsg'}}">
 							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.connection" type="text"
-								class="edit-value" name="" value="{{data.connection}}" onfocus="this.select()">
+								class="edit-value" name="contact.{{_id}}.connection" value="{{data.connection}}" onfocus="this.select()">
 						</div>
 					</div>
 				</div>

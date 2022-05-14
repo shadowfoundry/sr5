@@ -37,6 +37,12 @@ export class SR5Item extends Item {
         if (typeof data.accessory === "object") data.accessory = Object.values(data.accessory);
         if (data.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(data);
         if (data.ammunition.value > data.ammunition.max) data.ammunition.value = data.ammunition.max;
+        if (data.category === "meleeWeapon" && owner){
+          if (!data.isLinkedToFocus) SR5_UtilityItem._handleWeaponFocus(itemData, owner);
+          SR5_UtilityItem._checkIfWeaponIsFocus(this, owner);
+          if (!owner.data.visions.astral.isActive) data.isUsedAsFocus = false;
+        }
+        if (Object.keys(data.itemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
         SR5_UtilityItem._handleBow(itemData);
         SR5_UtilityItem._handleWeaponAccessory(data, owner);
         SR5_UtilityItem._handleWeaponAmmunition(data);
@@ -50,6 +56,9 @@ export class SR5Item extends Item {
         if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
+        break;
+      case "itemSpell":
+        if (data.quickening) data.freeSustain = true;
         break;
       case "itemAmmunition":
         SR5_UtilityItem._handleAmmoPrice(data);
@@ -125,13 +134,13 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemFocus":
-        SR5_UtilityItem._handleFocus(data);
+        SR5_UtilityItem._handleFocus(data);     
         break;
       case "itemSpirit":
         SR5_UtilityItem._handleSpirit(data);
         break;
       case "itemAdeptPower":
-        SR5_UtilityItem._handleAdeptPower(data);
+        SR5_UtilityItem._handleAdeptPower(data, owner);
         break;
       case "itemPower":
         if (owner) SR5_UtilityItem._handlePower(data, owner) 
@@ -255,6 +264,7 @@ export class SR5Item extends Item {
         break;
       case "itemPreparation":
       case "itemSpell":
+        tags.push(`${game.i18n.localize('SR5.SpellType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.spellTypes[data.type])}`);
         tags.push(game.i18n.localize(lists.spellCategories[data.category]));
         switch (data.category){
           case "combat":
@@ -285,7 +295,11 @@ export class SR5Item extends Item {
             break;
           default:
         }
-        if (this.data.type === "itemSpell") tags.push(game.i18n.localize(`SR5.SpellDrain`) + game.i18n.localize(`SR5.Colons`) + ` ${data.drainModifier}`);
+        if (this.data.type === "itemSpell") {
+          let plus = (data.drain.value <= 0 ? "" : "+");
+          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drain.value}`);
+          tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${data.drainValue.value}`);
+        }
         break;
       case "itemGear":
         if (data.marks.length){
@@ -305,6 +319,15 @@ export class SR5Item extends Item {
         if (data.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
         if (data.spell) tags.push(game.i18n.localize(`SR5.Spell`));
         tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[data.durationToPerform])}`);
+        break;
+      case "itemAdeptPower":
+        tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${data.powerPointsCost.value}`);
+        tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[data.actionType])}`);
+        break;
+      case "itemQuality":
+        tags.push(`${game.i18n.localize(lists.qualityTypes[data.type])}`);
+        if (data.itemRating !== 0) tags.push(`${game.i18n.localize('SR5.ItemRating')}${game.i18n.localize('SR5.Colons')} ${data.itemRating}`);
+        tags.push(`${game.i18n.localize('SR5.KarmaCost')}${game.i18n.localize('SR5.Colons')} ${data.karmaCost}`);
         break;
       default:
     }

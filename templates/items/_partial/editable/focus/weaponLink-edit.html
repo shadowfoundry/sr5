@@ -1,0 +1,15 @@
+{{#if (eq data.type 'weapon')}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.LinkedWeapon'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.linkedWeapon" data-dtype="String" required>
+        {{#select data.linkedWeapon}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each data.weaponChoices}}
+                <option value="{{id}}">{{name}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</li>
+{{/if}}

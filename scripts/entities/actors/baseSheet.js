@@ -486,6 +486,21 @@ export class ActorSheetSR5 extends ActorSheet {
       actorData.matrix.attributesCollection.value2isSet = false;
       actorData.matrix.attributesCollection.value3isSet = false;
       actorData.matrix.attributesCollection.value4isSet = false;
+
+      //Remove item from PAN
+      if (item.data.pan.content.length){
+        for (let obj of item.data.pan.content){
+          if (!game.user?.isGM) {
+            SR5_SocketHandler.emitForGM("deleteItemFromPan", {
+              targetItem: obj.uuid,
+              actorId: this.actor.id,
+            });
+          } else {
+            SR5Actor.deleteItemFromPan(obj.uuid, this.actor.id);
+          }
+        }
+        item.data.pan.content = [];
+      }
     }
 
     //Special case for armor
@@ -509,6 +524,13 @@ export class ActorSheetSR5 extends ActorSheet {
       setProperty(item, "data.isActive", value);
     }
 
+    if (item.type === "itemAdeptPower" && !item.data.isActive && item.data.hasDrain && !item.data.needRoll){
+      let rollData = {
+        drainValue:  item.data.drainValue.value,
+      }
+      this.actor.rollTest("drainCard", null, rollData);
+    }
+
     if (item.data.accessory?.length){
       for (let a of item.data.accessory){
         let accessory = itemList.find(i => i._id === a._id);
@@ -528,7 +550,7 @@ export class ActorSheetSR5 extends ActorSheet {
     }
 
     //Delete effects linked to sustaining
-    if ((item.type === "itemComplexForm" || item.type === "itemSpell") && target === "data.isActive"){
+    if ((item.type === "itemComplexForm" || item.type === "itemSpell" || item.type === "itemAdeptPower" || item.type === "itemPower") && target === "data.isActive"){
       if (!item.data.isActive && item.data.targetOfEffect.length) {
         for (let e of item.data.targetOfEffect){
           if (!game.user?.isGM) {

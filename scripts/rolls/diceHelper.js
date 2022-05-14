@@ -23,7 +23,7 @@ export class SR5_DiceHelper {
             if (newItem.data.ammunition.value < 0) newItem.data.ammunition.value = 0;           
         }
         //update force and hits
-        if (newItem.type === "itemSpell" || newItem.type === "itemPreparation") {
+        if (newItem.type === "itemSpell" || newItem.type === "itemPreparation" || newItem.type === "itemAdeptPower") {
             newItem.data.hits = cardData.test.hits;
             newItem.data.force = cardData.force;
         }
@@ -51,7 +51,7 @@ export class SR5_DiceHelper {
     static async createItemResistance(message) {
         let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
         actor = actor.toObject(false);
-        let dicePool, targetItem, type, title;
+        let dicePool, targetItem, type, title, dicePoolComposition;
 
         let cardData = {
             button: {},
@@ -115,7 +115,12 @@ export class SR5_DiceHelper {
         if (message.type === "resonanceAction" && message.typeSub === "killComplexForm"){
             targetItem = await fromUuid(message.targetEffect);
             dicePool = targetItem.data.data.threaderResonance + targetItem.data.data.level;
+            dicePoolComposition = ([
+                {source: game.i18n.localize("SR5.ThreaderResonance"), value: targetItem.data.data.threaderResonance},
+                {source: game.i18n.localize("SR5.Level"), value: targetItem.data.data.level},
+            ]);
             cardData = mergeObject(cardData, {
+                dicePoolComposition: dicePoolComposition,
                 targetEffect: message.targetEffect,
                 hits: message.test.hits,
                 type: "complexFormResistance",
@@ -127,7 +132,16 @@ export class SR5_DiceHelper {
         if (message.typeSub === "counterspelling"){
             targetItem = await fromUuid(message.targetEffect);
             dicePool = targetItem.data.data.casterMagic + targetItem.data.data.force;
+            dicePoolComposition = ([
+                {source: game.i18n.localize("SR5.CasterMagic"), value: targetItem.data.data.casterMagic},
+                {source: game.i18n.localize("SR5.SpellForce"), value: targetItem.data.data.force},
+            ]);
+            if (targetItem.data.data.quickening) {
+                dicePool += targetItem.data.data.karmaSpent;
+                dicePoolComposition.push({source: game.i18n.localize("SR5.MetamagicQuickening"), value: targetItem.data.data.karmaSpent});
+            }
             cardData = mergeObject(cardData, {
+                dicePoolComposition: dicePoolComposition,
                 targetEffect: message.targetEffect,
                 hits: message.test.hits,
                 type: "spellResistance",
@@ -141,14 +155,23 @@ export class SR5_DiceHelper {
             if (targetItem.type === "itemFocus") {
                 dicePool = targetItem.parent.data.data.specialAttributes.magic.augmented.value + targetItem.data.data.itemRating;
                 type = "enchantmentResistance";
-                title = `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetItem.name})`
+                title = `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetItem.name})`;
+                dicePoolComposition = ([
+                    {source: game.i18n.localize("SR5.CasterMagic"), value: targetItem.parent.data.data.specialAttributes.magic.augmented.value},
+                    {source: game.i18n.localize("SR5.ItemRating"), value: targetItem.data.data.itemRating},
+                ]);
             }
             if (targetItem.type === "itemPreparation") {
                 dicePool = targetItem.parent.data.data.specialAttributes.magic.augmented.value + targetItem.data.data.force;
                 type = "disjointingResistance";
                 title = `${game.i18n.localize("SR5.DisjointingResistance")} (${targetItem.name})`;
+                dicePoolComposition = ([
+                    {source: game.i18n.localize("SR5.CasterMagic"), value: targetItem.parent.data.data.specialAttributes.magic.augmented.value},
+                    {source: game.i18n.localize("SR5.ItemRating"), value: targetItem.data.data.itemRating},
+                ]);
             }
             cardData = mergeObject(cardData, {
+                dicePoolComposition: dicePoolComposition,
                 targetEffect: message.targetEffect,
                 hits: message.test.hits,
                 type: type,

@@ -259,6 +259,11 @@
       },
       "characterResistancesTemplate": {
         "resistances": {
+          "astralDamage": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "physicalDamage": {
             "dicePool": 0,
             "base": 0,
@@ -1477,7 +1482,7 @@
             "linkedAttribute": "willpower",
             "limit": {
               "value": 0,
-              "base": "weaponAccuracy",
+              "base": "astralLimit",
               "modifiers": []
             },
             "skillGroup": "",
@@ -3032,6 +3037,20 @@
             "value": 0,
             "base": 0,
             "modifiers": []
+          },
+          "hardenedArmorType": "",
+          "hardenedArmorRating": 0,
+          "hardenedArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "hardenedAstralArmorType": "",
+          "hardenedAstralArmorRating": 0,
+          "hardenedAstralArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },
@@ -4091,7 +4110,23 @@
             "current": 0,
             "max": 0
           },
-          "spellList":{}
+          "spellList":{},
+          "metamagics": {
+            "centering": false,
+            "centeringValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "quickening": false,
+            "shielding": false,
+            "spellShaping": false,
+            "spellShapingValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -5586,7 +5621,9 @@
           "paralysis": false
         },
         "penetration": 0
-      }
+      },
+      "isLinkedToFocus": false,
+      "isUsedAsFocus": false
     },
     "itemArmor": {
       "templates": [
@@ -5821,7 +5858,10 @@
       "type": "",
       "subType": "",
       "spellChoices":[],
-      "sustainedSpell": ""
+      "weaponChoices":[],
+      "sustainedSpell": "",
+      "linkedWeapon":"",
+      "linkedWeaponName":""
     },
     "itemKarma": {
       "templates": [
@@ -5896,7 +5936,8 @@
         "dicePool": 0,
         "base": 0,
         "modifiers": []
-      }
+      },
+      "targetOfEffect":[]
     },
     "itemAdeptPower": {
       "templates": [
@@ -5912,6 +5953,23 @@
         "base":0,
         "modifiers": [],
         "isRatingBased": false
+      },
+      "needRoll": false,
+      "testFirstAttribute": "",
+      "testSecondAttribute": "",
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "targetOfEffect":[],
+      "hasDrain": false,
+      "drainType": "",
+      "drainMultiplier": 1,
+      "drainValue": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
       }
     },
     "itemProgram": {
@@ -5957,7 +6015,11 @@
       "range": "",
       "duration": "",
       "type": "",
-      "drainModifier": 0,
+      "drain": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "drainValue": {
         "value": 0,
         "base": 0,
@@ -5978,10 +6040,13 @@
       "healthEssence": false,
       "freeSustain": false,
       "preparation": false,
+      "fetish": false,
       "targetOfEffect":[],
       "resisted": false,
       "defenseFirstAttribute": "",
-      "defenseSecondAttribute": ""
+      "defenseSecondAttribute": "",
+      "quickening": false,
+      "karmaSpent": 0
     },
     "itemPreparation": {
       "templates": [
