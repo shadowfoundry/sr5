@@ -529,9 +529,9 @@ export class SR5_Dice {
 			case "skillDicePool":
 				SR5_Dice.addSkillInfoToCard(cardData, author);
 				break;
-			case "powerDefense":
+			/*case "powerDefense":
 				SR5_Dice.addPowerDefenseInfoToCard(cardData, author);
-				break;
+				break;*/
 			case "resonanceAction":
 				SR5_Dice.addResonanceActionInfoToCard(cardData, author);
 				break;
@@ -562,6 +562,7 @@ export class SR5_Dice {
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":
+			case "powerDefense":				
 				SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
 				break;
 			case "objectResistance":
@@ -1392,7 +1393,7 @@ export class SR5_Dice {
 				label = game.i18n.localize("SR5.ApplyEffect");
 				labelEnd = game.i18n.localize("SR5.SpellResisted");
 				key = "applyEffectAuto";
-				if (!cardData.switch?.transferEffect && !cardData.switch?.transferEffectOnItem) applyEffect = false
+				if (!cardData.switch?.transferEffect && !cardData.switch?.transferEffectOnItem) applyEffect = false;
 				if (!cardData.originalMessage?.flags?.sr5data?.spellArea) {
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("updateChatButton", {
@@ -1402,12 +1403,24 @@ export class SR5_Dice {
 					} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistSpell");
 				}
 				break;
+			case "powerDefense":
+				cardData.netHits = cardData.hits - cardData.test.hits;
+				if (cardData.switch?.transferEffect){
+					label = game.i18n.localize("SR5.ApplyEffect");
+					key = "applyEffectAuto";
+				} else {
+					label = `${game.i18n.localize("SR5.DefenseFailure")}`;			
+					applyEffect = false;
+				}
+				labelEnd = game.i18n.localize("SR5.SuccessfulDefense");
+				break;
 			default :
 		}
 
-		if (cardData.test.hits >= cardData.hits)cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+		if (cardData.test.hits >= cardData.hits) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
 		else {
 			if (applyEffect) cardData.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
+			else cardData.buttons[key] = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", label);
 		}
 
 		if (cardData.drainValue > 0) cardData.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.drainValue})`);

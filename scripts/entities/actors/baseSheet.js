@@ -550,7 +550,7 @@ export class ActorSheetSR5 extends ActorSheet {
     }
 
     //Delete effects linked to sustaining
-    if ((item.type === "itemComplexForm" || item.type === "itemSpell" || item.type === "itemAdeptPower") && target === "data.isActive"){
+    if ((item.type === "itemComplexForm" || item.type === "itemSpell" || item.type === "itemAdeptPower" || item.type === "itemPower") && target === "data.isActive"){
       if (!item.data.isActive && item.data.targetOfEffect.length) {
         for (let e of item.data.targetOfEffect){
           if (!game.user?.isGM) {

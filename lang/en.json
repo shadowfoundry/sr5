@@ -562,6 +562,7 @@
   "SR5.EdgeShort"                             : "EDG",
   "SR5.Edit"                                  : "Edit",
   "SR5.EditResult"                            : "Change the number of hits",
+  "SR5.EffectApplied"                         : "Effect applied",
   "SR5.EffectLinkLockedConnection"            : "Link-locked connection",
   "SR5.EffectReduceAttack"                    : "Attack reduction",
   "SR5.EffectReduceDataProcessing"            : "Data processing reduction",

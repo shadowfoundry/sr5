@@ -1351,6 +1351,33 @@ export class SR5_Roll {
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                     dicePoolComposition: dicePoolComposition,
                 }
+
+                if (chatData.switch?.transferEffect){
+                    optionalData = mergeObject(optionalData, {
+                        "switch.transferEffect": true,
+                    });
+
+                    let powerItem = await fromUuid(chatData.itemUuid);
+                    let powerData = powerItem.data.data;
+                    //Check if an effect is transferable on taget actor and give the necessary infos
+                    for (let e of Object.values(powerData.customEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": powerItem.uuid,
+                                "switch.transferEffect": true,
+                            });
+                        }
+                    }
+                    //Check if an effect is transferable on target item and give the necessary infos
+                    for (let e of Object.values(powerData.itemEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": powerItem.uuid,
+                                "switch.transferEffectOnItem": true,
+                            });
+                        }
+                    }
+                }
                 break;
             
             case "spritePower":

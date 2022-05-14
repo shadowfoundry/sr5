@@ -2300,6 +2300,7 @@ SR5.effectTypes = {
   itemSpell                 : "ITEM.TypeItemspell",
   itemAdeptPower            : "ITEM.TypeItemadeptpower",
   itemPreparation           : "ITEM.TypeItempreparation",
+  itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
 }
 
