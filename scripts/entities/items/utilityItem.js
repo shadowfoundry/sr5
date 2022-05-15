@@ -1687,6 +1687,17 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(lifeStyle.neighborhood,0,lifeStyle.comforts.max);
     SR5_EntityHelpers.updateValue(lifeStyle.point);
 
+    if (lifeStyle.neighborhood.value == "0") lifeStyle.neighborhood.zone = "Z";
+    if (lifeStyle.neighborhood.value == "1") lifeStyle.neighborhood.zone = "E";
+    if (lifeStyle.neighborhood.value == "2") lifeStyle.neighborhood.zone = "D";
+    if (lifeStyle.neighborhood.value == "3") lifeStyle.neighborhood.zone = "C";
+    if (lifeStyle.neighborhood.value == "4") lifeStyle.neighborhood.zone = "B";
+    if (lifeStyle.neighborhood.value == "5") lifeStyle.neighborhood.zone = "A";
+    if (lifeStyle.neighborhood.value == "6") lifeStyle.neighborhood.zone = "AA";
+    if (lifeStyle.neighborhood.value == "7") lifeStyle.neighborhood.zone = "AAA";
+         
+    
+
   }
 
   ////////////////////// VEHICULES  ///////////////////////

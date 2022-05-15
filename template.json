@@ -6122,6 +6122,7 @@
         "value": 0,
         "base": 0,
         "max": 0,
+        "zone": "",
         "modifiers": []
       },
       "point": {

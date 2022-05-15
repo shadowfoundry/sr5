@@ -325,7 +325,7 @@ export class SR5Item extends Item {
         tags.push(
           `${game.i18n.localize('SR5.LifestyleComforts')}${game.i18n.localize('SR5.Colons')} ${data.comforts.value}`,
           `${game.i18n.localize('SR5.LifestyleSecurity')}${game.i18n.localize('SR5.Colons')} ${data.security.value}`,
-          `${game.i18n.localize('SR5.LifestyleNeighborhood')}${game.i18n.localize('SR5.Colons')} ${data.neighborhood.value}`,
+          `${game.i18n.localize('SR5.LifestyleNeighborhood')}${game.i18n.localize('SR5.Colons')} ${data.neighborhood.value} (${data.neighborhood.zone})`,
         );
         if (data.options) {
           for (let option of data.options){
