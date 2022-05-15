@@ -1340,7 +1340,7 @@ export class SR5_UtilityItem extends Actor {
 
     let priceMultiplier = 1;
     for (let option of lifeStyle.options) {
-      switch (option){
+      switch (option.name){
         case "specialWorkArea":
           SR5_EntityHelpers.updateModifier(lifeStyle.price, 'specialWorkArea', 'option', 1000);
           break;
@@ -1541,8 +1541,16 @@ export class SR5_UtilityItem extends Actor {
             SR5_EntityHelpers.updateModifier(lifeStyle.point, 'wZone', 'option', 1);
           break;
         default:
-          SR5_SystemHelpers.srLog(1, `Unknown '${option}' option in _handleLifeStyle()`);
+          SR5_SystemHelpers.srLog(1, `Unknown '${option.name}' option in _handleLifeStyle()`);
       }
+      
+    if (option.name){
+      //Get the game info and put it in the array
+      let nameString = option.name.charAt(0).toUpperCase() + option.name.slice(1);
+      let gameEffectString = 'SR5.LifeStyleOption'+ `${nameString}` + '_GE';
+      option.gameEffects = game.i18n.localize(gameEffectString);
+      }
+
     }
 
     SR5_EntityHelpers.updateValue(lifeStyle.comforts,lifeStyle.comforts.base,lifeStyle.comforts.max);
