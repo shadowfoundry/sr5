@@ -6097,6 +6097,7 @@
         "templateBoughtOrSold"
       ],
       "type": "",
+      "level": 0,
       "rent": {
         "duration": 0,
         "bought": false

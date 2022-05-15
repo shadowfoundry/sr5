@@ -426,6 +426,15 @@ SR5.lifestyleTypes = {
   commercial                : "SR5.LifestyleCommercial",
 };
 
+// Lifestyle Options Types
+SR5.lifestyleOptionsTypes = {
+  asset                   : "SR5.LifestyleOptionsTypesAsset",
+  service                 : "SR5.LifestyleOptionsTypesService",
+  negativeOption          : "SR5.LifestyleOptionsTypesNegativeOption",
+  positiveOption          : "SR5.LifestyleOptionsTypesPositiveOption",
+  outing                  : "SR5.LifestyleOptionsTypesOuting",
+};
+
 // Lifestyle Options (all)
 SR5.lifestyleOptions = {
   difficultToFind           : "SR5.LifeStyleOptionDifficultToFind",
