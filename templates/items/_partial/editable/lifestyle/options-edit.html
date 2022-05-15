@@ -1,5 +1,7 @@
 <li class="grid SR-EnTete">
-    <div class="col-11 SR-TextUppercase">{{localize 'SR5.LifeStyleOptions'}}</div>
+    <div class="col-7 SR-TextUppercase">{{localize 'SR5.LifeStyleOptions'}}</div>
+    <div class="col-2 SR-TextUppercase">{{localize 'SR5.LifestyleTypeShort'}}</div>
+    <div class="col-2 SR-TextUppercase">{{localize 'SR5.Level'}}</div>
     <div class="col-1 SR-TextUppercase SR-TextRight">
         {{#if owner}}
             <a a class="subItem" data-title="{{localize 'SR5.Add'}}" data-binding="options" data-action="add"><em class="fas fa-plus"></em></a>
@@ -99,10 +101,10 @@
         {{/select}}
         </select>
     </div>
-    <div class="col-2 SR-TextCenter">
+    <div class="col-2">
         <p>{{findTranslation "lifestyleOptionsTypes" type}}</p>
     </div>
-    <div class="col-2 SR-TextCenter">
+    <div class="col-2">
         <p>{{findTranslation "lifestyleTypes" level}}</p>
     </div>
     <div class="col-1 SR-TextRight">
