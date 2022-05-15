@@ -67,7 +67,7 @@
         <select name="data.options.{{@i}}.name" required>
         {{#select name}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each ../lists.lifestyleOptionsLuxury}}
+            {{#each ../lists.lifestyleOptions}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}
         {{/select}}

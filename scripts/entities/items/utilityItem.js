@@ -1244,6 +1244,7 @@ export class SR5_UtilityItem extends Actor {
     switch (lifeStyle.type) {
       case "luxury":
         lifeStyle.price.base = 100000;
+        lifeStyle.priceMultiplier = 1;
         lifeStyle.comforts.base = 5;
         lifeStyle.comforts.max = 7;
         lifeStyle.security.base = 5;
@@ -1255,6 +1256,7 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "high":
         lifeStyle.price.base = 10000;
+        lifeStyle.priceMultiplier = 1;
         lifeStyle.comforts.base = 4;
         lifeStyle.comforts.max = 6;
         lifeStyle.security.base = 4;
@@ -1266,6 +1268,7 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "medium":
         lifeStyle.price.base = 5000;
+        lifeStyle.priceMultiplier = 1;
         lifeStyle.comforts.base = 3;
         lifeStyle.comforts.max = 4;
         lifeStyle.security.base = 3;
@@ -1277,6 +1280,7 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "low":
         lifeStyle.price.base = 2000;
+        lifeStyle.priceMultiplier = 1;
         lifeStyle.comforts.base = 2;
         lifeStyle.comforts.max = 3;
         lifeStyle.security.base = 2;
@@ -1288,6 +1292,7 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "squatter":
         lifeStyle.price.base = 500;
+        lifeStyle.priceMultiplier = 1;
         lifeStyle.comforts.base = 1;
         lifeStyle.comforts.max = 2;
         lifeStyle.security.base = 1;
@@ -1299,6 +1304,7 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "streets":
         lifeStyle.price.base = 0;
+        lifeStyle.priceMultiplier = 1;
         lifeStyle.comforts.base = 0;
         lifeStyle.comforts.max = 1;
         lifeStyle.security.base = 0;
@@ -1310,6 +1316,7 @@ export class SR5_UtilityItem extends Actor {
         break;
       case "boltHole":
           lifeStyle.price.base = 1000;
+          lifeStyle.priceMultiplier = 1;
           lifeStyle.comforts.base = 1;
           lifeStyle.comforts.max = 2;
           lifeStyle.security.base = 1;
@@ -1317,13 +1324,13 @@ export class SR5_UtilityItem extends Actor {
           lifeStyle.neighborhood.base = 1;
           lifeStyle.neighborhood.max = 4;
           lifeStyle.point.base = 4;
-          if (lifeStyle.options.indexOf("notAHome") == -1) {
-            lifeStyle.options.push("notAHome");
-          }
           lifeStyle.level = 0;
+          if (lifeStyle.options.map(c => c.name).indexOf("notAHome") == -1) lifeStyle.options.push({name: "notAHome"});
+          
         break;
       case "traveler":
           lifeStyle.price.base = 3000;
+          lifeStyle.priceMultiplier = 1;
           lifeStyle.comforts.base = 2;
           lifeStyle.comforts.max = 4;
           lifeStyle.security.base = 2;
@@ -1334,6 +1341,7 @@ export class SR5_UtilityItem extends Actor {
       break;
       case "commercial":
           lifeStyle.price.base = 8000;
+          lifeStyle.priceMultiplier = 1;
           lifeStyle.comforts.base = 3;
           lifeStyle.comforts.max = 4;
           lifeStyle.security.base = 2;
@@ -1356,20 +1364,20 @@ export class SR5_UtilityItem extends Actor {
           option.type = 'positiveOption';
           break;
         case "cramped":
-          priceMultiplier -= 0.1;
+          SR5_EntityHelpers.updateModifier(lifeStyle.price, 'cramped', 'option', -lifeStyle.price.base * 0.1);
           option.type = 'negativeOption';
           break;
         case "difficultToFind":
-          priceMultiplier += 0.1;
+          SR5_EntityHelpers.updateModifier(lifeStyle.price, 'difficultToFind', 'option', lifeStyle.price.base * 0.1);
           SR5_EntityHelpers.updateModifier(lifeStyle.point, 'difficultToFind', 'option', 1);
           option.type = 'negativeOption';
           break;
         case "extraSecure":
-          priceMultiplier += 0.2;
+          SR5_EntityHelpers.updateModifier(lifeStyle.price, 'extraSecure', 'option', lifeStyle.price.base * 0.2);
           option.type = 'positiveOption';
           break;
         case "dangerousArea":
-          priceMultiplier -= 0.2;
+          SR5_EntityHelpers.updateModifier(lifeStyle.price, 'dangerousArea', 'option', -lifeStyle.price.base * 0.2);
           option.type = 'negativeOption';
           break;
         case "armory":
@@ -1634,6 +1642,39 @@ export class SR5_UtilityItem extends Actor {
             SR5_EntityHelpers.updateModifier(lifeStyle.point, 'wZone', 'option', 1);
             option.type = 'negativeOption';
           break;
+        case "addComforts":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'addComforts', 'option', lifeStyle.price.base * 0.1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.comforts, 'addComforts', 'option', 1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addComforts', 'option', -1);
+            option.type = 'modification';
+          break;
+        case "addSecurity":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'addSecurity', 'option', lifeStyle.price.base * 0.1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.security, 'addSecurity', 'option', 1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addSecurity', 'option', -1);
+            option.type = 'modification';
+          break;
+        case "addNeighborhood":
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'addNeighborhood', 'option', lifeStyle.price.base * 0.1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, 'addNeighborhood', 'option', 1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addNeighborhood', 'option', -1);
+            option.type = 'modification';
+          break;
+        case "removeComforts":
+            SR5_EntityHelpers.updateModifier(lifeStyle.comforts, 'addComforts', 'option', -1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addComforts', 'option', 1);
+            option.type = 'modification';
+          break;
+        case "removeSecurity":
+            SR5_EntityHelpers.updateModifier(lifeStyle.security, 'addSecurity', 'option', -1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addSecurity', 'option', 1);
+            option.type = 'modification';
+          break;
+        case "removeNeighborhood":
+            SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, 'addNeighborhood', 'option', -1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addNeighborhood', 'option', 1);
+            option.type = 'modification';
+          break;
         default:
           SR5_SystemHelpers.srLog(1, `Unknown '${option.name}' option in _handleLifeStyle()`);
       }
@@ -1646,10 +1687,10 @@ export class SR5_UtilityItem extends Actor {
       }
 
     }
-
-    SR5_EntityHelpers.updateValue(lifeStyle.comforts,lifeStyle.comforts.base,lifeStyle.comforts.max);
-    SR5_EntityHelpers.updateValue(lifeStyle.security);
-    SR5_EntityHelpers.updateValue(lifeStyle.neighborhood);
+    
+    SR5_EntityHelpers.updateValue(lifeStyle.comforts,0,lifeStyle.comforts.max);
+    SR5_EntityHelpers.updateValue(lifeStyle.security,0,lifeStyle.comforts.max);
+    SR5_EntityHelpers.updateValue(lifeStyle.neighborhood,0,lifeStyle.comforts.max);
     SR5_EntityHelpers.updateValue(lifeStyle.point);
 
   }

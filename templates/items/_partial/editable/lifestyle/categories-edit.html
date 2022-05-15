@@ -1,16 +1,16 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestyleComforts'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.comforts.value" value="{{data.comforts.value}}" placeholder="" /></div> <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.comforts.max}})</span>
+    <div class="col-1">{{valueOrDash data.comforts.value}}</div> <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.comforts.max}})</span>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestyleSecurity'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.security.value" value="{{data.security.value}}" placeholder="" /></div>  <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.security.max}})</span>
+    <div class="col-1">{{data.security.value}}</div>  <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.security.max}})</span>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestyleNeighborhood'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.neighborhood.value" value="{{data.neighborhood.value}}" placeholder="" /></div>  <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.neighborhood.max}})</span>
+    <div class="col-1">{{data.neighborhood.value}}</div>  <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.neighborhood.max}})</span>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestylePoint'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.point.value" value="{{data.point.value}}" placeholder="" /></div> <span class="col-auto SR-GreyColor">(base {{valueOrDash data.point.base}})</span>
+    <div class="col-1">{{data.point.value}}</div> <span class="col-auto SR-GreyColor">(base {{valueOrDash data.point.base}})</span>
 </li>

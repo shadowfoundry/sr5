@@ -329,8 +329,10 @@ export class SR5Item extends Item {
         );
         if (data.options) {
           for (let option of data.options){
+            if(option.type != "modification") {
             options.push(`${option.name}`);
             tags.push([game.i18n.localize(lists.lifestyleOptions[option.name]), option.gameEffects]);
+            }
           }
         }
         break;
