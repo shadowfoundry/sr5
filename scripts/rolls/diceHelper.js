@@ -12,7 +12,7 @@ export class SR5_DiceHelper {
 
     // Update an item after a roll
     static async srDicesUpdateItem(cardData, actor) {
-        let item = actor.getEmbeddedDocument("Item", cardData.item._id);
+        let item = actor.getEmbeddedDocument("Item", cardData.itemId);
         let newItem = duplicate(item.data);
         let firedAmmo = cardData.firedAmmo;
         

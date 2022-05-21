@@ -55,8 +55,8 @@ export class SR5_Dice {
 			dices: rollJSON.terms[0].results,
 			limit: limit,
 			rollMode: rollMode,
-			r: rollJSON,
-			originalRoll: roll
+			//r: rollJSON,
+			//originalRoll: roll
 		};
 
 		return rollResult;
@@ -165,7 +165,7 @@ export class SR5_Dice {
 	 * @param {Object} cardData - Informations to add to chatMessage
 	 */
 	static async prepareRollDialog(dialogData, cardData, edge = false, cancel = true) {
-		let actor = dialogData.actor;
+		let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.actorId);
 		let realActor = SR5_EntityHelpers.getRealActorFromID(dialogData.speakerId);
 		let template = "systems/sr5/templates/rolls/roll-dialog.html";
 
@@ -313,7 +313,7 @@ export class SR5_Dice {
 						SR5_Dice.renderRollCard(cardData);
 
 						//Update items according to roll
-						if (dialogData.item) SR5_DiceHelper.srDicesUpdateItem(cardData, realActor);
+						if (dialogData.itemId) SR5_DiceHelper.srDicesUpdateItem(cardData, realActor);
 
 						//Update spirit if spirit aid is used
 						if (dialogData.dicePoolMod.spiritAid > 0){
@@ -351,17 +351,19 @@ export class SR5_Dice {
 	}
 
 	static async renderRollCard(cardData) {
+		let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
+		let actorData = actor.data;
 		//Add button to edit result
 		if (game.user.isGM) cardData.editResult = true;
 
 		//Handle Edge use
-		if (cardData.actor.type === "actorPc") {
-			if (cardData.actor.data.conditionMonitors.edge.actual.value >= cardData.actor.data.specialAttributes.edge.augmented.value) {
+		if (actorData.type === "actorPc") {
+			if (actorData.data.conditionMonitors.edge.actual.value >= actorData.data.specialAttributes.edge.augmented.value) {
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
-		} else if (cardData.actor.type === "actorSpirit" && cardData.actor.data.creatorId){
-			let creator = SR5_EntityHelpers.getRealActorFromID(cardData.actor.data.creatorId);
+		} else if (actorData.type === "actorSpirit" && actorData.data.creatorId){
+			let creator = SR5_EntityHelpers.getRealActorFromID(actorData.data.creatorId);
 			if (creator.data.data.conditionMonitors.edge.actual.value >= creator.data.data.specialAttributes.edge.augmented.value){
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
@@ -420,7 +422,7 @@ export class SR5_Dice {
 		borderColor: userActive.color,
 		};
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		//Handle Dice so Nice
 		await SR5_Dice.showDiceSoNice(
 		cardData.test.originalRoll,
@@ -594,7 +596,7 @@ export class SR5_Dice {
 			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard",label);
 		} else if (cardData.test.hits > 0) {
 			if (cardData.typeSub === "rangedWeapon") {
-				cardData.ammoType = cardData.item.data.ammunition.type;
+				//cardData.ammoType = cardData.item.data.ammunition.type;
 				cardData.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseRangedWeapon",game.i18n.localize("SR5.Defend"));
 			} else if (cardData.typeSub === "meleeWeapon") {
 				cardData.buttons.defenseMeleeWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseMeleeWeapon",game.i18n.localize("SR5.Defend"));
@@ -652,10 +654,15 @@ export class SR5_Dice {
 
 	static async addResistanceInfoToCard(cardData, author){
 		//Remove Resist chat button from previous chat message, if necessary
-		let prevData = cardData.originalMessage?.flags?.sr5data;
+		let originalMessage, prevData;
+		if (cardData.originalMessage){
+			originalMessage = game.messages.get(cardData.originalMessage);
+			prevData = originalMessage.data?.flags?.sr5data;
+			console.log(prevData);
+		}
 		if (prevData?.type === "spell") {
-			if (prevData.item.data.range !== "area") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
-		} else if (prevData?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+			if (prevData.spellRange !== "area") SR5_RollMessage.updateChatButton(originalMessage.data, "resistanceCard");
+		} else if (prevData?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(originalMessage.data, "resistanceCard");
 
 		//Add automatic succes for Hardened Armor.
 		if ((author.data.specialProperties?.hardenedArmor.value > 0) && (cardData.damageSource !== "spell")) {
@@ -719,7 +726,7 @@ export class SR5_Dice {
 			}
 			
 			//Handle spell Area
-			if (cardData.item.data.range === "area"){
+			if (cardData.spellRange === "area"){
 				cardData.spellArea = cardData.force + (cardData.spellAreaMod || 0);
 				if (cardData.item.data.category === "detection") {
 					if (cardData.item.data.spellAreaExtended === true) cardData.spellArea = cardData.force * cardData.actorMagic * 10;

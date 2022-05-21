@@ -104,7 +104,7 @@ export class SR5_Roll {
             else backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
         }
 
-        if (chatData) originalMessage = chatData.originalMessage
+        if (chatData) originalMessage = chatData.originalMessage._id;
         //Reagents
         if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
 
@@ -117,6 +117,9 @@ export class SR5_Roll {
                 dicePool = actorData.attributes[rollKey]?.augmented.value;
                 if (dicePool === undefined) dicePool = actorData.specialAttributes[rollKey].augmented.value;
                 optionalData = {
+                    "lists.characterAttributes": actor.data.lists.characterAttributes,
+                    "lists.vehicleAttributes": actor.data.lists.vehicleAttributes,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
                     "switch.attribute": true,
                     "switch.penalty": true,
                     "switch.extended": canBeExtended,
@@ -132,6 +135,7 @@ export class SR5_Roll {
                 optionalData = {
                     "switch.specialization": true,
                     "switch.extended": canBeExtended,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
                     dicePoolComposition: itemData.modifiers,
                 }
                 break;
@@ -170,7 +174,12 @@ export class SR5_Roll {
                     case "banishing":
                     case "summoning":
                     case "disenchanting":
-                        optionalData = mergeObject(optionalData, {actorMagic: actorData.specialAttributes.magic.augmented.value,});
+                        optionalData = mergeObject(optionalData, {
+                            actorMagic: actorData.specialAttributes.magic.augmented.value,
+                            actorTradition: actorData.magic.tradition,
+                            elements: actorData.magic.elements,
+                            "lists.spiritTypes": actor.data.lists.spiritTypes,
+                        });
                         canBeExtended = false;
                         break;
                     default:
@@ -179,6 +188,8 @@ export class SR5_Roll {
 
                 optionalData = mergeObject(optionalData, {
                     "switch.extended": canBeExtended,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
+                    "lists.perceptionTypes": actor.data.lists.perceptionTypes,
                     "switch.specialization": true,
                     "switch.canUseReagents": canUseReagents,
                     limitType: skill.limit.base,
@@ -254,6 +265,7 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         damageValue: actorData.magic.astralDamage.value,
                         damageValueBase: actorData.magic.astralDamage.value,
+                        "lists.damageTypes": actor.data.lists.damageTypes,
                         "switch.extended": false,
                         "switch.chooseDamageType": true,
                     });
@@ -590,6 +602,7 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: matrixAction.test.modifiers,
                     rulesMatrixGrid: rulesMatrixGrid,
+                    "lists.gridTypes": actor.data.lists.gridTypes,
                 });
                 
                 if (typeSub === "dataSpike"){
@@ -675,6 +688,7 @@ export class SR5_Roll {
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                     dicePoolComposition: resonanceAction.test.modifiers,
                     actorResonance: actorData.specialAttributes.resonance.augmented.value,
+                    "lists.spriteTypes": actor.data.lists.spriteTypes,
                 }
 
                 if (game.user.targets.size && (typeSub === "killComplexForm" || typeSub === "decompileSprite" || typeSub === "registerSprite")){
@@ -939,8 +953,22 @@ export class SR5_Roll {
                     incomingPA: itemData.armorPenetration.value,
                     targetRange: rangeValue,
                     rc: recoilCompensation,
+                    actorRecoil: actorData.recoilCompensation.value,
+                    actorRecoilCumulative: actor.data.flags.sr5.cumulativeRecoil,
+                    ammoType: itemData.ammunition.type,
+                    ammoValue: itemData.ammunition.value,
+                    ammoMax: itemData.ammunition.max,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     dicePoolComposition: itemData.weaponSkill.modifiers,
+                    "firingMode.singleShot": itemData.firingMode.singleShot,
+                    "firingMode.semiAutomatic": itemData.firingMode.semiAutomatic,
+                    "firingMode.burstFire": itemData.firingMode.burstFire,
+                    "firingMode.fullyAutomatic": itemData.firingMode.fullyAutomatic,
+                    "range.short": itemData.range.short.value,
+                    "range.medium": itemData.range.medium.value,
+                    "range.long": itemData.range.long.value,
+                    "range.extreme": itemData.range.extreme.value,
+                    weaponRecoil: itemData.recoilCompensation.value,
                 });
                 break;
 
@@ -977,6 +1005,7 @@ export class SR5_Roll {
                     spellType: itemData.type,
                     spellCategory: itemData.category,
                     spellResisted: itemData.resisted,
+                    spellRange: itemData.range,
                     limitType: "force",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
@@ -1207,6 +1236,7 @@ export class SR5_Roll {
                     "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: actorData.matrix.resonanceActions.threadComplexForm.test.modifiers,
                     rulesMatrixGrid: rulesMatrixGrid,
+                    "lists.gridTypes": actor.data.lists.gridTypes,
                 }
 
                 if (actorData.matrix.userGrid === "public"){
@@ -1402,7 +1432,10 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.SensorTargeting")}`;
                 dicePool = actorData.skills.perception.test.dicePool;
                 limit = actorData.skills.perception.limit.value;
-                optionalData = {dicePoolComposition: actorData.skills.perception.test.modifiers,};
+                optionalData = {
+                    dicePoolComposition: actorData.skills.perception.test.modifiers,
+                    "lists.targetSignature": actor.data.lists.targetSignature,
+                };
                 break;
 
             case "activeSensorDefense":
@@ -1508,6 +1541,7 @@ export class SR5_Roll {
                 optionalData = {
                     dicePoolComposition: dicePoolComposition,
                     "switch.extended": true,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
                 }
                 break;
             case "passThroughBarrier":
@@ -1532,10 +1566,12 @@ export class SR5_Roll {
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
 
+        console.log(actor);
         let dialogData = {
             title: title,
-            actor: actor.toObject(false),
-            lists: actor.data.lists,
+            actorId: actor.id,
+            actorType: actor.type,
+            //lists: actor.data.lists,
             speakerActor: speakerActor,
             speakerId: speakerId,
             speakerImg: speakerImg,
@@ -1551,8 +1587,9 @@ export class SR5_Roll {
         };
 
         if (item) {
+            console.log(item);
             dialogData = mergeObject(dialogData, {
-                item: item.toObject(false),
+                itemId: item.id,
             });
         }
 

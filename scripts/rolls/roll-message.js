@@ -397,7 +397,7 @@ export class SR5_RollMessage {
     //Update the stat of a chatMessage button
     static async updateChatButton(message, buttonToUpdate){
         if (buttonToUpdate === undefined) return;
-
+console.log(message);
         //Delete useless buttons
         message = game.messages.get(message._id);
         let messageData = duplicate(message.data.flags.sr5data);
