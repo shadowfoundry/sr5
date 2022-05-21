@@ -215,8 +215,10 @@ export class SR5Item extends Item {
           game.i18n.localize(lists.augmentationTypes[data.type]),
           game.i18n.localize(lists.augmentationCategories[data.category]),
           game.i18n.localize(lists.augmentationGrades[data.grade]),
-          game.i18n.localize("SR5.ItemRating") + ` ${data.itemRating}`,
         );
+        if (data.itemRating > 0) {
+          tags.push(game.i18n.localize("SR5.ItemRating") + ` ${data.itemRating}`);
+        }
         if (data.marks.length){
           for (let m of data.marks){
             tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
