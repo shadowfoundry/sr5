@@ -844,7 +844,9 @@ SR5.augmentationTypes = {
   culturedBioware           : "SR5.AugmentationTypeCulturedBioware",
   cyberware                 : "SR5.AugmentationTypeCyberware",
   genetech                  : "SR5.AugmentationTypeGenetech",
-  nanoware                  : "SR5.AugmentationTypeNanoware",
+  nanocyber                 : "SR5.AugmentationTypeNanocyber",
+  hardNanoware              : "SR5.AugmentationTypeHardNanoware",
+  softNanoware              : "SR5.AugmentationTypeSoftNanoware",
   symbionts                 : "SR5.AugmentationTypeSymbionts",
 };
 
