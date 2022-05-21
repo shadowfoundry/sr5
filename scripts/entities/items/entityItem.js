@@ -197,6 +197,7 @@ export class SR5Item extends Item {
     let tags =[];
     let accessories =[];
     let options =[];
+    let license =[];
 
     data.description = data.description || "";
     data.description = TextEditor.enrichHTML(data.description, htmlOptions);
@@ -336,12 +337,21 @@ export class SR5Item extends Item {
           }
         }
         break;
+      case "itemSin":
+        if (data.license) {
+          for (let l of data.license){
+            license.push(`${l.name}`);
+            tags.push(`${l.name} ${l.rating}`);
+          }
+        }
+        break;
       default:
     }
 
     data.properties = tags.filter(p => !!p);
     data.accessories = accessories.filter(p => !!p);
     data.options = options.filter(p => !!p);
+    data.license = license.filter(p => !!p);
     return data;
   }
 
