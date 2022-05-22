@@ -104,7 +104,7 @@ export class SR5_Roll {
             else backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
         }
 
-        if (chatData) originalMessage = chatData.originalMessage._id;
+        if (chatData) originalMessage = chatData.originalMessage;
         //Reagents
         if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
 
@@ -309,13 +309,11 @@ export class SR5_Roll {
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
 
                 //handle distance between defenser and explosive device
-                if (chatData.item?.data.category === "grenade" 
-                 || chatData.item?.data.type === "grenadeLauncher" 
-                 || chatData.item?.data.type === "missileLauncher"){
-                    let grenadePosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.item._id);          
+                if (chatData.isGrenade){
+                    let grenadePosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.itemId);          
                     let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor);
                     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition);
-                    let modToDamage = distance * (chatData.item.data.blast.damageFallOff || 0);
+                    let modToDamage = distance * (chatData.damageFallOff || 0);
                     chatData.damageValue = chatData.damageValueBase + modToDamage;
                     if (chatData.damageValue <= 0) {
                         ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
@@ -432,7 +430,7 @@ export class SR5_Roll {
                             damageType: damageType,
                             damageValueBase: chatData.damageValue,
                         }
-                        if (chatData.button.defenderDoBiofeedbackDamage){
+                        if (chatData.buttons.defenderDoBiofeedbackDamage){
                             optionalData = mergeObject(optionalData, {
                                 defenderDoBiofeedbackDamage: true,
                             });
@@ -556,7 +554,7 @@ export class SR5_Roll {
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     mark: chatData?.mark,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
-                    matrixTargetItem: deck.toObject(false),
+                    matrixTargetItemUuid: deck.uuid,
                     dicePoolComposition: dicePoolComposition,
                 }
                 break;
@@ -638,10 +636,10 @@ export class SR5_Roll {
                         let panMasterDefense = panMaster.data.data.matrix.actions[rollKey].defense.dicePool;
                         dicePool = Math.max(targetItem.data.data.deviceRating * 2, panMasterDefense);
                     }
-                    optionalData = mergeObject(optionalData, {matrixTargetItem: targetItem.toObject(false),});  
+                    optionalData = mergeObject(optionalData, {matrixTargetItemUuid: targetItem.uuid,});  
                 } else {
                     let deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
-                    optionalData = mergeObject(optionalData, {matrixTargetItem: deck.toObject(false),});
+                    optionalData = mergeObject(optionalData, {matrixTargetItemUuid: deck.uuid,});
                 }
 
                 optionalData = mergeObject(optionalData, {
@@ -658,12 +656,15 @@ export class SR5_Roll {
             case "matrixResistance":
                 title = `${game.i18n.localize("SR5.TakeOnDamageMatrix")} (${chatData.matrixDamageValue})`;
                 dicePool = actorData.matrix.resistances[rollKey].dicePool;
-                if (chatData.matrixTargetItem && chatData.matrixTargetItem?.data?.type !== "baseDevice" && chatData.matrixTargetItem?.data?.type !== "livingPersona" && chatData.matrixTargetItem?.data?.type !== "headcase"){ //check this: 
-                    title = `${chatData.matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
-                    dicePool = chatData.matrixTargetItem.data.deviceRating * 2;
-                    optionalData = mergeObject(optionalData, {
-                        matrixTargetItem: chatData.matrixTargetItem,
-                    }); 
+                if (chatData.matrixTargetItemUuid){
+                    let matrixTargetItem = await fromUuid(chatData.matrixTargetItemUuid);
+                    if (matrixTargetItem.data.data.type !== "baseDevice" && matrixTargetItem.data.data.type !== "livingPersona" && matrixTargetItem.data.data.type !== "headcase"){ 
+                        title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
+                        dicePool = matrixTargetItem.data.data.deviceRating * 2;
+                        optionalData = mergeObject(optionalData, {
+                            matrixTargetItemUuid: chatData.matrixTargetItemUuid,
+                        }); 
+                    }
                 }
 
                 optionalData = mergeObject(optionalData, {
@@ -918,6 +919,8 @@ export class SR5_Roll {
                         target = SR5_SystemHelpers.getTemplateItemPosition(entity.id); 
                         optionalData = mergeObject(optionalData, {
                             "templateRemove": true,
+                            "isGrenade": true,
+                            "damageFallOff": itemData.blast.damageFallOff,
                         });
                     }
                     // Calcul distance between Attacker and Target
@@ -1523,6 +1526,7 @@ export class SR5_Roll {
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
                     hits: chatData.test.hits,
+                    dicePoolComposition: dicePoolComposition,
                 }
                 break;
             case "objectResistance":
@@ -1566,10 +1570,9 @@ export class SR5_Roll {
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
 
-        console.log(actor);
         let dialogData = {
             title: title,
-            actorId: actor.id,
+            actorId: speakerId,
             actorType: actor.type,
             //lists: actor.data.lists,
             speakerActor: speakerActor,
@@ -1587,7 +1590,6 @@ export class SR5_Roll {
         };
 
         if (item) {
-            console.log(item);
             dialogData = mergeObject(dialogData, {
                 itemId: item.id,
             });

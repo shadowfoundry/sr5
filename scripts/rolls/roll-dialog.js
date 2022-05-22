@@ -67,7 +67,9 @@ export default class SR5_RollDialog extends Dialog {
         let noiseValue = 0,
             noiseRangeMod = 0,
             sceneNoise = 0,
-            noiseReduction = 0;
+            noiseReduction = 0,
+            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+
         if (html.find('[name="matrixRange"]')[0].value === 'wired') {
             $(html).find(".hideMatrixNoise").hide();
             if(game.settings.get("sr5", "sr5MatrixGridRules")){
@@ -88,7 +90,7 @@ export default class SR5_RollDialog extends Dialog {
                 html.find('[name="publicGridMod"]')[0].value = -2;
             }
             sceneNoise = this.data.data.matrixNoiseScene;
-            noiseReduction = this.data.data.actor.data.matrix.attributes.noiseReduction.value;
+            noiseReduction = actor.data.data.matrix.attributes.noiseReduction.value;
             if (noiseReduction > (-noiseRangeMod - sceneNoise)) noiseReduction = (-noiseRangeMod - sceneNoise);
             if ((noiseRangeMod + sceneNoise) === 0) noiseReduction = 0;
             noiseValue = noiseRangeMod + sceneNoise + noiseReduction;
@@ -109,22 +111,22 @@ export default class SR5_RollDialog extends Dialog {
     }
 
     calculRecoil(html){
-        let firingModeValue;
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
-        console.log(actor);
-        let item = actor.items.find(i => i.id === this.data.data.itemId);
-        console.log(item);
+        let firingModeValue,
+            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            item = actor.items.find(i => i.id === this.data.data.itemId);
+
         if (html.find('[name="firingMode"]')[0].value === "SS"){
             firingModeValue = 0;
             $(html).find(".hideBulletsRecoil").hide();
         } else firingModeValue = SR5_DiceHelper.convertModeToBullet(html.find('[name="firingMode"]')[0].value);
+
         this.data.data.firedAmmo = firingModeValue;
         html.find('[name="recoilBullets"]')[0].value = firingModeValue;
         html.find('[name="recoilCumulative"]')[0].value = actor.data.flags.sr5?.cumulativeRecoil || 0;
         if (item.data.data.recoilCompensation.value < 1) $(html).find(".hideWeaponRecoil").hide();
         if (actor.data.flags.sr5?.cumulativeRecoil < 1) $(html).find(".hideCumulativeRecoil").hide();
-        let recoil = this.data.data.rc;
-        let modifiedRecoil = recoil - firingModeValue;
+
+        let modifiedRecoil = this.data.data.rc - firingModeValue;
         if (modifiedRecoil > 0) modifiedRecoil = 0;
         return modifiedRecoil || 0;
     }

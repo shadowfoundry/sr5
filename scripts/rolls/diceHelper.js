@@ -49,19 +49,16 @@ export class SR5_DiceHelper {
     * @param {Object} message - The origin message
     */
     static async createItemResistance(message) {
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
-        actor = actor.toObject(false);
         let dicePool, targetItem, type, title, dicePoolComposition;
 
         let cardData = {
-            button: {},
-            actor: actor,
+            actorId: message.ownerAuthor,
             ownerAuthor: message.ownerAuthor,    
             hits: message.hits,
             speakerId: message.speakerId,
             speakerActor: message.speakerActor,
             speakerImg: message.speakerImg,
-            originalMessage: message.originalMessage,
+            originalMessage: message.originalMessage._id,
         };
 
         //Spirit resistance
@@ -90,7 +87,7 @@ export class SR5_DiceHelper {
         //Preparation resistance
         if (message.type === "preparationFormula"){
             cardData = mergeObject(cardData, {
-                item: message.item,
+                itemId: message.itemId,
                 force: message.force,
                 preparationTrigger : message.preparationTrigger,
                 type: "preparationResistance",
@@ -102,7 +99,7 @@ export class SR5_DiceHelper {
         //Ritual resistance
         if (message.type === "ritual"){
             cardData = mergeObject(cardData, {
-                item: message.item,
+                itemId: message.itemId,
                 force: message.force,
                 reagentsSpent : message.reagentsSpent,
                 type: "ritualResistance",
@@ -182,7 +179,7 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.ownerAuthor);
         SR5_Dice.renderRollCard(cardData);
     }
 
@@ -418,7 +415,7 @@ export class SR5_DiceHelper {
             existingMark = false,
             item;
 
-        if (targetItem) item = targetActor.data.items.find((i) => i.data._id === targetItem._id);
+        if (targetItem) item = await fromUuid(targetItem);
         else item = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
         
         let itemToMark = duplicate(item.data.data);
@@ -475,8 +472,9 @@ export class SR5_DiceHelper {
 
     //Add mark to pan Master of the item
     static async markPanMaster(itemToMark, attackerID, mark){
+        let panMaster = SR5_EntityHelpers.getRealActorFromID(itemToMark.panMaster);
         let masterDevice = panMaster.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
-        await SR5_DiceHelper.markItem(itemToMark.panMaster, attackerID, mark, masterDevice.toObject(false));
+        await SR5_DiceHelper.markItem(itemToMark.panMaster, attackerID, mark, masterDevice.uuid);
     }
 
     //Socket for adding marks to pan Master of the item
@@ -574,14 +572,11 @@ export class SR5_DiceHelper {
    * @param {Object} messageData - Message data
    * @param {Object} attacker - Actor who do the damage
    */
-    static applyDamageToDecK(targetActor, messageData, defender) {
+    static async applyDamageToDecK(targetActor, messageData, defender) {
         let damageValue = messageData.matrixDamageValue;
         let targetItem;
-        if (messageData.matrixTargetItem && !defender){
-            targetItem = targetActor.items.find((item) => item.id === messageData.matrixTargetItem._id);
-        } else {
-            targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
-        }
+        if (messageData.matrixTargetItemUuid) targetItem = await fromUuid(messageData.matrixTargetItemUuid);
+        if (!targetItem) targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.data.data.isActive);
         
         let newItem = duplicate(targetItem.data);
         if (targetActor.data.data.matrix.programs.virtualMachine.isActive) damageValue += 1;
@@ -607,11 +602,12 @@ export class SR5_DiceHelper {
         let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
             attackerData = attacker?.data.data,
             damage = cardData.matrixDamageValueBase,
-            mark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, cardData.originalActionAuthor);
+            item = await fromUuid(cardData.matrixTargetItemUuid),
+            mark = await SR5_DiceHelper.findMarkValue(item.data.data, cardData.originalActionAuthor);
 
         if (attacker.type === "actorDevice"){
             if (attacker.data.data.matrix.deviceType = "ice"){
-                mark = await SR5_DiceHelper.findMarkValue(cardData.matrixTargetItem.data, attacker.id);
+                mark = await SR5_DiceHelper.findMarkValue(item.data.data, attacker.id);
             }
         }
         cardData.matrixDamageMod = {};
@@ -624,7 +620,7 @@ export class SR5_DiceHelper {
             cardData.matrixDamageMod.muggerIsActive = true;
         }
         //Guard program
-        if (defender.data.matrix.programs.guard.isActive) {
+        if (defender.data.data.matrix.programs.guard.isActive) {
             damage = cardData.matrixDamageValueBase + netHits + mark;
             cardData.matrixDamageMod.guardIsActive = true;
             cardData.matrixDamageMod.markDamage = mark;
@@ -645,6 +641,10 @@ export class SR5_DiceHelper {
 
     //Handle grenade scatter
     static async rollScatter(message){
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.actorId);
+        let item = actor.items.find(i => i.id === message.itemId);
+        let itemData = item.data.data;
+
         if (!canvas.scene){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
@@ -652,16 +652,16 @@ export class SR5_DiceHelper {
         let distanceMod = message.test.hits;
         let gridUnit = canvas.scene.data.grid;
     
-        let template = canvas.scene.data.templates.find((t) => t.data.flags.item === message.item._id);
+        let template = canvas.scene.data.templates.find((t) => t.data.flags.item === message.itemId);
         if (template === undefined){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
             return;
         }
     
         let distanceDice = 1;
-        if (message.item.data.aerodynamic) distanceDice = 2;
-        if (message.item.data.ammunition.type){
-            switch(message.item.data.ammunition.type){
+        if (itemData.aerodynamic) distanceDice = 2;
+        if (itemData.ammunition.type){
+            switch(itemData.ammunition.type){
                 case "fragmentationRocket":
                 case "highlyExplosiveRocket":
                 case "antivehicleRocket":
@@ -840,7 +840,7 @@ export class SR5_DiceHelper {
                 target.createEmbeddedDocuments("Item", [effect]);
                 break;
             case "iceScramble":
-                if (messageData.actor.data.matrix.userMode !== "ar"){
+                if (target.data.data.matrix.userMode !== "ar"){
                     messageData.damageResistanceType = "dumpshock";
                     target.rollTest("resistanceCard", null, messageData);
                 }
@@ -967,8 +967,7 @@ export class SR5_DiceHelper {
             type: "jackOutDefense",
             title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${message.test.hits})`,
             dicePool: dicePool, 
-            button: {},
-            actor: actor,
+            actorId: message.originalActionAuthor,
             originalActionAuthor: message.originalActionAuthor,
             itemEffectID: itemEffectID,   
             hits: message.test.hits,
@@ -980,7 +979,7 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionAuthor);
         SR5_Dice.renderRollCard(cardData);
     }
 
@@ -1071,8 +1070,7 @@ export class SR5_DiceHelper {
             type: "overwatchResistance",
             title: `${game.i18n.localize("SR5.OverwatchResistance")} (${message.test.hits})`,
             dicePool: dicePool, 
-            button: {},
-            actor: actor,
+            actorId: message.originalActionAuthor,
             originalActionAuthor: message.originalActionAuthor, 
             hits: message.test.hits,
             speakerId: message.speakerId,
@@ -1083,7 +1081,7 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.actor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionAuthor);
         SR5_Dice.renderRollCard(cardData);
     }
 

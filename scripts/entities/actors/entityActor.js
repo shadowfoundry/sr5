@@ -1473,7 +1473,6 @@ export class SR5Actor extends Actor {
     for (let e of Object.values(itemData.data[effectType])){
       if (e.transfer) {
         let value, key, newData;
-
         if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
         else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
         else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
@@ -1512,8 +1511,8 @@ export class SR5Actor extends Actor {
           "data.target": targetName,
           "data.value": value,
           "data.type": itemData.type,
-          "data.ownerID": data.actor._id,
-          "data.ownerName": data.actor.name,
+          "data.ownerID": data.actorId,
+          "data.ownerName": data.speakerActor,
           "data.ownerItem": data.itemUuid,
           "data.duration": 0,
           "data.durationType": "sustained",
@@ -1558,12 +1557,12 @@ export class SR5Actor extends Actor {
 
         if (!game.user?.isGM) {
           SR5_SocketHandler.emitForGM("linkEffectToSource", {
-            actorID: data.actor._id,
+            actorID: data.actorId,
             targetItem: data.itemUuid,
             effectUuid: effect.uuid,
           });
         } else {
-          await SR5Actor.linkEffectToSource(data.actor._id, data.itemUuid, effect.uuid);
+          await SR5Actor.linkEffectToSource(data.actorId, data.itemUuid, effect.uuid);
         }
 
         //If effect is on Item, update it

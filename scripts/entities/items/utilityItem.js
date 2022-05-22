@@ -956,6 +956,9 @@ export class SR5_UtilityItem extends Actor {
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
     }
+
+    if (typeof weapon.accessory === "object") weapon.accessory = Object.values(weapon.accessory);
+
     for (let a of weapon.accessory) {
       switch (a.name) {
         case "flashLightInfrared":
