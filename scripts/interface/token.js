@@ -56,8 +56,6 @@ export class SR5Token extends Token {
 
     /** @override to change effect position, border and background*/
     async _drawEffect(src, i, bg, w, tint) {
-        bg.beginFill(0,0);
-        bg.lineStyle(0, 0);
         let tex = await loadTexture(src, {fallback: 'icons/svg/hazard.svg'});
         let icon = this.hud.effects.addChild(new PIXI.Sprite(tex));
         w = w*0.8; // Modif
@@ -66,7 +64,7 @@ export class SR5Token extends Token {
         icon.x = Math.floor(i / nr) * w + 3; //modif
         icon.y = (i % nr) * w + 9; //Modif
         if ( tint ) icon.tint = tint;
-        bg.drawRoundedRect(icon.x + 1, icon.y + 1, w - 1, w - 1, 2);
+        bg.drawRoundedRect(icon.x + 1, icon.y + 1, w - 2, w - 2, 2);
     }
 
     /** @override to add custom texture **/

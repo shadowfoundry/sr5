@@ -310,7 +310,7 @@ export class SR5_Dice {
 						await SR5_Dice.srDicesAddInfoToCard(cardData, actor.id);
 
 						// Return roll result and card info to chat message.
-						SR5_Dice.renderRollCard(cardData);
+						await SR5_Dice.renderRollCard(cardData);
 
 						//Update items according to roll
 						if (dialogData.itemId) SR5_DiceHelper.srDicesUpdateItem(cardData, actor);
@@ -351,7 +351,8 @@ export class SR5_Dice {
 	}
 
 	static async renderRollCard(cardData) {
-		let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
+		console.log(cardData);
+		let actor = await SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
 		let actorData = actor.data;
 		//Add button to edit result
 		if (game.user.isGM) cardData.editResult = true;
@@ -363,7 +364,7 @@ export class SR5_Dice {
 				cardData.pushLimitUsed = true;
 			}
 		} else if (actorData.type === "actorSpirit" && actorData.data.creatorId){
-			let creator = SR5_EntityHelpers.getRealActorFromID(actorData.data.creatorId);
+			let creator = await SR5_EntityHelpers.getRealActorFromID(actorData.data.creatorId);
 			if (creator.data.data.conditionMonitors.edge.actual.value >= creator.data.data.specialAttributes.edge.augmented.value){
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
@@ -474,18 +475,18 @@ export class SR5_Dice {
 
 		switch (cardData.type) {
 			case "attack":
-				SR5_Dice.addAttackInfoToCard(cardData);
+				await SR5_Dice.addAttackInfoToCard(cardData);
 				break;
 			case "defenseCard":
-				SR5_Dice.addDefenseInfoToCard(cardData, actorId);
+				await SR5_Dice.addDefenseInfoToCard(cardData, actorId);
 				break;
 			case "resistanceCard":
-				SR5_Dice.addResistanceInfoToCard(cardData, actorId);
+				await SR5_Dice.addResistanceInfoToCard(cardData, actorId);
 				break;
 			case "spell":
 			case "preparation":
 			case "adeptPower":
-				SR5_Dice.addSpellInfoToCard(cardData);
+				await SR5_Dice.addSpellInfoToCard(cardData);
 				break;
 			case "activeSensorTargeting":
 			case "preparationFormula":
@@ -495,28 +496,28 @@ export class SR5_Dice {
 			case "ritual":
 			case "passThroughBarrier":
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
-				SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
+				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
 			case "drainCard":
-				SR5_Dice.addDrainInfoToCard(cardData);
+				await SR5_Dice.addDrainInfoToCard(cardData);
 				break;
 			case "complexForm":
-				SR5_Dice.addComplexFormInfoToCard(cardData);
+				await SR5_Dice.addComplexFormInfoToCard(cardData);
 				break;
 			case "complexFormDefense":
-				SR5_Dice.addComplexFormDefenseInfoToCard(cardData);
+				await SR5_Dice.addComplexFormDefenseInfoToCard(cardData);
 				break;
 			case "fadingCard":
-				SR5_Dice.addFadingInfoToCard(cardData);
+				await SR5_Dice.addFadingInfoToCard(cardData);
 				break;
 			case "matrixAction":
-				SR5_Dice.addMatrixActionInfoToCard(cardData, actorId);
+				await SR5_Dice.addMatrixActionInfoToCard(cardData, actorId);
 				break;
 			case "matrixDefense":
-				SR5_Dice.addMatrixDefenseInfoToCard(cardData, actorId);
+				await SR5_Dice.addMatrixDefenseInfoToCard(cardData, actorId);
 				break;
 			case "matrixResistance":
-				SR5_Dice.addMatrixResistanceInfoToCard(cardData, actorId);
+				await SR5_Dice.addMatrixResistanceInfoToCard(cardData, actorId);
 				break;
 			case "iceDefense":
 				await SR5_Dice.addIceDefenseInfoToCard(cardData, actorId);
@@ -529,13 +530,13 @@ export class SR5_Dice {
 				break;
 			case "skill":
 			case "skillDicePool":
-				SR5_Dice.addSkillInfoToCard(cardData);
+				await SR5_Dice.addSkillInfoToCard(cardData);
 				break;
 			case "resonanceAction":
-				SR5_Dice.addResonanceActionInfoToCard(cardData);
+				await SR5_Dice.addResonanceActionInfoToCard(cardData);
 				break;
 			case "resistFire":
-				SR5_Dice.addResistFireInfoToCard(cardData);
+				await SR5_Dice.addResistFireInfoToCard(cardData);
 				break;
 			case "preparationResistance":
 			case "ritualResistance":
@@ -545,16 +546,16 @@ export class SR5_Dice {
 			case "jackOutDefense":
 			case "eraseMark":
 			case "passThroughDefense":
-				SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
+				await SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
 				break;
 			case "overwatchResistance":
-				SR5_Dice.addOverwatchResistanceInfoToCard(cardData);
+				await SR5_Dice.addOverwatchResistanceInfoToCard(cardData);
 				break;
 			case "registeringResistance":
 			case "decompilingResistance":
 			case "bindingResistance":
 			case "banishingResistance":
-				SR5_Dice.addSidekickResistanceInfoToCard(cardData, cardData.type);
+				await SR5_Dice.addSidekickResistanceInfoToCard(cardData, cardData.type);
 				break;
 			case "spellResistance":
 			case "resistSpell":
@@ -562,10 +563,10 @@ export class SR5_Dice {
 			case "enchantmentResistance":
 			case "disjointingResistance":
 			case "powerDefense":				
-				SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
+				await SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
 				break;
 			case "objectResistance":
-				SR5_Dice.addObjectResistanceResultInfoToCard(cardData);
+				await SR5_Dice.addObjectResistanceResultInfoToCard(cardData);
 				break;
 			case "attribute":
 			case "languageSkill":
@@ -880,8 +881,6 @@ export class SR5_Dice {
 		} else {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.ActionFailure"));
 		}
-
-		
 	}
 
 	static async addMatrixDefenseInfoToCard(cardData, actorId){
@@ -895,7 +894,7 @@ export class SR5_Dice {
 		cardData.attackerName = attacker.name;
 
 		//Overwatch button if illegal action
-		if (cardData.overwatchScore && cardData.test.hits > 0) cardData.buttons.overwatch = SR5_RollMessage.generateChatButton("nonOpposedTest", "overwatch", `${game.i18n.format('SR5.IncreaseOverwatch', {name: cardData.attackerName, score: cardData.test.hits})}`);
+		if (cardData.overwatchScore && cardData.test.hits > 0) cardData.buttons.overwatch = await SR5_RollMessage.generateChatButton("nonOpposedTest", "overwatch", `${game.i18n.format('SR5.IncreaseOverwatch', {name: cardData.attackerName, score: cardData.test.hits})}`);
 
 		//if defender wins
 		if (netHits <= 0) {
@@ -940,7 +939,7 @@ export class SR5_Dice {
 					cardData.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.matrixDamageValue})`);
 					break;
 				default:
-					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.DefenseFailure"));
+					cardData.buttons.actionEnd = await SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.DefenseFailure"));
 			}
 		}
 	}
@@ -1226,8 +1225,12 @@ export class SR5_Dice {
 	}
 
 	static async addDefenseResultInfoToCard(cardData, type){
-		let key, label, labelEnd, successTestType = "nonOpposedTest";;
-		let prevData = cardData.originalMessage?.flags?.sr5data;
+		let key, label, labelEnd, successTestType = "nonOpposedTest";
+		let originalMessage, prevData;
+		if (cardData.originalMessage){
+			originalMessage = game.messages.get(cardData.originalMessage);
+			prevData = originalMessage.data?.flags?.sr5data;
+		}
 
 		switch (type){
 			case "jackOutDefense":
@@ -1290,7 +1293,7 @@ export class SR5_Dice {
 				label = game.i18n.localize("SR5.MatrixActionEraseMark");
 				labelEnd = game.i18n.localize("SR5.MatrixActionEraseMarkFailed");
 				key = "eraseMarkSuccess";
-				if (cardData.originalMessage.flags.sr5data.buttons.eraseMark) {
+				if (prevData.buttons?.eraseMark) {
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("updateChatButton", {
 							message: cardData.originalMessage,
@@ -1303,7 +1306,7 @@ export class SR5_Dice {
 				label = game.i18n.localize("SR5.PassThroughBarrierSuccess");
 				labelEnd = game.i18n.localize("SR5.PassThroughBarrierFailed");
 				successTestType = "SR-CardButtonHit endTest";
-				if (cardData.originalMessage.flags.sr5data.buttons.passThroughDefense) {
+				if (prevData.buttons?.passThroughDefense) {
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("updateChatButton", {
 							message: cardData.originalMessage,

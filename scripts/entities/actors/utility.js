@@ -2573,6 +2573,7 @@ export class SR5_CharacterUtility extends Actor {
     let controlerLabelSleaze = "";
     let controlerLabelDataProcessing = "";
     let controlerLabelAttack = "";
+    console.log("ho");
 
     if (actor.type === "actorPc" || actor.type === "actorGrunt" || actor.type === "actorAgent"){
       intuitionValue = data.attributes.intuition.augmented.value;
@@ -2669,6 +2670,8 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelAttack}`, attackValue);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelSleaze}`, sleazeValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
 
     matrixActions.checkOverwatchScore.defense.base = 6;
 
@@ -2936,8 +2939,9 @@ export class SR5_CharacterUtility extends Actor {
     actorData.userGrid = creatorMatrix.userGrid;
   }
 
+  //Boucle infinie ! A changer
   static async updateAgentOwner(agent){
-    if(!agent.data.creatorData) return;
+    /*if(!agent.data.creatorData) return;
     if(!canvas.scene) return;
     let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
     let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
@@ -2945,9 +2949,10 @@ export class SR5_CharacterUtility extends Actor {
     if (newDeck.data.conditionMonitors.matrix.actual.value !== agent.data.conditionMonitors.matrix.actual.value){
       newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
       ownerDeck.update(newDeck);
-    }
+    }*/
   }
 
+  //A changer
   static async updateAgent(actor, deck){
     if (game.actors) {
       for (let a of game.actors) {
@@ -2973,6 +2978,7 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   static async updateControledVehicle(actor){
+    console.log("updateControledVehicle");
     if (game.actors) {
       for (let a of game.actors) {
         if(a.data.type === "actorDrone" && a.data.data.vehicleOwner.id === actor._id){
