@@ -321,10 +321,19 @@
 					<option value="data.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
 
 					{{else ife category 'itemArmor'}}
-					<option value="data.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
-					{{#each ../lists.specialDamageTypes}}
-					<option value="data.itemsProperties.armor.specialDamage.{{@key}}">{{localize 'SR5.Armor'}} ({{localize this}})</option>
-					{{/each}}
+					<optgroup label="{{localize 'SR5.Armor'}}">
+						<option value="data.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.SpecialDamage'}}">
+						{{#each ../lists.specialDamageTypes}}
+						<option value="data.itemsProperties.armor.specialDamage.{{@key}}">{{localize this}}</option>
+						{{/each}}
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Toxins'}}">
+						{{#each ../lists.propagationVectors}}
+						<option value="data.itemsProperties.armor.toxin.{{@key}}">{{localize 'SR5.Toxins'}} ({{localize this}})</option>
+						{{/each}}
+					</optgroup>
 
 					{{else ife category 'weaponEffectTargets'}}
 					{{#each (lookup ../lists category)}}

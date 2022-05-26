@@ -137,7 +137,11 @@ export class SR5_CharacterUtility extends Actor {
       data.itemsProperties.armor.modifiers = [];
       for (let key of Object.keys(lists.specialDamageTypes)){
         data.itemsProperties.armor.specialDamage[key].modifiers = [];
-        data.itemsProperties.armor.specialDamage[key].value = [];
+        data.itemsProperties.armor.specialDamage[key].value = 0;
+      }
+      for (let key of Object.keys(lists.propagationVectors)){
+        data.itemsProperties.armor.toxin[key].modifiers = [];
+        data.itemsProperties.armor.toxin[key].value = 0;
       }
     }
 
@@ -1653,6 +1657,9 @@ export class SR5_CharacterUtility extends Actor {
     for (let key of Object.keys(lists.specialDamageTypes)){
       SR5_EntityHelpers.updateValue(actor.data.itemsProperties.armor.specialDamage[key], 0);
     }
+    for (let key of Object.keys(lists.propagationVectors)){
+      SR5_EntityHelpers.updateValue(actor.data.itemsProperties.armor.toxin[key], 0);
+    }
   }
   // Generate Actors Resistances
   static updateResistances(actor) {
@@ -1690,6 +1697,9 @@ export class SR5_CharacterUtility extends Actor {
               resistances[key][vector].base = 0;
               SR5_EntityHelpers.updateModifier(resistances[key][vector],`${game.i18n.localize('SR5.Body')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.body.augmented.value);
               SR5_EntityHelpers.updateModifier(resistances[key][vector],`${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+              if (data.itemsProperties && key === "toxin") {
+                resistances.toxin[vector].modifiers = resistances.toxin[vector].modifiers.concat(data.itemsProperties.armor.toxin[vector].modifiers);
+              }
               SR5_EntityHelpers.updateDicePool(resistances[key][vector], 0);
             }
             break;

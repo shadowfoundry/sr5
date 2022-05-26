@@ -590,6 +590,7 @@ export class SR5_Dice {
 			//Handle Grenade Resistant chat button
 			let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+			if (cardData.damageElement === "toxin") label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.Toxin")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.toxinTypes[cardData.toxin.type])}`
 			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard",label);
 		} else if (cardData.test.hits > 0) {
 			if (cardData.typeSub === "rangedWeapon") {
@@ -663,6 +664,13 @@ export class SR5_Dice {
 		if (prevData?.type === "spell") {
 			if (prevData.spellRange !== "area") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
 		} else if (prevData && prevData?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+
+		//Toxin management
+		if (cardData.damageElement === "toxin"){
+			cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
+			if (cardData.damageValue > 0) return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")}`);
+			else return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+		}
 
 		//Add automatic succes for Hardened Armor.
 		if ((actorData.specialProperties?.hardenedArmor.value > 0) && (cardData.damageSource !== "spell")) {

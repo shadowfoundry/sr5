@@ -3118,6 +3118,28 @@
                 "base": 0,
                 "modifiers": []
               }
+            },
+            "toxin": {
+              "contact": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "ingestion": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "inhalation": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "injection": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
             }
           },
           "environmentalMod":{

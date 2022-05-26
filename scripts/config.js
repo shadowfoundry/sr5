@@ -780,6 +780,7 @@ SR5.weaponAccessorySlots = {
 
 // Toxins
 SR5.toxinTypes = {
+  airEngulf                 : "SR5.SpiritPowerEngulfAir",
   gamma                     : "SR5.ToxinGamma",
   csTearGas                 : "SR5.ToxinCSTearGas",
   pepperPunch               : "SR5.ToxinPepperPunch",
