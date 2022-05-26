@@ -826,10 +826,9 @@ export class SR5_Roll {
                     dicePool = actorData.magic.astralDefense.dicePool;
                     dicePoolComposition = actorData.magic.astralDefense.modifiers;
                 }
-
-                if (canvas.scene && chatData.type === "spell" && chatData.item.data.range === "area"){
+                if (canvas.scene && chatData.type === "spell" && chatData.spellRange === "area"){
                     // Spell position
-                    let spellPosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.item._id); 
+                    let spellPosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.itemId); 
                     // Get defenser position
                     let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor);
                     // Calcul distance between grenade and defenser
@@ -975,7 +974,6 @@ export class SR5_Roll {
                 });
                 break;
 
-
             case "astralWeapon":
                 title = `${game.i18n.localize("SR5.AstralAttackWith")} ${item.name}`;
                 dicePool = itemData.weaponSkill.dicePool;
@@ -989,6 +987,7 @@ export class SR5_Roll {
                     "switch.extended": false,
                     "switch.chooseDamageType": true,
                     "switch.specialization": true,
+                    "lists.damageTypes": actor.data.lists.damageTypes,
                     type: "skillDicePool",
                     typeSub: "astralCombat",
                 });
@@ -1074,13 +1073,15 @@ export class SR5_Roll {
                 break;
 
             case "resistSpell":
-                title = `${game.i18n.localize("SR5.ResistSpell")}${game.i18n.localize("SR5.Colons")} ${chatData.item.name}`;
+                let spellItem = await fromUuid(chatData.itemUuid);
+                let spellData = spellItem.data.data;
+                title = `${game.i18n.localize("SR5.ResistSpell")}${game.i18n.localize("SR5.Colons")} ${spellItem.name}`;
 
-                firstAttribute = actorData.attributes[chatData.item.data.defenseFirstAttribute].augmented.value;
-                secondAttribute = actorData.attributes[chatData.item.data.defenseSecondAttribute].augmented.value;
+                firstAttribute = actorData.attributes[spellData.defenseFirstAttribute].augmented.value;
+                secondAttribute = actorData.attributes[spellData.defenseSecondAttribute].augmented.value;
                 dicePoolComposition = ([
-                    {source: game.i18n.localize(SR5.allAttributes[chatData.item.data.defenseFirstAttribute]), value: firstAttribute},
-                    {source: game.i18n.localize(SR5.allAttributes[chatData.item.data.defenseSecondAttribute]), value: secondAttribute},
+                    {source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), value: firstAttribute},
+                    {source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), value: secondAttribute},
                 ]);
                 dicePool = firstAttribute + secondAttribute;
 
@@ -1090,8 +1091,6 @@ export class SR5_Roll {
                     itemUuid: chatData.itemUuid,
                 }
 
-                let spellItem = await fromUuid(chatData.itemUuid);
-                let spellData = spellItem.data.data;
                 //Check if an effect is transferable on taget actor and give the necessary infos
                 for (let e of Object.values(spellData.customEffects)){
                     if (e.transfer) {
@@ -1117,16 +1116,17 @@ export class SR5_Roll {
                 if (!canUseReagents) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoReagents")}`);
                 title = `${game.i18n.localize("SR5.PerformRitual")} ${item.name}`;
                 if (itemData.spellLinkedType !== ""){
-                    dicePool = actorData.skills.ritualSpellcasting.test.dicePool;
-                    dicePoolComposition = actorData.skills.ritualSpellcasting.test.modifiers;
-                } else {
                     dicePool = actorData.skills.ritualSpellcasting.spellCategory[itemData.spellLinkedType].dicePool;
                     dicePoolComposition = actorData.skills.ritualSpellcasting.spellCategory[itemData.spellLinkedType].modifiers;
+                } else {
+                    dicePool = actorData.skills.ritualSpellcasting.test.dicePool;
+                    dicePoolComposition = actorData.skills.ritualSpellcasting.test.modifiers;
                 }
 
                 optionalData = {
                     limitType: "force",
                     force: 1,
+                    itemUuid: item.uuid,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
@@ -1270,7 +1270,8 @@ export class SR5_Roll {
                 break;
             
             case "complexFormDefense":
-                title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${chatData.item.name} (${chatData.hits})`;
+                let complexFormItem = await fromUuid(chatData.itemUuid);
+                title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${complexFormItem.name} (${chatData.hits})`;
                 let defenseAttribute, defenseMatrixAttribute;
                 
                 if (actor.type === "actorSpirit"){
@@ -1339,6 +1340,7 @@ export class SR5_Roll {
                         "sceneData.backgroundCount": backgroundCount,
                         "sceneData.backgroundAlignement": backgroundAlignement,
                         dicePoolComposition: itemData.test.modifiers,
+                        "itemUuid": item.uuid,
                     }
                 }
 
@@ -1346,7 +1348,6 @@ export class SR5_Roll {
                 for (let e of Object.values(itemData.customEffects)){
                     if (e.transfer) {
                         optionalData = mergeObject(optionalData, {
-                            "itemUuid": item.uuid,
                             "switch.transferEffect": true,
                         });
                     }
@@ -1362,8 +1363,9 @@ export class SR5_Roll {
                 break;
 
             case "powerDefense":
+                let powerItem = await fromUuid(chatData.itemUuid);
                 if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
-                title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${chatData.item.name}`;
+                title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${powerItem.name}`;
                 if (chatData.defenseFirstAttribute === "edge" || chatData.defenseFirstAttribute === "magic" || chatData.defenseFirstAttribute === "resonance"){
                     firstAttribute = actorData.specialAttributes[chatData.defenseFirstAttribute].augmented.value;
                 } else {

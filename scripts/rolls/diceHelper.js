@@ -100,6 +100,8 @@ export class SR5_DiceHelper {
         if (message.type === "ritual"){
             cardData = mergeObject(cardData, {
                 itemId: message.itemId,
+                itemUuid: message.itemUuid,
+                originalMessage: message.originalMessage,
                 force: message.force,
                 reagentsSpent : message.reagentsSpent,
                 type: "ritualResistance",
@@ -417,7 +419,8 @@ export class SR5_DiceHelper {
 
         if (targetItem) item = await fromUuid(targetItem);
         else item = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-        
+        if (item.parent.type === "actorDevice" && item.parent.isToken) item = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+
         let itemToMark = duplicate(item.data.data);
 
         //If attacker is an ice use serveur id to mark
@@ -1266,7 +1269,7 @@ export class SR5_DiceHelper {
 
     static async sealRitual(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
-        let item = actor.items.find(i => i.id === message.item._id),
+        let item = actor.items.find(i => i.id === message.itemId),
             itemData = duplicate(item.data.data);
         
         itemData.isActive = true;

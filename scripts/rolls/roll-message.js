@@ -62,7 +62,7 @@ export class SR5_RollMessage {
             newMessage.test[button.attr("data-edit-type")] = parseInt(ev.target.value);
 
             await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
-            if (newMessage.item) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+            if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
             //Update message with new data
             await message.update({[`flags.sr5data.-=buttons`]: null});
@@ -168,7 +168,7 @@ export class SR5_RollMessage {
                     actor.rollTest(type, messageData.matrixResistanceType, messageData);
                     break;
                 case "templatePlace":
-                    let item = actor.items.get(messageData.item._id);
+                    let item = actor.items.get(messageData.itemId);
                     await item.placeGabarit();
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: "templatePlace",});
 					else SR5_RollMessage.updateChatButton(messageId, "templatePlace");
@@ -209,7 +209,7 @@ export class SR5_RollMessage {
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
 					else SR5_RollMessage.updateChatButton(messageId, type);
                     break;
-                case "defenderAddMark":
+                case "defenderPlaceMark":
                     let attackerID;
                     if (actor.isToken) attackerID = actor.token.id;
                     else attackerID = actor.id;
@@ -389,7 +389,6 @@ export class SR5_RollMessage {
     //Update the stat of a chatMessage button
     static async updateChatButton(message, buttonToUpdate){
         if (buttonToUpdate === undefined) return;
-        console.log(message);
 
         //Delete useless buttons
         message = await game.messages.get(message);
@@ -497,7 +496,6 @@ export class SR5_RollMessage {
 
     //Update data on roll chatMessage
     static async updateRollCard(message, newMessage){
-        console.log(message);
         let messageToUpdate = await game.messages.get(message);
         let template = messageToUpdate.data.flags.sr5template;
         return renderTemplate(template, newMessage).then((html) => {
@@ -516,7 +514,6 @@ export class SR5_RollMessage {
 
     //Remove a template from scene on click
     static async removeTemplate(message, itemId){
-        console.log(message);
         if (!canvas.scene){
             SR5_RollMessage.updateChatButton(message, "templateRemove");
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);

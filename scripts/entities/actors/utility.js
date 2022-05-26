@@ -2950,7 +2950,6 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   static async updateControledVehicle(actor){
-    console.log("updateControledVehicle");
     if (game.actors) {
       for (let a of game.actors) {
         if(a.data.type === "actorDrone" && a.data.data.vehicleOwner.id === actor._id){
