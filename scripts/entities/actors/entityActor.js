@@ -352,7 +352,6 @@ export class SR5Actor extends Actor {
         break;
       case "actorAgent":
         SR5_CharacterUtility.applyProgramToAgent(actor);
-        SR5_CharacterUtility.updateAgentOwner(actor);
         break;
       case "actorPc":
       case "actorGrunt":
@@ -674,9 +673,6 @@ export class SR5Actor extends Actor {
               SR5_CharacterUtility.updateInitiativeMatrix(actorData);
               if (iData.type ==="riggerCommandConsole") {
                 if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actorData);
-              }
-              if (iData.type ==="cyberdeck") {
-                if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateAgent(actorData, i.data);
               }
               if (iData.type === "livingPersona" || iData.type === "headcase") {
                 SR5_CharacterUtility.generateResonanceMatrix(i.data, actorData);
@@ -1638,6 +1634,32 @@ export class SR5Actor extends Actor {
         }
         if (needUpdate) await i.update({"data": dataToUpdate,});
       }
+    }
+  }
+
+  //Keep Agent condition Monitor synchro with Owner deck
+  static async keepAgentMonitorSynchro(agent){
+    if(!agent.data.data.creatorData) return;
+    if(!canvas.scene) return;
+    
+    let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.data.creatorId);
+    let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+    if (ownerDeck.data.data.conditionMonitors.matrix.actual.value !== agent.data.data.conditionMonitors.matrix.actual.value){
+      let updatedActor = duplicate(agent.data.data);
+      updatedActor.conditionMonitors.matrix = ownerDeck.data.data.conditionMonitors.matrix;
+      await agent.update({"data": updatedActor,});
+    }
+  }
+
+  //Keep Owner deck condition Monitor synchro with Agent
+  static async keepDeckSynchroWithAgent(agent){
+    let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.data.creatorId);
+    let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+
+    if (ownerDeck.data.data.conditionMonitors.matrix.actual.value !== agent.data.data.conditionMonitors.matrix.actual.value){
+      let newDeck = duplicate(ownerDeck.data.data);
+      newDeck.conditionMonitors.matrix = agent.data.data.conditionMonitors.matrix;
+      await ownerDeck.update({"data": newDeck});
     }
   }
 }

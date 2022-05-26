@@ -2573,7 +2573,6 @@ export class SR5_CharacterUtility extends Actor {
     let controlerLabelSleaze = "";
     let controlerLabelDataProcessing = "";
     let controlerLabelAttack = "";
-    console.log("ho");
 
     if (actor.type === "actorPc" || actor.type === "actorGrunt" || actor.type === "actorAgent"){
       intuitionValue = data.attributes.intuition.augmented.value;
@@ -2937,33 +2936,6 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(actorData.matrix.noise)
     //Grid
     actorData.userGrid = creatorMatrix.userGrid;
-  }
-
-  //Boucle infinie ! A changer
-  static async updateAgentOwner(agent){
-    /*if(!agent.data.creatorData) return;
-    if(!canvas.scene) return;
-    let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
-    let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-    let newDeck = duplicate(ownerDeck);
-    if (newDeck.data.conditionMonitors.matrix.actual.value !== agent.data.conditionMonitors.matrix.actual.value){
-      newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
-      ownerDeck.update(newDeck);
-    }*/
-  }
-
-  //A changer
-  static async updateAgent(actor, deck){
-    if (game.actors) {
-      for (let a of game.actors) {
-        if(a.data.type === "actorAgent" && a.data.data.creatorId === actor._id){
-          let agent = duplicate(a);
-          agent.data.conditionMonitors.matrix = deck.data.conditionMonitors.matrix;
-          agent.data.creatorData = actor.toObject(false);
-          a.update(agent);
-        }
-      }
-    }
   }
 
   static applyProgramToAgent(actor){

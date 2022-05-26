@@ -145,7 +145,6 @@ export default class SR5_RollDialog extends Dialog {
         this.fadingModifier = {};
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
         let actorData = actor.data;
-        //console.log(actor);
         let dialogData = this.data.data;
 
         this.updateDicePoolValue(html);

@@ -949,8 +949,9 @@ export class SR5_Dice {
 			actorData = actor.data.data,
 			attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
 			attackerData = attacker?.data.data,
-			targetItem = await fromUuid(cardData.matrixTargetItemUuid);
+			targetItem;
 		
+		if (cardData.matrixTargetItemUuid) targetItem = await fromUuid(cardData.matrixTargetItemUuid);
 		cardData.matrixDamageValue = cardData.matrixDamageValueBase - cardData.test.hits;
 
 		if (cardData.matrixDamageValue > 0) {
