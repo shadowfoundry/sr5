@@ -2669,6 +2669,8 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelAttack}`, attackValue);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelSleaze}`, sleazeValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
 
     matrixActions.checkOverwatchScore.defense.base = 6;
 
@@ -2934,31 +2936,6 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(actorData.matrix.noise)
     //Grid
     actorData.userGrid = creatorMatrix.userGrid;
-  }
-
-  static async updateAgentOwner(agent){
-    if(!agent.data.creatorData) return;
-    if(!canvas.scene) return;
-    let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
-    let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-    let newDeck = duplicate(ownerDeck);
-    if (newDeck.data.conditionMonitors.matrix.actual.value !== agent.data.conditionMonitors.matrix.actual.value){
-      newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
-      ownerDeck.update(newDeck);
-    }
-  }
-
-  static async updateAgent(actor, deck){
-    if (game.actors) {
-      for (let a of game.actors) {
-        if(a.data.type === "actorAgent" && a.data.data.creatorId === actor._id){
-          let agent = duplicate(a);
-          agent.data.conditionMonitors.matrix = deck.data.conditionMonitors.matrix;
-          agent.data.creatorData = actor.toObject(false);
-          a.update(agent);
-        }
-      }
-    }
   }
 
   static applyProgramToAgent(actor){
