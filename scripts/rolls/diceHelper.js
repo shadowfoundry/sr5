@@ -1280,4 +1280,81 @@ export class SR5_DiceHelper {
             });
         } else await item.update({'data': itemData});
     }
+
+    static async getToxinEffect(effecType, data){
+        console.log(effecType);
+        let itemEffects = [];
+        let firstEffect, secondEffect
+        let toxinType = data.toxin.type;
+
+        switch (effecType){
+            case "disorientation":
+                firstEffect = {
+                    name: game.i18n.localize(SR5.toxinTypes[toxinType]),
+                    type: "itemEffect",
+                    "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                    "data.value": -2,
+                    "data.type": "toxinEffect",
+                    "data.duration": 10,
+                    "data.durationType": "minute",
+                    "data.customEffects": {
+                        "0": {
+                            "category": "penaltyTypes",
+                            "target": "data.penalties.special.actual",
+                            "type": "value",
+                            "value": -2,
+                            "forceAdd": true,
+                          }
+                    },
+                };
+                itemEffects.push(firstEffect);
+                break;
+            case "nausea":
+                firstEffect = {
+                    name: game.i18n.localize(SR5.toxinTypes[toxinType]),
+                    type: "itemEffect",
+                    "data.target": game.i18n.localize("SR5.PenaltyDouble"),
+                    "data.value": "x2",
+                    "data.type": "toxinEffect",
+                    "data.duration": 10,
+                    "data.durationType": "minute",
+                    "data.customEffects": {
+                        "0": {
+                            "category": "specialProperties",
+                            "target": "data.specialProperties.doublePenalties",
+                            "type": "boolean",
+                            "value": "true",
+                            "forceAdd": true,
+                        }
+                    },
+                };
+                itemEffects.push(firstEffect);
+                break;
+            case "paralysis":
+                firstEffect = {
+                    name: game.i18n.localize(SR5.toxinTypes[toxinType]),
+                    type: "itemEffect",
+                    "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                    "data.value": -2,
+                    "data.type": "toxinEffect",
+                    "data.duration": 1,
+                    "data.durationType": "hour",
+                    "data.customEffects": {
+                        "0": {
+                            "category": "penaltyTypes",
+                            "target": "data.penalties.special.actual",
+                            "type": "value",
+                            "value": -2,
+                            "forceAdd": true,
+                          }
+                    },
+                };
+                itemEffects.push(firstEffect);
+                break;
+            default:
+                itemEffect = null;
+        }
+    
+    return itemEffects;
+    }
 }

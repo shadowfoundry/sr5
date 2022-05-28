@@ -3051,7 +3051,8 @@
             "value": 0,
             "base": 0,
             "modifiers": []
-          }
+          },
+          "doublePenalties": false
         }
       },
       "itemsPropertiesTemplate": {

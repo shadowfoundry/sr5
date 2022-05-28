@@ -331,6 +331,7 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.hardenedArmorRating = 0;
       data.specialProperties.hardenedAstralArmorType = "";
       data.specialProperties.hardenedAstralArmorRating = "";
+      data.specialProperties.doublePenalties = false;
     }
 
     // Reset Vehicule Test
@@ -594,6 +595,7 @@ export class SR5_CharacterUtility extends Actor {
               SR5_EntityHelpers.updateValue(data.penalties[key].step);
               SR5_EntityHelpers.updateValue(data.penalties[key].boxReduction);
               data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].actual.value - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
+              if (data.specialProperties.doublePenalties) data.penalties[key].actual.base = data.penalties[key].actual.base * 2;
               if (data.penalties[key].actual.base > 0) data.penalties[key].actual.base = 0;
             }
             break;

@@ -959,6 +959,7 @@ export class SR5_Roll {
                             "templateRemove": true,
                             "isGrenade": true,
                             "damageFallOff": itemData.blast.damageFallOff,
+                            "blastRadius": itemData.blast.radius,
                         });
                     }
                     // Calcul distance between Attacker and Target

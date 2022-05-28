@@ -2303,6 +2303,7 @@ SR5.effectTypes = {
   itemPreparation           : "ITEM.TypeItempreparation",
   itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
+  toxinEffect               : "SR5.Toxin",
 }
 
 SR5.effectDuration = {
@@ -2311,6 +2312,8 @@ SR5.effectDuration = {
   special                   : "SR5.DurationSpecial",
   sustained                 : "SR5.DurationSustained",
   reboot                    : "SR5.UntilReboot",
+  minute                    : "SR5.Minutes",
+  hour                      : "SR5.Hours",
 }
 
 SR5.specialProperties = {
@@ -2327,6 +2330,7 @@ SR5.specialPropertiesList = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
+  doublePenalties           : "SR5.PenaltyDouble",
 }
 
 SR5.transactionsTypes = {

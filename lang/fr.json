@@ -1181,6 +1181,7 @@
   "SR5.Penalties"                             : "Pénalités",
   "SR5.Penalty"                               : "Pénalité",
   "SR5.PenaltyDamage"                         : "Dommages",
+  "SR5.PenaltyDouble"                         : "Pénalité doublée",
   "SR5.PenaltyStep"                           : "Seuil de pénalité",
   "SR5.PenaltyValueMagic"                     : "Maintien de sort",
   "SR5.PenaltyValueMatrix"                    : "Sources matricielles",

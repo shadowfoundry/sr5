@@ -380,6 +380,9 @@ export class SR5_RollMessage {
                 case "registeringResistance":
                     targetActor.rollTest(type, null, messageData);
                     break;
+                case "toxinEffect":
+                    actor.applyToxinEffect(messageData);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }

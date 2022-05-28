@@ -1181,6 +1181,7 @@
   "SR5.Penalties"                             : "Penalties",
   "SR5.Penalty"                               : "Penalty",
   "SR5.PenaltyDamage"                         : "Damage",
+  "SR5.PenaltyDouble"                         : "Double Penalty",
   "SR5.PenaltyStep"                           : "Penalty Step",
   "SR5.PenaltyValueMagic"                     : "Sustaining Spell",
   "SR5.PenaltyValueMatrix"                    : "Matrix Sources",

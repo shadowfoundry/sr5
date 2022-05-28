@@ -392,6 +392,12 @@
 							{{/each}}
 							{{/select}}
 						</select>
+					{{else if (eq this.target 'data.specialProperties.doublePenalties')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+									{{dropdownOptions 'boolean'}}
+							{{/select}}
+						</select>
 					{{else if (eq this.category 'metamagics')}}
 						<select name="data.customEffects.{{@key}}.type" required>
 							{{#select type}}

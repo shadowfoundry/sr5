@@ -1637,6 +1637,28 @@ export class SR5Actor extends Actor {
     }
   }
 
+  //
+  async applyToxinEffect(data){
+    console.log(data);
+    let toxinType = data.toxin.type;
+    let effects;
+    let toxinEffects = [];
+
+    for (let [key, value] of Object.entries(data.toxin.effect)){
+      if (value) {
+        effects = await SR5_DiceHelper.getToxinEffect(key, data);
+        toxinEffects = toxinEffects.concat(effects);
+      }
+    }
+
+    if (toxinEffects.length) await this.createEmbeddedDocuments("Item", toxinEffects);
+
+    /*switch (toxinType){
+      case "nauseaGas":
+        break;
+    }*/
+  }
+
   //Keep Agent condition Monitor synchro with Owner deck
   static async keepAgentMonitorSynchro(agent){
     if(!agent.data.data.creatorData) return;
