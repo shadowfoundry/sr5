@@ -382,6 +382,8 @@ export class SR5_RollMessage {
                     break;
                 case "toxinEffect":
                     actor.applyToxinEffect(messageData);
+                    if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
+					else SR5_RollMessage.updateChatButton(messageId, type);
                     break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);

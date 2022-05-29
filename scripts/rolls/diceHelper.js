@@ -947,6 +947,35 @@ export class SR5_DiceHelper {
         });
     }
 
+    static async chooseToxinVector(vectors){
+        let cancel = true;
+        let dialogData = {list: vectors}
+        return new Promise((resolve, reject) => {
+            renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData).then((dlg) => {
+                new Dialog({
+                title: game.i18n.localize('SR5.ChooseToxinVector'),
+                content: dlg,
+                buttons: {
+                    ok: {
+                    label: "Ok",
+                    callback: () => (cancel = false),
+                    },
+                    cancel: {
+                    label : "Cancel",
+                    callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    let vector = html.find("[name=vector]").val();
+                    resolve(vector);
+                },
+                }).render(true);
+            });
+        });
+    }
+
     static async rollJackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         actor = actor.toObject(false);
@@ -1281,78 +1310,84 @@ export class SR5_DiceHelper {
         } else await item.update({'data': itemData});
     }
 
-    static async getToxinEffect(effecType, data){
-        console.log(effecType);
+    static async getToxinEffect(effecType, data, actor){
         let itemEffects = [];
-        let firstEffect, secondEffect
         let toxinType = data.toxin.type;
+        let hasEffect;
+
+        let effect = {
+            name: game.i18n.localize(SR5.toxinTypes[toxinType]),
+            type: "itemEffect",
+        }
 
         switch (effecType){
             case "disorientation":
-                firstEffect = {
-                    name: game.i18n.localize(SR5.toxinTypes[toxinType]),
-                    type: "itemEffect",
-                    "data.target": game.i18n.localize("SR5.GlobalPenalty"),
-                    "data.value": -2,
-                    "data.type": "toxinEffect",
-                    "data.duration": 10,
-                    "data.durationType": "minute",
-                    "data.customEffects": {
-                        "0": {
-                            "category": "penaltyTypes",
-                            "target": "data.penalties.special.actual",
-                            "type": "value",
-                            "value": -2,
-                            "forceAdd": true,
-                          }
-                    },
-                };
-                itemEffects.push(firstEffect);
+                hasEffect = actor.items.find(i => i.data.data.type === "toxinEffectDisorientation");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "toxinEffectDisorientation",
+                        "data.value": -2,
+                        "data.duration": 10,
+                        "data.durationType": "minute",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
                 break;
             case "nausea":
-                firstEffect = {
-                    name: game.i18n.localize(SR5.toxinTypes[toxinType]),
-                    type: "itemEffect",
-                    "data.target": game.i18n.localize("SR5.PenaltyDouble"),
-                    "data.value": "x2",
-                    "data.type": "toxinEffect",
-                    "data.duration": 10,
-                    "data.durationType": "minute",
-                    "data.customEffects": {
-                        "0": {
-                            "category": "specialProperties",
-                            "target": "data.specialProperties.doublePenalties",
-                            "type": "boolean",
-                            "value": "true",
-                            "forceAdd": true,
-                        }
-                    },
-                };
-                itemEffects.push(firstEffect);
+                hasEffect = actor.items.find(i => i.data.data.type === "toxinEffectNausea");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.PenaltyDouble"),
+                        "data.type": "toxinEffectNausea",
+                        "data.value": "x2",
+                        "data.duration": 10,
+                        "data.durationType": "minute",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "specialProperties",
+                                "target": "data.specialProperties.doublePenalties",
+                                "type": "boolean",
+                                "value": "true",
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
                 break;
             case "paralysis":
-                firstEffect = {
-                    name: game.i18n.localize(SR5.toxinTypes[toxinType]),
-                    type: "itemEffect",
-                    "data.target": game.i18n.localize("SR5.GlobalPenalty"),
-                    "data.value": -2,
-                    "data.type": "toxinEffect",
-                    "data.duration": 1,
-                    "data.durationType": "hour",
-                    "data.customEffects": {
-                        "0": {
-                            "category": "penaltyTypes",
-                            "target": "data.penalties.special.actual",
-                            "type": "value",
-                            "value": -2,
-                            "forceAdd": true,
-                          }
-                    },
-                };
-                itemEffects.push(firstEffect);
+                hasEffect = actor.items.find(i => i.data.data.type === "toxinEffectParalysis");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "toxinEffectParalysis",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
                 break;
             default:
-                itemEffect = null;
         }
     
     return itemEffects;

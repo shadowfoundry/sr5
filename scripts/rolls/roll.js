@@ -348,6 +348,7 @@ export class SR5_Roll {
                                 }
                                 break;
                             case "actorSpirit":
+                                if (chatData.damageElement === "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
                                 armor = actorData.essence.value * 2;
                                 modifiedArmor = armor + (chatData.incomingPA || 0);
                                 if (modifiedArmor < 0) modifiedArmor = 0
@@ -365,9 +366,14 @@ export class SR5_Roll {
                                 if (chatData.damageElement) {
                                     if (chatData.damageElement === "toxin"){
                                         let toxinType;
+                                        let vectors = [];
                                         for (let [key, value] of Object.entries(chatData.toxin.vector)){
-                                            if (value) toxinType = key;
+                                            if (value) {
+                                                toxinType = key;
+                                                vectors.push(key);
+                                            }
                                         }
+                                        if (vectors.length > 1) toxinType = await SR5_DiceHelper.chooseToxinVector(vectors);
                                         armor = actorData.itemsProperties.armor.toxin[toxinType].value;
                                         modifiedArmor = armor - (chatData.toxin.penetration || 0);
                                         if (modifiedArmor < 0) modifiedArmor = 0;
@@ -893,6 +899,9 @@ export class SR5_Roll {
                         "switch.isSensorLocked": true,
                     });
                 }
+
+                //Handle toxin, if any
+                if (chatData.toxin) optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
 
                 let cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
@@ -1631,7 +1640,6 @@ export class SR5_Roll {
             title: title,
             actorId: speakerId,
             actorType: actor.type,
-            //lists: actor.data.lists,
             speakerActor: speakerActor,
             speakerId: speakerId,
             speakerImg: speakerImg,

@@ -2304,6 +2304,9 @@ SR5.effectTypes = {
   itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
   toxinEffect               : "SR5.Toxin",
+  toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
+  toxinEffectNausea         : "SR5.ToxinEffectNausea",
+  toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 }
 
 SR5.effectDuration = {
@@ -2446,6 +2449,17 @@ SR5.statusEffects = [
     id: "fullDefense",
     label: "SR5.STATUSES_FullDefense",
     origin: "fullDefense"
+  },
+  {
+    icon: "systems/sr5/img/status/StatusNoActionOn.svg",
+    id: "noAction",
+    label: "SR5.EffectNoAction",
+    flags: {
+      core: {
+        overlay: true,
+      }
+    },
+    origin: "noAction"
   },
 ];
 

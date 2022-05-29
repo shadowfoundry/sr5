@@ -307,7 +307,7 @@ export class SR5_Dice {
 						if (dialogData.type === "matrixAction" && (dialogData.typeSub === "hackOnTheFly" || dialogData.typeSub === "bruteForce")){
 							dialogData.mark = SR5_DiceHelper.calculMark(-dialogData.dicePoolMod.matrixMarkWanted);
 						}
-						await SR5_Dice.srDicesAddInfoToCard(cardData, actor.id);
+						await SR5_Dice.srDicesAddInfoToCard(cardData, dialogData.actorId);
 
 						// Return roll result and card info to chat message.
 						await SR5_Dice.renderRollCard(cardData);
@@ -590,7 +590,7 @@ export class SR5_Dice {
 			//Handle Grenade Resistant chat button
 			let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
-			if (cardData.damageElement === "toxin") label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.Toxin")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.toxinTypes[cardData.toxin.type])}`
+			if (cardData.damageElement === "toxin") label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.Toxin")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.toxinTypes[cardData.toxin.type])}`;
 			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard",label);
 		} else if (cardData.test.hits > 0) {
 			if (cardData.typeSub === "rangedWeapon") {
@@ -607,6 +607,15 @@ export class SR5_Dice {
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		let actorData = actor.data.data;
 		let netHits = cardData.hits - cardData.test.hits;
+
+		//Special case for injection ammo, need 3 net hits if armor is weared
+		if (cardData.ammoType === "injection" && actor.data.data.itemsProperties.armor.value > 0){
+			if (netHits < 3) {
+				cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
+				return ui.notifications.info(game.i18n.localize("SR5.INFO_NeedAtLeastThreeNetHits"));
+			}
+		}
+
 		if (netHits <= 0) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
 		else {
 			if (cardData.typeSub === "astralCombat") cardData.damageResistanceType = "astralDamage";
@@ -622,7 +631,8 @@ export class SR5_Dice {
 			}
 			
 			//SF firing mode, no additional damage from hits
-			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase
+			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase;
+			else if (cardData.damageElement === "toxin") cardData.damageValue = cardData.damageValueBase;
 			else cardData.damageValue = cardData.damageValueBase + netHits;
 
 			//Special case for fire damage
@@ -668,7 +678,21 @@ export class SR5_Dice {
 		//Toxin management
 		if (cardData.damageElement === "toxin"){
 			cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
-			if (cardData.damageValue > 0) return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")}`);
+			if (cardData.damageValue > 0) {
+				//Get Damage info
+				let damage = "";
+				if (cardData.damageType) damage = `& ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+				//Get Speed info
+				let speed = game.i18n.localize("SR5.ApplyToxinEffectAtTheEndOfTheRound");
+				if (cardData.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: cardData.toxin.speed})}`;
+				//If Actor is in combat, adjust speed to display the good round
+				let combatant = SR5Combat.getCombatantFromActor(actor);
+				if (combatant){
+					let speedRound = combatant.combat.round + cardData.toxin.speed;
+					speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: speedRound})}`;
+				}
+				return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")} ${damage}<br> ${speed}`);
+			}
 			else return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
 		}
 
