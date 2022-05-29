@@ -308,7 +308,6 @@ export class SR5_Roll {
             case "resistanceCard":
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
                 let damageValueBase = chatData.damageValue;
-
                 //handle distance between defenser and explosive device
                 if (chatData.isGrenade){
                     let grenadePosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.itemId);          
@@ -375,7 +374,7 @@ export class SR5_Roll {
                                         }
                                         if (vectors.length > 1) toxinType = await SR5_DiceHelper.chooseToxinVector(vectors);
                                         armor = actorData.itemsProperties.armor.toxin[toxinType].value;
-                                        modifiedArmor = armor - (chatData.toxin.penetration || 0);
+                                        modifiedArmor = armor + (chatData.toxin.penetration || 0);
                                         if (modifiedArmor < 0) modifiedArmor = 0;
                                         armorComposition = actorData.itemsProperties.armor.toxin[toxinType].modifiers;
                                         resistanceValue = actorData.resistances.toxin[toxinType].dicePool - armor;
@@ -413,6 +412,7 @@ export class SR5_Roll {
                         dicePool = resistanceValue + modifiedArmor;
 
                         optionalData = {
+                            attackerId: chatData.attackerId,
                             chatActionType: "damage",
                             incomingPA: chatData.incomingPA,
                             armor: armor,
@@ -427,11 +427,9 @@ export class SR5_Roll {
                         if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
                         
-                        if (chatData.damageElement === "toxin"){
-                            optionalData = mergeObject(optionalData, {
-                                toxin: chatData.toxin,
-                            })
-                        }
+                        if (chatData.damageElement === "toxin") optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
+                        debugger;
+                        if (chatData.engulfMessage) optionalData = mergeObject(optionalData, {engulfMessage: chatData.engulfMessage,});
                         break;
                     case "directSpellMana":       
                         if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`);
@@ -907,6 +905,7 @@ export class SR5_Roll {
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
 
                 optionalData = mergeObject(optionalData, {
+                    attackerId: chatData.actorId,
                     chatActionType: "resistanceCard",
                     damageElement: chatData.damageElement,
                     damageValue: chatData.damageValue,
@@ -1630,6 +1629,18 @@ export class SR5_Roll {
                 optionalData = {
                     hits: chatData.test.hits,
                     manaBarrierRating: 1,
+                }
+                break;
+            case "escapeEngulf":
+                title = game.i18n.localize("SR5.EscapeEngulfAttempt");
+                dicePoolComposition = ([
+                    {source: game.i18n.localize("SR5.Strength"), value: actorData.attributes.strength.augmented.value},
+                    {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                ]);
+                dicePool = actorData.attributes.strength.augmented.value + actorData.attributes.body.augmented.value;
+                optionalData = {
+                    attackerId: chatData.attackerId,
+                    dicePoolComposition: dicePoolComposition,
                 }
                 break;
             default:

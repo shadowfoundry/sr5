@@ -50,7 +50,7 @@ export class SR5_DiceHelper {
     */
     static async createItemResistance(message) {
         let dicePool, targetItem, type, title, dicePoolComposition;
-
+        debugger;
         let cardData = {
             actorId: message.ownerAuthor,
             ownerAuthor: message.ownerAuthor,    
@@ -176,6 +176,25 @@ export class SR5_DiceHelper {
                 type: type,
                 title: title,
             });
+        }
+
+        //Escape Engulf
+        if (message.type === "escapeEngulf"){
+            let spirit = SR5_EntityHelpers.getRealActorFromID(message.attackerId);
+            dicePool = spirit.data.data.attributes.body.augmented.value + spirit.data.data.specialAttributes.magic.augmented.value;
+            dicePoolComposition = ([
+                {source: game.i18n.localize("SR5.Body"), value: spirit.data.data.attributes.body.augmented.value},
+                {source: game.i18n.localize("SR5.Magic"), value: spirit.data.data.specialAttributes.magic.augmented.value},
+            ]);
+            cardData = mergeObject(cardData, {
+                attackerId: message.attackerId,
+                dicePoolComposition: dicePoolComposition,
+                originalMessage: message.originalMessage,
+                hits: message.test.hits,
+                type: "engulfResistance",
+                title: `${game.i18n.localize("SR5.SpiritResistance")} (${cardData.hits})`,
+            });
+            
         }
 
         let result = SR5_Dice.srd6({ dicePool: dicePool });

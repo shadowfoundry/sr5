@@ -358,6 +358,7 @@ export class SR5_RollMessage {
                 case "compileSpriteResist":
                 case "preparationResist":
                 case "ritualResistance":
+                case "escapeEngulfDefense":
                     SR5_DiceHelper.createItemResistance(messageData);
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
 					else SR5_RollMessage.updateChatButton(messageId, type);
@@ -384,6 +385,9 @@ export class SR5_RollMessage {
                     actor.applyToxinEffect(messageData);
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
 					else SR5_RollMessage.updateChatButton(messageId, type);
+                    break;
+                case "escapeEngulf":
+                    actor.rollTest(type, null, messageData);
                     break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
@@ -460,6 +464,22 @@ export class SR5_RollMessage {
                     case "iceMarker":
                         messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {hits: hits})}`);
                         break;
+                }
+                break;
+            case "toxinEffect":
+                if (messageData.toxin.type === "airEngulf"){
+                    console.log("huhu");
+                    debugger;
+                    //Generate Resistance chat button
+			        let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${messageData.damageValueBase}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])}`;
+			        if (messageData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${messageData.incomingPA}`;
+			        messageData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+                    messageData.damageResistanceType = "physicalDamage";
+                    let oldMessage = game.messages.get(messageData.engulfMessage);
+                    if (oldMessage) await oldMessage.delete();
+                    //Escape engulf
+                    messageData.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
+                    messageData.engulfMessage = message.id;
                 }
                 break;
             default:

@@ -494,6 +494,7 @@ export class SR5_Dice {
 			case "power":
 			case "ritual":
 			case "passThroughBarrier":
+			case "escapeEngulf":
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
@@ -545,6 +546,7 @@ export class SR5_Dice {
 			case "jackOutDefense":
 			case "eraseMark":
 			case "passThroughDefense":
+			case "engulfResistance":
 				await SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
 				break;
 			case "overwatchResistance":
@@ -632,7 +634,10 @@ export class SR5_Dice {
 			
 			//SF firing mode, no additional damage from hits
 			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase;
-			else if (cardData.damageElement === "toxin") cardData.damageValue = cardData.damageValueBase;
+			else if (cardData.damageElement === "toxin") {
+				if (cardData.toxin.type === "airEngulf") cardData.damageValue = cardData.damageValueBase + netHits;
+				else cardData.damageValue = cardData.damageValueBase;
+			}
 			else cardData.damageValue = cardData.damageValueBase + netHits;
 
 			//Special case for fire damage
@@ -691,7 +696,8 @@ export class SR5_Dice {
 					let speedRound = combatant.combat.round + cardData.toxin.speed;
 					speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: speedRound})}`;
 				}
-				return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")} ${damage}<br> ${speed}`);
+				if (cardData.toxin.type === "airEngulf") return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
+				else return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")} ${damage}<br> ${speed}`);
 			}
 			else return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
 		}
@@ -713,7 +719,7 @@ export class SR5_Dice {
 		if (cardData.typeSub === "biofeedbackDamage"){
 			if (prevData.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
 			if (prevData.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
-		} 
+		}	
 	}
 
 	static async addSpellInfoToCard(cardData){
@@ -1252,6 +1258,12 @@ export class SR5_Dice {
 				key = "passThroughDefense";
 				testType = "nonOpposedTest";
 				break;
+			case "escapeEngulf":
+				label = game.i18n.localize("SR5.SpiritResistance");
+				labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
+				gmAction = true;
+				key = "escapeEngulfDefense";
+				testType = "nonOpposedTest";
 			default:
 		}
 
@@ -1352,6 +1364,23 @@ export class SR5_Dice {
 							buttonToUpdate: "passThroughDefense",
 						});
 					} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "passThroughDefense");
+				}
+				break;
+			case "engulfResistance":
+				label = game.i18n.localize("SR5.EscapeEngulfSuccess");
+				labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
+				successTestType = "SR-CardButtonHit endTest";
+				if (cardData.test.hits < cardData.hits) {
+					let parentMessage = game.messages.find(m => m.data.flags.sr5data.buttons.escapeEngulf && m.data.flags.sr5data.attackerId === cardData.attackerId)
+					if (parentMessage) prevData = parentMessage.data?.flags?.sr5data;
+					if (prevData.buttons?.escapeEngulf) {
+						if (!game.user?.isGM) {
+							await SR5_SocketHandler.emitForGM("updateChatButton", {
+								message: parentMessage.id,
+								buttonToUpdate: "escapeEngulf",
+							});
+						} else SR5_RollMessage.updateChatButton(parentMessage.id, "escapeEngulf");
+					}
 				}
 				break;
 		}

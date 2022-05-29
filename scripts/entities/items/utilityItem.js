@@ -579,7 +579,6 @@ export class SR5_UtilityItem extends Actor {
     switch (weapon.toxin.type) {
       case "airEngulf":
         if (!actor) return;
-        console.log(actor);
         weapon.toxin.vector.inhalation = true;
         weapon.toxin.speed = 0;
         weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value * 2;
