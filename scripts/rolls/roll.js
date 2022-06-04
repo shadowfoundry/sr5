@@ -308,6 +308,7 @@ export class SR5_Roll {
             case "resistanceCard":
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
                 let damageValueBase = chatData.damageValue;
+                if (chatData.damageIsContinuating) damageValueBase = chatData.damageOriginalValue;
                 //handle distance between defenser and explosive device
                 if (chatData.isGrenade){
                     let grenadePosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.itemId);          
@@ -424,6 +425,7 @@ export class SR5_Roll {
                             dicePoolBase : resistanceValue,
                             dicePoolComposition: dicePoolComposition,
                             damageContinuous: chatData.damageContinuous,
+                            damageIsContinuating: chatData.damageIsContinuating,
                             damageOriginalValue: chatData.damageOriginalValue,
                         }
                         if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
@@ -1032,7 +1034,7 @@ export class SR5_Roll {
                 //Special case for engulf
                 if (itemData.systemEffects.length){
                     for (let e of Object.values(itemData.systemEffects)){
-                        if (e.value === "engulfWater") {
+                        if (e.value === "engulfWater" || e.value === "engulfFire" || e.value === "engulfAir" || e.value === "engulfEarth") {
                             optionalData = mergeObject(optionalData, {
                                 damageContinuous: true,
                                 damageOriginalValue: itemData.damageValue.value,

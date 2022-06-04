@@ -398,7 +398,6 @@ export class SR5_RollMessage {
     //Update the stat of a chatMessage button
     static async updateChatButton(message, buttonToUpdate){
         if (buttonToUpdate === undefined) return;
-        console.log(buttonToUpdate);
         //Delete useless buttons
         message = await game.messages.get(message);
         let messageData = duplicate(message.data.flags.sr5data);
@@ -419,23 +418,7 @@ export class SR5_RollMessage {
 
         switch (buttonToUpdate) {
             case "damage":
-                if (messageData.damageContinuous){
-                    console.log("huhu");
-                    debugger;
-                    //Generate Resistance chat button
-			        let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${messageData.damageOriginalValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])}`;
-			        if (messageData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${messageData.incomingPA}`;
-			        messageData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
-                    messageData.damageResistanceType = "physicalDamage";
-                    messageData.damageValue = messageData.damageOriginalValue;
-                    let oldMessage = game.messages.get(messageData.continuousDamageId);
-                    if (oldMessage) await oldMessage.delete();
-                    //Escape engulf
-                    messageData.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
-                    messageData.continuousDamageId = message.id;
-                } else {
-                    messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
-                }
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
                 break;
             case "takeMatrixDamage":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.matrixDamageValue} ${game.i18n.localize("SR5.AppliedDamage")}`);
@@ -484,8 +467,6 @@ export class SR5_RollMessage {
                 break;
             case "toxinEffect":
                 if (messageData.toxin.type === "airEngulf"){
-                    console.log("huhu");
-                    debugger;
                     //Generate Resistance chat button
 			        let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${messageData.damageValueBase}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])}`;
 			        if (messageData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${messageData.incomingPA}`;

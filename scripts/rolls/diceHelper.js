@@ -50,7 +50,6 @@ export class SR5_DiceHelper {
     */
     static async createItemResistance(message) {
         let dicePool, targetItem, type, title, dicePoolComposition;
-        debugger;
         let cardData = {
             actorId: message.ownerAuthor,
             ownerAuthor: message.ownerAuthor,    

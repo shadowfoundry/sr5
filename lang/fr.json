@@ -1796,6 +1796,7 @@
   "SR5.SystemIdentificationNumbers"           : "Numéros d'identification système",
   "SR5.SystemIdentificationNumberShort"       : "SIN",
   "SR5.TakeOnDamage"                          : "Encaisser les dommages",
+  "SR5.TakeOnDamageContinuous"                : "Encaisser (dommages continus)",
   "SR5.TakeOnDamageShort"                     : "Encaisser",
   "SR5.TakeOnDamageBiofeedback"               : "Encaisser le biofeedback",
   "SR5.TakeOnDamagePhysical"                  : "Encaisser les dommages physiques",
