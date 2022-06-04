@@ -845,7 +845,9 @@ SR5.augmentationTypes = {
   culturedBioware           : "SR5.AugmentationTypeCulturedBioware",
   cyberware                 : "SR5.AugmentationTypeCyberware",
   genetech                  : "SR5.AugmentationTypeGenetech",
-  nanoware                  : "SR5.AugmentationTypeNanoware",
+  nanocyber                 : "SR5.AugmentationTypeNanocyber",
+  hardNanoware              : "SR5.AugmentationTypeHardNanoware",
+  softNanoware              : "SR5.AugmentationTypeSoftNanoware",
   symbionts                 : "SR5.AugmentationTypeSymbionts",
 };
 
@@ -859,6 +861,19 @@ SR5.augmentationCategories = {
   bodyware                  : "SR5.AugmentationBodyware",
   cyberweapon               : "SR5.AugmentationCyberImplantWeapons",
 };
+
+// Catégories d'Augmentations génétiques
+SR5.augmentationGeneCategories = {
+  geneticRestoration        : "SR5.AugmentationGeneticRestoration",
+  phenotypeAdjustment       : "SR5.AugmentationPhenotypeAdjustment",
+  exoticMetagenetics        : "SR5.AugmentationExoticMetagenetics",
+  transgenics               : "SR5.AugmentationTransgenics",
+  environmentalMicro        : "SR5.AugmentationEnvironmentalMicro",
+  immunization              : "SR5.AugmentationImmunization",
+  transgenicAlteration      : "SR5.AugmentationTransgenicAlteration",
+  complimentaryGenetics     : "SR5.AugmentationComplimentaryGenetics",
+};
+
 
 // Grades d'Augmentations
 SR5.augmentationGrades = {
