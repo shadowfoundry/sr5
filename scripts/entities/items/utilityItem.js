@@ -500,7 +500,7 @@ export class SR5_UtilityItem extends Actor {
         damageValue = 1;
         break;
       case "stickNShock":
-        armorPenetration = -5;
+        armorPenetration = -weapon.armorPenetration.base -5;
         damageValue = -2;
         damageType = "stun";
         damageElement = "electricity";
