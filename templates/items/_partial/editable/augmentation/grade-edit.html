@@ -1,3 +1,6 @@
+{{#if (or (eq data.type "genetech") (eq data.type "hardNanoware") (eq data.type "softNanoware") )}}
+
+{{else}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Grade'}}</div>
     <div class="col-7">
@@ -10,3 +13,4 @@
         </select>
     </div>
 </li>
+{{/if}}

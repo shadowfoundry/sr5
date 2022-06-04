@@ -3,6 +3,7 @@ import { SR5_SystemHelpers } from "./system/utility.js";
 import { SR5Actor } from "./entities/actors/entityActor.js";
 import { SR5_UtilityItem } from "./entities/items/utilityItem.js";
 import { SR5_DiceHelper } from "./rolls/diceHelper.js";
+import { SR5_RollMessage } from "./rolls/roll-message.js";
 
 export class SR5_SocketHandler {
     static registerSocketListeners() {
@@ -24,6 +25,7 @@ export class SR5_SocketHandler {
             "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
             "deleteItem": [SR5_DiceHelper._socketDeleteItem],
             "updateItem": [SR5_DiceHelper._socketUpdateItem],
+            "updateChatButton": [SR5_RollMessage._socketupdateChatButton]
         }
 
         game.socket.on(`system.sr5`, async (message) => {

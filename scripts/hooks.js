@@ -138,7 +138,7 @@ export const registerHooks = function () {
     // Determine whether a system migration is required and feasible
     if ( !game.user.isGM ) return;
     const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-    const NEEDS_MIGRATION_VERSION = "0.0.5.9";
+    const NEEDS_MIGRATION_VERSION = "0.0.5.10";
     const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
     // Perform the migration
@@ -260,6 +260,15 @@ export const registerHooks = function () {
 
   Hooks.on("updateItem", async(document, data, options, userId) => {
     if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
+    
+    //Keep agent condition monitor synchro with owner deck
+    if(document.type === "itemDevice" && data.data.conditionMonitors?.matrix){
+      if (document.parent?.type === "actorPc" || document.parent?.type === "actorGrunt"){
+        for (let a of game.actors) {
+          if(a.data.type === "actorAgent" && a.data.data.creatorId === document.parent.id) await SR5Actor.keepAgentMonitorSynchro(a);
+        }
+      } 
+    }
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {
@@ -274,6 +283,11 @@ export const registerHooks = function () {
       }
     } else {
       if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
+    }
+
+    //Keep deck condition monitor synchro with agent condition monitor
+    if (document.type === "actorAgent" && data.data.conditionMonitors?.matrix){
+      await SR5Actor.keepDeckSynchroWithAgent(document);
     }
     //let truc = document.effects.find(e => e.data.origin = "linkLock")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);

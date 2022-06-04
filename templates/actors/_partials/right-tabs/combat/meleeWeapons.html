@@ -33,29 +33,60 @@
 		</li>
 		{{#each actor.weapons as |item i|}}
 		{{#ife data.category "meleeWeapon"}}
-		<li class="item grid" data-item-id="{{item._id}}" draggable="true">
-			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				<p>
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.weaponSkill.specialization"
-					  data-helpTitle="{{localize 'SR5.Specialization'}}"
-				      data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
-						{{#if data.weaponSkill.specialization}}
-						<i class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></i>
-						{{else}}
-						<i class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></i>
-						{{/if}}
+		<li class="item grid {{#if (and (eq ../data.initiatives.astralInit.isActive true) (eq data.isLinkedToFocus false) )}}SR-SubColor50{{/if}}" data-item-id="{{item._id}}" draggable="true">
+			<div class="col-4 deplie">
+				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.weaponSkill.specialization"
+				  data-helpTitle="{{localize 'SR5.Specialization'}}"
+			      data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
+					{{#if data.weaponSkill.specialization}}
+					<i class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></i>
+					{{else}}
+					<i class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></i>
+					{{/if}}
+				</a>
+				{{#if (and data.isLinkedToFocus ../data.visions.astral.isActive)}}
+				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isUsedAsFocus"
+				  data-helpTitle="{{localize 'SR5.Focus'}}"
+			      data-helpMessage="{{localize 'SR5.HELP_WeaponFocusMsg'}}">
+					{{#if data.isUsedAsFocus}}
+					<i class="fab fa-sm fa-autoprefixer SR-SubColor"></i>
+					{{else}}
+					<i class="fab fa-sm fa-autoprefixer"></i>
+					{{/if}}
 					</a>
+				{{/if}}
+				<span data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 					{{item.name}}
-				</p>
+				</span>
 			</div>
-			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="weapon"
-			  data-helpTitle="{{localize 'SR5.DicePool'}}"
-			  data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
-			  data-helpDetailsItem="data.weaponSkill"
-			  data-helpItemId="{{_id}}"
-			>
-				{{data.weaponSkill.dicePool}}
-			</div>
+			{{#if ../data.initiatives.astralInit.isActive}}
+				{{#if data.isLinkedToFocus}}
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="astralWeapon"
+				  data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
+				  data-helpDetailsItem="data.weaponSkill" data-helpItemId="{{_id}}">
+					  {{data.weaponSkill.dicePool}}
+				</div>
+				{{else}}
+				<div class="col-1 SR-TextCenter"
+				data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_CantRollTestInAstral'}}">
+					{{data.weaponSkill.dicePool}}
+				</div>
+				{{/if}}
+			{{else}}
+				{{#if (and data.isUsedAsFocus ../data.visions.astral.isActive)}}
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="astralWeapon"
+				data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
+				data-helpDetailsItem="data.weaponSkill" data-helpItemId="{{_id}}">
+					{{data.weaponSkill.dicePool}}
+			  </div>
+				{{else}}
+				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="weapon"
+				data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
+				data-helpDetailsItem="data.weaponSkill" data-helpItemId="{{_id}}">
+					{{data.weaponSkill.dicePool}}
+				</div>
+				{{/if}}
+			{{/if}}
 			<div class="col-2 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.DamageValue'}}"
 			  data-helpDetailsItem="data.damageValue"

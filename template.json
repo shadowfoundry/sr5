@@ -1482,7 +1482,7 @@
             "linkedAttribute": "willpower",
             "limit": {
               "value": 0,
-              "base": "weaponAccuracy",
+              "base": "astralLimit",
               "modifiers": []
             },
             "skillGroup": "",
@@ -3051,7 +3051,8 @@
             "value": 0,
             "base": 0,
             "modifiers": []
-          }
+          },
+          "doublePenalties": false
         }
       },
       "itemsPropertiesTemplate": {
@@ -3114,6 +3115,28 @@
                 "modifiers": []
               },
               "sound": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "toxin": {
+              "contact": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "ingestion": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "inhalation": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "injection": {
                 "value": 0,
                 "base": 0,
                 "modifiers": []
@@ -4110,7 +4133,23 @@
             "current": 0,
             "max": 0
           },
-          "spellList":{}
+          "spellList":{},
+          "metamagics": {
+            "centering": false,
+            "centeringValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "quickening": false,
+            "shielding": false,
+            "spellShaping": false,
+            "spellShapingValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -5605,7 +5644,9 @@
           "paralysis": false
         },
         "penetration": 0
-      }
+      },
+      "isLinkedToFocus": false,
+      "isUsedAsFocus": false
     },
     "itemArmor": {
       "templates": [
@@ -5840,7 +5881,10 @@
       "type": "",
       "subType": "",
       "spellChoices":[],
-      "sustainedSpell": ""
+      "weaponChoices":[],
+      "sustainedSpell": "",
+      "linkedWeapon":"",
+      "linkedWeaponName":""
     },
     "itemKarma": {
       "templates": [
@@ -5915,7 +5959,8 @@
         "dicePool": 0,
         "base": 0,
         "modifiers": []
-      }
+      },
+      "targetOfEffect":[]
     },
     "itemAdeptPower": {
       "templates": [
@@ -6022,7 +6067,9 @@
       "targetOfEffect":[],
       "resisted": false,
       "defenseFirstAttribute": "",
-      "defenseSecondAttribute": ""
+      "defenseSecondAttribute": "",
+      "quickening": false,
+      "karmaSpent": 0
     },
     "itemPreparation": {
       "templates": [

@@ -398,7 +398,8 @@ export class SR5_UtilityItem extends Actor {
           weapon.weaponSkill.base = 0;
         } else {
           weapon.weaponSkill.base = 0;
-          weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
+          if ((actorData.data.initiatives.astralInit.isActive || weapon.isUsedAsFocus) && weapon.isLinkedToFocus) weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills.astralCombat.test.modifiers);
+          else weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
           //Special case : bow
           if (weapon.type === "bow" && (actorData.data.attributes.strength.augmented.value < weapon.itemRating)){
             let malus = (actorData.data.attributes.strength.augmented.value - weapon.itemRating) * 3;
@@ -414,7 +415,8 @@ export class SR5_UtilityItem extends Actor {
     if (actor) {
       if (weapon.accuracy.isPhysicalLimitBased) weapon.accuracy.base = actor.data.limits.physicalLimit.value;
       if (weapon.damageValue.isStrengthBased && actor.type !=="actorDrone") {
-        SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.strength.augmented.value);
+        if ((actor.data.initiatives.astralInit.isActive || weapon.isUsedAsFocus) && weapon.isLinkedToFocus) SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.charisma.augmented.value);
+        else SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.strength.augmented.value);
       }
       if (actor.data.itemsProperties?.weapon) {
         for (let modifier of actor.data.itemsProperties.weapon.accuracy.modifiers) {
@@ -498,7 +500,7 @@ export class SR5_UtilityItem extends Actor {
         damageValue = 1;
         break;
       case "stickNShock":
-        armorPenetration = -5;
+        armorPenetration = -weapon.armorPenetration.base -5;
         damageValue = -2;
         damageType = "stun";
         damageElement = "electricity";
@@ -573,8 +575,17 @@ export class SR5_UtilityItem extends Actor {
   }
 
   // Génére les spec des toxines pour les munitions & grenades
-  static _handleWeaponToxin(weapon) {
+  static _handleWeaponToxin(weapon, actor) {
     switch (weapon.toxin.type) {
+      case "airEngulf":
+        if (!actor) return;
+        weapon.toxin.vector.inhalation = true;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value * 2;
+        weapon.toxin.penetration = -actor.data.specialAttributes.magic.augmented.value;
+        weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value * 2;
+        weapon.damageType = "stun";
+        break;
       case "gamma":
         weapon.toxin.vector.injection = true;
         weapon.toxin.speed = 0;
@@ -742,6 +753,7 @@ export class SR5_UtilityItem extends Actor {
           }
           break;
         case "concealedQDHolster":
+          a.price = 275;
           if (a.isActive) SR5_EntityHelpers.updateModifier(weapon.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1);
           break;
         case "electronicFiring":
@@ -953,6 +965,9 @@ export class SR5_UtilityItem extends Actor {
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
     }
+
+    if (typeof weapon.accessory === "object") weapon.accessory = Object.values(weapon.accessory);
+
     for (let a of weapon.accessory) {
       switch (a.name) {
         case "flashLightInfrared":
@@ -1212,6 +1227,46 @@ export class SR5_UtilityItem extends Actor {
       }
     }
     return spellList;
+  }
+
+  static _generateWeaponFocusWeaponList(focus, actor) {
+    let weaponList = [];
+    for (let i of actor.items) {
+      if (i.type === "itemWeapon" && i.data.data.category === "meleeWeapon") {
+        if (i.data.data.systemEffects.length) continue;
+        let weapon = {
+          "name": i.name,
+          "id": i.id,
+        }
+        weaponList.push(weapon);
+      }
+    }
+    return weaponList;
+  }
+
+  static async _checkIfWeaponIsFocus(i, actor){
+    let focus = actor.items.find(w => w.data.data.linkedWeapon === i.id);
+    if (focus) i.data.data.isLinkedToFocus = true;
+    else i.data.data.isLinkedToFocus = false;
+  }
+
+  static async _handleWeaponFocus(i, actor){
+    let focus = actor.items.find(w => w.data.data.linkedWeapon === i._id);
+    if (focus) {
+      if (focus.data.data.isActive){
+        let effect = {
+          "name": `${focus.name}`,
+          "target": "data.weaponSkill",
+          "wifi": false,
+          "transfer": false,
+          "ownerItem": focus.id,
+          "type": "value",
+          "value": focus.data.data.itemRating,
+          "multiplier": 1
+        }
+        i.data.itemEffects.push(effect);
+      } 
+    }
   }
 
   ////////////////////// DECK & PROGRAMMES ///////////////////////

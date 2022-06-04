@@ -780,6 +780,7 @@ SR5.weaponAccessorySlots = {
 
 // Toxins
 SR5.toxinTypes = {
+  airEngulf                 : "SR5.SpiritPowerEngulfAir",
   gamma                     : "SR5.ToxinGamma",
   csTearGas                 : "SR5.ToxinCSTearGas",
   pepperPunch               : "SR5.ToxinPepperPunch",
@@ -843,6 +844,11 @@ SR5.augmentationTypes = {
   bioware                   : "SR5.AugmentationTypeBioware",
   culturedBioware           : "SR5.AugmentationTypeCulturedBioware",
   cyberware                 : "SR5.AugmentationTypeCyberware",
+  genetech                  : "SR5.AugmentationTypeGenetech",
+  nanocyber                 : "SR5.AugmentationTypeNanocyber",
+  hardNanoware              : "SR5.AugmentationTypeHardNanoware",
+  softNanoware              : "SR5.AugmentationTypeSoftNanoware",
+  symbionts                 : "SR5.AugmentationTypeSymbionts",
 };
 
 // Catégories d'Augmentations
@@ -855,6 +861,19 @@ SR5.augmentationCategories = {
   bodyware                  : "SR5.AugmentationBodyware",
   cyberweapon               : "SR5.AugmentationCyberImplantWeapons",
 };
+
+// Catégories d'Augmentations génétiques
+SR5.augmentationGeneCategories = {
+  geneticRestoration        : "SR5.AugmentationGeneticRestoration",
+  phenotypeAdjustment       : "SR5.AugmentationPhenotypeAdjustment",
+  exoticMetagenetics        : "SR5.AugmentationExoticMetagenetics",
+  transgenics               : "SR5.AugmentationTransgenics",
+  environmentalMicro        : "SR5.AugmentationEnvironmentalMicro",
+  immunization              : "SR5.AugmentationImmunization",
+  transgenicAlteration      : "SR5.AugmentationTransgenicAlteration",
+  complimentaryGenetics     : "SR5.AugmentationComplimentaryGenetics",
+};
+
 
 // Grades d'Augmentations
 SR5.augmentationGrades = {
@@ -1150,6 +1169,14 @@ SR5.ritualDurations = {
 SR5.ritualDurationMultipliers = {
   force                  : "SR5.Force",
   netHits                : "SR5.NetHits",
+}
+
+//Metamagics
+SR5.metamagics = {
+  centering                : "SR5.MetamagicCentering",
+  quickening               : "SR5.MetamagicQuickening",
+  shielding                : "SR5.MetamagicShielding",
+  spellShaping             : "SR5.MetamagicSpellShaping",
 }
 
 //-----------------------------------//
@@ -2288,7 +2315,13 @@ SR5.effectTypes = {
   itemComplexForm           : "ITEM.TypeItemcomplexform",
   itemSpell                 : "ITEM.TypeItemspell",
   itemAdeptPower            : "ITEM.TypeItemadeptpower",
+  itemPreparation           : "ITEM.TypeItempreparation",
+  itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
+  toxinEffect               : "SR5.Toxin",
+  toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
+  toxinEffectNausea         : "SR5.ToxinEffectNausea",
+  toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 }
 
 SR5.effectDuration = {
@@ -2297,6 +2330,8 @@ SR5.effectDuration = {
   special                   : "SR5.DurationSpecial",
   sustained                 : "SR5.DurationSustained",
   reboot                    : "SR5.UntilReboot",
+  minute                    : "SR5.Minutes",
+  hour                      : "SR5.Hours",
 }
 
 SR5.specialProperties = {
@@ -2313,6 +2348,7 @@ SR5.specialPropertiesList = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
+  doublePenalties           : "SR5.PenaltyDouble",
 }
 
 SR5.transactionsTypes = {
@@ -2428,6 +2464,17 @@ SR5.statusEffects = [
     id: "fullDefense",
     label: "SR5.STATUSES_FullDefense",
     origin: "fullDefense"
+  },
+  {
+    icon: "systems/sr5/img/status/StatusNoActionOn.svg",
+    id: "noAction",
+    label: "SR5.EffectNoAction",
+    flags: {
+      core: {
+        overlay: true,
+      }
+    },
+    origin: "noAction"
   },
 ];
 

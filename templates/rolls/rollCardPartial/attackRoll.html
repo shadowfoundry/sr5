@@ -9,6 +9,24 @@
     <div class="col-4 SR-TextRight">{{findTranslation 'specialDamageTypes' damageElement}}</div>
 </li>
 {{/if}}
+{{#if (eq damageElement "toxin")}}
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}} </div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'toxinTypes' toxin.type}}</div>
+</li>
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.ToxinPenetration'}}{{localize 'SR5.Colons'}} </div>
+    <div class="col-4 SR-TextRight">{{toxin.penetration}}</div>
+</li>
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.ToxinPower'}}{{localize 'SR5.Colons'}} </div>
+    <div class="col-4 SR-TextRight">{{toxin.power}}</div>
+</li>
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.ToxinSpeed'}}{{localize 'SR5.Colons'}} </div>
+    <div class="col-4 SR-TextRight">{{toxin.speed}}</div>
+</li>
+{{/if}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{incomingPA}}</div>
@@ -24,15 +42,15 @@
     <div class="col-2 SR-TextRight">{{findTranslation 'weaponModesCode' firingMode}}</div>
     {{/if}}
 </li>
-{{#if (ne item.data.ammunition.type '')}}
+{{#if (ne ammoType '')}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.AmmunitionType'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' item.data.ammunition.type}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' ammoType}}</div>
 </li>
 {{/if}}
 {{#if (eq typeSub 'grenade')}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.Blast'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{item.data.blast.radius}}m {{#if_l item.data.blast.damageFallOff 0}} ({{item.data.blast.damageFallOff}}) {{/if_l}}</div>
+    <div class="col-2 SR-TextRight">{{blastRadius}}m {{#if_l damageFallOff 0}} ({{damageFallOff}}) {{/if_l}}</div>
 </li>
 {{/if}}

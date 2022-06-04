@@ -320,6 +320,7 @@ export const preloadHandlebarsTemplates = async function () {
         //Focus
         "systems/sr5/templates/items/_partial/editable/focus/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/focus/subType-edit.html",
+        "systems/sr5/templates/items/_partial/editable/focus/weaponLink-edit.html",
 
         //Karma
         "systems/sr5/templates/items/_partial/editable/karma/type-edit.html",
@@ -374,6 +375,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/quickening-edit.html",
 
         //Spirit
         "systems/sr5/templates/items/_partial/editable/spirit/force-edit.html",
@@ -478,6 +480,10 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/centering.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
 
 
     /************************************************************************************* */
@@ -489,7 +495,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollCardPartial/limitRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html",
-
+    "systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html",
   ];
 
   // Load the template parts

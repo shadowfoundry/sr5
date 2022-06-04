@@ -137,7 +137,11 @@ export class SR5_CharacterUtility extends Actor {
       data.itemsProperties.armor.modifiers = [];
       for (let key of Object.keys(lists.specialDamageTypes)){
         data.itemsProperties.armor.specialDamage[key].modifiers = [];
-        data.itemsProperties.armor.specialDamage[key].value = [];
+        data.itemsProperties.armor.specialDamage[key].value = 0;
+      }
+      for (let key of Object.keys(lists.propagationVectors)){
+        data.itemsProperties.armor.toxin[key].modifiers = [];
+        data.itemsProperties.armor.toxin[key].value = 0;
       }
     }
 
@@ -327,6 +331,7 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.hardenedArmorRating = 0;
       data.specialProperties.hardenedAstralArmorType = "";
       data.specialProperties.hardenedAstralArmorRating = "";
+      data.specialProperties.doublePenalties = false;
     }
 
     // Reset Vehicule Test
@@ -491,6 +496,16 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset bounded spirit
       data.magic.boundedSpirit.current = 0;
+
+      //Reset metamagic
+      data.magic.metamagics.centering = false;
+      data.magic.metamagics.quickening = false;
+      data.magic.metamagics.shielding = false;
+      data.magic.metamagics.spellShaping = false;
+      data.magic.metamagics.centeringValue.value = 0;
+      data.magic.metamagics.centeringValue.modifiers = [];
+      data.magic.metamagics.spellShapingValue.value = 0;
+      data.magic.metamagics.spellShapingValue.modifiers = [];
     }
 
     // Reset Monitors
@@ -513,14 +528,17 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     // Reset Reputation
-    if (data.streetCred) {
-      data.streetCred.value = 0;
-      data.streetCred.modifiers = [];
-    }
+
     if (data.notoriety) {
       data.notoriety.value = 0;
       data.notoriety.modifiers = [];
     }
+
+    if (data.streetCred) {
+      data.streetCred.value = 0;
+      data.streetCred.modifiers = [];
+    }
+
     if (data.publicAwareness) {
       data.publicAwareness.value = 0;
       data.publicAwareness.modifiers = [];
@@ -542,16 +560,21 @@ export class SR5_CharacterUtility extends Actor {
 
   static updateKarmas(actor) {
     SR5_EntityHelpers.updateValue(actor.data.karma);
-    let KarmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
-    SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(KarmaGained/10), false, false);
-  }
-
-  static updateStreetCred(actor) {
-    SR5_EntityHelpers.updateValue(actor.data.streetCred);
+    let karmaGained = SR5_EntityHelpers.modifiersOnlyPositivesSum(actor.data.karma.modifiers);
+    if (karmaGained > 9) SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.KarmaGained')}`, `${game.i18n.localize('SR5.Karma')}`, Math.floor(karmaGained/10), false, true);
   }
 
   static updateNotoriety(actor) {
     SR5_EntityHelpers.updateValue(actor.data.notoriety);
+    if (actor.data.notoriety.value < 0) {
+      SR5_EntityHelpers.updateModifier(actor.data.streetCred, `${game.i18n.localize('SR5.ReputationNotorietyNegative')}`, `${game.i18n.localize('SR5.ReputationNotoriety')}`, -actor.data.notoriety.value, false, true);
+      SR5_CharacterUtility.updateStreetCred(actor);
+      actor.data.notoriety.value = 0;
+    }
+  }
+
+  static updateStreetCred(actor) {
+    SR5_EntityHelpers.updateValue(actor.data.streetCred);
   }
 
   static updatePublicAwareness(actor) {
@@ -572,6 +595,7 @@ export class SR5_CharacterUtility extends Actor {
               SR5_EntityHelpers.updateValue(data.penalties[key].step);
               SR5_EntityHelpers.updateValue(data.penalties[key].boxReduction);
               data.penalties[key].actual.base = -Math.floor( (data.conditionMonitors[key].actual.value - data.penalties[key].boxReduction.value) / data.penalties[key].step.value);
+              if (data.specialProperties.doublePenalties) data.penalties[key].actual.base = data.penalties[key].actual.base * 2;
               if (data.penalties[key].actual.base > 0) data.penalties[key].actual.base = 0;
             }
             break;
@@ -791,6 +815,13 @@ export class SR5_CharacterUtility extends Actor {
       SR5_EntityHelpers.updateValue(data.attributes[key].natural, 0);
       data.attributes[key].augmented.base = data.attributes[key].natural.value;
       SR5_EntityHelpers.updateValue(data.attributes[key].augmented, 0);
+    }
+
+    if (data.initiatives.astralInit?.isActive && (actor.type == "actorPc" || actor.type == "actorGrunt")){
+      data.attributes.agility.augmented = data.attributes.logic.augmented;
+      data.attributes.body.augmented = data.attributes.willpower.augmented;
+      data.attributes.reaction.augmented = data.attributes.intuition.augmented;
+      data.attributes.strength.augmented = data.attributes.charisma.augmented;
     }
   }
 
@@ -1628,6 +1659,9 @@ export class SR5_CharacterUtility extends Actor {
     for (let key of Object.keys(lists.specialDamageTypes)){
       SR5_EntityHelpers.updateValue(actor.data.itemsProperties.armor.specialDamage[key], 0);
     }
+    for (let key of Object.keys(lists.propagationVectors)){
+      SR5_EntityHelpers.updateValue(actor.data.itemsProperties.armor.toxin[key], 0);
+    }
   }
   // Generate Actors Resistances
   static updateResistances(actor) {
@@ -1665,6 +1699,9 @@ export class SR5_CharacterUtility extends Actor {
               resistances[key][vector].base = 0;
               SR5_EntityHelpers.updateModifier(resistances[key][vector],`${game.i18n.localize('SR5.Body')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.body.augmented.value);
               SR5_EntityHelpers.updateModifier(resistances[key][vector],`${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
+              if (data.itemsProperties && key === "toxin") {
+                resistances.toxin[vector].modifiers = resistances.toxin[vector].modifiers.concat(data.itemsProperties.armor.toxin[vector].modifiers);
+              }
               SR5_EntityHelpers.updateDicePool(resistances[key][vector], 0);
             }
             break;
@@ -2275,7 +2312,7 @@ export class SR5_CharacterUtility extends Actor {
       }
     }
 
-    if (magic.magicType == 'magician' || magic.magicType == 'aspectedMagician' || magic.magicType == 'mysticalAdept') {
+    if (magic.magicType == 'magician' || magic.magicType == 'aspectedMagician' || magic.magicType == 'mysticalAdept' || magic.magicType == 'spirit') {
       magic.passThroughBarrier.base = 0;
       SR5_EntityHelpers.updateModifier(magic.passThroughBarrier, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.charisma.augmented.value);
       SR5_EntityHelpers.updateModifier(magic.passThroughBarrier, `${game.i18n.localize('SR5.Magic')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.magic.augmented.value);
@@ -2327,12 +2364,19 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateDicePool(magic.astralTracking, 0);
 
     magic.boundedSpirit.max = specialAttributes.magic.augmented.value;
+
+    //Metamagic stuff
+    magic.metamagics.centeringValue.base = magic.initiationGrade;
+    magic.metamagics.spellShapingValue.base = specialAttributes.magic.augmented.value;
+    SR5_EntityHelpers.updateValue(magic.metamagics.centeringValue, 0);
+    SR5_EntityHelpers.updateValue(magic.metamagics.spellShapingValue, 0);
   }
 
   //
   static updateCounterSpellPool(actor){
     let data = actor.data, lists = actor.lists, magic = data.magic, attributes = data.attributes, specialAttributes = data.specialAttributes, skills = data.skills;
     magic.counterSpellPool.base = skills.counterspelling.rating.value;
+    if (magic.metamagics.shielding) SR5_EntityHelpers.updateModifier(magic.counterSpellPool, `${game.i18n.localize('SR5.MetamagicShielding')}`, `${game.i18n.localize('SR5.Metamagic')}`, magic.initiationGrade);
     SR5_EntityHelpers.updateValue(magic.counterSpellPool);
   }
 
@@ -2637,6 +2681,8 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateModifier(matrixActions.jackOut.defense, `${game.i18n.localize('SR5.MatrixAttack')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelAttack}`, attackValue);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelWillpower}`, willpowerValue);
     SR5_EntityHelpers.updateModifier(matrixActions.traceIcon.defense, `${game.i18n.localize('SR5.Sleaze')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelSleaze}`, sleazeValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')} ${controlerLabelIntuition}`, intuitionValue);
+    SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, `${game.i18n.localize('SR5.Firewall')}`, `${game.i18n.localize('SR5.MatrixAttribute')} ${controlerLabelFirewall}`, firewallValue );
 
     matrixActions.checkOverwatchScore.defense.base = 6;
 
@@ -2902,31 +2948,6 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(actorData.matrix.noise)
     //Grid
     actorData.userGrid = creatorMatrix.userGrid;
-  }
-
-  static async updateAgentOwner(agent){
-    if(!agent.data.creatorData) return;
-    if(!canvas.scene) return;
-    let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.creatorId);
-    let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-    let newDeck = duplicate(ownerDeck);
-    if (newDeck.data.conditionMonitors.matrix.actual.value !== agent.data.conditionMonitors.matrix.actual.value){
-      newDeck.data.conditionMonitors.matrix = agent.data.conditionMonitors.matrix;
-      ownerDeck.update(newDeck);
-    }
-  }
-
-  static async updateAgent(actor, deck){
-    if (game.actors) {
-      for (let a of game.actors) {
-        if(a.data.type === "actorAgent" && a.data.data.creatorId === actor._id){
-          let agent = duplicate(a);
-          agent.data.conditionMonitors.matrix = deck.data.conditionMonitors.matrix;
-          agent.data.creatorData = actor.toObject(false);
-          a.update(agent);
-        }
-      }
-    }
   }
 
   static applyProgramToAgent(actor){

@@ -8,9 +8,9 @@
     <div class="col-5">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextCenter">
         <select name="spiritType">
-            {{#ifne actor.data.magic.tradition ''}}
+            {{#ifne actorTradition ''}}
             {{#select espritType}}
-                {{#each actor.data.magic.elements}}
+                {{#each elements}}
                 <option value="{{this}}">{{findTranslation "spiritTypes" this}}</option>
                 {{/each}}
             {{/select}}
