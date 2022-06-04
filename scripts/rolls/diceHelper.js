@@ -50,7 +50,6 @@ export class SR5_DiceHelper {
     */
     static async createItemResistance(message) {
         let dicePool, targetItem, type, title, dicePoolComposition;
-
         let cardData = {
             actorId: message.ownerAuthor,
             ownerAuthor: message.ownerAuthor,    
@@ -176,6 +175,25 @@ export class SR5_DiceHelper {
                 type: type,
                 title: title,
             });
+        }
+
+        //Escape Engulf
+        if (message.type === "escapeEngulf"){
+            let spirit = SR5_EntityHelpers.getRealActorFromID(message.attackerId);
+            dicePool = spirit.data.data.attributes.body.augmented.value + spirit.data.data.specialAttributes.magic.augmented.value;
+            dicePoolComposition = ([
+                {source: game.i18n.localize("SR5.Body"), value: spirit.data.data.attributes.body.augmented.value},
+                {source: game.i18n.localize("SR5.Magic"), value: spirit.data.data.specialAttributes.magic.augmented.value},
+            ]);
+            cardData = mergeObject(cardData, {
+                attackerId: message.attackerId,
+                dicePoolComposition: dicePoolComposition,
+                originalMessage: message.originalMessage,
+                hits: message.test.hits,
+                type: "engulfResistance",
+                title: `${game.i18n.localize("SR5.SpiritResistance")} (${cardData.hits})`,
+            });
+            
         }
 
         let result = SR5_Dice.srd6({ dicePool: dicePool });
@@ -947,6 +965,35 @@ export class SR5_DiceHelper {
         });
     }
 
+    static async chooseToxinVector(vectors){
+        let cancel = true;
+        let dialogData = {list: vectors}
+        return new Promise((resolve, reject) => {
+            renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData).then((dlg) => {
+                new Dialog({
+                title: game.i18n.localize('SR5.ChooseToxinVector'),
+                content: dlg,
+                buttons: {
+                    ok: {
+                    label: "Ok",
+                    callback: () => (cancel = false),
+                    },
+                    cancel: {
+                    label : "Cancel",
+                    callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    let vector = html.find("[name=vector]").val();
+                    resolve(vector);
+                },
+                }).render(true);
+            });
+        });
+    }
+
     static async rollJackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         actor = actor.toObject(false);
@@ -1279,5 +1326,88 @@ export class SR5_DiceHelper {
                 data: itemData,
             });
         } else await item.update({'data': itemData});
+    }
+
+    static async getToxinEffect(effecType, data, actor){
+        let itemEffects = [];
+        let toxinType = data.toxin.type;
+        let hasEffect;
+
+        let effect = {
+            name: game.i18n.localize(SR5.toxinTypes[toxinType]),
+            type: "itemEffect",
+        }
+
+        switch (effecType){
+            case "disorientation":
+                hasEffect = actor.items.find(i => i.data.data.type === "toxinEffectDisorientation");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "toxinEffectDisorientation",
+                        "data.value": -2,
+                        "data.duration": 10,
+                        "data.durationType": "minute",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "nausea":
+                hasEffect = actor.items.find(i => i.data.data.type === "toxinEffectNausea");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.PenaltyDouble"),
+                        "data.type": "toxinEffectNausea",
+                        "data.value": "x2",
+                        "data.duration": 10,
+                        "data.durationType": "minute",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "specialProperties",
+                                "target": "data.specialProperties.doublePenalties",
+                                "type": "boolean",
+                                "value": "true",
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "paralysis":
+                hasEffect = actor.items.find(i => i.data.data.type === "toxinEffectParalysis");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "toxinEffectParalysis",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            default:
+        }
+    
+    return itemEffects;
     }
 }

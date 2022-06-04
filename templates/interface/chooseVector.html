@@ -1,0 +1,12 @@
+<form>
+    <div class="form-group">
+      <div>{{localize 'SR5.ChooseToxinVector'}}</div>
+      <select name="vector" data-dtype="String">
+        {{#select vector}}
+          {{#each list}}
+          <option value="{{this}}">{{findTranslation 'propagationVectors' this}}</option>
+          {{/each}}
+        {{/select}}
+      </select>
+    </div>
+</form>

@@ -780,6 +780,7 @@ SR5.weaponAccessorySlots = {
 
 // Toxins
 SR5.toxinTypes = {
+  airEngulf                 : "SR5.SpiritPowerEngulfAir",
   gamma                     : "SR5.ToxinGamma",
   csTearGas                 : "SR5.ToxinCSTearGas",
   pepperPunch               : "SR5.ToxinPepperPunch",
@@ -2302,6 +2303,10 @@ SR5.effectTypes = {
   itemPreparation           : "ITEM.TypeItempreparation",
   itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
+  toxinEffect               : "SR5.Toxin",
+  toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
+  toxinEffectNausea         : "SR5.ToxinEffectNausea",
+  toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 }
 
 SR5.effectDuration = {
@@ -2310,6 +2315,8 @@ SR5.effectDuration = {
   special                   : "SR5.DurationSpecial",
   sustained                 : "SR5.DurationSustained",
   reboot                    : "SR5.UntilReboot",
+  minute                    : "SR5.Minutes",
+  hour                      : "SR5.Hours",
 }
 
 SR5.specialProperties = {
@@ -2326,6 +2333,7 @@ SR5.specialPropertiesList = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
+  doublePenalties           : "SR5.PenaltyDouble",
 }
 
 SR5.transactionsTypes = {
@@ -2441,6 +2449,17 @@ SR5.statusEffects = [
     id: "fullDefense",
     label: "SR5.STATUSES_FullDefense",
     origin: "fullDefense"
+  },
+  {
+    icon: "systems/sr5/img/status/StatusNoActionOn.svg",
+    id: "noAction",
+    label: "SR5.EffectNoAction",
+    flags: {
+      core: {
+        overlay: true,
+      }
+    },
+    origin: "noAction"
   },
 ];
 

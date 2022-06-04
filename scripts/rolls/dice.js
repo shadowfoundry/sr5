@@ -307,7 +307,7 @@ export class SR5_Dice {
 						if (dialogData.type === "matrixAction" && (dialogData.typeSub === "hackOnTheFly" || dialogData.typeSub === "bruteForce")){
 							dialogData.mark = SR5_DiceHelper.calculMark(-dialogData.dicePoolMod.matrixMarkWanted);
 						}
-						await SR5_Dice.srDicesAddInfoToCard(cardData, actor.id);
+						await SR5_Dice.srDicesAddInfoToCard(cardData, dialogData.actorId);
 
 						// Return roll result and card info to chat message.
 						await SR5_Dice.renderRollCard(cardData);
@@ -422,7 +422,7 @@ export class SR5_Dice {
 		borderColor: userActive.color,
 		};
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		//Handle Dice so Nice
 		await SR5_Dice.showDiceSoNice(
 		cardData.test.originalRoll,
@@ -494,6 +494,7 @@ export class SR5_Dice {
 			case "power":
 			case "ritual":
 			case "passThroughBarrier":
+			case "escapeEngulf":
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
@@ -545,6 +546,7 @@ export class SR5_Dice {
 			case "jackOutDefense":
 			case "eraseMark":
 			case "passThroughDefense":
+			case "engulfResistance":
 				await SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
 				break;
 			case "overwatchResistance":
@@ -590,6 +592,7 @@ export class SR5_Dice {
 			//Handle Grenade Resistant chat button
 			let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+			if (cardData.damageElement === "toxin") label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.Toxin")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.toxinTypes[cardData.toxin.type])}`;
 			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard",label);
 		} else if (cardData.test.hits > 0) {
 			if (cardData.typeSub === "rangedWeapon") {
@@ -606,6 +609,15 @@ export class SR5_Dice {
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		let actorData = actor.data.data;
 		let netHits = cardData.hits - cardData.test.hits;
+
+		//Special case for injection ammo, need 3 net hits if armor is weared
+		if (cardData.ammoType === "injection" && actor.data.data.itemsProperties.armor.value > 0){
+			if (netHits < 3) {
+				cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
+				return ui.notifications.info(game.i18n.localize("SR5.INFO_NeedAtLeastThreeNetHits"));
+			}
+		}
+
 		if (netHits <= 0) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
 		else {
 			if (cardData.typeSub === "astralCombat") cardData.damageResistanceType = "astralDamage";
@@ -621,7 +633,11 @@ export class SR5_Dice {
 			}
 			
 			//SF firing mode, no additional damage from hits
-			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase
+			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase;
+			else if (cardData.damageElement === "toxin") {
+				if (cardData.toxin.type === "airEngulf") cardData.damageValue = cardData.damageValueBase + netHits;
+				else cardData.damageValue = cardData.damageValueBase;
+			}
 			else cardData.damageValue = cardData.damageValueBase + netHits;
 
 			//Special case for fire damage
@@ -660,9 +676,32 @@ export class SR5_Dice {
 			originalMessage = game.messages.get(cardData.originalMessage);
 			prevData = originalMessage.data?.flags?.sr5data;
 		}
-		if (prevData?.type === "spell") {
-			if (prevData.spellRange !== "area") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
-		} else if (prevData && prevData?.typeSub !== "grenade") SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+		if (prevData?.type === "spell" && prevData?.spellRange === "area") ;
+		else if (prevData?.typeSub === "grenade") ;
+		else if (cardData.damageContinuous && cardData.damageIsContinuating) ;
+		else SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+
+		//Toxin management
+		if (cardData.damageElement === "toxin"){
+			cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
+			if (cardData.damageValue > 0) {
+				//Get Damage info
+				let damage = "";
+				if (cardData.damageType) damage = `& ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+				//Get Speed info
+				let speed = game.i18n.localize("SR5.ApplyToxinEffectAtTheEndOfTheRound");
+				if (cardData.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: cardData.toxin.speed})}`;
+				//If Actor is in combat, adjust speed to display the good round
+				let combatant = SR5Combat.getCombatantFromActor(actor);
+				if (combatant){
+					let speedRound = combatant.combat.round + cardData.toxin.speed;
+					speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: speedRound})}`;
+				}
+				if (cardData.toxin.type === "airEngulf") return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
+				else return cardData.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")} ${damage}<br> ${speed}`);
+			}
+			else return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+		}
 
 		//Add automatic succes for Hardened Armor.
 		if ((actorData.specialProperties?.hardenedArmor.value > 0) && (cardData.damageSource !== "spell")) {
@@ -673,7 +712,25 @@ export class SR5_Dice {
       		}
 		}
 
+		if (cardData.damageIsContinuating) cardData.damageValueBase = cardData.damageOriginalValue;
 		cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
+
+		//Handle continous damage
+		if (cardData.damageContinuous && !cardData.damageIsContinuating) {
+			if (cardData.damageValue > 0) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
+			else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+			let label = `${game.i18n.localize("SR5.TakeOnDamageContinuous")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageOriginalValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+            cardData.damageResistanceType = "physicalDamage";
+			cardData.damageIsContinuating = true;
+            //Escape engulf
+            cardData.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
+            //messageData.continuousDamageId = message.id;
+			return;
+		}
+
+		//Normal damage
 		if (cardData.damageValue > 0) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
 
@@ -681,7 +738,7 @@ export class SR5_Dice {
 		if (cardData.typeSub === "biofeedbackDamage"){
 			if (prevData.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
 			if (prevData.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
-		} 
+		}
 	}
 
 	static async addSpellInfoToCard(cardData){
@@ -1220,6 +1277,12 @@ export class SR5_Dice {
 				key = "passThroughDefense";
 				testType = "nonOpposedTest";
 				break;
+			case "escapeEngulf":
+				label = game.i18n.localize("SR5.SpiritResistance");
+				labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
+				gmAction = true;
+				key = "escapeEngulfDefense";
+				testType = "nonOpposedTest";
 			default:
 		}
 
@@ -1320,6 +1383,30 @@ export class SR5_Dice {
 							buttonToUpdate: "passThroughDefense",
 						});
 					} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "passThroughDefense");
+				}
+				break;
+			case "engulfResistance":
+				label = game.i18n.localize("SR5.EscapeEngulfSuccess");
+				labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
+				successTestType = "SR-CardButtonHit endTest";
+				if (cardData.test.hits < cardData.hits) {
+					let parentMessage = game.messages.find(m => m.data.flags.sr5data.buttons.escapeEngulf && m.data.flags.sr5data.attackerId === cardData.attackerId)
+					if (parentMessage) prevData = parentMessage.data?.flags?.sr5data;
+					if (prevData.buttons?.escapeEngulf) {
+						if (!game.user?.isGM) {
+							await SR5_SocketHandler.emitForGM("updateChatButton", {
+								message: parentMessage.id,
+								buttonToUpdate: "escapeEngulf",
+							});
+							await SR5_SocketHandler.emitForGM("updateChatButton", {
+								message: parentMessage.id,
+								buttonToUpdate: "resistanceCard",
+							});
+						} else {
+							SR5_RollMessage.updateChatButton(parentMessage.id, "escapeEngulf");
+							SR5_RollMessage.updateChatButton(parentMessage.id, "resistanceCard");
+						}
+					}
 				}
 				break;
 		}

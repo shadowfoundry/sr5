@@ -82,10 +82,7 @@ export class SR5Actor extends Actor {
     switch (data.type){
       case "actorSpirit":
         let spiritForce, spiritType;
-        renderTemplate(
-          "systems/sr5/templates/interface/createSpirit.html",
-          dialogData
-        ).then((dlg) => {
+        renderTemplate("systems/sr5/templates/interface/createSpirit.html", dialogData).then((dlg) => {
           new Dialog({
             title: game.i18n.localize('SR5.SpiritType'),
             content: dlg,
@@ -119,10 +116,7 @@ export class SR5Actor extends Actor {
       break;
       case "actorSprite":
         let spriteLevel, spriteType;
-        renderTemplate(
-          "systems/sr5/templates/interface/createSprite.html",
-          dialogData
-        ).then((dlg) => {
+        renderTemplate("systems/sr5/templates/interface/createSprite.html", dialogData).then((dlg) => {
           new Dialog({
             title: game.i18n.localize('SR5.SpriteType'),
             content: dlg,
@@ -1635,6 +1629,55 @@ export class SR5Actor extends Actor {
         if (needUpdate) await i.update({"data": dataToUpdate,});
       }
     }
+  }
+
+  //Apply specific toxin effect
+  async applyToxinEffect(data){
+    let effects, status, isStatusEffectOn;
+    let toxinEffects = [];
+    let statusEffects = [];
+
+    for (let [key, value] of Object.entries(data.toxin.effect)){
+      if (value) {
+        effects = await SR5_DiceHelper.getToxinEffect(key, data, this);
+        toxinEffects = toxinEffects.concat(effects);
+        //Nausea Status Effect
+        if (key === "nausea"){
+          isStatusEffectOn = this.effects.find(e => e.data.origin === "toxinEffectNausea");
+          if (!isStatusEffectOn){
+            status = await _getSRStatusEffect("toxinEffectNausea");
+            statusEffects = statusEffects.concat(status);
+          }
+          if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("noAction");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+        }
+        //Disorientation Status Effect
+        if (key === "disorientation"){
+          isStatusEffectOn = this.effects.find(e => e.data.origin === "toxinEffectDisorientation");
+          if (!isStatusEffectOn){
+            status = await _getSRStatusEffect("toxinEffectDisorientation");
+            statusEffects = statusEffects.concat(status);
+          }
+        }
+        //Paralysis Status Effect
+        if (key === "paralysis" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+          let isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+          if (!isStatusEffectOn){
+            status = await _getSRStatusEffect("noAction");
+            statusEffects = statusEffects.concat(status);
+          }
+        }
+      }
+    }
+
+    if (toxinEffects.length) await this.createEmbeddedDocuments("Item", toxinEffects);
+    if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
+    if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
   }
 
   //Keep Agent condition Monitor synchro with Owner deck

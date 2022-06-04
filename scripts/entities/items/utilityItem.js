@@ -575,8 +575,17 @@ export class SR5_UtilityItem extends Actor {
   }
 
   // Génére les spec des toxines pour les munitions & grenades
-  static _handleWeaponToxin(weapon) {
+  static _handleWeaponToxin(weapon, actor) {
     switch (weapon.toxin.type) {
+      case "airEngulf":
+        if (!actor) return;
+        weapon.toxin.vector.inhalation = true;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value * 2;
+        weapon.toxin.penetration = -actor.data.specialAttributes.magic.augmented.value;
+        weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value * 2;
+        weapon.damageType = "stun";
+        break;
       case "gamma":
         weapon.toxin.vector.injection = true;
         weapon.toxin.speed = 0;

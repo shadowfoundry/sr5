@@ -35,7 +35,7 @@ export class SR5Item extends Item {
       case "itemWeapon":
         // Pour faire fonctionner l'ajout et la suppression d'accessoire (pas trouvé mieux :/)
         if (typeof data.accessory === "object") data.accessory = Object.values(data.accessory);
-        if (data.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(data);
+        if (data.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(data, owner);
         if (data.ammunition.value > data.ammunition.max) data.ammunition.value = data.ammunition.max;
         if (data.category === "meleeWeapon" && owner){
           if (!data.isLinkedToFocus) SR5_UtilityItem._handleWeaponFocus(itemData, owner);
