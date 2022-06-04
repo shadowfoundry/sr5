@@ -713,13 +713,20 @@ export class SR5_Dice {
 
 		cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
 		if (cardData.damageValue > 0) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
-		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+		else {
+			if (cardData.damageContinuous) {
+				cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+				console.log("continous");
+				prevData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard","test");
+				await SR5_RollMessage.updateRollCard(cardData.originalMessage, prevData);
+			} else  cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+		}
 
 		//Remove Biofeedback chat button from previous chat message
 		if (cardData.typeSub === "biofeedbackDamage"){
 			if (prevData.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
 			if (prevData.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
-		}	
+		}
 	}
 
 	static async addSpellInfoToCard(cardData){

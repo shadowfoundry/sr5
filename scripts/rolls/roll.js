@@ -423,13 +423,13 @@ export class SR5_Roll {
                             damageElement: chatData.damageElement,
                             dicePoolBase : resistanceValue,
                             dicePoolComposition: dicePoolComposition,
+                            damageContinuous: chatData.damageContinuous,
+                            damageOriginalValue: chatData.damageOriginalValue,
                         }
                         if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
-                        
                         if (chatData.damageElement === "toxin") optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
-                        debugger;
-                        if (chatData.engulfMessage) optionalData = mergeObject(optionalData, {engulfMessage: chatData.engulfMessage,});
+                        if (chatData.continuousDamageId) optionalData = mergeObject(optionalData, {continuousDamageId: chatData.continuousDamageId,});
                         break;
                     case "directSpellMana":       
                         if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`);
@@ -923,6 +923,8 @@ export class SR5_Roll {
                     "activeDefenses.parryClubs": actorData.skills?.clubs?.rating.value  || 0,
                     "activeDefenses.parryBlades": actorData.skills?.blades?.rating.value  || 0,
                     dicePoolComposition: dicePoolComposition,
+                    damageContinuous: chatData.damageContinuous,
+                    damageOriginalValue: chatData.damageOriginalValue,
                 });
                 break;
 
@@ -1025,6 +1027,18 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                         toxin: itemData.toxin,
                     })
+                }
+
+                //Special case for engulf
+                if (itemData.systemEffects.length){
+                    for (let e of Object.values(itemData.systemEffects)){
+                        if (e.value === "engulfWater") {
+                            optionalData = mergeObject(optionalData, {
+                                damageContinuous: true,
+                                damageOriginalValue: itemData.damageValue.value,
+                            });
+                        }
+                    }
                 }
                 break;
 
