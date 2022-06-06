@@ -479,6 +479,7 @@ export class SR5_Dice {
 			case "defenseCard":
 				await SR5_Dice.addDefenseInfoToCard(cardData, actorId);
 				break;
+			case "resistanceCardAura":
 			case "resistanceCard":
 				await SR5_Dice.addResistanceInfoToCard(cardData, actorId);
 				break;
@@ -663,6 +664,17 @@ export class SR5_Dice {
 			let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
 			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+
+			//Handle Energetic Aura
+			if (actorData.specialProperties?.energyAura !== "" && cardData.typeSub === "meleeWeapon"){
+				console.log(actorData.specialProperties.energyAura);
+				let originalMessage = game.messages.get(cardData.originalMessage);
+				let prevData = originalMessage.data?.flags?.sr5data;
+				let damage = actorData.specialAttributes.magic.augmented.value * 2;
+				prevData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "resistanceCardAura", `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${damage}${game.i18n.localize("SR5.DamageTypePhysicalShort")} / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${- actorData.specialAttributes.magic.augmented.value}`);
+				prevData.energeticAuraOwner = actorId;
+				await SR5_RollMessage.updateRollCard(cardData.originalMessage, prevData);
+			}
 		}
 	}
 
@@ -726,7 +738,6 @@ export class SR5_Dice {
 			cardData.damageIsContinuating = true;
             //Escape engulf
             cardData.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
-            //messageData.continuousDamageId = message.id;
 			return;
 		}
 

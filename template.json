@@ -3052,7 +3052,8 @@
             "base": 0,
             "modifiers": []
           },
-          "doublePenalties": false
+          "doublePenalties": false,
+          "energyAura": ""
         }
       },
       "itemsPropertiesTemplate": {
