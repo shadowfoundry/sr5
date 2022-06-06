@@ -177,7 +177,7 @@ export class SR5_Dice {
 		}
 		if (actor.type === "actorSpirit" && actorData.creatorId){
 			let creator = SR5_EntityHelpers.getRealActorFromID(actorData.creatorId);
-			if (creator.data.data.conditionMonitors.edge.actual.value < creator.data.data.specialAttributes.edge.augmented.value){
+			if (creator.data.data.conditionMonitors.edge?.actual?.value < creator.data.data.specialAttributes?.edge?.augmented?.value){
 				hasEdge = true;
 				edgeActor = creator;
 			}
@@ -364,7 +364,7 @@ export class SR5_Dice {
 			}
 		} else if (actorData.type === "actorSpirit" && actorData.data.creatorId){
 			let creator = await SR5_EntityHelpers.getRealActorFromID(actorData.data.creatorId);
-			if (creator.data.data.conditionMonitors.edge.actual.value >= creator.data.data.specialAttributes.edge.augmented.value){
+			if (creator.data.data.conditionMonitors.edge?.actual?.value < creator.data.data.specialAttributes?.edge?.augmented?.value){
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
