@@ -40,7 +40,7 @@ export class SR5_Roll {
             canBeExtended = true,
             dicePoolComposition,
             rulesMatrixGrid = false,
-            firstAttribute, secondAttribute;
+            firstAttribute, secondAttribute, damageValueBase;
 
         if (entity.documentName === "Actor") {
             actor = entity;
@@ -306,8 +306,17 @@ export class SR5_Roll {
                 break;
 
             case "resistanceCard":
+            case "resistanceCardAura":
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
-                let damageValueBase = chatData.damageValue;
+                damageValueBase = chatData.damageValue;
+                //Special case for Aura
+                if (rollType === "resistanceCardAura") {
+                    let auraOwner = SR5_EntityHelpers.getRealActorFromID(chatData.energeticAuraOwner);
+                    damageValueBase = auraOwner.data.data.specialAttributes.magic.augmented.value * 2;
+                    chatData.incomingPA = -auraOwner.data.data.specialAttributes.magic.augmented.value;
+                    chatData.damageElement = auraOwner.data.data.specialProperties.energyAura;
+                    if (chatData.damageElement === "fire") chatData.fireTreshold = auraOwner.data.data.specialAttributes.magic.augmented.value;
+                }
                 if (chatData.damageIsContinuating) damageValueBase = chatData.damageOriginalValue;
                 //handle distance between defenser and explosive device
                 if (chatData.isGrenade){
@@ -401,7 +410,7 @@ export class SR5_Roll {
                                     resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
                                     dicePoolComposition = actorData.resistances.physicalDamage.modifiers.filter((el) => !armorComposition.includes(el));
                                 }
-                                if (damageValueBase < (armor + chatData.incomingPA) && chatData.damageElement !== "acid"){
+                                if (damageValueBase < (armor + chatData.incomingPA) && !chatData.damageElement){
                                     chatData.damageType = "stun";
                                     title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
                                     ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:damageValueBase})}`); 
@@ -1040,6 +1049,21 @@ export class SR5_Roll {
                                 damageOriginalValue: itemData.damageValue.value,
                             });
                         }
+                    }
+                }
+
+                //Special case for Energy aura and melee weapon
+                if (actorData.specialProperties.energyAura){
+                    optionalData = mergeObject(optionalData, {
+                    damageValue: itemData.damageValue.value + actorData.specialAttributes.magic.augmented.value,
+                    damageValueBase: itemData.damageValue.value + actorData.specialAttributes.magic.augmented.value,
+                    incomingPA: -actorData.specialAttributes.magic.augmented.value,
+                    damageElement: actorData.specialProperties.energyAura,
+                    });
+                    if (actorData.specialProperties.energyAura !== "electricity" ){
+                        optionalData = mergeObject(optionalData, {
+                            damageType: "physical",
+                        });
                     }
                 }
                 break;

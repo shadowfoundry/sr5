@@ -153,6 +153,7 @@ export class SR5_RollMessage {
     
             switch (type) {
                 case "resistanceCard":
+                case "resistanceCardAura":
                 case "drainCard":
                 case "fadingCard":
                 case "objectResistance":

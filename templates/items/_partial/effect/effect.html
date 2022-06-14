@@ -319,6 +319,8 @@
 					{{/each}}
 					<option value="data.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
 					<option value="data.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
+					<option value="data.specialProperties.energyAura">{{localize 'SR5.SpiritPowerEnergyAura'}}</option>
+
 
 					{{else ife category 'itemArmor'}}
 					<optgroup label="{{localize 'SR5.Armor'}}">
@@ -398,6 +400,15 @@
 									{{dropdownOptions 'boolean'}}
 							{{/select}}
 						</select>
+					{{else if (eq this.target 'data.specialProperties.energyAura')}}
+					<select name="data.customEffects.{{@key}}.type" required>
+						{{#select type}}
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+						{{#each ../lists.specialDamageTypes}}
+						<option value="{{@key}}">{{localize this}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
 					{{else if (eq this.category 'metamagics')}}
 						<select name="data.customEffects.{{@key}}.type" required>
 							{{#select type}}

@@ -332,6 +332,7 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.hardenedAstralArmorType = "";
       data.specialProperties.hardenedAstralArmorRating = "";
       data.specialProperties.doublePenalties = false;
+      data.specialProperties.energyAura = "";
     }
 
     // Reset Vehicule Test
@@ -3112,6 +3113,12 @@ export class SR5_CharacterUtility extends Actor {
         if (customEffect.target === "data.specialProperties.hardenedAstralArmorType"){
           setProperty(actor, customEffect.target, customEffect.type);
           if (customEffect.type === "rating") setProperty(actor, "data.specialProperties.hardenedAstralArmorRating", (item.data.itemRating || 0));
+          continue;
+        }
+
+        //Special case for Energetic Aura
+        if (customEffect.target === "data.specialProperties.energyAura"){
+          setProperty(actor, customEffect.target, customEffect.type);
           continue;
         }
 
