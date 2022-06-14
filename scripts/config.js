@@ -2244,6 +2244,7 @@ SR5.AllSpiritPowers = {
   mutagen                    : "SR5.SpiritPowerMutagen",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   noxiousBreath              : "SR5.SpiritPowerNoxiousBreath",
+  paralyzingHowl             : "SR5.SpiritPowerParalyzingHowl",
   paralyzingTouch            : "SR5.SpiritPowerParalyzingTouch",
   pestilence                 : "SR5.SpiritPowerPestilence",
   possession                 : "SR5.SpiritPowerPossession",

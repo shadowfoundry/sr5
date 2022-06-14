@@ -1432,6 +1432,7 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     dicePoolComposition: itemData.test.modifiers,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
                 }
 
                 if (itemData.defenseFirstAttribute && itemData.defenseSecondAttribute){
@@ -1462,6 +1463,16 @@ export class SR5_Roll {
                         "hasDrain": true,
                         "drainValue": itemData.drainValue.value,
                     });
+                }
+
+                if (itemData.systemEffects.length){
+                    for (let e of Object.values(itemData.systemEffects)){
+                        if (e.value === "paralyzingHowl") {
+                            optionalData = mergeObject(optionalData, {
+                                isParalyzingHowl: true,
+                            });
+                        }
+                    }
                 }
                 break;
 
@@ -1515,6 +1526,15 @@ export class SR5_Roll {
                             });
                         }
                     }
+                }
+
+                //Special case for Paralyzing Howl
+                if (chatData.isParalyzingHowl){
+                    dicePool = firstAttribute + secondAttribute + actorData.itemsProperties.armor.specialDamage.sound.value;
+                    dicePoolComposition = dicePoolComposition.concat(actorData.itemsProperties.armor.specialDamage.sound.modifiers);
+                    optionalData = mergeObject(optionalData, {
+                        dicePoolComposition: dicePoolComposition,
+                    });
                 }
                 break;
             

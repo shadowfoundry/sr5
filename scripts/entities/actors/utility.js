@@ -330,7 +330,7 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.hardenedArmorType = "";
       data.specialProperties.hardenedArmorRating = 0;
       data.specialProperties.hardenedAstralArmorType = "";
-      data.specialProperties.hardenedAstralArmorRating = "";
+      data.specialProperties.hardenedAstralArmorRating = 0;
       data.specialProperties.doublePenalties = false;
       data.specialProperties.energyAura = "";
     }
