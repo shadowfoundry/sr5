@@ -667,7 +667,6 @@ export class SR5_Dice {
 
 			//Handle Energetic Aura
 			if (actorData.specialProperties?.energyAura !== "" && cardData.typeSub === "meleeWeapon"){
-				console.log(actorData.specialProperties.energyAura);
 				let originalMessage = game.messages.get(cardData.originalMessage);
 				let prevData = originalMessage.data?.flags?.sr5data;
 				let damage = actorData.specialAttributes.magic.augmented.value * 2;

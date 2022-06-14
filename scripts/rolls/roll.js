@@ -1057,8 +1057,14 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {
                     damageValue: itemData.damageValue.value + actorData.specialAttributes.magic.augmented.value,
                     damageValueBase: itemData.damageValue.value + actorData.specialAttributes.magic.augmented.value,
-                    incomingPA: -actorData.specialAttributes.magic.augmented.value
+                    incomingPA: -actorData.specialAttributes.magic.augmented.value,
+                    damageElement: actorData.specialProperties.energyAura,
                     });
+                    if (actorData.specialProperties.energyAura !== "electricity" ){
+                        optionalData = mergeObject(optionalData, {
+                            damageType: "physical",
+                        });
+                    }
                 }
                 break;
 
