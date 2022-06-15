@@ -56,7 +56,7 @@ export class SR5_Dice {
 			limit: limit,
 			rollMode: rollMode,
 			//r: rollJSON,
-			//originalRoll: roll
+			originalRoll: roll
 		};
 
 		return rollResult;
