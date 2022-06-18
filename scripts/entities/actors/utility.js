@@ -333,6 +333,7 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.hardenedAstralArmorRating = 0;
       data.specialProperties.doublePenalties = false;
       data.specialProperties.energyAura = "";
+      data.specialProperties.regeneration = "";
     }
 
     // Reset Vehicule Test

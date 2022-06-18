@@ -390,6 +390,10 @@ export class SR5_RollMessage {
                 case "escapeEngulf":
                     actor.rollTest(type, null, messageData);
                     break;
+                case "regeneration":
+                    actor.regenerate(messageData);
+                    SR5_RollMessage.updateChatButton(messageId, type);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
@@ -479,6 +483,9 @@ export class SR5_RollMessage {
                     messageData.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
                     messageData.continuousDamageId = message.id;
                 }
+                break;
+            case "regeneration":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.netHits} ${game.i18n.localize("SR5.HealedBox")}`);
                 break;
             default:
         }

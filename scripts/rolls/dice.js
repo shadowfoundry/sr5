@@ -496,6 +496,7 @@ export class SR5_Dice {
 			case "ritual":
 			case "passThroughBarrier":
 			case "escapeEngulf":
+				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
@@ -569,6 +570,9 @@ export class SR5_Dice {
 				break;
 			case "objectResistance":
 				await SR5_Dice.addObjectResistanceResultInfoToCard(cardData);
+				break;
+			case "regeneration":
+				await SR5_Dice.addRegenerationResultInfoToCard(cardData);
 				break;
 			case "attribute":
 			case "languageSkill":
@@ -1590,5 +1594,10 @@ export class SR5_Dice {
 			labelEnd = game.i18n.localize("SR5.ObjectResistanceSuccess");
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
 		}
+	}
+
+	static async addRegenerationResultInfoToCard(cardData){
+		cardData.netHits = cardData.test.hits + cardData.actorBody;
+		cardData.buttons.regeneration = SR5_RollMessage.generateChatButton("nonOpposedTest", "regeneration", `${game.i18n.format('SR5.Regenerate', {hits: cardData.netHits})}`);
 	}
 }
