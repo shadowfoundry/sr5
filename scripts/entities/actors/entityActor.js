@@ -1705,6 +1705,40 @@ export class SR5Actor extends Actor {
       await ownerDeck.update({"data": newDeck});
     }
   }
+
+  //Manage Regeneration
+  async regenerate(data){
+    let damageToRemove = data.netHits;
+    let actorData = deepClone(this.data);
+    actorData = actorData.toObject(false);
+
+    if (actorData.type === "actorGrunt"){
+      if (actorData.data.conditionMonitors.condition.actual.value > 0){
+        actorData.data.conditionMonitors.condition.actual.base -= damageToRemove;
+        damageToRemove -= actorData.data.conditionMonitors.condition.actual.value;
+        await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.condition.actual, 0);
+      }
+    } else {
+      if (actorData.data.conditionMonitors.overflow.actual.value > 0){
+        actorData.data.conditionMonitors.overflow.actual.base -= damageToRemove;
+        damageToRemove -= actorData.data.conditionMonitors.overflow.actual.value;
+        await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
+      }
+      if (actorData.data.conditionMonitors.physical.actual.value > 0 && damageToRemove > 0){
+        actorData.data.conditionMonitors.physical.actual.base -= damageToRemove;
+        damageToRemove -= actorData.data.conditionMonitors.physical.actual.value;
+        await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.physical.actual, 0);
+      }
+      if (actorData.data.conditionMonitors.stun.actual.value > 0 && damageToRemove > 0){
+        actorData.data.conditionMonitors.stun.actual.base -= damageToRemove;
+        damageToRemove -= actorData.data.conditionMonitors.stun.actual.value;
+        await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.stun.actual, 0);
+      }
+    }
+
+    await this.update(actorData);
+  }
+
 }
 
 CONFIG.Actor.documentClass = SR5Actor;
