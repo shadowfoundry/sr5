@@ -29,7 +29,7 @@
     <div class="col-5">{{localize 'SR5.VehicleStat_SensorFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.sensor" value="{{data.attributes.sensor}}" placeholder="0" /></div>
 </li>
-{{#ife data.category "vehicle"}}
+{{#ife data.type "vehicle"}}
     <li class="grid">
         <div class="col-5">{{localize 'SR5.Vehicle_SeatingFull'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-1"><input type="number" data-dtype="Number" name="data.seating" value="{{data.seating}}" placeholder="0" /></div>

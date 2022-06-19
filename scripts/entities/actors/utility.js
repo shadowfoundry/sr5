@@ -1391,7 +1391,7 @@ export class SR5_CharacterUtility extends Actor {
             SR5_EntityHelpers.updateModifier(initPhy.dice,`${game.i18n.localize('SR5.InitiativeMatrix')}`, `${game.i18n.localize('SR5.Controler')}`, controlerData.initiatives.matrixInit.dice.value);
             break;
           default:
-            SR5_SystemHelpers.srLog(1, `Unknown controle mode '${data.controlMode}' in 'updateInitiatives() for drone/vehicle'`);
+            SR5_SystemHelpers.srLog(1, `Unknown controle mode '${data.controlMode}' in 'updateInitiatives() for drone/vehicle' ('${data.model}')`);
         }
         break;
       case "actorSpirit":

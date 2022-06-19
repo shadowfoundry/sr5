@@ -6241,7 +6241,7 @@
         "sensor": 0
       },
       "seating": 0,
-      "controlMode": "",
+      "controlMode": "autopilot",
       "riggerInterface": false,
       "mount": [],
       "autosoft": [],
@@ -6249,7 +6249,7 @@
       "ammunitions": [],
       "armors": [],
       "decks": [],
-      "modifications": [],
+      "vehicleMod": [],
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
