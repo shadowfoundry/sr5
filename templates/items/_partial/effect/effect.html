@@ -394,7 +394,7 @@
 							{{/each}}
 							{{/select}}
 						</select>
-					{{else if (eq this.target 'data.specialProperties.doublePenalties')}}
+					{{else if (or (eq this.target 'data.specialProperties.doublePenalties') (eq this.target 'data.specialProperties.regeneration'))}}
 						<select name="data.customEffects.{{@key}}.type" required>
 							{{#select type}}
 									{{dropdownOptions 'boolean'}}

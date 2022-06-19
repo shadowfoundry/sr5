@@ -1465,13 +1465,14 @@ export class SR5_Roll {
                     });
                 }
 
+                //Special power cases
                 if (itemData.systemEffects.length){
                     for (let e of Object.values(itemData.systemEffects)){
-                        if (e.value === "paralyzingHowl") {
-                            optionalData = mergeObject(optionalData, {
-                                isParalyzingHowl: true,
-                            });
-                        }
+                        if (e.value === "paralyzingHowl") {optionalData = mergeObject(optionalData, {isParalyzingHowl: true,});}
+                        if (e.value === "regeneration") {optionalData = mergeObject(optionalData, {
+                            isRegeneration: true,
+                            actorBody: actorData.attributes?.body?.augmented.value,
+                        });}
                     }
                 }
                 break;
@@ -1700,6 +1701,19 @@ export class SR5_Roll {
                 dicePool = actorData.attributes.strength.augmented.value + actorData.attributes.body.augmented.value;
                 optionalData = {
                     attackerId: chatData.attackerId,
+                    dicePoolComposition: dicePoolComposition,
+                }
+                break;
+
+            case "regeneration":
+                title = game.i18n.localize("SR5.RegenerationTest");
+                dicePoolComposition = ([
+                    {source: game.i18n.localize("SR5.Magic"), value: actorData.specialAttributes.magic.augmented.value},
+                    {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                ]);
+                dicePool = actorData.specialAttributes.magic.augmented.value + actorData.attributes.body.augmented.value;
+                optionalData = {
+                    actorBody: actorData.attributes.body.augmented.value,
                     dicePoolComposition: dicePoolComposition,
                 }
                 break;

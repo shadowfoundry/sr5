@@ -2350,6 +2350,7 @@ SR5.specialPropertiesList = {
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
   doublePenalties           : "SR5.PenaltyDouble",
+  regeneration              : "SR5.SpiritPowerRegeneration",
 }
 
 SR5.transactionsTypes = {

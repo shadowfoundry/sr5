@@ -3053,7 +3053,8 @@
             "modifiers": []
           },
           "doublePenalties": false,
-          "energyAura": ""
+          "energyAura": "",
+          "regeneration": false
         }
       },
       "itemsPropertiesTemplate": {
