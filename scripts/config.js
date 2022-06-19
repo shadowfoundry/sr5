@@ -790,6 +790,7 @@ SR5.toxinTypes = {
   neuroStunNine             : "SR5.ToxinNeuroStunNine",
   neuroStunTen              : "SR5.ToxinNeuroStunTen",
   seven                     : "SR5.ToxinSeven",
+  noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
 // Toxins Effects
@@ -2227,6 +2228,11 @@ SR5.AllSpiritPowers = {
   engulfFire                 : "SR5.SpiritPowerEngulfFire",
   engulfWater                : "SR5.SpiritPowerEngulfWater",
   enhancedSenses             : "SR5.SpiritPowerEnhancedSenses",
+  enhancedSensesHearing      : "SR5.SpiritPowerEnhancedSensesHearing",
+  enhancedSensesSmell        : "SR5.SpiritPowerEnhancedSensesSmell",
+  enhancedSensesSonar        : "SR5.SpiritPowerEnhancedSensesSonar",
+  enhancedSensesLowLight     : "SR5.SpiritPowerEnhancedSensesLowLight",
+  enhancedSensesThermographic: "SR5.SpiritPowerEnhancedSensesThermographic",
   fear                       : "SR5.SpiritPowerFear",
   guard                      : "SR5.SpiritPowerGuard",
   hemoragy                   : "SR5.SpiritPowerHemoragy",

@@ -1196,6 +1196,20 @@ export class SR5Actor extends Actor {
     if (item.type === "itemSpirit") {
       let baseItems = await SR5_CompendiumUtility.getBaseItems("actorSpirit", itemData.type, itemData.itemRating);
       baseItems = await SR5_CompendiumUtility.addOptionalSpiritPowersFromItem(baseItems, itemData.optionalPowers);
+      for (let power of baseItems){
+        if (power.data.systemEffects.length){
+          for (let syseffect of power.data.systemEffects){
+            if (syseffect.value === "noxiousBreath" && power.type === "itemPower"){
+              let newWeapon = await SR5_CompendiumUtility.getWeaponFromCompendium("noxiousBreath");
+              if (newWeapon) baseItems.push(newWeapon);
+            }
+            if (syseffect.value === "corrosiveSpit" && power.type === "itemPower"){
+              let newWeapon = await SR5_CompendiumUtility.getWeaponFromCompendium("corrosiveSpit", itemData.itemRating);
+              if (newWeapon) baseItems.push(newWeapon);
+            }
+          }
+        }
+      }
       data = mergeObject(data, {
         "data.type": itemData.type,
         "data.force.base": itemData.itemRating,

@@ -586,6 +586,16 @@ export class SR5_UtilityItem extends Actor {
         weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value * 2;
         weapon.damageType = "stun";
         break;
+      case "noxiousBreath":
+        if (!actor) return;
+        weapon.toxin.vector.inhalation = true;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value;
+        weapon.toxin.penetration = 0;
+        weapon.toxin.effect.nausea = true;
+        weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value;
+        weapon.damageType = "stun";
+        break;
       case "gamma":
         weapon.toxin.vector.injection = true;
         weapon.toxin.speed = 0;
@@ -693,9 +703,23 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    if (actor !== undefined && weapon.category === "meleeWeapon" && actor.data.reach) {
-      weapon.reach.modifiers = weapon.reach.modifiers.concat(actor.data.reach.modifiers);
-    }
+    if (actor !== undefined) {
+      if (weapon.category === "meleeWeapon" && actor.data.reach) {
+        weapon.reach.modifiers = weapon.reach.modifiers.concat(actor.data.reach.modifiers);
+      }
+      if (weapon.systemEffects.length){
+        for (let systemEffect of Object.values(weapon.systemEffects)){
+					if (systemEffect.value === "noxiousBreath" || systemEffect.value === "corrosiveSpit"){
+            SR5_EntityHelpers.updateModifier(weapon.range.short, 'body', 'attribute', actor.data.attributes.body.augmented.value);
+            SR5_EntityHelpers.updateModifier(weapon.range.medium, 'body', 'attribute', actor.data.attributes.body.augmented.value * 2);
+            SR5_EntityHelpers.updateModifier(weapon.range.long, 'body', 'attribute', actor.data.attributes.body.augmented.value * 3);
+            SR5_EntityHelpers.updateModifier(weapon.range.extreme, 'body', 'attribute', actor.data.attributes.body.augmented.value * 4);
+          }
+        }
+      }
+    } 
+
+
 
     for (let key of Object.keys(SR5.weaponRanges)) {
       SR5_EntityHelpers.updateValue(weapon.range[key]);
