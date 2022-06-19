@@ -1261,7 +1261,7 @@ export class SR5Actor extends Actor {
       for (let ammo of itemData.ammunitions) baseItems.push(ammo);
       for (let weapon of itemData.weapons) baseItems.push(weapon);
       for (let armor of itemData.armors) baseItems.push(armor);
-      for (let vehicleMod of itemData.vehicleMod) baseItems.push(vehicleMod);
+      for (let vehicleMod of itemData.vehiclesMod) baseItems.push(vehicleMod);
       for (let deck of itemData.decks) {
         deck.data.marks = [];
         baseItems.push(deck);
@@ -1351,14 +1351,14 @@ export class SR5Actor extends Actor {
           ammunitions = [],
           armors = [],
           decks = [],
-          vehicleMod = [];
+          vehiclesMod = [];
       for (let a of actor.items){
         if (a.type === "itemProgram") autosoft.push(a);
         if (a.type === "itemWeapon") weapons.push(a);
         if (a.type === "itemAmmunition") ammunitions.push(a);
         if (a.type === "itemArmor") armors.push(a);
         if (a.type === "itemDevice") decks.push(a);
-        if (a.type === "itemVehicleMod") vehicleMod.push(a);
+        if (a.type === "itemVehicleMod") vehiclesMod.push(a);
       }
       modifiedItem.img = actor.img;
       modifiedItem.data.autosoft = autosoft;
@@ -1366,7 +1366,7 @@ export class SR5Actor extends Actor {
       modifiedItem.data.ammunitions = ammunitions;
       modifiedItem.data.armors = armors;
       modifiedItem.data.decks = decks;
-      modifiedItem.data.vehicleMod = vehicleMod;
+      modifiedItem.data.vehiclesMod = vehiclesMod;
       modifiedItem.data.model = actor.data.model;
       modifiedItem.data.slaved = actor.data.slaved;
       modifiedItem.data.controlMode = actor.data.controlMode;

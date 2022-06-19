@@ -94,6 +94,8 @@ export class SR5Item extends Item {
         }
         break;
       case "itemVehicleMod":
+        SR5_UtilityItem._handleItemPrice(data);
+      break;
       case "itemArmor":
       case "itemGear":
         if (itemData.type === "itemArmor"){ 

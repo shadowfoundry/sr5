@@ -5016,6 +5016,7 @@
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
+      "vehiclesMod": [],
       "modificationSlots": {
         "powerTrain": {
           "value": 0,
@@ -6249,7 +6250,7 @@
       "ammunitions": [],
       "armors": [],
       "decks": [],
-      "vehicleMod": [],
+      "vehiclesMod": [],
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
@@ -6291,7 +6292,7 @@
       "type": "",
       "tools": "",
       "skill": "",
-      "slots": ""    
+      "slots": "0"
     },
     "itemEffect":{
       "templates": [
