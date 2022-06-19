@@ -629,6 +629,13 @@ export class SR5Actor extends Actor {
         case "itemVehicle":        
           i.prepareData();
           break;
+        
+        case "itemVehicleMod":
+          i.prepareData();
+          if (iData.isActive && Object.keys(iData.customEffects).length) {
+            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
+          }
+          break;
 
         case "itemLanguage":
         case "itemKnowledge":
@@ -1260,6 +1267,7 @@ export class SR5Actor extends Actor {
       for (let ammo of itemData.ammunitions) baseItems.push(ammo);
       for (let weapon of itemData.weapons) baseItems.push(weapon);
       for (let armor of itemData.armors) baseItems.push(armor);
+      for (let modification of itemData.modifications) baseItems.push(modification);
       for (let deck of itemData.decks) {
         deck.data.marks = [];
         baseItems.push(deck);
@@ -1349,12 +1357,14 @@ export class SR5Actor extends Actor {
           ammunitions = [],
           armors = [],
           decks = [];
+          modifications = [];
       for (let a of actor.items){
         if (a.type === "itemProgram") autosoft.push(a);
         if (a.type === "itemWeapon") weapons.push(a);
         if (a.type === "itemAmmunition") ammunitions.push(a);
         if (a.type === "itemArmor") armors.push(a);
         if (a.type === "itemDevice") decks.push(a);
+        if (a.type === "itemVehicleMod") modifications.push(a);
       }
       modifiedItem.img = actor.img;
       modifiedItem.data.autosoft = autosoft;
@@ -1362,6 +1372,7 @@ export class SR5Actor extends Actor {
       modifiedItem.data.ammunitions = ammunitions;
       modifiedItem.data.armors = armors;
       modifiedItem.data.decks = decks;
+      modifiedItem.data.modifications = modifications;
       modifiedItem.data.model = actor.data.model;
       modifiedItem.data.slaved = actor.data.slaved;
       modifiedItem.data.controlMode = actor.data.controlMode;

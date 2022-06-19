@@ -38,6 +38,9 @@ export class SR5_UtilityItem extends Actor {
       case "itemVehicle":
         displayName = game.i18n.localize("SR5.VehicleNew");
         break;
+      case "itemVehicleMod":
+        displayName = game.i18n.localize("SR5.VehicleModNew");
+        break;
       case "itemAugmentation":
         displayName = game.i18n.localize("SR5.AugmentationNew");
         break;

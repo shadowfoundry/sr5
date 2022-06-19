@@ -93,6 +93,7 @@ export class SR5Item extends Item {
           }
         }
         break;
+      case "itemVehicleMod":
       case "itemArmor":
       case "itemGear":
         if (itemData.type === "itemArmor"){ 

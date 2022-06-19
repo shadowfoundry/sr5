@@ -1562,6 +1562,24 @@ SR5.targetSignature = {
   droneMicro                : "SR5.SignatureDroneMicro",
 }
 
+// Type de modification de véhicule/drone
+SR5.vehicleModType = {
+  equipment                 : "SR5.VehicleModTypeEquipment",
+  powerTrain                : "SR5.VehicleModTypePowerTrain",
+  protection                : "SR5.VehicleModTypeProtection",
+  weapon                    : "SR5.VehicleModTypeWeapon",
+  electromagnetic           : "SR5.VehicleModTypeElectromagnetic",
+  body                      : "SR5.VehicleModTypeBody",
+  cosmetic                  : "SR5.VehicleModTypeCosmetic",
+}
+
+// Type d'installation nécessaires
+SR5.vehicleModTools = {
+  kit                       : "SR5.VehicleModToolsKit",
+  shop                      : "SR5.VehicleModToolsShop",
+  facility                  : "SR5.VehicleModToolsFacility",
+}
+
 //-----------------------------------//
 //             ESPRITS               //
 //-----------------------------------//
@@ -2413,6 +2431,7 @@ SR5.itemTypes = {
   itemSpritePower           : "ITEM.TypeItemspritepower",
   itemTradition             : "ITEM.TypeItemtradition",
   itemVehicle               : "ITEM.TypeItemvehicle",
+  itemVehicleMod            : "ITEM.TypeItemvehiclemod",
   itemWeapon                : "ITEM.TypeItemweapon",
 };
 

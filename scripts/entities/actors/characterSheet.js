@@ -120,6 +120,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const lifestyles = [];
     const sins = [];
     const vehicles = [];
+    const vehiclesMod = [];
     const marks = [];
     const martialArts = [];
     const powers = [];
@@ -163,6 +164,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemLifestyle") lifestyles.push(i);
       else if (i.type === "itemSin") sins.push(i);
       else if (i.type === "itemVehicle") vehicles.push(i);
+      else if (i.type === "itemVehicleMod") vehiclesMod.push(i);
       else if (i.type === "itemMark") marks.push(i);
       else if (i.type === "itemMartialArt") martialArts.push(i);
       else if (i.type === "itemPower") powers.push(i);
@@ -198,6 +200,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.lifestyles = lifestyles;
     actor.sins = sins;
     actor.vehicles = vehicles;
+    actor.vehiclesMod = vehiclesMod;
     actor.marks = marks;
     actor.martialArts = martialArts;
     actor.powers = powers;

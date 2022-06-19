@@ -5016,6 +5016,38 @@
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
+      "modificationSlots": {
+        "powerTrain": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "protection": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "weapons": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "body": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "electromagnetic": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "cosmetic": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
       "model": "",
       "vehicleTest": {
         "actionType": "complex",
@@ -5444,6 +5476,7 @@
       "itemSprite",
       "itemSpritePower",
       "itemVehicle",
+      "itemVehicleMod",
       "itemWeapon",
       "itemEffect",
       "itemDrug",
@@ -6216,6 +6249,7 @@
       "ammunitions": [],
       "armors": [],
       "decks": [],
+      "modifications": [],
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
@@ -6243,6 +6277,21 @@
           "boxes": []
         }
       }
+    },
+    "itemVehicleMod": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateCapacity",
+        "templateRating",        
+        "templateBoughtOrSold",
+        "templateWireless"
+      ],
+      "type": "",
+      "tools": "",
+      "skill": "",
+      "slots": ""    
     },
     "itemEffect":{
       "templates": [

@@ -1,0 +1,160 @@
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-4"><p class=" SR-TextUppercase">{{localize 'SR5.Augmentations'}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.EssenceCost'}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Capacity'}}</p></div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"><p class="SR-TextCenter" data-title="{{localize 'SR5.Activated'}}"><em class="fas fa-sm fa-thumbtack"></em></p></div>
+					<div class="col-6"><p class="SR-TextCenter" data-title="{{localize 'SR5.WirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></p></div>
+				</div>
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemAugmentation')}}" 
+				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemAugmentation"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+	  	{{#each actor.augmentations}}
+		{{#if (and (eq data.isAccessory true) (eq data.isPlugged false) )}}
+		<li class="item grid SR-LightGreyColor" data-item-id="{{_id}}" draggable="true">
+			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
+		  		{{name}}
+			</div>
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+				{{valueOrDash data.itemRating}}
+			</div>
+			<div class="col-2 SR-TextCenter">-</div>
+			<div class="col-2 SR-TextCenter">[{{valueOrDash data.capacityTaken.value}}]</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
+						<p class="SR-TextCenter">
+							<em class="fas fa-sm fa-thumbtack SR-SubColor25"></em>
+						</p>
+					</div>
+					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
+						<p class="SR-TextCenter">
+							<em class="fas fa-sm fa-wifi SR-SubColor25"></em>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{else if (eq data.isPlugged false)}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{name}}
+			</div>
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+				{{valueOrDash data.itemRating}}
+			</div>
+			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_AugmentationEssence' key=name}}"
+			  data-helpDetailsItem="data.essenceCost"
+			  data-helpItemId="{{_id}}">
+				{{valueOrDash data.essenceCost.value}}
+			</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash data.capacity.value}}</div>
+			<div class="col-1">
+			  	<div class="grid">
+					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+						{{#if data.isActive}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+							<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
+						</a>
+						{{else}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+							<em class="fas fa-sm fa-thumbtack"></em>
+						</a>
+						{{/if}}
+					</div>
+					{{#if (gte data.conditionMonitors.matrix.actual.value data.conditionMonitors.matrix.value)}}
+					<div class="col-6 SR-TextCenter"
+					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
+					>
+					<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
+					</div>
+					{{else}}
+					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
+						{{#if data.isWireless}}
+					  		{{#if data.wirelessTurnedOn}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-SubColor"></em></a>
+					  		{{else}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
+					  		{{/if}}
+						{{else}}
+					  		-
+						{{/if}}
+					</div>
+					{{/if}}
+			  	</div>
+			</div>
+			<div class="col-1 grid SR-TextRight">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{#each data.accessory as |accessory a|}}
+		<li class="item grid" data-item-id="{{_id}}">
+			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}"><p class="SR-MarginLeft10">{{accessory.name}}</p></div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash accessory.data.itemRating}}</div>
+			<div class="col-2 SR-TextCenter"></div>
+			<div class="col-2"><p class="SR-TextCenter">[{{valueOrDash accessory.data.capacityTaken.value}}]</p></div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6">
+						<p class="SR-TextCenter">
+							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
+						</p>
+					</div>
+					{{#if (gte ../data.conditionMonitors.matrix.actual.value ../data.conditionMonitors.matrix.value)}}
+					<div class="col-6 SR-TextCenter"
+					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
+					>
+					<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
+					</div>
+					{{else}}
+					<div class="col-6">
+						<p class="SR-TextCenter">
+							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
+						</p>
+					</div>
+					{{/if}}
+				</div>
+			</div>
+			<div class="col-1">
+				{{#if ../../owner}}
+				<p class="SR-TextRight">
+					<a class="item-edit" data-title="{{localize 'SR5.Edit'}}" data-helpTitle="{{localize 'SR5.HELP_ItemEdit' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemEditMsg'}}">
+						<em class="fas fa-sm fa-edit"></em>
+					</a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+		{{/if}}
+	  	{{/each}}
+	</ul>
+</div>
