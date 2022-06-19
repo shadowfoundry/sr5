@@ -2340,6 +2340,7 @@ export class SR5_CharacterUtility extends Actor {
       let label = `${game.i18n.localize(lists.characterAttributes[magic.drainResistance.linkedAttribute])}`;
       SR5_EntityHelpers.updateModifier(magic.drainResistance, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[magic.drainResistance.linkedAttribute].augmented.value);
     }
+    if (magic.magicType === "spirit") SR5_EntityHelpers.updateModifier(magic.drainResistance, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.charisma.augmented.value);
     SR5_EntityHelpers.updateDicePool(magic.drainResistance, 0);
 
     magic.astralDamage.base = 0;

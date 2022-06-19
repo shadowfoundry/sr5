@@ -136,4 +136,23 @@ export class SR5_CompendiumUtility extends Actor {
 		return baseItems
 	}
   
+	//Get a particular item from a particular compendium
+	static async getWeaponFromCompendium(weapon, force){
+		let weapons = await SR5_CompendiumUtility.getItemCompendium("weapons");
+		for (let i of weapons){
+			let systemEffects = i.data.data.systemEffects;
+			if (systemEffects.length){
+				for (let systemEffect of Object.values(systemEffects)){
+					if (systemEffect.value === weapon){
+						let iObject = i.data.toObject(false);
+						if (weapon === "corrosiveSpit"){
+							i.data.damageValue.base = force*2;
+							i.data.armorPenetration.base = -force;
+						}
+						return iObject;
+					}
+				}
+			}
+		}
+	}
 }
