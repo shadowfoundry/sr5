@@ -16,7 +16,9 @@
 							<!-- Summary title -->
 							{{> systems/sr5/templates/items/_partial/title/summary.html}}
 							<!-- Modification stats -->
-							{{> systems/sr5/templates/items/_partial/summary/vehicleMod-summary.html}}
+							{{> systems/sr5/templates/items/_partial/summary/vehicleMod-summary.html}}							
+							<!-- Rating -->
+							{{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.html}}
 						</ul>
 					</div>
 
@@ -40,10 +42,12 @@
 						{{> systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html}}
 						<!-- Skill -->
 						{{> systems/sr5/templates/items/_partial/editable/vehicleMod/skill-edit.html}}
+						<!-- Item Rating -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
 			        </ul>
 
 					<ul class="SR-PaddingTop10">
-						{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/_common/priceMultiplier-edit.html}}
 					</ul>
 				</div>
 

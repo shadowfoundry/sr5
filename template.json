@@ -6241,6 +6241,14 @@
         "pilot": 0,
         "sensor": 0
       },
+      "modificationSlots": {
+        "powerTrain":0,
+        "protection": 0,
+        "weapons": 0,
+        "body": 0,
+        "electromagnetic": 0,
+        "cosmetic": 0
+      },
       "seating": 0,
       "controlMode": "autopilot",
       "riggerInterface": false,
@@ -6284,10 +6292,8 @@
         "templateDescription",
         "templateCustomEffects",
         "templateActivation",
-        "templateCapacity",
         "templateRating",        
-        "templateBoughtOrSold",
-        "templateWireless"
+        "templateBoughtOrSold"
       ],
       "type": "",
       "tools": "",

@@ -623,14 +623,26 @@ export class SR5Actor extends Actor {
           if (iData.isRegistered) actorData.data.matrix.registeredSprite.current ++;
           break;
 
-        case "itemLifestyle":
-        case "itemAmmunition":
-        case "itemSin":
+        case "itemVehicleMod":
+          i.prepareData();
+          if (iData.isActive && Object.keys(iData.customEffects).length) {
+            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
+          }
+          SR5_UtilityItem._handleItemPrice(iData);
+          SR5_UtilityItem._handleItemAvailability(iData);
+          break;
+
         case "itemVehicle":        
           i.prepareData();
+          SR5_UtilityItem._handleVehicleSlots(iData);
           break;
-        
-        case "itemVehicleMod":
+
+        case "itemLifestyle":
+        case "itemAmmunition":
+        case "itemSin":     
+          i.prepareData();
+          break;
+
         case "itemLanguage":
         case "itemKnowledge":
         case "itemMark":
@@ -724,6 +736,7 @@ export class SR5Actor extends Actor {
         case "itemPower":
         case "itemSpritePower":
         case "itemAdeptPower":
+        case "itemVehicleMod":
           i.prepareData();
           break;
       }
@@ -1280,6 +1293,12 @@ export class SR5Actor extends Actor {
         "data.attributes.pilot.natural.base": itemData.attributes.pilot,
         "data.attributes.sensor.natural.base": itemData.attributes.sensor,
         "data.attributes.seating.natural.base": itemData.seating,
+        "data.modificationSlots.powerTrain.base": itemData.modificationSlots.powerTrain,
+        "data.modificationSlots.protection.base": itemData.modificationSlots.protection,
+        "data.modificationSlots.weapons.base": itemData.modificationSlots.weapons,
+        "data.modificationSlots.body.base": itemData.modificationSlots.body,
+        "data.modificationSlots.electromagnetic.base": itemData.modificationSlots.electromagnetic,
+        "data.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
         "data.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
         "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
         "data.pilotSkill": itemData.pilotSkill,
@@ -1379,6 +1398,12 @@ export class SR5Actor extends Actor {
       modifiedItem.data.attributes.pilot = actor.data.attributes.pilot.natural.base;
       modifiedItem.data.attributes.sensor = actor.data.attributes.sensor.natural.base;
       modifiedItem.data.seating = actor.data.attributes.seating.natural.base;
+      modifiedItem.data.modificationSlots.powerTrain = actor.data.modificationSlots.powerTrain.base;
+      modifiedItem.data.modificationSlots.protection = actor.data.modificationSlots.protection.base;
+      modifiedItem.data.modificationSlots.weapons = actor.data.modificationSlots.weapons.base;
+      modifiedItem.data.modificationSlots.body = actor.data.modificationSlots.body.base;
+      modifiedItem.data.modificationSlots.electromagnetic = actor.data.modificationSlots.electromagnetic.base;
+      modifiedItem.data.modificationSlots.cosmetic = actor.data.modificationSlots.cosmetic.base;
       modifiedItem.data.conditionMonitors.condition.actual = actor.data.conditionMonitors.condition.actual;
       modifiedItem.data.conditionMonitors.matrix.actual = actor.data.conditionMonitors.matrix.actual;
       modifiedItem.data.isCreated = false;

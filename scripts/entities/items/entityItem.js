@@ -94,7 +94,11 @@ export class SR5Item extends Item {
         }
         break;
       case "itemVehicleMod":
+        if (Object.keys(data.itemEffects).length) {
+          SR5_UtilityItem.applyItemEffects(itemData);
+        }
         SR5_UtilityItem._handleItemPrice(data);
+        SR5_UtilityItem._handleItemAvailability(data);
       break;
       case "itemArmor":
       case "itemGear":
@@ -173,6 +177,7 @@ export class SR5Item extends Item {
       case "itemVehicle":
         if (typeof data.mount === "object") data.mount = Object.values(data.mount);
         SR5_UtilityItem._handleVehicle(data);
+        SR5_UtilityItem._handleVehicleSlots(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);

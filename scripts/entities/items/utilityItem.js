@@ -1390,6 +1390,17 @@ export class SR5_UtilityItem extends Actor {
 
     if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
+
+  }
+
+  static _handleVehicleSlots(vehicle) {
+    let slots = vehicle.attributes.body ;
+    vehicle.modificationSlots.powerTrain = slots ;
+    vehicle.modificationSlots.protection = slots ;
+    vehicle.modificationSlots.weapons = slots ;
+    vehicle.modificationSlots.body = slots ;
+    vehicle.modificationSlots.electromagnetic = slots ;
+    vehicle.modificationSlots.cosmetic = slots ;
   }
 
   ////////////////////// ESPRITS  //////s////////////////
