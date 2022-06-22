@@ -2316,7 +2316,7 @@ export class SR5_CharacterUtility extends Actor {
     if ((actor.type === "actorPc") || (actor.type === "actorGrunt")) SR5_EntityHelpers.updateModifier(magic.astralDamage, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.charisma.augmented.value);
     if (actor.type === "actorSpirit"){
       if ((data.type === "homunculus") || (data.type === "watcher")){
-        SR5_EntityHelpers.updateModifier(magic.astralDamage, `${game.i18n.localize(lists.spiritTypes[spiritType])}`, `${game.i18n.localize('ACTOR.TypeActorspirit')}`, 1);
+        SR5_EntityHelpers.updateModifier(magic.astralDamage, `${game.i18n.localize(lists.spiritTypes[data.type])}`, `${game.i18n.localize('ACTOR.TypeActorspirit')}`, 1);
       } else {
         SR5_EntityHelpers.updateModifier(magic.astralDamage, `${game.i18n.localize('SR5.SpiritForceShort')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, data.force.value);
       }
