@@ -2,6 +2,7 @@ import { SR5_EntityHelpers } from "../helpers.js";
 import { SR5_SystemHelpers } from "../../system/utility.js";
 import { SR5Combat } from "../../system/srcombat.js";
 import { SR5 } from "../../config.js";
+import { _getSRStatusEffect } from "../../system/effectsList.js";
 
 
 export class SR5_CharacterUtility extends Actor {
@@ -1542,7 +1543,7 @@ export class SR5_CharacterUtility extends Actor {
     let previousInitiativeEffect = actor.data.effects.find(effect => effect.data.origin === "initiativeMode");
     //generate effect
     let initiativeEffect;
-    if (initiative !== "physicalInit") initiativeEffect = SR5_CharacterUtility.generateInitiativeEffect(initiative);
+    if (initiative !== "physicalInit") initiativeEffect = await _getSRStatusEffect(initiative);
 
     // if initiative is physical remove effect, else add or update active effect
     if (initiative === "physicalInit"){
@@ -1551,39 +1552,6 @@ export class SR5_CharacterUtility extends Actor {
       if(previousInitiativeEffect) await previousInitiativeEffect.update(initiativeEffect);
       else actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
     }
-  }
-
-  /**
-  * @param {String} initiativeType - Initiative type (as per SR5.characterInitiatives)
-  **/
-  static generateInitiativeEffect(initiativeType){
-    let initiativeIcon, initiativeLabel;
-    switch(initiativeType){
-      case "astralInit":
-        initiativeLabel = game.i18n.localize('SR5.InitiativeAstral');
-        initiativeIcon = 'systems/sr5/img/status/StatusInitAstalOn.svg';
-        break;
-      case "matrixInit":
-        initiativeLabel = game.i18n.localize('SR5.InitiativeMatrix');
-        initiativeIcon = 'systems/sr5/img/status/StatusInitMatrixOn.svg';
-        break;
-      default:
-        SR5_SystemHelpers.srLog(1, `Unknown initiative mode '${initiative}' in 'switchToInitiative()'`);
-    }
-
-    let initiativeEffect = {
-        label: initiativeLabel,
-        origin: "initiativeMode",
-        icon: initiativeIcon,
-        flags: {
-          core: {
-              active: true,
-              statusId: initiativeType
-          }
-        },
-      }
-
-    return initiativeEffect;
   }
 
   // Generate Actor defense
