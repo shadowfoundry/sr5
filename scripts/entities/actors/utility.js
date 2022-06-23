@@ -1902,7 +1902,7 @@ export class SR5_CharacterUtility extends Actor {
         skills.astralCombat.rating.base = Math.ceil(data.force.value/2);
         skills.assensing.rating.base = Math.ceil(data.force.value/2);
         skills.perception.rating.base = Math.ceil(data.force.value/2);
-        skills.unarmedCombat.rating.base = data.force.value;
+        skills.unarmedCombat.rating.base = Math.ceil(data.force.value/2);
         break;
       case "air":
       case "noxious":
