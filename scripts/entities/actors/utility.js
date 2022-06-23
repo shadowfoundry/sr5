@@ -1893,7 +1893,15 @@ export class SR5_CharacterUtility extends Actor {
     data.magic.tradition = actor.data.magic.tradition;
 
     switch (data.type) {
+      case "watcher":
+        skills.astralCombat.rating.base = Math.ceil(data.force.value/2);
+        skills.assensing.rating.base = Math.ceil(data.force.value/2);
+        skills.perception.rating.base = Math.ceil(data.force.value/2);
+        break;
       case "homunculus":
+        skills.astralCombat.rating.base = Math.ceil(data.force.value/2);
+        skills.assensing.rating.base = Math.ceil(data.force.value/2);
+        skills.perception.rating.base = Math.ceil(data.force.value/2);
         skills.unarmedCombat.rating.base = data.force.value;
         break;
       case "air":
