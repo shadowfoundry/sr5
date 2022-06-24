@@ -309,6 +309,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.generateVehicleTest(actor);
         SR5_CharacterUtility.updateRecoil(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
+        SR5_CharacterUtility.updateVehicleSlots(actor);
         break;
       case "actorSpirit":
         SR5_CharacterUtility.updateSpiritValues(actor);
@@ -628,6 +629,7 @@ export class SR5Actor extends Actor {
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
+          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
           break;
@@ -730,13 +732,16 @@ export class SR5Actor extends Actor {
             }
           }
           break;
+        case "itemVehicleMod":
+            i.prepareData();
+          break;
         case "itemWeapon":
         case "itemKnowledge":
         case "itemLanguage":
         case "itemPower":
         case "itemSpritePower":
         case "itemAdeptPower":
-        case "itemVehicleMod":
+        case "itemVehicle":
           i.prepareData();
           break;
       }
@@ -1286,6 +1291,7 @@ export class SR5Actor extends Actor {
         "data.type": itemData.type,
         "data.model": itemData.model,
         "data.attributes.handling.natural.base": itemData.attributes.handling,
+        "data.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
         "data.attributes.speed.natural.base": itemData.attributes.speed,
         "data.attributes.acceleration.natural.base": itemData.attributes.acceleration,
         "data.attributes.body.natural.base": itemData.attributes.body,
@@ -1303,6 +1309,7 @@ export class SR5Actor extends Actor {
         "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
+        "data.offRoadMode": itemData.offRoadMode,
         "data.slaved": itemData.slaved,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,
@@ -1390,7 +1397,9 @@ export class SR5Actor extends Actor {
       modifiedItem.data.slaved = actor.data.slaved;
       modifiedItem.data.controlMode = actor.data.controlMode;
       modifiedItem.data.riggerInterface = actor.data.riggerInterface;
+      modifiedItem.data.offRoadMode = actor.data.offRoadMode; 
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
+      modifiedItem.data.attributes.handlingOffRoad = actor.data.attributes.handlingOffRoad.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
       modifiedItem.data.attributes.body = actor.data.attributes.body.natural.base;

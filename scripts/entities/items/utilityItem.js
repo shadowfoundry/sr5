@@ -1388,6 +1388,10 @@ export class SR5_UtilityItem extends Actor {
       if (mount.manual) SR5_EntityHelpers.updateModifier(vehicle.price, 'manual', 'mount', 2500);
     }
 
+    for (let vehicleMod of vehicle.vehiclesMod){
+      SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
+    }
+
     if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
 

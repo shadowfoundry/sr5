@@ -825,7 +825,8 @@ SR5.valueMultipliersNoRating = {
 
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
-  ...SR5.valueMultipliersNoRating
+  ...SR5.valueMultipliersNoRating,
+  ...SR5.valueMultipliersVehicleMod
 };
 
 // Addiction types
@@ -1494,6 +1495,7 @@ SR5.matrixSearchInfoType = {
 // Vehicle/Drone Attributes
 SR5.vehicleAttributes = {
   handling                  : "SR5.VehicleStat_HandlingShort",
+  handlingOffRoad           : "SR5.VehicleStat_HandlingORShort",
   speed                     : "SR5.VehicleStat_SpeedShort",
   acceleration              : "SR5.VehicleStat_AccelerationShort",
   body                      : "SR5.VehicleStat_BodyShort",
@@ -1567,7 +1569,7 @@ SR5.vehicleModType = {
   equipment                 : "SR5.VehicleModTypeEquipment",
   powerTrain                : "SR5.VehicleModTypePowerTrain",
   protection                : "SR5.VehicleModTypeProtection",
-  weapon                    : "SR5.VehicleModTypeWeapon",
+  weapons                   : "SR5.VehicleModTypeWeapon",
   electromagnetic           : "SR5.VehicleModTypeElectromagnetic",
   body                      : "SR5.VehicleModTypeBody",
   cosmetic                  : "SR5.VehicleModTypeCosmetic",

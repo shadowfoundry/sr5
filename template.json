@@ -4681,6 +4681,18 @@
             "modifiers": []
           }
         },
+        "handlingOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "speed": {
           "natural": {
             "value": 0,
@@ -5013,6 +5025,7 @@
         "name": ""
       },
       "pilotSkill": "",
+      "offRoadMode" : false,
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
@@ -6234,6 +6247,7 @@
       "model": "",
       "attributes": {
         "handling": 0,
+        "handlingOffRoad": 0,
         "speed": 0,
         "acceleration": 0,
         "body": 0,
@@ -6251,6 +6265,7 @@
       },
       "seating": 0,
       "controlMode": "autopilot",
+      "offRoadMode" : false,
       "riggerInterface": false,
       "mount": [],
       "autosoft": [],
@@ -6298,7 +6313,8 @@
       "type": "",
       "tools": "",
       "skill": "",
-      "slots": "0"
+      "slots": "0",
+      "threshold": "0"
     },
     "itemEffect":{
       "templates": [

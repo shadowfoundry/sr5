@@ -16,7 +16,7 @@ export class SR5_CharacterUtility extends Actor {
     // Reset Attributes
     switch (actor.type) {
       case "actorDrone":
-        list = lists.vehicleAttributes;
+          list = lists.vehicleAttributes;
         break;
       case "actorPc":
       case "actorGrunt":
@@ -342,6 +342,21 @@ export class SR5_CharacterUtility extends Actor {
       data.vehicleTest.test.modifiers = [];
       data.vehicleTest.limit.base = 0;
       data.vehicleTest.limit.modifiers = [];
+    }
+
+     // Reset Vehicule Mods
+     if (data.vehiclesMod) {
+      data.modificationSlots.powerTrain.modifiers = [];
+      data.modificationSlots.protection.base = 0;
+      data.modificationSlots.protection.modifiers = [];
+      data.modificationSlots.body.base = 0;
+      data.modificationSlots.body.modifiers = [];
+      data.modificationSlots.weapons.base = 0;
+      data.modificationSlots.weapons.modifiers = [];
+      data.modificationSlots.electromagnetic.base = 0;
+      data.modificationSlots.electromagnetic.modifiers = [];
+      data.modificationSlots.cosmetic.base = 0;
+      data.modificationSlots.cosmetic.modifiers = [];
     }
 
     if (data.matrix) {
@@ -1913,6 +1928,47 @@ export class SR5_CharacterUtility extends Actor {
     //update vehicle Actions Value
     SR5_EntityHelpers.updateDicePool(vehicleTest.test, 0);
     SR5_EntityHelpers.updateValue(vehicleTest.limit, 0);
+  }
+
+    // Vehicle Slots Calculations
+  static updateModificationsSlots(actor, vehicleMod){
+    let lists = actor.lists, data = actor.data, vm = vehicleMod.data;
+    
+    if (vm.type === "powerTrain" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.powerTrain, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+    };
+    if (vm.type === "protection" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.protection, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+    };
+    if (vm.type === "body" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.body, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+    };
+    if (vm.type === "weapons" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.weapons, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+    };
+    if (vm.type === "electromagnetic" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.electromagnetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+    };
+    if (vm.type === "cosmetic" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.cosmetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+    };
+  }
+
+  // Vehicle slots Update
+  static updateVehicleSlots(actor){
+    let data = actor.data, slots = data.attributes.body.augmented.value ;
+    data.modificationSlots.powerTrain.base = slots ;
+    data.modificationSlots.protection.base = slots ;
+    data.modificationSlots.weapons.base = slots ;
+    data.modificationSlots.body.base = slots ;
+    data.modificationSlots.electromagnetic.base = slots ;
+    data.modificationSlots.cosmetic.base = slots ;
+  SR5_EntityHelpers.updateValue(data.modificationSlots.powerTrain);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.protection);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.body);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.weapons);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.electromagnetic);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.cosmetic);
   }
 
   // Spirit Skills Calculations

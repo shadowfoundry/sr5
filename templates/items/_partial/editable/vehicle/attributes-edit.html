@@ -1,10 +1,17 @@
 <li class="SR-EnTete">
     <p class="SR-TextUppercase">{{localize 'SR5.Attributes'}}</p>
 </li>
+{{#ife data.offRoadMode "false"}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_HandlingFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.handling" value="{{data.attributes.handling}}" placeholder="0" /></div>
 </li>
+{{else}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_HandlingORFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.handlingOffRoad" value="{{data.attributes.handlingOffRoad}}" placeholder="0" /></div>
+</li>
+{{/ife}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_SpeedFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.speed" value="{{data.attributes.speed}}" placeholder="0" /></div>
