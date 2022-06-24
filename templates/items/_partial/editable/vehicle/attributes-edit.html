@@ -1,45 +1,53 @@
 <li class="SR-EnTete">
     <p class="SR-TextUppercase">{{localize 'SR5.Attributes'}}</p>
 </li>
-{{#ife data.offRoadMode "false"}}
+{{#if data.offRoadMode}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.VehicleStat_HandlingFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.handling" value="{{data.attributes.handling}}" placeholder="0" /></div>
+    <div class="col-5">{{localize 'SR5.VehicleStat_HandlingORFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.handlingOffRoad" value="{{data.attributes.handlingOffRoad}}" placeholder="0" onfocus="this.select()"/></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_SpeedORFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.speedOffRoad" value="{{data.attributes.speedOffRoad}}" placeholder="0" onfocus="this.select()"/></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleStat_AccelerationORFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.accelerationOffRoad" value="{{data.attributes.accelerationOffRoad}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 {{else}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.VehicleStat_HandlingORFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.handlingOffRoad" value="{{data.attributes.handlingOffRoad}}" placeholder="0" /></div>
+    <div class="col-5">{{localize 'SR5.VehicleStat_HandlingFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.handling" value="{{data.attributes.handling}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
-{{/ife}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_SpeedFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.speed" value="{{data.attributes.speed}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.speed" value="{{data.attributes.speed}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_AccelerationFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.acceleration" value="{{data.attributes.acceleration}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.acceleration" value="{{data.attributes.acceleration}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
+{{/if}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_BodyFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.body" value="{{data.attributes.body}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.body" value="{{data.attributes.body}}" placeholder="0" onfocus="this.select()"/></div>
     </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_ArmorFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.armor" value="{{data.attributes.armor}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.armor" value="{{data.attributes.armor}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_PilotFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.pilot" value="{{data.attributes.pilot}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.pilot" value="{{data.attributes.pilot}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleStat_SensorFull'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.attributes.sensor" value="{{data.attributes.sensor}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.attributes.sensor" value="{{data.attributes.sensor}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 {{#ife data.type "vehicle"}}
     <li class="grid">
         <div class="col-5">{{localize 'SR5.Vehicle_SeatingFull'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1"><input type="number" data-dtype="Number" name="data.seating" value="{{data.seating}}" placeholder="0" /></div>
+        <div class="col-1"><input type="number" class="input" data-dtype="Number" name="data.seating" value="{{data.seating}}" placeholder="0" onfocus="this.select()"/></div>
     </li>
 {{/ife}}
 <li class="grid">

@@ -75,7 +75,7 @@
 				{{/if}}
 			{{else ife ../actor.type 'actorDrone'}}
 				{{#if ../data.offRoadMode}}
-					{{#if (eq @key 'handling')}}
+					{{#if (or (eq @key 'handling') (eq @key 'speed') (eq @key 'acceleration'))}}
 
 					{{else}}
 				<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>
@@ -93,7 +93,7 @@
 				</div>
 					{{/if}}
 				{{else}}
-					{{#if (eq @key 'handlingOffRoad')}}
+					{{#if (or (eq @key 'handlingOffRoad') (eq @key 'speedOffRoad') (eq @key 'accelerationOffRoad'))}}
 
 					{{else}}
 				<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>

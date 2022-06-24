@@ -1293,7 +1293,9 @@ export class SR5Actor extends Actor {
         "data.attributes.handling.natural.base": itemData.attributes.handling,
         "data.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
         "data.attributes.speed.natural.base": itemData.attributes.speed,
+        "data.attributes.speedOffRoad.natural.base": itemData.attributes.speedOffRoad,
         "data.attributes.acceleration.natural.base": itemData.attributes.acceleration,
+        "data.attributes.accelerationOffRoad.natural.base": itemData.attributes.accelerationOffRoad,
         "data.attributes.body.natural.base": itemData.attributes.body,
         "data.attributes.armor.natural.base": itemData.attributes.armor,
         "data.attributes.pilot.natural.base": itemData.attributes.pilot,
@@ -1401,7 +1403,9 @@ export class SR5Actor extends Actor {
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
       modifiedItem.data.attributes.handlingOffRoad = actor.data.attributes.handlingOffRoad.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
+      modifiedItem.data.attributes.speedOffRoad = actor.data.attributes.speedOffRoad.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
+      modifiedItem.data.attributes.accelerationOffRoad = actor.data.attributes.accelerationOffRoad.natural.base;
       modifiedItem.data.attributes.body = actor.data.attributes.body.natural.base;
       modifiedItem.data.attributes.armor = actor.data.attributes.armor.natural.base;
       modifiedItem.data.attributes.pilot = actor.data.attributes.pilot.natural.base;

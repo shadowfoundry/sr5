@@ -4705,7 +4705,31 @@
             "modifiers": []
           }
         },
+        "speedOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "acceleration": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "accelerationOffRoad": {
           "natural": {
             "value": 0,
             "base": 0,
@@ -6249,7 +6273,9 @@
         "handling": 0,
         "handlingOffRoad": 0,
         "speed": 0,
+        "speedOffRoad": 0,
         "acceleration": 0,
+        "accelerationOffRoad": 0,
         "body": 0,
         "armor": 0,
         "pilot": 0,

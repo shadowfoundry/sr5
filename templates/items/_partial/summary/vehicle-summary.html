@@ -15,6 +15,18 @@
         <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.handlingOffRoad}}</span>
     </p>
 </li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.VehicleStat_SpeedORShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.speedOffRoad}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.VehicleStat_AccelerationORShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.accelerationOffRoad}}</span>
+    </p>
+</li>
 {{else}}
 <li class="grid">
     <p>
@@ -22,7 +34,6 @@
         <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.handling}}</span>
     </p>
 </li>
-{{/if}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleStat_SpeedShort'}}{{localize 'SR5.Colons'}}</span>
@@ -35,6 +46,7 @@
         <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.acceleration}}</span>
     </p>
 </li>
+{{/if}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleStat_BodyShort'}}{{localize 'SR5.Colons'}}</span>
