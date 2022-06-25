@@ -72,6 +72,7 @@
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Vehicle'}}">
 						<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
+						<option value="vehicleAttributes">{{localize 'SR5.VehicleAttributes'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Vision'}}">
 						<option value="visionTypes">{{localize 'SR5.VisionTypes'}}</option>
@@ -345,6 +346,15 @@
 					{{else ife category 'vehicle'}}
 					<option value="data.vehicleTest.test">{{localize 'SR5.VehicleTest'}}</option>
 					<option value="data.vehicleTest.limit">{{localize 'SR5.VehicleTest'}} ({{localize 'SR5.Limit'}})</option>
+
+					{{else ife category 'vehicleAttributes'}}
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="data.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
+						</option>
+						<option value="data.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
+					</optgroup>
+					{{/each}}
 					{{/ife}}
 
 					{{/select}}

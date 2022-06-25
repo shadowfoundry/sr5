@@ -1,0 +1,108 @@
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-4"><p class=" SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p></div>
+			<div class="col-3"><p class="SR-TextCenter">{{localize 'SR5.VehicleModTypeShort'}}</p></div>
+            <div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.VehicleModTools'}}</p></div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter">
+						<em class="fas fa-sm fa-thumbtack"></em>
+					</div>
+					<div class="col-6">
+						{{#if owner}}
+						<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemVehicleMod')}}" 
+						  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+							<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemVehicleMod">
+								<em class="fas fa-plus"></em>
+							</a>
+						</p>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+		</li>
+	  	{{#each actor.vehiclesMod}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{name}}
+			</div>
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+			data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+			  {{valueOrDash data.itemRating}}
+		  </div>
+			<div class="col-3 SR-TextCenter">{{valueOrDash (findTranslation 'vehicleModType' data.type)}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'vehicleModTools' data.tools)}}</div>
+			<div class="col-1 SR-TextRight">
+				<div class="grid">
+						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+							{{#if data.isActive}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+								<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
+							</a>
+							{{else}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+								<em class="fas fa-sm fa-thumbtack"></em>
+							</a>
+							{{/if}}
+						</div>
+					<div class="col-6">
+				{{#if ../owner}}
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+					<em class="fas fa-sm fa-edit item-management"></em>
+				</a>
+				{{/if}}
+				</div>
+				</div>
+			</div>
+		</li>
+	  	{{/each}}
+	</ul>
+	<ul class="SR-PaddingTop5">
+		<li class="SR-EnTete SR-TextUppercase">
+			{{localize 'SR5.VehicleModSlotsFull'}}
+		</li>
+		<li class="grid">
+			<div class="col-3 SR-TextRight">{{localize 'SR5.VehicleModTypePowerTrain'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold" data-binding="data.modificationSlots.powerTrain.base"
+			data-helpTitle="{{localize 'SR5.HELP_VehicleModSlots' key=(localize 'SR5.VehicleModTypePowerTrain')}}"
+			data-helpDetails="data.modificationSlots.powerTrain">
+    {{data.modificationSlots.powerTrain.value}}
+			</div>
+			<div class="col-3 SR-TextRight">{{localize 'SR5.VehicleModTypeProtection'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold" data-binding="data.modificationSlots.protection.base"
+			data-helpTitle="{{localize 'SR5.HELP_VehicleModSlots' key=(localize 'SR5.VehicleModTypeProtection')}}"
+			data-helpDetails="data.modificationSlots.protection">
+    {{data.modificationSlots.protection.value}}
+			</div>
+			<div class="col-3 SR-TextRight">{{localize 'SR5.VehicleModTypeWeapon'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold" data-binding="data.modificationSlots.weapons.base"
+			data-helpTitle="{{localize 'SR5.HELP_VehicleModSlots' key=(localize 'SR5.VehicleModTypeWeapon')}}"
+			data-helpDetails="data.modificationSlots.weapons">
+    {{data.modificationSlots.weapons.value}}
+			</div>
+		</li>
+		<li class="grid">
+			<div class="col-3 SR-TextRight">{{localize 'SR5.VehicleModTypeElectromagnetic'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold" data-binding="data.modificationSlots.electromagnetic.base"
+			data-helpTitle="{{localize 'SR5.HELP_VehicleModSlots' key=(localize 'SR5.VehicleModTypeElectromagnetic')}}"
+			data-helpDetails="data.modificationSlots.electromagnetic">
+    {{data.modificationSlots.electromagnetic.value}}
+			</div>
+			<div class="col-3 SR-TextRight">{{localize 'SR5.VehicleModTypeBody'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold" data-binding="data.modificationSlots.body.base"
+			data-helpTitle="{{localize 'SR5.HELP_VehicleModSlots' key=(localize 'SR5.VehicleModTypeBody')}}"
+			data-helpDetails="data.modificationSlots.body">
+    {{data.modificationSlots.body.value}}
+			</div>
+			<div class="col-3 SR-TextRight">{{localize 'SR5.VehicleModTypeCosmetic'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold" data-binding="data.modificationSlots.cosmetic.base"
+			data-helpTitle="{{localize 'SR5.HELP_VehicleModSlots' key=(localize 'SR5.VehicleModTypeCosmetic')}}"
+			data-helpDetails="data.modificationSlots.cosmetic">
+    {{data.modificationSlots.cosmetic.value}}
+			</div>
+		</li>
+	</ul>
+</div>

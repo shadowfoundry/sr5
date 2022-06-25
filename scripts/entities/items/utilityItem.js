@@ -38,6 +38,9 @@ export class SR5_UtilityItem extends Actor {
       case "itemVehicle":
         displayName = game.i18n.localize("SR5.VehicleNew");
         break;
+      case "itemVehicleMod":
+        displayName = game.i18n.localize("SR5.VehicleModNew");
+        break;
       case "itemAugmentation":
         displayName = game.i18n.localize("SR5.AugmentationNew");
         break;
@@ -586,6 +589,16 @@ export class SR5_UtilityItem extends Actor {
         weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value * 2;
         weapon.damageType = "stun";
         break;
+      case "noxiousBreath":
+        if (!actor) return;
+        weapon.toxin.vector.inhalation = true;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value;
+        weapon.toxin.penetration = 0;
+        weapon.toxin.effect.nausea = true;
+        weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value;
+        weapon.damageType = "stun";
+        break;
       case "gamma":
         weapon.toxin.vector.injection = true;
         weapon.toxin.speed = 0;
@@ -693,9 +706,23 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    if (actor !== undefined && weapon.category === "meleeWeapon" && actor.data.reach) {
-      weapon.reach.modifiers = weapon.reach.modifiers.concat(actor.data.reach.modifiers);
-    }
+    if (actor !== undefined) {
+      if (weapon.category === "meleeWeapon" && actor.data.reach) {
+        weapon.reach.modifiers = weapon.reach.modifiers.concat(actor.data.reach.modifiers);
+      }
+      if (weapon.systemEffects.length){
+        for (let systemEffect of Object.values(weapon.systemEffects)){
+					if (systemEffect.value === "noxiousBreath" || systemEffect.value === "corrosiveSpit"){
+            SR5_EntityHelpers.updateModifier(weapon.range.short, 'body', 'attribute', actor.data.attributes.body.augmented.value);
+            SR5_EntityHelpers.updateModifier(weapon.range.medium, 'body', 'attribute', actor.data.attributes.body.augmented.value * 2);
+            SR5_EntityHelpers.updateModifier(weapon.range.long, 'body', 'attribute', actor.data.attributes.body.augmented.value * 3);
+            SR5_EntityHelpers.updateModifier(weapon.range.extreme, 'body', 'attribute', actor.data.attributes.body.augmented.value * 4);
+          }
+        }
+      }
+    } 
+
+
 
     for (let key of Object.keys(SR5.weaponRanges)) {
       SR5_EntityHelpers.updateValue(weapon.range[key]);
@@ -1385,8 +1412,57 @@ export class SR5_UtilityItem extends Actor {
       if (mount.manual) SR5_EntityHelpers.updateModifier(vehicle.price, 'manual', 'mount', 2500);
     }
 
+    for (let vehicleMod of vehicle.vehiclesMod){
+      SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
+    }
+
     if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
+
+  }
+
+  static _handleVehicleSlots(vehicle) {
+    let slots = vehicle.attributes.body ;
+    vehicle.modificationSlots.powerTrain = slots ;
+    vehicle.modificationSlots.protection = slots ;
+    vehicle.modificationSlots.weapons = slots ;
+    vehicle.modificationSlots.body = slots ;
+    vehicle.modificationSlots.electromagnetic = slots ;
+    vehicle.modificationSlots.cosmetic = slots ;
+  }
+
+  static _handleSlotsMultiplier(item) {
+    let multiplier, lists = SR5;
+    switch (item.slots.multiplier) {
+      case "rating":
+        multiplier = item.itemRating;
+        break;
+      case "capacity":
+        multiplier = item.capacity.value;
+        break;
+      default:
+    }
+    if (item.slots.multiplier) {
+      SR5_EntityHelpers.updateModifier(item.slots, game.i18n.localize(lists.valueMultipliers[item.slots.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+    }
+    SR5_EntityHelpers.updateValue(item.slots, 0);
+  }
+
+  static _handleThresholdMultiplier(item) {
+    let multiplier, lists = SR5;
+    switch (item.threshold.multiplier) {
+      case "rating":
+        multiplier = item.itemRating;
+        break;
+      case "capacity":
+        multiplier = item.capacity.value;
+        break;
+      default:
+    }
+    if (item.threshold.multiplier) {
+      SR5_EntityHelpers.updateModifier(item.threshold, game.i18n.localize(lists.valueMultipliers[item.threshold.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+    }
+    SR5_EntityHelpers.updateValue(item.threshold, 0);
   }
 
   ////////////////////// ESPRITS  //////s////////////////

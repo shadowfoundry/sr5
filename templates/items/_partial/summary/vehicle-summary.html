@@ -1,13 +1,33 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleTypeShort'}}{{localize 'SR5.Colons'}}</span>
-        {{#ife data.category "vehicle"}}
-            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleTypes' data.type)}}</span>
+        {{#ife data.type "vehicle"}}
+            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleCategories' data.type)}}</span>
         {{else}}
             <span class="col-auto SR-GreyColor">{{valueOrDash data.type}}</span>
         {{/ife}}
     </p>
 </li>
+{{#if data.offRoadMode}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.VehicleStat_HandlingORShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.handlingOffRoad}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.VehicleStat_SpeedORShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.speedOffRoad}}</span>
+    </p>
+</li>
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.VehicleStat_AccelerationORShort'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.accelerationOffRoad}}</span>
+    </p>
+</li>
+{{else}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleStat_HandlingShort'}}{{localize 'SR5.Colons'}}</span>
@@ -26,6 +46,7 @@
         <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.acceleration}}</span>
     </p>
 </li>
+{{/if}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleStat_BodyShort'}}{{localize 'SR5.Colons'}}</span>
@@ -50,7 +71,7 @@
         <span class="col-auto SR-GreyColor">{{valueOrDash data.attributes.sensor}}</span>
     </p>
 </li>
-{{#ife data.category "vehicle"}}
+{{#ife data.type "vehicle"}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Vehicle_SeatingShort'}}{{localize 'SR5.Colons'}}</span>
@@ -70,3 +91,10 @@
         </span>
     </p>
 </li>
+{{#ife data.offRoadMode "true"}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.OffRoadMode'}}</span>
+    </p>
+</li>
+{{/ife}}

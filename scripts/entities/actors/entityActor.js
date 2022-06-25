@@ -309,6 +309,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.generateVehicleTest(actor);
         SR5_CharacterUtility.updateRecoil(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);
+        SR5_CharacterUtility.updateVehicleSlots(actor);
         break;
       case "actorSpirit":
         SR5_CharacterUtility.updateSpiritValues(actor);
@@ -623,10 +624,24 @@ export class SR5Actor extends Actor {
           if (iData.isRegistered) actorData.data.matrix.registeredSprite.current ++;
           break;
 
+        case "itemVehicleMod":
+          i.prepareData();
+          if (iData.isActive && Object.keys(iData.customEffects).length) {
+            SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
+          }
+          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);
+          SR5_UtilityItem._handleItemPrice(iData);
+          SR5_UtilityItem._handleItemAvailability(iData);
+          break;
+
+        case "itemVehicle":        
+          i.prepareData();
+          SR5_UtilityItem._handleVehicleSlots(iData);
+          break;
+
         case "itemLifestyle":
         case "itemAmmunition":
-        case "itemSin":
-        case "itemVehicle":        
+        case "itemSin":     
           i.prepareData();
           break;
 
@@ -717,12 +732,16 @@ export class SR5Actor extends Actor {
             }
           }
           break;
+        case "itemVehicleMod":
+            i.prepareData();
+          break;
         case "itemWeapon":
         case "itemKnowledge":
         case "itemLanguage":
         case "itemPower":
         case "itemSpritePower":
         case "itemAdeptPower":
+        case "itemVehicle":
           i.prepareData();
           break;
       }
@@ -1196,6 +1215,20 @@ export class SR5Actor extends Actor {
     if (item.type === "itemSpirit") {
       let baseItems = await SR5_CompendiumUtility.getBaseItems("actorSpirit", itemData.type, itemData.itemRating);
       baseItems = await SR5_CompendiumUtility.addOptionalSpiritPowersFromItem(baseItems, itemData.optionalPowers);
+      for (let power of baseItems){
+        if (power.data.systemEffects.length){
+          for (let syseffect of power.data.systemEffects){
+            if (syseffect.value === "noxiousBreath" && power.type === "itemPower"){
+              let newWeapon = await SR5_CompendiumUtility.getWeaponFromCompendium("noxiousBreath");
+              if (newWeapon) baseItems.push(newWeapon);
+            }
+            if (syseffect.value === "corrosiveSpit" && power.type === "itemPower"){
+              let newWeapon = await SR5_CompendiumUtility.getWeaponFromCompendium("corrosiveSpit", itemData.itemRating);
+              if (newWeapon) baseItems.push(newWeapon);
+            }
+          }
+        }
+      }
       data = mergeObject(data, {
         "data.type": itemData.type,
         "data.force.base": itemData.itemRating,
@@ -1260,6 +1293,7 @@ export class SR5Actor extends Actor {
       for (let ammo of itemData.ammunitions) baseItems.push(ammo);
       for (let weapon of itemData.weapons) baseItems.push(weapon);
       for (let armor of itemData.armors) baseItems.push(armor);
+      for (let vehicleMod of itemData.vehiclesMod) baseItems.push(vehicleMod);
       for (let deck of itemData.decks) {
         deck.data.marks = [];
         baseItems.push(deck);
@@ -1271,17 +1305,27 @@ export class SR5Actor extends Actor {
         "data.type": itemData.type,
         "data.model": itemData.model,
         "data.attributes.handling.natural.base": itemData.attributes.handling,
+        "data.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
         "data.attributes.speed.natural.base": itemData.attributes.speed,
+        "data.attributes.speedOffRoad.natural.base": itemData.attributes.speedOffRoad,
         "data.attributes.acceleration.natural.base": itemData.attributes.acceleration,
+        "data.attributes.accelerationOffRoad.natural.base": itemData.attributes.accelerationOffRoad,
         "data.attributes.body.natural.base": itemData.attributes.body,
         "data.attributes.armor.natural.base": itemData.attributes.armor,
         "data.attributes.pilot.natural.base": itemData.attributes.pilot,
         "data.attributes.sensor.natural.base": itemData.attributes.sensor,
         "data.attributes.seating.natural.base": itemData.seating,
+        "data.modificationSlots.powerTrain.base": itemData.modificationSlots.powerTrain,
+        "data.modificationSlots.protection.base": itemData.modificationSlots.protection,
+        "data.modificationSlots.weapons.base": itemData.modificationSlots.weapons,
+        "data.modificationSlots.body.base": itemData.modificationSlots.body,
+        "data.modificationSlots.electromagnetic.base": itemData.modificationSlots.electromagnetic,
+        "data.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
         "data.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
         "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
+        "data.offRoadMode": itemData.offRoadMode,
         "data.slaved": itemData.slaved,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,
@@ -1348,13 +1392,15 @@ export class SR5Actor extends Actor {
           weapons = [],
           ammunitions = [],
           armors = [],
-          decks = [];
+          decks = [],
+          vehiclesMod = [];
       for (let a of actor.items){
         if (a.type === "itemProgram") autosoft.push(a);
         if (a.type === "itemWeapon") weapons.push(a);
         if (a.type === "itemAmmunition") ammunitions.push(a);
         if (a.type === "itemArmor") armors.push(a);
         if (a.type === "itemDevice") decks.push(a);
+        if (a.type === "itemVehicleMod") vehiclesMod.push(a);
       }
       modifiedItem.img = actor.img;
       modifiedItem.data.autosoft = autosoft;
@@ -1362,18 +1408,29 @@ export class SR5Actor extends Actor {
       modifiedItem.data.ammunitions = ammunitions;
       modifiedItem.data.armors = armors;
       modifiedItem.data.decks = decks;
+      modifiedItem.data.vehiclesMod = vehiclesMod;
       modifiedItem.data.model = actor.data.model;
       modifiedItem.data.slaved = actor.data.slaved;
       modifiedItem.data.controlMode = actor.data.controlMode;
       modifiedItem.data.riggerInterface = actor.data.riggerInterface;
+      modifiedItem.data.offRoadMode = actor.data.offRoadMode; 
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
+      modifiedItem.data.attributes.handlingOffRoad = actor.data.attributes.handlingOffRoad.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
+      modifiedItem.data.attributes.speedOffRoad = actor.data.attributes.speedOffRoad.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
+      modifiedItem.data.attributes.accelerationOffRoad = actor.data.attributes.accelerationOffRoad.natural.base;
       modifiedItem.data.attributes.body = actor.data.attributes.body.natural.base;
       modifiedItem.data.attributes.armor = actor.data.attributes.armor.natural.base;
       modifiedItem.data.attributes.pilot = actor.data.attributes.pilot.natural.base;
       modifiedItem.data.attributes.sensor = actor.data.attributes.sensor.natural.base;
       modifiedItem.data.seating = actor.data.attributes.seating.natural.base;
+      modifiedItem.data.modificationSlots.powerTrain = actor.data.modificationSlots.powerTrain.base;
+      modifiedItem.data.modificationSlots.protection = actor.data.modificationSlots.protection.base;
+      modifiedItem.data.modificationSlots.weapons = actor.data.modificationSlots.weapons.base;
+      modifiedItem.data.modificationSlots.body = actor.data.modificationSlots.body.base;
+      modifiedItem.data.modificationSlots.electromagnetic = actor.data.modificationSlots.electromagnetic.base;
+      modifiedItem.data.modificationSlots.cosmetic = actor.data.modificationSlots.cosmetic.base;
       modifiedItem.data.conditionMonitors.condition.actual = actor.data.conditionMonitors.condition.actual;
       modifiedItem.data.conditionMonitors.matrix.actual = actor.data.conditionMonitors.matrix.actual;
       modifiedItem.data.isCreated = false;
