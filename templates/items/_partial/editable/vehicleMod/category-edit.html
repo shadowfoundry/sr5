@@ -11,3 +11,9 @@
         </select>
     </div>
 </li>
+{{#if (eq data.type "weapons")}}
+<li class="grid subItemManagement">
+    <div class="col-3">{{localize 'SR5.VEHICLE_WeaponMount_F'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="data.isWeaponMounted" data-dtype="Boolean" {{checked data.isWeaponMounted}} /></div>
+</li>
+{{/if}}

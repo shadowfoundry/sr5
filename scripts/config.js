@@ -1540,6 +1540,34 @@ SR5.mountTypes = {
   heavy                     : "SR5.VEHICLE_WeaponMountHeavy_F",
 };
 
+// Weapon Mount : Size
+SR5.WeaponMountSize = {
+  light                   : "SR5.VEHICLE_WeaponMountSize_L",
+  standard                : "SR5.VEHICLE_WeaponMountSize_S",
+  heavy                   : "SR5.VEHICLE_WeaponMountSize_H",
+};
+
+// Weapon Mount : Visibility
+SR5.WeaponMountVisibility = {
+  external                : "SR5.VEHICLE_WeaponMountVis_E",
+  internal                : "SR5.VEHICLE_WeaponMountVis_I",
+  concealed               : "SR5.VEHICLE_WeaponMountVis_C",
+};
+
+// Weapon Mount : Flexibility
+SR5.WeaponMountFlexibility = {
+  fixed                  : "SR5.VEHICLE_WeaponMountFlex_Fi",
+  flexible               : "SR5.VEHICLE_WeaponMountFlex_Fl",
+  turret                 : "SR5.VEHICLE_WeaponMountFlex_T",
+};
+
+// Weapon Mount : Control mode
+SR5.WeaponMountControl = {
+  remote                 : "SR5.VEHICLE_WeaponMountCon_R",
+  manual                 : "SR5.VEHICLE_WeaponMountCon_M",
+  armoredManual          : "SR5.VEHICLE_WeaponMountCon_AM",
+};
+
 // Vehicle and Drone Control mode
 SR5.vehicleControlModes = {
   autopilot                 : "SR5.ControlAutopilot",

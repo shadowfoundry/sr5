@@ -1,0 +1,55 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.VEHICLE_WeaponMount_F'}}</p>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountSize'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.weaponMount.size" data-dtype="String" required>
+            {{#select data.weaponMount.size}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.WeaponMountSize}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountVisibility'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.weaponMount.visibility" data-dtype="String" required>
+            {{#select data.weaponMount.visibility}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.WeaponMountVisibility}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountFlexibility'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.weaponMount.flexibility" data-dtype="String" required>
+            {{#select data.weaponMount.flexibility}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.WeaponMountFlexibility}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountControl'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.weaponMount.control" data-dtype="String" required>
+            {{#select data.weaponMount.control}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.WeaponMountControl}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

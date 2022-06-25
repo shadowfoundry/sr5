@@ -6350,6 +6350,21 @@
         "modifiers": [],
         "value": 0,
         "multiplier": ""
+      },
+      "isWeaponMounted": false,
+      "weaponMount": {
+        "size": "",
+        "visiblity": "",
+        "flexibility": "",
+        "control": ""
+      },
+      "secondaryPropulsion": {
+        "isSecondaryPropulsion": false,
+        "type": "",
+        "handling": 0,
+        "handlingOffRoad": 0,
+        "speed" : 0,
+        "acceleration" : 0
       }
     },
     "itemEffect":{
