@@ -17,7 +17,7 @@ export class SR5_CharacterUtility extends Actor {
     // Reset Attributes
     switch (actor.type) {
       case "actorDrone":
-        list = lists.vehicleAttributes;
+          list = lists.vehicleAttributes;
         break;
       case "actorPc":
       case "actorGrunt":
@@ -343,6 +343,21 @@ export class SR5_CharacterUtility extends Actor {
       data.vehicleTest.test.modifiers = [];
       data.vehicleTest.limit.base = 0;
       data.vehicleTest.limit.modifiers = [];
+    }
+
+     // Reset Vehicule Mods
+     if (data.vehiclesMod) {
+      data.modificationSlots.powerTrain.modifiers = [];
+      data.modificationSlots.protection.base = 0;
+      data.modificationSlots.protection.modifiers = [];
+      data.modificationSlots.body.base = 0;
+      data.modificationSlots.body.modifiers = [];
+      data.modificationSlots.weapons.base = 0;
+      data.modificationSlots.weapons.modifiers = [];
+      data.modificationSlots.electromagnetic.base = 0;
+      data.modificationSlots.electromagnetic.modifiers = [];
+      data.modificationSlots.cosmetic.base = 0;
+      data.modificationSlots.cosmetic.modifiers = [];
     }
 
     if (data.matrix) {
@@ -1392,7 +1407,7 @@ export class SR5_CharacterUtility extends Actor {
             SR5_EntityHelpers.updateModifier(initPhy.dice,`${game.i18n.localize('SR5.InitiativeMatrix')}`, `${game.i18n.localize('SR5.Controler')}`, controlerData.initiatives.matrixInit.dice.value);
             break;
           default:
-            SR5_SystemHelpers.srLog(1, `Unknown controle mode '${data.controlMode}' in 'updateInitiatives() for drone/vehicle'`);
+            SR5_SystemHelpers.srLog(1, `Unknown controle mode '${data.controlMode}' in 'updateInitiatives() for drone/vehicle' ('${data.model}')`);
         }
         break;
       case "actorSpirit":
@@ -1761,10 +1776,15 @@ export class SR5_CharacterUtility extends Actor {
 
   // Vehicle Skills Calculations
   static generateVehicleSkills(actor) {
-    let data = actor.data, skills = data.skills, attributes = data.attributes;
+    let data = actor.data, skills = data.skills, attributes = data.attributes, handlingMode = attributes.handling.augmented.value, handlingName = game.i18n.localize('SR5.VehicleStat_HandlingShort');
     let controlerData;
     if (data.vehicleOwner.id) {
       controlerData = actor.flags.sr5.vehicleControler.data;
+    }
+
+    if (data.offRoadMode) {
+    handlingMode = attributes.handlingOffRoad.augmented.value;
+    handlingName = game.i18n.localize('SR5.VehicleStat_HandlingORShort');
     }
 
     skills.sneaking.rating.base = 0;
@@ -1775,7 +1795,7 @@ export class SR5_CharacterUtility extends Actor {
       switch (data.controlMode){
         case "autopilot":
           SR5_EntityHelpers.updateModifier(skills.sneaking.rating, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.pilot.augmented.value);
-          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, game.i18n.localize('SR5.VehicleStat_HandlingShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.handling.augmented.value);
+          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, handlingName, game.i18n.localize('SR5.LinkedAttribute'), handlingMode);
           SR5_EntityHelpers.updateModifier(skills.perception.rating, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.pilot.augmented.value);
           SR5_EntityHelpers.updateModifier(skills.perception.limit, game.i18n.localize('SR5.VehicleStat_SensorShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.sensor.augmented.value);
           break;
@@ -1790,9 +1810,9 @@ export class SR5_CharacterUtility extends Actor {
           if (data.pilotSkill){
             SR5_EntityHelpers.updateModifier(skills.sneaking.test, game.i18n.localize('SR5.Controler'), game.i18n.localize('SR5.ControlMode'), controlerData.skills[data.pilotSkill].test.dicePool);
           }
-          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, game.i18n.localize('SR5.VehicleStat_HandlingShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.handling.augmented.value);
-          if (controlerData.matrix.attributes.dataProcessing.value < attributes.handling.augmented.value){
-            let mod = controlerData.matrix.attributes.dataProcessing.value - attributes.handling.augmented.value;
+          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, handlingName, game.i18n.localize('SR5.LinkedAttribute'), handlingMode);
+          if (controlerData.matrix.attributes.dataProcessing.value < handlingMode){
+            let mod = controlerData.matrix.attributes.dataProcessing.value - handlingMode;
             SR5_EntityHelpers.updateModifier(skills.sneaking.limit, game.i18n.localize('SR5.DataProcessingLimit'), game.i18n.localize('SR5.ControlMode'), mod);
           }
           break;
@@ -1803,7 +1823,7 @@ export class SR5_CharacterUtility extends Actor {
           if (data.pilotSkill){
             SR5_EntityHelpers.updateModifier(skills.sneaking.test, game.i18n.localize('SR5.Controler'), game.i18n.localize('SR5.ControlMode'), controlerData.skills[data.pilotSkill].test.dicePool);
           }
-          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, game.i18n.localize('SR5.VehicleStat_HandlingShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.handling.augmented.value);
+          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, handlingName, game.i18n.localize('SR5.LinkedAttribute'), handlingMode);
           break;
         case "rigging":
           if (controlerData.specialProperties.controlRig.value) {
@@ -1817,7 +1837,7 @@ export class SR5_CharacterUtility extends Actor {
           if (data.pilotSkill){
             SR5_EntityHelpers.updateModifier(skills.sneaking.test, game.i18n.localize('SR5.Controler'), game.i18n.localize('SR5.ControlMode'), controlerData.skills[data.pilotSkill].test.dicePool);
           }
-          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, game.i18n.localize('SR5.VehicleStat_HandlingShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.handling.augmented.value);
+          SR5_EntityHelpers.updateModifier(skills.sneaking.limit, handlingName, game.i18n.localize('SR5.LinkedAttribute'), handlingMode);
           SR5_EntityHelpers.updateModifier(skills.sneaking.limit, game.i18n.localize('SR5.ControlRigging'), game.i18n.localize('SR5.ControlMode'), 1);
           if (controlerData.matrix.userMode === "hotsim") {
             SR5_EntityHelpers.updateModifier(skills.perception.test, game.i18n.localize('SR5.VirtualRealityHotSimShort'), game.i18n.localize('SR5.MatrixUserMode'), 1);
@@ -1846,7 +1866,12 @@ export class SR5_CharacterUtility extends Actor {
   //
   static generateVehicleTest(actor){
     let data = actor.data, vehicleTest = data.vehicleTest, attributes = data.attributes, lists = actor.lists;
-    vehicleTest.limit.base = attributes.handling.augmented.value;
+    if (data.offRoadMode) {
+      vehicleTest.limit.base = attributes.handlingOffRoad.augmented.value;
+    }
+    else {
+      vehicleTest.limit.base = attributes.handling.augmented.value;
+    }
     vehicleTest.test.base = 0;
     let controlerData;
     if (data.vehicleOwner.id) controlerData = actor.flags.sr5.vehicleControler.data;
@@ -1881,6 +1906,47 @@ export class SR5_CharacterUtility extends Actor {
     //update vehicle Actions Value
     SR5_EntityHelpers.updateDicePool(vehicleTest.test, 0);
     SR5_EntityHelpers.updateValue(vehicleTest.limit, 0);
+  }
+
+    // Vehicle Slots Calculations
+  static updateModificationsSlots(actor, vehicleMod){
+    let lists = actor.lists, data = actor.data, vm = vehicleMod.data;
+    
+    if (vm.type === "powerTrain" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.powerTrain, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
+    };
+    if (vm.type === "protection" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.protection, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
+    };
+    if (vm.type === "body" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.body, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
+    };
+    if (vm.type === "weapons" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.weapons, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
+    };
+    if (vm.type === "electromagnetic" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.electromagnetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
+    };
+    if (vm.type === "cosmetic" && vm.isActive) {
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.cosmetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
+    };
+  }
+
+  // Vehicle slots Update
+  static updateVehicleSlots(actor){
+    let data = actor.data, slots = data.attributes.body.augmented.value ;
+    data.modificationSlots.powerTrain.base = slots ;
+    data.modificationSlots.protection.base = slots ;
+    data.modificationSlots.weapons.base = slots ;
+    data.modificationSlots.body.base = slots ;
+    data.modificationSlots.electromagnetic.base = slots ;
+    data.modificationSlots.cosmetic.base = slots ;
+  SR5_EntityHelpers.updateValue(data.modificationSlots.powerTrain);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.protection);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.body);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.weapons);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.electromagnetic);
+  SR5_EntityHelpers.updateValue(data.modificationSlots.cosmetic);
   }
 
   // Spirit Skills Calculations
