@@ -9,8 +9,8 @@
     <li class="subItemManagement grid" data-key="{{@key}}">
         <div class="col-4">{{a.name}}</div>
         <div class="col-4 SR-TextCenter">{{findTranslation 'vehicleModType' a.data.type}}</div>
-        <div class="col-2 SR-TextCenter">{{valueOrDash a.data.slots}}</div>
         <div class="col-2 SR-TextCenter">{{valueOrDash a.data.itemRating}}</div>
+        <div class="col-2 SR-TextCenter">{{valueOrDash a.data.slots.value}}</div>
     </li>
     {{/each}}
 </ul>

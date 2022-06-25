@@ -1945,22 +1945,22 @@ export class SR5_CharacterUtility extends Actor {
     let lists = actor.lists, data = actor.data, vm = vehicleMod.data;
     
     if (vm.type === "powerTrain" && vm.isActive) {
-      SR5_EntityHelpers.updateModifier(data.modificationSlots.powerTrain, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.powerTrain, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
     if (vm.type === "protection" && vm.isActive) {
-      SR5_EntityHelpers.updateModifier(data.modificationSlots.protection, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.protection, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
     if (vm.type === "body" && vm.isActive) {
-      SR5_EntityHelpers.updateModifier(data.modificationSlots.body, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.body, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
     if (vm.type === "weapons" && vm.isActive) {
-      SR5_EntityHelpers.updateModifier(data.modificationSlots.weapons, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.weapons, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
     if (vm.type === "electromagnetic" && vm.isActive) {
-      SR5_EntityHelpers.updateModifier(data.modificationSlots.electromagnetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.electromagnetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
     if (vm.type === "cosmetic" && vm.isActive) {
-      SR5_EntityHelpers.updateModifier(data.modificationSlots.cosmetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots);
+      SR5_EntityHelpers.updateModifier(data.modificationSlots.cosmetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
   }
 

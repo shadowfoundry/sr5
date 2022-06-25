@@ -97,6 +97,8 @@ export class SR5Item extends Item {
         if (Object.keys(data.itemEffects).length) {
           SR5_UtilityItem.applyItemEffects(itemData);
         }
+        SR5_UtilityItem._handleSlotsMultiplier(data);
+        SR5_UtilityItem._handleThresholdMultiplier(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
       break;

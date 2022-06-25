@@ -826,7 +826,6 @@ SR5.valueMultipliersNoRating = {
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
   ...SR5.valueMultipliersNoRating,
-  ...SR5.valueMultipliersVehicleMod
 };
 
 // Addiction types

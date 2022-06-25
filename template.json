@@ -6339,8 +6339,18 @@
       "type": "",
       "tools": "",
       "skill": "",
-      "slots": "0",
-      "threshold": "0"
+      "slots": {
+        "base": 0,
+        "modifiers": [],
+        "value": 0,
+        "multiplier": ""
+      },
+      "threshold": {
+        "base": 0,
+        "modifiers": [],
+        "value": 0,
+        "multiplier": ""
+      }
     },
     "itemEffect":{
       "templates": [

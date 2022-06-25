@@ -1407,6 +1407,40 @@ export class SR5_UtilityItem extends Actor {
     vehicle.modificationSlots.cosmetic = slots ;
   }
 
+  static _handleSlotsMultiplier(item) {
+    let multiplier, lists = SR5;
+    switch (item.slots.multiplier) {
+      case "rating":
+        multiplier = item.itemRating;
+        break;
+      case "capacity":
+        multiplier = item.capacity.value;
+        break;
+      default:
+    }
+    if (item.slots.multiplier) {
+      SR5_EntityHelpers.updateModifier(item.slots, game.i18n.localize(lists.valueMultipliers[item.slots.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+    }
+    SR5_EntityHelpers.updateValue(item.slots, 0);
+  }
+
+  static _handleThresholdMultiplier(item) {
+    let multiplier, lists = SR5;
+    switch (item.threshold.multiplier) {
+      case "rating":
+        multiplier = item.itemRating;
+        break;
+      case "capacity":
+        multiplier = item.capacity.value;
+        break;
+      default:
+    }
+    if (item.threshold.multiplier) {
+      SR5_EntityHelpers.updateModifier(item.threshold, game.i18n.localize(lists.valueMultipliers[item.threshold.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+    }
+    SR5_EntityHelpers.updateValue(item.threshold, 0);
+  }
+
   ////////////////////// ESPRITS  //////s////////////////
   static _handleSpirit(spirit) {
 
