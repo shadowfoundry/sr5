@@ -55,6 +55,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/actors/_partials/header/navParts/magicUser.html",
         "systems/sr5/templates/actors/_partials/header/navParts/matrix.html",
         "systems/sr5/templates/actors/_partials/header/navParts/matrixUser.html",
+        "systems/sr5/templates/actors/_partials/header/navParts/modification.html",
         "systems/sr5/templates/actors/_partials/header/navParts/qualities.html",
         "systems/sr5/templates/actors/_partials/header/navParts/skills.html",
         "systems/sr5/templates/actors/_partials/header/navParts/social.html",
@@ -189,6 +190,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     //Right Tab - Drone
     "systems/sr5/templates/actors/_partials/right-tabs/droneStuff/droneRoll.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/droneStuff/modifications.html",
     
 
     /************************************************************************************* */
@@ -247,6 +249,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/summary/spirit-summary.html",
         "systems/sr5/templates/items/_partial/summary/sprite-summary.html",
         "systems/sr5/templates/items/_partial/summary/vehicle-summary.html",
+        "systems/sr5/templates/items/_partial/summary/vehicleMod-summary.html",
         "systems/sr5/templates/items/_partial/summary/weapon-summary.html",
         "systems/sr5/templates/items/_partial/summary/tradition-summary.html",
         "systems/sr5/templates/items/_partial/summary/ritual-summary.html",
@@ -414,6 +417,13 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicle/attributes-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html",
+
+        //Vehicle modifications
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/category-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/skill-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/tools-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/threshold-edit.html",
 
         //Weapon
         "systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html",

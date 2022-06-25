@@ -3052,7 +3052,9 @@
             "base": 0,
             "modifiers": []
           },
-          "doublePenalties": false
+          "doublePenalties": false,
+          "energyAura": "",
+          "regeneration": false
         }
       },
       "itemsPropertiesTemplate": {
@@ -4679,6 +4681,18 @@
             "modifiers": []
           }
         },
+        "handlingOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "speed": {
           "natural": {
             "value": 0,
@@ -4691,7 +4705,31 @@
             "modifiers": []
           }
         },
+        "speedOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "acceleration": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "accelerationOffRoad": {
           "natural": {
             "value": 0,
             "base": 0,
@@ -5011,9 +5049,43 @@
         "name": ""
       },
       "pilotSkill": "",
+      "offRoadMode" : false,
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
+      "vehiclesMod": [],
+      "modificationSlots": {
+        "powerTrain": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "protection": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "weapons": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "body": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "electromagnetic": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "cosmetic": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
       "model": "",
       "vehicleTest": {
         "actionType": "complex",
@@ -5442,6 +5514,7 @@
       "itemSprite",
       "itemSpritePower",
       "itemVehicle",
+      "itemVehicleMod",
       "itemWeapon",
       "itemEffect",
       "itemDrug",
@@ -6198,15 +6271,27 @@
       "model": "",
       "attributes": {
         "handling": 0,
+        "handlingOffRoad": 0,
         "speed": 0,
+        "speedOffRoad": 0,
         "acceleration": 0,
+        "accelerationOffRoad": 0,
         "body": 0,
         "armor": 0,
         "pilot": 0,
         "sensor": 0
       },
+      "modificationSlots": {
+        "powerTrain":0,
+        "protection": 0,
+        "weapons": 0,
+        "body": 0,
+        "electromagnetic": 0,
+        "cosmetic": 0
+      },
       "seating": 0,
-      "controlMode": "",
+      "controlMode": "autopilot",
+      "offRoadMode" : false,
       "riggerInterface": false,
       "mount": [],
       "autosoft": [],
@@ -6214,6 +6299,7 @@
       "ammunitions": [],
       "armors": [],
       "decks": [],
+      "vehiclesMod": [],
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
@@ -6240,6 +6326,30 @@
           },
           "boxes": []
         }
+      }
+    },
+    "itemVehicleMod": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateRating",        
+        "templateBoughtOrSold"
+      ],
+      "type": "",
+      "tools": "",
+      "skill": "",
+      "slots": {
+        "base": 0,
+        "modifiers": [],
+        "value": 0,
+        "multiplier": ""
+      },
+      "threshold": {
+        "base": 0,
+        "modifiers": [],
+        "value": 0,
+        "multiplier": ""
       }
     },
     "itemEffect":{

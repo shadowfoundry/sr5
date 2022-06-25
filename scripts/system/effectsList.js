@@ -190,6 +190,30 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
+        case "astralInit":
+            return effect = {
+                label: game.i18n.localize('SR5.InitiativeAstral'),
+                origin: "initiativeMode",
+                icon: "systems/sr5/img/status/StatusInitAstalOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "astralInit",
+                    }
+                },
+            }
+        case "matrixInit":
+            return effect = {
+                label: game.i18n.localize('SR5.InitiativeMatrix'),
+                origin: "initiativeMode",
+                icon: "systems/sr5/img/status/StatusInitMatrixOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "matrixInit",
+                    }
+                },
+            }
         default: return null
     }
 }

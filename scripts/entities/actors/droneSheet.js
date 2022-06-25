@@ -56,6 +56,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
     const programs = [];
     const marks = [];
     const ammunitions = [];
+    const vehiclesMod = [];
     const effects = [];
 
     // Iterate through items, allocating to containers
@@ -68,6 +69,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
       else if (i.type === "itemMark") marks.push(i);
       else if (i.type === "itemAmmunition") ammunitions.push(i);
       else if (i.type === "itemEffect") effects.push(i);
+      else if (i.type === "itemVehicleMod") vehiclesMod.push(i);
     }
 
     actor.weapons = weapons;
@@ -75,6 +77,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
     actor.programs = programs;
     actor.marks = marks;
     actor.ammunitions = ammunitions;
+    actor.vehiclesMod = vehiclesMod;
     actor.effects = effects;
   }
 
@@ -102,6 +105,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
       case "itemProgram":
       case "itemMark":
       case "itemAmmunition":
+      case "itemVehicleMod":
       case "itemEffect":
         return super._onDropItemCreate(itemData);
         break;

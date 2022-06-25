@@ -275,7 +275,7 @@ export const registerHooks = function () {
     if (game.combat) SR5Combat.changeInitInCombat(document);
     if (data.data?.visions) canvas.sight.refresh()
   
-    let astralVisionEffect = document.effects.find(e => e.data.origin === "handleVisionAstral")
+    let astralVisionEffect = await document.effects.find(e => e.data.origin === "handleVisionAstral")
     if (document.data.data.visions?.astral.isActive){
       if (!astralVisionEffect){
         let astralEffect = await _getSRStatusEffect("handleVisionAstral");
@@ -353,6 +353,24 @@ export const registerHooks = function () {
         }
         await actor.createEmbeddedDocuments("Item", [deviceItem]);
       }
+    }
+
+    let astralVisionEffect = await actor.effects.find(e => e.data.origin === "handleVisionAstral")
+    if (actor.data.data.visions?.astral.isActive){
+      if (!astralVisionEffect){
+        let astralEffect = await _getSRStatusEffect("handleVisionAstral");
+        await actor.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
+      }
+    } else {
+      if (astralVisionEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
+    }
+
+    let currentInitiative = SR5_CharacterUtility.findActiveInitiative(actor.data);
+    if (currentInitiative !== "physicalInit") {
+      let previousInitiativeEffect = actor.data.effects.find(effect => effect.data.origin === "initiativeMode");
+      if(previousInitiativeEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [previousInitiativeEffect.id]);
+      let initiativeEffect = await _getSRStatusEffect(currentInitiative);
+      await actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
     }
   });
 

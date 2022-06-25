@@ -766,7 +766,7 @@ SR5.weaponAccessoryTypes = {
   accessory                 : "SR5.WeaponAccessoryTypeAccessory",
   modification              : "SR5.WeaponAccessoryTypeModification",
   trait                     : "SR5.WeaponAccessoryTypeTrait",
-}
+};
 
 //Weapon Accessory Slot
 SR5.weaponAccessorySlots = {
@@ -776,7 +776,7 @@ SR5.weaponAccessorySlots = {
   internal                  : "SR5.WeaponAccessorySlotInternal",
   barrel                    : "SR5.WeaponAccessorySlotBarrel",
   stock                     : "SR5.WeaponAccessorySlotStock",
-}
+};
 
 // Toxins
 SR5.toxinTypes = {
@@ -790,6 +790,7 @@ SR5.toxinTypes = {
   neuroStunNine             : "SR5.ToxinNeuroStunNine",
   neuroStunTen              : "SR5.ToxinNeuroStunTen",
   seven                     : "SR5.ToxinSeven",
+  noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
 // Toxins Effects
@@ -825,7 +826,7 @@ SR5.valueMultipliersNoRating = {
 
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
-  ...SR5.valueMultipliersNoRating
+  ...SR5.valueMultipliersNoRating,
 };
 
 // Addiction types
@@ -833,7 +834,7 @@ SR5.addictionTypes = {
   both                      : "SR5.AddictionBoth",
   physiological             : "SR5.AddictionPhysiological",
   psychological             : "SR5.AddictionPsychological",
-}
+};
 
 //-----------------------------------//
 //             AUGMENTATIONS         //
@@ -1494,8 +1495,11 @@ SR5.matrixSearchInfoType = {
 // Vehicle/Drone Attributes
 SR5.vehicleAttributes = {
   handling                  : "SR5.VehicleStat_HandlingShort",
+  handlingOffRoad           : "SR5.VehicleStat_HandlingORShort",
   speed                     : "SR5.VehicleStat_SpeedShort",
+  speedOffRoad              : "SR5.VehicleStat_SpeedORShort",
   acceleration              : "SR5.VehicleStat_AccelerationShort",
+  accelerationOffRoad       : "SR5.VehicleStat_AccelerationORShort",
   body                      : "SR5.VehicleStat_BodyShort",
   armor                     : "SR5.VehicleStat_ArmorShort",
   pilot                     : "SR5.VehicleStat_PilotShort",
@@ -1542,7 +1546,7 @@ SR5.vehicleControlModes = {
   manual                    : "SR5.ControlManual",
   remote                    : "SR5.ControlRemote",
   rigging                   : "SR5.ControlRigging",
-}
+};
 
 // Vehicle actions
 SR5.vehicleActions = {
@@ -1551,7 +1555,7 @@ SR5.vehicleActions = {
   cutOff                    : "SR5.CutOff",
   catchUpBreakAway          : "SR5.CatchUpBreakAway",
   stunt                     : "SR5.Stunt",
-}
+};
 
 //Target signature
 SR5.targetSignature = {
@@ -1560,7 +1564,25 @@ SR5.targetSignature = {
   metahuman                 : "SR5.SignatureMetahuman",
   drone                     : "SR5.SignatureDrone",
   droneMicro                : "SR5.SignatureDroneMicro",
-}
+};
+
+// Type de modification de véhicule/drone
+SR5.vehicleModType = {
+  equipment                 : "SR5.VehicleModTypeEquipment",
+  powerTrain                : "SR5.VehicleModTypePowerTrain",
+  protection                : "SR5.VehicleModTypeProtection",
+  weapons                   : "SR5.VehicleModTypeWeapon",
+  electromagnetic           : "SR5.VehicleModTypeElectromagnetic",
+  body                      : "SR5.VehicleModTypeBody",
+  cosmetic                  : "SR5.VehicleModTypeCosmetic",
+};
+
+// Type d'installation nécessaires
+SR5.vehicleModTools = {
+  kit                       : "SR5.VehicleModToolsKit",
+  shop                      : "SR5.VehicleModToolsShop",
+  facility                  : "SR5.VehicleModToolsFacility",
+};
 
 //-----------------------------------//
 //             ESPRITS               //
@@ -2227,6 +2249,11 @@ SR5.AllSpiritPowers = {
   engulfFire                 : "SR5.SpiritPowerEngulfFire",
   engulfWater                : "SR5.SpiritPowerEngulfWater",
   enhancedSenses             : "SR5.SpiritPowerEnhancedSenses",
+  enhancedSensesHearing      : "SR5.SpiritPowerEnhancedSensesHearing",
+  enhancedSensesSmell        : "SR5.SpiritPowerEnhancedSensesSmell",
+  enhancedSensesSonar        : "SR5.SpiritPowerEnhancedSensesSonar",
+  enhancedSensesLowLight     : "SR5.SpiritPowerEnhancedSensesLowLight",
+  enhancedSensesThermographic: "SR5.SpiritPowerEnhancedSensesThermographic",
   fear                       : "SR5.SpiritPowerFear",
   guard                      : "SR5.SpiritPowerGuard",
   hemoragy                   : "SR5.SpiritPowerHemoragy",
@@ -2244,6 +2271,7 @@ SR5.AllSpiritPowers = {
   mutagen                    : "SR5.SpiritPowerMutagen",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   noxiousBreath              : "SR5.SpiritPowerNoxiousBreath",
+  paralyzingHowl             : "SR5.SpiritPowerParalyzingHowl",
   paralyzingTouch            : "SR5.SpiritPowerParalyzingTouch",
   pestilence                 : "SR5.SpiritPowerPestilence",
   possession                 : "SR5.SpiritPowerPossession",
@@ -2349,6 +2377,7 @@ SR5.specialPropertiesList = {
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
   doublePenalties           : "SR5.PenaltyDouble",
+  regeneration              : "SR5.SpiritPowerRegeneration",
 }
 
 SR5.transactionsTypes = {
@@ -2411,6 +2440,7 @@ SR5.itemTypes = {
   itemSpritePower           : "ITEM.TypeItemspritepower",
   itemTradition             : "ITEM.TypeItemtradition",
   itemVehicle               : "ITEM.TypeItemvehicle",
+  itemVehicleMod            : "ITEM.TypeItemvehiclemod",
   itemWeapon                : "ITEM.TypeItemweapon",
 };
 

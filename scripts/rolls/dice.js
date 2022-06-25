@@ -56,7 +56,7 @@ export class SR5_Dice {
 			limit: limit,
 			rollMode: rollMode,
 			//r: rollJSON,
-			//originalRoll: roll
+			originalRoll: roll
 		};
 
 		return rollResult;
@@ -177,7 +177,7 @@ export class SR5_Dice {
 		}
 		if (actor.type === "actorSpirit" && actorData.creatorId){
 			let creator = SR5_EntityHelpers.getRealActorFromID(actorData.creatorId);
-			if (creator.data.data.conditionMonitors.edge.actual.value < creator.data.data.specialAttributes.edge.augmented.value){
+			if (creator.data.data.conditionMonitors.edge?.actual?.value < creator.data.data.specialAttributes?.edge?.augmented?.value){
 				hasEdge = true;
 				edgeActor = creator;
 			}
@@ -364,7 +364,7 @@ export class SR5_Dice {
 			}
 		} else if (actorData.type === "actorSpirit" && actorData.data.creatorId){
 			let creator = await SR5_EntityHelpers.getRealActorFromID(actorData.data.creatorId);
-			if (creator.data.data.conditionMonitors.edge.actual.value >= creator.data.data.specialAttributes.edge.augmented.value){
+			if (creator.data.data.conditionMonitors.edge?.actual?.value >= creator.data.data.specialAttributes?.edge?.augmented?.value){
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
@@ -495,6 +495,7 @@ export class SR5_Dice {
 			case "ritual":
 			case "passThroughBarrier":
 			case "escapeEngulf":
+				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
@@ -568,6 +569,9 @@ export class SR5_Dice {
 				break;
 			case "objectResistance":
 				await SR5_Dice.addObjectResistanceResultInfoToCard(cardData);
+				break;
+			case "regeneration":
+				await SR5_Dice.addRegenerationResultInfoToCard(cardData);
 				break;
 			case "attribute":
 			case "languageSkill":
@@ -1580,5 +1584,10 @@ export class SR5_Dice {
 			labelEnd = game.i18n.localize("SR5.ObjectResistanceSuccess");
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
 		}
+	}
+
+	static async addRegenerationResultInfoToCard(cardData){
+		cardData.netHits = cardData.test.hits + cardData.actorBody;
+		cardData.buttons.regeneration = SR5_RollMessage.generateChatButton("nonOpposedTest", "regeneration", `${game.i18n.format('SR5.Regenerate', {hits: cardData.netHits})}`);
 	}
 }

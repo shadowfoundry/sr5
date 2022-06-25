@@ -110,6 +110,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     const cyberdecks = [];
     const programs = [];
     const vehicles = [];
+    const vehiclesMod = [];
     const marks = [];
     const powers = [];
     const preparations = [];
@@ -141,6 +142,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
         if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
       }
       else if (i.type === "itemVehicle") vehicles.push(i);
+      else if (i.type === "itemVehicleMod") vehiclesMod.push(i);
       else if (i.type === "itemMark") marks.push(i);
       else if (i.type === "itemPower") powers.push(i);
       else if (i.type === "itemPreparation") preparations.push(i);
@@ -170,6 +172,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     actor.cyberdecks = cyberdecks;
     actor.programs = programs;
     actor.vehicles = vehicles;
+    actor.vehiclesMod = vehiclesMod;
     actor.marks = marks;
     actor.powers = powers;
     actor.preparations = preparations;
