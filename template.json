@@ -5770,7 +5770,9 @@
         "penetration": 0
       },
       "isLinkedToFocus": false,
-      "isUsedAsFocus": false
+      "isUsedAsFocus": false,
+      "isLinkedToMount": false,
+      "isUsedAsMount": false
     },
     "itemArmor": {
       "templates": [
@@ -6412,10 +6414,13 @@
       "isWeaponMounted": false,
       "weaponMount": {
         "size": "",
-        "visiblity": "",
+        "visibility": "",
         "flexibility": "",
         "control": ""
       },
+      "weaponChoices":[],
+      "linkedWeapon":"",
+      "linkedWeaponName":"",
       "secondaryPropulsion": {
         "isSecondaryPropulsion": false,
         "type": ""

@@ -42,6 +42,10 @@ export class SR5Item extends Item {
           SR5_UtilityItem._checkIfWeaponIsFocus(this, owner);
           if (!owner.data.visions.astral.isActive) data.isUsedAsFocus = false;
         }
+        if (data.category === "rangedWeapon" && owner){
+          if (!data.isLinkedToMount) SR5_UtilityItem._handleWeaponMount(itemData, owner);
+          SR5_UtilityItem._checkIfWeaponIsMount(this, owner);
+        }
         if (Object.keys(data.itemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
         SR5_UtilityItem._handleBow(itemData);
         SR5_UtilityItem._handleWeaponAccessory(data, owner);
@@ -99,6 +103,15 @@ export class SR5Item extends Item {
         }
         if (data.isWeaponMounted) {
           SR5_UtilityItem._handleWeaponMounted(itemData);
+          data.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(data, owner);
+          // seems not working
+            if (data.linkedWeapon){
+              let ownerActor;
+              if (this.actor.isToken) ownerActor = SR5_EntityHelpers.getRealActorFromID(this.actor.token.id);
+              else ownerActor = SR5_EntityHelpers.getRealActorFromID(this.actor.id);
+           let linkedWeapon = ownerActor.items.find(m => m.id === data.linkedWeapon);
+           data.linkedWeaponName = linkedWeapon.name;
+          }
         }
         SR5_UtilityItem._handleSlotsMultiplier(data);
         SR5_UtilityItem._handleThresholdMultiplier(data);
