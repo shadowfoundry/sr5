@@ -17,3 +17,24 @@
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="data.isWeaponMounted" data-dtype="Boolean" {{checked data.isWeaponMounted}} /></div>
 </li>
 {{/if}}
+{{#if (eq data.type "powerTrain")}}
+<li class="grid subItemManagement">
+    <div class="col-3">{{localize 'SR5.VEHICLE_SecondaryPropulsion'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="data.secondaryPropulsion.isSecondaryPropulsion" data-dtype="Boolean" {{checked data.secondaryPropulsion.isSecondaryPropulsion}} /></div>
+</li>
+{{/if}}
+{{#if data.secondaryPropulsion.isSecondaryPropulsion}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VEHICLE_SecondaryPropulsionMode'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.secondaryPropulsion.type" data-dtype="String" required>
+            {{#select data.secondaryPropulsion.type}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.vehicleSecondaryPropulsionMode}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+{{/if}}

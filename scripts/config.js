@@ -1494,17 +1494,21 @@ SR5.matrixSearchInfoType = {
 
 // Vehicle/Drone Attributes
 SR5.vehicleAttributes = {
-  handling                  : "SR5.VehicleStat_HandlingShort",
-  handlingOffRoad           : "SR5.VehicleStat_HandlingORShort",
-  speed                     : "SR5.VehicleStat_SpeedShort",
-  speedOffRoad              : "SR5.VehicleStat_SpeedORShort",
-  acceleration              : "SR5.VehicleStat_AccelerationShort",
-  accelerationOffRoad       : "SR5.VehicleStat_AccelerationORShort",
-  body                      : "SR5.VehicleStat_BodyShort",
-  armor                     : "SR5.VehicleStat_ArmorShort",
-  pilot                     : "SR5.VehicleStat_PilotShort",
-  sensor                    : "SR5.VehicleStat_SensorShort",
-  seating                   : "SR5.Vehicle_SeatingShort",
+  handling                             : "SR5.VehicleStat_HandlingShort",
+  handlingOffRoad                      : "SR5.VehicleStat_HandlingORShort",
+  secondaryPropulsionHandling          : "SR5.VehicleStat_SPHandlingShort",
+  secondaryPropulsionHandlingOffRoad   : "SR5.VehicleStat_SPHandlingORShort",
+  speed                                : "SR5.VehicleStat_SpeedShort",
+  secondaryPropulsionSpeed             : "SR5.VehicleStat_SPSpeedShort",
+  speedOffRoad                         : "SR5.VehicleStat_SpeedORShort",
+  acceleration                         : "SR5.VehicleStat_AccelerationShort",
+  secondaryPropulsionAcceleration      : "SR5.VehicleStat_SPAccelerationShort",
+  accelerationOffRoad                  : "SR5.VehicleStat_AccelerationORShort",
+  body                                 : "SR5.VehicleStat_BodyShort",
+  armor                                : "SR5.VehicleStat_ArmorShort",
+  pilot                                : "SR5.VehicleStat_PilotShort",
+  sensor                               : "SR5.VehicleStat_SensorShort",
+  seating                              : "SR5.Vehicle_SeatingShort",
 };
 
 // Types de véhicules
@@ -1566,6 +1570,17 @@ SR5.WeaponMountControl = {
   remote                 : "SR5.VEHICLE_WeaponMountCon_R",
   manual                 : "SR5.VEHICLE_WeaponMountCon_M",
   armoredManual          : "SR5.VEHICLE_WeaponMountCon_AM",
+};
+
+
+// Vehicle and Drone Control mode
+SR5.vehicleSecondaryPropulsionMode = {
+  amphibiousSurface         : "SR5.VEHICLE_SP_AmphibiousSurface",
+  amphibiousSubmersible     : "SR5.VEHICLE_SP_AmphibiousSubmersible",
+  hovercraft                : "SR5.VEHICLE_SP_Hovercraft",
+  rotor                     : "SR5.VEHICLE_SP_Rotor",
+  tracked                   : "SR5.VEHICLE_SP_Tracked",
+  walker                    : "SR5.VEHICLE_SP_Walker",
 };
 
 // Vehicle and Drone Control mode

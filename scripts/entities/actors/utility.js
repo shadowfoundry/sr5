@@ -1783,8 +1783,14 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     if (data.offRoadMode) {
-    handlingMode = attributes.handlingOffRoad.augmented.value;
-    handlingName = game.i18n.localize('SR5.VehicleStat_HandlingORShort');
+      if (data.isSecondaryPropulsionActivate) {
+          handlingMode = attributes.secondaryPropulsionHandlingOffRoad.augmented.value;
+          handlingName = game.i18n.localize('SR5.VehicleStat_SecondaryHandlingORShort');
+        }
+        else {
+          handlingMode = attributes.handlingOffRoad.augmented.value;
+          handlingName = game.i18n.localize('SR5.VehicleStat_HandlingORShort');
+        }
     }
 
     skills.sneaking.rating.base = 0;
@@ -1867,10 +1873,20 @@ export class SR5_CharacterUtility extends Actor {
   static generateVehicleTest(actor){
     let data = actor.data, vehicleTest = data.vehicleTest, attributes = data.attributes, lists = actor.lists;
     if (data.offRoadMode) {
+      if (data.isSecondaryPropulsionActivate) {
+      vehicleTest.limit.base = attributes.secondaryPropulsionHandlingOffRoad.augmented.value;
+      }
+      else {
       vehicleTest.limit.base = attributes.handlingOffRoad.augmented.value;
+      }
     }
     else {
-      vehicleTest.limit.base = attributes.handling.augmented.value;
+      if (data.isSecondaryPropulsionActivate) {
+        vehicleTest.limit.base = attributes.secondaryPropulsionHandling.augmented.value;
+        }
+        else {
+        vehicleTest.limit.base = attributes.handling.augmented.value;
+        }
     }
     vehicleTest.test.base = 0;
     let controlerData;
@@ -1930,6 +1946,16 @@ export class SR5_CharacterUtility extends Actor {
     if (vm.type === "cosmetic" && vm.isActive) {
       SR5_EntityHelpers.updateModifier(data.modificationSlots.cosmetic, `${vehicleMod.name}`, `${game.i18n.localize(lists.vehicleModType[vm.type])}`, -vm.slots.value);
     };
+  }
+
+  static handleSecondaryAttributes(actor, vehicleMod){
+    let lists = actor.lists, data = actor.data, vm = vehicleMod.data;
+    data.attributes.secondaryPropulsionHandling.natural.base = vm.secondaryPropulsion.handling ;
+    data.attributes.secondaryPropulsionHandlingOffRoad.natural.base = vm.secondaryPropulsion.handlingOffRoad ;
+    data.attributes.secondaryPropulsionSpeed.natural.base = vm.secondaryPropulsion.speed ;
+    data.attributes.secondaryPropulsionAcceleration.natural.base = vm.secondaryPropulsion.acceleration ;
+    data.isSecondaryPropulsion = vm.secondaryPropulsion.isSecondaryPropulsion ;
+    data.secondaryPropulsionType = vm.secondaryPropulsion.type ;
   }
 
   // Vehicle slots Update

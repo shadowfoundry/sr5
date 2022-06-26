@@ -629,7 +629,10 @@ export class SR5Actor extends Actor {
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
-          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);
+          if (iData.secondaryPropulsion.isSecondaryPropulsion) {
+            SR5_CharacterUtility.handleSecondaryAttributes(actorData, i.data);
+          }
+          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);          
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
           break;
@@ -1306,10 +1309,14 @@ export class SR5Actor extends Actor {
         "data.model": itemData.model,
         "data.attributes.handling.natural.base": itemData.attributes.handling,
         "data.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
+        "data.attributes.secondaryPropulsionHandling.natural.base": itemData.secondaryPropulsion.handling,
+        "data.attributes.secondaryPropulsionHandlingOffRoad.natural.base": itemData.secondaryPropulsion.handlingOffRoad,
         "data.attributes.speed.natural.base": itemData.attributes.speed,
         "data.attributes.speedOffRoad.natural.base": itemData.attributes.speedOffRoad,
+        "data.attributes.secondaryPropulsionSpeed.natural.base": itemData.secondaryPropulsion.speed,
         "data.attributes.acceleration.natural.base": itemData.attributes.acceleration,
         "data.attributes.accelerationOffRoad.natural.base": itemData.attributes.accelerationOffRoad,
+        "data.attributes.secondaryPropulsionAcceleration.natural.base": itemData.secondaryPropulsion.acceleration,
         "data.attributes.body.natural.base": itemData.attributes.body,
         "data.attributes.armor.natural.base": itemData.attributes.armor,
         "data.attributes.pilot.natural.base": itemData.attributes.pilot,
@@ -1323,6 +1330,8 @@ export class SR5Actor extends Actor {
         "data.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
         "data.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
         "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
+        "data.isSecondaryPropulsion": itemData.secondaryPropulsion.isSecondaryPropulsion,
+        "data.secondaryPropulsionType": itemData.secondaryPropulsion.type,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
         "data.offRoadMode": itemData.offRoadMode,
@@ -1416,10 +1425,14 @@ export class SR5Actor extends Actor {
       modifiedItem.data.offRoadMode = actor.data.offRoadMode; 
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
       modifiedItem.data.attributes.handlingOffRoad = actor.data.attributes.handlingOffRoad.natural.base;
+      modifiedItem.data.secondaryPropulsion.handling = actor.data.attributes.secondaryPropulsionHandling.natural.base;
+      modifiedItem.data.secondaryPropulsion.handlingOffRoad = actor.data.attributes.secondaryPropulsionHandlingOffRoad.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
       modifiedItem.data.attributes.speedOffRoad = actor.data.attributes.speedOffRoad.natural.base;
+      modifiedItem.data.secondaryPropulsion.speed = actor.data.attributes.secondaryPropulsionSpeed.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
       modifiedItem.data.attributes.accelerationOffRoad = actor.data.attributes.accelerationOffRoad.natural.base;
+      modifiedItem.data.secondaryPropulsion.acceleration = actor.data.attributes.secondaryPropulsionAcceleration.natural.base;
       modifiedItem.data.attributes.body = actor.data.attributes.body.natural.base;
       modifiedItem.data.attributes.armor = actor.data.attributes.armor.natural.base;
       modifiedItem.data.attributes.pilot = actor.data.attributes.pilot.natural.base;
@@ -1433,6 +1446,8 @@ export class SR5Actor extends Actor {
       modifiedItem.data.modificationSlots.cosmetic = actor.data.modificationSlots.cosmetic.base;
       modifiedItem.data.conditionMonitors.condition.actual = actor.data.conditionMonitors.condition.actual;
       modifiedItem.data.conditionMonitors.matrix.actual = actor.data.conditionMonitors.matrix.actual;
+      modifiedItem.data.secondaryPropulsion.isSecondaryPropulsion = actor.data.isSecondaryPropulsion;
+      modifiedItem.data.secondaryPropulsion.type = actor.data.secondaryPropulsionType;
       modifiedItem.data.isCreated = false;
       modifiedItem.img = actor.img;
       itemOwner.update(modifiedItem);

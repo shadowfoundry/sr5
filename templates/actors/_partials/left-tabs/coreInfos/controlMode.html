@@ -68,5 +68,14 @@
                 <input type="checkbox" name="data.offRoadMode" data-dtype="Boolean" {{checked data.offRoadMode}}>
             </div>
         </li>
+        {{#if data.isSecondaryPropulsion}}
+        <li class="grid">
+            <div class="col-6">{{localize 'SR5.VEHICLE_SecondaryPropulsion'}}{{localize 'SR5.Colons'}}</div>
+            <div class="col-4">{{findTranslation 'vehicleSecondaryPropulsionMode' data.secondaryPropulsionType}}</div>
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.VEHICLE_SecondaryPropulsion'}}" data-helpMessage="{{localize 'SR5.HELP_VEHICLE_ActivateSecondaryMsg'}}">
+                <input type="checkbox" name="data.isSecondaryPropulsionActivate" data-dtype="Boolean" {{checked data.isSecondaryPropulsionActivate}}>
+            </div>
+        </li>
+        {{/if}}
     </ul>
 </div>

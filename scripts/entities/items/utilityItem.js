@@ -1537,6 +1537,49 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(data.price, 0);
   }
 
+  static _handleSecondaryPropulsion(item) {
+    let lists = SR5, data = item.data.secondaryPropulsion;
+    switch (data.type) {
+      case "amphibiousSurface":
+        data.handling = 2;
+        data.handlingOffRoad = 2;
+        data.speed = 2;
+        data.acceleration = 1;
+        break;
+      case "amphibiousSubmersible":
+        data.handling = 2;
+        data.handlingOffRoad = 2;
+        data.speed = 2;
+        data.acceleration = 2;
+        break;
+      case "hovercraft":
+        data.handling = 2;
+        data.handlingOffRoad = 2;
+        data.speed = 3;
+        data.acceleration = 2;
+        break;
+      case "rotor":
+        data.handling = 2;
+        data.handlingOffRoad = 2;
+        data.speed = 3;
+        data.acceleration = 2;
+        break;
+      case "tracked":
+        data.handling = 2;
+        data.handlingOffRoad = 4;
+        data.speed = 2;
+        data.acceleration = 1;
+        break;
+      case "walker":
+        data.handling = 5;
+        data.handlingOffRoad = 5;
+        data.speed = 1;
+        data.acceleration = 1;
+        break;
+      default:
+    }
+  }
+
   static _handleSlotsMultiplier(item) {
     let multiplier, lists = SR5;
     switch (item.slots.multiplier) {
