@@ -629,7 +629,7 @@ export class SR5Actor extends Actor {
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
-          if (iData.secondaryPropulsion.isSecondaryPropulsion) {
+          if (iData.secondaryPropulsion.isSecondaryPropulsion && iData.isActive) {
             SR5_CharacterUtility.handleSecondaryAttributes(actorData, i.data);
           }
           SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);          

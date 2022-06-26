@@ -360,6 +360,13 @@ export class SR5_CharacterUtility extends Actor {
       data.modificationSlots.cosmetic.modifiers = [];
     }
 
+    // Reset Vehicule Secondary Propulsion
+    if (data.isSecondaryPropulsion) {
+      data.isSecondaryPropulsion = false;
+      data.secondaryPropulsionType = "";
+      data.isSecondaryPropulsionActivate = false;
+    }
+
     if (data.matrix) {
       //Reset general data
       if (actor.type === "actorPc" ||actor.type === "actorGrunt"){
@@ -1949,13 +1956,51 @@ export class SR5_CharacterUtility extends Actor {
   }
 
   static handleSecondaryAttributes(actor, vehicleMod){
-    let lists = actor.lists, data = actor.data, vm = vehicleMod.data;
-    data.attributes.secondaryPropulsionHandling.natural.base = vm.secondaryPropulsion.handling ;
-    data.attributes.secondaryPropulsionHandlingOffRoad.natural.base = vm.secondaryPropulsion.handlingOffRoad ;
-    data.attributes.secondaryPropulsionSpeed.natural.base = vm.secondaryPropulsion.speed ;
-    data.attributes.secondaryPropulsionAcceleration.natural.base = vm.secondaryPropulsion.acceleration ;
+    let lists = actor.lists, data = actor.data, attributes = data.attributes, vm = vehicleMod.data;
+
     data.isSecondaryPropulsion = vm.secondaryPropulsion.isSecondaryPropulsion ;
     data.secondaryPropulsionType = vm.secondaryPropulsion.type ;
+
+    switch (data.secondaryPropulsionType) {
+      case "amphibiousSurface":
+        attributes.secondaryPropulsionHandling.natural.base = 2;
+        attributes.secondaryPropulsionHandlingOffRoad.natural.base = 2;
+        attributes.secondaryPropulsionSpeed.natural.base = 2;
+        attributes.secondaryPropulsionAcceleration.natural.base = 1;
+        break;
+      case "amphibiousSubmersible":
+        attributes.secondaryPropulsionHandling.natural.base = 2;
+        attributes.secondaryPropulsionHandlingOffRoad.natural.base = 2;
+        attributes.secondaryPropulsionSpeed.natural.base = 2;
+        attributes.secondaryPropulsionAcceleration.natural.base = 2;
+        break;
+      case "hovercraft":
+        attributes.secondaryPropulsionHandling.natural.base = 2;
+        attributes.secondaryPropulsionHandlingOffRoad.natural.base = 2;
+        attributes.secondaryPropulsionSpeed.natural.base = 3;
+        attributes.secondaryPropulsionAcceleration.natural.base = 2;
+        break;
+      case "rotor":
+        attributes.secondaryPropulsionHandling.natural.base = 2;
+        attributes.secondaryPropulsionHandlingOffRoad.natural.base = 2;
+        attributes.secondaryPropulsionSpeed.natural.base = 3;
+        attributes.secondaryPropulsionAcceleration.natural.base = 2;
+        break;
+      case "tracked":
+        attributes.secondaryPropulsionHandling.natural.base = 2;
+        attributes.secondaryPropulsionHandlingOffRoad.natural.base = 4;
+        attributes.secondaryPropulsionSpeed.natural.base = 2;
+        attributes.secondaryPropulsionAcceleration.natural.base = 1;
+        break;
+      case "walker":
+        attributes.secondaryPropulsionHandling.natural.base = 5;
+        attributes.secondaryPropulsionHandlingOffRoad.natural.base = 5;
+        attributes.secondaryPropulsionSpeed.natural.base = 1;
+        attributes.secondaryPropulsionAcceleration.natural.base = 1;
+        break;
+      default:
+    }
+
   }
 
   // Vehicle slots Update

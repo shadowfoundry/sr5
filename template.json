@@ -6344,7 +6344,6 @@
       "controlMode": "autopilot",
       "offRoadMode" : false,
       "riggerInterface": false,
-      "mount": [],
       "autosoft": [],
       "weapons": [],
       "ammunitions": [],
@@ -6419,11 +6418,7 @@
       },
       "secondaryPropulsion": {
         "isSecondaryPropulsion": false,
-        "type": "",
-        "handling": 0,
-        "handlingOffRoad": 0,
-        "speed": 0,
-        "acceleration" : 0
+        "type": ""
       }
     },
     "itemEffect":{

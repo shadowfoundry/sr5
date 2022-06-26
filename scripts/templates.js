@@ -415,7 +415,6 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicle/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/skill-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/attributes-edit.html",
-        "systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html",
 
         //Vehicle modifications

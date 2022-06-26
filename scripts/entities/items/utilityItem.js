@@ -1397,26 +1397,12 @@ export class SR5_UtilityItem extends Actor {
     if (vehicle.riggerInterface) {
       SR5_EntityHelpers.updateModifier(vehicle.price, 'riggerInterface', 'riggerInterface', 1000);
     }
-    for (let mount of vehicle.mount){
-      switch (mount.type) {
-        case "heavy":
-          SR5_EntityHelpers.updateModifier(vehicle.price, 'heavy', 'mount', 5000);
-          break;
-        case "standard":
-          SR5_EntityHelpers.updateModifier(vehicle.price, 'standard', 'mount', 2500);
-          break;
-        default:
-          SR5_SystemHelpers.srLog(1, `Unknown '${mount.type}' mount type in _handleVehicle()`);
-      }
-
-      if (mount.manual) SR5_EntityHelpers.updateModifier(vehicle.price, 'manual', 'mount', 2500);
-    }
 
     for (let vehicleMod of vehicle.vehiclesMod){
       SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
     }
 
-    if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
+    if (vehicle.type === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
 
   }
@@ -1535,49 +1521,6 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(data.threshold, 0);
     SR5_EntityHelpers.updateValue(data.availability, 0);
     SR5_EntityHelpers.updateValue(data.price, 0);
-  }
-
-  static _handleSecondaryPropulsion(item) {
-    let lists = SR5, data = item.data.secondaryPropulsion;
-    switch (data.type) {
-      case "amphibiousSurface":
-        data.handling = 2;
-        data.handlingOffRoad = 2;
-        data.speed = 2;
-        data.acceleration = 1;
-        break;
-      case "amphibiousSubmersible":
-        data.handling = 2;
-        data.handlingOffRoad = 2;
-        data.speed = 2;
-        data.acceleration = 2;
-        break;
-      case "hovercraft":
-        data.handling = 2;
-        data.handlingOffRoad = 2;
-        data.speed = 3;
-        data.acceleration = 2;
-        break;
-      case "rotor":
-        data.handling = 2;
-        data.handlingOffRoad = 2;
-        data.speed = 3;
-        data.acceleration = 2;
-        break;
-      case "tracked":
-        data.handling = 2;
-        data.handlingOffRoad = 4;
-        data.speed = 2;
-        data.acceleration = 1;
-        break;
-      case "walker":
-        data.handling = 5;
-        data.handlingOffRoad = 5;
-        data.speed = 1;
-        data.acceleration = 1;
-        break;
-      default:
-    }
   }
 
   static _handleSlotsMultiplier(item) {

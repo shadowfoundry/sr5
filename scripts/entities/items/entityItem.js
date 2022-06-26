@@ -100,9 +100,6 @@ export class SR5Item extends Item {
         if (data.isWeaponMounted) {
           SR5_UtilityItem._handleWeaponMounted(itemData);
         }
-        if (data.secondaryPropulsion.isSecondaryPropulsion) {
-          SR5_UtilityItem._handleSecondaryPropulsion(itemData);
-        }
         SR5_UtilityItem._handleSlotsMultiplier(data);
         SR5_UtilityItem._handleThresholdMultiplier(data);
         SR5_UtilityItem._handleItemPrice(data);
@@ -183,7 +180,6 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemVehicle":
-        if (typeof data.mount === "object") data.mount = Object.values(data.mount);
         SR5_UtilityItem._handleVehicle(data);
         SR5_UtilityItem._handleVehicleSlots(data);
         SR5_UtilityItem._handleItemPrice(data);

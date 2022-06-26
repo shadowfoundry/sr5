@@ -1538,12 +1538,6 @@ SR5.vehicleTypes = {
   car                       : "SR5.CarFull",
 };
 
-// Types de montures
-SR5.mountTypes = {
-  standard                  : "SR5.VEHICLE_WeaponMountStandard_F",
-  heavy                     : "SR5.VEHICLE_WeaponMountHeavy_F",
-};
-
 // Weapon Mount : Size
 SR5.WeaponMountSize = {
   light                   : "SR5.VEHICLE_WeaponMountSize_L",
