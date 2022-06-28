@@ -6411,7 +6411,7 @@
         "value": 0,
         "multiplier": ""
       },
-      "isWeaponMounted": false,
+      "SR": false,
       "weaponMount": {
         "size": "",
         "visibility": "",

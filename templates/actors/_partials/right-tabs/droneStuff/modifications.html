@@ -4,7 +4,7 @@
 			<div class="col-4"><p class=" SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</p></div>
 			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p></div>
 			<div class="col-3"><p class="SR-TextCenter">{{localize 'SR5.VehicleModTypeShort'}}</p></div>
-            <div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.VehicleModTools'}}</p></div>
+            <div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.VehicleModSlots'}}</p></div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6 SR-TextCenter">
@@ -34,7 +34,7 @@
 			  {{valueOrDash data.itemRating}}
 		  </div>
 			<div class="col-3 SR-TextCenter">{{valueOrDash (findTranslation 'vehicleModType' data.type)}}</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'vehicleModTools' data.tools)}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash data.slots.value}}</div>
 			<div class="col-1 SR-TextRight">
 				<div class="grid">
 						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
