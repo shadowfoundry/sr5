@@ -1418,8 +1418,7 @@ export class SR5_UtilityItem extends Actor {
   }
 
   static _handleWeaponMounted(item) {
-    let lists = SR5, data = item.data, wm = data.weaponMount, renaming;
-    renaming = "";
+    let lists = SR5, data = item.data, wm = data.weaponMount;
     switch (wm.size) {
       case "light":
         data.slots.base = 1;
@@ -1496,7 +1495,7 @@ export class SR5_UtilityItem extends Actor {
     }
     switch (wm.control) {
       case "remote":
-        renaming = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
         break;
       case "manual":
         SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
@@ -1506,7 +1505,7 @@ export class SR5_UtilityItem extends Actor {
         if (data.tools == "kit") {
           data.tools = "shop";
         }
-        renaming = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
         break;
       case "armoredManual":
         SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 2);
@@ -1516,7 +1515,7 @@ export class SR5_UtilityItem extends Actor {
         if (data.tools == "kit") {
           data.tools = "shop";
         }
-        renaming = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
         break;
       default:
     }
@@ -1525,38 +1524,51 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(data.threshold, 0);
     SR5_EntityHelpers.updateValue(data.availability, 0);
     SR5_EntityHelpers.updateValue(data.price, 0);
-    if (item.data.isActive) {
-      item.name += renaming;
-    }
   }
 
+  static  _resetWeaponMounted(data) {
+    data.slots.base = 0;
+    data.threshold.base = 0;
+    data.tools = "";
+    data.skill = "";
+    data.availability.base = 0;
+    data.legality = "";
+    data.price.base = 0;
+    data.weaponMount.size = "";
+    data.weaponMount.visibility = "";
+    data.weaponMount.flexibility = "";
+    data.weaponMount.control = "";
+    data.mountedWeapon = "";
+    data.mountedWeaponName = "";
+  }
 
-  static _generateWeaponMountWeaponList(mount, actor) {
-    let weaponMountList = [];
+  static _generateWeaponMountWeaponList(data, actor) {
+    let weaponList = [];
     for (let i of actor.items) {
-      if (i.type === "itemWeapon" && i.data.data.category === "rangedWeapon") {
+      if (i.type === "itemWeapon" && i.data.data.category === "rangedWeapon") { 
         if (i.data.data.systemEffects.length) continue;
         let weapon = {
           "name": i.name,
           "id": i.id,
         }
-        weaponMountList.push(weapon);
+        weaponList.push(weapon);  
       }
     }
-    return weaponMountList;
+    data.data.weaponChoices = weaponList;
+    return weaponList;
   }
 
   static async _checkIfWeaponIsMount(i, actor){
-    let mount = actor.items.find(m => m.data.data.linkedWeapon === i.id);
+    let mount = actor.items.find(m => m.data.data.mountedWeapon === i.id);
     if (mount) i.data.data.isLinkedToMount = true;
     else i.data.data.isLinkedToMount = false;
   }
 
   static async _handleWeaponMount(i, actor){
-    let mount = actor.items.find(m => m.data.data.linkedWeapon === i._id);
+    let mount = actor.items.find(m => m.data.data.mountedWeapon === i._id);
     if (mount) {
       if (mount.data.data.isActive){
-        
+        i.data.isUsedAsMount = true; 
         }
       }
     } 

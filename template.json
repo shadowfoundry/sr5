@@ -4666,7 +4666,8 @@
         "matrixUsageTemplate",
         "recoilTemplate",
         "visionTemplate",
-        "itemsPropertiesTemplate"
+        "itemsPropertiesTemplate",
+        "specialPropertiesTemplate"
       ],
       "attributes": {
         "handling": {
@@ -5135,7 +5136,9 @@
           "value": 0,
           "base": 0,
           "modifiers": []
-        }
+        },
+        "extraWeapons": 0,
+        "extraBody": 0
       },
       "model": "",
       "vehicleTest": {
@@ -6338,7 +6341,9 @@
         "powerTrain":0,
         "protection": 0,
         "weapons": 0,
+        "extraWeapons": 0,
         "body": 0,
+        "extraBody": 0,
         "electromagnetic": 0,
         "cosmetic": 0
       },
@@ -6411,7 +6416,8 @@
         "value": 0,
         "multiplier": ""
       },
-      "SR": false,
+      "surname": "",
+      "isWeaponMounted": false,
       "weaponMount": {
         "size": "",
         "visibility": "",
@@ -6419,8 +6425,8 @@
         "control": ""
       },
       "weaponChoices":[],
-      "linkedWeapon":"",
-      "linkedWeaponName":"",
+      "mountedWeapon":"",
+      "mountedWeaponName":"",
       "secondaryPropulsion": {
         "isSecondaryPropulsion": false,
         "type": ""

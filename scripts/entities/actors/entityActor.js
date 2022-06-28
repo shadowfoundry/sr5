@@ -626,12 +626,17 @@ export class SR5Actor extends Actor {
 
         case "itemVehicleMod":
           i.prepareData();
+          iData.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(i.data, this);
+                if (iData.mountedWeapon){ 
+                  let weapon = this.items.find(w => w.id === iData.mountedWeapon);
+                  iData.mountedWeaponName = weapon.name;
+                }
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
           if (iData.secondaryPropulsion.isSecondaryPropulsion && iData.isActive) {
             SR5_CharacterUtility.handleSecondaryAttributes(actorData, i.data);
-          }
+          }          
           SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);          
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
@@ -735,8 +740,10 @@ export class SR5Actor extends Actor {
             }
           }
           break;
-        case "itemVehicleMod":
-            i.prepareData();
+        case "itemVehicleMod":          
+        if (!iData.isWeaponMounted) {
+          SR5_UtilityItem._resetWeaponMounted(iData);
+        }
           break;
         case "itemWeapon":
         case "itemKnowledge":
@@ -1325,6 +1332,8 @@ export class SR5Actor extends Actor {
         "data.modificationSlots.powerTrain.base": itemData.modificationSlots.powerTrain,
         "data.modificationSlots.protection.base": itemData.modificationSlots.protection,
         "data.modificationSlots.weapons.base": itemData.modificationSlots.weapons,
+        "data.modificationSlots.extraWeapons": itemData.modificationSlots.extraWeapons,
+        "data.modificationSlots.extraBody": itemData.modificationSlots.extraBody,
         "data.modificationSlots.body.base": itemData.modificationSlots.body,
         "data.modificationSlots.electromagnetic.base": itemData.modificationSlots.electromagnetic,
         "data.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
@@ -1441,6 +1450,8 @@ export class SR5Actor extends Actor {
       modifiedItem.data.modificationSlots.powerTrain = actor.data.modificationSlots.powerTrain.base;
       modifiedItem.data.modificationSlots.protection = actor.data.modificationSlots.protection.base;
       modifiedItem.data.modificationSlots.weapons = actor.data.modificationSlots.weapons.base;
+      modifiedItem.data.modificationSlots.extraWeapons = actor.data.modificationSlots.extraWeapons;
+      modifiedItem.data.modificationSlots.extraBody = actor.data.modificationSlots.extraBody;
       modifiedItem.data.modificationSlots.body = actor.data.modificationSlots.body.base;
       modifiedItem.data.modificationSlots.electromagnetic = actor.data.modificationSlots.electromagnetic.base;
       modifiedItem.data.modificationSlots.cosmetic = actor.data.modificationSlots.cosmetic.base;

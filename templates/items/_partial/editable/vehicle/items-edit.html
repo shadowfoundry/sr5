@@ -1,17 +1,17 @@
 {{#if data.vehiclesMod}}
 <ul class="SR-PaddingTop10">
     <li class="grid SR-EnTete">
-        <div class="col-4 SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</div>
+        <div class="col-6 SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</div>
         <div class="col-4 SR-TextCenter">{{localize 'SR5.VehicleModTypeShort'}}</div>
-        <div class="col-2 SR-TextCenter">{{localize 'SR5.VehicleModSlots'}}</div>
-        <div class="col-2 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>
+        <div class="col-1 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>
+        <div class="col-1 SR-TextCenter">{{localize 'SR5.VehicleModSlotsShort'}}</div>
     </li>
     {{#each data.vehiclesMod as |a i|}}
     <li class="subItemManagement grid" data-key="{{@key}}">
-        <div class="col-4">{{a.name}}</div>
+        <div class="col-6">{{a.name}}{{#if a.data.isWeaponMounted}}{{a.data.surname}}{{/if}}</div>
         <div class="col-4 SR-TextCenter">{{findTranslation 'vehicleModType' a.data.type}}</div>
-        <div class="col-2 SR-TextCenter">{{valueOrDash a.data.itemRating}}</div>
-        <div class="col-2 SR-TextCenter">{{valueOrDash a.data.slots.value}}</div>
+        <div class="col-1 SR-TextCenter">{{valueOrDash a.data.itemRating}}</div>
+        <div class="col-1 SR-TextCenter">{{valueOrDash a.data.slots.value}}</div>
     </li>
     {{/each}}
 </ul>
@@ -57,7 +57,7 @@
     </li>
     {{#each data.weapons as |a i|}}
     <li class="subItemManagement grid" data-key="{{@key}}">
-        <div class="col-5">{{a.name}}</div>
+        <div class="col-5">{{a.name}}{{#if a.data.isUsedAsMount}}{{localize 'SR5.VEHICLE_isLinkedToMount'}}{{/if}}</div>
         <div class="col-5 SR-TextCenter">{{findTranslation 'allWeaponsTypes' a.data.type}}</div>
         <div class="col-2 SR-TextCenter">{{a.data.ammunition.value}}/{{a.data.ammunition.max}}</div>
     </li>

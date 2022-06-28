@@ -103,15 +103,6 @@ export class SR5Item extends Item {
         }
         if (data.isWeaponMounted) {
           SR5_UtilityItem._handleWeaponMounted(itemData);
-          data.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(data, owner);
-          // seems not working
-            if (data.linkedWeapon){
-              let ownerActor;
-              if (this.actor.isToken) ownerActor = SR5_EntityHelpers.getRealActorFromID(this.actor.token.id);
-              else ownerActor = SR5_EntityHelpers.getRealActorFromID(this.actor.id);
-           let linkedWeapon = ownerActor.items.find(m => m.id === data.linkedWeapon);
-           data.linkedWeaponName = linkedWeapon.name;
-          }
         }
         SR5_UtilityItem._handleSlotsMultiplier(data);
         SR5_UtilityItem._handleThresholdMultiplier(data);

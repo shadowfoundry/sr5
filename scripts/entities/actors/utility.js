@@ -2008,8 +2008,8 @@ export class SR5_CharacterUtility extends Actor {
     let data = actor.data, slots = data.attributes.body.augmented.value ;
     data.modificationSlots.powerTrain.base = slots ;
     data.modificationSlots.protection.base = slots ;
-    data.modificationSlots.weapons.base = slots ;
-    data.modificationSlots.body.base = slots ;
+    data.modificationSlots.weapons.base = slots + data.modificationSlots.extraWeapons;
+    data.modificationSlots.body.base = slots + data.modificationSlots.extraBody;
     data.modificationSlots.electromagnetic.base = slots ;
     data.modificationSlots.cosmetic.base = slots ;
   SR5_EntityHelpers.updateValue(data.modificationSlots.powerTrain);
