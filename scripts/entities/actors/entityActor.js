@@ -754,7 +754,7 @@ export class SR5Actor extends Actor {
   }
 
   //Applique les dégâts à l'acteur
-  async takeDamage(options) { //
+  async takeDamage(options) {
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data),
@@ -1796,6 +1796,17 @@ export class SR5Actor extends Actor {
     await this.update(actorData);
   }
 
+  //Manage Regeneration
+  async heal(data){
+    let damageToRemove = data.test.hits,
+        damageType = data.typeSub,
+        actorData = deepClone(this.data);
+        
+    actorData = actorData.toObject(false);
+    actorData.data.conditionMonitors[damageType].actual.base -= damageToRemove;
+    await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
+    await this.update(actorData);
+  }
 }
 
 CONFIG.Actor.documentClass = SR5Actor;

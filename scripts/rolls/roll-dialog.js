@@ -308,12 +308,16 @@ export default class SR5_RollDialog extends Dialog {
         //Add modifier for spell shaping metamagic
         html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData, actorData));
 
-        //Set extended test for Astral Traking
-        if (dialogData.type === "astralTracking"){
+        //Set extended test for Astral Traking or Healing test
+        if (dialogData.type === "astralTracking" || dialogData.type === "healing"){
             html.find('[name="extendedValue"]')[0].value = "true";
             dialogData.extendedTest = true;
             document.getElementById("interval").style.display = "block";
             document.getElementById("extendedSpace").style.display = "none";
+            if (dialogData.typeSub === "physical"){
+                console.log("hé c'est physique !");
+                html.find('[name="extendedTime"]')[0].value = "day";
+            }
         }
 
         //Calcul Mana Barrier DicePool

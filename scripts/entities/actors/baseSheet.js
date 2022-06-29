@@ -169,9 +169,12 @@ export class ActorSheetSR5 extends ActorSheet {
     // Quick monitor reset on monitor's name right-click
     html.find(".monitorReset").mousedown((e) => {
     e.preventDefault();
+    let monitor = $(e.currentTarget).attr("data-target");
+    if (e.which === 1){
+      if (monitor === "stun" || monitor === "physical") this.actor.rollTest("healing", monitor);
+    }
     if ((e.which === 3 || e.button === 2)) {
         let actorData = duplicate(this.actor);
-        let monitor = $(e.currentTarget).attr("data-target");
         setProperty(actorData, `data.conditionMonitors.${monitor}.actual.base`, 0);
         this.actor.update(actorData);
       }

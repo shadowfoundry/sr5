@@ -1717,6 +1717,29 @@ export class SR5_Roll {
                     dicePoolComposition: dicePoolComposition,
                 }
                 break;
+
+            case "healing":
+                title = `${game.i18n.localize("SR5.NaturalRecoveryTest")} [${game.i18n.localize(SR5.damageTypes[rollKey])}]`;
+                if (rollKey === "stun"){
+                    dicePoolComposition = ([
+                        {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Willpower"), value: actorData.attributes.willpower.augmented.value},
+                    ]);
+                    dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
+                } else {
+                    dicePoolComposition = ([
+                        {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                    ]);
+                    dicePool = actorData.attributes.body.augmented.value + actorData.attributes.body.augmented.value;
+                }
+                optionalData = {
+                    dicePoolComposition: dicePoolComposition,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
+                    "switch.extended": true,
+                    typeSub: rollKey,
+                }
+                break;
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }

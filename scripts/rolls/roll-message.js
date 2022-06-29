@@ -394,6 +394,10 @@ export class SR5_RollMessage {
                     actor.regenerate(messageData);
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
+                case "heal":
+                    actor.heal(messageData);
+                    SR5_RollMessage.updateChatButton(messageId, type);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
@@ -486,6 +490,10 @@ export class SR5_RollMessage {
                 break;
             case "regeneration":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.netHits} ${game.i18n.localize("SR5.HealedBox")}`);
+                break;
+            case "heal":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.test.hits}${game.i18n.localize(SR5.damageTypesShort[messageData.typeSub])} ${game.i18n.localize("SR5.Healed")}`);
+                messageData.extendedTest = false;
                 break;
             default:
         }
