@@ -1596,7 +1596,6 @@ export class SR5_Dice {
 	}
 
 	static async addHealingInfoToCard(cardData){
-		console.log(cardData);
 		if (cardData.test.glitchRoll || cardData.test.criticalGlitchRoll) cardData.extendedIntervalValue = cardData.extendedIntervalValue *2;
 		if (cardData.test.criticalGlitchRoll) {
 			let failedDamage = new Roll(`1d3`);

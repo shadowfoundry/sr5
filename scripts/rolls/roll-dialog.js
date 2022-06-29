@@ -315,7 +315,6 @@ export default class SR5_RollDialog extends Dialog {
             document.getElementById("interval").style.display = "block";
             document.getElementById("extendedSpace").style.display = "none";
             if (dialogData.typeSub === "physical"){
-                console.log("hé c'est physique !");
                 html.find('[name="extendedTime"]')[0].value = "day";
             }
         }
