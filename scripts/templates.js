@@ -227,6 +227,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html",
     "systems/sr5/templates/items/_partial/summary/_common/rangeMagic-summary.html",
     "systems/sr5/templates/items/_partial/summary/_common/rating-summary.html",
+    "systems/sr5/templates/items/_partial/summary/_common/source-summary.html",
 
         //Specific summary
         "systems/sr5/templates/items/_partial/summary/ammunition-summary.html",

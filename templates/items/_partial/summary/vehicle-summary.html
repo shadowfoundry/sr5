@@ -2,9 +2,9 @@
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleTypeShort'}}{{localize 'SR5.Colons'}}</span>
         {{#ife data.type "vehicle"}}
-            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleCategories' data.type)}}</span>
+            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleCategories' data.category)}}</span>
         {{else}}
-            <span class="col-auto SR-GreyColor">{{valueOrDash data.type}}</span>
+            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'droneCategories' data.category)}}</span>
         {{/ife}}
     </p>
 </li>

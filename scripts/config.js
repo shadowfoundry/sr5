@@ -1512,13 +1512,13 @@ SR5.vehicleAttributes = {
 };
 
 // Types de véhicules
-SR5.vehicleCategories = {
+SR5.vehicleTypes = {
   drone                     : "SR5.DroneFull",
   vehicle                   : "SR5.VehicleFull",
 };
 
 // Types de drones
-SR5.droneTypes = {
+SR5.droneCategories = {
   microdrone                : "SR5.DRONES_Microdrone_F",
   minidrone                 : "SR5.DRONES_Minidrone_F",
   smallDrone                : "SR5.DRONES_SmallDrone_F",
@@ -1527,15 +1527,16 @@ SR5.droneTypes = {
 };
 
 // Types de véhicules
-SR5.vehicleTypes = {
+SR5.vehicleCategories = {
   vectorThrustCraft         : "SR5.VectorThrustCraftFull",
   fixedWingAircraft         : "SR5.FixedWingAircraftFull",
   boat                      : "SR5.BoatFull",
   truck                     : "SR5.TruckFull",
   rotorCraft                : "SR5.RotorCraftFull",
   bike                      : "SR5.BikeFull",
-  submarine                 : "SR5.SubmarineFull",
+  submarine                 : "SR5.SubmarineFull",  
   car                       : "SR5.CarFull",
+  lta                       : "SR5.LTAFull",
 };
 
 // Weapon Mount : Size
@@ -2493,6 +2494,36 @@ SR5.actorTypes = {
   actorSpirit               : "ACTOR.TypeActorspirit",
   actorSprite               : "ACTOR.TypeActorsprite",
   actorAgent                : "ACTOR.TypeActoragent",
+};
+
+//-----------------------------------//
+//             SOURCE TYPES           //
+//-----------------------------------//
+
+SR5.sourceList = {
+  core                      : "SOURCE.CoreRulebook",
+  runAndGun                 : "SOURCE.RunAndGun",
+  stolenSouls               : "SOURCE.StolenSouls",
+  streetGrimoire            : "SOURCE.StreetGrimoire",
+  runFaster                 : "SOURCE.RunFaster",
+  dataTrails                : "SOURCE.DataTrails",
+  chromeFlesh               : "SOURCE.ChromeFlesh",
+  rigger5                   : "SOURCE.Rigger5",
+  howlingShadows            : "SOURCE.HowlingShadows",
+  courtOfShadows            : "SOURCE.CourtOfShadows",
+  cutingAces                : "SOURCE.CutingAces",  
+  forbiddenArcana           : "SOURCE.ForbiddenArcana",
+  completeTrog              : "SOURCE.CompleteTrog",
+  darkTerrors               : "SOURCE.DarkTerrors",
+  streetLethal              : "SOURCE.StreetLethal",
+  killCode                  : "SOURCE.KillCode",
+  betterThanBad             : "SOURCE.BetterThanBad",
+  noFuture                  : "SOURCE.NoFuture",
+  assassinPrimer            : "SOURCE.AssassinPrimer",
+  coyotes                   : "SOURCE.Coyotes",
+  gunHeaven3                : "SOURCE.GunHeaven3",
+  bulletsAndBandages        : "SOURCE.BulletsAndBandages",
+  shadowSpells              : "SOURCE.ShadowSpells",
 };
 
 //-----------------------------------//
