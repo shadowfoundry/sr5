@@ -542,6 +542,8 @@
   "SR5.DroneFull"                             : "Drone",
   "SR5.DroneLetter"                           : "D",
   "SR5.Drones"                                : "Drones",
+  "SR5.DRONES_HugeDrone_A"                    : "Gig.",
+  "SR5.DRONES_HugeDrone_F"                    : "Gigantesque drone",
   "SR5.DRONES_LargeDrone_A"                   : "Gr.",
   "SR5.DRONES_LargeDrone_F"                   : "Grand drone",
   "SR5.DRONES_LargeDrone_S"                   : "Grand",
