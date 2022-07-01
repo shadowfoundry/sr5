@@ -348,6 +348,23 @@ export class SR5Item extends Item {
         if (data.itemRating !== 0) tags.push(`${game.i18n.localize('SR5.ItemRating')}${game.i18n.localize('SR5.Colons')} ${data.itemRating}`);
         tags.push(`${game.i18n.localize('SR5.KarmaCost')}${game.i18n.localize('SR5.Colons')} ${data.karmaCost}`);
         break;
+      case "itemVehicle":
+        tags.push(`${game.i18n.localize(lists.vehiclesCategories[data.category])}`);
+        if (data.vehiclesMod.length){
+          for (let v of data.vehiclesMod){
+            tags.push(`${v.name}`);
+          }
+        }
+        if (data.marks.length){
+          for (let m of data.marks){
+            tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
+          }
+        }
+        if (data.isSlavedToPan){
+          let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+          tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
+        }        
+        break;
       default:
     }
 

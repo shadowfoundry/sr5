@@ -1532,6 +1532,25 @@ SR5.vehicleTypes = {
   vehicle                   : "SR5.VehicleFull",
 };
 
+// Types de drones et véhicules
+SR5.vehiclesCategories = {
+  microdrone                : "SR5.DRONES_Microdrone_F",
+  minidrone                 : "SR5.DRONES_Minidrone_F",
+  smallDrone                : "SR5.DRONES_SmallDrone_F",
+  mediumDrone               : "SR5.DRONES_MediumDrone_F",
+  largeDrone                : "SR5.DRONES_LargeDrone_F",
+  hugeDrone                 : "SR5.DRONES_HugeDrone_F",
+  vectorThrustCraft         : "SR5.VectorThrustCraftFull",
+  fixedWingAircraft         : "SR5.FixedWingAircraftFull",
+  boat                      : "SR5.BoatFull",
+  truck                     : "SR5.TruckFull",
+  rotorCraft                : "SR5.RotorCraftFull",
+  bike                      : "SR5.BikeFull",
+  submarine                 : "SR5.SubmarineFull",  
+  car                       : "SR5.CarFull",
+  lta                       : "SR5.LTAFull",
+};
+
 // Types de drones
 SR5.droneCategories = {
   microdrone                : "SR5.DRONES_Microdrone_F",

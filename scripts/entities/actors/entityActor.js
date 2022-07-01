@@ -1350,6 +1350,8 @@ export class SR5Actor extends Actor {
         "data.offRoadMode": itemData.offRoadMode,
         "data.price": itemData.price.base,
         "data.slaved": itemData.slaved,
+        "data.isSlavedToPan": itemData.isSlavedToPan,
+        "data.panMaster": itemData.panMaster,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,
         "data.controlMode": itemData.controlMode,
