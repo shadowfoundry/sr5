@@ -1,6 +1,6 @@
 <li class="grid">
     {{#if data.isAccessory}}
-        <div class="col-5">{{localize 'SR5.CapacityUsed'}}</div>
+        <div class="col-5">{{localize 'SR5.CapacityUsed'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.capacityTaken.base" value="{{data.capacityTaken.base}}" /></div>
         {{#if data.capacityTaken.multiplier}}
         <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.capacityTaken.multiplier this}})</div>
@@ -8,7 +8,7 @@
         <div class="col-2"></div>
         {{/if}}
     {{else}}
-        <div class="col-5">{{localize 'SR5.Capacity'}}</div>
+        <div class="col-5">{{localize 'SR5.Capacity'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.capacity.base" value="{{data.capacity.base}}" /></div>
         {{#if data.capacity.multiplier}}
         <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.capacity.multiplier this}})</div>
@@ -44,7 +44,7 @@
 <!-- Accessory -->
 {{#if (eq data.isPlugged false)}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.ItemIsAnAccessory'}}</div>
+    <div class="col-5">{{localize 'SR5.ItemIsAnAccessory'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextLeft"><input type="checkbox" name="data.isAccessory" data-dtype="Boolean" {{checked data.isAccessory}} /></div>
 </li>
 {{/if}}

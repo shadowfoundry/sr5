@@ -1,6 +1,6 @@
 {{#if (eq data.type 'genetech')}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.Category'}}</div>
+    <div class="col-5">{{localize 'SR5.Category'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="data.category" required>
         {{#select data.category}}
@@ -14,7 +14,7 @@
 </li>
 {{else}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.Category'}}</div>
+    <div class="col-5">{{localize 'SR5.Category'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="data.category" required>
         {{#select data.category}}
