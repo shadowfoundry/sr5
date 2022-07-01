@@ -1,5 +1,8 @@
 <!-- Physical Monitor -->
-	<div class="SR-PaddingLeft10 SR-TextUppercase SR-NeutralLightColor SR-Bold monitorReset" data-target="physical" >{{localize 'SR5.ConditionMonitorPhysicalShort'}}</div>
+	<div class="SR-PaddingLeft10 SR-TextUppercase SR-NeutralLightColor SR-Bold monitorReset" data-target="physical" 
+	   data-helpTitle="{{localize 'SR5.ConditionMonitorPhysical'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorNameMsg'}}">
+		{{localize 'SR5.ConditionMonitorPhysicalShort'}}
+	</div>
 	<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.physical.actual.base"
 	  data-helpTitle="{{localize 'SR5.ConditionMonitorPhysical'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
 		{{#each data.conditionMonitors.physical.boxes as |box index|}}

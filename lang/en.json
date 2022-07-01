@@ -2352,6 +2352,7 @@
   "SR5.HELP_MetamagicActivateToggle"          : "Activate Metamagic<br>({key})",
   "SR5.HELP_MetamagicActivateToggleMsg"       : "Click to activate or desactivate Metamagic effect.",
   "SR5.HELP_MonitorMsg"                       : "Click on the boxes to add or remove damage. Right-click on the monitor name to quickly reset it.",
+  "SR5.HELP_MonitorNameMsg"                   : "Right-Click to reset.<br> Left-Click to roll a Natural Healing Test",
   "SR5.HELP_MonitorDeckMsg"                   : "Edit deck matrix monitor: right click to increase, left click to decrease.",
   "SR5.HELP_MoreInfos"                        : "More informations",
   "SR5.HELP_MoreInfosMsg"                     : "Click to show or hide more informations",

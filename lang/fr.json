@@ -2353,6 +2353,7 @@
   "SR5.HELP_MetamagicActivateToggleMsg"       : "Cliquez pour activer ou désactiver les effets de la Métamagie.",
   "SR5.HELP_MoreInfos"                        : "Plus d'informations",
   "SR5.HELP_MonitorMsg"                       : "Cliquez sur les cases pour ajouter ou supprimer des dégâts. Cliquez-droit sur le nom du moniteur de condition pour le remettre à zéro rapidement.",
+  "SR5.HELP_MonitorNameMsg"                   : "Click droit pour remettre à zéro.<br> Click gauche pour effectuer un Test de Guérison natuelle.",
   "SR5.HELP_MonitorDeckMsg"                   : "Éditez le moniteur matriciel du deck: clic droit pour ajouter, clic gauche pour diminuer.",
   "SR5.HELP_MoreInfosMsg"                     : "Cliquez pour afficher ou cacher plus d'informations",
   "SR5.HELP_Movements"                        : "Mouvement<br>({key})",
