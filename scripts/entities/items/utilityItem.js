@@ -254,10 +254,28 @@ export class SR5_UtilityItem extends Actor {
       case "capacity":
         multiplier = item.capacity.value;
         break;
+      case "acceleration":
+        multiplier = item.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        multiplier = item.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        multiplier = item.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        multiplier = item.vehiclePriceMultiplier.body;
+        break;
+      case "seating":
+        multiplier = item.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+          multiplier = item.vehiclePriceMultiplier.vehicle;
+        break;
       default:
     }
     if (item.price.multiplier) {
-      SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(lists.valueMultipliers[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+      SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(lists.valueMultipliersAll[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
     }
     SR5_EntityHelpers.updateValue(item.price, 0);
   }
@@ -294,10 +312,28 @@ export class SR5_UtilityItem extends Actor {
       case "capacity":
         multiplier = item.capacity.value;
         break;
+      case "acceleration":
+        multiplier = item.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        multiplier = item.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        multiplier = item.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        multiplier = item.vehiclePriceMultiplier.body;
+        break;
+      case "seating":
+        multiplier = item.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+        multiplier = item.vehiclePriceMultiplier.vehicle;
+        break;
       default:
     }
     if (item.availability.multiplier) {
-      SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(lists.valueMultipliers[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+      SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(lists.valueMultipliersAll[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
     }
     SR5_EntityHelpers.updateValue(item.availability, 0);
   }
@@ -1394,9 +1430,6 @@ export class SR5_UtilityItem extends Actor {
 
   ////////////////////// VEHICULES  ///////////////////////
   static _handleVehicle(vehicle) {
-    if (vehicle.riggerInterface) {
-      SR5_EntityHelpers.updateModifier(vehicle.price, 'riggerInterface', 'riggerInterface', 1000);
-    }
 
     for (let vehicleMod of vehicle.vehiclesMod){
       SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
@@ -1527,13 +1560,6 @@ export class SR5_UtilityItem extends Actor {
   }
 
   static  _resetWeaponMounted(data) {
-    data.slots.base = 0;
-    data.threshold.base = 0;
-    data.tools = "";
-    data.skill = "";
-    data.availability.base = 0;
-    data.legality = "";
-    data.price.base = 0;
     data.weaponMount.size = "";
     data.weaponMount.visibility = "";
     data.weaponMount.flexibility = "";

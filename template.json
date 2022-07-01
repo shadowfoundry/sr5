@@ -4049,13 +4049,15 @@
             "augmentations":{},
             "weapons":{},
             "armors":{},
-            "gears":{}
+            "gears":{},
+            "vehicles":{}
           },
           "potentialPanObject":{
             "augmentations":{},
             "weapons":{},
             "armors":{},
-            "gears":{}
+            "gears":{},
+            "vehicles":{}
           },
           "pan":{
             "max": 0,
@@ -5105,6 +5107,7 @@
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
+      "price": 0,
       "vehiclesMod": [],
       "modificationSlots": {
         "powerTrain": {
@@ -6401,7 +6404,8 @@
         "templateCustomEffects",
         "templateActivation",
         "templateRating",        
-        "templateBoughtOrSold"
+        "templateBoughtOrSold",
+        "templateCapacity"
       ],
       "type": "",
       "tools": "",
@@ -6432,6 +6436,14 @@
       "secondaryPropulsion": {
         "isSecondaryPropulsion": false,
         "type": ""
+      },
+      "vehiclePriceMultiplier": {
+        "acceleration": 0,
+        "handling": 0,
+        "speed": 0,
+        "body": 0,
+        "seating": 0,
+        "vehicle": 0
       }
     },
     "itemEffect":{

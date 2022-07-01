@@ -824,9 +824,24 @@ SR5.valueMultipliersNoRating = {
   capacity                  : "SR5.Capacity",
 };
 
+SR5.valueMultipliersVehicle = {
+  acceleration              : "SR5.VehicleStat_AccelerationShort",
+  handling                  : "SR5.VehicleStat_HandlingShort",
+  body                      : "SR5.VehicleStat_BodyShort",
+  speed                     : "SR5.VehicleStat_SpeedShort",
+  seating                   : "SR5.Vehicle_SeatingShort",
+  vehicle                   : "SR5.VehicleFull",
+};
+
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
   ...SR5.valueMultipliersNoRating,
+};
+
+SR5.valueMultipliersAll = {
+  ...SR5.valueMultipliersNoCapacity,
+  ...SR5.valueMultipliersNoRating,
+  ...SR5.valueMultipliersVehicle,
 };
 
 // Addiction types
@@ -1524,6 +1539,7 @@ SR5.droneCategories = {
   smallDrone                : "SR5.DRONES_SmallDrone_F",
   mediumDrone               : "SR5.DRONES_MediumDrone_F",
   largeDrone                : "SR5.DRONES_LargeDrone_F",
+  hugeDrone                 : "SR5.DRONES_HugeDrone_F",
 };
 
 // Types de véhicules

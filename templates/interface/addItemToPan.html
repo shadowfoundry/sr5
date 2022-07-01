@@ -40,6 +40,13 @@
 					{{/each}}
 		  			</optgroup>
 		  	{{/if}}
+			  {{#if list.vehicles}}
+			  <optgroup label="{{localize 'SR5.Vehicle'}}">
+				{{#each list.vehicles}}
+				<option value="{{@key}}">{{this}}</option>
+				{{/each}}
+				  </optgroup>
+		  {{/if}}
 		{{/select}}
 		</select>
 	</div>

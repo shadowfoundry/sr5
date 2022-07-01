@@ -106,8 +106,6 @@ export class SR5Item extends Item {
         }
         SR5_UtilityItem._handleSlotsMultiplier(data);
         SR5_UtilityItem._handleThresholdMultiplier(data);
-        SR5_UtilityItem._handleItemPrice(data);
-        SR5_UtilityItem._handleItemAvailability(data);
       break;
       case "itemArmor":
       case "itemGear":

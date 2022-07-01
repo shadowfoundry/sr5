@@ -625,7 +625,6 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemVehicleMod":
-          i.prepareData();
           iData.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(i.data, this);
                 if (iData.mountedWeapon){ 
                   let weapon = this.items.find(w => w.id === iData.mountedWeapon);
@@ -637,13 +636,16 @@ export class SR5Actor extends Actor {
           if (iData.secondaryPropulsion.isSecondaryPropulsion && iData.isActive) {
             SR5_CharacterUtility.handleSecondaryAttributes(actorData, i.data);
           }          
-          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);          
+          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data); 
+          SR5_CharacterUtility.handleVehiclePriceMultiplier(actorData, i.data);                     
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
           break;
 
         case "itemVehicle":        
           i.prepareData();
+          actorData.data.matrix.connectedObject.vehicles[i.id] = i.name;
+          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.vehicles[i.uuid] = i.name;
           SR5_UtilityItem._handleVehicleSlots(iData);
           break;
 
@@ -743,7 +745,9 @@ export class SR5Actor extends Actor {
         case "itemVehicleMod":          
         if (!iData.isWeaponMounted) {
           SR5_UtilityItem._resetWeaponMounted(iData);
-        }
+        }                             
+        SR5_UtilityItem._handleItemPrice(iData);
+        SR5_UtilityItem._handleItemAvailability(iData);
           break;
         case "itemWeapon":
         case "itemKnowledge":
@@ -1344,6 +1348,7 @@ export class SR5Actor extends Actor {
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
         "data.offRoadMode": itemData.offRoadMode,
+        "data.price": itemData.price.base,
         "data.slaved": itemData.slaved,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,

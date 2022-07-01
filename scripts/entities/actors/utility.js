@@ -460,6 +460,7 @@ export class SR5_CharacterUtility extends Actor {
         data.matrix.connectedObject.weapons = {};
         data.matrix.connectedObject.armors = {};
         data.matrix.connectedObject.gears = {};
+        data.matrix.connectedObject.vehicles = {};
       }
 
       //Reset potential PanO Objects
@@ -468,6 +469,7 @@ export class SR5_CharacterUtility extends Actor {
         data.matrix.potentialPanObject.weapons = {};
         data.matrix.potentialPanObject.armors = {};
         data.matrix.potentialPanObject.gears = {};
+        data.matrix.potentialPanObject.vehicles = {};
       }
 
       //Reset regiseterd sprite
@@ -1955,6 +1957,21 @@ export class SR5_CharacterUtility extends Actor {
     };
   }
 
+
+    // Handle Price Multiplier for itemVehicleMod
+    static handleVehiclePriceMultiplier(actor, vehicleMod){
+      let lists = actor.lists, data = actor.data, vm = vehicleMod.data;
+    
+      vm.vehiclePriceMultiplier.acceleration = data.attributes.acceleration.natural.base;
+      vm.vehiclePriceMultiplier.handling = data.attributes.handling.natural.base;
+      vm.vehiclePriceMultiplier.speed = data.attributes.speed.natural.base;
+      vm.vehiclePriceMultiplier.body = data.attributes.body.natural.base;
+      vm.vehiclePriceMultiplier.seating = data.attributes.seating.natural.base;
+      vm.vehiclePriceMultiplier.vehicle = data.price;
+
+    }
+
+  // Handle secondary Vehicle attributes for secondary propulsion
   static handleSecondaryAttributes(actor, vehicleMod){
     let lists = actor.lists, data = actor.data, attributes = data.attributes, vm = vehicleMod.data;
 
