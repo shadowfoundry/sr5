@@ -1,6 +1,6 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestyleComforts'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1">{{valueOrDash data.comforts.value}}</div> <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.comforts.max}})</span>
+    <div class="col-1">{{data.comforts.value}}</div> <span class="col-auto SR-GreyColor">(maximum {{valueOrDash data.comforts.max}})</span>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestyleSecurity'}}{{localize 'SR5.Colons'}}</div>
@@ -12,5 +12,13 @@
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.LifestylePoint'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1">{{data.point.value}}</div> <span class="col-auto SR-GreyColor">(base {{valueOrDash data.point.base}})</span>
+    <div class="col-1">{{data.point.value}}</div> 
+        {{#if (eq data.type 'traveler')}}
+        <span class="col-1 SR-GreyColor" data-helpTitle="{{localize 'SR5.HELP_LifestylePointTraveler'}}" 
+        data-helpMessage="{{localize 'SR5.HELP_LifestylePointTravelerMsg'}}">
+            <input type="text" data-dtype="Number" class="input" name="data.point.base" value="{{data.point.base}}" onfocus="this.select()">
+        </span>
+         {{else}}
+         <span class="col-auto SR-GreyColor">({{localize 'SR5.LifeStylePointBase'}}{{localize 'SR5.Colons'}} {{valueOrDash data.point.base}})</span>
+         {{/if}}
 </li>
