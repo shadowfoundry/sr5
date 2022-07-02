@@ -259,6 +259,11 @@
       },
       "characterResistancesTemplate": {
         "resistances": {
+          "astralDamage": {
+            "dicePool": 0,
+            "base": 0,
+            "modifiers": []
+          },
           "physicalDamage": {
             "dicePool": 0,
             "base": 0,
@@ -1477,7 +1482,7 @@
             "linkedAttribute": "willpower",
             "limit": {
               "value": 0,
-              "base": "weaponAccuracy",
+              "base": "astralLimit",
               "modifiers": []
             },
             "skillGroup": "",
@@ -3032,7 +3037,24 @@
             "value": 0,
             "base": 0,
             "modifiers": []
-          }
+          },
+          "hardenedArmorType": "",
+          "hardenedArmorRating": 0,
+          "hardenedArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "hardenedAstralArmorType": "",
+          "hardenedAstralArmorRating": 0,
+          "hardenedAstralArmor":{
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "doublePenalties": false,
+          "energyAura": "",
+          "regeneration": false
         }
       },
       "itemsPropertiesTemplate": {
@@ -3095,6 +3117,28 @@
                 "modifiers": []
               },
               "sound": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "toxin": {
+              "contact": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "ingestion": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "inhalation": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "injection": {
                 "value": 0,
                 "base": 0,
                 "modifiers": []
@@ -4091,7 +4135,23 @@
             "current": 0,
             "max": 0
           },
-          "spellList":{}
+          "spellList":{},
+          "metamagics": {
+            "centering": false,
+            "centeringValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "quickening": false,
+            "shielding": false,
+            "spellShaping": false,
+            "spellShapingValue":{
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
+          }
         }
       },
       "sheetPreferencesTemplate": {
@@ -4621,6 +4681,18 @@
             "modifiers": []
           }
         },
+        "handlingOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "speed": {
           "natural": {
             "value": 0,
@@ -4633,7 +4705,31 @@
             "modifiers": []
           }
         },
+        "speedOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "acceleration": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "accelerationOffRoad": {
           "natural": {
             "value": 0,
             "base": 0,
@@ -4953,9 +5049,43 @@
         "name": ""
       },
       "pilotSkill": "",
+      "offRoadMode" : false,
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
+      "vehiclesMod": [],
+      "modificationSlots": {
+        "powerTrain": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "protection": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "weapons": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "body": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "electromagnetic": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "cosmetic": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
       "model": "",
       "vehicleTest": {
         "actionType": "complex",
@@ -5384,6 +5514,7 @@
       "itemSprite",
       "itemSpritePower",
       "itemVehicle",
+      "itemVehicleMod",
       "itemWeapon",
       "itemEffect",
       "itemDrug",
@@ -5586,7 +5717,9 @@
           "paralysis": false
         },
         "penetration": 0
-      }
+      },
+      "isLinkedToFocus": false,
+      "isUsedAsFocus": false
     },
     "itemArmor": {
       "templates": [
@@ -5821,7 +5954,10 @@
       "type": "",
       "subType": "",
       "spellChoices":[],
-      "sustainedSpell": ""
+      "weaponChoices":[],
+      "sustainedSpell": "",
+      "linkedWeapon":"",
+      "linkedWeaponName":""
     },
     "itemKarma": {
       "templates": [
@@ -5896,7 +6032,8 @@
         "dicePool": 0,
         "base": 0,
         "modifiers": []
-      }
+      },
+      "targetOfEffect":[]
     },
     "itemAdeptPower": {
       "templates": [
@@ -5974,7 +6111,11 @@
       "range": "",
       "duration": "",
       "type": "",
-      "drainModifier": 0,
+      "drain": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "drainValue": {
         "value": 0,
         "base": 0,
@@ -5995,10 +6136,13 @@
       "healthEssence": false,
       "freeSustain": false,
       "preparation": false,
+      "fetish": false,
       "targetOfEffect":[],
       "resisted": false,
       "defenseFirstAttribute": "",
-      "defenseSecondAttribute": ""
+      "defenseSecondAttribute": "",
+      "quickening": false,
+      "karmaSpent": 0
     },
     "itemPreparation": {
       "templates": [
@@ -6152,15 +6296,27 @@
       "model": "",
       "attributes": {
         "handling": 0,
+        "handlingOffRoad": 0,
         "speed": 0,
+        "speedOffRoad": 0,
         "acceleration": 0,
+        "accelerationOffRoad": 0,
         "body": 0,
         "armor": 0,
         "pilot": 0,
         "sensor": 0
       },
+      "modificationSlots": {
+        "powerTrain":0,
+        "protection": 0,
+        "weapons": 0,
+        "body": 0,
+        "electromagnetic": 0,
+        "cosmetic": 0
+      },
       "seating": 0,
-      "controlMode": "",
+      "controlMode": "autopilot",
+      "offRoadMode" : false,
       "riggerInterface": false,
       "mount": [],
       "autosoft": [],
@@ -6168,6 +6324,7 @@
       "ammunitions": [],
       "armors": [],
       "decks": [],
+      "vehiclesMod": [],
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
@@ -6194,6 +6351,30 @@
           },
           "boxes": []
         }
+      }
+    },
+    "itemVehicleMod": {
+      "templates": [
+        "templateDescription",
+        "templateCustomEffects",
+        "templateActivation",
+        "templateRating",        
+        "templateBoughtOrSold"
+      ],
+      "type": "",
+      "tools": "",
+      "skill": "",
+      "slots": {
+        "base": 0,
+        "modifiers": [],
+        "value": 0,
+        "multiplier": ""
+      },
+      "threshold": {
+        "base": 0,
+        "modifiers": [],
+        "value": 0,
+        "multiplier": ""
       }
     },
     "itemEffect":{

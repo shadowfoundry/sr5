@@ -23,7 +23,7 @@ SR5.characterPhysicalAttributes = {
   strength                  : "SR5.Strength",
 };
 
-// Metnal Attributes
+// Mental Attributes
 SR5.characterMentalAttributes = {
   willpower                 : "SR5.Willpower",
   logic                     : "SR5.Logic",
@@ -70,6 +70,7 @@ SR5.characterDefenses = {
 
 // Resistances
 SR5.characterResistances = {
+  astralDamage              : "SR5.AstralDamage",
   physicalDamage            : "SR5.Damage",
   crashDamage               : "SR5.CrashDamageResistance",
   directSpellMana           : "SR5.DirectSpellMana",
@@ -980,7 +981,7 @@ SR5.weaponAccessoryTypes = {
   accessory                 : "SR5.WeaponAccessoryTypeAccessory",
   modification              : "SR5.WeaponAccessoryTypeModification",
   trait                     : "SR5.WeaponAccessoryTypeTrait",
-}
+};
 
 //Weapon Accessory Slot
 SR5.weaponAccessorySlots = {
@@ -990,10 +991,11 @@ SR5.weaponAccessorySlots = {
   internal                  : "SR5.WeaponAccessorySlotInternal",
   barrel                    : "SR5.WeaponAccessorySlotBarrel",
   stock                     : "SR5.WeaponAccessorySlotStock",
-}
+};
 
 // Toxins
 SR5.toxinTypes = {
+  airEngulf                 : "SR5.SpiritPowerEngulfAir",
   gamma                     : "SR5.ToxinGamma",
   csTearGas                 : "SR5.ToxinCSTearGas",
   pepperPunch               : "SR5.ToxinPepperPunch",
@@ -1003,6 +1005,7 @@ SR5.toxinTypes = {
   neuroStunNine             : "SR5.ToxinNeuroStunNine",
   neuroStunTen              : "SR5.ToxinNeuroStunTen",
   seven                     : "SR5.ToxinSeven",
+  noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
 // Toxins Effects
@@ -1038,7 +1041,7 @@ SR5.valueMultipliersNoRating = {
 
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
-  ...SR5.valueMultipliersNoRating
+  ...SR5.valueMultipliersNoRating,
 };
 
 // Addiction types
@@ -1046,7 +1049,7 @@ SR5.addictionTypes = {
   both                      : "SR5.AddictionBoth",
   physiological             : "SR5.AddictionPhysiological",
   psychological             : "SR5.AddictionPsychological",
-}
+};
 
 //-----------------------------------//
 //             AUGMENTATIONS         //
@@ -1057,6 +1060,11 @@ SR5.augmentationTypes = {
   bioware                   : "SR5.AugmentationTypeBioware",
   culturedBioware           : "SR5.AugmentationTypeCulturedBioware",
   cyberware                 : "SR5.AugmentationTypeCyberware",
+  genetech                  : "SR5.AugmentationTypeGenetech",
+  nanocyber                 : "SR5.AugmentationTypeNanocyber",
+  hardNanoware              : "SR5.AugmentationTypeHardNanoware",
+  softNanoware              : "SR5.AugmentationTypeSoftNanoware",
+  symbionts                 : "SR5.AugmentationTypeSymbionts",
 };
 
 // Catégories d'Augmentations
@@ -1069,6 +1077,19 @@ SR5.augmentationCategories = {
   bodyware                  : "SR5.AugmentationBodyware",
   cyberweapon               : "SR5.AugmentationCyberImplantWeapons",
 };
+
+// Catégories d'Augmentations génétiques
+SR5.augmentationGeneCategories = {
+  geneticRestoration        : "SR5.AugmentationGeneticRestoration",
+  phenotypeAdjustment       : "SR5.AugmentationPhenotypeAdjustment",
+  exoticMetagenetics        : "SR5.AugmentationExoticMetagenetics",
+  transgenics               : "SR5.AugmentationTransgenics",
+  environmentalMicro        : "SR5.AugmentationEnvironmentalMicro",
+  immunization              : "SR5.AugmentationImmunization",
+  transgenicAlteration      : "SR5.AugmentationTransgenicAlteration",
+  complimentaryGenetics     : "SR5.AugmentationComplimentaryGenetics",
+};
+
 
 // Grades d'Augmentations
 SR5.augmentationGrades = {
@@ -1364,6 +1385,14 @@ SR5.ritualDurations = {
 SR5.ritualDurationMultipliers = {
   force                  : "SR5.Force",
   netHits                : "SR5.NetHits",
+}
+
+//Metamagics
+SR5.metamagics = {
+  centering                : "SR5.MetamagicCentering",
+  quickening               : "SR5.MetamagicQuickening",
+  shielding                : "SR5.MetamagicShielding",
+  spellShaping             : "SR5.MetamagicSpellShaping",
 }
 
 //-----------------------------------//
@@ -1681,8 +1710,11 @@ SR5.matrixSearchInfoType = {
 // Vehicle/Drone Attributes
 SR5.vehicleAttributes = {
   handling                  : "SR5.VehicleStat_HandlingShort",
+  handlingOffRoad           : "SR5.VehicleStat_HandlingORShort",
   speed                     : "SR5.VehicleStat_SpeedShort",
+  speedOffRoad              : "SR5.VehicleStat_SpeedORShort",
   acceleration              : "SR5.VehicleStat_AccelerationShort",
+  accelerationOffRoad       : "SR5.VehicleStat_AccelerationORShort",
   body                      : "SR5.VehicleStat_BodyShort",
   armor                     : "SR5.VehicleStat_ArmorShort",
   pilot                     : "SR5.VehicleStat_PilotShort",
@@ -1729,7 +1761,7 @@ SR5.vehicleControlModes = {
   manual                    : "SR5.ControlManual",
   remote                    : "SR5.ControlRemote",
   rigging                   : "SR5.ControlRigging",
-}
+};
 
 // Vehicle actions
 SR5.vehicleActions = {
@@ -1738,7 +1770,7 @@ SR5.vehicleActions = {
   cutOff                    : "SR5.CutOff",
   catchUpBreakAway          : "SR5.CatchUpBreakAway",
   stunt                     : "SR5.Stunt",
-}
+};
 
 //Target signature
 SR5.targetSignature = {
@@ -1747,7 +1779,25 @@ SR5.targetSignature = {
   metahuman                 : "SR5.SignatureMetahuman",
   drone                     : "SR5.SignatureDrone",
   droneMicro                : "SR5.SignatureDroneMicro",
-}
+};
+
+// Type de modification de véhicule/drone
+SR5.vehicleModType = {
+  equipment                 : "SR5.VehicleModTypeEquipment",
+  powerTrain                : "SR5.VehicleModTypePowerTrain",
+  protection                : "SR5.VehicleModTypeProtection",
+  weapons                   : "SR5.VehicleModTypeWeapon",
+  electromagnetic           : "SR5.VehicleModTypeElectromagnetic",
+  body                      : "SR5.VehicleModTypeBody",
+  cosmetic                  : "SR5.VehicleModTypeCosmetic",
+};
+
+// Type d'installation nécessaires
+SR5.vehicleModTools = {
+  kit                       : "SR5.VehicleModToolsKit",
+  shop                      : "SR5.VehicleModToolsShop",
+  facility                  : "SR5.VehicleModToolsFacility",
+};
 
 //-----------------------------------//
 //             ESPRITS               //
@@ -1841,6 +1891,7 @@ SR5.spiritBasePowersbarren = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyEarth               : "SR5.SpiritPowerAllergyEarth",
 }
 
 SR5.spiritOptionalPowersbarren = {
@@ -1877,12 +1928,14 @@ SR5.spiritBasePowersblood = {
   energyDrain                : "SR5.SpiritPowerEnergyDrain",
   fear                       : "SR5.SpiritPowerFear",
   materialization            : "SR5.SpiritPowerMaterialization",
+  essenceLoss                : "SR5.SpiritPowerEssenceLoss",
 }
 
 SR5.spiritOptionalPowersblood = {
   concealment                : "SR5.SpiritPowerConcealment",
   confusion                  : "SR5.SpiritPowerConfusion",
   guard                      : "SR5.SpiritPowerGuard",
+  hemoragy                   : "SR5.SpiritPowerHemoragy",
   movement                   : "SR5.SpiritPowerMovement",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   noxiousBreath              : "SR5.SpiritPowerNoxiousBreath",
@@ -1916,6 +1969,7 @@ SR5.spiritBasePowersfire = {
   engulfFire                 : "SR5.SpiritPowerEngulfFire",
   materialization            : "SR5.SpiritPowerMaterialization",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyWater               : "SR5.SpiritPowerAllergyWater",
 }
 
 SR5.spiritOptionalPowersfire = {
@@ -1968,6 +2022,8 @@ SR5.spiritBasePowersinsectCaretaker = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   innateSpell                : "SR5.SpiritPowerInnateSpell",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectCaretaker = {
@@ -1984,6 +2040,8 @@ SR5.spiritBasePowersinsectNymph = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   innateSpell                : "SR5.SpiritPowerInnateSpell",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectNymph = {
@@ -2002,6 +2060,8 @@ SR5.spiritBasePowersinsectQueen = {
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
   wealth                     : "SR5.SpiritPowerWealth",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectQueen = {
@@ -2023,6 +2083,8 @@ SR5.spiritBasePowersinsectScout = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectScout = {
@@ -2040,6 +2102,8 @@ SR5.spiritBasePowersinsectSoldier = {
   inhabitation               : "SR5.SpiritPowerInhabitation",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectSoldier = {
@@ -2059,6 +2123,8 @@ SR5.spiritBasePowersinsectWorker = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyInsecticides        : "SR5.SpiritPowerAllergyInsecticides",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersinsectWorker = {
@@ -2267,6 +2333,8 @@ SR5.spiritBasePowersshedim = {
   paralyzingTouch            : "SR5.SpiritPowerParalyzingTouch",
   possession                 : "SR5.SpiritPowerPossession",
   sapience                   : "SR5.SpiritPowerSapience",
+  allergySun                 : "SR5.SpiritPowerAllergySun",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersshedim = {
@@ -2294,6 +2362,8 @@ SR5.spiritBasePowersshedimMaster = {
   sapience                   : "SR5.SpiritPowerSapience",
   shadowCloak                : "SR5.SpiritPowerShadowCloak",
   spiritPact                 : "SR5.SpiritPowerSpiritPact",
+  allergySun                 : "SR5.SpiritPowerAllergySun",
+  evanescence                : "SR5.SpiritPowerEvanescence",
 }
 
 SR5.spiritOptionalPowersshedimMaster = {
@@ -2313,6 +2383,7 @@ SR5.spiritBasePowersludge = {
   mutagen                    : "SR5.SpiritPowerMutagen",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyWater               : "SR5.SpiritPowerAllergyWater",
 }
 
 SR5.spiritOptionalPowersludge = {
@@ -2349,6 +2420,7 @@ SR5.spiritBasePowerswater = {
   movement                   : "SR5.SpiritPowerMovement",
   sapience                   : "SR5.SpiritPowerSapience",
   search                     : "SR5.SpiritPowerSearch",
+  allergyFire                : "SR5.SpiritPowerAllergyFire",
 }
 
 SR5.spiritOptionalPowerswater = {
@@ -2392,8 +2464,14 @@ SR5.AllSpiritPowers = {
   engulfFire                 : "SR5.SpiritPowerEngulfFire",
   engulfWater                : "SR5.SpiritPowerEngulfWater",
   enhancedSenses             : "SR5.SpiritPowerEnhancedSenses",
+  enhancedSensesHearing      : "SR5.SpiritPowerEnhancedSensesHearing",
+  enhancedSensesSmell        : "SR5.SpiritPowerEnhancedSensesSmell",
+  enhancedSensesSonar        : "SR5.SpiritPowerEnhancedSensesSonar",
+  enhancedSensesLowLight     : "SR5.SpiritPowerEnhancedSensesLowLight",
+  enhancedSensesThermographic: "SR5.SpiritPowerEnhancedSensesThermographic",
   fear                       : "SR5.SpiritPowerFear",
   guard                      : "SR5.SpiritPowerGuard",
+  hemoragy                   : "SR5.SpiritPowerHemoragy",
   hiveMind                   : "SR5.SpiritPowerHiveMind",
   immunity                   : "SR5.SpiritPowerImmunity",
   influence                  : "SR5.SpiritPowerInfluence",
@@ -2408,6 +2486,7 @@ SR5.AllSpiritPowers = {
   mutagen                    : "SR5.SpiritPowerMutagen",
   naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
   noxiousBreath              : "SR5.SpiritPowerNoxiousBreath",
+  paralyzingHowl             : "SR5.SpiritPowerParalyzingHowl",
   paralyzingTouch            : "SR5.SpiritPowerParalyzingTouch",
   pestilence                 : "SR5.SpiritPowerPestilence",
   possession                 : "SR5.SpiritPowerPossession",
@@ -2479,7 +2558,13 @@ SR5.effectTypes = {
   itemComplexForm           : "ITEM.TypeItemcomplexform",
   itemSpell                 : "ITEM.TypeItemspell",
   itemAdeptPower            : "ITEM.TypeItemadeptpower",
+  itemPreparation           : "ITEM.TypeItempreparation",
+  itemPower                 : "ITEM.TypeItempower",
   derezz                    : "SR5.Derezz",
+  toxinEffect               : "SR5.Toxin",
+  toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
+  toxinEffectNausea         : "SR5.ToxinEffectNausea",
+  toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 }
 
 SR5.effectDuration = {
@@ -2488,6 +2573,8 @@ SR5.effectDuration = {
   special                   : "SR5.DurationSpecial",
   sustained                 : "SR5.DurationSustained",
   reboot                    : "SR5.UntilReboot",
+  minute                    : "SR5.Minutes",
+  hour                      : "SR5.Hours",
 }
 
 SR5.specialProperties = {
@@ -2495,6 +2582,17 @@ SR5.specialProperties = {
   controlRig                : "SR5.ControlRig",
   smartlink                 : "SR5.Smartlink",
   damageReduction           : "SR5.DamageReduction",
+  hardenedArmor             : "SR5.HardenedArmor",
+  hardenedAstralArmor       : "SR5.HardenedAstralArmor",
+}
+
+SR5.specialPropertiesList = {
+  concentration             : "SR5.Concentration",
+  controlRig                : "SR5.ControlRig",
+  smartlink                 : "SR5.Smartlink",
+  damageReduction           : "SR5.DamageReduction",
+  doublePenalties           : "SR5.PenaltyDouble",
+  regeneration              : "SR5.SpiritPowerRegeneration",
 }
 
 SR5.transactionsTypes = {
@@ -2506,6 +2604,18 @@ SR5.fireType = {
   natural                   : "SR5.FireNatural",
   magical                   : "SR5.FireMagic",
   weapon                    : "SR5.FireWeapon",
+}
+
+SR5.hardenedArmorTypes = {
+  rating                    : "SR5.ItemRating",
+  essence                   : "SR5.Essence",
+  essenceX2                 : "SR5.EssenceX2",
+  body                      : "SR5.Body"
+}
+
+SR5.hardenedAstralArmorTypes = {
+  rating                    : "SR5.ItemRating",
+  willpower                 : "SR5.Willpower"
 }
 
 
@@ -2545,6 +2655,7 @@ SR5.itemTypes = {
   itemSpritePower           : "ITEM.TypeItemspritepower",
   itemTradition             : "ITEM.TypeItemtradition",
   itemVehicle               : "ITEM.TypeItemvehicle",
+  itemVehicleMod            : "ITEM.TypeItemvehiclemod",
   itemWeapon                : "ITEM.TypeItemweapon",
 };
 
@@ -2598,6 +2709,17 @@ SR5.statusEffects = [
     id: "fullDefense",
     label: "SR5.STATUSES_FullDefense",
     origin: "fullDefense"
+  },
+  {
+    icon: "systems/sr5/img/status/StatusNoActionOn.svg",
+    id: "noAction",
+    label: "SR5.EffectNoAction",
+    flags: {
+      core: {
+        overlay: true,
+      }
+    },
+    origin: "noAction"
   },
 ];
 

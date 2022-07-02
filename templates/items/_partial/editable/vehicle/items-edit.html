@@ -1,5 +1,21 @@
 <ul class="SR-PaddingTop10">
     <li class="grid SR-EnTete">
+        <div class="col-4 SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</div>
+        <div class="col-4 SR-TextCenter">{{localize 'SR5.VehicleModTypeShort'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.VehicleModSlots'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>
+    </li>
+    {{#each data.vehiclesMod as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-4">{{a.name}}</div>
+        <div class="col-4 SR-TextCenter">{{findTranslation 'vehicleModType' a.data.type}}</div>
+        <div class="col-2 SR-TextCenter">{{valueOrDash a.data.itemRating}}</div>
+        <div class="col-2 SR-TextCenter">{{valueOrDash a.data.slots.value}}</div>
+    </li>
+    {{/each}}
+</ul>
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete">
         <div class="col-5 SR-TextUppercase">{{localize 'SR5.Autosofts'}}</div>
         <div class="col-5 SR-TextCenter">{{localize 'SR5.Model'}}</div>
         <div class="col-2 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>

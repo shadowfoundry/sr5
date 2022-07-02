@@ -25,13 +25,18 @@
 			</div>
 			<div class="col-2"><p class="SR-TextCenter">{{findTranslation 'programTypes' data.type}}</p></div>
 			<div class="col-2 SR-TextCenter">
-				{{#ife data.type "autosoft"}}
+				{{#if (eq data.type "autosoft")}}
 					<p class="changeValueByClick" data-binding="data.itemRating"
 					data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 					data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">{{valueOrDash data.itemRating}}</p>
+				{{else if (eq data.type "agent")}}
+					<p class="changeValueByClick" data-binding="data.itemRating"
+					  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+					  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">{{valueOrDash data.itemRating}}
+					</p>
 				{{else}}
 					-
-				{{/ife}}
+				{{/if}}
 			</div>
 			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_ProgramToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramToggleMsg'}}">
 				{{#if (eq data.type 'agent')}}

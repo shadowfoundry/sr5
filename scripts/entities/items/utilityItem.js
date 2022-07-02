@@ -38,6 +38,9 @@ export class SR5_UtilityItem extends Actor {
       case "itemVehicle":
         displayName = game.i18n.localize("SR5.VehicleNew");
         break;
+      case "itemVehicleMod":
+        displayName = game.i18n.localize("SR5.VehicleModNew");
+        break;
       case "itemAugmentation":
         displayName = game.i18n.localize("SR5.AugmentationNew");
         break;
@@ -186,6 +189,7 @@ export class SR5_UtilityItem extends Actor {
       data.freeSustain = false;
       data.damageValue.modifiers = [];
       data.armorPenetration.modifiers = [];
+      data.drain.modifiers = [];
       data.drainValue.modifiers = [];
       data.spellAreaOfEffect.modifiers = [];
     }
@@ -199,6 +203,7 @@ export class SR5_UtilityItem extends Actor {
     }
 
     if (itemData.type === "itemAdeptPower"){
+      data.test.dicePool = 0;
       data.test.modifiers = [];
       data.drainValue.modifiers = [];
     }
@@ -396,7 +401,8 @@ export class SR5_UtilityItem extends Actor {
           weapon.weaponSkill.base = 0;
         } else {
           weapon.weaponSkill.base = 0;
-          weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
+          if ((actorData.data.initiatives.astralInit.isActive || weapon.isUsedAsFocus) && weapon.isLinkedToFocus) weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills.astralCombat.test.modifiers);
+          else weapon.weaponSkill.modifiers = weapon.weaponSkill.modifiers.concat(actorData.data.skills[actorSkill].test.modifiers);
           //Special case : bow
           if (weapon.type === "bow" && (actorData.data.attributes.strength.augmented.value < weapon.itemRating)){
             let malus = (actorData.data.attributes.strength.augmented.value - weapon.itemRating) * 3;
@@ -412,7 +418,8 @@ export class SR5_UtilityItem extends Actor {
     if (actor) {
       if (weapon.accuracy.isPhysicalLimitBased) weapon.accuracy.base = actor.data.limits.physicalLimit.value;
       if (weapon.damageValue.isStrengthBased && actor.type !=="actorDrone") {
-        SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.strength.augmented.value);
+        if ((actor.data.initiatives.astralInit.isActive || weapon.isUsedAsFocus) && weapon.isLinkedToFocus) SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.charisma.augmented.value);
+        else SR5_EntityHelpers.updateModifier(weapon.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.data.attributes.strength.augmented.value);
       }
       if (actor.data.itemsProperties?.weapon) {
         for (let modifier of actor.data.itemsProperties.weapon.accuracy.modifiers) {
@@ -496,7 +503,7 @@ export class SR5_UtilityItem extends Actor {
         damageValue = 1;
         break;
       case "stickNShock":
-        armorPenetration = -5;
+        armorPenetration = -weapon.armorPenetration.base -5;
         damageValue = -2;
         damageType = "stun";
         damageElement = "electricity";
@@ -571,8 +578,27 @@ export class SR5_UtilityItem extends Actor {
   }
 
   // Génére les spec des toxines pour les munitions & grenades
-  static _handleWeaponToxin(weapon) {
+  static _handleWeaponToxin(weapon, actor) {
     switch (weapon.toxin.type) {
+      case "airEngulf":
+        if (!actor) return;
+        weapon.toxin.vector.inhalation = true;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value * 2;
+        weapon.toxin.penetration = -actor.data.specialAttributes.magic.augmented.value;
+        weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value * 2;
+        weapon.damageType = "stun";
+        break;
+      case "noxiousBreath":
+        if (!actor) return;
+        weapon.toxin.vector.inhalation = true;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = actor.data.specialAttributes.magic.augmented.value;
+        weapon.toxin.penetration = 0;
+        weapon.toxin.effect.nausea = true;
+        weapon.damageValue.base = actor.data.specialAttributes.magic.augmented.value;
+        weapon.damageType = "stun";
+        break;
       case "gamma":
         weapon.toxin.vector.injection = true;
         weapon.toxin.speed = 0;
@@ -680,9 +706,23 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    if (actor !== undefined && weapon.category === "meleeWeapon" && actor.data.reach) {
-      weapon.reach.modifiers = weapon.reach.modifiers.concat(actor.data.reach.modifiers);
-    }
+    if (actor !== undefined) {
+      if (weapon.category === "meleeWeapon" && actor.data.reach) {
+        weapon.reach.modifiers = weapon.reach.modifiers.concat(actor.data.reach.modifiers);
+      }
+      if (weapon.systemEffects.length){
+        for (let systemEffect of Object.values(weapon.systemEffects)){
+					if (systemEffect.value === "noxiousBreath" || systemEffect.value === "corrosiveSpit"){
+            SR5_EntityHelpers.updateModifier(weapon.range.short, 'body', 'attribute', actor.data.attributes.body.augmented.value);
+            SR5_EntityHelpers.updateModifier(weapon.range.medium, 'body', 'attribute', actor.data.attributes.body.augmented.value * 2);
+            SR5_EntityHelpers.updateModifier(weapon.range.long, 'body', 'attribute', actor.data.attributes.body.augmented.value * 3);
+            SR5_EntityHelpers.updateModifier(weapon.range.extreme, 'body', 'attribute', actor.data.attributes.body.augmented.value * 4);
+          }
+        }
+      }
+    } 
+
+
 
     for (let key of Object.keys(SR5.weaponRanges)) {
       SR5_EntityHelpers.updateValue(weapon.range[key]);
@@ -740,6 +780,7 @@ export class SR5_UtilityItem extends Actor {
           }
           break;
         case "concealedQDHolster":
+          a.price = 275;
           if (a.isActive) SR5_EntityHelpers.updateModifier(weapon.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1);
           break;
         case "electronicFiring":
@@ -951,6 +992,9 @@ export class SR5_UtilityItem extends Actor {
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
       SR5_EntityHelpers.updateModifier(actor.data.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
     }
+
+    if (typeof weapon.accessory === "object") weapon.accessory = Object.values(weapon.accessory);
+
     for (let a of weapon.accessory) {
       switch (a.name) {
         case "flashLightInfrared":
@@ -1084,8 +1128,13 @@ export class SR5_UtilityItem extends Actor {
     //Modified drain value
     i.data.drainValue.base = 0;
     SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), (i.data.force || 0), false, true);
-    SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drainModifier, false, true);
+    SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), i.data.drain.base, false, true);
+    if (i.data.fetish){
+      SR5_EntityHelpers.updateModifier(i.data.drainValue, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.DrainModifier'), -2, false, true);
+      SR5_EntityHelpers.updateModifier(i.data.drain, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.Fetish'), -2, false, true);
+    }
     SR5_EntityHelpers.updateValue(i.data.drainValue, 2);
+    SR5_EntityHelpers.updateValue(i.data.drain);
 
     //Check if spell is sustained by a spirit
     for (let item of actorData.items){
@@ -1123,6 +1172,12 @@ export class SR5_UtilityItem extends Actor {
         } else if (power.testFirstAttribute === "rating") {
           firstAttribute = power.itemRating;
           firstLabel = game.i18n.localize("SR5.ItemRating");
+        } else if (power.testFirstAttribute === "running") {
+          firstAttribute = actor.data.skills.running.rating.value;
+          firstLabel = game.i18n.localize("SR5.Skill");
+        } else if (power.testFirstAttribute === "leadership") {
+          firstAttribute = actor.data.skills.leadership.rating.value;
+          firstLabel = game.i18n.localize("SR5.Skill");
         } else firstAttribute = actor.data.attributes[power.testFirstAttribute].augmented.value;
       }
   
@@ -1133,6 +1188,12 @@ export class SR5_UtilityItem extends Actor {
         } else if (power.testSecondAttribute === "rating") {
           secondAttibute = power.itemRating;
           secondLabel = game.i18n.localize("SR5.ItemRating");
+        } else if (power.testSecondAttribute === "running") {
+          secondAttibute = actor.data.skills.running.rating.value;
+          secondLabel = game.i18n.localize("SR5.Skill");
+        } else if (power.testSecondAttribute === "leadership") {
+          secondAttibute = actor.data.skills.leadership.rating.value;
+          secondLabel = game.i18n.localize("SR5.Skill");
         } else secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
       }
 
@@ -1193,6 +1254,46 @@ export class SR5_UtilityItem extends Actor {
       }
     }
     return spellList;
+  }
+
+  static _generateWeaponFocusWeaponList(focus, actor) {
+    let weaponList = [];
+    for (let i of actor.items) {
+      if (i.type === "itemWeapon" && i.data.data.category === "meleeWeapon") {
+        if (i.data.data.systemEffects.length) continue;
+        let weapon = {
+          "name": i.name,
+          "id": i.id,
+        }
+        weaponList.push(weapon);
+      }
+    }
+    return weaponList;
+  }
+
+  static async _checkIfWeaponIsFocus(i, actor){
+    let focus = actor.items.find(w => w.data.data.linkedWeapon === i.id);
+    if (focus) i.data.data.isLinkedToFocus = true;
+    else i.data.data.isLinkedToFocus = false;
+  }
+
+  static async _handleWeaponFocus(i, actor){
+    let focus = actor.items.find(w => w.data.data.linkedWeapon === i._id);
+    if (focus) {
+      if (focus.data.data.isActive){
+        let effect = {
+          "name": `${focus.name}`,
+          "target": "data.weaponSkill",
+          "wifi": false,
+          "transfer": false,
+          "ownerItem": focus.id,
+          "type": "value",
+          "value": focus.data.data.itemRating,
+          "multiplier": 1
+        }
+        i.data.itemEffects.push(effect);
+      } 
+    }
   }
 
   ////////////////////// DECK & PROGRAMMES ///////////////////////
@@ -1886,8 +1987,57 @@ export class SR5_UtilityItem extends Actor {
       if (mount.manual) SR5_EntityHelpers.updateModifier(vehicle.price, 'manual', 'mount', 2500);
     }
 
+    for (let vehicleMod of vehicle.vehiclesMod){
+      SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
+    }
+
     if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
+
+  }
+
+  static _handleVehicleSlots(vehicle) {
+    let slots = vehicle.attributes.body ;
+    vehicle.modificationSlots.powerTrain = slots ;
+    vehicle.modificationSlots.protection = slots ;
+    vehicle.modificationSlots.weapons = slots ;
+    vehicle.modificationSlots.body = slots ;
+    vehicle.modificationSlots.electromagnetic = slots ;
+    vehicle.modificationSlots.cosmetic = slots ;
+  }
+
+  static _handleSlotsMultiplier(item) {
+    let multiplier, lists = SR5;
+    switch (item.slots.multiplier) {
+      case "rating":
+        multiplier = item.itemRating;
+        break;
+      case "capacity":
+        multiplier = item.capacity.value;
+        break;
+      default:
+    }
+    if (item.slots.multiplier) {
+      SR5_EntityHelpers.updateModifier(item.slots, game.i18n.localize(lists.valueMultipliers[item.slots.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+    }
+    SR5_EntityHelpers.updateValue(item.slots, 0);
+  }
+
+  static _handleThresholdMultiplier(item) {
+    let multiplier, lists = SR5;
+    switch (item.threshold.multiplier) {
+      case "rating":
+        multiplier = item.itemRating;
+        break;
+      case "capacity":
+        multiplier = item.capacity.value;
+        break;
+      default:
+    }
+    if (item.threshold.multiplier) {
+      SR5_EntityHelpers.updateModifier(item.threshold, game.i18n.localize(lists.valueMultipliers[item.threshold.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+    }
+    SR5_EntityHelpers.updateValue(item.threshold, 0);
   }
 
   ////////////////////// ESPRITS  //////s////////////////
@@ -2161,7 +2311,7 @@ export class SR5_UtilityItem extends Actor {
             SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
             break;
           default:
-            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, customEffect);
+            SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);
         }
       }
     }

@@ -8,7 +8,7 @@
         <select class="attribute" name="attributeKey">
             {{#select attributKey}}
             <option value="none">{{localize 'SR5.None'}}</option>
-            {{#ife actor.type "actorDrone"}}
+            {{#ife actorType "actorDrone"}}
                 {{#each lists.vehicleAttributes}}
                 <option value="{{@key}}">{{findTranslation 'vehicleAttributes' @key}}</option>
                 {{/each}}

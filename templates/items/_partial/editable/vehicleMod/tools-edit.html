@@ -1,0 +1,13 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleModTools'}}</div>
+    <div class="col-7">
+        <select name="data.tools" data-dtype="String">
+        {{#select data.tools}}
+            <option value="">{{localize 'SR5.None'}}</option>
+            {{#each lists.vehicleModTools}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>

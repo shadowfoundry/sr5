@@ -138,7 +138,7 @@ export const registerHooks = function () {
     // Determine whether a system migration is required and feasible
     if ( !game.user.isGM ) return;
     const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-    const NEEDS_MIGRATION_VERSION = "0.0.5.8";
+    const NEEDS_MIGRATION_VERSION = "0.0.5.10";
     const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
     // Perform the migration
@@ -260,13 +260,22 @@ export const registerHooks = function () {
 
   Hooks.on("updateItem", async(document, data, options, userId) => {
     if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
+    
+    //Keep agent condition monitor synchro with owner deck
+    if(document.type === "itemDevice" && data.data.conditionMonitors?.matrix){
+      if (document.parent?.type === "actorPc" || document.parent?.type === "actorGrunt"){
+        for (let a of game.actors) {
+          if(a.data.type === "actorAgent" && a.data.data.creatorId === document.parent.id) await SR5Actor.keepAgentMonitorSynchro(a);
+        }
+      } 
+    }
   });
 
   Hooks.on("updateActor", async(document, data, options, userId) => {
     if (game.combat) SR5Combat.changeInitInCombat(document);
     if (data.data?.visions) canvas.sight.refresh()
   
-    let astralVisionEffect = document.effects.find(e => e.data.origin === "handleVisionAstral")
+    let astralVisionEffect = await document.effects.find(e => e.data.origin === "handleVisionAstral")
     if (document.data.data.visions?.astral.isActive){
       if (!astralVisionEffect){
         let astralEffect = await _getSRStatusEffect("handleVisionAstral");
@@ -274,6 +283,11 @@ export const registerHooks = function () {
       }
     } else {
       if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
+    }
+
+    //Keep deck condition monitor synchro with agent condition monitor
+    if (document.type === "actorAgent" && data.data.conditionMonitors?.matrix){
+      await SR5Actor.keepDeckSynchroWithAgent(document);
     }
     //let truc = document.effects.find(e => e.data.origin = "linkLock")
     //if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
@@ -339,6 +353,24 @@ export const registerHooks = function () {
         }
         await actor.createEmbeddedDocuments("Item", [deviceItem]);
       }
+    }
+
+    let astralVisionEffect = await actor.effects.find(e => e.data.origin === "handleVisionAstral")
+    if (actor.data.data.visions?.astral.isActive){
+      if (!astralVisionEffect){
+        let astralEffect = await _getSRStatusEffect("handleVisionAstral");
+        await actor.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
+      }
+    } else {
+      if (astralVisionEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
+    }
+
+    let currentInitiative = SR5_CharacterUtility.findActiveInitiative(actor.data);
+    if (currentInitiative !== "physicalInit") {
+      let previousInitiativeEffect = actor.data.effects.find(effect => effect.data.origin === "initiativeMode");
+      if(previousInitiativeEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [previousInitiativeEffect.id]);
+      let initiativeEffect = await _getSRStatusEffect(currentInitiative);
+      await actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
     }
   });
 

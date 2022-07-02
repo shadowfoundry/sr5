@@ -198,6 +198,11 @@ export default class Migration {
 					}
 				}
 			}
+
+			//Change astralCombat limit
+			if (actor.data.skills?.astralCombat){
+				updateData["data.skills.astralCombat.limit.base"] = "astralLimit";
+			}
     	}
 
 		// Migrate Owned Items
@@ -285,6 +290,13 @@ export default class Migration {
 				updateData["data.conditionMonitors.physical.-=current"] = null;
 			}
 		}
+
+		if (item.type == "itemSpell"){
+			if (item.data.drainModifier) {		
+				updateData["data.drain.base"] = item.data.drainModifier;
+				updateData["data.-=drainModifier"] = null;
+			}
+	}
 
 		// Migrate Effects
 		if (item.effects) {

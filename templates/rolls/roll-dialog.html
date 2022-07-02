@@ -44,6 +44,11 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html}}
       {{/if}}
 
+      <!-- SPELL SHAPING METAMAGIC -->
+      {{#if switch.spellShaping}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html}}
+      {{/if}}
+
       <!-- SPELLS - FORCE - BACKGROUND COUNT -->
       {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "ritual")  )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
@@ -178,6 +183,16 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
       {{/if}}
 
+      <!-- ASTRAL COMBAT DAMAGE CHOICE -->
+      {{#if switch.chooseDamageType}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html}}
+      {{/if}}
+
+      <!-- MANA BARRIER RATING -->
+      {{#if (eq type "passThroughDefense")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html}}
+      {{/if}}
+
       <!-- TAKING ON DAMAGE -->
       {{#if (and (eq type "resistanceCard") (eq typeSub "physicalDamage") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
@@ -215,6 +230,11 @@
       <!-- COUNTER SPELL / DISENCHANTING - CHOOSE TARGET -->
       {{#if (and (or (eq typeSub "counterspelling") (eq typeSub "disenchanting")) hasTarget)}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
+      {{/if}}
+
+      <!-- CENTERING METAMAGIC -->
+      {{#if switch.centering}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
       {{/if}}
     </ul>
   </div>

@@ -35,8 +35,14 @@ export class SR5Item extends Item {
       case "itemWeapon":
         // Pour faire fonctionner l'ajout et la suppression d'accessoire (pas trouvé mieux :/)
         if (typeof data.accessory === "object") data.accessory = Object.values(data.accessory);
-        if (data.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(data);
+        if (data.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(data, owner);
         if (data.ammunition.value > data.ammunition.max) data.ammunition.value = data.ammunition.max;
+        if (data.category === "meleeWeapon" && owner){
+          if (!data.isLinkedToFocus) SR5_UtilityItem._handleWeaponFocus(itemData, owner);
+          SR5_UtilityItem._checkIfWeaponIsFocus(this, owner);
+          if (!owner.data.visions.astral.isActive) data.isUsedAsFocus = false;
+        }
+        if (Object.keys(data.itemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
         SR5_UtilityItem._handleBow(itemData);
         SR5_UtilityItem._handleWeaponAccessory(data, owner);
         SR5_UtilityItem._handleWeaponAmmunition(data);
@@ -50,6 +56,9 @@ export class SR5Item extends Item {
         if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
+        break;
+      case "itemSpell":
+        if (data.quickening) data.freeSustain = true;
         break;
       case "itemAmmunition":
         SR5_UtilityItem._handleAmmoPrice(data);
@@ -84,6 +93,15 @@ export class SR5Item extends Item {
           }
         }
         break;
+      case "itemVehicleMod":
+        if (Object.keys(data.itemEffects).length) {
+          SR5_UtilityItem.applyItemEffects(itemData);
+        }
+        SR5_UtilityItem._handleSlotsMultiplier(data);
+        SR5_UtilityItem._handleThresholdMultiplier(data);
+        SR5_UtilityItem._handleItemPrice(data);
+        SR5_UtilityItem._handleItemAvailability(data);
+      break;
       case "itemArmor":
       case "itemGear":
         if (itemData.type === "itemArmor"){ 
@@ -125,7 +143,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemFocus":
-        SR5_UtilityItem._handleFocus(data);
+        SR5_UtilityItem._handleFocus(data);     
         break;
       case "itemSpirit":
         SR5_UtilityItem._handleSpirit(data);
@@ -161,6 +179,7 @@ export class SR5Item extends Item {
       case "itemVehicle":
         if (typeof data.mount === "object") data.mount = Object.values(data.mount);
         SR5_UtilityItem._handleVehicle(data);
+        SR5_UtilityItem._handleVehicleSlots(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
         SR5_UtilityItem._handleMatrixMonitor(itemData);
@@ -207,9 +226,14 @@ export class SR5Item extends Item {
         tags.push(
           game.i18n.localize(lists.augmentationTypes[data.type]),
           game.i18n.localize(lists.augmentationCategories[data.category]),
-          game.i18n.localize(lists.augmentationGrades[data.grade]),
-          game.i18n.localize("SR5.ItemRating") + ` ${data.itemRating}`,
+          game.i18n.localize(lists.augmentationGeneCategories[data.category]),
         );
+        if (data.type === "bioware" || data.type === "culturedBioware" || data.type === "cyberware" || data.type === "nanocyber" || data.type === "symbionts") {
+          tags.push(game.i18n.localize(lists.augmentationGrades[data.grade]));
+        }
+        if (data.itemRating > 0) {
+          tags.push(game.i18n.localize("SR5.ItemRating") + ` ${data.itemRating}`);
+        }
         if (data.marks.length){
           for (let m of data.marks){
             tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
@@ -289,8 +313,8 @@ export class SR5Item extends Item {
           default:
         }
         if (this.data.type === "itemSpell") {
-          let plus = (data.drainModifier <= 0 ? "" : "+");
-          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drainModifier}`);
+          let plus = (data.drain.value <= 0 ? "" : "+");
+          tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drain.value}`);
           tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${data.drainValue.value}`);
         }
         break;

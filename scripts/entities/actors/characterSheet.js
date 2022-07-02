@@ -120,6 +120,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const lifestyles = [];
     const sins = [];
     const vehicles = [];
+    const vehiclesMod = [];
     const marks = [];
     const martialArts = [];
     const powers = [];
@@ -149,7 +150,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemSpirit") spirits.push(i);
       else if (i.type === "itemDevice") cyberdecks.push(i);
       else if (i.type === "itemProgram") {
-        if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+        if (i.data.isActive === true || i.data.type === "agent" || this._shownInactiveMatrixPrograms) programs.push(i);
       }
       else if (i.type === "itemKarma") {
         if (i.data.type == "gain" && this._shownKarmaGains) karmas.push(i);
@@ -163,8 +164,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemLifestyle") lifestyles.push(i);
       else if (i.type === "itemSin") sins.push(i);
       else if (i.type === "itemVehicle") vehicles.push(i);
+      else if (i.type === "itemVehicleMod") vehiclesMod.push(i);
       else if (i.type === "itemMark") marks.push(i);
-      else if (i.type === "itemMartialArt") martialArts.push(i);
       else if (i.type === "itemPower") powers.push(i);
       else if (i.type === "itemPreparation") preparations.push(i);
       else if (i.type === "itemComplexForm") complexForms.push(i);
@@ -186,7 +187,6 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.spells = spells;
     actor.focuses = focuses;
     actor.adeptPowers = adeptPowers;
-    actor.martialArts = martialArts;
     actor.metamagics = metamagics;
     actor.spirits = spirits;
     actor.gears = gears;
@@ -198,6 +198,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.lifestyles = lifestyles;
     actor.sins = sins;
     actor.vehicles = vehicles;
+    actor.vehiclesMod = vehiclesMod;
     actor.marks = marks;
     actor.martialArts = martialArts;
     actor.powers = powers;

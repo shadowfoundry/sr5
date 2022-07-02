@@ -3,10 +3,10 @@
     <div class="col-6 SR-PaddingRight10">
         <select class="range" name="targetRange">
         {{#select targetRange}}
-            <option value="0">{{localize 'SR5.WeaponRangeShort'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.short.value}} {{localize 'SR5.MeterUnit'}})</option>
-            <option value="1">{{localize 'SR5.WeaponRangeMedium'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.medium.value}} {{localize 'SR5.MeterUnit'}})</option>
-            <option value="2">{{localize 'SR5.WeaponRangeLong'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.long.value}} {{localize 'SR5.MeterUnit'}})</option>
-            <option value="3">{{localize 'SR5.WeaponRangeExtreme'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{item.data.range.extreme.value}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="0">{{localize 'SR5.WeaponRangeShort'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{range.short}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="1">{{localize 'SR5.WeaponRangeMedium'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{range.medium}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="2">{{localize 'SR5.WeaponRangeLong'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{range.long}} {{localize 'SR5.MeterUnit'}})</option>
+            <option value="3">{{localize 'SR5.WeaponRangeExtreme'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{range.extreme}} {{localize 'SR5.MeterUnit'}})</option>
         {{/select}}
         </select>
     </div>
