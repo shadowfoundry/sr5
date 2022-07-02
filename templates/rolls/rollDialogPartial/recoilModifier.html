@@ -3,13 +3,13 @@
         {{localize 'SR5.Recoil'}}{{localize 'SR5.Colons'}}
     </div>
     <div class="col-9 SR-GreyColor SR-TextRight SR-PaddingRight10">
-        <span><input disabled type="number" class="SR-RecoilInput" name="recoilBase" value="{{actor.data.recoilCompensation.value}}" placeholder="0" data-dtype="Number"/></span>
+        <span><input disabled type="number" class="SR-RecoilInput" name="recoilBase" value="{{actorRecoil}}" placeholder="0" data-dtype="Number"/></span>
         <span>({{localize 'SR5.HELP_CalculationBase'}})</span>
-        <span class="hideWeaponRecoil">+<input disabled type="number"class="SR-RecoilInput" name="recoilWeapon" value="{{item.data.recoilCompensation.value}}" placeholder="0" data-dtype="Number"/></span>
+        <span class="hideWeaponRecoil">+<input disabled type="number"class="SR-RecoilInput" name="recoilWeapon" value="{{weaponRecoil}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideWeaponRecoil">({{localize 'SR5.Weapon'}})</span>
-        <span class="hideBulletsRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilBullets" value="{{item.data.recoilCompensation.value}}" placeholder="0" data-dtype="Number"/></span>
+        <span class="hideBulletsRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilBullets" value="{{weaponRecoil}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideBulletsRecoil">({{localize 'SR5.Bullets'}})</span>
-        <span class="hideCumulativeRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilCumulative" value="{{actor.flags.sr5.cumulativeRecoil}}" placeholder="0" data-dtype="Number"/></span>
+        <span class="hideCumulativeRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilCumulative" value="{{actorRecoilCumulative}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideCumulativeRecoil">({{localize 'SR5.CumulativeRecoilShort'}})</span>
         <span class="hideCumulativeRecoil"><a class="resetRecoil"><em class="far fa-registered"></em></a></span> 
     </div>

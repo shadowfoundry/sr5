@@ -68,9 +68,11 @@
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Magic'}}">
 						<option value="astralValues">{{localize 'SR5.Magic'}}</option>
+						<option value="metamagics">{{localize 'SR5.Metamagic'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Vehicle'}}">
 						<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
+						<option value="vehicleAttributes">{{localize 'SR5.VehicleAttributes'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Vision'}}">
 						<option value="visionTypes">{{localize 'SR5.VisionTypes'}}</option>
@@ -285,6 +287,13 @@
 					<option value="data.magic.drainResistance">{{localize 'SR5.DrainResistance'}}</option>
 					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
 					
+					{{else ife category 'metamagics'}}
+					{{#each (lookup ../lists category)}}					
+					<option value="data.magic.metamagics.{{@key}}">{{localize this}}</option>
+					{{/each}}
+					<option value="data.magic.metamagics.centeringValue">{{localize 'SR5.MetamagicCentering'}} ({{localize 'SR5.Modifier'}})</option>
+					<option value="data.magic.metamagics.spellShapingValue">{{localize 'SR5.MetamagicSpellShaping'}} ({{localize 'SR5.Modifier'}})</option>
+
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
@@ -306,15 +315,28 @@
 					{{/each}}
 
 					{{else ife category 'specialProperties'}}
-					{{#each (lookup ../lists category)}}
+					{{#each ../lists.specialPropertiesList}}
 					<option value="data.specialProperties.{{@key}}">{{localize this}}</option>
 					{{/each}}
+					<option value="data.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
+					<option value="data.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
+					<option value="data.specialProperties.energyAura">{{localize 'SR5.SpiritPowerEnergyAura'}}</option>
+
 
 					{{else ife category 'itemArmor'}}
-					<option value="data.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
-					{{#each ../lists.specialDamageTypes}}
-					<option value="data.itemsProperties.armor.specialDamage.{{@key}}">{{localize 'SR5.Armor'}} ({{localize this}})</option>
-					{{/each}}
+					<optgroup label="{{localize 'SR5.Armor'}}">
+						<option value="data.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.SpecialDamage'}}">
+						{{#each ../lists.specialDamageTypes}}
+						<option value="data.itemsProperties.armor.specialDamage.{{@key}}">{{localize this}}</option>
+						{{/each}}
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Toxins'}}">
+						{{#each ../lists.propagationVectors}}
+						<option value="data.itemsProperties.armor.toxin.{{@key}}">{{localize 'SR5.Toxins'}} ({{localize this}})</option>
+						{{/each}}
+					</optgroup>
 
 					{{else ife category 'weaponEffectTargets'}}
 					{{#each (lookup ../lists category)}}
@@ -324,6 +346,15 @@
 					{{else ife category 'vehicle'}}
 					<option value="data.vehicleTest.test">{{localize 'SR5.VehicleTest'}}</option>
 					<option value="data.vehicleTest.limit">{{localize 'SR5.VehicleTest'}} ({{localize 'SR5.Limit'}})</option>
+
+					{{else ife category 'vehicleAttributes'}}
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="data.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
+						</option>
+						<option value="data.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
+					</optgroup>
+					{{/each}}
 					{{/ife}}
 
 					{{/select}}
@@ -355,6 +386,49 @@
 								{{/select}}
 							</select>
 						{{/ife}}
+					{{else if (eq this.target 'data.specialProperties.hardenedArmorType')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+							{{#each ../lists.hardenedArmorTypes}}
+							<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
+							{{/select}}
+						</select>
+					{{else if (eq this.target 'data.specialProperties.hardenedAstralArmorType')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+							{{#each ../lists.hardenedAstralArmorTypes}}
+							<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
+							{{/select}}
+						</select>
+					{{else if (or (eq this.target 'data.specialProperties.doublePenalties') (eq this.target 'data.specialProperties.regeneration'))}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+									{{dropdownOptions 'boolean'}}
+							{{/select}}
+						</select>
+					{{else if (eq this.target 'data.specialProperties.energyAura')}}
+					<select name="data.customEffects.{{@key}}.type" required>
+						{{#select type}}
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+						{{#each ../lists.specialDamageTypes}}
+						<option value="{{@key}}">{{localize this}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
+					{{else if (eq this.category 'metamagics')}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+								{{#if (or (endsWith target '.centeringValue') (endsWith target '.spellShapingValue'))}}
+									{{dropdownOptions 'value' 'rating'}}
+								{{else}}
+									{{dropdownOptions 'boolean'}}
+								{{/if}}
+							{{/select}}
+						</select>
 					{{else}}
 						<select name="data.customEffects.{{@key}}.type" required>
 							{{#select type}}
@@ -396,7 +470,7 @@
 										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{value}}">
 									{{else if (or (eq type 'rating') (eq type 'ratingReplace') )}}
 										{{../data.itemRating}}
-									{{else ife type 'hits'}}
+									{{else if (eq type 'hits')}}
 										{{#if ../data.hits}}{{../data.hits}}{{else}}0{{/if}}
 									{{/if}}
 								{{/if}}

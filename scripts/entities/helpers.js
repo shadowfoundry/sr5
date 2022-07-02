@@ -112,7 +112,7 @@ export class SR5_EntityHelpers {
 
   static updateValue(property, minValue, maxValue) {
     if (property === undefined) {
-      SR5_SystemHelpers.srLog(1, `Missing or non-existing property sent to 'updateValue()'`);
+      SR5_SystemHelpers.srLog(1, `Missing or non-existing property '${property}' sent to 'updateValue()'`);
       return;
     }
     this.updatePropertyTotal('value', property, minValue, maxValue)

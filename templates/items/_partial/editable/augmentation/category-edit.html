@@ -1,3 +1,18 @@
+{{#if (eq data.type 'genetech')}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Category'}}</div>
+    <div class="col-7">
+        <select name="data.category" required>
+        {{#select data.category}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each lists.augmentationGeneCategories}}
+            <option value="{{@key}}">{{localize this}}</option>
+            {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</li>
+{{else}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Category'}}</div>
     <div class="col-7">
@@ -11,3 +26,4 @@
         </select>
     </div>
 </li>
+{{/if}}

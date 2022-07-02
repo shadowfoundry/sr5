@@ -109,7 +109,7 @@ export class SR5Combat extends Combat {
         "flags.sr5.blitz": false,
         "flags.sr5.hasPlayed": combatant.isDefeated,
       });
-      await SR5Combat.decreaseEffectDuration(combatant);
+      await SR5Combat.manageTurnEnd(combatant);
     }
     await SR5Combat.setInitiativePass(combat, 1);
     await combat.rollAll();
@@ -489,14 +489,15 @@ export class SR5Combat extends Combat {
 		}
 	}
 
-	//Decrease external effect duration
-	static async decreaseEffectDuration(combatant){
+	//Do stuff on actor when turn is endin
+	static async manageTurnEnd(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
 
 		let actorData = deepClone (actor.data);
 		actorData = actorData.toObject(false);
 
+		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
 				let effect = duplicate(item.data);
@@ -576,6 +577,11 @@ export class SR5Combat extends Combat {
 		if (actorData.data.magic?.counterSpellPool?.current !== actorData.data.magic?.counterSpellPool?.value){
 			actorData.data.magic.counterSpellPool.current = actorData.data.magic.counterSpellPool.value;
 			await actor.update(actorData);
+		}
+
+		//Handle Regeneration
+		if (actorData.data.specialProperties?.regeneration){
+			actor.rollTest("regeneration");
 		}
 	}
 

@@ -55,6 +55,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/actors/_partials/header/navParts/magicUser.html",
         "systems/sr5/templates/actors/_partials/header/navParts/matrix.html",
         "systems/sr5/templates/actors/_partials/header/navParts/matrixUser.html",
+        "systems/sr5/templates/actors/_partials/header/navParts/modification.html",
         "systems/sr5/templates/actors/_partials/header/navParts/qualities.html",
         "systems/sr5/templates/actors/_partials/header/navParts/skills.html",
         "systems/sr5/templates/actors/_partials/header/navParts/social.html",
@@ -189,6 +190,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     //Right Tab - Drone
     "systems/sr5/templates/actors/_partials/right-tabs/droneStuff/droneRoll.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/droneStuff/modifications.html",
     
 
     /************************************************************************************* */
@@ -247,6 +249,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/summary/spirit-summary.html",
         "systems/sr5/templates/items/_partial/summary/sprite-summary.html",
         "systems/sr5/templates/items/_partial/summary/vehicle-summary.html",
+        "systems/sr5/templates/items/_partial/summary/vehicleMod-summary.html",
         "systems/sr5/templates/items/_partial/summary/weapon-summary.html",
         "systems/sr5/templates/items/_partial/summary/tradition-summary.html",
         "systems/sr5/templates/items/_partial/summary/ritual-summary.html",
@@ -320,6 +323,7 @@ export const preloadHandlebarsTemplates = async function () {
         //Focus
         "systems/sr5/templates/items/_partial/editable/focus/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/focus/subType-edit.html",
+        "systems/sr5/templates/items/_partial/editable/focus/weaponLink-edit.html",
 
         //Karma
         "systems/sr5/templates/items/_partial/editable/karma/type-edit.html",
@@ -372,8 +376,10 @@ export const preloadHandlebarsTemplates = async function () {
         //Spell
         "systems/sr5/templates/items/_partial/editable/spell/category-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/drainModifier-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html",
         "systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html",
+        "systems/sr5/templates/items/_partial/editable/spell/quickening-edit.html",
 
         //Spirit
         "systems/sr5/templates/items/_partial/editable/spirit/force-edit.html",
@@ -412,6 +418,13 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicle/attributes-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html",
+
+        //Vehicle modifications
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/category-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/skill-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/tools-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/threshold-edit.html",
 
         //Weapon
         "systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html",
@@ -478,6 +491,10 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/centering.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
 
 
     /************************************************************************************* */
@@ -489,7 +506,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollCardPartial/limitRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html",
-
+    "systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html",
   ];
 
   // Load the template parts
