@@ -6254,20 +6254,23 @@
         "value": 0,
         "base": 0,
         "max": 0,
-        "modifiers": []
+        "modifiers": [],
+        "gameEffects": ""
       },
       "security": {
         "value": 0,
         "base": 0,
         "max": 0,
-        "modifiers": []
+        "modifiers": [],
+        "gameEffects": ""
       },
       "neighborhood": {
         "value": 0,
         "base": 0,
         "max": 0,
+        "modifiers": [],
         "zone": "",
-        "modifiers": []
+        "gameEffects": ""
       },
       "point": {
         "value": 0,

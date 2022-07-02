@@ -1954,16 +1954,41 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(lifeStyle.neighborhood,0,lifeStyle.comforts.max);
     SR5_EntityHelpers.updateValue(lifeStyle.point);
 
-    if (lifeStyle.neighborhood.value == "0") lifeStyle.neighborhood.zone = "Z";
-    if (lifeStyle.neighborhood.value == "1") lifeStyle.neighborhood.zone = "E";
-    if (lifeStyle.neighborhood.value == "2") lifeStyle.neighborhood.zone = "D";
-    if (lifeStyle.neighborhood.value == "3") lifeStyle.neighborhood.zone = "C";
-    if (lifeStyle.neighborhood.value == "4") lifeStyle.neighborhood.zone = "B";
-    if (lifeStyle.neighborhood.value == "5") lifeStyle.neighborhood.zone = "A";
-    if (lifeStyle.neighborhood.value == "6") lifeStyle.neighborhood.zone = "AA";
-    if (lifeStyle.neighborhood.value == "7") lifeStyle.neighborhood.zone = "AAA";
-         
-    
+    if (lifeStyle.neighborhood.value == "0") {
+      lifeStyle.neighborhood.zone = "Z";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_Z');
+    }    
+    if (lifeStyle.neighborhood.value == "1") {
+      lifeStyle.neighborhood.zone = "E";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_E');
+    }    
+    if (lifeStyle.neighborhood.value == "2") {
+      lifeStyle.neighborhood.zone = "D";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_D');
+    }    
+    if (lifeStyle.neighborhood.value == "3") {
+      lifeStyle.neighborhood.zone = "C";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_C');
+    }    
+    if (lifeStyle.neighborhood.value == "4") {
+      lifeStyle.neighborhood.zone = "B";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_B');
+    }    
+    if (lifeStyle.neighborhood.value == "5") {
+      lifeStyle.neighborhood.zone = "A";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_A');
+    }    
+    if (lifeStyle.neighborhood.value == "6") {
+      lifeStyle.neighborhood.zone = "AA";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_AA');
+    }    
+    if (lifeStyle.neighborhood.value == "7") {
+      lifeStyle.neighborhood.zone = "AAA";
+      lifeStyle.neighborhood.gameEffects = game.i18n.localize('SR5.LifeStyleZone_AAA');
+    }    
+
+    lifeStyle.comforts.gameEffects = game.i18n.localize('SR5.LifestyleComforts_GE');
+    lifeStyle.security.gameEffects = game.i18n.localize('SR5.LifestyleSecurity_GE');
 
   }
 
