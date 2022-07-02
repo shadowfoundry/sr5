@@ -1834,24 +1834,24 @@ export class SR5_UtilityItem extends Actor {
             option.point = -3;
             lifeStyle.comforts.max += 1;
             lifeStyle.security.max += 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'corporateOwned', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'positiveOption';
           break;
         case "hotelCalifornia":
             option.point = 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'hotelCalifornia', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'negativeOption';
           break;
         case "maidIsOut":
             option.point = 1;
             lifeStyle.comforts.max -= 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'maidIsOut', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'negativeOption';
           break;
         case "notAHome":
             option.point = 1;
             lifeStyle.comforts.max -= 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'notAHome', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'negativeOption';
           break;
         case "onlyGoodThingAbout":
@@ -1859,27 +1859,25 @@ export class SR5_UtilityItem extends Actor {
           break;
         case "safehouse":
             option.price = 500;
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'safehouse', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.price);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.price);
             option.type = 'positiveOption';
           break;
         case "safetyThird":
             option.point = 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'safetyThird', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'negativeOption';
           break;
         case "thrifty":
             option.price = -1000;
             option.point = -2;
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'thrifty', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.price);
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'thrifty', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.price);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'negativeOption';
           break;
         case "wZone":
-            option.price = -1000;
             option.point = 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.price, 'wZone', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.price);
-            SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, 'wZone', `${game.i18n.localize('SR5.LifeStyleOptions')}`, -1);
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'wZone', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, -1);
+            SR5_EntityHelpers.updateModifier(lifeStyle.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'negativeOption';
           break;
         case "addComforts":
@@ -1915,24 +1913,6 @@ export class SR5_UtilityItem extends Actor {
               SR5_EntityHelpers.updateModifier(lifeStyle.price, 'addNeighborhood', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.price);
             }
             SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, 'addNeighborhood', `${game.i18n.localize('SR5.LifeStyleOptions')}`, 1);
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addNeighborhood', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
-            option.type = 'modification';
-          break;
-        case "removeComforts":
-            option.point = 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.comforts, 'addComforts', `${game.i18n.localize('SR5.LifeStyleOptions')}`, -1);
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addComforts', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
-            option.type = 'modification';
-          break;
-        case "removeSecurity":
-            option.point = 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.security, 'addSecurity', `${game.i18n.localize('SR5.LifeStyleOptions')}`, -1);
-            SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addSecurity', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
-            option.type = 'modification';
-          break;
-        case "removeNeighborhood":
-            option.point = 1;
-            SR5_EntityHelpers.updateModifier(lifeStyle.neighborhood, 'addNeighborhood', `${game.i18n.localize('SR5.LifeStyleOptions')}`, -1);
             SR5_EntityHelpers.updateModifier(lifeStyle.point, 'addNeighborhood', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
             option.type = 'modification';
           break;
