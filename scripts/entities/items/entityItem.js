@@ -345,6 +345,7 @@ export class SR5Item extends Item {
           }
         }
         break;
+        
       default:
     }
 
