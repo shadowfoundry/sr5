@@ -1890,7 +1890,7 @@ export class SR5_CharacterUtility extends Actor {
     let data = actor.data, body = data.attributes.body.augmented.value;
     switch (data.speedRamming) {
       case "vehicleRelativeSpeed_1":
-        data.damageValue = Math.ceil(body*0,5);
+        data.damageValue = Math.ceil(body/2);
         break;
       case "vehicleRelativeSpeed_11":
         data.damageValue = body;
