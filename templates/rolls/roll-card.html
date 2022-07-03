@@ -26,7 +26,7 @@
       <!--Dicepool Mod-->
       {{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.html}}
       <!--Attack Infos-->
-      {{#if (eq type 'attack')}}
+      {{#if (or (eq type 'attack')(eq type 'rammingTest'))}}
         {{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
       {{/if}}
       <!--Drain info-->

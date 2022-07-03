@@ -48,7 +48,7 @@
                 <select name="data.speedRamming" data-dtype="String">
                 {{#select data.speedRamming}}
                     <option value="">{{localize 'SR5.None'}}</option>
-                    {{#each actor.lists.vehicleSpeed}}
+                    {{#each actor.lists.vehicleRelativeSpeed}}
                     <option value="{{@key}}">{{localize this}}</option>
                     {{/each}}
                 {{/select}}

@@ -1889,22 +1889,22 @@ export class SR5_CharacterUtility extends Actor {
   static handleVehicleSpeed(actor){
     let data = actor.data, body = data.attributes.body.augmented.value;
     switch (data.speedRamming) {
-      case "vehicleSpeed_1":
+      case "vehicleRelativeSpeed_1":
         data.damageValue = Math.ceil(body*0,5);
         break;
-      case "vehicleSpeed_11":
+      case "vehicleRelativeSpeed_11":
         data.damageValue = body;
         break;
-      case "vehicleSpeed_51":
+      case "vehicleRelativeSpeed_51":
         data.damageValue = body*2;
         break;
-      case "vehicleSpeed_201":
+      case "vehicleRelativeSpeed_201":
         data.damageValue = body*3;
         break;
-      case "vehicleSpeed_301":
+      case "vehicleRelativeSpeed_301":
         data.damageValue = body*5;
         break;
-      case "vehicleSpeed_501":
+      case "vehicleRelativeSpeed_501":
         data.damageValue = body*10;
         break;
       default:

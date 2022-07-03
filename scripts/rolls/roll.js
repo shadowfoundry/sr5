@@ -1561,6 +1561,7 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.Ramming")}`;
                 dicePool = actorData.rammingTest.test.dicePool;
                 limit = actorData.rammingTest.limit.value;
+                typeSub = "ramming"
                 optionalData = {
                     dicePoolComposition: actorData.rammingTest.test.modifiers,
                     damageValue: actorData.damageValue,

@@ -114,7 +114,7 @@
       {{/if}}
 
       <!-- DEFENSES -->
-      {{#ife type "defenseCard"}}
+      {{#if (or (eq type "defenseCard")(eq type "rammingDefense"))}}
         <!-- DEFENSE - FIRING MODE -->
         {{#ife typeSub "rangedWeapon"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
@@ -124,16 +124,18 @@
           {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
         {{/ife}}
         <!-- ACTIVE DEFENSE -->
-        {{#if (eq typeSub "meleeWeapon")}}
+        {{#if (or (eq typeSub "meleeWeapon")(eq typeSub "ramming"))}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
+        {{/if}}
         <!-- ENVIRONMENTAL MODIFIERS -->
+        {{#if (eq typeSub "meleeWeapon")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
         {{/if}}
         <!-- CUMULATIVE DEFENSE -->
         {{#if_g cumulativeDefense 0}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/defenseCumulativeModifier.html}}
         {{/if_g}}
-      {{/ife}}
+      {{/if}}
       
       <!-- COVERS -->
       {{#if cover}}
