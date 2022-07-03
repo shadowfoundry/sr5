@@ -5100,6 +5100,8 @@
         "name": ""
       },
       "pilotSkill": "",
+      "damageValue": 0,
+      "speedRamming": "",
       "offRoadMode" : false,
       "isSecondaryPropulsion": false,
       "secondaryPropulsionType": "",
@@ -5145,6 +5147,20 @@
       },
       "model": "",
       "vehicleTest": {
+        "actionType": "complex",
+        "limit": {
+          "base": 0,
+          "value": 0,
+          "modifiers": [],
+          "linkedAttribute": "handling"
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "rammingTest": {
         "actionType": "complex",
         "limit": {
           "base": 0,

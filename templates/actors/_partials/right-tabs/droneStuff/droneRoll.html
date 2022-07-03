@@ -18,6 +18,17 @@
             </div>
         </li>
         <li class="grid">
+            <div class="col-10">{{localize 'SR5.Ramming'}}</div>
+            <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="rammingTest" data-rollkey="rammingTest"
+            data-helpTitle="{{localize 'SR5.Ramming'}}" data-helpMessage="{{localize 'SR5.HELP_RammingTestMsg'}}" data-helpDetails="data.rammingTest.test">
+                {{data.rammingTest.test.dicePool}}
+            </div>
+            <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.Limit'}}"
+              data-helpDetails="data.rammingTest.limit">
+                {{data.rammingTest.limit.value}}
+            </div>
+        </li>
+        <li class="grid">
             <div class="col-10">{{localize 'SR5.SensorTargetingActive'}}</div>
             <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="activeSensorTargeting" data-rollkey="activeSensorTargeting"
               data-helpTitle="{{localize 'SR5.SensorTargetingActive'}}" data-helpMessage="{{localize 'SR5.HELP_SensorTargetingActive'}}" data-helpDetails="data.skills.perception.test">

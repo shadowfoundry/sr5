@@ -43,6 +43,19 @@
             </div>
         </li>
         <li class="grid">
+            <div class="col-6">{{localize 'SR5.VehicleRelativeSpeed'}}</div>
+            <div class="col-6">
+                <select name="data.speedRamming" data-dtype="String">
+                {{#select data.speedRamming}}
+                    <option value="">{{localize 'SR5.None'}}</option>
+                    {{#each actor.lists.vehicleSpeed}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </div>
+        </li>
+        <li class="grid">
             <div class="col-10">{{localize 'SR5.Vehicle_RI_S'}}</div>
             <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_VehicleRiggerInterface'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleRiggerInterfaceMsg'}}">
                 <input type="checkbox" name="data.riggerInterface" data-dtype="Boolean" {{checked data.riggerInterface}}>

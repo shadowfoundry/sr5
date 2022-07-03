@@ -1556,6 +1556,47 @@ export class SR5_Roll {
                 limit = actorData.vehicleTest.limit.value;
                 optionalData = {dicePoolComposition: actorData.vehicleTest.test.modifiers,};
                 break;
+            
+            case "rammingTest":
+                title = `${game.i18n.localize("SR5.Ramming")}`;
+                dicePool = actorData.rammingTest.test.dicePool;
+                limit = actorData.rammingTest.limit.value;
+                optionalData = {
+                    dicePoolComposition: actorData.rammingTest.test.modifiers,
+                    damageValue: actorData.damageValue,
+                    damageValueBase: actorData.damageValue,
+                    damageType: "physical",                    
+                    incomingPA: -6,
+                    chatActionType: "resistanceCard",
+                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
+                };
+                break;
+
+            case "rammingDefense":                     
+                title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.test.hits})`;
+                dicePool = actorData.defenses.defend.dicePool;
+                dicePoolComposition = actorData.defenses.defend.modifiers;
+                typeSub = chatData.typeSub;
+                if (actor.type === "actorDrone"){    
+                    limit = actorData.vehicleTest.limit.value;
+                } else {
+                    limit = actorData.limits.physicalLimit.value;
+                }
+                optionalData = {
+                    attackerId: chatData.actorId,
+                    chatActionType: "resistanceCard",
+                    damageValue: chatData.damageValue,
+                    damageValueBase: chatData.damageValue,
+                    damageType: chatData.damageType,
+                    incomingPA: chatData.incomingPA,
+                    hits: chatData.test.hits,
+                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
+                    dicePoolComposition: dicePoolComposition,
+                    damageOriginalValue: chatData.damageOriginalValue,
+                };
+                break;
 
             case "activeSensorTargeting":
                 title = `${game.i18n.localize("SR5.SensorTargeting")}`;

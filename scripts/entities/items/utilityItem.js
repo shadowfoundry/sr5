@@ -1115,7 +1115,7 @@ export class SR5_UtilityItem extends Actor {
 
     if (actor){
       for (let i of actor.items){
-        let WeakImmuneSystem = i.data.data.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
+        let WeakImmuneSystem = i.data.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
         if (WeakImmuneSystem) SR5_EntityHelpers.updateModifier(augmentation.essenceCost, i.name, game.i18n.localize(lists.itemTypes[i.type]), 2, true, false);
       }
     }

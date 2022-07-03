@@ -1630,6 +1630,16 @@ SR5.vehicleActions = {
   stunt                     : "SR5.Stunt",
 };
 
+// Vehicle actions
+SR5.vehicleSpeed = {
+  vehicleSpeed_1            : "SR5.Speed_1",   
+  vehicleSpeed_11           : "SR5.Speed_11",  
+  vehicleSpeed_51           : "SR5.Speed_51",
+  vehicleSpeed_201          : "SR5.Speed_201", 
+  vehicleSpeed_301          : "SR5.Speed_301", 
+  vehicleSpeed_501          : "SR5.Speed_501", 
+};
+
 //Target signature
 SR5.targetSignature = {
   vehicleLarge              : "SR5.SignatureVehicleLarge",

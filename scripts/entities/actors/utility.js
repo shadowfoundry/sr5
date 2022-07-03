@@ -345,6 +345,14 @@ export class SR5_CharacterUtility extends Actor {
       data.vehicleTest.limit.modifiers = [];
     }
 
+    // Reset Ramming Test
+    if (data.rammingTest) {
+      data.rammingTest.test.base = 0;
+      data.rammingTest.test.modifiers = [];
+      data.rammingTest.limit.base = 0;
+      data.rammingTest.limit.modifiers = [];
+    }
+
      // Reset Vehicule Mods
      if (data.vehiclesMod) {
       data.modificationSlots.powerTrain.modifiers = [];
@@ -1878,6 +1886,32 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(skills.perception.limit, 0);
   }
 
+  static handleVehicleSpeed(actor){
+    let data = actor.data, body = data.attributes.body.augmented.value;
+    switch (data.speedRamming) {
+      case "vehicleSpeed_1":
+        data.damageValue = Math.ceil(body*0,5);
+        break;
+      case "vehicleSpeed_11":
+        data.damageValue = body;
+        break;
+      case "vehicleSpeed_51":
+        data.damageValue = body*2;
+        break;
+      case "vehicleSpeed_201":
+        data.damageValue = body*3;
+        break;
+      case "vehicleSpeed_301":
+        data.damageValue = body*5;
+        break;
+      case "vehicleSpeed_501":
+        data.damageValue = body*10;
+        break;
+      default:
+    }
+  }
+
+
   //
   static generateVehicleTest(actor){
     let data = actor.data, vehicleTest = data.vehicleTest, attributes = data.attributes, lists = actor.lists;
@@ -1931,6 +1965,61 @@ export class SR5_CharacterUtility extends Actor {
     //update vehicle Actions Value
     SR5_EntityHelpers.updateDicePool(vehicleTest.test, 0);
     SR5_EntityHelpers.updateValue(vehicleTest.limit, 0);
+  }
+
+  //
+  static generateRammingTest(actor){
+    let data = actor.data, rammingTest = data.rammingTest, attributes = data.attributes, lists = actor.lists;
+    if (data.offRoadMode) {
+      if (data.isSecondaryPropulsionActivate) {
+        rammingTest.limit.base = attributes.secondaryPropulsionHandlingOffRoad.augmented.value;
+      }
+      else {
+        rammingTest.limit.base = attributes.handlingOffRoad.augmented.value;
+      }
+    }
+    else {
+      if (data.isSecondaryPropulsionActivate) {
+        rammingTest.limit.base = attributes.secondaryPropulsionHandling.augmented.value;
+        }
+        else {
+          rammingTest.limit.base = attributes.handling.augmented.value;
+        }
+    }
+    rammingTest.test.base = 0;
+    let controlerData;
+    if (data.vehicleOwner.id) controlerData = actor.flags.sr5.vehicleControler.data;
+
+    switch (data.controlMode){
+      case "autopilot":
+        SR5_EntityHelpers.updateModifier(rammingTest.test, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.pilot.augmented.value);
+        break;
+      case "remote":
+        if (data.pilotSkill) SR5_EntityHelpers.updateModifier(rammingTest.test, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize(lists.pilotSkills[data.pilotSkill])})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills[data.pilotSkill].test.dicePool);
+        if (controlerData.matrix.userMode === "ar") SR5_EntityHelpers.updateModifier(rammingTest.limit, game.i18n.localize('SR5.AugmentedReality'), game.i18n.localize('SR5.MatrixUserMode'), 1);
+        else if (controlerData.matrix.userMode === "coldsim" || controlerData.matrix.userMode === "hotsim") SR5_EntityHelpers.updateModifier(rammingTest.limit, game.i18n.localize('SR5.VirtualReality'), game.i18n.localize('SR5.MatrixUserMode'), 2);
+        break;
+      case "manual":
+        if (data.pilotSkill) SR5_EntityHelpers.updateModifier(rammingTest.test, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize(lists.pilotSkills[data.pilotSkill])})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills[data.pilotSkill].test.dicePool);
+        if (controlerData.matrix.userMode === "ar") SR5_EntityHelpers.updateModifier(rammingTest.limit,  game.i18n.localize('SR5.AugmentedReality'), game.i18n.localize('SR5.MatrixUserMode'), 1);
+        else if (controlerData.matrix.userMode === "coldsim" || controlerData.matrix.userMode === "hotsim") SR5_EntityHelpers.updateModifier(rammingTest.limit, game.i18n.localize('SR5.VirtualReality'), game.i18n.localize('SR5.MatrixUserMode'), 2);
+        break;
+      case "rigging":
+        if (data.pilotSkill) SR5_EntityHelpers.updateModifier(rammingTest.test, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize(lists.pilotSkills[data.pilotSkill])})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills[data.pilotSkill].test.dicePool);
+        SR5_EntityHelpers.updateModifier(rammingTest.limit, game.i18n.localize('SR5.ControlRigging'), game.i18n.localize('SR5.ControlMode'), 3);
+        if (controlerData.specialProperties.controlRig.value){
+          SR5_EntityHelpers.updateModifier(rammingTest.test, game.i18n.localize('SR5.ControlRig'), game.i18n.localize('SR5.Augmentation'), controlerData.specialProperties.controlRig.value);
+          SR5_EntityHelpers.updateModifier(rammingTest.limit, game.i18n.localize('SR5.ControlRig'), game.i18n.localize('SR5.Augmentation'), controlerData.specialProperties.controlRig.value);
+        }
+        if (controlerData.matrix.userMode === "hotsim") SR5_EntityHelpers.updateModifier(rammingTest.test, game.i18n.localize('SR5.VirtualRealityHotSimShort'), game.i18n.localize('SR5.MatrixUserMode'), 1);
+        break;
+      default:
+        SR5_SystemHelpers.srLog(1, `Unknown controle mode '${data.controlMode}' in 'generateRammingTest()'`);
+    }
+
+    //update vehicle Actions Value
+    SR5_EntityHelpers.updateDicePool(rammingTest.test, 0);
+    SR5_EntityHelpers.updateValue(rammingTest.limit, 0);
   }
 
     // Vehicle Slots Calculations
