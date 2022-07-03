@@ -196,6 +196,9 @@ export default class SR5_RollDialog extends Dialog {
         // Defense modifiers
         html.find(".defenseMode").change(ev => this._addDefenseModeModifier(ev, html, dialogData));
 
+        // Speed modifiers
+        html.find(".speedRamming").change(ev => this._addSpeedRammingModifier(ev, html, dialogData, actorData));
+
         // Cumulative Defense
         if (html.find('[name="dicePoolModDefenseCumulative"]')[0]) this._addCumulativeDefenseModifier(html, dialogData);
 
@@ -412,6 +415,36 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.activeDefenseMode = html.find('[name="defenseMode"]')[0].value;
         this.dicePoolModifier.defenseMode = value;
         this.updateDicePoolValue(html);
+    }
+
+    //Add speed ramming modifiers
+    _addSpeedRammingModifier(ev, html, dialogData, actorData){
+        let speed = html.find('[name="speedRamming"]')[0].value;
+        let body = actorData.data.attributes.body.augmented.value;
+        let value;
+        switch(speed) {
+            case "speedRamming1" :
+                value = Math.ceil(body/2);
+            break;
+            case "speedRamming11" :
+                value = body;
+            break;
+            case "speedRamming51" :
+                value = body*2;
+            break;
+            case "speedRamming201" :
+                value = body*3;
+            break;
+            case "speedRamming301" :
+                value = body*5;
+            break;
+            case "speedRamming501" :
+                value = body*10;
+            break;
+        default:
+        }
+        dialogData.damageValue = value;
+        html.find('[name="modifiedDamage"]')[0].value = value;
     }
 
     //Add cumulative defense modifiers
@@ -760,4 +793,5 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.spellAreaMod = -value;
         this.updateDicePoolValue(html);
     }
+    
 }

@@ -113,6 +113,11 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
       {{/if}}
 
+      <!-- RAMMING TEST -->
+      {{#if (eq type "rammingTest")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/damage.html}}
+      {{/if}}
+
       <!-- DEFENSES -->
       {{#if (or (eq type "defenseCard")(eq type "rammingDefense"))}}
         <!-- DEFENSE - FIRING MODE -->

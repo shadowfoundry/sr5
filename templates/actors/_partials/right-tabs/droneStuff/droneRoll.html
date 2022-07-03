@@ -28,25 +28,6 @@
                 {{data.rammingTest.limit.value}}
             </div>
         </li>
-        <li class="subItemManagement grid">
-            <div class="col-7">
-                <div class="grid">
-                    <div class="col-4">{{localize 'SR5.VehicleRelativeSpeed'}}</div>
-                    <div class="col-4">
-                    <select name="data.speedRamming" data-dtype="String">
-                    {{#select data.speedRamming}}
-                        <option value="">{{localize 'SR5.None'}}</option>
-                        {{#each actor.lists.vehicleRelativeSpeed}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                        {{/each}}
-                    {{/select}}
-                    </select>
-                    </div>
-                    <div class="col-4"></div>
-                </div>
-            </div>
-            <div class="col-5"></div>
-        </li>
         <li class="grid">
             <div class="col-10">{{localize 'SR5.SensorTargetingActive'}}</div>
             <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="activeSensorTargeting" data-rollkey="activeSensorTargeting"

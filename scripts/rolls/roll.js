@@ -1564,10 +1564,12 @@ export class SR5_Roll {
                 typeSub = "ramming"
                 optionalData = {
                     dicePoolComposition: actorData.rammingTest.test.modifiers,
-                    damageValue: actorData.damageValue,
-                    damageValueBase: actorData.damageValue,
+                    damageValue: actorData.attributes.body.augmented.value,
+                    damageValueBase: actorData.attributes.body.augmented.value,
                     damageType: "physical",                    
                     incomingPA: -6,
+                    ammoType: "",
+                    damageElement: "",
                     chatActionType: "resistanceCard",
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,

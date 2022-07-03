@@ -5100,8 +5100,6 @@
         "name": ""
       },
       "pilotSkill": "",
-      "damageValue": 0,
-      "speedRamming": "",
       "offRoadMode" : false,
       "isSecondaryPropulsion": false,
       "secondaryPropulsionType": "",
