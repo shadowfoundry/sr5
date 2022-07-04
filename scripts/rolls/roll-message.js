@@ -134,6 +134,7 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "itemEffects");
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
+                case "accidentCard":
                 case "drainCard":
                     actor.rollTest(type, null, messageData);
                     break;
@@ -155,6 +156,7 @@ export class SR5_RollMessage {
             switch (type) {
                 case "resistanceCard":
                 case "resistanceCardAura":
+                case "accidentCard":
                 case "drainCard":
                 case "fadingCard":
                 case "objectResistance":

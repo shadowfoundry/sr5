@@ -304,7 +304,6 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateAttributes(actor);
         SR5_CharacterUtility.updateInitiativePhysical(actor);
         SR5_CharacterUtility.generateVehicleSkills(actor);
-        SR5_CharacterUtility.handleVehicleSpeed(actor);
         SR5_CharacterUtility.updateResistances(actor);
         SR5_CharacterUtility.updateDefenses(actor);
         SR5_CharacterUtility.generateVehicleTest(actor);        

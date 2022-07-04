@@ -821,6 +821,20 @@ export class SR5_Roll {
                         "switch.centering": true,
                     });
                 }
+                break;            
+
+            case "accidentCard":
+                title = game.i18n.localize("SR5.AccidentResistanceTest");
+                if (chatData.accidentValue >= 0) title += ` (${chatData.accidentValue})`;
+                dicePool = actorData.resistances.physicalDamage.dicePool;
+                optionalData = {
+                    chatActionType: "damage",
+                    hits: chatData.hits,
+                    dicePoolComposition: actorData.resistances.physicalDamage.modifiers,
+                    accidentValue: chatData.accidentValue,
+                    damageType: "physical",                    
+                    incomingPA: -6,
+                };
                 break;
 
             case "drain":
@@ -1558,14 +1572,25 @@ export class SR5_Roll {
                 break;
             
             case "rammingTest":
-                title = `${game.i18n.localize("SR5.Ramming")}`;
+                title = `${game.i18n.localize("SR5.RammingWith")} ${speakerActor}`;
                 dicePool = actorData.rammingTest.test.dicePool;
                 limit = actorData.rammingTest.limit.value;
-                typeSub = "ramming"
+                typeSub = "ramming";
+
+                let target;
+                    if (game.user.targets.size) {
+                        const targeted = game.user.targets;
+                        const targets = Array.from(targeted);
+                        for (let t of targets) {
+                            target = t.actor.data.data.attributes.body.augmented.value;
+                        }
+                    } else { target = actorData.attributes.body.augmented.value;}
+
                 optionalData = {
                     dicePoolComposition: actorData.rammingTest.test.modifiers,
                     damageValue: actorData.attributes.body.augmented.value,
                     damageValueBase: actorData.attributes.body.augmented.value,
+                    modifiedDamage: actorData.attributes.body.augmented.value,
                     damageType: "physical",                    
                     incomingPA: -6,
                     ammoType: "",
@@ -1573,6 +1598,8 @@ export class SR5_Roll {
                     chatActionType: "resistanceCard",
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
+                    target: target,
+                    accidentValue: Math.ceil(target/2),
                 };
                 break;
 

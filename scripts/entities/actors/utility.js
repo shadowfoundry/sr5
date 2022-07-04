@@ -1886,32 +1886,6 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(skills.perception.limit, 0);
   }
 
-  static handleVehicleSpeed(actor){
-    let data = actor.data, body = data.attributes.body.augmented.value;
-    switch (data.speedRamming) {
-      case "vehicleRelativeSpeed_1":
-        data.damageValue = Math.ceil(body/2);
-        break;
-      case "vehicleRelativeSpeed_11":
-        data.damageValue = body;
-        break;
-      case "vehicleRelativeSpeed_51":
-        data.damageValue = body*2;
-        break;
-      case "vehicleRelativeSpeed_201":
-        data.damageValue = body*3;
-        break;
-      case "vehicleRelativeSpeed_301":
-        data.damageValue = body*5;
-        break;
-      case "vehicleRelativeSpeed_501":
-        data.damageValue = body*10;
-        break;
-      default:
-    }
-  }
-
-
   //
   static generateVehicleTest(actor){
     let data = actor.data, vehicleTest = data.vehicleTest, attributes = data.attributes, lists = actor.lists;
