@@ -1271,7 +1271,7 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.ActionFailure");
 				key = "rammingDefense";
 				testType = "opposedTest";
-				cardData.buttons.accidentCard = SR5_RollMessage.generateChatButton("opposedTest", "accidentCard", `${game.i18n.localize("SR5.ResistAccident")} (${cardData.accidentValue})`);
+				cardData.buttons.accidentCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "accidentCard", `${game.i18n.localize("SR5.ResistAccident")} (${cardData.accidentValue})`);
 				break;
 			case "preparationFormula":
 				label = game.i18n.localize("SR5.PreparationResistance");
