@@ -859,23 +859,11 @@ export class SR5_Dice {
 			cardData.damageValue = damageValue;
 			cardData.damageType = "physical";
 			//Add Accident damage button
-			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
+			let label = cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
+			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
 		} else {
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoDamage"));
 		}
-
-		//Update previous message to remove Drain Resistance button
-		let originalMessage, prevData;
-		if (cardData.originalMessage){
-			originalMessage = game.messages.get(cardData.originalMessage);
-			prevData = originalMessage.data?.flags?.sr5data;
-		}
-			if (!game.user?.isGM) {
-				await SR5_SocketHandler.emitForGM("updateChatButton", {
-					message: cardData.originalMessage,
-					buttonToUpdate: "accidentCard",
-				});
-			} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "accidentCard");
 	}
 
 	static async addFadingInfoToCard(cardData){
@@ -1283,7 +1271,7 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.ActionFailure");
 				key = "rammingDefense";
 				testType = "opposedTest";
-				cardData.buttons.accidentCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "accidentCard", `${game.i18n.localize("SR5.ResistAccident")} (${cardData.accidentValue})`);
+				cardData.buttons.accidentCard = SR5_RollMessage.generateChatButton("opposedTest", "accidentCard", `${game.i18n.localize("SR5.ResistAccident")} (${cardData.accidentValue})`);
 				break;
 			case "preparationFormula":
 				label = game.i18n.localize("SR5.PreparationResistance");

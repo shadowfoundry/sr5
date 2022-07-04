@@ -304,7 +304,7 @@ export class SR5_Roll {
                         SR5_SystemHelpers.srLog(1, `Unknown '${resistanceKey}' Damage Resistance Type in roll`);
                 }
                 break;
-
+            
             case "resistanceCard":
             case "resistanceCardAura":
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
@@ -826,14 +826,61 @@ export class SR5_Roll {
             case "accidentCard":
                 title = game.i18n.localize("SR5.AccidentResistanceTest");
                 if (chatData.accidentValue >= 0) title += ` (${chatData.accidentValue})`;
-                dicePool = actorData.resistances.physicalDamage.dicePool;
+
+                let accidentValue = chatData.accidentValue;
+                let armor, modifiedArmor, resistanceValue, armorComposition = [];
+
+                        switch (actor.data.type){
+                            case "actorDrone":                           
+                                armor = actorData.attributes.armor.augmented.value;
+                                resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
+                                modifiedArmor = armor + (chatData.incomingPA || 0);
+                                if (modifiedArmor < 0) modifiedArmor = 0;
+                                if (accidentValue < (armor + chatData.incomingPA)) {
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.incomingPA, damage:accidentValue})}`); 
+                                    return;
+                                }
+                                break;
+                            case "actorSpirit":
+                                armor = actorData.essence.value * 2;
+                                modifiedArmor = armor + (chatData.incomingPA || 0);
+                                if (modifiedArmor < 0) modifiedArmor = 0
+                                if (accidentValue < (armor + chatData.incomingPA)) {
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.incomingPA, damage: accidentValue})}`);
+                                    return;    
+                                }
+                                resistanceValue = actorData.resistances.physicalDamage.dicePool;
+                                break;
+                            case "actorPc":
+                            case "actorGrunt":
+                                armor = actorData.itemsProperties.armor.value;
+                                armorComposition = actorData.itemsProperties.armor.modifiers;
+                                modifiedArmor = armor + (chatData.incomingPA || 0);
+                                if (modifiedArmor < 0) modifiedArmor = 0
+                                resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
+                                dicePoolComposition = actorData.resistances.physicalDamage.modifiers.filter((el) => !armorComposition.includes(el));
+                                
+                                if (accidentValue < (armor + chatData.incomingPA) && !chatData.damageElement){
+                                    chatData.damageType = "stun";
+                                    title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${accidentValue})`; //TODO: add details
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:accidentValue})}`); 
+                                }
+                                break;
+                            default:
+                        }
+
+                        dicePool = resistanceValue + modifiedArmor;
+
                 optionalData = {
                     chatActionType: "damage",
                     hits: chatData.hits,
-                    dicePoolComposition: actorData.resistances.physicalDamage.modifiers,
                     accidentValue: chatData.accidentValue,
                     damageType: "physical",                    
                     incomingPA: -6,
+                    damageElement: "",
+                    ammoType: "",
+                    armor: armor,
+                    dicePoolComposition: dicePoolComposition,
                 };
                 break;
 

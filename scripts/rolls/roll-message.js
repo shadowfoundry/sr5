@@ -119,7 +119,8 @@ export class SR5_RollMessage {
                 case "banishingResistance":
                 case "iceDefense":
                 case "resistSpell":                                        
-                case "rammingDefense":
+                case "rammingDefense":                                   
+                case "accidentCard":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "bindingResistance":
@@ -134,7 +135,6 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "itemEffects");
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
-                case "accidentCard":
                 case "drainCard":
                     actor.rollTest(type, null, messageData);
                     break;
@@ -156,7 +156,6 @@ export class SR5_RollMessage {
             switch (type) {
                 case "resistanceCard":
                 case "resistanceCardAura":
-                case "accidentCard":
                 case "drainCard":
                 case "fadingCard":
                 case "objectResistance":
