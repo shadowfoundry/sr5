@@ -4669,7 +4669,8 @@
         "recoilTemplate",
         "visionTemplate",
         "itemsPropertiesTemplate",
-        "specialPropertiesTemplate"
+        "specialPropertiesTemplate",
+        "penaltiesTemplate"
       ],
       "attributes": {
         "handling": {

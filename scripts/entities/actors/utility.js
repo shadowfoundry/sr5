@@ -658,10 +658,23 @@ export class SR5_CharacterUtility extends Actor {
       data.penalties.condition.actual.base = data.penalties.physical.actual.base + data.penalties.stun.actual.base;
       SR5_EntityHelpers.updateValue(data.penalties.condition.actual);
     }
+
+    if (actor.type === "actorDrone") {      
+      SR5_EntityHelpers.updateModifier(data.attributes.handling.augmented, `${game.i18n.localize('SR5.Penalty')}`, `${game.i18n.localize('SR5.PenaltyDamage')}`, data.penalties.condition.actual.value);
+      SR5_EntityHelpers.updateModifier(data.attributes.handlingOffRoad.augmented, `${game.i18n.localize('SR5.Penalty')}`, `${game.i18n.localize('SR5.PenaltyDamage')}`, data.penalties.condition.actual.value);
+      SR5_EntityHelpers.updateModifier(data.attributes.speed.augmented, `${game.i18n.localize('SR5.Penalty')}`, `${game.i18n.localize('SR5.PenaltyDamage')}`, data.penalties.condition.actual.value);
+      SR5_EntityHelpers.updateModifier(data.attributes.speedOffRoad.augmented, `${game.i18n.localize('SR5.Penalty')}`, `${game.i18n.localize('SR5.PenaltyDamage')}`, data.penalties.condition.actual.value);
+      SR5_EntityHelpers.updateValue(data.attributes.handling.augmented,0);
+      SR5_EntityHelpers.updateValue(data.attributes.handlingOffRoad.augmented,0);
+      SR5_EntityHelpers.updateValue(data.attributes.speed.augmented,0);
+      SR5_EntityHelpers.updateValue(data.attributes.speedOffRoad.augmented,0);
+      SR5_SystemHelpers.srLog(1, `UpdatePenalties for '${actor.name}' actor with '${data.conditionMonitors.condition.actual.value}' condition monitors and '${data.penalties.condition.actual.value}' penalty value`)
+    }
+
   }
 
   static applyPenalty(penalty, property, actor) {
-    if (actor.type === "actorDrone") return;
+    if (actor.type === "actorDrone") {return;}
     if (!penalty || !property || !actor) { SR5_SystemHelpers.srLog(1, `Missing or invalid parameter in call to 'applyPenalty()'`); return; }
     if (!actor.data.penalties) { SR5_SystemHelpers.srLog(3, `No existing penalties on '${actor.name}' actor in call to 'applyPenalty()'`); return; }
     let lists = actor.lists, data = actor.data;
@@ -858,6 +871,7 @@ export class SR5_CharacterUtility extends Actor {
       data.attributes.reaction.augmented = data.attributes.intuition.augmented;
       data.attributes.strength.augmented = data.attributes.charisma.augmented;
     }
+
   }
 
   static updateSpiritAttributes(actor) {

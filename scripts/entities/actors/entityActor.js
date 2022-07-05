@@ -309,7 +309,8 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.generateVehicleTest(actor);        
         SR5_CharacterUtility.generateRammingTest(actor);
         SR5_CharacterUtility.updateRecoil(actor);
-        SR5_CharacterUtility.updateConditionMonitors(actor);
+        SR5_CharacterUtility.updateConditionMonitors(actor);        
+        SR5_CharacterUtility.updatePenalties(actor);
         SR5_CharacterUtility.updateVehicleSlots(actor);
         break;
       case "actorSpirit":
