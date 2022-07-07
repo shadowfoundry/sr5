@@ -302,15 +302,15 @@ export class SR5Actor extends Actor {
       case "actorDrone":
         if (actor.flags.sr5?.vehicleControler) SR5_CharacterUtility.applyAutosoftEffect(actor);
         SR5_CharacterUtility.updateAttributes(actor);
-        SR5_CharacterUtility.updateInitiativePhysical(actor);
-        SR5_CharacterUtility.generateVehicleSkills(actor);
         SR5_CharacterUtility.updateResistances(actor);
         SR5_CharacterUtility.updateDefenses(actor);
-        SR5_CharacterUtility.generateVehicleTest(actor);        
-        SR5_CharacterUtility.generateRammingTest(actor);
         SR5_CharacterUtility.updateRecoil(actor);
         SR5_CharacterUtility.updateConditionMonitors(actor);        
-        SR5_CharacterUtility.updatePenalties(actor);
+        SR5_CharacterUtility.updatePenalties(actor);        
+        SR5_CharacterUtility.updateInitiativePhysical(actor);
+        SR5_CharacterUtility.generateVehicleSkills(actor);
+        SR5_CharacterUtility.generateVehicleTest(actor);        
+        SR5_CharacterUtility.generateRammingTest(actor);
         SR5_CharacterUtility.updateVehicleSlots(actor);
         break;
       case "actorSpirit":
