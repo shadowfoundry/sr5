@@ -242,7 +242,7 @@ export class SR5Actor extends Actor {
             attribute: "statusBars.matrix",
           },
         });
-        let effect = SR5_CharacterUtility.generateInitiativeEffect("matrixInit");
+        let effect = await _getSRStatusEffect("matrixInit");
         let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect);
         const effects = this.effects.map(e => e.toObject());
         effects.push(initiativeEffect.toObject());
