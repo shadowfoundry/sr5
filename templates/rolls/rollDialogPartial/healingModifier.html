@@ -1,0 +1,18 @@
+<li class="grid SR-TopSeparator">
+    <div class="col-3">{{localize 'SR5.HealingConditions'}}{{localize 'SR5.Colons'}}</div> 
+    <div class="col-8">
+        <select class="healingCondition" name="healingCondition">
+        {{#select healingCondition}}
+            <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="good">{{localize 'SR5.HealingConditionsGood'}}</option>
+            <option value="average">{{localize 'SR5.HealingConditionsAverage'}}</option>
+            <option value="poor">{{localize 'SR5.HealingConditionsPoor'}}</option>
+            <option value="bad">{{localize 'SR5.HealingConditionsBad'}}</option>
+            <option value="terrible">{{localize 'SR5.HealingConditionsTerrible'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModHealingCondition" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

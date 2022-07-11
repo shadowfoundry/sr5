@@ -1410,4 +1410,20 @@ export class SR5_DiceHelper {
     
     return itemEffects;
     }
+
+    static convertHealingConditionToDiceMod(condition){
+        switch (condition){
+            case "good":
+                return 0;
+            case "average":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            default : return 0;
+        }
+    }
 }

@@ -98,6 +98,10 @@
         {{#ife typeSub "perception"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
         {{/ife}}
+        <!-- MEDECINE -->
+        {{#ife typeSub "medecine"}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html}}
+        {{/ife}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}

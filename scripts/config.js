@@ -947,6 +947,14 @@ SR5.knowledgeSkillTypes = {
   tactics                   : "SR5.KnowledgeSkillTactics",
 };
 
+SR5.healingConditions = {
+  good                      : "SR5.HealingConditionsGoodShort",
+  average                   : "SR5.HealingConditionsAverageShort",
+  poor                      : "SR5.HealingConditionsPoorShort",
+  bad                       : "SR5.HealingConditionsBadShort",
+  terrible                  : "SR5.HealingConditionsTerribleShort",
+}
+
 
 //-----------------------------------//
 //                MAGIC              //

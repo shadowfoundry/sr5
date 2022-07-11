@@ -321,6 +321,9 @@ export default class SR5_RollDialog extends Dialog {
 
         //Calcul Mana Barrier DicePool
         html.find('[name="manaBarrierRating"]').change(ev => this._calculManaBarrierDicePool(ev, html, dialogData));
+
+        //Add modifier for Medecine conditions
+        html.find('[name="healingCondition"]').change(ev => this._addHealingConditionModifier(html, dialogData));
     }
 
     //Calcul Mana Barrier DicePool
@@ -761,6 +764,15 @@ export default class SR5_RollDialog extends Dialog {
         this.dicePoolModifier.variousModifier = value;
         dialogData.dicePoolMod.spellShaping = value;
         dialogData.spellAreaMod = -value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add Healing conditions modifiers
+    _addHealingConditionModifier(html, dialogData){
+        let healingModifier = SR5_DiceHelper.convertHealingConditionToDiceMod(html.find('[name="healingCondition"]')[0].value);
+        html.find('[name="dicePoolModHealingCondition"]')[0].value = healingModifier;
+        dialogData.dicePoolMod.healingModifier = healingModifier;
+        this.dicePoolModifier.healingModifier = healingModifier;
         this.updateDicePoolValue(html);
     }
 }
