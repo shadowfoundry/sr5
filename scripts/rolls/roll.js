@@ -881,6 +881,7 @@ export class SR5_Roll {
                     ammoType: "",
                     armor: armor,
                     dicePoolComposition: dicePoolComposition,
+                    actorType: actor.data.type,
                 };
                 break;
 
