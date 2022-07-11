@@ -332,7 +332,10 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="patientAwakenedOrEmerged"]').change(ev => this._addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData));
         
         //Add healing modifier for Patient Essence
-        html.find('[name="patientEssence"]').change(ev => this._addHealingPatientEssence(ev, html, dialogData));
+        html.find('[name="patientEssence"]').change(ev => this._addHealingPatientEssenceModifier(ev, html, dialogData));
+
+        //Add healing modifier for supplies
+        html.find('[name="healingSupplies"]').change(ev => this._addHealingSuppliesModifier(ev, html, dialogData, actor));
     }
 
     //Calcul Mana Barrier DicePool
@@ -819,13 +822,48 @@ export default class SR5_RollDialog extends Dialog {
     }
 
     //Add healing Patient Essence modifiers
-    _addHealingPatientEssence(ev, html, dialogData){
+    _addHealingPatientEssenceModifier(ev, html, dialogData){
         dialogData.patientEssence = ev.target.value;
         let essence = 6 - Math.ceil(ev.target.value);
         let value = -Math.floor(essence/2);
         html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
         dialogData.dicePoolMod.patientEssence = value;
         this.dicePoolModifier.patientEssence = value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add healing Patient supplies modifiers
+    _addHealingSuppliesModifier(ev, html, dialogData, actor){
+        let value = ev.target.value;
+        let modifier;
+        switch(value){
+            case "noSupplies":
+                modifier = -3;
+                break;
+            case "improvised":
+                modifier = -1;
+                break;
+            case "medkit":
+                let medkit = SR5_DiceHelper.findMedkitRating(actor);
+                if (medkit){
+                    modifier = medkit.rating;
+                    dialogData.itemId = medkit.id;
+                    dialogData.limitMod.healingSupplies = medkit.rating;
+                    this.limitModifier.healingSupplies = medkit.rating;
+                    html.find('[name="limitModHealingSupplies"]')[0].value = medkit.rating;
+                    this.updateLimitValue(html);
+                } else {
+                    ui.notifications.warn(game.i18n.format('SR5.WARN_NoMedkit'));
+                    modifier = 0;
+                }
+                break;
+            default:
+                modifier = 0;
+        }
+        html.find('[name="dicePoolModHealingSupplies"]')[0].value = modifier;
+        dialogData.dicePoolMod.healingSupplies = modifier;
+        dialogData.healingSupplies = value;
+        this.dicePoolModifier.healingSupplies = modifier;
         this.updateDicePoolValue(html);
     }
 }

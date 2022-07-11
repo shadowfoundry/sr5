@@ -288,3 +288,10 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.patientEssence}}</div>
 </li>
 {{/if}}
+<!--Healing supplies Modifier-->
+{{#if (isdefined dicePoolMod.healingSupplies)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.HealingSupplies'}} ({{findTranslation 'healingSupplies' healingSupplies}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.healingSupplies}}</div>
+</li>
+{{/if}}

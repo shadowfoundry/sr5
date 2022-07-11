@@ -955,6 +955,12 @@ SR5.healingConditions = {
   terrible                  : "SR5.HealingConditionsTerribleShort",
 }
 
+SR5.healingSupplies = {
+  noSupplies                : "SR5.HealingSuppliesNone",
+  improvised                : "SR5.HealingSuppliesImprovised",
+  medkit                    : "SR5.HealingSuppliesMedkit",
+}
+
 
 //-----------------------------------//
 //                MAGIC              //

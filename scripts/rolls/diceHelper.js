@@ -41,6 +41,10 @@ export class SR5_DiceHelper {
                 newItem.data.netHits = 0;                
             }
         }
+        //updateCharge
+        if (newItem.type === "itemGear"){
+            newItem.data.charge -= 1;
+        }
 
         item.update(newItem);
     }
@@ -1424,6 +1428,16 @@ export class SR5_DiceHelper {
             case "terrible":
                 return -4;
             default : return 0;
+        }
+    }
+
+    static findMedkitRating(actor){
+        let medkit = {};
+        let item = actor.items.find(i => i.data.data.isMedkit)
+        if (item && item.data.data.charge > 0){
+            medkit.rating = item.data.data.itemRating;
+            medkit.id = item.id;
+            return medkit;
         }
     }
 }

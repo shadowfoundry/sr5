@@ -98,10 +98,10 @@
         {{#ife typeSub "perception"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
         {{/ife}}
-        <!-- MEDECINE -->
-        {{#ife typeSub "medecine"}}
+        <!-- MEDECINE && FIRST AID -->
+        {{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html}}
-        {{/ife}}
+        {{/if}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}

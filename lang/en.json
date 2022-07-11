@@ -766,6 +766,10 @@
   "SR5.HealingConditionsBadShort"             : "Bad",
   "SR5.HealingConditionsTerrible"             : "Terrible conditions (fire, severe storm)",
   "SR5.HealingConditionsTerribleShort"        : "Terrible",
+  "SR5.HealingSupplies"                       : "Healing supplies",
+  "SR5.HealingSuppliesNone"                   : "None",
+  "SR5.HealingSuppliesImprovised"             : "Improvised",
+  "SR5.HealingSuppliesMedkit"                 : "Wireless medkit/autodoc",
   "SR5.Height"                                : "Height",
   "SR5.HobbiesVices"                          : "Hobbies / Vices",
   "SR5.HoldingBreath"                         : "Hold Breath",
@@ -1076,6 +1080,7 @@
   "SR5.MatrixUserMode"                        : "User Mode",
   "SR5.MatrixUserModes"                       : "User Modes",
   "SR5.MaximumAmmunition"                     : "Maximum Ammunition",
+  "SR5.Medkit"                                : "Medkit",
   "SR5.MeleeWeapon"                           : "Melee Weapon",
   "SR5.MeleeWeapons"                          : "Melee Weapons",
   "SR5.MeleeWeaponTypeBlades"                 : "Blade",
@@ -1639,6 +1644,7 @@
   "SR5.SpecialDamageType"                     : "Special Damage Type",
   "SR5.Specialization"                        : "Specialization",
   "SR5.Specializations"                       : "Specializations",
+  "SR5.SpecificItem"                          : "Specific Item",
   "SR5.SpecificRollEffect"                    : "Specific Roll Effect",
   "SR5.Spell"                                 : "Spell",
   "SR5.SpellCastingFailed"                    : "Spellcasting failure",
@@ -2587,5 +2593,6 @@
   "SR5.WARN_SpiritAlreadyBounded"             : "Spirit is already bounded.",
   "SR5.WARN_DontHavePerm"                     : "You don't have permission !",
   "SR5.WARN_SpellShapingMin"                  : "Penalty must be negative.",
-  "SR5.WARN_SpellShapingMaxMagic"             : "You may not take more dice worth of penalty than your Magic Rating."
+  "SR5.WARN_SpellShapingMaxMagic"             : "You may not take more dice worth of penalty than your Magic Rating.",
+  "SR5.WARN_NoMedkit"                         : "No medkit in wifi mode with remaining charge equiped."
 }

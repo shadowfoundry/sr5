@@ -5848,6 +5848,7 @@
       ],
       "quantity": 1,
       "charge": 0,
+      "isMedkit": false,
       "isPlugged" : false,
       "accessory": []
     },
