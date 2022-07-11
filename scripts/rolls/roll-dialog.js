@@ -322,8 +322,17 @@ export default class SR5_RollDialog extends Dialog {
         //Calcul Mana Barrier DicePool
         html.find('[name="manaBarrierRating"]').change(ev => this._calculManaBarrierDicePool(ev, html, dialogData));
 
-        //Add modifier for Medecine conditions
+        //Add healing modifier for Medecine conditions
         html.find('[name="healingCondition"]').change(ev => this._addHealingConditionModifier(html, dialogData));
+
+        //Add healing modifier for Patient cooperation
+        html.find('[name="patientCooperation"]').change(ev => this._addHealingPatientCooperationModifier(ev, html, dialogData));
+        
+        //Add healing modifier for Patient awakened or emerged
+        html.find('[name="patientAwakenedOrEmerged"]').change(ev => this._addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData));
+        
+        //Add healing modifier for Patient Essence
+        html.find('[name="patientEssence"]').change(ev => this._addHealingPatientEssence(ev, html, dialogData));
     }
 
     //Calcul Mana Barrier DicePool
@@ -772,7 +781,51 @@ export default class SR5_RollDialog extends Dialog {
         let healingModifier = SR5_DiceHelper.convertHealingConditionToDiceMod(html.find('[name="healingCondition"]')[0].value);
         html.find('[name="dicePoolModHealingCondition"]')[0].value = healingModifier;
         dialogData.dicePoolMod.healingModifier = healingModifier;
+        dialogData.healingCondition = html.find('[name="healingCondition"]')[0].value;
         this.dicePoolModifier.healingModifier = healingModifier;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add Healing Patient is awakened or emerged modifiers
+    _addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        if (value === "true") {
+            html.find('[name="dicePoolModPatientAwakenedOrEmerged"]')[0].value = -2;
+            dialogData.dicePoolMod.patientAwakenedOrEmerged = -2;
+            this.dicePoolModifier.patientAwakenedOrEmerged = -2;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find('[name="dicePoolModPatientAwakenedOrEmerged"]')[0].value = 0;
+            dialogData.dicePoolMod.patientAwakenedOrEmerged = 0;
+            this.dicePoolModifier.patientAwakenedOrEmerged = 0;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Add Healing Patient cooperation modifiers
+    _addHealingPatientCooperationModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        if (value === "true") {
+            html.find('[name="dicePoolModPatientCooperation"]')[0].value = 0;
+            dialogData.dicePoolMod.patientCooperation = 0;
+            this.dicePoolModifier.patientCooperation = 0;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find('[name="dicePoolModPatientCooperation"]')[0].value = -2;
+            dialogData.dicePoolMod.patientCooperation = -2;
+            this.dicePoolModifier.patientCooperation = -2;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Add healing Patient Essence modifiers
+    _addHealingPatientEssence(ev, html, dialogData){
+        dialogData.patientEssence = ev.target.value;
+        let essence = 6 - Math.ceil(ev.target.value);
+        let value = -Math.floor(essence/2);
+        html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
+        dialogData.dicePoolMod.patientEssence = value;
+        this.dicePoolModifier.patientEssence = value;
         this.updateDicePoolValue(html);
     }
 }

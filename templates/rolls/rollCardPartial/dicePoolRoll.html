@@ -263,7 +263,28 @@
 <!--Healing Condition Modifier-->
 {{#if (isdefined dicePoolMod.healingModifier)}}
 <li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.HealingConditions'}} ({{findTranslation 'matrixNoiseDistance' healingConditions}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.spellShaping}}</div>
+    <div class="col-10">{{localize 'SR5.HealingConditions'}} ({{findTranslation 'healingConditions' healingCondition}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.healingModifier}}</div>
+</li>
+{{/if}}
+<!--Healing Patient cooperation Modifier-->
+{{#if (isdefined dicePoolMod.patientCooperation)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.UncooperativePatient'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.patientCooperation}}</div>
+</li>
+{{/if}}
+<!--Healing Patient awakned or emerged Modifier-->
+{{#if (isdefined dicePoolMod.patientAwakenedOrEmerged)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PatientAwakenedOrEmerged'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.patientAwakenedOrEmerged}}</div>
+</li>
+{{/if}}
+<!--Healing Patient Essence Modifier-->
+{{#if (isdefined dicePoolMod.patientEssence)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PatientEssence'}} ({{patientEssence}}) {{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.patientEssence}}</div>
 </li>
 {{/if}}
