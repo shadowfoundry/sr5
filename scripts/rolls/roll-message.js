@@ -141,7 +141,8 @@ export class SR5_RollMessage {
                     if (actor.type === "actorPc"){
                         healData.typeSub = await SR5_DiceHelper.chooseDamageType();
                     } else healData.typeSub = "condition";
-                    actor.heal(healData);
+                    let healedID = (actor.isToken ? actor.token.id : actor.id);
+                    SR5Actor.heal(healedID, healData);
                     SR5_RollMessage.updateChatButton(messageId, type, healData.typeSub);
                     break;
                 default:
@@ -406,6 +407,22 @@ export class SR5_RollMessage {
                     actor.heal(messageData);
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
+                case "firstAid":
+                    let healData = {test:{hits: messageData.healValue,},}
+                    if (targetActor.type === "actorPc"){
+                        healData.typeSub = await SR5_DiceHelper.chooseDamageType();
+                    } else healData.typeSub = "condition";
+                    let targetHealedID = (targetActor.isToken ? targetActor.token.id : targetActor.id);
+                    SR5Actor.heal(targetHealedID, healData);
+                    if (!game.user?.isGM) {
+                        await SR5_SocketHandler.emitForGM("heal", {targetActor: targetHealedID, healData: healData});
+                        await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type, firstOption: healData.typeSub});
+                    }
+                    else {
+                        SR5Actor.heal(targetHealedID, healData);
+                        SR5_RollMessage.updateChatButton(messageId, type, healData.typeSub);
+                    }
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
@@ -526,7 +543,7 @@ export class SR5_RollMessage {
     }
 
     static async _socketupdateChatButton(message){
-        await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate);
+        await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption);
     }
 
     //Return data for a chat button

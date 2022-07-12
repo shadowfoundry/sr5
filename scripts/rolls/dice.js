@@ -1190,7 +1190,8 @@ export class SR5_Dice {
 			case "firstAid":
 				if (cardData.test.hits > 2) {
 					cardData.healValue = cardData.test.hits - 2;
-					cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
+					if (cardData.hasTarget) cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("nonOpposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
+					else cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
 				}
 				break;
 			default:

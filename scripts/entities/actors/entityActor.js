@@ -1796,16 +1796,22 @@ export class SR5Actor extends Actor {
     await this.update(actorData);
   }
 
-  //Manage Regeneration
-  async heal(data){
+  //Manage Healing
+  static async heal(actorId, data){
     let damageToRemove = data.test.hits,
         damageType = data.typeSub,
-        actorData = deepClone(this.data);
+        targetActor = SR5_EntityHelpers.getRealActorFromID(actorId),
+        actorData = deepClone(targetActor.data);
         
     actorData = actorData.toObject(false);
     actorData.data.conditionMonitors[damageType].actual.base -= damageToRemove;
     await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
-    await this.update(actorData);
+    await targetActor.update(actorData);
+  }
+
+  //Manage Healing by socket
+  static async _socketHeal(message){
+    await SR5Actor.heal(message.data.targetActor, message.data.healData);
   }
 }
 

@@ -329,9 +329,11 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="patientCooperation"]').change(ev => this._addHealingPatientCooperationModifier(ev, html, dialogData));
         
         //Add healing modifier for Patient awakened or emerged
+        if (html.find('[name="patientAwakenedOrEmerged"]')[0]) this._addHealingPatientAwakenedOrEmergedModifier(null, html, dialogData);
         html.find('[name="patientAwakenedOrEmerged"]').change(ev => this._addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData));
         
         //Add healing modifier for Patient Essence
+        if (html.find('[name="patientEssence"]')[0]) this._addHealingPatientEssenceModifier(null, html, dialogData);
         html.find('[name="patientEssence"]').change(ev => this._addHealingPatientEssenceModifier(ev, html, dialogData));
 
         //Add healing modifier for supplies
@@ -791,8 +793,12 @@ export default class SR5_RollDialog extends Dialog {
 
     //Add Healing Patient is awakened or emerged modifiers
     _addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData){
-        let value = ev.target.value;
-        if (value === "true") {
+        let value;
+        if (ev === null) {
+            value = dialogData.isEmergedOrAwakened ? dialogData.isEmergedOrAwakened : "false";
+            html.find('[name="patientAwakenedOrEmerged"]')[0].value = value;
+        } else value = ev.target.value;
+        if (value === "true" || value === true) {
             html.find('[name="dicePoolModPatientAwakenedOrEmerged"]')[0].value = -2;
             dialogData.dicePoolMod.patientAwakenedOrEmerged = -2;
             this.dicePoolModifier.patientAwakenedOrEmerged = -2;
@@ -823,8 +829,12 @@ export default class SR5_RollDialog extends Dialog {
 
     //Add healing Patient Essence modifiers
     _addHealingPatientEssenceModifier(ev, html, dialogData){
-        dialogData.patientEssence = ev.target.value;
-        let essence = 6 - Math.ceil(ev.target.value);
+        if (ev === null) {
+            dialogData.patientEssence = (dialogData.targetEssence ? dialogData.targetEssence : 6);
+            html.find('[name="patientEssence"]')[0].value = dialogData.patientEssence;
+        }
+        else dialogData.patientEssence = ev.target.value;
+        let essence = 6 - Math.ceil(dialogData.patientEssence);
         let value = -Math.floor(essence/2);
         html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
         dialogData.dicePoolMod.patientEssence = value;

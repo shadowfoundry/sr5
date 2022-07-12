@@ -198,7 +198,7 @@ export class SR5_Roll {
                     dicePoolComposition: dicePoolComposition,
                 });
 
-                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting")){
+                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting" || typeSub === "firstAid" || typeSub === "medecine")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
@@ -255,6 +255,19 @@ export class SR5_Roll {
                                     effectsList: effectsList,
                                 });
                             }
+                        }
+
+                        //First Aid
+                        if (typeSub === "firstAid" || typeSub === "medecine"){
+                            let isEmergedOrAwakened = targetActor.data.data.specialAttributes.magic.augmented.value > 0 ? true :
+                                targetActor.data.data.specialAttributes.resonance.augmented.value > 0 ? true :
+                                false;
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                targetEssence: targetActor.data.data.essence.value,
+                                isEmergedOrAwakened: isEmergedOrAwakened,
+                                targetActor: targetActorId,
+                            });
                         }
                     }
                 }
