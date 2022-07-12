@@ -1,5 +1,8 @@
 <!-- Stun Monitor -->
-      <div class="SR-TextUppercase SR-NeutralLightColor SR-Bold monitorReset" data-target="stun">{{localize 'SR5.ConditionMonitorStunShort'}}</div>
+      <div class="SR-TextUppercase SR-NeutralLightColor SR-Bold monitorReset" data-target="stun"
+         data-helpTitle="{{localize 'SR5.ConditionMonitorStun'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorNameMsg'}}">
+            {{localize 'SR5.ConditionMonitorStunShort'}}
+      </div>
       <div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.stun.actual.base"
         data-helpTitle="{{localize 'SR5.ConditionMonitorStun'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
                   {{#each data.conditionMonitors.stun.boxes as |box index|}}

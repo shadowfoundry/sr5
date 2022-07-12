@@ -118,6 +118,11 @@ SR5.characterConditionMonitors = {
   condition                 : "SR5.ConditionMonitorShort",
 };
 
+SR5.PCConditionMonitors = {
+  physical                  : "SR5.ConditionMonitorPhysicalShort",
+  stun                      : "SR5.ConditionMonitorStunShort",
+};
+
 SR5.characterOtherMonitors = {
   overflow                  : "SR5.ConditionMonitorPhysicalOverflowShort",
   edge                      : "SR5.Edge",
@@ -299,7 +304,7 @@ SR5.technicalSkills = {
   hardware                  : "SR5.SkillHardware",
   industrialMechanic        : "SR5.SkillIndustrialMechanic",
   locksmith                 : "SR5.SkillLocksmith",
-  medecine                  : "SR5.SkillMedecine",
+  medecine                  : "SR5.SkillMedicine",
   nauticalMechanic          : "SR5.SkillNauticalMechanic",
   navigation                : "SR5.SkillNavigation",
   software                  : "SR5.SkillSoftware",
@@ -946,6 +951,20 @@ SR5.knowledgeSkillTypes = {
   street                    : "SR5.KnowledgeSkillStreet",
   tactics                   : "SR5.KnowledgeSkillTactics",
 };
+
+SR5.healingConditions = {
+  good                      : "SR5.HealingConditionsGoodShort",
+  average                   : "SR5.HealingConditionsAverageShort",
+  poor                      : "SR5.HealingConditionsPoorShort",
+  bad                       : "SR5.HealingConditionsBadShort",
+  terrible                  : "SR5.HealingConditionsTerribleShort",
+}
+
+SR5.healingSupplies = {
+  noSupplies                : "SR5.HealingSuppliesNone",
+  improvised                : "SR5.HealingSuppliesImprovised",
+  medkit                    : "SR5.HealingSuppliesMedkit",
+}
 
 
 //-----------------------------------//

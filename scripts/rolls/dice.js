@@ -121,7 +121,7 @@ export class SR5_Dice {
 		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
 		if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
-		SR5_RollMessage.updateRollCard(message.data, newMessage);
+		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
 
 	static async pushTheLimit(message, actor) {
@@ -572,6 +572,9 @@ export class SR5_Dice {
 				break;
 			case "regeneration":
 				await SR5_Dice.addRegenerationResultInfoToCard(cardData);
+				break;
+			case "healing":
+				await SR5_Dice.addHealingInfoToCard(cardData);
 				break;
 			case "attribute":
 			case "languageSkill":
@@ -1184,6 +1187,21 @@ export class SR5_Dice {
 			case "astralCombat":
 				if (cardData.test.hits > 0) cardData.buttons.defenseAstralCombat = SR5_RollMessage.generateChatButton("opposedTest","defenseAstralCombat",game.i18n.localize("SR5.Defend"));
 				break;
+			case "firstAid":
+				if (cardData.test.criticalGlitchRoll) {
+					let failedDamage = new Roll(`1d3`);
+					await failedDamage.evaluate({async: true});
+					cardData.damageValue = failedDamage.total;
+					cardData.damageType = await SR5_DiceHelper.chooseDamageType();
+					if (cardData.hasTarget) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.format('SR5.HealButtonFailed', {hits: cardData.damageValue, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.damageType]))})}`);
+					else cardData.buttons.damage = SR5_RollMessage.generateChatButton("opposedTest", "damage", `${game.i18n.format('SR5.HealButtonFailed', {hits: cardData.damageValue, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.damageType]))})}`);
+				} else if (cardData.test.hits > 2) {
+					cardData.healValue = cardData.test.hits - 2;
+					if (cardData.healValue > actorData.skills.firstAid.rating.value) cardData.healValue = actorData.skills.firstAid.rating.value;
+					if (cardData.hasTarget) cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("nonOpposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
+					else cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
+				}
+				break;
 			default:
 		}
 	}
@@ -1287,6 +1305,7 @@ export class SR5_Dice {
 				gmAction = true;
 				key = "escapeEngulfDefense";
 				testType = "nonOpposedTest";
+				break;
 			default:
 		}
 
@@ -1589,5 +1608,17 @@ export class SR5_Dice {
 	static async addRegenerationResultInfoToCard(cardData){
 		cardData.netHits = cardData.test.hits + cardData.actorBody;
 		cardData.buttons.regeneration = SR5_RollMessage.generateChatButton("nonOpposedTest", "regeneration", `${game.i18n.format('SR5.Regenerate', {hits: cardData.netHits})}`);
+	}
+
+	static async addHealingInfoToCard(cardData){
+		if (cardData.test.glitchRoll || cardData.test.criticalGlitchRoll) cardData.extendedIntervalValue = cardData.extendedIntervalValue *2;
+		if (cardData.test.criticalGlitchRoll) {
+			let failedDamage = new Roll(`1d3`);
+			await failedDamage.evaluate({async: true});
+			cardData.damageValue = failedDamage.total;
+			cardData.damageType = cardData.typeSub;
+			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.format('SR5.HealButtonFailed', {hits: cardData.damageValue, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.typeSub]))})}`);
+		}
+		if (cardData.test.hits > 0) cardData.buttons.heal = SR5_RollMessage.generateChatButton("nonOpposedTest", "heal", `${game.i18n.format('SR5.HealButton', {hits: cardData.test.hits, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.typeSub]))})}`);
 	}
 }

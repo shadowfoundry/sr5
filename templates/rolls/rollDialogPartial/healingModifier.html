@@ -1,0 +1,71 @@
+<li class="grid SR-TopSeparator">
+    <div class="col-3">{{localize 'SR5.HealingConditions'}}{{localize 'SR5.Colons'}}</div> 
+    <div class="col-8">
+        <select class="healingCondition" name="healingCondition">
+        {{#select healingCondition}}
+            <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="good">{{localize 'SR5.HealingConditionsGood'}}</option>
+            <option value="average">{{localize 'SR5.HealingConditionsAverage'}}</option>
+            <option value="poor">{{localize 'SR5.HealingConditionsPoor'}}</option>
+            <option value="bad">{{localize 'SR5.HealingConditionsBad'}}</option>
+            <option value="terrible">{{localize 'SR5.HealingConditionsTerrible'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModHealingCondition" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.HealingSupplies'}}{{localize 'SR5.Colons'}}</div> 
+    <div class="col-6">
+        <select name="healingSupplies">
+        {{#select healingSupplies}}
+            <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="noSupplies">{{localize 'SR5.HealingSuppliesNone'}}</option>
+            <option value="improvised">{{localize 'SR5.HealingSuppliesImprovised'}}</option>
+            <option value="medkit">{{localize 'SR5.HealingSuppliesMedkit'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModHealingSupplies" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-9">{{localize 'SR5.PatientAwakenedOrEmerged'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2">
+        <select name="patientAwakenedOrEmerged">
+            {{#select patientAwakenedOrEmerged}}
+                <option value="false">{{localize 'SR5.No'}}</option> 
+                <option value="true">{{localize 'SR5.Yes'}}</option>   
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModPatientAwakenedOrEmerged" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-9">{{localize 'SR5.CooperativePatient'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2">
+        <select name="patientCooperation">
+            {{#select patientCooperation}}
+                <option value="true">{{localize 'SR5.Yes'}}</option>
+                <option value="false">{{localize 'SR5.No'}}</option>      
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModPatientCooperation" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-9">{{localize 'SR5.PatientEssence'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2">
+        <input type="number" style="text-align:center;" name="patientEssence" value="{{targetEssence}}" placeholder="0" data-dtype="Number" />
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="dicePoolModPatientEssence" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

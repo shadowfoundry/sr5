@@ -41,6 +41,10 @@ export class SR5_DiceHelper {
                 newItem.data.netHits = 0;                
             }
         }
+        //updateCharge
+        if (newItem.type === "itemGear"){
+            newItem.data.charge -= 1;
+        }
 
         item.update(newItem);
     }
@@ -994,6 +998,35 @@ export class SR5_DiceHelper {
         });
     }
 
+    static async chooseDamageType(){
+        let cancel = true;
+        let dialogData = {list: SR5.PCConditionMonitors}
+        return new Promise((resolve, reject) => {
+            renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
+                new Dialog({
+                title: game.i18n.localize('SR5.ChooseDamageType'),
+                content: dlg,
+                buttons: {
+                    ok: {
+                    label: "Ok",
+                    callback: () => (cancel = false),
+                    },
+                    cancel: {
+                    label : "Cancel",
+                    callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    let damageType = html.find("[name=damageType]").val();
+                    resolve(damageType);
+                },
+                }).render(true);
+            });
+        });
+    }
+
     static async rollJackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         actor = actor.toObject(false);
@@ -1409,5 +1442,31 @@ export class SR5_DiceHelper {
         }
     
     return itemEffects;
+    }
+
+    static convertHealingConditionToDiceMod(condition){
+        switch (condition){
+            case "good":
+                return 0;
+            case "average":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static findMedkitRating(actor){
+        let medkit = {};
+        let item = actor.items.find(i => i.data.data.isMedkit)
+        if (item && item.data.data.charge > 0){
+            medkit.rating = item.data.data.itemRating;
+            medkit.id = item.id;
+            return medkit;
+        }
     }
 }
