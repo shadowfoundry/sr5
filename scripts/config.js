@@ -118,6 +118,11 @@ SR5.characterConditionMonitors = {
   condition                 : "SR5.ConditionMonitorShort",
 };
 
+SR5.PCConditionMonitors = {
+  physical                  : "SR5.ConditionMonitorPhysicalShort",
+  stun                      : "SR5.ConditionMonitorStunShort",
+};
+
 SR5.characterOtherMonitors = {
   overflow                  : "SR5.ConditionMonitorPhysicalOverflowShort",
   edge                      : "SR5.Edge",

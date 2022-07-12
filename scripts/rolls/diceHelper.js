@@ -998,6 +998,35 @@ export class SR5_DiceHelper {
         });
     }
 
+    static async chooseDamageType(){
+        let cancel = true;
+        let dialogData = {list: SR5.PCConditionMonitors}
+        return new Promise((resolve, reject) => {
+            renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
+                new Dialog({
+                title: game.i18n.localize('SR5.ChooseDamageType'),
+                content: dlg,
+                buttons: {
+                    ok: {
+                    label: "Ok",
+                    callback: () => (cancel = false),
+                    },
+                    cancel: {
+                    label : "Cancel",
+                    callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    let damageType = html.find("[name=damageType]").val();
+                    resolve(damageType);
+                },
+                }).render(true);
+            });
+        });
+    }
+
     static async rollJackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         actor = actor.toObject(false);

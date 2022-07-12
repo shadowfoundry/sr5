@@ -136,6 +136,14 @@ export class SR5_RollMessage {
                 case "drainCard":
                     actor.rollTest(type, null, messageData);
                     break;
+                case "firstAid":
+                    let healData = {test:{hits: messageData.healValue,},}
+                    if (actor.type === "actorPc"){
+                        healData.typeSub = await SR5_DiceHelper.chooseDamageType();
+                    } else healData.typeSub = "condition";
+                    actor.heal(healData);
+                    SR5_RollMessage.updateChatButton(messageId, type, healData.typeSub);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (opposed Test)`);
             }
@@ -405,7 +413,7 @@ export class SR5_RollMessage {
     }
 
     //Update the stat of a chatMessage button
-    static async updateChatButton(message, buttonToUpdate){
+    static async updateChatButton(message, buttonToUpdate, firstOption){
         if (buttonToUpdate === undefined) return;
         //Delete useless buttons
         message = await game.messages.get(message);
@@ -494,6 +502,9 @@ export class SR5_RollMessage {
             case "heal":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.test.hits}${game.i18n.localize(SR5.damageTypesShort[messageData.typeSub])} ${game.i18n.localize("SR5.Healed")}`);
                 messageData.extendedTest = false;
+                break;
+            case "firstAid":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.healValue}${game.i18n.localize(SR5.damageTypesShort[firstOption])} ${game.i18n.localize("SR5.Healed")}`);
                 break;
             default:
         }

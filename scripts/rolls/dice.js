@@ -1187,6 +1187,12 @@ export class SR5_Dice {
 			case "astralCombat":
 				if (cardData.test.hits > 0) cardData.buttons.defenseAstralCombat = SR5_RollMessage.generateChatButton("opposedTest","defenseAstralCombat",game.i18n.localize("SR5.Defend"));
 				break;
+			case "firstAid":
+				if (cardData.test.hits > 2) {
+					cardData.healValue = cardData.test.hits - 2;
+					cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
+				}
+				break;
 			default:
 		}
 	}
