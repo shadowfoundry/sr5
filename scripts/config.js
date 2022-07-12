@@ -304,7 +304,7 @@ SR5.technicalSkills = {
   hardware                  : "SR5.SkillHardware",
   industrialMechanic        : "SR5.SkillIndustrialMechanic",
   locksmith                 : "SR5.SkillLocksmith",
-  medecine                  : "SR5.SkillMedecine",
+  medecine                  : "SR5.SkillMedicine",
   nauticalMechanic          : "SR5.SkillNauticalMechanic",
   navigation                : "SR5.SkillNavigation",
   software                  : "SR5.SkillSoftware",
