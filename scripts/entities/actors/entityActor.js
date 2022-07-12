@@ -1797,10 +1797,10 @@ export class SR5Actor extends Actor {
   }
 
   //Manage Healing
-  static async heal(actorId, data){
+  static async heal(targetActorID, data){
     let damageToRemove = data.test.hits,
         damageType = data.typeSub,
-        targetActor = SR5_EntityHelpers.getRealActorFromID(actorId),
+        targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
         actorData = deepClone(targetActor.data);
         
     actorData = actorData.toObject(false);
