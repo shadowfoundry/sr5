@@ -610,9 +610,6 @@ export class SR5_Dice {
 				cardData.buttons.defenseMeleeWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseMeleeWeapon",game.i18n.localize("SR5.Defend"));
 			}		
 		} else {
-			if (cardData.type === "rammingTest") {
-				cardData.buttons.defenseRamming = SR5_RollMessage.generateChatButton("opposedTest","defenseRamming",game.i18n.localize("SR5.Defend"));
-			}	
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.AttackMissed"));
 		}
 	}

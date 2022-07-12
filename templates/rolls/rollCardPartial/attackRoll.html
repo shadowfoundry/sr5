@@ -48,6 +48,12 @@
     <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' ammoType}}</div>
 </li>
 {{/if}}
+{{#if (ne calledShot 'noChoice')}}
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'calledShots' calledShot}}</div>
+</li>
+{{/if}}
 {{#if (eq typeSub 'grenade')}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.Blast'}}{{localize 'SR5.Colons'}}</div>

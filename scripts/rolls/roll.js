@@ -33,6 +33,8 @@ export class SR5_Roll {
             backgroundAlignement, 
             sceneNoise,
             sceneEnvironmentalMod,
+            calledShot,
+            limitDV = "",
             originalMessage,
             effectsList,
             spiritHelp,
@@ -414,10 +416,16 @@ export class SR5_Roll {
                                     chatData.damageType = "stun";
                                     title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
                                     ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:damageValueBase})}`); 
+                                }                                              
+                                //Handle specific target if any                
+                                if (chatData.limitDV) {
+                                    let incomingDV = Math.min(damageValueBase, chatData.limitDV);
+                                    damageValueBase = incomingDV;
                                 }
                                 break;
                             default:
                         }
+
 
                         dicePool = resistanceValue + modifiedArmor;
 
@@ -428,6 +436,8 @@ export class SR5_Roll {
                             armor: armor,
                             armorComposition: armorComposition,
                             ammoType: chatData.ammoType,
+                            calledShot: chatData.calledShot,
+                            limitDV : chatData.limitDV,
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -985,6 +995,8 @@ export class SR5_Roll {
                     damageValueBase: chatData.damageValue,
                     damageType: chatData.damageType,
                     ammoType: chatData.ammoType,
+                    calledShot: chatData.calledShot,
+                    limitDV : chatData.limitDV,
                     incomingPA: chatData.incomingPA,
                     incomingFiringMode: chatData.firingModeDefenseMod,
                     cumulativeDefense: cumulativeDefense,
@@ -1083,6 +1095,8 @@ export class SR5_Roll {
                     ammoType: itemData.ammunition.type,
                     ammoValue: itemData.ammunition.value,
                     ammoMax: itemData.ammunition.max,
+                    calledShot: calledShot,
+                    limitDV : limitDV,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     dicePoolComposition: itemData.weaponSkill.modifiers,
                     "firingMode.singleShot": itemData.firingMode.singleShot,

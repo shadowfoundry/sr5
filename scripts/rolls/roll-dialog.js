@@ -190,6 +190,18 @@ export default class SR5_RollDialog extends Dialog {
         if (html.find('[name="firingMode"]')[0]) this._addFiringModeModifier(html, dialogData);
         html.find(".firingMode").change(ev => this._addFiringModeModifier(html, dialogData));
 
+        // Called Shots
+        if (html.find('[name="incomingCalledShots"]')[0]) this._addincomingCalledShotsModifier(null, html, dialogData, actorData);
+        html.find(".incomingCalledShots").change(ev => this._addincomingCalledShotsModifier(null, html, dialogData, actorData));
+
+        // Called Shots Specific Target
+        if (html.find('[name="incomingSpecificTarget"]')[0]) this._addincomingSpecificTargetModifier(null, html, dialogData, actorData);
+        html.find(".incomingSpecificTarget").change(ev => this._addincomingSpecificTargetModifier(null, html, dialogData, actorData));
+
+        // Called Shots Ammo Specific
+        if (html.find('[name="incomingAmmoSpecific"]')[0]) this._addincomingAmmoSpecificModifier(null, html, dialogData, actorData);
+        html.find(".incomingAmmoSpecific").change(ev => this._addincomingAmmoSpecificModifier(null, html, dialogData, actorData));
+
         // Reset Recoil
         html.find(".resetRecoil").click(ev => this._onResetRecoil(ev, html, dialogData, actorData));
 
@@ -555,6 +567,125 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.dicePoolMod.recoil = recoil;
         this.updateDicePoolValue(html);
     }
+
+    //Add Called Shots modifier
+    _addincomingCalledShotsModifier(ev, html, dialogData, actorData){
+        let calledShot = html.find('[name="incomingCalledShots"]')[0].value;
+        let body = actorData.data.attributes.body.augmented.value;
+        let calledShotValue;
+        switch(calledShot) {
+            case "CS_AmmoSpecific" :
+                calledShotValue = 0;
+                document.getElementById("incomingAmmoSpecific").style.display = 'block';
+                document.getElementById("incomingSpecificTarget").style.display = 'none';
+                document.getElementById("incomingCalledShots").className = "col-4 SR-PaddingRight10";
+            break;
+            case "CS_SpecificTarget" :
+                calledShotValue = 0;
+                document.getElementById("incomingSpecificTarget").style.display = 'block';
+                document.getElementById("incomingAmmoSpecific").style.display = 'none';
+                document.getElementById("incomingCalledShots").className = "col-4 SR-PaddingRight10";
+            break;
+            case "CS_BlastOutOfHand" :
+            case "CS_DirtyTrick" :
+            case "CS_Entanglement" :
+            case "CS_Pin" :
+            case "CS_SplittingDamage" :
+            case "CS_ShakeUp" :
+            case "CS_TrickShot" :
+            case "CS_BreakWeapon" :
+            case "CS_Disarm" :
+            case "CS_Feint" :
+            case "CS_KnockDown" :
+            case "CS_Reversal" :
+                calledShotValue = -4;
+                document.getElementById("incomingAmmoSpecific").style.display = 'none';
+                document.getElementById("incomingSpecificTarget").style.display = 'none';
+                document.getElementById("incomingCalledShots").className = "col-7 SR-PaddingRight10";
+            break;
+            case "noChoice" :
+                calledShotValue = 0;
+                document.getElementById("incomingAmmoSpecific").style.display = 'none';
+                document.getElementById("incomingSpecificTarget").style.display = 'none';
+                document.getElementById("incomingCalledShots").className = "col-7 SR-PaddingRight10";
+            break;
+        default:
+        }
+        html.find('[name="dicePoolModCalledShots"]')[0].value = calledShotValue;
+        this.dicePoolModifier.calledShot = calledShotValue;
+        dialogData.dicePoolMod.calledShot = calledShotValue;
+        dialogData.calledShot = calledShot;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add Called Shots on specific target modifier
+    _addincomingSpecificTargetModifier(ev, html, dialogData, actorData){
+        let calledShotSpecificTarget = html.find('[name="incomingSpecificTarget"]')[0].value;
+        let calledShotValue, limitDV;
+        switch(calledShotSpecificTarget) {
+            case "CS_ST_Gut" : 
+                calledShotValue = -6;
+                limitDV = 8;
+        break;               
+            case "CS_ST_Forearm" :
+            case "CS_ST_Shin" : 
+                calledShotValue = -6;
+                limitDV = 2;
+        break;
+            case "CS_ST_Shoulder" :                   
+            case "CS_ST_Thigh" : 
+            case "CS_ST_Hip" : 
+                calledShotValue = -6;
+                limitDV = 3;
+        break; 
+            case "CS_ST_Ankle" :
+            case "CS_ST_Knee" :
+            case "CS_ST_Hand" :
+            case "CS_ST_Foot" :
+                calledShotValue = -8;
+                limitDV = 1;
+        break;
+            case "CS_ST_Neck" :
+                calledShotValue = -8;
+                limitDV = 10;
+        break;
+            case "CS_ST_Jaw" :
+                calledShotValue = -8;
+                limitDV = 2;
+        break;
+            case "CS_ST_Ear" :
+            case "CS_ST_Eye" :
+                calledShotValue = -10;
+                limitDV = 1;
+        break;
+            case "CS_ST_Genitals" :
+                calledShotValue = -10;
+                limitDV = 4;
+        break;
+            case "CS_ST_Sternum" :
+                calledShotValue = -10;
+                limitDV = 10;
+        break;
+            case "noChoice" :
+            calledShotValue = 0;
+            limitDV = "";
+        break;
+        default:
+        }
+        html.find('[name="dicePoolModCalledShots"]')[0].value = calledShotValue;
+        this.dicePoolModifier.calledShot = calledShotValue;
+        dialogData.dicePoolMod.calledShot = calledShotValue;
+        dialogData.limitDV = limitDV;
+        dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add Called Shots with specific ammo modifier
+    _addincomingAmmoSpecificModifier(ev, html, dialogData, actorData){
+        let calledShotAmmoSpecific = html.find('[name="incomingAmmoSpecific"]')[0].value;
+    }
+
+
 
     //Toggle reset recoil
     _onResetRecoil(ev, html, dialogData, actorData){

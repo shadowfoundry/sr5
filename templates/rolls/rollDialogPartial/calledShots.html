@@ -1,0 +1,88 @@
+{{#if (eq typeSub "rangedWeapon")}}
+<li class="grid SR-TopSeparator">
+    <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-PaddingRight10" id="incomingCalledShots">
+        <select class="incomingCalledShots" name="incomingCalledShots">
+            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            {{#select incomingCalledShots}}
+            <option value="CS_AmmoSpecific">{{localize 'SR5.CS_AmmoSpecific'}}</option>
+            <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
+            <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>
+            <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+            <option value="CS_Pin">{{localize 'SR5.CS_Pin'}}</option>
+            <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
+            <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
+            <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
+            <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
+            {{/select}}
+        </select>
+    </div>
+
+{{/if}}
+
+{{#if (eq typeSub "meleeWeapon")}}
+<li class="grid SR-TopSeparator">
+    <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-PaddingRight10" id="incomingCalledShots">
+        <select class="incomingCalledShots" name="incomingCalledShots">
+            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            {{#select incomingCalledShots}}
+            <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
+            <option value="CS_BreakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
+            <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>
+            <option value="CS_Disarm">{{localize 'SR5.CS_Disarm'}}</option>
+            <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+            <option value="CS_Feint">{{localize 'SR5.CS_Feint'}}</option>
+            <option value="CS_KnockDown">{{localize 'SR5.CS_KnockDown'}}</option>
+            <option value="CS_Reversal">{{localize 'SR5.CS_Reversal'}}</option>
+            <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
+            <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
+            <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
+            <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    {{/if}}
+    <div class="col-3 SR-PaddingRight10" style="display: none;" id="incomingSpecificTarget">
+        <select class="incomingSpecificTarget" name="incomingSpecificTarget" data-dtype="String">
+            {{#select incomingSpecificTarget}}
+            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="CS_ST_Ankle">{{localize 'SR5.CS_ST_Ankle'}}</option>
+            <option value="CS_ST_Ear">{{localize 'SR5.CS_ST_Ear'}}</option>
+            <option value="CS_ST_Eye">{{localize 'SR5.CS_ST_Eye'}}</option>
+            <option value="CS_ST_Foot">{{localize 'SR5.CS_ST_Foot'}}</option>
+            <option value="CS_ST_Forearm">{{localize 'SR5.CS_ST_Forearm'}}</option>
+            <option value="CS_ST_Genitals">{{localize 'SR5.CS_ST_Genitals'}}</option>
+            <option value="CS_ST_Gut">{{localize 'SR5.CS_ST_Gut'}}</option>
+            <option value="CS_ST_Hand">{{localize 'SR5.CS_ST_Hand'}}</option>
+            <option value="CS_ST_Hip">{{localize 'SR5.CS_ST_Hip'}}</option>
+            <option value="CS_ST_Jaw">{{localize 'SR5.CS_ST_Jaw'}}</option>
+            <option value="CS_ST_Knee">{{localize 'SR5.CS_ST_Knee'}}</option>
+            <option value="CS_ST_Neck">{{localize 'SR5.CS_ST_Neck'}}</option>
+            <option value="CS_ST_Shin">{{localize 'SR5.CS_ST_Shin'}}</option>
+            <option value="CS_ST_Shoulder">{{localize 'SR5.CS_ST_Shoulder'}}</option>
+            <option value="CS_ST_Sternum">{{localize 'SR5.CS_ST_Sternum'}}</option>
+            <option value="CS_ST_Thigh">{{localize 'SR5.CS_ST_Thigh'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-3 SR-PaddingRight10" style="display: none;" id="incomingAmmoSpecific">
+        <select class="incomingAmmoSpecific" name="incomingAmmoSpecific">
+            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            {{#select incomingAmmoSpecific}}
+            <option value="CS_AmmoSpecific">{{localize 'SR5.CS_AmmoSpecific'}}</option>
+            <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
+            <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>
+            <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+            <option value="CS_Pin">{{localize 'SR5.CS_Pin'}}</option>
+            <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
+            <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
+            <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
+            <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="dicePoolModCalledShots" name="dicePoolModCalledShots" value="{{incomingCalledShots}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

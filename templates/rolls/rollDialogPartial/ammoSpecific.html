@@ -1,0 +1,22 @@
+<li class="grid SR-TopSeparator" style="display: none;" id="incomingAmmoSpecific">
+    <div class="col-5">{{localize 'SR5.CS_AmmoSpecific'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-PaddingRight10">
+        <select class="incomingAmmoSpecific" name="incomingAmmoSpecific">
+            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            {{#select incomingAmmoSpecific}}
+            <option value="CS_AmmoSpecific">{{localize 'SR5.CS_AmmoSpecific'}}</option>
+            <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
+            <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>
+            <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+            <option value="CS_Pin">{{localize 'SR5.CS_Pin'}}</option>
+            <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
+            <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
+            <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
+            <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="dicePoolModAmmoSpecific" name="dicePoolModAmmoSpecific" value="{{incomingAmmoSpecific}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

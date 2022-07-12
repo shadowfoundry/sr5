@@ -801,6 +801,45 @@ SR5.toxinEffects = {
 };
 
 
+// Called Shots
+SR5.calledShots = {
+  CS_AmmoSpecific           : "SR5.CS_AmmoSpecific",
+  CS_BlastOutOfHand         : "SR5.CS_BlastOutOfHand",
+  CS_DirtyTrick             : "SR5.CS_DirtyTrick",
+  CS_Entanglement           : "SR5.CS_Entanglement",
+  CS_Pin                    : "SR5.CS_Pin",
+  CS_ShakeUp                : "SR5.CS_ShakeUp",
+  CS_SplittingDamage        : "SR5.CS_SplittingDamage",
+  CS_SpecificTarget         : "SR5.CS_SpecificTarget",
+  CS_TrickShot              : "SR5.CS_TrickShot",
+  CS_Disarm                 : "SR5.CS_Disarm",
+  CS_Feint                  : "SR5.CS_Feint",
+  CS_KnockDown              : "SR5.CS_KnockDown",
+  CS_Reversal               : "SR5.CS_Reversal",
+};
+
+// Called Shots Specific Target
+SR5.calledShotsSpecificTarget = {
+  CS_ST_Ankle               : "SR5.CS_ST_Ankle ",
+  CS_ST_Ear                 : "SR5.CS_ST_Ear",
+  CS_ST_Eye                 : "SR5.CS_ST_Eye",
+  CS_ST_Foot                : "SR5.CS_ST_Foot",
+  CS_ST_Forearm             : "SR5.CS_ST_Forearm",
+  CS_ST_Genitals            : "SR5.CS_ST_Genitals",
+  CS_ST_Gut                 : "SR5.CS_ST_Gut",
+  CS_ST_Hand                : "SR5.CS_ST_Hand",
+  CS_ST_Hip                 : "SR5.CS_ST_Hip",
+  CS_ST_Jaw                 : "SR5.CS_ST_Jaw",
+  CS_ST_Knee                : "SR5.CS_ST_Knee",
+  CS_ST_Neck                : "SR5.CS_ST_Neck",
+  CS_ST_Shin                : "SR5.CS_ST_Shin",
+  CS_ST_Shoulder            : "SR5.CS_ST_Shoulder",
+  CS_ST_Sternum             : "SR5.CS_ST_Sternum",
+  CS_ST_Thigh               : "SR5.CS_ST_Thigh",
+};
+
+
+
 //-----------------------------------//
 //              ITEMS                //
 //-----------------------------------//
