@@ -1,9 +1,9 @@
 <li class="grid">
     <div class="col-9">{{localize 'SR5.Specialization'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2">
-        <select class="specialization" name="specialization">
-        {{#select spécial}}
-            <option value="">{{localize 'SR5.No'}}</option>
+        <select name="specialization">
+        {{#select specialization}}
+            <option value="false">{{localize 'SR5.No'}}</option>
             <option value="true">{{localize 'SR5.Yes'}}</option>
         {{/select}}
         </select>

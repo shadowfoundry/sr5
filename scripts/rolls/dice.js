@@ -1225,6 +1225,9 @@ export class SR5_Dice {
 					else cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
 				}
 				break;
+			case "escapeArtist":
+				console.log("escapeArtist");
+				break;
 			default:
 		}
 	}

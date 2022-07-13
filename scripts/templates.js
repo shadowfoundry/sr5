@@ -497,6 +497,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/damage.html",
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
     "systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html",
 
     /************************************************************************************* */
     /**                             CHATCARDS PARTIALS                                    **/
