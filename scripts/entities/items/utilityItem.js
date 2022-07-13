@@ -124,6 +124,7 @@ export class SR5_UtilityItem extends Actor {
     //Reset accessory
     if (itemData.type === "itemAugmentation" || itemData.type === "itemGear"){
       if (!itemData.document.isOwned) data.accessory = [];
+      data.isMedkit = false;
     }
 
     //Reset price & availability
@@ -1908,6 +1909,12 @@ export class SR5_UtilityItem extends Actor {
         }
       }
     }
+
+    for (let systemEffect of Object.values(item.data.systemEffects)){
+      //Special for Medkit
+      if (systemEffect.value === "medkit") item.data.isMedkit = true;
+    }
+
   }
 
 }

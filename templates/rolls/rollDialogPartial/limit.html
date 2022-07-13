@@ -31,3 +31,12 @@
     </div>
 </li>
 {{/ife}}
+<!-- HEALING MEDKIT -->
+{{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
+<li class="grid">
+    <div class="col-11">{{localize 'SR5.HealingSupplies'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter ">
+        <input disabled type="number" name="limitModHealingSupplies" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}

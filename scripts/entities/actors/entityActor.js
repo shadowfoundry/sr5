@@ -242,7 +242,7 @@ export class SR5Actor extends Actor {
             attribute: "statusBars.matrix",
           },
         });
-        let effect = SR5_CharacterUtility.generateInitiativeEffect("matrixInit");
+        let effect = await _getSRStatusEffect("matrixInit");
         let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect);
         const effects = this.effects.map(e => e.toObject());
         effects.push(initiativeEffect.toObject());
@@ -770,7 +770,7 @@ export class SR5Actor extends Actor {
   }
 
   //Applique les dégâts à l'acteur
-  async takeDamage(options) { //
+  async takeDamage(options) {
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data),
@@ -1831,6 +1831,23 @@ export class SR5Actor extends Actor {
     await this.update(actorData);
   }
 
+  //Manage Healing
+  static async heal(targetActorID, data){
+    let damageToRemove = data.test.hits,
+        damageType = data.typeSub,
+        targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
+        actorData = deepClone(targetActor.data);
+        
+    actorData = actorData.toObject(false);
+    actorData.data.conditionMonitors[damageType].actual.base -= damageToRemove;
+    await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
+    await targetActor.update(actorData);
+  }
+
+  //Manage Healing by socket
+  static async _socketHeal(message){
+    await SR5Actor.heal(message.data.targetActor, message.data.healData);
+  }
 }
 
 CONFIG.Actor.documentClass = SR5Actor;
