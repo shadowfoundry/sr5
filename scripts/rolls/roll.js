@@ -647,7 +647,13 @@ export class SR5_Roll {
                             targetGrid: t.actor.data.data.matrix.userGrid,
                         });
                         if (matrixAction.neededMarks > 0){
-                            let markItem = t.actor.data.items.find((i) => i.data.owner === speakerId);
+                            let listOfMarkedItem = t.actor.data.items.map(i => i.data.data.marks);
+                            listOfMarkedItem = listOfMarkedItem.filter(i => i !== undefined);
+                            let markItem;
+                            for (let i of listOfMarkedItem){
+                                markItem = i.find(m => m.ownerId === speakerId);
+                                if (markItem) break;
+                            }
                             if (markItem === undefined || markItem?.value < matrixAction.neededMarks) {
                                 ui.notifications.info(game.i18n.localize("SR5.NotEnoughMarksOnTarget"));
                                 return;
