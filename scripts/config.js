@@ -829,9 +829,24 @@ SR5.valueMultipliersNoRating = {
   capacity                  : "SR5.Capacity",
 };
 
+SR5.valueMultipliersVehicle = {
+  acceleration              : "SR5.VehicleStat_AccelerationShort",
+  handling                  : "SR5.VehicleStat_HandlingShort",
+  body                      : "SR5.VehicleStat_BodyShort",
+  speed                     : "SR5.VehicleStat_SpeedShort",
+  seating                   : "SR5.Vehicle_SeatingShort",
+  vehicle                   : "SR5.VehicleFull",
+};
+
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
   ...SR5.valueMultipliersNoRating,
+};
+
+SR5.valueMultipliersAll = {
+  ...SR5.valueMultipliersNoCapacity,
+  ...SR5.valueMultipliersNoRating,
+  ...SR5.valueMultipliersVehicle,
 };
 
 // Addiction types
@@ -1513,50 +1528,108 @@ SR5.matrixSearchInfoType = {
 
 // Vehicle/Drone Attributes
 SR5.vehicleAttributes = {
-  handling                  : "SR5.VehicleStat_HandlingShort",
-  handlingOffRoad           : "SR5.VehicleStat_HandlingORShort",
-  speed                     : "SR5.VehicleStat_SpeedShort",
-  speedOffRoad              : "SR5.VehicleStat_SpeedORShort",
-  acceleration              : "SR5.VehicleStat_AccelerationShort",
-  accelerationOffRoad       : "SR5.VehicleStat_AccelerationORShort",
-  body                      : "SR5.VehicleStat_BodyShort",
-  armor                     : "SR5.VehicleStat_ArmorShort",
-  pilot                     : "SR5.VehicleStat_PilotShort",
-  sensor                    : "SR5.VehicleStat_SensorShort",
-  seating                   : "SR5.Vehicle_SeatingShort",
+  handling                             : "SR5.VehicleStat_HandlingShort",
+  handlingOffRoad                      : "SR5.VehicleStat_HandlingORShort",
+  secondaryPropulsionHandling          : "SR5.VehicleStat_SPHandlingShort",
+  secondaryPropulsionHandlingOffRoad   : "SR5.VehicleStat_SPHandlingORShort",
+  speed                                : "SR5.VehicleStat_SpeedShort",
+  secondaryPropulsionSpeed             : "SR5.VehicleStat_SPSpeedShort",
+  speedOffRoad                         : "SR5.VehicleStat_SpeedORShort",
+  acceleration                         : "SR5.VehicleStat_AccelerationShort",
+  secondaryPropulsionAcceleration      : "SR5.VehicleStat_SPAccelerationShort",
+  accelerationOffRoad                  : "SR5.VehicleStat_AccelerationORShort",
+  body                                 : "SR5.VehicleStat_BodyShort",
+  armor                                : "SR5.VehicleStat_ArmorShort",
+  pilot                                : "SR5.VehicleStat_PilotShort",
+  sensor                               : "SR5.VehicleStat_SensorShort",
+  seating                              : "SR5.Vehicle_SeatingShort",
 };
 
 // Types de véhicules
-SR5.vehicleCategories = {
+SR5.vehicleTypes = {
   drone                     : "SR5.DroneFull",
   vehicle                   : "SR5.VehicleFull",
 };
 
-// Types de drones
-SR5.droneTypes = {
+// Types de drones et véhicules
+SR5.vehiclesCategories = {
   microdrone                : "SR5.DRONES_Microdrone_F",
   minidrone                 : "SR5.DRONES_Minidrone_F",
   smallDrone                : "SR5.DRONES_SmallDrone_F",
   mediumDrone               : "SR5.DRONES_MediumDrone_F",
   largeDrone                : "SR5.DRONES_LargeDrone_F",
-};
-
-// Types de véhicules
-SR5.vehicleTypes = {
+  hugeDrone                 : "SR5.DRONES_HugeDrone_F",
   vectorThrustCraft         : "SR5.VectorThrustCraftFull",
   fixedWingAircraft         : "SR5.FixedWingAircraftFull",
   boat                      : "SR5.BoatFull",
   truck                     : "SR5.TruckFull",
   rotorCraft                : "SR5.RotorCraftFull",
   bike                      : "SR5.BikeFull",
-  submarine                 : "SR5.SubmarineFull",
+  submarine                 : "SR5.SubmarineFull",  
   car                       : "SR5.CarFull",
+  lta                       : "SR5.LTAFull",
 };
 
-// Types de montures
-SR5.mountTypes = {
-  standard                  : "SR5.VEHICLE_WeaponMountStandard_F",
-  heavy                     : "SR5.VEHICLE_WeaponMountHeavy_F",
+// Types de drones
+SR5.droneCategories = {
+  microdrone                : "SR5.DRONES_Microdrone_F",
+  minidrone                 : "SR5.DRONES_Minidrone_F",
+  smallDrone                : "SR5.DRONES_SmallDrone_F",
+  mediumDrone               : "SR5.DRONES_MediumDrone_F",
+  largeDrone                : "SR5.DRONES_LargeDrone_F",
+  hugeDrone                 : "SR5.DRONES_HugeDrone_F",
+};
+
+// Types de véhicules
+SR5.vehicleCategories = {
+  vectorThrustCraft         : "SR5.VectorThrustCraftFull",
+  fixedWingAircraft         : "SR5.FixedWingAircraftFull",
+  boat                      : "SR5.BoatFull",
+  truck                     : "SR5.TruckFull",
+  rotorCraft                : "SR5.RotorCraftFull",
+  bike                      : "SR5.BikeFull",
+  submarine                 : "SR5.SubmarineFull",  
+  car                       : "SR5.CarFull",
+  lta                       : "SR5.LTAFull",
+};
+
+// Weapon Mount : Size
+SR5.WeaponMountSize = {
+  light                   : "SR5.VEHICLE_WeaponMountSize_L",
+  standard                : "SR5.VEHICLE_WeaponMountSize_S",
+  heavy                   : "SR5.VEHICLE_WeaponMountSize_H",
+};
+
+// Weapon Mount : Visibility
+SR5.WeaponMountVisibility = {
+  external                : "SR5.VEHICLE_WeaponMountVis_E",
+  internal                : "SR5.VEHICLE_WeaponMountVis_I",
+  concealed               : "SR5.VEHICLE_WeaponMountVis_C",
+};
+
+// Weapon Mount : Flexibility
+SR5.WeaponMountFlexibility = {
+  fixed                  : "SR5.VEHICLE_WeaponMountFlex_Fi",
+  flexible               : "SR5.VEHICLE_WeaponMountFlex_Fl",
+  turret                 : "SR5.VEHICLE_WeaponMountFlex_T",
+};
+
+// Weapon Mount : Control mode
+SR5.WeaponMountControl = {
+  remote                 : "SR5.VEHICLE_WeaponMountCon_R",
+  manual                 : "SR5.VEHICLE_WeaponMountCon_M",
+  armoredManual          : "SR5.VEHICLE_WeaponMountCon_AM",
+};
+
+
+// Vehicle and Drone Control mode
+SR5.vehicleSecondaryPropulsionMode = {
+  amphibiousSurface         : "SR5.VEHICLE_SP_AmphibiousSurface",
+  amphibiousSubmersible     : "SR5.VEHICLE_SP_AmphibiousSubmersible",
+  hovercraft                : "SR5.VEHICLE_SP_Hovercraft",
+  rotor                     : "SR5.VEHICLE_SP_Rotor",
+  tracked                   : "SR5.VEHICLE_SP_Tracked",
+  walker                    : "SR5.VEHICLE_SP_Walker",
 };
 
 // Vehicle and Drone Control mode
@@ -1574,6 +1647,16 @@ SR5.vehicleActions = {
   cutOff                    : "SR5.CutOff",
   catchUpBreakAway          : "SR5.CatchUpBreakAway",
   stunt                     : "SR5.Stunt",
+};
+
+// Vehicle actions
+SR5.vehicleRelativeSpeed = {
+  vehicleRelativeSpeed_1    : "SR5.VehicleRelativeSpeed_1",   
+  vehicleRelativeSpeed_11   : "SR5.VehicleRelativeSpeed_11",  
+  vehicleRelativeSpeed_51   : "SR5.VehicleRelativeSpeed_51",
+  vehicleRelativeSpeed_201  : "SR5.VehicleRelativeSpeed_201", 
+  vehicleRelativeSpeed_301  : "SR5.VehicleRelativeSpeed_301", 
+  vehicleRelativeSpeed_501  : "SR5.VehicleRelativeSpeed_501", 
 };
 
 //Target signature
@@ -2475,6 +2558,36 @@ SR5.actorTypes = {
   actorSpirit               : "ACTOR.TypeActorspirit",
   actorSprite               : "ACTOR.TypeActorsprite",
   actorAgent                : "ACTOR.TypeActoragent",
+};
+
+//-----------------------------------//
+//             SOURCE TYPES           //
+//-----------------------------------//
+
+SR5.sourceList = {
+  core                      : "SOURCE.CoreRulebook",
+  runAndGun                 : "SOURCE.RunAndGun",
+  stolenSouls               : "SOURCE.StolenSouls",
+  streetGrimoire            : "SOURCE.StreetGrimoire",
+  runFaster                 : "SOURCE.RunFaster",
+  dataTrails                : "SOURCE.DataTrails",
+  chromeFlesh               : "SOURCE.ChromeFlesh",
+  rigger5                   : "SOURCE.Rigger5",
+  howlingShadows            : "SOURCE.HowlingShadows",
+  courtOfShadows            : "SOURCE.CourtOfShadows",
+  cutingAces                : "SOURCE.CutingAces",  
+  forbiddenArcana           : "SOURCE.ForbiddenArcana",
+  completeTrog              : "SOURCE.CompleteTrog",
+  darkTerrors               : "SOURCE.DarkTerrors",
+  streetLethal              : "SOURCE.StreetLethal",
+  killCode                  : "SOURCE.KillCode",
+  betterThanBad             : "SOURCE.BetterThanBad",
+  noFuture                  : "SOURCE.NoFuture",
+  assassinPrimer            : "SOURCE.AssassinPrimer",
+  coyotes                   : "SOURCE.Coyotes",
+  gunHeaven3                : "SOURCE.GunHeaven3",
+  bulletsAndBandages        : "SOURCE.BulletsAndBandages",
+  shadowSpells              : "SOURCE.ShadowSpells",
 };
 
 //-----------------------------------//

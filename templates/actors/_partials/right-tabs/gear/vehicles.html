@@ -16,7 +16,7 @@
 	  	{{#each actor.vehicles as |item i|}}
 	  	<li class="item" data-item-id="{{item._id}}" draggable="true">
 			<div class="grid">
-		  		<div class="col-10">{{item.name}}</div>
+		  		<div class="col-10 deplie">{{item.name}}</div>
 				<div class="col-1 SR-TextCenter">
 					{{#if data.isCreated}}
 					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"

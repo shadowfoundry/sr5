@@ -17,7 +17,7 @@ The system is heavily automatised, main features are:
     - range, fire mode, scatter, cumulative recoil, cumulative defense, active defenses...
 - magic support: cast spell, summon spirit, create preparation, use Reagents and handle Drain and effects automatically...
 - matrix support: handle marks, matrix damage, biofeedback damage, dumpshock, compile sprite, use complex form, keep track of Overwatch score and more...
-- rigging support: manage your drones and vehicles, load autosofts...
+- rigging support: manage your drones and vehicles, handle modifications, load autosofts...
 - full "sidekick" support. You can summon a spirit, compile a sprite, launch a drone... use it as an actor and bring it back in your "inventory".
 - contextual help with details for all calculations.
 
@@ -64,7 +64,8 @@ The system is heavily automatised, main features are:
 - Spirit
 - Sprite
 - Traditions
-- Vehicle
+- Vehicle & Drone
+- Vehicle & Drone Modification
 - Weapon
 
 ## Installation

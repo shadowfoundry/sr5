@@ -1,8 +1,36 @@
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-5">{{localize 'SR5.VehicleTypeFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="data.type" data-dtype="String" required>
             {{#select data.type}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.vehicleTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+{{#if (eq data.type 'drone')}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.category" data-dtype="String" required>
+            {{#select data.category}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.droneCategories}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+{{else}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.category" data-dtype="String" required>
+            {{#select data.category}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.vehicleCategories}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -11,3 +39,4 @@
         </select>
     </div>
 </li>
+{{/if}}

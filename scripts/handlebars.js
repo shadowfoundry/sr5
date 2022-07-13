@@ -125,6 +125,27 @@ export const registerHandlebarsHelpers = function () {
       case "rating":
         value = item.data.itemRating;
         break;
+      case "acceleration":
+        value = item.data.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        value = item.data.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        value = item.data.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        value = item.data.vehiclePriceMultiplier.body;
+        break;
+      case "speed":
+        value = item.data.vehiclePriceMultiplier.speed;
+        break;
+      case "seating":
+        value = item.data.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+        value = item.data.vehiclePriceMultiplier.vehicle;
+        break;
       default:
         value = SR5_EntityHelpers.resolveObjectPath(`data.${property}.value`, item);
     }

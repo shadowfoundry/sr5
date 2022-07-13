@@ -476,7 +476,8 @@ export class SR5_Dice {
 			case "attack":
 				await SR5_Dice.addAttackInfoToCard(cardData);
 				break;
-			case "defenseCard":
+			case "defenseCard":							
+			case "rammingDefense":
 				await SR5_Dice.addDefenseInfoToCard(cardData, actorId);
 				break;
 			case "resistanceCard":
@@ -494,13 +495,17 @@ export class SR5_Dice {
 			case "power":
 			case "ritual":
 			case "passThroughBarrier":
-			case "escapeEngulf":
+			case "escapeEngulf":							
+			case "rammingTest":
 				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
 				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
 			case "drainCard":
 				await SR5_Dice.addDrainInfoToCard(cardData);
+				break;
+			case "accidentCard":
+				await SR5_Dice.addAccidentInfoToCard(cardData);
 				break;
 			case "complexForm":
 				await SR5_Dice.addComplexFormInfoToCard(cardData);
@@ -606,8 +611,11 @@ export class SR5_Dice {
 				cardData.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseRangedWeapon",game.i18n.localize("SR5.Defend"));
 			} else if (cardData.typeSub === "meleeWeapon") {
 				cardData.buttons.defenseMeleeWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseMeleeWeapon",game.i18n.localize("SR5.Defend"));
-			}
+			}		
 		} else {
+			if (cardData.type === "rammingTest") {
+				cardData.buttons.defenseRamming = SR5_RollMessage.generateChatButton("opposedTest","defenseRamming",game.i18n.localize("SR5.Defend"));
+			}	
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.AttackMissed"));
 		}
 	}
@@ -844,6 +852,21 @@ export class SR5_Dice {
 					buttonToUpdate: "drainCard",
 				});
 			} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "drainCard");}
+	}
+
+	static async addAccidentInfoToCard(cardData) {
+		let damageValue = cardData.accidentValue - cardData.test.hits;		
+
+		//Accident do damage
+		if (damageValue > 0) {
+			cardData.damageValue = damageValue;
+			cardData.damageType = "physical";
+			//Add Accident damage button
+			let label = cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])})`);
+			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+		} else {
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoDamage"));
+		}
 	}
 
 	static async addFadingInfoToCard(cardData){
@@ -1260,6 +1283,13 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.SensorTargetingActiveFailed");
 				key = "activeSensorDefense";
 				testType = "opposedTest";
+				break;
+			case "rammingTest":
+				label = game.i18n.localize("SR5.Defend");
+				labelEnd = game.i18n.localize("SR5.ActionFailure");
+				key = "rammingDefense";
+				testType = "opposedTest";
+				cardData.buttons.accidentCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "accidentCard", `${game.i18n.localize("SR5.ResistAccident")} (${cardData.accidentValue})`);
 				break;
 			case "preparationFormula":
 				label = game.i18n.localize("SR5.PreparationResistance");

@@ -1,0 +1,43 @@
+<!-- MODIFIED DAMAGE -->
+<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+		<div class="col-11">{{localize 'SR5.ModifiedDamage'}}</div>
+	  	<div class="col-1 SR-TextCenter">
+			<input disabled type="number" class="" name="modifiedDamage" value="{{modifiedDamage}}" placeholder="0" data-dtype="Number" />
+	  	</div>
+</li>
+
+<!-- DAMAGE ON SPEED -->
+<li class="grid">
+    <div class="col-6">{{localize 'SR5.VehicleRelativeSpeedAttacker'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-PaddingRight10">
+            <select name="speedRammingAttacker" class="speedRammingAttacker">
+                {{#select speedRammingAttacker}}
+                <option value="speedRamming1">{{localize 'SR5.VehicleRelativeSpeed_1'}}</option>
+                <option value="speedRamming11" selected="selected">{{localize 'SR5.VehicleRelativeSpeed_11'}}</option>
+                <option value="speedRamming51">{{localize 'SR5.VehicleRelativeSpeed_51'}}</option>
+                <option value="speedRamming201">{{localize 'SR5.VehicleRelativeSpeed_201'}}</option>
+                <option value="speedRamming301">{{localize 'SR5.VehicleRelativeSpeed_301'}}</option>
+                <option value="speedRamming501">{{localize 'SR5.VehicleRelativeSpeed_501'}}</option>
+                {{/select}}
+            </select>
+    </div>
+</li>
+<!-- DAMAGE ON SPEED -->
+<li class="grid">
+    <div class="col-6">{{localize 'SR5.VehicleRelativeSpeedTarget'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-5 SR-PaddingRight10">
+            <select name="speedRammingTarget" class="speedRammingTarget">
+                {{#select speedRammingTarget}}
+                <option value="speedRamming1">{{localize 'SR5.VehicleRelativeSpeed_1'}}</option>
+                <option value="speedRamming11" selected="selected">{{localize 'SR5.VehicleRelativeSpeed_11'}}</option>
+                <option value="speedRamming51">{{localize 'SR5.VehicleRelativeSpeed_51'}}</option>
+                <option value="speedRamming201">{{localize 'SR5.VehicleRelativeSpeed_201'}}</option>
+                <option value="speedRamming301">{{localize 'SR5.VehicleRelativeSpeed_301'}}</option>
+                <option value="speedRamming501">{{localize 'SR5.VehicleRelativeSpeed_501'}}</option>
+                {{/select}}
+            </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="" name="accidentValue" value="{{accidentValue}}" placeholder="0" data-dtype="Number" />
+      </div>
+</li>

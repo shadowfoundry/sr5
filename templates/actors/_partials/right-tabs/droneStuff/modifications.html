@@ -1,10 +1,10 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="SR-LigneEnTete grid">
-			<div class="col-4"><p class=" SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</p></div>
-			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p></div>
+			<div class="col-6"><p class=" SR-TextUppercase">{{localize 'SR5.VehicleMods'}}</p></div>
+			<div class="col-1"><p class="SR-TextCenter">{{localize 'SR5.Rating'}}</p></div>
 			<div class="col-3"><p class="SR-TextCenter">{{localize 'SR5.VehicleModTypeShort'}}</p></div>
-            <div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.VehicleModTools'}}</p></div>
+            <div class="col-1"><p class="SR-TextCenter">{{localize 'SR5.VehicleModSlotsShort'}}</p></div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6 SR-TextCenter">
@@ -25,16 +25,16 @@
 		</li>
 	  	{{#each actor.vehiclesMod}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				{{name}}
+			<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				{{name}}{{#if data.isWeaponMounted}}{{data.surname}}{{/if}}
 			</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
 			data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
 			  {{valueOrDash data.itemRating}}
 		  </div>
 			<div class="col-3 SR-TextCenter">{{valueOrDash (findTranslation 'vehicleModType' data.type)}}</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'vehicleModTools' data.tools)}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash data.slots.value}}</div>
 			<div class="col-1 SR-TextRight">
 				<div class="grid">
 						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">

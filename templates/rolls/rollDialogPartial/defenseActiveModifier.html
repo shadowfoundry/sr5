@@ -5,9 +5,11 @@
             {{#select defenseMode}}
             <option value="none">{{localize 'SR5.DefenseNone'}}</option>
             <option value="defenseDodge">{{localize 'SR5.Dodge'}}</option>
+            {{#ifne  type "rammingDefense"}}
             <option value="defenseBlock">{{localize 'SR5.Block'}}</option>
             <option value="defenseParryClubs">{{localize 'SR5.ParryBlunt'}}</option>
             <option value="defenseParryBlades">{{localize 'SR5.ParrySlashing'}}</option>
+            {{/ifne}}
             {{/select}}
         </select>
     </div>

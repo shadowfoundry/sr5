@@ -196,6 +196,12 @@ export default class SR5_RollDialog extends Dialog {
         // Defense modifiers
         html.find(".defenseMode").change(ev => this._addDefenseModeModifier(ev, html, dialogData));
 
+        // Speed Attacker modifiers
+        html.find(".speedRammingAttacker").change(ev => this._addSpeedRammingAttackerModifier(ev, html, dialogData, actorData));
+
+        // Speed Target modifiers
+        html.find(".speedRammingTarget").change(ev => this._addSpeedRammingTargetModifier(ev, html, dialogData, actorData));
+
         // Cumulative Defense
         if (html.find('[name="dicePoolModDefenseCumulative"]')[0]) this._addCumulativeDefenseModifier(html, dialogData);
 
@@ -433,6 +439,72 @@ export default class SR5_RollDialog extends Dialog {
         this.dicePoolModifier.defenseMode = value;
         this.updateDicePoolValue(html);
     }
+
+    //Add speed ramming attacker modifiers
+    _addSpeedRammingAttackerModifier(ev, html, dialogData, actorData){
+        let speed = html.find('[name="speedRammingAttacker"]')[0].value;
+        let body = actorData.data.attributes.body.augmented.value;
+        let value;
+        switch(speed) {
+            case "speedRamming1" :
+                value = Math.ceil(body/2);
+            break;
+            case "speedRamming11" :
+                value = body;
+            break;
+            case "speedRamming51" :
+                value = body*2;
+            break;
+            case "speedRamming201" :
+                value = body*3;
+            break;
+            case "speedRamming301" :
+                value = body*5;
+            break;
+            case "speedRamming501" :
+                value = body*10;
+            break;
+        default:
+        }
+        dialogData.damageValue = value;
+        html.find('[name="modifiedDamage"]')[0].value = value;
+    }
+
+        //Add speed ramming target modifiers
+        _addSpeedRammingTargetModifier(ev, html, dialogData, actorData){
+            let speed = html.find('[name="speedRammingTarget"]')[0].value;
+            let body = dialogData.target;
+            let value, accidentValue;
+            switch(speed) {
+                case "speedRamming1" :
+                    value = Math.ceil(body/2);
+                    accidentValue = Math.ceil(value/2);
+                break;
+                case "speedRamming11" :
+                    value = body;
+                    accidentValue = Math.ceil(value/2);
+                break;
+                case "speedRamming51" :
+                    value = body*2;
+                    accidentValue = Math.ceil(value/2);
+                break;
+                case "speedRamming201" :
+                    value = body*3;
+                    accidentValue = Math.ceil(value/2);
+                break;
+                case "speedRamming301" :
+                    value = body*5;
+                    accidentValue = Math.ceil(value/2);
+                break;
+                case "speedRamming501" :
+                    value = body*10;
+                    accidentValue = Math.ceil(value/2);
+                break;
+            default:
+            }
+            dialogData.accidentValue = accidentValue;
+            html.find('[name="accidentValue"]')[0].value = accidentValue;
+        }
 
     //Add cumulative defense modifiers
     _addCumulativeDefenseModifier(html, dialogData){

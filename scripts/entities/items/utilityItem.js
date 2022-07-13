@@ -255,10 +255,28 @@ export class SR5_UtilityItem extends Actor {
       case "capacity":
         multiplier = item.capacity.value;
         break;
+      case "acceleration":
+        multiplier = item.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        multiplier = item.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        multiplier = item.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        multiplier = item.vehiclePriceMultiplier.body;
+        break;
+      case "seating":
+        multiplier = item.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+          multiplier = item.vehiclePriceMultiplier.vehicle;
+        break;
       default:
     }
     if (item.price.multiplier) {
-      SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(lists.valueMultipliers[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+      SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(lists.valueMultipliersAll[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
     }
     SR5_EntityHelpers.updateValue(item.price, 0);
   }
@@ -295,10 +313,28 @@ export class SR5_UtilityItem extends Actor {
       case "capacity":
         multiplier = item.capacity.value;
         break;
+      case "acceleration":
+        multiplier = item.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        multiplier = item.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        multiplier = item.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        multiplier = item.vehiclePriceMultiplier.body;
+        break;
+      case "seating":
+        multiplier = item.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+        multiplier = item.vehiclePriceMultiplier.vehicle;
+        break;
       default:
     }
     if (item.availability.multiplier) {
-      SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(lists.valueMultipliers[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+      SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(lists.valueMultipliersAll[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
     }
     SR5_EntityHelpers.updateValue(item.availability, 0);
   }
@@ -1080,7 +1116,7 @@ export class SR5_UtilityItem extends Actor {
 
     if (actor){
       for (let i of actor.items){
-        let WeakImmuneSystem = i.data.data.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
+        let WeakImmuneSystem = i.data.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
         if (WeakImmuneSystem) SR5_EntityHelpers.updateModifier(augmentation.essenceCost, i.name, game.i18n.localize(lists.itemTypes[i.type]), 2, true, false);
       }
     }
@@ -1395,29 +1431,12 @@ export class SR5_UtilityItem extends Actor {
 
   ////////////////////// VEHICULES  ///////////////////////
   static _handleVehicle(vehicle) {
-    if (vehicle.riggerInterface) {
-      SR5_EntityHelpers.updateModifier(vehicle.price, 'riggerInterface', 'riggerInterface', 1000);
-    }
-    for (let mount of vehicle.mount){
-      switch (mount.type) {
-        case "heavy":
-          SR5_EntityHelpers.updateModifier(vehicle.price, 'heavy', 'mount', 5000);
-          break;
-        case "standard":
-          SR5_EntityHelpers.updateModifier(vehicle.price, 'standard', 'mount', 2500);
-          break;
-        default:
-          SR5_SystemHelpers.srLog(1, `Unknown '${mount.type}' mount type in _handleVehicle()`);
-      }
-
-      if (mount.manual) SR5_EntityHelpers.updateModifier(vehicle.price, 'manual', 'mount', 2500);
-    }
 
     for (let vehicleMod of vehicle.vehiclesMod){
       SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
     }
 
-    if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
+    if (vehicle.type === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
 
   }
@@ -1431,6 +1450,155 @@ export class SR5_UtilityItem extends Actor {
     vehicle.modificationSlots.electromagnetic = slots ;
     vehicle.modificationSlots.cosmetic = slots ;
   }
+
+  static _handleWeaponMounted(item) {
+    let lists = SR5, data = item.data, wm = data.weaponMount;
+    switch (wm.size) {
+      case "light":
+        data.slots.base = 1;
+        data.threshold.base = 4;
+        data.tools = "kit";
+        data.skill = "armorer";
+        data.availability.base = 6;
+        data.legality = "F";
+        data.price.base = 750;
+        break;
+      case "standard":
+        data.slots.base = 2;
+        data.threshold.base = 6;
+        data.tools = "shop";
+        data.skill = "armorer";
+        data.availability.base = 8;
+        data.legality = "F";
+        data.price.base = 1500;
+        break;
+      case "heavy":
+        data.slots.base = 4;
+        data.threshold.base = 10;
+        data.tools = "shop";
+        data.skill = "armorer";
+        data.availability.base = 12;
+        data.legality = "F";
+        data.price.base = 4000;
+        break;
+      default:
+    }
+    switch (wm.visibility) {
+      case "external":
+      break;
+      case "internal":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 2);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 6);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 2);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 1500);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        break;
+      case "concealed":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 10);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4000);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        break;
+      default:
+    }
+    switch (wm.flexibility) {
+      case "fixed":
+        break;
+      case "flexible":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 1);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 4);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 2);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 2000);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        break;
+      case "turret":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 2);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 12);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 6);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 5000);
+        data.tools = "facility";
+        break;
+      default:
+    }
+    switch (wm.control) {
+      case "remote":
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        break;
+      case "manual":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 4);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 500);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        break;
+      case "armoredManual":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 2);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 6);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 4);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 1500);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        break;
+      default:
+    }
+
+    SR5_EntityHelpers.updateValue(data.slots, 0);
+    SR5_EntityHelpers.updateValue(data.threshold, 0);
+    SR5_EntityHelpers.updateValue(data.availability, 0);
+    SR5_EntityHelpers.updateValue(data.price, 0);
+  }
+
+  static  _resetWeaponMounted(data) {
+    data.weaponMount.size = "";
+    data.weaponMount.visibility = "";
+    data.weaponMount.flexibility = "";
+    data.weaponMount.control = "";
+    data.mountedWeapon = "";
+    data.mountedWeaponName = "";
+  }
+
+  static _generateWeaponMountWeaponList(data, actor) {
+    let weaponList = [];
+    for (let i of actor.items) {
+      if (i.type === "itemWeapon" && i.data.data.category === "rangedWeapon") { 
+        if (i.data.data.systemEffects.length) continue;
+        let weapon = {
+          "name": i.name,
+          "id": i.id,
+        }
+        weaponList.push(weapon);  
+      }
+    }
+    data.data.weaponChoices = weaponList;
+    return weaponList;
+  }
+
+  static async _checkIfWeaponIsMount(i, actor){
+    let mount = actor.items.find(m => m.data.data.mountedWeapon === i.id);
+    if (mount) i.data.data.isLinkedToMount = true;
+    else i.data.data.isLinkedToMount = false;
+  }
+
+  static async _handleWeaponMount(i, actor){
+    let mount = actor.items.find(m => m.data.data.mountedWeapon === i._id);
+    if (mount) {
+      if (mount.data.data.isActive){
+        i.data.isUsedAsMount = true; 
+        }
+      }
+    } 
 
   static _handleSlotsMultiplier(item) {
     let multiplier, lists = SR5;

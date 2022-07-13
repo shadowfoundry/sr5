@@ -227,6 +227,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html",
     "systems/sr5/templates/items/_partial/summary/_common/rangeMagic-summary.html",
     "systems/sr5/templates/items/_partial/summary/_common/rating-summary.html",
+    "systems/sr5/templates/items/_partial/summary/_common/source-summary.html",
 
         //Specific summary
         "systems/sr5/templates/items/_partial/summary/ammunition-summary.html",
@@ -415,7 +416,6 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicle/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/skill-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/attributes-edit.html",
-        "systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html",
 
         //Vehicle modifications
@@ -493,6 +493,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
     "systems/sr5/templates/rolls/rollDialogPartial/centering.html",
     "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",    
+    "systems/sr5/templates/rolls/rollDialogPartial/damage.html",
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
     "systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html",
 

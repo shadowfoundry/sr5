@@ -317,7 +317,7 @@ export class SR5_Roll {
                         SR5_SystemHelpers.srLog(1, `Unknown '${resistanceKey}' Damage Resistance Type in roll`);
                 }
                 break;
-
+            
             case "resistanceCard":
             case "resistanceCardAura":
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
@@ -834,6 +834,68 @@ export class SR5_Roll {
                         "switch.centering": true,
                     });
                 }
+                break;            
+
+            case "accidentCard":
+                title = game.i18n.localize("SR5.AccidentResistanceTest");
+                if (chatData.accidentValue >= 0) title += ` (${chatData.accidentValue})`;
+
+                let accidentValue = chatData.accidentValue;
+                let armor, modifiedArmor, resistanceValue, armorComposition = [];
+
+                        switch (actor.data.type){
+                            case "actorDrone":                           
+                                armor = actorData.attributes.armor.augmented.value;
+                                resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
+                                modifiedArmor = armor + (chatData.incomingPA || 0);
+                                if (modifiedArmor < 0) modifiedArmor = 0;
+                                if (accidentValue < (armor + chatData.incomingPA)) {
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.incomingPA, damage:accidentValue})}`); 
+                                    return;
+                                }
+                                break;
+                            case "actorSpirit":
+                                armor = actorData.essence.value * 2;
+                                modifiedArmor = armor + (chatData.incomingPA || 0);
+                                if (modifiedArmor < 0) modifiedArmor = 0
+                                if (accidentValue < (armor + chatData.incomingPA)) {
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.incomingPA, damage: accidentValue})}`);
+                                    return;    
+                                }
+                                resistanceValue = actorData.resistances.physicalDamage.dicePool;
+                                break;
+                            case "actorPc":
+                            case "actorGrunt":
+                                armor = actorData.itemsProperties.armor.value;
+                                armorComposition = actorData.itemsProperties.armor.modifiers;
+                                modifiedArmor = armor + (chatData.incomingPA || 0);
+                                if (modifiedArmor < 0) modifiedArmor = 0
+                                resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
+                                dicePoolComposition = actorData.resistances.physicalDamage.modifiers.filter((el) => !armorComposition.includes(el));
+                                
+                                if (accidentValue < (armor + chatData.incomingPA) && !chatData.damageElement){
+                                    chatData.damageType = "stun";
+                                    title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${accidentValue})`; //TODO: add details
+                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:accidentValue})}`); 
+                                }
+                                break;
+                            default:
+                        }
+
+                        dicePool = resistanceValue + modifiedArmor;
+
+                optionalData = {
+                    chatActionType: "damage",
+                    hits: chatData.hits,
+                    accidentValue: chatData.accidentValue,
+                    damageType: "physical",                    
+                    incomingPA: -6,
+                    damageElement: "",
+                    ammoType: "",
+                    armor: armor,
+                    dicePoolComposition: dicePoolComposition,
+                    actorType: actor.data.type,
+                };
                 break;
 
             case "drain":
@@ -1568,6 +1630,63 @@ export class SR5_Roll {
                 dicePool = actorData.vehicleTest.test.dicePool;
                 limit = actorData.vehicleTest.limit.value;
                 optionalData = {dicePoolComposition: actorData.vehicleTest.test.modifiers,};
+                break;
+            
+            case "rammingTest":
+                title = `${game.i18n.localize("SR5.RammingWith")} ${speakerActor}`;
+                dicePool = actorData.rammingTest.test.dicePool;
+                limit = actorData.rammingTest.limit.value;
+                typeSub = "ramming";
+
+                let target;
+                    if (game.user.targets.size) {
+                        const targeted = game.user.targets;
+                        const targets = Array.from(targeted);
+                        for (let t of targets) {
+                            target = t.actor.data.data.attributes.body.augmented.value;
+                        }
+                    } else { target = actorData.attributes.body.augmented.value;}
+
+                optionalData = {
+                    dicePoolComposition: actorData.rammingTest.test.modifiers,
+                    damageValue: actorData.attributes.body.augmented.value,
+                    damageValueBase: actorData.attributes.body.augmented.value,
+                    modifiedDamage: actorData.attributes.body.augmented.value,
+                    damageType: "physical",                    
+                    incomingPA: -6,
+                    ammoType: "",
+                    damageElement: "",
+                    chatActionType: "resistanceCard",
+                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
+                    target: target,
+                    accidentValue: Math.ceil(target/2),
+                };
+                break;
+
+            case "rammingDefense":                     
+                title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.test.hits})`;
+                dicePool = actorData.defenses.defend.dicePool;
+                dicePoolComposition = actorData.defenses.defend.modifiers;
+                typeSub = chatData.typeSub;
+                if (actor.type === "actorDrone"){    
+                    limit = actorData.vehicleTest.limit.value;
+                } else {
+                    limit = actorData.limits.physicalLimit.value;
+                }
+                optionalData = {
+                    attackerId: chatData.actorId,
+                    chatActionType: "resistanceCard",
+                    damageValue: chatData.damageValue,
+                    damageValueBase: chatData.damageValue,
+                    damageType: chatData.damageType,
+                    incomingPA: chatData.incomingPA,
+                    hits: chatData.test.hits,
+                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
+                    dicePoolComposition: dicePoolComposition,
+                    damageOriginalValue: chatData.damageOriginalValue,
+                };
                 break;
 
             case "activeSensorTargeting":
