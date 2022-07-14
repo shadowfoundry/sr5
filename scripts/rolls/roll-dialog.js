@@ -359,6 +359,35 @@ export default class SR5_RollDialog extends Dialog {
         if (html.find('[name="restraintType"]')[0]) this._setEscapeArtistThreshold(html, dialogData);
         html.find('[name="restraintType"]').change(ev => this._setEscapeArtistThreshold(html, dialogData));
         html.find('[name="restraintReinforced"]').change(ev => this._addRestraintReinforcedModifier(ev, html, dialogData));
+
+        //Add Perception modifiers
+        html.find('[name="distracted"]').change(ev => this._checkboxModifier(ev, html, dialogData, "distracted", "dicePoolModPerceptionDistracted", "perception"));
+        html.find('[name="specificallyLooking"]').change(ev => this._checkboxModifier(ev, html, dialogData, "specificallyLooking", "dicePoolModPerceptionSpecificallyLooking", "perception"));
+        html.find('[name="notInImmediateVicinity"]').change(ev => this._checkboxModifier(ev, html, dialogData, "notInImmediateVicinity", "dicePoolModPerceptionNotInImmediateVicinity", "perception"));
+        html.find('[name="farAway"]').change(ev => this._checkboxModifier(ev, html, dialogData, "farAway", "dicePoolModPerceptionFarAway", "perception"));
+        html.find('[name="standsOutInSomeWay"]').change(ev => this._checkboxModifier(ev, html, dialogData, "standsOutInSomeWay", "dicePoolModStandsOutInSomeWay", "perception"));
+        html.find('[name="interfering"]').change(ev => this._checkboxModifier(ev, html, dialogData, "interfering", "dicePoolModInterfering", "perception"));
+    }
+
+    //Add Perception modifiers
+    _checkboxModifier(ev, html, dialogData, modifierName, inputName, type){
+        let isChecked = ev.target.checked,
+            name = `[name=${inputName}]`,
+            value = 0
+
+        if (type === "perception") value = SR5_DiceHelper.convertPerceptionModifierToMod(modifierName);
+        
+        if (isChecked){
+            html.find(name)[0].value = value;
+            dialogData.dicePoolMod[modifierName] = value;
+            this.dicePoolModifier[modifierName] = value;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find(name)[0].value = 0;
+            dialogData.dicePoolMod[modifierName] = 0;
+            this.dicePoolModifier[modifierName] = 0;
+            this.updateDicePoolValue(html);
+        }
     }
 
     //Set Escape Artist Threshold
@@ -724,9 +753,14 @@ export default class SR5_RollDialog extends Dialog {
             if (key === "sight") {
                 document.getElementById("sightPerception").style.display = "block";
                 this.setPosition(position);
+                if (canvas.scene) dialogData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData.data, true);
+                html.find('[name="dicePoolModEnvironmental"]')[0].value = dialogData.dicePoolMod.environmentalSceneMod;
+                this.dicePoolModifier.environmental = dialogData.dicePoolMod.environmentalSceneMod;
             } else {
                 document.getElementById("sightPerception").style.display = "none";
                 this.setPosition(position);
+                dialogData.dicePoolMod.environmentalSceneMod = 0;
+                this.dicePoolModifier.environmental = 0;
             }
         }
         dialogData.perceptionType = key;
@@ -969,7 +1003,7 @@ export default class SR5_RollDialog extends Dialog {
     //Manage true or false select and modifier
     _trueOrFalseModifier(ev, html, dialogData, modifierName, trueValue, falseValue, inputName){
         let value = ev.target.value;
-        let name = `[name=${inputName}]`
+        let name = `[name=${inputName}]`;
         if (value === "false") {
             html.find(name)[0].value = falseValue;
             dialogData.dicePoolMod[modifierName] = falseValue;
@@ -987,7 +1021,7 @@ export default class SR5_RollDialog extends Dialog {
     _inputModifier(ev, html, dialogData, modifierName, inputName, inverse = false){
         let value = parseInt(ev.target.value);
         if (inverse) value = -value;
-        let name = `[name=${inputName}]`
+        let name = `[name=${inputName}]`;
         html.find(name)[0].value = value;
         dialogData.dicePoolMod[modifierName] = value;
         this.dicePoolModifier[modifierName] = value;

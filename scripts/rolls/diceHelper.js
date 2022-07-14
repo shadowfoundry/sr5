@@ -1483,4 +1483,22 @@ export class SR5_DiceHelper {
             default : return 2;
         }
     }
+
+    static convertPerceptionModifierToMod(type){
+        switch (type){
+            case "distracted":
+                return -2;
+            case "specificallyLooking":
+                return +3;
+            case "notInImmediateVicinity":
+                return -2;
+            case "farAway":
+                return -3;
+            case "standsOutInSomeWay":
+                return +2;
+            case "interfering":
+                return -2;
+            default : return 0;
+        }
+    }
 }

@@ -320,3 +320,40 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.escapeSituationPicks}}</div>
 </li>
 {{/if}}
+<!--Perception Modifiers-->
+{{#if (isdefined dicePoolMod.distracted)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModDistracted'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.distracted}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.specificallyLooking)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModSpecificallyLooking'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.specificallyLooking}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.notInImmediateVicinity)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModNotInImmediateVicinity'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.notInImmediateVicinity}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.farAway)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModFarAway'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.farAway}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.standsOutInSomeWay)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModStandsOutInSomeWay'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.standsOutInSomeWay}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.interfering)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModInterfering'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.interfering}}</div>
+</li>
+{{/if}}

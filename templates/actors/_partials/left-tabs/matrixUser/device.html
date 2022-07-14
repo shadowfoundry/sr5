@@ -49,7 +49,7 @@
 		  data-helpTitle="{{localize 'SR5.IceType'}}"
           data-helpMessage="{{localize 'SR5.HELP_IceTypeMsg'}}"
 		>
-			<select class="" name="data.matrix.deviceSubType" data-dtype="String" required>
+			<select  name="data.matrix.deviceSubType" data-dtype="String" required>
 				{{#select data.matrix.deviceSubType}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					{{#each actor.lists.iceTypes}}
