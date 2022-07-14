@@ -158,12 +158,13 @@ export class SR5_RollMessage {
                 case "drainCard":
                 case "fadingCard":
                 case "objectResistance":
-                case "passThroughDefense":                                                   
+                case "passThroughDefense":                                           
                 case "accidentCard":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
-                    actor.takeDamage(messageData);
+                    if (messageData.calledShotsEffects) actor.applyCalledShotsEffect(messageData);
+                    else actor.takeDamage(messageData);
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: "damage",});
 					else SR5_RollMessage.updateChatButton(messageId, "damage");
                     break;
@@ -178,6 +179,10 @@ export class SR5_RollMessage {
                     break;
                 case "templateRemove":
                     SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
+                    break;
+                case "spendNetHits":
+                    let hits = messageData.netHits;
+                    SR5_DiceHelper.chooseSpendNetHits(message, actor);
                     break;
                 case "summonSpirit":
                 case "compileSprite":

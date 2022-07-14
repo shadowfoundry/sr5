@@ -1772,6 +1772,194 @@ export class SR5Actor extends Actor {
     if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
   }
 
+    //Apply specific called shots effect
+    async applyCalledShotsEffect(data){
+      let effects, status, isStatusEffectOn;
+      let calledShotsEffects = [];
+      let statusEffects = [];
+  
+      for (let [key, value] of Object.entries(data.calledShotsEffects)){
+        if (value) {
+          effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this);
+          calledShotsEffects = calledShotsEffects.concat(effects);
+          //Slowed Status Effect
+          if (key === "slowed"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "slowed");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("slowed");
+              statusEffects = statusEffects.concat(status);
+            }
+            if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+              isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+              if (!isStatusEffectOn){
+                status = await _getSRStatusEffect("noAction");
+                statusEffects = statusEffects.concat(status);
+              }
+            }
+          }
+          //Winded Status Effect
+          if (key === "winded"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "winded");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("winded");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Deafened Status Effect
+          if (key === "deafened" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "deafened");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("deafened");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Stunned Status Effect
+          if (key === "stunned"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "stunned");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("stunned");
+              statusEffects = statusEffects.concat(status);
+            }
+            if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+              isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+              if (!isStatusEffectOn){
+                status = await _getSRStatusEffect("noAction");
+                statusEffects = statusEffects.concat(status);
+              }
+            }
+          }
+          //Blinded Status Effect
+          if (key === "blinded"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "blinded");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("blinded");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Broken Grip Status Effect
+          if (key === "brokenGrip" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "brokenGrip");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("brokenGrip");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Weak Side Status Effect
+          if (key === "weakSide"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "weakSide");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("weakSide");
+              statusEffects = statusEffects.concat(status);
+            }
+            if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+              isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+              if (!isStatusEffectOn){
+                status = await _getSRStatusEffect("noAction");
+                statusEffects = statusEffects.concat(status);
+              }
+            }
+          }
+          //Nauseous Status Effect
+          if (key === "nauseous"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "nauseous");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("nauseous");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Paralysis Status Effect
+          if (key === "paralysis" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("noAction");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Buckled Status Effect
+          if (key === "buckled"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "buckled");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("buckled");
+              statusEffects = statusEffects.concat(status);
+            }
+            if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+              isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+              if (!isStatusEffectOn){
+                status = await _getSRStatusEffect("noAction");
+                statusEffects = statusEffects.concat(status);
+              }
+            }
+          }
+          //Slow Death Status Effect
+          if (key === "slowDeath"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "slowDeath");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("slowDeath");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Knockdown Status Effect
+          if (key === "knockdown" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "knockdown");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("knockdown");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Unable to speak Status Effect
+          if (key === "unableToSpeak"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "unableToSpeak");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("unableToSpeak");
+              statusEffects = statusEffects.concat(status);
+            }
+            if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+              isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+              if (!isStatusEffectOn){
+                status = await _getSRStatusEffect("noAction");
+                statusEffects = statusEffects.concat(status);
+              }
+            }
+          }
+          //Bleed Out Status Effect
+          if (key === "bleedOut"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "bleedOut");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("bleedOut");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //One-arm bandit Status Effect
+          if (key === "oneArmBandit" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "oneArmBandit");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("oneArmBandit");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Fatigued Status Effect
+          if (key === "fatigued"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "fatigued");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("fatigued");
+              statusEffects = statusEffects.concat(status);
+            }
+            if (data.damageValue > this.data.data.attributes.willpower.augmented.value){
+              isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+              if (!isStatusEffectOn){
+                status = await _getSRStatusEffect("noAction");
+                statusEffects = statusEffects.concat(status);
+              }
+            }
+          }
+        }
+      }
+  
+      if (calledShotsEffects.length) await this.createEmbeddedDocuments("Item", calledShotsEffects);
+      if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
+      if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
+    }
+
   //Keep Agent condition Monitor synchro with Owner deck
   static async keepAgentMonitorSynchro(agent){
     if(!agent.data.data.creatorData) return;

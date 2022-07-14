@@ -600,7 +600,10 @@ SR5.ammunitionTypes = {
   exExplosive               : "SR5.AmmunitionTypeExExplosive",
   explosive                 : "SR5.AmmunitionTypeExplosive",
   flechette                 : "SR5.AmmunitionTypeFlechette",
+  gyrojet                   : "SR5.AmmunitionTypeGyrojet",
+  gyrojetTaser              : "SR5.AmmunitionTypeGyrojetTaser",
   injection                 : "SR5.AmmunitionTypeInjectionDart",
+  flare                     : "SR5.AmmunitionTypeFlare",
   frangible                 : "SR5.AmmunitionTypeFrangible",
   gel                       : "SR5.AmmunitionTypeGel",
   regular                   : "SR5.AmmunitionTypeRegular",
@@ -654,6 +657,7 @@ SR5.ammunitionLauncherTypes = {
 
 SR5.ammunitionCannonTypes = {
   assaultCannon             : "SR5.AmmunitionTypeAssaultCannon",
+  gauss                     : "SR5.AmmunitionTypeGauss"
 };
 
 SR5.ammunitionTaserTypes = {
@@ -818,6 +822,47 @@ SR5.calledShots = {
   CS_Reversal               : "SR5.CS_Reversal",
 };
 
+SR5.calledShotsSpecifics = {  
+  CS_ST_Ankle               : "SR5.CS_ST_Ankle ",
+  CS_ST_Ear                 : "SR5.CS_ST_Ear",
+  CS_ST_Eye                 : "SR5.CS_ST_Eye",
+  CS_ST_Foot                : "SR5.CS_ST_Foot",
+  CS_ST_Forearm             : "SR5.CS_ST_Forearm",
+  CS_ST_Genitals            : "SR5.CS_ST_Genitals",
+  CS_ST_Gut                 : "SR5.CS_ST_Gut",
+  CS_ST_Hand                : "SR5.CS_ST_Hand",
+  CS_ST_Hip                 : "SR5.CS_ST_Hip",
+  CS_ST_Jaw                 : "SR5.CS_ST_Jaw",
+  CS_ST_Knee                : "SR5.CS_ST_Knee",
+  CS_ST_Neck                : "SR5.CS_ST_Neck",
+  CS_ST_Shin                : "SR5.CS_ST_Shin",
+  CS_ST_Shoulder            : "SR5.CS_ST_Shoulder",
+  CS_ST_Sternum             : "SR5.CS_ST_Sternum",
+  CS_ST_Thigh               : "SR5.CS_ST_Thigh",  
+  CS_ST_EngineBlock         : "SR5.CS_ST_EngineBlock ",
+  CS_ST_FuelTankBattery     : "SR5.CS_ST_FuelTankBattery",
+  CS_ST_Axle                : "SR5.CS_ST_Axle",
+  CS_ST_Antenna             : "SR5.CS_ST_Antenna",
+  CS_ST_DoorLock            : "SR5.CS_ST_DoorLock",
+  CS_ST_WindowMotor         : "SR5.CS_ST_WindowMotor",  
+  CS_AS_Bellringer          : "SR5.CS_AS_Bellringer ",
+  CS_AS_BullsEye            : "SR5.CS_AS_BullsEye",
+  CS_AS_DownTheGullet       : "SR5.CS_AS_DownTheGullet",
+  CS_AS_ExtremeIntimidation : "SR5.CS_AS_ExtremeIntimidation",
+  CS_AS_FingerPopper        : "SR5.CS_AS_FingerPopper",
+  CS_AS_FlashBlind          : "SR5.CS_AS_FlashBlind",
+  CS_AS_HereMuckInYourEye   : "SR5.CS_AS_HereMuckInYourEye",
+  CS_AS_HitEmWhereItCounts  : "SR5.CS_AS_HitEmWhereItCounts",
+  CS_AS_OnPinsAndNeedles    : "SR5.CS_AS_OnPinsAndNeedles",
+  CS_AS_RicochetShot        : "SR5.CS_AS_RicochetShot",
+  CS_AS_ShakeRattle         : "SR5.CS_AS_ShakeRattle",
+  CS_AS_ShreddedFlesh       : "SR5.CS_AS_ShreddedFlesh",
+  CS_AS_Tag                 : "SR5.CS_AS_Tag",
+  CS_AS_ThroughAndInto      : "SR5.CS_AS_ThroughAndInto",
+  CS_AS_UpTheAnte           : "SR5.CS_AS_UpTheAnte",
+  CS_AS_WarningShot         : "SR5.CS_AS_WarningShot",
+}
+
 // Called Shots Specific Target
 SR5.calledShotsSpecificTarget = {
   CS_ST_Ankle               : "SR5.CS_ST_Ankle ",
@@ -836,7 +881,57 @@ SR5.calledShotsSpecificTarget = {
   CS_ST_Shoulder            : "SR5.CS_ST_Shoulder",
   CS_ST_Sternum             : "SR5.CS_ST_Sternum",
   CS_ST_Thigh               : "SR5.CS_ST_Thigh",
+}
+
+// Called Shots Specific Target
+SR5.calledShotsSpecificTargetVehicle = {
+  CS_ST_EngineBlock         : "SR5.CS_ST_EngineBlock ",
+  CS_ST_FuelTankBattery     : "SR5.CS_ST_FuelTankBattery",
+  CS_ST_Axle                : "SR5.CS_ST_Axle",
+  CS_ST_Antenna             : "SR5.CS_ST_Antenna",
+  CS_ST_DoorLock            : "SR5.CS_ST_DoorLock",
+  CS_ST_WindowMotor         : "SR5.CS_ST_WindowMotor",
+}
+
+// Called Shots Specific Target
+SR5.calledShotsSpecificAmmo = {
+  CS_AS_Bellringer          : "SR5.CS_AS_Bellringer ",
+  CS_AS_BullsEye            : "SR5.CS_AS_BullsEye",
+  CS_AS_DownTheGullet       : "SR5.CS_AS_DownTheGullet",
+  CS_AS_ExtremeIntimidation : "SR5.CS_AS_ExtremeIntimidation",
+  CS_AS_FingerPopper        : "SR5.CS_AS_FingerPopper",
+  CS_AS_FlashBlind          : "SR5.CS_AS_FlashBlind",
+  CS_AS_HereMuckInYourEye   : "SR5.CS_AS_HereMuckInYourEye",
+  CS_AS_HitEmWhereItCounts  : "SR5.CS_AS_HitEmWhereItCounts",
+  CS_AS_OnPinsAndNeedles    : "SR5.CS_AS_OnPinsAndNeedles",
+  CS_AS_RicochetShot        : "SR5.CS_AS_RicochetShot",
+  CS_AS_ShakeRattle         : "SR5.CS_AS_ShakeRattle",
+  CS_AS_ShreddedFlesh       : "SR5.CS_AS_ShreddedFlesh",
+  CS_AS_Tag                 : "SR5.CS_AS_Tag",
+  CS_AS_ThroughAndInto      : "SR5.CS_AS_ThroughAndInto",
+  CS_AS_UpTheAnte           : "SR5.CS_AS_UpTheAnte",
+  CS_AS_WarningShot         : "SR5.CS_AS_WarningShot",
 };
+
+// Called Shots Specific Target
+SR5.calledShotsEffects = {
+  slowed                   : "SR5.STATUSES_Slowed ",
+  winded                   : "SR5.STATUSES_Winded",
+  deafened                 : "SR5.STATUSES_Deafened",
+  stunned                  : "SR5.STATUSES_Stunned",
+  blinded                  : "SR5.STATUSES_Blinded",
+  brokenGrip               : "SR5.STATUSES_BrokenGrip",
+  weakSide                 : "SR5.STATUSES_WeakSide",
+  nauseous                 : "SR5.STATUSES_Nauseous",
+  buckled                  : "SR5.STATUSES_Buckled",
+  slowDeath                : "SR5.STATUSES_SlowDeath",
+  knockdown                : "SR5.STATUSES_Knockdown",
+  unableToSpeak            : "SR5.STATUSES_UnableToSpeak",
+  bleedOut                 : "SR5.STATUSES_BleedOut",
+  oneArmBandit             : "SR5.STATUSES_OneArmBandit",
+  fatigued                 : "SR5.STATUSES_Fatigued",
+};
+
 
 
 
@@ -2472,6 +2567,21 @@ SR5.effectTypes = {
   toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
   toxinEffectNausea         : "SR5.ToxinEffectNausea",
   toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
+  slowed                    : "SR5.STATUSES_Slowed ",
+  winded                    : "SR5.STATUSES_Winded",
+  deafened                  : "SR5.STATUSES_Deafened",
+  stunned                   : "SR5.STATUSES_Stunned",
+  blinded                   : "SR5.STATUSES_Blinded",
+  brokenGrip                : "SR5.STATUSES_BrokenGrip",
+  weakSide                  : "SR5.STATUSES_WeakSide",
+  nauseous                  : "SR5.STATUSES_Nauseous",
+  buckled                   : "SR5.STATUSES_Buckled",
+  slowDeath                 : "SR5.STATUSES_SlowDeath",
+  knockdown                 : "SR5.STATUSES_Knockdown",
+  unableToSpeak             : "SR5.STATUSES_UnableToSpeak",
+  bleedOut                  : "SR5.STATUSES_BleedOut",
+  oneArmBandit              : "SR5.STATUSES_OneArmBandit",
+  fatigued                  : "SR5.STATUSES_Fatigued",
 }
 
 SR5.effectDuration = {

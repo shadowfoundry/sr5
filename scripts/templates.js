@@ -496,8 +496,6 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",    
     "systems/sr5/templates/rolls/rollDialogPartial/damage.html",
     "systems/sr5/templates/rolls/rollDialogPartial/calledShots.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/specificTarget.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/ammoSpecific.html",
 
 
     /************************************************************************************* */

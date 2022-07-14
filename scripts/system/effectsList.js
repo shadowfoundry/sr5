@@ -214,6 +214,186 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
+        case "slowed":
+            return effect = {
+                label: game.i18n.localize('SR5.STATUSES_Slowed'),
+                origin: "slowed",
+                icon: "systems/sr5/img/status/StatusSlowedOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "slowed",
+                    }
+                },
+            }
+            case "winded":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Winded'),
+                    origin: "winded",
+                    icon: "systems/sr5/img/status/StatusWindedOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "winded",
+                        }
+                    },
+                }
+            case "deafened":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Deafened'),
+                    origin: "deafened",
+                    icon: "systems/sr5/img/status/StatusDeafenedOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "deafened",
+                        }
+                    },
+                }
+        case "stunned":
+            return effect = {
+                label: game.i18n.localize('SR5.STATUSES_Stunned'),
+                origin: "stunned",
+                icon: "systems/sr5/img/status/StatusStunnedOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "stunned",
+                    }
+                },
+            }
+            case "blinded":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Blinded'),
+                    origin: "blinded",
+                    icon: "systems/sr5/img/status/StatusBlindedOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "blinded",
+                        }
+                    },
+                }
+            case "brokenGrip":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_BrokenGrip'),
+                    origin: "brokenGrip",
+                    icon: "systems/sr5/img/status/StatusBrokenGripOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "brokenGrip",
+                        }
+                    },
+                }
+        case "weakSide":
+            return effect = {
+                label: game.i18n.localize('SR5.STATUSES_WeakSide'),
+                origin: "weakSide",
+                icon: "systems/sr5/img/status/StatusWeakSideOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "weakSide",
+                    }
+                },
+            }
+            case "nauseous":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Nauseous'),
+                    origin: "nauseous",
+                    icon: "systems/sr5/img/status/StatusNauseousOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "nauseous",
+                        }
+                    },
+                }
+            case "buckled":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Buckled'),
+                    origin: "buckled",
+                    icon: "systems/sr5/img/status/StatusBuckledOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "buckled",
+                        }
+                    },
+                }
+        case "slowDeath":
+            return effect = {
+                label: game.i18n.localize('SR5.STATUSES_SlowDeath'),
+                origin: "slowDeath",
+                icon: "systems/sr5/img/status/StatusSlowDeathOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "slowDeath",
+                    }
+                },
+            }
+            case "knockdown":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Knockdown'),
+                    origin: "knockdown",
+                    icon: "systems/sr5/img/status/StatusKnockdownOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "knockdown",
+                        }
+                    },
+                }
+            case "unableToSpeak":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_UnableToSpeak'),
+                    origin: "unableToSpeak",
+                    icon: "systems/sr5/img/status/StatusUnableToSpeakOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "unableToSpeak",
+                        }
+                    },
+                }
+        case "bleedOut":
+            return effect = {
+                label: game.i18n.localize('SR5.STATUSES_BleedOut'),
+                origin: "bleedOut",
+                icon: "systems/sr5/img/status/StatusBleedOutOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "bleedOut",
+                    }
+                },
+            }
+            case "oneArmBandit":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_OneArmBandit'),
+                    origin: "oneArmBandit",
+                    icon: "systems/sr5/img/status/StatusOneArmBanditOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "oneArmBandit",
+                        }
+                    },
+                }
+            case "fatigued":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Fatigued'),
+                    origin: "fatigued",
+                    icon: "systems/sr5/img/status/StatusFatiguedOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "fatigued",
+                        }
+                    },
+                }
         default: return null
     }
 }

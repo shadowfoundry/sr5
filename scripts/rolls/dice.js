@@ -534,6 +534,9 @@ export class SR5_Dice {
 			case "movement":
 				cardData.movementTotal = cardData.derivedBaseValue + (cardData.test.hits * cardData.derivedExtraValue);
 				break;
+			case "spendNetHits":
+				cardData.netHits = cardData.hits - cardData.test.hits;
+				break;
 			case "skill":
 			case "skillDicePool":
 				await SR5_Dice.addSkillInfoToCard(cardData);
@@ -640,7 +643,7 @@ export class SR5_Dice {
 					return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: actorData.essence.value * 2, pa: cardData.incomingPA, damage: cardData.damageValue})}`);
 				}
 			}
-			
+
 			//SF firing mode, no additional damage from hits
 			if (cardData.firingMode === "SF") cardData.damageValue = cardData.damageValueBase;
 			else if (cardData.damageElement === "toxin") {
@@ -648,6 +651,14 @@ export class SR5_Dice {
 				else cardData.damageValue = cardData.damageValueBase;
 			}
 			else cardData.damageValue = cardData.damageValueBase + netHits;
+
+			
+		//Handle Called Shots specifics
+		if (cardData.limitDV) {
+			cardData.netHits = cardData.hits - cardData.test.hits;
+			let label = cardData.buttons.spendNetHits = SR5_RollMessage.generateChatButton("nonOpposedTest", "spendNetHits", `${game.i18n.localize("SR5.SpendHits")} (${cardData.netHits - 1})`);
+		}
+
 
 			//Special case for fire damage
 			if (cardData.damageElement === "fire") cardData.fireTreshold = netHits;
@@ -739,9 +750,24 @@ export class SR5_Dice {
 			return;
 		}
 
+		//Handle specific target limit damage if any 
+		SR5_SystemHelpers.srLog(1, `LimitDV '${cardData.limitDV}'`);
+		if (cardData.limitDV) {
+			SR5_SystemHelpers.srLog(1, `LimitDV OK with damageValueBase '${cardData.damageValue}'`);
+			if (cardData.damageValue > 0) {
+				let incomingDamage = Math.min(cardData.damageValue, cardData.limitDV);
+				SR5_SystemHelpers.srLog(1, `IncomingDamage '${incomingDamage}' `);
+				cardData.damageValue = incomingDamage;
+				cardData.calledShotsEffects = "bleedOut";
+				cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
+			}
+			else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+		}
+		else {	
 		//Normal damage
 		if (cardData.damageValue > 0) cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
+		}
 
 		//Remove Biofeedback chat button from previous chat message
 		if (cardData.typeSub === "biofeedbackDamage"){

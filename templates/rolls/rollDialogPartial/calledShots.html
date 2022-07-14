@@ -1,51 +1,52 @@
-{{#if (eq typeSub "rangedWeapon")}}
-<li class="grid SR-TopSeparator">
+<li class="grid">
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4 SR-PaddingRight10" id="incomingCalledShots">
+    <div class="col-7 SR-PaddingRight10" style="text-align: left;" id="incomingCalledShots">
         <select class="incomingCalledShots" name="incomingCalledShots">
             <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingCalledShots}}
+            {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt")(eq ammoType "gel")(eq ammoType "hollowPoint")(eq ammoType "boltInjection")(eq ammoType "arrowInjection")(eq ammoType "apds")(eq ammoType "av")(eq ammoType "assaultCannon")(eq ammoType "capsule")(eq ammoType "flare")(eq ammoType "frangible")(eq ammoType "gauss")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "tracer")(eq ammoType "tracker"))}} 
             <option value="CS_AmmoSpecific">{{localize 'SR5.CS_AmmoSpecific'}}</option>
+            {{/if}}
             <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
             <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>
+            {{#if (eq ammoType "special")}}  
             <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "special") (eq ammoType "bolt") (eq ammoType "boltInjection") (eq ammoType "arrow") (eq ammoType "arrowInjection"))}} 
             <option value="CS_Pin">{{localize 'SR5.CS_Pin'}}</option>
+            {{/if}}
             <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
             <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
             <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
             <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
-            {{/select}}
-        </select>
-    </div>
-
-{{/if}}
-
-{{#if (eq typeSub "meleeWeapon")}}
-<li class="grid SR-TopSeparator">
-    <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4 SR-PaddingRight10" id="incomingCalledShots">
-        <select class="incomingCalledShots" name="incomingCalledShots">
-            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
-            {{#select incomingCalledShots}}
-            <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
-            <option value="CS_BreakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
-            <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>
-            <option value="CS_Disarm">{{localize 'SR5.CS_Disarm'}}</option>
-            <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
-            <option value="CS_Feint">{{localize 'SR5.CS_Feint'}}</option>
-            <option value="CS_KnockDown">{{localize 'SR5.CS_KnockDown'}}</option>
+            {{#if (eq typeSub "meleeWeapon")}}            
+            <option value="CS_BreakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>            
+            <option value="CS_Disarm">{{localize 'SR5.CS_Disarm'}}</option>            
+            <option value="CS_Feint">{{localize 'SR5.CS_Feint'}}</option>            
+            <option value="CS_Knockdown">{{localize 'SR5.CS_Knockdown'}}</option>            
             <option value="CS_Reversal">{{localize 'SR5.CS_Reversal'}}</option>
-            <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
-            <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
-            <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
-            <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
+            {{/if}}
             {{/select}}
         </select>
+    </div>   
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="dicePoolModCalledShots" name="dicePoolModCalledShots" value="{{incomingCalledShots}}" placeholder="0" data-dtype="Number" />
     </div>
-    {{/if}}
-    <div class="col-3 SR-PaddingRight10" style="display: none;" id="incomingSpecificTarget">
+</li>
+<li class="grid" style="display: none;" id="incomingSpecificTarget">
+    <div class="col-4">{{localize 'SR5.CS_Choice'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7 SR-PaddingRight10">
         <select class="incomingSpecificTarget" name="incomingSpecificTarget" data-dtype="String">
             {{#select incomingSpecificTarget}}
+            {{#if (eq targetActorType "actorDrone")}}
+            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="CS_ST_EngineBlock">{{localize 'SR5.CS_ST_EngineBlock'}}</option>
+            <option value="CS_ST_FuelTankBattery">&lrm;{{localize 'SR5.CS_ST_FuelTankBattery'}}&lrm;</option>
+            <option value="CS_ST_Axle">{{localize 'SR5.CS_ST_Axle'}}</option>
+            <option value="CS_ST_Antenna">{{localize 'SR5.CS_ST_Antenna'}}</option>
+            <option value="CS_ST_DoorLock">{{localize 'SR5.CS_ST_DoorLock'}}</option>
+            <option value="CS_ST_WindowMotor">{{localize 'SR5.CS_ST_WindowMotor'}}</option>
+            {{else}}
             <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
             <option value="CS_ST_Ankle">{{localize 'SR5.CS_ST_Ankle'}}</option>
             <option value="CS_ST_Ear">{{localize 'SR5.CS_ST_Ear'}}</option>
@@ -63,33 +64,71 @@
             <option value="CS_ST_Shoulder">{{localize 'SR5.CS_ST_Shoulder'}}</option>
             <option value="CS_ST_Sternum">{{localize 'SR5.CS_ST_Sternum'}}</option>
             <option value="CS_ST_Thigh">{{localize 'SR5.CS_ST_Thigh'}}</option>
+            {{/if}}
             {{/select}}
         </select>
     </div>
-    <div class="col-3 SR-PaddingRight10" style="display: none;" id="incomingAmmoSpecific">
+    <div class="col-1"></div>
+</li>
+<li class="grid" style="display: none;" id="incomingAmmoSpecific">
+    <div class="col-4">{{findTranslation 'allAmmunitionTypes' ammoType}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7 SR-PaddingRight10">
         <select class="incomingAmmoSpecific" name="incomingAmmoSpecific">
             <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingAmmoSpecific}}
+            {{#if (eq ammoType "gel")}} 
             <option value="CS_AS_Bellringer">{{localize 'SR5.CS_AS_Bellringer'}}</option>
+            {{/if}}
+            {{#if (eq ammoType "apds")}} 
             <option value="CS_AS_BullsEye">{{localize 'SR5.CS_AS_BullsEye'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "capsule") (eq ammoType "capsuleDmso"))}} 
             <option value="CS_AS_DownTheGullet">{{localize 'SR5.CS_AS_DownTheGullet'}}</option>
+            {{/if}}
+            {{#if (eq ammoType "assaultCannon")}} 
             <option value="CS_AS_ExtremeIntimidation">{{localize 'SR5.CS_AS_ExtremeIntimidation'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt")(eq ammoType "gel")(eq ammoType "hollowPoint"))}} 
             <option value="CS_AS_FingerPopper">{{localize 'SR5.CS_AS_FingerPopper'}}</option>
-            <option value="CS_AS_FlameOn">{{localize 'SR5.CS_AS_FlameOn'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "flare")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "tracer"))}} 
+            <option value="CS_AS_FlameOn">{{localize 'SR5.CS_AS_FlameOn'}}&lrm;</option>
+            {{/if}}
+            {{#if (eq ammoType "flare")}} 
             <option value="CS_AS_FlashBlind">{{localize 'SR5.CS_AS_FlashBlind'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "frangible")(eq ammoType "gel")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "hollowPoint"))}}  
             <option value="CS_AS_HereMuckInYourEye">{{localize 'SR5.CS_AS_HereMuckInYourEye'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "injection")(eq ammoType "boltInjection")(eq ammoType "arrowInjection"))}} 
             <option value="CS_AS_HitEmWhereItCounts">{{localize 'SR5.CS_AS_HitEmWhereItCounts'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt"))}} 
             <option value="CS_AS_OnPinsAndNeedles">{{localize 'SR5.CS_AS_OnPinsAndNeedles'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "gel")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser"))}} 
             <option value="CS_AS_RicochetShot">{{localize 'SR5.CS_AS_RicochetShot'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive"))}} 
+            <option value="CS_AS_ShakeRattle">{{localize 'SR5.CS_AS_ShreddedFlesh'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt"))}} 
             <option value="CS_AS_ShreddedFlesh">{{localize 'SR5.CS_AS_ShreddedFlesh'}}</option>
-            <option value="CS_AS_Tag">{{localize 'SR5.CS_AS_Tag'}}</option>
+            {{/if}}
+            {{#if (eq ammoType "tracker")}} 
+            <option value="CS_AS_Tag">{{localize 'SR5.CS_AS_Tag'}}&lrm;</option>
+            {{/if}}
+            {{#if (or (eq ammoType "apds")(eq ammoType "gauss"))}} 
             <option value="CS_AS_ThroughAndInto">{{localize 'SR5.CS_AS_ThroughAndInto'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "av") (eq ammoType "assaultCannon"))}} 
             <option value="CS_AS_UpTheAnte">{{localize 'SR5.CS_AS_UpTheAnte'}}</option>
+            {{/if}}
+            {{#if (or (eq ammoType "injection")(eq ammoType "boltInjection")(eq ammoType "arrowInjection"))}} 
             <option value="CS_AS_WarningShot">{{localize 'SR5.CS_AS_WarningShot'}}</option>
+            {{/if}}
             {{/select}}
         </select>
     </div>
-    <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="dicePoolModCalledShots" name="dicePoolModCalledShots" value="{{incomingCalledShots}}" placeholder="0" data-dtype="Number" />
-    </div>
+    <div class="col-1"></div>
 </li>

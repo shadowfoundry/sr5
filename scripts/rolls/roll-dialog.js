@@ -191,16 +191,16 @@ export default class SR5_RollDialog extends Dialog {
         html.find(".firingMode").change(ev => this._addFiringModeModifier(html, dialogData));
 
         // Called Shots
-        if (html.find('[name="incomingCalledShots"]')[0]) this._addincomingCalledShotsModifier(null, html, dialogData, actorData);
-        html.find(".incomingCalledShots").change(ev => this._addincomingCalledShotsModifier(null, html, dialogData, actorData));
+        if (html.find('[name="incomingCalledShots"]')[0]) this._addincomingCalledShotsModifier(null, html, dialogData);
+        html.find('[name="incomingCalledShots"]').change(ev => this._addincomingCalledShotsModifier(null, html, dialogData));
 
         // Called Shots Specific Target
         if (html.find('[name="incomingSpecificTarget"]')[0]) this._addincomingSpecificTargetModifier(null, html, dialogData, actorData);
-        html.find(".incomingSpecificTarget").change(ev => this._addincomingSpecificTargetModifier(null, html, dialogData, actorData));
+        html.find('[name="incomingSpecificTarget"]').change(ev => this._addincomingSpecificTargetModifier(null, html, dialogData, actorData));
 
         // Called Shots Ammo Specific
         if (html.find('[name="incomingAmmoSpecific"]')[0]) this._addincomingAmmoSpecificModifier(null, html, dialogData, actorData);
-        html.find(".incomingAmmoSpecific").change(ev => this._addincomingAmmoSpecificModifier(null, html, dialogData, actorData));
+        html.find('[name="incomingAmmoSpecific"]').change(ev => this._addincomingAmmoSpecificModifier(null, html, dialogData, actorData));
 
         // Reset Recoil
         html.find(".resetRecoil").click(ev => this._onResetRecoil(ev, html, dialogData, actorData));
@@ -571,20 +571,20 @@ export default class SR5_RollDialog extends Dialog {
     //Add Called Shots modifier
     _addincomingCalledShotsModifier(ev, html, dialogData, actorData){
         let calledShot = html.find('[name="incomingCalledShots"]')[0].value;
-        let body = actorData.data.attributes.body.augmented.value;
-        let calledShotValue;
+        let calledShotValue, position = this.position;
+        position.height = "auto";
         switch(calledShot) {
             case "CS_AmmoSpecific" :
                 calledShotValue = 0;
                 document.getElementById("incomingAmmoSpecific").style.display = 'block';
                 document.getElementById("incomingSpecificTarget").style.display = 'none';
-                document.getElementById("incomingCalledShots").className = "col-4 SR-PaddingRight10";
+                this.setPosition(position);
             break;
             case "CS_SpecificTarget" :
                 calledShotValue = 0;
                 document.getElementById("incomingSpecificTarget").style.display = 'block';
                 document.getElementById("incomingAmmoSpecific").style.display = 'none';
-                document.getElementById("incomingCalledShots").className = "col-4 SR-PaddingRight10";
+                this.setPosition(position);
             break;
             case "CS_BlastOutOfHand" :
             case "CS_DirtyTrick" :
@@ -601,13 +601,11 @@ export default class SR5_RollDialog extends Dialog {
                 calledShotValue = -4;
                 document.getElementById("incomingAmmoSpecific").style.display = 'none';
                 document.getElementById("incomingSpecificTarget").style.display = 'none';
-                document.getElementById("incomingCalledShots").className = "col-7 SR-PaddingRight10";
             break;
             case "noChoice" :
                 calledShotValue = 0;
                 document.getElementById("incomingAmmoSpecific").style.display = 'none';
                 document.getElementById("incomingSpecificTarget").style.display = 'none';
-                document.getElementById("incomingCalledShots").className = "col-7 SR-PaddingRight10";
             break;
         default:
         }
@@ -666,6 +664,30 @@ export default class SR5_RollDialog extends Dialog {
                 calledShotValue = -10;
                 limitDV = 10;
         break;
+            case "CS_ST_Antenna" :
+            calledShotValue = -8;
+            limitDV = 2;
+        break;
+            case "CS_ST_EngineBlock" :
+            calledShotValue = -4;
+            limitDV = "";
+        break;
+            case "CS_ST_WindowMotor" :
+            calledShotValue = -4;
+            limitDV = 0;
+        break;
+            case "CS_ST_DoorLock" :
+            calledShotValue = -6;
+            limitDV = 0;
+        break;
+            case "CS_ST_Axle" :
+            calledShotValue = -6;
+            limitDV = 6;
+        break;
+            case "CS_ST_FuelTankBattery" :
+            calledShotValue = -6;
+            limitDV = "";
+        break;
             case "noChoice" :
             calledShotValue = 0;
             limitDV = "";
@@ -676,6 +698,7 @@ export default class SR5_RollDialog extends Dialog {
         this.dicePoolModifier.calledShot = calledShotValue;
         dialogData.dicePoolMod.calledShot = calledShotValue;
         dialogData.limitDV = limitDV;
+        dialogData.calledShotLocalisation = calledShotSpecificTarget;
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
         this.updateDicePoolValue(html);
     }
@@ -762,16 +785,32 @@ export default class SR5_RollDialog extends Dialog {
             case "CS_AS_WarningShot" : 
                 calledShotValue = -6;
                 limitDV = ""; 
+            break; 
+            case "CS_AS_ShakeRattle" : 
+                switch(ammoType) {
+                    case "explosive" : 
+                        calledShotValue = -4;
+                        limitDV = ""; 
+                break; 
+                    case "exExplosive" : 
+                        calledShotValue = -4;
+                        limitDV = ""; 
+                break; 
+                default:                     
+                        calledShotValue = -4;
+                        limitDV = "";
+                }
             break;
             case "CS_AS_ShreddedFlesh" : 
-            calledShotValue = -4;
-            limitDV = 10;
+                calledShotValue = -4;
+                limitDV = 10;
             break;
             case "CS_AS_ThroughAndInto" : 
                 calledShotValue = 0;
                 limitDV = 1;
             break; 
             case "CS_AS_UpTheAnte" : 
+            case "noChoice" :
                 calledShotValue = 0;
                 limitDV = "";
         break;
@@ -780,6 +819,7 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="dicePoolModCalledShots"]')[0].value = calledShotValue;
         this.dicePoolModifier.calledShot = calledShotValue;
         dialogData.dicePoolMod.calledShot = calledShotValue;
+        dialogData.calledShotLocalisation = calledShotAmmoSpecific;
         dialogData.limitDV = limitDV;
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
         this.updateDicePoolValue(html);

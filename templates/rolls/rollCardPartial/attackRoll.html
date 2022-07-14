@@ -50,8 +50,8 @@
 {{/if}}
 {{#if (ne calledShot 'noChoice')}}
 <li class="grid">
-    <div class="col-8">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4 SR-TextRight">{{findTranslation 'calledShots' calledShot}}</div>
+    <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8 SR-TextRight">{{findTranslation 'calledShots' calledShot}}{{#if (ne calledShotLocalisation '')}} ({{findTranslation 'calledShotsSpecifics' calledShotLocalisation}}){{/if}}</div>
 </li>
 {{/if}}
 {{#if (eq typeSub 'grenade')}}

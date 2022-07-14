@@ -34,6 +34,7 @@ export class SR5_Roll {
             sceneNoise,
             sceneEnvironmentalMod,
             calledShot,
+            calledShotLocalisation = "",
             limitDV = "",
             originalMessage,
             effectsList,
@@ -416,16 +417,11 @@ export class SR5_Roll {
                                     chatData.damageType = "stun";
                                     title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
                                     ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:damageValueBase})}`); 
-                                }                                              
-                                //Handle specific target if any                
-                                if (chatData.limitDV) {
-                                    let incomingDV = Math.min(damageValueBase, chatData.limitDV);
-                                    damageValueBase = incomingDV;
                                 }
                                 break;
                             default:
                         }
-
+                        let netHits, calledShotsEffects;
 
                         dicePool = resistanceValue + modifiedArmor;
 
@@ -436,7 +432,8 @@ export class SR5_Roll {
                             armor: armor,
                             armorComposition: armorComposition,
                             ammoType: chatData.ammoType,
-                            calledShot: chatData.calledShot,
+                            calledShot: chatData.calledShot,                            
+                            calledShotLocalisation: chatData.calledShotLocalisation,
                             limitDV : chatData.limitDV,
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
@@ -446,6 +443,8 @@ export class SR5_Roll {
                             damageContinuous: chatData.damageContinuous,
                             damageIsContinuating: chatData.damageIsContinuating,
                             damageOriginalValue: chatData.damageOriginalValue,
+                            netHits,
+                            calledShotsEffects,
                         }
                         if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
@@ -996,6 +995,7 @@ export class SR5_Roll {
                     damageType: chatData.damageType,
                     ammoType: chatData.ammoType,
                     calledShot: chatData.calledShot,
+                    calledShotLocalisation: chatData.calledShotLocalisation,
                     limitDV : chatData.limitDV,
                     incomingPA: chatData.incomingPA,
                     incomingFiringMode: chatData.firingModeDefenseMod,
@@ -1025,6 +1025,15 @@ export class SR5_Roll {
                 typeSub = itemData.category;
                 testType = "opposedTest";
                 rollType = "attack";
+
+                let targetActorType = "";
+                if (game.user.targets.size) {
+                let targets = Array.from(game.user.targets);
+                let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+                let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                targetActorType = targetActor.type;
+                }
+                
 
                 // Recoil Compensation calculation
                 let recoilCompensation = actorData.recoilCompensation.value;
@@ -1096,6 +1105,7 @@ export class SR5_Roll {
                     ammoValue: itemData.ammunition.value,
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
+                    calledShotLocalisation: calledShotLocalisation,
                     limitDV : limitDV,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     dicePoolComposition: itemData.weaponSkill.modifiers,
@@ -1108,6 +1118,7 @@ export class SR5_Roll {
                     "range.long": itemData.range.long.value,
                     "range.extreme": itemData.range.extreme.value,
                     weaponRecoil: itemData.recoilCompensation.value,
+                    targetActorType: targetActorType,
                 });
 
                 if (itemData.damageElement === "toxin"){

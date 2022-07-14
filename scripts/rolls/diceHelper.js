@@ -1161,6 +1161,71 @@ export class SR5_DiceHelper {
         let statusEffect = await _getSRStatusEffect("signalJam", -message.test.hits);
         await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
+    
+    static async chooseSpendNetHits(message, actor){
+        let messageData = message.data.flags.sr5data;
+        let cancel = true;
+        let list = {};
+        let calledShotLocalisation = messageData.calledShotLocalisation;
+        let numberCheckedEffects = 0, disposableHits = messageData.netHits - 1 - numberCheckedEffects, spendHits, spareHits;
+        let dialogData = {
+            calledShotLocalisation: calledShotLocalisation,
+            disposableHits: disposableHits,
+            hits: messageData.netHits,
+            list: list,
+            spendHits,
+            spareHits,
+        };
+
+        SR5_SystemHelpers.srLog(1, `Localisation : '${calledShotLocalisation}'`);
+        
+        renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
+            new Dialog({
+              title: game.i18n.localize('SR5.SpendHitsForStatus'),
+              content: dlg,
+              data: dialogData,
+              buttons: {
+                ok: {
+                  label: "Ok",
+                  callback: () => (cancel = false),
+                },
+                cancel: {
+                  label : "Cancel",
+                  callback: () => (cancel = true),
+                },
+              },
+              default: "ok",
+              close: (html) => {
+                if (cancel) return;
+                              
+                numberCheckedEffects = html.find("[name='checkDisposableHitsEffects']:checked").length;
+                let checkedEffects = html.find("[name='checkDisposableHitsEffects']:checked").val();
+                dialogData.spendHits = numberCheckedEffects;
+                spareHits = disposableHits - numberCheckedEffects;
+                if (numberCheckedEffects > 0) ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);
+                if (numberCheckedEffects >= disposableHits) ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_NoSpendHitsLeft')}`);
+                if (numberCheckedEffects > disposableHits) return;
+                disposableHits = spareHits ;
+              
+                messageData = mergeObject(messageData, {
+                    statusChoices : dialogData.spendHits,
+                    disposableHits : dialogData.disposableHits,
+                    calledShotsEffects : checkedEffects,
+                });
+
+                //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
+		    let newMessage = duplicate(messageData);
+            newMessage.hits = messageData.hits - dialogData.spendHits;
+            SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
+		    if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+
+                SR5_SystemHelpers.srLog(1, `Nb of checked '${dialogData.spendHits}'`);
+                SR5_SystemHelpers.srLog(1, `Effects choose '${checkedEffects}'`);
+                SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
+              },
+            }).render(true);
+        });
+    }
 
     static async reduceSideckickService(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId),
@@ -1410,4 +1475,355 @@ export class SR5_DiceHelper {
     
     return itemEffects;
     }
+
+    static async getCalledShotsEffect(effecType, data, actor){
+        let itemEffects = [];
+        let calledShotsType = effecType;
+        let hasEffect;
+
+        let effect = {
+            name: game.i18n.localize(SR5.calledShotsEffects[calledShotsType]),
+            type: "itemEffect",
+        }
+
+        switch (effecType){
+            case "slowed":
+                hasEffect = actor.items.find(i => i.data.data.type === "slowed");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "slowed",
+                        "data.value": -2,
+                        "data.duration": 10,
+                        "data.durationType": "minute",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "winded":
+                hasEffect = actor.items.find(i => i.data.data.type === "winded");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.PenaltyDouble"),
+                        "data.type": "winded",
+                        "data.value": "x2",
+                        "data.duration": 10,
+                        "data.durationType": "minute",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "specialProperties",
+                                "target": "data.specialProperties.doublePenalties",
+                                "type": "boolean",
+                                "value": "true",
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "deafened":
+                hasEffect = actor.items.find(i => i.data.data.type === "deafened");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "deafened",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "stunned":
+                hasEffect = actor.items.find(i => i.data.data.type === "stunned");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "stunned",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "blinded":
+                hasEffect = actor.items.find(i => i.data.data.type === "blinded");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "blinded",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "brokenGrip":
+                hasEffect = actor.items.find(i => i.data.data.type === "brokenGrip");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "brokenGrip",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "weakSide":
+                hasEffect = actor.items.find(i => i.data.data.type === "weakSide");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "weakSide",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "nauseous":
+                hasEffect = actor.items.find(i => i.data.data.type === "nauseous");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "nauseous",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "buckled":
+                hasEffect = actor.items.find(i => i.data.data.type === "buckled");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "buckled",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "slowDeath":
+                hasEffect = actor.items.find(i => i.data.data.type === "slowDeath");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "slowDeath",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "knockdown":
+                hasEffect = actor.items.find(i => i.data.data.type === "knockdown");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "knockdown",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "unableToSpeak":
+                hasEffect = actor.items.find(i => i.data.data.type === "unableToSpeak");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "unableToSpeak",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "bleedOut":
+                hasEffect = actor.items.find(i => i.data.data.type === "bleedOut");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "bleedOut",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "oneArmBandit":
+                hasEffect = actor.items.find(i => i.data.data.type === "oneArmBandit");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "oneArmBandit",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "fatigued":
+                hasEffect = actor.items.find(i => i.data.data.type === "fatigued");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.type": "fatigued",
+                        "data.value": -2,
+                        "data.duration": 1,
+                        "data.durationType": "hour",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -2,
+                                "forceAdd": true,
+                            }
+                        },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            default:
+        }
+    
+    return itemEffects;
+    }
+
+
+
+    
 }
