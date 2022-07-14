@@ -1226,7 +1226,11 @@ export class SR5_Dice {
 				}
 				break;
 			case "escapeArtist":
-				console.log("escapeArtist");
+				if (cardData.test.hits >= cardData.escapeArtistThreshold){
+					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistSuccess"));
+				} else {
+					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistFailed"));
+				}
 				break;
 			default:
 		}

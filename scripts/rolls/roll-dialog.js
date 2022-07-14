@@ -353,7 +353,32 @@ export default class SR5_RollDialog extends Dialog {
 
         //Add Escape Artist modifier for restrained
         html.find('[name="escapeSituationRestrained"]').change(ev => this._inputModifier(ev, html, dialogData, "escapeSituationRestrained", "dicePoolModEscapeSituationRestrained", true));
-        
+
+        //Add Escape Artist Threshold modifier
+        if (html.find('[name="restraintType"]')[0]) this._setEscapeArtistThreshold(html, dialogData);
+        html.find('[name="restraintType"]').change(ev => this._setEscapeArtistThreshold(html, dialogData));
+        html.find('[name="restraintReinforced"]').change(ev => this._addRestraintReinforcedModifier(ev, html, dialogData));
+    }
+
+    //Set Escape Artist Threshold
+    _setEscapeArtistThreshold(html, dialogData){
+        let threshold = SR5_DiceHelper.convertRestraintTypeToThreshold((html.find('[name="restraintType"]')[0].value));
+        dialogData.escapeArtistThreshold = threshold;
+        html.find('[name="restraintThreshold"]')[0].value = threshold;
+    }
+
+    _addRestraintReinforcedModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        let threshold = SR5_DiceHelper.convertRestraintTypeToThreshold((html.find('[name="restraintType"]')[0].value));
+        if (value === "false") {
+            html.find('[name="restraintReinforcedMod"]')[0].value = 0;
+            dialogData.escapeArtistThreshold = threshold;
+            //html.find('[name="restraintThreshold"]')[0].value = threshold;
+        } else {
+            html.find('[name="restraintReinforcedMod"]')[0].value = 1;
+            dialogData.escapeArtistThreshold = threshold + 1;
+            //html.find('[name="restraintThreshold"]')[0].value = threshold + 1;
+        }
     }
 
     //Calcul Mana Barrier DicePool

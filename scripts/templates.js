@@ -498,6 +498,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
     "systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html",
 
     /************************************************************************************* */
     /**                             CHATCARDS PARTIALS                                    **/
@@ -509,6 +510,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html",
+    "systems/sr5/templates/rolls/rollCardPartial/threshold.html",
   ];
 
   // Load the template parts

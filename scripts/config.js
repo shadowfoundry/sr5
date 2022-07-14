@@ -981,6 +981,12 @@ SR5.healingSupplies = {
   medkit                    : "SR5.HealingSuppliesMedkit",
 }
 
+SR5.restraintType = {
+  rope                      : "SR5.RestraintTypeRope",
+  metal                     : "SR5.RestraintTypeMetal",
+  straitjacket              : "SR5.RestraintTypeStraitjacket",
+  containment               : "SR5.RestraintTypeContainment",
+}
 
 //-----------------------------------//
 //                MAGIC              //
