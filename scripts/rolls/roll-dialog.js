@@ -153,7 +153,8 @@ export default class SR5_RollDialog extends Dialog {
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
         if (document.getElementById("useReagents")) document.getElementById("useReagents").style.display = "none";
         if (document.getElementById("useSpiritAid")) document.getElementById("useSpiritAid").style.display = "none";
-
+        if (document.getElementById("sightPerception")) document.getElementById("sightPerception").style.display = "none";
+        
         if (dialogData.type === "ritual"){
             document.getElementById("useReagents").style.display = "block";
             html.find('[name="reagents"]')[0].value = "true";
@@ -710,12 +711,23 @@ export default class SR5_RollDialog extends Dialog {
 
     //Add specific Perception type modifiers
     _addPerceptionTypeModifier(ev, html, dialogData, actorData){
-        let key = ev.target.value;
-        let modifier = 0;
-        let limitMod = 0;
+        let key = ev.target.value,
+            modifier = 0,
+            limitMod = 0,
+            position = this.position;
+
+        position.height = "auto";
+        
         if (key !== ""){
             modifier = actorData.data.skills.perception.perceptionType[key].test.value;
             limitMod = actorData.data.skills.perception.perceptionType[key].limit.value;
+            if (key === "sight") {
+                document.getElementById("sightPerception").style.display = "block";
+                this.setPosition(position);
+            } else {
+                document.getElementById("sightPerception").style.display = "none";
+                this.setPosition(position);
+            }
         }
         dialogData.perceptionType = key;
         dialogData.dicePoolMod.perception = modifier;

@@ -358,7 +358,7 @@ export class SR5_DiceHelper {
     }
 
     //Handle environmental modifiers
-    static handleEnvironmentalModifiers(scene, actor, melee){
+    static handleEnvironmentalModifiers(scene, actor, noWind){
         let actorData = actor.itemsProperties.environmentalMod;
         let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
         let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
@@ -367,7 +367,7 @@ export class SR5_DiceHelper {
         let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
 
         let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
-        if (melee){
+        if (noWind){
             arrayMod = [visibilityMod, lightMod, glareMod];
         }
         let finalMod = Math.max(...arrayMod);
