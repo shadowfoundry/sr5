@@ -1469,4 +1469,18 @@ export class SR5_DiceHelper {
             return medkit;
         }
     }
+
+    static convertRestraintTypeToThreshold(type){
+        switch (type){
+            case "rope":
+                return 2;
+            case "metal":
+                return 3;
+            case "straitjacket":
+                return 4;
+            case "containment":
+                return 5;
+            default : return 2;
+        }
+    }
 }

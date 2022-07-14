@@ -164,7 +164,7 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="dicePoolModVarious"]').change(ev => this._addVariousModifier(ev, html, dialogData));
 
         // Specialization modifier
-        html.find(".specialization").change(ev => this._addSpecializationModifier(ev, html, dialogData));
+        html.find('[name="specialization"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "specialization", 2, 0, "dicePoolModSpecialization"));
 
         // Penalties modifiers
         html.find(".penaltyMod").change(ev => this._addPenaltyModifier(ev, html, dialogData));
@@ -309,7 +309,7 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="damageType"]').change(ev => this._getDamageType(html, dialogData));
 
         //Add modifier for centering metamagic
-        html.find('[name="centering"]').change(ev => this._addCenteringModifier(ev, html, dialogData, actorData));
+        html.find('[name="centering"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "centering", actorData.data.magic.metamagics.centeringValue.value, 0, "dicePoolModCentering"));
 
         //Add modifier for spell shaping metamagic
         html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData, actorData));
@@ -344,6 +344,41 @@ export default class SR5_RollDialog extends Dialog {
 
         //Add healing modifier for supplies
         html.find('[name="healingSupplies"]').change(ev => this._addHealingSuppliesModifier(ev, html, dialogData, actor));
+
+        //Add Escape Artist modifier for being watched
+        html.find('[name="escapeSituationWatched"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "escapeSituationWatched", -2, 0, "dicePoolModEscapeSituationWatched"));
+
+        //Add Escape Artist modifier for picks
+        html.find('[name="escapeSituationPicks"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "escapeSituationPicks", 2, 0, "dicePoolModEscapeSituationPicks"));
+
+        //Add Escape Artist modifier for restrained
+        html.find('[name="escapeSituationRestrained"]').change(ev => this._inputModifier(ev, html, dialogData, "escapeSituationRestrained", "dicePoolModEscapeSituationRestrained", true));
+
+        //Add Escape Artist Threshold modifier
+        if (html.find('[name="restraintType"]')[0]) this._setEscapeArtistThreshold(html, dialogData);
+        html.find('[name="restraintType"]').change(ev => this._setEscapeArtistThreshold(html, dialogData));
+        html.find('[name="restraintReinforced"]').change(ev => this._addRestraintReinforcedModifier(ev, html, dialogData));
+    }
+
+    //Set Escape Artist Threshold
+    _setEscapeArtistThreshold(html, dialogData){
+        let threshold = SR5_DiceHelper.convertRestraintTypeToThreshold((html.find('[name="restraintType"]')[0].value));
+        dialogData.escapeArtistThreshold = threshold;
+        html.find('[name="restraintThreshold"]')[0].value = threshold;
+    }
+
+    _addRestraintReinforcedModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        let threshold = SR5_DiceHelper.convertRestraintTypeToThreshold((html.find('[name="restraintType"]')[0].value));
+        if (value === "false") {
+            html.find('[name="restraintReinforcedMod"]')[0].value = 0;
+            dialogData.escapeArtistThreshold = threshold;
+            //html.find('[name="restraintThreshold"]')[0].value = threshold;
+        } else {
+            html.find('[name="restraintReinforcedMod"]')[0].value = 1;
+            dialogData.escapeArtistThreshold = threshold + 1;
+            //html.find('[name="restraintThreshold"]')[0].value = threshold + 1;
+        }
     }
 
     //Calcul Mana Barrier DicePool
@@ -383,20 +418,6 @@ export default class SR5_RollDialog extends Dialog {
     _addVariousModifier(ev, html, dialogData){
         this.dicePoolModifier.variousModifier = (parseInt(ev.target.value) || 0);
         dialogData.dicePoolMod.various =  (parseInt(ev.target.value) || 0);
-        this.updateDicePoolValue(html);
-    }
-
-    //Add Specialization modifiers
-    _addSpecializationModifier(ev, html, dialogData){
-        if (ev.target.value) {
-            html.find('[name="dicePoolModSpecialization"]')[0].value = 2;
-            this.dicePoolModifier.specialization = 2;
-            dialogData.dicePoolMod.specialization = 2;
-        } else {
-            html.find('[name="dicePoolModSpecialization"]')[0].value = 0;
-            this.dicePoolModifier.specialization = 0;
-            dialogData.dicePoolMod.specialization = 0;
-        }
         this.updateDicePoolValue(html);
     }
 
@@ -470,41 +491,41 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="modifiedDamage"]')[0].value = value;
     }
 
-        //Add speed ramming target modifiers
-        _addSpeedRammingTargetModifier(ev, html, dialogData, actorData){
-            let speed = html.find('[name="speedRammingTarget"]')[0].value;
-            let body = dialogData.target;
-            let value, accidentValue;
-            switch(speed) {
-                case "speedRamming1" :
-                    value = Math.ceil(body/2);
-                    accidentValue = Math.ceil(value/2);
+    //Add speed ramming target modifiers
+    _addSpeedRammingTargetModifier(ev, html, dialogData, actorData){
+        let speed = html.find('[name="speedRammingTarget"]')[0].value;
+        let body = dialogData.target;
+        let value, accidentValue;
+        switch(speed) {
+            case "speedRamming1" :
+                value = Math.ceil(body/2);
+                accidentValue = Math.ceil(value/2);
                 break;
-                case "speedRamming11" :
-                    value = body;
-                    accidentValue = Math.ceil(value/2);
+            case "speedRamming11" :
+                value = body;
+                accidentValue = Math.ceil(value/2);
                 break;
-                case "speedRamming51" :
-                    value = body*2;
-                    accidentValue = Math.ceil(value/2);
+            case "speedRamming51" :
+                value = body*2;
+                accidentValue = Math.ceil(value/2);
                 break;
-                case "speedRamming201" :
-                    value = body*3;
-                    accidentValue = Math.ceil(value/2);
+            case "speedRamming201" :
+                value = body*3;
+                accidentValue = Math.ceil(value/2);
                 break;
-                case "speedRamming301" :
-                    value = body*5;
-                    accidentValue = Math.ceil(value/2);
+            case "speedRamming301" :
+                value = body*5;
+                accidentValue = Math.ceil(value/2);
                 break;
-                case "speedRamming501" :
-                    value = body*10;
-                    accidentValue = Math.ceil(value/2);
+            case "speedRamming501" :
+                value = body*10;
+                accidentValue = Math.ceil(value/2);
                 break;
             default:
-            }
-            dialogData.accidentValue = accidentValue;
-            html.find('[name="accidentValue"]')[0].value = accidentValue;
         }
+        dialogData.accidentValue = accidentValue;
+        html.find('[name="accidentValue"]')[0].value = accidentValue;
+    }
 
     //Add cumulative defense modifiers
     _addCumulativeDefenseModifier(html, dialogData){
@@ -786,22 +807,6 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
-    //Add modifier for Centering
-    _addCenteringModifier(ev, html, dialogData, actorData){
-        let value = ev.target.value;
-        if (value === "true") {
-            this.dicePoolModifier.centering = actorData.data.magic.metamagics.centeringValue.value;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = actorData.data.magic.metamagics.centeringValue.value;
-            html.find('[name="dicePoolModCentering"]')[0].value = actorData.data.magic.metamagics.centeringValue.value;
-        } else {
-            this.dicePoolModifier.centering = 0;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = 0;
-            html.find('[name="dicePoolModCentering"]')[0].value = 0;
-        }
-    }
-
     //Add modifier depending of the type of the token Targeted
     _addTargetTypeModifier(html, dialogData, actorData){
         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
@@ -946,6 +951,34 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.dicePoolMod.healingSupplies = modifier;
         dialogData.healingSupplies = value;
         this.dicePoolModifier.healingSupplies = modifier;
+        this.updateDicePoolValue(html);
+    }
+
+    //Manage true or false select and modifier
+    _trueOrFalseModifier(ev, html, dialogData, modifierName, trueValue, falseValue, inputName){
+        let value = ev.target.value;
+        let name = `[name=${inputName}]`
+        if (value === "false") {
+            html.find(name)[0].value = falseValue;
+            dialogData.dicePoolMod[modifierName] = falseValue;
+            this.dicePoolModifier[modifierName] = falseValue;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find(name)[0].value = trueValue;
+            dialogData.dicePoolMod[modifierName] = trueValue;
+            this.dicePoolModifier[modifierName] = trueValue;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Manage input modifier
+    _inputModifier(ev, html, dialogData, modifierName, inputName, inverse = false){
+        let value = parseInt(ev.target.value);
+        if (inverse) value = -value;
+        let name = `[name=${inputName}]`
+        html.find(name)[0].value = value;
+        dialogData.dicePoolMod[modifierName] = value;
+        this.dicePoolModifier[modifierName] = value;
         this.updateDicePoolValue(html);
     }
 }

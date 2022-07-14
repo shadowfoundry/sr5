@@ -1225,6 +1225,13 @@ export class SR5_Dice {
 					else cardData.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.healValue})}`);
 				}
 				break;
+			case "escapeArtist":
+				if (cardData.test.hits >= cardData.escapeArtistThreshold){
+					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistSuccess"));
+				} else {
+					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistFailed"));
+				}
+				break;
 			default:
 		}
 	}

@@ -102,6 +102,10 @@
         {{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html}}
         {{/if}}
+        <!-- ESCAPE ARTIST -->
+        {{#if (eq typeSub "escapeArtist")}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html}}
+        {{/if}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
@@ -247,6 +251,11 @@
       {{#if switch.centering}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
       {{/if}}
+
+      <!-- ESCAPE ARTIST THRESHOLD-->
+      {{#if (eq typeSub "escapeArtist")}}
+      {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html}}
+    {{/if}}
     </ul>
   </div>
 
