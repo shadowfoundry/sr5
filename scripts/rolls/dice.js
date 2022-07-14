@@ -1232,6 +1232,11 @@ export class SR5_Dice {
 					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistFailed"));
 				}
 				break;
+			case "perception":
+				if (cardData.perceptionType === "sight" && canvas.scene){
+					cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
+				}
+				break;
 			default:
 		}
 	}

@@ -198,6 +198,12 @@ export class SR5_Roll {
                     dicePoolComposition: dicePoolComposition,
                 });
 
+                if (typeSub === "perception"){
+                    optionalData = mergeObject(optionalData, {
+                        "lists.perceptionModifiers": actor.data.lists.perceptionModifiers,
+                    });
+                }
+
                 if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting" || typeSub === "firstAid" || typeSub === "medecine")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);

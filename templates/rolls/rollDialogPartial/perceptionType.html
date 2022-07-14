@@ -1,7 +1,7 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6">
-        <select class="" name="perceptionType">
+        <select  name="perceptionType">
             {{#select perceptionType}}
                 <option value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.perceptionTypes}}
@@ -11,6 +11,54 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="perceptionValue" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="perceptionValue" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid" id="sightPerception">
+    <div class="col-11">{{localize 'SR5.EnvironmentalModifiers'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModEnvironmental" value="{{dicePoolMod.environmentalSceneMod}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid SR-TopSeparator">
+    <div class="col-10">{{localize 'SR5.PerceptionModDistracted'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="distracted"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionDistracted" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModSpecificallyLooking'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="specificallyLooking"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionSpecificallyLooking" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModNotInImmediateVicinity'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="notInImmediateVicinity"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionNotInImmediateVicinity" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModFarAway'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="farAway"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionFarAway" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModStandsOutInSomeWay'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="standsOutInSomeWay"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModStandsOutInSomeWay" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModInterfering'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="interfering"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModInterfering" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

@@ -988,6 +988,15 @@ SR5.restraintType = {
   containment               : "SR5.RestraintTypeContainment",
 }
 
+SR5.perceptionModifiers = {
+  distracted                : "SR5.PerceptionModDistracted",
+  specificallyLooking       : "SR5.PerceptionModSpecificallyLooking",
+  notInImmediateVicinity    : "SR5.PerceptionModNotInImmediateVicinity",
+  farAway                   : "SR5.PerceptionModFarAway",
+  standsOutInSomeWay        : "SR5.PerceptionModStandsOutInSomeWay",
+  interfering               : "SR5.PerceptionModInterfering",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//
