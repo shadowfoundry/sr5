@@ -1052,6 +1052,42 @@ SR5.socialMod = {
   intoxicated               : "SR5.SocialModIntoxicated",
 }
 
+SR5.conModifier = {
+  evidence                  : "SR5.SocialModEvidence",
+  evaluateSituation         : "SR5.SocialModEvaluateSituation",
+  isDistracted              : "SR5.SocialModIsDistracted",
+}
+
+SR5.etiquetteModifier = {
+  badLook                   : "SR5.SocialModBadLook",
+  nervous                   : "SR5.SocialModNervous",
+  isDistractedInverse       : "SR5.SocialModIsDistracted",
+}
+
+SR5.intimidationModifier = {
+  imposing                  : "SR5.SocialModImposing",
+  imposingTarget            : "SR5.SocialModImposingTarget",
+  outnumber                 : "SR5.SocialModOutnumber",
+  outnumberTarget           : "SR5.SocialModOutnumberTarget",
+  wieldingWeapon            : "SR5.SocialModWieldingWeapon",
+  wieldingWeaponTarget      : "SR5.SocialModWieldingWeaponTarget",
+  torture                   : "SR5.SocialModTorture",
+  obliviousToDanger         : "SR5.SocialModObliviousToDanger",
+}
+
+SR5.leadershipModifier = {
+  rank                      : "SR5.SocialModRank",
+  rankTarget                : "SR5.SocialModRankTarget",
+  authority                 : "SR5.SocialModAuthority",
+  strata                    : "SR5.SocialModStrata",
+  fan                       : "SR5.SocialModFan",
+}
+
+SR5.negociationModifier = {
+  lacksKnowledge            : "SR5.SocialModLacksKnowledge",
+  blackmailed               : "SR5.SocialModBlackmailed",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//

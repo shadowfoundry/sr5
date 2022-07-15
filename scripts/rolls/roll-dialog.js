@@ -384,7 +384,7 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="survivalThresholdType"]').change(ev => this._manageThreshold(ev, html, dialogData, "survivalThreshold"));
         if (html.find('[name="survivalThresholdType"]')[0]) this._manageThreshold(null, html, dialogData, "survivalThreshold");
 
-        //Add social modifiers
+        //Add general social modifiers
         html.find('[name="socialAttitude"]').change(ev => this._selectModifiers(ev, html, dialogData, "socialAttitude", "dicePoolModSocialAttitude"));
         html.find('[name="socialResult"]').change(ev => this._selectModifiers(ev, html, dialogData, "socialResult", "dicePoolModSocialResult"));
         html.find('[name="socialAce"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialAce", "dicePoolModSocialAce", "social"));
@@ -392,6 +392,32 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="socialIntoxicated"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIntoxicated", "dicePoolModSocialIntoxicated", "social"));
         html.find('[name="socialReputation"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialReputation", "dicePoolModSocialReputation", "social"));
         html.find('[name="dicePoolModSocialReputationTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialReputationTarget", "dicePoolModSocialReputationTarget"));
+        //Add Con modifiers
+        html.find('[name="dicePoolModSocialEvidence"]').change(ev => this._inputModifier(ev, html, dialogData, "socialEvidence", "dicePoolModSocialEvidence"));
+        html.find('[name="socialIsDistracted"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIsDistracted", "dicePoolModSocialIsDistracted", "social"));
+        html.find('[name="socialEvaluateSituation"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialEvaluateSituation", "dicePoolModSocialEvaluateSituation", "social"));
+        //Add Etiquette modifiers
+        html.find('[name="socialBadLook"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialBadLook", "dicePoolModSocialBadLook", "social"));
+        html.find('[name="socialNervous"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialNervous", "dicePoolModSocialNervous", "social"));
+        html.find('[name="socialIsDistractedInverse"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIsDistractedInverse", "dicePoolModSocialIsDistractedInverse", "social"));
+        //Add Intimidation modifiers
+        html.find('[name="dicePoolModSocialImposing"]').change(ev => this._inputModifier(ev, html, dialogData, "socialImposing", "dicePoolModSocialImposing"));
+        html.find('[name="dicePoolModSocialImposingTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialImposingTarget", "dicePoolModSocialImposingTarget"));
+        html.find('[name="socialOutnumber"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialOutnumber", "dicePoolModSocialOutnumber", "social"));
+        html.find('[name="socialOutnumberTarget"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialOutnumberTarget", "dicePoolModSocialOutnumberTarget", "social"));
+        html.find('[name="socialWieldingWeapon"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialWieldingWeapon", "dicePoolModSocialWieldingWeapon", "social"));
+        html.find('[name="socialWieldingWeaponTarget"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialWieldingWeaponTarget", "dicePoolModSocialWieldingWeaponTarget", "social"));
+        html.find('[name="socialTorture"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialTorture", "dicePoolModSocialTorture", "social"));
+        html.find('[name="socialObliviousToDanger"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialObliviousToDanger", "dicePoolModSocialObliviousToDanger", "social"));
+        //Add Leadership modifiers
+        html.find('[name="dicePoolModSocialRank"]').change(ev => this._inputModifier(ev, html, dialogData, "socialRank", "dicePoolModSocialRank"));
+        html.find('[name="dicePoolModSocialRankTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialRankTarget", "dicePoolModSocialRankTarget"));
+        html.find('[name="dicePoolModSocialStrata"]').change(ev => this._inputModifier(ev, html, dialogData, "socialStrata", "dicePoolModSocialStrata"));
+        html.find('[name="socialFan"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialFan", "dicePoolModSocialFan", "social"));
+        html.find('[name="socialAuthority"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialAuthority", "dicePoolModSocialAuthority", "social"));
+        //Add Negociation modifiers
+        html.find('[name="socialLacksKnowledge"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialLacksKnowledge", "dicePoolModSocialLacksKnowledge", "social"));
+        html.find('[name="socialBlackmailed"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialBlackmailed", "dicePoolModSocialBlackmailed", "social"));
     }
 
     //Select modifiers
@@ -425,7 +451,7 @@ export default class SR5_RollDialog extends Dialog {
         if (type === "perception") value = SR5_DiceHelper.convertPerceptionModifierToMod(modifierName);
         if (type === "survival") value = SR5_DiceHelper.convertSurvivalModifierToMod(modifierName);
         if (type === "social") value = SR5_DiceHelper.convertSocialCheckboxToMod(modifierName, actorData);
-        
+        console.log(value);
         if (isChecked){
             html.find(name)[0].value = value;
             dialogData.dicePoolMod[modifierName] = value;

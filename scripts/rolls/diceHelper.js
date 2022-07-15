@@ -1592,11 +1592,28 @@ export class SR5_DiceHelper {
 
     static convertSocialCheckboxToMod(type, actorData){
         switch (type){
+            case "socialIsDistracted":
+            case "socialAuthority":
+                return 1;
             case "socialAce":
             case "socialRomantic":
+            case "socialOutnumber":
+            case "socialWieldingWeapon":
+            case "socialTorture":
+            case "socialObliviousToDanger":
+            case "socialFan":
+            case "socialBlackmailed":
                 return 2;
+            case "socialEvaluateSituation":
             case "socialIntoxicated":
-                return -1
+            case "socialIsDistractedInverse":
+                return -1;
+            case "socialBadLook":
+            case "socialNervous":
+            case "socialOutnumberTarget":
+            case "socialWieldingWeaponTarget":
+            case "socialLacksKnowledge":
+                return -2;
             case "socialReputation":
                 return actorData.data.streetCred.value;
             default : return 0;
