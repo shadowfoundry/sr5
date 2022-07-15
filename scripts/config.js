@@ -1005,6 +1005,28 @@ SR5.perceptionThresholdType = {
   hidden                    : "SR5.PerceptionThresholdHidden",
 }
 
+SR5.survivalModifiers = {
+  camping                   : "SR5.SurvivalModCamping",
+  noFoundOrWater            : "SR5.SurvivalModNoFoundOrWater",
+  controlAvailable          : "SR5.SurvivalModControlAvailable",
+  clothing                  : "SR5.SurvivalModClothing",
+  travel                    : "SR5.SurvivalModTravel",
+  toxic                     : "SR5.SurvivalModToxic",
+}
+
+SR5.survivalTerrain = {
+  mild                      : "SR5.SurvivalTerrainMild",
+  moderate                  : "SR5.SurvivalTerrainModerate",
+  tough                     : "SR5.SurvivalTerrainTough",
+  extreme                   : "SR5.SurvivalTerrainExtreme",
+}
+
+SR5.survivalWeather = {
+  poor                      : "SR5.SurvivalWeatherPoor",
+  terrible                  : "SR5.SurvivalWeatherTerrible",
+  extreme                   : "SR5.SurvivalWeatherExtreme",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//

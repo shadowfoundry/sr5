@@ -500,6 +500,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html",
     "systems/sr5/templates/rolls/rollDialogPartial/perceptionThreshold.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/survivalThreshold.html",
 
     /************************************************************************************* */
     /**                             CHATCARDS PARTIALS                                    **/

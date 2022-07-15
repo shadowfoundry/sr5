@@ -53,7 +53,7 @@
         {{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html}}
       {{/if}}
       <!--Threshold infos-->
-      {{#if (or (eq typeSub 'escapeArtist') (and (eq typeSub 'perception') (isdefined perceptionThreshold)) )}}
+      {{#if (or (eq typeSub 'escapeArtist') (and (eq typeSub 'perception') (ne thresholdType 'opposed')) (eq typeSub 'survival') )}}
         {{> systems/sr5/templates/rolls/rollCardPartial/threshold.html}}
       {{/if}}
     </ul>
