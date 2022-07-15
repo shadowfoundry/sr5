@@ -1501,4 +1501,20 @@ export class SR5_DiceHelper {
             default : return 0;
         }
     }
+
+    static convertPerceptionTypeToThreshold(type){
+        switch (type){
+            case "opposed":
+                return 0;
+            case "obvious":
+                return 1;
+            case "normal":
+                return 2;
+            case "obscured":
+                return 3;
+            case "hidden":
+                return 4;
+            default : return 0;
+        }
+    }
 }

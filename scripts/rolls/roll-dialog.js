@@ -367,6 +367,10 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="farAway"]').change(ev => this._checkboxModifier(ev, html, dialogData, "farAway", "dicePoolModPerceptionFarAway", "perception"));
         html.find('[name="standsOutInSomeWay"]').change(ev => this._checkboxModifier(ev, html, dialogData, "standsOutInSomeWay", "dicePoolModStandsOutInSomeWay", "perception"));
         html.find('[name="interfering"]').change(ev => this._checkboxModifier(ev, html, dialogData, "interfering", "dicePoolModInterfering", "perception"));
+
+        //Set Perception threshold
+        html.find('[name="perceptionThresholdType"]').change(ev => this._setPerceptionThreshold(html, dialogData));
+        
     }
 
     //Add Perception modifiers
@@ -388,6 +392,13 @@ export default class SR5_RollDialog extends Dialog {
             this.dicePoolModifier[modifierName] = 0;
             this.updateDicePoolValue(html);
         }
+    }
+
+    //Set Perception threshold
+    _setPerceptionThreshold(html, dialogData){
+        let threshold = SR5_DiceHelper.convertPerceptionTypeToThreshold((html.find('[name="perceptionThresholdType"]')[0].value));
+        dialogData.perceptionThreshold = threshold;
+        html.find('[name="perceptionThreshold"]')[0].value = threshold;
     }
 
     //Set Escape Artist Threshold

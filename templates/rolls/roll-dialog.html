@@ -254,8 +254,13 @@
 
       <!-- ESCAPE ARTIST THRESHOLD-->
       {{#if (eq typeSub "escapeArtist")}}
-      {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html}}
-    {{/if}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html}}
+      {{/if}}
+
+      <!-- PERCEPTION THRESHOLD-->
+      {{#if (eq typeSub "perception")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionThreshold.html}}
+      {{/if}}
     </ul>
   </div>
 
