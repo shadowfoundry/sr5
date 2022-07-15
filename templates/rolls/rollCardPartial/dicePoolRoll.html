@@ -357,3 +357,46 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.interfering}}</div>
 </li>
 {{/if}}
+<!--Survival Modifiers-->
+{{#if (isdefined dicePoolMod.camping)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModCamping'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.camping}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.noFoundOrWater)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModNoFoundOrWater'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.noFoundOrWater}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.controlAvailable)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModControlAvailable'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.controlAvailable}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.clothing)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModClothing'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.clothing}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.travel)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModTravel'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.travel}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.toxic)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModToxic'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.toxic}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.weather)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalWeather'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.weather}}</div>
+</li>
+{{/if}}

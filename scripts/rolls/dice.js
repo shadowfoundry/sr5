@@ -1226,23 +1226,20 @@ export class SR5_Dice {
 				}
 				break;
 			case "escapeArtist":
-				if (cardData.test.hits >= cardData.escapeArtistThreshold){
+				if (cardData.test.hits >= cardData.threshold){
 					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistSuccess"));
 				} else {
 					cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.EscapeArtistFailed"));
 				}
 				break;
 			case "perception":
-				if (cardData.perceptionType === "sight" && canvas.scene){
-					cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
-				}
+				if (cardData.perceptionType === "sight" && canvas.scene) cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
 				if (cardData.perceptionThreshold > 0){
-					if (cardData.test.hits >= cardData.perceptionThreshold){
-						cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionSuccess"));
-					} else {
-						cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionFailed"));
-					}
+					if (cardData.test.hits >= cardData.perceptionThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionSuccess"));
+					else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionFailed"));
 				}
+				break;
+			case "survival":
 				break;
 			default:
 		}

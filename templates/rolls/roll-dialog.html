@@ -106,6 +106,10 @@
         {{#if (eq typeSub "escapeArtist")}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html}}
         {{/if}}
+        <!-- SURVIVAL -->
+        {{#if (eq typeSub "survival")}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html}}
+        {{/if}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
@@ -260,6 +264,11 @@
       <!-- PERCEPTION THRESHOLD-->
       {{#if (eq typeSub "perception")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionThreshold.html}}
+      {{/if}}
+
+      <!-- SURVIVAL THRESHOLD-->
+      {{#if (eq typeSub "survival")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/survivalThreshold.html}}
       {{/if}}
     </ul>
   </div>

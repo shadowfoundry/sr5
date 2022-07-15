@@ -1517,4 +1517,44 @@ export class SR5_DiceHelper {
             default : return 0;
         }
     }
+
+    static convertSurvivalModifierToMod(type){
+        switch (type){
+            case "camping":
+                return 2;
+            case "noFoundOrWater":
+                return -2;
+            case "controlAvailable":
+                return 1;
+            default : return 0;
+        }
+    }
+
+    static convertWeatherModifierToMod(type){
+        switch (type){
+            case "poor":
+                return -1;
+            case "terrible":
+                return -2;
+            case "extreme":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static convertSurvivalThresholdTypeToThreshold(type){
+        switch (type){
+            case "mild":
+                return 1;
+            case "moderate":
+                return 2;
+            case "tough":
+                return 3;
+            case "extreme":
+                return 4;
+            default : return 0;
+        }
+    }
+    
+    
 }
