@@ -11,7 +11,7 @@ export class SR5_Dice {
 
 	/** Met à jour les infos du ChatMessage
 	 * @param {Number} dicePool - Le nombre de dés à lancer
-	 * @param {Number} limit - Le nombre maximum de succèse
+	 * @param {Number} limit - Le nombre maximum de succès
 	 * @param {Boolean} explose - Détermine si les 6 explose
 	 */
 	static srd6({ dicePool, limit, explose, edgeRoll }) {

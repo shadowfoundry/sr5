@@ -2546,6 +2546,7 @@ SR5.customEffectsTypes = {
   hits                      : "SR5.DiceHits",
   netHits                   : "SR5.NetHits",
   boolean                   : "SR5.Boolean",
+  divide                    : "SR5.Divide",
 };
 
 SR5.effectTypes = {

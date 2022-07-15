@@ -1782,11 +1782,10 @@ export class SR5Actor extends Actor {
   
       for (let [value, key] of Object.entries(data.calledShotsEffects)){
         if (value) {
-          SR5_SystemHelpers.srLog(1, `applyCalledShotsEffect after (value) on '${key}' '${value}'`);
           effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this);
           cSEffects = cSEffects.concat(effects);
           //Slowed Status Effect
-          if (key === "slowed"){
+          if (key.name === "slowed"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "slowed");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("slowed");
@@ -1801,7 +1800,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Winded Status Effect
-          if (key === "winded"){
+          if (key.name === "winded"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "winded");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("winded");
@@ -1809,7 +1808,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Deafened Status Effect
-          if (key === "deafened" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+          if (key.name === "deafened" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
             let isStatusEffectOn = this.effects.find(e => e.data.origin === "deafened");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("deafened");
@@ -1817,7 +1816,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Stunned Status Effect
-          if (key === "stunned"){
+          if (key.name === "stunned"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "stunned");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("stunned");
@@ -1832,7 +1831,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Blinded Status Effect
-          if (key === "blinded"){
+          if (key.name === "blinded"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "blinded");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("blinded");
@@ -1840,7 +1839,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Broken Grip Status Effect
-          if (key === "brokenGrip" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+          if (key.name === "brokenGrip" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
             let isStatusEffectOn = this.effects.find(e => e.data.origin === "brokenGrip");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("brokenGrip");
@@ -1848,7 +1847,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Weak Side Status Effect
-          if (key === "weakSide"){
+          if (key.name === "weakSide"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "weakSide");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("weakSide");
@@ -1863,7 +1862,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Nauseous Status Effect
-          if (key === "nauseous"){
+          if (key.name === "nauseous"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "nauseous");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("nauseous");
@@ -1871,7 +1870,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Paralysis Status Effect
-          if (key === "paralysis" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+          if (key.name === "paralysis" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
             let isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("noAction");
@@ -1879,7 +1878,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Buckled Status Effect
-          if (key === "buckled"){
+          if (key.name === "buckled"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "buckled");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("buckled");
@@ -1894,8 +1893,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Slow Death Status Effect
-          if (key === "slowDeath"){
-            SR5_SystemHelpers.srLog(1, `OK on '${key}'`);
+          if (key.name === "slowDeath"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "slowDeath");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("slowDeath");
@@ -1903,7 +1901,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Knockdown Status Effect
-          if (key === "knockdown" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+          if (key.name === "knockdown" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
             let isStatusEffectOn = this.effects.find(e => e.data.origin === "knockdown");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("knockdown");
@@ -1911,7 +1909,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Unable to speak Status Effect
-          if (key === "unableToSpeak"){
+          if (key.name === "unableToSpeak"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "unableToSpeak");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("unableToSpeak");
@@ -1926,8 +1924,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Bleed Out Status Effect
-          if (key === "bleedOut"){
-            SR5_SystemHelpers.srLog(1, `OK on '${key}'`);
+          if (key.name === "bleedOut"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "bleedOut");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("bleedOut");
@@ -1935,7 +1932,7 @@ export class SR5Actor extends Actor {
             }
           }
           //One-arm bandit Status Effect
-          if (key === "oneArmBandit" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
+          if (key.name === "oneArmBandit" && (data.damageValue > this.data.data.attributes.reaction.augmented.value)){
             let isStatusEffectOn = this.effects.find(e => e.data.origin === "oneArmBandit");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("oneArmBandit");
@@ -1943,7 +1940,7 @@ export class SR5Actor extends Actor {
             }
           }
           //Fatigued Status Effect
-          if (key === "fatigued"){
+          if (key.name === "fatigued"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "fatigued");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("fatigued");

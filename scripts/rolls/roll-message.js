@@ -163,7 +163,6 @@ export class SR5_RollMessage {
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
-                    SR5_SystemHelpers.srLog(1, `Damage effect '${messageData.calledShotsEffects}'`);
                     if (messageData.calledShotsEffects) {
                         SR5_SystemHelpers.srLog(1, `Damage effect still here '${messageData.calledShotsEffects}'`);
                         actor.applyCalledShotsEffect(messageData);                        
@@ -185,7 +184,6 @@ export class SR5_RollMessage {
                     SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
                     break;
                 case "spendNetHits":
-                    let hits = messageData.netHits;
                     SR5_DiceHelper.chooseSpendNetHits(message, actor);
                     break;
                 case "summonSpirit":

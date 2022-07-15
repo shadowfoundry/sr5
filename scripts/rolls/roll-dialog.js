@@ -702,7 +702,7 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
         this.updateDicePoolValue(html);
     }
-
+    
     //Add Called Shots with specific ammo modifier
     _addincomingAmmoSpecificModifier(ev, html, dialogData, actorData){
         let calledShotAmmoSpecific = html.find('[name="incomingAmmoSpecific"]')[0].value;
