@@ -1166,8 +1166,9 @@ export class SR5_DiceHelper {
         let messageData = message.data.flags.sr5data;
         let cancel = true;
         let list = {};
+        let effects = [];
         let calledShotLocalisation = messageData.calledShotLocalisation;
-        let numberCheckedEffects = 0, disposableHits = messageData.netHits - 1 - numberCheckedEffects, spendHits, spareHits;
+        let numberCheckedEffects = 0, disposableHits = messageData.netHits - 1 - numberCheckedEffects, spendHits, spareHits, checkedEffects, array;
         let dialogData = {
             calledShotLocalisation: calledShotLocalisation,
             disposableHits: disposableHits,
@@ -1176,6 +1177,7 @@ export class SR5_DiceHelper {
             spendHits,
             spareHits,
         };
+        let data = {};
 
         SR5_SystemHelpers.srLog(1, `Localisation : '${calledShotLocalisation}'`);
         
@@ -1199,7 +1201,12 @@ export class SR5_DiceHelper {
                 if (cancel) return;
                               
                 numberCheckedEffects = html.find("[name='checkDisposableHitsEffects']:checked").length;
-                let checkedEffects = html.find("[name='checkDisposableHitsEffects']:checked").val();
+                
+                for (let i = 0; i < numberCheckedEffects; ++i) {
+                    checkedEffects = html.find("[name='checkDisposableHitsEffects']:checked")[i].value;
+                    SR5_SystemHelpers.srLog(1, `Effects array choose '${checkedEffects}'`);
+                    effects.push(checkedEffects);
+                }
                 dialogData.spendHits = numberCheckedEffects;
                 spareHits = disposableHits - numberCheckedEffects;
                 if (numberCheckedEffects > 0) ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);
@@ -1210,7 +1217,7 @@ export class SR5_DiceHelper {
                 messageData = mergeObject(messageData, {
                     statusChoices : dialogData.spendHits,
                     disposableHits : dialogData.disposableHits,
-                    calledShotsEffects : checkedEffects,
+                    calledShotsEffects : effects,
                 });
 
                 //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
@@ -1221,6 +1228,7 @@ export class SR5_DiceHelper {
 
                 SR5_SystemHelpers.srLog(1, `Nb of checked '${dialogData.spendHits}'`);
                 SR5_SystemHelpers.srLog(1, `Effects choose '${checkedEffects}'`);
+                SR5_SystemHelpers.srLog(1, `Effects array choose '${effects}'`);
                 SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
               },
             }).render(true);
@@ -1486,7 +1494,9 @@ export class SR5_DiceHelper {
             type: "itemEffect",
         }
 
-        switch (effecType){
+        SR5_SystemHelpers.srLog(1, `OK getCalledShotsEffect on '${calledShotsType}'`);
+
+        switch (calledShotsType){
             case "slowed":
                 hasEffect = actor.items.find(i => i.data.data.type === "slowed");
                 if (!hasEffect){
@@ -1505,6 +1515,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Slowed_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1527,6 +1538,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Winded_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1549,6 +1561,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Deafened_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1571,6 +1584,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Stunned_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1593,6 +1607,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Blinded_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1615,6 +1630,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_BrokenGrip_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1637,6 +1653,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_WeakSide_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1659,6 +1676,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Nauseous_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1681,6 +1699,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Buckled_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1703,7 +1722,9 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_SlowDeath_GE"),
                     });
+                    SR5_SystemHelpers.srLog(1, `OK effect '${effect}' on '${calledShotsType}'`);
                     itemEffects.push(effect);
                 }
                 break;
@@ -1725,6 +1746,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Knockdown_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1747,6 +1769,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_UnableToSpeak_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1769,7 +1792,9 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_BleedOut_GE"),
                     });
+                    SR5_SystemHelpers.srLog(1, `OK effect '${effect}' on '${calledShotsType}'`);
                     itemEffects.push(effect);
                 }
                 break;
@@ -1791,6 +1816,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_OneArmBandit_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1812,7 +1838,8 @@ export class SR5_DiceHelper {
                                 "value": -2,
                                 "forceAdd": true,
                             }
-                        },
+                        },                        
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Fatigued_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1820,6 +1847,7 @@ export class SR5_DiceHelper {
             default:
         }
     
+    SR5_SystemHelpers.srLog(1, `OK itemEffects '${itemEffects}'`);
     return itemEffects;
     }
 

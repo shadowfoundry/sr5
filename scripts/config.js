@@ -915,7 +915,7 @@ SR5.calledShotsSpecificAmmo = {
 
 // Called Shots Specific Target
 SR5.calledShotsEffects = {
-  slowed                   : "SR5.STATUSES_Slowed ",
+  slowed                   : "SR5.STATUSES_Slowed",
   winded                   : "SR5.STATUSES_Winded",
   deafened                 : "SR5.STATUSES_Deafened",
   stunned                  : "SR5.STATUSES_Stunned",
@@ -2567,7 +2567,7 @@ SR5.effectTypes = {
   toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
   toxinEffectNausea         : "SR5.ToxinEffectNausea",
   toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
-  slowed                    : "SR5.STATUSES_Slowed ",
+  slowed                    : "SR5.STATUSES_Slowed",
   winded                    : "SR5.STATUSES_Winded",
   deafened                  : "SR5.STATUSES_Deafened",
   stunned                   : "SR5.STATUSES_Stunned",

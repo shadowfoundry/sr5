@@ -1775,13 +1775,16 @@ export class SR5Actor extends Actor {
     //Apply specific called shots effect
     async applyCalledShotsEffect(data){
       let effects, status, isStatusEffectOn;
-      let calledShotsEffects = [];
+      let cSEffects = [];
       let statusEffects = [];
+
+      SR5_SystemHelpers.srLog(1, `applyCalledShotsEffect on '${data.calledShotsEffects}'`);
   
-      for (let [key, value] of Object.entries(data.calledShotsEffects)){
+      for (let [value, key] of Object.entries(data.calledShotsEffects)){
         if (value) {
+          SR5_SystemHelpers.srLog(1, `applyCalledShotsEffect after (value) on '${key}' '${value}'`);
           effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this);
-          calledShotsEffects = calledShotsEffects.concat(effects);
+          cSEffects = cSEffects.concat(effects);
           //Slowed Status Effect
           if (key === "slowed"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "slowed");
@@ -1892,6 +1895,7 @@ export class SR5Actor extends Actor {
           }
           //Slow Death Status Effect
           if (key === "slowDeath"){
+            SR5_SystemHelpers.srLog(1, `OK on '${key}'`);
             isStatusEffectOn = this.effects.find(e => e.data.origin === "slowDeath");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("slowDeath");
@@ -1923,6 +1927,7 @@ export class SR5Actor extends Actor {
           }
           //Bleed Out Status Effect
           if (key === "bleedOut"){
+            SR5_SystemHelpers.srLog(1, `OK on '${key}'`);
             isStatusEffectOn = this.effects.find(e => e.data.origin === "bleedOut");
             if (!isStatusEffectOn){
               status = await _getSRStatusEffect("bleedOut");
@@ -1955,7 +1960,7 @@ export class SR5Actor extends Actor {
         }
       }
   
-      if (calledShotsEffects.length) await this.createEmbeddedDocuments("Item", calledShotsEffects);
+      if (cSEffects.length) await this.createEmbeddedDocuments("Item", cSEffects);
       if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
       if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
     }

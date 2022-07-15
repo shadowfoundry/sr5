@@ -163,7 +163,11 @@ export class SR5_RollMessage {
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
-                    if (messageData.calledShotsEffects) actor.applyCalledShotsEffect(messageData);
+                    SR5_SystemHelpers.srLog(1, `Damage effect '${messageData.calledShotsEffects}'`);
+                    if (messageData.calledShotsEffects) {
+                        SR5_SystemHelpers.srLog(1, `Damage effect still here '${messageData.calledShotsEffects}'`);
+                        actor.applyCalledShotsEffect(messageData);                        
+                    }
                     else actor.takeDamage(messageData);
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: "damage",});
 					else SR5_RollMessage.updateChatButton(messageId, "damage");

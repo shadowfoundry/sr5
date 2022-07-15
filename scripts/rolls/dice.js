@@ -654,7 +654,7 @@ export class SR5_Dice {
 
 			
 		//Handle Called Shots specifics
-		if (cardData.limitDV) {
+		if (cardData.limitDV !== "" && cardData.calledShot === "CS_SpecificTarget" && cardData.targetActorType !== "actorDrone") {
 			cardData.netHits = cardData.hits - cardData.test.hits;
 			let label = cardData.buttons.spendNetHits = SR5_RollMessage.generateChatButton("nonOpposedTest", "spendNetHits", `${game.i18n.localize("SR5.SpendHits")} (${cardData.netHits - 1})`);
 		}
@@ -751,14 +751,10 @@ export class SR5_Dice {
 		}
 
 		//Handle specific target limit damage if any 
-		SR5_SystemHelpers.srLog(1, `LimitDV '${cardData.limitDV}'`);
-		if (cardData.limitDV) {
-			SR5_SystemHelpers.srLog(1, `LimitDV OK with damageValueBase '${cardData.damageValue}'`);
+		if (cardData.limitDV !== "") {
 			if (cardData.damageValue > 0) {
 				let incomingDamage = Math.min(cardData.damageValue, cardData.limitDV);
-				SR5_SystemHelpers.srLog(1, `IncomingDamage '${incomingDamage}' `);
 				cardData.damageValue = incomingDamage;
-				cardData.calledShotsEffects = "bleedOut";
 				cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 			}
 			else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));

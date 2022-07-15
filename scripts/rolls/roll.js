@@ -421,7 +421,7 @@ export class SR5_Roll {
                                 break;
                             default:
                         }
-                        let netHits, calledShotsEffects;
+                        let netHits;
 
                         dicePool = resistanceValue + modifiedArmor;
 
@@ -434,7 +434,9 @@ export class SR5_Roll {
                             ammoType: chatData.ammoType,
                             calledShot: chatData.calledShot,                            
                             calledShotLocalisation: chatData.calledShotLocalisation,
-                            limitDV : chatData.limitDV,
+                            limitDV : chatData.limitDV,                            
+                            calledShotsEffects: chatData.calledShotsEffects,
+                            targetActorType: chatData.targetActorType,
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -444,7 +446,6 @@ export class SR5_Roll {
                             damageIsContinuating: chatData.damageIsContinuating,
                             damageOriginalValue: chatData.damageOriginalValue,
                             netHits,
-                            calledShotsEffects,
                         }
                         if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
@@ -997,6 +998,7 @@ export class SR5_Roll {
                     calledShot: chatData.calledShot,
                     calledShotLocalisation: chatData.calledShotLocalisation,
                     limitDV : chatData.limitDV,
+                    targetActorType: chatData.targetActorType,
                     incomingPA: chatData.incomingPA,
                     incomingFiringMode: chatData.firingModeDefenseMod,
                     cumulativeDefense: cumulativeDefense,
@@ -1105,7 +1107,8 @@ export class SR5_Roll {
                     ammoValue: itemData.ammunition.value,
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
-                    calledShotLocalisation: calledShotLocalisation,
+                    calledShotLocalisation: calledShotLocalisation,                    
+                    targetActorType: targetActorType,
                     limitDV : limitDV,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     dicePoolComposition: itemData.weaponSkill.modifiers,
@@ -1118,7 +1121,6 @@ export class SR5_Roll {
                     "range.long": itemData.range.long.value,
                     "range.extreme": itemData.range.extreme.value,
                     weaponRecoil: itemData.recoilCompensation.value,
-                    targetActorType: targetActorType,
                 });
 
                 if (itemData.damageElement === "toxin"){
