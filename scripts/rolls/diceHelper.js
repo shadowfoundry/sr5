@@ -1555,6 +1555,52 @@ export class SR5_DiceHelper {
             default : return 0;
         }
     }
-    
-    
+
+    static convertSocialAttitudeValueToMod(type){
+        switch (type){
+            case "friendly":
+                return 2;
+            case "neutral":
+                return 0;
+            case "suspicious":
+                return -1;
+            case "prejudiced":
+                return -2;
+            case "hostile":
+                return -3;
+            case "enemy":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static convertSocialResultValueToMod(type){
+        switch (type){
+            case "advantageous":
+                return 1;
+            case "ofNoValue":
+                return 0;
+            case "annoying":
+                return -1;
+            case "harmful":
+                return -3;
+            case "disastrous":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static convertSocialCheckboxToMod(type, actorData){
+        switch (type){
+            case "socialAce":
+            case "socialRomantic":
+                return 2;
+            case "socialIntoxicated":
+                return -1
+            case "socialReputation":
+                return actorData.data.streetCred.value;
+            default : return 0;
+        }
+    }
+
 }

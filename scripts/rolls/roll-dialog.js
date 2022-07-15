@@ -5,6 +5,7 @@ export default class SR5_RollDialog extends Dialog {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             height: 'auto',
+            width: 450,
             resizable: false,
         });
     }
@@ -368,7 +369,6 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="farAway"]').change(ev => this._checkboxModifier(ev, html, dialogData, "farAway", "dicePoolModPerceptionFarAway", "perception"));
         html.find('[name="standsOutInSomeWay"]').change(ev => this._checkboxModifier(ev, html, dialogData, "standsOutInSomeWay", "dicePoolModStandsOutInSomeWay", "perception"));
         html.find('[name="interfering"]').change(ev => this._checkboxModifier(ev, html, dialogData, "interfering", "dicePoolModInterfering", "perception"));
-
         //Set Perception threshold
         if (html.find('[name="perceptionThresholdType"]')[0]) this._manageThreshold(null, html, dialogData, "perceptionThreshold");
         html.find('[name="perceptionThresholdType"]').change(ev => this._manageThreshold(ev, html, dialogData, "perceptionThreshold"));
@@ -380,19 +380,30 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="clothing"]').change(ev => this._inputModifier(ev, html, dialogData, "clothing", "clothing"));
         html.find('[name="travel"]').change(ev => this._inputModifier(ev, html, dialogData, "travel", "travel"));
         html.find('[name="toxic"]').change(ev => this._inputModifier(ev, html, dialogData, "toxic", "toxic"));
-        html.find('[name="weather"]').change(ev => this._selectModifiers(ev, html, dialogData, "weather", "dicePoolModWeather", "weather"));
+        html.find('[name="weather"]').change(ev => this._selectModifiers(ev, html, dialogData, "weather", "dicePoolModWeather"));
         html.find('[name="survivalThresholdType"]').change(ev => this._manageThreshold(ev, html, dialogData, "survivalThreshold"));
         if (html.find('[name="survivalThresholdType"]')[0]) this._manageThreshold(null, html, dialogData, "survivalThreshold");
+
+        //Add social modifiers
+        html.find('[name="socialAttitude"]').change(ev => this._selectModifiers(ev, html, dialogData, "socialAttitude", "dicePoolModSocialAttitude"));
+        html.find('[name="socialResult"]').change(ev => this._selectModifiers(ev, html, dialogData, "socialResult", "dicePoolModSocialResult"));
+        html.find('[name="socialAce"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialAce", "dicePoolModSocialAce", "social"));
+        html.find('[name="socialRomantic"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialRomantic", "dicePoolModSocialRomantic", "social"));
+        html.find('[name="socialIntoxicated"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIntoxicated", "dicePoolModSocialIntoxicated", "social"));
+        html.find('[name="socialReputation"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialReputation", "dicePoolModSocialReputation", "social"));
+        html.find('[name="dicePoolModSocialReputationTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialReputationTarget", "dicePoolModSocialReputationTarget"));
     }
 
     //Select modifiers
-    _selectModifiers(ev, html, dialogData, modifierName, inputName, type){
+    _selectModifiers(ev, html, dialogData, modifierName, inputName){
         let value;
         if (ev === null){
             value = 0;
         } else {
             value = ev.target.value;
-            if (type === "weather") value = SR5_DiceHelper.convertWeatherModifierToMod(ev.target.value);
+            if (modifierName === "weather") value = SR5_DiceHelper.convertWeatherModifierToMod(ev.target.value);
+            if (modifierName === "socialAttitude") value = SR5_DiceHelper.convertSocialAttitudeValueToMod(ev.target.value);
+            if (modifierName === "socialResult") value = SR5_DiceHelper.convertSocialResultValueToMod(ev.target.value);
         }
 
         let name = `[name=${inputName}]`;
@@ -408,8 +419,12 @@ export default class SR5_RollDialog extends Dialog {
             name = `[name=${inputName}]`,
             value = 0;
 
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+        let actorData = actor.data;
+
         if (type === "perception") value = SR5_DiceHelper.convertPerceptionModifierToMod(modifierName);
         if (type === "survival") value = SR5_DiceHelper.convertSurvivalModifierToMod(modifierName);
+        if (type === "social") value = SR5_DiceHelper.convertSocialCheckboxToMod(modifierName, actorData);
         
         if (isChecked){
             html.find(name)[0].value = value;

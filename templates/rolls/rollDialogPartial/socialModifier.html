@@ -1,0 +1,69 @@
+<li class="grid">
+    <div class="col-7">{{localize 'SR5.SocialModAttitude'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-PaddingRight10">
+        <select name="socialAttitude">
+            {{#select socialAttitude}}
+                <option value="friendly">{{localize 'SR5.SocialModAttitudeFriendly'}}</option>
+                <option value="neutral" selected="selected">{{localize 'SR5.SocialModAttitudeNeutral'}}</option>
+                <option value="suspicious">{{localize 'SR5.SocialModAttitudeSuspicious'}}</option>
+                <option value="prejudiced">{{localize 'SR5.SocialModAttitudePrejudiced'}}</option>
+                <option value="hostile">{{localize 'SR5.SocialModAttitudeHostile'}}</option>
+                <option value="enemy">{{localize 'SR5.SocialModAttitudeEnemy'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number"  name="dicePoolModSocialAttitude" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-6">{{localize 'SR5.SocialModDesiredResult'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-5 SR-PaddingRight10">
+        <select name="socialResult">
+            {{#select socialResult}}
+                <option value="advantageous">{{localize 'SR5.SocialModDesiredResultAdvantageous'}}</option>
+                <option value="ofNoValue" selected="selected">{{localize 'SR5.SocialModDesiredResultOfNoValue'}}</option>
+                <option value="annoying">{{localize 'SR5.SocialModDesiredResultAnnoying'}}</option>
+                <option value="harmful">{{localize 'SR5.SocialModDesiredResultHarmful'}}</option>
+                <option value="disastrous">{{localize 'SR5.SocialModDesiredResultDisastrous'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number"  name="dicePoolModSocialResult" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SocialModReputation'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialReputation"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSocialReputation" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-11">{{localize 'SR5.SocialModReputationTarget'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" name="dicePoolModSocialReputationTarget" value="0" data-dtype="Number" placeholder="0" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SocialModAce'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialAce"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSocialAce" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SocialModRomantic'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialRomantic"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSocialRomantic" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SocialModIntoxicated'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialIntoxicated"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSocialIntoxicated" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

@@ -400,3 +400,45 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.weather}}</div>
 </li>
 {{/if}}
+{{#if (isdefined dicePoolMod.socialAttitude)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModAttitude'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialAttitude}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialResult)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModDesiredResult'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialResult}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialReputation)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModReputation'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialReputation}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialReputationTarget)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModReputationTarget'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialReputationTarget}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialAce)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModAce'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialAce}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialRomantic)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModRomantic'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialRomantic}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialIntoxicated)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModIntoxicated'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialIntoxicated}}</div>
+</li>
+{{/if}}

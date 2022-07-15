@@ -1027,6 +1027,31 @@ SR5.survivalWeather = {
   extreme                   : "SR5.SurvivalWeatherExtreme",
 }
 
+SR5.socialAttitude = {
+  friendly                  : "SR5.SocialModAttitudeFriendly",
+  neutral                   : "SR5.SocialModAttitudeNeutral",
+  suspicious                : "SR5.SocialModAttitudeSuspicious",
+  prejudiced                : "SR5.SocialModAttitudePrejudiced",
+  hostile                   : "SR5.SocialModAttitudeHostile",
+  enemy                     : "SR5.SocialModAttitudeEnemy",
+}
+
+SR5.socialResult = {
+  advantageous              : "SR5.SocialModDesiredResultAdvantageous",
+  ofNoValue                 : "SR5.SocialModDesiredResultOfNoValue",
+  annoying                  : "SR5.SocialModDesiredResultAnnoying",
+  harmful                   : "SR5.SocialModDesiredResultHarmful",
+  disastrous                : "SR5.SocialModDesiredResultDisastrous",
+}
+
+SR5.socialMod = {
+  reputation                : "SR5.SocialModReputation",
+  reputationTarget          : "SR5.SocialModReputationTarget",
+  ace                       : "SR5.SocialModAce",
+  romantic                  : "SR5.SocialModRomantic",
+  intoxicated               : "SR5.SocialModIntoxicated",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//
