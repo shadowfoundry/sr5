@@ -1,11 +1,14 @@
 <hr>
-{{#if (eq typeSub 'escapeArtist')}}
 <li class="grid">
     <div class="col-10">
         {{localize 'SR5.Threshold'}} {{localize 'SR5.Colons'}} 
     </div>
     <div class="col-2 SR-TextRight">
-        {{escapeArtistThreshold}}
+        {{#if (eq typeSub 'escapeArtist')}}
+            {{escapeArtistThreshold}}
+        {{/if}}
+        {{#if (eq typeSub 'perception')}}
+            {{perceptionThreshold}}
+        {{/if}}
     </div>
 </li>
-{{/if}}

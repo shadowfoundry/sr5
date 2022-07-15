@@ -997,6 +997,14 @@ SR5.perceptionModifiers = {
   interfering               : "SR5.PerceptionModInterfering",
 }
 
+SR5.perceptionThresholdType = {
+  opposed                   : "SR5.Opposed",
+  obvious                   : "SR5.PerceptionThresholdObvious",
+  normal                    : "SR5.PerceptionThresholdNormal",
+  obscured                  : "SR5.PerceptionThresholdObscured",
+  hidden                    : "SR5.PerceptionThresholdHidden",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//

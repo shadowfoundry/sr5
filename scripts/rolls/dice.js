@@ -1236,6 +1236,13 @@ export class SR5_Dice {
 				if (cardData.perceptionType === "sight" && canvas.scene){
 					cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
 				}
+				if (cardData.perceptionThreshold > 0){
+					if (cardData.test.hits >= cardData.perceptionThreshold){
+						cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionSuccess"));
+					} else {
+						cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionFailed"));
+					}
+				}
 				break;
 			default:
 		}
