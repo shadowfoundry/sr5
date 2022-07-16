@@ -451,7 +451,7 @@ export default class SR5_RollDialog extends Dialog {
         if (type === "perception") value = SR5_DiceHelper.convertPerceptionModifierToMod(modifierName);
         if (type === "survival") value = SR5_DiceHelper.convertSurvivalModifierToMod(modifierName);
         if (type === "social") value = SR5_DiceHelper.convertSocialCheckboxToMod(modifierName, actorData);
-        console.log(value);
+
         if (isChecked){
             html.find(name)[0].value = value;
             dialogData.dicePoolMod[modifierName] = value;

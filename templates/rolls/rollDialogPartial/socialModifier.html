@@ -1,3 +1,5 @@
+<!-- General Modifiers-->
+{{#unless opposedSkillTest}}
 <li class="grid">
     <div class="col-7">{{localize 'SR5.SocialModAttitude'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-PaddingRight10">
@@ -46,6 +48,8 @@
         <input type="number" name="dicePoolModSocialReputationTarget" value="0" data-dtype="Number" placeholder="0" />
     </div>
 </li>
+{{/unless}}
+{{#if opposedSkillTest}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModAce'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialAce"></div>
@@ -53,6 +57,8 @@
         <input disabled type="number" name="dicePoolModSocialAce" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{/if}}
+{{#unless opposedSkillTest}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModRomantic'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialRomantic"></div>
@@ -67,7 +73,11 @@
         <input disabled type="number" name="dicePoolModSocialIntoxicated" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{/unless}}
+
+<!-- Con Modifiers-->
 {{#if (eq typeSub 'con')}}
+{{#unless opposedSkillTest}}
 <li class="grid">
     <div class="col-11">{{localize 'SR5.SocialModEvidence'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter">
@@ -88,8 +98,12 @@
         <input disabled type="number" name="dicePoolModSocialEvaluateSituation" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{/unless}}
 {{/if}}
+
+<!-- Etiquette Modifiers-->
 {{#if (eq typeSub 'etiquette')}}
+{{#unless opposedSkillTest}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModBadLook'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialBadLook"></div>
@@ -104,15 +118,13 @@
         <input disabled type="number" name="dicePoolModSocialNervous" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
-<li class="grid">
-    <div class="col-10">{{localize 'SR5.SocialModIsDistracted'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialIsDistractedInverse"></div>
-    <div class="col-1 SR-TextCenter">
-        <input disabled type="number" name="dicePoolModSocialIsDistractedInverse" value="0" placeholder="0" data-dtype="Number" />
-    </div>
-</li>
+{{/unless}}
+
 {{/if}}
+
+<!-- Intimidation Modifiers-->
 {{#if (eq typeSub 'intimidation')}}
+{{#unless opposedSkillTest}}
 <li class="grid">
     <div class="col-11">{{localize 'SR5.SocialModImposing'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter">
@@ -160,14 +172,19 @@
         <input disabled type="number" name="dicePoolModSocialTorture" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{/unless}}
+{{#if opposedSkillTest}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModObliviousToDanger'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialObliviousToDanger"></div>
     <div class="col-1 SR-TextCenter"><input disabled type="number" name="dicePoolModSocialObliviousToDanger" value="0" placeholder="0" data-dtype="Number" /></div>
 </li>
 {{/if}}
+{{/if}}
 
+<!-- Leadership Modifiers-->
 {{#if (eq typeSub 'leadership')}}
+{{#unless opposedSkillTest}}
 <li class="grid">
     <div class="col-11">{{localize 'SR5.SocialModRank'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter">
@@ -196,8 +213,10 @@
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialFan"></div>
     <div class="col-1 SR-TextCenter"><input disabled type="number" name="dicePoolModSocialFan" value="0" placeholder="0" data-dtype="Number" /></div>
 </li>
+{{/unless}}
 {{/if}}
 
+<!-- Negociation Modifiers-->
 {{#if (eq typeSub 'negociation')}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModLacksKnowledge'}}{{localize 'SR5.Colons'}}</div>

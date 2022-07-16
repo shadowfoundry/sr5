@@ -151,6 +151,17 @@ export class SR5_RollMessage {
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: "damage",});
 					else SR5_RollMessage.updateChatButton(messageId, "damage");
                     break;
+                case "intimidation":
+                case "performance":
+                case "negociation":
+                case "con":
+                case "leadership":
+                    actor.rollTest("skillDicePool", type, messageData);
+                    break;
+                case "impersonation":
+                case "etiquette":
+                    actor.rollTest("skillDicePool", "perception", messageData);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (opposed Test)`);
             }
