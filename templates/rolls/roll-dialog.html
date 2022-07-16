@@ -114,6 +114,10 @@
         {{#if (or (eq typeSub "etiquette") (eq typeSub "con") (eq typeSub "intimidation") (eq typeSub "leadership") (eq typeSub "negociation") (eq typeSub "impersonation") (eq typeSub "performance"))}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/socialModifier.html}}
         {{/if}}
+        <!-- AERONAUTICS MECHANIC / ARMORER / AUTOMOTIVE MECHANIC  /CYBERTECHNOLOGY / FORGERY / HARDWARE / INDUSTRIAL MECHANIC / NAUTICAL MECHANIC -->
+        {{#if (or (eq typeSub "aeronauticsMechanic") (eq typeSub "armorer") (eq typeSub "automotiveMechanic") (eq typeSub "cybertechnology") (eq typeSub "forgery") (eq typeSub "hardware") (eq typeSub "industrialMechanic") (eq typeSub "nauticalMechanic") )}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/buildingModifier.html}}
+        {{/if}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}

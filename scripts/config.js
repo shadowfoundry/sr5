@@ -1088,6 +1088,25 @@ SR5.negociationModifier = {
   blackmailed               : "SR5.SocialModBlackmailed",
 }
 
+SR5.workingCondition = {
+  distracting               : "SR5.WorkingConditionDistracting",
+  poor                      : "SR5.WorkingConditionPoor",
+  bad                       : "SR5.WorkingConditionBad",
+  terrible                  : "SR5.WorkingConditionTerrible",
+  superior                  : "SR5.WorkingConditionSuperior",
+}
+
+SR5.toolsAndParts = {
+  inadequate                : "SR5.ToolsAndPartsInadequate",
+  unavailable               : "SR5.ToolsAndPartsUnavailable",
+  superior                  : "SR5.ToolsAndPartsSuperior",
+}
+
+SR5.plansMaterial = {
+  available                 : "SR5.PlansMaterialAvailable",
+  augmented                 : "SR5.PlansMaterialAugmented",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//

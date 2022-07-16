@@ -574,3 +574,28 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.socialBlackmailed}}</div>
 </li>
 {{/if}}
+<!--Building / Repairing Modifiers-->
+{{#if (isdefined dicePoolMod.workingCondition)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.WorkingCondition'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.workingCondition}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.toolsAndParts)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.ToolsAndParts'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.toolsAndParts}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.plansMaterial)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PlansMaterial'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.plansMaterial}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.workingFromMemory)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.WorkingFromMemory'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.workingFromMemory}}</div>
+</li>
+{{/if}}
