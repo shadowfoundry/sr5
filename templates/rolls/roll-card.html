@@ -54,7 +54,9 @@
       {{/if}}
       <!--Threshold infos-->
       {{#if (or (eq typeSub 'escapeArtist') (and (eq typeSub 'perception') (ne thresholdType 'opposed')) (eq typeSub 'survival') )}}
+        {{#unless opposedSkillTest}}
         {{> systems/sr5/templates/rolls/rollCardPartial/threshold.html}}
+        {{/unless}}
       {{/if}}
     </ul>
   </div>

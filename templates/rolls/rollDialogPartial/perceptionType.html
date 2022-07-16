@@ -20,6 +20,7 @@
         <input disabled type="number" name="dicePoolModEnvironmental" value="{{dicePoolMod.environmentalSceneMod}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{#unless opposedSkillTest}}
 <li class="grid SR-TopSeparator">
     <div class="col-10">{{localize 'SR5.PerceptionModDistracted'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter"><input type="checkbox" name="distracted"></div>
@@ -62,3 +63,14 @@
         <input disabled type="number" name="dicePoolModInterfering" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+{{/unless}}
+
+{{#if opposedSkillTest}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SocialModIsDistracted'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="socialIsDistractedInverse"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSocialIsDistractedInverse" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}

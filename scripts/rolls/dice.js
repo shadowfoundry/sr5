@@ -569,7 +569,8 @@ export class SR5_Dice {
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":
-			case "powerDefense":				
+			case "powerDefense":
+			case "etiquetteResistance":				
 				await SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
 				break;
 			case "objectResistance":
@@ -1233,13 +1234,32 @@ export class SR5_Dice {
 				}
 				break;
 			case "perception":
-				if (cardData.perceptionType === "sight" && canvas.scene) cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
-				if (cardData.perceptionThreshold > 0){
-					if (cardData.test.hits >= cardData.perceptionThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionSuccess"));
-					else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionFailed"));
+				if (cardData.opposedSkillTest){
+					if (cardData.test.hits >= cardData.opposedSkillThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
+					else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FailedDefense"));
+				} else {
+					if (cardData.perceptionType === "sight" && canvas.scene) cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
+					if (cardData.perceptionThreshold > 0){
+						if (cardData.test.hits >= cardData.perceptionThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionSuccess"));
+						else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionFailed"));
+					}
 				}
 				break;
-			case "survival":
+			case "con":
+			case "impersonation":
+			case "etiquette":
+			case "negociation":
+			case "intimidation":
+			case "performance":
+			case "leadership":
+				if (cardData.opposedSkillTest){
+					if (cardData.test.hits >= cardData.opposedSkillThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
+					else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FailedDefense"));
+				} else {
+					if (cardData.test.hits > 0) cardData.buttons.con = SR5_RollMessage.generateChatButton("opposedTest", cardData.typeSub, game.i18n.localize("SR5.Resist"));
+					cardData.opposedSkillTest = true;
+					cardData.opposedSkillTestType = cardData.typeSub;
+				}
 				break;
 			default:
 		}
@@ -1609,6 +1629,8 @@ export class SR5_Dice {
 					applyEffect = false;
 				}
 				labelEnd = game.i18n.localize("SR5.SuccessfulDefense");
+				break;
+			case "etiquetteResistance":
 				break;
 			default :
 		}

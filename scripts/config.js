@@ -1027,6 +1027,67 @@ SR5.survivalWeather = {
   extreme                   : "SR5.SurvivalWeatherExtreme",
 }
 
+SR5.socialAttitude = {
+  friendly                  : "SR5.SocialModAttitudeFriendly",
+  neutral                   : "SR5.SocialModAttitudeNeutral",
+  suspicious                : "SR5.SocialModAttitudeSuspicious",
+  prejudiced                : "SR5.SocialModAttitudePrejudiced",
+  hostile                   : "SR5.SocialModAttitudeHostile",
+  enemy                     : "SR5.SocialModAttitudeEnemy",
+}
+
+SR5.socialResult = {
+  advantageous              : "SR5.SocialModDesiredResultAdvantageous",
+  ofNoValue                 : "SR5.SocialModDesiredResultOfNoValue",
+  annoying                  : "SR5.SocialModDesiredResultAnnoying",
+  harmful                   : "SR5.SocialModDesiredResultHarmful",
+  disastrous                : "SR5.SocialModDesiredResultDisastrous",
+}
+
+SR5.socialMod = {
+  reputation                : "SR5.SocialModReputation",
+  reputationTarget          : "SR5.SocialModReputationTarget",
+  ace                       : "SR5.SocialModAce",
+  romantic                  : "SR5.SocialModRomantic",
+  intoxicated               : "SR5.SocialModIntoxicated",
+}
+
+SR5.conModifier = {
+  evidence                  : "SR5.SocialModEvidence",
+  evaluateSituation         : "SR5.SocialModEvaluateSituation",
+  isDistracted              : "SR5.SocialModIsDistracted",
+}
+
+SR5.etiquetteModifier = {
+  badLook                   : "SR5.SocialModBadLook",
+  nervous                   : "SR5.SocialModNervous",
+  isDistractedInverse       : "SR5.SocialModIsDistracted",
+}
+
+SR5.intimidationModifier = {
+  imposing                  : "SR5.SocialModImposing",
+  imposingTarget            : "SR5.SocialModImposingTarget",
+  outnumber                 : "SR5.SocialModOutnumber",
+  outnumberTarget           : "SR5.SocialModOutnumberTarget",
+  wieldingWeapon            : "SR5.SocialModWieldingWeapon",
+  wieldingWeaponTarget      : "SR5.SocialModWieldingWeaponTarget",
+  torture                   : "SR5.SocialModTorture",
+  obliviousToDanger         : "SR5.SocialModObliviousToDanger",
+}
+
+SR5.leadershipModifier = {
+  rank                      : "SR5.SocialModRank",
+  rankTarget                : "SR5.SocialModRankTarget",
+  authority                 : "SR5.SocialModAuthority",
+  strata                    : "SR5.SocialModStrata",
+  fan                       : "SR5.SocialModFan",
+}
+
+SR5.negociationModifier = {
+  lacksKnowledge            : "SR5.SocialModLacksKnowledge",
+  blackmailed               : "SR5.SocialModBlackmailed",
+}
+
 //-----------------------------------//
 //                MAGIC              //
 //-----------------------------------//

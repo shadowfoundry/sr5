@@ -142,6 +142,7 @@ export class SR5_Roll {
 
             case "skill":
             case "skillDicePool":
+                console.log(chatData);
                 if (actor.data.type === "actorDrone") {
                     if (actorData.controlMode === "autopilot") title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.vehicleAttributes[skill.linkedAttribute])}`;
                     else title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
@@ -198,11 +199,57 @@ export class SR5_Roll {
                     dicePoolComposition: dicePoolComposition,
                 });
 
-                if (typeSub === "perception"){
+                if (chatData?.opposedSkillTest) {
                     optionalData = mergeObject(optionalData, {
-                        "lists.perceptionModifiers": actor.data.lists.perceptionModifiers,
+                        opposedSkillTest : true,
+                        opposedSkillThreshold: chatData.hits,
+                        "switch.extended": false,
                     });
+
+                    if (chatData.opposedSkillTestType === "etiquette"){
+                        title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize("SR5.Charisma") + " (" + chatData.hits + ")"}`;
+                        dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.charisma.augmented.value;
+                        limit = actorData.limits.socialLimit.value;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.Charisma"), value: actorData.attributes.charisma.augmented.value},
+                            {source: game.i18n.localize("SR5.SkillPerception"), value: actorData.skills[rollKey].rating.value },
+                        ]);
+                        optionalData = mergeObject(optionalData, {
+                            limitType : "socialLimit",
+                            dicePoolComposition: dicePoolComposition,
+                        });
+                    }
+
+                    if (chatData.opposedSkillTestType === "leadership"){
+                        title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.hits + ")"}`;
+                        dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.Willpower"), value: actorData.attributes.willpower.augmented.value},
+                            {source: game.i18n.localize("SR5.SkillPerception"), value: actorData.skills[rollKey].rating.value },
+                        ]);
+                        optionalData = mergeObject(optionalData, {dicePoolComposition: dicePoolComposition,});
+                    }
+
+                    if (chatData.opposedSkillTestType === "intimidation" || chatData.opposedSkillTestType === "performance"){
+                        title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize("SR5.Charisma") + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.hits + ")"}`;
+                        dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.Willpower"), value: actorData.attributes.willpower.augmented.value},
+                            {source: game.i18n.localize("SR5.Charisma"), value: actorData.attributes.charisma.augmented.value},
+                        ]);
+                        limit = 0;
+                        optionalData = mergeObject(optionalData, {
+                            dicePoolComposition: dicePoolComposition,
+                            limitType : null,
+                            "switch.specialization": false,
+                        });
+                    }
+
+                    if (chatData.opposedSkillTestType === "impersonation") title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[skill.linkedAttribute])  + " (" + chatData.hits + ")"}`;
+                    if (chatData.opposedSkillTestType === "negociation") title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[skill.linkedAttribute])  + " (" + chatData.hits + ")"}`;
                 }
+
+                if (typeSub === "perception") optionalData = mergeObject(optionalData, {"lists.perceptionModifiers": actor.data.lists.perceptionModifiers,});
 
                 if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting" || typeSub === "firstAid" || typeSub === "medecine")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);

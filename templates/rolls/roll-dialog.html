@@ -110,6 +110,10 @@
         {{#if (eq typeSub "survival")}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html}}
         {{/if}}
+        <!--ETIQUETTE / CON / INTIMIDATION / LEADERSHIP / NEGOCIATION / Impersonation / Performance -->
+        {{#if (or (eq typeSub "etiquette") (eq typeSub "con") (eq typeSub "intimidation") (eq typeSub "leadership") (eq typeSub "negociation") (eq typeSub "impersonation") (eq typeSub "performance"))}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/socialModifier.html}}
+        {{/if}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
