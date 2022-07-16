@@ -1620,4 +1620,47 @@ export class SR5_DiceHelper {
         }
     }
 
+    static convertWorkingConditionToMod(type){
+        switch (type){
+            case "distracting":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            case "superior":
+                return 1;
+            default : return 0;
+        }
+    }
+
+    static convertToolsAndPartsToMod(type){
+        switch (type){
+            case "inadequate":
+                return -2;
+            case "unavailable":
+                return -4;
+            case "superior":
+                return 1;
+            default : return 0;
+        }
+    }
+
+    static convertPlansMaterialToMod(type){
+        switch (type){
+            case "available":
+                return 1;
+            case "augmented":
+                return 2;
+            default : return 0;
+        }
+    }
+
+    static convertBuildingCheckboxToMod(type, actorData){
+        if (actorData.data.attributes.logic.augmented.value >= 5) return 0;
+        else return -(5 - actorData.data.attributes.logic.augmented.value);
+    }
+
 }

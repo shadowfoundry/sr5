@@ -418,6 +418,12 @@ export default class SR5_RollDialog extends Dialog {
         //Add Negociation modifiers
         html.find('[name="socialLacksKnowledge"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialLacksKnowledge", "dicePoolModSocialLacksKnowledge", "social"));
         html.find('[name="socialBlackmailed"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialBlackmailed", "dicePoolModSocialBlackmailed", "social"));
+
+        //Add Building modifiers
+        html.find('[name="workingCondition"]').change(ev => this._selectModifiers(ev, html, dialogData, "workingCondition", "dicePoolModWorkingCondition"));
+        html.find('[name="toolsAndParts"]').change(ev => this._selectModifiers(ev, html, dialogData, "toolsAndParts", "dicePoolModToolsAndParts"));
+        html.find('[name="plansMaterial"]').change(ev => this._selectModifiers(ev, html, dialogData, "plansMaterial", "dicePoolModPlansMaterial"));
+        html.find('[name="workingFromMemory"]').change(ev => this._checkboxModifier(ev, html, dialogData, "workingFromMemory", "dicePoolWorkingFromMemory", "building"));
     }
 
     //Select modifiers
@@ -430,6 +436,9 @@ export default class SR5_RollDialog extends Dialog {
             if (modifierName === "weather") value = SR5_DiceHelper.convertWeatherModifierToMod(ev.target.value);
             if (modifierName === "socialAttitude") value = SR5_DiceHelper.convertSocialAttitudeValueToMod(ev.target.value);
             if (modifierName === "socialResult") value = SR5_DiceHelper.convertSocialResultValueToMod(ev.target.value);
+            if (modifierName === "workingCondition") value = SR5_DiceHelper.convertWorkingConditionToMod(ev.target.value);
+            if (modifierName === "toolsAndParts") value = SR5_DiceHelper.convertToolsAndPartsToMod(ev.target.value);
+            if (modifierName === "plansMaterial") value = SR5_DiceHelper.convertPlansMaterialToMod(ev.target.value);
         }
 
         let name = `[name=${inputName}]`;
@@ -451,6 +460,7 @@ export default class SR5_RollDialog extends Dialog {
         if (type === "perception") value = SR5_DiceHelper.convertPerceptionModifierToMod(modifierName);
         if (type === "survival") value = SR5_DiceHelper.convertSurvivalModifierToMod(modifierName);
         if (type === "social") value = SR5_DiceHelper.convertSocialCheckboxToMod(modifierName, actorData);
+        if (type === "building") value = SR5_DiceHelper.convertBuildingCheckboxToMod(modifierName, actorData);
 
         if (isChecked){
             html.find(name)[0].value = value;
