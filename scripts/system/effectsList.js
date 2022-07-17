@@ -442,6 +442,80 @@ export const _getSRStatusEffect = async function(origin, value) {
                         }
                     },
                 }
+            case "antenna":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Antenna'),
+                    origin: "antenna",
+                    icon: "systems/sr5/img/status/StatusAntennaOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "antenna",
+                        }
+                    },
+                }
+            case "engineBlock":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_EngineBlock'),
+                    origin: "engineBlock",
+                    icon: "systems/sr5/img/status/StatusEngineBlockOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "engineBlock",
+                            overlay: true,
+                        }
+                    },
+                }
+            case "windowMotor":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_WindowMotor'),
+                    origin: "windowMotor",
+                    icon: "systems/sr5/img/status/StatusWindowMotorOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "windowMotor",
+                        }
+                    },
+                }
+            case "doorLock":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_DoorLock'),
+                    origin: "doorLock",
+                    icon: "systems/sr5/img/status/StatusDoorLockOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "doorLock",
+                        }
+                    },
+                }
+            case "axle":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Axle'),
+                    origin: "axle",
+                    icon: "systems/sr5/img/status/StatusAxleOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "axle",
+                        }
+                    },
+                }
+            case "fuelTankBattery":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_FuelTankBattery'),
+                    origin: "fuelTankBattery",
+                    icon: "systems/sr5/img/status/StatusFuelTankBatteryOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "fuelTankBattery",
+                            overlay: true,
+                        }
+                    },
+                }
         default: return null
     }
 }

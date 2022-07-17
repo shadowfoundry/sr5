@@ -619,7 +619,7 @@ export default class SR5_RollDialog extends Dialog {
     //Add Called Shots on specific target modifier
     _addincomingSpecificTargetModifier(ev, html, dialogData, actorData){
         let calledShotSpecificTarget = html.find('[name="incomingSpecificTarget"]')[0].value;
-        let calledShotValue, limitDV;
+        let calledShotValue, limitDV, effect = {};
         switch(calledShotSpecificTarget) {
             case "CS_ST_Gut" : 
                 calledShotValue = -6;
@@ -667,26 +667,56 @@ export default class SR5_RollDialog extends Dialog {
             case "CS_ST_Antenna" :
             calledShotValue = -8;
             limitDV = 2;
+            effect = {
+				"0": {
+					"name": "antenna",
+				}
+			};
         break;
             case "CS_ST_EngineBlock" :
             calledShotValue = -4;
             limitDV = "";
+            effect = {
+				"0": {
+					"name": "engineBlock",
+				}
+			};
         break;
             case "CS_ST_WindowMotor" :
             calledShotValue = -4;
             limitDV = 0;
+            effect = {
+				"0": {
+					"name": "windowMotor",
+				}
+			};
         break;
             case "CS_ST_DoorLock" :
             calledShotValue = -6;
             limitDV = 0;
+            effect = {
+				"0": {
+					"name": "doorLock",
+				}
+			};
         break;
             case "CS_ST_Axle" :
             calledShotValue = -6;
             limitDV = 6;
+            effect = {
+				"0": {
+					"name": "axle",
+				}
+			};
         break;
             case "CS_ST_FuelTankBattery" :
             calledShotValue = -6;
             limitDV = "";
+            effect = {
+				"0": {
+					"name": "fuelTankBattery",
+				}
+			};
         break;
             case "noChoice" :
             calledShotValue = 0;
@@ -700,6 +730,7 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.limitDV = limitDV;
         dialogData.calledShotLocalisation = calledShotSpecificTarget;
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
+        dialogData.calledShotsEffects = effect;
         this.updateDicePoolValue(html);
     }
     

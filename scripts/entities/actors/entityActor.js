@@ -1994,6 +1994,54 @@ export class SR5Actor extends Actor {
               statusEffects = statusEffects.concat(status);
             }
           }
+          //Antenna Status Effect
+          if (key.name === "antenna"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "antenna");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("antenna");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Engine Block Status Effect
+          if (key.name === "engineBlock"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "engineBlock");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("engineBlock");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Window Motor Status Effect
+          if (key.name === "windowMotor"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "windowMotor");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("windowMotor");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Door Lock Status Effect
+          if (key.name === "doorLock"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "doorLock");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("doorLock");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Axle Status Effect
+          if (key.name === "axle"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "axle");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("axle");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Fuel Tank / Battery Status Effect
+          if (key.name === "fuelTankBattery"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "fuelTankBattery");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("fuelTankBattery");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
         }
       }
   

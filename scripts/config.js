@@ -934,6 +934,12 @@ SR5.calledShotsEffects = {
   dirtyTrick               : "SR5.STATUSES_DirtyTrick",
   entanglement             : "SR5.STATUSES_Entanglement",
   trickShot                : "SR5.STATUSES_TrickShot",
+  antenna                  : "SR5.STATUSES_Antenna",
+  engineBlock              : "SR5.STATUSES_EngineBlock",
+  windowMotor              : "SR5.STATUSES_WindowMotor",
+  doorLock                 : "SR5.STATUSES_DoorLock",
+  axle                     : "SR5.STATUSES_Axle",
+  fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",
 };
 
 
@@ -2590,7 +2596,13 @@ SR5.effectTypes = {
   pin                       : "SR5.STATUSES_Pin",
   dirtyTrick                : "SR5.STATUSES_DirtyTrick",
   entanglement              : "SR5.STATUSES_Entanglement",  
-  trickShot                : "SR5.STATUSES_TrickShot",
+  trickShot                : "SR5.STATUSES_TrickShot",  
+  antenna                  : "SR5.STATUSES_Antenna",
+  engineBlock              : "SR5.STATUSES_EngineBlock",
+  windowMotor              : "SR5.STATUSES_WindowMotor",
+  doorLock                 : "SR5.STATUSES_DoorLock",
+  axle                     : "SR5.STATUSES_Axle",
+  fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",
 }
 
 SR5.effectDuration = {

@@ -2224,7 +2224,7 @@ export class SR5_DiceHelper {
                             if (!hasEffect){
                                 effect = mergeObject(effect, {
                                     "data.target": game.i18n.localize("SR5.SkillIntimidation"),
-                                    "data.type": "dirtyTrick",
+                                    "data.type": "trickShot",
                                     "data.value": effecType.netHits,
                                     "data.duration": "",
                                     "data.durationType": "",
@@ -2240,6 +2240,116 @@ export class SR5_DiceHelper {
                                         }
                                     },                    
                                     "data.gameEffect": game.i18n.localize("SR5.STATUSES_TrickShot_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
+                            
+                        case "antenna":
+                            hasEffect = actor.items.find(i => i.data.data.type === "antenna");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.CS_ST_Antenna"),
+                                    "data.type": "antenna",
+                                    "data.value": "",
+                                    "data.duration": "",
+                                    "data.durationType": "",                  
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_Antenna_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
+                            
+                        case "engineBlock":
+                            hasEffect = actor.items.find(i => i.data.data.type === "engineBlock");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.CS_ST_EngineBlock"),
+                                    "data.type": "engineBlock",
+                                    "data.value": "",
+                                    "data.duration": "",
+                                    "data.durationType": "",                
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_EngineBlock_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
+                            
+                        case "windowMotor":
+                            hasEffect = actor.items.find(i => i.data.data.type === "windowMotor");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.CS_ST_WindowMotor"),
+                                    "data.type": "windowMotor",
+                                    "data.value": "",
+                                    "data.duration": "",
+                                    "data.durationType": "",                   
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_WindowMotor_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
+                            
+                        case "doorLock":
+                            hasEffect = actor.items.find(i => i.data.data.type === "doorLock");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.CS_ST_DoorLock"),
+                                    "data.type": "doorLock",
+                                    "data.value": "",
+                                    "data.duration": "",
+                                    "data.durationType": "",              
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_DoorLock_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
+                            
+                        case "axle":
+                            hasEffect = actor.items.find(i => i.data.data.type === "axle");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.CS_ST_Axle"),
+                                    "data.type": "axle",
+                                    "data.value": "",
+                                    "data.duration": "",
+                                    "data.durationType": "",
+                                    "data.customEffects":  {
+                                        "0": {
+                                          "category": "vehicleAttributes",
+                                          "target": "data.attributes.speed.augmented",
+                                          "type": "valueReplace",
+                                          "value": 1,
+                                          "multiplier": null,
+                                          "wifi": false,
+                                          "transfer": false
+                                        },
+                                        "1": {
+                                          "category": "vehicleAttributes",
+                                          "target": "data.attributes.speedOffRoad.augmented",
+                                          "type": "valueReplace",
+                                          "value": 1,
+                                          "multiplier": null,
+                                          "wifi": false,
+                                          "transfer": false
+                                        }
+                                      },                   
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_Axle_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
+                            
+                        case "fuelTankBattery":
+                            hasEffect = actor.items.find(i => i.data.data.type === "fuelTankBattery");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.CS_ST_FuelTankBattery"),
+                                    "data.type": "fuelTankBattery",
+                                    "data.value": "",
+                                    "data.duration": "",
+                                    "data.durationType": "",                   
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_FuelTankBattery_GE"),
                                 });
                                 itemEffects.push(effect);
                             }

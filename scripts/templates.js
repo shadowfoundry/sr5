@@ -424,6 +424,7 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html",        
         "systems/sr5/templates/items/_partial/editable/vehicleMod/tools-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicleMod/threshold-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/priceMultiplierVehicleMod-edit.html",
 
         //Weapon
         "systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html",

@@ -982,6 +982,8 @@ export class SR5_Roll {
                     }
                 }
 
+                SR5_SystemHelpers.srLog(0, `_addincomingSpecificTargetModifier : dialogData.calledShotsEffects '${JSON.stringify(chatData.calledShotsEffects)}'`);
+
                 if (chatData.calledShot === "CS_Disarm" || chatData.calledShot === "CS_Knockdown") optionalData = mergeObject(optionalData,{ attackerStrength: chatData.attackerStrength, });
 
                 if (chatData.type === "spell"){
@@ -1017,7 +1019,7 @@ export class SR5_Roll {
                     calledShot: chatData.calledShot,
                     calledShotLocalisation: chatData.calledShotLocalisation,
                     limitDV : chatData.limitDV,
-                    calledShotsEffects: calledShotsEffects,
+                    calledShotsEffects: chatData.calledShotsEffects,
                     targetActorType: chatData.targetActorType,
                     incomingPA: chatData.incomingPA,
                     incomingFiringMode: chatData.firingModeDefenseMod,
