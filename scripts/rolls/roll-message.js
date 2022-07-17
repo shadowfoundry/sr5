@@ -31,6 +31,13 @@ export class SR5_RollMessage {
                 html.find(".nonOpposedTest").remove();
             }
         }
+
+        // Hide if player is not owner of the message for attackerTest
+        if (!game.user.isGM || game.user.id === data.message.firstId) {
+            if (data.message.speaker.firstId && game.actors.get(data.message.speaker.firstId)?.permission != 3) {
+                html.find(".attackerTest").remove();
+            }
+        }
         
         // Do not display "Blind" chat cards to non-gm
         if (html.hasClass("blind") && !game.user.isGM) {
@@ -134,6 +141,9 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "itemEffects");
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
+                case "spendNetHits":
+                    SR5_DiceHelper.chooseSpendNetHits(message, actor);
+                    break;
                 case "drainCard":
                     actor.rollTest(type, null, messageData);
                     break;
@@ -159,12 +169,12 @@ export class SR5_RollMessage {
                 case "fadingCard":
                 case "objectResistance":
                 case "passThroughDefense":                                           
-                case "accidentCard":
+                case "accidentCard":                    
+                    if (messageData.calledShot === "CS_SplittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
                     if (messageData.calledShotsEffects) {
-                        SR5_SystemHelpers.srLog(1, `Damage effect still here '${messageData.calledShotsEffects}'`);
                         actor.applyCalledShotsEffect(messageData);                        
                     }
                     else actor.takeDamage(messageData);
@@ -407,6 +417,32 @@ export class SR5_RollMessage {
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
         }
+
+        //Attacker test : previous Actor or token is automatically selected
+        if (action === "attackerTest" && messageData) {
+            
+            if (!game.user.isGM && game.user.id !== messageData.firstId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
+    
+            // If there is a matrix action Author, get the Actor to do stuff with him later
+            let attackerActor, targetActor;
+            attackerActor = SR5_EntityHelpers.getRealActorFromID(messageData.firstId);            
+            targetActor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.speakerId);
+            actor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.firstId);  
+            
+            SR5_SystemHelpers.srLog(0, `Attacker test : messageData.firstId ${messageData.firstId} ==> attackerActor ${attackerActor}, messageData.speakerId ${messageData.speakerId } message.data.flags.speakerId ${message.data.flags.speakerId} ==> targetActor ${JSON.stringify(targetActor)}, message.data.flags.firstId ${message.data.flags.firstId} ==> actor ${actor} `);
+            
+    
+            switch (type) {
+                case "spendNetHits":
+                    SR5_DiceHelper.chooseSpendNetHits(message, targetActor);
+                    break;
+                case "trickShot":                    
+                    await actor.applyCalledShotsEffect(messageData);
+                    break;
+                default:
+                    SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (attacker Test)`);
+            }
+        }
     }
 
     //Update the stat of a chatMessage button
@@ -432,7 +468,12 @@ export class SR5_RollMessage {
 
         switch (buttonToUpdate) {
             case "damage":
+                if (messageData.calledShot !== '') {
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectApplied"));
+                }
+                else {
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                }
                 break;
             case "takeMatrixDamage":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.matrixDamageValue} ${game.i18n.localize("SR5.AppliedDamage")}`);
@@ -517,6 +558,12 @@ export class SR5_RollMessage {
 
     static async _socketupdateChatButton(message){
         await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate);
+    }
+
+
+    static async _socketupdateRollCard(message){
+        SR5_SystemHelpers.srLog(3, `_socketupdateRollCard : message.data.message : '${message.data.message}', message.data.newMessage '${message.data.newMessage}'`);
+        await SR5_RollMessage.updateRollCard(message.data.message, message.data.newMessage);
     }
 
     //Return data for a chat button

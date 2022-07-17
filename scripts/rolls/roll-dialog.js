@@ -596,7 +596,7 @@ export default class SR5_RollDialog extends Dialog {
             case "CS_BreakWeapon" :
             case "CS_Disarm" :
             case "CS_Feint" :
-            case "CS_KnockDown" :
+            case "CS_Knockdown" :
             case "CS_Reversal" :
                 calledShotValue = -4;
                 document.getElementById("incomingAmmoSpecific").style.display = 'none';

@@ -56,6 +56,7 @@ export class SR5_DiceHelper {
             ownerAuthor: message.ownerAuthor,    
             hits: message.hits,
             speakerId: message.speakerId,
+            firstId: message.firstId,
             speakerActor: message.speakerActor,
             speakerImg: message.speakerImg,
             originalMessage: message.originalMessage._id,
@@ -1288,11 +1289,23 @@ export class SR5_DiceHelper {
             SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
 		    if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
-            SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
+            SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
               },
             }).render(true);
         });
     }
+
+    static async splittingDamage(message, actor){
+        let messageData = message.data.flags.sr5data;
+        
+        messageData = mergeObject(messageData, {
+            splitted : messageData.splitted + 1,
+        });
+
+        //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
+    let newMessage = duplicate(messageData);
+    SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
+      }
 
     static async reduceSideckickService(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId),
@@ -1684,7 +1697,7 @@ export class SR5_DiceHelper {
                               "transfer": false
                             }
                           },
-                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Blinded_GE"),
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Deafened_GE"),
                     });
                     await actor.deleteEmbeddedDocuments("Item", [hasEffect.id]);
                     itemEffects.push(effect);
@@ -2097,6 +2110,140 @@ export class SR5_DiceHelper {
                     itemEffects.push(effect);
                 }
                 break;
+            case "pin":
+                hasEffect = actor.items.find(i => i.data.data.type === "pin");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.type": "pin",
+                        "data.value": effecType.initialDV,
+                        "data.duration": "",
+                        "data.durationType": "",
+                        "data.customEffects": {
+                        "0": {
+                          "category": "characterDefenses",
+                          "target": "data.defenses.block",
+                          "type": "value",
+                          "value": -2,
+                          "multiplier": null,
+                          "wifi": false,
+                          "transfer": false
+                        },
+                        "1": {
+                          "category": "characterDefenses",
+                          "target": "data.defenses.defend",
+                          "type": "value",
+                          "value": -2,
+                          "multiplier": null,
+                          "wifi": false,
+                          "transfer": false
+                        },
+                        "2": {
+                          "category": "characterDefenses",
+                          "target": "data.defenses.dodge",
+                          "type": "value",
+                          "value": -2,
+                          "multiplier": null,
+                          "wifi": false,
+                          "transfer": false
+                        },
+                        "3": {
+                          "category": "characterDefenses",
+                          "target": "data.defenses.parryBlades",
+                          "type": "value",
+                          "value": -2,
+                          "multiplier": null,
+                          "wifi": false,
+                          "transfer": false
+                        },
+                        "4": {
+                          "category": "characterDefenses",
+                          "target": "data.defenses.parryClubs",
+                          "type": "value",
+                          "value": -2,
+                          "multiplier": null,
+                          "wifi": false,
+                          "transfer": false
+                        }
+                      },                       
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Pin_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+                case "dirtyTrick":
+                    hasEffect = actor.items.find(i => i.data.data.type === "dirtyTrick");
+                    if (!hasEffect){
+                        effect = mergeObject(effect, {
+                            "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                            "data.type": "dirtyTrick",
+                            "data.value": -4,
+                            "data.duration": 1,
+                            "data.durationType": "round",
+                            "data.customEffects": {
+                                "0": {
+                                    "category": "penaltyTypes",
+                                    "target": "data.penalties.special.actual",
+                                    "type": "value",
+                                    "value": -4,
+                                    "forceAdd": true,
+                                }
+                            },                    
+                            "data.gameEffect": game.i18n.localize("SR5.STATUSES_DirtyTrick_GE"),
+                        });
+                        itemEffects.push(effect);
+                    }
+                    break;
+                    case "entanglement":
+                        hasEffect = actor.items.find(i => i.data.data.type === "entanglement");
+                        if (!hasEffect){
+                            effect = mergeObject(effect, {
+                                "data.target": game.i18n.localize("SR5.Agility"),
+                                "data.type": "entanglement",
+                                "data.value": -effecType.netHits,
+                                "data.duration": "",
+                                "data.durationType": "",
+                                "data.customEffects": {
+                                     "0": {
+                                        "category": "characterAttributes",
+                                        "target": "data.attributes.agility.augmented",
+                                        "type": "value",
+                                        "value": -effecType.netHits,
+                                        "multiplier": null,
+                                        "wifi": false,
+                                        "transfer": false
+                                    }
+                                 },                    
+                                "data.gameEffect": game.i18n.localize("SR5.STATUSES_Entanglement_GE"),
+                            });
+                            itemEffects.push(effect);
+                        }
+                        break;
+                        case "trickShot":
+                            hasEffect = actor.items.find(i => i.data.data.type === "trickShot");
+                            if (!hasEffect){
+                                effect = mergeObject(effect, {
+                                    "data.target": game.i18n.localize("SR5.SkillIntimidation"),
+                                    "data.type": "dirtyTrick",
+                                    "data.value": effecType.netHits,
+                                    "data.duration": "",
+                                    "data.durationType": "",
+                                    "data.customEffects": {
+                                        "0": {
+                                          "category": "skills",
+                                          "target": "data.skills.intimidation.test",
+                                          "type": "value",
+                                          "value": effecType.netHits,
+                                          "multiplier": null,
+                                          "wifi": false,
+                                          "transfer": false
+                                        }
+                                    },                    
+                                    "data.gameEffect": game.i18n.localize("SR5.STATUSES_TrickShot_GE"),
+                                });
+                                itemEffects.push(effect);
+                            }
+                            break;
             default:
         }
     return itemEffects;

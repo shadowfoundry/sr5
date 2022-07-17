@@ -394,6 +394,54 @@ export const _getSRStatusEffect = async function(origin, value) {
                         }
                     },
                 }
+            case "pin":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Pin'),
+                    origin: "pin",
+                    icon: "systems/sr5/img/status/StatusPinOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "pin",
+                        }
+                    },
+                }
+            case "dirtyTrick":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_DirtyTrick'),
+                    origin: "dirtyTrick",
+                    icon: "systems/sr5/img/status/StatusDirtyTrickOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "dirtyTrick",
+                        }
+                    },
+                }
+            case "trickShot":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_TrickShot'),
+                    origin: "trickShot",
+                    icon: "systems/sr5/img/status/StatusTrickShotOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "trickShot",
+                        }
+                    },
+                }
+            case "entanglement":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Entanglement'),
+                    origin: "entanglement",
+                    icon: "systems/sr5/img/status/StatusEntanglementOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "entanglement",
+                        }
+                    },
+                }
         default: return null
     }
 }

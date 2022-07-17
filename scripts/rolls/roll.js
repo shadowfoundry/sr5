@@ -34,7 +34,7 @@ export class SR5_Roll {
             sceneNoise,
             sceneEnvironmentalMod,
             calledShot,
-            calledShotLocalisation = "",
+            calledShotLocalisation = '',
             calledShotsEffects = [],
             limitDV = "",
             originalMessage,
@@ -337,6 +337,17 @@ export class SR5_Roll {
                     else ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistanceFallOff", {distance:distance, modifiedDamage: modToDamage, finalDamage: damageValueBase})}`);
                 }
 
+                if (chatData.calledShot === "CS_SplittingDamage") {
+                    if (chatData.splitted > 1) {
+                        damageValueBase = chatData.damageValueP;
+                        chatData.damageType = chatData.damageTypeP;
+                    }
+                    else {
+                        damageValueBase = chatData.damageValueE;
+                        chatData.damageType = chatData.damageTypeE;
+                    }
+                    }
+
                 switch (chatData.damageResistanceType){
                     case "physicalDamage":
                         title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
@@ -414,7 +425,7 @@ export class SR5_Roll {
                                     resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
                                     dicePoolComposition = actorData.resistances.physicalDamage.modifiers.filter((el) => !armorComposition.includes(el));
                                 }
-                                if (damageValueBase < (armor + chatData.incomingPA) && !chatData.damageElement){
+                                if (damageValueBase < (armor + chatData.incomingPA) && !chatData.damageElement && chatData.calledShot !== "CS_SplittingDamage"){
                                     chatData.damageType = "stun";
                                     title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
                                     ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.incomingPA, damage:damageValueBase})}`); 
@@ -422,7 +433,8 @@ export class SR5_Roll {
                                 break;
                             default:
                         }
-                        let netHits;
+
+                        let netHits,previousHits, hits;
 
                         dicePool = resistanceValue + modifiedArmor;
 
@@ -435,9 +447,11 @@ export class SR5_Roll {
                             ammoType: chatData.ammoType,
                             calledShot: chatData.calledShot,                            
                             calledShotLocalisation: chatData.calledShotLocalisation,
+                            firstId: chatData.firstId,
                             limitDV : chatData.limitDV,                            
                             calledShotsEffects: chatData.calledShotsEffects,
                             targetActorType: chatData.targetActorType,
+                            attackerStrength: chatData.attackerStrength,
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -446,7 +460,8 @@ export class SR5_Roll {
                             damageContinuous: chatData.damageContinuous,
                             damageIsContinuating: chatData.damageIsContinuating,
                             damageOriginalValue: chatData.damageOriginalValue,
-                            netHits,
+                            previousHits: chatData.hits,
+                            hits: chatData.test.hits,
                         }
                         if (chatData.damageSource === "spell") optionalData = mergeObject(optionalData,{damageSource: "spell",});
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
@@ -967,6 +982,8 @@ export class SR5_Roll {
                     }
                 }
 
+                if (chatData.calledShot === "CS_Disarm" || chatData.calledShot === "CS_Knockdown") optionalData = mergeObject(optionalData,{ attackerStrength: chatData.attackerStrength, });
+
                 if (chatData.type === "spell"){
                     optionalData = mergeObject(optionalData,{
                         damageSource: "spell",
@@ -989,6 +1006,7 @@ export class SR5_Roll {
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
 
                 optionalData = mergeObject(optionalData, {
+                    firstId: chatData.firstId,
                     attackerId: chatData.actorId,
                     chatActionType: "resistanceCard",
                     damageElement: chatData.damageElement,
@@ -1031,13 +1049,23 @@ export class SR5_Roll {
                 rollType = "attack";
 
                 let targetActorType = "";
+                let firstId = game.user.id;
                 if (game.user.targets.size) {
                 let targets = Array.from(game.user.targets);
                 let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
                 let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
                 targetActorType = targetActor.type;
-                }
+                }              
+
                 
+                //Handle type of weapons for Called Shots
+                let typeWeapon = itemData.type;
+                if (typeWeapon === "unarmed" || typeWeapon === "exoticMeleeWeapon" || typeWeapon === "exoticRangedWeapon"){                    
+                    SR5_SystemHelpers.srLog(0, `Case for Disarm '${typeWeapon}'`);
+                        optionalData = mergeObject(optionalData, {
+                            typeWeapon: typeWeapon,
+                        })
+                    }
 
                 // Recoil Compensation calculation
                 let recoilCompensation = actorData.recoilCompensation.value;
@@ -1074,7 +1102,8 @@ export class SR5_Roll {
                     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(attacker, target);
 
                     if (itemData.category === "meleeWeapon") {
-                        optionalData = mergeObject(optionalData, {attackerReach: itemData.reach.value,});
+                        optionalData = mergeObject(optionalData, {attackerReach: itemData.reach.value,
+                            attackerStrength: actor.data.data.attributes.strength.augmented.value,});
                         if (distance > (itemData.reach.value + 1)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                         sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     } else { 
@@ -1095,6 +1124,7 @@ export class SR5_Roll {
                 }
 
                 optionalData = mergeObject(optionalData, {
+                    firstId: firstId,
                     limiteType: limitType,
                     damageValue: itemData.damageValue.value,
                     damageValueBase: itemData.damageValue.value,

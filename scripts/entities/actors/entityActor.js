@@ -875,10 +875,11 @@ export class SR5Actor extends Actor {
           && actorData.data.conditionMonitors.stun.actual.value < actorData.data.conditionMonitors.stun.value
           && actorData.data.conditionMonitors.physical.actual.value < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
           break;
-      case "actorGrunt":
-      case "actorDrone":
+      case "actorGrunt":        
         if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
+      case "actorDrone":
+        if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         break;
       case "actorSprite":
       case "actorDevice":
@@ -1770,7 +1771,7 @@ export class SR5Actor extends Actor {
     if (toxinEffects.length) await this.createEmbeddedDocuments("Item", toxinEffects);
     if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
     if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
-  }
+  } 
 
     //Apply specific called shots effect
     async applyCalledShotsEffect(data){
@@ -1778,7 +1779,6 @@ export class SR5Actor extends Actor {
       let cSEffects = [];
       let statusEffects = [];
 
-      SR5_SystemHelpers.srLog(1, `applyCalledShotsEffect on '${data.calledShotsEffects}'`);
   
       for (let [value, key] of Object.entries(data.calledShotsEffects)){
         if (value) {
@@ -1952,6 +1952,46 @@ export class SR5Actor extends Actor {
                 status = await _getSRStatusEffect("noAction");
                 statusEffects = statusEffects.concat(status);
               }
+            }
+          }
+          //Pin Status Effect
+          if (key.name === "pin"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "pin");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("pin");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Trick Shot Status Effect
+          if (key.name === "trickShot"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "trickShot");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("trickShot");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Knockdown Status Effect
+          if (key.name === "prone"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "prone");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("prone");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Dirty Trick Status Effect
+          if (key.name === "dirtyTrick"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "dirtyTrick");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("dirtyTrick");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Entanglement Status Effect
+          if (key.name === "entanglement"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "entanglement");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("entanglement");
+              statusEffects = statusEffects.concat(status);
             }
           }
         }

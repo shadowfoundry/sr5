@@ -818,7 +818,7 @@ SR5.calledShots = {
   CS_TrickShot              : "SR5.CS_TrickShot",
   CS_Disarm                 : "SR5.CS_Disarm",
   CS_Feint                  : "SR5.CS_Feint",
-  CS_KnockDown              : "SR5.CS_KnockDown",
+  CS_Knockdown              : "SR5.CS_Knockdown",
   CS_Reversal               : "SR5.CS_Reversal",
 };
 
@@ -930,6 +930,10 @@ SR5.calledShotsEffects = {
   bleedOut                 : "SR5.STATUSES_BleedOut",
   oneArmBandit             : "SR5.STATUSES_OneArmBandit",
   fatigued                 : "SR5.STATUSES_Fatigued",
+  pin                      : "SR5.STATUSES_Pin",
+  dirtyTrick               : "SR5.STATUSES_DirtyTrick",
+  entanglement             : "SR5.STATUSES_Entanglement",
+  trickShot                : "SR5.STATUSES_TrickShot",
 };
 
 
@@ -2582,7 +2586,11 @@ SR5.effectTypes = {
   unableToSpeak             : "SR5.STATUSES_UnableToSpeak",
   bleedOut                  : "SR5.STATUSES_BleedOut",
   oneArmBandit              : "SR5.STATUSES_OneArmBandit",
-  fatigued                  : "SR5.STATUSES_Fatigued",
+  fatigued                  : "SR5.STATUSES_Fatigued",  
+  pin                       : "SR5.STATUSES_Pin",
+  dirtyTrick                : "SR5.STATUSES_DirtyTrick",
+  entanglement              : "SR5.STATUSES_Entanglement",  
+  trickShot                : "SR5.STATUSES_TrickShot",
 }
 
 SR5.effectDuration = {

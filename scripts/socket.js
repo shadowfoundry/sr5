@@ -25,7 +25,9 @@ export class SR5_SocketHandler {
             "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
             "deleteItem": [SR5_DiceHelper._socketDeleteItem],
             "updateItem": [SR5_DiceHelper._socketUpdateItem],
-            "updateChatButton": [SR5_RollMessage._socketupdateChatButton]
+            "updateChatButton": [SR5_RollMessage._socketupdateChatButton],
+            "updateRollCard": [SR5_RollMessage._socketupdateRollCard],
+            "chooseSpendNetHits": [SR5_DiceHelper.chooseSpendNetHits]
         }
 
         game.socket.on(`system.sr5`, async (message) => {
