@@ -168,9 +168,12 @@ export class SR5_RollMessage {
                 case "drainCard":
                 case "fadingCard":
                 case "objectResistance":
-                case "passThroughDefense":                                           
-                case "accidentCard":                    
+                case "passThroughDefense":
+                case "accidentCard":
+                case "extremeIntimidation":
+                case "stunned":                    
                     if (messageData.calledShot === "CS_SplittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
+                    if (messageData.fatigued) SR5_DiceHelper.fatiguedDamage(message, actor);
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
@@ -427,10 +430,7 @@ export class SR5_RollMessage {
             let attackerActor, targetActor;
             attackerActor = SR5_EntityHelpers.getRealActorFromID(messageData.firstId);            
             targetActor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.speakerId);
-            actor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.firstId);  
-            
-            SR5_SystemHelpers.srLog(0, `Attacker test : messageData.firstId ${messageData.firstId} ==> attackerActor ${attackerActor}, messageData.speakerId ${messageData.speakerId } message.data.flags.speakerId ${message.data.flags.speakerId} ==> targetActor ${JSON.stringify(targetActor)}, message.data.flags.firstId ${message.data.flags.firstId} ==> actor ${actor} `);
-            
+            actor = SR5_EntityHelpers.getRealActorFromID(message.data.flags.firstId)            
     
             switch (type) {
                 case "spendNetHits":

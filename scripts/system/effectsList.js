@@ -250,18 +250,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                         }
                     },
                 }
-        case "stunned":
-            return effect = {
-                label: game.i18n.localize('SR5.STATUSES_Stunned'),
-                origin: "stunned",
-                icon: "systems/sr5/img/status/StatusStunnedOn.svg",
-                flags: {
-                    core: {
-                        active: true,
-                        statusId: "stunned",
-                    }
-                },
-            }
             case "blinded":
                 return effect = {
                     label: game.i18n.localize('SR5.STATUSES_Blinded'),
@@ -379,18 +367,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                         core: {
                             active: true,
                             statusId: "oneArmBandit",
-                        }
-                    },
-                }
-            case "fatigued":
-                return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Fatigued'),
-                    origin: "fatigued",
-                    icon: "systems/sr5/img/status/StatusFatiguedOn.svg",
-                    flags: {
-                        core: {
-                            active: true,
-                            statusId: "fatigued",
                         }
                     },
                 }

@@ -738,14 +738,17 @@ export default class SR5_RollDialog extends Dialog {
     _addincomingAmmoSpecificModifier(ev, html, dialogData, actorData){
         let calledShotAmmoSpecific = html.find('[name="incomingAmmoSpecific"]')[0].value;
         let ammoType = dialogData.ammoType;
-        let calledShotValue, limitDV;
+        let calledShotValue, limitDV, effect = {};
         switch(calledShotAmmoSpecific) {
             case "CS_AS_Bellringer" : 
             calledShotValue = -8;
             limitDV = 4;
         break; 
+            case "CS_AS_ExtremeIntimidation" :  
+            calledShotValue = -4;
+            limitDV = "";
+        break; 
             case "CS_AS_BullsEye" : 
-            case "CS_AS_ExtremeIntimidation" :
             case "CS_AS_OnPinsAndNeedles" : 
             case "CS_AS_Tag" :  
             calledShotValue = -4;
@@ -758,19 +761,46 @@ export default class SR5_RollDialog extends Dialog {
             case "CS_AS_FingerPopper" : 
                 switch(ammoType) {
                     case "explosive" : 
-                    case "flechette" : 
                     case "gel" : 
                     case "hollowPoint" : 
                         calledShotValue = -4;
                         limitDV = 2;
+                        effect = {
+                            "0": {
+                                "name": "blastOutOfHand",
+                                "modFingerPopper": 0,
+                            }
+                        };
                 break; 
+                case "flechette" : 
+                    calledShotValue = -4;
+                    limitDV = 2;
+                    effect = {
+                        "0": {
+                            "name": "blastOutOfHand",
+                            "modFingerPopper": -1,
+                        }
+                    };
+            break; 
                     case "exExplosive" : 
                         calledShotValue = -4;
                         limitDV = 3;
+                        effect = {
+                            "0": {
+                                "name": "blastOutOfHand",
+                                "modFingerPopper": 1,
+                            }
+                        };
                 break; 
                 default:                     
                         calledShotValue = -4;
                         limitDV = "";
+                        effect = {
+                            "0": {
+                                "name": "blastOutOfHand",
+                                "modFingerPopper": -1,
+                            }
+                        };
                 }
             break;
             case "CS_AS_FlameOn" : 
@@ -815,7 +845,7 @@ export default class SR5_RollDialog extends Dialog {
             case "CS_AS_RicochetShot" : 
             case "CS_AS_WarningShot" : 
                 calledShotValue = -6;
-                limitDV = ""; 
+                limitDV = "";
             break; 
             case "CS_AS_ShakeRattle" : 
                 switch(ammoType) {
@@ -835,6 +865,11 @@ export default class SR5_RollDialog extends Dialog {
             case "CS_AS_ShreddedFlesh" : 
                 calledShotValue = -4;
                 limitDV = 10;
+                effect = {
+                    "0": {
+                        "name": "bleedOut",
+                    }
+                };
             break;
             case "CS_AS_ThroughAndInto" : 
                 calledShotValue = 0;
@@ -852,6 +887,7 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.dicePoolMod.calledShot = calledShotValue;
         dialogData.calledShotLocalisation = calledShotAmmoSpecific;
         dialogData.limitDV = limitDV;
+        dialogData.calledShotsEffects = effect;
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
         this.updateDicePoolValue(html);
     }

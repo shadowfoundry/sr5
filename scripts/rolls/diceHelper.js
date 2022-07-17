@@ -1169,7 +1169,6 @@ export class SR5_DiceHelper {
             return 0;
         }
         else {
-            SR5_SystemHelpers.srLog(1, `getThresholdEffect on '${name}' and '${localisation}'`);
             switch(localisation){
 				case "CS_ST_Genitals":
                     return 4;
@@ -1197,7 +1196,6 @@ export class SR5_DiceHelper {
             return 0;
         }
         else {
-            SR5_SystemHelpers.srLog(1, `getInitiativeEffect on '${name}' and '${localisation}'`);
 
             switch(localisation){
 				case "CS_ST_Gut": 
@@ -1288,8 +1286,8 @@ export class SR5_DiceHelper {
             newMessage.hits = messageData.hits - dialogData.spendHits;
             SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
 		    if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
-
-            SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
+            if (!game.user?.isGM) SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
+            else SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
               },
             }).render(true);
         });
@@ -1304,7 +1302,21 @@ export class SR5_DiceHelper {
 
         //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
     let newMessage = duplicate(messageData);
-    SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
+    if (!game.user?.isGM) SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
+    else SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
+      }
+
+    static async fatiguedDamage(message, actor){
+        let messageData = message.data.flags.sr5data;
+        
+        messageData = mergeObject(messageData, {
+            fatigued : messageData.fatigued + 1,
+        });
+
+        //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
+    let newMessage = duplicate(messageData);
+    if (!game.user?.isGM) SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
+    else SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
       }
 
     static async reduceSideckickService(message){
@@ -1714,23 +1726,6 @@ export class SR5_DiceHelper {
                     itemEffects.push(effect);
                 }
                 break;
-            case "stunned":
-                hasEffect = actor.items.find(i => i.data.data.type === "stunned");
-                let malus ;
-                if (effecType.initiative === 10) malus = game.i18n.localize("SR5.INIT_MinusTen")
-                if (effecType.initiative === 5) malus = game.i18n.localize("SR5.INIT_MinusFive");
-                if (!hasEffect){
-                    effect = mergeObject(effect, {
-                        "data.target": malus,
-                        "data.type": "stunned",
-                        "data.value": -effecType.initiative,
-                        "data.duration": "",
-                        "data.durationType": "",
-                        "data.gameEffect": `${game.i18n.format('SR5.STATUSES_Stunned_AGE', {threshold: effecType.threshold, initiative: effecType.initiative})}`,
-                    });
-                    itemEffects.push(effect);
-                }
-                break;
             case "blinded":
                 hasEffect = actor.items.find(i => i.data.data.type === "blinded");
                 if (hasEffect){
@@ -2096,20 +2091,6 @@ export class SR5_DiceHelper {
                     itemEffects.push(effect2);
                 }
                 break;
-            case "fatigued":
-                hasEffect = actor.items.find(i => i.data.data.type === "fatigued");
-                if (!hasEffect){
-                    effect = mergeObject(effect, {
-                        "data.target": game.i18n.localize("SR5.Penalty"),
-                        "data.type": "fatigued",
-                        "data.value": Math.ceil(effecType.initialDV/2),
-                        "data.duration": "",
-                        "data.durationType": "",                       
-                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Fatigued_GE"),
-                    });
-                    itemEffects.push(effect);
-                }
-                break;
             case "pin":
                 hasEffect = actor.items.find(i => i.data.data.type === "pin");
                 if (!hasEffect){
@@ -2354,6 +2335,7 @@ export class SR5_DiceHelper {
                                 itemEffects.push(effect);
                             }
                             break;
+                            
             default:
         }
     return itemEffects;

@@ -557,7 +557,9 @@ export class SR5_Dice {
 			case "jackOutDefense":
 			case "eraseMark":
 			case "passThroughDefense":
-			case "engulfResistance":
+			case "engulfResistance":				
+			case "extremeIntimidation":
+			case "stunned":	
 				await SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
 				break;
 			case "overwatchResistance":
@@ -647,7 +649,7 @@ export class SR5_Dice {
 					return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDisarm"));
 				}
 			}
-		}
+		}		
 
 		// Handle Knockdown
 		if (cardData.calledShot === "CS_Knockdown") {
@@ -707,7 +709,7 @@ export class SR5_Dice {
 
 		//Handle Blast ouf of hand
 		if (cardData.calledShot === "CS_BlastOutOfHand") {
-			return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${game.i18n.format('SR5.BlastOutOfHand', {range: netHits - 1})}`);
+			return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${game.i18n.format('SR5.BlastOutOfHand', {range: netHits - 1 + modFingerPopper})}`);
 		}
 
 		// Handle Feint
@@ -718,10 +720,40 @@ export class SR5_Dice {
 			return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.Disarm"));
 		}
 
+		// Handle Fatigued
+		if (cardData.calledShot) { 
+						
+			for (let [key, value] of Object.entries(cardData.calledShotsEffects)) {
+
+			if (value.name === "fatigued") {
+
+				let damage1 = cardData.damageValue;
+				let damage2 = Math.floor(cardData.damageValue/2);
+
+				cardData.damageValue1 = damage1;
+				
+				cardData.damageValue2 = damage2;				
+				cardData.dicepool2 = actorData.attributes.body.augmented.value;
+				cardData.dicepoolComposition2 = actorData.attributes.body.augmented.value;
+	
+				cardData.fatigued = 1; 
+	
+				let label1 = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${damage1}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+				if (cardData.incomingPA) label1 += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+				cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label1);	
+
+				let label2 = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${damage2}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+				if (cardData.incomingPA) label2 += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+				cardData.buttons.fatiguedCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label2);
+
+				}
+
+			}
+		}
+
 						
 		// Handle CS_SplittingDamage
 		if (cardData.calledShot === "CS_SplittingDamage" && cardData.incomingPA < actor.data.data.itemsProperties.armor.value) {
-			SR5_SystemHelpers.srLog(1, `Handle CS_SplittingDamage : cardData.incomingPA '${cardData.incomingPA}', actor.data.data.itemsProperties.armor.value '${actor.data.data.itemsProperties.armor.value}', cardData.damageValue '${cardData.damageValue}'`);
 			if (cardData.damageValue < actor.data.data.itemsProperties.armor.value) {
 			let damageE = Math.ceil(cardData.damageValue/2);
 			cardData.damageValue = damageE;
@@ -844,14 +876,44 @@ export class SR5_Dice {
 
 		SR5_SystemHelpers.srLog(1, `cardData.calledShot '${cardData.calledShot}' and cardData.netHits '${cardData.netHits}'  cardData.previousHits '${cardData.previousHits}' cardData.hits '${cardData.hits}' in addResistanceInfoToCard`);
 
+		
+		//Handle Extreme Intimidation
+		if (cardData.calledShotLocalisation === "CS_AS_ExtremeIntimidation") { 
+			cardData.buttons.extremeIntimidation = SR5_RollMessage.generateChatButton("nonOpposedTest","extremeIntimidation",`${game.i18n.localize('SR5.Composure')} (${cardData.netHits})`);
+		}
 
+		//Handle second test for Called Shots effects
+		if (cardData.calledShot) { 
+						
+			for (let [key, value] of Object.entries(cardData.calledShotsEffects)) {
+			
+			//Handle Stunned	
+			if (value.name === "stunned") {				
+			cardData.buttons.stunned = SR5_RollMessage.generateChatButton("nonOpposedTest","stunned",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[value.name])})}`);
+			}
+
+
+			}
+		}
 
 		//Handle specific target limit damage if any 
 		if (cardData.limitDV !== "") {
 			if (cardData.damageValue > 0) {
 				let incomingDamage = Math.min(cardData.damageValue, cardData.limitDV);
 				cardData.damageValue = incomingDamage;
-				cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
+
+			//Handle Blast ouf of hand
+			if (cardData.calledShotLocalisation === "CS_AS_FingerPopper") {
+			let modFingerPopper = 0;			
+			for (let [key, value] of Object.entries(cardData.calledShotsEffects)) {
+				if (value.modFingerPopper) modFingerPopper = value.modFingerPopper;
+			}
+							
+			SR5_SystemHelpers.srLog(0, `addResistanceInfo (limitDv) : cardData.calledShotLocalisation ==> '${cardData.calledShotLocalisation}' ; cardData.calledShotsEffects ==> '${JSON.stringify(cardData.calledShotsEffects)}', modFingerPopper ==> '${modFingerPopper}`);
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${game.i18n.format('SR5.BlastOutOfHand', {range: cardData.netHits + modFingerPopper})}`);
+			}
+
+			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 			}
 			else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
 		}
@@ -920,6 +982,9 @@ export class SR5_Dice {
 		if (cardData.typeSub === "biofeedbackDamage"){
 			if (prevData.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "attackerDoBiofeedbackDamage");
 			if (prevData.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.originalMessage, "defenderDoBiofeedbackDamage");
+		}
+		if (cardData.fatigued){
+			if (prevData.buttons.resistanceCard2) SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard2");
 		}
 	}
 
@@ -1498,7 +1563,7 @@ export class SR5_Dice {
 	}
 
 	static async addDefenseResultInfoToCard(cardData, type){
-		let key, label, labelEnd, successTestType = "nonOpposedTest";
+		let key, label, labelEnd, successTestType = "nonOpposedTest", failedTestType = "SR-CardButtonHit endTest", failedKey = "";
 		let originalMessage, prevData;
 		if (cardData.originalMessage){
 			originalMessage = game.messages.get(cardData.originalMessage);
@@ -1589,6 +1654,55 @@ export class SR5_Dice {
 					} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "passThroughDefense");
 				}
 				break;
+			case "extremeIntimidation":
+				label = game.i18n.localize("SR5.NotResisted");
+				labelEnd = game.i18n.localize("SR5.Resisted");
+				successTestType = "SR-CardButtonHit endTest";
+				cardData.hits = cardData.composureHits;
+				if (cardData.test.hits < cardData.composureHits) {	
+					let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);	
+					SR5Combat.changeInitInCombat(actor, -10);			
+					ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_ExtremeIntimidation")}`);
+				}
+				
+				if (prevData.buttons?.extremeIntimidation) {
+					if (!game.user?.isGM) {
+						await SR5_SocketHandler.emitForGM("updateChatButton", {
+							message: cardData.originalMessage,
+							buttonToUpdate: "extremeIntimidation",
+						});
+					} else {
+						SR5_RollMessage.updateChatButton(cardData.originalMessage, "extremeIntimidation");
+					}
+				}
+				break;
+				case "stunned":
+					label = game.i18n.localize("SR5.STATUSES_Stunned");
+					labelEnd = game.i18n.localize("SR5.Resisted");
+					successTestType = "SR-CardButtonHit endTest";
+					
+					cardData.hits = cardData.threshold;
+
+					if (cardData.test.hits < cardData.threshold) {
+					
+					let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);	
+					SR5Combat.changeInitInCombat(actor, -cardData.initiative);
+					}
+					else {
+						
+					}
+					
+					if (prevData.buttons?.stunned) {
+						if (!game.user?.isGM) {
+							await SR5_SocketHandler.emitForGM("updateChatButton", {
+								message: cardData.originalMessage,
+								buttonToUpdate: "stunned",
+							});
+						} else {
+							SR5_RollMessage.updateChatButton(cardData.originalMessage, "stunned");
+						}
+					}
+					break;
 			case "engulfResistance":
 				label = game.i18n.localize("SR5.EscapeEngulfSuccess");
 				labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
@@ -1616,7 +1730,7 @@ export class SR5_Dice {
 		}
 
 		if (cardData.test.hits < cardData.hits) cardData.buttons[key] = SR5_RollMessage.generateChatButton(successTestType, key, label);
-		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+		else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton(failedTestType,failedKey, labelEnd);
 	}
 
 	static async addOverwatchResistanceInfoToCard(cardData){

@@ -939,7 +939,7 @@ SR5.calledShotsEffects = {
   windowMotor              : "SR5.STATUSES_WindowMotor",
   doorLock                 : "SR5.STATUSES_DoorLock",
   axle                     : "SR5.STATUSES_Axle",
-  fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",
+  fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",  
 };
 
 
@@ -2581,7 +2581,6 @@ SR5.effectTypes = {
   slowed                    : "SR5.STATUSES_Slowed",
   winded                    : "SR5.STATUSES_Winded",
   deafened                  : "SR5.STATUSES_Deafened",
-  stunned                   : "SR5.STATUSES_Stunned",
   blinded                   : "SR5.STATUSES_Blinded",
   brokenGrip                : "SR5.STATUSES_BrokenGrip",
   weakSide                  : "SR5.STATUSES_WeakSide",
@@ -2591,18 +2590,17 @@ SR5.effectTypes = {
   knockdown                 : "SR5.STATUSES_Knockdown",
   unableToSpeak             : "SR5.STATUSES_UnableToSpeak",
   bleedOut                  : "SR5.STATUSES_BleedOut",
-  oneArmBandit              : "SR5.STATUSES_OneArmBandit",
-  fatigued                  : "SR5.STATUSES_Fatigued",  
+  oneArmBandit              : "SR5.STATUSES_OneArmBandit", 
   pin                       : "SR5.STATUSES_Pin",
   dirtyTrick                : "SR5.STATUSES_DirtyTrick",
   entanglement              : "SR5.STATUSES_Entanglement",  
-  trickShot                : "SR5.STATUSES_TrickShot",  
-  antenna                  : "SR5.STATUSES_Antenna",
-  engineBlock              : "SR5.STATUSES_EngineBlock",
-  windowMotor              : "SR5.STATUSES_WindowMotor",
-  doorLock                 : "SR5.STATUSES_DoorLock",
-  axle                     : "SR5.STATUSES_Axle",
-  fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",
+  trickShot                 : "SR5.STATUSES_TrickShot",  
+  antenna                   : "SR5.STATUSES_Antenna",
+  engineBlock               : "SR5.STATUSES_EngineBlock",
+  windowMotor               : "SR5.STATUSES_WindowMotor",
+  doorLock                  : "SR5.STATUSES_DoorLock",
+  axle                      : "SR5.STATUSES_Axle",
+  fuelTankBattery           : "SR5.STATUSES_FuelTankBattery",    
 }
 
 SR5.effectDuration = {
