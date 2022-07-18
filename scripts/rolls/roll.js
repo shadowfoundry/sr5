@@ -44,6 +44,7 @@ export class SR5_Roll {
             canBeExtended = true,
             dicePoolComposition,
             rulesMatrixGrid = false,
+            rulesCalledShot = false,
             firstAttribute, secondAttribute, damageValueBase;
 
         if (entity.documentName === "Actor") {
@@ -111,6 +112,8 @@ export class SR5_Roll {
         if (chatData) originalMessage = chatData.originalMessage;
         //Reagents
         if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
+
+        if (game.settings.get("sr5", "sr5CalledShotsRules")) rulesCalledShot = true;
 
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rulesMatrixGrid = true;
 
@@ -350,11 +353,16 @@ export class SR5_Roll {
                         damageValueBase = chatData.damageValueE;
                         chatData.damageType = chatData.damageTypeE;
                     }
-                    }
+                    }   
+                        
+                if (chatData.fatigued > 2) {
+                    damageValueBase = Math.floor(chatData.damageValue / 2);
+                }
 
 
                 switch (chatData.damageResistanceType){
                     case "physicalDamage":
+
                         title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
                         typeSub = "physicalDamage";
                         let armor, modifiedArmor, resistanceValue, armorComposition = [];
@@ -447,6 +455,8 @@ export class SR5_Roll {
                             if (chatData.fatigued > 2) {
                                 damageValueBase = Math.floor(chatData.damageValue / 2);
                                 dicePool = resistanceValue;
+                                armor = 0;
+                                armorComposition = "";
                                 chatData.calledShotsEffects = "";
                                 chatData.calledShotLocalisation = "";
                                 chatData.calledShot = "";
@@ -485,6 +495,8 @@ export class SR5_Roll {
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
                         if (chatData.damageElement === "toxin") optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
                         if (chatData.continuousDamageId) optionalData = mergeObject(optionalData, {continuousDamageId: chatData.continuousDamageId,});
+                       
+                       
                         break;
                     case "directSpellMana":       
                         if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`);
@@ -1077,9 +1089,9 @@ export class SR5_Roll {
 
                 
                 //Handle type of weapons for Called Shots
+
                 let typeWeapon = itemData.type;
                 if (typeWeapon === "unarmed" || typeWeapon === "exoticMeleeWeapon" || typeWeapon === "exoticRangedWeapon"){                    
-                    SR5_SystemHelpers.srLog(0, `Case for Disarm '${typeWeapon}'`);
                         optionalData = mergeObject(optionalData, {
                             typeWeapon: typeWeapon,
                         })
@@ -1157,7 +1169,8 @@ export class SR5_Roll {
                     ammoValue: itemData.ammunition.value,
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
-                    calledShotLocalisation: calledShotLocalisation,                    
+                    calledShotLocalisation: calledShotLocalisation,   
+                    rulesCalledShot: rulesCalledShot,                 
                     targetActorType: targetActorType,
                     limitDV : limitDV,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
@@ -1911,12 +1924,38 @@ export class SR5_Roll {
                 title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[name])})} (${threshold})`;
                 dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
 
-                
                 optionalData = {
                     hits: chatData.test.hits,
                     calledShotsEffects: chatData.calledShotsEffects,
                     initiative: initiative,
                     threshold: threshold,
+                }
+                break;
+                case "buckled":
+    
+                    title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects["buckled"])})} (${chatData.previousDamageValue})`;
+                    dicePool = actorData.attributes.body.augmented.value;
+                    
+                    optionalData = {
+                        damageValue: chatData.previousDamageValue,
+                        calledShotsEffects: chatData.calledShotsEffects,
+                    }
+                    break;
+                case "nauseous":
+        
+                    title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects["nauseous"])})} (4)`;
+                    dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
+                    break;
+            case "knockdown":
+
+                let knockThreshold = chatData.previousDamageValue + 3;
+
+                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects["knockdown"])})} (${knockThreshold})`;
+                dicePool = actorData.attributes.strength.augmented.value + actorData.attributes.agility.augmented.value;
+
+                optionalData = {
+                    calledShotsEffects: chatData.calledShotsEffects,
+                    threshold: knockThreshold,
                 }
                 break;
                 

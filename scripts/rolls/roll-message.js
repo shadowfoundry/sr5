@@ -141,9 +141,6 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "itemEffects");
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
-                case "spendNetHits":
-                    SR5_DiceHelper.chooseSpendNetHits(message, actor);
-                    break;
                 case "drainCard":
                     actor.rollTest(type, null, messageData);
                     break;
@@ -171,10 +168,18 @@ export class SR5_RollMessage {
                 case "passThroughDefense":
                 case "accidentCard":
                 case "extremeIntimidation":
-                case "stunned":                    
+                case "stunned":   
+                case "buckled":   
+                case "nauseous":
+                case "knockdown":                      
                     if (messageData.calledShot === "CS_SplittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
                     if (messageData.fatigued) SR5_DiceHelper.fatiguedDamage(message, actor);
                     actor.rollTest(type, null, messageData);
+                    
+                    if (type === "buckled" || type === "stunned" || type === "extremeIntimidation" || type === "nauseous" || type === "knockdown") {
+                    if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
+					else SR5_RollMessage.updateChatButton(messageId, type);
+                    }
                     break;
                 case "damage":
                     if (messageData.calledShotsEffects) {
@@ -195,9 +200,6 @@ export class SR5_RollMessage {
                     break;
                 case "templateRemove":
                     SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
-                    break;
-                case "spendNetHits":
-                    SR5_DiceHelper.chooseSpendNetHits(message, actor);
                     break;
                 case "summonSpirit":
                 case "compileSprite":

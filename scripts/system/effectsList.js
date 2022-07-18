@@ -322,18 +322,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
-            case "knockdown":
-                return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Knockdown'),
-                    origin: "knockdown",
-                    icon: "systems/sr5/img/status/StatusKnockdownOn.svg",
-                    flags: {
-                        core: {
-                            active: true,
-                            statusId: "knockdown",
-                        }
-                    },
-                }
             case "unableToSpeak":
                 return effect = {
                     label: game.i18n.localize('SR5.STATUSES_UnableToSpeak'),

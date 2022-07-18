@@ -1221,17 +1221,13 @@ export class SR5_DiceHelper {
     static async chooseSpendNetHits(message, actor){
         let messageData = message.data.flags.sr5data;
         let cancel = true;
-        let list = {};
         let effects = [];
         let calledShotLocalisation = messageData.calledShotLocalisation;
-        let numberCheckedEffects = 0, disposableHits = messageData.netHits - 1 - numberCheckedEffects, spendHits, spareHits, checkedEffects = {};
+        let numberCheckedEffects = 0, disposableHits = messageData.netHits - 1 - numberCheckedEffects, spareHits, checkedEffects = {};
+        messageData.waitingResistance = 2;
         let dialogData = {
             calledShotLocalisation: calledShotLocalisation,
             disposableHits: disposableHits,
-            hits: messageData.netHits,
-            list: list,
-            spendHits,
-            spareHits,
         };
         renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
             new SR5_SpendDialog({
@@ -1276,9 +1272,9 @@ export class SR5_DiceHelper {
                 disposableHits = spareHits ;
               
                 messageData = mergeObject(messageData, {
-                    statusChoices : dialogData.spendHits,
-                    disposableHits : dialogData.disposableHits,
-                    calledShotsEffects : effects,
+                    disposableHits: dialogData.disposableHits,
+                    calledShotsEffects: effects,
+                    waitingResistance: 2,
                 });
 
                 //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
@@ -1920,7 +1916,7 @@ export class SR5_DiceHelper {
                         "data.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "data.type": "nauseous",
                         "data.value": -4,
-                        "data.duration": 4,
+                        "data.duration": effecType.duration,
                         "data.durationType": "round",
                         "data.customEffects": {
                             "0": {
@@ -1969,20 +1965,6 @@ export class SR5_DiceHelper {
                         "data.duration": "",
                         "data.durationType": "",
                         "data.gameEffect": game.i18n.localize("SR5.STATUSES_SlowDeath_GE"),
-                    });
-                    itemEffects.push(effect);
-                }
-                break;
-            case "knockdown":
-                hasEffect = actor.items.find(i => i.data.data.type === "knockdown");
-                if (!hasEffect){
-                    effect = mergeObject(effect, {
-                        "data.target": game.i18n.localize("SR5.Penalty"),
-                        "data.type": "knockdown",
-                        "data.value": effecType.initialDV+3,
-                        "data.duration": "",
-                        "data.durationType": "",
-                        "data.gameEffect": `${game.i18n.format('SR5.STATUSES_Knockdown_AGE', {DV: effecType.initialDV})}`,
                     });
                     itemEffects.push(effect);
                 }

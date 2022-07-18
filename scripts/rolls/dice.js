@@ -536,9 +536,6 @@ export class SR5_Dice {
 			case "movement":
 				cardData.movementTotal = cardData.derivedBaseValue + (cardData.test.hits * cardData.derivedExtraValue);
 				break;
-			case "spendNetHits":
-				cardData.netHits = cardData.hits - cardData.test.hits;
-				break;
 			case "skill":
 			case "skillDicePool":
 				await SR5_Dice.addSkillInfoToCard(cardData);
@@ -559,7 +556,10 @@ export class SR5_Dice {
 			case "passThroughDefense":
 			case "engulfResistance":				
 			case "extremeIntimidation":
-			case "stunned":	
+			case "stunned":
+			case "buckled":
+			case "nauseous":
+			case "knockdown":						
 				await SR5_Dice.addDefenseResultInfoToCard(cardData, cardData.type);
 				break;
 			case "overwatchResistance":
@@ -699,10 +699,11 @@ export class SR5_Dice {
 				else cardData.damageValue = cardData.damageValueBase;
 			}
 			else cardData.damageValue = cardData.damageValueBase + netHits;
-
+		
 			
 		//Handle Called Shots specifics
-		if (cardData.limitDV !== "" && cardData.calledShot === "CS_SpecificTarget" && cardData.targetActorType !== "actorDrone") {
+		if (cardData.limitDV !== "" && cardData.calledShot === "CS_SpecificTarget" && cardData.targetActorType !== "actorDrone" && cardData.waitingResistance !== 2) {
+			cardData.waitingResistance = 1
 			cardData.netHits = cardData.hits - cardData.test.hits;
 			let label = cardData.buttons.spendNetHits = SR5_RollMessage.generateChatButton("attackerTest", "spendNetHits", `${game.i18n.localize("SR5.SpendHits")} (${cardData.netHits - 1})`);
 		}		
@@ -733,18 +734,25 @@ export class SR5_Dice {
 				cardData.damageValue1 = damage1;
 				
 				cardData.damageValue2 = damage2;				
-				cardData.dicepool2 = actorData.attributes.body.augmented.value;
-				cardData.dicepoolComposition2 = actorData.attributes.body.augmented.value;
+				cardData.dicePool2 = actorData.attributes.body.augmented.value;
+
+				if (cardData.fatigued > 2) {
+					cardData.damageValue = damage2;
+					cardData.dicePool = cardData.dicePool2
+				}
 	
-				cardData.fatigued = 1; 
+				cardData.fatigued =+ 1; 
 	
-				let label1 = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${damage1}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
-				if (cardData.incomingPA) label1 += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
-				cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label1);	
+				let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${damage1}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+				if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
+				cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);	
 
 				let label2 = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${damage2}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 				if (cardData.incomingPA) label2 += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
 				cardData.buttons.fatiguedCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label2);
+				
+
+
 
 				}
 
@@ -800,10 +808,14 @@ export class SR5_Dice {
 				}
 			}
 
+			if (cardData.waitingResistance === 1) ;
+			else {
+			
 			//Generate Resistance chat button
 			let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
 			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+			}
 		}
 		}
 	}
@@ -822,6 +834,10 @@ export class SR5_Dice {
 		else if (prevData?.typeSub === "grenade") ;
 		else if (cardData.damageContinuous && cardData.damageIsContinuating) ;
 		else SR5_RollMessage.updateChatButton(cardData.originalMessage, "resistanceCard");
+		
+		if (prevData?.fatigued > 2) SR5_RollMessage.updateChatButton(cardData.originalMessage, "fatiguedCard");
+				
+		if (cardData.calledShot) SR5_RollMessage.updateChatButton(cardData.originalMessage, "spendNetHits");
 
 		//Toxin management
 		if (cardData.damageElement === "toxin"){
@@ -874,8 +890,6 @@ export class SR5_Dice {
 
 		cardData.netHits = cardData.previousHits - cardData.hits; 
 
-		SR5_SystemHelpers.srLog(1, `cardData.calledShot '${cardData.calledShot}' and cardData.netHits '${cardData.netHits}'  cardData.previousHits '${cardData.previousHits}' cardData.hits '${cardData.hits}' in addResistanceInfoToCard`);
-
 		
 		//Handle Extreme Intimidation
 		if (cardData.calledShotLocalisation === "CS_AS_ExtremeIntimidation") { 
@@ -888,8 +902,23 @@ export class SR5_Dice {
 			for (let [key, value] of Object.entries(cardData.calledShotsEffects)) {
 			
 			//Handle Stunned	
-			if (value.name === "stunned") {				
+			if (value.name === "stunned") {		
 			cardData.buttons.stunned = SR5_RollMessage.generateChatButton("nonOpposedTest","stunned",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[value.name])})}`);
+			}
+			
+			//Handle Buckled	
+			if (value.name === "buckled") {			
+			cardData.buttons.buckled = SR5_RollMessage.generateChatButton("nonOpposedTest","buckled",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[value.name])})}`);
+			}
+			
+			//Handle Nauseous	
+			if (value.name === "nauseous") {			
+			cardData.buttons.nauseous = SR5_RollMessage.generateChatButton("nonOpposedTest","nauseous",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[value.name])})}`);
+			}
+			
+			//Handle Knockdown	
+			if (value.name === "knockdown") {			
+			cardData.buttons.knockdown = SR5_RollMessage.generateChatButton("nonOpposedTest","knockdown",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[value.name])})}`);
 			}
 
 
@@ -900,7 +929,9 @@ export class SR5_Dice {
 		if (cardData.limitDV !== "") {
 			if (cardData.damageValue > 0) {
 				let incomingDamage = Math.min(cardData.damageValue, cardData.limitDV);
+				cardData.previousDamageValue =  cardData.damageValue;
 				cardData.damageValue = incomingDamage;
+				
 
 			//Handle Blast ouf of hand
 			if (cardData.calledShotLocalisation === "CS_AS_FingerPopper") {
@@ -1680,13 +1711,12 @@ export class SR5_Dice {
 					label = game.i18n.localize("SR5.STATUSES_Stunned");
 					labelEnd = game.i18n.localize("SR5.Resisted");
 					successTestType = "SR-CardButtonHit endTest";
-					
-					cardData.hits = cardData.threshold;
 
 					if (cardData.test.hits < cardData.threshold) {
 					
 					let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);	
 					SR5Combat.changeInitInCombat(actor, -cardData.initiative);
+					ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_Stunned", {threshold: cardData.threshold})}`);
 					}
 					else {
 						
@@ -1703,6 +1733,98 @@ export class SR5_Dice {
 						}
 					}
 					break;
+					case "buckled":
+						label = game.i18n.localize("SR5.STATUSES_Buckled");
+						labelEnd = game.i18n.localize("SR5.Resisted");
+						successTestType = "SR-CardButtonHit endTest";
+						
+						let prone = {
+							name: "prone",
+						}
+	
+						if (cardData.test.hits < cardData.damageValue) {
+							cardData.calledShotsEffects.push(prone);										
+					        ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_DropProne")}`);
+							cardData.damageValue = 0;				
+							return cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyEffect")}`);
+						}
+						else {
+							
+						}
+						
+						if (prevData.buttons?.buckled) {
+							if (!game.user?.isGM) {
+								await SR5_SocketHandler.emitForGM("updateChatButton", {
+									message: cardData.originalMessage,
+									buttonToUpdate: "buckled",
+								});
+							} else {
+								SR5_RollMessage.updateChatButton(cardData.originalMessage, "buckled");
+							}
+						}
+						break;
+						case "nauseous":
+							label = game.i18n.localize("SR5.STATUSES_Nauseous");
+							labelEnd = game.i18n.localize("SR5.Resisted");
+							successTestType = "SR-CardButtonHit endTest";
+							
+							if (cardData.test.hits < 4) {
+
+								cardData.calledShotsEffects = {
+									"0":  {
+										"name": "nauseous",
+										"duration": 4 - cardData.test.hits,
+									}
+								}
+
+								cardData.damageValue = 0;				
+								return cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyEffect")}`);
+							}
+							else {
+								
+							}
+							
+							if (prevData.buttons?.nauseous) {
+								if (!game.user?.isGM) {
+									await SR5_SocketHandler.emitForGM("updateChatButton", {
+										message: cardData.originalMessage,
+										buttonToUpdate: "nauseous",
+									});
+								} else {
+									SR5_RollMessage.updateChatButton(cardData.originalMessage, "nauseous");
+								}
+							}
+							break;
+							case "knockdown":
+								label = game.i18n.localize("SR5.STATUSES_Knockdown");
+								labelEnd = game.i18n.localize("SR5.Resisted");
+								successTestType = "SR-CardButtonHit endTest";
+							
+								let knockProne = {
+									name: "prone",
+								}
+								let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);	
+
+								if (cardData.test.hits < cardData.threshold) {
+									cardData.calledShotsEffects.push(knockProne);
+									cardData.damageValue = 0;				
+									ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_DropProne")}`);
+									return cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyEffect")}`);
+								}
+								else {
+									
+								}
+								
+								if (prevData.buttons?.knockdown) {
+									if (!game.user?.isGM) {
+										await SR5_SocketHandler.emitForGM("updateChatButton", {
+											message: cardData.originalMessage,
+											buttonToUpdate: "knockdown",
+										});
+									} else {
+										SR5_RollMessage.updateChatButton(cardData.originalMessage, "knockdown");
+									}
+								}
 			case "engulfResistance":
 				label = game.i18n.localize("SR5.EscapeEngulfSuccess");
 				labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");

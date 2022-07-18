@@ -32,7 +32,7 @@
         {{/if}}
         <!-- ENVIRONMENTAL MODIFIERS -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
-        {{#if (or (eq typeSub "rangedWeapon") (eq typeSub "meleeWeapon") )}}
+        {{#if (and (or (eq typeSub "rangedWeapon") (eq typeSub "meleeWeapon")) rulesCalledShot )}}
         <!-- CALLED SHOTS -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
         {{/if}}

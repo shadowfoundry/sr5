@@ -1864,14 +1864,6 @@ export class SR5Actor extends Actor {
               statusEffects = statusEffects.concat(status);
             }
           }
-          //Knockdown Status Effect
-          if (key.name === "knockdown"){
-            let isStatusEffectOn = this.effects.find(e => e.data.origin === "knockdown");
-            if (!isStatusEffectOn){
-              status = await _getSRStatusEffect("knockdown");
-              statusEffects = statusEffects.concat(status);
-            }
-          }
           //Unable to speak Status Effect
           if (key.name === "unableToSpeak"){
             isStatusEffectOn = this.effects.find(e => e.data.origin === "unableToSpeak");
