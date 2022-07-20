@@ -620,6 +620,9 @@ export default class SR5_RollDialog extends Dialog {
     _addincomingSpecificTargetModifier(ev, html, dialogData, actorData){
         let calledShotSpecificTarget = html.find('[name="incomingSpecificTarget"]')[0].value;
         let calledShotValue, limitDV, effect = {};
+        let upTheAnte = html.find('[name="incomingAmmoSpecific"]')[0].value;
+        let position = this.position;
+        position.height = "auto";
         switch(calledShotSpecificTarget) {
             case "CS_ST_Gut" : 
                 calledShotValue = -6;
@@ -724,9 +727,11 @@ export default class SR5_RollDialog extends Dialog {
         break;
         default:
         }
+        if (upTheAnte === "CS_AS_UpTheAnte") calledShotValue = calledShotValue - 4;
         html.find('[name="dicePoolModCalledShots"]')[0].value = calledShotValue;
         this.dicePoolModifier.calledShot = calledShotValue;
         dialogData.dicePoolMod.calledShot = calledShotValue;
+        if (upTheAnte === "CS_AS_UpTheAnte") limitDV = limitDV * 2;
         dialogData.limitDV = limitDV;
         dialogData.calledShotLocalisation = calledShotSpecificTarget;
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
@@ -738,7 +743,9 @@ export default class SR5_RollDialog extends Dialog {
     _addincomingAmmoSpecificModifier(ev, html, dialogData, actorData){
         let calledShotAmmoSpecific = html.find('[name="incomingAmmoSpecific"]')[0].value;
         let ammoType = dialogData.ammoType;
-        let calledShotValue, limitDV, effect = {};
+        let calledShotValue, initiative, limitDV, effect = {};
+        let position = this.position;
+        position.height = "auto";
         switch(calledShotAmmoSpecific) {
             case "CS_AS_Bellringer" : 
             calledShotValue = -8;
@@ -746,11 +753,14 @@ export default class SR5_RollDialog extends Dialog {
         break; 
             case "CS_AS_ExtremeIntimidation" :  
             calledShotValue = -4;
-            limitDV = "";
+            limitDV = 0;
         break; 
-            case "CS_AS_BullsEye" : 
             case "CS_AS_OnPinsAndNeedles" : 
             case "CS_AS_Tag" :  
+            calledShotValue = -4;
+            limitDV = 0;
+        break; 
+            case "CS_AS_BullsEye" :   
             calledShotValue = -4;
             limitDV = "";
         break; 
@@ -781,87 +791,125 @@ export default class SR5_RollDialog extends Dialog {
                             "modFingerPopper": -1,
                         }
                     };
-            break; 
-                    case "exExplosive" : 
-                        calledShotValue = -4;
-                        limitDV = 3;
-                        effect = {
-                            "0": {
-                                "name": "blastOutOfHand",
-                                "modFingerPopper": 1,
-                            }
-                        };
+                break; 
+                case "exExplosive" : 
+                    calledShotValue = -4;
+                    limitDV = 3;
+                    effect = {
+                        "0": {
+                            "name": "blastOutOfHand",
+                            "modFingerPopper": 1,
+                        }
+                    };
                 break; 
                 default:                     
-                        calledShotValue = -4;
-                        limitDV = "";
-                        effect = {
-                            "0": {
-                                "name": "blastOutOfHand",
-                                "modFingerPopper": -1,
-                            }
-                        };
-                }
-            break;
+                    calledShotValue = -4;
+                    limitDV = "";
+                    effect = {
+                    "0": {
+                    "name": "blastOutOfHand",
+                    "modFingerPopper": -1,
+                    }
+                };
+            }
+        break;
             case "CS_AS_FlameOn" : 
             switch(ammoType) {
                 case "flare" :
+                case "gyrojet" : 
                     calledShotValue = -10;
                     limitDV = 1;
             break; 
                 case "tracer" : 
                     calledShotValue = -6;
                     limitDV = 1;
-            break; 
-            default:
+            break;
                 }      
-            break; 
+        break; 
             case "CS_AS_FlashBlind" :  
                 calledShotValue = -6;
                 limitDV = 2;
-            break;  
+                effect = {
+                    "0": {
+                        "name": "flared",
+                    }
+                };
+        break;  
             case "CS_AS_HereMuckInYourEye" : 
-            switch(ammoType) {
-                case "explosive" : 
-                case "exExplosive" : 
+            switch(ammoType) { 
+                case "exExplosive" :  
+                calledShotValue = -4;
+                limitDV = 0;
+                effect = {
+                    "0": {
+                        "name": "dirtyTrick",
+                        "value": -6,
+                    }
+                };
+                case "explosive" :
                 case "frangible" : 
                 case "hollowPoint" : 
                     calledShotValue = -4;
-                    limitDV = "";
+                    limitDV = 0;
+                    effect = {
+                        "0": {
+                            "name": "dirtyTrick",
+                            "value": -5,
+                        }
+                    };
             break; 
                 case "gel" : 
+                case "gyrojet" :
                     calledShotValue = -4;
                     limitDV = 2;
+                    effect = {
+                        "0": {
+                            "name": "dirtyTrick",
+                            "value": -4,
+                        }
+                    };
             break; 
-            default:                     
+                default:                     
                     calledShotValue = -4;
-                    limitDV = "";
-                }
-            break; 
+                    limitDV = 0;
+                    effect = {
+                        "0": {
+                            "name": "dirtyTrick",
+                            "value": -4,
+                        }
+                    };
+            }
+        break; 
             case "CS_AS_HitEmWhereItCounts" : 
                 calledShotValue = -6;
                 limitDV = 1;
-            break; 
-            case "CS_AS_RicochetShot" : 
+        break;
             case "CS_AS_WarningShot" : 
                 calledShotValue = -6;
+                limitDV = 0;
+        break; 
+            case "CS_AS_RicochetShot" :  
+                calledShotValue = -6;
                 limitDV = "";
-            break; 
+        break; 
             case "CS_AS_ShakeRattle" : 
                 switch(ammoType) {
                     case "explosive" : 
                         calledShotValue = -4;
-                        limitDV = ""; 
+                        limitDV = "";
+                        initiative = -6; 
                 break; 
                     case "exExplosive" : 
                         calledShotValue = -4;
                         limitDV = ""; 
+                        initiative = -8;
                 break; 
                 default:                     
                         calledShotValue = -4;
                         limitDV = "";
+                        initiative = -5;
                 }
-            break;
+        break;
             case "CS_AS_ShreddedFlesh" : 
                 calledShotValue = -4;
                 limitDV = 10;
@@ -870,12 +918,16 @@ export default class SR5_RollDialog extends Dialog {
                         "name": "bleedOut",
                     }
                 };
-            break;
+        break;
             case "CS_AS_ThroughAndInto" : 
                 calledShotValue = 0;
                 limitDV = 1;
-            break; 
+        break; 
             case "CS_AS_UpTheAnte" : 
+            document.getElementById("incomingSpecificTarget").style.display = 'block';            
+            this.setPosition(position);
+            calledShotValue = -4;
+        break;
             case "noChoice" :
                 calledShotValue = 0;
                 limitDV = "";
@@ -885,8 +937,9 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="dicePoolModCalledShots"]')[0].value = calledShotValue;
         this.dicePoolModifier.calledShot = calledShotValue;
         dialogData.dicePoolMod.calledShot = calledShotValue;
-        dialogData.calledShotLocalisation = calledShotAmmoSpecific;
+        dialogData.calledShotAmmoLocalisation = calledShotAmmoSpecific;
         dialogData.limitDV = limitDV;
+        dialogData.calledShotInitiative = initiative;
         dialogData.calledShotsEffects = effect;
         dialogData.calledShot = html.find('[name="incomingCalledShots"]')[0].value;
         this.updateDicePoolValue(html);

@@ -2140,7 +2140,7 @@ export class SR5_DiceHelper {
                         effect = mergeObject(effect, {
                             "data.target": game.i18n.localize("SR5.GlobalPenalty"),
                             "data.type": "dirtyTrick",
-                            "data.value": -4,
+                            "data.value": effecType.value || -4,
                             "data.duration": 1,
                             "data.durationType": "round",
                             "data.customEffects": {
@@ -2148,11 +2148,12 @@ export class SR5_DiceHelper {
                                     "category": "penaltyTypes",
                                     "target": "data.penalties.special.actual",
                                     "type": "value",
-                                    "value": -4,
+                                    "value": effecType.value || -4,
                                     "forceAdd": true,
                                 }
                             },                    
-                            "data.gameEffect": game.i18n.localize("SR5.STATUSES_DirtyTrick_GE"),
+                            "data.gameEffect": game.i18n.format("SR5.STATUSES_DirtyTrick_GE", {value: effecType.value || -4}),
+                            
                         });
                         itemEffects.push(effect);
                     }
@@ -2317,6 +2318,60 @@ export class SR5_DiceHelper {
                                 itemEffects.push(effect);
                             }
                             break;
+                            case "flared":
+                                hasEffect = actor.items.find(i => i.data.data.type === "flared");
+                                if (!hasEffect){
+                                    effect = mergeObject(effect, {
+                                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                                        "data.type": "flared",
+                                        "data.value": -8,
+                                        "data.duration": 1,
+                                        "data.durationType": "round",
+                                        "data.customEffects": {
+                                            "0": {
+                                                "category": "penaltyTypes",
+                                                "target": "data.penalties.special.actual",
+                                                "type": "value",
+                                                "value": -8,
+                                                "forceAdd": true,
+                                            }
+                                        }, 
+                                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Flared_GE"),
+                                    });
+                                    effect2 = mergeObject(effect2, {
+                                        "data.target": game.i18n.localize("SR5.SightPenalty"),
+                                        "data.type": "flared",
+                                        "data.value": "",
+                                        "data.duration": 10,
+                                        "data.durationType": "round",
+                                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Flared_GE"),
+                                    });
+                                    itemEffects.push(effect, effect2);
+                                }
+                                break;
+                                case "shaked":
+                                    hasEffect = actor.items.find(i => i.data.data.type === "shaked");
+                                    if (!hasEffect){
+                                        effect = mergeObject(effect, {
+                                            "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                                            "data.type": "shaked",
+                                            "data.value": -1,
+                                            "data.duration": "",
+                                            "data.durationType": "",
+                                            "data.customEffects": {
+                                                "0": {
+                                                    "category": "penaltyTypes",
+                                                    "target": "data.penalties.special.actual",
+                                                    "type": "value",
+                                                    "value": -1,
+                                                    "forceAdd": true,
+                                                }
+                                            }, 
+                                            "data.gameEffect": game.i18n.localize("SR5.STATUSES_Shaked_GE"),
+                                        });
+                                        itemEffects.push(effect);
+                                    }
+                                    break;
                             
             default:
         }

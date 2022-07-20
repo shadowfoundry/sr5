@@ -555,7 +555,7 @@ export class SR5_Dice {
 			case "eraseMark":
 			case "passThroughDefense":
 			case "engulfResistance":				
-			case "extremeIntimidation":
+			case "fear":
 			case "stunned":
 			case "buckled":
 			case "nauseous":
@@ -649,7 +649,7 @@ export class SR5_Dice {
 					return cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDisarm"));
 				}
 			}
-		}		
+		}
 
 		// Handle Knockdown
 		if (cardData.calledShot === "CS_Knockdown") {
@@ -700,9 +700,11 @@ export class SR5_Dice {
 			}
 			else cardData.damageValue = cardData.damageValueBase + netHits;
 		
+		SR5_SystemHelpers.srLog(0, `AddDefenseInfoToCard : cardData.limitDV ==> '${cardData.limitDV}', cardData.calledShot ==> '${cardData.calledShot}', cardData.calledShotAmmoLocalisation ==> '${cardData.calledShotAmmoLocalisation}',  cardData.targetActorType ==> '${ cardData.targetActorType}',  cardData.waitingResistance ==> '${ cardData.waitingResistance}'`);
+
 			
 		//Handle Called Shots specifics
-		if (cardData.limitDV !== "" && cardData.calledShot === "CS_SpecificTarget" && cardData.targetActorType !== "actorDrone" && cardData.waitingResistance !== 2) {
+		if (cardData.limitDV !== "" && (cardData.calledShot === "CS_SpecificTarget" || cardData.calledShotAmmoLocalisation === "CS_AS_UpTheAnte") && cardData.targetActorType !== "actorDrone" && cardData.waitingResistance !== 2) {
 			cardData.waitingResistance = 1
 			cardData.netHits = cardData.hits - cardData.test.hits;
 			let label = cardData.buttons.spendNetHits = SR5_RollMessage.generateChatButton("attackerTest", "spendNetHits", `${game.i18n.localize("SR5.SpendHits")} (${cardData.netHits - 1})`);
@@ -839,6 +841,7 @@ export class SR5_Dice {
 				
 		if (cardData.calledShot) SR5_RollMessage.updateChatButton(cardData.originalMessage, "spendNetHits");
 
+
 		//Toxin management
 		if (cardData.damageElement === "toxin"){
 			cardData.damageValue = cardData.damageValueBase - cardData.test.hits;
@@ -846,9 +849,20 @@ export class SR5_Dice {
 				//Get Damage info
 				let damage = "";
 				if (cardData.damageType) damage = `& ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
+				//Hand Hit 'em where it counts
+				if (cardData.toxin.power > 0) {
+					if (cardData.calledShotAmmoLocalisation === "CS_AS_HitEmWhereItCounts") {
+						if (cardData.toxin.power > 0) cardData.toxin.power += 2; 
+						if (cardData.toxin.speed > 0) cardData.toxin.speed -= 1;
+					} 
+				}
 				//Get Speed info
 				let speed = game.i18n.localize("SR5.ApplyToxinEffectAtTheEndOfTheRound");
 				if (cardData.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: cardData.toxin.speed})}`;
+				//Hand Down the Gullet 
+				if (cardData.toxin.power > 0) {
+					if (cardData.calledShotAmmoLocalisation === "CS_AS_DownTheGullet") cardData.toxin.power += 2; 
+				}
 				//If Actor is in combat, adjust speed to display the good round
 				let combatant = SR5Combat.getCombatantFromActor(actor);
 				if (combatant){
@@ -892,13 +906,28 @@ export class SR5_Dice {
 
 		
 		//Handle Extreme Intimidation
-		if (cardData.calledShotLocalisation === "CS_AS_ExtremeIntimidation") { 
-			cardData.buttons.extremeIntimidation = SR5_RollMessage.generateChatButton("nonOpposedTest","extremeIntimidation",`${game.i18n.localize('SR5.Composure')} (${cardData.netHits})`);
+		if (cardData.calledShotAmmoLocalisation === "CS_AS_ExtremeIntimidation") { 
+			cardData.buttons.fear = SR5_RollMessage.generateChatButton("nonOpposedTest","fear",`${game.i18n.localize('SR5.Composure')} (${cardData.netHits})`);
+		}		
+
+		//Handle Ricochet Shot
+		if (cardData.calledShotAmmoLocalisation === "CS_AS_RicochetShot" && cardData.armor > 6) { 
+			cardData.buttons.fear = SR5_RollMessage.generateChatButton("nonOpposedTest","fear",`${game.i18n.localize('SR5.Composure')} (2)`);
+		}		
+
+		//Handle Warning Shot
+		if (cardData.calledShotAmmoLocalisation === "CS_AS_WarningShot") { 
+			cardData.buttons.fear = SR5_RollMessage.generateChatButton("nonOpposedTest","fear",`${game.i18n.localize('SR5.Composure')} (4)`);
+		}			
+		
+		// Handle Flame On !
+		if (cardData.calledShotAmmoLocalisation === "CS_AS_FlameOn") {			
+			actor.fireDamageEffect(cardData);
 		}
 
 		//Handle second test for Called Shots effects
-		if (cardData.calledShot) { 
-						
+		if (cardData.calledShotsEffects) { 
+									
 			for (let [key, value] of Object.entries(cardData.calledShotsEffects)) {
 			
 			//Handle Stunned	
@@ -934,25 +963,35 @@ export class SR5_Dice {
 				
 
 			//Handle Blast ouf of hand
-			if (cardData.calledShotLocalisation === "CS_AS_FingerPopper") {
+			if (cardData.calledShotAmmoLocalisation === "CS_AS_FingerPopper") {
 			let modFingerPopper = 0;			
 			for (let [key, value] of Object.entries(cardData.calledShotsEffects)) {
 				if (value.modFingerPopper) modFingerPopper = value.modFingerPopper;
 			}
 							
-			SR5_SystemHelpers.srLog(0, `addResistanceInfo (limitDv) : cardData.calledShotLocalisation ==> '${cardData.calledShotLocalisation}' ; cardData.calledShotsEffects ==> '${JSON.stringify(cardData.calledShotsEffects)}', modFingerPopper ==> '${modFingerPopper}`);
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${game.i18n.format('SR5.BlastOutOfHand', {range: cardData.netHits + modFingerPopper})}`);
+			}
+
+			
+			//Handle Bellringer
+			if (cardData.calledShotAmmoLocalisation === "CS_AS_Bellringer") { 
+			SR5Combat.changeInitInCombat(actor, -10);
+			ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_Stunned", {threshold: 10})}`);
 			}
 
 			cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 			}
 			else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
 		}
-		// Handle Shake Up
-		else if (cardData.calledShot === "CS_ShakeUp") {
+		// Handle Shake Up & Shake Rattle
+		else if (cardData.calledShot === "CS_ShakeUp" || cardData.calledShotAmmoLocalisation === "CS_AS_ShakeRattle") {
 			if (cardData.damageValue > 0) {
-				SR5Combat.changeInitInCombat(actor, -5);			
-				ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_ShakeUp")}`);
+
+				SR5_SystemHelpers.srLog(1, `Handle Shake Up: calledShotInitiative '${cardData.calledShotInitiative}' `);
+
+				let initiativeMod = cardData.calledShotInitiative || -5;
+				SR5Combat.changeInitInCombat(actor, initiativeMod);			
+				ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_ShakeUp", {value: initiativeMod})}`);
 				cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`);
 			}
 			else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDamage"));
@@ -1685,25 +1724,41 @@ export class SR5_Dice {
 					} else SR5_RollMessage.updateChatButton(cardData.originalMessage, "passThroughDefense");
 				}
 				break;
-			case "extremeIntimidation":
+			case "fear":
 				label = game.i18n.localize("SR5.NotResisted");
 				labelEnd = game.i18n.localize("SR5.Resisted");
 				successTestType = "SR-CardButtonHit endTest";
 				cardData.hits = cardData.composureHits;
+
+
 				if (cardData.test.hits < cardData.composureHits) {	
+					if (cardData.calledShotAmmoLocalisation === "CS_AS_ExtremeIntimidation") {
 					let actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);	
 					SR5Combat.changeInitInCombat(actor, -10);			
 					ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_ExtremeIntimidation")}`);
+					}
+					if (cardData.calledShotAmmoLocalisation === "CS_AS_RicochetShot") {
+						cardData.calledShotsEffects = {
+							"0":  {
+								"name": "shaked",
+							}
+						};
+						cardData.damageValue = 0;				
+						cardData.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyEffect")}`);
+					}
+					if (cardData.calledShotAmmoLocalisation === "CS_AS_WarningShot") {
+						ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_WarningShot")}`);
+					}
 				}
 				
-				if (prevData.buttons?.extremeIntimidation) {
+				if (prevData.buttons?.fear) {
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("updateChatButton", {
 							message: cardData.originalMessage,
-							buttonToUpdate: "extremeIntimidation",
+							buttonToUpdate: "fear",
 						});
 					} else {
-						SR5_RollMessage.updateChatButton(cardData.originalMessage, "extremeIntimidation");
+						SR5_RollMessage.updateChatButton(cardData.originalMessage, "fear");
 					}
 				}
 				break;

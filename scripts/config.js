@@ -845,7 +845,7 @@ SR5.calledShotsSpecifics = {
   CS_ST_Antenna             : "SR5.CS_ST_Antenna",
   CS_ST_DoorLock            : "SR5.CS_ST_DoorLock",
   CS_ST_WindowMotor         : "SR5.CS_ST_WindowMotor",  
-  CS_AS_Bellringer          : "SR5.CS_AS_Bellringer ",
+  CS_AS_Bellringer          : "SR5.CS_AS_Bellringer",
   CS_AS_BullsEye            : "SR5.CS_AS_BullsEye",
   CS_AS_DownTheGullet       : "SR5.CS_AS_DownTheGullet",
   CS_AS_ExtremeIntimidation : "SR5.CS_AS_ExtremeIntimidation",
@@ -895,12 +895,13 @@ SR5.calledShotsSpecificTargetVehicle = {
 
 // Called Shots Specific Target
 SR5.calledShotsSpecificAmmo = {
-  CS_AS_Bellringer          : "SR5.CS_AS_Bellringer ",
+  CS_AS_Bellringer          : "SR5.CS_AS_Bellringer",
   CS_AS_BullsEye            : "SR5.CS_AS_BullsEye",
   CS_AS_DownTheGullet       : "SR5.CS_AS_DownTheGullet",
   CS_AS_ExtremeIntimidation : "SR5.CS_AS_ExtremeIntimidation",
   CS_AS_FingerPopper        : "SR5.CS_AS_FingerPopper",
   CS_AS_FlashBlind          : "SR5.CS_AS_FlashBlind",
+  CS_AS_FlameOn             : "SR5.CS_AS_FlameOn",
   CS_AS_HereMuckInYourEye   : "SR5.CS_AS_HereMuckInYourEye",
   CS_AS_HitEmWhereItCounts  : "SR5.CS_AS_HitEmWhereItCounts",
   CS_AS_OnPinsAndNeedles    : "SR5.CS_AS_OnPinsAndNeedles",
@@ -940,6 +941,8 @@ SR5.calledShotsEffects = {
   doorLock                 : "SR5.STATUSES_DoorLock",
   axle                     : "SR5.STATUSES_Axle",
   fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",  
+  flared                   : "SR5.STATUSES_Flared",  
+  shaked                   : "SR5.STATUSES_Shaked",
 };
 
 
@@ -2600,7 +2603,9 @@ SR5.effectTypes = {
   windowMotor               : "SR5.STATUSES_WindowMotor",
   doorLock                  : "SR5.STATUSES_DoorLock",
   axle                      : "SR5.STATUSES_Axle",
-  fuelTankBattery           : "SR5.STATUSES_FuelTankBattery",    
+  fuelTankBattery           : "SR5.STATUSES_FuelTankBattery",   
+  flared                   : "SR5.STATUSES_Flared",  
+  shaked                   : "SR5.STATUSES_Shaked",   
 }
 
 SR5.effectDuration = {

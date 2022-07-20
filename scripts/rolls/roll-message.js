@@ -32,8 +32,8 @@ export class SR5_RollMessage {
             }
         }
 
-        // Hide if player is not owner of the message for attackerTest
-        if (!game.user.isGM || game.user.id === data.message.firstId) {
+        // Hide if player is not owner of the message for attackerTest : TO DO NOT WORKING
+        if (!game.user.isGM || game.user.id === data.message.speaker.firstId) {
             if (data.message.speaker.firstId && game.actors.get(data.message.speaker.firstId)?.permission != 3) {
                 html.find(".attackerTest").remove();
             }
@@ -167,7 +167,7 @@ export class SR5_RollMessage {
                 case "objectResistance":
                 case "passThroughDefense":
                 case "accidentCard":
-                case "extremeIntimidation":
+                case "fear":
                 case "stunned":   
                 case "buckled":   
                 case "nauseous":
@@ -176,7 +176,7 @@ export class SR5_RollMessage {
                     if (messageData.fatigued) SR5_DiceHelper.fatiguedDamage(message, actor);
                     actor.rollTest(type, null, messageData);
                     
-                    if (type === "buckled" || type === "stunned" || type === "extremeIntimidation" || type === "nauseous" || type === "knockdown") {
+                    if (type === "buckled" || type === "stunned" || type === "fear" || type === "nauseous" || type === "knockdown") {
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
 					else SR5_RollMessage.updateChatButton(messageId, type);
                     }

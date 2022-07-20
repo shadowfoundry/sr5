@@ -55,6 +55,9 @@
         {{#if (ne calledShotLocalisation 'noChoice')}} 
         ({{findTranslation 'calledShotsSpecifics' calledShotLocalisation}})
         {{/if}}
+        {{#if (ne calledShotAmmoLocalisation 'noChoice')}} 
+        ({{findTranslation 'calledShotsSpecifics' calledShotAmmoLocalisation}})
+        {{/if}}
     </div>
 </li>
 {{/if}}

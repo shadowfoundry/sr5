@@ -1976,6 +1976,22 @@ export class SR5Actor extends Actor {
               statusEffects = statusEffects.concat(status);
             }
           }
+          //Flared Status Effect
+          if (key.name === "flared"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "flared");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("flared");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Shaked Status Effect
+          if (key.name === "shaked"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "shaked");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("shaked");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
         }
       }
   

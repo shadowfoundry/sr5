@@ -35,6 +35,8 @@ export class SR5_Roll {
             sceneEnvironmentalMod,
             calledShot,
             calledShotLocalisation = '',
+            calledShotAmmoLocalisation = "",
+            calledShotInitiative = "",
             calledShotsEffects = [],
             limitDV = "",
             originalMessage,
@@ -315,9 +317,6 @@ export class SR5_Roll {
             case "resistanceCard":
             case "resistanceCardAura":
 
-                SR5_SystemHelpers.srLog(1, `resistanceCard '${JSON.stringify(chatData)}' `);
-
-
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
                 damageValueBase = chatData.damageValue;
                 //Special case for Aura
@@ -459,6 +458,7 @@ export class SR5_Roll {
                                 armorComposition = "";
                                 chatData.calledShotsEffects = "";
                                 chatData.calledShotLocalisation = "";
+                                chatData.calledShotAmmoLocalisation = "";
                                 chatData.calledShot = "";
                             }
                             else {
@@ -475,6 +475,8 @@ export class SR5_Roll {
                             ammoType: chatData.ammoType,
                             calledShot: chatData.calledShot,                            
                             calledShotLocalisation: chatData.calledShotLocalisation,
+                            calledShotAmmoLocalisation: chatData.calledShotAmmoLocalisation,
+                            calledShotInitiative: chatData.calledShotInitiative,
                             firstId: chatData.firstId,
                             limitDV : chatData.limitDV,                            
                             calledShotsEffects: chatData.calledShotsEffects,
@@ -961,6 +963,7 @@ export class SR5_Roll {
                 break;
 
             case "defenseCard":
+
                 if (actor.type === "actorDevice" || actor.type === "actorSprite") return;
                 title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.test.hits})`;
                 dicePool = actorData.defenses.defend.dicePool;
@@ -1020,6 +1023,13 @@ export class SR5_Roll {
                     });
                 }
 
+                //Handle BullsEye CS_AS_BullsEye	            
+                if (chatData.calledShotAmmoLocalisation === "CS_AS_BullsEye") { 
+                    let firedAmmo = Math.max(chatData.firedAmmo, 3)
+                    let bullsEyePA = chatData.incomingPA * firedAmmo ;
+                    chatData.incomingPA = chatData.incomingPA + bullsEyePA;
+                }
+
                 //Handle sensor locked
                 let sensorLocked = actor.items.find(i => (i.type === "itemEffect") && (i.data.data.type === "sensorLock") && (i.data.data.ownerID === chatData.speakerId) );
                 if(sensorLocked){
@@ -1046,6 +1056,8 @@ export class SR5_Roll {
                     ammoType: chatData.ammoType,
                     calledShot: chatData.calledShot,
                     calledShotLocalisation: chatData.calledShotLocalisation,
+                    calledShotAmmoLocalisation: chatData.calledShotAmmoLocalisation,
+                    calledShotInitiative: chatData.calledShotInitiative,
                     limitDV : chatData.limitDV,
                     calledShotsEffects: chatData.calledShotsEffects,
                     targetActorType: chatData.targetActorType,
@@ -1080,6 +1092,7 @@ export class SR5_Roll {
 
                 let targetActorType = "";
                 let firstId = game.user.id;
+
                 if (game.user.targets.size) {
                 let targets = Array.from(game.user.targets);
                 let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
@@ -1169,7 +1182,9 @@ export class SR5_Roll {
                     ammoValue: itemData.ammunition.value,
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
-                    calledShotLocalisation: calledShotLocalisation,   
+                    calledShotLocalisation: calledShotLocalisation, 
+                    calledShotAmmoLocalisation: calledShotAmmoLocalisation,
+                    calledShotInitiative: calledShotInitiative,  
                     rulesCalledShot: rulesCalledShot,                 
                     targetActorType: targetActorType,
                     limitDV : limitDV,
@@ -1901,13 +1916,16 @@ export class SR5_Roll {
                     manaBarrierRating: 1,
                 }
                 break;
-            case "extremeIntimidation":
-                let composureHits = chatData.netHits;
+            case "fear":
+                let composureHits = 2;
+                if (chatData.calledShotAmmoLocalisation === "CS_AS_ExtremeIntimidation") composureHits = chatData.netHits;
+                if (chatData.calledShotAmmoLocalisation === "CS_AS_WarningShot") composureHits = 4;
                 title = `${game.i18n.localize("SR5.Composure")} (${composureHits})`;
                 dicePool = actorData.derivedAttributes.composure.dicePool;
                 optionalData = {
                     hits: chatData.test.hits,
                     composureHits: composureHits,
+                    calledShotAmmoLocalisation: chatData.calledShotAmmoLocalisation,
                 }
                 break;
             case "stunned":

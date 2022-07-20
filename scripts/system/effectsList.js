@@ -480,6 +480,30 @@ export const _getSRStatusEffect = async function(origin, value) {
                         }
                     },
                 }
+            case "flared":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Flared'),
+                    origin: "flared",
+                    icon: "systems/sr5/img/status/StatusFlaredOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "flared",
+                        }
+                    },
+                }
+            case "shaked":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Shaked'),
+                    origin: "shaked",
+                    icon: "systems/sr5/img/status/StatusShakedOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "shaked",
+                        }
+                    },
+                }
         default: return null
     }
 }
