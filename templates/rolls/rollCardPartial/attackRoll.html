@@ -48,15 +48,15 @@
     <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' ammoType}}</div>
 </li>
 {{/if}}
-{{#if (ne calledShot 'noChoice')}}
+{{#if (ne calledShot.name '')}}
 <li class="grid">
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-8 SR-TextRight">{{findTranslation 'calledShots' calledShot}}
-        {{#if (ne calledShotLocalisation 'noChoice')}} 
-        ({{findTranslation 'calledShotsSpecifics' calledShotLocalisation}})
+    <div class="col-8 SR-TextRight">{{findTranslation 'calledShots' calledShot.name}}
+        {{#if (ne calledShot.location "")}} 
+        ({{findTranslation 'calledShotsSpecifics' calledShot.location}})
         {{/if}}
-        {{#if (ne calledShotAmmoLocalisation 'noChoice')}} 
-        ({{findTranslation 'calledShotsSpecifics' calledShotAmmoLocalisation}})
+        {{#if (ne calledShot.ammoLocation "")}} 
+        ({{findTranslation 'calledShotsSpecifics' calledShot.ammoLocation}})
         {{/if}}
     </div>
 </li>

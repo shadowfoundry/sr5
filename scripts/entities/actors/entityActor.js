@@ -1780,7 +1780,7 @@ export class SR5Actor extends Actor {
       let statusEffects = [];
 
   
-      for (let [value, key] of Object.entries(data.calledShotsEffects)){
+      for (let [value, key] of Object.entries(data.calledShot.effects)){
         if (value) {
           effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this);
           cSEffects = cSEffects.concat(effects);

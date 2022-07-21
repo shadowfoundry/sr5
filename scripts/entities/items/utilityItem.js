@@ -502,6 +502,8 @@ export class SR5_UtilityItem extends Actor {
       case "injection":
       case "tracer":
       case "flashPack":
+      case "gyrojet":
+      case "gauss":
         // No modification
         break;
       case "av":
@@ -538,6 +540,12 @@ export class SR5_UtilityItem extends Actor {
         armorPenetration = 2;
         damageValue = 1;
         break;
+      case "gyrojetTaser":
+        armorPenetration = -5;
+        damageValue = -2;
+        damageType = "stun";
+        damageElement = "electricity";
+        break;
       case "stickNShock":
         armorPenetration = -weapon.armorPenetration.base -5;
         damageValue = -2;
@@ -547,6 +555,11 @@ export class SR5_UtilityItem extends Actor {
       case "tracker":
         armorPenetration = 2;
         damageValue = -2;
+        break;
+      case "flare":
+        armorPenetration = 2;
+        damageValue = -2;        
+        damageElement = "fire";
         break;
       case "flashBang":
       case "flashBangMini":

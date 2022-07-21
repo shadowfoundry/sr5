@@ -2,7 +2,7 @@
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-PaddingRight10" style="text-align: left;" id="incomingCalledShots">
         <select class="incomingCalledShots" name="incomingCalledShots">
-            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingCalledShots}}
             <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
             {{#if (eq typeSub "meleeWeapon")}}            
@@ -45,7 +45,7 @@
     <div class="col-4">{{findTranslation 'allAmmunitionTypes' ammoType}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-PaddingRight10">
         <select class="incomingAmmoSpecific" name="incomingAmmoSpecific">
-            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingAmmoSpecific}}
             {{#if (eq ammoType "gel")}} 
             <option value="CS_AS_Bellringer">{{localize 'SR5.CS_AS_Bellringer'}}</option>
@@ -109,7 +109,7 @@
         <select class="incomingSpecificTarget" name="incomingSpecificTarget" data-dtype="String">
             {{#select incomingSpecificTarget}}
             {{#if (eq targetActorType "actorDrone")}}
-            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="CS_ST_EngineBlock">{{localize 'SR5.CS_ST_EngineBlock'}}</option>
             <option value="CS_ST_FuelTankBattery">&lrm;{{localize 'SR5.CS_ST_FuelTankBattery'}}&lrm;</option>
             <option value="CS_ST_Axle">{{localize 'SR5.CS_ST_Axle'}}</option>
@@ -117,7 +117,7 @@
             <option value="CS_ST_DoorLock">{{localize 'SR5.CS_ST_DoorLock'}}</option>
             <option value="CS_ST_WindowMotor">{{localize 'SR5.CS_ST_WindowMotor'}}</option>
             {{else}}
-            <option class="SR-LightGreyColor" value="noChoice">{{localize 'SR5.ChooseOne'}}</option>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="CS_ST_Ankle">{{localize 'SR5.CS_ST_Ankle'}}</option>
             <option value="CS_ST_Ear">{{localize 'SR5.CS_ST_Ear'}}</option>
             <option value="CS_ST_Eye">{{localize 'SR5.CS_ST_Eye'}}</option>

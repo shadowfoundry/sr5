@@ -171,8 +171,8 @@ export class SR5_RollMessage {
                 case "stunned":   
                 case "buckled":   
                 case "nauseous":
-                case "knockdown":                      
-                    if (messageData.calledShot === "CS_SplittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
+                case "knockdown":                                          
+                    if (messageData.calledShot.name === "CS_SplittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
                     if (messageData.fatigued) SR5_DiceHelper.fatiguedDamage(message, actor);
                     actor.rollTest(type, null, messageData);
                     
@@ -182,7 +182,7 @@ export class SR5_RollMessage {
                     }
                     break;
                 case "damage":
-                    if (messageData.calledShotsEffects) {
+                    if (messageData.calledShot.effects) {
                         actor.applyCalledShotsEffect(messageData);                        
                     }
                     else actor.takeDamage(messageData);
@@ -470,7 +470,7 @@ export class SR5_RollMessage {
 
         switch (buttonToUpdate) {
             case "damage":
-                if (messageData.calledShot !== '') {
+                if (messageData.calledShot.name !== '') {
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectApplied"));
                 }
                 else {

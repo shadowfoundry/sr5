@@ -1164,12 +1164,12 @@ export class SR5_DiceHelper {
         await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
-    static _getThresholdEffect(name, localisation){
+    static _getThresholdEffect(name, location){
         if (name !== "stunned") {
             return 0;
         }
         else {
-            switch(localisation){
+            switch(location){
 				case "CS_ST_Genitals":
                     return 4;
 				case "CS_ST_Neck":
@@ -1191,13 +1191,13 @@ export class SR5_DiceHelper {
         };
     }
     
-    static _getInitiativeEffect(name, localisation){
+    static _getInitiativeEffect(name, location){
         if (name !== "stunned") {
             return 0;
         }
         else {
 
-            switch(localisation){
+            switch(location){
 				case "CS_ST_Gut": 
 				case "CS_ST_Shoulder":   
                 case "CS_ST_Jaw":
@@ -1222,11 +1222,10 @@ export class SR5_DiceHelper {
         let messageData = message.data.flags.sr5data;
         let cancel = true;
         let effects = [];
-        let calledShotLocalisation = messageData.calledShotLocalisation;
         let numberCheckedEffects = 0, disposableHits = messageData.netHits - 1 - numberCheckedEffects, spareHits, checkedEffects = {};
         messageData.waitingResistance = 2;
         let dialogData = {
-            calledShotLocalisation: calledShotLocalisation,
+            calledShot: messageData.calledShot,
             disposableHits: disposableHits,
         };
         renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
@@ -1252,12 +1251,12 @@ export class SR5_DiceHelper {
                 
                 for (let i = 0; i < numberCheckedEffects; ++i) {
                     let name = html.find("[name='checkDisposableHitsEffects']:checked")[i].value;
-                    let localisation = messageData.calledShotLocalisation;
-                    let threshold = this._getThresholdEffect(name, localisation);
-                    let initiative = this._getInitiativeEffect(name, localisation);
+                    let location = messageData.calledShot.location;
+                    let threshold = this._getThresholdEffect(name, location);
+                    let initiative = this._getInitiativeEffect(name, location);
                     checkedEffects = {
                         name: name,
-                        type: localisation,
+                        type: location,
                         threshold: threshold,
                         initiative: initiative,
                         initialDV: messageData.damageValue,
@@ -1273,7 +1272,7 @@ export class SR5_DiceHelper {
               
                 messageData = mergeObject(messageData, {
                     disposableHits: dialogData.disposableHits,
-                    calledShotsEffects: effects,
+                    calledShot: dialogData.calledShot,
                     waitingResistance: 2,
                 });
 
