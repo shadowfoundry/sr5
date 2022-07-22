@@ -927,8 +927,6 @@ export class SR5_Dice {
 			actor.fireDamageEffect(cardData);
 		}
 
-		SR5_SystemHelpers.srLog(1, `addResistanceInfoToCard in roll.js : cardData.calledShot ==> '${JSON.stringify(cardData.calledShot)}'`);
-
 		//Handle second test for Called Shots effects
 		if (cardData.calledShot.effects) { 
 									

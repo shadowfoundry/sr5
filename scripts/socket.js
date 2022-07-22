@@ -27,7 +27,7 @@ export class SR5_SocketHandler {
             "updateItem": [SR5_DiceHelper._socketUpdateItem],
             "updateChatButton": [SR5_RollMessage._socketupdateChatButton],
             "updateRollCard": [SR5_RollMessage._socketupdateRollCard],
-            "chooseSpendNetHits": [SR5_DiceHelper.chooseSpendNetHits]
+            "chooseSpendNetHits": [SR5_DiceHelper.chooseSpendNetHits],
             "heal": [SR5Actor._socketHeal],
         }
 
