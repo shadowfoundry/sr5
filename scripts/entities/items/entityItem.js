@@ -109,6 +109,9 @@ export class SR5Item extends Item {
       break;
       case "itemArmor":
       case "itemGear":
+        if (itemData.type === "itemGear"){
+          if (Object.keys(data.systemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
+        }
         if (itemData.type === "itemArmor"){ 
           if (Object.keys(data.itemEffects).length) {
             SR5_UtilityItem.applyItemEffects(itemData);

@@ -210,7 +210,59 @@ export class SR5_Roll {
                     dicePoolComposition: dicePoolComposition,
                 });
 
-                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting")){
+                if (chatData?.opposedSkillTest) {
+                    optionalData = mergeObject(optionalData, {
+                        opposedSkillTest : true,
+                        opposedSkillThreshold: chatData.hits,
+                        "switch.extended": false,
+                    });
+
+                    if (chatData.opposedSkillTestType === "etiquette"){
+                        title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize("SR5.Charisma") + " (" + chatData.hits + ")"}`;
+                        dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.charisma.augmented.value;
+                        limit = actorData.limits.socialLimit.value;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.Charisma"), value: actorData.attributes.charisma.augmented.value},
+                            {source: game.i18n.localize("SR5.SkillPerception"), value: actorData.skills[rollKey].rating.value },
+                        ]);
+                        optionalData = mergeObject(optionalData, {
+                            limitType : "socialLimit",
+                            dicePoolComposition: dicePoolComposition,
+                        });
+                    }
+
+                    if (chatData.opposedSkillTestType === "leadership"){
+                        title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.hits + ")"}`;
+                        dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.Willpower"), value: actorData.attributes.willpower.augmented.value},
+                            {source: game.i18n.localize("SR5.SkillPerception"), value: actorData.skills[rollKey].rating.value },
+                        ]);
+                        optionalData = mergeObject(optionalData, {dicePoolComposition: dicePoolComposition,});
+                    }
+
+                    if (chatData.opposedSkillTestType === "intimidation" || chatData.opposedSkillTestType === "performance"){
+                        title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize("SR5.Charisma") + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.hits + ")"}`;
+                        dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.Willpower"), value: actorData.attributes.willpower.augmented.value},
+                            {source: game.i18n.localize("SR5.Charisma"), value: actorData.attributes.charisma.augmented.value},
+                        ]);
+                        limit = 0;
+                        optionalData = mergeObject(optionalData, {
+                            dicePoolComposition: dicePoolComposition,
+                            limitType : null,
+                            "switch.specialization": false,
+                        });
+                    }
+
+                    if (chatData.opposedSkillTestType === "impersonation") title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[skill.linkedAttribute])  + " (" + chatData.hits + ")"}`;
+                    if (chatData.opposedSkillTestType === "negociation") title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[skill.linkedAttribute])  + " (" + chatData.hits + ")"}`;
+                }
+
+                if (typeSub === "perception") optionalData = mergeObject(optionalData, {"lists.perceptionModifiers": actor.data.lists.perceptionModifiers,});
+
+                if (game.user.targets.size && (typeSub === "counterspelling" || typeSub === "binding" || typeSub === "banishing" || typeSub === "disenchanting" || typeSub === "firstAid" || typeSub === "medecine")){
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
@@ -267,6 +319,19 @@ export class SR5_Roll {
                                     effectsList: effectsList,
                                 });
                             }
+                        }
+
+                        //First Aid
+                        if (typeSub === "firstAid" || typeSub === "medecine"){
+                            let isEmergedOrAwakened = targetActor.data.data.specialAttributes.magic.augmented.value > 0 ? true :
+                                targetActor.data.data.specialAttributes.resonance.augmented.value > 0 ? true :
+                                false;
+                            optionalData = mergeObject(optionalData, {
+                                hasTarget: true,
+                                targetEssence: targetActor.data.data.essence.value,
+                                isEmergedOrAwakened: isEmergedOrAwakened,
+                                targetActor: targetActorId,
+                            });
                         }
                     }
                 }
@@ -689,7 +754,13 @@ export class SR5_Roll {
                             targetGrid: t.actor.data.data.matrix.userGrid,
                         });
                         if (matrixAction.neededMarks > 0){
-                            let markItem = t.actor.data.items.find((i) => i.data.owner === speakerId);
+                            let listOfMarkedItem = t.actor.data.items.map(i => i.data.data.marks);
+                            listOfMarkedItem = listOfMarkedItem.filter(i => i !== undefined);
+                            let markItem;
+                            for (let i of listOfMarkedItem){
+                                markItem = i.find(m => m.ownerId === speakerId);
+                                if (markItem) break;
+                            }
                             if (markItem === undefined || markItem?.value < matrixAction.neededMarks) {
                                 ui.notifications.info(game.i18n.localize("SR5.NotEnoughMarksOnTarget"));
                                 return;
@@ -2012,6 +2083,29 @@ export class SR5_Roll {
                 optionalData = {
                     actorBody: actorData.attributes.body.augmented.value,
                     dicePoolComposition: dicePoolComposition,
+                }
+                break;
+
+            case "healing":
+                title = `${game.i18n.localize("SR5.NaturalRecoveryTest")} [${game.i18n.localize(SR5.damageTypes[rollKey])}]`;
+                if (rollKey === "stun"){
+                    dicePoolComposition = ([
+                        {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Willpower"), value: actorData.attributes.willpower.augmented.value},
+                    ]);
+                    dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
+                } else {
+                    dicePoolComposition = ([
+                        {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Body"), value: actorData.attributes.body.augmented.value},
+                    ]);
+                    dicePool = actorData.attributes.body.augmented.value + actorData.attributes.body.augmented.value;
+                }
+                optionalData = {
+                    dicePoolComposition: dicePoolComposition,
+                    "lists.extendedInterval": actor.data.lists.extendedInterval,
+                    "switch.extended": true,
+                    typeSub: rollKey,
                 }
                 break;
             default:

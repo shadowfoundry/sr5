@@ -118,6 +118,11 @@ SR5.characterConditionMonitors = {
   condition                 : "SR5.ConditionMonitorShort",
 };
 
+SR5.PCConditionMonitors = {
+  physical                  : "SR5.ConditionMonitorPhysicalShort",
+  stun                      : "SR5.ConditionMonitorStunShort",
+};
+
 SR5.characterOtherMonitors = {
   overflow                  : "SR5.ConditionMonitorPhysicalOverflowShort",
   edge                      : "SR5.Edge",
@@ -299,7 +304,7 @@ SR5.technicalSkills = {
   hardware                  : "SR5.SkillHardware",
   industrialMechanic        : "SR5.SkillIndustrialMechanic",
   locksmith                 : "SR5.SkillLocksmith",
-  medecine                  : "SR5.SkillMedecine",
+  medecine                  : "SR5.SkillMedicine",
   nauticalMechanic          : "SR5.SkillNauticalMechanic",
   navigation                : "SR5.SkillNavigation",
   software                  : "SR5.SkillSoftware",
@@ -1110,6 +1115,145 @@ SR5.knowledgeSkillTypes = {
   tactics                   : "SR5.KnowledgeSkillTactics",
 };
 
+SR5.healingConditions = {
+  good                      : "SR5.HealingConditionsGoodShort",
+  average                   : "SR5.HealingConditionsAverageShort",
+  poor                      : "SR5.HealingConditionsPoorShort",
+  bad                       : "SR5.HealingConditionsBadShort",
+  terrible                  : "SR5.HealingConditionsTerribleShort",
+}
+
+SR5.healingSupplies = {
+  noSupplies                : "SR5.HealingSuppliesNone",
+  improvised                : "SR5.HealingSuppliesImprovised",
+  medkit                    : "SR5.HealingSuppliesMedkit",
+}
+
+SR5.restraintType = {
+  rope                      : "SR5.RestraintTypeRope",
+  metal                     : "SR5.RestraintTypeMetal",
+  straitjacket              : "SR5.RestraintTypeStraitjacket",
+  containment               : "SR5.RestraintTypeContainment",
+}
+
+SR5.perceptionModifiers = {
+  distracted                : "SR5.PerceptionModDistracted",
+  specificallyLooking       : "SR5.PerceptionModSpecificallyLooking",
+  notInImmediateVicinity    : "SR5.PerceptionModNotInImmediateVicinity",
+  farAway                   : "SR5.PerceptionModFarAway",
+  standsOutInSomeWay        : "SR5.PerceptionModStandsOutInSomeWay",
+  interfering               : "SR5.PerceptionModInterfering",
+}
+
+SR5.perceptionThresholdType = {
+  opposed                   : "SR5.Opposed",
+  obvious                   : "SR5.PerceptionThresholdObvious",
+  normal                    : "SR5.PerceptionThresholdNormal",
+  obscured                  : "SR5.PerceptionThresholdObscured",
+  hidden                    : "SR5.PerceptionThresholdHidden",
+}
+
+SR5.survivalModifiers = {
+  camping                   : "SR5.SurvivalModCamping",
+  noFoundOrWater            : "SR5.SurvivalModNoFoundOrWater",
+  controlAvailable          : "SR5.SurvivalModControlAvailable",
+  clothing                  : "SR5.SurvivalModClothing",
+  travel                    : "SR5.SurvivalModTravel",
+  toxic                     : "SR5.SurvivalModToxic",
+}
+
+SR5.survivalTerrain = {
+  mild                      : "SR5.SurvivalTerrainMild",
+  moderate                  : "SR5.SurvivalTerrainModerate",
+  tough                     : "SR5.SurvivalTerrainTough",
+  extreme                   : "SR5.SurvivalTerrainExtreme",
+}
+
+SR5.survivalWeather = {
+  poor                      : "SR5.SurvivalWeatherPoor",
+  terrible                  : "SR5.SurvivalWeatherTerrible",
+  extreme                   : "SR5.SurvivalWeatherExtreme",
+}
+
+SR5.socialAttitude = {
+  friendly                  : "SR5.SocialModAttitudeFriendly",
+  neutral                   : "SR5.SocialModAttitudeNeutral",
+  suspicious                : "SR5.SocialModAttitudeSuspicious",
+  prejudiced                : "SR5.SocialModAttitudePrejudiced",
+  hostile                   : "SR5.SocialModAttitudeHostile",
+  enemy                     : "SR5.SocialModAttitudeEnemy",
+}
+
+SR5.socialResult = {
+  advantageous              : "SR5.SocialModDesiredResultAdvantageous",
+  ofNoValue                 : "SR5.SocialModDesiredResultOfNoValue",
+  annoying                  : "SR5.SocialModDesiredResultAnnoying",
+  harmful                   : "SR5.SocialModDesiredResultHarmful",
+  disastrous                : "SR5.SocialModDesiredResultDisastrous",
+}
+
+SR5.socialMod = {
+  reputation                : "SR5.SocialModReputation",
+  reputationTarget          : "SR5.SocialModReputationTarget",
+  ace                       : "SR5.SocialModAce",
+  romantic                  : "SR5.SocialModRomantic",
+  intoxicated               : "SR5.SocialModIntoxicated",
+}
+
+SR5.conModifier = {
+  evidence                  : "SR5.SocialModEvidence",
+  evaluateSituation         : "SR5.SocialModEvaluateSituation",
+  isDistracted              : "SR5.SocialModIsDistracted",
+}
+
+SR5.etiquetteModifier = {
+  badLook                   : "SR5.SocialModBadLook",
+  nervous                   : "SR5.SocialModNervous",
+  isDistractedInverse       : "SR5.SocialModIsDistracted",
+}
+
+SR5.intimidationModifier = {
+  imposing                  : "SR5.SocialModImposing",
+  imposingTarget            : "SR5.SocialModImposingTarget",
+  outnumber                 : "SR5.SocialModOutnumber",
+  outnumberTarget           : "SR5.SocialModOutnumberTarget",
+  wieldingWeapon            : "SR5.SocialModWieldingWeapon",
+  wieldingWeaponTarget      : "SR5.SocialModWieldingWeaponTarget",
+  torture                   : "SR5.SocialModTorture",
+  obliviousToDanger         : "SR5.SocialModObliviousToDanger",
+}
+
+SR5.leadershipModifier = {
+  rank                      : "SR5.SocialModRank",
+  rankTarget                : "SR5.SocialModRankTarget",
+  authority                 : "SR5.SocialModAuthority",
+  strata                    : "SR5.SocialModStrata",
+  fan                       : "SR5.SocialModFan",
+}
+
+SR5.negociationModifier = {
+  lacksKnowledge            : "SR5.SocialModLacksKnowledge",
+  blackmailed               : "SR5.SocialModBlackmailed",
+}
+
+SR5.workingCondition = {
+  distracting               : "SR5.WorkingConditionDistracting",
+  poor                      : "SR5.WorkingConditionPoor",
+  bad                       : "SR5.WorkingConditionBad",
+  terrible                  : "SR5.WorkingConditionTerrible",
+  superior                  : "SR5.WorkingConditionSuperior",
+}
+
+SR5.toolsAndParts = {
+  inadequate                : "SR5.ToolsAndPartsInadequate",
+  unavailable               : "SR5.ToolsAndPartsUnavailable",
+  superior                  : "SR5.ToolsAndPartsSuperior",
+}
+
+SR5.plansMaterial = {
+  available                 : "SR5.PlansMaterialAvailable",
+  augmented                 : "SR5.PlansMaterialAugmented",
+}
 
 //-----------------------------------//
 //                MAGIC              //

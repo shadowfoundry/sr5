@@ -1,0 +1,58 @@
+<li class="grid">
+    <div class="col-7">{{localize 'SR5.WorkingCondition'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-PaddingRight10">
+        <select name="workingCondition">
+            {{#select workingCondition}}
+            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="distracting">{{localize 'SR5.WorkingConditionDistracting'}}</option>
+            <option value="poor">{{localize 'SR5.WorkingConditionPoor'}}</option>
+            <option value="bad">{{localize 'SR5.WorkingConditionBad'}}</option>
+            <option value="terrible">{{localize 'SR5.WorkingConditionTerrible'}}</option>
+            <option value="superior">{{localize 'SR5.WorkingConditionSuperior'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModWorkingCondition" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-7">{{localize 'SR5.ToolsAndParts'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-PaddingRight10">
+        <select name="toolsAndParts">
+            {{#select toolsAndParts}}
+            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="inadequate">{{localize 'SR5.ToolsAndPartsInadequate'}}</option>
+            <option value="unavailable">{{localize 'SR5.ToolsAndPartsUnavailable'}}</option>
+            <option value="superior">{{localize 'SR5.ToolsAndPartsSuperior'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModToolsAndParts" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<li class="grid">
+    <div class="col-7">{{localize 'SR5.PlansMaterial'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4 SR-PaddingRight10">
+        <select name="plansMaterial">
+            {{#select plansMaterial}}
+            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            <option value="available">{{localize 'SR5.PlansMaterialAvailable'}}</option>
+            <option value="augmented">{{localize 'SR5.PlansMaterialAugmented'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPlansMaterial" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.WorkingFromMemory'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="workingFromMemory"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolWorkingFromMemory" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

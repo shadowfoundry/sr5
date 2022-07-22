@@ -1,5 +1,5 @@
 <form class="SR5jet">
-  <div class="">
+  <div >
     <ul>
       <!-- DICEPOOL -->
       {{#if (eq type "objectResistance")}}
@@ -102,6 +102,26 @@
         {{#ife typeSub "perception"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
         {{/ife}}
+        <!-- MEDECINE && FIRST AID -->
+        {{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html}}
+        {{/if}}
+        <!-- ESCAPE ARTIST -->
+        {{#if (eq typeSub "escapeArtist")}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html}}
+        {{/if}}
+        <!-- SURVIVAL -->
+        {{#if (eq typeSub "survival")}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html}}
+        {{/if}}
+        <!--ETIQUETTE / CON / INTIMIDATION / LEADERSHIP / NEGOCIATION / Impersonation / Performance -->
+        {{#if (or (eq typeSub "etiquette") (eq typeSub "con") (eq typeSub "intimidation") (eq typeSub "leadership") (eq typeSub "negociation") (eq typeSub "impersonation") (eq typeSub "performance"))}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/socialModifier.html}}
+        {{/if}}
+        <!-- AERONAUTICS MECHANIC / ARMORER / AUTOMOTIVE MECHANIC  /CYBERTECHNOLOGY / FORGERY / HARDWARE / INDUSTRIAL MECHANIC / NAUTICAL MECHANIC -->
+        {{#if (or (eq typeSub "aeronauticsMechanic") (eq typeSub "armorer") (eq typeSub "automotiveMechanic") (eq typeSub "cybertechnology") (eq typeSub "forgery") (eq typeSub "hardware") (eq typeSub "industrialMechanic") (eq typeSub "nauticalMechanic") )}}
+          {{> systems/sr5/templates/rolls/rollDialogPartial/buildingModifier.html}}
+        {{/if}}
         <!-- SUMMONS - FORCE AND TYPE -->
         {{#ife typeSub "summoning"}}
           {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
@@ -246,6 +266,21 @@
       <!-- CENTERING METAMAGIC -->
       {{#if switch.centering}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
+      {{/if}}
+
+      <!-- ESCAPE ARTIST THRESHOLD-->
+      {{#if (eq typeSub "escapeArtist")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html}}
+      {{/if}}
+
+      <!-- PERCEPTION THRESHOLD-->
+      {{#if (eq typeSub "perception")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionThreshold.html}}
+      {{/if}}
+
+      <!-- SURVIVAL THRESHOLD-->
+      {{#if (eq typeSub "survival")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/survivalThreshold.html}}
       {{/if}}
     </ul>
   </div>

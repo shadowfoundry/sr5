@@ -128,6 +128,7 @@ export class SR5_RollMessage {
                 case "resistSpell":                                        
                 case "rammingDefense":
                 case "splitted":
+
                     actor.rollTest(type, null, messageData);
                     break;
                 case "bindingResistance":
@@ -144,6 +145,31 @@ export class SR5_RollMessage {
                     break;
                 case "drainCard":
                     actor.rollTest(type, null, messageData);
+                    break;
+                case "firstAid":
+                    let healData = {test:{hits: messageData.healValue,},}
+                    if (actor.type === "actorPc"){
+                        healData.typeSub = await SR5_DiceHelper.chooseDamageType();
+                    } else healData.typeSub = "condition";
+                    let healedID = (actor.isToken ? actor.token.id : actor.id);
+                    SR5Actor.heal(healedID, healData);
+                    SR5_RollMessage.updateChatButton(messageId, type, healData.typeSub);
+                    break;
+                case "damage":
+                    actor.takeDamage(messageData);
+                    if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: "damage",});
+					else SR5_RollMessage.updateChatButton(messageId, "damage");
+                    break;
+                case "intimidation":
+                case "performance":
+                case "negociation":
+                case "con":
+                case "leadership":
+                    actor.rollTest("skillDicePool", type, messageData);
+                    break;
+                case "impersonation":
+                case "etiquette":
+                    actor.rollTest("skillDicePool", "perception", messageData);
                     break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (opposed Test)`);
@@ -184,9 +210,13 @@ export class SR5_RollMessage {
                     }
                     break;
                 case "damage":
+
                     if (messageData.calledShot.effects) {
                         actor.applyCalledShotsEffect(messageData);                        
                     }
+
+                    if (messageData.typeSub === "firstAid") targetActor.takeDamage(messageData);
+
                     else actor.takeDamage(messageData);
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: "damage",});
 					else SR5_RollMessage.updateChatButton(messageId, "damage");
@@ -420,6 +450,26 @@ export class SR5_RollMessage {
                     actor.regenerate(messageData);
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
+                case "heal":
+                    actor.heal(messageData);
+                    SR5_RollMessage.updateChatButton(messageId, type);
+                    break;
+                case "firstAid":
+                    let healData = {test:{hits: messageData.healValue,},}
+                    if (targetActor.type === "actorPc"){
+                        healData.typeSub = await SR5_DiceHelper.chooseDamageType();
+                    } else healData.typeSub = "condition";
+                    let targetHealedID = (targetActor.isToken ? targetActor.token.id : targetActor.id);
+                    SR5Actor.heal(targetHealedID, healData);
+                    if (!game.user?.isGM) {
+                        await SR5_SocketHandler.emitForGM("heal", {targetActor: targetHealedID, healData: healData});
+                        await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type, firstOption: healData.typeSub});
+                    }
+                    else {
+                        SR5Actor.heal(targetHealedID, healData);
+                        SR5_RollMessage.updateChatButton(messageId, type, healData.typeSub);
+                    }
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
@@ -450,7 +500,7 @@ export class SR5_RollMessage {
     }
 
     //Update the stat of a chatMessage button
-    static async updateChatButton(message, buttonToUpdate){
+    static async updateChatButton(message, buttonToUpdate, firstOption){
         if (buttonToUpdate === undefined) return;
         //Delete useless buttons
         message = await game.messages.get(message);
@@ -541,6 +591,13 @@ export class SR5_RollMessage {
             case "regeneration":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.netHits} ${game.i18n.localize("SR5.HealedBox")}`);
                 break;
+            case "heal":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.test.hits}${game.i18n.localize(SR5.damageTypesShort[messageData.typeSub])} ${game.i18n.localize("SR5.Healed")}`);
+                messageData.extendedTest = false;
+                break;
+            case "firstAid":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.healValue}${game.i18n.localize(SR5.damageTypesShort[firstOption])} ${game.i18n.localize("SR5.Healed")}`);
+                break;
             default:
         }
 
@@ -561,7 +618,7 @@ export class SR5_RollMessage {
     }
 
     static async _socketupdateChatButton(message){
-        await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate);
+        await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption);
     }
 
 

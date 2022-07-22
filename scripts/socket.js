@@ -28,6 +28,7 @@ export class SR5_SocketHandler {
             "updateChatButton": [SR5_RollMessage._socketupdateChatButton],
             "updateRollCard": [SR5_RollMessage._socketupdateRollCard],
             "chooseSpendNetHits": [SR5_DiceHelper.chooseSpendNetHits]
+            "heal": [SR5Actor._socketHeal],
         }
 
         game.socket.on(`system.sr5`, async (message) => {
