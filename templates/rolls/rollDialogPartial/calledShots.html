@@ -4,35 +4,35 @@
         <select class="incomingCalledShots" name="incomingCalledShots">
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingCalledShots}}
-            <option value="CS_BlastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
+            <option value="blastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
             {{#if (eq typeSub "meleeWeapon")}}            
-            <option value="CS_BreakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
+            <option value="breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
             {{/if}}             
-            <option value="CS_SpecificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
-            <option value="CS_DirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>            
+            <option value="specificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
+            <option value="dirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>            
             {{#if (or (eq ammoType "special") (eq ammoType "bolt") (eq ammoType "boltInjection") (eq ammoType "arrow") (eq ammoType "arrowInjection"))}} 
-            <option value="CS_Pin">{{localize 'SR5.CS_Pin'}}</option>
+            <option value="pin">{{localize 'SR5.CS_Pin'}}</option>
             {{/if}}                          
             {{#if (eq typeWeapon "unarmed")}}              
-            <option value="CS_Disarm">{{localize 'SR5.CS_Disarm'}}</option>
+            <option value="disarm">{{localize 'SR5.CS_Disarm'}}</option>
             {{/if}} 
             {{#if (or (eq typeWeapon "exoticRangedWeapon")(eq typeWeapon "exoticMeleeWeapon"))}}  
-            <option value="CS_Entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+            <option value="entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
             {{/if}}
-            <option value="CS_ShakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
+            <option value="shakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
             {{#if (eq typeSub "meleeWeapon")}}   
-            <option value="CS_Feint">{{localize 'SR5.CS_Feint'}}</option>  
+            <option value="feint">{{localize 'SR5.CS_Feint'}}</option>  
             {{/if}} 
-            <option value="CS_SplittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
+            <option value="splittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
             {{#if (eq typeSub "meleeWeapon")}}            
-            <option value="CS_Knockdown">{{localize 'SR5.CS_Knockdown'}}</option>
+            <option value="knockdown">{{localize 'SR5.CS_Knockdown'}}</option>
             {{/if}} 
-            <option value="CS_TrickShot">{{localize 'SR5.CS_TrickShot'}}</option>
+            <option value="trickShot">{{localize 'SR5.CS_TrickShot'}}</option>
             {{#if (eq typeSub "meleeWeapon")}}                      
-            <option value="CS_Reversal">{{localize 'SR5.CS_Reversal'}}</option>
+            <option value="reversal">{{localize 'SR5.CS_Reversal'}}</option>
             {{/if}} 
             {{#if (or (eq ammoType "injection")(eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt")(eq ammoType "gel")(eq ammoType "hollowPoint")(eq ammoType "boltInjection")(eq ammoType "arrowInjection")(eq ammoType "apds")(eq ammoType "av")(eq ammoType "assaultCannon")(eq ammoType "capsule")(eq ammoType "flare")(eq ammoType "frangible")(eq ammoType "gauss")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "tracer")(eq ammoType "tracker"))}}
-            <option value="CS_AmmoSpecific">{{localize 'SR5.CS_AmmoSpecific'}}</option>
+            <option value="ammoSpecific">{{localize 'SR5.CS_AmmoSpecific'}}</option>
             {{/if}}
             {{/select}}
         </select>
@@ -48,55 +48,55 @@
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingAmmoSpecific}}
             {{#if (eq ammoType "gel")}} 
-            <option value="CS_AS_Bellringer">{{localize 'SR5.CS_AS_Bellringer'}}</option>
+            <option value="bellringer">{{localize 'SR5.CS_AS_Bellringer'}}</option>
             {{/if}}
             {{#if (eq ammoType "apds")}} 
-            <option value="CS_AS_BullsEye">{{localize 'SR5.CS_AS_BullsEye'}}</option>
+            <option value="bullsEye">{{localize 'SR5.CS_AS_BullsEye'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "capsule") (eq ammoType "capsuleDmso"))}} 
-            <option value="CS_AS_DownTheGullet">{{localize 'SR5.CS_AS_DownTheGullet'}}</option>
+            <option value="downTheGullet">{{localize 'SR5.CS_AS_DownTheGullet'}}</option>
             {{/if}}
             {{#if (eq ammoType "assaultCannon")}} 
-            <option value="CS_AS_ExtremeIntimidation">{{localize 'SR5.CS_AS_ExtremeIntimidation'}}</option>
+            <option value="extremeIntimidation">{{localize 'SR5.CS_AS_ExtremeIntimidation'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt")(eq ammoType "gel")(eq ammoType "hollowPoint"))}} 
-            <option value="CS_AS_FingerPopper">{{localize 'SR5.CS_AS_FingerPopper'}}</option>
+            <option value="fingerPopper">{{localize 'SR5.CS_AS_FingerPopper'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "flare")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "tracer"))}} 
-            <option value="CS_AS_FlameOn">{{localize 'SR5.CS_AS_FlameOn'}}&lrm;</option>
+            <option value="flameOn">{{localize 'SR5.CS_AS_FlameOn'}}&lrm;</option>
             {{/if}}
             {{#if (eq ammoType "flare")}} 
-            <option value="CS_AS_FlashBlind">{{localize 'SR5.CS_AS_FlashBlind'}}</option>
+            <option value="flashBlind">{{localize 'SR5.CS_AS_FlashBlind'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "frangible")(eq ammoType "gel")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "hollowPoint"))}}  
-            <option value="CS_AS_HereMuckInYourEye">{{localize 'SR5.CS_AS_HereMuckInYourEye'}}</option>
+            <option value="hereMuckInYourEye">{{localize 'SR5.CS_AS_HereMuckInYourEye'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "injection")(eq ammoType "boltInjection")(eq ammoType "arrowInjection") )}} 
-            <option value="CS_AS_HitEmWhereItCounts">{{localize 'SR5.CS_AS_HitEmWhereItCounts'}}</option>
+            <option value="hitEmWhereItCounts">{{localize 'SR5.CS_AS_HitEmWhereItCounts'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt"))}} 
-            <option value="CS_AS_OnPinsAndNeedles">{{localize 'SR5.CS_AS_OnPinsAndNeedles'}}</option>
+            <option value="onPinsAndNeedles">{{localize 'SR5.CS_AS_OnPinsAndNeedles'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "gel")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser"))}} 
-            <option value="CS_AS_RicochetShot">{{localize 'SR5.CS_AS_RicochetShot'}}</option>
+            <option value="ricochetShot">{{localize 'SR5.CS_AS_RicochetShot'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "explosive") (eq ammoType "exExplosive") )}} 
-            <option value="CS_AS_ShakeRattle">{{localize 'SR5.CS_AS_ShakeRattle'}}</option>
+            <option value="shakeRattle">{{localize 'SR5.CS_AS_ShakeRattle'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt"))}} 
-            <option value="CS_AS_ShreddedFlesh">{{localize 'SR5.CS_AS_ShreddedFlesh'}}</option>
+            <option value="shreddedFlesh">{{localize 'SR5.CS_AS_ShreddedFlesh'}}</option>
             {{/if}}
             {{#if (eq ammoType "tracker")}} 
-            <option value="CS_AS_Tag">{{localize 'SR5.CS_AS_Tag'}}&lrm;</option>
+            <option value="tag">{{localize 'SR5.CS_AS_Tag'}}&lrm;</option>
             {{/if}}
             {{#if (or (eq ammoType "apds")(eq ammoType "gauss"))}} 
-            <option value="CS_AS_ThroughAndInto">{{localize 'SR5.CS_AS_ThroughAndInto'}}</option>
+            <option value="throughAndInto">{{localize 'SR5.CS_AS_ThroughAndInto'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "av") (eq ammoType "assaultCannon"))}} 
-            <option value="CS_AS_UpTheAnte">{{localize 'SR5.CS_AS_UpTheAnte'}}</option>
+            <option value="upTheAnte">{{localize 'SR5.CS_AS_UpTheAnte'}}</option>
             {{/if}}
             {{#if (or (eq ammoType "injection")(eq ammoType "boltInjection")(eq ammoType "arrowInjection"))}} 
-            <option value="CS_AS_WarningShot">{{localize 'SR5.CS_AS_WarningShot'}}</option>
+            <option value="warningShot">{{localize 'SR5.CS_AS_WarningShot'}}</option>
             {{/if}}
             {{/select}}
         </select>
@@ -110,30 +110,30 @@
             {{#select incomingSpecificTarget}}
             {{#if (eq targetActorType "actorDrone")}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            <option value="CS_ST_EngineBlock">{{localize 'SR5.CS_ST_EngineBlock'}}</option>
-            <option value="CS_ST_FuelTankBattery">&lrm;{{localize 'SR5.CS_ST_FuelTankBattery'}}&lrm;</option>
-            <option value="CS_ST_Axle">{{localize 'SR5.CS_ST_Axle'}}</option>
-            <option value="CS_ST_Antenna">{{localize 'SR5.CS_ST_Antenna'}}</option>
-            <option value="CS_ST_DoorLock">{{localize 'SR5.CS_ST_DoorLock'}}</option>
-            <option value="CS_ST_WindowMotor">{{localize 'SR5.CS_ST_WindowMotor'}}</option>
+            <option value="engineBlock">{{localize 'SR5.CS_ST_EngineBlock'}}</option>
+            <option value="fuelTankBattery">&lrm;{{localize 'SR5.CS_ST_FuelTankBattery'}}&lrm;</option>
+            <option value="axle">{{localize 'SR5.CS_ST_Axle'}}</option>
+            <option value="antenna">{{localize 'SR5.CS_ST_Antenna'}}</option>
+            <option value="doorLock">{{localize 'SR5.CS_ST_DoorLock'}}</option>
+            <option value="windowMotor">{{localize 'SR5.CS_ST_WindowMotor'}}</option>
             {{else}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            <option value="CS_ST_Ankle">{{localize 'SR5.CS_ST_Ankle'}}</option>
-            <option value="CS_ST_Ear">{{localize 'SR5.CS_ST_Ear'}}</option>
-            <option value="CS_ST_Eye">{{localize 'SR5.CS_ST_Eye'}}</option>
-            <option value="CS_ST_Foot">{{localize 'SR5.CS_ST_Foot'}}</option>
-            <option value="CS_ST_Forearm">{{localize 'SR5.CS_ST_Forearm'}}</option>
-            <option value="CS_ST_Genitals">{{localize 'SR5.CS_ST_Genitals'}}</option>
-            <option value="CS_ST_Gut">{{localize 'SR5.CS_ST_Gut'}}</option>
-            <option value="CS_ST_Hand">{{localize 'SR5.CS_ST_Hand'}}</option>
-            <option value="CS_ST_Hip">{{localize 'SR5.CS_ST_Hip'}}</option>
-            <option value="CS_ST_Jaw">{{localize 'SR5.CS_ST_Jaw'}}</option>
-            <option value="CS_ST_Knee">{{localize 'SR5.CS_ST_Knee'}}</option>
-            <option value="CS_ST_Neck">{{localize 'SR5.CS_ST_Neck'}}</option>
-            <option value="CS_ST_Shin">{{localize 'SR5.CS_ST_Shin'}}</option>
-            <option value="CS_ST_Shoulder">{{localize 'SR5.CS_ST_Shoulder'}}</option>
-            <option value="CS_ST_Sternum">{{localize 'SR5.CS_ST_Sternum'}}</option>
-            <option value="CS_ST_Thigh">{{localize 'SR5.CS_ST_Thigh'}}</option>
+            <option value="ankle">{{localize 'SR5.CS_ST_Ankle'}}</option>
+            <option value="ear">{{localize 'SR5.CS_ST_Ear'}}</option>
+            <option value="eye">{{localize 'SR5.CS_ST_Eye'}}</option>
+            <option value="foot">{{localize 'SR5.CS_ST_Foot'}}</option>
+            <option value="forearm">{{localize 'SR5.CS_ST_Forearm'}}</option>
+            <option value="genitals">{{localize 'SR5.CS_ST_Genitals'}}</option>
+            <option value="gut">{{localize 'SR5.CS_ST_Gut'}}</option>
+            <option value="hand">{{localize 'SR5.CS_ST_Hand'}}</option>
+            <option value="hip">{{localize 'SR5.CS_ST_Hip'}}</option>
+            <option value="jaw">{{localize 'SR5.CS_ST_Jaw'}}</option>
+            <option value="knee">{{localize 'SR5.CS_ST_Knee'}}</option>
+            <option value="neck">{{localize 'SR5.CS_ST_Neck'}}</option>
+            <option value="shin">{{localize 'SR5.CS_ST_Shin'}}</option>
+            <option value="shoulder">{{localize 'SR5.CS_ST_Shoulder'}}</option>
+            <option value="sternum">{{localize 'SR5.CS_ST_Sternum'}}</option>
+            <option value="thigh">{{localize 'SR5.CS_ST_Thigh'}}</option>
             {{/if}}
             {{/select}}
         </select>

@@ -127,6 +127,7 @@ export class SR5_RollMessage {
                 case "iceDefense":
                 case "resistSpell":                                        
                 case "rammingDefense":
+                case "splitted":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "bindingResistance":
@@ -171,12 +172,13 @@ export class SR5_RollMessage {
                 case "stunned":   
                 case "buckled":   
                 case "nauseous":
-                case "knockdown":                                          
-                    if (messageData.calledShot.name === "CS_SplittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
+                case "knockdown":   
+                case "splitted":                                       
+                    if (messageData.calledShot.name === "splittingDamage") SR5_DiceHelper.splittingDamage(message, actor);
                     if (messageData.fatigued) SR5_DiceHelper.fatiguedDamage(message, actor);
                     actor.rollTest(type, null, messageData);
                     
-                    if (type === "buckled" || type === "stunned" || type === "fear" || type === "nauseous" || type === "knockdown") {
+                    if (type === "buckled" || type === "splitted" || type === "stunned" || type === "fear" || type === "nauseous" || type === "knockdown") {
                     if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateChatButton", {message: messageId, buttonToUpdate: type,});
 					else SR5_RollMessage.updateChatButton(messageId, type);
                     }

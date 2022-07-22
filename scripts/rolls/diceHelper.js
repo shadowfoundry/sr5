@@ -1170,20 +1170,20 @@ export class SR5_DiceHelper {
         }
         else {
             switch(location){
-				case "CS_ST_Genitals":
+				case "genitals":
                     return 4;
-				case "CS_ST_Neck":
-				case "CS_ST_Eye":
-				case "CS_ST_Foot":
-				case "CS_ST_Sternum": 
+				case "neck":
+				case "eye":
+				case "foot":
+				case "sternum": 
                     return 3;
-				case "CS_ST_Gut":                    
-				case "CS_ST_Knee":
-                case "CS_ST_Jaw":
-				case "CS_ST_Hand":
-				case "CS_ST_Ear":
+				case "gut":                    
+				case "knee":
+                case "jaw":
+				case "hand":
+				case "ear":
                     return 2;
-				case "CS_ST_Shoulder":
+				case "shoulder":
                     return 1;
                 default: return 0;
 			}
@@ -1198,18 +1198,18 @@ export class SR5_DiceHelper {
         else {
 
             switch(location){
-				case "CS_ST_Gut": 
-				case "CS_ST_Shoulder":   
-                case "CS_ST_Jaw":
-				case "CS_ST_Hand":
-				case "CS_ST_Foot":
+				case "gut": 
+				case "shoulder":   
+                case "jaw":
+				case "hand":
+				case "foot":
                     return 5;
-				case "CS_ST_Neck":                
-				case "CS_ST_Knee":
-				case "CS_ST_Eye":
-				case "CS_ST_Genitals":
-				case "CS_ST_Sternum":
-				case "CS_ST_Ear":
+				case "neck":                
+				case "knee":
+				case "eye":
+				case "genitals":
+				case "sternum":
+				case "ear":
                     return 10;
                 default: return 0;
 			}
@@ -1272,7 +1272,9 @@ export class SR5_DiceHelper {
               
                 messageData = mergeObject(messageData, {
                     disposableHits: dialogData.disposableHits,
-                    calledShot: dialogData.calledShot,
+                    calledShot: {
+                    "effects": effects,
+                    },
                     waitingResistance: 2,
                 });
 

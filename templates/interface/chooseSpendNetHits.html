@@ -8,7 +8,7 @@
 			</div>
 		</li>	
 		<br>
-		{{#if (or (eq calledShot.location "CS_ST_Ankle")(eq calledShot.location "CS_ST_Knee")(eq calledShot.location "CS_ST_Hip")(eq calledShot.location "CS_ST_Foot")(eq calledShot.location "CS_ST_Shin"))}}	
+		{{#if (or (eq calledShot.location "ankle")(eq calledShot.location "knee")(eq calledShot.location "hip")(eq calledShot.location "foot")(eq calledShot.location "shin"))}}	
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="slowed"/></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Slowed'}}{{localize 'SR5.Colons'}}</label></div>
@@ -18,7 +18,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Slowed_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "CS_ST_Ankle")(eq calledShot.location "CS_ST_Knee")(eq calledShot.location "CS_ST_Foot")(eq calledShot.location "CS_ST_Shin")(eq calledShot.location "CS_ST_Sternum"))}}	
+		{{#if (or (eq calledShot.location "ankle")(eq calledShot.location "knee")(eq calledShot.location "foot")(eq calledShot.location "shin")(eq calledShot.location "sternum"))}}	
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="winded"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Winded'}}{{localize 'SR5.Colons'}}</label></div>
@@ -28,7 +28,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Winded_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Ear")}}
+		{{#if (eq calledShot.location "ear")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="deafened"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Deafened'}}{{localize 'SR5.Colons'}}</label></div>
@@ -38,7 +38,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Deafened_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "CS_ST_Gut")(eq calledShot.location "CS_ST_Neck")(eq calledShot.location "CS_ST_Shoulder")(eq calledShot.location "CS_ST_Knee")(eq calledShot.location "CS_ST_Jaw")(eq calledShot.location "CS_ST_Hand")(eq calledShot.location "CS_ST_Eye")(eq calledShot.location "CS_ST_Ear")(eq calledShot.location "CS_ST_Genitals")(eq calledShot.location "CS_ST_Foot")(eq calledShot.location "CS_ST_Sternum"))}}	
+		{{#if (or (eq calledShot.location "gut")(eq calledShot.location "neck")(eq calledShot.location "shoulder")(eq calledShot.location "knee")(eq calledShot.location "jaw")(eq calledShot.location "hand")(eq calledShot.location "eye")(eq calledShot.location "ear")(eq calledShot.location "genitals")(eq calledShot.location "foot")(eq calledShot.location "sternum"))}}	
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="stunned"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Stunned'}}{{localize 'SR5.Colons'}}</label></div>
@@ -48,7 +48,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Stunned_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Eye")}}
+		{{#if (eq calledShot.location "eye")}}
 			<li class="grid" data-helpTitle="{{localize 'SR5.HELP_VehicleModel'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleModelMsg'}}">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="blinded"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Blinded'}}{{localize 'SR5.Colons'}}</label></div>
@@ -58,7 +58,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Blinded_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "CS_ST_Forearm")(eq calledShot.location "CS_ST_Hand"))}}
+		{{#if (or (eq calledShot.location "forearm")(eq calledShot.location "hand"))}}
 			<li class="grid" data-helpTitle="{{localize 'SR5.HELP_VehicleModel'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleModelMsg'}}">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="brokenGrip"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_BrokenGrip'}}{{localize 'SR5.Colons'}}</label></div>
@@ -68,7 +68,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_BrokenGrip_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "CS_ST_Forearm")(eq calledShot.location "CS_ST_Shoulder")(eq calledShot.location "CS_ST_Hand"))}}
+		{{#if (or (eq calledShot.location "forearm")(eq calledShot.location "shoulder")(eq calledShot.location "hand"))}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="weakSide"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_WeakSide'}}{{localize 'SR5.Colons'}}</label></div>
@@ -78,7 +78,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_WeakSide_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "CS_ST_Gut")(eq calledShot.location "CS_ST_Genitals"))}}
+		{{#if (or (eq calledShot.location "gut")(eq calledShot.location "genitals"))}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="nauseous"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Nauseous'}}{{localize 'SR5.Colons'}}</label></div>
@@ -88,7 +88,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Nauseous_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Genitals")}}
+		{{#if (eq calledShot.location "genitals")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="buckled"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Buckled'}}{{localize 'SR5.Colons'}}</label></div>
@@ -98,7 +98,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Buckled_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Gut")}}
+		{{#if (eq calledShot.location "gut")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="slowDeath"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_SlowDeath'}}{{localize 'SR5.Colons'}}</label></div>
@@ -108,7 +108,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_SlowDeath_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "CS_ST_Knee")(eq calledShot.location "CS_ST_Hip")(eq calledShot.location "CS_ST_Shin"))}}
+		{{#if (or (eq calledShot.location "knee")(eq calledShot.location "hip")(eq calledShot.location "shin"))}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="knockdown"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Knockdown'}}{{localize 'SR5.Colons'}}</label></div>
@@ -118,7 +118,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Knockdown_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Jaw")}}
+		{{#if (eq calledShot.location "jaw")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="unableToSpeak"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_UnableToSpeak'}}{{localize 'SR5.Colons'}}</label></div>
@@ -128,7 +128,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_UnableToSpeak_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Neck")}}
+		{{#if (eq calledShot.location "neck")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="bleedOut"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_BleedOut'}}{{localize 'SR5.Colons'}}</label></div>
@@ -138,7 +138,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_BleedOut_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Shoulder")}}
+		{{#if (eq calledShot.location "shoulder")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="oneArmBandit"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_OneArmBandit'}}{{localize 'SR5.Colons'}}</label></div>
@@ -148,7 +148,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_OneArmBandit_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (eq calledShot.location "CS_ST_Sternum")}}
+		{{#if (eq calledShot.location "sternum")}}
 			<li class="grid">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="fatigued"></div>
 				<div class="col-5 SR-Bold"><label>{{localize 'SR5.STATUSES_Fatigued'}}{{localize 'SR5.Colons'}}</label></div>

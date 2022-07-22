@@ -205,7 +205,7 @@
       {{/if}}
 
       <!-- TAKING ON DAMAGE -->
-      {{#if (or (and (eq type "resistanceCard") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') )}}
+      {{#if (or (and (eq type "resistanceCard") (eq type "splitted") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
       {{/if}}
 

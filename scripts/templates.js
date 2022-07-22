@@ -281,7 +281,6 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html",
         "systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html",
-
         //Armor
         "systems/sr5/templates/items/_partial/editable/armor/armorRating-edit.html",
 
@@ -431,7 +430,8 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/weapon/accuracy-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/aerodynamic-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/ammunitionMax-edit.html",
-        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html",
+        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionRating-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/armorPenetration-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/category-edit.html",

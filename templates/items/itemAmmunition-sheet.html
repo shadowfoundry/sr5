@@ -42,6 +42,10 @@
                         {{> systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html}}
                         <!-- Ammunition case type -->
                         {{> systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html}}
+                        {{#if (or (eq data.type "arrow") (eq data.type "arrowInjection"))}}
+                        <!-- Item Rating -->
+						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+                        {{/if}}
                     </ul>
 
                     <!-- Price & Availability -->

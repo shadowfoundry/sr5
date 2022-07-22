@@ -574,30 +574,30 @@ export default class SR5_RollDialog extends Dialog {
         let diceMod, position = this.position;
         position.height = "auto";
         switch(calledShot) {
-            case "CS_AmmoSpecific" :
+            case "ammoSpecific" :
                 diceMod = 0;
                 document.getElementById("incomingAmmoSpecific").style.display = 'block';
                 document.getElementById("incomingSpecificTarget").style.display = 'none';
                 this.setPosition(position);
             break;
-            case "CS_SpecificTarget" :
+            case "specificTarget" :
                 diceMod = 0;
                 document.getElementById("incomingSpecificTarget").style.display = 'block';
                 document.getElementById("incomingAmmoSpecific").style.display = 'none';
                 this.setPosition(position);
             break;
-            case "CS_BlastOutOfHand" :
-            case "CS_DirtyTrick" :
-            case "CS_Entanglement" :
-            case "CS_Pin" :
-            case "CS_SplittingDamage" :
-            case "CS_ShakeUp" :
-            case "CS_TrickShot" :
-            case "CS_BreakWeapon" :
-            case "CS_Disarm" :
-            case "CS_Feint" :
-            case "CS_Knockdown" :
-            case "CS_Reversal" :
+            case "blastOutOfHand" :
+            case "dirtyTrick" :
+            case "entanglement" :
+            case "pin" :
+            case "splittingDamage" :
+            case "shakeUp" :
+            case "trickShot" :
+            case "breakWeapon" :
+            case "disarm" :
+            case "feint" :
+            case "knockdown" :
+            case "reversal" :
                 diceMod = -4;
                 document.getElementById("incomingAmmoSpecific").style.display = 'none';
                 document.getElementById("incomingSpecificTarget").style.display = 'none';
@@ -622,50 +622,50 @@ export default class SR5_RollDialog extends Dialog {
         let position = this.position;
         position.height = "auto";
         switch(calledShotSpecificTarget) {
-            case "CS_ST_Gut" : 
+            case "gut" : 
                 diceMod = -6;
                 limitDV = 8;
         break;               
-            case "CS_ST_Forearm" :
-            case "CS_ST_Shin" : 
+            case "forearm" :
+            case "shin" : 
                 diceMod = -6;
                 limitDV = 2;
         break;
-            case "CS_ST_Shoulder" :                   
-            case "CS_ST_Thigh" : 
-            case "CS_ST_Hip" : 
+            case "shoulder" :                   
+            case "thigh" : 
+            case "hip" : 
                 diceMod = -6;
                 limitDV = 3;
         break; 
-            case "CS_ST_Ankle" :
-            case "CS_ST_Knee" :
-            case "CS_ST_Hand" :
-            case "CS_ST_Foot" :
+            case "ankle" :
+            case "knee" :
+            case "hand" :
+            case "foot" :
                 diceMod = -8;
                 limitDV = 1;
         break;
-            case "CS_ST_Neck" :
+            case "neck" :
                 diceMod = -8;
                 limitDV = 10;
         break;
-            case "CS_ST_Jaw" :
+            case "jaw" :
                 diceMod = -8;
                 limitDV = 2;
         break;
-            case "CS_ST_Ear" :
-            case "CS_ST_Eye" :
+            case "ear" :
+            case "eye" :
                 diceMod = -10;
                 limitDV = 1;
         break;
-            case "CS_ST_Genitals" :
+            case "genitals" :
                 diceMod = -10;
                 limitDV = 4;
         break;
-            case "CS_ST_Sternum" :
+            case "sternum" :
                 diceMod = -10;
                 limitDV = 10;
         break;
-            case "CS_ST_Antenna" :
+            case "antenna" :
                 diceMod = -8;
                 limitDV = 2;
                 effect = {
@@ -674,8 +674,8 @@ export default class SR5_RollDialog extends Dialog {
 				    }
 	    		};
         break;
-            case "CS_ST_EngineBlock" :
-                diceMod = -4;
+            case "engineBlock" :
+                diceMod = -4;                
                 limitDV = "";
                 effect = {
 		    		"0": {
@@ -683,7 +683,7 @@ export default class SR5_RollDialog extends Dialog {
 				    }
 		    	};
         break;
-            case "CS_ST_WindowMotor" :
+            case "windowMotor" :
                 diceMod = -4;
                 limitDV = 0;
                 effect = {
@@ -692,7 +692,7 @@ export default class SR5_RollDialog extends Dialog {
 				    }
 			    };
         break;
-            case "CS_ST_DoorLock" :
+            case "doorLock" :
                 diceMod = -6;
                 limitDV = 0;
                 effect = {
@@ -701,7 +701,7 @@ export default class SR5_RollDialog extends Dialog {
 				    }
 	    		};
         break;
-            case "CS_ST_Axle" :
+            case "axle" :
                 diceMod = -6;
                 limitDV = 6;
                 effect = {
@@ -710,8 +710,8 @@ export default class SR5_RollDialog extends Dialog {
 				    }
 		    	};
         break;
-            case "CS_ST_FuelTankBattery" :
-                diceMod = -6;
+            case "fuelTankBattery" :
+                diceMod = -6;                
                 limitDV = "";
                 effect = {
 			    	"0": {
@@ -721,13 +721,12 @@ export default class SR5_RollDialog extends Dialog {
         break;
         default:
             diceMod = 0;
-            limitDV = "";
         }
-        if (upTheAnte === "CS_AS_UpTheAnte") diceMod = diceMod - 4;
+        if (upTheAnte === "upTheAnte") diceMod = diceMod - 4;
         html.find('[name="dicePoolModCalledShots"]')[0].value = diceMod;
         this.dicePoolModifier.calledShot = diceMod;
         dialogData.dicePoolMod.calledShot = diceMod;
-        if (upTheAnte === "CS_AS_UpTheAnte") limitDV = limitDV * 2;
+        if (upTheAnte === "upTheAnte") limitDV = limitDV * 2;
         dialogData.calledShot = {
             limitDV: limitDV,
             location: calledShotSpecificTarget,
@@ -745,28 +744,28 @@ export default class SR5_RollDialog extends Dialog {
         let position = this.position;
         position.height = "auto";
         switch(calledShotAmmoSpecific) {
-            case "CS_AS_Bellringer" : 
+            case "bellringer" : 
             diceMod = -8;
             limitDV = 4;
         break; 
-            case "CS_AS_ExtremeIntimidation" :  
+            case "extremeIntimidation" :  
             diceMod = -4;
             limitDV = 0;
         break; 
-            case "CS_AS_OnPinsAndNeedles" : 
-            case "CS_AS_Tag" :  
+            case "onPinsAndNeedles" : 
+            case "tag" :  
             diceMod = -4;
             limitDV = 0;
         break; 
-            case "CS_AS_BullsEye" :   
+            case "bullsEye" :   
             diceMod = -4;
             limitDV = "";
         break; 
-            case "CS_AS_DownTheGullet" :  
+            case "downTheGullet" :  
             diceMod = -8;
             limitDV = 2;
         break; 
-            case "CS_AS_FingerPopper" : 
+            case "fingerPopper" : 
                 switch(ammoType) {
                     case "explosive" : 
                     case "gel" : 
@@ -811,7 +810,7 @@ export default class SR5_RollDialog extends Dialog {
                 };
             }
         break;
-            case "CS_AS_FlameOn" : 
+            case "flameOn" : 
             switch(ammoType) {
                 case "flare" :
                 case "gyrojet" : 
@@ -824,7 +823,7 @@ export default class SR5_RollDialog extends Dialog {
             break;
                 }      
         break; 
-            case "CS_AS_FlashBlind" :  
+            case "flashBlind" :  
                 diceMod = -6;
                 limitDV = 2;
                 effect = {
@@ -833,7 +832,7 @@ export default class SR5_RollDialog extends Dialog {
                     }
                 };
         break;  
-            case "CS_AS_HereMuckInYourEye" : 
+            case "hereMuckInYourEye" : 
             switch(ammoType) { 
                 case "exExplosive" :  
                 diceMod = -4;
@@ -878,19 +877,19 @@ export default class SR5_RollDialog extends Dialog {
                     };
             }
         break; 
-            case "CS_AS_HitEmWhereItCounts" : 
+            case "hitEmWhereItCounts" : 
                 diceMod = -6;
                 limitDV = 1;
         break;
-            case "CS_AS_WarningShot" : 
+            case "warningShot" : 
                 diceMod = -6;
                 limitDV = 0;
         break; 
-            case "CS_AS_RicochetShot" :  
+            case "ricochetShot" :  
                 diceMod = -6;
                 limitDV = "";
         break; 
-            case "CS_AS_ShakeRattle" : 
+            case "shakeRattle" : 
                 switch(ammoType) {
                     case "explosive" : 
                         diceMod = -4;
@@ -908,7 +907,7 @@ export default class SR5_RollDialog extends Dialog {
                         initiative = -5;
                 }
         break;
-            case "CS_AS_ShreddedFlesh" : 
+            case "shreddedFlesh" : 
                 diceMod = -4;
                 limitDV = 10;
                 effect = {
@@ -917,11 +916,11 @@ export default class SR5_RollDialog extends Dialog {
                     }
                 };
         break;
-            case "CS_AS_ThroughAndInto" : 
+            case "throughAndInto" : 
                 diceMod = 0;
                 limitDV = 1;
         break; 
-            case "CS_AS_UpTheAnte" : 
+            case "upTheAnte" : 
             document.getElementById("incomingSpecificTarget").style.display = 'block';            
             this.setPosition(position);
             diceMod = -4;
