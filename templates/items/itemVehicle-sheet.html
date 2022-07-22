@@ -17,6 +17,8 @@
 							{{> systems/sr5/templates/items/_partial/title/summary.html}}
 							<!-- Vehicle stats -->
 							{{> systems/sr5/templates/items/_partial/summary/vehicle-summary.html}}
+							<!-- Source -->
+						    {{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
 						</ul>
 					</div>
 
@@ -47,13 +49,6 @@
 
 					<!-- Actor Items -->
 					{{> systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html}}
-
-					<!-- Mounts -->
-					{{#ife data.type "vehicle"}}
-					<ul class="SR-PaddingTop10">
-						{{> systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html}}
-					</ul>
-					{{/ife}}
 
 					<ul class="SR-PaddingTop10">
 						{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}

@@ -263,7 +263,6 @@ export class SR5_EntityHelpers {
         case "legalTypes":
         case "legalTypesShort":
         case "metatypes":
-        case "mountTypes":
         case "valueMultipliers":
         case "spellCombatTypes":
         case "spellCombatTypesShort":

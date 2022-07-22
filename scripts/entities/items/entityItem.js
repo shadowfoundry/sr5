@@ -42,6 +42,10 @@ export class SR5Item extends Item {
           SR5_UtilityItem._checkIfWeaponIsFocus(this, owner);
           if (!owner.data.visions.astral.isActive) data.isUsedAsFocus = false;
         }
+        if (data.category === "rangedWeapon" && owner){
+          if (!data.isLinkedToMount) SR5_UtilityItem._handleWeaponMount(itemData, owner);
+          SR5_UtilityItem._checkIfWeaponIsMount(this, owner);
+        }
         if (Object.keys(data.itemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
         SR5_UtilityItem._handleBow(itemData);
         SR5_UtilityItem._handleWeaponAccessory(data, owner);
@@ -97,13 +101,17 @@ export class SR5Item extends Item {
         if (Object.keys(data.itemEffects).length) {
           SR5_UtilityItem.applyItemEffects(itemData);
         }
+        if (data.isWeaponMounted) {
+          SR5_UtilityItem._handleWeaponMounted(itemData);
+        }
         SR5_UtilityItem._handleSlotsMultiplier(data);
         SR5_UtilityItem._handleThresholdMultiplier(data);
-        SR5_UtilityItem._handleItemPrice(data);
-        SR5_UtilityItem._handleItemAvailability(data);
       break;
       case "itemArmor":
       case "itemGear":
+        if (itemData.type === "itemGear"){
+          if (Object.keys(data.systemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
+        }
         if (itemData.type === "itemArmor"){ 
           if (Object.keys(data.itemEffects).length) {
             SR5_UtilityItem.applyItemEffects(itemData);
@@ -177,7 +185,6 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemVehicle":
-        if (typeof data.mount === "object") data.mount = Object.values(data.mount);
         SR5_UtilityItem._handleVehicle(data);
         SR5_UtilityItem._handleVehicleSlots(data);
         SR5_UtilityItem._handleItemPrice(data);
@@ -368,6 +375,25 @@ export class SR5Item extends Item {
             tags.push(`${l.name} ${l.rating}`);
           }
         }
+        break;
+
+
+      case "itemVehicle":
+        tags.push(`${game.i18n.localize(lists.vehiclesCategories[data.category])}`);
+        if (data.vehiclesMod.length){
+          for (let v of data.vehiclesMod){
+            tags.push(`${v.name}`);
+          }
+        }
+        if (data.marks.length){
+          for (let m of data.marks){
+            tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
+          }
+        }
+        if (data.isSlavedToPan){
+          let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+          tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
+        }        
         break;
 
       default:

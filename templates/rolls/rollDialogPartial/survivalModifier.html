@@ -1,0 +1,55 @@
+<li class="grid SR-TopSeparator">
+    <div class="col-10">{{localize 'SR5.SurvivalModCamping'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="camping"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSurvivalCamping" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SurvivalModNoFoundOrWater'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="noFoundOrWater"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSurvivalNoFoundOrWater" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SurvivalModControlAvailable'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="controlAvailable"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSurvivalControlAvailable" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-11">{{localize 'SR5.SurvivalModClothing'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" name="clothing" value="0" data-dtype="Number" placeholder="0" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-11">{{localize 'SR5.SurvivalModTravel'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" name="travel" value="0" data-dtype="Number" placeholder="0" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-11">{{localize 'SR5.SurvivalModToxic'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" name="toxic" value="0" data-dtype="Number" placeholder="0" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.SurvivalWeather'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-PaddingRight10">
+        <select name="weather">
+            {{#select weather}}
+                <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+                <option value="poor">{{localize 'SR5.SurvivalWeatherPoor'}}</option>
+                <option value="terrible">{{localize 'SR5.SurvivalWeatherTerrible'}}</option>
+                <option value="extreme">{{localize 'SR5.SurvivalWeatherExtreme'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number"  name="dicePoolModWeather" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

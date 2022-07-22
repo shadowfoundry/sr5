@@ -41,6 +41,10 @@ export class SR5_DiceHelper {
                 newItem.data.netHits = 0;                
             }
         }
+        //updateCharge
+        if (newItem.type === "itemGear"){
+            newItem.data.charge -= 1;
+        }
 
         item.update(newItem);
     }
@@ -354,7 +358,7 @@ export class SR5_DiceHelper {
     }
 
     //Handle environmental modifiers
-    static handleEnvironmentalModifiers(scene, actor, melee){
+    static handleEnvironmentalModifiers(scene, actor, noWind){
         let actorData = actor.itemsProperties.environmentalMod;
         let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
         let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
@@ -363,7 +367,7 @@ export class SR5_DiceHelper {
         let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
 
         let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
-        if (melee){
+        if (noWind){
             arrayMod = [visibilityMod, lightMod, glareMod];
         }
         let finalMod = Math.max(...arrayMod);
@@ -994,6 +998,35 @@ export class SR5_DiceHelper {
         });
     }
 
+    static async chooseDamageType(){
+        let cancel = true;
+        let dialogData = {list: SR5.PCConditionMonitors}
+        return new Promise((resolve, reject) => {
+            renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
+                new Dialog({
+                title: game.i18n.localize('SR5.ChooseDamageType'),
+                content: dlg,
+                buttons: {
+                    ok: {
+                    label: "Ok",
+                    callback: () => (cancel = false),
+                    },
+                    cancel: {
+                    label : "Cancel",
+                    callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    let damageType = html.find("[name=damageType]").val();
+                    resolve(damageType);
+                },
+                }).render(true);
+            });
+        });
+    }
+
     static async rollJackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
         actor = actor.toObject(false);
@@ -1410,4 +1443,224 @@ export class SR5_DiceHelper {
     
     return itemEffects;
     }
+
+    static convertHealingConditionToDiceMod(condition){
+        switch (condition){
+            case "good":
+                return 0;
+            case "average":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static findMedkitRating(actor){
+        let medkit = {};
+        let item = actor.items.find(i => i.data.data.isMedkit)
+        if (item && item.data.data.charge > 0){
+            medkit.rating = item.data.data.itemRating;
+            medkit.id = item.id;
+            return medkit;
+        }
+    }
+
+    static convertRestraintTypeToThreshold(type){
+        switch (type){
+            case "rope":
+                return 2;
+            case "metal":
+                return 3;
+            case "straitjacket":
+                return 4;
+            case "containment":
+                return 5;
+            default : return 2;
+        }
+    }
+
+    static convertPerceptionModifierToMod(type){
+        switch (type){
+            case "distracted":
+                return -2;
+            case "specificallyLooking":
+                return +3;
+            case "notInImmediateVicinity":
+                return -2;
+            case "farAway":
+                return -3;
+            case "standsOutInSomeWay":
+                return +2;
+            case "interfering":
+                return -2;
+            default : return 0;
+        }
+    }
+
+    static convertPerceptionTypeToThreshold(type){
+        switch (type){
+            case "opposed":
+                return 0;
+            case "obvious":
+                return 1;
+            case "normal":
+                return 2;
+            case "obscured":
+                return 3;
+            case "hidden":
+                return 4;
+            default : return 0;
+        }
+    }
+
+    static convertSurvivalModifierToMod(type){
+        switch (type){
+            case "camping":
+                return 2;
+            case "noFoundOrWater":
+                return -2;
+            case "controlAvailable":
+                return 1;
+            default : return 0;
+        }
+    }
+
+    static convertWeatherModifierToMod(type){
+        switch (type){
+            case "poor":
+                return -1;
+            case "terrible":
+                return -2;
+            case "extreme":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static convertSurvivalThresholdTypeToThreshold(type){
+        switch (type){
+            case "mild":
+                return 1;
+            case "moderate":
+                return 2;
+            case "tough":
+                return 3;
+            case "extreme":
+                return 4;
+            default : return 0;
+        }
+    }
+
+    static convertSocialAttitudeValueToMod(type){
+        switch (type){
+            case "friendly":
+                return 2;
+            case "neutral":
+                return 0;
+            case "suspicious":
+                return -1;
+            case "prejudiced":
+                return -2;
+            case "hostile":
+                return -3;
+            case "enemy":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static convertSocialResultValueToMod(type){
+        switch (type){
+            case "advantageous":
+                return 1;
+            case "ofNoValue":
+                return 0;
+            case "annoying":
+                return -1;
+            case "harmful":
+                return -3;
+            case "disastrous":
+                return -4;
+            default : return 0;
+        }
+    }
+
+    static convertSocialCheckboxToMod(type, actorData){
+        switch (type){
+            case "socialIsDistracted":
+            case "socialAuthority":
+                return 1;
+            case "socialAce":
+            case "socialRomantic":
+            case "socialOutnumber":
+            case "socialWieldingWeapon":
+            case "socialTorture":
+            case "socialObliviousToDanger":
+            case "socialFan":
+            case "socialBlackmailed":
+                return 2;
+            case "socialEvaluateSituation":
+            case "socialIntoxicated":
+            case "socialIsDistractedInverse":
+                return -1;
+            case "socialBadLook":
+            case "socialNervous":
+            case "socialOutnumberTarget":
+            case "socialWieldingWeaponTarget":
+            case "socialLacksKnowledge":
+                return -2;
+            case "socialReputation":
+                return actorData.data.streetCred.value;
+            default : return 0;
+        }
+    }
+
+    static convertWorkingConditionToMod(type){
+        switch (type){
+            case "distracting":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            case "superior":
+                return 1;
+            default : return 0;
+        }
+    }
+
+    static convertToolsAndPartsToMod(type){
+        switch (type){
+            case "inadequate":
+                return -2;
+            case "unavailable":
+                return -4;
+            case "superior":
+                return 1;
+            default : return 0;
+        }
+    }
+
+    static convertPlansMaterialToMod(type){
+        switch (type){
+            case "available":
+                return 1;
+            case "augmented":
+                return 2;
+            default : return 0;
+        }
+    }
+
+    static convertBuildingCheckboxToMod(type, actorData){
+        if (actorData.data.attributes.logic.augmented.value >= 5) return 0;
+        else return -(5 - actorData.data.attributes.logic.augmented.value);
+    }
+
 }

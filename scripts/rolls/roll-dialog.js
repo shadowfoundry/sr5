@@ -5,6 +5,7 @@ export default class SR5_RollDialog extends Dialog {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             height: 'auto',
+            width: 450,
             resizable: false,
         });
     }
@@ -153,7 +154,8 @@ export default class SR5_RollDialog extends Dialog {
         if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
         if (document.getElementById("useReagents")) document.getElementById("useReagents").style.display = "none";
         if (document.getElementById("useSpiritAid")) document.getElementById("useSpiritAid").style.display = "none";
-
+        if (document.getElementById("sightPerception")) document.getElementById("sightPerception").style.display = "none";
+        
         if (dialogData.type === "ritual"){
             document.getElementById("useReagents").style.display = "block";
             html.find('[name="reagents"]')[0].value = "true";
@@ -164,7 +166,7 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="dicePoolModVarious"]').change(ev => this._addVariousModifier(ev, html, dialogData));
 
         // Specialization modifier
-        html.find(".specialization").change(ev => this._addSpecializationModifier(ev, html, dialogData));
+        html.find('[name="specialization"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "specialization", 2, 0, "dicePoolModSpecialization"));
 
         // Penalties modifiers
         html.find(".penaltyMod").change(ev => this._addPenaltyModifier(ev, html, dialogData));
@@ -195,6 +197,12 @@ export default class SR5_RollDialog extends Dialog {
 
         // Defense modifiers
         html.find(".defenseMode").change(ev => this._addDefenseModeModifier(ev, html, dialogData));
+
+        // Speed Attacker modifiers
+        html.find(".speedRammingAttacker").change(ev => this._addSpeedRammingAttackerModifier(ev, html, dialogData, actorData));
+
+        // Speed Target modifiers
+        html.find(".speedRammingTarget").change(ev => this._addSpeedRammingTargetModifier(ev, html, dialogData, actorData));
 
         // Cumulative Defense
         if (html.find('[name="dicePoolModDefenseCumulative"]')[0]) this._addCumulativeDefenseModifier(html, dialogData);
@@ -303,21 +311,237 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="damageType"]').change(ev => this._getDamageType(html, dialogData));
 
         //Add modifier for centering metamagic
-        html.find('[name="centering"]').change(ev => this._addCenteringModifier(ev, html, dialogData, actorData));
+        html.find('[name="centering"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "centering", actorData.data.magic.metamagics.centeringValue.value, 0, "dicePoolModCentering"));
 
         //Add modifier for spell shaping metamagic
         html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData, actorData));
 
-        //Set extended test for Astral Traking
-        if (dialogData.type === "astralTracking"){
+        //Set extended test for Astral Traking or Healing test
+        if (dialogData.type === "astralTracking" || dialogData.type === "healing"){
             html.find('[name="extendedValue"]')[0].value = "true";
             dialogData.extendedTest = true;
             document.getElementById("interval").style.display = "block";
             document.getElementById("extendedSpace").style.display = "none";
+            if (dialogData.typeSub === "physical"){
+                html.find('[name="extendedTime"]')[0].value = "day";
+            }
         }
 
         //Calcul Mana Barrier DicePool
         html.find('[name="manaBarrierRating"]').change(ev => this._calculManaBarrierDicePool(ev, html, dialogData));
+
+        //Add healing modifier for Medecine conditions
+        html.find('[name="healingCondition"]').change(ev => this._addHealingConditionModifier(html, dialogData));
+
+        //Add healing modifier for Patient cooperation
+        html.find('[name="patientCooperation"]').change(ev => this._addHealingPatientCooperationModifier(ev, html, dialogData));
+        
+        //Add healing modifier for Patient awakened or emerged
+        if (html.find('[name="patientAwakenedOrEmerged"]')[0]) this._addHealingPatientAwakenedOrEmergedModifier(null, html, dialogData);
+        html.find('[name="patientAwakenedOrEmerged"]').change(ev => this._addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData));
+        
+        //Add healing modifier for Patient Essence
+        if (html.find('[name="patientEssence"]')[0]) this._addHealingPatientEssenceModifier(null, html, dialogData);
+        html.find('[name="patientEssence"]').change(ev => this._addHealingPatientEssenceModifier(ev, html, dialogData));
+
+        //Add healing modifier for supplies
+        html.find('[name="healingSupplies"]').change(ev => this._addHealingSuppliesModifier(ev, html, dialogData, actor));
+
+        //Add Escape Artist modifier for being watched
+        html.find('[name="escapeSituationWatched"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "escapeSituationWatched", -2, 0, "dicePoolModEscapeSituationWatched"));
+
+        //Add Escape Artist modifier for picks
+        html.find('[name="escapeSituationPicks"]').change(ev => this._trueOrFalseModifier(ev, html, dialogData, "escapeSituationPicks", 2, 0, "dicePoolModEscapeSituationPicks"));
+
+        //Add Escape Artist modifier for restrained
+        html.find('[name="escapeSituationRestrained"]').change(ev => this._inputModifier(ev, html, dialogData, "escapeSituationRestrained", "dicePoolModEscapeSituationRestrained", true));
+
+        //Add Escape Artist Threshold modifier
+        if (html.find('[name="restraintType"]')[0]) this._manageThreshold(null, html, dialogData, "restraintThreshold");
+        html.find('[name="restraintType"]').change(ev => this._manageThreshold(ev, html, dialogData, "restraintThreshold"));
+        html.find('[name="restraintType"]').change(ev => this._setEscapeArtistThreshold(html, dialogData));
+        html.find('[name="restraintReinforced"]').change(ev => this._addRestraintReinforcedModifier(ev, html, dialogData));
+
+        //Add Perception modifiers
+        html.find('[name="distracted"]').change(ev => this._checkboxModifier(ev, html, dialogData, "distracted", "dicePoolModPerceptionDistracted", "perception"));
+        html.find('[name="specificallyLooking"]').change(ev => this._checkboxModifier(ev, html, dialogData, "specificallyLooking", "dicePoolModPerceptionSpecificallyLooking", "perception"));
+        html.find('[name="notInImmediateVicinity"]').change(ev => this._checkboxModifier(ev, html, dialogData, "notInImmediateVicinity", "dicePoolModPerceptionNotInImmediateVicinity", "perception"));
+        html.find('[name="farAway"]').change(ev => this._checkboxModifier(ev, html, dialogData, "farAway", "dicePoolModPerceptionFarAway", "perception"));
+        html.find('[name="standsOutInSomeWay"]').change(ev => this._checkboxModifier(ev, html, dialogData, "standsOutInSomeWay", "dicePoolModStandsOutInSomeWay", "perception"));
+        html.find('[name="interfering"]').change(ev => this._checkboxModifier(ev, html, dialogData, "interfering", "dicePoolModInterfering", "perception"));
+        //Set Perception threshold
+        if (html.find('[name="perceptionThresholdType"]')[0]) this._manageThreshold(null, html, dialogData, "perceptionThreshold");
+        html.find('[name="perceptionThresholdType"]').change(ev => this._manageThreshold(ev, html, dialogData, "perceptionThreshold"));
+
+        //Add Survival modifiers
+        html.find('[name="camping"]').change(ev => this._checkboxModifier(ev, html, dialogData, "camping", "dicePoolModSurvivalCamping", "survival"));
+        html.find('[name="noFoundOrWater"]').change(ev => this._checkboxModifier(ev, html, dialogData, "noFoundOrWater", "dicePoolModSurvivalNoFoundOrWater", "survival"));
+        html.find('[name="controlAvailable"]').change(ev => this._checkboxModifier(ev, html, dialogData, "controlAvailable", "dicePoolModSurvivalControlAvailable", "survival"));
+        html.find('[name="clothing"]').change(ev => this._inputModifier(ev, html, dialogData, "clothing", "clothing"));
+        html.find('[name="travel"]').change(ev => this._inputModifier(ev, html, dialogData, "travel", "travel"));
+        html.find('[name="toxic"]').change(ev => this._inputModifier(ev, html, dialogData, "toxic", "toxic"));
+        html.find('[name="weather"]').change(ev => this._selectModifiers(ev, html, dialogData, "weather", "dicePoolModWeather"));
+        html.find('[name="survivalThresholdType"]').change(ev => this._manageThreshold(ev, html, dialogData, "survivalThreshold"));
+        if (html.find('[name="survivalThresholdType"]')[0]) this._manageThreshold(null, html, dialogData, "survivalThreshold");
+
+        //Add general social modifiers
+        html.find('[name="socialAttitude"]').change(ev => this._selectModifiers(ev, html, dialogData, "socialAttitude", "dicePoolModSocialAttitude"));
+        html.find('[name="socialResult"]').change(ev => this._selectModifiers(ev, html, dialogData, "socialResult", "dicePoolModSocialResult"));
+        html.find('[name="socialAce"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialAce", "dicePoolModSocialAce", "social"));
+        html.find('[name="socialRomantic"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialRomantic", "dicePoolModSocialRomantic", "social"));
+        html.find('[name="socialIntoxicated"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIntoxicated", "dicePoolModSocialIntoxicated", "social"));
+        html.find('[name="socialReputation"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialReputation", "dicePoolModSocialReputation", "social"));
+        html.find('[name="dicePoolModSocialReputationTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialReputationTarget", "dicePoolModSocialReputationTarget"));
+        //Add Con modifiers
+        html.find('[name="dicePoolModSocialEvidence"]').change(ev => this._inputModifier(ev, html, dialogData, "socialEvidence", "dicePoolModSocialEvidence"));
+        html.find('[name="socialIsDistracted"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIsDistracted", "dicePoolModSocialIsDistracted", "social"));
+        html.find('[name="socialEvaluateSituation"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialEvaluateSituation", "dicePoolModSocialEvaluateSituation", "social"));
+        //Add Etiquette modifiers
+        html.find('[name="socialBadLook"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialBadLook", "dicePoolModSocialBadLook", "social"));
+        html.find('[name="socialNervous"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialNervous", "dicePoolModSocialNervous", "social"));
+        html.find('[name="socialIsDistractedInverse"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialIsDistractedInverse", "dicePoolModSocialIsDistractedInverse", "social"));
+        //Add Intimidation modifiers
+        html.find('[name="dicePoolModSocialImposing"]').change(ev => this._inputModifier(ev, html, dialogData, "socialImposing", "dicePoolModSocialImposing"));
+        html.find('[name="dicePoolModSocialImposingTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialImposingTarget", "dicePoolModSocialImposingTarget"));
+        html.find('[name="socialOutnumber"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialOutnumber", "dicePoolModSocialOutnumber", "social"));
+        html.find('[name="socialOutnumberTarget"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialOutnumberTarget", "dicePoolModSocialOutnumberTarget", "social"));
+        html.find('[name="socialWieldingWeapon"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialWieldingWeapon", "dicePoolModSocialWieldingWeapon", "social"));
+        html.find('[name="socialWieldingWeaponTarget"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialWieldingWeaponTarget", "dicePoolModSocialWieldingWeaponTarget", "social"));
+        html.find('[name="socialTorture"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialTorture", "dicePoolModSocialTorture", "social"));
+        html.find('[name="socialObliviousToDanger"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialObliviousToDanger", "dicePoolModSocialObliviousToDanger", "social"));
+        //Add Leadership modifiers
+        html.find('[name="dicePoolModSocialRank"]').change(ev => this._inputModifier(ev, html, dialogData, "socialRank", "dicePoolModSocialRank"));
+        html.find('[name="dicePoolModSocialRankTarget"]').change(ev => this._inputModifier(ev, html, dialogData, "socialRankTarget", "dicePoolModSocialRankTarget"));
+        html.find('[name="dicePoolModSocialStrata"]').change(ev => this._inputModifier(ev, html, dialogData, "socialStrata", "dicePoolModSocialStrata"));
+        html.find('[name="socialFan"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialFan", "dicePoolModSocialFan", "social"));
+        html.find('[name="socialAuthority"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialAuthority", "dicePoolModSocialAuthority", "social"));
+        //Add Negociation modifiers
+        html.find('[name="socialLacksKnowledge"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialLacksKnowledge", "dicePoolModSocialLacksKnowledge", "social"));
+        html.find('[name="socialBlackmailed"]').change(ev => this._checkboxModifier(ev, html, dialogData, "socialBlackmailed", "dicePoolModSocialBlackmailed", "social"));
+
+        //Add Building modifiers
+        html.find('[name="workingCondition"]').change(ev => this._selectModifiers(ev, html, dialogData, "workingCondition", "dicePoolModWorkingCondition"));
+        html.find('[name="toolsAndParts"]').change(ev => this._selectModifiers(ev, html, dialogData, "toolsAndParts", "dicePoolModToolsAndParts"));
+        html.find('[name="plansMaterial"]').change(ev => this._selectModifiers(ev, html, dialogData, "plansMaterial", "dicePoolModPlansMaterial"));
+        html.find('[name="workingFromMemory"]').change(ev => this._checkboxModifier(ev, html, dialogData, "workingFromMemory", "dicePoolWorkingFromMemory", "building"));
+    }
+
+    //Select modifiers
+    _selectModifiers(ev, html, dialogData, modifierName, inputName){
+        let value;
+        if (ev === null){
+            value = 0;
+        } else {
+            value = ev.target.value;
+            if (modifierName === "weather") value = SR5_DiceHelper.convertWeatherModifierToMod(ev.target.value);
+            if (modifierName === "socialAttitude") value = SR5_DiceHelper.convertSocialAttitudeValueToMod(ev.target.value);
+            if (modifierName === "socialResult") value = SR5_DiceHelper.convertSocialResultValueToMod(ev.target.value);
+            if (modifierName === "workingCondition") value = SR5_DiceHelper.convertWorkingConditionToMod(ev.target.value);
+            if (modifierName === "toolsAndParts") value = SR5_DiceHelper.convertToolsAndPartsToMod(ev.target.value);
+            if (modifierName === "plansMaterial") value = SR5_DiceHelper.convertPlansMaterialToMod(ev.target.value);
+        }
+
+        let name = `[name=${inputName}]`;
+        html.find(name)[0].value = value;
+        dialogData.dicePoolMod[modifierName] = value;
+        this.dicePoolModifier[modifierName] = value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add checkbox modifiers
+    _checkboxModifier(ev, html, dialogData, modifierName, inputName, type){
+        let isChecked = ev.target.checked,
+            name = `[name=${inputName}]`,
+            value = 0;
+
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+        let actorData = actor.data;
+
+        if (type === "perception") value = SR5_DiceHelper.convertPerceptionModifierToMod(modifierName);
+        if (type === "survival") value = SR5_DiceHelper.convertSurvivalModifierToMod(modifierName);
+        if (type === "social") value = SR5_DiceHelper.convertSocialCheckboxToMod(modifierName, actorData);
+        if (type === "building") value = SR5_DiceHelper.convertBuildingCheckboxToMod(modifierName, actorData);
+
+        if (isChecked){
+            html.find(name)[0].value = value;
+            dialogData.dicePoolMod[modifierName] = value;
+            this.dicePoolModifier[modifierName] = value;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find(name)[0].value = 0;
+            dialogData.dicePoolMod[modifierName] = 0;
+            this.dicePoolModifier[modifierName] = 0;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Manage true or false select and modifier
+    _trueOrFalseModifier(ev, html, dialogData, modifierName, trueValue, falseValue, inputName){
+        let value = ev.target.value;
+        let name = `[name=${inputName}]`;
+        if (value === "false") {
+            html.find(name)[0].value = falseValue;
+            dialogData.dicePoolMod[modifierName] = falseValue;
+            this.dicePoolModifier[modifierName] = falseValue;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find(name)[0].value = trueValue;
+            dialogData.dicePoolMod[modifierName] = trueValue;
+            this.dicePoolModifier[modifierName] = trueValue;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Manage input modifier
+    _inputModifier(ev, html, dialogData, modifierName, inputName, inverse = false){
+        let value = parseInt(ev.target.value);
+        if (inverse) value = -value;
+        let name = `[name=${inputName}]`;
+        html.find(name)[0].value = value;
+        dialogData.dicePoolMod[modifierName] = value;
+        this.dicePoolModifier[modifierName] = value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Manage threhsold
+    _manageThreshold(ev, html, dialogData, inputName){
+        let value, label;
+        
+        if (ev === null){
+            if (inputName === "survivalThreshold") {
+                value = 1;
+                label = "mild";
+            } else if (inputName === "restraintType"){
+                value = 2;
+                label = "rope";
+            } else if (inputName === "perceptionThreshold"){
+                value = 0;
+                label = "opposed";
+            }
+        } else {
+            label = ev.target.value;
+            value = ev.target.value;
+            if (inputName === "survivalThreshold") value = SR5_DiceHelper.convertSurvivalThresholdTypeToThreshold(ev.target.value);
+            else if (inputName === "restraintType") value = SR5_DiceHelper.convertRestraintTypeToThreshold(ev.target.value);
+            else if (inputName === "perceptionThreshold") value = SR5_DiceHelper.convertPerceptionTypeToThreshold(ev.target.value);
+        }
+
+        let name = `[name=${inputName}]`;
+        html.find(name)[0].value = value;
+        dialogData.threshold = value;
+        dialogData.thresholdType = label;
+    }
+
+    _addRestraintReinforcedModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        let threshold = SR5_DiceHelper.convertRestraintTypeToThreshold((html.find('[name="restraintType"]')[0].value));
+        if (value === "false") {
+            html.find('[name="restraintReinforcedMod"]')[0].value = 0;
+            dialogData.escapeArtistThreshold = threshold;
+        } else {
+            html.find('[name="restraintReinforcedMod"]')[0].value = 1;
+            dialogData.escapeArtistThreshold = threshold + 1;
+        }
     }
 
     //Calcul Mana Barrier DicePool
@@ -360,20 +584,6 @@ export default class SR5_RollDialog extends Dialog {
         this.updateDicePoolValue(html);
     }
 
-    //Add Specialization modifiers
-    _addSpecializationModifier(ev, html, dialogData){
-        if (ev.target.value) {
-            html.find('[name="dicePoolModSpecialization"]')[0].value = 2;
-            this.dicePoolModifier.specialization = 2;
-            dialogData.dicePoolMod.specialization = 2;
-        } else {
-            html.find('[name="dicePoolModSpecialization"]')[0].value = 0;
-            this.dicePoolModifier.specialization = 0;
-            dialogData.dicePoolMod.specialization = 0;
-        }
-        this.updateDicePoolValue(html);
-    }
-
     //Add Penalty modifiers
     _addPenaltyModifier(ev, html, dialogData){
         html.find('[name="dicePoolModPenalty"]')[0].value = (parseInt(ev.target.value) || 0);
@@ -412,6 +622,72 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.activeDefenseMode = html.find('[name="defenseMode"]')[0].value;
         this.dicePoolModifier.defenseMode = value;
         this.updateDicePoolValue(html);
+    }
+
+    //Add speed ramming attacker modifiers
+    _addSpeedRammingAttackerModifier(ev, html, dialogData, actorData){
+        let speed = html.find('[name="speedRammingAttacker"]')[0].value;
+        let body = actorData.data.attributes.body.augmented.value;
+        let value;
+        switch(speed) {
+            case "speedRamming1" :
+                value = Math.ceil(body/2);
+            break;
+            case "speedRamming11" :
+                value = body;
+            break;
+            case "speedRamming51" :
+                value = body*2;
+            break;
+            case "speedRamming201" :
+                value = body*3;
+            break;
+            case "speedRamming301" :
+                value = body*5;
+            break;
+            case "speedRamming501" :
+                value = body*10;
+            break;
+        default:
+        }
+        dialogData.damageValue = value;
+        html.find('[name="modifiedDamage"]')[0].value = value;
+    }
+
+    //Add speed ramming target modifiers
+    _addSpeedRammingTargetModifier(ev, html, dialogData, actorData){
+        let speed = html.find('[name="speedRammingTarget"]')[0].value;
+        let body = dialogData.target;
+        let value, accidentValue;
+        switch(speed) {
+            case "speedRamming1" :
+                value = Math.ceil(body/2);
+                accidentValue = Math.ceil(value/2);
+                break;
+            case "speedRamming11" :
+                value = body;
+                accidentValue = Math.ceil(value/2);
+                break;
+            case "speedRamming51" :
+                value = body*2;
+                accidentValue = Math.ceil(value/2);
+                break;
+            case "speedRamming201" :
+                value = body*3;
+                accidentValue = Math.ceil(value/2);
+                break;
+            case "speedRamming301" :
+                value = body*5;
+                accidentValue = Math.ceil(value/2);
+                break;
+            case "speedRamming501" :
+                value = body*10;
+                accidentValue = Math.ceil(value/2);
+                break;
+            default:
+        }
+        dialogData.accidentValue = accidentValue;
+        html.find('[name="accidentValue"]')[0].value = accidentValue;
     }
 
     //Add cumulative defense modifiers
@@ -597,12 +873,28 @@ export default class SR5_RollDialog extends Dialog {
 
     //Add specific Perception type modifiers
     _addPerceptionTypeModifier(ev, html, dialogData, actorData){
-        let key = ev.target.value;
-        let modifier = 0;
-        let limitMod = 0;
+        let key = ev.target.value,
+            modifier = 0,
+            limitMod = 0,
+            position = this.position;
+
+        position.height = "auto";
+        
         if (key !== ""){
             modifier = actorData.data.skills.perception.perceptionType[key].test.value;
             limitMod = actorData.data.skills.perception.perceptionType[key].limit.value;
+            if (key === "sight") {
+                document.getElementById("sightPerception").style.display = "block";
+                this.setPosition(position);
+                if (canvas.scene) dialogData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData.data, true);
+                html.find('[name="dicePoolModEnvironmental"]')[0].value = dialogData.dicePoolMod.environmentalSceneMod;
+                this.dicePoolModifier.environmental = dialogData.dicePoolMod.environmentalSceneMod;
+            } else {
+                document.getElementById("sightPerception").style.display = "none";
+                this.setPosition(position);
+                dialogData.dicePoolMod.environmentalSceneMod = 0;
+                this.dicePoolModifier.environmental = 0;
+            }
         }
         dialogData.perceptionType = key;
         dialogData.dicePoolMod.perception = modifier;
@@ -694,22 +986,6 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
-    //Add modifier for Centering
-    _addCenteringModifier(ev, html, dialogData, actorData){
-        let value = ev.target.value;
-        if (value === "true") {
-            this.dicePoolModifier.centering = actorData.data.magic.metamagics.centeringValue.value;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = actorData.data.magic.metamagics.centeringValue.value;
-            html.find('[name="dicePoolModCentering"]')[0].value = actorData.data.magic.metamagics.centeringValue.value;
-        } else {
-            this.dicePoolModifier.centering = 0;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = 0;
-            html.find('[name="dicePoolModCentering"]')[0].value = 0;
-        }
-    }
-
     //Add modifier depending of the type of the token Targeted
     _addTargetTypeModifier(html, dialogData, actorData){
         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
@@ -758,6 +1034,102 @@ export default class SR5_RollDialog extends Dialog {
         this.dicePoolModifier.variousModifier = value;
         dialogData.dicePoolMod.spellShaping = value;
         dialogData.spellAreaMod = -value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add Healing conditions modifiers
+    _addHealingConditionModifier(html, dialogData){
+        let healingModifier = SR5_DiceHelper.convertHealingConditionToDiceMod(html.find('[name="healingCondition"]')[0].value);
+        html.find('[name="dicePoolModHealingCondition"]')[0].value = healingModifier;
+        dialogData.dicePoolMod.healingModifier = healingModifier;
+        dialogData.healingCondition = html.find('[name="healingCondition"]')[0].value;
+        this.dicePoolModifier.healingModifier = healingModifier;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add Healing Patient is awakened or emerged modifiers
+    _addHealingPatientAwakenedOrEmergedModifier(ev, html, dialogData){
+        let value;
+        if (ev === null) {
+            value = dialogData.isEmergedOrAwakened ? dialogData.isEmergedOrAwakened : "false";
+            html.find('[name="patientAwakenedOrEmerged"]')[0].value = value;
+        } else value = ev.target.value;
+        if (value === "true" || value === true) {
+            html.find('[name="dicePoolModPatientAwakenedOrEmerged"]')[0].value = -2;
+            dialogData.dicePoolMod.patientAwakenedOrEmerged = -2;
+            this.dicePoolModifier.patientAwakenedOrEmerged = -2;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find('[name="dicePoolModPatientAwakenedOrEmerged"]')[0].value = 0;
+            dialogData.dicePoolMod.patientAwakenedOrEmerged = 0;
+            this.dicePoolModifier.patientAwakenedOrEmerged = 0;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Add Healing Patient cooperation modifiers
+    _addHealingPatientCooperationModifier(ev, html, dialogData){
+        let value = ev.target.value;
+        if (value === "true") {
+            html.find('[name="dicePoolModPatientCooperation"]')[0].value = 0;
+            dialogData.dicePoolMod.patientCooperation = 0;
+            this.dicePoolModifier.patientCooperation = 0;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find('[name="dicePoolModPatientCooperation"]')[0].value = -2;
+            dialogData.dicePoolMod.patientCooperation = -2;
+            this.dicePoolModifier.patientCooperation = -2;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Add healing Patient Essence modifiers
+    _addHealingPatientEssenceModifier(ev, html, dialogData){
+        if (ev === null) {
+            dialogData.patientEssence = (dialogData.targetEssence ? dialogData.targetEssence : 6);
+            html.find('[name="patientEssence"]')[0].value = dialogData.patientEssence;
+        }
+        else dialogData.patientEssence = ev.target.value;
+        let essence = 6 - Math.ceil(dialogData.patientEssence);
+        let value = -Math.floor(essence/2);
+        html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
+        dialogData.dicePoolMod.patientEssence = value;
+        this.dicePoolModifier.patientEssence = value;
+        this.updateDicePoolValue(html);
+    }
+
+    //Add healing Patient supplies modifiers
+    _addHealingSuppliesModifier(ev, html, dialogData, actor){
+        let value = ev.target.value;
+        let modifier;
+        switch(value){
+            case "noSupplies":
+                modifier = -3;
+                break;
+            case "improvised":
+                modifier = -1;
+                break;
+            case "medkit":
+                let medkit = SR5_DiceHelper.findMedkitRating(actor);
+                if (medkit){
+                    modifier = medkit.rating;
+                    dialogData.itemId = medkit.id;
+                    dialogData.limitMod.healingSupplies = medkit.rating;
+                    this.limitModifier.healingSupplies = medkit.rating;
+                    html.find('[name="limitModHealingSupplies"]')[0].value = medkit.rating;
+                    this.updateLimitValue(html);
+                } else {
+                    ui.notifications.warn(game.i18n.format('SR5.WARN_NoMedkit'));
+                    modifier = 0;
+                }
+                break;
+            default:
+                modifier = 0;
+        }
+        html.find('[name="dicePoolModHealingSupplies"]')[0].value = modifier;
+        dialogData.dicePoolMod.healingSupplies = modifier;
+        dialogData.healingSupplies = value;
+        this.dicePoolModifier.healingSupplies = modifier;
         this.updateDicePoolValue(html);
     }
 }

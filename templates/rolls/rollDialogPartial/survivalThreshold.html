@@ -1,0 +1,20 @@
+<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+    <div class="col-10">{{localize 'SR5.SurvivalTerrain'}}</div>
+    <div class="col-2 SR-TextRight">{{localize 'SR5.Threshold'}}</div>
+</li>
+<li class="grid">
+    <div class="col-3">{{localize 'SR5.SurvivalTerrain'}}{{localize 'SR5.Colons'}}</div> 
+    <div class="col-8">
+        <select name="survivalThresholdType">
+        {{#select survivalThresholdType}}
+            <option value="mild">{{localize 'SR5.SurvivalTerrainMild'}}</option>
+            <option value="moderate">{{localize 'SR5.SurvivalTerrainModerate'}}</option>
+            <option value="tough">{{localize 'SR5.SurvivalTerrainTough'}}</option>
+            <option value="extreme">{{localize 'SR5.SurvivalTerrainExtreme'}}</option>
+        {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number"  name="survivalThreshold" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

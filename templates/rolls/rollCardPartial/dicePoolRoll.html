@@ -131,7 +131,11 @@
 <!--Armor mod Dicepool-->
 {{#if (isdefined armor)}}
 <li class="grid SR-GreyColor">
+    {{#ife actorType "actorDrone"}}
+    <div class="col-10">{{localize 'SR5.VehicleStat_ArmorShort'}}{{localize 'SR5.Colons'}}</div>
+    {{else}}
     <div class="col-10">{{localize 'SR5.Armor'}}{{localize 'SR5.Colons'}}</div>
+    {{/ife}}
     <div class="col-2 SR-TextRight">{{armor}}</div>
 </li>
 <!--Armor composition-->
@@ -258,5 +262,340 @@
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.MetamagicSpellShaping'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{dicePoolMod.spellShaping}}</div>
+</li>
+{{/if}}
+<!--Healing Condition Modifier-->
+{{#if (isdefined dicePoolMod.healingModifier)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.HealingConditions'}} ({{findTranslation 'healingConditions' healingCondition}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.healingModifier}}</div>
+</li>
+{{/if}}
+<!--Healing Patient cooperation Modifier-->
+{{#if (isdefined dicePoolMod.patientCooperation)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.UncooperativePatient'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.patientCooperation}}</div>
+</li>
+{{/if}}
+<!--Healing Patient awakned or emerged Modifier-->
+{{#if (isdefined dicePoolMod.patientAwakenedOrEmerged)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PatientAwakenedOrEmerged'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.patientAwakenedOrEmerged}}</div>
+</li>
+{{/if}}
+<!--Healing Patient Essence Modifier-->
+{{#if (isdefined dicePoolMod.patientEssence)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PatientEssence'}} ({{patientEssence}}) {{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.patientEssence}}</div>
+</li>
+{{/if}}
+<!--Healing supplies Modifier-->
+{{#if (isdefined dicePoolMod.healingSupplies)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.HealingSupplies'}} ({{findTranslation 'healingSupplies' healingSupplies}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.healingSupplies}}</div>
+</li>
+{{/if}}
+<!--Escape Artist watched Modifier-->
+{{#if (isdefined dicePoolMod.escapeSituationWatched)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.EscapeArtistSituationWatched'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.escapeSituationWatched}}</div>
+</li>
+{{/if}}
+<!--Escape Artist restrained Modifier-->
+{{#if (isdefined dicePoolMod.escapeSituationRestrained)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.EscapeArtistSituationRestrained'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.escapeSituationRestrained}}</div>
+</li>
+{{/if}}
+<!--Escape Artist picks Modifier-->
+{{#if (isdefined dicePoolMod.escapeSituationPicks)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.EscapeArtistSituationPicks'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.escapeSituationPicks}}</div>
+</li>
+{{/if}}
+<!--Perception Modifiers-->
+{{#if (isdefined dicePoolMod.distracted)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModDistracted'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.distracted}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.specificallyLooking)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModSpecificallyLooking'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.specificallyLooking}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.notInImmediateVicinity)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModNotInImmediateVicinity'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.notInImmediateVicinity}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.farAway)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModFarAway'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.farAway}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.standsOutInSomeWay)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModStandsOutInSomeWay'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.standsOutInSomeWay}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.interfering)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PerceptionModInterfering'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.interfering}}</div>
+</li>
+{{/if}}
+<!--Survival Modifiers-->
+{{#if (isdefined dicePoolMod.camping)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModCamping'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.camping}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.noFoundOrWater)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModNoFoundOrWater'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.noFoundOrWater}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.controlAvailable)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModControlAvailable'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.controlAvailable}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.clothing)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModClothing'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.clothing}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.travel)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModTravel'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.travel}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.toxic)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalModToxic'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.toxic}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.weather)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SurvivalWeather'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.weather}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialAttitude)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModAttitude'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialAttitude}}</div>
+</li>
+{{/if}}
+<!--Social General Modifiers-->
+{{#if (isdefined dicePoolMod.socialResult)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModDesiredResult'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialResult}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialReputation)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModReputation'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialReputation}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialReputationTarget)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModReputationTarget'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialReputationTarget}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialAce)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModAce'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialAce}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialRomantic)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModRomantic'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialRomantic}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialIntoxicated)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModIntoxicated'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialIntoxicated}}</div>
+</li>
+{{/if}}
+<!--Social Con Modifiers-->
+{{#if (isdefined dicePoolMod.socialEvidence)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModEvidence'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialEvidence}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialIsDistracted)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModIsDistracted'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialIsDistracted}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialEvaluateSituation)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModEvaluateSituation'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialEvaluateSituation}}</div>
+</li>
+{{/if}}
+<!--Social Etiquette Modifiers-->
+{{#if (isdefined dicePoolMod.socialBadLook)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModBadLook'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialBadLook}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialNervous)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModNervous'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialNervous}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialIsDistractedInverse)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModIsDistracted'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialIsDistractedInverse}}</div>
+</li>
+{{/if}}
+<!--Social Intimidation Modifiers-->
+{{#if (isdefined dicePoolMod.socialImposing)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModImposing'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialImposing}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialImposingTarget)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModImposingTarget'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialImposingTarget}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialOutnumber)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModOutnumber'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialOutnumber}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialOutnumberTarget)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModOutnumberTarget'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialOutnumberTarget}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialWieldingWeapon)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModWieldingWeapon'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialWieldingWeapon}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialWieldingWeaponTarget)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModWieldingWeaponTarget'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialWieldingWeaponTarget}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialTorture)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModTorture'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialTorture}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialObliviousToDanger)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModObliviousToDanger'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialObliviousToDanger}}</div>
+</li>
+{{/if}}
+<!--Social Leadership Modifiers-->
+{{#if (isdefined dicePoolMod.socialRank)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModRank'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialRank}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialRankTarget)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModRankTarget'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialRankTarget}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialAuthority)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModAuthority'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialAuthority}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialStrata)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModStrata'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialStrata}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialFan)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModFan'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialFan}}</div>
+</li>
+{{/if}}
+<!--Social Negociation Modifiers-->
+{{#if (isdefined dicePoolMod.socialLacksKnowledge)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModLacksKnowledge'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialLacksKnowledge}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.socialBlackmailed)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SocialModBlackmailed'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.socialBlackmailed}}</div>
+</li>
+{{/if}}
+<!--Building / Repairing Modifiers-->
+{{#if (isdefined dicePoolMod.workingCondition)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.WorkingCondition'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.workingCondition}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.toolsAndParts)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.ToolsAndParts'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.toolsAndParts}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.plansMaterial)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.PlansMaterial'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.plansMaterial}}</div>
+</li>
+{{/if}}
+{{#if (isdefined dicePoolMod.workingFromMemory)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.WorkingFromMemory'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.workingFromMemory}}</div>
 </li>
 {{/if}}

@@ -74,10 +74,12 @@
 			  	<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'characterAttributes' @key)}}" data-helpDetails="data.attributes.{{@key}}.augmented">{{augmented.value}}</div>
 				{{/if}}
 			{{else ife ../actor.type 'actorDrone'}}
-				{{#if ../data.offRoadMode}}
-					{{#if (or (eq @key 'handling') (eq @key 'speed') (eq @key 'acceleration'))}}
+				{{#if ../data.isSecondaryPropulsionActivate}}
 
-					{{else}}
+					{{#if ../data.offRoadMode}}
+						{{#if (or (eq @key 'handling') (eq @key 'speed') (eq @key 'acceleration') (eq @key 'handlingOffRoad') (eq @key 'speedOffRoad') (eq @key 'accelerationOffRoad') (eq @key 'secondaryPropulsionHandling'))}}
+
+						{{else}}
 				<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>
 				<div class="col-2 SR-TextCenter"></div>
 				<div class="col-2 SR-TextCenter"
@@ -91,26 +93,70 @@
 				  data-helpDetails="data.attributes.{{@key}}.augmented">
 				{{augmented.value}}
 				</div>
+						{{/if}}
+					{{else}}
+						{{#if (or (eq @key 'handling') (eq @key 'speed') (eq @key 'acceleration') (eq @key 'handlingOffRoad') (eq @key 'speedOffRoad') (eq @key 'accelerationOffRoad') (eq @key 'secondaryPropulsionHandlingOffRoad'))}}
+
+						{{else}}
+				<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>
+				<div class="col-2 SR-TextCenter"></div>
+				<div class="col-2 SR-TextCenter"
+				  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'vehicleAttributes' @key)}}" 
+			      data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
+					<input type="text" data-dtype="Number" class="input" name="data.attributes.{{@key}}.natural.base" value="{{natural.base}}" onfocus="this.select()">
+				</div>
+				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="{{@key}}"
+				  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'vehicleAttributes' @key)}}"
+				  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}"
+				  data-helpDetails="data.attributes.{{@key}}.augmented">
+				{{augmented.value}}
+				</div>
+						{{/if}}
 					{{/if}}
+				
 				{{else}}
-					{{#if (or (eq @key 'handlingOffRoad') (eq @key 'speedOffRoad') (eq @key 'accelerationOffRoad'))}}
 
-					{{else}}
-				<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>
-				<div class="col-2 SR-TextCenter"></div>
-				<div class="col-2 SR-TextCenter"
-				  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'vehicleAttributes' @key)}}" 
-			      data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
-					<input type="text" data-dtype="Number" class="input" name="data.attributes.{{@key}}.natural.base" value="{{natural.base}}" onfocus="this.select()">
-				</div>
-				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="{{@key}}"
-				  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'vehicleAttributes' @key)}}"
-				  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}"
-				  data-helpDetails="data.attributes.{{@key}}.augmented">
-				{{augmented.value}}
-				</div>
-					{{/if}}
+				{{#if ../data.offRoadMode}}
+				{{#if (or (eq @key 'handling') (eq @key 'speed') (eq @key 'acceleration') (eq @key 'secondaryPropulsionHandling') (eq @key 'secondaryPropulsionHandlingOffRoad') (eq @key 'secondaryPropulsionSpeed') (eq @key 'secondaryPropulsionAcceleration'))}}
+
+				{{else}}
+		<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>
+		<div class="col-2 SR-TextCenter"></div>
+		<div class="col-2 SR-TextCenter"
+		  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'vehicleAttributes' @key)}}" 
+		  data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
+			<input type="text" data-dtype="Number" class="input" name="data.attributes.{{@key}}.natural.base" value="{{natural.base}}" onfocus="this.select()">
+		</div>
+		<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="{{@key}}"
+		  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'vehicleAttributes' @key)}}"
+		  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}"
+		  data-helpDetails="data.attributes.{{@key}}.augmented">
+		{{augmented.value}}
+		</div>
 				{{/if}}
+			{{else}}
+				{{#if (or (eq @key 'handlingOffRoad') (eq @key 'speedOffRoad') (eq @key 'accelerationOffRoad') (eq @key 'secondaryPropulsionHandling') (eq @key 'secondaryPropulsionHandlingOffRoad') (eq @key 'secondaryPropulsionSpeed') (eq @key 'secondaryPropulsionAcceleration'))}}
+
+				{{else}}
+		<div class="col-6">{{findTranslation 'vehicleAttributes' @key}}</div>
+		<div class="col-2 SR-TextCenter"></div>
+		<div class="col-2 SR-TextCenter"
+		  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'vehicleAttributes' @key)}}" 
+		  data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
+			<input type="text" data-dtype="Number" class="input" name="data.attributes.{{@key}}.natural.base" value="{{natural.base}}" onfocus="this.select()">
+		</div>
+		<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="{{@key}}"
+		  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'vehicleAttributes' @key)}}"
+		  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}"
+		  data-helpDetails="data.attributes.{{@key}}.augmented">
+		{{augmented.value}}
+		</div>
+				{{/if}}
+			{{/if}}
+
+				{{/if}}
+
+				
 		  	{{/ife}}
 		</li>
 	  	{{/each}}

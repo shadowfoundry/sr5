@@ -26,6 +26,7 @@
 					<option value="spiritPower">{{localize 'SR5.SpiritPower'}}</option>
 					<option value="tradition">{{localize 'SR5.HELP_MagicalTradition'}}</option>
 					<option value="baseOwnItem">{{localize 'SR5.BaseOwnedItem'}}</option>
+					<option value="specificItem">{{localize 'SR5.SpecificItem'}}</option>
 					{{/select}}
 				</select>
 			</div>
@@ -35,6 +36,10 @@
 				<select name="data.systemEffects.{{@key}}.value" required>
 				{{#select value}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+
+					{{#ife category 'specificItem'}}
+						<option value="medkit">{{localize 'SR5.Medkit'}}</option>
+					{{/ife}}
 
 					{{#ife category 'baseOwnItem'}}
 						{{#each (lookup ../lists 'actorTypes')}}
