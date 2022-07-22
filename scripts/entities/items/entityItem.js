@@ -222,6 +222,8 @@ export class SR5Item extends Item {
     let lists = SR5_EntityHelpers.sortTranslations(SR5);
     let tags =[];
     let accessories =[];
+    let options =[];
+    let license =[];
 
     data.description = data.description || "";
     data.description = TextEditor.enrichHTML(data.description, htmlOptions);
@@ -351,6 +353,31 @@ export class SR5Item extends Item {
         if (data.itemRating !== 0) tags.push(`${game.i18n.localize('SR5.ItemRating')}${game.i18n.localize('SR5.Colons')} ${data.itemRating}`);
         tags.push(`${game.i18n.localize('SR5.KarmaCost')}${game.i18n.localize('SR5.Colons')} ${data.karmaCost}`);
         break;
+      case "itemLifestyle":
+        tags.push(
+          [`${game.i18n.localize('SR5.LifestyleComforts')}${game.i18n.localize('SR5.Colons')} ${data.comforts.value}`, data.comforts.gameEffects],
+          [`${game.i18n.localize('SR5.LifestyleSecurity')}${game.i18n.localize('SR5.Colons')} ${data.security.value}`, data.security.gameEffects],
+          [`${game.i18n.localize('SR5.LifestyleNeighborhood')}${game.i18n.localize('SR5.Colons')} ${data.neighborhood.value} (${data.neighborhood.zone})`, data.neighborhood.gameEffects]
+        );
+        if (data.options) {
+          for (let option of data.options){
+            if(option.type != "modification") {
+            options.push(`${option.name}`);
+            tags.push([game.i18n.localize(lists.lifestyleOptions[option.name]), option.gameEffects]);
+            }
+          }
+        }
+        break;
+      case "itemSin":
+        if (data.license) {
+          for (let l of data.license){
+            license.push(`${l.name}`);
+            tags.push(`${l.name} ${l.rating}`);
+          }
+        }
+        break;
+
+
       case "itemVehicle":
         tags.push(`${game.i18n.localize(lists.vehiclesCategories[data.category])}`);
         if (data.vehiclesMod.length){
@@ -368,11 +395,14 @@ export class SR5Item extends Item {
           tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
         }        
         break;
+
       default:
     }
 
     data.properties = tags.filter(p => !!p);
     data.accessories = accessories.filter(p => !!p);
+    data.options = options.filter(p => !!p);
+    data.license = license.filter(p => !!p);
     return data;
   }
 

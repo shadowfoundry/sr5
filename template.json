@@ -6317,6 +6317,7 @@
         "templateBoughtOrSold"
       ],
       "type": "",
+      "level": 0,
       "rent": {
         "duration": 0,
         "bought": false
@@ -6325,6 +6326,33 @@
       "city": "",
       "country": "",
       "options": [],
+      "comforts": {
+        "value": 0,
+        "base": 0,
+        "max": 0,
+        "modifiers": [],
+        "gameEffects": ""
+      },
+      "security": {
+        "value": 0,
+        "base": 0,
+        "max": 0,
+        "modifiers": [],
+        "gameEffects": ""
+      },
+      "neighborhood": {
+        "value": 0,
+        "base": 0,
+        "max": 0,
+        "modifiers": [],
+        "zone": "",
+        "gameEffects": ""
+      },
+      "point": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "linkedIdentity": ""
     },
     "itemSin": {
