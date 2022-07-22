@@ -19,6 +19,10 @@
                             {{> systems/sr5/templates/items/_partial/summary/ammunition-summary.html}}
                             <!-- Quantity -->
                             {{> systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html}}
+                            {{#if (or (eq data.type "arrow") (eq data.type "arrowInjection"))}}
+                            <!-- Rating -->
+                            {{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.html}}
+                            {{/if}}
                             <!-- Source -->
 							{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
                         </ul>
@@ -50,7 +54,12 @@
 
                     <!-- Price & Availability -->
                     <ul class="SR-PaddingTop10">
+                        {{#if (or (eq data.type "arrow") (eq data.type "arrowInjection"))}}
+                        <!-- Rating multiplier-->
+						{{> systems/sr5/templates/items/_partial/editable/_common/priceMultiplier-edit.html}}
+                        {{else}}
                         {{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+                        {{/if}}
                     </ul>
                 </div>
 
