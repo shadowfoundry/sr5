@@ -451,7 +451,7 @@ export class SR5_RollMessage {
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
                 case "heal":
-                    actor.heal(messageData);
+                    SR5Actor.heal(messageData.actorId, messageData);
                     SR5_RollMessage.updateChatButton(messageId, type);
                     break;
                 case "firstAid":
