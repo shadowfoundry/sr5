@@ -133,9 +133,14 @@
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.defenses.{{@key}}">{{localize this}}</option>
+						{{#ife @key 'defenseFull'}}
+						<option value="data.defenses.{{@key}}.attribute">{{localize this}} [{{localize 'SR5.LinkedAttribute'}}]</option>
+						{{else}}
 						<option value="data.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						{{/ife}}
 					</optgroup>
 					{{/each}}
+					
 
 					{{else ife category 'characterResistances'}}
 					{{#each (lookup ../lists category)}}
@@ -427,6 +432,14 @@
 								{{else}}
 									{{dropdownOptions 'boolean'}}
 								{{/if}}
+							{{/select}}
+						</select>
+					{{else if (and (eq this.category 'characterDefenses')(endsWith this.target '.attribute') )}}
+						<select name="data.customEffects.{{@key}}.type" required>
+							{{#select type}}
+								{{#each (lookup ../lists 'characterAttributes')}}
+								<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
 							{{/select}}
 						</select>
 					{{else}}

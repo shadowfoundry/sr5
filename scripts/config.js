@@ -66,6 +66,7 @@ SR5.characterDefenses = {
   dodge                     : "SR5.Dodge",
   parryBlades               : "SR5.ParrySlashing",
   parryClubs                : "SR5.ParryBlunt",
+  defenseFull               : "SR5.FullDefense",
 };
 
 // Resistances

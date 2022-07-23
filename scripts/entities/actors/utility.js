@@ -98,6 +98,7 @@ export class SR5_CharacterUtility extends Actor {
           data.defenses[key].limit.modifiers = [];
         }
       }
+     if (actor.type === "actorPc" || actor.type === "actorGrunt") data.defenses.defenseFull.attribute = "willpower";
     }
 
     // Reset Resistances
@@ -1654,6 +1655,11 @@ export class SR5_CharacterUtility extends Actor {
             SR5_EntityHelpers.updateModifier(defenses[key],`${game.i18n.localize('SR5.Reaction')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.reaction.augmented.value);
             SR5_EntityHelpers.updateModifier(defenses[key],`${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
             SR5_EntityHelpers.updateModifier(defenses[key],`${game.i18n.localize('SR5.SkillBlades')}`, `${game.i18n.localize('SR5.Skill')}`, skills.blades.rating.value);
+            break;
+          case "defenseFull":
+            let defenseFullAttribute = data.defenses.defenseFull.attribute;
+            SR5_EntityHelpers.updateModifier(defenses[key],`${game.i18n.localize('SR5.FullDefense')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[defenseFullAttribute].augmented.value);
+            SR5_EntityHelpers.updateDicePool(defenses.defenseFull, 0);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown '${key}' defense in 'updateDefenses()'`);
@@ -3334,6 +3340,15 @@ export class SR5_CharacterUtility extends Actor {
         //Special case for Energetic Aura
         if (customEffect.target === "data.specialProperties.energyAura"){
           setProperty(actor, customEffect.target, customEffect.type);
+          continue;
+        }
+
+        //Special case for full Defense
+
+        if (customEffect.target === "data.defenses.defenseFull.attribute"){
+          setProperty(actor, customEffect.target, customEffect.type);
+          SR5_CharacterUtility.updateDefenses(actor);
+          
           continue;
         }
 

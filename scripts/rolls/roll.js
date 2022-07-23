@@ -727,7 +727,7 @@ export class SR5_Roll {
                     originalActionAuthor: chatData?.originalActionAuthor,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     mark: chatData?.mark,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     matrixTargetItemUuid: deck.uuid,
                     dicePoolComposition: dicePoolComposition,
                 }
@@ -795,7 +795,7 @@ export class SR5_Roll {
                 dicePool = matrixAction.defense.dicePool;
                 typeSub = rollKey;
                 optionalData = {
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                 }
             break;
 
@@ -828,7 +828,7 @@ export class SR5_Roll {
                     hits: chatData?.test.hits,
                     originalActionAuthor: chatData?.originalActionAuthor,
                     mark: chatData?.mark,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     dicePoolComposition:  matrixAction.defense.modifiers,
                 });
                 break;
@@ -1025,7 +1025,7 @@ export class SR5_Roll {
                 if (rollKey !== "defend") limit = actorData.limits.physicalLimit.value;
                 optionalData = {
                     cover: true,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     dicePoolComposition: actorData.defenses[rollKey].modifiers,
                 }
                 break;
@@ -1129,7 +1129,7 @@ export class SR5_Roll {
                     cumulativeDefense: cumulativeDefense,
                     hits: chatData.test.hits,
                     cover: cover,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     "activeDefenses.block": actorData.skills?.unarmedCombat?.rating.value  || 0,
                     "activeDefenses.parryClubs": actorData.skills?.clubs?.rating.value  || 0,
@@ -1636,7 +1636,7 @@ export class SR5_Roll {
                 optionalData = {
                     hits: chatData.test.hits,
                     originalActionAuthor: chatData?.originalActionAuthor,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     dicePoolComposition: dicePoolComposition,
                 }
 
@@ -1725,7 +1725,7 @@ export class SR5_Roll {
                 dicePool = firstAttribute + secondAttribute;
                 optionalData = {
                     hits: chatData.test.hits,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     dicePoolComposition: dicePoolComposition,
                 }
 
@@ -1809,7 +1809,7 @@ export class SR5_Roll {
                     ammoType: "",
                     damageElement: "",
                     chatActionType: "resistanceCard",
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     target: target,
                     accidentValue: Math.ceil(target/2),
@@ -1834,7 +1834,7 @@ export class SR5_Roll {
                     damageType: chatData.damageType,
                     incomingPA: chatData.incomingPA,
                     hits: chatData.test.hits,
-                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                    defenseFull: actorData.defenses.defenseFull.dicePool || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     dicePoolComposition: dicePoolComposition,
                     damageOriginalValue: chatData.damageOriginalValue,
