@@ -18,6 +18,15 @@
 	{{/if}}
 </li>
 
+{{#if dicePoolComposition}}
+<!--Base Dicepool composition-->
+<li class="SR-GreyColor">
+    {{#each dicePoolComposition}}
+    <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}}){{#unless @last}}, {{/unless}}</span> 
+    {{/each}}
+</li>
+{{/if}}
+
   <!-- USER DICEPOLL MODIFIER -->
 <li class="grid">
 	<div class="col-11">{{localize 'SR5.VariousModifiers'}}{{localize 'SR5.Colons'}}</div>

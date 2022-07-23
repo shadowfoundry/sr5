@@ -41,7 +41,6 @@ export class SR5_Roll {
                 "effects": {},
                 "limitDV": "",
             },
-            limitDV = "",
             originalMessage,
             effectsList,
             spiritHelp,
@@ -385,6 +384,8 @@ export class SR5_Roll {
             case "resistanceCard":
             case "resistanceCardAura":
             case "splitted":
+
+                SR5_SystemHelpers.srLog(1, `actorRoll '${JSON.stringify(chatData)}'`);
 
                 title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
                 damageValueBase = chatData.damageValue;
@@ -1006,6 +1007,7 @@ export class SR5_Roll {
                     damageElement: "",
                     ammoType: "",
                     armor: armor,
+                    armorComposition: armorComposition,
                     dicePoolComposition: dicePoolComposition,
                     actorType: actor.data.type,
                 };
@@ -1247,7 +1249,6 @@ export class SR5_Roll {
                     calledShot: calledShot,
                     rulesCalledShot: rulesCalledShot,                 
                     targetActorType: targetActorType,
-                    limitDV : limitDV,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     dicePoolComposition: itemData.weaponSkill.modifiers,
                     "firingMode.singleShot": itemData.firingMode.singleShot,
