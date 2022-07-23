@@ -30,7 +30,15 @@
 				  data-helpMessage="{{localize 'SR5.HELP_QuantityMsg'}}">
 					{{data.quantity}}
 				</div>
+				{{#if (or (eq data.type "arrow") (eq data.type "arrowInjection"))}}
+				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+					{{data.itemRating}}
+				</div>
+				{{else}}
 				<div class="col-1"></div>
+				{{/if}}
 				<div class="col-1 SR-TextRight">
 					{{#if ../owner}}
 					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">

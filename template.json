@@ -5698,7 +5698,8 @@
       "quantity": 1,
       "type": "",
       "class": "",
-      "caseType": ""
+      "caseType": "",
+      "rating": ""
     },
     "itemWeapon": {
       "templates": [
@@ -5759,7 +5760,8 @@
         "value": 0,
         "max": 0,
         "type": "",
-        "casing": ""
+        "casing": "",
+        "rating": ""
       },
       "recoilCompensation": {
         "value": 0,

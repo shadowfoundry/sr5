@@ -3371,6 +3371,13 @@ export class SR5_CharacterUtility extends Actor {
             if (customEffect.value === "true") booleanValue = true;
             else booleanValue = false;
             setProperty(actor, customEffect.target, booleanValue);
+            break;            
+          case "divide":
+            targetObject.modifiers= [];
+            if (targetObject.base < 1) targetObject.base = 0;
+            customEffect.value = 1;
+            let division = -targetObject.base + Math.ceil(targetObject.base/customEffect.multiplier);
+            SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, division, isMultiplier, cumulative);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' custom effect type in applyCustomEffects()`, customEffect);

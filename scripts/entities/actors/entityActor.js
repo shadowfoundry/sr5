@@ -875,10 +875,11 @@ export class SR5Actor extends Actor {
           && actorData.data.conditionMonitors.stun.actual.value < actorData.data.conditionMonitors.stun.value
           && actorData.data.conditionMonitors.physical.actual.value < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
           break;
-      case "actorGrunt":
-      case "actorDrone":
+      case "actorGrunt":        
         if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
+      case "actorDrone":
+        if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         break;
       case "actorSprite":
       case "actorDevice":
@@ -1770,7 +1771,234 @@ export class SR5Actor extends Actor {
     if (toxinEffects.length) await this.createEmbeddedDocuments("Item", toxinEffects);
     if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
     if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
-  }
+  } 
+
+    //Apply specific called shots effect
+    async applyCalledShotsEffect(data){
+      let effects, status, isStatusEffectOn;
+      let cSEffects = [];
+      let statusEffects = [];
+
+  
+      for (let [value, key] of Object.entries(data.calledShot.effects)){
+        if (value) {
+          effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this);
+          cSEffects = cSEffects.concat(effects);
+          //Slowed Status Effect
+          if (key.name === "slowed"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "slowed");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("slowed");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Winded Status Effect
+          if (key.name === "winded"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "winded");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("winded");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Deafened Status Effect
+          if (key.name === "deafened"){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "deafened");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("deafened");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Blinded Status Effect
+          if (key.name === "blinded"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "blinded");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("blinded");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Broken Grip Status Effect
+          if (key.name === "brokenGrip"){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "brokenGrip");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("brokenGrip");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Weak Side Status Effect
+          if (key.name === "weakSide"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "weakSide");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("weakSide");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Nauseous Status Effect
+          if (key.name === "nauseous"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "nauseous");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("nauseous");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Paralysis Status Effect
+          if (key.name === "paralysis"){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("noAction");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Buckled Status Effect
+          if (key.name === "buckled"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "buckled");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("buckled");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Slow Death Status Effect
+          if (key.name === "slowDeath"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "slowDeath");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("slowDeath");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Unable to speak Status Effect
+          if (key.name === "unableToSpeak"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "unableToSpeak");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("unableToSpeak");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Bleed Out Status Effect
+          if (key.name === "bleedOut"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "bleedOut");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("bleedOut");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //One-arm bandit Status Effect
+          if (key.name === "oneArmBandit"){
+            let isStatusEffectOn = this.effects.find(e => e.data.origin === "oneArmBandit");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("oneArmBandit");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Pin Status Effect
+          if (key.name === "pin"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "pin");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("pin");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Trick Shot Status Effect
+          if (key.name === "trickShot"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "trickShot");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("trickShot");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Knockdown Status Effect
+          if (key.name === "prone"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "prone");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("prone");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Dirty Trick Status Effect
+          if (key.name === "dirtyTrick"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "dirtyTrick");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("dirtyTrick");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Entanglement Status Effect
+          if (key.name === "entanglement"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "entanglement");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("entanglement");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Antenna Status Effect
+          if (key.name === "antenna"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "antenna");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("antenna");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Engine Block Status Effect
+          if (key.name === "engineBlock"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "engineBlock");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("engineBlock");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Window Motor Status Effect
+          if (key.name === "windowMotor"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "windowMotor");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("windowMotor");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Door Lock Status Effect
+          if (key.name === "doorLock"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "doorLock");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("doorLock");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Axle Status Effect
+          if (key.name === "axle"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "axle");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("axle");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Fuel Tank / Battery Status Effect
+          if (key.name === "fuelTankBattery"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "fuelTankBattery");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("fuelTankBattery");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Flared Status Effect
+          if (key.name === "flared"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "flared");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("flared");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+          //Shaked Status Effect
+          if (key.name === "shaked"){
+            isStatusEffectOn = this.effects.find(e => e.data.origin === "shaked");
+            if (!isStatusEffectOn){
+              status = await _getSRStatusEffect("shaked");
+              statusEffects = statusEffects.concat(status);
+            }
+          }
+        }
+      }
+  
+      if (cSEffects.length) await this.createEmbeddedDocuments("Item", cSEffects);
+      if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
+      if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
+    }
 
   //Keep Agent condition Monitor synchro with Owner deck
   static async keepAgentMonitorSynchro(agent){

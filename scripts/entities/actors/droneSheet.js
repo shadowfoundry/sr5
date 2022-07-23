@@ -47,6 +47,8 @@ export class SR5DroneSheet extends ActorSheetSR5 {
     data.filters = this._filters;
     if (game.settings.get("sr5", "sr5MatrixGridRules")) data.rulesMatrixGrid = true;
     else data.rulesMatrixGrid = false;
+    if (game.settings.get("sr5", "sr5CalledShotsRules")) data.rulesCalledShot = true;
+    else data.rulesCalledShot = false;
     return data;
   }
 

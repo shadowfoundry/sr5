@@ -32,6 +32,10 @@
         {{/if}}
         <!-- ENVIRONMENTAL MODIFIERS -->
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
+        {{#if (and (or (eq typeSub "rangedWeapon") (eq typeSub "meleeWeapon")) rulesCalledShot )}}
+        <!-- CALLED SHOTS -->
+        {{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
+        {{/if}}
       {{/ife}}
 
       <!-- ATTRIBUTE CHOICE -->
@@ -221,7 +225,7 @@
       {{/if}}
 
       <!-- TAKING ON DAMAGE -->
-      {{#if (or (and (eq type "resistanceCard") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') )}}
+      {{#if (or (and (eq type "resistanceCard") (eq type "splitted") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
       {{/if}}
 
