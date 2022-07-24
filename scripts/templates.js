@@ -449,6 +449,8 @@ export const preloadHandlebarsTemplates = async function () {
     /**                                DIALOG PARTIALS                                    ** */
     /************************************************************************************* */
     "systems/sr5/templates/rolls/rollDialogPartial/dicePool.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/modifiers.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/customModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html",
@@ -484,7 +486,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixSearchThreshold.html",
     "systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html",
     "systems/sr5/templates/rolls/rollDialogPartial/reagents.html",
     "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",

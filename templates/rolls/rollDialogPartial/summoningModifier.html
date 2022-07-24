@@ -6,8 +6,8 @@
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-TextCenter">
-        <select name="spiritType">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModSpiritType" data-modifier="spiritType">
             {{#ifne actorTradition ''}}
             {{#select espritType}}
                 {{#each elements}}
@@ -24,6 +24,6 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="summoningSpiritTypeModifier" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModSpiritType" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

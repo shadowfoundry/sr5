@@ -1,0 +1,25 @@
+<!-- MODIFIERS -->
+<li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+    <div class="col-11">{{localize 'SR5.Modifiers'}}</div>
+    <div class="col-1 SR-TextCenter">
+		<input disabled type="number" name="dicePoolModifiers" value="0" data-dtype="Number" placeholder="0" />
+	</div>
+</li>
+
+<!-- ATTRIBUTE CHOICE -->
+{{#if switch.attribute}}
+{{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
+{{/if}}
+
+<!-- CUSTOM MODIFIER-->
+{{> systems/sr5/templates/rolls/rollDialogPartial/customModifier.html}}
+
+<!-- WOUND MODIFIER-->
+{{#if switch.penalty}}
+{{> systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html}}
+{{/if}}
+
+<!-- SPECIALIZATION -->
+{{#if switch.specialization}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html}}
+{{/if}}

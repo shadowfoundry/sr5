@@ -4892,7 +4892,7 @@ input[type=range]:focus::-ms-fill-upper {
   content: '✔';
   color: #fffffe;
   border-color: #839c88;
-  background: rgba(131, 156, 136, 0.5);
+  background: rgba(131, 156, 136, 0.9);
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;

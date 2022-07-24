@@ -1,14 +1,7 @@
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.SustainPenalty'}}{{localize 'SR5.Colons'}}</div> <!-- Clef à traduire -->
-    <div class="col-2">
-        <select class="penaltyMod" name="penaltyMod">
-        {{#select penaltyMod}}
-            <option value="0">{{localize 'SR5.No'}}</option>
-            <option value="{{penaltyValue}}">{{localize 'SR5.Yes'}}</option>
-        {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.SustainPenalty'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModPenalty" data-modifier="penalty"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModPenalty" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModPenalty" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

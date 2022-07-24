@@ -1,14 +1,7 @@
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.Specialization'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <select name="specialization">
-        {{#select specialization}}
-            <option value="false">{{localize 'SR5.No'}}</option>
-            <option value="true">{{localize 'SR5.Yes'}}</option>
-        {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.Specialization'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSpecialization" data-modifier="specialization"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" name="dicePoolModSpecialization" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModSpecialization" value="0" placeholder="0" data-dtype="Number" />
     </div>
-  </li>
+</li>

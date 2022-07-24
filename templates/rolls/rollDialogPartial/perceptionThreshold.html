@@ -6,7 +6,7 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.PerceptionThresholdType'}}{{localize 'SR5.Colons'}}</div> 
     <div class="col-6">
-        <select name="perceptionThresholdType">
+        <select class="SR-ManageThreshold" name="perceptionThresholdType" data-target="perceptionThreshold">
         {{#select perceptionThresholdType}}
             <option value="opposed">{{localize 'SR5.Opposed'}}</option>
             <option value="obvious">{{localize 'SR5.PerceptionThresholdObvious'}}</option>

@@ -1,7 +1,7 @@
-<li class="grid SR-TopSeparator">
+<li class="grid">
     <div class="col-3">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-8 SR-PaddingRight10">
-        <select class="firingMode" name="firingMode">
+    <div class="col-8 SR-TextRight">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="recoil" data-modifier="firingMode">
             {{#select firingMode}}
                 {{#if firingMode.singleShot}}
                 <option value="SS">{{localize 'SR5.WeaponModeSS'}} ({{localize 'SR5.WeaponModeSSShort'}}) [-1 {{localize 'SR5.Bullet'}}]</option>
@@ -15,7 +15,7 @@
                 <option value="LB">{{localize 'SR5.WeaponModeLB'}} ({{localize 'SR5.WeaponModeLBShort'}}) [-6 {{localize 'SR5.Bullets'}}]</option>
                 {{/if}}
                 {{#if firingMode.fullyAutomatic}}
-                <option value="FAs">{{localize 'SR5.WeaponModeFA'}} ({{localize 'SR5.WeaponModeFAShort'}}) [-6 {{localize 'SR5.Bullets'}}]</option>
+                <option value="FA">{{localize 'SR5.WeaponModeFA'}} ({{localize 'SR5.WeaponModeFAShort'}}) [-6 {{localize 'SR5.Bullets'}}]</option>
                 <option value="FAc">{{localize 'SR5.WeaponModeFA'}} ({{localize 'SR5.WeaponModeFAShort'}}) [-10 {{localize 'SR5.Bullets'}}]</option>
                 <option value="SF">{{localize 'SR5.WeaponModeSF'}} ({{localize 'SR5.WeaponModeSFShort'}}) [-20 {{localize 'SR5.Bullets'}}]</option>
                 {{/if}}

@@ -1,7 +1,10 @@
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.MetamagicSpellShaping'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6"></div>
+    <div class="col-10">{{localize 'SR5.MetamagicSpellShaping'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="dicePoolModSpellShaping" data-type="minus" data-modifier="spellShaping"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="dicePoolModSpellShaping" data-type="plus" data-modifier="spellShaping"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter">
-        <input type="number"  name="spellShaping" value="" placeholder="0" data-dtype="Number" />
+        <input type="number" class="SR-ModInput" data-modifier="spellShaping" name="dicePoolModSpellShaping" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

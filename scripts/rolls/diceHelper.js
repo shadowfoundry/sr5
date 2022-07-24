@@ -218,12 +218,47 @@ export class SR5_DiceHelper {
             case "BF":
                 return 3;
             case "LB":
-            case "FAs":
+            case "FA":
                 return 6;
             case "FAc":
                 return 10;
             case "SF":
+                return 20;
+            default: return 0;
+        }
+    }
+
+    //Convert firing mode choice to  number of bullets
+    static convertFiringModeToDefenseDicepoolMod(mode){
+        switch(mode){
+            case "SS":
+            case "SA":
                 return 0;
+            case "SB":
+            case "BF":
+                return -2;
+            case "LB":
+            case "FA":
+                return -5;
+            case "FAc":
+                return -9;
+            case "SF":
+                return 0;
+            default: return 0;
+        }
+    }
+
+    //Convert range  to environmental line
+    static convertRangeToEnvironmentalLine(mode){
+        switch(mode){
+            case "short":
+                return 0;
+            case "medium":
+                return 1;
+            case "long":
+                return 2;
+            case "extreme":
+                return 3;
             default: return 0;
         }
     }
@@ -332,8 +367,8 @@ export class SR5_DiceHelper {
     //Get time spent on a matrix search
     static async getMatrixSearchDuration(cardData, netHits){
         let timeSpent, duration = "";
-        cardData.matrixSearchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.matrixSearchType);
-		cardData.matrixSearchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.matrixSearchType);
+        cardData.matrixSearchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.thresholdType);
+		cardData.matrixSearchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.thresholdType);
 
         if (cardData.matrixSearchUnit === "minute") timeSpent = (cardData.matrixSearchTime * 60)/netHits;
         if (cardData.matrixSearchUnit === "hour") timeSpent = (cardData.matrixSearchTime * 60 * 60)/netHits;
@@ -576,7 +611,6 @@ export class SR5_DiceHelper {
     static async _socketMarkItem(message) {
         await SR5_DiceHelper.markItem(message.data.targetActor, message.data.attackerID, message.data.mark);
 	}
-
 
     /** Find if an Actor has a Mark item with the same ID as the attacker
    * @param {Object} targetActor - The Target Actor who owns the Mark
@@ -1484,24 +1518,6 @@ export class SR5_DiceHelper {
         }
     }
 
-    static convertPerceptionModifierToMod(type){
-        switch (type){
-            case "distracted":
-                return -2;
-            case "specificallyLooking":
-                return +3;
-            case "notInImmediateVicinity":
-                return -2;
-            case "farAway":
-                return -3;
-            case "standsOutInSomeWay":
-                return +2;
-            case "interfering":
-                return -2;
-            default : return 0;
-        }
-    }
-
     static convertPerceptionTypeToThreshold(type){
         switch (type){
             case "opposed":
@@ -1514,18 +1530,6 @@ export class SR5_DiceHelper {
                 return 3;
             case "hidden":
                 return 4;
-            default : return 0;
-        }
-    }
-
-    static convertSurvivalModifierToMod(type){
-        switch (type){
-            case "camping":
-                return 2;
-            case "noFoundOrWater":
-                return -2;
-            case "controlAvailable":
-                return 1;
             default : return 0;
         }
     }
@@ -1658,9 +1662,86 @@ export class SR5_DiceHelper {
         }
     }
 
-    static convertBuildingCheckboxToMod(type, actorData){
-        if (actorData.data.attributes.logic.augmented.value >= 5) return 0;
-        else return -(5 - actorData.data.attributes.logic.augmented.value);
+    static convertCoverToMod(type){
+        switch (type){
+            case "none":
+                return 0;
+            case "partial":
+                return 2;
+            case "full":
+                return 4;
+            default : return 0;
+        }
+    }
+    
+    static convertMarkToMod(type){
+        switch (type){
+            case "1":
+                return 0;
+            case "2":
+                return -4;
+            case "3":
+                return -10;
+            default : return 0;
+        }
     }
 
+    static convertTriggerToMod(type){
+        switch (type){
+            case "command":
+            case "time":
+                return 2;
+            case "contact":
+                return 1;
+            default: return 0;
+        }
+    }
+
+    static convertSearchTypeToThreshold(type){
+        switch (type){
+            case "general":
+                return 1;
+            case "limited":
+                return 3;
+            case "hidden":
+                return 1;
+            default: return 0;
+        }
+    }
+
+    static convertSpeedToDamageValue(speed, body){
+        switch(speed) {
+            case "speedRamming1" :
+                return Math.ceil(body/2);
+            case "speedRamming11" :
+                return body;
+            case "speedRamming51" :
+                return body*2;
+            case "speedRamming201" :
+                return body*3;
+            case "speedRamming301" :
+                return body*5;
+            case "speedRamming501" :
+                return body*10;
+            default:
+        }
+    }
+
+    static convertSpeedToAccidentValue(speed, body){
+        switch(speed) {
+            case "speedRamming1" :
+                return Math.ceil(body/4);
+            case "speedRamming11" :
+                return Math.ceil(body/2);
+            case "speedRamming51" :
+                return body;
+            case "speedRamming201" :
+                return Math.ceil((body*3)/2);
+            case "speedRamming301" :
+                return Math.ceil(body*2,5);
+            case "speedRamming501" :
+                return Math.ceil(body*5);
+            default:
+        }
+    }
 }

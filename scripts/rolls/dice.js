@@ -187,6 +187,7 @@ export class SR5_Dice {
 		let buttons = {
 			roll: {
 				label: game.i18n.localize("SR5.RollDice"),
+				class: ['test', 'truc'],
 				icon: '<i class="fas fa-dice-six"></i>',
 				callback: () => (cancel = false),
 			},
@@ -951,8 +952,7 @@ export class SR5_Dice {
 
 		//Matrix search special case
 		if (cardData.typeSub === "matrixSearch"){
-			cardData.matrixSearchTreshold = SR5_DiceHelper.convertMatrixSearchToTreshold(cardData.matrixSearchType);
-			let netHits = cardData.test.hits - cardData.matrixSearchTreshold;
+			let netHits = cardData.test.hits - cardData.threshold;
 			cardData.matrixSearchDuration = await SR5_DiceHelper.getMatrixSearchDuration(cardData, netHits);
 			if (netHits <=0) {
 				netHits = 1;
@@ -960,7 +960,7 @@ export class SR5_Dice {
 			} else {
 				cardData.buttons.matrixSearchSuccess = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "matrixSearchSuccess", `${game.i18n.localize("SR5.MatrixSearchSuccess")} [${cardData.matrixSearchDuration}]`);
 			}
-			cardData.title = `${game.i18n.localize("SR5.MatrixActionTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[cardData.typeSub])} (${cardData.matrixSearchTreshold})`;
+			cardData.title = `${game.i18n.localize("SR5.MatrixActionTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[cardData.typeSub])} (${cardData.threshold})`;
 			return;
 		}
 

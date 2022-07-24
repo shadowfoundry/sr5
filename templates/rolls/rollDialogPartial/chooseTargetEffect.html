@@ -3,15 +3,15 @@
 </li>
 <li class="grid">
 	<div class="col-11">
-		<select name="targetEffect" data-dtype="String">
+		<select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModTargetType" data-modifier="targetEffect">
 		{{#select item}}
 			{{#each effectsList}}
 			<option value="{{uuid}}">{{name}}</option>
 			{{/each}}
 		{{/select}}
 		</select>
-	</div>
+	</div> 
 	<div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="targetEffectTypeModifier" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModTargetType" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

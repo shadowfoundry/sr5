@@ -1,46 +1,58 @@
 <li class="grid SR-TopSeparator">
     <div class="col-10">{{localize 'SR5.SurvivalModCamping'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="checkbox" name="camping"></div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSurvivalCamping" data-modifier="camping"></div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="dicePoolModSurvivalCamping" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SurvivalModNoFoundOrWater'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="checkbox" name="noFoundOrWater"></div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSurvivalNoFoundOrWater" data-modifier="noFoundOrWater"></div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="dicePoolModSurvivalNoFoundOrWater" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SurvivalModControlAvailable'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="checkbox" name="controlAvailable"></div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSurvivalControlAvailable" data-modifier="controlAvailable"></div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="dicePoolModSurvivalControlAvailable" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-11">{{localize 'SR5.SurvivalModClothing'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.SurvivalModClothing'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="dicePoolModClothing" data-type="minus" data-modifier="clothing"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="dicePoolModClothing" data-type="plus" data-modifier="clothing"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter">
-        <input type="number" name="clothing" value="0" data-dtype="Number" placeholder="0" />
+        <input class="SR-ModInput" type="number" data-modifier="clothing" name="dicePoolModClothing" value="0" data-dtype="Number" placeholder="0" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-11">{{localize 'SR5.SurvivalModTravel'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.SurvivalModTravel'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="dicePoolModtravel" data-type="minus" data-modifier="travel"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="dicePoolModtravel" data-type="plus" data-modifier="travel"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter">
-        <input type="number" name="travel" value="0" data-dtype="Number" placeholder="0" />
+        <input class="SR-ModInput" data-modifier="travel" type="number" name="dicePoolModtravel" value="0" data-dtype="Number" placeholder="0" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-11">{{localize 'SR5.SurvivalModToxic'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.SurvivalModToxic'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="dicePoolModtoxic" data-type="minus" data-modifier="toxic"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="dicePoolModtoxic" data-type="plus" data-modifier="toxic"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter">
-        <input type="number" name="toxic" value="0" data-dtype="Number" placeholder="0" />
+        <input class="SR-ModInput" data-modifier="toxic" type="number" name="dicePoolModtoxic" value="0" data-dtype="Number" placeholder="0" />
     </div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.SurvivalWeather'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-PaddingRight10">
-        <select name="weather">
+        <select class="SR-ModSelect" data-target="dicePoolModWeather" data-modifier="weather">
             {{#select weather}}
                 <option value="none">{{localize 'SR5.ChooseOne'}}</option>
                 <option value="poor">{{localize 'SR5.SurvivalWeatherPoor'}}</option>
@@ -50,6 +62,6 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModWeather" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModWeather" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

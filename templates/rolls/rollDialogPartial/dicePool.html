@@ -1,27 +1,15 @@
-<!-- MODIFIED DICE POOL -->
-<li class="SR-LigneEnTete">
-	<div class="grid SR-TextUppercase">
-		<div class="col-11">{{localize 'SR5.ModifiedDicePool'}}</div>
-	  	<div class="col-1 SR-TextCenter">
-			<input disabled type="number"  name="modifiedDicePool" value="" placeholder="0" data-dtype="Number" />
-	  	</div>
-	</div>
-</li>
-
 <!-- BASE DICE POOL -->
-<li class="grid">
-	<div class="col-11">{{localize 'SR5.BaseDicePool'}}{{localize 'SR5.Colons'}}</div>
+<li class="grid SR-LigneEnTete SR-TextUppercase">
+	<div class="col-11">{{localize 'SR5.BaseDicePool'}}</div>
 	{{#if (or (eq typeSub "physicalDamage") (eq type "resistFire") )}}
 		<div class="col-1 SR-TextCenter"><input disabled type="number"  name="baseDicePool" value="{{dicePoolBase}}" placeholder="0" data-dtype="Number" /></div>
 	{{else}}
 	 	<div class="col-1 SR-TextCenter"><input disabled type="number"  name="baseDicePool" value="{{dicePool}}" placeholder="0" data-dtype="Number" /></div>
 	{{/if}}
 </li>
-
-  <!-- USER DICEPOLL MODIFIER -->
+{{#each dicePoolComposition}}
 <li class="grid">
-	<div class="col-11">{{localize 'SR5.VariousModifiers'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-1 SR-TextCenter">
-		<input type="number" name="dicePoolModVarious" value="{{dicePoolModVarious}}" data-dtype="Number" placeholder="0" />
-	</div>
+	<div class="col-11"><span>{{source}}</span><span class="SR-LightGreyColor"> [{{type}}]</span></div>
+	<div class="col-1 SR-TextCenter">{{value}}</div>
 </li>
+{{/each}}

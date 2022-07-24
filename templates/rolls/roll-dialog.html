@@ -1,22 +1,15 @@
 <form class="SR5jet">
   <div >
     <ul>
-      <!-- DICEPOOL -->
+      <!-- BASE DICEPOOL -->
       {{#if (eq type "objectResistance")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html}}
       {{else}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/dicePool.html}}
       {{/if}}
 
-      <!-- WOUND MODIFIER-->
-      {{#if switch.penalty}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html}}
-      {{/if}}
-
-      <!-- SPECIALIZATION -->
-      {{#if switch.specialization}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html}}
-      {{/if}}
+      <!-- MODIFIERS -->
+      {{> systems/sr5/templates/rolls/rollDialogPartial/modifiers.html}}
 
       <!-- ATTACK -->
       {{#ife type "attack"}}
@@ -34,11 +27,6 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
       {{/ife}}
 
-      <!-- ATTRIBUTE CHOICE -->
-      {{#if switch.attribute}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
-      {{/if}}
-
       <!-- SPIRIT AID -->
       {{#if switch.spiritAid}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html}}
@@ -51,6 +39,7 @@
 
       <!-- SPELLS - FORCE - BACKGROUND COUNT -->
       {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "ritual")  )}}
+      {{log this}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
         {{#if switch.canUseReagents}}
@@ -185,10 +174,6 @@
           {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html}}
         {{/if}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html}}
-        <!-- MATRIX SEARCH -->
-        {{#if (eq typeSub "matrixSearch")}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html}}
-        {{/if}}
       {{/ife}}
 
       <!-- RESONANCE ACTION -->
@@ -204,11 +189,6 @@
           {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
         {{/if}}
       {{/ife}}
-
-      <!-- EXTENDED TEST -->
-      {{#if switch.extended}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
-      {{/if}}
 
       <!-- ASTRAL COMBAT DAMAGE CHOICE -->
       {{#if switch.chooseDamageType}}
@@ -277,6 +257,16 @@
       <!-- SURVIVAL THRESHOLD-->
       {{#if (eq typeSub "survival")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/survivalThreshold.html}}
+      {{/if}}
+
+      <!-- MATRIX SEARCH THRESHOLD-->
+      {{#if (eq typeSub "matrixSearch")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearchThreshold.html}}
+      {{/if}}
+
+      <!-- EXTENDED TEST -->
+      {{#if switch.extended}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
       {{/if}}
     </ul>
   </div>

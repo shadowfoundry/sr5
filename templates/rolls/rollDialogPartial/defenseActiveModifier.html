@@ -1,7 +1,7 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ActiveDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-PaddingRight10">
-        <select class="defenseMode" name="defenseMode">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModDefenseActive" data-modifier="defenseMode">
             {{#select defenseMode}}
             <option value="none">{{localize 'SR5.DefenseNone'}}</option>
             <option value="defenseDodge">{{localize 'SR5.Dodge'}}</option>

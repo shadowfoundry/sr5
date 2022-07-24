@@ -158,6 +158,9 @@ export class SR5_Roll {
                         attributeKey: actorData.skills[rollKey].linkedAttribute,
                         "switch.penalty": true,
                         penaltyValue: penalties,
+                        "lists.characterAttributes": actor.data.lists.characterAttributes,
+                        "lists.characterSpecialAttributes": actor.data.lists.characterSpecialAttributes,
+                        "lists.vehicleAttributes": actor.data.lists.vehicleAttributes,
                     });
                 } else {
                     dicePool = actorData.skills[rollKey].test.dicePool;
@@ -721,8 +724,8 @@ export class SR5_Roll {
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     matrixNoiseRange: "wired",
                     matrixNoiseScene: sceneNoise + actorData.matrix.noise.value,
-                    "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
-                    "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
+                    //"dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
+                    //"dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: matrixAction.test.modifiers,
                     rulesMatrixGrid: rulesMatrixGrid,
                     "lists.gridTypes": actor.data.lists.gridTypes,
@@ -1057,6 +1060,7 @@ export class SR5_Roll {
                     damageType: chatData.damageType,
                     ammoType: chatData.ammoType,
                     incomingPA: chatData.incomingPA,
+                    firingMode: chatData.firingMode,
                     incomingFiringMode: chatData.firingModeDefenseMod,
                     cumulativeDefense: cumulativeDefense,
                     hits: chatData.test.hits,
@@ -1091,8 +1095,8 @@ export class SR5_Roll {
                 let cumulativeRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
                 recoilCompensation -= cumulativeRecoil;
 
-                //let rangeModifier = 0;
-                let rangeValue = 0;
+
+                let rangeValue = "short";
                 // Get actor and target position and calcul range modifiers
                 if (canvas.scene){
                     // Get attacker position
@@ -1125,10 +1129,10 @@ export class SR5_Roll {
                         sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     } else { 
                         // Handle weapon ranged based on distance
-                        if (distance < itemData.range.short.value) rangeValue = 0;
-                        else if (distance < itemData.range.medium.value) rangeValue = 1;
-                        else if (distance < itemData.range.long.value) rangeValue = 2;
-                        else if (distance < itemData.range.extreme.value) rangeValue = 3;
+                        if (distance < itemData.range.short.value) rangeValue = "short";
+                        else if (distance < itemData.range.medium.value) rangeValue = "medium";
+                        else if (distance < itemData.range.long.value) rangeValue = "long";
+                        else if (distance < itemData.range.extreme.value) rangeValue = "extreme";
                         else if (distance > itemData.range.extreme.value) {
                             if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher"){
                                 SR5_RollMessage.removeTemplate(null, item.id)
@@ -1462,8 +1466,8 @@ export class SR5_Roll {
                     actorResonance: actorData.specialAttributes.resonance.augmented.value,
                     defenseAttribute: itemData.defenseAttribute,
                     defenseMatrixAttribute: itemData.defenseMatrixAttribute,
-                    "dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
-                    "dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
+                    //"dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
+                    //"dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: actorData.matrix.resonanceActions.threadComplexForm.test.modifiers,
                     rulesMatrixGrid: rulesMatrixGrid,
                     "lists.gridTypes": actor.data.lists.gridTypes,

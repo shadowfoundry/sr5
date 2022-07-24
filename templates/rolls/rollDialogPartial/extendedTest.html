@@ -1,27 +1,19 @@
-<li class="grid SR-TopSeparator">
-    <div class="col-4">{{localize 'SR5.ExtendedTest'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-5" id="extendedSpace"></div>
-    <div class="col-2">
-        <select name="extendedValue">
-        {{#select extendedValue}}
-            <option value="false">{{localize 'SR5.No'}}</option>
-            <option value="true">{{localize 'SR5.Yes'}}</option>
+<!-- EXTENDED TEST -->
+<li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+    <div class="col-11">{{localize 'SR5.ExtendedTest'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="toggleExtendedTest"></div>
+</li>
+
+<li class="grid" id="extendedBlock">
+    <div class="col-7">{{localize 'SR5.Interval'}}</div>
+    <div class="col-1"><input type="number" name="extendedMultiplier" value="{{extendedMultiplier}}" data-dtype="Number" placeholder="1" /></div>
+    <div class="col-3">
+        <select name="extendedTime">
+        {{#select extendedTime}}
+            {{#each lists.extendedInterval}}
+            <option value="{{@key}}">{{findTranslation 'extendedInterval' @key}}</option>
+            {{/each}}
         {{/select}}
         </select>
-    </div>
-    <div class="col-5" id="interval">
-        <div class="grid">
-            <div class="col-1"></div>
-            <div class="col-2"><input type="number" name="extendedMultiplier" value="{{extendedMultiplier}}" data-dtype="Number" placeholder="1" /></div>
-            <div class="col-9">
-            <select name="extendedTime">
-            {{#select extendedTime}}
-            {{#each lists.extendedInterval}}
-                <option value="{{@key}}">{{findTranslation 'extendedInterval' @key}}</option>
-            {{/each}}
-            {{/select}}
-            </select>
-            </div>
-        </div>
     </div>
 </li>

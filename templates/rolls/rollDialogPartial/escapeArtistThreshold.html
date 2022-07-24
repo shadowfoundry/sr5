@@ -5,7 +5,7 @@
 <li class="grid">
     <div class="col-3">{{localize 'SR5.RestraintType'}}{{localize 'SR5.Colons'}}</div> 
     <div class="col-8">
-        <select name="restraintType">
+        <select class="SR-ManageThreshold" name="restraintType" data-target="restraintThreshold">
         {{#select restraintType}}
             <option value="rope">{{localize 'SR5.RestraintTypeRope'}}</option>
             <option value="metal">{{localize 'SR5.RestraintTypeMetal'}}</option>
@@ -15,20 +15,13 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="restraintThreshold" value="2" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="restraintThreshold" value="2" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.RestraintTypeReinforced'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <select name="restraintReinforced">
-            {{#select restraintReinforced}}
-                <option value="false">{{localize 'SR5.No'}}</option> 
-                <option value="true">{{localize 'SR5.Yes'}}</option>   
-            {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.RestraintTypeReinforced'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="thresholdModRestraintReinforced" data-modifier="restraintReinforced"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="restraintReinforcedMod" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="thresholdModRestraintReinforced" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

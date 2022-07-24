@@ -1,0 +1,19 @@
+<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+    <div class="col-10">{{localize 'SR5.MatrixSearchThreshold'}}</div>
+    <div class="col-2 SR-TextRight">{{localize 'SR5.Threshold'}}</div>
+</li>
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.MatrixSearchInformationType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="searchThreshold" data-modifier="searchType">
+            {{#select searchType}}
+            <option value="general">{{localize 'SR5.MatrixSearchInfoTypeGeneral'}}</option>
+                <option value="limited">{{localize 'SR5.MatrixSearchInfoTypeLimited'}}</option>
+                <option value="hidden">{{localize 'SR5.MatrixSearchInfoTypeHidden'}}</option>
+            {{/select}}
+        </select>
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="searchThreshold" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
