@@ -2659,6 +2659,7 @@
   "SR5.HELP_MagicalTraditionMsg"              : "Choose a Magical Tradition",
   "SR5.HELP_MartialArtsActivateToggle"        : "Activate Martial Art<br>({key})",
   "SR5.HELP_MartialArtsActivateToggleMsg"     : "Click to activate or desactivate Martial Art effect.",
+  "SR5.HELP_MartialArtRollMsg"                : "Click to roll a Martial Arts Action.",
   "SR5.HELP_MaterializingButton"              : "Materialization",
   "SR5.HELP_MaterializingButtonMsg"           : "Activate or desactivate spirit materialization.",
   "SR5.HELP_MatrixAttribute"                  : "Matrix Attribute<br>({key})",

@@ -407,6 +407,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemPower":
+        case "itemMartialArt":
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -414,7 +415,6 @@ export class SR5Actor extends Actor {
 
         case "itemMetamagic":
         case "itemEcho":
-        case "itemMartialArt":
         case "itemPreparation":
         case "itemQuality":
           i.prepareData();
@@ -758,6 +758,7 @@ export class SR5Actor extends Actor {
         case "itemSpritePower":
         case "itemAdeptPower":
         case "itemVehicle":
+        case "itemMartialArt":
           i.prepareData();
           break;
       }

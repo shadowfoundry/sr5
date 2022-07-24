@@ -38,9 +38,20 @@
 						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
 						<!-- Type Martial Art-->
 						{{> systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html}}
-						<!-- Action type  -->
-						{{> systems/sr5/templates/items/_partial/editable/_common/actionType-edit.html}}
+						<!-- Action and roll -->
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.html}}
 					</ul>
+					<!-- Test Attributes -->
+					{{#if data.needRoll}}
+					<!-- Test Attributes -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.html}}
+					</ul>
+					<!-- Defense Attributes -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.html}}
+					</ul>
+					{{/if}}
 				</div>
         
 				<!-- CUSTOM EFFECTS -->

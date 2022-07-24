@@ -128,7 +128,7 @@ export class SR5_RollMessage {
                 case "resistSpell":                                        
                 case "rammingDefense":
                 case "splitted":
-
+                case "martialArtDefense":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "bindingResistance":
