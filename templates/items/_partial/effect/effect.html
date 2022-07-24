@@ -136,9 +136,6 @@
 						<option value="data.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 					</optgroup>
 					{{/each}}
-					<optgroup label="{{localize 'SR5.FullDefense'}}">
-						<option value="data.specialProperties.fullDefenseAttribute">{{localize "SR5.FullDefense"}} [{{localize 'SR5.LinkedAttribute'}}]</option>
-					</optgroup>
 
 					{{else ife category 'characterResistances'}}
 					{{#each (lookup ../lists category)}}

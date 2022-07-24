@@ -336,7 +336,7 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.energyAura = "";
       data.specialProperties.regeneration = "";
       data.specialProperties.fullDefenseAttribute = "willpower";
-      data.specialProperties.fullDefenseValue = "";
+      data.specialProperties.fullDefenseValue = 0;
     }
 
     // Reset Vehicule Test
