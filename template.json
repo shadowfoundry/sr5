@@ -254,18 +254,7 @@
               "value": 0,
               "modifiers": []
             }
-          },
-          "defenseFull": {
-            "dicePool": 0,
-            "base": 0,
-            "modifiers": [],
-            "limit": {
-              "base": "physicalLimit",
-              "value": 0,
-              "modifiers": []
-            },
-            "attribute": "willpower"
-        }
+          }
       }
       },
       "characterResistancesTemplate": {
@@ -3065,7 +3054,9 @@
           },
           "doublePenalties": false,
           "energyAura": "",
-          "regeneration": false
+          "regeneration": false,
+          "fullDefenseAttribute": "willpower",
+          "fullDefenseValue": 0
         }
       },
       "itemsPropertiesTemplate": {

@@ -133,14 +133,12 @@
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
 						<option value="data.defenses.{{@key}}">{{localize this}}</option>
-						{{#ife @key 'defenseFull'}}
-						<option value="data.defenses.{{@key}}.attribute">{{localize this}} [{{localize 'SR5.LinkedAttribute'}}]</option>
-						{{else}}
 						<option value="data.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
-						{{/ife}}
 					</optgroup>
 					{{/each}}
-					
+					<optgroup label="{{localize 'SR5.FullDefense'}}">
+						<option value="data.specialProperties.fullDefenseAttribute">{{localize "SR5.FullDefense"}} [{{localize 'SR5.LinkedAttribute'}}]</option>
+					</optgroup>
 
 					{{else ife category 'characterResistances'}}
 					{{#each (lookup ../lists category)}}
@@ -326,7 +324,7 @@
 					<option value="data.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
 					<option value="data.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
 					<option value="data.specialProperties.energyAura">{{localize 'SR5.SpiritPowerEnergyAura'}}</option>
-
+					<option value="data.specialProperties.fullDefenseAttribute">{{localize "SR5.FullDefense"}} [{{localize 'SR5.LinkedAttribute'}}]</option>
 
 					{{else ife category 'itemArmor'}}
 					<optgroup label="{{localize 'SR5.Armor'}}">
@@ -434,7 +432,7 @@
 								{{/if}}
 							{{/select}}
 						</select>
-					{{else if (and (eq this.category 'characterDefenses')(endsWith this.target '.attribute') )}}
+					{{else if (eq this.target 'data.specialProperties.fullDefenseAttribute')}}
 						<select name="data.customEffects.{{@key}}.type" required>
 							{{#select type}}
 								{{#each (lookup ../lists 'characterAttributes')}}

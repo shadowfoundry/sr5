@@ -66,7 +66,6 @@ SR5.characterDefenses = {
   dodge                     : "SR5.Dodge",
   parryBlades               : "SR5.ParrySlashing",
   parryClubs                : "SR5.ParryBlunt",
-  defenseFull               : "SR5.FullDefense",
 };
 
 // Resistances
@@ -2803,6 +2802,10 @@ SR5.hardenedArmorTypes = {
 SR5.hardenedAstralArmorTypes = {
   rating                    : "SR5.ItemRating",
   willpower                 : "SR5.Willpower"
+}
+
+SR5.fullDefense = {
+  fullDefense               : "SR5.FullDefense",
 }
 
 
