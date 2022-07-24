@@ -2804,6 +2804,10 @@ SR5.hardenedAstralArmorTypes = {
   willpower                 : "SR5.Willpower"
 }
 
+SR5.fullDefense = {
+  fullDefense               : "SR5.FullDefense",
+}
+
 
 //-----------------------------------//
 //             ITEM TYPES            //

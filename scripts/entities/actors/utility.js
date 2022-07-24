@@ -335,6 +335,8 @@ export class SR5_CharacterUtility extends Actor {
       data.specialProperties.doublePenalties = false;
       data.specialProperties.energyAura = "";
       data.specialProperties.regeneration = "";
+      data.specialProperties.fullDefenseAttribute = "willpower";
+      data.specialProperties.fullDefenseValue = 0;
     }
 
     // Reset Vehicule Test
@@ -1158,6 +1160,8 @@ export class SR5_CharacterUtility extends Actor {
           SR5_SystemHelpers.srLog(3, `Unknown ${data.specialProperties.hardenedAstralArmorType} Hardened Astral Armor type in 'updateSpecialProperties()'`);
       }
     }
+
+    if (data.specialProperties.fullDefenseAttribute) data.specialProperties.fullDefenseValue = data.attributes[data.specialProperties.fullDefenseAttribute].augmented.value;
 
     for (let key of Object.keys(lists.specialProperties)) {
       if (data.specialProperties[key]) {
@@ -3334,6 +3338,15 @@ export class SR5_CharacterUtility extends Actor {
         //Special case for Energetic Aura
         if (customEffect.target === "data.specialProperties.energyAura"){
           setProperty(actor, customEffect.target, customEffect.type);
+          continue;
+        }
+
+        //Special case for full Defense
+
+        if (customEffect.target === "data.specialProperties.fullDefenseAttribute"){
+          setProperty(actor, customEffect.target, customEffect.type);
+          SR5_CharacterUtility.updateDefenses(actor);
+          
           continue;
         }
 
