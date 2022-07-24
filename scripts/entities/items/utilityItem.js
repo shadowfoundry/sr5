@@ -489,6 +489,37 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(weapon.accuracy);
   }
 
+  static _handleWeaponImg(weapon) {
+    switch (weapon.data.type) {
+      case "clubs":
+      case "blades":  
+      case "unarmed":  
+      case "exoticMeleeWeapon": 
+      case "bow":
+      case "assaultRifle":
+      case "taser":
+      case "machinePistol":
+      case "throwing":
+      case "submachineGun":
+      case "sniperRifle":
+      case "missileLauncher":
+      weapon.img = `systems/sr5/img/items/weapons/${weapon.data.type}.svg`;
+        break;
+      case "lightCrossbow":
+      case "mediumCrossbow":
+      case "heavyCrossbow":
+      weapon.img = `systems/sr5/img/items/weapons/crossbow.svg`;
+        break;
+      case "lightMachineGun":
+      case "mediumMachineGun":
+      case "heavyMachineGun":
+      weapon.img = `systems/sr5/img/items/weapons/machineGun.svg`;
+        break;
+        default:
+          `systems/sr5/img/items/itemWeapon.svg`
+    }
+  }
+
   // Modif des munitions & grenades
   static _handleWeaponAmmunition(weapon) {
     let armorPenetration = 0,
@@ -1451,14 +1482,19 @@ export class SR5_UtilityItem extends Actor {
   ////////////////////// VEHICULES  ///////////////////////
   static _handleVehicle(vehicle) {
 
-    for (let vehicleMod of vehicle.vehiclesMod){
-      SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
+    for (let vehicleMod of vehicle.data.vehiclesMod){
+      SR5_EntityHelpers.updateModifier(vehicle.data.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
     }
 
-    if (vehicle.type === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
-    else vehicle.deviceRating = 2;
-
-  }
+    if (vehicle.data.type === "drone") {
+      vehicle.data.deviceRating = vehicle.data.attributes.pilot;
+      if (vehicle.data.pilotSkill) vehicle.img = `systems/sr5/img/items/vehicles/${vehicle.data.pilotSkill}.svg`;
+    }
+    else {
+      vehicle.data.deviceRating = 2;
+      if (vehicle.data.category) vehicle.img = `systems/sr5/img/items/vehicles/${vehicle.data.category}.svg`;
+      }
+    }
 
   static _handleVehicleSlots(vehicle) {
     let slots = vehicle.attributes.body ;

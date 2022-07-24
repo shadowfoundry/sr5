@@ -57,6 +57,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);
+        SR5_UtilityItem._handleWeaponImg(itemData);
         if (data.conditionMonitors.matrix.actual.value >= data.conditionMonitors.matrix.value) {
           data.wirelessTurnedOn = false;
         }
@@ -185,7 +186,7 @@ export class SR5Item extends Item {
         SR5_EntityHelpers.GenerateMonitorBoxes(data, 'matrix');
         break;
       case "itemVehicle":
-        SR5_UtilityItem._handleVehicle(data);
+        SR5_UtilityItem._handleVehicle(itemData);
         SR5_UtilityItem._handleVehicleSlots(data);
         SR5_UtilityItem._handleItemPrice(data);
         SR5_UtilityItem._handleItemAvailability(data);

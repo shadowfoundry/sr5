@@ -79,3 +79,7 @@ And another thanks to Ombres Portées v2 community !
 
 ## Copyrights
 Shadowrun and Matrix are registered trademarks and/or trademarks of The Topps Company, Inc., in the United States and/or other countries. Catalyst Game Labs and the Catalyst Game Labs logo are trademarks of InMediaRes Productions, LLC.
+
+## Credits & attributions
+Icons are derived from original icons provided under Creative Commons 3.0 BY license, on https://game-icons.net/: by Lorc, Delapouite, Skoll, Nataniil, sbed, DarkZaitzev & Carl Olsen.
+See [img/game-icons-sources.txt](https://github.com/shadowfoundry/sr5/tree/main/img/game-icons-sources.txt) for the list of used icons, and the original names, author and link.

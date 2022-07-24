@@ -1,0 +1,124 @@
+sr5SplashScreen.jpg
+
+ACTOR
+
+actorAgent.svg               : Android mask icon, by Lorc (https://game-icons.net/1x1/lorc/android-mask.html)
+actorDevice.svg              
+actorDrone.svg
+actorGrunt.svg               : Gangster, by Nataniil (https://www.gettyimages.fr/search/photographer?photographer=Nataniil) (https://www.gettyimages.fr/detail/illustration/gangster-illustration-libre-de-droits/160301169?language=fr)
+actorPc.svg                  : Incredible Character Gamer Logo, by Lobotz Logos (https://dribbble.com/shots/2975966-Incredible-Character-Gamer-Logo)
+actorSpirit.svg
+actorSprite.svg              : Harpy icon, by Lorc (https://game-icons.net/1x1/lorc/harpy.html)
+
+ITEM
+
+itemAdeptPower.svg           : Sundial icon, by Lorc (https://game-icons.net/1x1/lorc/sundial.html)
+itemAmmunition.svg           : Shotgun rounds icon, by Delapouite, (https://game-icons.net/1x1/delapouite/shotgun-rounds.html)
+itemArmor.svg                : Kevlar vest icon, by Skoll (https://game-icons.net/1x1/skoll/kevlar-vest.html)
+itemAugmentation.svg         : Overdrive icon, by Lorc (https://game-icons.net/1x1/lorc/overdrive.html)
+itemComplexForm.svg          : Perpendicular rings icon, by Lorc (https://game-icons.net/1x1/lorc/perpendicular-rings.html)
+itemContact.svg              : Drama masks icon, by Lorc (https://game-icons.net/1x1/lorc/drama-masks.html)
+itemCyberdeck.svg            : Vibrating smartphone icon, by Delapouite (https://game-icons.net/1x1/delapouite/vibrating-smartphone.html)
+itemDrone.svg                 
+itemDrug.svg                 : Overdose icon, by Lorc (https://game-icons.net/1x1/lorc/overdose.html)
+itemEcho.svg                 : RSS icon, by Delapouite (https://game-icons.net/1x1/delapouite/rss.html) 
+itemFocus.svg                : Star satellites icon, by Lorc (https://game-icons.net/1x1/lorc/star-sattelites.html)
+itemGear.svg                 : Suitcase icon, by Delapouite (https://game-icons.net/1x1/delapouite/suitcase.html)
+itemKarma.svg                : Yin yang icon, by Delapouite (https://game-icons.net/1x1/delapouite/yin-yang.html)
+itemKnowledge.svg             
+itemLanguage.svg             
+itemLifestyle.svg            
+itemMark.svg                 
+itemMartialArt.svg           
+itemNuyen.svg                
+itemPower.svg                
+itemPreparation.svg          : Bottle vapors icon, by Lorc (https://game-icons.net/1x1/lorc/bottle-vapors.html)
+itemProgram.svg              : RAM icon, by Lorc (https://game-icons.net/1x1/lorc/ram.html)
+itemQuality.svg              : Steelwing emblem icon, by Lorc (https://game-icons.net/1x1/lorc/steelwing-emblem.html)
+itemRitual.svg               : Maze saw icon, by Lorc (https://game-icons.net/1x1/lorc/maze-saw.html)
+itemSin.svg                  : ID Card icon, by Delapouite (https://game-icons.net/1x1/delapouite/id-card.html)
+itemSpell.svg                : Spiky eclipse icon, by Lorc (https://game-icons.net/1x1/lorc/spiky-eclipse.html)
+itemSpirit.svg               : Spark spirit icon, by Lorc (https://game-icons.net/1x1/lorc/spark-spirit.html)
+itemSprite.svg               : Harpy icon, by Lorc (https://game-icons.net/1x1/lorc/harpy.html)
+itemSpritePower.svg          : Maze saw icon, by Lorc (https://game-icons.net/1x1/lorc/)
+itemTradition.svg            : Crystal shine icon, by Lorc (https://game-icons.net/1x1/lorc/crystal-shine.html)
+itemVehicle.svg              
+itemVehicleMod.svg           : Overdrive icon, by Lorc (https://game-icons.net/1x1/lorc/overdrive.html)
+itemWeapon.svg
+
+ITEM WEAPONS
+
+assaultRifle.svg             : FN FAL icon, by Skoll (https://game-icons.net/1x1/skoll/fn-fal.html)
+blades.svg                   : Katana icon, by Delapouite (https://game-icons.net/1x1/delapouite/katana.html)
+bow.svg                      : Bow string icon, by Delapouite (https://game-icons.net/1x1/delapouite/bow-string.html)
+clubs.svg                    : Baseball bat icon, by Delapouite (https://game-icons.net/1x1/delapouite/baseball-bat.html)
+crossbow.svg                 : Crossbow icon, by Carl Olsen (https://game-icons.net/1x1/carl-olsen/crossbow.html)
+exoticMeleeWeapon.svg        : Whip icon, by Lorc (https://game-icons.net/1x1/lorc/whip.html)
+machineGun.svg               : Minigun icon, by Lorc (https://game-icons.net/1x1/lorc/minigun.html)
+machinePistol.svg            : MP5K icon; by Skoll (https://game-icons.net/1x1/skoll/mp5k.html)
+missileLauncher.svg          : Panzerfaust icon, by Delapouite (https://game-icons.net/1x1/delapouite/panzerfaust.html)
+shotgun.svg                  : Sawed-off shotgun icon, by Delapouite (https://game-icons.net/1x1/delapouite/sawed-off-shotgun.html)
+sniperRifle.svg              : Steyr AUG icon, by Skoll (https://game-icons.net/1x1/skoll/steyr-aug.html)
+submachineGun.svg            : P90 icon, by Skoll (https://game-icons.net/1x1/skoll/p90.html)
+taser.svg                    : Ray gun icon, by Lorc (https://game-icons.net/1x1/lorc/ray-gun.html)
+throwing.svg                 : Flying shuriken icon, by DarkZaitzev (https://game-icons.net/tags/spike.html)
+unarmed.svg                  : Fist icon, by Skoll (https://game-icons.net/1x1/skoll/fist.html)
+
+ITEM VEHICLE
+
+bike.svg                     : Scooter icon, by Delapouite (https://game-icons.net/1x1/delapouite/scooter.html)
+boat.svg                     : Sailboat icon, by Delapouite (https://game-icons.net/1x1/delapouite/sailboat.html)
+car.svg                      : City car icon, by Delapouite (https://game-icons.net/1x1/delapouite/city-car.html)
+fixedWingAircraft.svg        : Airplane icon, by Skoll (https://game-icons.net/1x1/skoll/airplane.html)
+lta.svg                      : Zeppelin icon, by Skoll (https://game-icons.net/1x1/skoll/zeppelin.html)
+pilotAerospace.svg           : Spaceship icon, by Delapouite (https://game-icons.net/1x1/delapouite/spaceship.html)
+pilotGroundCraft.svg         : Mars Curiosity icon, by Delapouite (https://game-icons.net/1x1/delapouite/mars-curiosity.html)
+pilotWatercraft.svg          : Mini submarine icon, by Delapouite (https://game-icons.net/1x1/delapouite/mini-submarine.html)
+rotorCraft.svg               : Helicopter icon, by Delapouite (https://game-icons.net/1x1/delapouite/helicopter.html)
+submarine.svg                : Submarine icon, by Delapouite (https://game-icons.net/1x1/delapouite/submarine.html)
+truck.svg                    : Truck icon, by Delapouite (https://game-icons.net/1x1/delapouite/truck.html)
+vectorThrustCraft.svg        : Jet fighter icon, by Delapouite (https://game-icons.net/1x1/delapouite/jet-fighter.html)
+walker.svg                   : Walking scout icon, by Delapouite (https://game-icons.net/1x1/delapouite/walking-scout.html)
+
+STATUS 
+
+StatusAcidOn.svg             : Foam icon, by Lorc (https://game-icons.net/1x1/lorc/foam.html) 
+StatusAntennaOn.svg          : Satellite communication icon, by Delapouite (https://game-icons.net/1x1/delapouite/satellite-communication.html)
+StatusAstralVisionOn.svg     : Sunken eye icon, by Lorc (https://game-icons.net/1x1/lorc/sunken-eye.html)         
+StatusAxleOn.svg             : Cogsplosion icon, by Lorc (https://game-icons.net/1x1/lorc/cogsplosion.html)
+StatusBleedOut.svg           : Bleeding wound icon, by Lorc (https://game-icons.net/1x1/lorc/bleeding-wound.html)
+StatusBlindedOn.svg          : Sight disabled icon, by Skoll (https://game-icons.net/1x1/skoll/sight-disabled.html)
+StatusBrokenGripOn.svg       : Drop weapon icon, by Skoll (https://game-icons.net/1x1/skoll/drop-weapon.html)
+StatusBuckledOn.svg          : Surprised icon, by Skoll (https://game-icons.net/1x1/lorc/surprised.html)
+StatusDeadOn.svg              
+StatusDeafenedOn.svg         : Hearing disabled icon, by Skoll (https://game-icons.net/1x1/skoll/hearing-disabled.html)
+StatusDirtyTrickOn.svg       : King Ju mask icon, by Delapouite (https://game-icons.net/1x1/delapouite/king-ju-mask.html)
+StatusDisorientationOn.svg   : Nailed head icon, by Lorc (https://game-icons.net/1x1/lorc/nailed-head.html)
+StatusDoorLockOn.svg         : Car door icon, by Delapouite (https://game-icons.net/1x1/delapouite/car-door.html)
+StatusElectricityOn.svg      : Focused lightning icon, by Lorc (https://game-icons.net/1x1/lorc/focused-lightning.html)
+StatusEngineBlockOn.svg      : Mechanic garage icon, by Delapouite (https://game-icons.net/1x1/delapouite/mechanic-garage.html)
+StatusEntanglementOn.svg     : Imprisoned icon, by Lorc (https://game-icons.net/1x1/lorc/imprisoned.html)
+StatusFatiguedOn.svg         : Sleepy icon, by Lorc (https://game-icons.net/1x1/lorc/sleepy.html)
+StatusFlaredOn.svg           : Eclipse flare icon, by Lorc (https://game-icons.net/1x1/lorc/eclipse-flare.html)
+StatusFullDefense.svg        : Layered armor icon, by Lorc (https://game-icons.net/1x1/lorc/layered-armor.html)
+StatusInFireOn.svg           : Heat haze icon, by Lorc (https://game-icons.net/1x1/lorc/heat-haze.html)
+StatusInitAstalOn.svg        
+StatusInitMatrixOn.svg
+StatusJammedSignalsOn.svg    : Aerial Signal icon, by Lorc (https://game-icons.net/1x1/lorc/aerial-signal.html)
+StatusJamSignalsOn.svg       : Unstable orb icon, by Lorc (https://game-icons.net/1x1/lorc/unstable-orb.html)
+StatusLinkLock.svg           
+StatusNauseaOn.svg           : Vomiting icon, by Lorc (https://game-icons.net/1x1/lorc/vomiting.html)
+StatusNauseousOn.svg         : Despair icon, by Lorc (https://game-icons.net/1x1/lorc/despair.html)
+StatusNoActionOn.svg         : Transportation rings icon, by Lorc (https://game-icons.net/1x1/lorc/transportation-rings.html)
+StatusOneArmBanditOn.svg     : Arm sling icon, by Delapouite (https://game-icons.net/1x1/delapouite/arm-sling.html)
+StatusPinOn.svg              : Pin icon, by Delapouite (https://game-icons.net/1x1/delapouite/pin.html)
+StatusSensorLock.svg         : Impact point icon, by Lorc (https://game-icons.net/1x1/lorc/impact-point.html)
+StatusShakedOn.svg           : Knockout icon, by Skoll (https://game-icons.net/1x1/skoll/knockout.html)
+StatusSlowDeathOn.svg        : Internal injury icon, by Lorc (https://game-icons.net/1x1/lorc/internal-injury.html)
+StatusSlowedOn.svg           : Cement shoes icon, by Skoll (https://game-icons.net/1x1/skoll/cement-shoes.html)
+StatusTrickShotOn.svg        : Headband knot icon, by Delapouite (https://game-icons.net/1x1/delapouite/headband-knot.html)
+StatusUnableToSpeakOn.svg    : Silenced icon, by Delapouite (https://game-icons.net/1x1/delapouite/silenced.html)
+StatusUnconsciousOn.svg      
+StatusWeakSideOn.svg         : Misdirection icon, by Delapouite (https://game-icons.net/1x1/delapouite/misdirection.html)
+StatusWindedOn.svg           : Drowning icon, by Lorc (https://game-icons.net/1x1/lorc/drowning.html)
+StatusWindowMotorOn.svg      : Unplugged icon, by sbed (https://game-icons.net/1x1/sbed/unplugged.html)

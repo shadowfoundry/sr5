@@ -2246,7 +2246,7 @@
   "SR5.VEHICLE_WeaponMountStandard_F"         : "Monture d'armes standarde",
   "SR5.VEHICLE_WeaponMountStandard_S"         : "Standarde",
   "SR5.VEHICLE_WeaponMountSize"               : "Catégorie de l'arme",
-  "SR5.VEHICLE_WeaponMountVisibility"          : "Visibilité",
+  "SR5.VEHICLE_WeaponMountVisibility"         : "Visibilité",
   "SR5.VEHICLE_WeaponMountFlexibility"        : "Flexibilité",
   "SR5.VEHICLE_WeaponMountControl"            : "Commande",
   "SR5.VEHICLE_WeaponMountSize_L"             : "Légère",
