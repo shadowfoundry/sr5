@@ -1175,6 +1175,30 @@ export class SR5_Roll {
                         })
                     }
 
+                //Handle Martial Arts for Called Shots 
+                if (actor.items.find((item) => item.type === "itemMartialArt")) {
+                let martialArtPin = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "pin")) martialArtPin = true ;  
+                let martialArtDisarm = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "disarm")) martialArtDisarm = true;
+                let martialArtEntanglement = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "entanglement")) martialArtEntanglement = true;
+                let martialArtBreakWeapon = false ; 
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "breakWeapon")) martialArtBreakWeapon = true;
+                let martialArtFeint = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "feint")) martialArtFeint = true;
+
+                calledShot = mergeObject(calledShot, {
+                    "martialArtPin": martialArtPin,
+                    "martialArtDisarm": martialArtDisarm,
+                    "martialArtEntanglement": martialArtEntanglement,
+                    "martialArtBreakWeapon": martialArtBreakWeapon,
+                    "martialArtFeint": martialArtFeint,
+                });
+
+                SR5_SystemHelpers.srLog(1, `calledShot '${JSON.stringify(calledShot)}' and  martialArtDisarm =+> '${martialArtDisarm}' in actorRoll "weapon"`);
+            }
+
                 // Recoil Compensation calculation
                 let recoilCompensation = actorData.recoilCompensation.value;
                 if (actor.data.type !== "actorDrone") recoilCompensation += itemData.recoilCompensation.value;

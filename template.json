@@ -6082,7 +6082,9 @@
         "base": 0,
         "modifiers": []
       },
-      "targetOfEffect":[]
+      "targetOfEffect":[],
+      "needcalledShot": false,
+      "calledShot": ""
     },
     "itemMetamagic": {
       "templates": [

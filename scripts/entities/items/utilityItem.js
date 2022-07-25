@@ -212,6 +212,11 @@ export class SR5_UtilityItem extends Actor {
     if (itemData.type === "itemMartialArt"){
       data.test.dicePool = 0;
       data.test.modifiers = [];
+      data.pin = false;
+      data.entanglement = false;
+      data.feint = false;
+      data.disarm = false;
+      data.breakWeapon = false;
     }
 
     if (itemData.type === "itemPreparation"){
@@ -1303,14 +1308,12 @@ export class SR5_UtilityItem extends Actor {
         }
       }
 
-      SR5_SystemHelpers.srLog(1, `_handleMartialArt: firstAttribute ==> '${firstAttribute}' ('${firstLabel}'), secondAttribute ==> '${secondAttribute}' ('${secondLabel}') in 'utilityItem'`);
-
       martialArt.test.base = 0;
       if (firstAttribute) SR5_EntityHelpers.updateModifier(martialArt.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
       if (secondAttribute) SR5_EntityHelpers.updateModifier(martialArt.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
       SR5_EntityHelpers.updateDicePool(martialArt.test);
 
-      SR5_SystemHelpers.srLog(1, `_handleMartialArt: martialArt.test ==> '${JSON.stringify(martialArt.test)}', martialArt ==> '${JSON.stringify(martialArt)}' in 'utilityItem'`);
+      
 
     }
   }
@@ -1953,8 +1956,24 @@ export class SR5_UtilityItem extends Actor {
         skipCustomEffect = true;
       }
 
+
+
+      SR5_SystemHelpers.srLog(3, ` item ==> '${JSON.stringify(item)}' in applyItemEffects()`);
+
       let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, item);
       if (targetObject === null) skipCustomEffect = true;
+
+      SR5_SystemHelpers.srLog(3, ` item.type ==> '${item.type}' , customEffect ==> '${JSON.stringify(customEffect)}' applyItemEffects()`);
+
+      if (item.type === "itemMartialArt" && customEffect.type === "boolean") {
+        let booleanValue;
+            if (customEffect.value === "true") booleanValue = true;
+            else booleanValue = false;
+            setProperty(item, customEffect.target, booleanValue);
+            SR5_SystemHelpers.srLog(3, ` customEffect.target ==> '${customEffect.target}' , booleanValue ==> '${booleanValue}', item.data ==> '${JSON.stringify(item.data)}' applyItemEffects()`);
+        }
+
+      SR5_SystemHelpers.srLog(3, ` targetObject ==> '${JSON.stringify(targetObject)}' in applyItemEffects()`);
 
       if (!skipCustomEffect) {    
         if (!customEffect.multiplier) customEffect.multiplier = 1;
@@ -1968,6 +1987,12 @@ export class SR5_UtilityItem extends Actor {
           case "value":
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            break;
+          case "boolean":
+            let booleanValue;
+            if (customEffect.value === "true") booleanValue = true;
+            else booleanValue = false;
+            setProperty(item, customEffect.target, booleanValue);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);

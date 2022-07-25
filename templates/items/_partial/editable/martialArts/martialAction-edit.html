@@ -10,6 +10,12 @@
         {{/select}}
         </select>
     </div>
-    <div class="col-3 SR-TextRight">{{localize 'SR5.NeedRoll'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextRight"><input type="checkbox" name="data.needRoll" data-dtype="Boolean" {{checked data.needRoll}} /></div>
+    <div class="col-4">
+    <div class="grid">
+        <div class="col-3 SR-TextRight">{{localize 'SR5.NeedCalledShot'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextRight"><input type="checkbox" name="data.needCalledShot" data-dtype="Boolean" {{checked data.needCalledShot}} /></div>
+        <div class="col-7 SR-TextRight">{{localize 'SR5.NeedRoll'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextRight"><input type="checkbox" name="data.needRoll" data-dtype="Boolean" {{checked data.needRoll}} /></div>
+    </div>
+    </div>
 </li>

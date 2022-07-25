@@ -159,7 +159,7 @@ export class SR5Item extends Item {
       case "itemAdeptPower":
         SR5_UtilityItem._handleAdeptPower(data, owner);
         break;
-      case "itemMartialArt":
+      case "itemMartialArt":    
         if (owner) SR5_UtilityItem._handleMartialArt(data, owner);
         break;
       case "itemPower":

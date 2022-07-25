@@ -2096,6 +2096,7 @@
   "SR5.Task"                                  : "Ouvrier",
   "SR5.TestAttributes"                        : "Attributs de test",
   "SR5.TestComponents"                        : "Composants du test",
+  "SR5.NeedCalledShot"                        : "Ciblée",
   "SR5.NeedRoll"                              : "Test nécessaire",
   "SR5.ThermographicVision"                   : "Vision thermographique",
   "SR5.ThermographicVisionAugmented"          : "Vision thermographique (Augmentée)",

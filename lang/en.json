@@ -2096,6 +2096,7 @@
   "SR5.Task"                                  : "Task",
   "SR5.TestAttributes"                        : "Test attributes",
   "SR5.TestComponents"                        : "Test Components",
+  "SR5.NeedCalledShot"                        : "Called shot",
   "SR5.NeedRoll"                              : "Need roll",
   "SR5.ThermographicVision"                   : "Thermographic Vision",
   "SR5.ThermographicVisionAugmented"          : "Thermographic Vision (Augmented)",

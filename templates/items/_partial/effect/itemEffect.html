@@ -47,6 +47,13 @@
 					{{#if (eq ../document.type 'itemWeapon')}}
                     <option value="data.weaponSkill">{{localize 'SR5.DicePool'}}</option>
                     {{/if}}
+					{{#if (eq ../document.type 'itemMartialArt')}}
+                    <option value="data.calledShot.disarm">{{localize 'SR5.CS_Disarm'}}</option>
+					<option value="data.calledShot.pin">{{localize 'SR5.CS_Pin'}}</option>
+					<option value="data.calledShot.entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+					<option value="data.calledShot.breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
+					<option value="data.calledShot.feint">{{localize 'SR5.CS_Feint'}}</option>
+                    {{/if}}
 					<option value="data.conditionMonitors.matrix">{{localize 'SR5.ConditionMonitorMatrix'}}</option>
                     {{/select}}
 				</select>
@@ -57,7 +64,11 @@
 				{{#if target}}
                 <select name="data.itemEffects.{{@key}}.type" required>
                     {{#select type}}
-                        {{dropdownOptions 'value' 'rating' 'hits'}}
+						{{#if (or (endsWith target '.breakWeapon') (endsWith target 'disarm') (endsWith target 'pin') (endsWith target 'entanglement') (endsWith target 'feint'))}}
+							{{dropdownOptions 'boolean'}}
+						{{else}}					
+                    		{{dropdownOptions 'value' 'rating' 'hits'}}
+						{{/if}}
                     {{/select}}
                 </select>    
                 {{/if}}
@@ -74,6 +85,16 @@
 									<input type="text" data-dtype="Number" name="data.itemEffects.{{@key}}.value" value="{{value}}">
 								{{else if (eq type 'rating')}}
 									{{../data.itemRating}}
+								{{else if (eq type 'boolean')}}	
+								<div class="col-12 SR-SelectCenter SR-PaddingRight5">
+									<select name="data.itemEffects.{{@key}}.value" required>
+										{{#select value}}
+										<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+										<option value="true">{{localize 'SR5.On'}}</option>
+										<option value="false">{{localize 'SR5.Off'}}</option>
+										{{/select}}
+									</select>
+								</div>
 								{{/if}}
 							{{/if}}
                     		</div>

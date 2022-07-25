@@ -5,22 +5,22 @@
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingCalledShots}}
             <option value="blastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
-            {{#if (eq typeSub "meleeWeapon")}}            
+            {{#if (and (eq typeSub "meleeWeapon") martialArtBreakWeapon)}}            
             <option value="breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
             {{/if}}             
             <option value="specificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
             <option value="dirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>            
-            {{#if (or (eq ammoType "special") (eq ammoType "bolt") (eq ammoType "boltInjection") (eq ammoType "arrow") (eq ammoType "arrowInjection"))}} 
+            {{#if (and (or (eq ammoType "special") (eq ammoType "bolt") (eq ammoType "boltInjection") (eq ammoType "arrow") (eq ammoType "arrowInjection")) martialArtPin)}} 
             <option value="pin">{{localize 'SR5.CS_Pin'}}</option>
             {{/if}}                          
-            {{#if (eq typeWeapon "unarmed")}}              
+            {{#if (and (eq typeWeapon "unarmed") calledShot.martialArtDisarm)}}              
             <option value="disarm">{{localize 'SR5.CS_Disarm'}}</option>
             {{/if}} 
-            {{#if (or (eq typeWeapon "exoticRangedWeapon")(eq typeWeapon "exoticMeleeWeapon"))}}  
+            {{#if (and (or (eq typeWeapon "exoticRangedWeapon")(eq typeWeapon "exoticMeleeWeapon")) calledShot.martialArtEntanglement)}}  
             <option value="entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
             {{/if}}
             <option value="shakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
-            {{#if (eq typeSub "meleeWeapon")}}   
+            {{#if (and (eq typeSub "meleeWeapon") martialArtFeint)}}   
             <option value="feint">{{localize 'SR5.CS_Feint'}}</option>  
             {{/if}} 
             <option value="splittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
