@@ -1,6 +1,22 @@
 <li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
-    <div class="col-11">{{localize 'SR5.FinalFading'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-11">{{localize 'SR5.FinalFading'}}
+        <a class="SR-DialogToggle" data-target="fadingDetail" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="fadingDetail" data-action="hide"><i class="fas fa-angle-up SR-SubColor"></i></a>
+    </div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="fadingValue" value="{{fadingValue}}" data-dtype="Number" placeholder="0" />
     </div>
 </li>
+
+<div id="fadingDetail">
+    <li class="grid">
+        <div class="col-11">{{localize 'SR5.Level'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter">
+            <input disable type="number" id="level" name="level" value="{{level}}" data-dtype="Number" placeholder="0" />
+        </div>
+    </li>
+
+    {{> systems/sr5/templates/rolls/rollDialogPartial/fadingBase.html}}
+
+
+</div>

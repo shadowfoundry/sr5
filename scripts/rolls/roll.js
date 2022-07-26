@@ -18,6 +18,7 @@ export class SR5_Roll {
             typeSub,
             testType = "nonOpposedTest",
             dicePool = 0,
+            cumulativeDefense,
             limit,
             limitType,
             optionalData = {},
@@ -182,6 +183,7 @@ export class SR5_Roll {
                             actorTradition: actorData.magic.tradition,
                             elements: actorData.magic.elements,
                             "lists.spiritTypes": actor.data.lists.spiritTypes,
+                            force: actorData.specialAttributes.magic.augmented.value,
                         });
                         canBeExtended = false;
                         break;
@@ -499,7 +501,7 @@ export class SR5_Roll {
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
-                            dicePoolBase : resistanceValue,
+                            dicePoolBase: resistanceValue + armor,
                             dicePoolComposition: dicePoolComposition,
                             damageContinuous: chatData.damageContinuous,
                             damageIsContinuating: chatData.damageIsContinuating,
@@ -634,12 +636,13 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.TryToNotCatchFire")} (${chatData.fireTreshold})`
                 dicePool = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value + chatData.incomingPA;
                 let armored = actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value;
+                dicePoolComposition = actorData.itemsProperties.armor.specialDamage.fire.modifiers.concat(actorData.itemsProperties.armor.modifiers);
                 optionalData = {
-                    //chatActionType: "damage",
                     armor: armored,
                     incomingPA: chatData.incomingPA,
                     fireTreshold: chatData.fireTreshold,
-                    dicePoolBase : 0,
+                    dicePoolBase: actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value,
+                    dicePoolComposition: dicePoolComposition,
                 }
                 break;
 
@@ -724,8 +727,7 @@ export class SR5_Roll {
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     matrixNoiseRange: "wired",
                     matrixNoiseScene: sceneNoise + actorData.matrix.noise.value,
-                    //"dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
-                    //"dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
+                    "switch.specialization": true,
                     dicePoolComposition: matrixAction.test.modifiers,
                     rulesMatrixGrid: rulesMatrixGrid,
                     "lists.gridTypes": actor.data.lists.gridTypes,
@@ -817,7 +819,9 @@ export class SR5_Roll {
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                     dicePoolComposition: resonanceAction.test.modifiers,
                     actorResonance: actorData.specialAttributes.resonance.augmented.value,
+                    level: actorData.specialAttributes.resonance.augmented.value,
                     "lists.spriteTypes": actor.data.lists.spriteTypes,
+                    "switch.specialization": true,
                 }
 
                 if (game.user.targets.size && (typeSub === "killComplexForm" || typeSub === "decompileSprite" || typeSub === "registerSprite")){
@@ -971,10 +975,13 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.PhysicalDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.characterDefenses[rollKey])}`;
                 dicePool = actorData.defenses[rollKey].dicePool;
                 if (rollKey !== "defend") limit = actorData.limits.physicalLimit.value;
+                cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
+                if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
                 optionalData = {
                     cover: true,
                     defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
                     dicePoolComposition: actorData.defenses[rollKey].modifiers,
+                    cumulativeDefense: cumulativeDefense,
                 }
                 break;
 
@@ -1048,7 +1055,7 @@ export class SR5_Roll {
                 //Handle toxin, if any
                 if (chatData.toxin) optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
 
-                let cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
+                cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
 
                 optionalData = mergeObject(optionalData, {
@@ -1061,7 +1068,7 @@ export class SR5_Roll {
                     ammoType: chatData.ammoType,
                     incomingPA: chatData.incomingPA,
                     firingMode: chatData.firingMode,
-                    incomingFiringMode: chatData.firingModeDefenseMod,
+                    incomingFiringMode: chatData.firingModeSelected,
                     cumulativeDefense: cumulativeDefense,
                     hits: chatData.test.hits,
                     cover: cover,
@@ -1245,6 +1252,7 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     "switch.canUseReagents": canUseReagents,
+                    "switch.specialization": true,
                     dicePoolComposition: actorData.skills.spellcasting.spellCategory[spellCategory].modifiers,
                     itemUuid: item.uuid,
                 }
@@ -1362,6 +1370,7 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     "switch.canUseReagents": canUseReagents,
+                    "switch.specialization": true,
                     dicePoolComposition: dicePoolComposition,
                 }
                 break;
@@ -1466,8 +1475,6 @@ export class SR5_Roll {
                     actorResonance: actorData.specialAttributes.resonance.augmented.value,
                     defenseAttribute: itemData.defenseAttribute,
                     defenseMatrixAttribute: itemData.defenseMatrixAttribute,
-                    //"dicePoolMod.matrixNoiseScene": sceneNoise + actorData.matrix.noise.value,
-                    //"dicePoolMod.matrixNoiseReduction": actorData.matrix.attributes.noiseReduction.value,
                     dicePoolComposition: actorData.matrix.resonanceActions.threadComplexForm.test.modifiers,
                     rulesMatrixGrid: rulesMatrixGrid,
                     "lists.gridTypes": actor.data.lists.gridTypes,

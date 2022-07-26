@@ -219,7 +219,7 @@ export class SR5_Dice {
 							if (dialogData.templateRemove) SR5_RollMessage.removeTemplate(null, dialogData.itemId);
 							//Remove last cumulative Defense if roll is cancelled.
 							if (actor.data.flags?.sr5?.cumulativeDefense){
-								let actualDefense = actor.data.flags.sr5.cumulativeDefense;
+								let actualDefense = actor.data.flags.sr5.cumulativeDefense -1;
 								actor.setFlag("sr5", "cumulativeDefense", (actualDefense));
 							}
 							return;
@@ -278,7 +278,6 @@ export class SR5_Dice {
 							let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
 							actualRecoil += dialogData.firedAmmo;
 							actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);
-							dialogData.firingModeDefenseMod = SR5_DiceHelper.mapRoundsToDefenseMod(dialogData.firedAmmo);
 						}
 						//Debug DicePool can't be negative
 						if (dialogData.dicePool < 0) dialogData.dicePool = 0;

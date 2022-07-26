@@ -1,0 +1,31 @@
+<li class="SR-PaddingTop5 grid">
+    <div class="col-11 SR-DialogOption">{{localize 'SR5.DefenseOptions'}}</div>
+</li>
+
+<!-- DEFENSE - FIRING MODE -->
+{{#if (eq typeSub "rangedWeapon")}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
+{{/if}}
+
+{{#if (eq typeSub 'meleeWeapon')}}
+    <!-- DEFENSE - REACH -->
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
+    <!-- ENVIRONMENTAL MODIFIERS -->
+    {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
+{{/if}}
+
+<!-- ACTIVE DEFENSE -->
+{{#if (or (eq typeSub "meleeWeapon")(eq typeSub "ramming"))}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
+{{/if}}
+
+<!-- COVERS -->
+{{#if cover}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/coverModifier.html}}
+{{/if}}
+
+<!-- FULL DEFENSE -->
+{{#if defenseFull}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
+{{/if}}
+

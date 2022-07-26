@@ -440,8 +440,8 @@ export class SR5Actor extends Actor {
           SR5_UtilityItem._handleItemAvailability(iData);
           SR5_UtilityItem._handleItemConcealment(iData);
           if (iData.isActive) {
-            if (iData.isCumulative) modifierType = "armorAccessory";
-            else modifierType = "armorMain";
+            if (iData.isCumulative) modifierType = game.i18n.localize("SR5.ArmorAccessory");
+            else modifierType = game.i18n.localize("SR5.Armor");
             if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actorData.data.itemsProperties.armor, `${i.name}`, modifierType, iData.armorValue.value);
             if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actorData.data.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
             if (Object.keys(iData.customEffects).length) {
@@ -1191,6 +1191,12 @@ export class SR5Actor extends Actor {
   resetRecoil(){
     this.setFlag("sr5", "cumulativeRecoil", 0);
     ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
+  }
+
+  //Reset Cumulative Recoil
+  resetCumulativeDefense(){
+    this.setFlag("sr5", "cumulativeDefense", 0);
+    ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
   }
 
   //Create a Sidekick

@@ -1,6 +1,42 @@
 <li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
-    <div class="col-11">{{localize 'SR5.FinalDrain'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-11">
+        {{localize 'SR5.FinalDrain'}}
+        <a class="SR-DialogToggle" data-target="drainDetail" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="drainDetail" data-action="hide"><i class="fas fa-angle-up SR-SubColor"></i></a>
+    </div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="drainValue" value="{{drainValue}}" data-dtype="Number" placeholder="0" />
     </div>
 </li>
+
+<div id="drainDetail">
+    <li class="grid">
+        <div class="col-11">{{localize 'SR5.Force'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter">
+            <input disable type="number" id="force" name="force" value="{{force}}" data-dtype="Number" placeholder="0" />
+        </div>
+    </li>
+
+    {{> systems/sr5/templates/rolls/rollDialogPartial/drainBase.html}}
+    
+    {{#if (eq type "spell")}}
+    <!--RECKLESS SPELLCASTING-->
+    <li class="grid">
+        <div class="col-11">{{localize 'SR5.RecklessSpellcasting'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter">
+            <input disabled type="number" name="dicePoolModRecklessSpellcasting" value="" placeholder="0" data-dtype="Number" />
+        </div>
+    </li>
+    {{/if}}
+
+    {{#if (eq type "preparationFormula")}}
+    <!-- PREPARATION TRIGGER -->
+    <li class="grid">
+        <div class="col-11">{{localize 'SR5.PreparationTrigger'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter">
+            <input disabled type="number"  name="dicePoolModTrigger" value="2" placeholder="0" data-dtype="Number" />
+        </div>
+    </li>
+    {{/if}}
+    
+</div>

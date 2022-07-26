@@ -4947,6 +4947,11 @@ input[type=range]:focus::-ms-fill-upper {
   border-top: 1px solid rgba(12, 147, 148, 0.35);
   margin-top: 5px;
 }
+.dialog .window-content .dialog-content .SR5jet .SR-DialogOption {
+  border-bottom: solid 1px #931004;
+  color: #931004;
+  font-family: "srfoundry_bold";
+}
 .dialog .dialog-buttons {
   background-image: url("../img/ui/SR5_BG_Dialog.png");
   background-size: contain;
