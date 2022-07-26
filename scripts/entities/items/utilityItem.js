@@ -366,11 +366,13 @@ export class SR5_UtilityItem extends Actor {
   // Manage bow specific
   static _handleBow(weapon) {
     if (weapon.data.type === "bow") {
+      
       SR5_EntityHelpers.updateModifier(weapon.data.price, weapon.name, game.i18n.localize('SR5.ItemRating'), ((weapon.data.price.base * weapon.data.itemRating) - 100));
       SR5_EntityHelpers.updateModifier(weapon.data.availability, weapon.name, game.i18n.localize('SR5.ItemRating'), weapon.data.itemRating);
       SR5_EntityHelpers.updateModifier(weapon.data.armorPenetration, weapon.name, game.i18n.localize('SR5.ItemRating'), -Math.floor(weapon.data.itemRating / 4));
-      SR5_EntityHelpers.updateModifier(weapon.data.damageValue, weapon.name, game.i18n.localize('SR5.ItemRating'), weapon.data.itemRating);
-    }
+      let value = Math.min(weapon.data.itemRating,weapon.data.ammunition.rating);
+      SR5_EntityHelpers.updateModifier(weapon.data.damageValue, weapon.name, game.i18n.localize('SR5.ItemRating'), value);
+        }
   }
 
   // Generate Weapon dicepool
@@ -503,6 +505,8 @@ export class SR5_UtilityItem extends Actor {
       case "injection":
       case "tracer":
       case "flashPack":
+      case "gyrojet":
+      case "gauss":
         // No modification
         break;
       case "av":
@@ -539,6 +543,12 @@ export class SR5_UtilityItem extends Actor {
         armorPenetration = 2;
         damageValue = 1;
         break;
+      case "gyrojetTaser":
+        armorPenetration = -5;
+        damageValue = -2;
+        damageType = "stun";
+        damageElement = "electricity";
+        break;
       case "stickNShock":
         armorPenetration = -weapon.armorPenetration.base -5;
         damageValue = -2;
@@ -548,6 +558,11 @@ export class SR5_UtilityItem extends Actor {
       case "tracker":
         armorPenetration = 2;
         damageValue = -2;
+        break;
+      case "flare":
+        armorPenetration = 2;
+        damageValue = -2;        
+        damageElement = "fire";
         break;
       case "flashBang":
       case "flashBangMini":
@@ -602,6 +617,10 @@ export class SR5_UtilityItem extends Actor {
         blastDamageFallOff = -4;
         blastRadius = 6;
         break;
+        case "arrow":
+        case "arrowInjection":
+          damageValue = weapon.ammunition.itemRating;
+          break;
       default:
         SR5_SystemHelpers.srLog(3, "_handleWeaponAmmunition", `Unknown ammunition type: '${weapon.ammunition.type}'`);
         return;

@@ -27,6 +27,10 @@
 				<!-- ATTACK - RECOIL COMPENSATION -->
 				{{> systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html}}
 			{{/if}}
+			{{#if (and (or (eq typeSub "rangedWeapon") (eq typeSub "meleeWeapon")) rulesCalledShot )}}
+        		<!-- CALLED SHOTS -->
+        		{{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
+        	{{/if}}
 			<!-- ATTACK - AMMO -->
 			{{#if (and (eq type "attack") (eq typeSub "rangedWeapon") )}}
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}

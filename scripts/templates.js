@@ -281,7 +281,6 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html",
         "systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html",
-
         //Armor
         "systems/sr5/templates/items/_partial/editable/armor/armorRating-edit.html",
 
@@ -424,13 +423,15 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html",        
         "systems/sr5/templates/items/_partial/editable/vehicleMod/tools-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicleMod/threshold-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/priceMultiplierVehicleMod-edit.html",
 
         //Weapon
         "systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/accuracy-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/aerodynamic-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/ammunitionMax-edit.html",
-        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html",
+        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionRating-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/armorPenetration-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/category-edit.html",
@@ -498,6 +499,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",    
     "systems/sr5/templates/rolls/rollDialogPartial/rammingOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/calledShots.html",
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
     "systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html",
