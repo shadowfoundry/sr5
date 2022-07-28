@@ -1688,7 +1688,6 @@ export class SR5_Roll {
             case "power":
             case "adeptPower":
             case "martialArt":
-                
                 title = `${game.i18n.localize("SR5.UsePower")} ${item.name}`;
                 dicePool = itemData.test.dicePool;
 
@@ -1757,7 +1756,7 @@ export class SR5_Roll {
                         firstAttribute = actorData.specialAttributes[chatData.defenseFirstAttribute].augmented.value;
                     } else if (chatData.defenseFirstAttribute === "body" || chatData.defenseFirstAttribute === "agility" || chatData.defenseFirstAttribute === "reaction" || chatData.defenseFirstAttribute === "strength" || chatData.defenseFirstAttribute === "willpower" || chatData.defenseFirstAttribute === "logic" || chatData.defenseFirstAttribute === "intuition" || chatData.defenseFirstAttribute === "charisma") {
                         firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
-                      } else {
+                    } else {
                         firstAttribute = actorData.skills[chatData.defenseFirstAttribute].rating.value;
                         firstLabel = game.i18n.localize(SR5.skills[chatData.defenseFirstAttribute]);
                     }

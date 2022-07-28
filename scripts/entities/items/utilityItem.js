@@ -1252,7 +1252,7 @@ export class SR5_UtilityItem extends Actor {
         if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
           secondAttribute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
         } else if (power.testSecondAttribute === "rating") {
-          secondAtrtibute = power.itemRating;
+          secondAttribute = power.itemRating;
           secondLabel = game.i18n.localize("SR5.ItemRating");
         } else if (power.testSecondAttribute === "running") {
           secondAttribute = actor.data.skills.running.rating.value;
