@@ -3329,12 +3329,6 @@ export class SR5_CharacterUtility extends Actor {
           continue;
         }
 
-        if (customEffect.target === "data.specialProperties.hardenedAstralArmorType"){
-          setProperty(actor, customEffect.target, customEffect.type);
-          if (customEffect.type === "rating") setProperty(actor, "data.specialProperties.hardenedAstralArmorRating", (item.data.itemRating || 0));
-          continue;
-        }
-
         //Special case for Energetic Aura
         if (customEffect.target === "data.specialProperties.energyAura"){
           setProperty(actor, customEffect.target, customEffect.type);

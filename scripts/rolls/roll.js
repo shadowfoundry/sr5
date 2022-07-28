@@ -1186,6 +1186,30 @@ export class SR5_Roll {
                         })
                     }
 
+                //Handle Martial Arts for Called Shots 
+                if (actor.items.find((item) => item.type === "itemMartialArt")) {
+                let martialArtPin = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "pin")) martialArtPin = true ;  
+                let martialArtDisarm = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "disarm")) martialArtDisarm = true;
+                let martialArtEntanglement = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "entanglement")) martialArtEntanglement = true;
+                let martialArtBreakWeapon = false ; 
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "breakWeapon")) martialArtBreakWeapon = true;
+                let martialArtFeint = false ;
+                if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "feint")) martialArtFeint = true;
+
+                calledShot = mergeObject(calledShot, {
+                    "martialArtPin": martialArtPin,
+                    "martialArtDisarm": martialArtDisarm,
+                    "martialArtEntanglement": martialArtEntanglement,
+                    "martialArtBreakWeapon": martialArtBreakWeapon,
+                    "martialArtFeint": martialArtFeint,
+                });
+
+                SR5_SystemHelpers.srLog(1, `calledShot '${JSON.stringify(calledShot)}' and  martialArtDisarm =+> '${martialArtDisarm}' in actorRoll "weapon"`);
+            }
+
                 // Recoil Compensation calculation
                 let recoilCompensation = actorData.recoilCompensation.value;
                 if (actor.data.type !== "actorDrone") recoilCompensation += itemData.recoilCompensation.value;
@@ -1663,6 +1687,8 @@ export class SR5_Roll {
 
             case "power":
             case "adeptPower":
+            case "martialArt":
+                
                 title = `${game.i18n.localize("SR5.UsePower")} ${item.name}`;
                 dicePool = itemData.test.dicePool;
 
@@ -1715,6 +1741,74 @@ export class SR5_Roll {
                     }
                 }
                 break;
+
+                case "martialArtDefense":
+    
+                    SR5_SystemHelpers.srLog(1, `martialArtDefense : '${JSON.stringify(chatData)}' in 'actorRoll'`);
+    
+    
+                    let martialArtItem = await fromUuid(chatData.itemUuid);
+                    let firstLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]);
+                    let secondLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]);
+                    if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
+                    title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${martialArtItem.name}`;
+                    
+                    if (chatData.defenseFirstAttribute === "edge" || chatData.defenseFirstAttribute === "magic" || chatData.defenseFirstAttribute === "resonance"){
+                        firstAttribute = actorData.specialAttributes[chatData.defenseFirstAttribute].augmented.value;
+                    } else if (chatData.defenseFirstAttribute === "body" || chatData.defenseFirstAttribute === "agility" || chatData.defenseFirstAttribute === "reaction" || chatData.defenseFirstAttribute === "strength" || chatData.defenseFirstAttribute === "willpower" || chatData.defenseFirstAttribute === "logic" || chatData.defenseFirstAttribute === "intuition" || chatData.defenseFirstAttribute === "charisma") {
+                        firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
+                      } else {
+                        firstAttribute = actorData.skills[chatData.defenseFirstAttribute].rating.value;
+                        firstLabel = game.i18n.localize(SR5.skills[chatData.defenseFirstAttribute]);
+                    }
+                    if (chatData.defenseSecondAttribute === "edge" || chatData.defenseecondAttribute === "magic" || chatData.defenseSecondAttribute === "resonance"){
+                        secondAttribute = actorData.specialAttributes[chatData.defenseSecondAttribute].augmented.value;
+                    } else if (chatData.defenseSecondAttribute === "body" || chatData.defenseSecondAttribute === "agility" || chatData.defenseSecondAttribute === "reaction" || chatData.defenseSecondAttribute === "strength" || chatData.defenseSecondAttribute === "willpower" || chatData.defenseSecondAttribute === "logic" || chatData.defenseSecondAttribute === "intuition" || chatData.defenseSecondAttribute === "charisma") {
+                        secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
+                      } else {
+                        secondAttribute = actorData.skills[chatData.defenseSecondAttribute].rating.value;                        
+                        secondLabel = game.i18n.localize(SR5.skills[chatData.defenseSecondAttribute]);
+                    }
+                    dicePoolComposition = ([
+                        {source: firstLabel, value: firstAttribute},
+                        {source: secondLabel, value: secondAttribute},
+                    ]);
+                    dicePool = firstAttribute + secondAttribute;
+                    optionalData = {
+                        hits: chatData.test.hits,
+                        defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                        dicePoolComposition: dicePoolComposition,
+                    }
+    
+                    if (chatData.switch?.transferEffect){
+                        optionalData = mergeObject(optionalData, {
+                            "switch.transferEffect": true,
+                        });
+    
+                        let martialArtItem = await fromUuid(chatData.itemUuid);
+                        let martialArtData = martialArtItem.data.data;
+                        //Check if an effect is transferable on taget actor and give the necessary infos
+                        for (let e of Object.values(martialArtData.customEffects)){
+                            if (e.transfer) {
+                                optionalData = mergeObject(optionalData, {
+                                    "itemUuid": martialArtItem.uuid,
+                                    "switch.transferEffect": true,
+                                });
+                            }
+                        }
+                        //Check if an effect is transferable on target item and give the necessary infos
+                        for (let e of Object.values(martialArtData.itemEffects)){
+                            if (e.transfer) {
+                                optionalData = mergeObject(optionalData, {
+                                    "itemUuid": martialArtItem.uuid,
+                                    "switch.transferEffectOnItem": true,
+                                });
+                            }
+                        }
+                    }
+                    break;
+
+                
 
             case "powerDefense":
                 let powerItem = await fromUuid(chatData.itemUuid);

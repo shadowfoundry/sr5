@@ -346,6 +346,10 @@ export const preloadHandlebarsTemplates = async function () {
 
         //Martial Arts
         "systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html",
+        "systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.html",
+        "systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.html",
+        "systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/martialArts/calledShot-edit.html",
 
         //Nuyen
         "systems/sr5/templates/items/_partial/editable/nuyen/type-edit.html",

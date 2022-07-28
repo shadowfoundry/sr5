@@ -495,7 +495,8 @@ export class SR5_Dice {
 			case "preparationFormula":
 			case "matrixIceAttack":
 			case "spritePower":
-			case "power":
+			case "power":				
+			case "martialArt":
 			case "ritual":
 			case "passThroughBarrier":
 			case "escapeEngulf":							
@@ -577,7 +578,8 @@ export class SR5_Dice {
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":
-			case "powerDefense":
+			case "powerDefense":				
+			case "martialArtDefense":
 			case "etiquetteResistance":				
 				await SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
 				break;
@@ -1660,6 +1662,12 @@ export class SR5_Dice {
 				key = "powerDefense";
 				testType = "opposedTest";
 				break;
+			case "martialArt":
+				label = game.i18n.localize("SR5.Defend");
+				labelEnd = game.i18n.localize("SR5.ActionFailure");
+				key = "martialArtDefense";
+				testType = "opposedTest";
+				break;
 			case "ritual":
 				label = game.i18n.localize("SR5.RitualResistance");
 				labelEnd = game.i18n.localize("SR5.RitualFailed");
@@ -2086,6 +2094,7 @@ export class SR5_Dice {
 				}
 				break;
 			case "powerDefense":
+			case "martialArtDefense":
 				cardData.netHits = cardData.hits - cardData.test.hits;
 				if (cardData.switch?.transferEffect){
 					label = game.i18n.localize("SR5.ApplyEffect");
