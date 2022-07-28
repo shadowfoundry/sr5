@@ -1,7 +1,7 @@
 <li class="grid">
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7 SR-PaddingRight10" style="text-align: left;" id="incomingCalledShots">
-        <select class="incomingCalledShots" name="incomingCalledShots">
+    <div class="col-7 SR-PaddingRight10" style="text-align: left;" id="calledShot">
+        <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShot">
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingCalledShots}}
             <option value="blastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
@@ -41,12 +41,12 @@
         <input disabled type="number" class="dicePoolModCalledShots" name="dicePoolModCalledShots" value="{{incomingCalledShots}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
-<li class="grid" style="display: none;" id="incomingAmmoSpecific">
+<li class="grid" style="display: none;" id="calledShotSpecificAmmo">
     <div class="col-4">{{findTranslation 'allAmmunitionTypes' ammoType}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-PaddingRight10">
-        <select class="incomingAmmoSpecific" name="incomingAmmoSpecific">
+        <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShotSpecificAmmo">
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#select incomingAmmoSpecific}}
+            {{#select calledShotSpecificAmmo}}
             {{#if (eq ammoType "gel")}} 
             <option value="bellringer">{{localize 'SR5.CS_AS_Bellringer'}}</option>
             {{/if}}
@@ -103,11 +103,11 @@
     </div>
     <div class="col-1"></div>
 </li>
-<li class="grid" style="display: none;" id="incomingSpecificTarget">
+<li class="grid" style="display: none;" id="calledShotSpecificTarget">
     <div class="col-4">{{localize 'SR5.CS_Choice'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-PaddingRight10">
-        <select class="incomingSpecificTarget" name="incomingSpecificTarget" data-dtype="String">
-            {{#select incomingSpecificTarget}}
+        <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShotSpecificTarget">
+            {{#select calledShotSpecificTarget}}
             {{#if (eq targetActorType "actorDrone")}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="engineBlock">{{localize 'SR5.CS_ST_EngineBlock'}}</option>

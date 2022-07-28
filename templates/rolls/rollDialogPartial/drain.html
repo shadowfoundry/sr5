@@ -2,14 +2,14 @@
     <div class="col-11">
         {{localize 'SR5.FinalDrain'}}
         <a class="SR-DialogToggle" data-target="drainDetail" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
-		<a class="SR-DialogToggle" data-target="drainDetail" data-action="hide"><i class="fas fa-angle-up SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="drainDetail" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
     </div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="drainValue" value="{{drainValue}}" data-dtype="Number" placeholder="0" />
     </div>
 </li>
 
-<div id="drainDetail">
+<div id="drainDetail" style="display: none;">
     <li class="grid">
         <div class="col-11">{{localize 'SR5.Force'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-1 SR-TextCenter">

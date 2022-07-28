@@ -20,7 +20,7 @@
 
 <!-- SCENE NOISE -->
 {{#if (lt matrixNoiseScene 0)}}
-<li class="grid" id="matrixNoiseScene">
+<li class="grid" id="matrixNoiseScene" style="display: none;">
     <div class="col-5">{{localize 'SR5.SceneNoiseRating'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6"></div>
     <div class="col-1 SR-TextCenter">
@@ -30,7 +30,7 @@
 {{/if}}
 
 <!-- NOISE REDUCTION -->
-<li class="grid" id="matrixNoiseReduction">
+<li class="grid" id="matrixNoiseReduction" style="display: none;">
     <div class="col-5">{{localize 'SR5.NoiseReduction'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6"></div>
     <div class="col-1 SR-TextCenter">

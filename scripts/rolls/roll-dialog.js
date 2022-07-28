@@ -106,37 +106,7 @@ export default class SR5_RollDialog extends Dialog {
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
 
-        //Hide some block on initial draw
-        if ($(html).find('#dicePoolComposition')){
-            $(html).find('#dicePoolComposition').hide();
-            $(html).find('[data-target="dicePoolComposition"]').filter(`[data-action="hide"]`).hide();
-        }
-        if ($(html).find('#dicePoolModifier')){
-            $(html).find('#dicePoolModifier').hide();
-            $(html).find('[data-target="dicePoolModifier"]').filter(`[data-action="hide"]`).hide();
-        }
-        if ($(html).find('#drainDetail')){
-            $(html).find('#drainDetail').hide();
-            $(html).find('[data-target="drainDetail"]').filter(`[data-action="hide"]`).hide();
-        }
-        if ($(html).find('#fadingDetail')){
-            $(html).find('#fadingDetail').hide();
-            $(html).find('[data-target="fadingDetail"]').filter(`[data-action="hide"]`).hide();
-        }
-        if ($(html).find('#limit')){
-            $(html).find('#limit').hide();
-            $(html).find('[data-target="limit"]').filter(`[data-action="hide"]`).hide();
-        }
-        if ($(html).find('#recoilDetail')){
-            $(html).find('#recoilDetail').hide();
-            $(html).find('[data-target="recoilDetail"]').filter(`[data-action="hide"]`).hide();
-        }
-        if ($(html).find('#extendedBlock')) $(html).find('#extendedBlock').hide();
-        if ($(html).find('#useReagents')) $(html).find('#useReagents').hide();
-        if ($(html).find('#reagentsModControl')) $(html).find('#reagentsModControl').hide();
-        if ($(html).find('#sightPerception')) $(html).find('#sightPerception').hide();
-        if ($(html).find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').hide();
-        if ($(html).find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').hide();
+        //Show some block on initial draw
         if (dialogData.type === "ritual") {
             $(html).find('#useReagents').show();
             $(html).find('#reagentsModControl').show();
@@ -158,18 +128,6 @@ export default class SR5_RollDialog extends Dialog {
         //Manage Threshold
         html.find('.SR-ManageThreshold').change(ev => this._manageThreshold(ev, html, dialogData));
         if (html.find('.SR-ManageThreshold')) this._filledThreshold(html.find('.SR-ManageThreshold'), html, dialogData);
-
-        // Called Shots
-        if (html.find('[name="incomingCalledShots"]')[0]) this._addincomingCalledShotsModifier(html, dialogData);
-        html.find('[name="incomingCalledShots"]').change(ev => this._addincomingCalledShotsModifier(html, dialogData));
-
-        // Called Shots Specific Target
-        if (html.find('[name="incomingSpecificTarget"]')[0]) this._addincomingSpecificTargetModifier(html, dialogData);
-        html.find('[name="incomingSpecificTarget"]').change(ev => this._addincomingSpecificTargetModifier(html, dialogData));
-
-        // Called Shots Ammo Specific
-        if (html.find('[name="incomingAmmoSpecific"]')[0]) this._addincomingAmmoSpecificModifier(html, dialogData);
-        html.find('[name="incomingAmmoSpecific"]').change(ev => this._addincomingAmmoSpecificModifier(html, dialogData));
 
         // Reset Recoil
         html.find(".resetRecoil").click(ev => this._onResetRecoil(ev, html, dialogData, actorData));
@@ -534,7 +492,7 @@ export default class SR5_RollDialog extends Dialog {
         let target = $(ev.currentTarget).attr("data-target"),
             name = `[name=${target}]`,
             modifierName = $(ev.currentTarget).attr("data-modifier"),
-            value,
+            value, limitDV, effect,
             actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
             actorData = actor.data,
             position = this.position;
@@ -598,7 +556,6 @@ export default class SR5_RollDialog extends Dialog {
                         if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').hide();
                     }
                     dialogData.matrixNoiseRange = ev.target.value;
-                    this.setPosition(position);
                     break;
                 case "targetGrid":
                     if (ev.target.value !== actorData.data.matrix.userGrid && ev.target.value !== "none") value = -2
@@ -630,13 +587,11 @@ export default class SR5_RollDialog extends Dialog {
                     }
                     if (ev.target.value === "sight") {
                         $(html).find('#sightPerception').show();
-                        this.setPosition(position);
                         if (canvas.scene) dialogData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData.data, true);
                         html.find('[data-modifier="environmentalSceneMod"]')[0].value = dialogData.dicePoolMod.environmentalSceneMod;
                         this.dicePoolModifier.environmental = dialogData.dicePoolMod.environmentalSceneMod;
                     } else {
                         $(html).find('#sightPerception').hide();
-                        this.setPosition(position);
                         dialogData.dicePoolMod.environmentalSceneMod = 0;
                         this.dicePoolModifier.environmental = 0;
                     }
@@ -713,10 +668,65 @@ export default class SR5_RollDialog extends Dialog {
                     html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
                     this.updateDicePoolValue(html);
                     return;
-                default : value = ev.target.value;
+                case "calledShot":
+                    value = SR5_DiceHelper.convertCalledShotToMod(ev.target.value);
+                    if (ev.target.value === "ammoSpecific") $(html).find('#calledShotSpecificAmmo').show();
+                    else $(html).find('#calledShotSpecificAmmo').hide();
+                    if (ev.target.value === "specificTarget") $(html).find('#calledShotSpecificTarget').show();
+                    else $(html).find('#calledShotSpecificTarget').hide();
+                    dialogData.calledShot.name = ev.target.value;
+                    break;
+                case "calledShotSpecificTarget":
+                    value = SR5_DiceHelper.convertCalledShotTargetToMod(ev.target.value);
+                    limitDV = SR5_DiceHelper.convertCalledShotTargetToLimitDV(ev.target.value);
+                    effect = SR5_DiceHelper.convertCalledShotTargetToEffect(ev.target.value);
+                    if (html.find('[data-modifier="calledShotSpecificAmmo"]')[0].value === "upTheAnte") {
+                            value = value - 4;
+                            limitDV = limitDV * 2;
+                        }
+                    dialogData.calledShot = {
+                        limitDV: limitDV,
+                        location: ev.target.value,
+                        name: html.find('[data-modifier="calledShot"]')[0].value,
+                        effects: effect,
+                    }
+                    break;
+                case "calledShotSpecificAmmo":
+                    let initiative;
+                    value = SR5_DiceHelper.convertCalledShotTargetToMod(ev.target.value, dialogData.ammoType);
+                    limitDV = SR5_DiceHelper.convertCalledShotTargetToLimitDV(ev.target.value, dialogData.ammoType);
+                    effect = SR5_DiceHelper.convertCalledShotTargetToEffect(ev.target.value, dialogData.ammoType);  
+                    switch(ev.target.value) {
+                        case "shakeRattle": 
+                            switch(dialogData.ammoType) {
+                                case "explosive": 
+                                    initiative = -6; 
+                                break; 
+                                case "exExplosive": 
+                                    initiative = -8;
+                                break; 
+                                default:                     
+                                    initiative = -5;
+                                }
+                            break;
+                        case "upTheAnte":
+                            $(html).find('#calledShotSpecificTarget').show();         
+                            break;
+                        default:
+                    }
+                    dialogData.calledShot = {
+                        ammoLocation: ev.target.value,
+                        limitDV: limitDV,
+                        initiative: initiative,
+                        effects: effect,
+                        name: html.find('[data-modifier="calledShot"]')[0].value,
+                    }
+                    break;
+                default: value = ev.target.value;
             }
         }
 
+        this.setPosition(position);
         html.find(name)[0].value = value;
         dialogData.dicePoolMod[modifierName] = value;
         this.dicePoolModifier[modifierName] = value;
@@ -877,382 +887,6 @@ export default class SR5_RollDialog extends Dialog {
             this.updateDicePoolValue(html);
         }
     }
-
-    //Add Called Shots modifier
-    _addincomingCalledShotsModifier(html, dialogData){
-        let calledShot = html.find('[name="incomingCalledShots"]')[0].value;
-        let diceMod, position = this.position;
-        position.height = "auto";
-        switch(calledShot) {
-            case "ammoSpecific" :
-                diceMod = 0;
-                document.getElementById("incomingAmmoSpecific").style.display = 'block';
-                document.getElementById("incomingSpecificTarget").style.display = 'none';
-                this.setPosition(position);
-            break;
-            case "specificTarget" :
-                diceMod = 0;
-                document.getElementById("incomingSpecificTarget").style.display = 'block';
-                document.getElementById("incomingAmmoSpecific").style.display = 'none';
-                this.setPosition(position);
-            break;
-            case "blastOutOfHand" :
-            case "dirtyTrick" :
-            case "entanglement" :
-            case "pin" :
-            case "splittingDamage" :
-            case "shakeUp" :
-            case "trickShot" :
-            case "breakWeapon" :
-            case "disarm" :
-            case "feint" :
-            case "knockdown" :
-            case "reversal" :
-                diceMod = -4;
-                document.getElementById("incomingAmmoSpecific").style.display = 'none';
-                document.getElementById("incomingSpecificTarget").style.display = 'none';
-            break;
-        default:
-            diceMod = 0;
-            document.getElementById("incomingAmmoSpecific").style.display = 'none';
-            document.getElementById("incomingSpecificTarget").style.display = 'none';
-        }
-        html.find('[name="dicePoolModCalledShots"]')[0].value = diceMod;
-        this.dicePoolModifier.calledShot = diceMod;
-        dialogData.dicePoolMod.calledShot = diceMod;
-        dialogData.calledShot.name = calledShot;
-        this.updateDicePoolValue(html);
-    }
-
-    //Add Called Shots on specific target modifier
-    _addincomingSpecificTargetModifier(html, dialogData){
-        let calledShotSpecificTarget = html.find('[name="incomingSpecificTarget"]')[0].value;
-        let diceMod, limitDV, effect = {};
-        let upTheAnte = html.find('[name="incomingAmmoSpecific"]')[0].value;
-        let position = this.position;
-        position.height = "auto";
-        switch(calledShotSpecificTarget) {
-            case "gut" : 
-                diceMod = -6;
-                limitDV = 8;
-        break;               
-            case "forearm" :
-            case "shin" : 
-                diceMod = -6;
-                limitDV = 2;
-        break;
-            case "shoulder" :                   
-            case "thigh" : 
-            case "hip" : 
-                diceMod = -6;
-                limitDV = 3;
-        break; 
-            case "ankle" :
-            case "knee" :
-            case "hand" :
-            case "foot" :
-                diceMod = -8;
-                limitDV = 1;
-        break;
-            case "neck" :
-                diceMod = -8;
-                limitDV = 10;
-        break;
-            case "jaw" :
-                diceMod = -8;
-                limitDV = 2;
-        break;
-            case "ear" :
-            case "eye" :
-                diceMod = -10;
-                limitDV = 1;
-        break;
-            case "genitals" :
-                diceMod = -10;
-                limitDV = 4;
-        break;
-            case "sternum" :
-                diceMod = -10;
-                limitDV = 10;
-        break;
-            case "antenna" :
-                diceMod = -8;
-                limitDV = 2;
-                effect = {
-		    		"0": {
-			    		"name": "antenna",
-				    }
-	    		};
-        break;
-            case "engineBlock" :
-                diceMod = -4;                
-                limitDV = "";
-                effect = {
-		    		"0": {
-			    		"name": "engineBlock",
-				    }
-		    	};
-        break;
-            case "windowMotor" :
-                diceMod = -4;
-                limitDV = 0;
-                effect = {
-			    	"0": {
-				    	"name": "windowMotor",
-				    }
-			    };
-        break;
-            case "doorLock" :
-                diceMod = -6;
-                limitDV = 0;
-                effect = {
-			    	"0": {
-				    	"name": "doorLock",
-				    }
-	    		};
-        break;
-            case "axle" :
-                diceMod = -6;
-                limitDV = 6;
-                effect = {
-			    	"0": {
-				    	"name": "axle",
-				    }
-		    	};
-        break;
-            case "fuelTankBattery" :
-                diceMod = -6;                
-                limitDV = "";
-                effect = {
-			    	"0": {
-				    	"name": "fuelTankBattery",
-				    }
-			    };
-        break;
-        default:
-            diceMod = 0;
-        }
-        if (upTheAnte === "upTheAnte") diceMod = diceMod - 4;
-        html.find('[name="dicePoolModCalledShots"]')[0].value = diceMod;
-        this.dicePoolModifier.calledShot = diceMod;
-        dialogData.dicePoolMod.calledShot = diceMod;
-        if (upTheAnte === "upTheAnte") limitDV = limitDV * 2;
-        dialogData.calledShot = {
-            limitDV: limitDV,
-            location: calledShotSpecificTarget,
-            name: html.find('[name="incomingCalledShots"]')[0].value,
-            effects: effect,
-        }
-        this.updateDicePoolValue(html);
-    }
-    
-    //Add Called Shots with specific ammo modifier
-    _addincomingAmmoSpecificModifier(html, dialogData){
-        let calledShotAmmoSpecific = html.find('[name="incomingAmmoSpecific"]')[0].value;
-        let ammoType = dialogData.ammoType;
-        let diceMod, initiative, limitDV, effect = {};
-        let position = this.position;
-        position.height = "auto";
-        switch(calledShotAmmoSpecific) {
-            case "bellringer" : 
-            diceMod = -8;
-            limitDV = 4;
-        break; 
-            case "extremeIntimidation" :  
-            diceMod = -4;
-            limitDV = 0;
-        break; 
-            case "onPinsAndNeedles" : 
-            case "tag" :  
-            diceMod = -4;
-            limitDV = 0;
-        break; 
-            case "bullsEye" :   
-            diceMod = -4;
-            limitDV = "";
-        break; 
-            case "downTheGullet" :  
-            diceMod = -8;
-            limitDV = 2;
-        break; 
-            case "fingerPopper" : 
-                switch(ammoType) {
-                    case "explosive" : 
-                    case "gel" : 
-                    case "hollowPoint" : 
-                        diceMod = -4;
-                        limitDV = 2;
-                        effect = {
-                            "0": {
-                                "name": "blastOutOfHand",
-                                "modFingerPopper": 0,
-                            }
-                        };
-                break; 
-                case "flechette" : 
-                    diceMod = -4;
-                    limitDV = 2;
-                    effect = {
-                        "0": {
-                            "name": "blastOutOfHand",
-                            "modFingerPopper": -1,
-                        }
-                    };
-                break; 
-                case "exExplosive" : 
-                    diceMod = -4;
-                    limitDV = 3;
-                    effect = {
-                        "0": {
-                            "name": "blastOutOfHand",
-                            "modFingerPopper": 1,
-                        }
-                    };
-                break; 
-                default:                     
-                    diceMod = -4;
-                    limitDV = "";
-                    effect = {
-                    "0": {
-                    "name": "blastOutOfHand",
-                    "modFingerPopper": -1,
-                    }
-                };
-            }
-        break;
-            case "flameOn" : 
-            switch(ammoType) {
-                case "flare" :
-                case "gyrojet" : 
-                    diceMod = -10;
-                    limitDV = 1;
-            break; 
-                case "tracer" : 
-                    diceMod = -6;
-                    limitDV = 1;
-            break;
-                }      
-        break; 
-            case "flashBlind" :  
-                diceMod = -6;
-                limitDV = 2;
-                effect = {
-                    "0": {
-                        "name": "flared",
-                    }
-                };
-        break;  
-            case "hereMuckInYourEye" : 
-            switch(ammoType) { 
-                case "exExplosive" :  
-                diceMod = -4;
-                limitDV = 0;
-                effect = {
-                    "0": {
-                        "name": "dirtyTrick",
-                        "value": -6,
-                    }
-                };
-                case "explosive" :
-                case "frangible" : 
-                case "hollowPoint" : 
-                    diceMod = -4;
-                    limitDV = 0;
-                    effect = {
-                        "0": {
-                            "name": "dirtyTrick",
-                            "value": -5,
-                        }
-                    };
-            break; 
-                case "gel" : 
-                case "gyrojet" :
-                    diceMod = -4;
-                    limitDV = 2;
-                    effect = {
-                        "0": {
-                            "name": "dirtyTrick",
-                            "value": -4,
-                        }
-                    };
-            break; 
-                default:                     
-                    diceMod = -4;
-                    limitDV = 0;
-                    effect = {
-                        "0": {
-                            "name": "dirtyTrick",
-                            "value": -4,
-                        }
-                    };
-            }
-        break; 
-            case "hitEmWhereItCounts" : 
-                diceMod = -6;
-                limitDV = 1;
-        break;
-            case "warningShot" : 
-                diceMod = -6;
-                limitDV = 0;
-        break; 
-            case "ricochetShot" :  
-                diceMod = -6;
-                limitDV = "";
-        break; 
-            case "shakeRattle" : 
-                switch(ammoType) {
-                    case "explosive" : 
-                        diceMod = -4;
-                        limitDV = "";
-                        initiative = -6; 
-                break; 
-                    case "exExplosive" : 
-                        diceMod = -4;
-                        limitDV = ""; 
-                        initiative = -8;
-                break; 
-                default:                     
-                        diceMod = -4;
-                        limitDV = "";
-                        initiative = -5;
-                }
-        break;
-            case "shreddedFlesh" : 
-                diceMod = -4;
-                limitDV = 10;
-                effect = {
-                    "0": {
-                        "name": "bleedOut",
-                    }
-                };
-        break;
-            case "throughAndInto" : 
-                diceMod = 0;
-                limitDV = 1;
-        break; 
-            case "upTheAnte" : 
-            document.getElementById("incomingSpecificTarget").style.display = 'block';            
-            this.setPosition(position);
-            diceMod = -4;
-        break;
-        default:
-            diceMod = 0;
-            limitDV = "";
-        }
-        html.find('[name="dicePoolModCalledShots"]')[0].value = diceMod;
-        this.dicePoolModifier.calledShot = diceMod;
-        dialogData.dicePoolMod.calledShot = diceMod;
-        dialogData.calledShot = {
-            ammoLocation: calledShotAmmoSpecific,
-            limitDV: limitDV,
-            initiative: initiative,
-            effects: effect,
-            name: html.find('[name="incomingCalledShots"]')[0].value,  
-        }
-        this.updateDicePoolValue(html);
-    }
-
-
 
     //Toggle reset recoil
     _onResetRecoil(ev, html, dialogData, actorData){

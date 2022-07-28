@@ -94,7 +94,7 @@ export class SR5_DiceHelper {
             cardData = mergeObject(cardData, {
                 itemId: message.itemId,
                 force: message.force,
-                preparationTrigger : message.preparationTrigger,
+                preparationTrigger: message.preparationTrigger,
                 type: "preparationResistance",
                 title: `${game.i18n.localize("SR5.PreparationResistance")} (${cardData.hits})`,
             });
@@ -108,7 +108,7 @@ export class SR5_DiceHelper {
                 itemUuid: message.itemUuid,
                 originalMessage: message.originalMessage,
                 force: message.force,
-                reagentsSpent : message.reagentsSpent,
+                reagentsSpent: message.reagentsSpent,
                 type: "ritualResistance",
                 title: `${game.i18n.localize("SR5.RitualResistance")} (${cardData.hits})`,
             });
@@ -544,7 +544,7 @@ export class SR5_DiceHelper {
         await SR5_DiceHelper.markPanMaster(message.data.itemToMark, message.data.attackerID, message.data.mark);
 	}
 
-    //Mark slaved device : for host, update all unlinked token with same marks
+    //Mark slaved device: for host, update all unlinked token with same marks
     static async markSlavedDevice(targetActorID){
         let targetActor = await SR5_EntityHelpers.getRealActorFromID(targetActorID),
             item = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
@@ -990,7 +990,7 @@ export class SR5_DiceHelper {
                   callback: () => (cancel = false),
                 },
                 cancel: {
-                  label : "Cancel",
+                  label: "Cancel",
                   callback: () => (cancel = true),
                 },
               },
@@ -1019,7 +1019,7 @@ export class SR5_DiceHelper {
                     callback: () => (cancel = false),
                     },
                     cancel: {
-                    label : "Cancel",
+                    label: "Cancel",
                     callback: () => (cancel = true),
                     },
                 },
@@ -1048,7 +1048,7 @@ export class SR5_DiceHelper {
                     callback: () => (cancel = false),
                     },
                     cancel: {
-                    label : "Cancel",
+                    label: "Cancel",
                     callback: () => (cancel = true),
                     },
                 },
@@ -1143,7 +1143,7 @@ export class SR5_DiceHelper {
                   callback: () => (cancel = false),
                 },
                 cancel: {
-                  label : "Cancel",
+                  label: "Cancel",
                   callback: () => (cancel = true),
                 },
               },
@@ -1306,7 +1306,7 @@ export class SR5_DiceHelper {
                   callback: () => (cancel = false),
                 },
                 cancel: {
-                  label : "Cancel",
+                  label: "Cancel",
                   callback: () => (cancel = true),
                 },
               },
@@ -1361,7 +1361,7 @@ export class SR5_DiceHelper {
         let messageData = message.data.flags.sr5data;
         
         messageData = mergeObject(messageData, {
-            splitted : messageData.splitted + 1,
+            splitted: messageData.splitted + 1,
         });
 
         //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
@@ -1374,7 +1374,7 @@ export class SR5_DiceHelper {
         let messageData = message.data.flags.sr5data;
         
         messageData = mergeObject(messageData, {
-            fatigued : messageData.fatigued + 1,
+            fatigued: messageData.fatigued + 1,
         });
 
         //Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
@@ -1431,7 +1431,7 @@ export class SR5_DiceHelper {
                 itemData.services.value += message.netHits;
                 itemData.services.max += message.netHits;
             }
-            await itemSideKick.update({'data' : itemData});
+            await itemSideKick.update({'data': itemData});
         }
     }
 
@@ -2446,6 +2446,181 @@ export class SR5_DiceHelper {
     return itemEffects;
     }
 
+    static convertCalledShotToMod(calledShot){
+        switch(calledShot) {
+            case "blastOutOfHand":
+            case "dirtyTrick":
+            case "entanglement":
+            case "pin":
+            case "splittingDamage":
+            case "shakeUp":
+            case "trickShot":
+            case "breakWeapon":
+            case "disarm":
+            case "feint":
+            case "knockdown":
+            case "reversal":
+                return -4;
+            default:
+                return 0;
+        }
+    }
+
+    static convertCalledShotTargetToMod(calledShot, ammoType){
+        switch(calledShot) {
+            case "gut": 
+            case "forearm":
+            case "shin": 
+            case "shoulder":                   
+            case "thigh": 
+            case "hip": 
+            case "doorLock":
+            case "axle":
+            case "fuelTankBattery":
+            case "flashBlind":
+            case "hitEmWhereItCounts":
+            case "warningShot":
+            case "ricochetShot":
+                return -6;
+            case "ankle":
+            case "knee":
+            case "hand":
+            case "foot":
+            case "neck":
+            case "jaw":
+            case "antenna":
+            case "bellringer":
+            case "downTheGullet":
+                return -8;
+            case "ear":
+            case "eye":
+            case "genitals":
+            case "sternum":
+                return -10;
+            case "windowMotor":
+            case "engineBlock":
+            case "extremeIntimidation":
+            case "onPinsAndNeedles": 
+            case "tag":
+            case "bullsEye":
+            case "fingerPopper":
+            case "hereMuckInYourEye":
+            case "shakeRattle":
+            case "shreddedFlesh":
+            case "upTheAnte":
+                return -4;
+            case "flameOn": 
+                switch(ammoType) {
+                    case "flare":
+                    case "gyrojet": 
+                        return -10;
+                    case "tracer": 
+                        return -6;
+                }
+            default:
+                return 0;
+        }
+    }
+
+    static convertCalledShotTargetToLimitDV(calledShot, ammoType){
+        switch(calledShot) {
+            case "gut": 
+                return 8;               
+            case "forearm":
+            case "shin": 
+            case "jaw":
+            case "antenna":
+            case "downTheGullet":
+            case "flashBlind":
+                return 2;
+            case "shoulder":                   
+            case "thigh": 
+            case "hip": 
+                return 3;
+            case "ankle":
+            case "knee":
+            case "hand":
+            case "foot":
+            case "ear":
+            case "eye":
+            case "flameOn":
+            case "hitEmWhereItCounts":
+            case "throughAndInto":
+                return 1;
+            case "sternum":
+            case "neck":
+            case "shreddedFlesh":
+                return 10;
+            case "genitals":
+            case "bellringer":
+                return 4;
+            case "axle":
+                return 6;
+            case "fingerPopper":
+                switch(ammoType) {
+                    case "explosive": 
+                    case "gel": 
+                    case "hollowPoint": 
+                    case "flechette":
+                        return 2;
+                    case "exExplosive": 
+                        return 3;                      
+                    default:                     
+                        return 0;
+                }
+            case "hereMuckInYourEye": 
+                if (ammoType === "gel" || ammoType === "gyrojet") return 2;
+                else return 0;
+            default:
+                return 0;
+        }
+    }
+
+    static convertCalledShotTargetToEffect(calledShot, ammoType){
+        let effect;
+        switch(calledShot) {
+            case "antenna":
+                return effect = {"0": {"name": "antenna",}};
+            case "engineBlock":
+                return effect = {"0": {"name": "engineBlock",}};
+            case "windowMotor":
+                return effect = {"0": {"name": "windowMotor",}};
+            case "doorLock": 
+                return effect = {"0": {"name": "doorLock",}};
+            case "axle":
+                return effect = {"0": {"name": "axle",}};
+            case "fuelTankBattery":
+                return effect = {"0": {"name": "fuelTankBattery",}};
+            case "fingerPopper":
+                switch(ammoType) {
+                    case "explosive": 
+                    case "gel": 
+                    case "hollowPoint": 
+                        return effect = {"0": {"name": "blastOutOfHand", "modFingerPopper": 0,}};
+                    case "exExplosive": 
+                        return effect = {"0": {"name": "blastOutOfHand", "modFingerPopper": 1,}};
+                    default:                     
+                        return effect = {"0": {"name": "blastOutOfHand", "modFingerPopper": -1,}};
+                }
+            case "flashBlind":
+                return effect = {"0": {"name": "flared",}};
+            case "hereMuckInYourEye":
+                switch(ammoType) { 
+                    case "exExplosive":  
+                        return effect = {"0": {"name": "dirtyTrick", "value": -6,}};
+                    case "explosive":
+                    case "frangible": 
+                    case "hollowPoint": 
+                        return effect = {"0": {"name": "dirtyTrick", "value": -5,}};
+                    default:                     
+                        return effect = {"0": {"name": "dirtyTrick", "value": -4,}};
+                }
+            case "shreddedFlesh":
+                return effect = {"0": {"name": "bleedOut",}};
+            default:
+                return effect = {};
+        }
+    }
 
     static convertHealingConditionToDiceMod(condition){
         switch (condition){
@@ -2459,7 +2634,7 @@ export class SR5_DiceHelper {
                 return -3;
             case "terrible":
                 return -4;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2483,7 +2658,7 @@ export class SR5_DiceHelper {
                 return 4;
             case "containment":
                 return 5;
-            default : return 2;
+            default: return 2;
         }
     }
 
@@ -2499,7 +2674,7 @@ export class SR5_DiceHelper {
                 return 3;
             case "hidden":
                 return 4;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2511,7 +2686,7 @@ export class SR5_DiceHelper {
                 return -2;
             case "extreme":
                 return -4;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2525,7 +2700,7 @@ export class SR5_DiceHelper {
                 return 3;
             case "extreme":
                 return 4;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2543,7 +2718,7 @@ export class SR5_DiceHelper {
                 return -3;
             case "enemy":
                 return -4;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2559,7 +2734,7 @@ export class SR5_DiceHelper {
                 return -3;
             case "disastrous":
                 return -4;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2589,7 +2764,7 @@ export class SR5_DiceHelper {
                 return -2;
             case "socialReputation":
                 return actorData.data.streetCred.value;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2605,7 +2780,7 @@ export class SR5_DiceHelper {
                 return -4;
             case "superior":
                 return 1;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2617,7 +2792,7 @@ export class SR5_DiceHelper {
                 return -4;
             case "superior":
                 return 1;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2627,7 +2802,7 @@ export class SR5_DiceHelper {
                 return 1;
             case "augmented":
                 return 2;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2639,7 +2814,7 @@ export class SR5_DiceHelper {
                 return 2;
             case "full":
                 return 4;
-            default : return 0;
+            default: return 0;
         }
     }
     
@@ -2651,7 +2826,7 @@ export class SR5_DiceHelper {
                 return -4;
             case "3":
                 return -10;
-            default : return 0;
+            default: return 0;
         }
     }
 
@@ -2680,17 +2855,17 @@ export class SR5_DiceHelper {
 
     static convertSpeedToDamageValue(speed, body){
         switch(speed) {
-            case "speedRamming1" :
+            case "speedRamming1":
                 return Math.ceil(body/2);
-            case "speedRamming11" :
+            case "speedRamming11":
                 return body;
-            case "speedRamming51" :
+            case "speedRamming51":
                 return body*2;
-            case "speedRamming201" :
+            case "speedRamming201":
                 return body*3;
-            case "speedRamming301" :
+            case "speedRamming301":
                 return body*5;
-            case "speedRamming501" :
+            case "speedRamming501":
                 return body*10;
             default:
         }
@@ -2698,17 +2873,17 @@ export class SR5_DiceHelper {
 
     static convertSpeedToAccidentValue(speed, body){
         switch(speed) {
-            case "speedRamming1" :
+            case "speedRamming1":
                 return Math.ceil(body/4);
-            case "speedRamming11" :
+            case "speedRamming11":
                 return Math.ceil(body/2);
-            case "speedRamming51" :
+            case "speedRamming51":
                 return body;
-            case "speedRamming201" :
+            case "speedRamming201":
                 return Math.ceil((body*3)/2);
-            case "speedRamming301" :
+            case "speedRamming301":
                 return Math.ceil(body*2,5);
-            case "speedRamming501" :
+            case "speedRamming501":
                 return Math.ceil(body*5);
             default:
         }

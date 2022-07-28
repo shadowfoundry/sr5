@@ -2,7 +2,7 @@
     <div class="col-11">
         {{localize 'SR5.Limit'}}
         <a class="SR-DialogToggle" data-target="limit" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
-		<a class="SR-DialogToggle" data-target="limit" data-action="hide"><i class="fas fa-angle-up SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="limit" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
     </div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number"  name="modifiedLimit" value="" placeholder="0" data-dtype="Number" />
@@ -12,7 +12,7 @@
     <div class="col-1 SR-TextCenter" hidden><input disabled hidden type="number"  name="baseLimit" value="{{limit}}" placeholder="0" data-dtype="Number" /></div>
 </li>
 
-<div id="limit">
+<div id="limit" style="display: none;">
 <!-- BASE LIMIT -->
 <li class="grid">
     <div class="col-11">{{localize 'SR5.LimitBase'}}{{localize 'SR5.Colons'}}</div>

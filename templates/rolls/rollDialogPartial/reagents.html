@@ -5,13 +5,13 @@
             <span class="col-auto">
                 <input type="checkbox" class="SR-ModCheckbox" data-target="reagentsSpent" data-modifier="reagents">
             </span>
-            <span class="col-auto" id="reagentsModControl">
+            <span class="col-auto" id="reagentsModControl" style="display: none;">
                 <a class="SR-ModControl" data-target="reagentsSpent" data-type="minus" data-modifier="reagentsSpent"><em class="fas fa-minus-circle"></em></a>
                 <a class="SR-ModControl" data-target="reagentsSpent" data-type="plus" data-modifier="reagentsSpent"><em class="fas fa-plus-circle"></em></a>
             </span>
         </div>
     </div>
-    <div class="col-1 SR-TextCenter" id="useReagents">
+    <div class="col-1 SR-TextCenter" id="useReagents" style="display: none;">
         <input type="number" class="SR-ModInput" name="reagentsSpent" data-modifier="reagentsSpent" value="{{reagentsSpent}}" data-dtype="Number" placeholder="0" />
     </div>
 </li>
