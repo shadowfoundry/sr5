@@ -1,14 +1,17 @@
 <li class="grid">
-    <div class="col-7">{{localize 'SR5.Reagents'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4">
-        <select class="reagents" name="reagents">
-        {{#select reagents}}
-            <option value="">{{localize 'SR5.No'}}</option>
-            <option value="true">{{localize 'SR5.Yes'}}</option>
-        {{/select}}
-        </select>
+    <div class="col-9">{{localize 'SR5.Reagents'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">
+        <div class="grid">
+            <span class="col-auto">
+                <input type="checkbox" class="SR-ModCheckbox" data-target="reagentsSpent" data-modifier="reagents">
+            </span>
+            <span class="col-auto" id="reagentsModControl" style="display: none;">
+                <a class="SR-ModControl" data-target="reagentsSpent" data-type="minus" data-modifier="reagentsSpent"><em class="fas fa-minus-circle"></em></a>
+                <a class="SR-ModControl" data-target="reagentsSpent" data-type="plus" data-modifier="reagentsSpent"><em class="fas fa-plus-circle"></em></a>
+            </span>
+        </div>
     </div>
-    <div class="col-1 SR-TextCenter" id="useReagents">
-        <input type="number" name="reagentsSpent" value="{{reagentsSpent}}" data-dtype="Number" placeholder="0" />
+    <div class="col-1 SR-TextCenter" id="useReagents" style="display: none;">
+        <input type="number" class="SR-ModInput" name="reagentsSpent" data-modifier="reagentsSpent" value="{{reagentsSpent}}" data-dtype="Number" placeholder="0" />
     </div>
 </li>

@@ -1,0 +1,24 @@
+<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+    <div class="col-12">{{localize 'SR5.SpellOptions'}}</div>
+</li>
+
+<!--FORCE-->
+{{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
+
+<!--RECKLESS SPELLCASTING-->
+{{> systems/sr5/templates/rolls/rollDialogPartial/recklessSpellcasting.html}}
+
+<!-- SPIRIT AID -->
+{{#if switch.spiritAid}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidCommand.html}}
+{{/if}}
+
+<!--REAGENTS-->
+{{#if switch.canUseReagents}}
+      {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+{{/if}}
+
+<!-- SPELL SHAPING METAMAGIC -->
+{{#if switch.spellShaping}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html}}
+{{/if}}

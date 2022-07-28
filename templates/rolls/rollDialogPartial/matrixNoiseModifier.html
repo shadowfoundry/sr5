@@ -1,8 +1,8 @@
 <!-- DISTANCE NOISE -->
-<li class="grid SR-TopSeparator">
+<li class="grid">
     <div class="col-5">{{localize 'SR5.MatrixNoiseRange'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6">
-        <select class="matrixNoiseRange" name="matrixRange">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModMatrixNoiseRange" data-modifier="matrixRange">
             {{#select matrixRange}}
             <option value="wired">{{localize 'SR5.MatrixDistanceConnected'}}</option>
             <option value="upTo100m">{{localize 'SR5.MatrixDistance100m'}}</option>
@@ -14,33 +14,33 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="matrixNoiseRangeValue" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModMatrixNoiseRange" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 
 <!-- SCENE NOISE -->
-{{#if (lt dicePoolMod.matrixNoiseScene 0)}}
-<li class="grid hideMatrixNoise">
+{{#if (lt matrixNoiseScene 0)}}
+<li class="grid" id="matrixNoiseScene" style="display: none;">
     <div class="col-5">{{localize 'SR5.SceneNoiseRating'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="matrixSceneNoiseValue" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" class="SR-ModInputFilled" data-modifier="matrixSceneNoise" value="{{matrixNoiseScene}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 {{/if}}
 
 <!-- NOISE REDUCTION -->
-<li class="grid hideMatrixNoise">
+<li class="grid" id="matrixNoiseReduction" style="display: none;">
     <div class="col-5">{{localize 'SR5.NoiseReduction'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="matrixNoiseReduction" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" class="SR-ModInputFilled" data-modifier="matrixNoiseReduction" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 
 <!-- TOTAL NOISE (Hidden)-->
 <li hidden>
     <div hidden class="col-1 SR-TextCenter">
-        <input hidden disabled type="number"  name="matrixNoise" value="" placeholder="0" data-dtype="Number" />
+        <input hidden disabled type="number" name="matrixNoise" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

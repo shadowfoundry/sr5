@@ -1,0 +1,15 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.CS_CalledShots'}} {{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.calledShot" data-dtype="String">
+            {{#select data.calledShot}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                <option value="breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>  
+                <option value="pin">{{localize 'SR5.CS_Pin'}}</option>  
+                <option value="disarm">{{localize 'SR5.CS_Disarm'}}</option>
+                <option value="entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+                <option value="feint">{{localize 'SR5.CS_Feint'}}</option>
+            {{/select}}
+        </select>
+    </div>
+</li>

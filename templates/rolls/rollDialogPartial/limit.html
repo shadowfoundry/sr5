@@ -1,5 +1,9 @@
 <li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
-    <div class="col-11">{{localize 'SR5.Limit'}}</div>
+    <div class="col-11">
+        {{localize 'SR5.Limit'}}
+        <a class="SR-DialogToggle" data-target="limit" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="limit" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
+    </div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number"  name="modifiedLimit" value="" placeholder="0" data-dtype="Number" />
     </div>
@@ -7,6 +11,8 @@
 <li class="grid" hidden>
     <div class="col-1 SR-TextCenter" hidden><input disabled hidden type="number"  name="baseLimit" value="{{limit}}" placeholder="0" data-dtype="Number" /></div>
 </li>
+
+<div id="limit" style="display: none;">
 <!-- BASE LIMIT -->
 <li class="grid">
     <div class="col-11">{{localize 'SR5.LimitBase'}}{{localize 'SR5.Colons'}}</div>
@@ -17,26 +23,39 @@
 
 <!-- VARIOUS MODIFIER -->
 <li class="grid">
-    <div class="col-11">{{localize 'SR5.LimitModifiers'}}</div>
+    <div class="col-10">{{localize 'SR5.LimitModifiers'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="limitModVarious" data-type="minus" data-modifier="limitModVarious"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="limitModVarious" data-type="plus" data-modifier="limitModVarious"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter ">
-        <input type="number" class="limitModifier" name="limitModVarious" value="" placeholder="0" data-dtype="Number" />
+        <input type="number" data-modifier="limitModVarious" name="limitModVarious" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <!-- PERCEPTION -->
 {{#ife typeSub "perception"}}
 <li class="grid">
-    <div class="col-11">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="limitModPerception" data-type="minus" data-modifier="limitModPerception"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="limitModPerception" data-type="plus" data-modifier="limitModPerception"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter ">
-        <input disabled type="number" name="limitModPerception" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" data-modifier="limitModPerception" name="limitModPerception" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 {{/ife}}
 <!-- HEALING MEDKIT -->
 {{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
 <li class="grid">
-    <div class="col-11">{{localize 'SR5.HealingSupplies'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.HealingSupplies'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="limitModHealingSupplies" data-type="minus" data-modifier="limitModHealingSupplies"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="limitModHealingSupplies" data-type="plus" data-modifier="limitModHealingSupplies"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter ">
-        <input disabled type="number" name="limitModHealingSupplies" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" data-modifier="limitModHealingSupplies" name="limitModHealingSupplies" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 {{/if}}
+</div>

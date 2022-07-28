@@ -1,26 +1,26 @@
 <li class="grid">
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7 SR-PaddingRight10" style="text-align: left;" id="incomingCalledShots">
-        <select class="incomingCalledShots" name="incomingCalledShots">
+    <div class="col-7 SR-PaddingRight10" style="text-align: left;" id="calledShot">
+        <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShot">
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#select incomingCalledShots}}
             <option value="blastOutOfHand">{{localize 'SR5.CS_BlastOutOfHand'}}</option>
-            {{#if (eq typeSub "meleeWeapon")}}            
+            {{#if (and (eq typeSub "meleeWeapon") martialArtBreakWeapon)}}            
             <option value="breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
             {{/if}}             
             <option value="specificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
             <option value="dirtyTrick">{{localize 'SR5.CS_DirtyTrick'}}</option>            
-            {{#if (or (eq ammoType "special") (eq ammoType "bolt") (eq ammoType "boltInjection") (eq ammoType "arrow") (eq ammoType "arrowInjection"))}} 
+            {{#if (and (or (eq ammoType "special") (eq ammoType "bolt") (eq ammoType "boltInjection") (eq ammoType "arrow") (eq ammoType "arrowInjection")) martialArtPin)}} 
             <option value="pin">{{localize 'SR5.CS_Pin'}}</option>
             {{/if}}                          
-            {{#if (eq typeWeapon "unarmed")}}              
+            {{#if (and (eq typeWeapon "unarmed") calledShot.martialArtDisarm)}}              
             <option value="disarm">{{localize 'SR5.CS_Disarm'}}</option>
             {{/if}} 
-            {{#if (or (eq typeWeapon "exoticRangedWeapon")(eq typeWeapon "exoticMeleeWeapon"))}}  
+            {{#if (and (or (eq typeWeapon "exoticRangedWeapon")(eq typeWeapon "exoticMeleeWeapon")) calledShot.martialArtEntanglement)}}  
             <option value="entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
             {{/if}}
             <option value="shakeUp">{{localize 'SR5.CS_ShakeUp'}}</option>
-            {{#if (eq typeSub "meleeWeapon")}}   
+            {{#if (and (eq typeSub "meleeWeapon") martialArtFeint)}}   
             <option value="feint">{{localize 'SR5.CS_Feint'}}</option>  
             {{/if}} 
             <option value="splittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
@@ -41,12 +41,12 @@
         <input disabled type="number" class="dicePoolModCalledShots" name="dicePoolModCalledShots" value="{{incomingCalledShots}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
-<li class="grid" style="display: none;" id="incomingAmmoSpecific">
+<li class="grid" style="display: none;" id="calledShotSpecificAmmo">
     <div class="col-4">{{findTranslation 'allAmmunitionTypes' ammoType}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-PaddingRight10">
-        <select class="incomingAmmoSpecific" name="incomingAmmoSpecific">
+        <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShotSpecificAmmo">
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#select incomingAmmoSpecific}}
+            {{#select calledShotSpecificAmmo}}
             {{#if (eq ammoType "gel")}} 
             <option value="bellringer">{{localize 'SR5.CS_AS_Bellringer'}}</option>
             {{/if}}
@@ -103,11 +103,11 @@
     </div>
     <div class="col-1"></div>
 </li>
-<li class="grid" style="display: none;" id="incomingSpecificTarget">
+<li class="grid" style="display: none;" id="calledShotSpecificTarget">
     <div class="col-4">{{localize 'SR5.CS_Choice'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-PaddingRight10">
-        <select class="incomingSpecificTarget" name="incomingSpecificTarget" data-dtype="String">
-            {{#select incomingSpecificTarget}}
+        <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShotSpecificTarget">
+            {{#select calledShotSpecificTarget}}
             {{#if (eq targetActorType "actorDrone")}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="engineBlock">{{localize 'SR5.CS_ST_EngineBlock'}}</option>

@@ -1,15 +1,15 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Cover'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-PaddingRight10">
-        <select class="cover" name="cover">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModCover" data-modifier="cover">
             {{#select cover}}
-            <option value="0">{{localize 'SR5.CoverNone'}}</option>
-            <option value="2">{{localize 'SR5.CoverPartial'}}</option>
-            <option value="4">{{localize 'SR5.CoverFull'}}</option>
+            <option value="none">{{localize 'SR5.CoverNone'}}</option>
+            <option value="partial">{{localize 'SR5.CoverPartial'}}</option>
+            <option value="full">{{localize 'SR5.CoverFull'}}</option>
             {{/select}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModCover" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModCover" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

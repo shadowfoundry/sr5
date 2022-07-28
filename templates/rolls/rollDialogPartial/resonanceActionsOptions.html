@@ -1,0 +1,15 @@
+<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+    <div class="col-12">{{localize 'SR5.ResonanceActionOptions'}}</div>
+</li>
+
+<!-- SPRITE - LEVEL AND TYPE -->
+{{#if (eq typeSub "compileSprite")}}
+<!-- LEVEL -->
+    {{> systems/sr5/templates/rolls/rollDialogPartial/level.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.html}}
+{{/if}}
+
+<!-- KILL COMPLEX FORM - CHOOSE TARGET -->
+{{#if (and (eq typeSub "killComplexForm") hasTarget)}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
+{{/if}}

@@ -1,6 +1,10 @@
 <li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
-    <div class="col-11">{{localize 'SR5.ManaBarrierRating'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.ManaBarrierRating'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="manaBarrierRating" data-type="minus" data-modifier="manaBarrierRating"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="manaBarrierRating" data-type="plus" data-modifier="manaBarrierRating"><em class="fas fa-plus-circle"></em></a>
+	</div>
     <div class="col-1 SR-TextCenter">
-        <input type="number" name="manaBarrierRating" value="{{manaBarrierRating}}" data-dtype="Number" placeholder="0" />
+        <input type="number" class="SR-ModInput" data-modifier="manaBarrierRating" name="manaBarrierRating" value="{{manaBarrierRating}}" data-dtype="Number" placeholder="0" />
     </div>
 </li>

@@ -4,8 +4,8 @@
     {{else}}
     <div class="col-5">{{localize 'SR5.AttributeSecondary'}}{{localize 'SR5.Colons'}}</div>
     {{/ife}}
-    <div class="col-6">
-        <select class="attribute" name="attributeKey">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModAttribute" data-modifier="attribute">
             {{#select attributKey}}
             <option value="none">{{localize 'SR5.None'}}</option>
             {{#ife actorType "actorDrone"}}

@@ -4879,8 +4879,7 @@ input[type=range]:focus::-ms-fill-upper {
   color: #000001;
   height: 15px;
   border: 0;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 0;
   border-radius: 0;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"] {
@@ -4912,7 +4911,7 @@ input[type=range]:focus::-ms-fill-upper {
   content: '✔';
   color: #fffffe;
   border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.5);
+  background: rgba(12, 147, 148, 0.9);
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;
@@ -4922,6 +4921,8 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .dialog .window-content .dialog-content .SR5jet select {
   text-align-last: right;
+  color: #0c9394;
+  margin-right: -5px;
 }
 .dialog .window-content .dialog-content .SR5jet option {
   direction: rtl;
@@ -4937,6 +4938,10 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .dialog .window-content .dialog-content .SR5jet p {
   margin: 0;
+}
+.dialog .window-content .dialog-content .SR5jet .SR-ModControl {
+  font-size: 11px;
+  color: #0c9394;
 }
 .dialog .window-content .dialog-content .SR5jet .SR-FakeInput {
   background: rgba(12, 147, 148, 0.1);
@@ -4961,6 +4966,11 @@ input[type=range]:focus::-ms-fill-upper {
 .dialog .window-content .dialog-content .SR5jet .SR-TopSeparator {
   border-top: 1px solid rgba(12, 147, 148, 0.35);
   margin-top: 5px;
+}
+.dialog .window-content .dialog-content .SR5jet .SR-DialogOption {
+  border-bottom: solid 1px #931004;
+  color: #931004;
+  font-family: "srfoundry_bold";
 }
 .dialog .dialog-buttons {
   background-image: url("../img/ui/SR5_BG_Dialog.png");

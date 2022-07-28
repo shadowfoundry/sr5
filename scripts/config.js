@@ -471,8 +471,9 @@ SR5.weaponModesCode = {
   SB                        : "SR5.WeaponModeSBShort",
   BF                        : "SR5.WeaponModeBFShort",
   LB                        : "SR5.WeaponModeLBShort",
-  FAs                       : "SR5.WeaponModeFA",
-  SF                        : "SR5.WeaponModeSF",
+  FA                        : "SR5.WeaponModeFAShort",
+  FAc                       : "SR5.WeaponModeFAcShort",
+  SF                        : "SR5.WeaponModeSFShort",
 };
 
 // Weapon Ranges
@@ -809,6 +810,13 @@ SR5.toxinEffects = {
   paralysis                 : "SR5.ToxinEffectParalysis",
 };
 
+//Cover
+SR5.coverTypes = {
+  none                      : "SR5.CoverNone",
+  partial                   : "SR5.CoverPartial",
+  full                      : "SR5.CoverFull",
+}
+
 
 // Called Shots
 SR5.calledShots = {
@@ -828,7 +836,7 @@ SR5.calledShots = {
 };
 
 SR5.calledShotsSpecifics = {  
-  ankle                     : "SR5.CS_ST_Ankle ",
+  ankle                     : "SR5.CS_ST_Ankle",
   ear                       : "SR5.CS_ST_Ear",
   eye                       : "SR5.CS_ST_Eye",
   foot                      : "SR5.CS_ST_Foot",
@@ -844,7 +852,7 @@ SR5.calledShotsSpecifics = {
   shoulder                  : "SR5.CS_ST_Shoulder",
   sternum                   : "SR5.CS_ST_Sternum",
   thigh                     : "SR5.CS_ST_Thigh",  
-  engineBlock               : "SR5.CS_ST_EngineBlock ",
+  engineBlock               : "SR5.CS_ST_EngineBlock",
   fuelTankBattery           : "SR5.CS_ST_FuelTankBattery",
   axle                      : "SR5.CS_ST_Axle",
   antenna                   : "SR5.CS_ST_Antenna",
@@ -1960,10 +1968,10 @@ SR5.vehicleModTools = {
 };
 
 //-----------------------------------//
-//             ESPRITS               //
+//             SPIRITS               //
 //-----------------------------------//
 
-// Types d'esprit
+// Spirit types
 SR5.spiritTypes = {
   abomination               : "SR5.Abomination",
   air                       : "SR5.Air",
@@ -2664,9 +2672,9 @@ SR5.AllSpiritPowers = {
 }
 
 //-----------------------------------//
-//            APPAREILS              //
+//              DEVICE               //
 //-----------------------------------//
-// Types d'appareil
+// Devices types
 SR5.deviceTypes = {
   device                    : "SR5.DEVICE_TYPE_Device_F",
   slavedDevice              : "SR5.DEVICE_TYPE_SlavedDevice_F",
@@ -2674,7 +2682,7 @@ SR5.deviceTypes = {
   ice                       : "SR5.DEVICE_TYPE_Ice_F",
 };
 
-// Types de CI
+// Ice types
 SR5.iceTypes = {
   iceAcid                   : "SR5.IceAcid",
   iceBinder                 : "SR5.IceBinder",

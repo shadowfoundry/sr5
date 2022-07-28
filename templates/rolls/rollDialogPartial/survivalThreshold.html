@@ -5,7 +5,7 @@
 <li class="grid">
     <div class="col-3">{{localize 'SR5.SurvivalTerrain'}}{{localize 'SR5.Colons'}}</div> 
     <div class="col-8">
-        <select name="survivalThresholdType">
+        <select class="SR-ManageThreshold" name="survivalThresholdType" data-target="survivalThreshold">
         {{#select survivalThresholdType}}
             <option value="mild">{{localize 'SR5.SurvivalTerrainMild'}}</option>
             <option value="moderate">{{localize 'SR5.SurvivalTerrainModerate'}}</option>
@@ -15,6 +15,6 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="survivalThreshold" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="survivalThreshold" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

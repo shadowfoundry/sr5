@@ -187,6 +187,7 @@ export class SR5_Dice {
 		let buttons = {
 			roll: {
 				label: game.i18n.localize("SR5.RollDice"),
+				class: ['test', 'truc'],
 				icon: '<i class="fas fa-dice-six"></i>',
 				callback: () => (cancel = false),
 			},
@@ -218,7 +219,7 @@ export class SR5_Dice {
 							if (dialogData.templateRemove) SR5_RollMessage.removeTemplate(null, dialogData.itemId);
 							//Remove last cumulative Defense if roll is cancelled.
 							if (actor.data.flags?.sr5?.cumulativeDefense){
-								let actualDefense = actor.data.flags.sr5.cumulativeDefense;
+								let actualDefense = actor.data.flags.sr5.cumulativeDefense -1;
 								actor.setFlag("sr5", "cumulativeDefense", (actualDefense));
 							}
 							return;
@@ -277,7 +278,6 @@ export class SR5_Dice {
 							let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
 							actualRecoil += dialogData.firedAmmo;
 							actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);
-							dialogData.firingModeDefenseMod = SR5_DiceHelper.mapRoundsToDefenseMod(dialogData.firedAmmo);
 						}
 						//Debug DicePool can't be negative
 						if (dialogData.dicePool < 0) dialogData.dicePool = 0;
@@ -495,7 +495,8 @@ export class SR5_Dice {
 			case "preparationFormula":
 			case "matrixIceAttack":
 			case "spritePower":
-			case "power":
+			case "power":				
+			case "martialArt":
 			case "ritual":
 			case "passThroughBarrier":
 			case "escapeEngulf":							
@@ -577,7 +578,8 @@ export class SR5_Dice {
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":
-			case "powerDefense":
+			case "powerDefense":				
+			case "martialArtDefense":
 			case "etiquetteResistance":				
 				await SR5_Dice.addResistanceResultInfoToCard(cardData, cardData.type);
 				break;
@@ -1260,8 +1262,7 @@ export class SR5_Dice {
 
 		//Matrix search special case
 		if (cardData.typeSub === "matrixSearch"){
-			cardData.matrixSearchTreshold = SR5_DiceHelper.convertMatrixSearchToTreshold(cardData.matrixSearchType);
-			let netHits = cardData.test.hits - cardData.matrixSearchTreshold;
+			let netHits = cardData.test.hits - cardData.threshold;
 			cardData.matrixSearchDuration = await SR5_DiceHelper.getMatrixSearchDuration(cardData, netHits);
 			if (netHits <=0) {
 				netHits = 1;
@@ -1269,7 +1270,7 @@ export class SR5_Dice {
 			} else {
 				cardData.buttons.matrixSearchSuccess = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "matrixSearchSuccess", `${game.i18n.localize("SR5.MatrixSearchSuccess")} [${cardData.matrixSearchDuration}]`);
 			}
-			cardData.title = `${game.i18n.localize("SR5.MatrixActionTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[cardData.typeSub])} (${cardData.matrixSearchTreshold})`;
+			cardData.title = `${game.i18n.localize("SR5.MatrixActionTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[cardData.typeSub])} (${cardData.threshold})`;
 			return;
 		}
 
@@ -1659,6 +1660,12 @@ export class SR5_Dice {
 				label = game.i18n.localize("SR5.Defend");
 				labelEnd = game.i18n.localize("SR5.PowerFailure");
 				key = "powerDefense";
+				testType = "opposedTest";
+				break;
+			case "martialArt":
+				label = game.i18n.localize("SR5.Defend");
+				labelEnd = game.i18n.localize("SR5.ActionFailure");
+				key = "martialArtDefense";
 				testType = "opposedTest";
 				break;
 			case "ritual":
@@ -2087,6 +2094,7 @@ export class SR5_Dice {
 				}
 				break;
 			case "powerDefense":
+			case "martialArtDefense":
 				cardData.netHits = cardData.hits - cardData.test.hits;
 				if (cardData.switch?.transferEffect){
 					label = game.i18n.localize("SR5.ApplyEffect");

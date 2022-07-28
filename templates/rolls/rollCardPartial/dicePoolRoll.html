@@ -58,10 +58,10 @@
 </li>
 {{/if}}
 <!--Firing mode mod Dicepool-->
-{{#if (isdefined dicePoolMod.defenseFiringMode)}}
+{{#if (isdefined dicePoolMod.incomingFiringMode)}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseFiringMode}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.incomingFiringMode}}</div>
 </li>
 {{/if}}
 <!--Recoil mod Dicepool-->
@@ -72,10 +72,10 @@
 </li>
 {{/if}}
 <!--Range mod Dicepool-->
-{{#if (isdefined dicePoolMod.range)}}
+{{#if (isdefined dicePoolMod.targetRange)}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.Range'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.range}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.targetRange}}</div>
 </li>
 {{/if}}
 <!--Reach mod Dicepool-->
@@ -93,10 +93,10 @@
 </li>
 {{/if}}
 <!--Cumulative defense mod Dicepool-->
-{{#if (isdefined dicePoolMod.defenseCumulative)}}
+{{#if (isdefined dicePoolMod.cumulativeDefense)}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.CumulativeDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseCumulative}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.cumulativeDefense}}</div>
 </li>
 {{/if}}
 <!--Active defense mod Dicepool-->
@@ -115,17 +115,17 @@
 </li>
 {{/if}}
 <!--Full defense mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.defenseFull) (ne dicePoolMod.defenseFull 0) )}}
+{{#if (and (isdefined dicePoolMod.fullDefense) (ne dicePoolMod.fullDefense 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.FullDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseFull}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.fullDefense}}</div>
 </li>
 {{/if}}
 <!--Cover mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.defenseCover) (ne dicePoolMod.defenseCover 0) )}}
+{{#if (and (isdefined dicePoolMod.cover) (ne dicePoolMod.cover 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.Cover'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseCover}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.cover}}</div>
 </li>
 {{/if}}
 <!--Armor mod Dicepool-->
@@ -160,17 +160,17 @@
 </li>
 {{/if}}
 <!--Matrix Range Noise mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixNoiseRange) (ne dicePoolMod.matrixNoiseRange 0) )}}
+{{#if (and (isdefined dicePoolMod.matrixRange) (ne dicePoolMod.matrixRange 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.MatrixNoise'}} ({{findTranslation 'matrixNoiseDistance' matrixNoiseRange}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseRange}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixRange}}</div>
 </li>
 {{/if}}
 <!--Scene Matrix Noise mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixNoiseScene) (lt dicePoolMod.matrixNoiseScene 0) )}}
+{{#if (and (isdefined dicePoolMod.matrixSceneNoise) (lt dicePoolMod.matrixSceneNoise 0) )}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.SceneNoiseRating'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseScene}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixSceneNoise}}</div>
 </li>
 {{/if}}
 <!--Matrix Noise Reduction mod Dicepool-->
@@ -188,17 +188,17 @@
 </li>
 {{/if}}
 <!--Grid modifiers-->
-{{#if (and (isdefined dicePoolMod.differentGrid) (lt dicePoolMod.differentGrid 0))}}
+{{#if (and (isdefined dicePoolMod.targetGrid) (lt dicePoolMod.targetGrid 0))}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.GridTargetDifferent'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.differentGrid}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.targetGrid}}</div>
 </li>
 {{/if}}
 <!--Perception type mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.perception) (ne dicePoolMod.perception 0))}}
+{{#if (and (isdefined dicePoolMod.perceptionType) (ne dicePoolMod.perceptionType 0))}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.SkillPerceptionType'}} ({{findTranslation 'perceptionTypes' perceptionType}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.perception}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.perceptionType}}</div>
 </li>
 {{/if}}
 <!--Resist Fire, Armor Penetration type mod Dicepool-->
@@ -237,17 +237,17 @@
 </li>
 {{/if}}
 <!--Signature size mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.signatureType) (ne dicePoolMod.signatureType 0))}}
+{{#if (and (isdefined dicePoolMod.signatureSize) (ne dicePoolMod.signatureSize 0))}}
 <li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.TargetSize'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.signatureType}}</div>
+    <div class="col-10">{{localize 'SR5.TargetSize'}} ({{findTranslation 'targetSignature' signatureType}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.signatureSize}}</div>
 </li>
 {{/if}}
 <!--Mark wanted mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixMarkWanted) (ne dicePoolMod.matrixMarkWanted 0))}}
+{{#if (and (isdefined dicePoolMod.mark) (ne dicePoolMod.mark 0))}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.NumberOfWantedMarks'}} ({{mark}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixMarkWanted}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.mark}}</div>
 </li>
 {{/if}}
 <!--Centering Modifier-->
@@ -265,10 +265,10 @@
 </li>
 {{/if}}
 <!--Healing Condition Modifier-->
-{{#if (isdefined dicePoolMod.healingModifier)}}
+{{#if (isdefined dicePoolMod.healingCondition)}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.HealingConditions'}} ({{findTranslation 'healingConditions' healingCondition}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.healingModifier}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.healingCondition}}</div>
 </li>
 {{/if}}
 <!--Healing Patient cooperation Modifier-->
@@ -307,10 +307,10 @@
 </li>
 {{/if}}
 <!--Escape Artist restrained Modifier-->
-{{#if (isdefined dicePoolMod.escapeSituationRestrained)}}
+{{#if (isdefined dicePoolMod.restrainerStrength)}}
 <li class="grid SR-GreyColor">
     <div class="col-10">{{localize 'SR5.EscapeArtistSituationRestrained'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.escapeSituationRestrained}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.restrainerStrength}}</div>
 </li>
 {{/if}}
 <!--Escape Artist picks Modifier-->

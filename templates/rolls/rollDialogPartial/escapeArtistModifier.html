@@ -1,36 +1,23 @@
 <li class="grid SR-TopSeparator">
-    <div class="col-9">{{localize 'SR5.EscapeArtistSituationWatched'}}{{localize 'SR5.Colons'}}</div> 
-    <div class="col-2">
-        <select name="escapeSituationWatched">
-            {{#select escapeSituationWatched}}
-                <option value="false">{{localize 'SR5.No'}}</option> 
-                <option value="true">{{localize 'SR5.Yes'}}</option>   
-            {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.EscapeArtistSituationWatched'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModEscapeSituationWatched" data-modifier="escapeSituationWatched"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModEscapeSituationWatched" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModEscapeSituationWatched" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.EscapeArtistSituationRestrained'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <input type="number" style="text-align:center;" name="escapeSituationRestrained" value="0" placeholder="0" data-dtype="Number" />
+    <div class="col-10">{{localize 'SR5.EscapeArtistSituationRestrained'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+        <a class="SR-ModControl" data-target="dicePoolModEscapeSituationRestrained" data-type="minus" data-modifier="restrainerStrength"><em class="fas fa-minus-circle"></em></a>
+        <a class="SR-ModControl" data-target="dicePoolModEscapeSituationRestrained" data-type="plus" data-modifier="restrainerStrength"><em class="fas fa-plus-circle"></em></a>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModEscapeSituationRestrained" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled lass="SR-ModInput" type="number" data-modifier="restrainerStrength" name="dicePoolModEscapeSituationRestrained" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.EscapeArtistSituationPicks'}}{{localize 'SR5.Colons'}}</div> 
-    <div class="col-2">
-        <select name="escapeSituationPicks">
-            {{#select escapeSituationPicks}}
-                <option value="false">{{localize 'SR5.No'}}</option> 
-                <option value="true">{{localize 'SR5.Yes'}}</option>   
-            {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.EscapeArtistSituationPicks'}}{{localize 'SR5.Colons'}}</div> 
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModEscapeSituationPicks" data-modifier="escapeSituationPicks"></div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number"  name="dicePoolModEscapeSituationPicks" value="" placeholder="0" data-dtype="Number" />
     </div>

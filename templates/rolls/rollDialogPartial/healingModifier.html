@@ -1,7 +1,7 @@
 <li class="grid SR-TopSeparator">
     <div class="col-3">{{localize 'SR5.HealingConditions'}}{{localize 'SR5.Colons'}}</div> 
-    <div class="col-8">
-        <select class="healingCondition" name="healingCondition">
+    <div class="col-8 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModHealingCondition" data-modifier="healingCondition">
         {{#select healingCondition}}
             <option value="none">{{localize 'SR5.ChooseOne'}}</option>
             <option value="good">{{localize 'SR5.HealingConditionsGood'}}</option>
@@ -13,13 +13,13 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModHealingCondition" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModHealingCondition" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.HealingSupplies'}}{{localize 'SR5.Colons'}}</div> 
-    <div class="col-6">
-        <select name="healingSupplies">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModHealingSupplies" data-modifier="healingSupplies">
         {{#select healingSupplies}}
             <option value="none">{{localize 'SR5.ChooseOne'}}</option>
             <option value="noSupplies">{{localize 'SR5.HealingSuppliesNone'}}</option>
@@ -29,43 +29,37 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModHealingSupplies" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModHealingSupplies" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.PatientAwakenedOrEmerged'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <select name="patientAwakenedOrEmerged">
-            {{#select patientAwakenedOrEmerged}}
-                <option value="false">{{localize 'SR5.No'}}</option> 
-                <option value="true">{{localize 'SR5.Yes'}}</option>   
-            {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.PatientAwakenedOrEmerged'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox SR-ModCheckboxFilled" data-target="dicePoolModPatientAwakenedOrEmerged" data-modifier="patientAwakenedOrEmerged"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModPatientAwakenedOrEmerged" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModPatientAwakenedOrEmerged" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
-    <div class="col-9">{{localize 'SR5.CooperativePatient'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <select name="patientCooperation">
-            {{#select patientCooperation}}
-                <option value="true">{{localize 'SR5.Yes'}}</option>
-                <option value="false">{{localize 'SR5.No'}}</option>      
-            {{/select}}
-        </select>
-    </div>
+    <div class="col-10">{{localize 'SR5.CooperativePatient'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModPatientCooperation" data-modifier="patientCooperation"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModPatientCooperation" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModPatientCooperation" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 <li class="grid">
     <div class="col-9">{{localize 'SR5.PatientEssence'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <input type="number" style="text-align:center;" name="patientEssence" value="{{targetEssence}}" placeholder="0" data-dtype="Number" />
+    <div class="col-2 SR-TextRight">
+        <div class="grid">
+            <span class="col-auto">
+                <a class="SR-ModControl" data-target="patientEssence" data-type="minus" data-modifier="patientEssence"><em class="fas fa-minus-circle"></em></a>
+                <a class="SR-ModControl" data-target="patientEssence" data-type="plus" data-modifier="patientEssence"><em class="fas fa-plus-circle"></em></a>
+            </span>
+            <span class="col-auto">
+                <input class="SR-ModInput SR-ModInputFilled" data-modifier="patientEssence" type="number" style="text-align:right;" name="patientEssence" value="{{targetEssence}}" placeholder="0" data-dtype="Number" />
+            </span>
+        </div>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="dicePoolModPatientEssence" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModPatientEssence" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

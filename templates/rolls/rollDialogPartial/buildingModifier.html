@@ -1,7 +1,7 @@
 <li class="grid">
     <div class="col-7">{{localize 'SR5.WorkingCondition'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-PaddingRight10">
-        <select name="workingCondition">
+        <select class="SR-ModSelect" data-target="dicePoolModWorkingCondition" data-modifier="workingCondition">
             {{#select workingCondition}}
             <option value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="distracting">{{localize 'SR5.WorkingConditionDistracting'}}</option>
@@ -19,7 +19,7 @@
 <li class="grid">
     <div class="col-7">{{localize 'SR5.ToolsAndParts'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-PaddingRight10">
-        <select name="toolsAndParts">
+        <select class="SR-ModSelect" data-target="dicePoolModToolsAndParts" data-modifier="toolsAndParts">
             {{#select toolsAndParts}}
             <option value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="inadequate">{{localize 'SR5.ToolsAndPartsInadequate'}}</option>
@@ -36,7 +36,7 @@
 <li class="grid">
     <div class="col-7">{{localize 'SR5.PlansMaterial'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-PaddingRight10">
-        <select name="plansMaterial">
+        <select class="SR-ModSelect" data-target="dicePoolModPlansMaterial" data-modifier="plansMaterial">
             {{#select plansMaterial}}
             <option value="">{{localize 'SR5.ChooseOne'}}</option>
             <option value="available">{{localize 'SR5.PlansMaterialAvailable'}}</option>
@@ -51,7 +51,7 @@
 
 <li class="grid">
     <div class="col-10">{{localize 'SR5.WorkingFromMemory'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="checkbox" name="workingFromMemory"></div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolWorkingFromMemory" data-modifier="workingFromMemory"></div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" name="dicePoolWorkingFromMemory" value="0" placeholder="0" data-dtype="Number" />
     </div>

@@ -1716,8 +1716,7 @@
                     color         : @neutralDarkColor;
                     height        : 15px;
                     border        : 0;
-                    padding-top   : 0;
-                    padding-bottom: 0;
+                    padding       : 0;
                     border-radius : 0;
                 }
 
@@ -1751,7 +1750,7 @@
                         content     : '✔';
                         color       : @neutralLightColor;
                         border-color: @subColor;
-                        background  : fade(@subColor, 50%);
+                        background  : fade(@subColor, 90%);
         
                         &::before {
                             opacity: 1;
@@ -1763,7 +1762,11 @@
                     }
                 }
 
-                select { text-align-last: right; }
+                select { 
+                    text-align-last: right; 
+                    color: @subColor;
+                    margin-right: -5px;
+                }
                 option { direction: rtl; }
 
                 li {
@@ -1780,6 +1783,11 @@
 
                 p {
                     margin: 0;
+                }
+
+                .SR-ModControl {
+                    font-size: 11px;
+                    color: @subColor;
                 }
 
                 .SR-FakeInput {
@@ -1807,6 +1815,12 @@
                 .SR-TopSeparator{
                     border-top: 1px solid fade(@subColor, 35%);
                     margin-top: 5px;
+                }
+
+                .SR-DialogOption{
+                    border-bottom: solid 1px @mainColor;
+                    color: @mainColor;
+                    font-family: @SR_BodyTextBold;
                 }
             }
         }

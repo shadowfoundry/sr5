@@ -1,15 +1,12 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.PreparationTrigger'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6">
-        <select  name="preparationTrigger">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModTrigger" data-modifier="preparationTrigger">
             {{#select preparationTrigger}}
             <option value="command">{{localize 'SR5.PreparationTriggerCommand'}}</option>
             <option value="contact">{{localize 'SR5.PreparationTriggerContact'}}</option>
             <option value="time">{{localize 'SR5.PreparationTriggerTime'}}</option>
             {{/select}}
         </select>
-    </div>
-    <div class="col-1 SR-TextCenter">
-        <input disabled type="number"  name="triggerValue" value="2" placeholder="0" data-dtype="Number" />
     </div>
 </li>

@@ -209,6 +209,16 @@ export class SR5_UtilityItem extends Actor {
       data.drainValue.modifiers = [];
     }
 
+    if (itemData.type === "itemMartialArt"){
+      data.test.dicePool = 0;
+      data.test.modifiers = [];
+      data.pin = false;
+      data.entanglement = false;
+      data.feint = false;
+      data.disarm = false;
+      data.breakWeapon = false;
+    }
+
     if (itemData.type === "itemPreparation"){
       data.test.modifiers = [];
     }
@@ -1212,7 +1222,7 @@ export class SR5_UtilityItem extends Actor {
 
   //Handle power point cost
   static _handleAdeptPower(power, actor) {
-    let firstAttribute, secondAttibute;
+    let firstAttribute, secondAttribute;
 
     if (power.powerPointsCost.isRatingBased) {
       power.powerPointsCost.value = power.powerPointsCost.base * power.itemRating;
@@ -1240,22 +1250,22 @@ export class SR5_UtilityItem extends Actor {
       let secondLabel = game.i18n.localize(SR5.allAttributes[power.testSecondAttribute]);
       if (power.testSecondAttribute){
         if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
-          secondAttibute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
+          secondAttribute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
         } else if (power.testSecondAttribute === "rating") {
-          secondAttibute = power.itemRating;
+          secondAttribute = power.itemRating;
           secondLabel = game.i18n.localize("SR5.ItemRating");
         } else if (power.testSecondAttribute === "running") {
-          secondAttibute = actor.data.skills.running.rating.value;
+          secondAttribute = actor.data.skills.running.rating.value;
           secondLabel = game.i18n.localize("SR5.Skill");
         } else if (power.testSecondAttribute === "leadership") {
-          secondAttibute = actor.data.skills.leadership.rating.value;
+          secondAttribute = actor.data.skills.leadership.rating.value;
           secondLabel = game.i18n.localize("SR5.Skill");
-        } else secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
+        } else secondAttribute = actor.data.attributes[power.testSecondAttribute].augmented.value;
       }
 
       power.test.base = 0;
       if (firstAttribute) SR5_EntityHelpers.updateModifier(power.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-      if (secondAttibute) SR5_EntityHelpers.updateModifier(power.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttibute, false, true);
+      if (secondAttribute) SR5_EntityHelpers.updateModifier(power.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
       SR5_EntityHelpers.updateDicePool(power.test);
     }
 
@@ -1266,6 +1276,45 @@ export class SR5_UtilityItem extends Actor {
         if (actor) SR5_EntityHelpers.updateModifier(power.drainValue, game.i18n.localize('SR5.Magic'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(actor.data.specialAttributes.magic.augmented.value * (power.drainMultiplier || 1)), false, true);
       }
       SR5_EntityHelpers.updateValue(power.drainValue);
+    }
+  }
+
+  //Handle Martial Art test
+  static _handleMartialArt(martialArt, actor) {
+    let firstAttribute, secondAttribute;
+
+    if (martialArt.needRoll && actor) {
+      let firstLabel = game.i18n.localize(SR5.allAttributes[martialArt.testFirstAttribute]);
+      if (martialArt.testFirstAttribute){
+        if (martialArt.testFirstAttribute === "edge" || martialArt.testFirstAttribute === "magic" || martialArt.testFirstAttribute === "resonance"){
+          firstAttribute = actor.data.specialAttributes[martialArt.testFirstAttribute].augmented.value;
+        } else if (martialArt.testFirstAttribute === "body" || martialArt.testFirstAttribute === "agility" || martialArt.testFirstAttribute === "reaction" || martialArt.testFirstAttribute === "strength" || martialArt.testFirstAttribute === "willpower" || martialArt.testFirstAttribute === "logic" || martialArt.testFirstAttribute === "intuition" || martialArt.testFirstAttribute === "charisma") {
+          firstAttribute = actor.data.attributes[martialArt.testFirstAttribute].augmented.value;
+        } else {
+          firstAttribute = actor.data.skills[martialArt.testFirstAttribute].rating.value;
+          firstLabel = game.i18n.localize(SR5.skills[martialArt.testFirstAttribute]);
+        }
+      }
+  
+      let secondLabel = game.i18n.localize(SR5.allAttributes[martialArt.testSecondAttribute]);
+      if (martialArt.testSecondAttribute){
+        if (martialArt.testSecondAttribute === "edge" || martialArt.testSecondAttribute === "magic" || martialArt.testSecondAttribute === "resonance"){
+          secondAttribute = actor.data.specialAttributes[martialArt.testSecondAttribute].augmented.value;
+        } else if (martialArt.testSecondAttribute === "body" || martialArt.testSecondAttribute === "agility" || martialArt.testSecondAttribute === "reaction" || martialArt.testSecondAttribute === "strength" || martialArt.testSecondAttribute === "willpower" || martialArt.testSecondAttribute === "logic" || martialArt.testSecondAttribute === "intuition" || martialArt.testSecondAttribute === "charisma") {
+          secondAttribute = actor.data.attributes[martialArt.testSecondAttribute].augmented.value;
+        } else {
+          secondAttribute = actor.data.skills[martialArt.testSecondAttribute].rating.value;
+          secondLabel = game.i18n.localize(SR5.skills[martialArt.testSecondAttribute]);
+        }
+      }
+
+      martialArt.test.base = 0;
+      if (firstAttribute) SR5_EntityHelpers.updateModifier(martialArt.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
+      if (secondAttribute) SR5_EntityHelpers.updateModifier(martialArt.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
+      SR5_EntityHelpers.updateDicePool(martialArt.test);
+
+      
+
     }
   }
 
@@ -1829,7 +1878,7 @@ export class SR5_UtilityItem extends Actor {
 
   static _handlePower(power, actor) {
     let lists = SR5;
-    let firstAttribute, secondAttibute;
+    let firstAttribute, secondAttribute;
     if (power.testFirstAttribute){
       if (power.testFirstAttribute === "edge" || power.testFirstAttribute === "magic" || power.testFirstAttribute === "resonance"){
         firstAttribute = actor.data.specialAttributes[power.testFirstAttribute].augmented.value;
@@ -1840,14 +1889,14 @@ export class SR5_UtilityItem extends Actor {
 
     if (power.testSecondAttribute){
       if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
-        secondAttibute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
+        secondAttribute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
       } else {
-        secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
+        secondAttribute = actor.data.attributes[power.testSecondAttribute].augmented.value;
       }
     }
     power.test.base = 0;
     if (firstAttribute) SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(lists.allAttributes[power.testFirstAttribute]), game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-    if (secondAttibute) SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(lists.allAttributes[power.testSecondAttribute]), game.i18n.localize('SR5.LinkedAttribute'), secondAttibute, false, true);
+    if (secondAttribute) SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(lists.allAttributes[power.testSecondAttribute]), game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
     SR5_EntityHelpers.updateDicePool(power.test);
   }
 
@@ -1907,8 +1956,24 @@ export class SR5_UtilityItem extends Actor {
         skipCustomEffect = true;
       }
 
+
+
+      SR5_SystemHelpers.srLog(3, ` item ==> '${JSON.stringify(item)}' in applyItemEffects()`);
+
       let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, item);
       if (targetObject === null) skipCustomEffect = true;
+
+      SR5_SystemHelpers.srLog(3, ` item.type ==> '${item.type}' , customEffect ==> '${JSON.stringify(customEffect)}' applyItemEffects()`);
+
+      if (item.type === "itemMartialArt" && customEffect.type === "boolean") {
+        let booleanValue;
+            if (customEffect.value === "true") booleanValue = true;
+            else booleanValue = false;
+            setProperty(item, customEffect.target, booleanValue);
+            SR5_SystemHelpers.srLog(3, ` customEffect.target ==> '${customEffect.target}' , booleanValue ==> '${booleanValue}', item.data ==> '${JSON.stringify(item.data)}' applyItemEffects()`);
+        }
+
+      SR5_SystemHelpers.srLog(3, ` targetObject ==> '${JSON.stringify(targetObject)}' in applyItemEffects()`);
 
       if (!skipCustomEffect) {    
         if (!customEffect.multiplier) customEffect.multiplier = 1;
@@ -1922,6 +1987,12 @@ export class SR5_UtilityItem extends Actor {
           case "value":
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+            break;
+          case "boolean":
+            let booleanValue;
+            if (customEffect.value === "true") booleanValue = true;
+            else booleanValue = false;
+            setProperty(item, customEffect.target, booleanValue);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);

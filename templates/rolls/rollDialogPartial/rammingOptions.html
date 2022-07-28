@@ -9,8 +9,8 @@
 <!-- DAMAGE ON SPEED -->
 <li class="grid">
     <div class="col-6">{{localize 'SR5.VehicleRelativeSpeedAttacker'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-PaddingRight10">
-            <select name="speedRammingAttacker" class="speedRammingAttacker">
+    <div class="col-5 SR-TextRight">
+            <select class="SR-ModSelect SR-ModSelectFilled" data-target="" data-modifier="speedRammingAttacker">
                 {{#select speedRammingAttacker}}
                 <option value="speedRamming1">&lrm;{{localize 'SR5.VehicleRelativeSpeed_1'}}&lrm;</option>
                 <option value="speedRamming11" selected="selected">&lrm;{{localize 'SR5.VehicleRelativeSpeed_11'}}&lrm;</option>
@@ -25,8 +25,8 @@
 <!-- DAMAGE ON SPEED -->
 <li class="grid">
     <div class="col-6">{{localize 'SR5.VehicleRelativeSpeedTarget'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-5 SR-PaddingRight10">
-            <select name="speedRammingTarget" class="speedRammingTarget">
+    <div class="col-5 SR-TextRight">
+            <select class="SR-ModSelect SR-ModSelectFilled" data-target="accidentValue" data-modifier="speedRammingTarget">
                 {{#select speedRammingTarget}}
                 <option value="speedRamming1">&lrm;{{localize 'SR5.VehicleRelativeSpeed_1'}}&lrm;</option>
                 <option value="speedRamming11" selected="selected">&lrm;{{localize 'SR5.VehicleRelativeSpeed_11'}}&lrm;</option>

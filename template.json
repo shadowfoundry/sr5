@@ -6073,7 +6073,20 @@
         "templateActivation"
       ],
       "actionType": "",
-      "rank": 0
+      "rank": 0,
+      "needRoll": false,
+      "testFirstAttribute": "",
+      "testSecondAttribute": "",
+      "defenseFirstAttribute":"",
+      "defenseSecondAttribute":"",
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "targetOfEffect":[],
+      "needcalledShot": false,
+      "calledShot": ""
     },
     "itemMetamagic": {
       "templates": [
