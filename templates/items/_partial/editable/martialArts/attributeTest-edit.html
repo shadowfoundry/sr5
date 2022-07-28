@@ -23,9 +23,11 @@
                 {{#each lists.allAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
-                {{#each lists.skills}}
+                {{#each lists.combatSkills}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
+                <option value="escapeArtist">{{localize 'SR5.SkillEscapeArtist'}}</option>                
+                <option value="gymnastics">{{localize 'SR5.SkillGymnastics'}}</option>
             {{/select}}
         </select>
     </div>
