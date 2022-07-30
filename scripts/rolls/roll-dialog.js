@@ -112,6 +112,7 @@ export default class SR5_RollDialog extends Dialog {
             $(html).find('#reagentsModControl').show();
         }
 
+        console.log(dialogData);
         //General commands for input
         html.find('.SR-ModInput').change(ev => this._manualInputModifier(ev, html, dialogData));
         //General commands for input buttons

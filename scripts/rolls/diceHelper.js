@@ -2888,4 +2888,41 @@ export class SR5_DiceHelper {
             default:
         }
     }
+
+    static async sortDicePoolComposition(dicePool){
+        console.log(dicePool);
+        let attributes = [],
+            skills = [],
+            armors = [],
+            powers = [],
+            everythingElse = [];
+
+        for (let a of dicePool){
+            switch(a.type){
+                case "Attribut lié":
+                case "Linked Attribute":
+                    attributes.push(a);
+                    break;
+                case "Indice de compétence":
+                case "Groupe de compétences":
+                case "Skill rating":
+                case "Skill Group":
+                    skills.push(a);
+                    break;
+                case "Armure":
+                case "Armor":
+                    armors.push(a);
+                    break;
+                default: everythingElse.push(a);
+            }
+        }
+        
+        attributes.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        skills.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        armors.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        powers.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        everythingElse.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        let dicePoolComposition = attributes.concat(skills, armors, powers, everythingElse);
+        return dicePoolComposition;
+    }
 }

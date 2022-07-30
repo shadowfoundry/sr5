@@ -7,7 +7,7 @@
         <select name="data.defenseFirstAttribute" data-dtype="String">
             {{#select data.defenseFirstAttribute}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.allAttributes}}
+                {{#each lists.characterAttributes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
             {{/select}}
@@ -20,12 +20,14 @@
         <select name="data.defenseSecondAttribute" data-dtype="String">
             {{#select data.defenseSecondAttribute}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.allAttributes}}
+                {{#each lists.characterAttributes}}
                 <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}                
-                {{#each lists.skills}}
+                {{#each lists.combatSkills}}
                     <option value="{{@key}}">{{localize this}}</option>
                 {{/each}}
+                <option value="escapeArtist">{{localize 'SR5.SkillEscapeArtist'}}</option>                
+                <option value="gymnastics">{{localize 'SR5.SkillGymnastics'}}</option>
             {{/select}}
         </select>
     </div>
