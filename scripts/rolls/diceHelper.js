@@ -2380,6 +2380,7 @@ export class SR5_DiceHelper {
             case "shakeRattle":
             case "shreddedFlesh":
             case "upTheAnte":
+            case "harderKnock":
                 return -4;
             case "gut": 
             case "forearm":

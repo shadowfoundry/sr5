@@ -704,6 +704,9 @@ export default class SR5_RollDialog extends Dialog {
                         case "upTheAnte":
                             $(html).find('#calledShotSpecificTarget').show();         
                             break;
+                        case "harderKnock":
+                            dialogData.damageType = "physical";
+                            break;
                     }
                     break;
                 case "calledShotSpecificTarget":

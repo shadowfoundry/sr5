@@ -102,17 +102,12 @@
 		{{#if (and (or (eq typeSub "counterspelling") (eq typeSub "disenchanting")) hasTarget)}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
 		{{/if}}
-	  	
 
-
-	  	
-
-	  	<!-- RAMMING TEST -->
+		<!-- RAMMING TEST -->
 	  	{{#if (eq type "rammingTest")}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/rammingOptions.html}}
 	  	{{/if}}
 
-	  	
 	  	<!-- LIMIT -->
 	  	{{#if limit}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
@@ -121,7 +116,6 @@
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
 			{{/if}}
 	  	{{/if}}
-
 
 	  	<!-- ESCAPE ARTIST THRESHOLD-->
 	  	{{#if (eq typeSub "escapeArtist")}}

@@ -842,6 +842,7 @@ SR5.calledShots = {
   tag                       : "SR5.CS_AS_Tag",
   throughAndInto            : "SR5.CS_AS_ThroughAndInto",
   upTheAnte                 : "SR5.CS_AS_UpTheAnte",
+  harderKnock               : "SR5.CS_HarderKnock",
 };
 
 SR5.calledShotsSpecifics = {  

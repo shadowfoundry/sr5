@@ -13,7 +13,11 @@
             </option>
             {{#if (and (eq typeSub "meleeWeapon") calledShot.martialArtBreakWeapon)}}            
             <option value="breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
-            {{/if}}             
+            {{/if}}
+            {{log this}}
+            {{#if (eq damageType "stun")}}
+            <option value="harderKnock">{{localize 'SR5.CS_HarderKnock'}}</option>
+            {{/if}}
             <option value="specificTarget">{{localize 'SR5.CS_SpecificTarget'}}</option>
             <option value="dirtyTrick">
                 {{#if (or (eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "frangible")(eq ammoType "gel")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "hollowPoint"))}}  
