@@ -707,6 +707,10 @@ export default class SR5_RollDialog extends Dialog {
                         case "harderKnock":
                             dialogData.damageType = "physical";
                             break;
+                        case "vitals":
+                            dialogData.damageValueBase += 2;
+                            dialogData.damageValue += 2;
+                            break;
                     }
                     break;
                 case "calledShotSpecificTarget":

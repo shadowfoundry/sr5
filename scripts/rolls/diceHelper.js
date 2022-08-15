@@ -2381,6 +2381,7 @@ export class SR5_DiceHelper {
             case "shreddedFlesh":
             case "upTheAnte":
             case "harderKnock":
+            case "vitals":
                 return -4;
             case "gut": 
             case "forearm":

@@ -53,6 +53,7 @@
             {{#if (and (eq typeSub "meleeWeapon") (eq typeWeapon "unarmed") )}}
             <option value="reversal">{{localize 'SR5.CS_Reversal'}}</option>
             {{/if}}
+            <option value="vitals">{{localize 'SR5.CS_Vitals'}}</option>
             <!--Ammo specifics called shots-->
             {{#if (or (eq ammoType "injection")(eq ammoType "explosive")(eq ammoType "exExplosive")(eq ammoType "flechette") (eq ammoType "arrow") (eq ammoType "bolt")(eq ammoType "gel")(eq ammoType "hollowPoint")(eq ammoType "boltInjection")(eq ammoType "arrowInjection")(eq ammoType "apds")(eq ammoType "av")(eq ammoType "assaultCannon")(eq ammoType "capsule")(eq ammoType "flare")(eq ammoType "frangible")(eq ammoType "gauss")(eq ammoType "gyrojet")(eq ammoType "gyrojetTaser")(eq ammoType "tracer")(eq ammoType "tracker"))}}
             <optgroup class="SR-TextRight" label="{{localize 'SR5.CS_AmmoSpecific'}}">
