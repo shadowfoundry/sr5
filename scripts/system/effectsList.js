@@ -504,6 +504,30 @@ export const _getSRStatusEffect = async function(origin, value) {
                         }
                     },
                 }
+            case "onPinsAndNeedles":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_OnPinsAndNeedles'),
+                    origin: "onPinsAndNeedles",
+                    icon: "systems/sr5/img/status/StatusOnPinsAndNeedlesOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "onPinsAndNeedles",
+                        }
+                    },
+                }
+            case "feint":
+                return effect = {
+                    label: game.i18n.localize('SR5.STATUSES_Feint'),
+                    origin: "feint",
+                    icon: "systems/sr5/img/status/StatusFeintOn.svg",
+                    flags: {
+                        core: {
+                            active: true,
+                            statusId: "feint",
+                        }
+                    },
+                }
         default: return null
     }
 }

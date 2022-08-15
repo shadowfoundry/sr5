@@ -323,8 +323,15 @@ export const registerHooks = function () {
     }
   });
 
-  Hooks.on("deleteActiveEffect", (effect) =>{
+  Hooks.on("deleteActiveEffect", async (effect) =>{
     if (effect.data.flags.core?.statusId === "astralInit") canvas.sight.refresh();
+    if (effect.data.flags.core?.statusId === "prone") {
+      let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.data.data.type === "prone");
+      if (itemEffect) {
+        if (itemEffect.parent.isToken) await SR5Actor.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.token.id, itemEffect.id);
+        else await SR5Actor.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.id, itemEffect.id);
+      }
+    }
   });
 
   Hooks.on("createActiveEffect", (effect) =>{

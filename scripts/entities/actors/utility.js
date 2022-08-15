@@ -3342,11 +3342,9 @@ export class SR5_CharacterUtility extends Actor {
         }
 
         //Special case for full Defense
-
         if (customEffect.target === "data.specialProperties.fullDefenseAttribute"){
           setProperty(actor, customEffect.target, customEffect.type);
-          SR5_CharacterUtility.updateDefenses(actor);
-          
+          SR5_CharacterUtility.updateDefenses(actor);         
           continue;
         }
 
@@ -3386,11 +3384,8 @@ export class SR5_CharacterUtility extends Actor {
             setProperty(actor, customEffect.target, booleanValue);
             break;            
           case "divide":
-            targetObject.modifiers= [];
-            if (targetObject.base < 1) targetObject.base = 0;
-            customEffect.value = 1;
-            let division = -targetObject.base + Math.ceil(targetObject.base/customEffect.multiplier);
-            SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, division, isMultiplier, cumulative);
+            let divide = 1 / customEffect.multiplier;
+            SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, divide, true, cumulative);
             break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' custom effect type in applyCustomEffects()`, customEffect);

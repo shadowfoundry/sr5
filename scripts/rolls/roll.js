@@ -37,11 +37,11 @@ export class SR5_Roll {
             calledShot = {
                 "name": "",
                 "location": "",
-                "ammoLocation": "",
                 "initiative": "",
                 "effects": {},
-                "limitDV": "",
+                "limitDV": 0,
             },
+            calledShotEffect,
             originalMessage,
             effectsList,
             spiritHelp,
@@ -117,9 +117,8 @@ export class SR5_Roll {
         if (chatData) originalMessage = chatData.originalMessage;
         //Reagents
         if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actorData.magic.reagents > 0) canUseReagents = true;
-
+        //System rules
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rulesCalledShot = true;
-
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rulesMatrixGrid = true;
 
         switch (rollType){
@@ -265,9 +264,7 @@ export class SR5_Roll {
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
-                        let targets = Array.from(game.user.targets);
-                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
-                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        let targetActor = await SR5_Roll.getTargetedActor();
                         
                         //Counterspell 
                         if (typeSub === "counterspelling"){
@@ -336,8 +333,7 @@ export class SR5_Roll {
                 }
 
                 if (typeSub === "astralCombat"){
-                    if (!actorData.visions.astral.isActive) 
-                    return ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {name:actor.name})}`);
+                    if (!actorData.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {name:actor.name})}`);
                     optionalData = mergeObject(optionalData, {
                         damageValue: actorData.magic.astralDamage.value,
                         damageValueBase: actorData.magic.astralDamage.value,
@@ -389,10 +385,17 @@ export class SR5_Roll {
             
             case "resistanceCard":
             case "resistanceCardAura":
-            case "splitted":
-                SR5_SystemHelpers.srLog(1, `actorRoll '${JSON.stringify(chatData)}'`);
-                title = game.i18n.localize("SR5.TakeOnDamageShort") //TODO:  add details
+            case "fatiguedCard":
+                title = game.i18n.localize("SR5.TakeOnDamageShort");
                 damageValueBase = chatData.damageValue;
+
+                //Special case for fatigued called shot
+                if (rollType === "fatiguedCard") {
+                    damageValueBase = chatData.damageValueFatiguedBase;
+                    chatData.damageType = "stun";
+                    rollType = "resistanceCard";
+                    chatData.damageResistanceType = "fatiguedDamage";
+                }
 
                 //Special case for Aura
                 if (rollType === "resistanceCardAura") {
@@ -411,22 +414,9 @@ export class SR5_Roll {
                     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition);
                     let modToDamage = distance * (chatData.damageFallOff || 0);
                     damageValueBase = chatData.damageValueBase + modToDamage;
-                    if (damageValueBase <= 0 && chatData.damageElement !== "toxin") {
-                        ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
-                        return;
-                    }
+                    if (damageValueBase <= 0 && chatData.damageElement !== "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                     if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {distance:distance})}`);
                     else ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistanceFallOff", {distance:distance, modifiedDamage: modToDamage, finalDamage: damageValueBase})}`);
-                }
-
-                if (chatData.calledShot?.name === "splittingDamage") {
-                    if (chatData.splitted > 1) {
-                        damageValueBase = chatData.damageValueP;
-                        chatData.damageType = chatData.damageTypeP;
-                    } else {
-                        damageValueBase = chatData.damageValueE;
-                        chatData.damageType = chatData.damageTypeE;
-                    }
                 }
 
                 switch (chatData.damageResistanceType){
@@ -442,31 +432,21 @@ export class SR5_Roll {
                                 resistanceValue = actorData.resistances.physicalDamage.dicePool - armor;
                                 modifiedArmor = armor + (chatData.incomingPA || 0);
                                 if (modifiedArmor < 0) modifiedArmor = 0;
-                                if (damageValueBase < (armor + chatData.incomingPA)) {
-                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.incomingPA, damage:damageValueBase})}`); 
-                                    return;
-                                }
-                                if (chatData.damageType === "stun") {
-                                    ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`);
-                                    return;
-                                }
+                                if (damageValueBase < (armor + chatData.incomingPA)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.incomingPA, damage:damageValueBase})}`);
+                                if (chatData.damageType === "stun") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`);
                                 break;
                             case "actorSpirit":
                                 if (chatData.damageElement === "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
                                 armor = actorData.essence.value * 2;
                                 modifiedArmor = armor + (chatData.incomingPA || 0);
                                 if (modifiedArmor < 0) modifiedArmor = 0
-                                if (damageValueBase < (armor + chatData.incomingPA)) {
-                                    ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.incomingPA, damage: damageValueBase})}`);
-                                    return;    
-                                }
+                                if (damageValueBase < (armor + chatData.incomingPA)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.incomingPA, damage: damageValueBase})}`);
                                 resistanceValue = actorData.resistances.physicalDamage.dicePool;
                                 break;
                             case "actorPc":
                             case "actorGrunt":
                                 armor = actorData.itemsProperties.armor.value;
                                 armorComposition = actorData.itemsProperties.armor.modifiers;
-
                                 if (chatData.damageElement) {
                                     if (chatData.damageElement === "toxin"){
                                         let toxinType;
@@ -512,32 +492,21 @@ export class SR5_Roll {
                                 }
                                 break;
                             default:
-                        }   
-
-                        dicePool = resistanceValue + modifiedArmor;
-
-                        if (chatData.fatigued) {
-                            if (chatData.fatigued > 2) {
-                                damageValueBase = Math.floor(chatData.damageValue / 2);
-                                dicePool = resistanceValue;
-                                armor = 0;
-                                armorComposition = "";
-                                chatData.calledShot = "";
-                            }
-                            else {
-                                damageValueBase = chatData.damageValue;
-                            }
                         }
 
+                        if (chatData.calledShot?.name === "splittingDamage" && (actor.data.type === "actorPc" || actor.data.type === "actorSpirit")) {
+                            title = `${game.i18n.localize("SR5.TakeOnDamage")} (${damageValueBase}${game.i18n.localize('SR5.DamageTypeStunShort')}/${game.i18n.localize('SR5.DamageTypePhysicalShort')})`;
+                        }
+
+                        dicePool = resistanceValue + modifiedArmor;
                         optionalData = {
                             attackerId: chatData.attackerId,
-                            chatActionType: "damage",
                             incomingPA: chatData.incomingPA,
                             armor: armor,
                             armorComposition: armorComposition,
                             ammoType: chatData.ammoType,
                             calledShot: chatData.calledShot,
-                            firstId: chatData.firstId,
+                            originalActionUser: chatData.originalActionUser,
                             targetActorType: chatData.targetActorType,
                             attackerStrength: chatData.attackerStrength,
                             damageValueBase: damageValueBase,
@@ -554,9 +523,8 @@ export class SR5_Roll {
                         if (chatData.fireTreshold) optionalData = mergeObject(optionalData,{fireTreshold: chatData.fireTreshold,});
                         if (chatData.damageElement === "toxin") optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
                         if (chatData.continuousDamageId) optionalData = mergeObject(optionalData, {continuousDamageId: chatData.continuousDamageId,});
-                       
-                       
                         break;
+
                     case "directSpellMana":       
                         if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`);
                         title = `${game.i18n.localize("SR5.ResistanceTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.characterResistances[chatData.damageResistanceType])} (${damageValueBase})`;
@@ -564,7 +532,6 @@ export class SR5_Roll {
                         dicePoolComposition = actorData.resistances[chatData.damageResistanceType].modifiers;
                         typeSub = "spellDamage";
                         optionalData = {
-                            chatActionType: "damage",
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -578,7 +545,6 @@ export class SR5_Roll {
                         dicePoolComposition = actorData.resistances[chatData.damageResistanceType].modifiers;
                         typeSub = "manaSpellDamage";
                         optionalData = {
-                            chatActionType: "damage",
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                             damageElement: chatData.damageElement,
@@ -598,7 +564,6 @@ export class SR5_Roll {
                             else if (actorData.matrix.userMode === "hotsim") damageType = "physical";
                         }
                         optionalData = {
-                            chatActionType: "damage",
                             damageType: damageType,
                             damageValueBase: damageValueBase,
                         }
@@ -608,6 +573,7 @@ export class SR5_Roll {
                             });
                         }
                         break;
+
                     case "dumpshock":
                         dicePool = actorData.matrix.resistances.dumpshock.dicePool;
                         dicePoolComposition = actorData.matrix.resistances.dumpshock.modifiers;
@@ -617,22 +583,36 @@ export class SR5_Roll {
                         if (actorData.matrix.userMode === "coldsim") dumpshockType = "stun";
                         else if (actorData.matrix.userMode === "hotsim") dumpshockType = "physical";
                         optionalData = {
-                            chatActionType: "damage",
                             damageType: dumpshockType,
                             damageValueBase: 6,
                         }
                         break;
+                    
                     case "astralDamage":
                         dicePool = actorData.resistances.astralDamage.dicePool;
                         dicePoolComposition = actorData.resistances.astralDamage.modifiers;
                         typeSub = "astralDamage";
                         title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`;
                         optionalData = {
-                            chatActionType: "damage",
                             damageValueBase: damageValueBase,
                             damageType: chatData.damageType,
                         }
                         break;
+                    
+                    case "fatiguedDamage":
+                        title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damageType])} (${damageValueBase})`; //TODO: add details
+                        typeSub = "physicalDamage";
+                        dicePool = actorData.resistances.physicalDamage.dicePool - actorData.itemsProperties.armor.value;
+                        dicePoolComposition = actorData.resistances.physicalDamage.modifiers.filter((el) => !actorData.itemsProperties.armor.modifiers.includes(el));
+                        optionalData = {
+                            damageValueBase: damageValueBase,
+                            damageType: chatData.damageType,
+                            dicePoolBase: dicePool,
+                            hits: chatData.test.hits,
+                            isFatiguedCard: true,
+                        }
+                        break;
+
                     default:
                         SR5_SystemHelpers.srLog(1, `Unknown '${chatData.damageResistanceType}' Damage Resistance Type in roll`);
                 }
@@ -697,7 +677,6 @@ export class SR5_Roll {
                 dicePool = actorData.matrix.ice.attackDicepool;
                 limit = actorData.matrix.attributes.attack.value;
                 optionalData = {
-                    chatActionType: "iceDefense",
                     typeSub: actorData.matrix.deviceSubType,
                     matrixDamageValue: actorData.matrix.attributes.attack.value,
                     defenseFirstAttribute: actorData.matrix.ice.defenseFirstAttribute,
@@ -721,7 +700,7 @@ export class SR5_Roll {
                 optionalData = {
                     hits: chatData.test.hits,
                     iceType: chatData.typeSub,
-                    originalActionAuthor: chatData?.originalActionAuthor,
+                    originalActionActor: chatData?.originalActionActor,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     mark: chatData?.mark,
                     defenseFull: actorData.specialProperties.fullDefenseValue || 0,
@@ -762,7 +741,6 @@ export class SR5_Roll {
 
                 optionalData = mergeObject(optionalData, {
                     limitType: matrixAction.limit.linkedAttribute,
-                    chatActionType: "matrixDefense",
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     matrixNoiseRange: "wired",
@@ -811,7 +789,7 @@ export class SR5_Roll {
                     matrixActionType: matrixAction.limit.linkedAttribute,
                     overwatchScore: matrixAction.increaseOverwatchScore,
                     hits: chatData?.test.hits,
-                    originalActionAuthor: chatData?.originalActionAuthor,
+                    originalActionActor: chatData?.originalActionActor,
                     mark: chatData?.mark,
                     defenseFull: actorData.specialProperties.fullDefenseValue || 0,
                 });
@@ -833,11 +811,10 @@ export class SR5_Roll {
                 }
 
                 optionalData = mergeObject(optionalData, {
-                    chatActionType: "damage",
                     matrixDamageValue: chatData.matrixDamageValue,
                     matrixDamageValueBase: chatData.matrixDamageValue,
                     damageType: chatData.damageType,
-                    originalActionAuthor: chatData.originalActionAuthor,
+                    originalActionActor: chatData.originalActionActor,
                 });
                 break;
 
@@ -849,7 +826,6 @@ export class SR5_Roll {
                 typeSub = rollKey;
             
                 optionalData = {
-                    chatActionType: "resonanceDefense",
                     matrixActionType: resonanceAction.limit?.linkedAttribute,
                     overwatchScore: resonanceAction.increaseOverwatchScore,
                     actorResonance: actorData.specialAttributes.resonance.augmented.value,
@@ -862,9 +838,7 @@ export class SR5_Roll {
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
-                        let targets = Array.from(game.user.targets);
-                        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
-                        let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
+                        let targetActor = await SR5_Roll.getTargetedActor();
 
                         //Kill Complex Form
                         if (typeSub === "killComplexForm"){
@@ -905,7 +879,6 @@ export class SR5_Roll {
                 dicePoolComposition = actorData.matrix.resistances.fading.modifiers;
                 if (chatData.hits > actorData.specialAttributes.resonance.augmented.value) chatData.fadingType = "physical";
                 optionalData = {
-                    chatActionType: "damage",
                     fadingValue: chatData.fadingValue,
                     fadingType: chatData.fadingType,
                     actorResonance: chatData.actorResonance,
@@ -920,7 +893,6 @@ export class SR5_Roll {
                 dicePoolComposition = actorData.magic.drainResistance.modifiers;
                 if (chatData.hits > actorData.specialAttributes.magic.augmented.value) chatData.drainType = "physical";
                 optionalData = {
-                    chatActionType: "damage",
                     drainValue: chatData.drainValue,
                     drainType: chatData.drainType,
                     actorMagic: chatData.actorMagic,
@@ -979,7 +951,6 @@ export class SR5_Roll {
                 dicePool = resistanceValue + modifiedArmor;
 
                 optionalData = {
-                    chatActionType: "damage",
                     hits: chatData.hits,
                     accidentValue: chatData.accidentValue,
                     damageType: "physical",                    
@@ -1020,6 +991,7 @@ export class SR5_Roll {
                 typeSub = chatData.typeSub;
                 let cover = true;
 
+                //Handle Suppressive fire
                 if (chatData.firingMode === "SF"){
                     dicePool = actorData.attributes.reaction.augmented.value + (actorData.specialAttributes?.edge?.augmented?.value || 0);
                     dicePoolComposition = [
@@ -1030,6 +1002,7 @@ export class SR5_Roll {
                     optionalData = mergeObject(optionalData, {firingMode: "SF",});
                 }
 
+                //Handle Melee Weapon modifiers
                 if (typeSub === "meleeWeapon"){
                     let reach = (actorData.reach?.value || 0) - chatData.attackerReach;
                     let weaponUsedToDefend = actor.items.find(i => (i.type === "itemWeapon") && (i.data.data.category === "meleeWeapon") && (i.data.data.isActive) );
@@ -1041,6 +1014,7 @@ export class SR5_Roll {
                     });
                 }
 
+                //Handle Astral combat defense
                 if (typeSub === "astralCombat"){
                     if ((actor.type === "actorDevice" || actor.type === "actorSprite") || !actorData.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_TargetIsNotInAstral", {name:actor.name})}`);
                     title = `${game.i18n.localize("SR5.AstralDefenseTest")} (${chatData.test.hits})`;
@@ -1049,6 +1023,7 @@ export class SR5_Roll {
                     dicePoolComposition = actorData.magic.astralDefense.modifiers;
                 }
                 
+                //Manage spell area templates
                 if (canvas.scene && chatData.type === "spell" && chatData.spellRange === "area"){
                     // Spell position
                     let spellPosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.itemId); 
@@ -1060,17 +1035,12 @@ export class SR5_Roll {
                     if (chatData.spellArea < distance) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                 }
 
+                //Spell damage source
                 if (chatData.type === "spell"){optionalData = mergeObject(optionalData,{damageSource: "spell",});}
 
-                //Handle calledShot
-                if (chatData.calledShot){
+                //Handle calledShot specifics
+                if (chatData.calledShot?.name){
                     if (chatData.calledShot.name === "disarm" || chatData.calledShot.name === "knockdown") optionalData = mergeObject(optionalData,{ attackerStrength: chatData.attackerStrength, });
-                    //Handle BullsEye bullsEye
-                    if (chatData.calledShot.ammoLocation === "bullsEye") { 
-                        let firedAmmo = Math.max(chatData.firedAmmo, 3)
-                        let bullsEyePA = chatData.incomingPA * firedAmmo ;
-                        chatData.incomingPA = chatData.incomingPA + bullsEyePA;
-                    }
                 }
 
                 //Handle sensor locked
@@ -1083,15 +1053,18 @@ export class SR5_Roll {
                 }
 
                 //Handle toxin, if any
-                if (chatData.toxin) optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
+                if (chatData.toxin) {
+                    if (chatData.toxin.power > 0 && chatData.calledShot.name === "downTheGullet") chatData.toxin.power += 2; 
+                    optionalData = mergeObject(optionalData, {toxin: chatData.toxin,});
+                }
 
+                //Handle cumulative defense
                 cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
                 if(cumulativeDefense !== null) actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
 
                 optionalData = mergeObject(optionalData, {
-                    firstId: chatData.firstId,
+                    originalActionUser: chatData.originalActionUser,
                     attackerId: chatData.actorId,
-                    chatActionType: "resistanceCard",
                     damageElement: chatData.damageElement,
                     damageValue: chatData.damageValue,
                     damageValueBase: chatData.damageValue,
@@ -1129,68 +1102,56 @@ export class SR5_Roll {
                 testType = "opposedTest";
                 rollType = "attack";
 
-                let targetActorType = "";
-                let firstId = game.user.id;
-
-                if (game.user.targets.size) {
-                    let targets = Array.from(game.user.targets);
-                    let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
-                    let targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorId);
-                    targetActorType = targetActor.type;
-                }              
-                
                 //Handle type of weapons for Called Shots
-                let typeWeapon = itemData.type;
-                if (typeWeapon === "unarmed" || typeWeapon === "exoticMeleeWeapon" || typeWeapon === "exoticRangedWeapon"){                    
-                    optionalData = mergeObject(optionalData, {
-                        typeWeapon: typeWeapon,
-                    })
+                if (itemData.type === "unarmed" || itemData.type === "exoticMeleeWeapon" || itemData.type === "exoticRangedWeapon"){                    
+                    optionalData = mergeObject(optionalData, {typeWeapon: itemData.type,})
                 }
 
                 //Handle Martial Arts for Called Shots 
                 if (actor.items.find((item) => item.type === "itemMartialArt")) {
-                    let martialArtPin = false ;
-                    if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "pin")) martialArtPin = true ;  
-                    let martialArtDisarm = false ;
-                    if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "disarm")) martialArtDisarm = true;
-                    let martialArtEntanglement = false ;
-                    if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "entanglement")) martialArtEntanglement = true;
-                    let martialArtBreakWeapon = false ; 
-                    if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "breakWeapon")) martialArtBreakWeapon = true;
-                    let martialArtFeint = false ;
-                    if (actor.items.find((item) => item.type === "itemMartialArt" && item.data.data.isActive && item.data.data.calledShot === "feint")) martialArtFeint = true;
-
-                    calledShot = mergeObject(calledShot, {
-                        "martialArtPin": martialArtPin,
-                        "martialArtDisarm": martialArtDisarm,
-                        "martialArtEntanglement": martialArtEntanglement,
-                        "martialArtBreakWeapon": martialArtBreakWeapon,
-                        "martialArtFeint": martialArtFeint,
-                    });
-
-                    SR5_SystemHelpers.srLog(1, `calledShot '${JSON.stringify(calledShot)}' and  martialArtDisarm =+> '${martialArtDisarm}' in actorRoll "weapon"`);
+                    let martialArts = actor.items.filter(i => i.type === "itemMartialArt" && i.data.data.isActive && i.data.data.calledShot !== "");
+                    if (martialArts.length){
+                        for (let m of martialArts){
+                            if (m.data.data.calledShot === "pin") calledShot = mergeObject(calledShot, {"martialArtPin": true,});
+                            if (m.data.data.calledShot === "disarm") calledShot = mergeObject(calledShot, {"martialArtDisarm": true,});
+                            if (m.data.data.calledShot === "entanglement") calledShot = mergeObject(calledShot, {"martialArtEntanglement": true,});
+                            if (m.data.data.calledShot === "breakWeapon") calledShot = mergeObject(calledShot, {"martialArtBreakWeapon": true,});
+                            if (m.data.data.calledShot === "feint") calledShot = mergeObject(calledShot, {"martialArtFeint": true,});
+                        }
+                    }
                 }
 
-                // Recoil Compensation calculation
+                //Recoil Compensation calculation
                 let recoilCompensation = actorData.recoilCompensation.value;
                 if (actor.data.type !== "actorDrone") recoilCompensation += itemData.recoilCompensation.value;
                 let cumulativeRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
                 recoilCompensation -= cumulativeRecoil;
 
+                //Handle Targets & range
                 let rangeValue = "short";
-                // Get actor and target position and calcul range modifiers
+                //Get actor and target position and calcul range modifiers
                 if (canvas.scene){
-                    // Get attacker position
+                    //Get attacker position
                     let attacker = SR5_EntityHelpers.getActorCanvasPosition(actor);
-                    // Get target position
+                    //Handle Targets
                     let target;
                     if (game.user.targets.size) {
+                        //For now, only allow one target for attack;
+                        if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
+                        //Get target actor type
+                        let targetActor = await SR5_Roll.getTargetedActor();
+                        optionalData = mergeObject(optionalData, {
+                            targetActorType: targetActor.type,
+                            targetActorId: targetActor.id,
+                        });
+                        //Get target position
                         const targeted = game.user.targets;
                         const targets = Array.from(targeted);
                         for (let t of targets) {
                             target = t._validPosition;
                         }
                     } else { target = 0;}
+                    //Add specific data for grenade & missile
                     if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") {
                         typeSub = "grenade";
                         target = SR5_SystemHelpers.getTemplateItemPosition(entity.id); 
@@ -1201,9 +1162,9 @@ export class SR5_Roll {
                             "blastRadius": itemData.blast.radius,
                         });
                     }
-                    // Calcul distance between Attacker and Target
+                    //Calcul distance between Attacker and Target
                     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(attacker, target);
-
+                    //Handle Melee specifics
                     if (itemData.category === "meleeWeapon") {
                         optionalData = mergeObject(optionalData, {
                             attackerReach: itemData.reach.value,
@@ -1212,15 +1173,13 @@ export class SR5_Roll {
                         if (distance > (itemData.reach.value + 1)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                         sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     } else { 
-                        // Handle weapon ranged based on distance
+                    // Handle weapon ranged based on distance
                         if (distance < itemData.range.short.value) rangeValue = "short";
                         else if (distance < itemData.range.medium.value) rangeValue = "medium";
                         else if (distance < itemData.range.long.value) rangeValue = "long";
                         else if (distance < itemData.range.extreme.value) rangeValue = "extreme";
                         else if (distance > itemData.range.extreme.value) {
-                            if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher"){
-                                SR5_RollMessage.removeTemplate(null, item.id)
-                            }
+                            if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
                             return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                         }
                         sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, false);
@@ -1228,7 +1187,7 @@ export class SR5_Roll {
                 }
 
                 optionalData = mergeObject(optionalData, {
-                    firstId: firstId,
+                    originalActionUser: game.user.id,
                     limiteType: limitType,
                     damageValue: itemData.damageValue.value,
                     damageValueBase: itemData.damageValue.value,
@@ -1244,7 +1203,6 @@ export class SR5_Roll {
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
                     rulesCalledShot: rulesCalledShot,                 
-                    targetActorType: targetActorType,
                     "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
                     "firingMode.singleShot": itemData.firingMode.singleShot,
                     "firingMode.semiAutomatic": itemData.firingMode.semiAutomatic,
@@ -1608,7 +1566,7 @@ export class SR5_Roll {
                 typeSub = chatData.typeSub;
                 optionalData = {
                     hits: chatData.test.hits,
-                    originalActionAuthor: chatData?.originalActionAuthor,
+                    originalActionActor: chatData?.originalActionActor,
                     defenseFull: actorData.specialProperties.fullDefenseValue || 0,
                 }
 
@@ -1739,16 +1697,10 @@ export class SR5_Roll {
                 let powerItem = await fromUuid(chatData.itemUuid);
                 if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
                 title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${powerItem.name}`;
-                if (chatData.defenseFirstAttribute === "edge" || chatData.defenseFirstAttribute === "magic" || chatData.defenseFirstAttribute === "resonance"){
-                    firstAttribute = actorData.specialAttributes[chatData.defenseFirstAttribute].augmented.value;
-                } else {
-                    firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
-                }
-                if (chatData.defenseSecondAttribute === "edge" || chatData.defenseecondAttribute === "magic" || chatData.defenseSecondAttribute === "resonance"){
-                    secondAttribute = actorData.specialAttributes[chatData.defenseSecondAttribute].augmented.value;
-                } else {
-                    secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
-                }
+                if (chatData.defenseFirstAttribute === "edge" || chatData.defenseFirstAttribute === "magic" || chatData.defenseFirstAttribute === "resonance") firstAttribute = actorData.specialAttributes[chatData.defenseFirstAttribute].augmented.value;
+                else firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
+                if (chatData.defenseSecondAttribute === "edge" || chatData.defenseecondAttribute === "magic" || chatData.defenseSecondAttribute === "resonance") secondAttribute = actorData.specialAttributes[chatData.defenseSecondAttribute].augmented.value;
+                else secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
                 dicePoolComposition = ([
                     {source: game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: firstAttribute},
                     {source: game.i18n.localize(SR5.allAttributes[chatData.defenseSecondAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: secondAttribute},
@@ -1832,7 +1784,6 @@ export class SR5_Roll {
                     incomingPA: -6,
                     ammoType: "",
                     damageElement: "",
-                    chatActionType: "resistanceCard",
                     defenseFull: actorData.specialProperties.fullDefenseValue || 0,
                     "activeDefenses.dodge": actorData.skills?.gymnastics?.rating.value || 0,
                     target: target,
@@ -1852,7 +1803,6 @@ export class SR5_Roll {
                 }
                 optionalData = {
                     attackerId: chatData.actorId,
-                    chatActionType: "resistanceCard",
                     damageValue: chatData.damageValue,
                     damageValueBase: chatData.damageValue,
                     damageType: chatData.damageType,
@@ -1879,7 +1829,7 @@ export class SR5_Roll {
                 if (actor.type === "actorDrone") limit = actorData.skills.sneaking.limit.value;
                 else limit = actorData.limits.physicalLimit.value;
                 optionalData = {
-                    originalActionAuthor: chatData.originalActionAuthor,
+                    originalActionActor: chatData.originalActionActor,
                     hits: chatData.test.hits,
                 }
                 break;
@@ -1990,79 +1940,86 @@ export class SR5_Roll {
                 break;
 
             case "fear":
-                let composureHits = 2;
-                if (chatData.calledShot.ammoLocation === "extremeIntimidation") composureHits = chatData.netHits;
-                if (chatData.calledShot.ammoLocation === "warningShot") composureHits = 4;
-                title = `${game.i18n.localize("SR5.Composure")} (${composureHits})`;
+                let composureThreshold = 0;
+                if (chatData.calledShot.name === "extremeIntimidation") {
+                    rollType = "intimidationResistance";
+                    composureThreshold = chatData.netHits;
+                    chatData.initiativeMod = 10;
+                } else if (chatData.calledShot.name === "ricochetShot") {
+                    composureThreshold = 2;
+                    rollType = "ricochetResistance";
+                } else if (chatData.calledShot.name === "warningShot") {
+                    composureThreshold = 4;
+                    rollType = "warningResistance";
+                }
+                title = `${game.i18n.localize("SR5.Composure")} (${composureThreshold})`;
                 dicePool = actorData.derivedAttributes.composure.dicePool;
                 dicePoolComposition = actorData.derivedAttributes.composure.modifiers;
                 optionalData = {
-                    hits: chatData.test.hits,
-                    composureHits: composureHits,
+                    hits: composureThreshold,
                     calledShot: chatData.calledShot,
+                    initiativeMod: chatData.initiativeMod,
                 }
                 break;
 
             case "stunned":
-                let name, initiative, threshold;
-                                
-                for (let [key, value] of Object.entries(chatData.calledShot.effects)) {
-                    if (value.name === "stunned") {
-                        name = value.name;
-                        initiative = value.initiative;
-                        threshold = value.threshold;
-                    }
-                }
-
-                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[name])})} (${threshold})`;
+                calledShotEffect = chatData.calledShot.effects.find(e => e.name === rollType);
+                rollType = "stunnedResistance";
+                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${calledShotEffect.threshold})`;
                 dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
                 dicePoolComposition = ([
                     {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
                     {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.attributes.willpower.augmented.value)},
                 ]);
-
                 optionalData = {
-                    hits: chatData.test.hits,
-                    calledShot: chatData.calledShot,
-                    initiative: initiative,
-                    threshold: threshold,
+                    hits: calledShotEffect.threshold,
+                    initiativeMod: calledShotEffect.initiative,
                 }
                 break;
 
             case "buckled":
-                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects["buckled"])})} (${chatData.previousDamageValue})`;
+                calledShotEffect = chatData.calledShot.effects.find(e => e.name === rollType);
+                chatData.calledShot.effects = chatData.calledShot.effects.filter(e => e.name === rollType);
+                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${chatData.damageValue})`;
+                rollType = "buckledResistance";
                 dicePool = actorData.attributes.body.augmented.value;
-                dicePoolComposition = ([
-                    {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
-                ]);                   
-                    
+                dicePoolComposition = ([{source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},]);                   
                 optionalData = {
-                    damageValue: chatData.previousDamageValue,
+                    hits: chatData.damageValue,
                     calledShot: chatData.calledShot,
                 }
                 break;
 
             case "nauseous":
-                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects["nauseous"])})} (4)`;
+                calledShotEffect = chatData.calledShot.effects.find(e => e.name === rollType);
+                chatData.calledShot.effects = chatData.calledShot.effects.filter(e => e.name === rollType);
+                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (4)`;
+                rollType = "nauseousResistance";
                 dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
                 dicePoolComposition = ([
                     {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
                     {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.attributes.willpower.augmented.value)},
                 ]);
+                optionalData = {
+                    hits: 4,
+                    calledShot: chatData.calledShot,
+                }
                 break;
 
             case "knockdown":
-                let knockThreshold = chatData.previousDamageValue + 3;
-                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects["knockdown"])})} (${knockThreshold})`;
+                calledShotEffect = chatData.calledShot.effects.find(e => e.name === rollType);
+                calledShotEffect.threshold = chatData.damageValue + 3;
+                chatData.calledShot.effects = chatData.calledShot.effects.filter(e => e.name === rollType);
+                title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${calledShotEffect.threshold})`;
+                rollType = "knockdownResistance";
                 dicePool = actorData.attributes.strength.augmented.value + actorData.attributes.agility.augmented.value;
                 dicePoolComposition = ([
                     {source: game.i18n.localize("SR5.Strength"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.strength.augmented.value},
                     {source: game.i18n.localize("SR5.Agility"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.attributes.agility.augmented.value)},
                 ]);
-
                 optionalData = {
+                    hits: calledShotEffect.threshold,
                     calledShot: chatData.calledShot,
-                    threshold: knockThreshold,
                 }
                 break;
                 
@@ -2141,5 +2098,12 @@ export class SR5_Roll {
 
         mergeObject(dialogData, optionalData);
         await SR5_Dice.prepareRollDialog(dialogData);
+    }
+
+    //Return the actor object targeted on canvas
+    static async getTargetedActor(){
+        let targets = Array.from(game.user.targets);
+        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+        return SR5_EntityHelpers.getRealActorFromID(targetActorId);
     }
 }
