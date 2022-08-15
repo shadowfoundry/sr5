@@ -492,7 +492,7 @@ export default class SR5_RollDialog extends Dialog {
         let target = $(ev.currentTarget).attr("data-target"),
             name = `[name=${target}]`,
             modifierName = $(ev.currentTarget).attr("data-modifier"),
-            value, limitDV, effect,
+            value, limitDV,
             actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
             actorData = actor.data,
             position = this.position;
@@ -669,18 +669,55 @@ export default class SR5_RollDialog extends Dialog {
                     this.updateDicePoolValue(html);
                     return;
                 case "calledShot":
-                    value = SR5_DiceHelper.convertCalledShotToMod(ev.target.value);
-                    if (ev.target.value === "ammoSpecific") $(html).find('#calledShotSpecificAmmo').show();
-                    else $(html).find('#calledShotSpecificAmmo').hide();
+                    value = SR5_DiceHelper.convertCalledShotToMod(ev.target.value, dialogData.ammoType);
                     if (ev.target.value === "specificTarget") $(html).find('#calledShotSpecificTarget').show();
                     else $(html).find('#calledShotSpecificTarget').hide();
                     dialogData.calledShot.name = ev.target.value;
+                    dialogData.calledShot.effects = SR5_DiceHelper.convertCalledShotToEffect(ev.target.value, dialogData.ammoType);
+                    dialogData.calledShot.limitDV = SR5_DiceHelper.convertCalledShotToLimitDV(ev.target.value, dialogData.ammoType);
+                    switch (ev.target.value){
+                        case "shakeUp":
+                            dialogData.calledShot.initiative = SR5_DiceHelper.convertCalledShotToInitiativeMod(dialogData.ammoType);
+                            break;
+                        case "bullsEye": //Errata: “The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3.”
+                            dialogData.incomingPA = dialogData.incomingPA + ((dialogData.incomingPA + 4) * Math.min(dialogData.firedAmmo, 3));
+                            break;
+                        case "hitEmWhereItCounts":
+                            if (dialogData.toxin.power > 0) {
+                                dialogData.toxin.power += 2;
+                                if (dialogData.damageValue > 0) {
+                                    dialogData.damageValue += 2;
+                                    dialogData.damageValueBase += 2;
+                                }
+                            }
+                            if (dialogData.toxin.speed > 0) dialogData.toxin.speed -= 1;
+                            break;
+                        case "throughAndInto":
+                            if (!dialogData.targetActorId) {
+                                ui.notifications.warn(game.i18n.localize('SR5.WARN_TargetTroughAndInto'));
+                                return html.find(ev.currentTarget)[0].value = "";
+                            } else {
+                                let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActorId)
+                                value = -(targetActor.data.data.itemsProperties.armor.value + Math.floor(targetActor.data.data.attributes.body.augmented.value / 2));
+                            }
+                            break;
+                        case "upTheAnte":
+                            $(html).find('#calledShotSpecificTarget').show();         
+                            break;
+                        case "harderKnock":
+                            dialogData.damageType = "physical";
+                            break;
+                        case "vitals":
+                            dialogData.damageValueBase += 2;
+                            dialogData.damageValue += 2;
+                            break;
+                    }
                     break;
                 case "calledShotSpecificTarget":
-                    value = SR5_DiceHelper.convertCalledShotTargetToMod(ev.target.value);
-                    limitDV = SR5_DiceHelper.convertCalledShotTargetToLimitDV(ev.target.value);
-                    effect = SR5_DiceHelper.convertCalledShotTargetToEffect(ev.target.value);
-                    if (html.find('[data-modifier="calledShotSpecificAmmo"]')[0].value === "upTheAnte") {
+                    modifierName = "calledShot";
+                    value = SR5_DiceHelper.convertCalledShotToMod(ev.target.value);
+                    limitDV = SR5_DiceHelper.convertCalledShotToLimitDV(ev.target.value);
+                    if (html.find('[data-modifier="calledShot"]')[0].value === "upTheAnte") {
                             value = value - 4;
                             limitDV = limitDV * 2;
                         }
@@ -688,38 +725,7 @@ export default class SR5_RollDialog extends Dialog {
                         limitDV: limitDV,
                         location: ev.target.value,
                         name: html.find('[data-modifier="calledShot"]')[0].value,
-                        effects: effect,
-                    }
-                    break;
-                case "calledShotSpecificAmmo":
-                    let initiative;
-                    value = SR5_DiceHelper.convertCalledShotTargetToMod(ev.target.value, dialogData.ammoType);
-                    limitDV = SR5_DiceHelper.convertCalledShotTargetToLimitDV(ev.target.value, dialogData.ammoType);
-                    effect = SR5_DiceHelper.convertCalledShotTargetToEffect(ev.target.value, dialogData.ammoType);  
-                    switch(ev.target.value) {
-                        case "shakeRattle": 
-                            switch(dialogData.ammoType) {
-                                case "explosive": 
-                                    initiative = -6; 
-                                break; 
-                                case "exExplosive": 
-                                    initiative = -8;
-                                break; 
-                                default:                     
-                                    initiative = -5;
-                                }
-                            break;
-                        case "upTheAnte":
-                            $(html).find('#calledShotSpecificTarget').show();         
-                            break;
-                        default:
-                    }
-                    dialogData.calledShot = {
-                        ammoLocation: ev.target.value,
-                        limitDV: limitDV,
-                        initiative: initiative,
-                        effects: effect,
-                        name: html.find('[data-modifier="calledShot"]')[0].value,
+                        effects: SR5_DiceHelper.convertCalledShotToEffect(ev.target.value),
                     }
                     break;
                 default: value = ev.target.value;
@@ -824,7 +830,6 @@ export default class SR5_RollDialog extends Dialog {
 
         for (let e of ev){
             targetInput = $(e).attr("data-target");
-
             if (targetInput === "survivalThreshold") {
                 value = 1;
                 label = "mild";

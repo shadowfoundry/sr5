@@ -493,7 +493,7 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    SR5_EntityHelpers.updateValue(weapon.damageValue);
+    SR5_EntityHelpers.updateValue(weapon.damageValue, 0);
     SR5_EntityHelpers.updateValue(weapon.armorPenetration);
     SR5_EntityHelpers.updateValue(weapon.recoilCompensation);
     SR5_EntityHelpers.updateValue(weapon.accuracy);
@@ -706,13 +706,10 @@ export class SR5_UtilityItem extends Actor {
         weapon.damageType = null;
         break;
       case "narcoject":
-        weapon.toxin.vector.inhalation = true;
         weapon.toxin.vector.injection = true;
-        weapon.toxin.speed = 3;
-        weapon.toxin.power = 9;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = 15;
         weapon.toxin.penetration = 0;
-        weapon.toxin.effect.disorientation = true;
-        weapon.toxin.effect.nausea = true;
         weapon.damageValue.base = 15;
         weapon.damageType = "stun";
         break;

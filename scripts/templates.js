@@ -521,6 +521,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/resonanceActionsOptions.html",
     "systems/sr5/templates/rolls/rollDialogPartial/defenseOptions.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixActionsOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/meleeModifier.html",
 
 
     /************************************************************************************* */

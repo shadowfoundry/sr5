@@ -833,6 +833,17 @@ SR5.calledShots = {
   feint                     : "SR5.CS_Feint",
   knockdown                 : "SR5.CS_Knockdown",
   reversal                  : "SR5.CS_Reversal",
+  extremeIntimidation       : "SR5.CS_AS_ExtremeIntimidation",
+  ricochetShot              : "SR5.CS_AS_RicochetShot",
+  warningShot               : "SR5.CS_AS_WarningShot",
+  hitEmWhereItCounts        : "SR5.CS_AS_HitEmWhereItCounts",
+  onPinsAndNeedles          : "SR5.CS_AS_OnPinsAndNeedles",
+  shreddedFlesh             : "SR5.CS_AS_ShreddedFlesh",
+  tag                       : "SR5.CS_AS_Tag",
+  throughAndInto            : "SR5.CS_AS_ThroughAndInto",
+  upTheAnte                 : "SR5.CS_AS_UpTheAnte",
+  harderKnock               : "SR5.CS_HarderKnock",
+  vitals                    : "SR5.CS_Vitals",
 };
 
 SR5.calledShotsSpecifics = {  
@@ -866,69 +877,10 @@ SR5.calledShotsSpecifics = {
   flashBlind                : "SR5.CS_AS_FlashBlind",
   flameOn                   : "SR5.CS_AS_FlameOn",
   hereMuckInYourEye         : "SR5.CS_AS_HereMuckInYourEye",
-  hitEmWhereItCounts        : "SR5.CS_AS_HitEmWhereItCounts",
-  onPinsAndNeedles          : "SR5.CS_AS_OnPinsAndNeedles",
-  ricochetShot              : "SR5.CS_AS_RicochetShot",
   shakeRattle               : "SR5.CS_AS_ShakeRattle",
-  shreddedFlesh             : "SR5.CS_AS_ShreddedFlesh",
-  tag                       : "SR5.CS_AS_Tag",
-  throughAndInto            : "SR5.CS_AS_ThroughAndInto",
-  upTheAnte                 : "SR5.CS_AS_UpTheAnte",
-  warningShot               : "SR5.CS_AS_WarningShot",
 }
 
-// Called Shots Specific Target
-SR5.calledShotsSpecificTarget = {
-  nkle                     : "SR5.CS_ST_Ankle ",
-  ear                       : "SR5.CS_ST_Ear",
-  eye                       : "SR5.CS_ST_Eye",
-  foot                      : "SR5.CS_ST_Foot",
-  forearm                   : "SR5.CS_ST_Forearm",
-  genitals                  : "SR5.CS_ST_Genitals",
-  gut                       : "SR5.CS_ST_Gut",
-  hand                      : "SR5.CS_ST_Hand",
-  hip                       : "SR5.CS_ST_Hip",
-  jaw                       : "SR5.CS_ST_Jaw",
-  knee                      : "SR5.CS_ST_Knee",
-  neck                      : "SR5.CS_ST_Neck",
-  shin                      : "SR5.CS_ST_Shin",
-  shoulder                  : "SR5.CS_ST_Shoulder",
-  sternum                   : "SR5.CS_ST_Sternum",
-  thigh                     : "SR5.CS_ST_Thigh",
-}
-
-// Called Shots Specific Target
-SR5.calledShotsSpecificTargetVehicle = {
-  engineBlock               : "SR5.CS_ST_EngineBlock ",
-  fuelTankBattery           : "SR5.CS_ST_FuelTankBattery",
-  axle                      : "SR5.CS_ST_Axle",
-  antenna                   : "SR5.CS_ST_Antenna",
-  doorLock                  : "SR5.CS_ST_DoorLock",
-  windowMotor               : "SR5.CS_ST_WindowMotor",
-}
-
-// Called Shots Specific Target
-SR5.calledShotsSpecificAmmo = {
-  bellringer                : "SR5.CS_AS_Bellringer",
-  bullsEye                  : "SR5.CS_AS_BullsEye",
-  downTheGullet             : "SR5.CS_AS_DownTheGullet",
-  extremeIntimidation       : "SR5.CS_AS_ExtremeIntimidation",
-  fingerPopper              : "SR5.CS_AS_FingerPopper",
-  flashBlind                : "SR5.CS_AS_FlashBlind",
-  flameOn                   : "SR5.CS_AS_FlameOn",
-  hereMuckInYourEye         : "SR5.CS_AS_HereMuckInYourEye",
-  hitEmWhereItCounts        : "SR5.CS_AS_HitEmWhereItCounts",
-  onPinsAndNeedles          : "SR5.CS_AS_OnPinsAndNeedles",
-  ricochetShot              : "SR5.CS_AS_RicochetShot",
-  shakeRattle               : "SR5.CS_AS_ShakeRattle",
-  shreddedFlesh             : "SR5.CS_AS_ShreddedFlesh",
-  tag                       : "SR5.CS_AS_Tag",
-  throughAndInto            : "SR5.CS_AS_ThroughAndInto",
-  upTheAnte                 : "SR5.CS_AS_UpTheAnte",
-  warningShot               : "SR5.CS_AS_WarningShot",
-};
-
-// Called Shots Specific Target
+// Called Shots Effects
 SR5.calledShotsEffects = {
   slowed                   : "SR5.STATUSES_Slowed",
   winded                   : "SR5.STATUSES_Winded",
@@ -957,9 +909,9 @@ SR5.calledShotsEffects = {
   fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",  
   flared                   : "SR5.STATUSES_Flared",  
   shaked                   : "SR5.STATUSES_Shaked",
+  onPinsAndNeedles         : "SR5.STATUSES_OnPinsAndNeedles",
+  feint                    : "SR5.STATUSES_Feint",
 };
-
-
 
 
 //-----------------------------------//
@@ -2716,6 +2668,7 @@ SR5.customEffectsTypes = {
 };
 
 SR5.effectTypes = {
+  damage                    : "SR5.Damage",
   iceAttack                 : "SR5.EffectTypeIceAttack",
   electricityDamage         : "SR5.ElementalDamage",
   acidDamage                : "SR5.ElementalDamage",
@@ -2756,9 +2709,11 @@ SR5.effectTypes = {
   windowMotor               : "SR5.STATUSES_WindowMotor",
   doorLock                  : "SR5.STATUSES_DoorLock",
   axle                      : "SR5.STATUSES_Axle",
-  fuelTankBattery           : "SR5.STATUSES_FuelTankBattery",   
-  flared                   : "SR5.STATUSES_Flared",  
-  shaked                   : "SR5.STATUSES_Shaked",   
+  fuelTankBattery           : "SR5.STATUSES_FuelTankBattery",
+  flared                    : "SR5.STATUSES_Flared",
+  shaked                    : "SR5.STATUSES_Shaked",
+  calledShot                : "SR5.CS_CalledShot",
+  onPinsAndNeedles          : "SR5.STATUSES_OnPinsAndNeedles",
 }
 
 SR5.effectDuration = {
@@ -2769,6 +2724,7 @@ SR5.effectDuration = {
   reboot                    : "SR5.UntilReboot",
   minute                    : "SR5.Minutes",
   hour                      : "SR5.Hours",
+  action                    : "SR5.Action",
 }
 
 SR5.specialProperties = {
@@ -2814,6 +2770,22 @@ SR5.hardenedAstralArmorTypes = {
 
 SR5.fullDefense = {
   fullDefense               : "SR5.FullDefense",
+}
+
+//-----------------------------------//
+//             BARRIERS              //
+//-----------------------------------//
+
+SR5.barrierTypes = {
+  fragile                   : "SR5.BarrierFragile",
+  cheap                     : "SR5.BarrierCheapMaterial",
+  average                   : "SR5.BarrierAverageMaterial",
+  heavy                     : "SR5.BarrierHeavyMaterial",
+  reinforced                : "SR5.BarrierReinforcedMaterial",
+  structural                : "SR5.BarrierStructuralMaterial",
+  structuralHeavy           : "SR5.BarrierStructuralHeavyMaterial",
+  armored                   : "SR5.BarrierArmoredMaterial",
+  hardened                  : "SR5.BarrierHardenedMaterial",
 }
 
 

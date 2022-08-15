@@ -274,6 +274,7 @@ export class SR5_EntityHelpers {
         case "lifestyleTypes":
         case "qualityTypes":
         case "qualityTypesShort":
+        case "barrierTypes":
           break;
         default:
           object[key] = this.sortByTranslatedTerm(object[key], key);

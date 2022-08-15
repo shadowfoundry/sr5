@@ -599,3 +599,9 @@
     <div class="col-2 SR-TextRight">{{dicePoolMod.workingFromMemory}}</div>
 </li>
 {{/if}}
+{{#if (isdefined dicePoolMod.calledShot)}}
+<li class="grid SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.CS_CalledShot'}}</div>
+    <div class="col-2 SR-TextRight">{{dicePoolMod.calledShot}}</div>
+</li>
+{{/if}}
