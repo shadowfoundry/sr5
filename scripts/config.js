@@ -2773,6 +2773,35 @@ SR5.fullDefense = {
 }
 
 //-----------------------------------//
+//        DICE POOL MODIFIERS        //
+//-----------------------------------//
+SR5.dicePoolModTypes = {
+  attribute                 : "SR5.Attribute",
+  various                   : "SR5.VariousModifiers",
+  patientEssence            : "SR5.PatientEssence",
+  specialization            : "SR5.Specialization",
+  penalty                   : "SR5.Penalty",
+  incomingFiringMode        : "SR5.WeaponMode",
+  recoil                    : "SR5.Recoil",
+  targetRange               : "SR5.Range",
+  reach                     : "SR5.WeaponReach",
+  environmentalSceneMod     : "SR5.EnvironmentalModifiers",
+  perceptionType            : "SR5.SkillPerceptionType",
+  cumulativeDefense         : "SR5.CumulativeDefense",
+  defenseMode               : "SR5.ActiveDefense",
+  fullDefense               : "SR5.FullDefense",
+  cover                     : "SR5.Cover",
+  incomingPA                : "SR5.ArmorPenetration",
+  backgroundCount           : "SR5.SceneBackgroundCount",
+  matrixRange               : "SR5.MatrixNoise",
+  matrixSceneNoise          : "SR5.SceneNoiseRating",
+  matrixNoiseReduction      : "SR5.NoiseReduction",
+  publicGrid                : "SR5.GridPublicOn",
+  targetGrid                : "SR5.GridTargetDifferent",
+}
+
+
+//-----------------------------------//
 //             BARRIERS              //
 //-----------------------------------//
 

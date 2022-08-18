@@ -1246,6 +1246,11 @@ input[type=range]:focus::-ms-fill-upper {
 #chat-log .message .SR-CardContent p {
   margin: 0;
 }
+#chat-log .message .SR-CardContent .SR-LigneEnTete {
+  border-bottom: solid 1px #931004;
+  color: #931004;
+  font-family: "srfoundry_bold";
+}
 #chat-log .message .SR-CardContent .SR-CardDices {
   display: flex;
   flex-flow: row wrap;

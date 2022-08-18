@@ -1010,7 +1010,8 @@ export class SR5_Roll {
                     sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     optionalData = mergeObject(optionalData, {
                         reach: reach,
-                        "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
+                        "dicePoolMod.environmentalSceneMod.value": sceneEnvironmentalMod,
+                        "dicePoolMod.environmentalSceneMod.label": game.i18n.localize("SR5.EnvironmentalModifiers"),
                     });
                 }
 
@@ -1203,7 +1204,8 @@ export class SR5_Roll {
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
                     rulesCalledShot: rulesCalledShot,                 
-                    "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
+                    "dicePoolMod.environmentalSceneMod.value": sceneEnvironmentalMod,
+                    "dicePoolMod.environmentalSceneMod.label": game.i18n.localize("SR5.EnvironmentalModifiers"),
                     "firingMode.singleShot": itemData.firingMode.singleShot,
                     "firingMode.semiAutomatic": itemData.firingMode.semiAutomatic,
                     "firingMode.burstFire": itemData.firingMode.burstFire,

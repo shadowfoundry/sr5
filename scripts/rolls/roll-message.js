@@ -15,12 +15,13 @@ export class SR5_RollMessage {
             SR5_RollMessage.chatButtonAction(ev)
         });
 
-        // Toggle Dice details
+        //Toggle Dice details
         html.on("click", ".SR-CardHeader", (ev) => {
             ev.preventDefault();
             $(ev.currentTarget).siblings(".SR-CardContent").toggle();
         });
 
+        //Toggle Dice composition details
         if (!game.user.isGM) {
             // Hide GM stuff
             html.find(".chat-button-gm").remove();
@@ -71,6 +72,24 @@ export class SR5_RollMessage {
             await message.update({[`flags.sr5data.-=buttons`]: null});
             await SR5_RollMessage.updateRollCard(messageId, newMessage); 
         });
+
+        //Toggle hidden div
+        html.find(".SR-MessageToggle").click(ev => SR5_RollMessage.toggleDiv(ev, html));
+    }
+
+    //Show or Hide section of the message
+    static toggleDiv(ev, html){
+        let target = $(ev.currentTarget).attr("data-target"),
+            action = $(ev.currentTarget).attr("data-action");
+        if (action === "show"){
+            $(html).find(`#${target}`).show();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).hide();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).show();
+        } else {
+            $(html).find(`#${target}`).hide();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).hide();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).show();
+        }
     }
 
     static async chatButtonAction(ev){

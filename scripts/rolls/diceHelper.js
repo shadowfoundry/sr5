@@ -317,13 +317,13 @@ export class SR5_DiceHelper {
     //Convert active defense mode to dice mod value
     static convertActiveDefenseToMod(defenseMode, defenseValue){
         switch(defenseMode){
-            case "defenseDodge": 
+            case "dodge": 
                 return defenseValue.dodge;
-            case "defenseBlock":
+            case "block":
                 return defenseValue.block;
-            case "defenseParryClubs":
+            case "parryClubs":
                 return defenseValue.parryClubs;
-            case "defenseParryBlades":
+            case "parryBlades":
                 return defenseValue.parryBlades;
             default: 
                 return 0;
@@ -333,10 +333,10 @@ export class SR5_DiceHelper {
     //Convert active defense mode to initiative modifier value
     static convertActiveDefenseToInitModifier(defenseMode){
         switch(defenseMode){
-            case "defenseDodge": 
-            case "defenseBlock":
-            case "defenseParryClubs":
-            case "defenseParryBlades":
+            case "dodge": 
+            case "block":
+            case "parryClubs":
+            case "parryBlades":
                 return -5;
             default: 
                 return 0;
