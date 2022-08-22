@@ -1682,6 +1682,7 @@ export class SR5_CharacterUtility extends Actor {
       SR5_EntityHelpers.updateValue(actor.data.itemsProperties.armor.toxin[key], 0);
     }
   }
+  
   // Generate Actors Resistances
   static updateResistances(actor) {
     let lists = actor.lists, data = actor.data, resistances = data.resistances, attributes = data.attributes;

@@ -145,7 +145,10 @@ export class SR5_Dice {
 		newMessage.test.dices = messageData.test.dices.concat(newRoll.dices);
 		newMessage.secondeChanceUsed = true;
 		newMessage.pushLimitUsed = true;
-		newMessage.dicePoolMod.pushTheLimit = dicePool;
+		newMessage.dicePoolMod.pushTheLimit = {
+			value: dicePool,
+			label: game.i18n.localize("SR5.PushTheLimit"),
+		}
 		newMessage.dicePoolModHas = true;
 		newMessage.test.dicePool += dicePool;
 		await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
@@ -227,7 +230,10 @@ export class SR5_Dice {
 
 						// Push the limits
 						if (edge && edgeActor) {
-							dialogData.dicePoolMod.edge = edgeActor.data.data.specialAttributes.edge.augmented.value;
+							dialogData.dicePoolMod.edge = {
+								value: edgeActor.data.data.specialAttributes.edge.augmented.value,
+								label: game.i18n.localize("SR5.Edge"),
+							}
 							edgeActor.update({
 								"data.conditionMonitors.edge.actual.base": edgeActor.data.data.conditionMonitors.edge.actual.base + 1,
 							});
@@ -266,11 +272,13 @@ export class SR5_Dice {
 						}
 						if (dialogData.level) dialogData.limit = dialogData.level;
 						for (let key in dialogData.limitMod){
-							dialogData.limit += dialogData.limitMod[key];
-							if (dialogData.limitMod[key] !== 0) dialogData.hasLimitMod = true;
+							dialogData.limit += dialogData.limitMod[key].value;
+							if (dialogData.limitMod[key].value !== 0) dialogData.hasLimitMod = true;
 						}
+						dialogData.dicePoolModifiers = 0;
 						for (let key in dialogData.dicePoolMod){
-							dialogData.dicePool += dialogData.dicePoolMod[key];
+							dialogData.dicePool += dialogData.dicePoolMod[key].value;
+							dialogData.dicePoolModifiers += dialogData.dicePoolMod[key].value;
 							if (dialogData.dicePoolMod[key] !== 0) dialogData.dicePoolModHas = true;
 						}
 
@@ -1283,7 +1291,6 @@ export class SR5_Dice {
 					if (cardData.test.hits >= cardData.opposedSkillThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
 					else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FailedDefense"));
 				} else {
-					if (cardData.perceptionType === "sight" && canvas.scene) cardData.dicePoolMod.environmentalSceneMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData, true);
 					if (cardData.perceptionThreshold > 0){
 						if (cardData.test.hits >= cardData.perceptionThreshold) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionSuccess"));
 						else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.PerceptionFailed"));
@@ -1485,9 +1492,15 @@ export class SR5_Dice {
 				else cardData.drainType = "stun";
 				if (cardData.reagentsSpent > cardData.force) {
 					cardData.drainMod = {};
-					cardData.drainMod.hits = cardData.test.hits * 2;
+					cardData.drainMod.hits = {
+						value: cardData.test.hits * 2,
+						label: game.i18n.localize(SR5.drainModTypes["hits"]),
+					};
 					cardData.drainValue -= (cardData.reagentsSpent - cardData.force);
-					cardData.drainMod.reagents = -(cardData.reagentsSpent - cardData.force);
+					cardData.drainMod.reagents = {
+						value: -(cardData.reagentsSpent - cardData.force),
+						label: game.i18n.localize(SR5.drainModTypes["reagents"]),
+					};
 				}
 				key = "ritualSealed";
 				if (cardData.drainValue < 2) cardData.drainValue = 2;

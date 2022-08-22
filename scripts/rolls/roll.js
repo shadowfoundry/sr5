@@ -498,7 +498,7 @@ export class SR5_Roll {
                             title = `${game.i18n.localize("SR5.TakeOnDamage")} (${damageValueBase}${game.i18n.localize('SR5.DamageTypeStunShort')}/${game.i18n.localize('SR5.DamageTypePhysicalShort')})`;
                         }
 
-                        dicePool = resistanceValue + modifiedArmor;
+                        dicePool = resistanceValue + armor;
                         optionalData = {
                             attackerId: chatData.attackerId,
                             incomingPA: chatData.incomingPA,
@@ -669,6 +669,7 @@ export class SR5_Roll {
                     incomingPA: chatData.incomingPA,
                     fireTreshold: chatData.fireTreshold,
                     dicePoolBase: actorData.itemsProperties.armor.value + actorData.itemsProperties.armor.specialDamage.fire.value,
+                    dicePoolComposition: dicePoolComposition,
                 }
                 break;
 
@@ -774,10 +775,23 @@ export class SR5_Roll {
                     if (!targetItem.data.data.isSlavedToPan){
                         title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                         dicePool = targetItem.data.data.deviceRating * 2 || 0;
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.data.data.deviceRating},
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.data.data.deviceRating},
+                        ]);
                     } else {
                         let panMaster = SR5_EntityHelpers.getRealActorFromID(targetItem.data.data.panMaster);
                         let panMasterDefense = panMaster.data.data.matrix.actions[rollKey].defense.dicePool;
-                        dicePool = Math.max(targetItem.data.data.deviceRating * 2, panMasterDefense);
+                        if (targetItem.data.data.deviceRating * 2 > panMasterDefense){
+                            dicePool = targetItem.data.data.deviceRating;
+                            dicePoolComposition = ([
+                                {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.data.data.deviceRating},
+                                {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.data.data.deviceRating},
+                            ]);
+                        } else {
+                            dicePool = panMasterDefense;
+                            dicePoolComposition = panMaster.data.data.matrix.actions[rollKey].defense.modifiers;
+                        }
                     }
                     optionalData = mergeObject(optionalData, {matrixTargetItemUuid: targetItem.uuid,});  
                 } else {
@@ -804,10 +818,14 @@ export class SR5_Roll {
                     if (matrixTargetItem.data.data.type !== "baseDevice" && matrixTargetItem.data.data.type !== "livingPersona" && matrixTargetItem.data.data.type !== "headcase"){ 
                         title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
                         dicePool = matrixTargetItem.data.data.deviceRating * 2;
-                        optionalData = mergeObject(optionalData, {
-                            matrixTargetItemUuid: chatData.matrixTargetItemUuid,
-                        }); 
+                        dicePoolComposition = ([
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: matrixTargetItem.data.data.deviceRating},
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: matrixTargetItem.data.data.deviceRating},
+                        ]);
                     }
+                    optionalData = mergeObject(optionalData, {
+                        matrixTargetItemUuid: chatData.matrixTargetItemUuid,
+                    }); 
                 }
 
                 optionalData = mergeObject(optionalData, {
@@ -1010,7 +1028,8 @@ export class SR5_Roll {
                     sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
                     optionalData = mergeObject(optionalData, {
                         reach: reach,
-                        "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
+                        "dicePoolMod.environmentalSceneMod.value": sceneEnvironmentalMod,
+                        "dicePoolMod.environmentalSceneMod.label": game.i18n.localize("SR5.EnvironmentalModifiers"),
                     });
                 }
 
@@ -1203,7 +1222,8 @@ export class SR5_Roll {
                     ammoMax: itemData.ammunition.max,
                     calledShot: calledShot,
                     rulesCalledShot: rulesCalledShot,                 
-                    "dicePoolMod.environmentalSceneMod": sceneEnvironmentalMod,
+                    "dicePoolMod.environmentalSceneMod.value": sceneEnvironmentalMod,
+                    "dicePoolMod.environmentalSceneMod.label": game.i18n.localize("SR5.EnvironmentalModifiers"),
                     "firingMode.singleShot": itemData.firingMode.singleShot,
                     "firingMode.semiAutomatic": itemData.firingMode.semiAutomatic,
                     "firingMode.burstFire": itemData.firingMode.burstFire,
@@ -1268,7 +1288,8 @@ export class SR5_Roll {
                 dicePoolComposition =  actorData.skills.spellcasting.spellCategory[spellCategory].modifiers;
                 
                 optionalData = {
-                    "drainMod.spell": itemData.drain.value,
+                    "drainMod.spell.value": itemData.drain.value,
+                    "drainMod.spell.label": game.i18n.localize("SR5.DrainModifier"),
                     drainType: "stun",
                     damageType: itemData.damageType,
                     damageElement: itemData.damageElement,
@@ -1459,7 +1480,8 @@ export class SR5_Roll {
                 optionalData = {
                     "switch.specialization": true,
                     "switch.canUseReagents": canUseReagents,
-                    "drainMod.spell": itemData.drain.value,
+                    "drainMod.spell.value": itemData.drain.value,
+                    "drainMod.spell.label": game.i18n.localize("SR5.DrainModifier"),
                     drainType: "stun",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,

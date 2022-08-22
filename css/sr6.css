@@ -1246,6 +1246,11 @@ input[type=range]:focus::-ms-fill-upper {
 #chat-log .message .SR-CardContent p {
   margin: 0;
 }
+#chat-log .message .SR-CardContent .SR-LigneEnTete {
+  border-bottom: solid 1px #b2007a;
+  color: #b2007a;
+  font-family: "srfoundry_bold";
+}
 #chat-log .message .SR-CardContent .SR-CardDices {
   display: flex;
   flex-flow: row wrap;
@@ -1299,7 +1304,8 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #chat-log .message .SR-CardContent .SR-UlAssensing {
   list-style: disc;
-  padding-left: 10px;
+  padding-left: 17px;
+  padding-top: 5px;
 }
 #chat-log .message .SR-CardContent .SR-ListAssensing {
   display: list-item;
@@ -1369,6 +1375,26 @@ input[type=range]:focus::-ms-fill-upper {
   border-radius: 0px;
 }
 #chat-log .message .SR-CardButton .nonOpposedTest:hover {
+  color: #839c88;
+  box-shadow: none;
+}
+#chat-log .message .SR-CardButton .attackerTest {
+  background-color: #000001;
+  line-height: 20px;
+  margin: 5px 0px 0px 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-family: "srfoundry_bold";
+  text-transform: uppercase;
+  color: #fffffe;
+  font-size: 1em;
+  text-align: center;
+  border: 0px;
+  border-radius: 0px;
+}
+#chat-log .message .SR-CardButton .attackerTest:hover {
   color: #839c88;
   box-shadow: none;
 }

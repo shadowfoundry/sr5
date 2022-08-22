@@ -251,6 +251,7 @@
   "SR5.AssensingResult5c"                     : "The fact that a subject is a technomancer.",
   "SR5.AttackFiringMode"                      : "Attack Firing Mode",
   "SR5.AttackOptions"                         : "Attack options",
+  "SR5.AttackInfo"                            : "Attack informations",
   "SR5.AttackWith"                            : "Attack with",
   "SR5.AttackMissed"                          : "Missed attack",
   "SR5.Attribute"                             : "Attribute",
