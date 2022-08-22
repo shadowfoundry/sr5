@@ -2714,6 +2714,7 @@ SR5.effectTypes = {
   shaked                    : "SR5.STATUSES_Shaked",
   calledShot                : "SR5.CS_CalledShot",
   onPinsAndNeedles          : "SR5.STATUSES_OnPinsAndNeedles",
+  prone                     : "SR5.STATUSES_Prone",
 }
 
 SR5.effectDuration = {
@@ -2773,7 +2774,7 @@ SR5.fullDefense = {
 }
 
 //-----------------------------------//
-//        DICE POOL MODIFIERS        //
+//             MODIFIERS             //
 //-----------------------------------//
 SR5.dicePoolModTypes = {
   attribute                 : "SR5.Attribute",
@@ -2798,8 +2799,83 @@ SR5.dicePoolModTypes = {
   matrixNoiseReduction      : "SR5.NoiseReduction",
   publicGrid                : "SR5.GridPublicOn",
   targetGrid                : "SR5.GridTargetDifferent",
+  spiritAid                 : "SR5.SpiritAid",
+  spiritType                : "SR5.SpiritTypeBonus",
+  spellCategory             : "SR5.SpellCategoryBonus",
+  sensorLockMod             : "SR5.SensorLockedTarget",
+  signatureSize             : "SR5.TargetSize",
+  mark                      : "SR5.NumberOfWantedMarks",
+  centering                 : "SR5.MetamagicCentering",
+  spellShaping              : "SR5.MetamagicSpellShaping",
+  healingCondition          : "SR5.HealingConditions",
+  patientCooperation        : "SR5.UncooperativePatient",
+  patientAwakenedOrEmerged  : "SR5.PatientAwakenedOrEmerged",
+  healingSupplies           : "SR5.HealingSupplies",
+  escapeSituationWatched    : "SR5.EscapeArtistSituationWatched",
+  restrainerStrength        : "SR5.EscapeArtistSituationRestrained",
+  escapeSituationPicks      : "SR5.EscapeArtistSituationPicks",
+  distracted                : "SR5.PerceptionModDistracted",
+  specificallyLooking       : "SR5.PerceptionModSpecificallyLooking",
+  notInImmediateVicinity    : "SR5.PerceptionModNotInImmediateVicinity",
+  farAway                   : "SR5.PerceptionModFarAway",
+  standsOutInSomeWay        : "SR5.PerceptionModStandsOutInSomeWay",
+  interfering               : "SR5.PerceptionModInterfering",
+  camping                   : "SR5.SurvivalModCamping",
+  noFoundOrWater            : "SR5.SurvivalModNoFoundOrWater",
+  controlAvailable          : "SR5.SurvivalModControlAvailable",
+  clothing                  : "SR5.SurvivalModClothing",
+  travel                    : "SR5.SurvivalModTravel",
+  toxic                     : "SR5.SurvivalModToxic",
+  weather                   : "SR5.SurvivalWeather",
+  socialAttitude            : "SR5.SocialModAttitude",
+  socialResult              : "SR5.SocialModDesiredResult",
+  socialReputation          : "SR5.SocialModReputation",
+  socialReputationTarget    : "SR5.SocialModReputationTarget",
+  socialAce                 : "SR5.SocialModAce",
+  socialRomantic            : "SR5.SocialModRomantic",
+  socialIntoxicated         : "SR5.SocialModIntoxicated",
+  socialEvidence            : "SR5.SocialModEvidence",
+  socialIsDistracted        : "SR5.SocialModIsDistracted",
+  socialEvaluateSituation   : "SR5.SocialModEvaluateSituation",
+  socialBadLook             : "SR5.SocialModBadLook",
+  socialNervous             : "SR5.SocialModNervous",
+  socialIsDistractedInverse : "SR5.SocialModIsDistracted",
+  socialImposing            : "SR5.SocialModImposing",
+  socialImposingTarget      : "SR5.SocialModImposingTarget",
+  socialOutnumber           : "SR5.SocialModOutnumber",
+  socialOutnumberTarget     : "SR5.SocialModOutnumberTarget",
+  socialWieldingWeapon      : "SR5.SocialModWieldingWeapon",
+  socialWieldingWeaponTarget: "SR5.SocialModWieldingWeaponTarget",
+  socialTorture             : "SR5.SocialModTorture",
+  socialObliviousToDanger   : "SR5.SocialModObliviousToDanger",
+  socialRank                : "SR5.SocialModRank",
+  socialRankTarget          : "SR5.SocialModRankTarget",
+  socialAuthority           : "SR5.SocialModAuthority",
+  socialStrata              : "SR5.SocialModStrata",
+  socialFan                 : "SR5.SocialModFan",
+  socialLacksKnowledge      : "SR5.SocialModLacksKnowledge",
+  socialBlackmailed         : "SR5.SocialModBlackmailed",
+  workingCondition          : "SR5.WorkingCondition",
+  toolsAndParts             : "SR5.ToolsAndParts",
+  plansMaterial             : "SR5.PlansMaterial",
+  workingFromMemory         : "SR5.WorkingFromMemory",
+  calledShot                : "SR5.CS_CalledShot",
 }
 
+SR5.drainModTypes = {
+  recklessSpellcasting      : "SR5.RecklessSpellcasting",
+  trigger                   : "SR5.PreparationTrigger",
+  reagents                  : "SR5.Reagents",
+  hits                      : "SR5.DiceHits",
+  ritualResistance          : "SR5.Force",
+  spell                     : "SR5.DrainModifier",
+}
+
+SR5.limitModTypes = {
+  various                   : "SR5.LimitModifiers",
+  perception                : "SR5.SkillPerceptionType",
+  healingSupplies           : "SR5.HealingSupplies",
+}
 
 //-----------------------------------//
 //             BARRIERS              //

@@ -42,7 +42,7 @@ export default class SR5_RollDialog extends Dialog {
     updateDrainValue(html) {
         this.data.data.force = parseInt(html.find('[name="force"]')[0].value);
         if (html.find('[name="drainValue"]')[0]){
-            let drainModifier = this.data.data.drainMod.spell;
+            let drainModifier = this.data.data.drainMod.spell.value;
             for (let value of Object.values(this.drainModifier)){
                 drainModifier += value;
             }
@@ -211,7 +211,10 @@ export default class SR5_RollDialog extends Dialog {
             case "recklessSpellcasting":
                 if (isChecked) value = 3;
                 html.find(name)[0].value = value;
-                dialogData.drainMod.recklessSpellcasting = value;
+                dialogData.drainMod.recklessSpellcasting = {
+                    value: value,
+                    label: game.i18n.localize(SR5.drainModTypes[modifierName]),
+                }
                 this.drainModifier.recklessSpellcasting = value;
                 this.updateDrainValue(html);
                 return;
@@ -408,7 +411,10 @@ export default class SR5_RollDialog extends Dialog {
             case "limitModPerception":
             case "limitModVarious":
                 html.find(name)[0].value = value;
-                dialogData.limitMod[modifierName] = value;
+                dialogData.limitMod[modifierName] = {
+                    value: value,
+                    label: `${game.i18n.localize(SR5.limitModTypes[modifierName])}`,
+                }
                 this.limitModifier[modifierName] = value;
                 this.updateLimitValue(html);
                 return;
@@ -454,19 +460,15 @@ export default class SR5_RollDialog extends Dialog {
                     else value = 0;
                     break;
                 case "incomingPA":
-                case "armor":
-                    if (modifierName === "incomingPA"){
-                        let armorValue = parseInt((html.find('[data-modifier="armor"]')[0].value || 0));
-                        let incomingAP = parseInt((html.find('[data-modifier="incomingPA"]')[0].value || 0))
-                        if (armorValue >= -incomingAP) value = incomingAP;
-                        else {
-                            let usedAP = armorValue + incomingAP;
-                            value = incomingAP - usedAP;
-                        }
-                        this.dicePoolModifier.incomingPA = value;
-                        html.find('[data-modifier="incomingPA"]')[0].value = value;
-                        this.updateDicePoolValue(html);
+                    let armorValue = parseInt((html.find('[data-modifier="armor"]')[0].value || 0));
+                    let incomingAP = parseInt((html.find('[data-modifier="incomingPA"]')[0].value || 0))
+                    if (armorValue >= -incomingAP) value = incomingAP;
+                    else {
+                        let usedAP = armorValue + incomingAP;
+                        value = incomingAP - usedAP;
                     }
+                    break;
+                case "armor":
                     continue;
                 case "publicGrid":
                     if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired" && game.settings.get("sr5", "sr5MatrixGridRules")) value = -2;
@@ -480,10 +482,11 @@ export default class SR5_RollDialog extends Dialog {
                     this.updateFadingValue(html)
                     continue;
                 case "spiritType":
-                    if (dialogData.targetActor && dialogData.typeSub === "binding"){
+                    if (dialogData.targetActor && (dialogData.typeSub === "binding")){
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
                         let targetType = targetActor.data.data.type;
                         value = actorData.data.skills.binding.spiritType[targetType].dicePool - actorData.data.skills.binding.test.dicePool;
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetType])})`;
                     } else {
                         value = 0;
                     }
@@ -494,7 +497,10 @@ export default class SR5_RollDialog extends Dialog {
                     let essence = 6 - Math.ceil(dialogData.patientEssence);
                     value = -Math.floor(essence/2);
                     html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
-                    dialogData.dicePoolMod.patientEssence = value;
+                    dialogData.dicePoolMod.patientEssence = {
+                        value: value,
+                        label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${dialogData.patientEssence})`,
+                    }
                     this.dicePoolModifier.patientEssence = value;
                     this.updateDicePoolValue(html);
                     continue;
@@ -581,6 +587,7 @@ export default class SR5_RollDialog extends Dialog {
                     break
                 case "mark":
                     value = SR5_DiceHelper.convertMarkToMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${ev.target.value})`;
                     break;
                 case "matrixRange":
                     value = SR5_DiceHelper.convertMatrixDistanceToDiceMod(ev.target.value);
@@ -589,7 +596,14 @@ export default class SR5_RollDialog extends Dialog {
                         if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').show();
                         if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').show();
                         if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').show();
-                        if (dialogData.targetGrid !== actorData.data.matrix.userGrid) html.find('[name="dicePoolModTargetGrid"]')[0].value = -2;
+                        if (dialogData.targetGrid !== actorData.data.matrix.userGrid) {
+                            html.find('[name="dicePoolModTargetGrid"]')[0].value = -2;
+                            dialogData.dicePoolMod.targetGrid = {
+                                value: -2,
+                                label: `${game.i18n.localize(SR5.dicePoolModTypes["targetGrid"])} (${game.i18n.localize(SR5.gridTypes[html.find('[data-modifier="targetGrid"]')[0].value])})`,
+                            }
+                            this.dicePoolModifier.targetGrid = -2;
+                        }
                     }
                     else {
                         if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').hide();
@@ -611,13 +625,17 @@ export default class SR5_RollDialog extends Dialog {
                 case "spiritType":
                     if (ev.target.value !== ""){
                         value = actorData.data.skills.summoning.spiritType[ev.target.value].dicePool - actorData.data.skills.summoning.test.dicePool;
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[ev.target.value])})`;
                         dialogData.spiritType = ev.target.value;
                     } else value = 0;
                     break;
                 case "preparationTrigger":
                     value = SR5_DiceHelper.convertTriggerToMod(ev.target.value);
                     html.find(name)[0].value = value;
-                    dialogData.drainMod.trigger = value;
+                    dialogData.drainMod.trigger = {
+                        value: value,
+                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[ev.target.value])})`,
+                    };
                     dialogData.preparationTrigger = ev.target.value;
                     this.drainModifier.preparationTrigger = value;
                     this.updateDrainValue(html);
@@ -632,7 +650,6 @@ export default class SR5_RollDialog extends Dialog {
                     if (ev.target.value === "sight") {
                         $(html).find('#sightPerception').show();
                         if (canvas.scene) {
-                            console.log("ho");
                             dialogData.dicePoolMod.environmentalSceneMod = {
                                 value: SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData.data, true),
                                 label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
@@ -650,14 +667,17 @@ export default class SR5_RollDialog extends Dialog {
                         this.dicePoolModifier.environmental = 0;
                     }
                     dialogData.perceptionType = ev.target.value;
-                    dialogData.limitMod.perception = limitMod;
+                    dialogData.limitMod.perception = {
+                        value: limitMod,
+                        label: `${game.i18n.localize(SR5.limitModTypes["perception"])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`,
+                    }
                     this.limitModifier.perceptionType = limitMod;
                     html.find('[name="limitModPerception"]')[0].value = limitMod;
                     this.updateLimitValue(html);
                     break;
                 case "signatureSize":
                     value = SR5_DiceHelper.convertSignatureToDicePoolMod(ev.target.value);
-                    dialogData.signatureType = ev.target.value;
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.targetSignature[ev.target.value])})`;
                     break;
                 case "searchType":
                     value = SR5_DiceHelper.convertSearchTypeToThreshold(ev.target.value);
@@ -669,7 +689,8 @@ export default class SR5_RollDialog extends Dialog {
                     dialogData.damageType = ev.target.value;
                     return;
                 case "healingCondition":
-                    value = SR5_DiceHelper.convertHealingConditionToDiceMod(ev.target.value);        
+                    value = SR5_DiceHelper.convertHealingConditionToDiceMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingConditions[ev.target.value])})`;
                     dialogData.healingCondition = ev.target.value;
                     break;
                 case "healingSupplies":
@@ -688,7 +709,10 @@ export default class SR5_RollDialog extends Dialog {
                             if (medkit){
                                 value = medkit.rating;
                                 dialogData.itemId = medkit.id;
-                                dialogData.limitMod.healingSupplies = medkit.rating;
+                                dialogData.limitMod.healingSupplies = {
+                                    value: medkit.rating,
+                                    label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
+                                }
                                 this.limitModifier.healingSupplies = medkit.rating;
                                 html.find('[name="limitModHealingSupplies"]')[0].value = medkit.rating;
                             } else {
@@ -700,6 +724,7 @@ export default class SR5_RollDialog extends Dialog {
                         default:
                             value = 0;
                     }
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingSupplies[ev.target.value])})`;
                     break;
                 case "speedRammingAttacker":                
                     value = SR5_DiceHelper.convertSpeedToDamageValue(ev.target.value, actorData.data.attributes.body.augmented.value);
@@ -716,6 +741,7 @@ export default class SR5_RollDialog extends Dialog {
                     if (dialogData.typeSub === "counterspelling"){
                         let spellCategory = await this.getTargetType(dialogData.targetEffect);
                         value = parseInt(actorData.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actorData.data.skills.counterspelling.test.dicePool);
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
                     } else value = 0;
                     break;
                 case "objectType":
@@ -831,12 +857,20 @@ export default class SR5_RollDialog extends Dialog {
                 case "spiritType":
                     selectValue = html.find(name)[0].value;
                     inputValue = actorData.data.skills.summoning.spiritType[selectValue].dicePool - actorData.data.skills.summoning.test.dicePool;
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[selectValue])})`;
                     dialogData.spiritType = selectValue;
                     break;
+                case "spriteType":
+                    dialogData.spriteType = html.find(name)[0].value;
+                    continue;
                 case "preparationTrigger":
                     inputValue = SR5_DiceHelper.convertTriggerToMod(html.find('[data-modifier="preparationTrigger"]')[0].value);
                     dialogData.drainMod.trigger = inputValue;
                     dialogData.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
+                    dialogData.drainMod.trigger = {
+                        value: inputValue,
+                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.preparationTrigger])})`,
+                    };
                     this.drainModifier.preparationTrigger = inputValue;
                     this.updateDrainValue(html);
                     continue;
@@ -870,6 +904,7 @@ export default class SR5_RollDialog extends Dialog {
                     if (dialogData.typeSub === "counterspelling"){
                         let spellCategory = await this.getTargetType(dialogData.targetEffect);
                         inputValue = parseInt(actorData.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actorData.data.skills.counterspelling.test.dicePool);
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
                     } else inputValue = 0;
                     break;
             }

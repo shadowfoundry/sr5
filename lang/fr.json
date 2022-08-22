@@ -251,6 +251,7 @@
   "SR5.AssensingResult5c"                     : "Statut de technomancien du sujet le cas échéant.",
   "SR5.AttackFiringMode"                      : "Mode de tir de l'attaque",
   "SR5.AttackOptions"                         : "Options d'attaque",
+  "SR5.AttackInfo"                            : "Informations sur l'attaque",
   "SR5.AttackWith"                            : "Attaquer avec",
   "SR5.AttackMissed"                          : "Echec de l'attaque",
   "SR5.Attribute"                             : "Attribut",

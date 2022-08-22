@@ -1,5 +1,7 @@
-<hr>
-<li class="SR-ListAssensing">
+<li class="SR-ListAssensing SR-PaddingTop10">
+    {{#if (ne hits 0)}}
+    <div class="SR-LigneEnTete">{{localize 'SR5.ItemInformation'}}{{localize 'SR5.Colons'}}</div>
+    {{/if}}
     {{#if (eq hits 1)}}
     <ul class="SR-UlAssensing">
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1a'}}</li>

@@ -387,8 +387,6 @@ export class SR5Actor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    //super.prepareEmbeddedDocuments();
-
     const actorData = this.data;
     const lists = SR5;
 
@@ -439,6 +437,7 @@ export class SR5Actor extends Actor {
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
           SR5_UtilityItem._handleItemConcealment(iData);
+          SR5_UtilityItem._handleArmorValue(iData);
           if (iData.isActive) {
             if (iData.isCumulative) modifierType = game.i18n.localize("SR5.ArmorAccessory");
             else modifierType = game.i18n.localize("SR5.Armor");
@@ -679,7 +678,6 @@ export class SR5Actor extends Actor {
   }
 
   updateItems(actor) {
-    //super.prepareEmbeddedDocuments();
     let actorData = actor.data;
     for (let i of actorData.items) {
       let iData = i.data.data;
@@ -923,9 +921,11 @@ export class SR5Actor extends Actor {
     }
 
     //Currently, if duration is null, prone is comming from Damage
-    if (duration === null){
-      duration.type = "special";
-      duration.duration= 0;
+    if (!duration){
+      duration = {
+        type: "special",
+        duration: 0,
+      }
       source = "damage"
     }
 

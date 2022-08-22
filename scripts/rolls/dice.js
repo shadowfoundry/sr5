@@ -272,8 +272,8 @@ export class SR5_Dice {
 						}
 						if (dialogData.level) dialogData.limit = dialogData.level;
 						for (let key in dialogData.limitMod){
-							dialogData.limit += dialogData.limitMod[key];
-							if (dialogData.limitMod[key] !== 0) dialogData.hasLimitMod = true;
+							dialogData.limit += dialogData.limitMod[key].value;
+							if (dialogData.limitMod[key].value !== 0) dialogData.hasLimitMod = true;
 						}
 						dialogData.dicePoolModifiers = 0;
 						for (let key in dialogData.dicePoolMod){
@@ -1492,9 +1492,15 @@ export class SR5_Dice {
 				else cardData.drainType = "stun";
 				if (cardData.reagentsSpent > cardData.force) {
 					cardData.drainMod = {};
-					cardData.drainMod.hits = cardData.test.hits * 2;
+					cardData.drainMod.hits = {
+						value: cardData.test.hits * 2,
+						label: game.i18n.localize(SR5.drainModTypes["hits"]),
+					};
 					cardData.drainValue -= (cardData.reagentsSpent - cardData.force);
-					cardData.drainMod.reagents = -(cardData.reagentsSpent - cardData.force);
+					cardData.drainMod.reagents = {
+						value: -(cardData.reagentsSpent - cardData.force),
+						label: game.i18n.localize(SR5.drainModTypes["reagents"]),
+					};
 				}
 				key = "ritualSealed";
 				if (cardData.drainValue < 2) cardData.drainValue = 2;

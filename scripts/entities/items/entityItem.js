@@ -113,9 +113,7 @@ export class SR5Item extends Item {
           if (Object.keys(data.systemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
         }
         if (itemData.type === "itemArmor"){ 
-          if (Object.keys(data.itemEffects).length) {
-            SR5_UtilityItem.applyItemEffects(itemData);
-          }
+          if (Object.keys(data.itemEffects).length) SR5_UtilityItem.applyItemEffects(itemData);
           SR5_UtilityItem._handleArmorValue(data);
         }
         SR5_UtilityItem._handleItemCapacity(data);
