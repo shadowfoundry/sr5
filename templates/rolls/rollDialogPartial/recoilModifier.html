@@ -1,8 +1,16 @@
 <li class="grid">
-    <div class="col-2">
+    <div class="col-11">
         {{localize 'SR5.Recoil'}}{{localize 'SR5.Colons'}}
+        <a class="SR-DialogToggle" data-target="recoilDetail" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="recoilDetail" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
     </div>
-    <div class="col-9 SR-GreyColor SR-TextRight SR-PaddingRight10">
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="recoil" value="{{recoil}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<li class="grid" id="recoilDetail" style="display: none;">
+    <div class="col-10">
         <span><input disabled type="number" class="SR-RecoilInput" name="recoilBase" value="{{actorRecoil}}" placeholder="0" data-dtype="Number"/></span>
         <span>({{localize 'SR5.HELP_CalculationBase'}})</span>
         <span class="hideWeaponRecoil">+<input disabled type="number"class="SR-RecoilInput" name="recoilWeapon" value="{{weaponRecoil}}" placeholder="0" data-dtype="Number"/></span>
@@ -11,9 +19,9 @@
         <span class="hideBulletsRecoil">({{localize 'SR5.Bullets'}})</span>
         <span class="hideCumulativeRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilCumulative" value="{{actorRecoilCumulative}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideCumulativeRecoil">({{localize 'SR5.CumulativeRecoilShort'}})</span>
-        <span class="hideCumulativeRecoil"><a class="resetRecoil"><em class="far fa-registered"></em></a></span> 
+        <span class="hideCumulativeRecoil"></span> 
     </div>
-    <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="rcModifier" value="{{rcModifier}}" placeholder="0" data-dtype="Number" />
+    <div class="col-1 SR-TextRight SR-SubColor">
+        <a class="resetRecoil"><em class="fas fa-sm fa-sync"></em></a>
     </div>
 </li>

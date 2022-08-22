@@ -242,7 +242,7 @@ export class SR5Actor extends Actor {
             attribute: "statusBars.matrix",
           },
         });
-        let effect = SR5_CharacterUtility.generateInitiativeEffect("matrixInit");
+        let effect = await _getSRStatusEffect("matrixInit");
         let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect);
         const effects = this.effects.map(e => e.toObject());
         effects.push(initiativeEffect.toObject());
@@ -302,13 +302,15 @@ export class SR5Actor extends Actor {
       case "actorDrone":
         if (actor.flags.sr5?.vehicleControler) SR5_CharacterUtility.applyAutosoftEffect(actor);
         SR5_CharacterUtility.updateAttributes(actor);
-        SR5_CharacterUtility.updateInitiativePhysical(actor);
-        SR5_CharacterUtility.generateVehicleSkills(actor);
         SR5_CharacterUtility.updateResistances(actor);
         SR5_CharacterUtility.updateDefenses(actor);
-        SR5_CharacterUtility.generateVehicleTest(actor);
         SR5_CharacterUtility.updateRecoil(actor);
-        SR5_CharacterUtility.updateConditionMonitors(actor);
+        SR5_CharacterUtility.updateConditionMonitors(actor);        
+        SR5_CharacterUtility.updatePenalties(actor);        
+        SR5_CharacterUtility.updateInitiativePhysical(actor);
+        SR5_CharacterUtility.generateVehicleSkills(actor);
+        SR5_CharacterUtility.generateVehicleTest(actor);        
+        SR5_CharacterUtility.generateRammingTest(actor);
         SR5_CharacterUtility.updateVehicleSlots(actor);
         break;
       case "actorSpirit":
@@ -385,8 +387,6 @@ export class SR5Actor extends Actor {
   }
 
   prepareEmbeddedDocuments() {
-    //super.prepareEmbeddedDocuments();
-
     const actorData = this.data;
     const lists = SR5;
 
@@ -405,6 +405,7 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemPower":
+        case "itemMartialArt":
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
@@ -412,7 +413,6 @@ export class SR5Actor extends Actor {
 
         case "itemMetamagic":
         case "itemEcho":
-        case "itemMartialArt":
         case "itemPreparation":
         case "itemQuality":
           i.prepareData();
@@ -437,9 +437,10 @@ export class SR5Actor extends Actor {
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
           SR5_UtilityItem._handleItemConcealment(iData);
+          SR5_UtilityItem._handleArmorValue(iData);
           if (iData.isActive) {
-            if (iData.isCumulative) modifierType = "armorAccessory";
-            else modifierType = "armorMain";
+            if (iData.isCumulative) modifierType = game.i18n.localize("SR5.ArmorAccessory");
+            else modifierType = game.i18n.localize("SR5.Armor");
             if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actorData.data.itemsProperties.armor, `${i.name}`, modifierType, iData.armorValue.value);
             if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actorData.data.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
             if (Object.keys(iData.customEffects).length) {
@@ -625,17 +626,27 @@ export class SR5Actor extends Actor {
           break;
 
         case "itemVehicleMod":
-          i.prepareData();
+          iData.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(i.data, this);
+                if (iData.mountedWeapon){ 
+                  let weapon = this.items.find(w => w.id === iData.mountedWeapon);
+                  iData.mountedWeaponName = weapon.name;
+                }
           if (iData.isActive && Object.keys(iData.customEffects).length) {
             SR5_CharacterUtility.applyCustomEffects(i.data, actorData);
           }
-          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data);
+          if (iData.secondaryPropulsion.isSecondaryPropulsion && iData.isActive) {
+            SR5_CharacterUtility.handleSecondaryAttributes(actorData, i.data);
+          }          
+          SR5_CharacterUtility.updateModificationsSlots(actorData, i.data); 
+          SR5_CharacterUtility.handleVehiclePriceMultiplier(actorData, i.data);                     
           SR5_UtilityItem._handleItemPrice(iData);
           SR5_UtilityItem._handleItemAvailability(iData);
           break;
 
         case "itemVehicle":        
           i.prepareData();
+          actorData.data.matrix.connectedObject.vehicles[i.id] = i.name;
+          if (!iData.isSlavedToPan) actorData.data.matrix.potentialPanObject.vehicles[i.uuid] = i.name;
           SR5_UtilityItem._handleVehicleSlots(iData);
           break;
 
@@ -667,7 +678,6 @@ export class SR5Actor extends Actor {
   }
 
   updateItems(actor) {
-    //super.prepareEmbeddedDocuments();
     let actorData = actor.data;
     for (let i of actorData.items) {
       let iData = i.data.data;
@@ -732,8 +742,12 @@ export class SR5Actor extends Actor {
             }
           }
           break;
-        case "itemVehicleMod":
-            i.prepareData();
+        case "itemVehicleMod":          
+        if (!iData.isWeaponMounted) {
+          SR5_UtilityItem._resetWeaponMounted(iData);
+        }                             
+        SR5_UtilityItem._handleItemPrice(iData);
+        SR5_UtilityItem._handleItemAvailability(iData);
           break;
         case "itemWeapon":
         case "itemKnowledge":
@@ -742,6 +756,7 @@ export class SR5Actor extends Actor {
         case "itemSpritePower":
         case "itemAdeptPower":
         case "itemVehicle":
+        case "itemMartialArt":
           i.prepareData();
           break;
       }
@@ -753,8 +768,8 @@ export class SR5Actor extends Actor {
     SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
   }
 
-  //Applique les dégâts à l'acteur
-  async takeDamage(options) { //
+  //Apply Damae to actor
+  async takeDamage(options) {
     let damage = options.damageValue,
         damageType = options.damageType,
         actorData = deepClone(this.data),
@@ -859,10 +874,11 @@ export class SR5Actor extends Actor {
           && actorData.data.conditionMonitors.stun.actual.value < actorData.data.conditionMonitors.stun.value
           && actorData.data.conditionMonitors.physical.actual.value < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
           break;
-      case "actorGrunt":
-      case "actorDrone":
+      case "actorGrunt":        
         if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
+      case "actorDrone":
+        if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
         break;
       case "actorSprite":
       case "actorDevice":
@@ -883,16 +899,54 @@ export class SR5Actor extends Actor {
     }
   }
 
+  //Apply splitted damage to actor
+  async takeSplitDamage(messageData) {
+    let originalDamage = messageData.damageValue;
+    messageData.damageType = "stun";
+    messageData.damageValue = messageData.splittedDamageOne;
+    await this.takeDamage(messageData);
+    if (messageData.splittedDamageTwo){
+      messageData.damageType = "physical";
+      messageData.damageValue = messageData.splittedDamageTwo;
+      await this.takeDamage(messageData);
+    } else {
+      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoNoDamage", {armor: messageData.armor + messageData.incomingPA, damage:originalDamage})}`); 
+    }
+  }
+
   //Handle prone effect
-  async createProneEffect(damage, actorData, gelAmmo){
+  async createProneEffect(damage, actorData, gelAmmo, duration, source){
     for (let e of this.data.effects){
       if (e.data.flags.core?.statusId === "prone") return;
     }
-    let effect = await _getSRStatusEffect("prone");
-    await this.createEmbeddedDocuments('ActiveEffect', [effect]);
+
+    //Currently, if duration is null, prone is comming from Damage
+    if (!duration){
+      duration = {
+        type: "special",
+        duration: 0,
+      }
+      source = "damage"
+    }
+
+    let effect = {
+      name: `${game.i18n.localize("SR5.STATUSES_Prone")}`,
+      type: "itemEffect",
+      "data.type": "prone",
+      "data.source": source,
+      "data.target": game.i18n.localize("SR5.Special"),
+      "data.value": 0,
+      "data.durationType": duration.type,
+      "data.duration": duration.duration,
+    }
+
+    let statusEffect = await _getSRStatusEffect("prone");
+    await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
+    await this.createEmbeddedDocuments("Item", [effect]);
     if (damage >= 10) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
     else if (gelAmmo < 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
-    else ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
+    else if (damage > 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
+    else ui.notifications.info(`${this.name} ${game.i18n.format("SR5.INFO_DropProne")}`);
   }
 
   //Handle death effect
@@ -1177,6 +1231,12 @@ export class SR5Actor extends Actor {
     ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
   }
 
+  //Reset Cumulative Recoil
+  resetCumulativeDefense(){
+    this.setFlag("sr5", "cumulativeDefense", 0);
+    ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
+  }
+
   //Create a Sidekick
   static async createSidekick(item, userId, actorId){
     let itemData = item.data,
@@ -1306,10 +1366,14 @@ export class SR5Actor extends Actor {
         "data.model": itemData.model,
         "data.attributes.handling.natural.base": itemData.attributes.handling,
         "data.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
+        "data.attributes.secondaryPropulsionHandling.natural.base": itemData.secondaryPropulsion.handling,
+        "data.attributes.secondaryPropulsionHandlingOffRoad.natural.base": itemData.secondaryPropulsion.handlingOffRoad,
         "data.attributes.speed.natural.base": itemData.attributes.speed,
         "data.attributes.speedOffRoad.natural.base": itemData.attributes.speedOffRoad,
+        "data.attributes.secondaryPropulsionSpeed.natural.base": itemData.secondaryPropulsion.speed,
         "data.attributes.acceleration.natural.base": itemData.attributes.acceleration,
         "data.attributes.accelerationOffRoad.natural.base": itemData.attributes.accelerationOffRoad,
+        "data.attributes.secondaryPropulsionAcceleration.natural.base": itemData.secondaryPropulsion.acceleration,
         "data.attributes.body.natural.base": itemData.attributes.body,
         "data.attributes.armor.natural.base": itemData.attributes.armor,
         "data.attributes.pilot.natural.base": itemData.attributes.pilot,
@@ -1318,15 +1382,22 @@ export class SR5Actor extends Actor {
         "data.modificationSlots.powerTrain.base": itemData.modificationSlots.powerTrain,
         "data.modificationSlots.protection.base": itemData.modificationSlots.protection,
         "data.modificationSlots.weapons.base": itemData.modificationSlots.weapons,
+        "data.modificationSlots.extraWeapons": itemData.modificationSlots.extraWeapons,
+        "data.modificationSlots.extraBody": itemData.modificationSlots.extraBody,
         "data.modificationSlots.body.base": itemData.modificationSlots.body,
         "data.modificationSlots.electromagnetic.base": itemData.modificationSlots.electromagnetic,
         "data.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
         "data.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
         "data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
+        "data.isSecondaryPropulsion": itemData.secondaryPropulsion.isSecondaryPropulsion,
+        "data.secondaryPropulsionType": itemData.secondaryPropulsion.type,
         "data.pilotSkill": itemData.pilotSkill,
         "data.riggerInterface": itemData.riggerInterface,
         "data.offRoadMode": itemData.offRoadMode,
+        "data.price": itemData.price.base,
         "data.slaved": itemData.slaved,
+        "data.isSlavedToPan": itemData.isSlavedToPan,
+        "data.panMaster": itemData.panMaster,
         "data.vehicleOwner.id": actorId,
         "data.vehicleOwner.name": ownerActor.name,
         "data.controlMode": itemData.controlMode,
@@ -1416,10 +1487,14 @@ export class SR5Actor extends Actor {
       modifiedItem.data.offRoadMode = actor.data.offRoadMode; 
       modifiedItem.data.attributes.handling = actor.data.attributes.handling.natural.base;
       modifiedItem.data.attributes.handlingOffRoad = actor.data.attributes.handlingOffRoad.natural.base;
+      modifiedItem.data.secondaryPropulsion.handling = actor.data.attributes.secondaryPropulsionHandling.natural.base;
+      modifiedItem.data.secondaryPropulsion.handlingOffRoad = actor.data.attributes.secondaryPropulsionHandlingOffRoad.natural.base;
       modifiedItem.data.attributes.speed = actor.data.attributes.speed.natural.base;
       modifiedItem.data.attributes.speedOffRoad = actor.data.attributes.speedOffRoad.natural.base;
+      modifiedItem.data.secondaryPropulsion.speed = actor.data.attributes.secondaryPropulsionSpeed.natural.base;
       modifiedItem.data.attributes.acceleration = actor.data.attributes.acceleration.natural.base;
       modifiedItem.data.attributes.accelerationOffRoad = actor.data.attributes.accelerationOffRoad.natural.base;
+      modifiedItem.data.secondaryPropulsion.acceleration = actor.data.attributes.secondaryPropulsionAcceleration.natural.base;
       modifiedItem.data.attributes.body = actor.data.attributes.body.natural.base;
       modifiedItem.data.attributes.armor = actor.data.attributes.armor.natural.base;
       modifiedItem.data.attributes.pilot = actor.data.attributes.pilot.natural.base;
@@ -1428,11 +1503,15 @@ export class SR5Actor extends Actor {
       modifiedItem.data.modificationSlots.powerTrain = actor.data.modificationSlots.powerTrain.base;
       modifiedItem.data.modificationSlots.protection = actor.data.modificationSlots.protection.base;
       modifiedItem.data.modificationSlots.weapons = actor.data.modificationSlots.weapons.base;
+      modifiedItem.data.modificationSlots.extraWeapons = actor.data.modificationSlots.extraWeapons;
+      modifiedItem.data.modificationSlots.extraBody = actor.data.modificationSlots.extraBody;
       modifiedItem.data.modificationSlots.body = actor.data.modificationSlots.body.base;
       modifiedItem.data.modificationSlots.electromagnetic = actor.data.modificationSlots.electromagnetic.base;
       modifiedItem.data.modificationSlots.cosmetic = actor.data.modificationSlots.cosmetic.base;
       modifiedItem.data.conditionMonitors.condition.actual = actor.data.conditionMonitors.condition.actual;
       modifiedItem.data.conditionMonitors.matrix.actual = actor.data.conditionMonitors.matrix.actual;
+      modifiedItem.data.secondaryPropulsion.isSecondaryPropulsion = actor.data.isSecondaryPropulsion;
+      modifiedItem.data.secondaryPropulsion.type = actor.data.secondaryPropulsionType;
       modifiedItem.data.isCreated = false;
       modifiedItem.img = actor.img;
       itemOwner.update(modifiedItem);
@@ -1688,6 +1767,12 @@ export class SR5Actor extends Actor {
     }
   }
 
+  //Delete an itemEffect when the activeEffect is deleted
+  static async deleteItemEffectLinkedToActiveEffect(actorId, itemId){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
+    await actor.deleteEmbeddedDocuments("Item", [itemId]);
+  }
+
   //Apply specific toxin effect
   async applyToxinEffect(data){
     let effects, status, isStatusEffectOn;
@@ -1735,6 +1820,51 @@ export class SR5Actor extends Actor {
     if (toxinEffects.length) await this.createEmbeddedDocuments("Item", toxinEffects);
     if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
     if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
+  } 
+
+  //Apply specific called shots effect
+  async applyCalledShotsEffect(data){
+    let effects, status, weakSideEffect;
+    let cSEffects = [];
+    let statusEffects = [];
+
+    if (typeof data.calledShot.effects === "object") data.calledShot.effects = Object.values(data.calledShot.effects);
+
+    for (let key of Object.values(data.calledShot.effects)){
+      //Special for stunned, skip
+      if (key.name === "stunned") continue;
+
+      //special for called shot linked to weak side effect
+      if (data.calledShot.effects.find(e => e.name === "weakSide") && (data.calledShot.effects.find(e => e.name === "oneArmBandit") || data.calledShot.effects.find(e => e.name === "brokenGrip"))) {
+        data.calledShot.effects = data.calledShot.effects.filter(e => e.name !== "weakSide");
+        weakSideEffect = true;
+        if (key.name === "weakSide") continue;
+      }
+
+      //Get the itemEffect
+      effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this, weakSideEffect);
+
+      //Skip for "prone" effect as it is already applied by getCalledShotsEffect()
+      if (key.name === "buckled" || key.name === "knockdown") continue;
+      cSEffects = cSEffects.concat(effects);
+
+      if (!this.effects.find(e => e.data.origin === key.name)){
+        status = await _getSRStatusEffect(key.name);
+        statusEffects = statusEffects.concat(status);
+        ui.notifications.info(`${this.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
+      }
+    }
+  
+    if (weakSideEffect){
+      if (!this.effects.find(e => e.data.origin === "weakSide")){
+        status = await _getSRStatusEffect("weakSide");
+        statusEffects = statusEffects.concat(status);
+        ui.notifications.info(`${this.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
+      }
+    }
+
+    if (cSEffects.length) await this.createEmbeddedDocuments("Item", cSEffects);
+    if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
   }
 
   //Keep Agent condition Monitor synchro with Owner deck
@@ -1796,6 +1926,23 @@ export class SR5Actor extends Actor {
     await this.update(actorData);
   }
 
+  //Manage Healing
+  static async heal(targetActorID, data){
+    let damageToRemove = data.test.hits,
+        damageType = data.typeSub,
+        targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
+        actorData = deepClone(targetActor.data);
+        
+    actorData = actorData.toObject(false);
+    actorData.data.conditionMonitors[damageType].actual.base -= damageToRemove;
+    await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
+    await targetActor.update(actorData);
+  }
+
+  //Manage Healing by socket
+  static async _socketHeal(message){
+    await SR5Actor.heal(message.data.targetActor, message.data.healData);
+  }
 }
 
 CONFIG.Actor.documentClass = SR5Actor;

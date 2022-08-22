@@ -1,15 +1,16 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.NumberOfWantedMarks'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6">
-        <select class="mark" name="mark">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModMarkWanted" data-modifier="mark" name="mark">
             {{#select mark}}
-            <option value="0">1 {{localize 'SR5.Mark'}}</option>
-            <option value="4">2 {{localize 'SR5.Marks'}}</option>
-            <option value="10">3 {{localize 'SR5.Marks'}}</option>
+            <option value="1">1 {{localize 'SR5.Mark'}}</option>
+            <option value="2">2 {{localize 'SR5.Marks'}}</option>
+            <option value="3">3 {{localize 'SR5.Marks'}}</option>
             {{/select}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="dicePoolModMarkWanted" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModMarkWanted" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+<!--SR-ModSelectFilled-->

@@ -1,242 +1,147 @@
 <form class="SR5jet">
-  <div class="">
-    <ul>
-      <!-- DICEPOOL -->
-      {{#if (eq type "objectResistance")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html}}
-      {{else}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/dicePool.html}}
-      {{/if}}
+  	<div >
+		<ul>
+	  	<!-- BASE DICEPOOL -->
+	  	{{#if (eq type "objectResistance")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html}}
+	  	{{else}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/dicePool.html}}
+	  	{{/if}}
 
-      <!-- WOUND MODIFIER-->
-      {{#if switch.penalty}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html}}
-      {{/if}}
+	  	<!-- MODIFIERS -->
+		{{#if (ne type "passThroughDefense")}}
+	  		{{> systems/sr5/templates/rolls/rollDialogPartial/modifiers.html}}
+		{{/if}}
 
-      <!-- SPECIALIZATION -->
-      {{#if switch.specialization}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html}}
-      {{/if}}
+	  	<!-- ATTACK -->
+	  	{{#if (eq type "attack")}}
+			{{#if (eq typeSub "rangedWeapon")}}
+		  		<!-- ATTACK - FIRING MODIFIERS -->
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html}}
+			{{/if}}
+			{{#if (eq typeSub "meleeWeapon")}}
+		  		<!-- ATTACK - MELEE MODIFIERS -->
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/meleeModifier.html}}
+			{{/if}}
+			{{#if (or (eq typeSub "rangedWeapon") (eq typeSub "grenade") )}}
+		  		<!-- ATTACK - RANGE -->
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html}}
+			{{/if}}
+			{{#if (eq typeSub "rangedWeapon")}}
+				<!-- ATTACK - RECOIL COMPENSATION -->
+				{{> systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html}}
+			{{/if}}
+			{{#if (and (or (eq typeSub "rangedWeapon") (eq typeSub "meleeWeapon")) rulesCalledShot )}}
+        		<!-- CALLED SHOTS -->
+        		{{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
+        	{{/if}}
+			<!-- ATTACK - AMMO -->
+			{{#if (and (eq type "attack") (eq typeSub "rangedWeapon") )}}
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}
+			{{/if}}
+		{{/if}}
 
-      <!-- ATTACK -->
-      {{#ife type "attack"}}
-        {{#ife typeSub "rangedWeapon"}}
-        <!-- ATTACK - WEAPON MODE -->      
-        {{> systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html}}
-        <!-- ATTACK - RECOIL COMPENSATION -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html}}  
-        {{/ife}}
-        {{#if (or (eq typeSub "rangedWeapon") (eq typeSub "grenade") )}}
-        <!-- ATTACK - RANGE -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html}} 
-        {{/if}}
-        <!-- ENVIRONMENTAL MODIFIERS -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
-      {{/ife}}
+		<!-- DEFENSES -->
+		{{#if (or (eq type "defenseCard") (eq type "rammingDefense") (eq type "defense"))}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/defenseOptions.html}}
+		{{/if}}
 
-      <!-- ATTRIBUTE CHOICE -->
-      {{#if switch.attribute}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
-      {{/if}}
+	  	<!-- SPELL -->
+	  	{{#if (eq type "spell")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/spellOptions.html}}
+	  	{{/if}}
 
-      <!-- SPIRIT AID -->
-      {{#if switch.spiritAid}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html}}
-      {{/if}}
+		<!-- PREPARATION FORMULA -->
+		{{#if (eq type "preparationFormula")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/preparationFormulaOptions.html}}
+	  	{{/if}}
 
-      <!-- SPELL SHAPING METAMAGIC -->
-      {{#if switch.spellShaping}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html}}
-      {{/if}}
+		<!-- RITUAL -->
+		{{#if (eq type "ritual")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/ritualOptions.html}}
+	  	{{/if}}
 
-      <!-- SPELLS - FORCE - BACKGROUND COUNT -->
-      {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "ritual")  )}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
-        {{#if switch.canUseReagents}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
-        {{/if}}
-      {{/if}}
+		<!-- SUMMONING -->
+		{{#if (eq typeSub "summoning")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/summoningOptions.html}}
+		{{/if}}
 
-      {{#if (eq type "preparation")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
-      {{/if}}
+	  	<!-- DRAIN -->
+	  	{{#if (or (eq type "spell") (eq type "preparationFormula") )}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/drain.html}}
+	  	{{/if}}
 
-      <!-- TARGET TYPE MODIFIERS -->
-      {{#if (eq typeSub "binding")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html}}
-      {{/if}}
+		<!-- MATRIX ACTION -->
+		{{#if (eq type "matrixAction")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/matrixActionsOptions.html}}
+		{{/if}}
 
-      <!-- DRAIN -->
-      {{#if (or (eq type "spell") (eq type "preparationFormula") )}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/drain.html}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/drainBase.html}}
-        {{#if (eq type "spell")}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/recklessSpellcasting.html}}
-        {{/if}}
-      {{/if}}
+	  	<!-- COMPLEX FORM - LEVEL AND FADING -->
+	  	{{#if (eq type "complexForm")}}
+		  	{{> systems/sr5/templates/rolls/rollDialogPartial/complexFormOptions.html}}
+			<!-- FADING -->
+			{{> systems/sr5/templates/rolls/rollDialogPartial/fading.html}}
+	  	{{/if}}
 
-      <!-- PREPARATION TRIGGER -->
-      {{#if (eq type "preparationFormula") }}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/preparationTrigger.html}}
-      {{/if}}
+		<!-- RESONANCE ACTION -->
+		{{#if (eq type "resonanceAction")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/resonanceActionsOptions.html}}
+		{{/if}}
 
-      <!-- COMPLEX FORM - LEVEL AND FADING -->
-      {{#ife type "complexForm"}}
-        <!-- NOISE -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html}}
-        <!-- LEVEL -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/level.html}}
-        <!-- FADING -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/fading.html}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/fadingBase.html}}
-      {{/ife}}
+		<!-- ASTRAL COMBAT DAMAGE CHOICE -->
+		{{#if switch.chooseDamageType}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html}}
+		{{/if}}
 
-      <!-- SPECIFIC SKILL TEST -->
-      {{#if (or (eq type 'skill') (eq type 'skillDicePool'))}}
-        <!-- PERCEPTION -->
-        {{#ife typeSub "perception"}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
-        {{/ife}}
-        <!-- SUMMONS - FORCE AND TYPE -->
-        {{#ife typeSub "summoning"}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/summoningModifier.html}}
-          {{#if switch.canUseReagents}}
-            {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
-          {{/if}}
-        {{/ife}}
-      {{/if}}
+		<!-- MANA BARRIER RATING -->
+		{{#if (eq type "passThroughDefense")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html}}
+		{{/if}}
+	  	
+		<!-- COUNTER SPELL / DISENCHANTING - CHOOSE TARGET -->
+		{{#if (and (or (eq typeSub "counterspelling") (eq typeSub "disenchanting")) hasTarget)}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
+		{{/if}}
 
-      <!-- POWER TEST -->
-      {{#if (eq type "power")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
-      {{/if}}
+		<!-- RAMMING TEST -->
+	  	{{#if (eq type "rammingTest")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/rammingOptions.html}}
+	  	{{/if}}
 
-      <!-- DEFENSES -->
-      {{#ife type "defenseCard"}}
-        <!-- DEFENSE - FIRING MODE -->
-        {{#ife typeSub "rangedWeapon"}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
-        {{/ife}}
-        <!-- DEFENSE - REACH -->
-        {{#ife typeSub 'meleeWeapon'}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
-        {{/ife}}
-        <!-- ACTIVE DEFENSE -->
-        {{#if (eq typeSub "meleeWeapon")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
-        <!-- ENVIRONMENTAL MODIFIERS -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}} 
-        {{/if}}
-        <!-- CUMULATIVE DEFENSE -->
-        {{#if_g cumulativeDefense 0}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/defenseCumulativeModifier.html}}
-        {{/if_g}}
-      {{/ife}}
-      
-      <!-- COVERS -->
-      {{#if cover}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/coverModifier.html}}
-      {{/if}}
+	  	<!-- LIMIT -->
+	  	{{#if limit}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
+			<!-- REAGENTS -->
+			{{#if switch.canUseReagents}}
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+			{{/if}}
+	  	{{/if}}
 
-      <!-- FULL DEFENSE -->
-      {{#if defenseFull}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
-      {{/if}}
-      
-      <!-- MATRIX ACTION -->
-      {{#ife type "matrixAction"}}
-        <!-- MATRIX ACTION - MARKS REQUIRED -->
-        {{#if (or (eq typeSub "hackOnTheFly") (eq typeSub "bruteForce"))}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/markModifier.html}}
-        {{/if}}
-        <!-- NOISE -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html}}
-        <!-- GRID -->
-        {{#if switch.publicGrid}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html}}
-        {{/if}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html}}
-        <!-- MATRIX SEARCH -->
-        {{#if (eq typeSub "matrixSearch")}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html}}
-        {{/if}}
-      {{/ife}}
+	  	<!-- ESCAPE ARTIST THRESHOLD-->
+	  	{{#if (eq typeSub "escapeArtist")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html}}
+	  	{{/if}}
 
-      <!-- RESONANCE ACTION -->
-      {{#ife type "resonanceAction"}}
-        <!-- NOISE -->
-        {{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html}}
-        <!-- SPRITE - LEVEL AND TYPE -->
-        {{#if (eq typeSub "compileSprite")}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.html}}
-        {{/if}}
-        <!-- KILL COMPLEX FORM - CHOOSE TARGET -->
-        {{#if (and (eq typeSub "killComplexForm") hasTarget)}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
-        {{/if}}
-      {{/ife}}
+	  	<!-- PERCEPTION THRESHOLD-->
+	  	{{#if (eq typeSub "perception")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/perceptionThreshold.html}}
+	  	{{/if}}
 
-      <!-- EXTENDED TEST -->
-      {{#if switch.extended}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
-      {{/if}}
+	  	<!-- SURVIVAL THRESHOLD-->
+	  	{{#if (eq typeSub "survival")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/survivalThreshold.html}}
+	  	{{/if}}
 
-      <!-- ASTRAL COMBAT DAMAGE CHOICE -->
-      {{#if switch.chooseDamageType}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html}}
-      {{/if}}
+	  	<!-- MATRIX SEARCH THRESHOLD-->
+	  	{{#if (eq typeSub "matrixSearch")}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/matrixSearchThreshold.html}}
+	  	{{/if}}
 
-      <!-- MANA BARRIER RATING -->
-      {{#if (eq type "passThroughDefense")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html}}
-      {{/if}}
-
-      <!-- TAKING ON DAMAGE -->
-      {{#if (and (eq type "resistanceCard") (eq typeSub "physicalDamage") )}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
-      {{/if}}
-
-      <!-- SIGNATURE TARGETING -->
-      {{#ife type "activeSensorTargeting"}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/signature.html}}
-      {{/ife}}
-
-      <!-- SENSOR LOCK -->
-      {{#if switch.isSensorLocked}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html}}
-      {{/if}}
-
-      <!-- LIMIT -->
-      {{#if limit}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
-        <!-- REAGENTS -->
-        {{#if switch.canUseReagents}}
-          {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
-        {{/if}}
-      {{/if}}
-
-      <!-- ATTACK - AMMO -->
-      {{#if (and (eq type "attack") (eq typeSub "rangedWeapon") )}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}
-      {{/if}}
-
-      <!-- RESIST FIRE -->
-      {{#if (eq type "resistFire")}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html}}
-      {{/if}}
-
-      <!-- COUNTER SPELL / DISENCHANTING - CHOOSE TARGET -->
-      {{#if (and (or (eq typeSub "counterspelling") (eq typeSub "disenchanting")) hasTarget)}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
-      {{/if}}
-
-      <!-- CENTERING METAMAGIC -->
-      {{#if switch.centering}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
-      {{/if}}
-    </ul>
+	  	<!-- EXTENDED TEST -->
+	  	{{#if switch.extended}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
+	  	{{/if}}
+	</ul>
   </div>
 
 </form>

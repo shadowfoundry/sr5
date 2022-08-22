@@ -118,6 +118,11 @@ SR5.characterConditionMonitors = {
   condition                 : "SR5.ConditionMonitorShort",
 };
 
+SR5.PCConditionMonitors = {
+  physical                  : "SR5.ConditionMonitorPhysicalShort",
+  stun                      : "SR5.ConditionMonitorStunShort",
+};
+
 SR5.characterOtherMonitors = {
   overflow                  : "SR5.ConditionMonitorPhysicalOverflowShort",
   edge                      : "SR5.Edge",
@@ -299,7 +304,7 @@ SR5.technicalSkills = {
   hardware                  : "SR5.SkillHardware",
   industrialMechanic        : "SR5.SkillIndustrialMechanic",
   locksmith                 : "SR5.SkillLocksmith",
-  medecine                  : "SR5.SkillMedecine",
+  medecine                  : "SR5.SkillMedicine",
   nauticalMechanic          : "SR5.SkillNauticalMechanic",
   navigation                : "SR5.SkillNavigation",
   software                  : "SR5.SkillSoftware",
@@ -466,8 +471,9 @@ SR5.weaponModesCode = {
   SB                        : "SR5.WeaponModeSBShort",
   BF                        : "SR5.WeaponModeBFShort",
   LB                        : "SR5.WeaponModeLBShort",
-  FAs                       : "SR5.WeaponModeFA",
-  SF                        : "SR5.WeaponModeSF",
+  FA                        : "SR5.WeaponModeFAShort",
+  FAc                       : "SR5.WeaponModeFAcShort",
+  SF                        : "SR5.WeaponModeSFShort",
 };
 
 // Weapon Ranges
@@ -600,7 +606,10 @@ SR5.ammunitionTypes = {
   exExplosive               : "SR5.AmmunitionTypeExExplosive",
   explosive                 : "SR5.AmmunitionTypeExplosive",
   flechette                 : "SR5.AmmunitionTypeFlechette",
+  gyrojet                   : "SR5.AmmunitionTypeGyrojet",
+  gyrojetTaser              : "SR5.AmmunitionTypeGyrojetTaser",
   injection                 : "SR5.AmmunitionTypeInjectionDart",
+  flare                     : "SR5.AmmunitionTypeFlare",
   frangible                 : "SR5.AmmunitionTypeFrangible",
   gel                       : "SR5.AmmunitionTypeGel",
   regular                   : "SR5.AmmunitionTypeRegular",
@@ -654,6 +663,7 @@ SR5.ammunitionLauncherTypes = {
 
 SR5.ammunitionCannonTypes = {
   assaultCannon             : "SR5.AmmunitionTypeAssaultCannon",
+  gauss                     : "SR5.AmmunitionTypeGauss"
 };
 
 SR5.ammunitionTaserTypes = {
@@ -800,6 +810,109 @@ SR5.toxinEffects = {
   paralysis                 : "SR5.ToxinEffectParalysis",
 };
 
+//Cover
+SR5.coverTypes = {
+  none                      : "SR5.CoverNone",
+  partial                   : "SR5.CoverPartial",
+  full                      : "SR5.CoverFull",
+}
+
+
+// Called Shots
+SR5.calledShots = {
+  ammoSpecific              : "SR5.CS_AmmoSpecific",
+  blastOutOfHand            : "SR5.CS_BlastOutOfHand",
+  dirtyTrick                : "SR5.CS_DirtyTrick",
+  entanglement              : "SR5.CS_Entanglement",
+  pin                       : "SR5.CS_Pin",
+  shakeUp                   : "SR5.CS_ShakeUp",
+  splittingDamage           : "SR5.CS_SplittingDamage",
+  specificTarget            : "SR5.CS_SpecificTarget",
+  trickShot                 : "SR5.CS_TrickShot",
+  disarm                    : "SR5.CS_Disarm",
+  feint                     : "SR5.CS_Feint",
+  knockdown                 : "SR5.CS_Knockdown",
+  reversal                  : "SR5.CS_Reversal",
+  extremeIntimidation       : "SR5.CS_AS_ExtremeIntimidation",
+  ricochetShot              : "SR5.CS_AS_RicochetShot",
+  warningShot               : "SR5.CS_AS_WarningShot",
+  hitEmWhereItCounts        : "SR5.CS_AS_HitEmWhereItCounts",
+  onPinsAndNeedles          : "SR5.CS_AS_OnPinsAndNeedles",
+  shreddedFlesh             : "SR5.CS_AS_ShreddedFlesh",
+  tag                       : "SR5.CS_AS_Tag",
+  throughAndInto            : "SR5.CS_AS_ThroughAndInto",
+  upTheAnte                 : "SR5.CS_AS_UpTheAnte",
+  harderKnock               : "SR5.CS_HarderKnock",
+  vitals                    : "SR5.CS_Vitals",
+};
+
+SR5.calledShotsSpecifics = {  
+  ankle                     : "SR5.CS_ST_Ankle",
+  ear                       : "SR5.CS_ST_Ear",
+  eye                       : "SR5.CS_ST_Eye",
+  foot                      : "SR5.CS_ST_Foot",
+  forearm                   : "SR5.CS_ST_Forearm",
+  genitals                  : "SR5.CS_ST_Genitals",
+  gut                       : "SR5.CS_ST_Gut",
+  hand                      : "SR5.CS_ST_Hand",
+  hip                       : "SR5.CS_ST_Hip",
+  jaw                       : "SR5.CS_ST_Jaw",
+  knee                      : "SR5.CS_ST_Knee",
+  neck                      : "SR5.CS_ST_Neck",
+  shin                      : "SR5.CS_ST_Shin",
+  shoulder                  : "SR5.CS_ST_Shoulder",
+  sternum                   : "SR5.CS_ST_Sternum",
+  thigh                     : "SR5.CS_ST_Thigh",  
+  engineBlock               : "SR5.CS_ST_EngineBlock",
+  fuelTankBattery           : "SR5.CS_ST_FuelTankBattery",
+  axle                      : "SR5.CS_ST_Axle",
+  antenna                   : "SR5.CS_ST_Antenna",
+  doorLock                  : "SR5.CS_ST_DoorLock",
+  windowMotor               : "SR5.CS_ST_WindowMotor",  
+  bellringer                : "SR5.CS_AS_Bellringer",
+  bullsEye                  : "SR5.CS_AS_BullsEye",
+  downTheGullet             : "SR5.CS_AS_DownTheGullet",
+  extremeIntimidation       : "SR5.CS_AS_ExtremeIntimidation",
+  fingerPopper              : "SR5.CS_AS_FingerPopper",
+  flashBlind                : "SR5.CS_AS_FlashBlind",
+  flameOn                   : "SR5.CS_AS_FlameOn",
+  hereMuckInYourEye         : "SR5.CS_AS_HereMuckInYourEye",
+  shakeRattle               : "SR5.CS_AS_ShakeRattle",
+}
+
+// Called Shots Effects
+SR5.calledShotsEffects = {
+  slowed                   : "SR5.STATUSES_Slowed",
+  winded                   : "SR5.STATUSES_Winded",
+  deafened                 : "SR5.STATUSES_Deafened",
+  stunned                  : "SR5.STATUSES_Stunned",
+  blinded                  : "SR5.STATUSES_Blinded",
+  brokenGrip               : "SR5.STATUSES_BrokenGrip",
+  weakSide                 : "SR5.STATUSES_WeakSide",
+  nauseous                 : "SR5.STATUSES_Nauseous",
+  buckled                  : "SR5.STATUSES_Buckled",
+  slowDeath                : "SR5.STATUSES_SlowDeath",
+  knockdown                : "SR5.STATUSES_Knockdown",
+  unableToSpeak            : "SR5.STATUSES_UnableToSpeak",
+  bleedOut                 : "SR5.STATUSES_BleedOut",
+  oneArmBandit             : "SR5.STATUSES_OneArmBandit",
+  fatigued                 : "SR5.STATUSES_Fatigued",
+  pin                      : "SR5.STATUSES_Pin",
+  dirtyTrick               : "SR5.STATUSES_DirtyTrick",
+  entanglement             : "SR5.STATUSES_Entanglement",
+  trickShot                : "SR5.STATUSES_TrickShot",
+  antenna                  : "SR5.STATUSES_Antenna",
+  engineBlock              : "SR5.STATUSES_EngineBlock",
+  windowMotor              : "SR5.STATUSES_WindowMotor",
+  doorLock                 : "SR5.STATUSES_DoorLock",
+  axle                     : "SR5.STATUSES_Axle",
+  fuelTankBattery          : "SR5.STATUSES_FuelTankBattery",  
+  flared                   : "SR5.STATUSES_Flared",  
+  shaked                   : "SR5.STATUSES_Shaked",
+  onPinsAndNeedles         : "SR5.STATUSES_OnPinsAndNeedles",
+  feint                    : "SR5.STATUSES_Feint",
+};
+
 
 //-----------------------------------//
 //              ITEMS                //
@@ -824,9 +937,24 @@ SR5.valueMultipliersNoRating = {
   capacity                  : "SR5.Capacity",
 };
 
+SR5.valueMultipliersVehicle = {
+  acceleration              : "SR5.VehicleStat_AccelerationShort",
+  handling                  : "SR5.VehicleStat_HandlingShort",
+  body                      : "SR5.VehicleStat_BodyShort",
+  speed                     : "SR5.VehicleStat_SpeedShort",
+  seating                   : "SR5.Vehicle_SeatingShort",
+  vehicle                   : "SR5.VehicleFull",
+};
+
 SR5.valueMultipliers = {
   ...SR5.valueMultipliersNoCapacity,
   ...SR5.valueMultipliersNoRating,
+};
+
+SR5.valueMultipliersAll = {
+  ...SR5.valueMultipliersNoCapacity,
+  ...SR5.valueMultipliersNoRating,
+  ...SR5.valueMultipliersVehicle,
 };
 
 // Addiction types
@@ -947,6 +1075,145 @@ SR5.knowledgeSkillTypes = {
   tactics                   : "SR5.KnowledgeSkillTactics",
 };
 
+SR5.healingConditions = {
+  good                      : "SR5.HealingConditionsGoodShort",
+  average                   : "SR5.HealingConditionsAverageShort",
+  poor                      : "SR5.HealingConditionsPoorShort",
+  bad                       : "SR5.HealingConditionsBadShort",
+  terrible                  : "SR5.HealingConditionsTerribleShort",
+}
+
+SR5.healingSupplies = {
+  noSupplies                : "SR5.HealingSuppliesNone",
+  improvised                : "SR5.HealingSuppliesImprovised",
+  medkit                    : "SR5.HealingSuppliesMedkit",
+}
+
+SR5.restraintType = {
+  rope                      : "SR5.RestraintTypeRope",
+  metal                     : "SR5.RestraintTypeMetal",
+  straitjacket              : "SR5.RestraintTypeStraitjacket",
+  containment               : "SR5.RestraintTypeContainment",
+}
+
+SR5.perceptionModifiers = {
+  distracted                : "SR5.PerceptionModDistracted",
+  specificallyLooking       : "SR5.PerceptionModSpecificallyLooking",
+  notInImmediateVicinity    : "SR5.PerceptionModNotInImmediateVicinity",
+  farAway                   : "SR5.PerceptionModFarAway",
+  standsOutInSomeWay        : "SR5.PerceptionModStandsOutInSomeWay",
+  interfering               : "SR5.PerceptionModInterfering",
+}
+
+SR5.perceptionThresholdType = {
+  opposed                   : "SR5.Opposed",
+  obvious                   : "SR5.PerceptionThresholdObvious",
+  normal                    : "SR5.PerceptionThresholdNormal",
+  obscured                  : "SR5.PerceptionThresholdObscured",
+  hidden                    : "SR5.PerceptionThresholdHidden",
+}
+
+SR5.survivalModifiers = {
+  camping                   : "SR5.SurvivalModCamping",
+  noFoundOrWater            : "SR5.SurvivalModNoFoundOrWater",
+  controlAvailable          : "SR5.SurvivalModControlAvailable",
+  clothing                  : "SR5.SurvivalModClothing",
+  travel                    : "SR5.SurvivalModTravel",
+  toxic                     : "SR5.SurvivalModToxic",
+}
+
+SR5.survivalTerrain = {
+  mild                      : "SR5.SurvivalTerrainMild",
+  moderate                  : "SR5.SurvivalTerrainModerate",
+  tough                     : "SR5.SurvivalTerrainTough",
+  extreme                   : "SR5.SurvivalTerrainExtreme",
+}
+
+SR5.survivalWeather = {
+  poor                      : "SR5.SurvivalWeatherPoor",
+  terrible                  : "SR5.SurvivalWeatherTerrible",
+  extreme                   : "SR5.SurvivalWeatherExtreme",
+}
+
+SR5.socialAttitude = {
+  friendly                  : "SR5.SocialModAttitudeFriendly",
+  neutral                   : "SR5.SocialModAttitudeNeutral",
+  suspicious                : "SR5.SocialModAttitudeSuspicious",
+  prejudiced                : "SR5.SocialModAttitudePrejudiced",
+  hostile                   : "SR5.SocialModAttitudeHostile",
+  enemy                     : "SR5.SocialModAttitudeEnemy",
+}
+
+SR5.socialResult = {
+  advantageous              : "SR5.SocialModDesiredResultAdvantageous",
+  ofNoValue                 : "SR5.SocialModDesiredResultOfNoValue",
+  annoying                  : "SR5.SocialModDesiredResultAnnoying",
+  harmful                   : "SR5.SocialModDesiredResultHarmful",
+  disastrous                : "SR5.SocialModDesiredResultDisastrous",
+}
+
+SR5.socialMod = {
+  reputation                : "SR5.SocialModReputation",
+  reputationTarget          : "SR5.SocialModReputationTarget",
+  ace                       : "SR5.SocialModAce",
+  romantic                  : "SR5.SocialModRomantic",
+  intoxicated               : "SR5.SocialModIntoxicated",
+}
+
+SR5.conModifier = {
+  evidence                  : "SR5.SocialModEvidence",
+  evaluateSituation         : "SR5.SocialModEvaluateSituation",
+  isDistracted              : "SR5.SocialModIsDistracted",
+}
+
+SR5.etiquetteModifier = {
+  badLook                   : "SR5.SocialModBadLook",
+  nervous                   : "SR5.SocialModNervous",
+  isDistractedInverse       : "SR5.SocialModIsDistracted",
+}
+
+SR5.intimidationModifier = {
+  imposing                  : "SR5.SocialModImposing",
+  imposingTarget            : "SR5.SocialModImposingTarget",
+  outnumber                 : "SR5.SocialModOutnumber",
+  outnumberTarget           : "SR5.SocialModOutnumberTarget",
+  wieldingWeapon            : "SR5.SocialModWieldingWeapon",
+  wieldingWeaponTarget      : "SR5.SocialModWieldingWeaponTarget",
+  torture                   : "SR5.SocialModTorture",
+  obliviousToDanger         : "SR5.SocialModObliviousToDanger",
+}
+
+SR5.leadershipModifier = {
+  rank                      : "SR5.SocialModRank",
+  rankTarget                : "SR5.SocialModRankTarget",
+  authority                 : "SR5.SocialModAuthority",
+  strata                    : "SR5.SocialModStrata",
+  fan                       : "SR5.SocialModFan",
+}
+
+SR5.negociationModifier = {
+  lacksKnowledge            : "SR5.SocialModLacksKnowledge",
+  blackmailed               : "SR5.SocialModBlackmailed",
+}
+
+SR5.workingCondition = {
+  distracting               : "SR5.WorkingConditionDistracting",
+  poor                      : "SR5.WorkingConditionPoor",
+  bad                       : "SR5.WorkingConditionBad",
+  terrible                  : "SR5.WorkingConditionTerrible",
+  superior                  : "SR5.WorkingConditionSuperior",
+}
+
+SR5.toolsAndParts = {
+  inadequate                : "SR5.ToolsAndPartsInadequate",
+  unavailable               : "SR5.ToolsAndPartsUnavailable",
+  superior                  : "SR5.ToolsAndPartsSuperior",
+}
+
+SR5.plansMaterial = {
+  available                 : "SR5.PlansMaterialAvailable",
+  augmented                 : "SR5.PlansMaterialAugmented",
+}
 
 //-----------------------------------//
 //                MAGIC              //
@@ -1494,50 +1761,108 @@ SR5.matrixSearchInfoType = {
 
 // Vehicle/Drone Attributes
 SR5.vehicleAttributes = {
-  handling                  : "SR5.VehicleStat_HandlingShort",
-  handlingOffRoad           : "SR5.VehicleStat_HandlingORShort",
-  speed                     : "SR5.VehicleStat_SpeedShort",
-  speedOffRoad              : "SR5.VehicleStat_SpeedORShort",
-  acceleration              : "SR5.VehicleStat_AccelerationShort",
-  accelerationOffRoad       : "SR5.VehicleStat_AccelerationORShort",
-  body                      : "SR5.VehicleStat_BodyShort",
-  armor                     : "SR5.VehicleStat_ArmorShort",
-  pilot                     : "SR5.VehicleStat_PilotShort",
-  sensor                    : "SR5.VehicleStat_SensorShort",
-  seating                   : "SR5.Vehicle_SeatingShort",
+  handling                             : "SR5.VehicleStat_HandlingShort",
+  handlingOffRoad                      : "SR5.VehicleStat_HandlingORShort",
+  secondaryPropulsionHandling          : "SR5.VehicleStat_SPHandlingShort",
+  secondaryPropulsionHandlingOffRoad   : "SR5.VehicleStat_SPHandlingORShort",
+  speed                                : "SR5.VehicleStat_SpeedShort",
+  secondaryPropulsionSpeed             : "SR5.VehicleStat_SPSpeedShort",
+  speedOffRoad                         : "SR5.VehicleStat_SpeedORShort",
+  acceleration                         : "SR5.VehicleStat_AccelerationShort",
+  secondaryPropulsionAcceleration      : "SR5.VehicleStat_SPAccelerationShort",
+  accelerationOffRoad                  : "SR5.VehicleStat_AccelerationORShort",
+  body                                 : "SR5.VehicleStat_BodyShort",
+  armor                                : "SR5.VehicleStat_ArmorShort",
+  pilot                                : "SR5.VehicleStat_PilotShort",
+  sensor                               : "SR5.VehicleStat_SensorShort",
+  seating                              : "SR5.Vehicle_SeatingShort",
 };
 
 // Types de véhicules
-SR5.vehicleCategories = {
+SR5.vehicleTypes = {
   drone                     : "SR5.DroneFull",
   vehicle                   : "SR5.VehicleFull",
 };
 
-// Types de drones
-SR5.droneTypes = {
+// Types de drones et véhicules
+SR5.vehiclesCategories = {
   microdrone                : "SR5.DRONES_Microdrone_F",
   minidrone                 : "SR5.DRONES_Minidrone_F",
   smallDrone                : "SR5.DRONES_SmallDrone_F",
   mediumDrone               : "SR5.DRONES_MediumDrone_F",
   largeDrone                : "SR5.DRONES_LargeDrone_F",
-};
-
-// Types de véhicules
-SR5.vehicleTypes = {
+  hugeDrone                 : "SR5.DRONES_HugeDrone_F",
   vectorThrustCraft         : "SR5.VectorThrustCraftFull",
   fixedWingAircraft         : "SR5.FixedWingAircraftFull",
   boat                      : "SR5.BoatFull",
   truck                     : "SR5.TruckFull",
   rotorCraft                : "SR5.RotorCraftFull",
   bike                      : "SR5.BikeFull",
-  submarine                 : "SR5.SubmarineFull",
+  submarine                 : "SR5.SubmarineFull",  
   car                       : "SR5.CarFull",
+  lta                       : "SR5.LTAFull",
 };
 
-// Types de montures
-SR5.mountTypes = {
-  standard                  : "SR5.VEHICLE_WeaponMountStandard_F",
-  heavy                     : "SR5.VEHICLE_WeaponMountHeavy_F",
+// Types de drones
+SR5.droneCategories = {
+  microdrone                : "SR5.DRONES_Microdrone_F",
+  minidrone                 : "SR5.DRONES_Minidrone_F",
+  smallDrone                : "SR5.DRONES_SmallDrone_F",
+  mediumDrone               : "SR5.DRONES_MediumDrone_F",
+  largeDrone                : "SR5.DRONES_LargeDrone_F",
+  hugeDrone                 : "SR5.DRONES_HugeDrone_F",
+};
+
+// Types de véhicules
+SR5.vehicleCategories = {
+  vectorThrustCraft         : "SR5.VectorThrustCraftFull",
+  fixedWingAircraft         : "SR5.FixedWingAircraftFull",
+  boat                      : "SR5.BoatFull",
+  truck                     : "SR5.TruckFull",
+  rotorCraft                : "SR5.RotorCraftFull",
+  bike                      : "SR5.BikeFull",
+  submarine                 : "SR5.SubmarineFull",  
+  car                       : "SR5.CarFull",
+  lta                       : "SR5.LTAFull",
+};
+
+// Weapon Mount : Size
+SR5.WeaponMountSize = {
+  light                   : "SR5.VEHICLE_WeaponMountSize_L",
+  standard                : "SR5.VEHICLE_WeaponMountSize_S",
+  heavy                   : "SR5.VEHICLE_WeaponMountSize_H",
+};
+
+// Weapon Mount : Visibility
+SR5.WeaponMountVisibility = {
+  external                : "SR5.VEHICLE_WeaponMountVis_E",
+  internal                : "SR5.VEHICLE_WeaponMountVis_I",
+  concealed               : "SR5.VEHICLE_WeaponMountVis_C",
+};
+
+// Weapon Mount : Flexibility
+SR5.WeaponMountFlexibility = {
+  fixed                  : "SR5.VEHICLE_WeaponMountFlex_Fi",
+  flexible               : "SR5.VEHICLE_WeaponMountFlex_Fl",
+  turret                 : "SR5.VEHICLE_WeaponMountFlex_T",
+};
+
+// Weapon Mount : Control mode
+SR5.WeaponMountControl = {
+  remote                 : "SR5.VEHICLE_WeaponMountCon_R",
+  manual                 : "SR5.VEHICLE_WeaponMountCon_M",
+  armoredManual          : "SR5.VEHICLE_WeaponMountCon_AM",
+};
+
+
+// Vehicle and Drone Control mode
+SR5.vehicleSecondaryPropulsionMode = {
+  amphibiousSurface         : "SR5.VEHICLE_SP_AmphibiousSurface",
+  amphibiousSubmersible     : "SR5.VEHICLE_SP_AmphibiousSubmersible",
+  hovercraft                : "SR5.VEHICLE_SP_Hovercraft",
+  rotor                     : "SR5.VEHICLE_SP_Rotor",
+  tracked                   : "SR5.VEHICLE_SP_Tracked",
+  walker                    : "SR5.VEHICLE_SP_Walker",
 };
 
 // Vehicle and Drone Control mode
@@ -1555,6 +1880,16 @@ SR5.vehicleActions = {
   cutOff                    : "SR5.CutOff",
   catchUpBreakAway          : "SR5.CatchUpBreakAway",
   stunt                     : "SR5.Stunt",
+};
+
+// Vehicle actions
+SR5.vehicleRelativeSpeed = {
+  vehicleRelativeSpeed_1    : "SR5.VehicleRelativeSpeed_1",   
+  vehicleRelativeSpeed_11   : "SR5.VehicleRelativeSpeed_11",  
+  vehicleRelativeSpeed_51   : "SR5.VehicleRelativeSpeed_51",
+  vehicleRelativeSpeed_201  : "SR5.VehicleRelativeSpeed_201", 
+  vehicleRelativeSpeed_301  : "SR5.VehicleRelativeSpeed_301", 
+  vehicleRelativeSpeed_501  : "SR5.VehicleRelativeSpeed_501", 
 };
 
 //Target signature
@@ -1585,10 +1920,10 @@ SR5.vehicleModTools = {
 };
 
 //-----------------------------------//
-//             ESPRITS               //
+//             SPIRITS               //
 //-----------------------------------//
 
-// Types d'esprit
+// Spirit types
 SR5.spiritTypes = {
   abomination               : "SR5.Abomination",
   air                       : "SR5.Air",
@@ -2289,9 +2624,9 @@ SR5.AllSpiritPowers = {
 }
 
 //-----------------------------------//
-//            APPAREILS              //
+//              DEVICE               //
 //-----------------------------------//
-// Types d'appareil
+// Devices types
 SR5.deviceTypes = {
   device                    : "SR5.DEVICE_TYPE_Device_F",
   slavedDevice              : "SR5.DEVICE_TYPE_SlavedDevice_F",
@@ -2299,7 +2634,7 @@ SR5.deviceTypes = {
   ice                       : "SR5.DEVICE_TYPE_Ice_F",
 };
 
-// Types de CI
+// Ice types
 SR5.iceTypes = {
   iceAcid                   : "SR5.IceAcid",
   iceBinder                 : "SR5.IceBinder",
@@ -2329,9 +2664,11 @@ SR5.customEffectsTypes = {
   hits                      : "SR5.DiceHits",
   netHits                   : "SR5.NetHits",
   boolean                   : "SR5.Boolean",
+  divide                    : "SR5.Divide",
 };
 
 SR5.effectTypes = {
+  damage                    : "SR5.Damage",
   iceAttack                 : "SR5.EffectTypeIceAttack",
   electricityDamage         : "SR5.ElementalDamage",
   acidDamage                : "SR5.ElementalDamage",
@@ -2350,6 +2687,34 @@ SR5.effectTypes = {
   toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
   toxinEffectNausea         : "SR5.ToxinEffectNausea",
   toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
+  slowed                    : "SR5.STATUSES_Slowed",
+  winded                    : "SR5.STATUSES_Winded",
+  deafened                  : "SR5.STATUSES_Deafened",
+  blinded                   : "SR5.STATUSES_Blinded",
+  brokenGrip                : "SR5.STATUSES_BrokenGrip",
+  weakSide                  : "SR5.STATUSES_WeakSide",
+  nauseous                  : "SR5.STATUSES_Nauseous",
+  buckled                   : "SR5.STATUSES_Buckled",
+  slowDeath                 : "SR5.STATUSES_SlowDeath",
+  knockdown                 : "SR5.STATUSES_Knockdown",
+  unableToSpeak             : "SR5.STATUSES_UnableToSpeak",
+  bleedOut                  : "SR5.STATUSES_BleedOut",
+  oneArmBandit              : "SR5.STATUSES_OneArmBandit", 
+  pin                       : "SR5.STATUSES_Pin",
+  dirtyTrick                : "SR5.STATUSES_DirtyTrick",
+  entanglement              : "SR5.STATUSES_Entanglement",  
+  trickShot                 : "SR5.STATUSES_TrickShot",  
+  antenna                   : "SR5.STATUSES_Antenna",
+  engineBlock               : "SR5.STATUSES_EngineBlock",
+  windowMotor               : "SR5.STATUSES_WindowMotor",
+  doorLock                  : "SR5.STATUSES_DoorLock",
+  axle                      : "SR5.STATUSES_Axle",
+  fuelTankBattery           : "SR5.STATUSES_FuelTankBattery",
+  flared                    : "SR5.STATUSES_Flared",
+  shaked                    : "SR5.STATUSES_Shaked",
+  calledShot                : "SR5.CS_CalledShot",
+  onPinsAndNeedles          : "SR5.STATUSES_OnPinsAndNeedles",
+  prone                     : "SR5.STATUSES_Prone",
 }
 
 SR5.effectDuration = {
@@ -2360,6 +2725,7 @@ SR5.effectDuration = {
   reboot                    : "SR5.UntilReboot",
   minute                    : "SR5.Minutes",
   hour                      : "SR5.Hours",
+  action                    : "SR5.Action",
 }
 
 SR5.specialProperties = {
@@ -2401,6 +2767,130 @@ SR5.hardenedArmorTypes = {
 SR5.hardenedAstralArmorTypes = {
   rating                    : "SR5.ItemRating",
   willpower                 : "SR5.Willpower"
+}
+
+SR5.fullDefense = {
+  fullDefense               : "SR5.FullDefense",
+}
+
+//-----------------------------------//
+//             MODIFIERS             //
+//-----------------------------------//
+SR5.dicePoolModTypes = {
+  attribute                 : "SR5.Attribute",
+  various                   : "SR5.VariousModifiers",
+  patientEssence            : "SR5.PatientEssence",
+  specialization            : "SR5.Specialization",
+  penalty                   : "SR5.Penalty",
+  incomingFiringMode        : "SR5.WeaponMode",
+  recoil                    : "SR5.Recoil",
+  targetRange               : "SR5.Range",
+  reach                     : "SR5.WeaponReach",
+  environmentalSceneMod     : "SR5.EnvironmentalModifiers",
+  perceptionType            : "SR5.SkillPerceptionType",
+  cumulativeDefense         : "SR5.CumulativeDefense",
+  defenseMode               : "SR5.ActiveDefense",
+  fullDefense               : "SR5.FullDefense",
+  cover                     : "SR5.Cover",
+  incomingPA                : "SR5.ArmorPenetration",
+  backgroundCount           : "SR5.SceneBackgroundCount",
+  matrixRange               : "SR5.MatrixNoise",
+  matrixSceneNoise          : "SR5.SceneNoiseRating",
+  matrixNoiseReduction      : "SR5.NoiseReduction",
+  publicGrid                : "SR5.GridPublicOn",
+  targetGrid                : "SR5.GridTargetDifferent",
+  spiritAid                 : "SR5.SpiritAid",
+  spiritType                : "SR5.SpiritTypeBonus",
+  spellCategory             : "SR5.SpellCategoryBonus",
+  sensorLockMod             : "SR5.SensorLockedTarget",
+  signatureSize             : "SR5.TargetSize",
+  mark                      : "SR5.NumberOfWantedMarks",
+  centering                 : "SR5.MetamagicCentering",
+  spellShaping              : "SR5.MetamagicSpellShaping",
+  healingCondition          : "SR5.HealingConditions",
+  patientCooperation        : "SR5.UncooperativePatient",
+  patientAwakenedOrEmerged  : "SR5.PatientAwakenedOrEmerged",
+  healingSupplies           : "SR5.HealingSupplies",
+  escapeSituationWatched    : "SR5.EscapeArtistSituationWatched",
+  restrainerStrength        : "SR5.EscapeArtistSituationRestrained",
+  escapeSituationPicks      : "SR5.EscapeArtistSituationPicks",
+  distracted                : "SR5.PerceptionModDistracted",
+  specificallyLooking       : "SR5.PerceptionModSpecificallyLooking",
+  notInImmediateVicinity    : "SR5.PerceptionModNotInImmediateVicinity",
+  farAway                   : "SR5.PerceptionModFarAway",
+  standsOutInSomeWay        : "SR5.PerceptionModStandsOutInSomeWay",
+  interfering               : "SR5.PerceptionModInterfering",
+  camping                   : "SR5.SurvivalModCamping",
+  noFoundOrWater            : "SR5.SurvivalModNoFoundOrWater",
+  controlAvailable          : "SR5.SurvivalModControlAvailable",
+  clothing                  : "SR5.SurvivalModClothing",
+  travel                    : "SR5.SurvivalModTravel",
+  toxic                     : "SR5.SurvivalModToxic",
+  weather                   : "SR5.SurvivalWeather",
+  socialAttitude            : "SR5.SocialModAttitude",
+  socialResult              : "SR5.SocialModDesiredResult",
+  socialReputation          : "SR5.SocialModReputation",
+  socialReputationTarget    : "SR5.SocialModReputationTarget",
+  socialAce                 : "SR5.SocialModAce",
+  socialRomantic            : "SR5.SocialModRomantic",
+  socialIntoxicated         : "SR5.SocialModIntoxicated",
+  socialEvidence            : "SR5.SocialModEvidence",
+  socialIsDistracted        : "SR5.SocialModIsDistracted",
+  socialEvaluateSituation   : "SR5.SocialModEvaluateSituation",
+  socialBadLook             : "SR5.SocialModBadLook",
+  socialNervous             : "SR5.SocialModNervous",
+  socialIsDistractedInverse : "SR5.SocialModIsDistracted",
+  socialImposing            : "SR5.SocialModImposing",
+  socialImposingTarget      : "SR5.SocialModImposingTarget",
+  socialOutnumber           : "SR5.SocialModOutnumber",
+  socialOutnumberTarget     : "SR5.SocialModOutnumberTarget",
+  socialWieldingWeapon      : "SR5.SocialModWieldingWeapon",
+  socialWieldingWeaponTarget: "SR5.SocialModWieldingWeaponTarget",
+  socialTorture             : "SR5.SocialModTorture",
+  socialObliviousToDanger   : "SR5.SocialModObliviousToDanger",
+  socialRank                : "SR5.SocialModRank",
+  socialRankTarget          : "SR5.SocialModRankTarget",
+  socialAuthority           : "SR5.SocialModAuthority",
+  socialStrata              : "SR5.SocialModStrata",
+  socialFan                 : "SR5.SocialModFan",
+  socialLacksKnowledge      : "SR5.SocialModLacksKnowledge",
+  socialBlackmailed         : "SR5.SocialModBlackmailed",
+  workingCondition          : "SR5.WorkingCondition",
+  toolsAndParts             : "SR5.ToolsAndParts",
+  plansMaterial             : "SR5.PlansMaterial",
+  workingFromMemory         : "SR5.WorkingFromMemory",
+  calledShot                : "SR5.CS_CalledShot",
+}
+
+SR5.drainModTypes = {
+  recklessSpellcasting      : "SR5.RecklessSpellcasting",
+  trigger                   : "SR5.PreparationTrigger",
+  reagents                  : "SR5.Reagents",
+  hits                      : "SR5.DiceHits",
+  ritualResistance          : "SR5.Force",
+  spell                     : "SR5.DrainModifier",
+}
+
+SR5.limitModTypes = {
+  various                   : "SR5.LimitModifiers",
+  perception                : "SR5.SkillPerceptionType",
+  healingSupplies           : "SR5.HealingSupplies",
+}
+
+//-----------------------------------//
+//             BARRIERS              //
+//-----------------------------------//
+
+SR5.barrierTypes = {
+  fragile                   : "SR5.BarrierFragile",
+  cheap                     : "SR5.BarrierCheapMaterial",
+  average                   : "SR5.BarrierAverageMaterial",
+  heavy                     : "SR5.BarrierHeavyMaterial",
+  reinforced                : "SR5.BarrierReinforcedMaterial",
+  structural                : "SR5.BarrierStructuralMaterial",
+  structuralHeavy           : "SR5.BarrierStructuralHeavyMaterial",
+  armored                   : "SR5.BarrierArmoredMaterial",
+  hardened                  : "SR5.BarrierHardenedMaterial",
 }
 
 
@@ -2456,6 +2946,36 @@ SR5.actorTypes = {
   actorSpirit               : "ACTOR.TypeActorspirit",
   actorSprite               : "ACTOR.TypeActorsprite",
   actorAgent                : "ACTOR.TypeActoragent",
+};
+
+//-----------------------------------//
+//             SOURCE TYPES           //
+//-----------------------------------//
+
+SR5.sourceList = {
+  core                      : "SOURCE.CoreRulebook",
+  runAndGun                 : "SOURCE.RunAndGun",
+  stolenSouls               : "SOURCE.StolenSouls",
+  streetGrimoire            : "SOURCE.StreetGrimoire",
+  runFaster                 : "SOURCE.RunFaster",
+  dataTrails                : "SOURCE.DataTrails",
+  chromeFlesh               : "SOURCE.ChromeFlesh",
+  rigger5                   : "SOURCE.Rigger5",
+  howlingShadows            : "SOURCE.HowlingShadows",
+  courtOfShadows            : "SOURCE.CourtOfShadows",
+  cutingAces                : "SOURCE.CutingAces",  
+  forbiddenArcana           : "SOURCE.ForbiddenArcana",
+  completeTrog              : "SOURCE.CompleteTrog",
+  darkTerrors               : "SOURCE.DarkTerrors",
+  streetLethal              : "SOURCE.StreetLethal",
+  killCode                  : "SOURCE.KillCode",
+  betterThanBad             : "SOURCE.BetterThanBad",
+  noFuture                  : "SOURCE.NoFuture",
+  assassinPrimer            : "SOURCE.AssassinPrimer",
+  coyotes                   : "SOURCE.Coyotes",
+  gunHeaven3                : "SOURCE.GunHeaven3",
+  bulletsAndBandages        : "SOURCE.BulletsAndBandages",
+  shadowSpells              : "SOURCE.ShadowSpells",
 };
 
 //-----------------------------------//

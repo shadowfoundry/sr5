@@ -1,262 +1,49 @@
-<li class="grid">
+<li class="grid SR-LigneEnTete">
     <div class="col-6">{{localize 'SR5.DicePool'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">{{test.dicePool}}</div>
 </li>
 <!--Base Dicepool-->
-{{#if (or dicePoolModHas (eq type 'resistanceCard'))}}
-<li class="grid SR-PaddingTop5 SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.BaseDicePool'}}{{localize 'SR5.Colons'}}</div>
+<li class="grid SR-PaddingTop5">
+    <div class="col-10">
+        {{localize 'SR5.BaseDicePool'}}{{localize 'SR5.Colons'}}
+        <a class="SR-MessageToggle" data-target="dicePoolComposition" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-MessageToggle" data-target="dicePoolComposition" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
+    </div>
     <div class="col-2 SR-TextRight">{{dicePoolBase}}</div>
 </li>
-{{/if}}
 <!--Base Dicepool composition-->
-<li class="SR-GreyColor">
+<div id="dicePoolComposition" style="display: none;">
     {{#each dicePoolComposition}}
-    <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}}){{#unless @last}}, {{/unless}}</span> 
+    <li class="grid SR-GreyColor">
+        <div class="col-10">{{source}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-2 SR-TextRight">{{#if (gt value 0)}}+{{/if}}{{value}}</div>
+    </li>
     {{/each}}
-</li>
-<!--Push the limit mod Dicepool-->
-{{#if (isdefined dicePoolMod.pushTheLimit)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.PushTheLimit'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">+{{dicePoolMod.pushTheLimit}}</div>
-</li>
-{{/if}}
-<!--Attribute mod Dicepool-->
-{{#if (isdefined dicePoolMod.attribute)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Attribute'}} ({{findTranslation 'allAttributes' attributeKey}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">+{{dicePoolMod.attribute}}</div>
-</li>
-{{/if}}
-<!--Attribute mod Dicepool-->
-{{#if (isdefined dicePoolMod.edge)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Edge'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">+{{dicePoolMod.edge}}</div>
-</li>
-{{/if}}
-<!--Penalty mod Dicepool-->
-{{#if (isdefined dicePoolMod.penalty)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Penalty'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.penalty}}</div>
-</li>
-{{/if}}
-<!--Various mod Dicepool-->
-{{#if (isdefined dicePoolMod.various)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.VariousModifiers'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{#if (gt dicePoolMod.various 0)}}+{{/if}}{{dicePoolMod.various}}</div>
-</li>
-{{/if}}
-<!--Specialization mod Dicepool-->
-{{#if (isdefined dicePoolMod.specialization)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Specialization'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">+{{dicePoolMod.specialization}}</div>
-</li>
-{{/if}}
-<!--Firing mode mod Dicepool-->
-{{#if (isdefined dicePoolMod.defenseFiringMode)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseFiringMode}}</div>
-</li>
-{{/if}}
-<!--Recoil mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.recoil) (lt dicePoolMod.recoil 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Recoil'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.recoil}}</div>
-</li>
-{{/if}}
-<!--Range mod Dicepool-->
-{{#if (isdefined dicePoolMod.range)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Range'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.range}}</div>
-</li>
-{{/if}}
-<!--Reach mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.reach) (ne dicePoolMod.reach 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.WeaponReach'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.reach}}</div>
-</li>
-{{/if}}
-<!--Environmental mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.environmentalSceneMod) (ne dicePoolMod.environmentalSceneMod 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.EnvironmentalModifiers'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.environmentalSceneMod}}</div>
-</li>
-{{/if}}
-<!--Cumulative defense mod Dicepool-->
-{{#if (isdefined dicePoolMod.defenseCumulative)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.CumulativeDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseCumulative}}</div>
-</li>
-{{/if}}
-<!--Active defense mod Dicepool-->
-{{#if (isdefined dicePoolMod.defenseActive)}}
-<li class="grid SR-GreyColor">
-    {{#if (eq activeDefenseMode 'defenseDodge')}}
-    <div class="col-10">{{localize 'SR5.ActiveDefense'}} ({{localize 'SR5.Dodge'}}) {{localize 'SR5.Colons'}}</div>
-    {{else if (eq activeDefenseMode 'defenseBlock')}}
-    <div class="col-10">{{localize 'SR5.ActiveDefense'}} ({{localize 'SR5.Block'}}) {{localize 'SR5.Colons'}}</div>
-    {{else if (eq activeDefenseMode 'defenseParryClubs')}}
-    <div class="col-10">{{localize 'SR5.ActiveDefense'}} ({{localize 'SR5.ParryBlunt'}}) {{localize 'SR5.Colons'}}</div>
-    {{else if (eq activeDefenseMode 'defenseParryBlades')}}
-    <div class="col-10">{{localize 'SR5.ActiveDefense'}} ({{localize 'SR5.ParrySlashing'}}) {{localize 'SR5.Colons'}}</div>
-    {{/if}}
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseActive}}</div>
-</li>
-{{/if}}
-<!--Full defense mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.defenseFull) (ne dicePoolMod.defenseFull 0) )}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.FullDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseFull}}</div>
-</li>
-{{/if}}
-<!--Cover mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.defenseCover) (ne dicePoolMod.defenseCover 0) )}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Cover'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.defenseCover}}</div>
-</li>
-{{/if}}
-<!--Armor mod Dicepool-->
-{{#if (isdefined armor)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.Armor'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{armor}}</div>
-</li>
-<!--Armor composition-->
-<li class="SR-GreyColor">
     {{#each armorComposition}}
-    <span>{{source}} ({{#if (gt value 0)}}+{{/if}}{{value}}){{#unless @last}}, {{/unless}}</span> 
+    <!--Armor composition-->
+    <li class="grid SR-GreyColor">
+        <div class="col-10">{{source}}</div>
+        <div class="col-2 SR-TextRight">{{#if (gt value 0)}}+{{/if}}{{value}}</div> 
+    </li>
     {{/each}}
+</div>
+<!--Modifiers-->
+{{#if (or dicePoolModHas (eq type 'resistanceCard'))}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.Modifiers'}}{{localize 'SR5.Colons'}}
+        <a class="SR-MessageToggle" data-target="dicePoolModifiers" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-MessageToggle" data-target="dicePoolModifiers" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
+    </div>
+    <div class="col-2 SR-TextRight">{{#if (gt dicePoolModifiers 0)}}+{{/if}}{{dicePoolModifiers}}</div>
 </li>
 {{/if}}
-<!--Incoming AP mod Dicepool-->
-{{#if (and (isdefined incomingPA) (eq type 'resistanceCard'))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{incomingPA}}</div>
-</li>
-{{/if}}
-<!--Background Count mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.backgroundCount) (ne dicePoolMod.backgroundCount 0) )}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SceneBackgroundCount'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.backgroundCount}}</div>
-</li>
-{{/if}}
-<!--Matrix Range Noise mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixNoiseRange) (ne dicePoolMod.matrixNoiseRange 0) )}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.MatrixNoise'}} ({{findTranslation 'matrixNoiseDistance' matrixNoiseRange}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseRange}}</div>
-</li>
-{{/if}}
-<!--Scene Matrix Noise mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixNoiseScene) (lt dicePoolMod.matrixNoiseScene 0) )}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SceneNoiseRating'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseScene}}</div>
-</li>
-{{/if}}
-<!--Matrix Noise Reduction mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixNoiseReduction) (gt dicePoolMod.matrixNoiseReduction 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.NoiseReduction'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixNoiseReduction}}</div>
-</li>
-{{/if}}
-<!--Public Grid modifiers-->
-{{#if (and (isdefined dicePoolMod.publicGrid) (lt dicePoolMod.publicGrid 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.GridPublicOn'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.publicGrid}}</div>
-</li>
-{{/if}}
-<!--Grid modifiers-->
-{{#if (and (isdefined dicePoolMod.differentGrid) (lt dicePoolMod.differentGrid 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.GridTargetDifferent'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.differentGrid}}</div>
-</li>
-{{/if}}
-<!--Perception type mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.perception) (ne dicePoolMod.perception 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SkillPerceptionType'}} ({{findTranslation 'perceptionTypes' perceptionType}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.perception}}</div>
-</li>
-{{/if}}
-<!--Resist Fire, Armor Penetration type mod Dicepool-->
-{{#if (eq type 'resistFire')}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{incomingPA}}</div>
-</li>
-{{/if}}
-<!--Spirit Aid mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.spiritAid) (gt dicePoolMod.spiritAid 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SpiritAid'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.spiritAid}}</div>
-</li>
-{{/if}}
-<!--Spirit type mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.spiritType) (ne dicePoolMod.spiritType 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SpiritTypeBonus'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.spiritType}}</div>
-</li>
-{{/if}}
-<!--Spell category mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.spellCategory) (ne dicePoolMod.spellCategory 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SpellCategoryBonus'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.spellCategory}}</div>
-</li>
-{{/if}}
-<!--Sensor lock mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.sensorLockMod) (ne dicePoolMod.sensorLockMod 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.SensorLockedTarget'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.sensorLockMod}}</div>
-</li>
-{{/if}}
-<!--Signature size mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.signatureType) (ne dicePoolMod.signatureType 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.TargetSize'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.signatureType}}</div>
-</li>
-{{/if}}
-<!--Mark wanted mod Dicepool-->
-{{#if (and (isdefined dicePoolMod.matrixMarkWanted) (ne dicePoolMod.matrixMarkWanted 0))}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.NumberOfWantedMarks'}} ({{mark}}){{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.matrixMarkWanted}}</div>
-</li>
-{{/if}}
-<!--Centering Modifier-->
-{{#if (isdefined dicePoolMod.centering)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.MetamagicCentering'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.centering}}</div>
-</li>
-{{/if}}
-<!--Spell Shaping Modifier-->
-{{#if (isdefined dicePoolMod.spellShaping)}}
-<li class="grid SR-GreyColor">
-    <div class="col-10">{{localize 'SR5.MetamagicSpellShaping'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{dicePoolMod.spellShaping}}</div>
-</li>
-{{/if}}
+<div id="dicePoolModifiers" style="display: none;">
+    {{#each dicePoolMod}}
+    {{#if (ne value 0)}}
+    <li class="grid SR-GreyColor">
+        <div class="col-10">{{label}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-2 SR-TextRight">{{#if (gt value 0)}}+{{/if}}{{value}}</div>
+    </li>
+    {{/if}}
+    {{/each}}
+</div>

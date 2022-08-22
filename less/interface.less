@@ -1716,12 +1716,57 @@
                     color         : @neutralDarkColor;
                     height        : 15px;
                     border        : 0;
-                    padding-top   : 0;
-                    padding-bottom: 0;
+                    padding       : 0;
                     border-radius : 0;
                 }
 
-                select { text-align-last: right; }
+                input[type="checkbox"] {
+                    position     : relative;
+                    margin       : 0;
+                    border       : 1px solid @subColor;
+                    height       : 12px;
+                    width        : 12px;
+                    border-radius: 3px;
+                    appearance   : none;
+                    outline      : 0;
+                    cursor       : pointer;
+                    transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+        
+                    &::before {
+                        position    : relative;
+                        content     : '';
+                        display     : block;
+                        top         : -1px;
+                        left        : 2.5px;
+                        width       : 30%;
+                        height      : 80%;
+                        border-style: solid;
+                        border-width: 0 2px 2px 0;
+                        transform   : rotate(45deg);
+                        opacity     : 0;
+                    }
+        
+                    &:checked {
+                        content     : '✔';
+                        color       : @neutralLightColor;
+                        border-color: @subColor;
+                        background  : fade(@subColor, 90%);
+        
+                        &::before {
+                            opacity: 1;
+                        }
+        
+                        ~label::before {
+                            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                        }
+                    }
+                }
+
+                select { 
+                    text-align-last: right; 
+                    color: @subColor;
+                    margin-right: -5px;
+                }
                 option { direction: rtl; }
 
                 li {
@@ -1738,6 +1783,11 @@
 
                 p {
                     margin: 0;
+                }
+
+                .SR-ModControl {
+                    font-size: 11px;
+                    color: @subColor;
                 }
 
                 .SR-FakeInput {
@@ -1765,6 +1815,12 @@
                 .SR-TopSeparator{
                     border-top: 1px solid fade(@subColor, 35%);
                     margin-top: 5px;
+                }
+
+                .SR-DialogOption{
+                    border-bottom: solid 1px @mainColor;
+                    color: @mainColor;
+                    font-family: @SR_BodyTextBold;
                 }
             }
         }

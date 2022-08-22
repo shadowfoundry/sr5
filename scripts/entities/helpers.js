@@ -263,7 +263,6 @@ export class SR5_EntityHelpers {
         case "legalTypes":
         case "legalTypesShort":
         case "metatypes":
-        case "mountTypes":
         case "valueMultipliers":
         case "spellCombatTypes":
         case "spellCombatTypesShort":
@@ -275,6 +274,7 @@ export class SR5_EntityHelpers {
         case "lifestyleTypes":
         case "qualityTypes":
         case "qualityTypesShort":
+        case "barrierTypes":
           break;
         default:
           object[key] = this.sortByTranslatedTerm(object[key], key);

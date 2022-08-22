@@ -1,7 +1,7 @@
-<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+<li class=" SR-PaddingTop10 grid SR-DialogOption">
     <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-TextRight">
-        <select class="damageType" name="damageType">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="null" data-modifier="damageType">
         {{#select damageType}}
         {{#each lists.damageTypes}}
         <option value="{{@key}}">{{findTranslation 'damageTypes' @key}}</option>

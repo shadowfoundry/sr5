@@ -6,6 +6,7 @@ import { _getSRStatusEffect } from "../system/effectsList.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_SocketHandler } from "../socket.js";
 import { SR5_RollMessage } from "./roll-message.js";
+import SR5_SpendDialog from "../interface/spendNetHits-dialog.js";
 
 
 export class SR5_DiceHelper {
@@ -41,6 +42,10 @@ export class SR5_DiceHelper {
                 newItem.data.netHits = 0;                
             }
         }
+        //updateCharge
+        if (newItem.type === "itemGear"){
+            newItem.data.charge -= 1;
+        }
 
         item.update(newItem);
     }
@@ -55,6 +60,7 @@ export class SR5_DiceHelper {
             ownerAuthor: message.ownerAuthor,    
             hits: message.hits,
             speakerId: message.speakerId,
+            originalActionUser: message.originalActionUser,
             speakerActor: message.speakerActor,
             speakerImg: message.speakerImg,
             originalMessage: message.originalMessage._id,
@@ -88,7 +94,7 @@ export class SR5_DiceHelper {
             cardData = mergeObject(cardData, {
                 itemId: message.itemId,
                 force: message.force,
-                preparationTrigger : message.preparationTrigger,
+                preparationTrigger: message.preparationTrigger,
                 type: "preparationResistance",
                 title: `${game.i18n.localize("SR5.PreparationResistance")} (${cardData.hits})`,
             });
@@ -102,7 +108,7 @@ export class SR5_DiceHelper {
                 itemUuid: message.itemUuid,
                 originalMessage: message.originalMessage,
                 force: message.force,
-                reagentsSpent : message.reagentsSpent,
+                reagentsSpent: message.reagentsSpent,
                 type: "ritualResistance",
                 title: `${game.i18n.localize("SR5.RitualResistance")} (${cardData.hits})`,
             });
@@ -193,7 +199,56 @@ export class SR5_DiceHelper {
                 type: "engulfResistance",
                 title: `${game.i18n.localize("SR5.SpiritResistance")} (${cardData.hits})`,
             });
+        }
+
+        //Weapon break Resistance
+        if (message.type === "defenseCard"){
+            let dialogData = {list: SR5.barrierTypes},
+                barrierType,
+                cancel = true;
             
+            await new Promise((resolve, reject) => {
+                renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.html", dialogData).then((dlg) => {
+                    new Dialog({
+                    title: game.i18n.localize('SR5.ChooseWeaponMaterial'),
+                    content: dlg,
+                    buttons: {
+                        ok: {
+                        label: "Ok",
+                        callback: () => (cancel = false),
+                        },
+                        cancel: {
+                        label: "Cancel",
+                        callback: () => (cancel = true),
+                        },
+                    },
+                    default: "ok",
+                    close: (html) => {
+                        if (cancel) return;
+                        barrierType = html.find("[name=barrierType]").val();
+                        resolve(barrierType);
+                    },
+                    }).render(true);
+                });
+            });
+            let structure = SR5_DiceHelper.convertBarrierTypeToStructure(barrierType);
+            let armor = SR5_DiceHelper.convertBarrierTypeToArmor(barrierType);
+            dicePool = armor + structure;
+            dicePoolComposition = ([
+                {source: game.i18n.localize("SR5.Armor"), value: armor},
+                {source: game.i18n.localize("SR5.Structure"), value: structure},
+            ]);
+
+            message.ownerAuthor = message.speakerId;
+            cardData = mergeObject(cardData, {
+                ownerAuthor: message.speakerId,
+                actorId: message.speakerId,
+                originalMessage: message.originalMessage,
+                type: "weaponResistance",
+                hits: message.damageValue,
+                dicePoolComposition: dicePoolComposition,
+                structure: structure,
+            });
         }
 
         let result = SR5_Dice.srd6({ dicePool: dicePool });
@@ -214,12 +269,47 @@ export class SR5_DiceHelper {
             case "BF":
                 return 3;
             case "LB":
-            case "FAs":
+            case "FA":
                 return 6;
             case "FAc":
                 return 10;
             case "SF":
+                return 20;
+            default: return 0;
+        }
+    }
+
+    //Convert firing mode choice to  number of bullets
+    static convertFiringModeToDefenseDicepoolMod(mode){
+        switch(mode){
+            case "SS":
+            case "SA":
                 return 0;
+            case "SB":
+            case "BF":
+                return -2;
+            case "LB":
+            case "FA":
+                return -5;
+            case "FAc":
+                return -9;
+            case "SF":
+                return 0;
+            default: return 0;
+        }
+    }
+
+    //Convert range  to environmental line
+    static convertRangeToEnvironmentalLine(mode){
+        switch(mode){
+            case "short":
+                return 0;
+            case "medium":
+                return 1;
+            case "long":
+                return 2;
+            case "extreme":
+                return 3;
             default: return 0;
         }
     }
@@ -227,13 +317,13 @@ export class SR5_DiceHelper {
     //Convert active defense mode to dice mod value
     static convertActiveDefenseToMod(defenseMode, defenseValue){
         switch(defenseMode){
-            case "defenseDodge": 
+            case "dodge": 
                 return defenseValue.dodge;
-            case "defenseBlock":
+            case "block":
                 return defenseValue.block;
-            case "defenseParryClubs":
+            case "parryClubs":
                 return defenseValue.parryClubs;
-            case "defenseParryBlades":
+            case "parryBlades":
                 return defenseValue.parryBlades;
             default: 
                 return 0;
@@ -243,10 +333,10 @@ export class SR5_DiceHelper {
     //Convert active defense mode to initiative modifier value
     static convertActiveDefenseToInitModifier(defenseMode){
         switch(defenseMode){
-            case "defenseDodge": 
-            case "defenseBlock":
-            case "defenseParryClubs":
-            case "defenseParryBlades":
+            case "dodge": 
+            case "block":
+            case "parryClubs":
+            case "parryBlades":
                 return -5;
             default: 
                 return 0;
@@ -328,8 +418,8 @@ export class SR5_DiceHelper {
     //Get time spent on a matrix search
     static async getMatrixSearchDuration(cardData, netHits){
         let timeSpent, duration = "";
-        cardData.matrixSearchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.matrixSearchType);
-		cardData.matrixSearchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.matrixSearchType);
+        cardData.matrixSearchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.thresholdType);
+		cardData.matrixSearchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.thresholdType);
 
         if (cardData.matrixSearchUnit === "minute") timeSpent = (cardData.matrixSearchTime * 60)/netHits;
         if (cardData.matrixSearchUnit === "hour") timeSpent = (cardData.matrixSearchTime * 60 * 60)/netHits;
@@ -354,7 +444,7 @@ export class SR5_DiceHelper {
     }
 
     //Handle environmental modifiers
-    static handleEnvironmentalModifiers(scene, actor, melee){
+    static handleEnvironmentalModifiers(scene, actor, noWind){
         let actorData = actor.itemsProperties.environmentalMod;
         let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
         let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
@@ -363,7 +453,7 @@ export class SR5_DiceHelper {
         let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
 
         let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
-        if (melee){
+        if (noWind){
             arrayMod = [visibilityMod, lightMod, glareMod];
         }
         let finalMod = Math.max(...arrayMod);
@@ -503,7 +593,7 @@ export class SR5_DiceHelper {
         await SR5_DiceHelper.markPanMaster(message.data.itemToMark, message.data.attackerID, message.data.mark);
 	}
 
-    //Mark slaved device : for host, update all unlinked token with same marks
+    //Mark slaved device: for host, update all unlinked token with same marks
     static async markSlavedDevice(targetActorID){
         let targetActor = await SR5_EntityHelpers.getRealActorFromID(targetActorID),
             item = targetActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
@@ -573,7 +663,6 @@ export class SR5_DiceHelper {
         await SR5_DiceHelper.markItem(message.data.targetActor, message.data.attackerID, message.data.mark);
 	}
 
-
     /** Find if an Actor has a Mark item with the same ID as the attacker
    * @param {Object} targetActor - The Target Actor who owns the Mark
    * @param {Object} attackerID - The ID of the attacker who wants to mark
@@ -620,11 +709,11 @@ export class SR5_DiceHelper {
 
     // Update Matrix Damage to a Deck
     static async updateMatrixDamage(cardData, netHits, defender){
-        let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionAuthor),
+        let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionActor),
             attackerData = attacker?.data.data,
             damage = cardData.matrixDamageValueBase,
             item = await fromUuid(cardData.matrixTargetItemUuid),
-            mark = await SR5_DiceHelper.findMarkValue(item.data.data, cardData.originalActionAuthor);
+            mark = await SR5_DiceHelper.findMarkValue(item.data.data, cardData.originalActionActor);
 
         if (attacker.type === "actorDevice"){
             if (attacker.data.data.matrix.deviceType = "ice"){
@@ -950,7 +1039,7 @@ export class SR5_DiceHelper {
                   callback: () => (cancel = false),
                 },
                 cancel: {
-                  label : "Cancel",
+                  label: "Cancel",
                   callback: () => (cancel = true),
                 },
               },
@@ -979,7 +1068,7 @@ export class SR5_DiceHelper {
                     callback: () => (cancel = false),
                     },
                     cancel: {
-                    label : "Cancel",
+                    label: "Cancel",
                     callback: () => (cancel = true),
                     },
                 },
@@ -994,8 +1083,37 @@ export class SR5_DiceHelper {
         });
     }
 
+    static async chooseDamageType(){
+        let cancel = true;
+        let dialogData = {list: SR5.PCConditionMonitors}
+        return new Promise((resolve, reject) => {
+            renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
+                new Dialog({
+                title: game.i18n.localize('SR5.ChooseDamageType'),
+                content: dlg,
+                buttons: {
+                    ok: {
+                    label: "Ok",
+                    callback: () => (cancel = false),
+                    },
+                    cancel: {
+                    label: "Cancel",
+                    callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    let damageType = html.find("[name=damageType]").val();
+                    resolve(damageType);
+                },
+                }).render(true);
+            });
+        });
+    }
+
     static async rollJackOut(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
         actor = actor.toObject(false);
         let dicePool;
 
@@ -1017,8 +1135,8 @@ export class SR5_DiceHelper {
             type: "jackOutDefense",
             title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${message.test.hits})`,
             dicePool: dicePool, 
-            actorId: message.originalActionAuthor,
-            originalActionAuthor: message.originalActionAuthor,
+            actorId: message.originalActionActor,
+            originalActionActor: message.originalActionActor,
             itemEffectID: itemEffectID,   
             hits: message.test.hits,
             speakerId: message.speakerId,
@@ -1029,19 +1147,19 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionAuthor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionActor);
         SR5_Dice.renderRollCard(cardData);
     }
 
     static async jackOut(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
         await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
         let statusEffect = actor.effects.find(e => e.data.origin === "linkLock");
         if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
     }
 
     static async eraseMarkChoice(messageData){
-        let actor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionAuthor),
+        let actor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionActor),
             cancel = true,
             target;
 
@@ -1074,7 +1192,7 @@ export class SR5_DiceHelper {
                   callback: () => (cancel = false),
                 },
                 cancel: {
-                  label : "Cancel",
+                  label: "Cancel",
                   callback: () => (cancel = true),
                 },
               },
@@ -1112,7 +1230,7 @@ export class SR5_DiceHelper {
     }
 
     static async rollOverwatchDefense(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
         actor = actor.toObject(false);
         let dicePool = 6;
 
@@ -1120,8 +1238,8 @@ export class SR5_DiceHelper {
             type: "overwatchResistance",
             title: `${game.i18n.localize("SR5.OverwatchResistance")} (${message.test.hits})`,
             dicePool: dicePool, 
-            actorId: message.originalActionAuthor,
-            originalActionAuthor: message.originalActionAuthor, 
+            actorId: message.originalActionActor,
+            originalActionActor: message.originalActionActor, 
             hits: message.test.hits,
             speakerId: message.speakerId,
             speakerActor: message.speakerActor,
@@ -1131,12 +1249,12 @@ export class SR5_DiceHelper {
         let result = SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionAuthor);
+        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionActor);
         SR5_Dice.renderRollCard(cardData);
     }
 
     static async jamSignals(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionAuthor);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
         let effect = {
             name: game.i18n.localize("SR5.EffectSignalJam"),
             type: "itemEffect",
@@ -1162,6 +1280,106 @@ export class SR5_DiceHelper {
         await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
+    static _getThresholdEffect(location){
+        switch(location){
+			case "genitals":
+                return 4;
+			case "neck":
+			case "eye":
+			case "foot":
+			case "sternum": 
+                return 3;
+			case "gut":                    
+			case "knee":
+            case "jaw":
+			case "hand":
+			case "ear":
+                return 2;
+			case "shoulder":
+                return 1;
+            default: return 0;
+		}
+    }
+    
+    static _getInitiativeEffect(location){
+        switch(location){
+			case "gut": 
+			case "shoulder":   
+            case "jaw":
+		    case "hand":
+			case "foot":
+                return 5;
+			case "neck":                
+			case "knee":
+			case "eye":
+			case "genitals":
+			case "sternum":
+			case "ear":
+                return 10;
+            default: return 0;
+		}
+    }
+
+    static async chooseSpendNetHits(message, actor){
+        let messageData = message.data.flags.sr5data;
+        let cancel = true;
+        let effects = [];
+        let numberCheckedEffects = 0, 
+            checkedEffects = {};
+        let dialogData = {
+            calledShot: messageData.calledShot,
+            disposableHits: messageData.netHits - 1,
+        };
+
+        renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
+            new SR5_SpendDialog({
+                title: game.i18n.localize('SR5.SpendHitsForStatus'),
+                content: dlg,
+                data: dialogData,
+                buttons: {
+                    ok: {
+                        label: "Ok",
+                        callback: () => (cancel = false),
+                    },
+                    cancel: {
+                        label: "Cancel",
+                        callback: () => (cancel = true),
+                    },
+                },
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+                    numberCheckedEffects = html.find("[name='checkDisposableHitsEffects']:checked").length;
+                    for (let i = 0; i < numberCheckedEffects; ++i) {
+                        let name = html.find("[name='checkDisposableHitsEffects']:checked")[i].value;
+                        checkedEffects = {
+                            name: name,
+                            type: messageData.calledShot.location,
+                            threshold: (name === "stunned") ? this._getThresholdEffect(messageData.calledShot.location) : 0,
+                            initiative: (name === "stunned") ? this._getInitiativeEffect(messageData.calledShot.location) : 0,
+                            initialDV: messageData.damageValue,
+                        };
+                        effects.push(checkedEffects);
+                    }
+                    ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);      
+                    messageData = mergeObject(messageData, {
+                        calledShotHitsSpent: true,
+                        calledShot: {
+                            "effects": effects,
+                        },
+                    });
+
+                    //Update chatMessage
+                    let newMessage = duplicate(messageData);
+                    newMessage.hits = messageData.hits - numberCheckedEffects;
+                    SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
+                    if (!game.user?.isGM) SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
+                    else SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
+                },
+            }).render(true);
+        });
+    }
+
     static async reduceSideckickService(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId),
             data = duplicate(actor.data.data),
@@ -1177,7 +1395,6 @@ export class SR5_DiceHelper {
         data[key].value -= message.netHits;
         if (data[key].value < 0) data[key].value = 0;
         await actor.update({'data': data});
-        
     }
 
     static async enslavedSidekick(message, type){
@@ -1210,7 +1427,7 @@ export class SR5_DiceHelper {
                 itemData.services.value += message.netHits;
                 itemData.services.max += message.netHits;
             }
-            await itemSideKick.update({'data' : itemData});
+            await itemSideKick.update({'data': itemData});
         }
     }
 
@@ -1308,6 +1525,7 @@ export class SR5_DiceHelper {
         let target = await fromUuid(message.data.item);
         await target.update({'data': message.data.data});
 	}
+
     //Socket for deleting an item
     static async _socketDeleteItem(message){
         let item = await fromUuid(message.data.item);
@@ -1357,6 +1575,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.ToxinEffectDisorientation_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1379,6 +1598,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.ToxinEffectNausea_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1401,6 +1621,7 @@ export class SR5_DiceHelper {
                                 "forceAdd": true,
                             }
                         },
+                        "data.gameEffect": game.i18n.localize("SR5.ToxinEffectParalysis_GE"),
                     });
                     itemEffects.push(effect);
                 }
@@ -1409,5 +1630,1293 @@ export class SR5_DiceHelper {
         }
     
     return itemEffects;
+    }
+
+    static async getCalledShotsEffect(effecType, data, actor, weakSideSpecific){
+        let itemEffects = [],
+            calledShotsType = effecType.name,
+            hasEffect = actor.items.find(i => i.data.data.type === calledShotsType),
+            duration, 
+            hasWeakSide = actor.items.find(i => i.data.data.type === "weakSide");
+
+        let effect = {
+            name: game.i18n.localize(SR5.calledShotsEffects[calledShotsType]),
+            type: "itemEffect",
+            "data.type": calledShotsType,
+        }
+        let effect2 = effect;
+
+        switch (calledShotsType){
+            case "bleedOut": //done, can't be automatised
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_BleedOut_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "blinded": //partially done: effect apply to all sight action, but for now only perception is concerned
+                if (hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.SightPenalty"),
+                        "data.value": -8,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                              "category": "skills",
+                              "target": "data.skills.perception.perceptionType.sight.test",
+                              "type": "value",
+                              "value": -8,
+                            }
+                          },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Blinded_GE"),
+                    });
+                    await actor.deleteEmbeddedDocuments("Item", [hasEffect.id]);
+                    itemEffects.push(effect);
+                } else {
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.SightPenalty"),
+                        "data.value": -4,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Blinded_GE"),
+                        "data.customEffects": {
+                            "0": {
+                              "category": "skills",
+                              "target": "data.skills.perception.perceptionType.sight.test",
+                              "type": "value",
+                              "value": -4,
+                            }
+                          },
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "brokenGrip": //Partially done: can't apply an effect based on arm usage
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.value": -1,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_BrokenGrip_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                if (hasWeakSide || weakSideSpecific) {
+                    if(hasWeakSide) await actor.deleteEmbeddedDocuments("Item", [hasWeakSide.id]);
+                    effect2 = mergeObject(effect2, {
+                        "name": game.i18n.localize(SR5.calledShotsEffects["weakSide"]),
+                        "data.type": "weakSide",
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.value": -1,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.block",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "1": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.defend",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "2": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.dodge",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "3": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryBlades",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "4": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryClubs",
+                                "type": "value",
+                                "value": -1,
+                            }
+                        },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_WeakSide_GE"),
+                    });
+                    itemEffects.push(effect2);
+                }
+                break;
+            case "buckled": //done
+                duration = {
+                    type: "round",
+                    duration: data.hits - data.test.hits,
+                }
+                await actor.createProneEffect(0, actor.data, 0, duration, "buckled");
+                break;
+            case "deafened": //done        
+                if (hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.HearingPenalty"),
+                        "data.value": -4,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                              "category": "skills",
+                              "target": "data.skills.perception.perceptionType.hearing.test",
+                              "type": "value",
+                              "value": -4,
+                            }
+                          },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Deafened_GE"),
+                    });
+                    await actor.deleteEmbeddedDocuments("Item", [hasEffect.id]);
+                    itemEffects.push(effect);
+                }
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.HearingPenalty"),
+                        "data.value": -2,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                              "category": "skills",
+                              "target": "data.skills.perception.perceptionType.hearing.test",
+                              "type": "value",
+                              "value": -2,
+                            }
+                        },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Deafened_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "dirtyTrick": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.value": effecType.value || -4,
+                        "data.duration": 1,
+                        "data.durationType": "action",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": effecType.value || -4,
+                                "forceAdd": true,
+                            }
+                        },                    
+                        "data.gameEffect": game.i18n.format("SR5.STATUSES_DirtyTrick_GE", {value: effecType.value || -4}),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "entanglement": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Agility"),
+                        "data.value": -effecType.netHits,
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "characterAttributes",
+                                "target": "data.attributes.agility.augmented",
+                                "type": "value",
+                                "value": -effecType.netHits,
+                            }
+                        },                    
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Entanglement_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "feint":  //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.value": -data.netHits,
+                        "data.duration": 1,
+                        "data.durationType": "action",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.block",
+                                "type": "value",
+                                "value": -data.netHits,
+                            },
+                            "1": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.defend",
+                                "type": "value",
+                                "value": -data.netHits,
+                            },
+                            "2": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.dodge",
+                                "type": "value",
+                                "value": -data.netHits,
+                            },
+                            "3": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryBlades",
+                                "type": "value",
+                                "value": -data.netHits,
+                            },
+                            "4": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryClubs",
+                                "type": "value",
+                                "value": -data.netHits,
+                            }
+                        },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Feint_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "flared": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.value": -8,
+                        "data.duration": 1,
+                        "data.durationType": "action",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -8,
+                                "forceAdd": true,
+                            }
+                        }, 
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Flared_GE"),
+                    });
+                    effect2 = mergeObject(effect2, {
+                        "data.target": game.i18n.localize("SR5.SightPenalty"),
+                        "data.value": -99,
+                        "data.duration": 10,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.skills.perception.perceptionType.sight.test",
+                                "type": "value",
+                                "value": -99,
+                                "forceAdd": true,
+                            }
+                        }, 
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Flared_GE"),
+                    });
+                    itemEffects.push(effect, effect2);
+                }
+                break;
+            case "knockdown": //done
+                duration = {
+                    type: "special",
+                    duration: 0,
+                }
+                await actor.createProneEffect(0, actor.data, 0, duration, "knockdown");
+                break;
+            case "oneArmBandit": //Partially done: can't apply an effect based on arm usage
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.value": -6,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_OneArmBandit_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                //Apply weak side effect in the same time
+                if (hasWeakSide || weakSideSpecific) {
+                    if (hasWeakSide) await actor.deleteEmbeddedDocuments("Item", [hasWeakSide.id]);
+                    effect2 = mergeObject(effect2, {
+                        "name": game.i18n.localize(SR5.calledShotsEffects["weakSide"]),
+                        "data.type": "weakSide",
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.value": -1,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.block",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "1": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.defend",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "2": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.dodge",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "3": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryBlades",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "4": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryClubs",
+                                "type": "value",
+                                "value": -1,
+                            }
+                        },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_WeakSide_GE"),
+                    });
+                    itemEffects.push(effect2);
+                }
+                break;
+            case "onPinsAndNeedles": //done, can't be automatised
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.MovementPenalty"),
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_OnPinsAndNeedles_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "nauseous": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.value": -4,
+                        "data.duration": data.hits - data.test.hits,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -4,
+                                "forceAdd": true,
+                            }
+                        },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Nauseous_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "pin": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Defenses"),
+                        "data.value": effecType.initialDV,
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.block",
+                                "type": "value",
+                                "value": -2,
+                            },
+                            "1": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.defend",
+                                "type": "value",
+                                "value": -2,
+                            },
+                            "2": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.dodge",
+                                "type": "value",
+                                "value": -2,
+                            },
+                            "3": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryBlades",
+                                "type": "value",
+                                "value": -2,
+                            },
+                            "4": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryClubs",
+                                "type": "value",
+                                "value": -2,
+                            }
+                        },                       
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Pin_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "shaked": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "data.value": -1,
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "penaltyTypes",
+                                "target": "data.penalties.special.actual",
+                                "type": "value",
+                                "value": -1,
+                                "forceAdd": true,
+                            }
+                        }, 
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Shaked_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;  
+            case "slowDeath": //done, can't be automatised
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_SlowDeath_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "slowed": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.MovementPenalty"),
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.customEffects": {
+                            "0": {
+                              "category": "movements",
+                              "target": "data.movements.run.movement",
+                              "type": "divide",
+                              "value": 0,
+                              "multiplier": 2,
+                              "wifi": false,
+                              "transfer": false
+                            },
+                            "1": {
+                              "category": "movements",
+                              "target": "data.movements.run.extraMovement",
+                              "type": "divide",
+                              "value": 0,
+                              "multiplier": 2,
+                              "wifi": false,
+                              "transfer": false
+                            },
+                            "2": {
+                              "category": "movements",
+                              "target": "data.movements.run.maximum",
+                              "type": "divide",
+                              "value": 0,
+                              "multiplier": 2,
+                              "wifi": false,
+                              "transfer": false
+                            },
+                            "3": {
+                              "category": "movements",
+                              "target": "data.movements.walk.movement",
+                              "type": "divide",
+                              "value": 0,
+                              "multiplier": 2,
+                              "wifi": false,
+                              "transfer": false
+                            },
+                            "4": {
+                              "category": "movements",
+                              "target": "data.movements.walk.extraMovement",
+                              "type": "divide",
+                              "value": 0,
+                              "multiplier": 2,
+                              "wifi": false,
+                              "transfer": false
+                            },
+                            "5": {
+                              "category": "movements",
+                              "target": "data.movements.walk.maximum",
+                              "type": "divide",
+                              "value": 0,
+                              "multiplier": 2,
+                              "wifi": false,
+                              "transfer": false
+                            },
+                          },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Slowed_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "trickShot": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.SkillIntimidation"),
+                        "data.value": data.netHits,
+                        "data.duration": "1",
+                        "data.durationType": "action",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "skills",
+                                "target": "data.skills.intimidation.test",
+                                "type": "value",
+                                "value": data.netHits,
+
+                            }
+                        },                    
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_TrickShot_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "unableToSpeak": //done, can't be automatised
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Language"),
+                        "data.value": "",
+                        "data.duration": data.damageValue,
+                        "data.durationType": "hour",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_UnableToSpeak_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "weakSide": //done
+                let hasBrokenGrip = actor.items.find(i => i.data.data.type === "brokenGrip");
+                let hasOneArm = actor.items.find(i => i.data.data.type === "oneArmBandit");
+                if (hasEffect) await actor.deleteEmbeddedDocuments("Item", [hasEffect.id]);
+                if (hasBrokenGrip || hasOneArm) {
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.value": -1,
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.customEffects": {
+                            "0": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.block",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "1": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.defend",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "2": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.dodge",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "3": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryBlades",
+                                "type": "value",
+                                "value": -1,
+                            },
+                            "4": {
+                                "category": "characterDefenses",
+                                "target": "data.defenses.parryClubs",
+                                "type": "value",
+                                "value": -1,
+                            }
+                        },
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_WeakSide_GE"),
+                    });
+                    itemEffects.push(effect);
+                } else {
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.Penalty"),
+                        "data.duration": "",
+                        "data.durationType": "special",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_WeakSide_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "winded": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.ComplexAction"),
+                        "data.duration": effecType.initialDV,
+                        "data.durationType": "round",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Winded_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "antenna":
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.CS_ST_Antenna"),
+                        "data.value": "",
+                        "data.duration": "",
+                        "data.durationType": "permanent",                  
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Antenna_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "engineBlock": //done
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.CS_ST_EngineBlock"),
+                        "data.value": "",
+                        "data.duration": "",
+                        "data.durationType": "permanent",                
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_EngineBlock_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "windowMotor":
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.CS_ST_WindowMotor"),
+                        "data.value": "",
+                        "data.duration": "",
+                        "data.durationType": "permanent",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_WindowMotor_GE"),
+                    });
+                itemEffects.push(effect);
+                }
+                break;
+            case "doorLock":
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.CS_ST_DoorLock"),
+                        "data.value": "",
+                        "data.duration": "",
+                        "data.durationType": "permanent",              
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_DoorLock_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "axle":
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.CS_ST_Axle"),
+                        "data.value": "",
+                        "data.duration": "",
+                        "data.durationType": "permanent",
+                        "data.customEffects":  {
+                            "0": {
+                                "category": "vehicleAttributes",
+                                "target": "data.attributes.speed.augmented",
+                                "type": "valueReplace",
+                                "value": 1,
+                                "multiplier": null,
+                                "wifi": false,
+                                "transfer": false
+                            },
+                            "1": {
+                                "category": "vehicleAttributes",
+                                "target": "data.attributes.speedOffRoad.augmented",
+                                "type": "valueReplace",
+                                "value": 1,
+                                "multiplier": null,
+                                "wifi": false,
+                                "transfer": false
+                            }
+                        },                   
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_Axle_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            case "fuelTankBattery":
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "data.target": game.i18n.localize("SR5.CS_ST_FuelTankBattery"),
+                        "data.value": "",
+                        "data.duration": "",
+                        "data.durationType": "permanent",
+                        "data.gameEffect": game.i18n.localize("SR5.STATUSES_FuelTankBattery_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
+            default:
+        }
+        return itemEffects;
+    }
+
+    static convertCalledShotToMod(calledShot, ammoType){
+        switch(calledShot) {
+            case "shakeUp":
+            case "trickShot":
+            case "breakWeapon":
+            case "disarm":
+            case "feint":
+            case "knockdown":
+            case "reversal":
+            case "splittingDamage":
+            case "pin":
+            case "entanglement":
+            case "dirtyTrick":
+            case "windowMotor":
+            case "engineBlock":
+            case "extremeIntimidation":
+            case "onPinsAndNeedles": 
+            case "tag":
+            case "bullsEye":
+            case "blastOutOfHand":
+            case "shakeRattle":
+            case "shreddedFlesh":
+            case "upTheAnte":
+            case "harderKnock":
+            case "vitals":
+                return -4;
+            case "gut": 
+            case "forearm":
+            case "shin": 
+            case "shoulder":                   
+            case "thigh": 
+            case "hip": 
+            case "doorLock":
+            case "axle":
+            case "fuelTankBattery":
+            case "flashBlind":
+            case "hitEmWhereItCounts":
+            case "warningShot":
+            case "ricochetShot":
+                return -6;
+            case "ankle":
+            case "knee":
+            case "hand":
+            case "foot":
+            case "neck":
+            case "jaw":
+            case "antenna":
+            case "bellringer":
+            case "downTheGullet":
+                return -8;
+            case "ear":
+            case "eye":
+            case "genitals":
+            case "sternum":
+                return -10;
+            case "flameOn": 
+                switch(ammoType) {
+                    case "flare":
+                    case "gyrojet": 
+                        return -10;
+                    case "tracer": 
+                        return -6;
+                }
+            default:
+                return 0;
+        }
+    }
+
+    static convertCalledShotToLimitDV(calledShot, ammoType){
+        switch(calledShot) {
+            case "gut": 
+                return 8;               
+            case "forearm":
+            case "shin": 
+            case "jaw":
+            case "antenna":
+            case "downTheGullet":
+            case "flashBlind":
+                return 2;
+            case "shoulder":                   
+            case "thigh": 
+            case "hip": 
+                return 3;
+            case "ankle":
+            case "knee":
+            case "hand":
+            case "foot":
+            case "ear":
+            case "eye":
+            case "flameOn":
+            case "hitEmWhereItCounts":
+            case "throughAndInto":
+                return 1;
+            case "sternum":
+            case "neck":
+            case "shreddedFlesh":
+                return 10;
+            case "genitals":
+            case "bellringer":
+                return 4;
+            case "axle":
+                return 6;
+            case "blastOutOfHand":
+                switch(ammoType) {
+                    case "explosive": 
+                    case "gel": 
+                    case "hollowPoint": 
+                    case "flechette":
+                        return 2;
+                    case "exExplosive": 
+                        return 3;                      
+                    default:                     
+                        return 0;
+                }
+            case "dirtyTrick": 
+                if (ammoType === "gel" || ammoType === "gyrojet") return 2;
+                else return 0;
+            default:
+                return 0;
+        }
+    }
+
+    static convertCalledShotToEffect(calledShot, ammoType){
+        let effect;
+        switch(calledShot) {
+            case "dirtyTrick":
+                switch(ammoType) { 
+                    case "exExplosive":  
+                        return effect = {"0": {"name": calledShot, "value": -6}};
+                    case "explosive":
+                    case "frangible": 
+                    case "hollowPoint": 
+                        return effect = {"0": {"name": calledShot, "value": -5}};
+                    case "gel":
+                    case "gyrojet":
+                        return effect = {"0": {"name": calledShot, "value": -4}};
+                    default:                     
+                        return effect = {"0": {"name": calledShot, "value": -4,}};
+                }
+            case "antenna":
+            case "axle":
+            case "doorLock": 
+            case "engineBlock":
+            case "fuelTankBattery":
+            case "windowMotor":
+            case "onPinsAndNeedles":
+            case "trickShot":
+            case "feint":
+                return effect = {"0": {"name": calledShot,}};
+            case "blastOutOfHand":
+                switch(ammoType) {
+                    case "explosive": 
+                    case "gel": 
+                    case "hollowPoint": 
+                        return effect = {"0": {"name": calledShot, "modFingerPopper": 0,}};
+                    case "exExplosive": 
+                        return effect = {"0": {"name": calledShot, "modFingerPopper": 1,}};
+                    default:                     
+                        return effect = {"0": {"name": calledShot, "modFingerPopper": -1,}};
+                }
+            case "flashBlind":
+                return effect = {"0": {"name": "flared",}};               
+            case "shreddedFlesh":
+                return effect = {"0": {"name": "bleedOut",}};
+            default:
+                return effect = {};
+        }
+    }
+
+    static convertCalledShotToInitiativeMod(ammoType){
+        switch(ammoType) {
+            case "explosive": 
+                return -6; 
+            case "exExplosive": 
+                return -8;
+            default:                     
+                return -5;
+        }
+    }
+
+    static convertHealingConditionToDiceMod(condition){
+        switch (condition){
+            case "good":
+                return 0;
+            case "average":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            default: return 0;
+        }
+    }
+
+    static findMedkitRating(actor){
+        let medkit = {};
+        let item = actor.items.find(i => i.data.data.isMedkit)
+        if (item && item.data.data.charge > 0){
+            medkit.rating = item.data.data.itemRating;
+            medkit.id = item.id;
+            return medkit;
+        }
+    }
+
+    static convertRestraintTypeToThreshold(type){
+        switch (type){
+            case "rope":
+                return 2;
+            case "metal":
+                return 3;
+            case "straitjacket":
+                return 4;
+            case "containment":
+                return 5;
+            default: return 2;
+        }
+    }
+
+    static convertPerceptionTypeToThreshold(type){
+        switch (type){
+            case "opposed":
+                return 0;
+            case "obvious":
+                return 1;
+            case "normal":
+                return 2;
+            case "obscured":
+                return 3;
+            case "hidden":
+                return 4;
+            default: return 0;
+        }
+    }
+
+    static convertWeatherModifierToMod(type){
+        switch (type){
+            case "poor":
+                return -1;
+            case "terrible":
+                return -2;
+            case "extreme":
+                return -4;
+            default: return 0;
+        }
+    }
+
+    static convertSurvivalThresholdTypeToThreshold(type){
+        switch (type){
+            case "mild":
+                return 1;
+            case "moderate":
+                return 2;
+            case "tough":
+                return 3;
+            case "extreme":
+                return 4;
+            default: return 0;
+        }
+    }
+
+    static convertSocialAttitudeValueToMod(type){
+        switch (type){
+            case "friendly":
+                return 2;
+            case "neutral":
+                return 0;
+            case "suspicious":
+                return -1;
+            case "prejudiced":
+                return -2;
+            case "hostile":
+                return -3;
+            case "enemy":
+                return -4;
+            default: return 0;
+        }
+    }
+
+    static convertSocialResultValueToMod(type){
+        switch (type){
+            case "advantageous":
+                return 1;
+            case "ofNoValue":
+                return 0;
+            case "annoying":
+                return -1;
+            case "harmful":
+                return -3;
+            case "disastrous":
+                return -4;
+            default: return 0;
+        }
+    }
+
+    static convertSocialCheckboxToMod(type, actorData){
+        switch (type){
+            case "socialIsDistracted":
+            case "socialAuthority":
+                return 1;
+            case "socialAce":
+            case "socialRomantic":
+            case "socialOutnumber":
+            case "socialWieldingWeapon":
+            case "socialTorture":
+            case "socialObliviousToDanger":
+            case "socialFan":
+            case "socialBlackmailed":
+                return 2;
+            case "socialEvaluateSituation":
+            case "socialIntoxicated":
+            case "socialIsDistractedInverse":
+                return -1;
+            case "socialBadLook":
+            case "socialNervous":
+            case "socialOutnumberTarget":
+            case "socialWieldingWeaponTarget":
+            case "socialLacksKnowledge":
+                return -2;
+            case "socialReputation":
+                return actorData.data.streetCred.value;
+            default: return 0;
+        }
+    }
+
+    static convertWorkingConditionToMod(type){
+        switch (type){
+            case "distracting":
+                return -1;
+            case "poor":
+                return -2;
+            case "bad":
+                return -3;
+            case "terrible":
+                return -4;
+            case "superior":
+                return 1;
+            default: return 0;
+        }
+    }
+
+    static convertToolsAndPartsToMod(type){
+        switch (type){
+            case "inadequate":
+                return -2;
+            case "unavailable":
+                return -4;
+            case "superior":
+                return 1;
+            default: return 0;
+        }
+    }
+
+    static convertPlansMaterialToMod(type){
+        switch (type){
+            case "available":
+                return 1;
+            case "augmented":
+                return 2;
+            default: return 0;
+        }
+    }
+
+    static convertCoverToMod(type){
+        switch (type){
+            case "none":
+                return 0;
+            case "partial":
+                return 2;
+            case "full":
+                return 4;
+            default: return 0;
+        }
+    }
+    
+    static convertMarkToMod(type){
+        switch (type){
+            case "1":
+                return 0;
+            case "2":
+                return -4;
+            case "3":
+                return -10;
+            default: return 0;
+        }
+    }
+
+    static convertTriggerToMod(type){
+        switch (type){
+            case "command":
+            case "time":
+                return 2;
+            case "contact":
+                return 1;
+            default: return 0;
+        }
+    }
+
+    static convertSearchTypeToThreshold(type){
+        switch (type){
+            case "general":
+                return 1;
+            case "limited":
+                return 3;
+            case "hidden":
+                return 1;
+            default: return 0;
+        }
+    }
+
+    static convertSpeedToDamageValue(speed, body){
+        switch(speed) {
+            case "speedRamming1":
+                return Math.ceil(body/2);
+            case "speedRamming11":
+                return body;
+            case "speedRamming51":
+                return body*2;
+            case "speedRamming201":
+                return body*3;
+            case "speedRamming301":
+                return body*5;
+            case "speedRamming501":
+                return body*10;
+            default:
+        }
+    }
+
+    static convertSpeedToAccidentValue(speed, body){
+        switch(speed) {
+            case "speedRamming1":
+                return Math.ceil(body/4);
+            case "speedRamming11":
+                return Math.ceil(body/2);
+            case "speedRamming51":
+                return body;
+            case "speedRamming201":
+                return Math.ceil((body*3)/2);
+            case "speedRamming301":
+                return Math.ceil(body*2,5);
+            case "speedRamming501":
+                return Math.ceil(body*5);
+            default:
+        }
+    }
+
+    static convertBarrierTypeToStructure(barrierType){
+        switch(barrierType){
+            case "fragile":
+                return 1
+            case "cheap":
+                return 2
+            case "average":
+                return 4
+            case "heavy":
+                return 6
+            case "reinforced":
+                return 8
+            case "structural":
+                return 10
+            case "structuralHeavy":
+                return 12
+            case "armored":
+                return 14
+            case "hardened":
+                return 16
+            default: return 6
+        }
+    }
+    
+    static convertBarrierTypeToArmor(barrierType){
+        switch(barrierType){
+            case "fragile":
+                return 2
+            case "cheap":
+                return 4
+            case "average":
+                return 6
+            case "heavy":
+                return 8
+            case "reinforced":
+                return 12
+            case "structural":
+                return 16
+            case "structuralHeavy":
+                return 20
+            case "armored":
+                return 24
+            case "hardened":
+                return 32
+            default: return 8
+        }
+    }
+
+    static async applyEffectToItem(data, type){
+        let item = await fromUuid(data.targetItem);
+        item = item.toObject(false);
+        let actor = SR5_EntityHelpers.getRealActorFromID(data.actorId);
+        let effect;
+
+        if (type === "decreaseAccuracy"){
+            effect = {
+                "name": game.i18n.localize("SR5.WeaponBroken"),
+                "target": "data.accuracy",
+                "wifi": false,
+                "type": "value",
+                "value": -1,
+                "multiplier": 1
+            }
+        }
+
+        if (type === "decreaseReach"){
+            effect = {
+                "name": game.i18n.localize("SR5.WeaponBroken"),
+                "target": "data.reach",
+                "wifi": false,
+                "type": "value",
+                "value": -1,
+                "multiplier": 1
+            }
+        }
+
+        item.data.itemEffects.push(effect);
+        await actor.updateEmbeddedDocuments("Item", [item]);
+    }
+
+    static async sortDicePoolComposition(dicePool){
+        let attributes = [],
+            skills = [],
+            armors = [],
+            powers = [],
+            everythingElse = [];
+
+        for (let a of dicePool){
+            switch(a.type){
+                case "Attribut lié":
+                case "Linked Attribute":
+                    attributes.push(a);
+                    break;
+                case "Indice de compétence":
+                case "Groupe de compétences":
+                case "Skill rating":
+                case "Skill Group":
+                    skills.push(a);
+                    break;
+                case "Armure":
+                case "Armor":
+                    armors.push(a);
+                    break;
+                default: everythingElse.push(a);
+            }
+        }
+
+        attributes.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        skills.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        armors.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        powers.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        everythingElse.sort((a,b) => (a.source > b.source) ? 1 : -1);
+        let dicePoolComposition = attributes.concat(skills, armors, powers, everythingElse);
+        return dicePoolComposition;
     }
 }

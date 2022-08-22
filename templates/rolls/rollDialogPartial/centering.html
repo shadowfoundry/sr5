@@ -1,14 +1,7 @@
-<li class="grid SR-TopSeparator">
-    <div class="col-9">{{localize 'SR5.MetamagicCentering'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2">
-        <select name="centering">
-        {{#select centering}}
-            <option value="false">{{localize 'SR5.No'}}</option>
-            <option value="true">{{localize 'SR5.Yes'}}</option>
-        {{/select}}
-        </select>
-    </div>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.MetamagicCentering'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModCentering" data-modifier="centering"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="dicePoolModCentering" value="{{centering}}" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModCentering" value="{{centering}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>

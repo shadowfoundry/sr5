@@ -1,10 +1,13 @@
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
+import { SR5_SystemHelpers } from "../system/utility.js";
+import { SR5 } from "../config.js";
 export default class SR5_RollDialog extends Dialog {
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             height: 'auto',
+            width: 450,
             resizable: false,
         });
     }
@@ -14,10 +17,11 @@ export default class SR5_RollDialog extends Dialog {
         for (let value of Object.values(this.dicePoolModifier)){
             dicePoolModifier += value;
         }
+        if (html.find('[name="dicePoolModifiers"]').length) html.find('[name="dicePoolModifiers"]')[0].value = dicePoolModifier;
         let modifiedDicePool = dicePoolModifier + parseInt(html.find('[name="baseDicePool"]')[0].value);
         this.data.data.dicePoolBase = parseInt(html.find('[name="baseDicePool"]')[0].value);
         if (modifiedDicePool < 0) modifiedDicePool = 0;
-        html.find('[name="modifiedDicePool"]')[0].value = modifiedDicePool;
+        html.find('[data-button="roll"]')[0].innerHTML = `<i class="fas fa-dice-six"></i> ${game.i18n.localize("SR5.RollDice")} (${modifiedDicePool})`;
     }
 
     updateLimitValue(html) {
@@ -38,7 +42,7 @@ export default class SR5_RollDialog extends Dialog {
     updateDrainValue(html) {
         this.data.data.force = parseInt(html.find('[name="force"]')[0].value);
         if (html.find('[name="drainValue"]')[0]){
-            let drainModifier = this.data.data.drainMod.spell;
+            let drainModifier = this.data.data.drainMod.spell.value;
             for (let value of Object.values(this.drainModifier)){
                 drainModifier += value;
             }
@@ -63,62 +67,15 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
-    async updateMatrixNoise(html){
-        let noiseValue = 0,
-            noiseRangeMod = 0,
-            sceneNoise = 0,
-            noiseReduction = 0,
-            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
-
-        if (html.find('[name="matrixRange"]')[0].value === 'wired') {
-            $(html).find(".hideMatrixNoise").hide();
-            if(game.settings.get("sr5", "sr5MatrixGridRules")){
-                this.dicePoolModifier.differentGrid = 0;
-                this.data.data.dicePoolMod.differentGrid = 0;
-                if (html.find('[name="publicGridMod"]')[0]){
-                    this.dicePoolModifier.publicGrid = 0;
-                    this.data.data.dicePoolMod.publicGrid = 0;
-                    html.find('[name="publicGridMod"]')[0].value = 0;
-                }
-            }
-        } else {
-            $(html).find(".hideMatrixNoise").show();
-            noiseRangeMod = SR5_DiceHelper.convertMatrixDistanceToDiceMod(html.find('[name="matrixRange"]')[0].value);
-            if (html.find('[name="publicGridMod"]')[0] && game.settings.get("sr5", "sr5MatrixGridRules")){
-                this.dicePoolModifier.publicGrid = -2;
-                this.data.data.dicePoolMod.publicGrid = -2;
-                html.find('[name="publicGridMod"]')[0].value = -2;
-            }
-            sceneNoise = this.data.data.matrixNoiseScene;
-            noiseReduction = actor.data.data.matrix.attributes.noiseReduction.value;
-            if (noiseReduction > (-noiseRangeMod - sceneNoise)) noiseReduction = (-noiseRangeMod - sceneNoise);
-            if ((noiseRangeMod + sceneNoise) === 0) noiseReduction = 0;
-            noiseValue = noiseRangeMod + sceneNoise + noiseReduction;
-            if (noiseValue > 0) noiseValue = 0;
-        }
-        this.data.data.dicePoolMod.matrixNoiseRange = noiseRangeMod;
-        this.data.data.matrixNoiseRange = html.find('[name="matrixRange"]')[0].value;
-        this.data.data.dicePoolMod.matrixNoiseReduction = noiseReduction;
-        this.data.data.dicePoolMod.matrixNoiseScene = sceneNoise;
-        if (html.find('[name="matrixNoiseReduction"]')[0]) html.find('[name="matrixNoiseReduction"]')[0].value = noiseReduction;
-        this.dicePoolModifier.matrixNoise = noiseValue;
-        html.find('[name="matrixNoiseRangeValue"]')[0].value = noiseRangeMod;
-        if (html.find('[name="matrixSceneNoiseValue"]')[0]) html.find('[name="matrixSceneNoiseValue"]')[0].value = sceneNoise;
-        html.find('[name="matrixNoise"]')[0].value = noiseValue;
-        this.updateDicePoolValue(html);
-        let element = document.getElementById(this.id);
-        element.style.height = "auto";
-    }
-
     calculRecoil(html){
         let firingModeValue,
             actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
             item = actor.items.find(i => i.id === this.data.data.itemId);
 
-        if (html.find('[name="firingMode"]')[0].value === "SS"){
+        if (html.find('[data-modifier="firingMode"]')[0].value === "SS"){
             firingModeValue = 0;
             $(html).find(".hideBulletsRecoil").hide();
-        } else firingModeValue = SR5_DiceHelper.convertModeToBullet(html.find('[name="firingMode"]')[0].value);
+        } else firingModeValue = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
 
         this.data.data.firedAmmo = firingModeValue;
         html.find('[name="recoilBullets"]')[0].value = firingModeValue;
@@ -150,338 +107,890 @@ export default class SR5_RollDialog extends Dialog {
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
 
-        if (document.getElementById("interval")) document.getElementById("interval").style.display = "none";
-        if (document.getElementById("useReagents")) document.getElementById("useReagents").style.display = "none";
-        if (document.getElementById("useSpiritAid")) document.getElementById("useSpiritAid").style.display = "none";
-
-        if (dialogData.type === "ritual"){
-            document.getElementById("useReagents").style.display = "block";
-            html.find('[name="reagents"]')[0].value = "true";
-            html.find('[name="reagentsSpent"]')[0].value = 1;
+        //Show some block on initial draw
+        if (dialogData.type === "ritual") {
+            $(html).find('#useReagents').show();
+            $(html).find('#reagentsModControl').show();
         }
 
-        // Various modifiers
-        html.find('[name="dicePoolModVarious"]').change(ev => this._addVariousModifier(ev, html, dialogData));
-
-        // Specialization modifier
-        html.find(".specialization").change(ev => this._addSpecializationModifier(ev, html, dialogData));
-
-        // Penalties modifiers
-        html.find(".penaltyMod").change(ev => this._addPenaltyModifier(ev, html, dialogData));
-
-        // Attribute modifiers
-        html.find(".attribute").change(ev => this._addAttributeModifier(ev, html, dialogData, actorData));
-
-        // Armor
-        if (html.find('[name="armor"]')[0]) this._addArmorModifier(html);
-
-        // Incoming AP
-        if (html.find('[name="incomingPA"]')[0]) this._addArmorPenetrationModifier(html)
-
-        // Incoming Firing Mode modifiers
-        if (html.find('[name="incomingFiringMode"]')[0]) this._addIncomingFireModeModifiers(null, html, dialogData);
-        html.find(".incomingFiringMode").change(ev => this._addIncomingFireModeModifiers(ev, html, dialogData));
-
-        // Range modifiers
-        if (html.find('[name="dicePoolModRange"]')[0]) this._addRangeModifier(html, dialogData, actorData);
-        html.find(".range").change(ev => this._addRangeModifier(html, dialogData, actorData));
-
-        // Firing mode
-        if (html.find('[name="firingMode"]')[0]) this._addFiringModeModifier(html, dialogData);
-        html.find(".firingMode").change(ev => this._addFiringModeModifier(html, dialogData));
+        //General commands for input
+        html.find('.SR-ModInput').change(ev => this._manualInputModifier(ev, html, dialogData));
+        //General commands for input buttons
+        html.find('.SR-ModControl').click(ev => this._manualInputModifier(ev, html, dialogData, true));
+        //General commands for input already filled by dialogData
+        if (html.find('.SR-ModInputFilled')) this._filledInputModifier(html.find('.SR-ModInputFilled'), html, dialogData);
+        //General commands for checkbox
+        if (html.find('.SR-ModCheckboxFilled')) this._filledCheckBox(html.find('.SR-ModCheckboxFilled'), html, dialogData);
+        html.find('.SR-ModCheckbox').change(ev => this._checkboxModifier(ev, html, dialogData));    
+        //General commands for select
+        html.find('.SR-ModSelect').change(ev => this._selectModifiers(ev, html, dialogData));
+        //General commands for select already filled by dialogData
+        if (html.find('.SR-ModSelectFilled')) this._filledSelectModifier(html.find('.SR-ModSelectFilled'), html, dialogData);
+        //Manage Threshold
+        html.find('.SR-ManageThreshold').change(ev => this._manageThreshold(ev, html, dialogData));
+        if (html.find('.SR-ManageThreshold')) this._filledThreshold(html.find('.SR-ManageThreshold'), html, dialogData);
 
         // Reset Recoil
         html.find(".resetRecoil").click(ev => this._onResetRecoil(ev, html, dialogData, actorData));
-
-        // Defense modifiers
-        html.find(".defenseMode").change(ev => this._addDefenseModeModifier(ev, html, dialogData));
-
-        // Cumulative Defense
-        if (html.find('[name="dicePoolModDefenseCumulative"]')[0]) this._addCumulativeDefenseModifier(html, dialogData);
-
-        // Cover modifiers
-        html.find(".cover").change(ev => this._addCoverModifier(ev, html, dialogData));
-
-        // Full Defense modifiers
-        if (html.find(".fullDefense")) this._addFullDefenseModifierOnStart(html, dialogData, actorData);
-        html.find(".fullDefense").change(ev => this._addFullDefenseModifier(ev, html, dialogData));
-
-        // Reach modifiers
-        if (html.find('[name="reachValue"]')[0]) this._addReachModifier(html, dialogData);
-
-        // Environmental modifier
-        if (html.find('[name="dicePoolModEnvironmental"]')[0]) this._addEnvironmentalModifier(html, dialogData);
-
-        // Mark modifiers
-        if (html.find('[name="dicePoolModMarkWanted"]')[0]) dialogData.dicePoolMod.matrixMarkWanted = -(html.find('[name="dicePoolModMarkWanted"]')[0].value);
-        html.find(".mark").change(ev => this._addWantedMarksModifier(ev, html, dialogData));
-
-        // Matrix Distance
-        html.find(".matrixNoiseRange").change(ev => this.updateMatrixNoise(html));
-
-        // Matrix Noise reduction
-        if (html.find('[name="matrixNoiseReduction"]')[0]) this.updateMatrixNoise(html);
-
-        // Limit modifier
-        html.find(".limitModifier").change(ev => this._addVariousLimitModifier(ev, html, dialogData));
+        // Reset Cumulative Defense
+        html.find(".resetCumulativeDefense").click(ev => this._onResetDefense(ev, html, dialogData, actorData));
 
         // Extended test
-        html.find('[name="extendedValue"]').change(ev => this._onExtendedTest(ev, dialogData));
+        html.find('[name="toggleExtendedTest"]').change(ev => this._onToggleExtendedTest(ev.target.checked, dialogData, html));
 
-        // Sprite type
-        if (html.find('[name="spriteType"]')[0]) dialogData.spriteType = html.find('[name="spriteType"]')[0].value;
-
-        // Spirit type modifier
-        if (html.find('[name="spiritType"]')[0]) this._addSpiritTypeModifier(html, dialogData, actorData);
-        html.find('[name="spiritType"]').change(ev => this._addSpiritTypeModifier(html, dialogData, actorData));
-
-        // Background count
-        if (html.find('[name="backgroundCount"]')[0]) this._addBackgroundCountModifier(html, dialogData);
-
-        // Force change, recalcul Drain
-        if (html.find('[name="force"]')[0]) this.updateDrainValue(html);
-        html.find('[name="force"]').change(ev => this._onForceChange(ev, html, dialogData, actorData));
-
-        //Reckless spellcasting
-        html.find('[name="recklessSpellcasting"]').change(ev => this._addRecklessSpellcastingModifier(html, dialogData));
-
-        // Preparation trigger modifiers
-        if (html.find('[name="preparationTrigger"]')[0]){
-            this.drainModifier.preparationTrigger = parseInt(html.find('[name="triggerValue"]')[0].value);
-            dialogData.preparationTrigger = html.find('[name="preparationTrigger"]')[0].value;
-            dialogData.drainMod.trigger = parseInt(html.find('[name="triggerValue"]')[0].value);
-            this.updateDrainValue(html);
-        }
-        html.find('[name="preparationTrigger"]').change(ev => this._addPreparationTriggerModifier(ev, html, dialogData));
-
-        // Level change, recalcul Fading
-        if (html.find('[name="level"]')[0]) this.updateFadingValue(html);
-        html.find('[name="level"]').change(ev => this.updateFadingValue(html));
-
-        // Perception types
-        html.find('[name="perceptionType"]').change(ev => this._addPerceptionTypeModifier(ev, html, dialogData, actorData));
-
-        //Signature for Sensor
-        html.find('[name="signatureSize"]').change(ev => this._addSignatureSizeModifier(ev, html, dialogData));
-
-        //Locked by sensor
-        if (html.find('[name="sensorLockMod"]')[0]) this._addSensorLockModifier(html);
-
-        //Grid management
-        if (game.settings.get("sr5", "sr5MatrixGridRules")){
-            if (html.find('[name="publicGridMod"]')[0] && (html.find('[name="matrixRange"]')[0].value !== "wired")) {
-                dialogData.dicePoolMod.publicGrid = -2;
-                this.updateDicePoolValue(html);
-            }
-            if (html.find('[name="targetGrid"]')[0]) this._addGridModifier(html, dialogData, actorData);
-            html.find('[name="targetGrid"]').change(ev => this._addGridModifier(html, dialogData, actorData));
-        }
-
-        //Matrix Search
-        if (html.find('[name="searchType"]')[0]) this._getMatrixSearchType(html, dialogData);
-        html.find('[name="searchType"]').change(ev => this._getMatrixSearchType(html, dialogData));
-
-        //Reagents use
-        html.find('[name="reagents"]').change(ev => this._toggleReagentsUse(ev, dialogData));
-        html.find('[name="reagentsSpent"]').change(ev => this._addReagentsLimitModifier(ev, html, dialogData, actorData));
-
-        //Spirit aid
-        html.find('[name="spiritAid"]').change(ev => this._addSpiritAidModifier(ev, html, dialogData));
-
-        //Add modifier depending of the type of the token Targeted
-        if (html.find('[name="targetTypeModifier"]')[0]) this._addTargetTypeModifier(html, dialogData, actorData);
-
-        //Add modifier depending of the type of item Targeted
-        if (html.find('[name="targetEffect"]')[0]) this._addTargetItemModifier(html, dialogData, actorData);
-        html.find('[name="targetEffect"]').change(ev => this._addTargetItemModifier(html, dialogData, actorData));
-
-        //Get Object Resistance Test base dicepool
-        html.find(".objectType").change(ev => this._getObjectTypeDicePool(ev, html, dialogData));
-
-        //Get Damage type, for astral combat
-        if (html.find('[name="damageType"]')[0]) this._getDamageType(html, dialogData);
-        html.find('[name="damageType"]').change(ev => this._getDamageType(html, dialogData));
-
-        //Add modifier for centering metamagic
-        html.find('[name="centering"]').change(ev => this._addCenteringModifier(ev, html, dialogData, actorData));
-
-        //Add modifier for spell shaping metamagic
-        html.find('[name="spellShaping"]').change(ev => this._addSpellShapingModifier(ev, html, dialogData, actorData));
-
-        //Set extended test for Astral Traking
-        if (dialogData.type === "astralTracking"){
-            html.find('[name="extendedValue"]')[0].value = "true";
+        //Set extended test for Astral Traking or Healing test
+        if (dialogData.type === "astralTracking" || dialogData.type === "healing"){
+            html.find('[name="toggleExtendedTest"]')[0].checked = true;
             dialogData.extendedTest = true;
-            document.getElementById("interval").style.display = "block";
-            document.getElementById("extendedSpace").style.display = "none";
+            if (dialogData.typeSub === "physical"){
+                html.find('[name="extendedTime"]')[0].value = "day";
+            }
+            this._onToggleExtendedTest(true, dialogData)
         }
 
-        //Calcul Mana Barrier DicePool
-        html.find('[name="manaBarrierRating"]').change(ev => this._calculManaBarrierDicePool(ev, html, dialogData));
+        //Toggle hidden div
+        html.find(".SR-DialogToggle").click(ev => this._toggleDiv(ev, html));
     }
 
-    //Calcul Mana Barrier DicePool
-    _calculManaBarrierDicePool(ev, html, dialogData){
-        let barrierRating = parseInt((html.find('[name="manaBarrierRating"]')[0].value || 1));
-        html.find('[name="baseDicePool"]')[0].value = barrierRating * 2;
-        this.data.data.dicePool = barrierRating * 2;
-        this.updateDicePoolValue(html);
-    }
+    //Show or Hide section of the dialog
+    _toggleDiv(ev, html){
+        let target = $(ev.currentTarget).attr("data-target"),
+            action = $(ev.currentTarget).attr("data-action"),
+            position = this.position;
 
-    //Get Damage type, for astral combat
-    _getDamageType(html, dialogData){
-        dialogData.damageType = html.find('[name="damageType"]')[0].value;
-    }
-
-    //Add Armor modifiers
-    _addArmorModifier(html){
-        this.dicePoolModifier.armorModifier = parseInt((html.find('[name="armor"]')[0].value || 0));
-        this.updateDicePoolValue(html);
-    }
-
-    //Add Armor Penetration modifiers
-    _addArmorPenetrationModifier(html){
-        let armorValue = parseInt((html.find('[name="armor"]')[0].value || 0));
-        let incomingAP = parseInt((html.find('[name="incomingPA"]')[0].value || 0))
-        let modifiedAP;
-        if (armorValue >= -incomingAP) modifiedAP = incomingAP;
-        else {
-            let usedAP = armorValue + incomingAP;
-            modifiedAP = incomingAP - usedAP;
-        }
-        this.dicePoolModifier.incomingAPModifier = modifiedAP;
-        this.updateDicePoolValue(html);
-    }
-
-    //Add Various modifiers
-    _addVariousModifier(ev, html, dialogData){
-        this.dicePoolModifier.variousModifier = (parseInt(ev.target.value) || 0);
-        dialogData.dicePoolMod.various =  (parseInt(ev.target.value) || 0);
-        this.updateDicePoolValue(html);
-    }
-
-    //Add Specialization modifiers
-    _addSpecializationModifier(ev, html, dialogData){
-        if (ev.target.value) {
-            html.find('[name="dicePoolModSpecialization"]')[0].value = 2;
-            this.dicePoolModifier.specialization = 2;
-            dialogData.dicePoolMod.specialization = 2;
+        if (action === "show"){
+            $(html).find(`#${target}`).show();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).hide();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).show();
         } else {
-            html.find('[name="dicePoolModSpecialization"]')[0].value = 0;
-            this.dicePoolModifier.specialization = 0;
-            dialogData.dicePoolMod.specialization = 0;
+            $(html).find(`#${target}`).hide();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).hide();
+            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).show();
         }
-        this.updateDicePoolValue(html);
+        
+        position.height = "auto";
+        this.setPosition(position);
     }
 
-    //Add Penalty modifiers
-    _addPenaltyModifier(ev, html, dialogData){
-        html.find('[name="dicePoolModPenalty"]')[0].value = (parseInt(ev.target.value) || 0);
-        dialogData.dicePoolMod.penalty = (parseInt(ev.target.value) || 0)
-        this.dicePoolModifier.penalties = (parseInt(ev.target.value) || 0);
-        this.updateDicePoolValue(html);
-    }
+    //Add checkbox modifiers
+    _checkboxModifier(ev, html, dialogData){
+        let isChecked = ev.target.checked,
+            target = $(ev.currentTarget).attr("data-target"),
+            name = `[name=${target}]`,
+            modifierName = $(ev.currentTarget).attr("data-modifier"),
+            label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
+            value = 0;
 
-    //Add attribute modifiers
-    _addAttributeModifier(ev, html, dialogData, actorData){
-        let value = SR5_DiceHelper.getAttributeValue(ev.target.value, actorData);
-        html.find('[name="dicePoolModAttribute"]')[0].value = value;
-        if (ev.target.value !== "none") dialogData.attributeKey = ev.target.value;
-        dialogData.dicePoolMod.attribute = value;
-        this.dicePoolModifier.attributeFirst = value;
-        this.updateDicePoolValue(html);
-    }
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+        let actorData = actor.data;
 
-    //Add incoming fire mode modifiers
-    _addIncomingFireModeModifiers(ev, html, dialogData){
-        let value;
-        if (ev === null) value = parseInt(html.find('[name="incomingFiringMode"]')[0].value);
-        else value = parseInt(ev.target.value);
+        switch (modifierName){
+            case "socialReputation":
+                value = actorData.data.streetCred.value;
+                break;
+            case "workingFromMemory":
+                if (actorData.data.attributes.logic.augmented.value >= 5) value = 0;
+                else value = -(5 - actorData.data.attributes.logic.augmented.value);
+                break;
+            case "penalty":
+                value = dialogData.penaltyValue;
+                break;
+            case "fullDefense":
+                value = dialogData.defenseFull;
+                break;
+            case "reagents":
+                if (isChecked) {
+                    $(html).find('#useReagents').show();
+                    $(html).find('#reagentsModControl').show();
+                }
+                else {
+                    $(html).find('#useReagents').hide();
+                    $(html).find('#reagentsModControl').hide();
+                }
+                return;
+            case "recklessSpellcasting":
+                if (isChecked) value = 3;
+                html.find(name)[0].value = value;
+                dialogData.drainMod.recklessSpellcasting = {
+                    value: value,
+                    label: game.i18n.localize(SR5.drainModTypes[modifierName]),
+                }
+                this.drainModifier.recklessSpellcasting = value;
+                this.updateDrainValue(html);
+                return;
+            case "spiritAid":
+                value = dialogData.spiritAidMod;
+                break;
+            case "centering":
+                value = actorData.data.magic.metamagics.centeringValue.value;
+                break;
+            case "restraintReinforced":
+                if (isChecked) value = 1;
+                html.find(name)[0].value = value;
+                let threshold = parseInt(html.find('[name="restraintThreshold"]')[0].value);
+                dialogData.threshold = threshold + 1;
+                return;
+            case "specificallyLooking":
+                value = 3;
+                break;
+            case "escapeSituationPicks":
+            case "specialization":
+            case "standsOutInSomeWay":
+            case "camping":
+            case "socialAce":
+            case "socialRomantic":
+            case "socialOutnumber":
+            case "socialWieldingWeapon":
+            case "socialTorture":
+            case "socialObliviousToDanger":
+            case "socialFan":
+            case "socialBlackmailed":
+                value = 2;
+                break;
+            case "controlAvailable":
+            case "socialIsDistracted":
+            case "socialAuthority":
+                value = 1;
+                break;
+            case "socialIsDistractedInverse":
+            case "socialIntoxicated":
+            case "socialEvaluateSituation":
+                value = -1;
+                break;
+            case "escapeSituationWatched":
+            case "patientAwakenedOrEmerged":
+            case "patientCooperation":
+            case "distracted":
+            case "notInImmediateVicinity":
+            case "interfering":
+            case "noFoundOrWater":
+            case "socialBadLook":
+            case "socialNervous":
+            case "socialOutnumberTarget":
+            case "socialWieldingWeaponTarget":
+            case "socialLacksKnowledge":
+                value = -2;
+                break;
+            case "farAway":
+                value = -3;
+                break;
+        }
 
-        html.find('[name="dicePoolModDefenseFiringMode"]')[0].value = value;
-        dialogData.dicePoolMod.defenseFiringMode = value;
-        this.dicePoolModifier.incomingFiringMode = value;
-        this.updateDicePoolValue(html);
-    }
-
-    //Add defense mode modifiers
-    _addDefenseModeModifier(ev, html, dialogData){
-        let value = SR5_DiceHelper.convertActiveDefenseToMod(html.find('[name="defenseMode"]')[0].value, dialogData.activeDefenses);
-        html.find('[name="dicePoolModDefenseActive"]')[0].value = value;
-        dialogData.dicePoolMod.defenseActive = value;
-        dialogData.activeDefenseMode = html.find('[name="defenseMode"]')[0].value;
-        this.dicePoolModifier.defenseMode = value;
-        this.updateDicePoolValue(html);
-    }
-
-    //Add cumulative defense modifiers
-    _addCumulativeDefenseModifier(html, dialogData){
-        this.dicePoolModifier.cumulativeDefense = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
-        dialogData.dicePoolMod.defenseCumulative = parseInt((html.find('[name="dicePoolModDefenseCumulative"]')[0].value || 0));
-        this.updateDicePoolValue(html);
-    }
-
-    //Add cover modifiers
-    _addCoverModifier(ev, html, dialogData){
-        html.find('[name="dicePoolModCover"]')[0].value = (parseInt(ev.target.value) || 0);
-        dialogData.dicePoolMod.defenseCover = (parseInt(ev.target.value) || 0);
-        this.dicePoolModifier.cover = (parseInt(ev.target.value) || 0);
-        this.updateDicePoolValue(html);
-    }
-
-    //Add full defense modifier on dialog start
-    _addFullDefenseModifierOnStart(html, dialogData, actorData){
-        let fullDefenseEffect = actorData.effects.find(e => e.origin === "fullDefense");
-		let isInFullDefense = (fullDefenseEffect) ? true : false;
-        if (isInFullDefense){
-            html.find('[name="fullDefense"]')[0].value = dialogData.defenseFull;
-            html.find('[name="dicePoolModFullDefense"]')[0].value = dialogData.defenseFull;
-            dialogData.dicePoolMod.defenseFull = dialogData.defenseFull;
-            this.dicePoolModifier.fullDefense = dialogData.defenseFull;
+        if (isChecked){
+            html.find(name)[0].value = value;
+            dialogData.dicePoolMod[modifierName] = value;
+            dialogData.dicePoolMod[modifierName] = {
+                value: value,
+                label: label,
+            }
+            this.dicePoolModifier[modifierName] = value;
+            this.updateDicePoolValue(html);
+        } else {
+            html.find(name)[0].value = 0;
+            dialogData.dicePoolMod[modifierName] = {
+                value: 0,
+                label: label,
+            }
+            this.dicePoolModifier[modifierName] = 0;
             this.updateDicePoolValue(html);
         }
     }
 
-    //Add full defense modifier
-    _addFullDefenseModifier(ev, html, dialogData){
-        html.find('[name="dicePoolModFullDefense"]')[0].value = (parseInt(ev.target.value) || 0);
-        dialogData.dicePoolMod.defenseFull = (parseInt(ev.target.value) || 0);
-        this.dicePoolModifier.fullDefense = (parseInt(ev.target.value) || 0);
+    //Auto check checkbox modifiers
+    _filledCheckBox(checkboxs, html, dialogData){
+        if (checkboxs.length === 0) return;
+        let checkboxName, modifierName, inputName, value;
+
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            actorData = actor.data,
+            label;
+
+        for (let e of checkboxs){
+            modifierName = $(e).attr("data-modifier");
+            checkboxName = `[data-modifier=${modifierName}]`;
+            inputName = `[name=${$(e).attr("data-target")}]`;
+            label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+
+            switch (modifierName){
+                case "patientAwakenedOrEmerged":
+                    if (dialogData.isEmergedOrAwakened){
+                        html.find(checkboxName)[0].checked = true;
+                        value = -2;
+                    }
+                    break;
+                case "fullDefense":
+                    let fullDefenseEffect = actorData.effects.find(e => e.data.origin === "fullDefense");
+		            let isInFullDefense = (fullDefenseEffect) ? true : false;
+                    if (isInFullDefense){
+                        html.find(checkboxName)[0].checked = true;
+                        value = dialogData.defenseFull;
+                    }
+                    break;
+            }
+        }
+
+        if (html.find(checkboxName)[0].checked){
+            html.find(inputName)[0].value = value;
+            dialogData.dicePoolMod[modifierName] = {
+                value: value,
+                label: label,
+            }
+            this.dicePoolModifier[modifierName] = value;
+            this.updateDicePoolValue(html);
+        }
+    }
+
+    //Manage manual input modifier
+    _manualInputModifier(ev, html, dialogData, button = false){
+        let target, name, modifierName, value, operator;
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+        actorData = actor.data;
+
+        if (button){ //Manage plus minus input
+            target = $(ev.currentTarget).attr("data-target");
+            operator = $(ev.currentTarget).attr("data-type");
+            modifierName = $(ev.currentTarget).attr("data-modifier");
+            name = `[name=${target}]`;
+            value = html.find(name)[0].value;
+            if (operator === "plus"){
+                value++;
+                html.find(name)[0].value = value;
+            } else {
+                value--;
+                html.find(name)[0].value = value;
+            }
+        } else {
+            target = $(ev.currentTarget).attr("name");
+            name = `[name=${target}]`;
+            modifierName = $(ev.currentTarget).attr("data-modifier");
+            value = parseInt(ev.target.value);
+        }
+
+        switch (target){
+            case "force":
+                this.updateDrainValue(html);
+                if (html.find('#force').length) html.find('#force')[0].value = value;
+                if (dialogData.type === "ritual") this._updateReagents(value, actorData, html, dialogData);
+                return;
+            case "reagentsSpent":
+                this._updateReagents(value, actorData, html, dialogData);
+                return;
+            case "level":
+                this.updateFadingValue(html);
+                if (html.find('#level').length) html.find('#level')[0].value = value;
+                return;
+            case "dicePoolModSpellShaping":
+                if (value > 0) {
+                    ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMin'));
+                    value = 0;
+                } else if (-value > actorData.data.magic.metamagics.spellShapingValue.value){
+                    value = -actorData.data.magic.metamagics.spellShapingValue.value;
+                    ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}));
+                }
+                dialogData.spellAreaMod = -value;
+                break;
+            case "manaBarrierRating":
+                let barrierRating = parseInt((html.find('[name="manaBarrierRating"]')[0].value || 1));
+                html.find('[name="baseDicePool"]')[0].value = barrierRating * 2;
+                this.data.data.dicePool = barrierRating * 2;
+                this.updateDicePoolValue(html);
+                return;
+            case "patientEssence":
+                dialogData.patientEssence = value;
+                let essence = 6 - Math.ceil(dialogData.patientEssence);
+                value = -Math.floor(essence/2);
+                html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
+                dialogData.dicePoolMod.patientEssence = {
+                    value: value,
+                    label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${dialogData.patientEssence})`,
+                }
+                this.dicePoolModifier.patientEssence = value;
+                this.updateDicePoolValue(html);
+                return;
+            case "limitModHealingSupplies":
+            case "limitModPerception":
+            case "limitModVarious":
+                html.find(name)[0].value = value;
+                dialogData.limitMod[modifierName] = {
+                    value: value,
+                    label: `${game.i18n.localize(SR5.limitModTypes[modifierName])}`,
+                }
+                this.limitModifier[modifierName] = value;
+                this.updateLimitValue(html);
+                return;
+        }
+
+        html.find(name)[0].value = value;
+        dialogData.dicePoolMod[modifierName] = {
+            value: value,
+            label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
+        }
+        this.dicePoolModifier[modifierName] = value;
         this.updateDicePoolValue(html);
     }
 
-    //Add reach modifiers
-    _addReachModifier(html, dialogData){
-        this.dicePoolModifier.range = parseInt((html.find('[name="reachValue"]')[0].value || 0));
-        dialogData.dicePoolMod.reach = parseInt((html.find('[name="reachValue"]')[0].value || 0));
-        this.updateDicePoolValue(html);
+    _filledInputModifier(ev, html, dialogData){
+        if (ev.length === 0) return;
+        let modifierName, name, value;
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            actorData = actor.data,
+            label;
+
+        for (let e of ev){
+            modifierName = $(e).attr("data-modifier");
+            name = `[data-modifier=${modifierName}]`;
+            label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+
+            switch (modifierName){
+                case "matrixNoiseReduction":
+                    if (html.find('[data-modifier="matrixRange"]')[0].value === "wired") {
+                        this.dicePoolModifier.matrixNoiseReduction = 0;
+                        value = 0;
+                    }
+                    else {
+                        let rangeMod = this.dicePoolModifier.matrixRange || 0,
+                            sceneNoise = this.dicePoolModifier.matrixSceneNoise || 0;
+                        value = actorData.data.matrix.attributes.noiseReduction.value;
+                        if (-value < rangeMod + sceneNoise) value = -(rangeMod + sceneNoise);
+                        if (rangeMod + sceneNoise === 0) value = 0;
+                    }
+                    break;
+                case "matrixSceneNoise":
+                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrixNoiseScene;
+                    else value = 0;
+                    break;
+                case "incomingPA":
+                    let armorValue = parseInt((html.find('[data-modifier="armor"]')[0].value || 0));
+                    let incomingAP = parseInt((html.find('[data-modifier="incomingPA"]')[0].value || 0))
+                    if (armorValue >= -incomingAP) value = incomingAP;
+                    else {
+                        let usedAP = armorValue + incomingAP;
+                        value = incomingAP - usedAP;
+                    }
+                    break;
+                case "armor":
+                    continue;
+                case "publicGrid":
+                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired" && game.settings.get("sr5", "sr5MatrixGridRules")) value = -2;
+                    else value = 0;
+                    break;
+                case "force":
+                    this.updateDrainValue(html);
+                    if (dialogData.type === "ritual") this._updateReagents(1, actorData, html, dialogData);
+                    continue;
+                case "level":
+                    this.updateFadingValue(html)
+                    continue;
+                case "spiritType":
+                    if (dialogData.targetActor && (dialogData.typeSub === "binding")){
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
+                        let targetType = targetActor.data.data.type;
+                        value = actorData.data.skills.binding.spiritType[targetType].dicePool - actorData.data.skills.binding.test.dicePool;
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetType])})`;
+                    } else {
+                        value = 0;
+                    }
+                    break;
+                case "patientEssence":
+                    dialogData.patientEssence = (dialogData.targetEssence ? dialogData.targetEssence : 6);
+                    html.find('[name="patientEssence"]')[0].value = dialogData.patientEssence;
+                    let essence = 6 - Math.ceil(dialogData.patientEssence);
+                    value = -Math.floor(essence/2);
+                    html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
+                    dialogData.dicePoolMod.patientEssence = {
+                        value: value,
+                        label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${dialogData.patientEssence})`,
+                    }
+                    this.dicePoolModifier.patientEssence = value;
+                    this.updateDicePoolValue(html);
+                    continue;
+                case "backgroundCount":
+                    value = parseInt((html.find(name)[0].value || 0));
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.traditionTypes[dialogData.sceneData.backgroundAlignement])})`;
+                    break;
+                default:
+                    value = parseInt((html.find(name)[0].value || 0));
+            }
+
+            html.find(name)[0].value = value;
+            dialogData.dicePoolMod[modifierName] = {
+                value: value,
+                label: label,
+            }
+            this.dicePoolModifier[modifierName] = value;
+            this.updateDicePoolValue(html);
+        }
     }
 
-    //Add Environmental modifier
-    _addEnvironmentalModifier(html, dialogData){
-        this.dicePoolModifier.environmental = parseInt((html.find('[name="dicePoolModEnvironmental"]')[0].value || 0));
+    //Select modifiers
+    async _selectModifiers(ev, html, dialogData){
+        let target = $(ev.currentTarget).attr("data-target"),
+            name = `[name=${target}]`,
+            modifierName = $(ev.currentTarget).attr("data-modifier"),
+            value, limitDV,
+            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            actorData = actor.data,
+            label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
+            position = this.position;
+
+        position.height = "auto";
+
+        if (ev === null) value = 0;
+        else {
+            switch (modifierName){
+                case "weather":
+                    value = SR5_DiceHelper.convertWeatherModifierToMod(ev.target.value);
+                    break;
+                case "socialAttitude":
+                    value = SR5_DiceHelper.convertSocialAttitudeValueToMod(ev.target.value);
+                    break;
+                case "socialResult":
+                    value = SR5_DiceHelper.convertSocialResultValueToMod(ev.target.value);
+                    break;
+                case "workingCondition":
+                    value = SR5_DiceHelper.convertWorkingConditionToMod(ev.target.value);
+                    break;
+                case "toolsAndParts":
+                    value = SR5_DiceHelper.convertToolsAndPartsToMod(ev.target.value);
+                    break;
+                case "plansMaterial":
+                    value = SR5_DiceHelper.convertPlansMaterialToMod(ev.target.value);
+                    break;
+                case "attribute":
+                    value = SR5_DiceHelper.getAttributeValue(ev.target.value, actorData);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.allAttributes[ev.target.value])})`;
+                    break;
+                case "incomingFiringMode":
+                    value = SR5_DiceHelper.convertFiringModeToDefenseDicepoolMod(ev.target.value);
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    break;
+                case "targetRange":
+                    let baseRange = SR5_DiceHelper.convertRangeToEnvironmentalLine(ev.target.value);
+                    baseRange += actorData.data.itemsProperties.environmentalMod.range.value;
+                    value = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
+                    label = label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    break;
+                case "firingMode":
+                    value = this.calculRecoil(html);
+                    dialogData.firingModeSelected = ev.target.value;
+                    modifierName = "recoil";
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    break;
+                case "defenseMode":
+                    value = SR5_DiceHelper.convertActiveDefenseToMod(ev.target.value, dialogData.activeDefenses);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.characterDefenses[ev.target.value])})`;
+                    dialogData.activeDefenseMode = ev.target.value;
+                    break;
+                case "cover":
+                    value = SR5_DiceHelper.convertCoverToMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[ev.target.value])})`;
+                    break
+                case "mark":
+                    value = SR5_DiceHelper.convertMarkToMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${ev.target.value})`;
+                    break;
+                case "matrixRange":
+                    value = SR5_DiceHelper.convertMatrixDistanceToDiceMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.matrixNoiseDistance[ev.target.value])})`;
+                    if (ev.target.value !== "wired") {
+                        if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').show();
+                        if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').show();
+                        if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').show();
+                        if (dialogData.targetGrid !== actorData.data.matrix.userGrid) {
+                            html.find('[name="dicePoolModTargetGrid"]')[0].value = -2;
+                            dialogData.dicePoolMod.targetGrid = {
+                                value: -2,
+                                label: `${game.i18n.localize(SR5.dicePoolModTypes["targetGrid"])} (${game.i18n.localize(SR5.gridTypes[html.find('[data-modifier="targetGrid"]')[0].value])})`,
+                            }
+                            this.dicePoolModifier.targetGrid = -2;
+                        }
+                    }
+                    else {
+                        if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').hide();
+                        if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').hide();
+                        if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').hide();
+                        html.find('[name="dicePoolModTargetGrid"]')[0].value = 0;
+                    }
+                    dialogData.matrixNoiseRange = ev.target.value;
+                    break;
+                case "targetGrid":
+                    if (ev.target.value !== actorData.data.matrix.userGrid && ev.target.value !== "none") {
+                        value = -2
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.gridTypes[ev.target.value])})`;
+                    } else value = 0;
+                    break;
+                case "spriteType":
+                    dialogData.spriteType = ev.target.value;
+                    return;
+                case "spiritType":
+                    if (ev.target.value !== ""){
+                        value = actorData.data.skills.summoning.spiritType[ev.target.value].dicePool - actorData.data.skills.summoning.test.dicePool;
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[ev.target.value])})`;
+                        dialogData.spiritType = ev.target.value;
+                    } else value = 0;
+                    break;
+                case "preparationTrigger":
+                    value = SR5_DiceHelper.convertTriggerToMod(ev.target.value);
+                    html.find(name)[0].value = value;
+                    dialogData.drainMod.trigger = {
+                        value: value,
+                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[ev.target.value])})`,
+                    };
+                    dialogData.preparationTrigger = ev.target.value;
+                    this.drainModifier.preparationTrigger = value;
+                    this.updateDrainValue(html);
+                    return;
+                case "perceptionType":
+                    let limitMod = 0;
+                    value = 0;
+                    if (ev.target.value !== ""){
+                        value = actorData.data.skills.perception.perceptionType[ev.target.value].test.value;
+                        limitMod = actorData.data.skills.perception.perceptionType[ev.target.value].limit.value;
+                    }
+                    if (ev.target.value === "sight") {
+                        $(html).find('#sightPerception').show();
+                        if (canvas.scene) {
+                            dialogData.dicePoolMod.environmentalSceneMod = {
+                                value: SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actorData.data, true),
+                                label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
+                            }
+                            label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`;
+                        }
+                        html.find('[data-modifier="environmentalSceneMod"]')[0].value = dialogData.dicePoolMod.environmentalSceneMod.value;
+                        this.dicePoolModifier.environmental = dialogData.dicePoolMod.environmentalSceneMod.value;
+                    } else {
+                        $(html).find('#sightPerception').hide();
+                        dialogData.dicePoolMod.environmentalSceneMod = {
+                            value: 0,
+                            label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
+                        }
+                        this.dicePoolModifier.environmental = 0;
+                    }
+                    dialogData.perceptionType = ev.target.value;
+                    dialogData.limitMod.perception = {
+                        value: limitMod,
+                        label: `${game.i18n.localize(SR5.limitModTypes["perception"])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`,
+                    }
+                    this.limitModifier.perceptionType = limitMod;
+                    html.find('[name="limitModPerception"]')[0].value = limitMod;
+                    this.updateLimitValue(html);
+                    break;
+                case "signatureSize":
+                    value = SR5_DiceHelper.convertSignatureToDicePoolMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.targetSignature[ev.target.value])})`;
+                    break;
+                case "searchType":
+                    value = SR5_DiceHelper.convertSearchTypeToThreshold(ev.target.value);
+                    dialogData.threshold = value;
+                    dialogData.thresholdType = ev.target.value;
+                    html.find(name)[0].value = value;
+                    return;
+                case "damageType":
+                    dialogData.damageType = ev.target.value;
+                    return;
+                case "healingCondition":
+                    value = SR5_DiceHelper.convertHealingConditionToDiceMod(ev.target.value);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingConditions[ev.target.value])})`;
+                    dialogData.healingCondition = ev.target.value;
+                    break;
+                case "healingSupplies":
+                    dialogData.limitMod.healingSupplies = 0;
+                    this.limitModifier.healingSupplies = 0;
+                    html.find('[name="limitModHealingSupplies"]')[0].value = 0;
+                    switch(ev.target.value){
+                        case "noSupplies":
+                            value = -3;
+                            break;
+                        case "improvised":
+                            value = -1;
+                            break;
+                        case "medkit":
+                            let medkit = SR5_DiceHelper.findMedkitRating(actor);
+                            if (medkit){
+                                value = medkit.rating;
+                                dialogData.itemId = medkit.id;
+                                dialogData.limitMod.healingSupplies = {
+                                    value: medkit.rating,
+                                    label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
+                                }
+                                this.limitModifier.healingSupplies = medkit.rating;
+                                html.find('[name="limitModHealingSupplies"]')[0].value = medkit.rating;
+                            } else {
+                                ui.notifications.warn(game.i18n.format('SR5.WARN_NoMedkit'));
+                                value = 0;
+                            }
+                            this.updateLimitValue(html);
+                            break;
+                        default:
+                            value = 0;
+                    }
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingSupplies[ev.target.value])})`;
+                    break;
+                case "speedRammingAttacker":                
+                    value = SR5_DiceHelper.convertSpeedToDamageValue(ev.target.value, actorData.data.attributes.body.augmented.value);
+                    dialogData.damageValue = value;
+                    html.find('[name="modifiedDamage"]')[0].value = value;
+                    return;
+                case "speedRammingTarget":
+                    value = SR5_DiceHelper.convertSpeedToAccidentValue(ev.target.value, dialogData.target);
+                    dialogData.accidentValue = value;
+                    html.find(name)[0].value = value;
+                    return;
+                case "targetEffect":
+                    dialogData.targetEffect = ev.target.value;
+                    if (dialogData.typeSub === "counterspelling"){
+                        let spellCategory = await this.getTargetType(dialogData.targetEffect);
+                        value = parseInt(actorData.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actorData.data.skills.counterspelling.test.dicePool);
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
+                    } else value = 0;
+                    break;
+                case "objectType":
+                    html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
+                    this.updateDicePoolValue(html);
+                    return;
+                case "calledShot":
+                    value = SR5_DiceHelper.convertCalledShotToMod(ev.target.value, dialogData.ammoType);
+                    if (ev.target.value === "specificTarget") $(html).find('#calledShotSpecificTarget').show();
+                    else $(html).find('#calledShotSpecificTarget').hide();
+                    dialogData.calledShot.name = ev.target.value;
+                    dialogData.calledShot.effects = SR5_DiceHelper.convertCalledShotToEffect(ev.target.value, dialogData.ammoType);
+                    dialogData.calledShot.limitDV = SR5_DiceHelper.convertCalledShotToLimitDV(ev.target.value, dialogData.ammoType);
+                    switch (ev.target.value){
+                        case "shakeUp":
+                            dialogData.calledShot.initiative = SR5_DiceHelper.convertCalledShotToInitiativeMod(dialogData.ammoType);
+                            break;
+                        case "bullsEye": //Errata: “The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3.”
+                            dialogData.incomingPA = dialogData.incomingPA + ((dialogData.incomingPA + 4) * Math.min(dialogData.firedAmmo, 3));
+                            break;
+                        case "hitEmWhereItCounts":
+                            if (dialogData.toxin.power > 0) {
+                                dialogData.toxin.power += 2;
+                                if (dialogData.damageValue > 0) {
+                                    dialogData.damageValue += 2;
+                                    dialogData.damageValueBase += 2;
+                                }
+                            }
+                            if (dialogData.toxin.speed > 0) dialogData.toxin.speed -= 1;
+                            break;
+                        case "throughAndInto":
+                            if (!dialogData.targetActorId) {
+                                ui.notifications.warn(game.i18n.localize('SR5.WARN_TargetTroughAndInto'));
+                                return html.find(ev.currentTarget)[0].value = "";
+                            } else {
+                                let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActorId)
+                                value = -(targetActor.data.data.itemsProperties.armor.value + Math.floor(targetActor.data.data.attributes.body.augmented.value / 2));
+                            }
+                            break;
+                        case "upTheAnte":
+                            $(html).find('#calledShotSpecificTarget').show();         
+                            break;
+                        case "harderKnock":
+                            dialogData.damageType = "physical";
+                            break;
+                        case "vitals":
+                            dialogData.damageValueBase += 2;
+                            dialogData.damageValue += 2;
+                            break;
+                    }
+                    break;
+                case "calledShotSpecificTarget":
+                    modifierName = "calledShot";
+                    value = SR5_DiceHelper.convertCalledShotToMod(ev.target.value);
+                    limitDV = SR5_DiceHelper.convertCalledShotToLimitDV(ev.target.value);
+                    if (html.find('[data-modifier="calledShot"]')[0].value === "upTheAnte") {
+                            value = value - 4;
+                            limitDV = limitDV * 2;
+                        }
+                    dialogData.calledShot = {
+                        limitDV: limitDV,
+                        location: ev.target.value,
+                        name: html.find('[data-modifier="calledShot"]')[0].value,
+                        effects: SR5_DiceHelper.convertCalledShotToEffect(ev.target.value),
+                    }
+                    break;
+                default: value = ev.target.value;
+            }
+        }
+
+        this.setPosition(position);
+        html.find(name)[0].value = value;
+        dialogData.dicePoolMod[modifierName] = {
+            value: value,
+            label: label,
+        }
+        this.dicePoolModifier[modifierName] = value;
         this.updateDicePoolValue(html);
+        if (modifierName === "matrixRange") this._filledInputModifier(html.find('.SR-ModInputFilled'), html, dialogData);
     }
 
-    //Add range modifiers
-    _addRangeModifier(html, dialogData, actorData){
-        let baseRange = parseInt(html.find('[name="targetRange"]')[0].value);
-        baseRange += actorData.data.itemsProperties.environmentalMod.range.value;
-        let rangevalue = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
-        html.find('[name="dicePoolModRange"]')[0].value = rangevalue;
-        this.dicePoolModifier.range = rangevalue;
-        dialogData.dicePoolMod.range = rangevalue;
-        this.updateDicePoolValue(html);
+    async _filledSelectModifier(ev, html, dialogData){
+        if (ev.length === 0) return;
+        let modifierName, targetInput, targetInputName, name, inputValue, selectValue;
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            actorData = actor.data,
+            label;
+
+        for (let e of ev){
+            modifierName = $(e).attr("data-modifier");
+            targetInput = $(e).attr("data-target");
+            targetInputName = `[name=${targetInput}]`;
+            name = `[data-modifier=${modifierName}]`;
+
+            switch (modifierName){
+                case "incomingFiringMode":
+                    selectValue = dialogData.incomingFiringMode;
+                    inputValue = SR5_DiceHelper.convertFiringModeToDefenseDicepoolMod(selectValue);
+                    break;
+                case "targetRange":
+                    selectValue = dialogData.targetRange;
+                    let baseRange = SR5_DiceHelper.convertRangeToEnvironmentalLine(dialogData.targetRange);
+                    baseRange += actorData.data.itemsProperties.environmentalMod.range.value;
+                    inputValue = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(baseRange);
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    break;
+                case "firingMode":
+                    inputValue = this.calculRecoil(html);
+                    selectValue = null;
+                    dialogData.firingModeSelected = html.find(name)[0].value;
+                    modifierName = "recoil";
+                    break;
+                case "spiritType":
+                    selectValue = html.find(name)[0].value;
+                    inputValue = actorData.data.skills.summoning.spiritType[selectValue].dicePool - actorData.data.skills.summoning.test.dicePool;
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[selectValue])})`;
+                    dialogData.spiritType = selectValue;
+                    break;
+                case "spriteType":
+                    dialogData.spriteType = html.find(name)[0].value;
+                    continue;
+                case "preparationTrigger":
+                    inputValue = SR5_DiceHelper.convertTriggerToMod(html.find('[data-modifier="preparationTrigger"]')[0].value);
+                    dialogData.drainMod.trigger = inputValue;
+                    dialogData.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
+                    dialogData.drainMod.trigger = {
+                        value: inputValue,
+                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.preparationTrigger])})`,
+                    };
+                    this.drainModifier.preparationTrigger = inputValue;
+                    this.updateDrainValue(html);
+                    continue;
+                case "searchType":
+                    selectValue = html.find(name)[0].value;
+                    inputValue = SR5_DiceHelper.convertSearchTypeToThreshold(selectValue);
+                    dialogData.threshold = inputValue;
+                    dialogData.thresholdType = selectValue;
+                    html.find(targetInputName)[0].value = inputValue;
+                    continue;
+                case "damageType":
+                    dialogData.damageType = html.find(name)[0].value;
+                    continue;
+                case "socialResult":
+                case "socialAttitude":
+                    inputValue = 0;
+                    break;
+                case "speedRammingAttacker":
+                    selectValue = SR5_DiceHelper.convertSpeedToDamageValue(html.find(name)[0].value, actorData.data.attributes.body.augmented.value);
+                    dialogData.damageValue = selectValue;
+                    html.find('[name="modifiedDamage"]')[0].value = selectValue;
+                    continue;
+                case "speedRammingTarget":
+                    selectValue = SR5_DiceHelper.convertSpeedToAccidentValue(html.find(name)[0].value, dialogData.target);
+                    dialogData.accidentValue = selectValue;
+                    html.find(targetInputName)[0].value = selectValue;
+                    continue;
+                case "targetEffect":
+                    selectValue = html.find(name)[0].value;
+                    dialogData.targetEffect = selectValue;
+                    if (dialogData.typeSub === "counterspelling"){
+                        let spellCategory = await this.getTargetType(dialogData.targetEffect);
+                        inputValue = parseInt(actorData.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actorData.data.skills.counterspelling.test.dicePool);
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
+                    } else inputValue = 0;
+                    break;
+            }
+
+            html.find(targetInputName)[0].value = inputValue;
+            if (selectValue) html.find(name)[0].value = selectValue;
+            dialogData.dicePoolMod[modifierName] = {
+                value: inputValue,
+                label: label,
+            }
+            this.dicePoolModifier[modifierName] = inputValue;
+            this.updateDicePoolValue(html);
+        }
     }
 
-    //Add firing mode modifier
-    _addFiringModeModifier(html, dialogData){
-        dialogData.firingMode = html.find('[name="firingMode"]')[0].value;
-        let recoil = this.calculRecoil(html);
-        html.find('[name="rcModifier"]')[0].value = recoil;
-        this.dicePoolModifier.recoiCompensation = recoil;
-        dialogData.dicePoolMod.recoil = recoil;
-        this.updateDicePoolValue(html);
+    //Manage auto filled threhsold
+    _filledThreshold(ev, html, dialogData){
+        if (ev.length === 0) return;
+        let targetInput, name, value, label;
+
+        for (let e of ev){
+            targetInput = $(e).attr("data-target");
+            if (targetInput === "survivalThreshold") {
+                value = 1;
+                label = "mild";
+            } else if (targetInput === "restraintThreshold"){
+                value = 2;
+                label = "rope";
+            } else if (targetInput === "perceptionThreshold"){
+                value = 0;
+                label = "opposed";
+            }
+        }
+
+        name = `[name=${targetInput}]`;
+        html.find(name)[0].value = value;
+        dialogData.threshold = value;
+        dialogData.thresholdType = label;
+    }
+
+    //Manage threhsold
+    _manageThreshold(ev, html, dialogData){
+        let value, label;
+        let targetInput = $(ev.currentTarget).attr("data-target");
+        
+        label = ev.target.value;
+        value = ev.target.value;
+        if (targetInput === "survivalThreshold") value = SR5_DiceHelper.convertSurvivalThresholdTypeToThreshold(ev.target.value);
+        else if (targetInput === "restraintThreshold") value = SR5_DiceHelper.convertRestraintTypeToThreshold(ev.target.value);
+        else if (targetInput === "perceptionThreshold") value = SR5_DiceHelper.convertPerceptionTypeToThreshold(ev.target.value);
+
+        let name = `[name=${targetInput}]`;
+        html.find(name)[0].value = value;
+        dialogData.threshold = value;
+        dialogData.thresholdType = label;
+    }
+
+    _updateReagents(value, actorData, html, dialogData){
+        if (value > actorData.data.magic.reagents){
+            value = actorData.data.magic.reagents;
+            ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
+            if (dialogData.type === "ritual") html.find('[name="force"]')[0].value = value;
+        }
+        html.find('[data-modifier="reagents"]')[0].checked = true;
+        html.find('[name="reagentsSpent"]')[0].value = value;
+        dialogData.reagentsUsed = true;
+        if (dialogData.type !== "ritual"){
+            this.limitModifier.reagents = value;
+            this.updateLimitValue(html);
+        }
+    }
+
+    //Add full defense modifier on dialog start
+    _addFullDefenseModifierOnStart(html, dialogData, actorData){
+        let fullDefenseEffect = actorData.effects.find(e => e.data.origin === "fullDefense");
+		let isInFullDefense = (fullDefenseEffect) ? true : false;
+        if (isInFullDefense){
+            html.find('[data-modifier="fullDefense"]')[0].checked = true;
+            html.find('[name="dicePoolModFullDefense"]')[0].value = dialogData.defenseFull;
+            dialogData.dicePoolMod.defenseFull = {
+                value: dialogData.defenseFull,
+                label: game.i18n.localize(SR5.dicePoolModTypes["fullDefense"]),
+            }
+            this.dicePoolModifier.fullDefense = dialogData.defenseFull;
+            this.updateDicePoolValue(html);
+        }
     }
 
     //Toggle reset recoil
@@ -493,271 +1002,38 @@ export default class SR5_RollDialog extends Dialog {
         dialogData.dicePoolMod.recoil = 0;
         actorData.flags.sr5.cumulativeRecoil = 0;
         let recoil = this.calculRecoil(html);
-        html.find('[name="rcModifier"]')[0].value = recoil;
-        this.dicePoolModifier.recoiCompensation = recoil;
+        html.find('[name="recoil"]')[0].value = recoil;
+        this.dicePoolModifier.recoil = recoil;
         this.updateDicePoolValue(html);
     }
 
-    //Add wanted marks modifier
-    _addWantedMarksModifier(ev, html, dialogData){
-        html.find('[name="dicePoolModMarkWanted"]')[0].value = -(parseInt(ev.target.value) || 0);
-        dialogData.dicePoolMod.matrixMarkWanted = -(parseInt(ev.target.value) || 0);
-        this.dicePoolModifier.mark = -(parseInt(ev.target.value) || 0);
+    //Toggle reset defense
+    _onResetDefense(ev, html, dialogData, actorData){
+        ev.preventDefault();
+        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actorData._id)
+        resetedActor.resetCumulativeDefense();
+        dialogData.dicePoolMod.cumulativeDefense.value = 0;
+        actorData.flags.sr5.cumulativeDefense = 0;
+        html.find('[data-modifier="cumulativeDefense"]')[0].value = 0;
+        this.dicePoolModifier.cumulativeDefense = 0;
         this.updateDicePoolValue(html);
-    }
-
-    //Add various limit modifiers
-    _addVariousLimitModifier(ev, html, dialogData){
-        html.find('[name="limitModVarious"]')[0].value = (parseInt(ev.target.value) || 0);
-        dialogData.limitMod.various = (parseInt(ev.target.value) || 0);
-        this.limitModifier.variousModifier = (parseInt(ev.target.value) || 0);
-        this.updateLimitValue(html);
     }
 
     //Handle Extended Test
-    _onExtendedTest(ev, dialogData){
-        let value = ev.target.value;
-        if (value === "true") {
+    _onToggleExtendedTest(isChecked, dialogData, html){
+        let position = this.position;
+        position.height = "auto";    
+
+        if (isChecked) {
             dialogData.extendedTest = true;
-            document.getElementById("interval").style.display = "block";
-            document.getElementById("extendedSpace").style.display = "none";
+            $(html).find('#extendedBlock').show();
+            this.setPosition(position);
         }
         else {
             dialogData.extendedTest = false;
-            document.getElementById("interval").style.display = "none";
-            document.getElementById("extendedSpace").style.display = "block";
+            $(html).find('#extendedBlock').hide();
+            this.setPosition(position);
         }
     }
 
-    //Add Spirit type modifier
-    _addSpiritTypeModifier(html, dialogData, actorData){
-        let spiritType = html.find('[name="spiritType"]')[0].value;
-        if (spiritType !== ""){
-            let modifier = actorData.data.skills.summoning.spiritType[spiritType].dicePool - actorData.data.skills.summoning.test.dicePool;
-            html.find('[name="summoningSpiritTypeModifier"]')[0].value = modifier;
-            this.dicePoolModifier.spiritType = modifier;
-            dialogData.dicePoolMod.spiritType = modifier;
-            dialogData.spiritType = spiritType;
-            this.updateDicePoolValue(html);
-        }
-    }
-
-    //Add Background count modifier
-    _addBackgroundCountModifier(html, dialogData){
-        let backgroundCount = parseInt(html.find('[name="backgroundCount"]')[0].value);
-        this.dicePoolModifier.backgroundCount = backgroundCount;
-        dialogData.dicePoolMod.backgroundCount = backgroundCount;
-        this.updateDicePoolValue(html);
-    }
-
-    //Handle force change
-    _onForceChange(ev, html, dialogData, actorData){
-        this.updateDrainValue(html);
-        let value = ev.target.value;
-        if (dialogData.type === "ritual"){
-            if (value > actorData.data.magic.reagents){
-                value = actorData.data.magic.reagents;
-                ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
-                html.find('[name="force"]')[0].value = value;
-            }
-            document.getElementById("useReagents").style.display = "block";
-            html.find('[name="reagents"]')[0].value = "true";
-            html.find('[name="reagentsSpent"]')[0].value = value;
-        }
-    }
-
-    //Add Reckless Spellcasting modifiers
-    _addRecklessSpellcastingModifier(html, dialogData){
-        let recklessSpellcasting = parseInt(html.find('[name="recklessSpellcasting"]')[0].value);
-        html.find('[name="recklessSpellcastingValue"]')[0].value = recklessSpellcasting;
-        dialogData.drainMod.recklessSpellcasting = recklessSpellcasting;
-        this.drainModifier.recklessSpellcasting = recklessSpellcasting;
-        this.updateDrainValue(html);
-    }
-
-    //Add Preparation trigger modifiers
-    _addPreparationTriggerModifier(ev, html, dialogData){
-        let value;
-        switch (ev.target.value){
-            case "command":
-            case "time":
-                value = 2;
-                break;
-            case "contact":
-                value = 1;
-                break;
-            default: value = 0;
-        }
-        html.find('[name="triggerValue"]')[0].value = value;
-        dialogData.drainMod.trigger = value;
-        dialogData.preparationTrigger = html.find('[name="preparationTrigger"]')[0].value;
-        this.drainModifier.preparationTrigger = value;
-        this.updateDrainValue(html);
-    }
-
-    //Add specific Perception type modifiers
-    _addPerceptionTypeModifier(ev, html, dialogData, actorData){
-        let key = ev.target.value;
-        let modifier = 0;
-        let limitMod = 0;
-        if (key !== ""){
-            modifier = actorData.data.skills.perception.perceptionType[key].test.value;
-            limitMod = actorData.data.skills.perception.perceptionType[key].limit.value;
-        }
-        dialogData.perceptionType = key;
-        dialogData.dicePoolMod.perception = modifier;
-        this.dicePoolModifier.perceptionType = modifier;
-        dialogData.limitMod.perception = limitMod;
-        this.limitModifier.perceptionType = limitMod;
-        html.find('[name="perceptionValue"]')[0].value = modifier;
-        html.find('[name="limitModPerception"]')[0].value = limitMod;
-        this.updateDicePoolValue(html);
-        this.updateLimitValue(html);
-    }
-
-    //Signature size modifiers
-    _addSignatureSizeModifier(ev, html, dialogData){
-        let modifier = SR5_DiceHelper.convertSignatureToDicePoolMod(ev.target.value);
-        this.dicePoolModifier.signatureType = modifier;
-        dialogData.signatureType = ev.target.value;
-        dialogData.dicePoolMod.signatureType = modifier;
-        html.find('[name="dicePoolModSignature"]')[0].value = modifier;
-        this.updateDicePoolValue(html);
-    }
-
-    //Sensor lock modifiers
-    _addSensorLockModifier(html){
-        this.dicePoolModifier.sensorLockMod = parseInt((html.find('[name="sensorLockMod"]')[0].value || 0));
-        this.updateDicePoolValue(html);
-    }
-
-    //Add Grid modifiers
-    _addGridModifier(html, dialogData, actorData){
-        let targetGrid = html.find('[name="targetGrid"]')[0].value;
-        if (targetGrid !== actorData.data.matrix.userGrid && targetGrid !== "none"){
-            this.dicePoolModifier.differentGrid = -2;
-            this.updateDicePoolValue(html);
-            html.find('[name="dicePoolModGridTarget"]')[0].value = -2;
-            dialogData.dicePoolMod.differentGrid = -2;
-        } else {
-            this.dicePoolModifier.differentGrid = 0;
-            this.updateDicePoolValue(html);
-            html.find('[name="dicePoolModGridTarget"]')[0].value = 0;
-            dialogData.dicePoolMod.differentGrid = 0;
-        }
-    }
-
-    //Handle Matrix search
-    _getMatrixSearchType(html, dialogData){
-        dialogData.matrixSearchType = html.find('[name="searchType"]')[0].value;
-    }
-
-    //Toggle Reagents use
-    _toggleReagentsUse(ev, dialogData){
-        let value = ev.target.value;
-        if (value === "true") {
-            dialogData.reagentsUsed = true;
-            document.getElementById("useReagents").style.display = "block";
-        }
-        else {
-            dialogData.reagentsUsed = false;
-            document.getElementById("useReagents").style.display = "none";
-        }
-    }
-
-    //Add limit modifier for reagents spent
-    _addReagentsLimitModifier(ev, html, dialogData, actorData){
-        let value = ev.target.value;
-        if (value > actorData.data.magic.reagents){
-            value = actorData.data.magic.reagents;
-            ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
-        }
-        html.find('[name="reagentsSpent"]')[0].value = value;
-        this.limitModifier.reagents = parseInt(value);
-        this.updateLimitValue(html);
-    }
-
-    //Add modifier for Spirit Aid
-    _addSpiritAidModifier(ev, html, dialogData){
-        let value = ev.target.value;
-        if (value === "true") {
-            document.getElementById("useSpiritAid").style.display = "block";
-            this.dicePoolModifier.spiritAid = dialogData.spiritAidMod;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.spiritAid = dialogData.spiritAidMod;
-        }
-        else {
-            document.getElementById("useSpiritAid").style.display = "none";
-            this.dicePoolModifier.spiritAid = 0;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.spiritAid = 0;
-        }
-    }
-
-    //Add modifier for Centering
-    _addCenteringModifier(ev, html, dialogData, actorData){
-        let value = ev.target.value;
-        if (value === "true") {
-            this.dicePoolModifier.centering = actorData.data.magic.metamagics.centeringValue.value;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = actorData.data.magic.metamagics.centeringValue.value;
-            html.find('[name="dicePoolModCentering"]')[0].value = actorData.data.magic.metamagics.centeringValue.value;
-        } else {
-            this.dicePoolModifier.centering = 0;
-            this.updateDicePoolValue(html);
-            dialogData.dicePoolMod.centering = 0;
-            html.find('[name="dicePoolModCentering"]')[0].value = 0;
-        }
-    }
-
-    //Add modifier depending of the type of the token Targeted
-    _addTargetTypeModifier(html, dialogData, actorData){
-        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
-        if (dialogData.typeSub === "binding"){
-            let targetType = targetActor.data.data.type;
-            let modifier = actorData.data.skills.binding.spiritType[targetType].dicePool - actorData.data.skills.binding.test.dicePool;
-            html.find('[name="targetTypeModifier"]')[0].value = modifier;
-            this.dicePoolModifier.spiritType = modifier;
-            dialogData.dicePoolMod.spiritType = modifier;
-            this.updateDicePoolValue(html);
-        }
-    }
-
-    //Add modifier depending of the type of item Targeted
-    _addTargetItemModifier(html, dialogData, actorData){
-        dialogData.targetEffect = html.find('[name="targetEffect"]')[0].value;
-        if (dialogData.typeSub === "counterspelling"){
-            this.getTargetType(dialogData.targetEffect).then((spellCategory) => {
-                let modifier = actorData.data.skills.counterspelling.spellCategory[spellCategory].dicePool - actorData.data.skills.counterspelling.test.dicePool;
-                html.find('[name="targetEffectTypeModifier"]')[0].value = modifier;
-                this.dicePoolModifier.spellCategory = modifier;
-                dialogData.dicePoolMod.spellCategory = modifier;
-                this.updateDicePoolValue(html);
-            });
-        }
-    }
-
-    //Get Object Resistance Test base dicepool
-    _getObjectTypeDicePool(ev, html, dialogData){
-        html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
-        this.updateDicePoolValue(html);
-    }
-
-    //Add spell shaping metamagic modifiers
-    _addSpellShapingModifier(ev, html, dialogData, actorData){
-        let value = parseInt(ev.target.value);
-        if (value > 0) {
-            ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMin'));
-            value = 0;
-            html.find('[name="spellShaping"]')[0].value = 0;
-        } else if (-value > actorData.data.magic.metamagics.spellShapingValue.value){
-            value = -actorData.data.magic.metamagics.spellShapingValue.value;
-            html.find('[name="spellShaping"]')[0].value = value;
-            ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}));
-        }
-        this.dicePoolModifier.variousModifier = value;
-        dialogData.dicePoolMod.spellShaping = value;
-        dialogData.spellAreaMod = -value;
-        this.updateDicePoolValue(html);
-    }
 }

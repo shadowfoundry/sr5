@@ -14,7 +14,7 @@
     <p data-helpTitle="{{localize 'SR5.HELP_VehicleTypeChoice'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTypeChoiceMsg'}}">
         <select name="data.type" data-dtype="String">
         {{#select data.type}}
-            {{#each actor.lists.vehicleCategories}}
+            {{#each actor.lists.vehicleTypes}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}
         {{/select}}

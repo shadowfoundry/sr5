@@ -5,7 +5,7 @@
 
 <!-- Item Price -->
 <li class="grid">
-   	<div class="col-5">{{localize 'SR5.Price'}}</div>
+   	<div class="col-5">{{localize 'SR5.Price'}}{{localize 'SR5.Colons'}}</div>
    	<div class="col-2 SR-Textleft"><input type="number" data-dtype="Number" name="data.price.base" value="{{data.price.base}}" /></div>
    	{{#if data.price.multiplier}}
 		<div class="col-1 SR-Textleft">&nbsp;(x {{findMultiplierValue data.price.multiplier this}})</div>
@@ -27,7 +27,7 @@
 
 <!-- Item Availability -->
 <li class="grid">
-	<div class="col-5">{{localize 'SR5.Availability'}}</div>
+	<div class="col-5">{{localize 'SR5.Availability'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.availability.base" value="{{data.availability.base}}" /></div>
 	{{#if data.availability.multiplier}}
 		<div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.availability.multiplier this}})</div>
@@ -49,7 +49,7 @@
 
 <!-- Item Legality -->
 <li class="grid">
-	<div class="col-5">{{localize 'SR5.Legality'}}</div>
+	<div class="col-5">{{localize 'SR5.Legality'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
 		<select name="data.legality">
 		{{#select data.legality}}

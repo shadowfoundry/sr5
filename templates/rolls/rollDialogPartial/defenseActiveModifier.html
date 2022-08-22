@@ -1,17 +1,19 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ActiveDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-PaddingRight10">
-        <select class="defenseMode" name="defenseMode">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect" data-target="dicePoolModDefenseActive" data-modifier="defenseMode">
             {{#select defenseMode}}
             <option value="none">{{localize 'SR5.DefenseNone'}}</option>
-            <option value="defenseDodge">{{localize 'SR5.Dodge'}}</option>
-            <option value="defenseBlock">{{localize 'SR5.Block'}}</option>
-            <option value="defenseParryClubs">{{localize 'SR5.ParryBlunt'}}</option>
-            <option value="defenseParryBlades">{{localize 'SR5.ParrySlashing'}}</option>
+            <option value="dodge">{{localize 'SR5.Dodge'}}</option>
+            {{#ifne  type "rammingDefense"}}
+            <option value="block">{{localize 'SR5.Block'}}</option>
+            <option value="parryClubs">{{localize 'SR5.ParryBlunt'}}</option>
+            <option value="parryBlades">{{localize 'SR5.ParrySlashing'}}</option>
+            {{/ifne}}
             {{/select}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="dicePoolModDefenseActive" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModDefenseActive" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>

@@ -1,119 +1,124 @@
 <div class="sr5 chat-card item-card" data-actor-id="{{actor.id}}" data-item-id="{{item.id}}" data-token-id="{{tokenId}}">
-  <header class="SR-CardHeader flexrow" title="{{localize 'SR5.ClickForDetails'}}">
-    <div class="SR-CardHeaderTitle grid">
-      <div class="col-auto align-self-center">{{title}}</div>
-    </div>
-  </header>
+	<header class="SR-CardHeader flexrow" title="{{localize 'SR5.ClickForDetails'}}">
+    	<div class="SR-CardHeaderTitle grid">
+      		<div class="col-auto align-self-center">{{title}}</div>
+    	</div>
+  	</header>
 
-  <div class="SR-CardContent owner">
-    <ul>
-      <li>
-        <div class="SR-CardDices">
-          {{#each test.dices as |dice d|}}
-            {{#if dice.success}}
-              <div class="SR-Dice succes {{#if dice.exploded}}exploded{{/if}} {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
-            {{else}}
-              {{#if dice.glitch}}
-                <div class="SR-Dice glitch {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
-              {{else}}
-                <div class="SR-Dice echec {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
-              {{/if}}
-            {{/if}}
-          {{/each}}
-        </div>
-      </li>
+  	<div class="SR-CardContent owner">
+    	<ul>
+		<li>
+			<div class="SR-CardDices">
+			{{#each test.dices as |dice d|}}
+				{{#if dice.success}}
+				<div class="SR-Dice succes {{#if dice.exploded}}exploded{{/if}} {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
+				{{else}}
+				{{#if dice.glitch}}
+					<div class="SR-Dice glitch {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
+				{{else}}
+					<div class="SR-Dice echec {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
+				{{/if}}
+				{{/if}}
+			{{/each}}
+			</div>
+		</li>
       
-      <!--Dicepool Mod-->
-      {{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.html}}
-      <!--Attack Infos-->
-      {{#if (eq type 'attack')}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
-      {{/if}}
-      <!--Drain info-->
-      {{#if (or (eq type 'spell') (eq type 'preparationFormula') (eq type 'ritualResistance'))}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.html}}
-      {{/if}}
-      <!--Summoning info-->
-      {{#if (or (eq typeSub 'summoning') (eq typeSub 'compileSprite') )}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html}}
-      {{/if}}
-      <!--Matrix damage info-->
-      {{#if (eq typeSub 'dataSpike')}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
-      {{/if}}
-      {{#if (and (eq type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
-      {{/if}}
-      <!--Limit info-->
-      {{#if test.limit}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
-      {{/if}}
-      <!--Assensing info-->
-      {{#if (eq typeSub 'assensing')}}
-        {{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html}}
-      {{/if}}
-    </ul>
-  </div>
+		<!--Dicepool Mod-->
+		{{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.html}}
+		<!--Attack Infos-->
+		{{#if (or (eq type 'attack')(eq type 'rammingTest')(eq type 'accidentCard'))}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
+		{{/if}}
+		<!--Drain info-->
+		{{#if (or (eq type 'spell') (eq type 'preparationFormula') (eq type 'ritualResistance'))}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.html}}
+		{{/if}}
+		<!--Summoning info-->
+		{{#if (or (eq typeSub 'summoning') (eq typeSub 'compileSprite') )}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html}}
+		{{/if}}
+		<!--Matrix damage info-->
+		{{#if (eq typeSub 'dataSpike')}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
+		{{/if}}
+		{{#if (and (eq type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
+		{{/if}}
+		<!--Limit info-->
+		{{#if test.limit}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
+		{{/if}}
+		<!--Assensing info-->
+		{{#if (eq typeSub 'assensing')}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html}}
+		{{/if}}
+		<!--Threshold infos-->
+		{{#if (or (eq typeSub 'escapeArtist') (and (eq typeSub 'perception') (ne thresholdType 'opposed')) (eq typeSub 'survival') )}}
+			{{#unless opposedSkillTest}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/threshold.html}}
+			{{/unless}}
+		{{/if}}
+		</ul>
+  	</div>
 
-  <div class="SR-CardButton">
-    <div class="SR-CardButtonHit grid">
-      <div class="col-2">
-        {{#if editResult}}
-        <a class="chat-button-gm edit-toggle" title="{{localize 'SR5.EditResult'}}"><i class="fas fa-edit"></i></a>
-        {{/if}}
-        {{#if templatePlace}}
-          <a class="messageAction owner" title="{{localize 'SR5.PlaceTemplate'}}" data-action="nonOpposedTest" data-type="templatePlace"><i class="fas fa-bullseye"></i></a>
-        {{/if}}
-        {{#if templateRemove}}
-          <a class="messageAction owner" title="{{localize 'SR5.RemoveTemplate'}}" data-action="nonOpposedTest" data-type="templateRemove"><i class="fas fa-ban"></i></a>
-        {{/if}}
-      </div>
-      <div class="col-8">
-        <div class="display-toggle" style="display: none;">
-          <input class="card-edit" data-edit-type="hits" value="{{test.hits}}">{{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
-        </div>
-        <div class="display-toggle">
-          {{test.hits}} {{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
-          {{#if test.glitchRoll}}
-            ({{localize 'SR5.Glitch'}})
-          {{/if}}
-          {{#if test.criticalGlitchRoll}}
-            ({{localize 'SR5.GlitchCritical'}})
-          {{/if}}
-          {{#ife type "lift"}}
-            ({{weightTotal}}{{localize 'SR5.KilogramUnit'}})
-          {{/ife}}
-          {{#ife type "movement"}}
-            ({{movementTotal}} {{unit}})
-          {{/ife}}
-          {{#if_g extendedRoll 0}}
-            [{{extendedIntervalValue}} 
-            {{#if_g extendedIntervalValue 1}}
-              {{findTranslation 'extendedIntervals' extendedInterval}}]
-            {{else}}
-              {{findTranslation 'extendedInterval' extendedInterval}}]
-            {{/if_g}}
-          {{/if_g}}
-        </div>
-      </div>
-      <div class="col-2">
-        {{#if (or (eq secondeChanceUsed true) (eq type 'preparation'))}}
-        {{else}}
-          <a class="messageAction owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
-        {{/if}}
-        {{#if (or (eq pushLimitUsed true) (eq type 'preparation'))}}
-        {{else}}
-          <a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>
-        {{/if}}
-      </div>
-    </div>
+	<div class="SR-CardButton">
+		<div class="SR-CardButtonHit grid">
+		<div class="col-2">
+			{{#if editResult}}
+				<a class="chat-button-gm edit-toggle" title="{{localize 'SR5.EditResult'}}"><i class="fas fa-edit"></i></a>
+			{{/if}}
+			{{#if templatePlace}}
+				<a class="messageAction owner" title="{{localize 'SR5.PlaceTemplate'}}" data-action="nonOpposedTest" data-type="templatePlace"><i class="fas fa-bullseye"></i></a>
+			{{/if}}
+			{{#if templateRemove}}
+				<a class="messageAction owner" title="{{localize 'SR5.RemoveTemplate'}}" data-action="nonOpposedTest" data-type="templateRemove"><i class="fas fa-ban"></i></a>
+			{{/if}}
+		</div>
+		<div class="col-8">
+			<div class="display-toggle" style="display: none;">
+				<input class="card-edit" data-edit-type="hits" value="{{test.hits}}">{{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
+			</div>
+			<div class="display-toggle">
+				{{test.hits}} {{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
+				{{#if test.glitchRoll}}
+					({{localize 'SR5.Glitch'}})
+				{{/if}}
+				{{#if test.criticalGlitchRoll}}
+					({{localize 'SR5.GlitchCritical'}})
+				{{/if}}
+				{{#ife type "lift"}}
+					({{weightTotal}}{{localize 'SR5.KilogramUnit'}})
+				{{/ife}}
+				{{#ife type "movement"}}
+					({{movementTotal}} {{unit}})
+				{{/ife}}
+				{{#if_g extendedRoll 0}}
+					[{{extendedIntervalValue}} 
+					{{#if_g extendedIntervalValue 1}}
+					{{findTranslation 'extendedIntervals' extendedInterval}}]
+					{{else}}
+					{{findTranslation 'extendedInterval' extendedInterval}}]
+					{{/if_g}}
+				{{/if_g}}
+			</div>
+		</div>
+		<div class="col-2">
+			{{#if (or (eq secondeChanceUsed true) (eq type 'preparation'))}}
+			{{else}}
+				<a class="messageAction owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
+			{{/if}}
+			{{#if (or (eq pushLimitUsed true) (eq type 'preparation'))}}
+			{{else}}
+				<a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>
+			{{/if}}
+		</div>
+		</div>
 
-    <div id="srButtonTest"></div>
-      <!-- EXTENDED TEST -->
-      {{#if extendedTest}}
-        <button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="extended">
-          {{localize 'SR5.NewRoll'}}
-        </button>
-      {{/if}}
-  </div>
+		<div id="srButtonTest"></div>
+
+		<!-- EXTENDED TEST -->
+		{{#if extendedTest}}
+			<button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="extended">{{localize 'SR5.NewRoll'}}</button>
+		{{/if}}
+	</div>
 </div>

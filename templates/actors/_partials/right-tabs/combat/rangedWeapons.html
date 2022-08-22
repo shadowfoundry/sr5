@@ -48,7 +48,7 @@
 				  	<em class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></em>
 					{{/if}}
 			  	</a>
-			  	<span data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">{{name}}</span>
+			  	<span data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">{{name}}{{#if data.isUsedAsMount}}{{localize 'SR5.VEHICLE_isLinkedToMount'}}{{/if}}</span>
 			</div>
 			{{#if ../data.initiatives.astralInit.isActive}}
 			<div class="col-1 SR-TextCenter"

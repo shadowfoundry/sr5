@@ -124,6 +124,7 @@ export class SR5_UtilityItem extends Actor {
     //Reset accessory
     if (itemData.type === "itemAugmentation" || itemData.type === "itemGear"){
       if (!itemData.document.isOwned) data.accessory = [];
+      data.isMedkit = false;
     }
 
     //Reset price & availability
@@ -208,6 +209,16 @@ export class SR5_UtilityItem extends Actor {
       data.drainValue.modifiers = [];
     }
 
+    if (itemData.type === "itemMartialArt"){
+      data.test.dicePool = 0;
+      data.test.modifiers = [];
+      data.pin = false;
+      data.entanglement = false;
+      data.feint = false;
+      data.disarm = false;
+      data.breakWeapon = false;
+    }
+
     if (itemData.type === "itemPreparation"){
       data.test.modifiers = [];
     }
@@ -254,10 +265,28 @@ export class SR5_UtilityItem extends Actor {
       case "capacity":
         multiplier = item.capacity.value;
         break;
+      case "acceleration":
+        multiplier = item.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        multiplier = item.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        multiplier = item.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        multiplier = item.vehiclePriceMultiplier.body;
+        break;
+      case "seating":
+        multiplier = item.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+          multiplier = item.vehiclePriceMultiplier.vehicle;
+        break;
       default:
     }
     if (item.price.multiplier) {
-      SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(lists.valueMultipliers[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+      SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(lists.valueMultipliersAll[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
     }
     SR5_EntityHelpers.updateValue(item.price, 0);
   }
@@ -294,10 +323,28 @@ export class SR5_UtilityItem extends Actor {
       case "capacity":
         multiplier = item.capacity.value;
         break;
+      case "acceleration":
+        multiplier = item.vehiclePriceMultiplier.acceleration;
+        break;
+      case "handling":
+        multiplier = item.vehiclePriceMultiplier.handling;
+        break;
+      case "speed":
+        multiplier = item.vehiclePriceMultiplier.speed;
+        break;
+      case "body":
+        multiplier = item.vehiclePriceMultiplier.body;
+        break;
+      case "seating":
+        multiplier = item.vehiclePriceMultiplier.seating;
+        break;
+      case "vehicle":
+        multiplier = item.vehiclePriceMultiplier.vehicle;
+        break;
       default:
     }
     if (item.availability.multiplier) {
-      SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(lists.valueMultipliers[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+      SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(lists.valueMultipliersAll[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
     }
     SR5_EntityHelpers.updateValue(item.availability, 0);
   }
@@ -329,11 +376,13 @@ export class SR5_UtilityItem extends Actor {
   // Manage bow specific
   static _handleBow(weapon) {
     if (weapon.data.type === "bow") {
+      
       SR5_EntityHelpers.updateModifier(weapon.data.price, weapon.name, game.i18n.localize('SR5.ItemRating'), ((weapon.data.price.base * weapon.data.itemRating) - 100));
       SR5_EntityHelpers.updateModifier(weapon.data.availability, weapon.name, game.i18n.localize('SR5.ItemRating'), weapon.data.itemRating);
       SR5_EntityHelpers.updateModifier(weapon.data.armorPenetration, weapon.name, game.i18n.localize('SR5.ItemRating'), -Math.floor(weapon.data.itemRating / 4));
-      SR5_EntityHelpers.updateModifier(weapon.data.damageValue, weapon.name, game.i18n.localize('SR5.ItemRating'), weapon.data.itemRating);
-    }
+      let value = Math.min(weapon.data.itemRating,weapon.data.ammunition.rating);
+      SR5_EntityHelpers.updateModifier(weapon.data.damageValue, weapon.name, game.i18n.localize('SR5.ItemRating'), value);
+        }
   }
 
   // Generate Weapon dicepool
@@ -444,7 +493,7 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    SR5_EntityHelpers.updateValue(weapon.damageValue);
+    SR5_EntityHelpers.updateValue(weapon.damageValue, 0);
     SR5_EntityHelpers.updateValue(weapon.armorPenetration);
     SR5_EntityHelpers.updateValue(weapon.recoilCompensation);
     SR5_EntityHelpers.updateValue(weapon.accuracy);
@@ -466,6 +515,8 @@ export class SR5_UtilityItem extends Actor {
       case "injection":
       case "tracer":
       case "flashPack":
+      case "gyrojet":
+      case "gauss":
         // No modification
         break;
       case "av":
@@ -502,6 +553,12 @@ export class SR5_UtilityItem extends Actor {
         armorPenetration = 2;
         damageValue = 1;
         break;
+      case "gyrojetTaser":
+        armorPenetration = -5;
+        damageValue = -2;
+        damageType = "stun";
+        damageElement = "electricity";
+        break;
       case "stickNShock":
         armorPenetration = -weapon.armorPenetration.base -5;
         damageValue = -2;
@@ -511,6 +568,11 @@ export class SR5_UtilityItem extends Actor {
       case "tracker":
         armorPenetration = 2;
         damageValue = -2;
+        break;
+      case "flare":
+        armorPenetration = 2;
+        damageValue = -2;        
+        damageElement = "fire";
         break;
       case "flashBang":
       case "flashBangMini":
@@ -565,6 +627,10 @@ export class SR5_UtilityItem extends Actor {
         blastDamageFallOff = -4;
         blastRadius = 6;
         break;
+        case "arrow":
+        case "arrowInjection":
+          damageValue = weapon.ammunition.itemRating;
+          break;
       default:
         SR5_SystemHelpers.srLog(3, "_handleWeaponAmmunition", `Unknown ammunition type: '${weapon.ammunition.type}'`);
         return;
@@ -640,13 +706,10 @@ export class SR5_UtilityItem extends Actor {
         weapon.damageType = null;
         break;
       case "narcoject":
-        weapon.toxin.vector.inhalation = true;
         weapon.toxin.vector.injection = true;
-        weapon.toxin.speed = 3;
-        weapon.toxin.power = 9;
+        weapon.toxin.speed = 0;
+        weapon.toxin.power = 15;
         weapon.toxin.penetration = 0;
-        weapon.toxin.effect.disorientation = true;
-        weapon.toxin.effect.nausea = true;
         weapon.damageValue.base = 15;
         weapon.damageType = "stun";
         break;
@@ -1079,7 +1142,7 @@ export class SR5_UtilityItem extends Actor {
 
     if (actor){
       for (let i of actor.items){
-        let WeakImmuneSystem = i.data.data.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
+        let WeakImmuneSystem = i.data.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
         if (WeakImmuneSystem) SR5_EntityHelpers.updateModifier(augmentation.essenceCost, i.name, game.i18n.localize(lists.itemTypes[i.type]), 2, true, false);
       }
     }
@@ -1156,7 +1219,7 @@ export class SR5_UtilityItem extends Actor {
 
   //Handle power point cost
   static _handleAdeptPower(power, actor) {
-    let firstAttribute, secondAttibute;
+    let firstAttribute, secondAttribute;
 
     if (power.powerPointsCost.isRatingBased) {
       power.powerPointsCost.value = power.powerPointsCost.base * power.itemRating;
@@ -1184,22 +1247,22 @@ export class SR5_UtilityItem extends Actor {
       let secondLabel = game.i18n.localize(SR5.allAttributes[power.testSecondAttribute]);
       if (power.testSecondAttribute){
         if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
-          secondAttibute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
+          secondAttribute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
         } else if (power.testSecondAttribute === "rating") {
-          secondAttibute = power.itemRating;
+          secondAttribute = power.itemRating;
           secondLabel = game.i18n.localize("SR5.ItemRating");
         } else if (power.testSecondAttribute === "running") {
-          secondAttibute = actor.data.skills.running.rating.value;
+          secondAttribute = actor.data.skills.running.rating.value;
           secondLabel = game.i18n.localize("SR5.Skill");
         } else if (power.testSecondAttribute === "leadership") {
-          secondAttibute = actor.data.skills.leadership.rating.value;
+          secondAttribute = actor.data.skills.leadership.rating.value;
           secondLabel = game.i18n.localize("SR5.Skill");
-        } else secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
+        } else secondAttribute = actor.data.attributes[power.testSecondAttribute].augmented.value;
       }
 
       power.test.base = 0;
       if (firstAttribute) SR5_EntityHelpers.updateModifier(power.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-      if (secondAttibute) SR5_EntityHelpers.updateModifier(power.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttibute, false, true);
+      if (secondAttribute) SR5_EntityHelpers.updateModifier(power.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
       SR5_EntityHelpers.updateDicePool(power.test);
     }
 
@@ -1210,6 +1273,45 @@ export class SR5_UtilityItem extends Actor {
         if (actor) SR5_EntityHelpers.updateModifier(power.drainValue, game.i18n.localize('SR5.Magic'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(actor.data.specialAttributes.magic.augmented.value * (power.drainMultiplier || 1)), false, true);
       }
       SR5_EntityHelpers.updateValue(power.drainValue);
+    }
+  }
+
+  //Handle Martial Art test
+  static _handleMartialArt(martialArt, actor) {
+    let firstAttribute, secondAttribute;
+
+    if (martialArt.needRoll && actor) {
+      let firstLabel = game.i18n.localize(SR5.allAttributes[martialArt.testFirstAttribute]);
+      if (martialArt.testFirstAttribute){
+        if (martialArt.testFirstAttribute === "edge" || martialArt.testFirstAttribute === "magic" || martialArt.testFirstAttribute === "resonance"){
+          firstAttribute = actor.data.specialAttributes[martialArt.testFirstAttribute].augmented.value;
+        } else if (martialArt.testFirstAttribute === "body" || martialArt.testFirstAttribute === "agility" || martialArt.testFirstAttribute === "reaction" || martialArt.testFirstAttribute === "strength" || martialArt.testFirstAttribute === "willpower" || martialArt.testFirstAttribute === "logic" || martialArt.testFirstAttribute === "intuition" || martialArt.testFirstAttribute === "charisma") {
+          firstAttribute = actor.data.attributes[martialArt.testFirstAttribute].augmented.value;
+        } else {
+          firstAttribute = actor.data.skills[martialArt.testFirstAttribute].rating.value;
+          firstLabel = game.i18n.localize(SR5.skills[martialArt.testFirstAttribute]);
+        }
+      }
+  
+      let secondLabel = game.i18n.localize(SR5.allAttributes[martialArt.testSecondAttribute]);
+      if (martialArt.testSecondAttribute){
+        if (martialArt.testSecondAttribute === "edge" || martialArt.testSecondAttribute === "magic" || martialArt.testSecondAttribute === "resonance"){
+          secondAttribute = actor.data.specialAttributes[martialArt.testSecondAttribute].augmented.value;
+        } else if (martialArt.testSecondAttribute === "body" || martialArt.testSecondAttribute === "agility" || martialArt.testSecondAttribute === "reaction" || martialArt.testSecondAttribute === "strength" || martialArt.testSecondAttribute === "willpower" || martialArt.testSecondAttribute === "logic" || martialArt.testSecondAttribute === "intuition" || martialArt.testSecondAttribute === "charisma") {
+          secondAttribute = actor.data.attributes[martialArt.testSecondAttribute].augmented.value;
+        } else {
+          secondAttribute = actor.data.skills[martialArt.testSecondAttribute].rating.value;
+          secondLabel = game.i18n.localize(SR5.skills[martialArt.testSecondAttribute]);
+        }
+      }
+
+      martialArt.test.base = 0;
+      if (firstAttribute) SR5_EntityHelpers.updateModifier(martialArt.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
+      if (secondAttribute) SR5_EntityHelpers.updateModifier(martialArt.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
+      SR5_EntityHelpers.updateDicePool(martialArt.test);
+
+      
+
     }
   }
 
@@ -1394,29 +1496,12 @@ export class SR5_UtilityItem extends Actor {
 
   ////////////////////// VEHICULES  ///////////////////////
   static _handleVehicle(vehicle) {
-    if (vehicle.riggerInterface) {
-      SR5_EntityHelpers.updateModifier(vehicle.price, 'riggerInterface', 'riggerInterface', 1000);
-    }
-    for (let mount of vehicle.mount){
-      switch (mount.type) {
-        case "heavy":
-          SR5_EntityHelpers.updateModifier(vehicle.price, 'heavy', 'mount', 5000);
-          break;
-        case "standard":
-          SR5_EntityHelpers.updateModifier(vehicle.price, 'standard', 'mount', 2500);
-          break;
-        default:
-          SR5_SystemHelpers.srLog(1, `Unknown '${mount.type}' mount type in _handleVehicle()`);
-      }
-
-      if (mount.manual) SR5_EntityHelpers.updateModifier(vehicle.price, 'manual', 'mount', 2500);
-    }
 
     for (let vehicleMod of vehicle.vehiclesMod){
       SR5_EntityHelpers.updateModifier(vehicle.price, '${vehicleMod.name}', 'price', vehicleMod.data.price.value);
     }
 
-    if (vehicle.category === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
+    if (vehicle.type === "drone") vehicle.deviceRating = vehicle.attributes.pilot;
     else vehicle.deviceRating = 2;
 
   }
@@ -1430,6 +1515,155 @@ export class SR5_UtilityItem extends Actor {
     vehicle.modificationSlots.electromagnetic = slots ;
     vehicle.modificationSlots.cosmetic = slots ;
   }
+
+  static _handleWeaponMounted(item) {
+    let lists = SR5, data = item.data, wm = data.weaponMount;
+    switch (wm.size) {
+      case "light":
+        data.slots.base = 1;
+        data.threshold.base = 4;
+        data.tools = "kit";
+        data.skill = "armorer";
+        data.availability.base = 6;
+        data.legality = "F";
+        data.price.base = 750;
+        break;
+      case "standard":
+        data.slots.base = 2;
+        data.threshold.base = 6;
+        data.tools = "shop";
+        data.skill = "armorer";
+        data.availability.base = 8;
+        data.legality = "F";
+        data.price.base = 1500;
+        break;
+      case "heavy":
+        data.slots.base = 4;
+        data.threshold.base = 10;
+        data.tools = "shop";
+        data.skill = "armorer";
+        data.availability.base = 12;
+        data.legality = "F";
+        data.price.base = 4000;
+        break;
+      default:
+    }
+    switch (wm.visibility) {
+      case "external":
+      break;
+      case "internal":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 2);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 6);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 2);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 1500);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        break;
+      case "concealed":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 10);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4000);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        break;
+      default:
+    }
+    switch (wm.flexibility) {
+      case "fixed":
+        break;
+      case "flexible":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 1);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 4);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 2);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 2000);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        break;
+      case "turret":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 2);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 12);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 6);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 5000);
+        data.tools = "facility";
+        break;
+      default:
+    }
+    switch (wm.control) {
+      case "remote":
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        break;
+      case "manual":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 4);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 500);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        break;
+      case "armoredManual":
+        SR5_EntityHelpers.updateModifier(data.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 2);
+        SR5_EntityHelpers.updateModifier(data.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 6);
+        SR5_EntityHelpers.updateModifier(data.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 4);
+        SR5_EntityHelpers.updateModifier(data.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 1500);
+        if (data.tools == "kit") {
+          data.tools = "shop";
+        }
+        data.surname = " (" + game.i18n.localize(lists.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(lists.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(lists.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(lists.WeaponMountControl[wm.control]) + ")";
+        break;
+      default:
+    }
+
+    SR5_EntityHelpers.updateValue(data.slots, 0);
+    SR5_EntityHelpers.updateValue(data.threshold, 0);
+    SR5_EntityHelpers.updateValue(data.availability, 0);
+    SR5_EntityHelpers.updateValue(data.price, 0);
+  }
+
+  static  _resetWeaponMounted(data) {
+    data.weaponMount.size = "";
+    data.weaponMount.visibility = "";
+    data.weaponMount.flexibility = "";
+    data.weaponMount.control = "";
+    data.mountedWeapon = "";
+    data.mountedWeaponName = "";
+  }
+
+  static _generateWeaponMountWeaponList(data, actor) {
+    let weaponList = [];
+    for (let i of actor.items) {
+      if (i.type === "itemWeapon" && i.data.data.category === "rangedWeapon") { 
+        if (i.data.data.systemEffects.length) continue;
+        let weapon = {
+          "name": i.name,
+          "id": i.id,
+        }
+        weaponList.push(weapon);  
+      }
+    }
+    data.data.weaponChoices = weaponList;
+    return weaponList;
+  }
+
+  static async _checkIfWeaponIsMount(i, actor){
+    let mount = actor.items.find(m => m.data.data.mountedWeapon === i.id);
+    if (mount) i.data.data.isLinkedToMount = true;
+    else i.data.data.isLinkedToMount = false;
+  }
+
+  static async _handleWeaponMount(i, actor){
+    let mount = actor.items.find(m => m.data.data.mountedWeapon === i._id);
+    if (mount) {
+      if (mount.data.data.isActive){
+        i.data.isUsedAsMount = true; 
+        }
+      }
+    } 
 
   static _handleSlotsMultiplier(item) {
     let multiplier, lists = SR5;
@@ -1641,7 +1875,7 @@ export class SR5_UtilityItem extends Actor {
 
   static _handlePower(power, actor) {
     let lists = SR5;
-    let firstAttribute, secondAttibute;
+    let firstAttribute, secondAttribute;
     if (power.testFirstAttribute){
       if (power.testFirstAttribute === "edge" || power.testFirstAttribute === "magic" || power.testFirstAttribute === "resonance"){
         firstAttribute = actor.data.specialAttributes[power.testFirstAttribute].augmented.value;
@@ -1652,14 +1886,14 @@ export class SR5_UtilityItem extends Actor {
 
     if (power.testSecondAttribute){
       if (power.testSecondAttribute === "edge" || power.testSecondAttribute === "magic" || power.testSecondAttribute === "resonance"){
-        secondAttibute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
+        secondAttribute = actor.data.specialAttributes[power.testSecondAttribute].augmented.value;
       } else {
-        secondAttibute = actor.data.attributes[power.testSecondAttribute].augmented.value;
+        secondAttribute = actor.data.attributes[power.testSecondAttribute].augmented.value;
       }
     }
     power.test.base = 0;
     if (firstAttribute) SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(lists.allAttributes[power.testFirstAttribute]), game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-    if (secondAttibute) SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(lists.allAttributes[power.testSecondAttribute]), game.i18n.localize('SR5.LinkedAttribute'), secondAttibute, false, true);
+    if (secondAttribute) SR5_EntityHelpers.updateModifier(power.test, game.i18n.localize(lists.allAttributes[power.testSecondAttribute]), game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
     SR5_EntityHelpers.updateDicePool(power.test);
   }
 
@@ -1719,8 +1953,24 @@ export class SR5_UtilityItem extends Actor {
         skipCustomEffect = true;
       }
 
+
+
+      SR5_SystemHelpers.srLog(3, ` item ==> '${JSON.stringify(item)}' in applyItemEffects()`);
+
       let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, item);
       if (targetObject === null) skipCustomEffect = true;
+
+      SR5_SystemHelpers.srLog(3, ` item.type ==> '${item.type}' , customEffect ==> '${JSON.stringify(customEffect)}' applyItemEffects()`);
+
+      if (item.type === "itemMartialArt" && customEffect.type === "boolean") {
+        let booleanValue;
+            if (customEffect.value === "true") booleanValue = true;
+            else booleanValue = false;
+            setProperty(item, customEffect.target, booleanValue);
+            SR5_SystemHelpers.srLog(3, ` customEffect.target ==> '${customEffect.target}' , booleanValue ==> '${booleanValue}', item.data ==> '${JSON.stringify(item.data)}' applyItemEffects()`);
+        }
+
+      SR5_SystemHelpers.srLog(3, ` targetObject ==> '${JSON.stringify(targetObject)}' in applyItemEffects()`);
 
       if (!skipCustomEffect) {    
         if (!customEffect.multiplier) customEffect.multiplier = 1;
@@ -1735,11 +1985,23 @@ export class SR5_UtilityItem extends Actor {
             customEffect.value = (customEffect.value || 0);
             SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
             break;
+          case "boolean":
+            let booleanValue;
+            if (customEffect.value === "true") booleanValue = true;
+            else booleanValue = false;
+            setProperty(item, customEffect.target, booleanValue);
+            break;
           default:
             SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);
         }
       }
     }
+
+    for (let systemEffect of Object.values(item.data.systemEffects)){
+      //Special for Medkit
+      if (systemEffect.value === "medkit") item.data.isMedkit = true;
+    }
+
   }
 
 }

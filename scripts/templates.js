@@ -227,6 +227,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html",
     "systems/sr5/templates/items/_partial/summary/_common/rangeMagic-summary.html",
     "systems/sr5/templates/items/_partial/summary/_common/rating-summary.html",
+    "systems/sr5/templates/items/_partial/summary/_common/source-summary.html",
 
         //Specific summary
         "systems/sr5/templates/items/_partial/summary/ammunition-summary.html",
@@ -280,7 +281,6 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html",
         "systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html",
-
         //Armor
         "systems/sr5/templates/items/_partial/editable/armor/armorRating-edit.html",
 
@@ -346,6 +346,10 @@ export const preloadHandlebarsTemplates = async function () {
 
         //Martial Arts
         "systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html",
+        "systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.html",
+        "systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.html",
+        "systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/martialArts/calledShot-edit.html",
 
         //Nuyen
         "systems/sr5/templates/items/_partial/editable/nuyen/type-edit.html",
@@ -415,7 +419,6 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicle/type-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/skill-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/attributes-edit.html",
-        "systems/sr5/templates/items/_partial/editable/vehicle/mounts-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicle/items-edit.html",
 
         //Vehicle modifications
@@ -424,13 +427,15 @@ export const preloadHandlebarsTemplates = async function () {
         "systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html",        
         "systems/sr5/templates/items/_partial/editable/vehicleMod/tools-edit.html",
         "systems/sr5/templates/items/_partial/editable/vehicleMod/threshold-edit.html",
+        "systems/sr5/templates/items/_partial/editable/vehicleMod/priceMultiplierVehicleMod-edit.html",
 
         //Weapon
         "systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/accuracy-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/aerodynamic-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/ammunitionMax-edit.html",
-        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html",
+        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html",        
+        "systems/sr5/templates/items/_partial/editable/weapon/ammunitionRating-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/armorPenetration-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html",
         "systems/sr5/templates/items/_partial/editable/weapon/category-edit.html",
@@ -449,6 +454,8 @@ export const preloadHandlebarsTemplates = async function () {
     /**                                DIALOG PARTIALS                                    ** */
     /************************************************************************************* */
     "systems/sr5/templates/rolls/rollDialogPartial/dicePool.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/modifiers.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/customModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html",
@@ -468,7 +475,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/resistPhysicalDamage.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/armorPenetrationModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/limit.html",
     "systems/sr5/templates/rolls/rollDialogPartial/ammo.html",
     "systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html",
@@ -484,16 +491,37 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html",
     "systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/matrixSearch.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixSearchThreshold.html",
     "systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html",
     "systems/sr5/templates/rolls/rollDialogPartial/reagents.html",
-    "systems/sr5/templates/rolls/rollDialogPartial/spiritAid.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spiritAidCommand.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spiritAidModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html",
     "systems/sr5/templates/rolls/rollDialogPartial/objectResistanceChoice.html",
     "systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html",
     "systems/sr5/templates/rolls/rollDialogPartial/centering.html",
     "systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",    
+    "systems/sr5/templates/rolls/rollDialogPartial/rammingOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/calledShots.html",
     "systems/sr5/templates/rolls/rollDialogPartial/manaBarrierRating.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/escapeArtistThreshold.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/perceptionThreshold.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/survivalThreshold.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/socialModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/buildingModifier.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/spellOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/preparationFormulaOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/ritualOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/summoningOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/complexFormOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/resonanceActionsOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/defenseOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/matrixActionsOptions.html",
+    "systems/sr5/templates/rolls/rollDialogPartial/meleeModifier.html",
 
 
     /************************************************************************************* */
@@ -506,6 +534,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html",
     "systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html",
+    "systems/sr5/templates/rolls/rollCardPartial/threshold.html",
   ];
 
   // Load the template parts

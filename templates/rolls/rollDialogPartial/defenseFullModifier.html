@@ -1,14 +1,7 @@
-<li class="grid SR-TopSeparator">
-    <div class="col-5">{{localize 'SR5.FullDefense'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-PaddingRight10">
-        <select class="fullDefense" name="fullDefense">
-            {{#select fullDefense}}
-            <option value="0">{{localize 'SR5.No'}}</option>
-            <option value="{{defenseFull}}">{{localize 'SR5.Yes'}}</option>
-            {{/select}}
-        </select>
-    </div>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.FullDefense'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox SR-ModCheckboxFilled" data-target="dicePoolModFullDefense" data-modifier="fullDefense"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" name="dicePoolModFullDefense" value="" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModFullDefense" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

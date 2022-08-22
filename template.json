@@ -255,7 +255,7 @@
               "modifiers": []
             }
           }
-        }
+      }
       },
       "characterResistancesTemplate": {
         "resistances": {
@@ -3054,7 +3054,9 @@
           },
           "doublePenalties": false,
           "energyAura": "",
-          "regeneration": false
+          "regeneration": false,
+          "fullDefenseAttribute": "willpower",
+          "fullDefenseValue": 0
         }
       },
       "itemsPropertiesTemplate": {
@@ -4049,13 +4051,15 @@
             "augmentations":{},
             "weapons":{},
             "armors":{},
-            "gears":{}
+            "gears":{},
+            "vehicles":{}
           },
           "potentialPanObject":{
             "augmentations":{},
             "weapons":{},
             "armors":{},
-            "gears":{}
+            "gears":{},
+            "vehicles":{}
           },
           "pan":{
             "max": 0,
@@ -4666,7 +4670,9 @@
         "matrixUsageTemplate",
         "recoilTemplate",
         "visionTemplate",
-        "itemsPropertiesTemplate"
+        "itemsPropertiesTemplate",
+        "specialPropertiesTemplate",
+        "penaltiesTemplate"
       ],
       "attributes": {
         "handling": {
@@ -4682,6 +4688,30 @@
           }
         },
         "handlingOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "secondaryPropulsionHandling": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "secondaryPropulsionHandlingOffRoad": {
           "natural": {
             "value": 0,
             "base": 0,
@@ -4717,6 +4747,18 @@
             "modifiers": []
           }
         },
+        "secondaryPropulsionSpeed": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
         "acceleration": {
           "natural": {
             "value": 0,
@@ -4730,6 +4772,18 @@
           }
         },
         "accelerationOffRoad": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "secondaryPropulsionAcceleration": {
           "natural": {
             "value": 0,
             "base": 0,
@@ -5050,9 +5104,13 @@
       },
       "pilotSkill": "",
       "offRoadMode" : false,
+      "isSecondaryPropulsion": false,
+      "secondaryPropulsionType": "",
+      "isSecondaryPropulsionActivate": false,
       "riggerInterface": false, 
       "slaved": false,
       "type": "",
+      "price": 0,
       "vehiclesMod": [],
       "modificationSlots": {
         "powerTrain": {
@@ -5084,10 +5142,26 @@
           "value": 0,
           "base": 0,
           "modifiers": []
-        }
+        },
+        "extraWeapons": 0,
+        "extraBody": 0
       },
       "model": "",
       "vehicleTest": {
+        "actionType": "complex",
+        "limit": {
+          "base": 0,
+          "value": 0,
+          "modifiers": [],
+          "linkedAttribute": "handling"
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "rammingTest": {
         "actionType": "complex",
         "limit": {
           "base": 0,
@@ -5524,7 +5598,8 @@
       "templateDescription": {
         "description": "",
         "gameEffect": "",
-        "source": ""
+        "source": "",
+        "page": ""
       },
       "templateCustomEffects": {
         "customEffects": [],
@@ -5625,7 +5700,8 @@
       "quantity": 1,
       "type": "",
       "class": "",
-      "caseType": ""
+      "caseType": "",
+      "rating": ""
     },
     "itemWeapon": {
       "templates": [
@@ -5686,7 +5762,8 @@
         "value": 0,
         "max": 0,
         "type": "",
-        "casing": ""
+        "casing": "",
+        "rating": ""
       },
       "recoilCompensation": {
         "value": 0,
@@ -5719,7 +5796,9 @@
         "penetration": 0
       },
       "isLinkedToFocus": false,
-      "isUsedAsFocus": false
+      "isUsedAsFocus": false,
+      "isLinkedToMount": false,
+      "isUsedAsMount": false
     },
     "itemArmor": {
       "templates": [
@@ -5848,6 +5927,7 @@
       ],
       "quantity": 1,
       "charge": 0,
+      "isMedkit": false,
       "isPlugged" : false,
       "accessory": []
     },
@@ -5993,7 +6073,20 @@
         "templateActivation"
       ],
       "actionType": "",
-      "rank": 0
+      "rank": 0,
+      "needRoll": false,
+      "testFirstAttribute": "",
+      "testSecondAttribute": "",
+      "defenseFirstAttribute":"",
+      "defenseSecondAttribute":"",
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "targetOfEffect":[],
+      "needcalledShot": false,
+      "calledShot": ""
     },
     "itemMetamagic": {
       "templates": [
@@ -6268,6 +6361,7 @@
         "templateWireless"
       ],
       "type": "",
+      "category": "",
       "model": "",
       "attributes": {
         "handling": 0,
@@ -6285,7 +6379,9 @@
         "powerTrain":0,
         "protection": 0,
         "weapons": 0,
+        "extraWeapons": 0,
         "body": 0,
+        "extraBody": 0,
         "electromagnetic": 0,
         "cosmetic": 0
       },
@@ -6293,13 +6389,20 @@
       "controlMode": "autopilot",
       "offRoadMode" : false,
       "riggerInterface": false,
-      "mount": [],
       "autosoft": [],
       "weapons": [],
       "ammunitions": [],
       "armors": [],
       "decks": [],
       "vehiclesMod": [],
+      "secondaryPropulsion": {
+        "isSecondaryPropulsion": false,
+        "type": "",
+        "handling": 0,
+        "handlingOffRoad": 0,
+        "speed": 0,
+        "acceleration" : 0
+      },
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
@@ -6334,7 +6437,8 @@
         "templateCustomEffects",
         "templateActivation",
         "templateRating",        
-        "templateBoughtOrSold"
+        "templateBoughtOrSold",
+        "templateCapacity"
       ],
       "type": "",
       "tools": "",
@@ -6350,6 +6454,29 @@
         "modifiers": [],
         "value": 0,
         "multiplier": ""
+      },
+      "surname": "",
+      "isWeaponMounted": false,
+      "weaponMount": {
+        "size": "",
+        "visibility": "",
+        "flexibility": "",
+        "control": ""
+      },
+      "weaponChoices":[],
+      "mountedWeapon":"",
+      "mountedWeaponName":"",
+      "secondaryPropulsion": {
+        "isSecondaryPropulsion": false,
+        "type": ""
+      },
+      "vehiclePriceMultiplier": {
+        "acceleration": 0,
+        "handling": 0,
+        "speed": 0,
+        "body": 0,
+        "seating": 0,
+        "vehicle": 0
       }
     },
     "itemEffect":{

@@ -1,5 +1,7 @@
-<hr>
-<li class="grid">
+<li class="SR-LigneEnTete SR-PaddingTop10">
+    <div>{{localize 'SR5.AttackInfo'}}</div>
+</li>
+<li class="grid SR-PaddingTop5">
     <div class="col-10">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{damageValue}}{{findTranslation 'damageTypesShort' damageType}}</div>
 </li>
@@ -39,13 +41,23 @@
     {{#if (eq typeSub 'rangedWeapon')}}
     <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</p>
     </div>
-    <div class="col-2 SR-TextRight">{{findTranslation 'weaponModesCode' firingMode}}</div>
+    <div class="col-2 SR-TextRight">{{findTranslation 'weaponModesCode' firingModeSelected}}</div>
     {{/if}}
 </li>
 {{#if (ne ammoType '')}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.AmmunitionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' ammoType}}</div>
+</li>
+{{/if}}
+{{#if (ne calledShot.name '')}}
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8 SR-TextRight">{{findTranslation 'calledShots' calledShot.name}}
+        {{#if (and (isdefined calledShot.location) (ne calledShot.location ""))}} 
+            ({{findTranslation 'calledShotsSpecifics' calledShot.location}})
+        {{/if}}
+    </div>
 </li>
 {{/if}}
 {{#if (eq typeSub 'grenade')}}

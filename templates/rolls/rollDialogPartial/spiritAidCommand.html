@@ -1,0 +1,10 @@
+<li class="grid">
+    <div class="col-10">
+        {{#if (eq type 'spell')}}
+            {{localize 'SR5.AidSorcery'}}{{localize 'SR5.Colons'}}
+        {{else}}
+            {{localize 'SR5.SpiritAid'}}{{localize 'SR5.Colons'}}
+        {{/if}}
+    </div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSpiritAid" data-modifier="spiritAid"></div>
+</li>

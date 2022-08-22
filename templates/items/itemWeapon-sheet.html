@@ -17,6 +17,8 @@
 							{{> systems/sr5/templates/items/_partial/title/summary.html}}
 							<!-- Weapon type -->
 							{{> systems/sr5/templates/items/_partial/summary/weapon-summary.html}}
+							<!-- Source -->
+							{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
 						</ul>
 					</div>
 
@@ -41,8 +43,8 @@
 							<!-- Device rating -->
 							{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}
 							{{#ife data.type "bow"}}
-								<!-- Item rating -->
-								{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+							<!-- Item rating -->
+							{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
 							{{/ife}}
 							<!-- Concealability Modifier -->
 							{{> systems/sr5/templates/items/_partial/editable/_common/concealabilityModifier-edit.html}}
@@ -124,7 +126,10 @@
 						{{#ifne data.type "throwing"}}
 							<!-- Ammunition type -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html}}
-
+							{{#ife data.type "bow"}}
+							<!-- Ammunition type -->
+							{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionRating-edit.html}}
+							{{/ife}}
 							<!-- Reloading method -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/reloadingMethod-edit.html}}
 						{{/ifne}}

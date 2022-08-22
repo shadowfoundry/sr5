@@ -1,0 +1,34 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.DefenseAttributes'}}</p>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Attribute'}} 1{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.defenseFirstAttribute" data-dtype="String">
+            {{#select data.defenseFirstAttribute}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.characterAttributes}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Attribute'}} 2{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="data.defenseSecondAttribute" data-dtype="String">
+            {{#select data.defenseSecondAttribute}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.characterAttributes}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}                
+                {{#each lists.combatSkills}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+                <option value="escapeArtist">{{localize 'SR5.SkillEscapeArtist'}}</option>                
+                <option value="gymnastics">{{localize 'SR5.SkillGymnastics'}}</option>
+            {{/select}}
+        </select>
+    </div>
+</li>

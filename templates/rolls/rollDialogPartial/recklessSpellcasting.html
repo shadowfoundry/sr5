@@ -1,14 +1,6 @@
 <li class="grid">
-    <div class="col-7">{{localize 'SR5.RecklessSpellcasting'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4">
-        <select class="recklessSpellcasting" name="recklessSpellcasting">
-        {{#select recklessSpellcasting}}
-            <option value="0">{{localize 'SR5.No'}}</option>
-            <option value="3">{{localize 'SR5.Yes'}}</option>
-        {{/select}}
-        </select>
+    <div class="col-10">{{localize 'SR5.RecklessSpellcasting'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+        <input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModRecklessSpellcasting" data-modifier="recklessSpellcasting">
     </div>
-    <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="recklessSpellcastingValue" value="" placeholder="0" data-dtype="Number" />
-    </div>
-  </li>
+</li>

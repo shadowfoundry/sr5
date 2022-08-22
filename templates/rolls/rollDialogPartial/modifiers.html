@@ -1,0 +1,114 @@
+<!-- MODIFIERS -->
+<li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+    <div class="col-11">
+        {{localize 'SR5.Modifiers'}}
+        <a class="SR-DialogToggle" data-target="dicePoolModifier" data-action="show" style="display: none;"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="dicePoolModifier" data-action="hide"><i class="fas fa-angle-up SR-SubColor"></i></a>
+    </div>
+    <div class="col-1 SR-TextCenter">
+		<input disabled type="number" name="dicePoolModifiers" value="0" data-dtype="Number" placeholder="0" />
+	</div>
+</li>
+
+<div id="dicePoolModifier">
+    <!-- ATTRIBUTE CHOICE -->
+    {{#if switch.attribute}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
+    {{/if}}
+
+    <!-- CUSTOM MODIFIER-->
+    {{> systems/sr5/templates/rolls/rollDialogPartial/customModifier.html}}
+
+    <!-- WOUND MODIFIER-->
+    {{#if switch.penalty}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html}}
+    {{/if}}
+
+    <!-- SPECIALIZATION -->
+    {{#if switch.specialization}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html}}
+    {{/if}}
+
+    <!-- ENVIRONMENTAL MODIFIERS -->
+    {{#if (and (eq type "attack") (eq typeSub "rangedWeapon")) }}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
+    {{/if}}
+
+    <!-- SPECIFIC SKILL TEST -->
+    {{#if (or (eq type 'skill') (eq type 'skillDicePool'))}}
+        <!-- PERCEPTION -->
+        {{#if (eq typeSub "perception")}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
+        {{/if}}
+        <!-- MEDECINE && FIRST AID -->
+        {{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html}}
+        {{/if}}
+        <!-- ESCAPE ARTIST -->
+        {{#if (eq typeSub "escapeArtist")}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html}}
+        {{/if}}
+        <!-- SURVIVAL -->
+        {{#if (eq typeSub "survival")}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html}}
+        {{/if}}
+        <!--ETIQUETTE / CON / INTIMIDATION / LEADERSHIP / NEGOCIATION / Impersonation / Performance -->
+        {{#if (or (eq typeSub "etiquette") (eq typeSub "con") (eq typeSub "intimidation") (eq typeSub "leadership") (eq typeSub "negociation") (eq typeSub "impersonation") (eq typeSub "performance"))}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/socialModifier.html}}
+        {{/if}}
+        <!-- AERONAUTICS MECHANIC / ARMORER / AUTOMOTIVE MECHANIC  /CYBERTECHNOLOGY / FORGERY / HARDWARE / INDUSTRIAL MECHANIC / NAUTICAL MECHANIC -->
+        {{#if (or (eq typeSub "aeronauticsMechanic") (eq typeSub "armorer") (eq typeSub "automotiveMechanic") (eq typeSub "cybertechnology") (eq typeSub "forgery") (eq typeSub "hardware") (eq typeSub "industrialMechanic") (eq typeSub "nauticalMechanic") )}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/buildingModifier.html}}
+        {{/if}}
+    {{/if}}
+
+    <!-- SPELLS - FORCE - BACKGROUND COUNT -->
+    {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "preparation") (eq type "ritual") (eq type "power") )}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
+    {{/if}}
+
+    <!-- SUMMONING SPIRIT TYPE -->
+	{{#if (eq typeSub "summoning")}}
+    <li class="grid">
+        <div class="col-11">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter">
+            <input disabled type="number" name="dicePoolModSpiritType" value="" placeholder="0" data-dtype="Number" />
+        </div>
+    {{/if}}
+
+    <!-- SPIRIT AID -->
+    {{#if switch.spiritAid}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidModifier.html}}
+    {{/if}}
+
+    <!-- TARGET TYPE MODIFIERS -->
+    {{#if (eq typeSub "binding")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html}}
+    {{/if}}
+
+     <!-- ARMOR PENETRATION -->
+    {{#if (or (and (eq type "resistanceCard") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') (eq type "resistFire") )}}
+		{{> systems/sr5/templates/rolls/rollDialogPartial/armorPenetrationModifier.html}}
+	{{/if}}
+
+    <!-- CUMULATIVE DEFENSE -->
+    {{#if_g cumulativeDefense 0}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/defenseCumulativeModifier.html}}
+    {{/if_g}}
+
+    <!-- SENSOR LOCK -->
+    {{#if switch.isSensorLocked}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html}}
+    {{/if}}
+
+</div>
+
+<!-- SIGNATURE TARGETING -->
+{{#if (eq type "activeSensorTargeting")}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/signature.html}}
+{{/if}}
+
+<!-- CENTERING METAMAGIC -->
+{{#if switch.centering}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
+{{/if}}

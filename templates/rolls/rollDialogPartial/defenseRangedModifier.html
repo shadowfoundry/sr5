@@ -1,18 +1,22 @@
 {{#if (ne firingMode 'SF')}}
-<li class="grid SR-TopSeparator">
+<li class="grid">
     <div class="col-5">{{localize 'SR5.AttackFiringMode'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-PaddingRight10">
-        <select class="incomingFiringMode" name="incomingFiringMode">
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModDefenseFiringMode" data-modifier="incomingFiringMode">
             {{#select incomingFiringMode}}
-            <option value="0">{{localize 'SR5.WeaponModeSS'}} / {{localize 'SR5.WeaponModeSA'}}</option>
-            <option value="-2">{{localize 'SR5.WeaponModeSB'}} / {{localize 'SR5.WeaponModeBF'}}</option>
-            <option value="-5">{{localize 'SR5.WeaponModeLB'}} / {{localize 'SR5.WeaponModeFA'}}</option>
-            <option value="-9">{{localize 'SR5.WeaponModeFA'}} / {{localize 'SR5.WeaponModeSF'}}</option>
+            <option value="SS">{{localize 'SR5.WeaponModeSS'}}</option>
+            <option value="SA">{{localize 'SR5.WeaponModeSA'}}</option>
+            <option value="SB">{{localize 'SR5.WeaponModeSB'}}</option>
+            <option value="BF">{{localize 'SR5.WeaponModeBF'}}</option>
+            <option value="LB">{{localize 'SR5.WeaponModeLB'}}</option>
+            <option value="FA">{{localize 'SR5.WeaponModeFA'}}</option>
+            <option value="FAc">{{localize 'SR5.WeaponModeFAc'}}</option>
+            <option value="SF">{{localize 'SR5.WeaponModeSF'}}</option>
             {{/select}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="dicePoolModDefenseFiringMode" value="{{incomingFiringMode}}" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModDefenseFiringMode" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 {{/if}}

@@ -1,7 +1,7 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6">
-        <select class="" name="perceptionType">
+        <select class="SR-ModSelect" data-target="dicePoolModOerceptionType" data-modifier="perceptionType">
             {{#select perceptionType}}
                 <option value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.perceptionTypes}}
@@ -11,6 +11,66 @@
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="" name="perceptionValue" value="0" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="dicePoolModOerceptionType" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+<li class="grid" id="sightPerception" style="display: none;">
+    <div class="col-11">{{localize 'SR5.EnvironmentalModifiers'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="SR-ModInputFilled" data-modifier="environmentalSceneMod" value="{{dicePoolMod.environmentalSceneMod.value}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{#unless opposedSkillTest}}
+<li class="grid SR-TopSeparator">
+    <div class="col-10">{{localize 'SR5.PerceptionModDistracted'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModPerceptionDistracted" data-modifier="distracted"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionDistracted" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModSpecificallyLooking'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModPerceptionSpecificallyLooking" data-modifier="specificallyLooking"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionSpecificallyLooking" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModNotInImmediateVicinity'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModPerceptionNotInImmediateVicinity" data-modifier="notInImmediateVicinity"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionNotInImmediateVicinity" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModFarAway'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModPerceptionFarAway" data-modifier="farAway"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModPerceptionFarAway" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModStandsOutInSomeWay'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModStandsOutInSomeWay" data-modifier="standsOutInSomeWay"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModStandsOutInSomeWay" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.PerceptionModInterfering'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModInterfering" data-modifier="interfering"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModInterfering" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/unless}}
+
+{{#if opposedSkillTest}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SocialModIsDistracted'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSocialIsDistractedInverse" data-modifier="socialIsDistractedInverse"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModSocialIsDistractedInverse" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}
