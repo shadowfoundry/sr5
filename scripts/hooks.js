@@ -236,7 +236,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("updateCombatant", (combatant) => {
-		if (combatant.isDefeated && !combatant.data.flags.sr5.hasPlayed) combatant.update({"flags.sr5.hasPlayed": true,});
+		if (combatant.isDefeated && !combatant.flags.sr5.hasPlayed) combatant.update({"flags.sr5.hasPlayed": true,});
 	});
 
 	Hooks.on("closeCombatantConfig", (combatant) => {
@@ -247,10 +247,10 @@ export const registerHooks = function () {
 		if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
 		
 		//Keep agent condition monitor synchro with owner deck
-		if(document.type === "itemDevice" && data.data.conditionMonitors?.matrix){
+		if(document.type === "itemDevice" && data.system.conditionMonitors?.matrix){
 			if (document.parent?.type === "actorPc" || document.parent?.type === "actorGrunt"){
 				for (let a of game.actors) {
-					if(a.data.type === "actorAgent" && a.data.data.creatorId === document.parent.id) await SR5Actor.keepAgentMonitorSynchro(a);
+					if(a.type === "actorAgent" && a.system.creatorId === document.parent.id) await SR5Actor.keepAgentMonitorSynchro(a);
 				}
 			} 
 		}
@@ -347,7 +347,7 @@ export const registerHooks = function () {
 			}
 		}
 
-		let astralVisionEffect = await actor.effects.find(e => e.data.origin === "handleVisionAstral")
+		let astralVisionEffect = await actor.effects.find(e => e.origin === "handleVisionAstral")
 		if (actor.system.visions?.astral.isActive){
 			if (!astralVisionEffect){
 				let astralEffect = await _getSRStatusEffect("handleVisionAstral");

@@ -58,13 +58,13 @@ export class SR5_Roll {
             if (actor.isToken){
                 speakerActor = actor.token.name;
                 speakerId = actor.token.id;
-                speakerImg = actor.token.img;
+                speakerImg = actor.token.texture.src;
             } else {
                 speakerId = actor.id;
                 let token = canvas.scene?.tokens.find((t) => t.actorId === speakerId);
                 if (token){
                     speakerActor = token.name;
-                    speakerImg = token.img;
+                    speakerImg = token.texture.src;
                 } else {
                     speakerActor = actor.name;
                     speakerImg = actor.img;

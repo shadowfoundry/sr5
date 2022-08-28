@@ -17,7 +17,7 @@ export default class SR5SceneConfig extends SceneConfig {
     }
 
     updateMatrixNoise(html) {
-        let matrixNoise = (parseInt(this.document.data.flags.sr5?.matrixSpam) || 0) + (parseInt(this.document.data.flags.sr5?.matrixStatic) || 0);
+        let matrixNoise = (parseInt(this.document.flags.sr5?.matrixSpam) || 0) + (parseInt(this.document.flags.sr5?.matrixStatic) || 0);
         html.find('[name="sceneNoiseRating"]')[0].value = matrixNoise;
         this.document.setFlag("sr5", "matrixNoise", matrixNoise);
     }

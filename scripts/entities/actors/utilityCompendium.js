@@ -50,11 +50,11 @@ export class SR5_CompendiumUtility extends Actor {
 	
 	  static async findBaseItemInCompendium(baseItems, compendium, actorType) {
 		for (let i of compendium){
-		  let systemEffects = i.data.data.systemEffects;
+		  let systemEffects = i.system.systemEffects;
 		  if (systemEffects.length){
 			for (let systemEffect of Object.values(systemEffects)){
 			  if ((systemEffect.category === "baseOwnItem") && (systemEffect.value === actorType)){
-				let iObject = i.data.toObject(false);
+				let iObject = i.toObject(false);
 				baseItems.push(iObject);
 			  }
 			}
@@ -67,12 +67,12 @@ export class SR5_CompendiumUtility extends Actor {
 	  static async modifyBaseSpiritWeapon(baseItems, force){
 		for (let i of baseItems){
 		  if (i.type === "itemWeapon"){
-			i.data.damageValue.base = force*2;
-			i.data.armorPenetration.base = -force;
-			i.data.range.short.base = force;
-			i.data.range.medium.base = force*2;
-			i.data.range.long.base = force*3;
-			i.data.range.extreme.base = force*4;
+			i.system.damageValue.base = force*2;
+			i.system.armorPenetration.base = -force;
+			i.system.range.short.base = force;
+			i.system.range.medium.base = force*2;
+			i.system.range.long.base = force*3;
+			i.system.range.extreme.base = force*4;
 		  }
 		}
 	
@@ -90,11 +90,11 @@ export class SR5_CompendiumUtility extends Actor {
 		
 		for (let key of Object.keys(list)) {
 		  	for (let i of compendium){
-				let systemEffects = i.data.data.systemEffects;
+				let systemEffects = i.system.systemEffects;
 				if (systemEffects.length){
 			  		for (let systemEffect of Object.values(systemEffects)){
 						if ((systemEffect.category === "spiritPower") && (systemEffect.value === key)){
-				  			let iObject = i.data.toObject(false);
+				  			let iObject = i.toObject(false);
 				  			baseItems.push(iObject);
 						}
 			  		}
@@ -112,11 +112,11 @@ export class SR5_CompendiumUtility extends Actor {
 		for (let value of Object.values(optionalPowers)){
 			if (value) {
 				for (let i of powers){
-					let systemEffects = i.data.data.systemEffects;
+					let systemEffects = i.system.systemEffects;
 					if (systemEffects.length){
 					  	for (let systemEffect of Object.values(systemEffects)){
 							if ((systemEffect.category === "spiritPower") && (systemEffect.value === value)){
-						  		let iObject = i.data.toObject(false);
+						  		let iObject = i.toObject(false);
 						  		baseItems.push(iObject);
 							}
 					  	}
@@ -140,14 +140,14 @@ export class SR5_CompendiumUtility extends Actor {
 	static async getWeaponFromCompendium(weapon, force){
 		let weapons = await SR5_CompendiumUtility.getItemCompendium("weapons");
 		for (let i of weapons){
-			let systemEffects = i.data.data.systemEffects;
+			let systemEffects = i.system.systemEffects;
 			if (systemEffects.length){
 				for (let systemEffect of Object.values(systemEffects)){
 					if (systemEffect.value === weapon){
-						let iObject = i.data.toObject(false);
+						let iObject = i.toObject(false);
 						if (weapon === "corrosiveSpit"){
-							i.data.damageValue.base = force*2;
-							i.data.armorPenetration.base = -force;
+							i.system.damageValue.base = force*2;
+							i.system.armorPenetration.base = -force;
 						}
 						return iObject;
 					}

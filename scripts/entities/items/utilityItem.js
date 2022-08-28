@@ -1385,7 +1385,7 @@ export class SR5_UtilityItem extends Actor {
 			if (focus.system.isActive){
 				let effect = {
 					"name": `${focus.name}`,
-					"target": "data.weaponSkill",
+					"target": "system.weaponSkill",
 					"wifi": false,
 					"transfer": false,
 					"ownerItem": focus.id,

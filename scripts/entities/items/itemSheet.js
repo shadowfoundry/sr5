@@ -174,10 +174,10 @@ export class SR5ItemSheet extends ItemSheet {
 						let aItem = this.actor.items.find(i => i.id === accessory);
 						let cloned = deepClone(this.item.data.data.accessory);
 						cloned.push(aItem.toObject(false));
-						this.item.update({"data.accessory": cloned });
+						this.item.update({"system.accessory": cloned });
 						aItem.update({
-							"data.isActive": this.item.data.data.isActive,
-							"data.wirelessTurnedOn": this.item.data.data.wirelessTurnedOn,
+							"system.isActive": this.item.data.data.isActive,
+							"system.wirelessTurnedOn": this.item.data.data.wirelessTurnedOn,
 						})
 					} else {
 					}

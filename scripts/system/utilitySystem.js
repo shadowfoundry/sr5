@@ -214,7 +214,7 @@ export class SR5_SystemHelpers {
 	static getTemplateItemPosition(itemId){
 		let gridUnit = canvas.scene.data.grid;
 		let templatePosition = 0;
-		let templateItem = canvas.scene.data.templates.find((template) => template.data.flags.item === itemId);
+		let templateItem = canvas.scene.data.templates.find((template) => template.flags.item === itemId);
 		if (templateItem) {
 			//token position is based on top left grid.
 			//player will probably launch grenade on the token, so we need to tweak the position of the grenade template

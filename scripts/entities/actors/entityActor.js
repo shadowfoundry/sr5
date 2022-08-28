@@ -23,10 +23,8 @@ export class SR5Actor extends Actor {
 		const documentName = this.metadata.name;
 		const hiddenTypes = ["actorAgent"];
 		const originalTypes = game.system.documentTypes[documentName];
-		const types = originalTypes.filter(
-			(actorType) => !hiddenTypes.includes(actorType)
-		);
-		const folders = parent ? [] : game.folders.filter(f => (f.data.type === documentName) && f.displayed);
+		const types = originalTypes.filter((actorType) => !hiddenTypes.includes(actorType));
+		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
 		const label = game.i18n.localize(this.metadata.label);
 		const title = game.i18n.format("DOCUMENT.Create", {type: label});
 
@@ -65,13 +63,10 @@ export class SR5Actor extends Actor {
 	}
 
 	static async create(data, options) {
-		if (!data.img) {
-			data.img = `systems/sr5/img/actors/${data.type}.svg`;
-		}
+		if (!data.img) data.img = `systems/sr5/img/actors/${data.type}.svg`;
+
 		// If the created actor has items (only applicable to duplicated actors) bypass the new actor creation logic
-		if (data.items) {
-			return super.create(data, options);
-		}
+		if (data.items) return super.create(data, options);
 
 		// Initialize empty items
 		data.items = [];
@@ -91,13 +86,14 @@ export class SR5Actor extends Actor {
 							ok: {
 								label: "Ok",
 								callback: async (dialog) => {
+									debugger;
 									spiritType = dialog.find("[name=spiritType]").val();
 									spiritForce = dialog.find("[name=spiritForce]").val();
 									baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spiritType, spiritForce);
 									for (let baseItem of baseItems) {
 										data.items.push(baseItem);
 									}
-									data.data = {
+									data.system = {
 										"force": {
 											"base": parseInt(spiritForce),
 											"value": 0,
@@ -105,7 +101,7 @@ export class SR5Actor extends Actor {
 										},
 										"type": spiritType
 									};
-									SR5_EntityHelpers.updateValue(data.data.force);
+									SR5_EntityHelpers.updateValue(data.system.force);
 									super.create(data, options);
 								},
 							},
@@ -131,7 +127,7 @@ export class SR5Actor extends Actor {
 									for (let baseItem of baseItems) {
 										data.items.push(baseItem);
 									}
-									data.data = {
+									data.system = {
 										"level": parseInt(spriteLevel),
 										"type": spriteType
 									};
@@ -151,7 +147,7 @@ export class SR5Actor extends Actor {
 					"name": game.i18n.localize("SR5.Device"),
 					"type": "itemDevice",
 				}
-				baseItems.data = {
+				baseItems.system = {
 					"isActive": true,
 					"type": "baseDevice",
 				}
@@ -253,9 +249,9 @@ export class SR5Actor extends Actor {
 	}
 
 	prepareBaseData() {
-		let actor = this, data = actor.system;
+		let actor = this;
 		actor.system.lists = SR5_EntityHelpers.sortTranslations(SR5);
-		data.isGM = game.user.isGM;
+		actor.system.isGM = game.user.isGM;
 
 		switch (actor.type) {
 			case "actorPc":
@@ -270,8 +266,8 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.resetCalculatedValues(actor);
 				break;
 			case "actorSpirit":
-				if (!data.hasOwnProperty("type")) data.type = actor.flags.spiritType;
-				if (data.force < 1) data.force = parseInt(actor.flags.spiritForce);
+				if (!actor.system.hasOwnProperty("type")) actor.system.type = actor.flags.spiritType;
+				if (actor.system.force < 1) actor.system.force = parseInt(actor.flags.spiritForce);
 				SR5_CharacterUtility.resetCalculatedValues(actor);
 				break;
 			default:
@@ -373,28 +369,24 @@ export class SR5Actor extends Actor {
 	}
 
 	prepareEmbeddedDocuments() {
-		const actorData = this;
+		const actor = this;
 		const lists = SR5;
 
 		// Iterate through items, allocating to containers
-		for (let i of actorData.items) {
+		for (let i of actor.items) {
 			let iData = i.system;
 			SR5_SystemHelpers.srLog(3, `Parsing '${i.type}' item named '${i.name}'`, i);
 			switch (i.type) {
 				case "itemGear":
 					i.prepareData();
-					if (!iData.isSlavedToPan) actorData.system.matrix.potentialPanObject.gears[i.uuid] = i.name;
-					if (iData.isActive && iData.wirelessTurnedOn) actorData.system.matrix.connectedObject.gears[i.id] = i.name;
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.gears[i.uuid] = i.name;
+					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.gears[i.id] = i.name;
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemPower":
 				case "itemMartialArt":
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemMetamagic":
@@ -402,18 +394,14 @@ export class SR5Actor extends Actor {
 				case "itemPreparation":
 				case "itemQuality":
 					i.prepareData();
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemSpell":
 					i.prepareData();
-					if (!iData.freeSustain && !iData.preparation) actorData.system.magic.spellList[i.id] = i.name;
-					SR5_UtilityItem._handleSpell(i, actorData);
-					if (iData.isActive && Object.keys(iData.customEffects)) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if (!iData.freeSustain && !iData.preparation) actor.system.magic.spellList[i.id] = i.name;
+					SR5_UtilityItem._handleSpell(i, actor);
+					if (iData.isActive && Object.keys(iData.customEffects)) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemArmor":
@@ -427,78 +415,67 @@ export class SR5Actor extends Actor {
 					if (iData.isActive) {
 						if (iData.isCumulative) modifierType = game.i18n.localize("SR5.ArmorAccessory");
 						else modifierType = game.i18n.localize("SR5.Armor");
-						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actorData.system.itemsProperties.armor, `${i.name}`, modifierType, iData.armorValue.value);
-						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actorData.system.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
-						if (Object.keys(iData.customEffects).length) {
-							SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-						}
+						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.armor, `${i.name}`, modifierType, iData.armorValue.value);
+						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
+						if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					}
-					if (iData.isActive && iData.wirelessTurnedOn) actorData.system.matrix.connectedObject.armors[i.id] = i.name;
-					if (!iData.isSlavedToPan) actorData.system.matrix.potentialPanObject.armors[i.uuid] = i.name;
+					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.armors[i.id] = i.name;
+					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.armors[i.uuid] = i.name;
 					break;
 
 				case "itemAugmentation":
 					i.prepareData();
-					SR5_UtilityItem._handleAugmentation(iData, actorData);
-					if (!iData.isAccessory) {
-						SR5_EntityHelpers.updateModifier(actorData.system.essence, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, -iData.essenceCost.value);
-					}
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
-					if (iData.isActive && iData.wirelessTurnedOn) actorData.system.matrix.connectedObject.augmentations[i.id] = i.name;
-					if (!iData.isSlavedToPan) actorData.system.matrix.potentialPanObject.augmentations[i.uuid] = i.name;
+					SR5_UtilityItem._handleAugmentation(iData, actor);
+					if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.essence, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, -iData.essenceCost.value);
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
+					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.augmentations[i.id] = i.name;
+					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.augmentations[i.uuid] = i.name;
 					break;
 
 				case "itemAdeptPower":
-					SR5_EntityHelpers.updateModifier(actorData.system.magic.powerPoints, i.name, `${game.i18n.localize(lists.itemTypes[i.type])}`, iData.powerPointsCost.value);
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					SR5_EntityHelpers.updateModifier(actor.system.magic.powerPoints, i.name, `${game.i18n.localize(lists.itemTypes[i.type])}`, iData.powerPointsCost.value);
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemSpirit":
 					i.prepareData();
 					SR5_UtilityItem._handleSpirit(iData);
-					if (iData.isBounded) actorData.system.magic.boundedSpirit.current ++;
-					if (iData.isActive) SR5_CharacterUtility._actorModifPossession(i, actorData);
+					if (iData.isBounded) actor.system.magic.boundedSpirit.current ++;
+					if (iData.isActive) SR5_CharacterUtility._actorModifPossession(i, actor);
 					break;
 
 				case "itemDevice":
 					i.prepareData();
-					if (actorData.type === "actorPc" || actorData.type === "actorGrunt"){
+					if (actor.type === "actorPc" || actor.type === "actorGrunt"){
 						iData.conditionMonitors.matrix.value = Math.ceil(iData.deviceRating / 2) + 8;
 						if (iData.isActive) {
-							SR5_CharacterUtility.generateMatrixAttributes(i, actorData);
-							if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actorData);
+							SR5_CharacterUtility.generateMatrixAttributes(i, actor);
+							if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 						}
 					}
 					break;
 
 				case "itemProgram":
 					i.prepareData();
-					//SR5_SystemHelpers.srLog(3, 'program', actorData);
-					if (actorData.type === "actorDrone" && actorData.system.controlMode !== "autopilot") iData.isActive = false;
+					if (actor.type === "actorDrone" && actor.system.controlMode !== "autopilot") iData.isActive = false;
 					if (iData.type === "common" || iData.type === "hacking" || iData.type === "autosoft" || iData.type === "agent") {
 						if (iData.isActive) {
-							SR5_EntityHelpers.updateModifier(actorData.system.matrix.programsCurrentActive, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, 1);
-							SR5_EntityHelpers.updateValue(actorData.system.matrix.programsCurrentActive, 0);
+							SR5_EntityHelpers.updateModifier(actor.system.matrix.programsCurrentActive, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, 1);
+							SR5_EntityHelpers.updateValue(actor.system.matrix.programsCurrentActive, 0);
 						}
 					}
 					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						if (actorData.type === "actorDrone") SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-						if (iData.type !== "autosoft" && (actorData.type === "actorPc" || actorData.type === "actorGrunt"))
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
+						if (actor.type === "actorDrone") SR5_CharacterUtility.applyCustomEffects(iData, actor);
+						if (iData.type !== "autosoft" && (actor.type === "actorPc" || actor.type === "actorGrunt"))
+						SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					}
 					break;
 
 				case "itemComplexForm":
 					i.prepareData();
-					if (!iData.freeSustain) actorData.system.matrix.complexFormList[i.id] = i.name;
+					if (!iData.freeSustain) actor.system.matrix.complexFormList[i.id] = i.name;
 					SR5_UtilityItem._handleComplexForm(i, this);
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemKarma":
@@ -509,10 +486,10 @@ export class SR5Actor extends Actor {
 						let resourceLabel = `${game.i18n.localize(lists.transactionsTypes[iData.type])} (${i.name})`;
 						switch (i.type) {
 							case "itemKarma":
-								target = actorData.system.karma;
+								target = actor.system.karma;
 								break;
 							case "itemNuyen":
-								target = actorData.system.nuyen;
+								target = actor.system.nuyen;
 								break;
 						}
 						if (iData.amount < 0) iData.amount = -iData.amount;
@@ -523,19 +500,17 @@ export class SR5Actor extends Actor {
 				case "itemWeapon":
 					let modes = (iData.weaponModes = []);
 					for (let mode of Object.entries(iData.firingMode)) {
-						if (mode[1].value)
-							modes.push(game.i18n.localize(SR5.weaponModesAbbreviated[mode[0]]));
+						if (mode[1].value) modes.push(game.i18n.localize(SR5.weaponModesAbbreviated[mode[0]]));
 					}
-					SR5_UtilityItem._handleVisionAccessory(iData, actorData);
-					if(actorData.system.matrix){
-						if (iData.isActive && iData.wirelessTurnedOn) actorData.system.matrix.connectedObject.weapons[i.id] = i.name;
-						if (!iData.isSlavedToPan) actorData.system.matrix.potentialPanObject.weapons[i.uuid] = i.name;
+					SR5_UtilityItem._handleVisionAccessory(iData, actor);
+					if(actor.system.matrix){
+						if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.weapons[i.id] = i.name;
+						if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.weapons[i.uuid] = i.name;
 					}
 					break;
 
 				case "itemFocus":
 					SR5_UtilityItem._handleFocus(iData);
-					let focusLabel = `${i.name} (${game.i18n.localize("SR5.Focus")})`;
 					switch (iData.type) {
 						case "alchemical":
 						case "banishing":
@@ -559,9 +534,9 @@ export class SR5Actor extends Actor {
 								}
 							break;
 						case "sustaining":
-							iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actorData);
+							iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actor);
 							if (iData.isActive){
-								let sustainedSpell = actorData.items.find(s => s.name == iData.sustainedSpell)
+								let sustainedSpell = actor.items.find(s => s.name == iData.sustainedSpell)
 								if (sustainedSpell
 									&& !sustainedSpell.system.freeSustain
 									&& sustainedSpell.system.isActive
@@ -573,66 +548,54 @@ export class SR5Actor extends Actor {
 						default:
 							SR5_SystemHelpers.srLog(3,`Unknown focus type '${iData.type}' in 'prepareEmbeddedDocuments()'`);
 					}
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemRitual":
 					i.prepareData();
-					iData.spellChoices = SR5_UtilityItem._generateSpellList(iData, actorData);
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					iData.spellChoices = SR5_UtilityItem._generateSpellList(iData, actor);
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemDrug":
 					i.prepareData();
-					if ((iData.isActive || iData.wirelessTurnedOn) && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
+					if ((iData.isActive || iData.wirelessTurnedOn) && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
 					break;
 
 				case "itemEffect":
 					i.prepareData();
-					if (Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
-					}
-					if (iData.type === "signalJam") actorData.system.matrix.isJamming = true;
+					if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
+					if (iData.type === "signalJam") actor.system.matrix.isJamming = true;
 					break;
 
 				case "itemTradition":
 					i.prepareData();
-					SR5_CharacterUtility.updateTradition(actorData, iData);
+					SR5_CharacterUtility.updateTradition(actor, iData);
 					break;
 
 				case "itemSprite":
 					i.prepareData();
-					if (iData.isRegistered) actorData.system.matrix.registeredSprite.current ++;
+					if (iData.isRegistered) actor.system.matrix.registeredSprite.current ++;
 					break;
 
 				case "itemVehicleMod":
 					iData.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(iData, this);
-								if (iData.mountedWeapon){ 
-									let weapon = this.items.find(w => w.id === iData.mountedWeapon);
-									iData.mountedWeaponName = weapon.name;
-								}
-					if (iData.isActive && Object.keys(iData.customEffects).length) {
-						SR5_CharacterUtility.applyCustomEffects(iData, actorData);
+					if (iData.mountedWeapon){ 
+						let weapon = this.items.find(w => w.id === iData.mountedWeapon);
+						iData.mountedWeaponName = weapon.name;
 					}
-					if (iData.secondaryPropulsion.isSecondaryPropulsion && iData.isActive) {
-						SR5_CharacterUtility.handleSecondaryAttributes(actorData, iData);
-					}          
-					SR5_CharacterUtility.updateModificationsSlots(actorData, iData); 
-					SR5_CharacterUtility.handleVehiclePriceMultiplier(actorData, iData);                     
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(iData, actor);
+					if (iData.secondaryPropulsion.isSecondaryPropulsion && iData.isActive) SR5_CharacterUtility.handleSecondaryAttributes(actor, iData);
+					SR5_CharacterUtility.updateModificationsSlots(actor, iData);
+					SR5_CharacterUtility.handleVehiclePriceMultiplier(actor, iData);
 					SR5_UtilityItem._handleItemPrice(iData);
 					SR5_UtilityItem._handleItemAvailability(iData);
 					break;
 
 				case "itemVehicle":        
 					i.prepareData();
-					actorData.system.matrix.connectedObject.vehicles[i.id] = i.name;
-					if (!iData.isSlavedToPan) actorData.system.matrix.potentialPanObject.vehicles[i.uuid] = i.name;
+					actor.system.matrix.connectedObject.vehicles[i.id] = i.name;
+					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.vehicles[i.uuid] = i.name;
 					SR5_UtilityItem._handleVehicleSlots(iData);
 					break;
 
@@ -669,7 +632,7 @@ export class SR5Actor extends Actor {
 			let iData = i.system;
 			switch (i.type){
 				case "itemDevice":
-					if (actorData.type === "actorPc" || actorData.type === "actorGrunt"){
+					if (actor.type === "actorPc" || actor.type === "actorGrunt"){
 						if (iData.isActive === true){
 							SR5_CharacterUtility.generateMatrixAttributes(i, actor);
 							SR5_CharacterUtility.generateMatrixResistances(actor, i);
@@ -679,35 +642,31 @@ export class SR5Actor extends Actor {
 							if (iData.type ==="riggerCommandConsole") {
 								if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actorData);
 							}
-							if (iData.type === "livingPersona" || iData.type === "headcase") {
-								SR5_CharacterUtility.generateResonanceMatrix(iData, actorData);
-							}
-							iData.pan.max = actorData.data.matrix.deviceRating * 3;
+							if (iData.type === "livingPersona" || iData.type === "headcase") SR5_CharacterUtility.generateResonanceMatrix(actor);
+							iData.pan.max = actorData.matrix.deviceRating * 3;
 						}
-					} else if (actorData.type === "actorDrone"){
-						SR5_CharacterUtility.generateVehicleMatrix(actorData, iData);
+					} else if (actor.type === "actorDrone"){
+						SR5_CharacterUtility.generateVehicleMatrix(actor, iData);
 						SR5_CharacterUtility.generateMatrixResistances(actor, i);
-						SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
-					} else if (actorData.type === "actorDevice"){
-						SR5_CharacterUtility.generateDeviceMatrix(actorData, iData);
+						SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
+					} else if (actor.type === "actorDevice"){
+						SR5_CharacterUtility.generateDeviceMatrix(actor, iData);
 						SR5_CharacterUtility.generateMatrixResistances(actor, i);
-						SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
-						if (actorData.data.matrix.deviceType === "ice") {
-							SR5_CharacterUtility.updateInitiativeMatrix(actorData);
-						}
-					} else if (actorData.type === "actorSprite"){
-						SR5_CharacterUtility.generateSpriteMatrix(actorData, iData);
+						SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
+						if (actorData.matrix.deviceType === "ice") SR5_CharacterUtility.updateInitiativeMatrix(actor);
+					} else if (actor.type === "actorSprite"){
+						SR5_CharacterUtility.generateSpriteMatrix(actor, iData);
 						SR5_CharacterUtility.generateMatrixResistances(actor, i);
-						SR5_CharacterUtility.generateMatrixActions(actorData);
-						SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
-						SR5_CharacterUtility.updateInitiativeMatrix(actorData);
-					} else if (actorData.type === "actorAgent"){
-						SR5_CharacterUtility.generateAgentMatrix(actorData, iData);
-						SR5_CharacterUtility.generateMatrixActionsDefenses(actorData);
-						SR5_CharacterUtility.generateMatrixActions(actorData);
+						SR5_CharacterUtility.generateMatrixActions(actor);
+						SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
+						SR5_CharacterUtility.updateInitiativeMatrix(actor);
+					} else if (actor.type === "actorAgent"){
+						SR5_CharacterUtility.generateAgentMatrix(actor, iData);
+						SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
+						SR5_CharacterUtility.generateMatrixActions(actor);
 						SR5_CharacterUtility.generateMatrixResistances(actor, i);
-						SR5_CharacterUtility.updateConditionMonitors(actorData);
-						SR5_CharacterUtility.updateInitiativeMatrix(actorData);
+						SR5_CharacterUtility.updateConditionMonitors(actor);
+						SR5_CharacterUtility.updateInitiativeMatrix(actor);
 					}
 					break;
 				case "itemComplexForm":
@@ -724,14 +683,12 @@ export class SR5Actor extends Actor {
 				case "itemSpirit":
 					if (iData.isBounded){
 						for (let [key, value] of Object.entries(actorData.magic.elements)){
-							if(iData.type === value) iData.spellType = key;
+							if (iData.type === value) iData.spellType = key;
 						}
 					}
 					break;
-				case "itemVehicleMod":          
-				if (!iData.isWeaponMounted) {
-					SR5_UtilityItem._resetWeaponMounted(iData);
-				}                             
+				case "itemVehicleMod":
+				if (!iData.isWeaponMounted) SR5_UtilityItem._resetWeaponMounted(iData);  
 				SR5_UtilityItem._handleItemPrice(iData);
 				SR5_UtilityItem._handleItemAvailability(iData);
 					break;
@@ -758,17 +715,17 @@ export class SR5Actor extends Actor {
 	async takeDamage(options) {
 		let damage = options.damageValue,
 				damageType = options.damageType,
-				actorData = deepClone(this.system),
+				actor = duplicate(this),
+				actorData = actor.system,
 				gelAmmo = 0,
 				damageReduction = 0,
 				realDamage;
 
-		actorData = actorData.toObject(false);
 		if (options.ammoType === "gel") gelAmmo = -2;
-		if (actorData.data.specialProperties?.damageReduction) damageReduction = actorData.data.specialProperties.damageReduction.value;
+		if (actorData.specialProperties?.damageReduction) damageReduction = actorData.specialProperties.damageReduction.value;
 		if (damage > 1) damage -= damageReduction;
 
-		switch (actorData.type){
+		switch (actor.type){
 			case "actorPc":
 			case "actorSpirit":
 				if (options.matrixDamageValue) {
@@ -776,53 +733,53 @@ export class SR5Actor extends Actor {
 					damageType = "stun";
 				}
 				if (damageType === "stun") {
-					actorData.data.conditionMonitors.stun.actual.base += damage;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
-					if (actorData.data.conditionMonitors.stun.actual.value > actorData.data.conditionMonitors.stun.value){
-						realDamage = damage - (actorData.data.conditionMonitors.stun.actual.value - actorData.data.conditionMonitors.stun.value);
+					actorData.conditionMonitors.stun.actual.base += damage;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors[damageType].actual, 0);
+					if (actorData.conditionMonitors.stun.actual.value > actorData.conditionMonitors.stun.value){
+						realDamage = damage - (actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value);
 					} else realDamage = damage;        
 				} else if (damageType === "physical") {
-					actorData.data.conditionMonitors.physical.actual.base += damage;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
-					if (actorData.data.conditionMonitors.physical.actual.value > actorData.data.conditionMonitors.physical.value) {
-						realDamage = damage - (actorData.data.conditionMonitors.physical.actual.value - actorData.data.conditionMonitors.physical.value);
+					actorData.conditionMonitors.physical.actual.base += damage;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors[damageType].actual, 0);
+					if (actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) {
+						realDamage = damage - (actorData.conditionMonitors.physical.actual.value - actorData.conditionMonitors.physical.value);
 					} else realDamage = damage ;
 				}
 				if (realDamage > 0) ui.notifications.info(`${this.name}: ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 
-				if (actorData.data.conditionMonitors.stun.actual.value > actorData.data.conditionMonitors.stun.value) {
-					let carriedDamage = actorData.data.conditionMonitors.stun.actual.value - actorData.data.conditionMonitors.stun.value;
-					actorData.data.conditionMonitors.physical.actual.base += carriedDamage;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.physical.actual, 0);
-					actorData.data.conditionMonitors.stun.actual.base = actorData.data.conditionMonitors.stun.value;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.stun.actual, 0);
+				if (actorData.conditionMonitors.stun.actual.value > actorData.conditionMonitors.stun.value) {
+					let carriedDamage = actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value;
+					actorData.conditionMonitors.physical.actual.base += carriedDamage;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0);
+					actorData.conditionMonitors.stun.actual.base = actorData.conditionMonitors.stun.value;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.stun.actual, 0);
 					ui.notifications.info(`${this.name}: ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
 				}
 
-				if ((actorData.data.conditionMonitors.physical.actual.value > actorData.data.conditionMonitors.physical.value) && actorData.type === "actorPc") {
-					let carriedDamage = actorData.data.conditionMonitors.physical.actual.value - actorData.data.conditionMonitors.physical.value;
-					actorData.data.conditionMonitors.overflow.actual.base += carriedDamage;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
-					actorData.data.conditionMonitors.physical.actual.base = actorData.data.conditionMonitors.physical.value;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.physical.actual, 0);
-					if (actorData.data.conditionMonitors.overflow.actual.value > actorData.data.conditionMonitors.overflow.value){
-						actorData.data.conditionMonitors.overflow.actual.base = actorData.data.conditionMonitors.overflow.value;
-						SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
+				if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actorData.type === "actorPc") {
+					let carriedDamage = actorData.conditionMonitors.physical.actual.value - actorData.conditionMonitors.physical.value;
+					actorData.conditionMonitors.overflow.actual.base += carriedDamage;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0);
+					actorData.conditionMonitors.physical.actual.base = actorData.conditionMonitors.physical.value;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0);
+					if (actorData.conditionMonitors.overflow.actual.value > actorData.conditionMonitors.overflow.value){
+						actorData.conditionMonitors.overflow.actual.base = actorData.conditionMonitors.overflow.value;
+						SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0);
 					}
 				}
 				break;
 			case "actorGrunt":
-				actorData.data.conditionMonitors.condition.actual.base += damage;
-				SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.condition.actual, 0);
+				actorData.conditionMonitors.condition.actual.base += damage;
+				SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0);
 				ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 				break;
 			case "actorDrone":
 				if (damageType === "physical") {
-					actorData.data.conditionMonitors.condition.actual.base += damage;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.condition.actual, 0);
+					actorData.conditionMonitors.condition.actual.base += damage;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0);
 					ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
-					if (actorData.data.controlMode === "rigging"){
-						let controler = SR5_EntityHelpers.getRealActorFromID(actorData.data.vehicleOwner.id)
+					if (actorData.controlMode === "rigging"){
+						let controler = SR5_EntityHelpers.getRealActorFromID(actorData.vehicleOwner.id)
 						let chatData = {
 							damageResistanceType : "biofeedback",
 							damageValue: Math.ceil(damage/2),
@@ -832,8 +789,8 @@ export class SR5Actor extends Actor {
 				}
 				if (options.damageElement === "electricity") options.matrixDamageValue = Math.floor(options.damageValue / 2);
 				if (options.matrixDamageValue) {
-					actorData.data.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.matrix.actual, 0);
+					actorData.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
 					ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
@@ -841,44 +798,40 @@ export class SR5Actor extends Actor {
 			case "actorSprite":
 			case "actorDevice":
 				if (options.matrixDamageValue) {
-					actorData.data.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
-					SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.matrix.actual, 0);
+					actorData.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
 					ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 		}
 
-		await this.update(actorData);
+		await this.update({system: actorData});
 
 		//Status
-		switch (actorData.type){
+		switch (actor.type){
 			case "actorPc":
 			case "actorSpirit":
-				if (actorData.data.conditionMonitors.physical.actual.value >= actorData.data.conditionMonitors.physical.value) await this.createDeadEffect();
-				else if (actorData.data.conditionMonitors.stun.actual.value >= actorData.data.conditionMonitors.stun.value) await this.createKoEffect();
-				else if ((damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10)
-					&& actorData.data.conditionMonitors.stun.actual.value < actorData.data.conditionMonitors.stun.value
-					&& actorData.data.conditionMonitors.physical.actual.value < actorData.data.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
-					break;
+				if (actorData.conditionMonitors.physical.actual.value >= actorData.conditionMonitors.physical.value) await this.createDeadEffect();
+				else if (actorData.conditionMonitors.stun.actual.value >= actorData.conditionMonitors.stun.value) await this.createKoEffect();
+				else if ((damage > (actorData.limits.physicalLimit.value + gelAmmo) || damage >= 10)
+				  && actorData.conditionMonitors.stun.actual.value < actorData.conditionMonitors.stun.value
+				  && actorData.conditionMonitors.physical.actual.value < actorData.conditionMonitors.physical.value) await this.createProneEffect(damage, actorData, gelAmmo);
+				break;
 			case "actorGrunt":        
-				if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
-				else if (damage > (actorData.data.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
+				if (actorData.conditionMonitors.condition.actual.value >= actorData.conditionMonitors.condition.value) await this.createDeadEffect();
+				else if (damage > (actorData.limits.physicalLimit.value + gelAmmo) || damage >= 10){ await this.createProneEffect(damage, actorData, gelAmmo);}
 			case "actorDrone":
-				if (actorData.data.conditionMonitors.condition.actual.value >= actorData.data.conditionMonitors.condition.value) await this.createDeadEffect();
+				if (actorData.conditionMonitors.condition.actual.value >= actorData.conditionMonitors.condition.value) await this.createDeadEffect();
 				break;
 			case "actorSprite":
 			case "actorDevice":
-				if (actorData.data.conditionMonitors.matrix.actual.value >= actorData.data.conditionMonitors.matrix.value) await this.createDeadEffect();
+				if (actorData.conditionMonitors.matrix.actual.value >= actorData.conditionMonitors.matrix.value) await this.createDeadEffect();
 				break;
 		}
 
 		//Special Element Damage
-		if (options.damageElement === "electricity" && actorData.type !== "actorDrone"){
-			await this.electricityDamageEffect();
-		}
-		if (options.damageElement === "acid"){
-			await this.acidDamageEffect(damage, options.damageSource);
-		}
+		if (options.damageElement === "electricity" && actorData.type !== "actorDrone") await this.electricityDamageEffect();
+		if (options.damageElement === "acid") await this.acidDamageEffect(damage, options.damageSource);
 		if (options.damageElement === "fire"){
 			if (this.system.itemsProperties.armor.value <= 0) await this.fireDamageEffect()
 			else await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
@@ -903,7 +856,7 @@ export class SR5Actor extends Actor {
 	//Handle prone effect
 	async createProneEffect(damage, actorData, gelAmmo, duration, source){
 		for (let e of this.effects){
-			if (e.data.flags.core?.statusId === "prone") return;
+			if (e.flags.core?.statusId === "prone") return;
 		}
 
 		//Currently, if duration is null, prone is comming from Damage
@@ -918,27 +871,27 @@ export class SR5Actor extends Actor {
 		let effect = {
 			name: `${game.i18n.localize("SR5.STATUSES_Prone")}`,
 			type: "itemEffect",
-			"data.type": "prone",
-			"data.source": source,
-			"data.target": game.i18n.localize("SR5.Special"),
-			"data.value": 0,
-			"data.durationType": duration.type,
-			"data.duration": duration.duration,
+			"system.type": "prone",
+			"system.source": source,
+			"system.target": game.i18n.localize("SR5.Special"),
+			"system.value": 0,
+			"system.durationType": duration.type,
+			"system.duration": duration.duration,
 		}
 
 		let statusEffect = await _getSRStatusEffect("prone");
 		await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
 		await this.createEmbeddedDocuments("Item", [effect]);
 		if (damage >= 10) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
-		else if (gelAmmo < 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
-		else if (damage > 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.data.limits.physicalLimit.value})}`);
+		else if (gelAmmo < 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.limits.physicalLimit.value})}`);
+		else if (damage > 0) ui.notifications.info(`${this.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.limits.physicalLimit.value})}`);
 		else ui.notifications.info(`${this.name} ${game.i18n.format("SR5.INFO_DropProne")}`);
 	}
 
 	//Handle death effect
 	async createDeadEffect(){
 		for (let e of this.effects){
-			if (e.data.flags.core?.statusId === "dead") return;
+			if (e.flags.core?.statusId === "dead") return;
 		}
 		let effect = await _getSRStatusEffect("dead");
 		await this.createEmbeddedDocuments('ActiveEffect', [effect]);
@@ -948,7 +901,7 @@ export class SR5Actor extends Actor {
 	//Handle ko effect
 	async createKoEffect(){
 		for (let e of this.effects){
-			if (e.data.flags.core?.statusId === "unconscious") return;
+			if (e.flags.core?.statusId === "unconscious") return;
 		}
 		let effect = await _getSRStatusEffect("unconscious")
 		await this.createEmbeddedDocuments('ActiveEffect', [effect]);
@@ -957,25 +910,25 @@ export class SR5Actor extends Actor {
 
 	//Handle Elemental Damage : Electricity
 	async electricityDamageEffect(){
-		let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "electricityDamage");
+		let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.system.type === "electricityDamage");
 		if (existingEffect){
 			let updatedEffect = existingEffect.toObject(false);
-			updatedEffect.data.duration += 1;
+			updatedEffect.system.duration += 1;
 			await this.updateEmbeddedDocuments("Item", [updatedEffect]);
 			ui.notifications.info(`${this.name}: ${existingEffect.name} ${game.i18n.localize("SR5.INFO_DurationExtendOneRound")}.`);
 		} else {
 			let effect = {
 				name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageElectricity")})`,
 				type: "itemEffect",
-				"data.type": "electricityDamage",
-				"data.target": game.i18n.localize("SR5.GlobalPenalty"),
-				"data.value": -1,
-				"data.durationType": "round",
-				"data.duration": 1,
-				"data.customEffects": {
+				"system.type": "electricityDamage",
+				"system.target": game.i18n.localize("SR5.GlobalPenalty"),
+				"system.value": -1,
+				"system.durationType": "round",
+				"system.duration": 1,
+				"system.customEffects": {
 					"0": {
 							"category": "penaltyTypes",
-							"target": "data.penalties.special.actual",
+							"target": "system.penalties.special.actual",
 							"type": "value",
 							"value": -1,
 							"forceAdd": true,
@@ -992,8 +945,8 @@ export class SR5Actor extends Actor {
 
 	//Handle Elemental Damage : Acid
 	async acidDamageEffect(damage, source){
-		let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "acidDamage");
-		let armor = this.items.find((item) => item.type === "itemArmor" && item.data.data.isActive && !item.data.data.isAccessory);
+		let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.system.type === "acidDamage");
+		let armor = this.items.find((item) => item.type === "itemArmor" && item.system.isActive && !item.system.isAccessory);
 		if (existingEffect){
 			return;
 		} else {
@@ -1001,7 +954,7 @@ export class SR5Actor extends Actor {
 				let updatedArmor = armor.toObject(false);
 				let armorEffect = {
 					"name": `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
-					"target": "data.armorValue",
+					"target": "system.armorValue",
 					"wifi": false,
 					"type": "value",
 					"value": -1,
@@ -1017,11 +970,11 @@ export class SR5Actor extends Actor {
 			let effect = {
 				name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
 				type: "itemEffect",
-				"data.type": "acidDamage",
-				"data.target": `${game.i18n.localize("SR5.Armor")}, ${game.i18n.localize("SR5.Damage")}`,
-				"data.value": damage,
-				"data.durationType": "round",
-				"data.duration": duration,
+				"system.type": "acidDamage",
+				"system.target": `${game.i18n.localize("SR5.Armor")}, ${game.i18n.localize("SR5.Damage")}`,
+				"system.value": damage,
+				"system.durationType": "round",
+				"system.duration": duration,
 			}
 			ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
 			await SR5Combat.changeInitInCombat(this, -5);
@@ -1035,16 +988,16 @@ export class SR5Actor extends Actor {
 
 	//Handle Elemental Damage : Fire
 	async fireDamageEffect(){
-		let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.data.data.type === "fireDamage");
+		let existingEffect = this.items.find((item) => item.type === "itemEffect" && item.system.type === "fireDamage");
 		if (existingEffect) return;
 		let effect = {
 			name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageFire")})`,
 			type: "itemEffect",
-			"data.type": "fireDamage",
-			"data.target": game.i18n.localize("SR5.PenaltyValuePhysical"),
-			"data.value": 3,
-			"data.durationType": "special",
-			"data.duration": 0,
+			"system.type": "fireDamage",
+			"system.target": game.i18n.localize("SR5.PenaltyValuePhysical"),
+			"system.value": 3,
+			"system.durationType": "special",
+			"system.duration": 0,
 		}
 		ui.notifications.info(`${this.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
 		await this.createEmbeddedDocuments("Item", [effect]);
@@ -1117,7 +1070,7 @@ export class SR5Actor extends Actor {
 		}
 
 		dataToUpdate = mergeObject(dataToUpdate, {
-			"data": actorData,
+			"system": actorData,
 			"items": updatedItems,
 		});
 		await this.update(dataToUpdate);
@@ -1144,7 +1097,7 @@ export class SR5Actor extends Actor {
 						i--;
 					}
 				}
-				await itemToClean.update({"data" : cleanData});
+				await itemToClean.update({"system" : cleanData});
 				//For Host, keep slaved device marks synchro
 				if (itemToClean.parent.system.matrix.deviceType === "host") SR5_DiceHelper.markSlavedDevice(itemToClean.parent.id);
 			} else {
@@ -1175,7 +1128,7 @@ export class SR5Actor extends Actor {
 			index++;
 		}
 
-		await deck.update({"data": deckData});
+		await deck.update({"system": deckData});
 
 		//For host, update all unlinked token with same marked items
 		if (actor.system.matrix.deviceType === "host" && canvas.scene){
@@ -1184,7 +1137,7 @@ export class SR5Actor extends Actor {
 							let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive);
 							let tokenDeckData = duplicate(tokenDeck.system);
 							tokenDeckData.markedItems = deckData.markedItems;
-							await tokenDeck.update({"data": tokenDeckData});
+							await tokenDeck.update({"system": tokenDeckData});
 					}
 			}
 		}
@@ -1276,17 +1229,17 @@ export class SR5Actor extends Actor {
 				}
 			}
 			data = mergeObject(data, {
-				"data.type": itemData.type,
-				"data.force.base": itemData.itemRating,
-				"data.isBounded": itemData.isBounded,
-				"data.services.value": itemData.services.value,
-				"data.services.max": itemData.services.max,
-				"data.summonerMagic": itemData.summonerMagic,
-				"data.creatorId": actorId,
-				"data.creatorItemId": item._id,
-				"data.magic.tradition": itemData.magic.tradition,
-				"data.conditionMonitors.physical.actual": itemData.conditionMonitors.physical.actual,
-				"data.conditionMonitors.stun.actual": itemData.conditionMonitors.stun.actual,
+				"system.type": itemData.type,
+				"system.force.base": itemData.itemRating,
+				"system.isBounded": itemData.isBounded,
+				"system.services.value": itemData.services.value,
+				"system.services.max": itemData.services.max,
+				"system.summonerMagic": itemData.summonerMagic,
+				"system.creatorId": actorId,
+				"system.creatorItemId": item._id,
+				"system.magic.tradition": itemData.magic.tradition,
+				"system.conditionMonitors.physical.actual": itemData.conditionMonitors.physical.actual,
+				"system.conditionMonitors.stun.actual": itemData.conditionMonitors.stun.actual,
 				"items": baseItems,
 			});
 		}
@@ -1299,22 +1252,22 @@ export class SR5Actor extends Actor {
 			}
 
 			data = mergeObject(data, {
-				"data.type": itemData.type,
-				"data.level": itemData.itemRating,
-				"data.isRegistered": itemData.isRegistered,
-				"data.tasks.value": itemData.tasks.value,
-				"data.tasks.max": itemData.tasks.max,
-				"data.compilerResonance": itemData.compilerResonance,
-				"data.creatorId": actorId,
-				"data.creatorItemId": item._id,
-				"data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
+				"system.type": itemData.type,
+				"system.level": itemData.itemRating,
+				"system.isRegistered": itemData.isRegistered,
+				"system.tasks.value": itemData.tasks.value,
+				"system.tasks.max": itemData.tasks.max,
+				"system.compilerResonance": itemData.compilerResonance,
+				"system.creatorId": actorId,
+				"system.creatorItemId": item._id,
+				"system.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
 				"items": baseItems,
 			});
 		}
 
 		if (item.type === "itemProgram") {
 			let baseItems = [];
-			let ownerDeck = ownerActor.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+			let ownerDeck = ownerActor.items.find(i => i.data.type === "itemDevice" && i.system.isActive);
 			if(!ownerDeck) return;
 			for (let deck of itemData.decks) {
 				deck.data.marks = [];
@@ -1324,11 +1277,11 @@ export class SR5Actor extends Actor {
 			let creatorData = SR5_EntityHelpers.getRealActorFromID(actorId);
 			creatorData = creatorData.toObject(false);
 			data = mergeObject(data, {
-				"data.creatorId": actorId,
-				"data.creatorItemId": item._id,
-				"data.creatorData": creatorData,
-				"data.conditionMonitors.matrix": ownerDeck.data.data.conditionMonitors.matrix,
-				"data.rating": itemData.itemRating,
+				"system.creatorId": actorId,
+				"system.creatorItemId": item._id,
+				"system.creatorData": creatorData,
+				"system.conditionMonitors.matrix": ownerDeck.system.conditionMonitors.matrix,
+				"system.rating": itemData.itemRating,
 				"items": baseItems,
 			});
 		}
@@ -1346,47 +1299,47 @@ export class SR5Actor extends Actor {
 			}
 
 			data = mergeObject(data, {
-				"data.creatorId": actorId,
-				"data.creatorItemId": item._id,
-				"data.type": itemData.type,
-				"data.model": itemData.model,
-				"data.attributes.handling.natural.base": itemData.attributes.handling,
-				"data.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
-				"data.attributes.secondaryPropulsionHandling.natural.base": itemData.secondaryPropulsion.handling,
-				"data.attributes.secondaryPropulsionHandlingOffRoad.natural.base": itemData.secondaryPropulsion.handlingOffRoad,
-				"data.attributes.speed.natural.base": itemData.attributes.speed,
-				"data.attributes.speedOffRoad.natural.base": itemData.attributes.speedOffRoad,
-				"data.attributes.secondaryPropulsionSpeed.natural.base": itemData.secondaryPropulsion.speed,
-				"data.attributes.acceleration.natural.base": itemData.attributes.acceleration,
-				"data.attributes.accelerationOffRoad.natural.base": itemData.attributes.accelerationOffRoad,
-				"data.attributes.secondaryPropulsionAcceleration.natural.base": itemData.secondaryPropulsion.acceleration,
-				"data.attributes.body.natural.base": itemData.attributes.body,
-				"data.attributes.armor.natural.base": itemData.attributes.armor,
-				"data.attributes.pilot.natural.base": itemData.attributes.pilot,
-				"data.attributes.sensor.natural.base": itemData.attributes.sensor,
-				"data.attributes.seating.natural.base": itemData.seating,
-				"data.modificationSlots.powerTrain.base": itemData.modificationSlots.powerTrain,
-				"data.modificationSlots.protection.base": itemData.modificationSlots.protection,
-				"data.modificationSlots.weapons.base": itemData.modificationSlots.weapons,
-				"data.modificationSlots.extraWeapons": itemData.modificationSlots.extraWeapons,
-				"data.modificationSlots.extraBody": itemData.modificationSlots.extraBody,
-				"data.modificationSlots.body.base": itemData.modificationSlots.body,
-				"data.modificationSlots.electromagnetic.base": itemData.modificationSlots.electromagnetic,
-				"data.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
-				"data.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
-				"data.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
-				"data.isSecondaryPropulsion": itemData.secondaryPropulsion.isSecondaryPropulsion,
-				"data.secondaryPropulsionType": itemData.secondaryPropulsion.type,
-				"data.pilotSkill": itemData.pilotSkill,
-				"data.riggerInterface": itemData.riggerInterface,
-				"data.offRoadMode": itemData.offRoadMode,
-				"data.price": itemData.price.base,
-				"data.slaved": itemData.slaved,
-				"data.isSlavedToPan": itemData.isSlavedToPan,
-				"data.panMaster": itemData.panMaster,
-				"data.vehicleOwner.id": actorId,
-				"data.vehicleOwner.name": ownerActor.name,
-				"data.controlMode": itemData.controlMode,
+				"system.creatorId": actorId,
+				"system.creatorItemId": item._id,
+				"system.type": itemData.type,
+				"system.model": itemData.model,
+				"system.attributes.handling.natural.base": itemData.attributes.handling,
+				"system.attributes.handlingOffRoad.natural.base": itemData.attributes.handlingOffRoad,
+				"system.attributes.secondaryPropulsionHandling.natural.base": itemData.secondaryPropulsion.handling,
+				"system.attributes.secondaryPropulsionHandlingOffRoad.natural.base": itemData.secondaryPropulsion.handlingOffRoad,
+				"system.attributes.speed.natural.base": itemData.attributes.speed,
+				"system.attributes.speedOffRoad.natural.base": itemData.attributes.speedOffRoad,
+				"system.attributes.secondaryPropulsionSpeed.natural.base": itemData.secondaryPropulsion.speed,
+				"system.attributes.acceleration.natural.base": itemData.attributes.acceleration,
+				"system.attributes.accelerationOffRoad.natural.base": itemData.attributes.accelerationOffRoad,
+				"system.attributes.secondaryPropulsionAcceleration.natural.base": itemData.secondaryPropulsion.acceleration,
+				"system.attributes.body.natural.base": itemData.attributes.body,
+				"system.attributes.armor.natural.base": itemData.attributes.armor,
+				"system.attributes.pilot.natural.base": itemData.attributes.pilot,
+				"system.attributes.sensor.natural.base": itemData.attributes.sensor,
+				"system.attributes.seating.natural.base": itemData.seating,
+				"system.modificationSlots.powerTrain.base": itemData.modificationSlots.powerTrain,
+				"system.modificationSlots.protection.base": itemData.modificationSlots.protection,
+				"system.modificationSlots.weapons.base": itemData.modificationSlots.weapons,
+				"system.modificationSlots.extraWeapons": itemData.modificationSlots.extraWeapons,
+				"system.modificationSlots.extraBody": itemData.modificationSlots.extraBody,
+				"system.modificationSlots.body.base": itemData.modificationSlots.body,
+				"system.modificationSlots.electromagnetic.base": itemData.modificationSlots.electromagnetic,
+				"system.modificationSlots.cosmetic.base": itemData.modificationSlots.cosmetic,
+				"system.conditionMonitors.condition.actual": itemData.conditionMonitors.condition.actual,
+				"system.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
+				"system.isSecondaryPropulsion": itemData.secondaryPropulsion.isSecondaryPropulsion,
+				"system.secondaryPropulsionType": itemData.secondaryPropulsion.type,
+				"system.pilotSkill": itemData.pilotSkill,
+				"system.riggerInterface": itemData.riggerInterface,
+				"system.offRoadMode": itemData.offRoadMode,
+				"system.price": itemData.price.base,
+				"system.slaved": itemData.slaved,
+				"system.isSlavedToPan": itemData.isSlavedToPan,
+				"system.panMaster": itemData.panMaster,
+				"system.vehicleOwner.id": actorId,
+				"system.vehicleOwner.name": ownerActor.name,
+				"system.controlMode": itemData.controlMode,
 				"flags.sr5.vehicleControler": ownerActor.data.toObject(false),
 				"items": baseItems,
 			});
@@ -1518,22 +1471,22 @@ export class SR5Actor extends Actor {
 
 	static async addItemtoPan(targetItem, actorId){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
-				deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
+				deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive),
 				item = await fromUuid(targetItem),
 				itemToAdd = item.toObject(false);
 
-		itemToAdd.data.isSlavedToPan = true;
-		itemToAdd.data.panMaster = actorId;
-		await item.update({"data": itemToAdd.data});
+		itemToAdd.system.isSlavedToPan = true;
+		itemToAdd.system.panMaster = actorId;
+		await item.update({"system": itemToAdd.system});
 
-		let currentPan = duplicate(deck.data.data.pan);
+		let currentPan = duplicate(deck.system.pan);
 		let panObject = {
 			"name": item.name,
 			"uuid": targetItem,
 		}
 		currentPan.content.push(panObject);
 		currentPan.current += 1;
-		await deck.update({"data.pan": currentPan,});
+		await deck.update({"system.pan": currentPan,});
 	}
 
 	static async _socketAddItemToPan(message){
@@ -1542,17 +1495,17 @@ export class SR5Actor extends Actor {
 
 	static async deleteItemFromPan(targetItem, actorId, index){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
-				deck = actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive),
+				deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive),
 				item = await fromUuid(targetItem);
 
 		if (item) {
-			let newItem = duplicate(item.data.data);
+			let newItem = duplicate(item.system);
 			newItem.isSlavedToPan = false;
 			newItem.panMaster = "";
-			await item.update({"data": newItem,});
+			await item.update({"system": newItem,});
 		}
 
-		let currentPan = duplicate(deck.data.data.pan);
+		let currentPan = duplicate(deck.system.pan);
 		if (index){
 			currentPan.content.splice(index, 1);
 			currentPan.current -=1;
@@ -1570,7 +1523,7 @@ export class SR5Actor extends Actor {
 			}
 		}
 
-		await deck.update({"data.pan": currentPan,});
+		await deck.update({"system.pan": currentPan,});
 	}
 
 	static async _socketDeleteItemFromPan(message){
@@ -1580,15 +1533,15 @@ export class SR5Actor extends Actor {
 	//Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
 	async applyExternalEffect(data, effectType){
 		let item = await fromUuid(data.itemUuid);
-		let itemData = item.data;
+		let itemData = item.system;
 
-		for (let e of Object.values(itemData.data[effectType])){
+		for (let e of Object.values(itemData[effectType])){
 			if (e.transfer) {
 				let value, key, newData;
 				if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
 				else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
 				else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
-				else if (e.type === "rating") value = Math.floor(item.data.data.itemRating * (e.multiplier || 1));
+				else if (e.type === "rating") value = Math.floor(item.system.itemRating * (e.multiplier || 1));
 
 				//Handle heal effect
 				if (e.target.includes("removeDamage")){
@@ -1597,7 +1550,7 @@ export class SR5Actor extends Actor {
 					if(newData.conditionMonitors[key]){
 						newData.conditionMonitors[key].actual.base -= value;
 						SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0);
-						await this.update({"data": newData});
+						await this.update({"system": newData});
 						continue;
 					} else continue;
 				}
@@ -1609,7 +1562,7 @@ export class SR5Actor extends Actor {
 					if(newData.conditionMonitors[key]){
 						newData.conditionMonitors[key].actual.base += value;
 						SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0);
-						await this.update({"data": newData});
+						await this.update({"system": newData});
 						continue;
 					} else continue;
 				}
@@ -1618,33 +1571,33 @@ export class SR5Actor extends Actor {
 
 				//Create the itemEffect
 				let itemEffect = {
-					name: itemData.name,
+					name: item.name,
 					type: "itemEffect",
-					"data.target": targetName,
-					"data.value": value,
-					"data.type": itemData.type,
-					"data.ownerID": data.actorId,
-					"data.ownerName": data.speakerActor,
-					"data.ownerItem": data.itemUuid,
-					"data.duration": 0,
-					"data.durationType": "sustained",
+					"system.target": targetName,
+					"system.value": value,
+					"system.type": item.type,
+					"system.ownerID": data.actorId,
+					"system.ownerName": data.speakerActor,
+					"system.ownerItem": data.itemUuid,
+					"system.duration": 0,
+					"system.durationType": "sustained",
 				};
 
 				if (effectType === "customEffects"){
 					itemEffect = mergeObject(itemEffect, {
-						"data.customEffects": {
+						"system.customEffects": {
 							"0": {
-									"category": e.category,
-									"target": e.target,
-									"type": "value",
-									"value": value,
-									"forceAdd": true,
-								}
+								"category": e.category,
+								"target": e.target,
+								"type": "value",
+								"value": value,
+								"forceAdd": true,
+							}
 						},
 					});
 				} else if (effectType === "itemEffects"){
 					itemEffect = mergeObject(itemEffect, {
-						"data.hasEffectOnItem": true,
+						"system.hasEffectOnItem": true,
 					});
 				}
 				await this.createEmbeddedDocuments("Item", [itemEffect]);
@@ -1653,15 +1606,15 @@ export class SR5Actor extends Actor {
 				let effect;
 				if (this.isToken) {
 					for (let i of this.token.actor.items){
-						if (i.data.data.ownerItem === data.itemUuid){
-							if (!Object.keys(itemData.data.targetOfEffect).length) effect = i;
-							else for (let e of Object.values(itemData.data.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+						if (i.system.ownerItem === data.itemUuid){
+							if (!Object.keys(itemData.targetOfEffect).length) effect = i;
+							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.itemUuid) effect = i;
 						}
 					}
 				} else {
 					for (let i of this.items){
-						if (i.data.data.ownerItem === data.itemUuid){
-							if (!Object.keys(itemData.data.targetOfEffect).length) effect = i;
+						if (i.system.ownerItem === data.itemUuid){
+							if (!Object.keys(itemData.targetOfEffect).length) effect = i;
 							else for (let e of Object.values(itemData.data.targetOfEffect)) if (e !== data.itemUuid) effect = i;
 						}
 					}
@@ -1682,8 +1635,8 @@ export class SR5Actor extends Actor {
 					let itemToUpdate;
 					//Find the item
 					if (data.typeSub === "redundancy"){
-						if (this.isToken) itemToUpdate = this.token.actor.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
-						else itemToUpdate = this.items.find(d => d.type === "itemDevice" && d.data.data.isActive);
+						if (this.isToken) itemToUpdate = this.token.actor.items.find(d => d.type === "itemDevice" && d.system.isActive);
+						else itemToUpdate = this.items.find(d => d.type === "itemDevice" && d.system.isActive);
 					}
 					//Add effect to Item
 					if (itemToUpdate){
@@ -1697,7 +1650,7 @@ export class SR5Actor extends Actor {
 							"multiplier": 1,
 							"ownerItem": data.itemUuid,
 						}
-						newItem.data.itemEffects.push(effectItem);
+						newItem.system.itemEffects.push(effectItem);
 						await this.updateEmbeddedDocuments("Item", [newItem]);
 					}
 				}
@@ -1709,12 +1662,12 @@ export class SR5Actor extends Actor {
 	static async linkEffectToSource(actorId, targetItem, effectUuid){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
 				item = await fromUuid(targetItem),
-				newItem = duplicate(item.data.data);
+				newItem = duplicate(item.system);
 
 		if (newItem.duration === "sustained") newItem.isActive = true;
 		if (item.type === "itemAdeptPower") newItem.isActive = true;
 		newItem.targetOfEffect.push(effectUuid);
-		await item.update({"data": newItem});
+		await item.update({"system": newItem});
 	}
 
 	static async _socketLinkEffectToSource(message){
@@ -1734,11 +1687,11 @@ export class SR5Actor extends Actor {
 	//Delete an effect on an item when parent's ItemEffect is deleted
 	static async deleteItemEffectFromItem(actorId, parentItemEffect){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
-				index, dataToUpdate;
+			index, dataToUpdate;
 		for (let i of actor.items){
 			let needUpdate = false;
-			if (i.data.data.itemEffects?.length){
-				dataToUpdate = duplicate(i.data.data)
+			if (i.system.itemEffects?.length){
+				dataToUpdate = duplicate(i.system)
 				index = 0;
 				for (let e of dataToUpdate.itemEffects){
 					if (e.ownerItem === parentItemEffect){
@@ -1748,7 +1701,7 @@ export class SR5Actor extends Actor {
 					}
 					index++;
 				}
-				if (needUpdate) await i.update({"data": dataToUpdate,});
+				if (needUpdate) await i.update({"system": dataToUpdate,});
 			}
 		}
 	}
@@ -1771,13 +1724,13 @@ export class SR5Actor extends Actor {
 				toxinEffects = toxinEffects.concat(effects);
 				//Nausea Status Effect
 				if (key === "nausea"){
-					isStatusEffectOn = this.effects.find(e => e.data.origin === "toxinEffectNausea");
+					isStatusEffectOn = this.effects.find(e => e.origin === "toxinEffectNausea");
 					if (!isStatusEffectOn){
 						status = await _getSRStatusEffect("toxinEffectNausea");
 						statusEffects = statusEffects.concat(status);
 					}
 					if (data.damageValue > this.system.attributes.willpower.augmented.value){
-						isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+						isStatusEffectOn = this.effects.find(e => e.origin === "noAction");
 						if (!isStatusEffectOn){
 							status = await _getSRStatusEffect("noAction");
 							statusEffects = statusEffects.concat(status);
@@ -1786,7 +1739,7 @@ export class SR5Actor extends Actor {
 				}
 				//Disorientation Status Effect
 				if (key === "disorientation"){
-					isStatusEffectOn = this.effects.find(e => e.data.origin === "toxinEffectDisorientation");
+					isStatusEffectOn = this.effects.find(e => e.origin === "toxinEffectDisorientation");
 					if (!isStatusEffectOn){
 						status = await _getSRStatusEffect("toxinEffectDisorientation");
 						statusEffects = statusEffects.concat(status);
@@ -1794,7 +1747,7 @@ export class SR5Actor extends Actor {
 				}
 				//Paralysis Status Effect
 				if (key === "paralysis" && (data.damageValue > this.system.attributes.reaction.augmented.value)){
-					let isStatusEffectOn = this.effects.find(e => e.data.origin === "noAction");
+					let isStatusEffectOn = this.effects.find(e => e.origin === "noAction");
 					if (!isStatusEffectOn){
 						status = await _getSRStatusEffect("noAction");
 						statusEffects = statusEffects.concat(status);
@@ -1834,7 +1787,7 @@ export class SR5Actor extends Actor {
 			if (key.name === "buckled" || key.name === "knockdown") continue;
 			cSEffects = cSEffects.concat(effects);
 
-			if (!this.effects.find(e => e.data.origin === key.name)){
+			if (!this.effects.find(e => e.origin === key.name)){
 				status = await _getSRStatusEffect(key.name);
 				statusEffects = statusEffects.concat(status);
 				ui.notifications.info(`${this.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
@@ -1842,7 +1795,7 @@ export class SR5Actor extends Actor {
 		}
 	
 		if (weakSideEffect){
-			if (!this.effects.find(e => e.data.origin === "weakSide")){
+			if (!this.effects.find(e => e.origin === "weakSide")){
 				status = await _getSRStatusEffect("weakSide");
 				statusEffects = statusEffects.concat(status);
 				ui.notifications.info(`${this.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
@@ -1855,27 +1808,27 @@ export class SR5Actor extends Actor {
 
 	//Keep Agent condition Monitor synchro with Owner deck
 	static async keepAgentMonitorSynchro(agent){
-		if(!agent.data.data.creatorData) return;
+		if(!agent.system.creatorData) return;
 		if(!canvas.scene) return;
 		
-		let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.data.creatorId);
-		let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
-		if (ownerDeck.data.data.conditionMonitors.matrix.actual.value !== agent.data.data.conditionMonitors.matrix.actual.value){
-			let updatedActor = duplicate(agent.data.data);
-			updatedActor.conditionMonitors.matrix = ownerDeck.data.data.conditionMonitors.matrix;
-			await agent.update({"data": updatedActor,});
+		let owner = SR5_EntityHelpers.getRealActorFromID(agent.system.creatorId);
+		let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.system.isActive);
+		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
+			let updatedActor = duplicate(agent.system);
+			updatedActor.conditionMonitors.matrix = ownerDeck.system.conditionMonitors.matrix;
+			await agent.update({"system": updatedActor,});
 		}
 	}
 
 	//Keep Owner deck condition Monitor synchro with Agent
 	static async keepDeckSynchroWithAgent(agent){
-		let owner = SR5_EntityHelpers.getRealActorFromID(agent.data.data.creatorId);
-		let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.data.data.isActive);
+		let owner = SR5_EntityHelpers.getRealActorFromID(agent.system.creatorId);
+		let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.system.isActive);
 
-		if (ownerDeck.data.data.conditionMonitors.matrix.actual.value !== agent.data.data.conditionMonitors.matrix.actual.value){
-			let newDeck = duplicate(ownerDeck.data.data);
-			newDeck.conditionMonitors.matrix = agent.data.data.conditionMonitors.matrix;
-			await ownerDeck.update({"data": newDeck});
+		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
+			let newDeck = duplicate(ownerDeck.system);
+			newDeck.conditionMonitors.matrix = agent.system.conditionMonitors.matrix;
+			await ownerDeck.update({"system": newDeck});
 		}
 	}
 

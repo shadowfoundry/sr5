@@ -1156,6 +1156,11 @@ input[type=range]:focus::-ms-fill-upper {
   margin-right: 5px;
   border-color: #95046f;
 }
+#chat-log .message .SR-MessageHeader .whisper-to {
+  font-size: 0.9em;
+  color: #b2007a;
+  line-height: 12px;
+}
 #chat-log .message .part-header {
   margin-left: 5px;
   margin-right: 5px;
@@ -5184,100 +5189,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #menu #menu-items li h4 {
   font-size: 1em;
-}
-#dependencies span.clickable {
-  margin-top: 8px;
-  position: relative;
-  display: block;
-  line-height: 20px;
-  color: #fffffe;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 0.9em;
-  text-align: center;
-  border-radius: 3px;
-  text-decoration: none;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  border: 1px solid #839c88;
-  background: rgba(0, 0, 1, 0.3);
-  z-index: 1;
-}
-#dependencies span.clickable:hover {
-  color: #000001;
-  background-color: transparent;
-  box-shadow: none;
-}
-#dependencies span.clickable:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#dependencies span.clickable:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001;
-  background: #839c88;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-#dependencies header {
-  display: none;
-}
-#dependencies .window-content {
-  background: rgba(0, 0, 1, 0.4);
-  color: rgba(255, 255, 254, 0.8);
-}
-#dependencies .dependency-container {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#dependencies .dependency-column {
-  width: 40em;
-}
-#dependencies .dependency-item {
-  text-align: center;
-  padding: 20px;
-  background: #000001;
-}
-#dependencies .dependency-item p {
-  text-align: left;
-}
-#dependencies .dependency-item span.rightsNeeded {
-  color: #b2007a;
-}
-#dependencies .dependency-item h2 {
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-  border-top: 1px solid #b2007a;
-  border-bottom: 1px solid #b2007a;
-  color: rgba(255, 255, 254, 0.9);
-  background: rgba(178, 0, 122, 0.5);
-  padding: 3px 8px;
-  margin: 8px 0 20px 0;
-  font-size: 2em;
-}
-#dependencies .dependency-item h3 {
-  background: rgba(178, 0, 122, 0.5);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  border-top: 1px solid #b2007a;
-  border-bottom: 1px solid #b2007a;
-  color: rgba(255, 255, 254, 0.9);
-  padding: 3px 8px;
-  font-size: 1.5em;
-  margin: 20px 0 12px 0;
 }
 .SR-Editor .editor .editor-edit {
   background: transparent;

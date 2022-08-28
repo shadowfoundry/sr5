@@ -226,6 +226,7 @@ export default class Migration {
 			if(actor.flags?.sr5?.vehicleControler){
 				debugger;
 				let newFlag = duplicate(actor.flags.sr5.vehicleControler);
+				newFlag.system = newFlag.data;
 				if (newFlag.items){
 					for (let i of newFlag.items){
 						i.system = i.data;
@@ -290,7 +291,6 @@ export default class Migration {
 	* @return {object}      The updateData to apply
 	*/
 	migrateItemData(item) {
-		console.log(item);
 		const updateData = {};
 		//Migrate Items
 		if (item.type == "itemQuality"){
@@ -341,10 +341,7 @@ export default class Migration {
 			let newCustomEffects = item.system.customEffects;
 			for (let e of Object.values(newCustomEffects)){
 				if (e.target){
-					if (e.target.includes("data."))	{
-						e.target = e.target.replace('data.','system.');
-						console.log(item);
-					}
+					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
 				}
 			}
 			updateData["system.customEffects"] = newCustomEffects;

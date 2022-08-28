@@ -865,7 +865,7 @@ export class ActorSheetSR5 extends ActorSheet {
 	}
 
 	async _onAddItemToPan(event){
-		let actor = this.actor.data,
+		let actor = this.actor,
 				cancel = true,
 				list = {},
 				actorList = {},
@@ -883,7 +883,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		for (let a of game.actors){
-			if (a.system.type === "actorPc" || (a.system.type === "actorGrunt" && a.system.token.actorLink)){
+			if (a.type === "actorPc" || (a.type === "actorGrunt" && a.token?.actorLink)){
 				if (game.user.isGM) actorList[a.id] = a.name;
 				else if (a.hasPlayerOwner) actorList[a.id] = a.name;
 			}

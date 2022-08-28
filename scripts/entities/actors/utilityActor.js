@@ -2668,10 +2668,9 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	// Generate Matrix resistances, actions, actions defenses, user mode....
-	static generateResonanceMatrix(deck, actor) {
-		let lists = actor.system.lists;
-		let data = actor.system, specialAttributes = data.specialAttributes, skills = data.skills;
-		let matrix = data.matrix, resonanceActions = matrix.resonanceActions;
+	static generateResonanceMatrix(actor) {
+		let actorData = actor.system, specialAttributes = actorData.specialAttributes, skills = actorData.skills;
+		let matrix = actorData.matrix, resonanceActions = matrix.resonanceActions;
 
 		matrix.registeredSprite.max = specialAttributes.resonance.augmented.value;
 
@@ -2695,7 +2694,7 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateModifier(resonanceActions.threadComplexForm.test,`${game.i18n.localize('SR5.SkillSoftware')}`, `${game.i18n.localize('SR5.Skill')}`, skills.software.rating.value);
 
 		// handle resonance final calculation
-		for (let key of Object.keys(lists.resonanceActions)) {
+		for (let key of Object.keys(SR5.resonanceActions)) {
 			if (resonanceActions[key].test){
 				this.applyPenalty("condition", resonanceActions[key].test, actor);
 				this.applyPenalty("matrix", resonanceActions[key].test, actor);
@@ -2714,6 +2713,7 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static generateMatrixActions(actor){
+		console.log("generateMatrixActions");
 		let lists = actor.system.lists;
 		let data = actor.system, attributes = data.attributes, skills = data.skills;
 		let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
@@ -2920,9 +2920,8 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static generateMatrixResistances(actor, deck){
-		let lists = actor.system.lists;
-		let data = actor.system, attributes = data.attributes, specialAttributes = data.specialAttributes;
-		let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances;
+		let actorData = actor.system, attributes = actorData.attributes, specialAttributes = actorData.specialAttributes;
+		let matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances;
 
 		matrixResistances.matrixDamage.base = 0;
 		matrixResistances.biofeedback.base = 0;
@@ -2955,30 +2954,30 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.data.deviceRating);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				break;
 			case "baseDevice":
 				if (actor.type === "actorDrone"){
-					if (actor.system.vehicleOwner.id && data.slaved){
-						let controler = actor.flags.sr5.vehicleControler.data;
+					if (actor.system.vehicleOwner.id && actorData.slaved){
+						let controler = actor.flags.sr5.vehicleControler.system;
 						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Controler')}`, controler.matrix.resistances.matrixDamage.dicePool);
 					} else {
-						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, data.matrix.deviceRating);
-						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, data.matrix.attributes.firewall.value);
+						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, actorData.matrix.deviceRating);
+						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, actorData.matrix.attributes.firewall.value);
 					}
 				} else if (actor.type === "actorDevice"){
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, data.matrix.deviceRating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, data.matrix.attributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, actorData.matrix.deviceRating);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, actorData.matrix.attributes.firewall.value);
 				} else if (actor.type === "actorSprite"){
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Level')}`, matrix.deviceRating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Level')}`, matrix.deviceRating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				} else if (actor.type === "actorAgent"){
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`,data.rating);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`,actorData.rating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`, data.rating);
+					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.ItemRating')}`, actorData.rating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				}
 				break;
@@ -2987,34 +2986,34 @@ export class SR5_CharacterUtility extends Actor {
 				return;
 		}
 
-		for (let key of Object.keys(lists.matrixResistances)) {
+		for (let key of Object.keys(SR5.matrixResistances)) {
 			SR5_EntityHelpers.updateDicePool(matrixResistances[key]);
 		}
 	}
 
 	static generateVehicleMatrix(actor, deck) {
-		let lists = actor.system.lists, data = actor.system;
+		let actorData = actor.system;
 
-		data.matrix.deviceRating = data.attributes.pilot.augmented.value;
-		data.matrix.programsMaximumActive.value = Math.ceil(data.matrix.deviceRating / 2);
-		data.matrix.marks = deck.data.marks;
-		data.matrix.markedItems = deck.data.markedItems;
+		actorData.matrix.deviceRating = actorData.attributes.pilot.augmented.value;
+		actorData.matrix.programsMaximumActive.value = Math.ceil(actorData.matrix.deviceRating / 2);
+		actorData.matrix.marks = deck.marks;
+		actorData.matrix.markedItems = deck.markedItems;
 
-		for (let key of Object.keys(lists.matrixAttributes)) {
-			data.matrix.attributes[key].base = 0;
-			SR5_EntityHelpers.updateModifier(data.matrix.attributes[key], game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.LinkedAttribute'), data.matrix.deviceRating);
-			SR5_EntityHelpers.updateValue(data.matrix.attributes[key]);
+		for (let key of Object.keys(SR5.matrixAttributes)) {
+			actorData.matrix.attributes[key].base = 0;
+			SR5_EntityHelpers.updateModifier(actorData.matrix.attributes[key], game.i18n.localize('SR5.DeviceRating'), game.i18n.localize('SR5.LinkedAttribute'), actorData.matrix.deviceRating);
+			SR5_EntityHelpers.updateValue(actorData.matrix.attributes[key]);
 		}
 
-		SR5_EntityHelpers.updateValue(data.matrix.noise);
+		SR5_EntityHelpers.updateValue(actorData.matrix.noise);
 	}
 
 	static generateDeviceMatrix(actor, deck) {
-		let lists = actor.system.lists, data = actor.system,
-				matrix = data.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions;
+		let actorData = actor.system, matrix = actorData.matrix, 
+			matrixAttributes = matrix.attributes;
 
-		data.matrix.marks = deck.data.marks;
-		data.matrix.markedItems = deck.data.markedItems;
+		actorData.matrix.marks = deck.marks;
+		actorData.matrix.markedItems = deck.markedItems;
 		matrix.deviceName = actor.name;
 
 		if (matrix.deviceType === "host"){
@@ -3070,13 +3069,13 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		//Handle Attributes
-		if ((matrix.deviceType === "device") || (matrix.deviceType === "slavedDevice" && data.isDirectlyConnected)){
-			for (let key of Object.keys(lists.matrixAttributes)) {
+		if ((matrix.deviceType === "device") || (matrix.deviceType === "slavedDevice" && actorData.isDirectlyConnected)){
+			for (let key of Object.keys(SR5.matrixAttributes)) {
 				matrixAttributes[key].base = matrix.deviceRating;
 				SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
 			}
 		} else {
-			for (let key of Object.keys(lists.matrixAttributes)) {
+			for (let key of Object.keys(SR5.matrixAttributes)) {
 				SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
 			}
 		}
@@ -3085,21 +3084,22 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static generateSpriteMatrix(actor, deck) {
-		let lists = actor.system.lists, data = actor.system, matrix = data.matrix;
-		let matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances, matrixActions = matrix.actions;
+		let actorData = actor.system, 
+			matrix = actorData.matrix,
+			matrixAttributes = matrix.attributes;
 
-		data.matrix.marks = deck.data.marks;
-		data.matrix.markedItems = deck.data.markedItems;
-		matrix.deviceRating = data.level;
+		actorData.matrix.marks = deck.marks;
+		actorData.matrix.markedItems = deck.markedItems;
+		matrix.deviceRating = actorData.level;
 
 		//Handle base matrix attributes
-		for (let key of Object.keys(lists.matrixAttributes)) {
+		for (let key of Object.keys(SR5.matrixAttributes)) {
 			matrixAttributes[key].base = matrix.deviceRating;
 		}
 
 		//Apply matrix attributes by type
-		let label = `${game.i18n.localize(lists.spriteTypes[data.type])}`;
-		switch (data.type) {
+		let label = `${game.i18n.localize(SR5.spriteTypes[actorData.type])}`;
+		switch (actorData.type) {
 			case "courier":
 				SR5_EntityHelpers.updateModifier(matrixAttributes.sleaze, label, `${game.i18n.localize('SR5.SpriteType')}`, +3);
 				SR5_EntityHelpers.updateModifier(matrixAttributes.dataProcessing, label, `${game.i18n.localize('SR5.SpriteType')}`, +1);
@@ -3126,11 +3126,11 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, `${game.i18n.localize('SR5.SpriteType')}`, +2);
 				break;
 			default:
-				SR5_SystemHelpers.srLog(1, `Unknown '${data.type}' sprite type in generateSpriteMatrix()`);
+				SR5_SystemHelpers.srLog(1, `Unknown '${actorData.type}' sprite type in generateSpriteMatrix()`);
 		}
 
 		//handle matrix attributes
-		for (let key of Object.keys(lists.matrixAttributes)) {
+		for (let key of Object.keys(SR5.matrixAttributes)) {
 			SR5_EntityHelpers.updateValue(matrixAttributes[key], 0);
 		}
 
@@ -3143,8 +3143,8 @@ export class SR5_CharacterUtility extends Actor {
 		if(!actorData.creatorData) return;
 		let matrixAttributes = actorData.matrix.attributes, creatorMatrix = actorData.creatorData.data.matrix;
 
-		actorData.matrix.marks = deck.data.marks;
-		actorData.matrix.markedItems = deck.data.markedItems;
+		actorData.matrix.marks = deck.marks;
+		actorData.matrix.markedItems = deck.markedItems;
 		//Device
 		actorData.matrix.deviceRating = creatorMatrix.deviceRating;
 
