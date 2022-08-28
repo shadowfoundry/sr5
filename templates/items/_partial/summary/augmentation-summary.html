@@ -1,24 +1,24 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'augmentationTypes' data.type)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'augmentationTypes' system.type)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Category'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'augmentationCategories' data.category)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'augmentationCategories' system.category)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Grade'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "augmentationGrades" data.grade)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "augmentationGrades" system.grade)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.EssenceCost'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.essenceCost.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.essenceCost.value}}</span>
     </p>
 </li>

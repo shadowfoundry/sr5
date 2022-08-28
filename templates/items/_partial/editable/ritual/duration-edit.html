@@ -6,8 +6,8 @@
     <div class="col-5">{{localize 'SR5.DurationToPerform'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2">{{localize 'SR5.Force'}} ×</div>
     <div class="col-5">
-        <select name="data.durationToPerform" data-dtype="String" required>
-            {{#select data.durationToPerform}}
+        <select name="system.durationToPerform" data-dtype="String" required>
+            {{#select system.durationToPerform}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.extendedIntervals}}
                 <option value="{{@key}}">{{localize this}}</option>
@@ -20,8 +20,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Duration'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-3">
-        <select name="data.duration" data-dtype="String" required>
-            {{#select data.duration}}
+        <select name="system.duration" data-dtype="String" required>
+            {{#select system.duration}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.ritualDurations}}
                 <option value="{{@key}}">{{localize this}}</option>
@@ -31,8 +31,8 @@
     </div>
     <div class="col-2">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2">
-        <select name="data.durationMultiplier" data-dtype="{{data.durationMultiplier}}" required>
-            {{#select data.durationMultiplier}}
+        <select name="system.durationMultiplier" data-dtype="{{system.durationMultiplier}}" required>
+            {{#select system.durationMultiplier}}
                 <option value="">{{localize 'SR5.None'}}</option>
                 {{#each lists.ritualDurationMultipliers}}
                 <option value="{{@key}}">{{localize this}}</option>

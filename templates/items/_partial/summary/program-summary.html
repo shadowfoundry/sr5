@@ -1,20 +1,20 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.ProgramTypeShort'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'programTypes' data.type)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'programTypes' system.type)}}</span>
     </p>
 </li>
 
-{{#if (or (eq data.type 'autosoft') (eq data.type 'agent') (eq data.type 'activesoft') 
-(eq data.type 'knowsoft') (eq data.type 'linguasoft') (eq data.type 'tutorsoft') )}}
+{{#if (or (eq system.type 'autosoft') (eq system.type 'agent') (eq system.type 'activesoft') 
+(eq system.type 'knowsoft') (eq system.type 'linguasoft') (eq system.type 'tutorsoft') )}}
 {{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.html}}
 {{/if}}
 
-{{#if data.isModelBased}}
+{{#if system.isModelBased}}
     <li class="grid">
         <p>
             <span class="col-auto">{{localize 'SR5.Model'}}{{localize 'SR5.Colons'}}</span>
-            <span class="col-auto SR-GreyColor">{{valueOrDash data.model}}</span>
+            <span class="col-auto SR-GreyColor">{{valueOrDash system.model}}</span>
         </p>
     </li>
 {{/if}}

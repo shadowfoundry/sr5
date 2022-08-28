@@ -2,7 +2,7 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="SR-LigneEnTete grid">
-			<div class="col-5 SR-TextUppercase">{{localize 'SR5.SummonedSpirits'}} ({{localize 'SR5.Binded'}} {{data.magic.boundedSpirit.current}}/{{data.magic.boundedSpirit.max}})</div>
+			<div class="col-5 SR-TextUppercase">{{localize 'SR5.SummonedSpirits'}} ({{localize 'SR5.Binded'}} {{system.magic.boundedSpirit.current}}/{{system.magic.boundedSpirit.max}})</div>
 			<div class="col-1 SR-TextCenter" data-title="{{localize 'SR5.SpiritServices'}}">{{localize 'SR5.SpiritServicesShort'}}</div>
 			<div class="col-2 SR-TextCenter" data-title="{{localize 'SR5.SpiritForce'}}">{{localize 'SR5.SpiritForceShort'}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.Bounded'}}</div>
@@ -21,22 +21,22 @@
 		{{#each actor.spirits}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-5">
-				{{#if (missing data.type data.itemRating)}}
+				{{#if (missing system.type system.itemRating)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeEsprit')}}">
-					{{findTranslation 'spiritTypes'data.type}} ({{name}})</p>
+					{{findTranslation 'spiritTypes'system.type}} ({{name}})</p>
 				{{else}}
-				<p>{{findTranslation 'spiritTypes' data.type}} ({{name}})</p>
+				<p>{{findTranslation 'spiritTypes' system.type}} ({{name}})</p>
 				{{/if}}
 			</div>
-			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.services.value"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.services.value"
 			  data-helpTitle="{{localize 'SR5.HELP_SpiritService' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SpiritServiceMsg'}}">
-				{{data.services.value}}/{{#if data.services.max}}{{data.services.max}}{{else}}0{{/if}}
+				{{system.services.value}}/{{#if system.services.max}}{{system.services.max}}{{else}}0{{/if}}
 			</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash system.itemRating}}</div>
 			<div class="col-2 SR-TextCenter">
-				{{#if data.isBounded}}
+				{{#if system.isBounded}}
 					{{localize 'SR5.Yes'}}
 				{{else}}
 					{{localize 'SR5.No'}}
@@ -44,29 +44,29 @@
 			</div>
 			<div class="col-1 SR-TextCenter">
 				<!-- TODO check possession -->
-				{{#if ../data.magic.possession}}
-					{{#if data.isActive}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+				{{#if ../system.magic.possession}}
+					{{#if system.isActive}}
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 					  data-helpTitle="{{localize 'SR5.HELP_SpiritPossession' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpiritPossessionStopMsg'}}">
 						<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
 					</a>
 					{{else}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 					  data-helpTitle="{{localize 'SR5.HELP_SpiritPossession'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpiritPossessionMsg'}}">
 						<em class="fas fa-sm fa-praying-hands"></em>
 					</a>
 					{{/if}}
 				{{else}}
-					{{#if data.isCreated}}
-					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+					{{#if system.isCreated}}
+					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					  data-helpTitle="{{localize 'SR5.HELP_SpiritDismiss'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpiritDismissMsg'}}">
 						<em class="fas fa-flip-both fa-external-link-alt"></em>
 					</a>
 					{{else}}
-					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					  data-helpTitle="{{localize 'SR5.HELP_SpiritCreate'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpiritCreateMsg'}}">
 						<em class="fas fa-external-link-alt"></em>
@@ -76,7 +76,7 @@
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
-				{{#if data.isCreated}}
+				{{#if system.isCreated}}
 				{{else}}
 				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
 					<em class="fas fa-sm fa-edit item-management"></em>

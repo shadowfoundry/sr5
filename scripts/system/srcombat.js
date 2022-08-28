@@ -1,4 +1,4 @@
-import { SR5_CharacterUtility } from "../entities/actors/utility.js";
+import { SR5_CharacterUtility } from "../entities/actors/utilityActor.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SocketHandler } from "../socket.js";
 
@@ -23,13 +23,13 @@ export class SR5Combat extends Combat {
 			return;
 		}
 
-		let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.data);
+		let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.system);
 		let udpateData ={
 			initiative: Number(combatant.initiative) + adjustment,
-			"flags.sr5.currentInitRating" : combatant.actor.data.data.initiatives[key].value,
-      		"flags.sr5.currentInitDice" : combatant.actor.data.data.initiatives[key].dice.value,
+			"flags.sr5.currentInitRating" : combatant.actor.system.initiatives[key].value,
+      		"flags.sr5.currentInitDice" : combatant.actor.system.initiatives[key].dice.value,
 		}
-		if (!combatant.data.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId) ) {
+		if (!combatant.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId) ) {
 			let actualCombatant = combatant.combat.combatants.find(c => c.id === combatant.combat.current.combatantId);
 			if (actualCombatant.initiative > (combatant.initiative + adjustment)) {
 				udpateData = mergeObject(udpateData, {
@@ -43,11 +43,11 @@ export class SR5Combat extends Combat {
 	static async seizeInitiative(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone (actor.data);
+		let actorData = deepClone (actor.system);
 		actorData = actorData.toObject(false);
-		if (actorData.data.conditionMonitors.edge?.actual?.value < actorData.data.conditionMonitors.edge?.value){
+		if (actorData.conditionMonitors.edge?.actual?.value < actorData.conditionMonitors.edge?.value){
 			await combatant.setFlag("sr5", "seizeInitiative", true);
-			actorData.data.conditionMonitors.edge.actual.base += 1;
+			actorData.conditionMonitors.edge.actual.base += 1;
 			await actor.update(actorData);
 			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiative")}`);
 		} else {
@@ -58,14 +58,14 @@ export class SR5Combat extends Combat {
 	static async blitz(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone (actor.data);
+		let actorData = deepClone (actor.system);
 		actorData = actorData.toObject(false);
-		if (actorData.data.conditionMonitors.edge?.actual.value < actorData.data.conditionMonitors.edge?.value){
+		if (actorData.conditionMonitors.edge?.actual.value < actorData.conditionMonitors.edge?.value){
 			await combatant.update({
 				initiative: null,
 				"flags.sr5.blitz": true,
 			});
-			actorData.data.conditionMonitors.edge.actual.base += 1;
+			actorData.conditionMonitors.edge.actual.base += 1;
 			await actor.update(actorData);
 			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitz")}`);
 		} else {
@@ -121,29 +121,29 @@ export class SR5Combat extends Combat {
    	setupTurns(){
 		// Determine the turn order and the current turn
 		const turns = this.combatants.contents.sort(SR5Combat.sortByRERIC);
-		this.data.turn = Math.clamped(this.data.turn, 0, turns.length-1);
+		this.turn = Math.clamped(this.turn, 0, turns.length-1);
 
 		// Update state tracking
-		let c = turns[this.data.turn];
+		let c = turns[this.turn];
 
 		this.current = {
-			round: this.data.round,
-			turn: this.data.turn,
+			round: this.round,
+			turn: this.turn,
 			combatantId: c ? c.id : null,
-			tokenId: c ? c.data.tokenId : null
+			tokenId: c ? c.tokenId : null
 		};
 		return this.turns = turns;
 	}
 
 	static sortByRERIC(left, right) {
 		// Check if a combatant Seize the initiative
-		const leftSeizeInit = left.data.flags.sr5?.seizeInitiative;
-		const rightSeizeInit = right.data.flags.sr5?.seizeInitiative;
+		const leftSeizeInit = left.flags.sr5?.seizeInitiative;
+		const rightSeizeInit = right.flags.sr5?.seizeInitiative;
 		if (leftSeizeInit === true && rightSeizeInit === false) return -1;
 		if (rightSeizeInit === true && leftSeizeInit === false) return 1;
 		// First sort by initiative value if different
-		const leftInit = Number(left.data.flags.sr5?.baseCombatantInitiative);
-		const rightInit = Number(right.data.flags.sr5?.baseCombatantInitiative);
+		const leftInit = Number(left.flags.sr5?.baseCombatantInitiative);
+		const rightInit = Number(right.flags.sr5?.baseCombatantInitiative);
 		if (isNaN(leftInit)) return 1;
 		if (isNaN(rightInit)) return -1;
 		if (leftInit > rightInit) return -1;
@@ -154,9 +154,9 @@ export class SR5Combat extends Combat {
 			if (!actor) return [0, 0, 0, 0];
 			// edge, reaction, intuition, coinflip
 			return [
-				actor.data.data.specialAttributes?.edge?.augmented.value,
-				actor.data.data.attributes?.reaction?.augmented.value,
-				actor.data.data.attributes?.intuition?.augmented.value,
+				actor.system.specialAttributes?.edge?.augmented.value,
+				actor.system.attributes?.reaction?.augmented.value,
+				actor.system.attributes?.intuition?.augmented.value,
 				new Roll("1d2").roll({async:true}).total,
 			];
 		};
@@ -178,7 +178,7 @@ export class SR5Combat extends Combat {
 	get nextUndefeatedTurnPosition(){
 		for (let [turnInPass, combatant] of this.turns.entries()) {
 			if (turnInPass <= this.turn) continue;
-			if (!combatant.data.defeated && combatant.initiative > 0 && !combatant.data.flags.sr5.hasPlayed) {
+			if (!combatant.defeated && combatant.initiative > 0 && !combatant.flags.sr5.hasPlayed) {
 				return turnInPass;
 			}
 		}
@@ -191,7 +191,7 @@ export class SR5Combat extends Combat {
 	get nextViableTurnPosition(){
 		for (let [turnInPass, combatant] of this.turns.entries()) {
 			if (turnInPass <= this.turn) continue;
-			if (combatant.initiative > 0 && !combatant.data.flags.sr5.hasPlayed) {
+			if (combatant.initiative > 0 && !combatant.flags.sr5.hasPlayed) {
 				return turnInPass;
 			}
 		}
@@ -317,8 +317,8 @@ export class SR5Combat extends Combat {
 			await roll.evaluate({async: true});
 			let initiative = roll.total;
 
-			if (this.data.flags.sr5?.combatInitiativePass > 1){
-				let currentPass = this.data.flags.sr5?.combatInitiativePass - 1;
+			if (this.flags.sr5?.combatInitiativePass > 1){
+				let currentPass = this.flags.sr5?.combatInitiativePass - 1;
 				initiative -= (currentPass * 10);
 				if (initiative < 0) initiative = 0;
 			}
@@ -330,7 +330,7 @@ export class SR5Combat extends Combat {
 
 			// Construct chat message data
 			let title;
-			switch (SR5_CharacterUtility.findActiveInitiative(combatant.actor.data)) {
+			switch (SR5_CharacterUtility.findActiveInitiative(combatant.actor.system)) {
 				case "physicalInit":
 					title = game.i18n.localize('SR5.InitiativePhysical');
 					break;
@@ -439,15 +439,15 @@ export class SR5Combat extends Combat {
 	}
 
 	static getActorFromCombatant(combatant){
-		if (!combatant.actor.isToken) return SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
-		else return SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
+		if (!combatant.actor.isToken) return SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+		else return SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
 	}
 
 	static getCombatantFromActor(document){
 		if (!game.combat) return;
 		let combatant;
-      	if (document.isToken) combatant = game.combat.data.combatants.find(c => c.data.tokenId === document.token.id);
-      	else combatant = game.combat.data.combatants.find(c => c.data.actorId === document.id);
+      	if (document.isToken) combatant = game.combat.combatants.find(c => c.tokenId === document.token.id);
+      	else combatant = game.combat.combatants.find(c => c.actorId === document.id);
 		return combatant;
 	}
 
@@ -458,12 +458,12 @@ export class SR5Combat extends Combat {
 			if (!combatant) return;
 			if (combatant.initiative <= 0) return;
 			else {
-			  	let initKey = SR5_CharacterUtility.findActiveInitiative(document.data),
+			  	let initKey = SR5_CharacterUtility.findActiveInitiative(document.system),
 			  		initRatingChange = (initChange ||0), initDiceChange = 0, diceResult = 0,diceToRoll = 0;
-			  	if (document.data.data.initiatives[initKey].value !== combatant.data.flags.sr5.currentInitRating) initRatingChange += document.data.data.initiatives[initKey].value - combatant.data.flags.sr5.currentInitRating;
-			  	if (document.data.data.initiatives[initKey].dice.value !== combatant.data.flags.sr5.currentInitDice) {
-					sign = Math.sign(document.data.data.initiatives[initKey].dice.value - combatant.data.flags.sr5.currentInitDice);
-					diceToRoll = Math.abs(document.data.data.initiatives[initKey].dice.value - combatant.data.flags.sr5.currentInitDice);
+			  	if (document.system.initiatives[initKey].value !== combatant.flags.sr5.currentInitRating) initRatingChange += document.system.initiatives[initKey].value - combatant.flags.sr5.currentInitRating;
+			  	if (document.system.initiatives[initKey].dice.value !== combatant.flags.sr5.currentInitDice) {
+					sign = Math.sign(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
+					diceToRoll = Math.abs(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
 					if (isNaN(diceToRoll)) diceToRoll = 0;
 					diceResult = new Roll(`${diceToRoll}d6`).evaluate({async: false}).total;
 					if (sign > 0) initDiceChange += diceResult;
@@ -494,21 +494,21 @@ export class SR5Combat extends Combat {
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
 
-		let actorData = deepClone (actor.data);
+		let actorData = deepClone (actor.system);
 		actorData = actorData.toObject(false);
 
 		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
-				let effect = duplicate(item.data);
+				let effect = duplicate(item.system);
 
 				//Decrease effect duration
-				if (item.data.data.durationType === "round"){
-					effect.data.duration -= 1;
+				if (item.system.durationType === "round"){
+					effect.duration -= 1;
 					//Delete effect if duration < 0;
-					if (effect.data.duration <= 0){
+					if (effect.duration <= 0){
 						await actor.deleteEmbeddedDocuments("Item", [item.id]);
-						let statusEffect = actor.effects.find(e => e.data.origin === item.data.data.type);
+						let statusEffect = actor.effects.find(e => e.origin === item.system.type);
         				if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
 						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: effect.name})}`);
 					} else {
@@ -518,33 +518,33 @@ export class SR5Combat extends Combat {
 				}
 
 				//Special case : Acid Damage
-				if (effect.data.type === "acidDamage") {
-					let armor = actor.items.find((item) => item.type === "itemArmor" && item.data.data.isActive && !item.data.data.isAccessory);
+				if (effect.type === "acidDamage") {
+					let armor = actor.items.find((item) => item.type === "itemArmor" && item.system.isActive && !item.system.isAccessory);
 					if (armor){
 						let updatedArmor = armor.toObject(false);
-						let itemEffect = updatedArmor.data.itemEffects.find((e) => e.target === "data.armorValue");
+						let itemEffect = updatedArmor.system.itemEffects.find((e) => e.target === "system.armorValue");
 						if (itemEffect){
 							itemEffect.value -= 1;
 						} else {
 							let armorEffect = {
 								"name": `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageAcid")})`,
-								"target": "data.armorValue",
+								"target": "system.armorValue",
 								"wifi": false,
 								"type": "value",
 								"value": -1,
 								"multiplier": 1
 							}
-							updatedArmor.data.itemEffects.push(armorEffect);
+							updatedArmor.system.itemEffects.push(armorEffect);
 						}
 						await actor.updateEmbeddedDocuments("Item", [updatedArmor]);
 						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
 					}
 
-					effect.data.value -= 1;
+					effect.value -= 1;
 					let damageInfo = {
 						damageResistanceType: "physicalDamage",
 						incomingPA: 0,
-						damageValue: effect.data.value,
+						damageValue: effect.value,
 						damageType: "physical",
 						damageElement: "acid",
 					}
@@ -552,14 +552,14 @@ export class SR5Combat extends Combat {
 				}
 
 				//Apply Fire effect if any
-				if (effect.data.type === "fireDamage") {
+				if (effect.type === "fireDamage") {
 					let damageInfo = {
-						damageValue: effect.data.value,
+						damageValue: effect.value,
 						damageType: "physical",
 					}
 					await actor.takeDamage(damageInfo);
-					effect.data.value += 1;
-					ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {fire: effect.data.value})}`);
+					effect.value += 1;
+					ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {fire: effect.value})}`);
 					await item.update(effect);
 				}
 			}
@@ -567,20 +567,20 @@ export class SR5Combat extends Combat {
 		}
 
 		//Remove full defense effect
-		if (actor.effects.find(e => e.data.origin === "fullDefense")){
-			let effectToRemove = actor.effects.find(e => e.data.origin === "fullDefense")
+		if (actor.effects.find(e => e.origin === "fullDefense")){
+			let effectToRemove = actor.effects.find(e => e.origin === "fullDefense")
 			await actor.deleteEmbeddedDocuments("ActiveEffect", [effectToRemove.id]);
 			ui.notifications.info(`${combatant.name} ${game.i18n.localize("SR5.INFO_FullDefenseEnd")}`);
 		}
 
 		//Reset Spell defense dice pool
-		if (actorData.data.magic?.counterSpellPool?.current !== actorData.data.magic?.counterSpellPool?.value){
-			actorData.data.magic.counterSpellPool.current = actorData.data.magic.counterSpellPool.value;
+		if (actorData.magic?.counterSpellPool?.current !== actorData.magic?.counterSpellPool?.value){
+			actorData.magic.counterSpellPool.current = actorData.magic.counterSpellPool.value;
 			await actor.update(actorData);
 		}
 
 		//Handle Regeneration
-		if (actorData.data.specialProperties?.regeneration){
+		if (actorData.specialProperties?.regeneration){
 			actor.rollTest("regeneration");
 		}
 	}
@@ -593,10 +593,10 @@ export const _getInitiativeFormula = function() {
 	const actor = this.actor;
 	if ( !actor ) return "1d6";
 
-	let key = SR5_CharacterUtility.findActiveInitiative(actor.data);
-	let initiative = actor.data.data.initiatives[key].value
-	let initiativeDice = actor.data.data.initiatives[key].dice.value + "d6";
-	if (this.data.flags.sr5?.blitz) initiativeDice = "5d6";
+	let key = SR5_CharacterUtility.findActiveInitiative(actor.system);
+	let initiative = actor.system.initiatives[key].value
+	let initiativeDice = actor.system.initiatives[key].dice.value + "d6";
+	if (this.flags.sr5?.blitz) initiativeDice = "5d6";
 
 	const parts = [initiative, initiativeDice];
 	return parts.filter((p) => p !== null).join(" + ");

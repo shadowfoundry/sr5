@@ -2,7 +2,7 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckTypes" data.type)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckTypes" system.type)}}</span>
     </p>
 </li>
 
@@ -10,39 +10,39 @@
 {{> systems/sr5/templates/items/_partial/summary/_common/deviceRating-summary.html}}
 
 <!-- Cyberdeck Attributes -->
-{{#ife data.type "cyberdeck"}}
+{{#ife system.type "cyberdeck"}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.DeviceAttributesArray'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.attributesCollection.value1}} | {{valueOrDash data.attributesCollection.value2}} |
-            {{valueOrDash data.attributesCollection.value3}} | {{valueOrDash data.attributesCollection.value4}}
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.attributesCollection.value1}} | {{valueOrDash system.attributesCollection.value2}} |
+            {{valueOrDash system.attributesCollection.value3}} | {{valueOrDash system.attributesCollection.value4}}
         </span>
     </p>
 </li>
 {{/ife}}
 
 <!-- Program -->
-{{#if (isdefined data.program)}}
+{{#if (isdefined system.program)}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Programs'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.program.max}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.program.max}}</span>
     </p>
 </li>
 {{/if}}
 
 <!-- Dongle & Module -->
-{{#ife data.type "commlink"}}
+{{#ife system.type "commlink"}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.CommlinkModule'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckModules" data.module)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckModules" system.module)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.CommlinkDongle'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckDongles" data.dongle)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "deckDongles" system.dongle)}}</span>
     </p>
 </li>
 {{/ife}}

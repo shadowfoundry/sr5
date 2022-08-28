@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Metatype'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.metatype" data-dtype="String" required>
-        {{#select data.metatype}}
+        <select name="system.metatype" data-dtype="String" required>
+        {{#select system.metatype}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.metatypes}}
             <option value="{{@key}}">{{localize this}}</option>

@@ -1,5 +1,5 @@
 <!-- MAGICAL TRADITION -->
-{{#if data.magic.magicType}}	
+{{#if system.magic.magicType}}	
   		<div class="SRBlockSheet">
 			<ul>
 	  			<li class="grid SR-LigneEnTete">
@@ -13,9 +13,9 @@
 						{{/if}}
 					</div>
 	  			</li>
-				{{#if (and (eq data.magic.magicType 'spirit') (ne data.creatorId ''))}}
+				{{#if (and (eq system.magic.magicType 'spirit') (ne system.creatorId ''))}}
 					<li >
-						{{findTranslation 'traditionTypes' data.magic.tradition}}
+						{{findTranslation 'traditionTypes' system.magic.tradition}}
 					</li>
 				{{else}}
 					{{#each actor.traditions}}
@@ -31,27 +31,27 @@
 					</li>
 					{{/each}}
 				{{/if}}
-				{{#ifne data.magic.magicType 'spirit'}}
-				{{#ifne data.magic.magicType 'adept'}}
+				{{#ifne system.magic.magicType 'spirit'}}
+				{{#ifne system.magic.magicType 'adept'}}
 	  			<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionCombat'}}</p></div>
-					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.combat)}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' system.magic.elements.combat)}}</p></div>
 				</li>
 				<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionDetection'}}</p></div>
-					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.detection)}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' system.magic.elements.detection)}}</p></div>
 				</li>
 				<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionHealth'}}</p></div>
-					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.health)}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' system.magic.elements.health)}}</p></div>
 				</li>
 				<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionIllusion'}}</p></div>
-					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.illusion)}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' system.magic.elements.illusion)}}</p></div>
 				</li>
 				<li class="grid">
 					<div class="col-10"><p>{{localize 'SR5.TraditionManipulation'}}</p></div>
-					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' data.magic.elements.manipulation)}}</p></div>
+					<div class="col-2"><p class="SR-TextCenterOverflow">{{valueOrDash (findTranslation 'spiritTypes' system.magic.elements.manipulation)}}</p></div>
 				</li>
 				{{/ifne}}
 				{{/ifne}}

@@ -1,4 +1,4 @@
-{{#if (eq data.category "cyberlimbs")}}
+{{#if (eq system.category "cyberlimbs")}}
 <div class="SR-PaddingTop10">
     <ul>
         <li class="SR-EnTete">
@@ -6,24 +6,24 @@
         </li>
         <li class="grid">
             <div class="col-5">{{localize 'SR5.CutomCyberlimb'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1"><input type="checkbox" name="data.cyberlimbs.isCustom" data-dtype="Boolean" {{checked data.cyberlimbs.isCustom}} /></div>
+            <div class="col-1"><input type="checkbox" name="system.cyberlimbs.isCustom" data-dtype="Boolean" {{checked system.cyberlimbs.isCustom}} /></div>
         </li>
         <li class="grid">
             <div class="col-5">{{localize 'SR5.Strength'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1">{{data.cyberlimbs.strength.value}}</div>
-            {{#if data.cyberlimbs.isCustom}}
+            <div class="col-1">{{system.cyberlimbs.strength.value}}</div>
+            {{#if system.cyberlimbs.isCustom}}
             <div class="col-1"></div>
             <div class="col-4 SR-TextRight">{{localize 'SR5.CutomCyberlimbStrength'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.cyberlimbs.strength.customization" value="{{data.cyberlimbs.strength.customization}}" /></div>
+            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.cyberlimbs.strength.customization" value="{{system.cyberlimbs.strength.customization}}" /></div>
             {{/if}}
         </li>
         <li class="grid">
             <div class="col-5">{{localize 'SR5.Agility'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1">{{data.cyberlimbs.agility.value}}</div>
-            {{#if data.cyberlimbs.isCustom}}
+            <div class="col-1">{{system.cyberlimbs.agility.value}}</div>
+            {{#if system.cyberlimbs.isCustom}}
             <div class="col-1"></div>
             <div class="col-4 SR-TextRight">{{localize 'SR5.CutomCyberlimbAgility'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.cyberlimbs.agility.customization" value="{{data.cyberlimbs.agility.customization}}" /></div>
+            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.cyberlimbs.agility.customization" value="{{system.cyberlimbs.agility.customization}}" /></div>
             {{/if}}
         </li>
     </ul>

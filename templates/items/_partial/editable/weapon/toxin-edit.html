@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ToxinType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.toxin.type" required>
-        {{#select data.toxin.type}}
+        <select name="system.toxin.type" required>
+        {{#select system.toxin.type}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.toxinTypes}}
             <option value="{{@key}}">{{localize this}}</option>
@@ -14,27 +14,27 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ToxinVector'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        {{#each data.toxin.vector}}
+        {{#each system.toxin.vector}}
             {{#if this}} {{findTranslation 'propagationVectors' @key}} {{/if}}
         {{/each}}
     </div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ToxinSpeed'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7">{{data.toxin.speed}} {{ifmto data.toxin.speed 'SR5.CombatTurns' 'SR5.CombatTurn'}}</div>
+    <div class="col-7">{{system.toxin.speed}} {{ifmto system.toxin.speed 'SR5.CombatTurns' 'SR5.CombatTurn'}}</div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ToxinPower'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7">{{data.toxin.power}}</div>
+    <div class="col-7">{{system.toxin.power}}</div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ToxinPenetration'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7">{{data.toxin.penetration}}</div>
+    <div class="col-7">{{system.toxin.penetration}}</div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ToxinEffect'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        {{#each data.toxin.effect}}
+        {{#each system.toxin.effect}}
             {{#if this}} {{findTranslation 'toxinEffects' @key}} {{/if}}
         {{/each}}
     </div>

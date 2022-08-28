@@ -1,6 +1,6 @@
 
 import { SR5_EntityHelpers } from "../entities/helpers.js";
-import { SR5_SystemHelpers } from "../system/utility.js";
+import { SR5_SystemHelpers } from "./utilitySystem.js";
 import { _getSRStatusEffect } from "../system/effectsList.js"
 import { SR5_SocketHandler } from "../socket.js";
 

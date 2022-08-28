@@ -14,10 +14,10 @@
 	  	{{#each actor.weapons as |item i|}}
 	  	<li class="item grid" data-item-id="{{_id}}">
 			<div class="col-5">
-		  		<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.weaponSkill.specialization"
+		  		<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.weaponSkill.specialization"
 				  data-helpTitle="{{localize 'SR5.Specialization'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
-					{{#if data.weaponSkill.specialization}}
+					{{#if system.weaponSkill.specialization}}
 			  			<em class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></em>
 					{{else}}
 			  			<em class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></em>
@@ -28,18 +28,18 @@
 			<div class="col-1 roll-logo SR-TextCenter sr-roll"
 		  	data-rolltype="weapon"
 		  	data-helpTitle="{{localize 'SR5.DicePool'}}"
-		  	data-helpDetails="data.weaponSkill"
+		  	data-helpDetails="system.weaponSkill"
 		  	data-helpItemId="{{_id}}"
 			>
-		  		{{data.weaponSkill.dicePool}}
+		  		{{system.weaponSkill.dicePool}}
 			</div>
 			<div class="col-2 SR-TextCenter">
-		  		{{valueOrDash data.damageValue.value}}{{#if data.damageType}}{{findTranslation "damageTypesShort" data.damageType}}{{/if}}
-		  		{{#if data.damageElement}}({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}
+		  		{{valueOrDash system.damageValue.value}}{{#if system.damageType}}{{findTranslation "damageTypesShort" system.damageType}}{{/if}}
+		  		{{#if system.damageElement}}({{findTranslation "specialDamageTypes" system.damageElement}}){{/if}}
 			</div>
-			<div class="col-1 SR-TextCenter">{{valueOrDash data.armorPenetration.value}}</div>
-			<div class="col-1 SR-TextCenter">{{valueOrDash data.accuracy.value}}</div>
-			<div class="col-1 SR-TextCenter">{{valueOrDash data.firingMode.value}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash system.armorPenetration.value}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash system.accuracy.value}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash system.firingMode.value}}</div>
 			<div class="col-1 SR-TextCenter">
 		  		{{#if ../owner}}
 					<a class="item-edit" data-title="{{localize 'SR5.Edit'}}"><em class="fas fa-sm fa-edit"></em></a>

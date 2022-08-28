@@ -1,13 +1,13 @@
     <li class="grid">
         <p>
             <span class="col-auto">{{localize 'SR5.Nationality'}}{{localize 'SR5.Colons'}}</span>
-            <span class="col-auto SR-GreyColor">{{valueOrDash data.nationality}}</span>
+            <span class="col-auto SR-GreyColor">{{valueOrDash system.nationality}}</span>
         </p>
     </li>
     <li class="grid">
         <p>
             <span class="col-auto">{{localize 'SR5.FamilialStatus'}}{{localize 'SR5.Colons'}}</span>
-            <span class="col-auto SR-GreyColor">{{valueOrDash data.familySituation}}</span>
+            <span class="col-auto SR-GreyColor">{{valueOrDash system.familySituation}}</span>
         </p>
     </li>
 </ul>
@@ -16,7 +16,7 @@
         <div class="col-10 SR-TextUppercase">{{localize 'SR5.Licenses'}}</div>
         <div class="col-2 TextCenter">{{localize 'SR5.Rating'}}</div>
     </li>
-    {{#each data.license}}
+    {{#each system.license}}
     <li class="grid" data-sr5-permis="{{@key}}">
         <div class="col-10 ">{{name}}</div>
         <div class="col-2 SR-TextCenter">{{rating}}</div>

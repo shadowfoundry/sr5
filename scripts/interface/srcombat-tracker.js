@@ -98,7 +98,7 @@ export class SR5CombatTracker extends CombatTracker {
 
 	static async markCombatantAsPlayed(app, html, data){
 		for (let combatant of data.combat.combatants){
-			if (combatant.data.flags.sr5?.hasPlayed || (combatant.data.initiative <= 0)){
+			if (combatant.flags.sr5?.hasPlayed || (combatant.initiative <= 0)){
 				let li = html.find("[data-combatant-id='" + combatant.id +"']")
 				let name = li.find("h4");
 				name.addClass("hasPlayed");

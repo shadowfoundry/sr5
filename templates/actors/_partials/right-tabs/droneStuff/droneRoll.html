@@ -9,34 +9,34 @@
         <li class="grid">
             <div class="col-10">{{localize 'SR5.VehicleTest'}}</div>
             <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="vehicleTest" data-rollkey="vehicleTest"
-            data-helpTitle="{{localize 'SR5.VehicleTest'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTestMsg'}}" data-helpDetails="data.vehicleTest.test">
-                {{data.vehicleTest.test.dicePool}}
+            data-helpTitle="{{localize 'SR5.VehicleTest'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTestMsg'}}" data-helpDetails="system.vehicleTest.test">
+                {{system.vehicleTest.test.dicePool}}
             </div>
             <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.Limit'}}"
-              data-helpDetails="data.vehicleTest.limit">
-                {{data.vehicleTest.limit.value}}
+              data-helpDetails="system.vehicleTest.limit">
+                {{system.vehicleTest.limit.value}}
             </div>
         </li>
         <li class="grid">
             <div class="col-10">{{localize 'SR5.Ramming'}}</div>
             <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="rammingTest" data-rollkey="rammingTest"
-            data-helpTitle="{{localize 'SR5.Ramming'}}" data-helpMessage="{{localize 'SR5.HELP_RammingTestMsg'}}" data-helpDetails="data.rammingTest.test">
-                {{data.rammingTest.test.dicePool}}
+            data-helpTitle="{{localize 'SR5.Ramming'}}" data-helpMessage="{{localize 'SR5.HELP_RammingTestMsg'}}" data-helpDetails="system.rammingTest.test">
+                {{system.rammingTest.test.dicePool}}
             </div>
             <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.Limit'}}"
-              data-helpDetails="data.rammingTest.limit">
-                {{data.rammingTest.limit.value}}
+              data-helpDetails="system.rammingTest.limit">
+                {{system.rammingTest.limit.value}}
             </div>
         </li>
         <li class="grid">
             <div class="col-10">{{localize 'SR5.SensorTargetingActive'}}</div>
             <div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="activeSensorTargeting" data-rollkey="activeSensorTargeting"
-              data-helpTitle="{{localize 'SR5.SensorTargetingActive'}}" data-helpMessage="{{localize 'SR5.HELP_SensorTargetingActive'}}" data-helpDetails="data.skills.perception.test">
-                {{data.skills.perception.test.dicePool}}
+              data-helpTitle="{{localize 'SR5.SensorTargetingActive'}}" data-helpMessage="{{localize 'SR5.HELP_SensorTargetingActive'}}" data-helpDetails="system.skills.perception.test">
+                {{system.skills.perception.test.dicePool}}
             </div>
             <div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.Limit'}}"
-            data-helpDetails="data.skills.perception.limit">
-                {{data.skills.perception.limit.value}}
+            data-helpDetails="system.skills.perception.limit">
+                {{system.skills.perception.limit.value}}
             </div>
         </li>
         <li class="subItemManagement grid">
@@ -44,7 +44,7 @@
                 <div class="grid">
                     <div class="col-4">{{localize 'SR5.SensorTargetingPassive'}}</div>
                     <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.SensorTargetingPassive'}}" data-helpMessage="{{localize 'SR5.HELP_SensorTargetingPassiveMsg'}}">
-                        <input type="checkbox" name="data.passiveTargeting" data-dtype="Boolean" {{checked data.passiveTargeting}}>
+                        <input type="checkbox" name="system.passiveTargeting" data-dtype="Boolean" {{checked system.passiveTargeting}}>
                     </div>
                     <div class="col-6"></div>
                 </div>

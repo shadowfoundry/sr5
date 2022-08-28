@@ -32,28 +32,28 @@
 			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 				<p>{{name}}</p>
 			</div>			
-			{{#if (gt data.test.dicePool 0)}}
+			{{#if (gt system.test.dicePool 0)}}
 			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="martialArt"
 			  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_MartialArtlMsg'}}"
-			  data-helpDetailsItem="data.test"
+			  data-helpDetailsItem="system.test"
 			  data-helpItemId="{{_id}}">
-				{{data.test.dicePool}}
+				{{system.test.dicePool}}
 			</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>
 			{{/if}}
-			<div class="col-2 SR-TextCenter">{{findTranslation "martialArtsTypes" data.type}}</div>
+			<div class="col-2 SR-TextCenter">{{findTranslation "martialArtsTypes" system.type}}</div>
 			<div class="col-3">
-				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'actionTypes' data.actionType)}}</p>
+				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'actionTypes' system.actionType)}}</p>
 			</div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6 SR-TextCenter"></div>
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_MartialArtsActivateToggle' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_MartialArtsActivateToggleMsg'}}">
-				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
-					<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em></a>
+				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive" data-title="{{#if system.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+					<em class="fas fa-sm fa-thumbtack {{#if system.isActive}}SR-SubColor{{/if}}"></em></a>
 			</div>					
 				</div>
 			</div>

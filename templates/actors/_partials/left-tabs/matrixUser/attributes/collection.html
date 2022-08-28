@@ -3,24 +3,24 @@
     <div class="col-5 SR-TextCenter">
         <div class="grid" data-helpTitle="{{localize 'SR5.HELP_DeviceAttributesArray'}}"
           data-helpMessage="{{localize 'SR5.HELP_DeviceAttributesArrayMsg'}}">
-            {{#ife data.matrix.attributesCollection.value1isSet false}}
-            <div class="col-3 draggableAttribute" draggable="true" id="value1isSet" data-matrixAttribute="{{data.matrix.attributesCollection.value1}}">
-                <div class="matrixAttributeBox">{{data.matrix.attributesCollection.value1}}</div>
+            {{#ife system.matrix.attributesCollection.value1isSet false}}
+            <div class="col-3 draggableAttribute" draggable="true" id="value1isSet" data-matrixAttribute="{{system.matrix.attributesCollection.value1}}">
+                <div class="matrixAttributeBox">{{system.matrix.attributesCollection.value1}}</div>
             </div>
             {{/ife}}
-            {{#ife data.matrix.attributesCollection.value2isSet false}}
-            <div class="col-3 draggableAttribute" draggable="true" id="value2isSet" data-matrixAttribute="{{data.matrix.attributesCollection.value2}}">
-                <div class="matrixAttributeBox">{{data.matrix.attributesCollection.value2}}</div>
+            {{#ife system.matrix.attributesCollection.value2isSet false}}
+            <div class="col-3 draggableAttribute" draggable="true" id="value2isSet" data-matrixAttribute="{{system.matrix.attributesCollection.value2}}">
+                <div class="matrixAttributeBox">{{system.matrix.attributesCollection.value2}}</div>
             </div>
             {{/ife}}
-            {{#ife data.matrix.attributesCollection.value3isSet false}}
-            <div class="col-3 draggableAttribute" draggable="true" id="value3isSet" data-matrixAttribute="{{data.matrix.attributesCollection.value3}}">
-                <div class="matrixAttributeBox">{{data.matrix.attributesCollection.value3}}</div>
+            {{#ife system.matrix.attributesCollection.value3isSet false}}
+            <div class="col-3 draggableAttribute" draggable="true" id="value3isSet" data-matrixAttribute="{{system.matrix.attributesCollection.value3}}">
+                <div class="matrixAttributeBox">{{system.matrix.attributesCollection.value3}}</div>
             </div>
             {{/ife}}
-            {{#ife data.matrix.attributesCollection.value4isSet false}}
-            <div class="col-3 draggableAttribute" draggable="true" id="value4isSet" data-matrixAttribute="{{data.matrix.attributesCollection.value4}}">
-                <div class="matrixAttributeBox">{{data.matrix.attributesCollection.value4}}</div>
+            {{#ife system.matrix.attributesCollection.value4isSet false}}
+            <div class="col-3 draggableAttribute" draggable="true" id="value4isSet" data-matrixAttribute="{{system.matrix.attributesCollection.value4}}">
+                <div class="matrixAttributeBox">{{system.matrix.attributesCollection.value4}}</div>
             </div>
             {{/ife}}
         </div>

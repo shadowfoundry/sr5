@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleTypeFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.type" data-dtype="String" required>
-            {{#select data.type}}
+        <select name="system.type" data-dtype="String" required>
+            {{#select system.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.vehicleTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -11,12 +11,12 @@
         </select>
     </div>
 </li>
-{{#if (eq data.type 'drone')}}
+{{#if (eq system.type 'drone')}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.category" data-dtype="String" required>
-            {{#select data.category}}
+        <select name="system.category" data-dtype="String" required>
+            {{#select system.category}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.droneCategories}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -29,8 +29,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.category" data-dtype="String" required>
-            {{#select data.category}}
+        <select name="system.category" data-dtype="String" required>
+            {{#select system.category}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.vehicleCategories}}
                     <option value="{{@key}}">{{localize this}}</option>

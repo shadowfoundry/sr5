@@ -1,5 +1,5 @@
 import { SR5 } from "../config.js";
-import { SR5_SystemHelpers } from "../system/utility.js";
+import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_DiceHelper } from "./diceHelper.js";

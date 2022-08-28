@@ -18,7 +18,7 @@
 </div>
 <div>
 	<ul>
-		{{#each data.matrix.actions}}
+		{{#each system.matrix.actions}}
 			{{#if (or (eq ../actor.type 'actorDrone') (eq ../actor.type 'actorDevice'))}}
 				{{#if defense.dicePool}}
 				<li class="grid" data-matrix="{{a}}">
@@ -26,7 +26,7 @@
 					<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
 					  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
 				      data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
-				      data-helpDetails="data.matrix.actions.{{@key}}.defense">
+				      data-helpDetails="system.matrix.actions.{{@key}}.defense">
 						{{valueOrDash defense.dicePool}}
 					</div>
 					<div class="col-1 SR-TextCenter">{{#if increaseOverwatchScore}}<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>{{/if}}</div>
@@ -36,7 +36,7 @@
 			<li class="grid" data-matrix="{{a}}">
 				<div class="col-5">
 					<!--Specialization Icon-->
-					<a class="toggle-actorValue" data-dtype="Boolean" data-binding="data.matrix.actions.{{@key}}.specialization"
+					<a class="toggle-actorValue" data-dtype="Boolean" data-binding="system.matrix.actions.{{@key}}.specialization"
 				  	  data-helpTitle="{{localize 'SR5.Specialization'}}" data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
 					{{#if specialization}}
 				  	<em class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></em>
@@ -46,14 +46,14 @@
 			  	</a>
 					<!--End Specialization Icon-->
 					<!--Jamming Signal Icon-->
-					{{#if (and (eq @key 'jamSignals') (eq ../data.matrix.isJamming true) )}}
+					{{#if (and (eq @key 'jamSignals') (eq ../system.matrix.isJamming true) )}}
 					<a class="stop-jamming" data-helpTitle="{{localize 'SR5.HELP_Jamming'}}"
 					data-helpMessage="{{localize 'SR5.HELP_JammingMsg'}}"><em class="fas fa-rss"></em></a>
 					{{/if}}
 					<!--End Jamming Signal Icon-->
 					{{findTranslation 'matrixActions' @key}}
 				</div>
-				{{#if (or (and (eq limit.linkedAttribute 'sleaze') (lt ../data.matrix.attributes.sleaze.value 1)) (and (eq limit.linkedAttribute 'attack') (lt ../data.matrix.attributes.attack.value 1)) )}}
+				{{#if (or (and (eq limit.linkedAttribute 'sleaze') (lt ../system.matrix.attributes.sleaze.value 1)) (and (eq limit.linkedAttribute 'attack') (lt ../system.matrix.attributes.attack.value 1)) )}}
 				<div class="col-2 SR-TextCenter">-</div>
 				<div class="col-1 SR-TextCenter">-</div>
 				<div class="col-1 SR-TextCenter">-</div>
@@ -63,13 +63,13 @@
 				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixAction" data-rollkey="{{@key}}"
 				  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_MatrixActionMsg'}}"
-				  data-helpDetails="data.matrix.actions.{{@key}}.test">
+				  data-helpDetails="system.matrix.actions.{{@key}}.test">
 					{{valueOrDash test.dicePool}}
 				</div>
 				<div class="col-1 SR-TextCenter">{{neededMarks}}</div>
 				<div class="col-1 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.Limit'}}"
-				  data-helpDetails="data.matrix.actions.{{@key}}.limit">
+				  data-helpDetails="system.matrix.actions.{{@key}}.limit">
 				  	{{valueOrDash limit.value}}
 				</div>
 				{{/if}}
@@ -77,7 +77,7 @@
 				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
-				  data-helpDetails="data.matrix.actions.{{@key}}.defense">
+				  data-helpDetails="system.matrix.actions.{{@key}}.defense">
 					{{defense.dicePool}}
 				</div>
 				{{else}}

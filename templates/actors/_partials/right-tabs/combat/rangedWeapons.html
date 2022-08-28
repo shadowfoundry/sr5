@@ -36,54 +36,54 @@
 			</div>
 		</li>
 	  	{{#each actor.weapons}}
-		{{#ife data.category "rangedWeapon"}}
-		<li class="item grid {{#if ../data.initiatives.astralInit.isActive}}SR-SubColor50{{/if}}" data-item-id="{{_id}}" draggable="true">
+		{{#ife system.category "rangedWeapon"}}
+		<li class="item grid {{#if ../system.initiatives.astralInit.isActive}}SR-SubColor50{{/if}}" data-item-id="{{_id}}" draggable="true">
 			<div class="col-4 deplie">
-			  	<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.weaponSkill.specialization"
+			  	<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.weaponSkill.specialization"
 				  data-helpTitle="{{localize 'SR5.Specialization'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpecializationMsg'}}">
-					{{#if data.weaponSkill.specialization}}
+					{{#if system.weaponSkill.specialization}}
 				  	<em class="fab fa-sm fa-gripfire SR-SubColor" data-title="{{localize 'SR5.ExcludeSpecializationBonus'}}"></em>
 					{{else}}
 				  	<em class="fab fa-sm fa-gripfire" data-title="{{localize 'SR5.IncludeSpecializationBonus'}}"></em>
 					{{/if}}
 			  	</a>
-			  	<span data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">{{name}}{{#if data.isUsedAsMount}}{{localize 'SR5.VEHICLE_isLinkedToMount'}}{{/if}}</span>
+			  	<span data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">{{name}}{{#if system.isUsedAsMount}}{{localize 'SR5.VEHICLE_isLinkedToMount'}}{{/if}}</span>
 			</div>
-			{{#if ../data.initiatives.astralInit.isActive}}
+			{{#if ../system.initiatives.astralInit.isActive}}
 			<div class="col-1 SR-TextCenter"
 				data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_CantRollTestInAstral'}}">
 			{{else}}
-			<div class="col-1 SR-TextCenter roll-logo {{#if (or (eq data.type 'grenadeLauncher') (eq data.type 'missileLauncher'))}}sr-rollGrenade{{else}}sr-roll{{/if}} }} " 
+			<div class="col-1 SR-TextCenter roll-logo {{#if (or (eq system.type 'grenadeLauncher') (eq system.type 'missileLauncher'))}}sr-rollGrenade{{else}}sr-roll{{/if}} }} " 
 				data-rolltype="weapon" data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
-				data-helpDetailsItem="data.weaponSkill"	data-helpItemId="{{_id}}">
+				data-helpDetailsItem="system.weaponSkill"	data-helpItemId="{{_id}}">
 			{{/if}}
-		  		{{data.weaponSkill.dicePool}}
+		  		{{system.weaponSkill.dicePool}}
 			</div>
 
 			<div class="col-2 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.DamageValue'}}"
-			  data-helpDetailsItem="data.damageValue"
+			  data-helpDetailsItem="system.damageValue"
 			  data-helpItemId="{{_id}}"
 			>
-			  	{{valueOrDash data.damageValue.value}}{{#if data.damageType}}{{findTranslation "damageTypesShort" data.damageType}}{{/if}}
-			  	{{#if data.damageElement}}({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}
+			  	{{valueOrDash system.damageValue.value}}{{#if system.damageType}}{{findTranslation "damageTypesShort" system.damageType}}{{/if}}
+			  	{{#if system.damageElement}}({{findTranslation "specialDamageTypes" system.damageElement}}){{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.ArmorPenetration'}}"
-			  data-helpDetailsItem="data.armorPenetration"
+			  data-helpDetailsItem="system.armorPenetration"
 			  data-helpItemId="{{_id}}"
 			>
-			  	{{valueOrDash data.armorPenetration.value}}
+			  	{{valueOrDash system.armorPenetration.value}}
 			</div>
 			<div class="col-1 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.Accuracy'}}"
-			  data-helpDetailsItem="data.accuracy"
+			  data-helpDetailsItem="system.accuracy"
 			  data-helpItemId="{{_id}}"
 			>
-				{{valueOrDash data.accuracy.value}}
+				{{valueOrDash system.accuracy.value}}
 			</div>
-			<div class="col-1 SR-TextCenter">{{valueOrDash data.ammunition.value}}/{{valueOrDash data.ammunition.max}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash system.ammunition.value}}/{{valueOrDash system.ammunition.max}}</div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6 SR-TextCenter"
@@ -93,16 +93,16 @@
 						<a class="reload-ammo" data-title="{{localize 'SR5.ReloadWeapon'}}"><em class="fas fa-sm fa-sync"></em></a>
 					</div>
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
-						  data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
-							<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em>
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
+						  data-title="{{#if system.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+							<em class="fas fa-sm fa-thumbtack {{#if system.isActive}}SR-SubColor{{/if}}"></em>
 						</a>
 					</div>
 				</div>
 			</div>
 			<div class="col-1">
 				<div class="grid">
-					{{#if (gte data.conditionMonitors.matrix.actual.value data.conditionMonitors.matrix.value)}}
+					{{#if (gte system.conditionMonitors.matrix.actual.value system.conditionMonitors.matrix.value)}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
@@ -114,10 +114,10 @@
 					  data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}"
 					>
-						{{#if data.wirelessTurnedOn}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-SubColor"></em></a>
+						{{#if system.wirelessTurnedOn}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}"><em class="fas fa-sm fa-wifi SR-SubColor"></em></a>
 						{{else}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}"><em class="fas fa-sm fa-wifi"></em></a>
 						{{/if}}
 					</div>
 					{{/if}}

@@ -1,9 +1,9 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.WeaponType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        {{#if (eq data.type "taserDart")}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+        {{#if (eq system.type "taserDart")}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponTaserTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -11,18 +11,18 @@
                 {{/select}}
             </select> 
 
-        {{else if (or (eq data.type "bolt") (eq data.type "boltInjection"))}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+        {{else if (or (eq system.type "bolt") (eq system.type "boltInjection"))}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponCrossbowTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
                     {{/each}}
                 {{/select}}
             </select> 
-        {{else if (or (eq data.type "arrow") (eq data.type "arrowInjection"))}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+        {{else if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponBowTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -30,15 +30,15 @@
                 {{/select}}
             </select>
         {{else if (or 
-            (eq data.type "fragmentationRocket") 
-            (eq data.type "fragmentationMissile") 
-            (eq data.type "highlyExplosiveRocket")
-            (eq data.type "highlyExplosiveMissile")
-            (eq data.type "antivehicleRocket")
-            (eq data.type "antivehicleMissile")
+            (eq system.type "fragmentationRocket") 
+            (eq system.type "fragmentationMissile") 
+            (eq system.type "highlyExplosiveRocket")
+            (eq system.type "highlyExplosiveMissile")
+            (eq system.type "antivehicleRocket")
+            (eq system.type "antivehicleMissile")
         )}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponLauncherTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -46,24 +46,24 @@
                 {{/select}}
             </select>
         {{else if (or 
-            (eq data.type "flashBangMini")
-            (eq data.type "fragmentationMini") 
-            (eq data.type "smokeMini") 
-            (eq data.type "smokeThermalMini")
-            (eq data.type "gasMini")
-            (eq data.type "highlyExplosiveMini")
+            (eq system.type "flashBangMini")
+            (eq system.type "fragmentationMini") 
+            (eq system.type "smokeMini") 
+            (eq system.type "smokeThermalMini")
+            (eq system.type "gasMini")
+            (eq system.type "highlyExplosiveMini")
         )}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponGrenadeLauncherTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
                     {{/each}}
                 {{/select}}
             </select>
-        {{else if (eq data.type "assaultCannon")}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+        {{else if (eq system.type "assaultCannon")}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponCanonTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -71,8 +71,8 @@
                 {{/select}}
             </select>
         {{else}}
-            <select name="data.class" data-dtype="String" required>
-                {{#select data.class}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponFireTypes}}
                     <option value="{{@key}}">{{localize this}}</option>

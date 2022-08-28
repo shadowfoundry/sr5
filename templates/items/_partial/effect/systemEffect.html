@@ -14,11 +14,11 @@
 				{{/if}}
 			</div>
 		</li>
-		{{#each data.systemEffects}}
+		{{#each system.systemEffects}}
 		<li class="grid subItemManagement" data-key="{{@key}}">
 
 			<div class="col-5 SR-PaddingRight5">
-				<select name="data.systemEffects.{{@key}}.category" required>
+				<select name="system.systemEffects.{{@key}}.category" required>
 					{{#select category}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					<option value="specialCase">{{localize 'SR5.SpecialCase'}}</option>
@@ -33,7 +33,7 @@
 
 			<div class="col-6 SR-PaddingRight5">
 				{{#if category}}
-				<select name="data.systemEffects.{{@key}}.value" required>
+				<select name="system.systemEffects.{{@key}}.value" required>
 				{{#select value}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 

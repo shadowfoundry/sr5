@@ -1,14 +1,14 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.FullAddress'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{data.streetAddress}},<br>{{data.city}} ({{data.country}})</span>
+        <span class="col-auto SR-GreyColor">{{system.streetAddress}},<br>{{system.city}} ({{system.country}})</span>
     </p>
 </li>
 
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.LinkedIdentity'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.linkedIdentity}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.linkedIdentity}}</span>
     </p>
 </li>
 
@@ -16,10 +16,10 @@
     <p>
         <span class="col-auto">{{localize 'SR5.PrepaidMonths'}}{{localize 'SR5.Colons'}}</span>
         <span class="col-auto SR-GreyColor">
-        {{#if data.rent.bought}}
+        {{#if system.rent.bought}}
             {{localize 'SR5.LifeStyleBought'}}
         {{else}}
-            {{valueOrDash data.rent.duration}}
+            {{valueOrDash system.rent.duration}}
         {{/if}}
       </span>
     </p>
@@ -29,7 +29,7 @@
     <div class="col-12 SR-TextUppercase">{{localize 'SR5.LifeStyleOptions'}}</div>
 </li>
 
-{{#each data.options}}
+{{#each system.options}}
 <li data-sr5-options="{{@key}}">
     {{findTranslation 'lifestyleOptions' this}}
 </li>

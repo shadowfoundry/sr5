@@ -19,11 +19,11 @@
 </div>
 <div>
 	<ul >
-		{{#each data.skills}}
+		{{#each system.skills}}
 		{{#if (and (and (eq category 'magicSkills') (ne @key 'arcana')) (or (eq
-		../data.specialAttributes.magic.augmented.value 0) (ne ../actor.data.activeSpecialAttribute 'magic')))}}
-		{{else if (and (eq category 'resonanceSkills') (or (eq ../data.specialAttributes.resonance.augmented.value 0)
-		(ne ../actor.data.activeSpecialAttribute 'resonance')))}}
+		../system.specialAttributes.magic.augmented.value 0) (ne ../actor.system.activeSpecialAttribute 'magic')))}}
+		{{else if (and (eq category 'resonanceSkills') (or (eq ../system.specialAttributes.resonance.augmented.value 0)
+		(ne ../actor.system.activeSpecialAttribute 'resonance')))}}
 		{{else}}
 		<li class="item {{css}} grid" data-skill="{{@key}}">
 			<div class="col-4 skill-name sr-roll" data-rolltype="skill" data-rollkey="{{@key}}"
@@ -35,7 +35,7 @@
 			<div class="col-5 SR-PaddingRight5"
 			  data-helpTitle="{{localize 'SR5.HELP_SkillSpecialization' key=(findTranslation 'skills' @key)}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SkillSpecializationMsg'}}">
-				<input type="text" class="specialisation" name="data.skills.{{@key}}.specializations" value="{{specializations}}" onfocus="this.select()">
+				<input type="text" class="specialisation" name="system.skills.{{@key}}.specializations" value="{{specializations}}" onfocus="this.select()">
 			</div>
 		  {{else}}
 			<div class="col-5"></div>
@@ -44,7 +44,7 @@
 			<div class="col-1 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.HELP_SkillRating' key=(findTranslation 'skills' @key)}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SkillRatingMsg'}}">
-				<input type="text" data-dtype="Number" class="input" name="data.skills.{{@key}}.rating.base" value="{{rating.base}}" onfocus="this.select()">
+				<input type="text" data-dtype="Number" class="input" name="system.skills.{{@key}}.rating.base" value="{{rating.base}}" onfocus="this.select()">
 			</div>
 		  {{else}}
 		    <div class="col-1 SR-TextCenter"></div>
@@ -53,17 +53,17 @@
 			<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="skillDicePool" data-rollkey="{{@key}}"
 			  data-helpTitle="{{localize 'SR5.HELP_SkillDicePool' key=(findTranslation 'skills' @key)}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SkillDicePoolMsg'}}"
-			  data-helpDetails="data.skills.{{@key}}.test">
+			  data-helpDetails="system.skills.{{@key}}.test">
 				{{test.dicePool}}
 			</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>
 			{{/if}}
-			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.magic.counterSpellPool.current"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.magic.counterSpellPool.current"
 			  data-helpTitle="{{localize 'SR5.HELP_CounterSpellPool'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_CounterSpellPoolMsg'}}">
 				{{#if (eq @key 'counterspelling')}}
-				{{../data.magic.counterSpellPool.current}} / {{../data.magic.counterSpellPool.value}}
+				{{../system.magic.counterSpellPool.current}} / {{../system.magic.counterSpellPool.value}}
 				{{/if}}
 			</div>
 		</li>

@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ActionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-3">
-        <select name="data.actionType" data-dtype="{{data.actionType}}" required>
-        {{#select data.actionType}}
+        <select name="system.actionType" data-dtype="{{system.actionType}}" required>
+        {{#select system.actionType}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.actionTypes}}
             <option value="{{@key}}">{{localize this}}</option>
@@ -13,9 +13,9 @@
     <div class="col-4">
     <div class="grid">
         <div class="col-3 SR-TextRight">{{localize 'SR5.NeedCalledShot'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-TextRight"><input type="checkbox" name="data.needCalledShot" data-dtype="Boolean" {{checked data.needCalledShot}} /></div>
+        <div class="col-1 SR-TextRight"><input type="checkbox" name="system.needCalledShot" data-dtype="Boolean" {{checked system.needCalledShot}} /></div>
         <div class="col-7 SR-TextRight">{{localize 'SR5.NeedRoll'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-TextRight"><input type="checkbox" name="data.needRoll" data-dtype="Boolean" {{checked data.needRoll}} /></div>
+        <div class="col-1 SR-TextRight"><input type="checkbox" name="system.needRoll" data-dtype="Boolean" {{checked system.needRoll}} /></div>
     </div>
     </div>
 </li>

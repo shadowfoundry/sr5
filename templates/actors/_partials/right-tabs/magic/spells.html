@@ -28,54 +28,54 @@
 			</div>
 		</li>
 		{{#each actor.spells}}
-		{{#if (eq data.preparation false)}}
+		{{#if (eq system.preparation false)}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				{{#if (missing data.category data.range data.type data.duration data.drainValue)}}
+				{{#if (missing system.category system.range system.type system.duration system.drainValue)}}
 					<p class="incomplete" data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSort')}}">{{name}}</p>
 				{{else}}
 					<p>{{name}}</p>
 				{{/if}}
 			</div>
-			{{#if (gt ../data.skills.spellcasting.test.dicePool 0) }}
-				{{#ife data.category "combat"}}
+			{{#if (gt ../system.skills.spellcasting.test.dicePool 0) }}
+				{{#ife system.category "combat"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
-			  	  data-helpDetails="data.skills.spellcasting.spellCategory.combat">
-					{{../data.skills.spellcasting.spellCategory.combat.dicePool}}
+			  	  data-helpDetails="system.skills.spellcasting.spellCategory.combat">
+					{{../system.skills.spellcasting.spellCategory.combat.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "detection"}}
+				{{#ife system.category "detection"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
-			  	  data-helpDetails="data.skills.spellcasting.spellCategory.detection">
-					{{../data.skills.spellcasting.spellCategory.detection.dicePool}}
+			  	  data-helpDetails="system.skills.spellcasting.spellCategory.detection">
+					{{../system.skills.spellcasting.spellCategory.detection.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "illusion"}}
+				{{#ife system.category "illusion"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
-			  	  data-helpDetails="data.skills.spellcasting.spellCategory.illusion">
-					{{../data.skills.spellcasting.spellCategory.illusion.dicePool}}
+			  	  data-helpDetails="system.skills.spellcasting.spellCategory.illusion">
+					{{../system.skills.spellcasting.spellCategory.illusion.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "manipulation"}}
+				{{#ife system.category "manipulation"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
-			  	  data-helpDetails="data.skills.spellcasting.spellCategory.manipulation">
-					{{../data.skills.spellcasting.spellCategory.manipulation.dicePool}}
+			  	  data-helpDetails="system.skills.spellcasting.spellCategory.manipulation">
+					{{../system.skills.spellcasting.spellCategory.manipulation.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "health"}}
+				{{#ife system.category "health"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spell"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_SpellRollMsg'}}"
-			  	  data-helpDetails="data.skills.spellcasting.spellCategory.health">
-					{{../data.skills.spellcasting.spellCategory.health.dicePool}}
+			  	  data-helpDetails="system.skills.spellcasting.spellCategory.health">
+					{{../system.skills.spellcasting.spellCategory.health.dicePool}}
 				</div>
 				{{/ife}}
 			{{else}}
@@ -83,24 +83,24 @@
 			{{/if}}
 			<div class="col-1">
 				<div class="grid">
-					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.force" 
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="system.force" 
 					  data-helpTitle="{{localize 'SR5.HELP_SpellForce' key=name}}"
 			  		  data-helpMessage="{{localize 'SR5.HELP_SpellForceMsg'}}">
-						{{data.force}}
+						{{system.force}}
 					</div>
-					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.hits" 
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="system.hits" 
 					  data-helpTitle="{{localize 'SR5.HELP_SpellHits' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpellHitsMsg'}}">
-						{{data.hits}}
+						{{system.hits}}
 					</div>
 				</div>
 			</div>
 			<div class="col-2">
-				{{#ife data.category "combat"}}
+				{{#ife system.category "combat"}}
 				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.DamageValue'}}"
-				  data-helpDetailsItem="data.damageValue"
+				  data-helpDetailsItem="system.damageValue"
 				  data-helpItemId="{{_id}}">
-					{{data.damageValue.value}}{{findTranslation "damageTypesShort" data.damageType}}{{#if data.damageElement}} ({{findTranslation "specialDamageTypes" data.damageElement}}){{/if}}
+					{{system.damageValue.value}}{{findTranslation "damageTypesShort" system.damageType}}{{#if system.damageElement}} ({{findTranslation "specialDamageTypes" system.damageElement}}){{/if}}
 				</p>
 				{{else}}
 				<p class="SR-TextCenter">-</p>
@@ -109,11 +109,11 @@
 			<div class="col-2">
 				<div class="grid">
 					<div class="col-3">
-						{{#ife data.category "combat"}}
+						{{#ife system.category "combat"}}
 						<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.ArmorPenetration'}}"
-						  data-helpDetailsItem="data.armorPenetration"
+						  data-helpDetailsItem="system.armorPenetration"
 						  data-helpItemId="{{_id}}">
-							{{#if data.armorPenetration.value}}{{data.armorPenetration.value}}{{else}}0{{/if}}
+							{{#if system.armorPenetration.value}}{{system.armorPenetration.value}}{{else}}0{{/if}}
 						</p>
 						{{else}}
 						<p class="SR-TextCenter">-</p>
@@ -121,13 +121,13 @@
 					</div>
 					<div class="col-9">
 						<p class="SR-TextCenter">
-							{{#if data.range}}
-							{{findTranslation 'spellRangesShort' data.range}}
-							{{#if_g data.spellAreaOfEffect.value "0"}}
+							{{#if system.range}}
+							{{findTranslation 'spellRangesShort' system.range}}
+							{{#if_g system.spellAreaOfEffect.value "0"}}
 							<span data-helpTitle="{{localize 'SR5.RangeArea'}}"
-							  data-helpDetailsItem="data.spellAreaOfEffect"
+							  data-helpDetailsItem="system.spellAreaOfEffect"
 							  data-helpItemId="{{_id}}">
-								({{data.spellAreaOfEffect.value}} {{localize 'SR5.MeterUnit'}})
+								({{system.spellAreaOfEffect.value}} {{localize 'SR5.MeterUnit'}})
 							</span>
 							{{/if_g}}
 							{{else}}-{{/if}}
@@ -138,15 +138,15 @@
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6 SR-TextCenter">
-						{{#if data.duration}}
-							{{#ife data.duration "sustained"}}
-								<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+						{{#if system.duration}}
+							{{#ife system.duration "sustained"}}
+								<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 								data-helpTitle="{{localize 'SR5.HELP_SpellSustain' key=name}}"
 								data-helpMessage="{{localize 'SR5.HELP_SpellSustainMsg'}}">
-									<em class="fas fa-sm fa-praying-hands {{#if data.isActive}}SR-SubColor{{/if}}"></em>
+									<em class="fas fa-sm fa-praying-hands {{#if system.isActive}}SR-SubColor{{/if}}"></em>
 								</a>
 							{{else}}
-								{{findTranslation 'spellDurationsShort' data.duration}}
+								{{findTranslation 'spellDurationsShort' system.duration}}
 							{{/ife}}
 						{{else}}-{{/if}}
 					</div>
@@ -168,54 +168,54 @@
 			{{localize 'SR5.PreparationsFormulae'}}
 		</li>
 		{{#each actor.spells}}
-		{{#if data.preparation}}
+		{{#if system.preparation}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				{{#if (missing data.category data.range data.type data.duration data.drainValue)}}
+				{{#if (missing system.category system.range system.type system.duration system.drainValue)}}
 					<p class="incomplete" data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSort')}}">{{name}}</p>
 				{{else}}
 					<p>{{name}}</p>
 				{{/if}}
 			</div>
-			{{#if (gt ../data.skills.alchemy.test.dicePool 0) }}
-				{{#ife data.category "combat"}}
+			{{#if (gt ../system.skills.alchemy.test.dicePool 0) }}
+				{{#ife system.category "combat"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
-			  	  data-helpDetails="data.skills.alchemy.spellCategory.combat">
-					{{../data.skills.alchemy.spellCategory.combat.dicePool}}
+			  	  data-helpDetails="system.skills.alchemy.spellCategory.combat">
+					{{../system.skills.alchemy.spellCategory.combat.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "detection"}}
+				{{#ife system.category "detection"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
-			  	  data-helpDetails="data.skills.alchemy.spellCategory.detection">
-					{{../data.skills.alchemy.spellCategory.detection.dicePool}}
+			  	  data-helpDetails="system.skills.alchemy.spellCategory.detection">
+					{{../system.skills.alchemy.spellCategory.detection.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "illusion"}}
+				{{#ife system.category "illusion"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
-			  	  data-helpDetails="data.skills.alchemy.spellCategory.illusion">
-					{{../data.skills.alchemy.spellCategory.illusion.dicePool}}
+			  	  data-helpDetails="system.skills.alchemy.spellCategory.illusion">
+					{{../system.skills.alchemy.spellCategory.illusion.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "manipulation"}}
+				{{#ife system.category "manipulation"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
 			  	  data-helpTitle="{{localize 'SR5.HELP_PreparationFormula'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
-			  	  data-helpDetails="data.skills.alchemy.spellCategory.manipulation">
-					{{../data.skills.alchemy.spellCategory.manipulation.dicePool}}
+			  	  data-helpDetails="system.skills.alchemy.spellCategory.manipulation">
+					{{../system.skills.alchemy.spellCategory.manipulation.dicePool}}
 				</div>
 				{{/ife}}
-				{{#ife data.category "health"}}
+				{{#ife system.category "health"}}
 				<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparationFormula"
 			  	  data-helpTitle="{{localize 'SR5.HELP_PreparationFormula'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationFormulaMsg'}}"
-			  	  data-helpDetails="data.skills.alchemy.spellCategory.health">
-					{{../data.skills.alchemy.spellCategory.health.dicePool}}
+			  	  data-helpDetails="system.skills.alchemy.spellCategory.health">
+					{{../system.skills.alchemy.spellCategory.health.dicePool}}
 				</div>
 				{{/ife}}
 			{{else}}

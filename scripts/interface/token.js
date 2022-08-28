@@ -1,6 +1,7 @@
 export class SR5Token extends Token {
 
     /** @override */
+    /*
     get isVisible() {
         // Only GM users can see hidden tokens
         const gm = game.user.isGM;
@@ -16,7 +17,7 @@ export class SR5Token extends Token {
         
         // Here is the override: add the caller to function
         return canvas.sight.testVisibility(this.center, {tolerance, object: this}, this);
-    }
+    }*/
 
 
     /** @override */
@@ -37,7 +38,7 @@ export class SR5Token extends Token {
         bar.scale.set(0.95, 0.5);
         const val = Number(data.value);
         let h = Math.max(canvas.dimensions.size / 12, 8);
-        if (this.data.height >= 2) h *= 1.6; // Enlarge the bar for large tokens
+        if (this.height >= 2) h *= 1.6; // Enlarge the bar for large tokens
         // Draw the bar
         bar.clear().beginFill(PIXI.utils.rgb2hex(subColor), 0.7).lineStyle(0.5, 0x000000, 1);
         // each max draw a green rectangle in background
@@ -55,20 +56,23 @@ export class SR5Token extends Token {
     }
 
     /** @override to change effect position, border and background*/
-    async _drawEffect(src, i, bg, w, tint) {
+    /*async _drawEffect(src, i, bg, w, tint) {
         let tex = await loadTexture(src, {fallback: 'icons/svg/hazard.svg'});
-        let icon = this.hud.effects.addChild(new PIXI.Sprite(tex));
-        w = w*0.8; // Modif
+        let icon = this.effects.addChild(new PIXI.Sprite(tex));
+        //w = w*0.8; // Modif
         icon.width = icon.height = w;
-        const nr = Math.floor(this.data.height * 5);
-        icon.x = Math.floor(i / nr) * w + 3; //modif
-        icon.y = (i % nr) * w + 9; //Modif
+        const nr = Math.floor(this.document.height * 5);
+        icon.x = Math.floor(i / nr) * w;
+        icon.y = (i % nr) * w;
+        //icon.x = Math.floor(i / nr) * w + 3; //modif
+        //icon.y = (i % nr) * w + 9; //Modif
         if ( tint ) icon.tint = tint;
         bg.drawRoundedRect(icon.x + 1, icon.y + 1, w - 2, w - 2, 2);
-    }
+    }*/
 
     /** @override to add custom texture **/
-    async _drawOverlay({src, tint}={}) {
+    /*async _drawOverlay({src, tint}={}) {
+        debugger;
         if ( !src ) return;
         //Add custom overlay texture on top of token
         const bgtex = await loadTexture("systems/sr5/img/ui/TokenOverlay.png");
@@ -88,7 +92,7 @@ export class SR5Token extends Token {
         icon.alpha = 0.80;
         if ( tint ) icon.tint = tint;
         this.hud.effects.addChild(sprite, icon);
-    }
+    }*/
 
     // Add a graphical interface on top of token
     static async addTokenLayer(tokenDocument) {
@@ -101,13 +105,13 @@ export class SR5Token extends Token {
         } else {
             tokenOverlay = await loadTexture("systems/sr5/img/ui/TokenLayerPC.png");
         }
-        const textureSize = container.data.height * canvas.grid.size;
+        const textureSize = container.height * canvas.grid.size;
         tokenOverlay.orig = { height: textureSize, width: textureSize, x: -textureSize, y: -textureSize }
         container.sortableChildren = true;
         let sprite = new PIXI.Sprite(tokenOverlay);
         sprite.anchor.set(0.5)
         let icon = await container.addChild(sprite)
-        await icon.position.set(container.data.width * canvas.grid.w *0.5, container.data.height * canvas.grid.h *0.5);
+        await icon.position.set(container.width * canvas.grid.w *0.5, container.height * canvas.grid.h *0.5);
         icon.zIndex = 1000;
     }
 }

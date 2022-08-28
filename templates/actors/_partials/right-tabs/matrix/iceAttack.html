@@ -5,17 +5,17 @@
             <div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
             <div class="col-1 SR-TextCenter">{{localize 'SR5.LimitShort'}}</div>
         </li>
-        {{#if (eq data.matrix.deviceSubType 'icePatrol')}}
+        {{#if (eq system.matrix.deviceSubType 'icePatrol')}}
         <li class="grid">
             <div class="col-10">{{localize 'SR5.MatrixActionMatrixPerception'}}</div>
-            <div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixAction" data-rollkey="matrixPerception">{{data.matrix.actions.matrixPerception.test.dicePool}}</div>
-            <div class="col-1 SR-TextCenter">{{data.matrix.actions.matrixPerception.limit.value}}</div>
+            <div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixAction" data-rollkey="matrixPerception">{{system.matrix.actions.matrixPerception.test.dicePool}}</div>
+            <div class="col-1 SR-TextCenter">{{system.matrix.actions.matrixPerception.limit.value}}</div>
         </li>
         {{else}}
         <li class="grid">
             <div class="col-10">{{localize 'SR5.MatrixAttack'}}</div>
-            <div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixIceAttack" data-rollkey="{{@key}}">{{valueOrDash data.matrix.ice.attackDicepool}}</div>
-            <div class="col-1 SR-TextCenter">{{data.matrix.attributes.attack.value}}</div>
+            <div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixIceAttack" data-rollkey="{{@key}}">{{valueOrDash system.matrix.ice.attackDicepool}}</div>
+            <div class="col-1 SR-TextCenter">{{system.matrix.attributes.attack.value}}</div>
         </li>
         {{/if}}
     </ul>

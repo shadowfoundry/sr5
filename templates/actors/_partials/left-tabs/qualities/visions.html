@@ -4,14 +4,14 @@
 		<li class="grid SR-LigneEnTete SR-TextUppercase">
 			<div class="col-12">{{localize 'SR5.VisionTypes'}}</div>
 		</li>
-        {{#if data.visions.lowLight.hasVision}}
+        {{#if system.visions.lowLight.hasVision}}
         <li class="grid">
             <div class="col-11">{{localize 'SR5.LowLightVision'}}</div>
             <div class="col-1 SR-TextCenter"
 		  	  data-helpTitle="{{localize 'SR5.LowLightVision'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_VisionToggleMsg'}}"
 			>
-            {{#if data.visions.lowLight.isActive}}
+            {{#if system.visions.lowLight.isActive}}
             <a class= "vision-switch" data-binding="lowLight" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack SR-SubColor"></em></a>
 			{{else}}
 			    <a class= "vision-switch" data-binding="lowLight" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack"></em></a>
@@ -19,14 +19,14 @@
 			</div>
         </li>
         {{/if}}
-        {{#if data.visions.thermographic.hasVision}}
+        {{#if system.visions.thermographic.hasVision}}
         <li class="grid">
             <div class="col-11">{{localize 'SR5.ThermographicVision'}}</div>
             <div class="col-1 SR-TextCenter"
 		  	  data-helpTitle="{{localize 'SR5.ThermographicVision'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_VisionToggleMsg'}}"
 			>
-            {{#if data.visions.thermographic.isActive}}
+            {{#if system.visions.thermographic.isActive}}
             <a class= "vision-switch" data-binding="thermographic" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack SR-SubColor"></em></a>
 			{{else}}
 			    <a class= "vision-switch" data-binding="thermographic" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack"></em></a>
@@ -34,14 +34,14 @@
 			</div>
         </li>
         {{/if}}
-        {{#if data.visions.ultrasound.hasVision}}
+        {{#if system.visions.ultrasound.hasVision}}
         <li class="grid">
             <div class="col-11">{{localize 'SR5.UltrasoundVision'}}</div>
             <div class="col-1 SR-TextCenter"
 		  	  data-helpTitle="{{localize 'SR5.UltrasoundVision'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_VisionToggleMsg'}}"
 			>
-            {{#if data.visions.ultrasound.isActive}}
+            {{#if system.visions.ultrasound.isActive}}
             <a class= "vision-switch" data-binding="ultrasound" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack SR-SubColor"></em></a>
 			{{else}}
 			    <a class= "vision-switch" data-binding="ultrasound" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack"></em></a>
@@ -57,13 +57,13 @@
 		<li class="grid SR-LigneEnTete SR-TextUppercase">
 			<div class="col-12">{{localize 'SR5.EnvironmentalModifiersShort'}}</div>
 		</li>
-        {{#each data.itemsProperties.environmentalMod}}
+        {{#each system.itemsProperties.environmentalMod}}
         <li class="grid">
             <div class="col-11">{{findTranslation 'environmentalModifiers' @key}}</div>
             <div class="col-1 SR-TextCenter"
               data-helpTitle="{{localize 'SR5.HELP_EnvironmentalMod' key=(findTranslation 'environmentalModifiers' @key)}}"
 			  data-helpMessage="{{localize 'SR5.HELP_EnvironmentalModMsg'}}"
-              data-helpDetails="data.itemsProperties.environmentalMod.{{@key}}">
+              data-helpDetails="system.itemsProperties.environmentalMod.{{@key}}">
                 {{value}}
             </div>
         </li>

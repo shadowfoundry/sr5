@@ -28,35 +28,35 @@
 			</div>
 		</li>
 
-        {{#each data.itemEffects}}
+        {{#each system.itemEffects}}
         <li class="grid subItemManagement" data-key="{{@key}}">
 
             <div class="col-3 SR-PaddingRight5">
-                <input type="text" data-dtype="String" name="data.itemEffects.{{@key}}.name" value="{{name}}" placeholder="{{localize 'SR5.ItemEffectName'}}">
+                <input type="text" data-dtype="String" name="system.itemEffects.{{@key}}.name" value="{{name}}" placeholder="{{localize 'SR5.ItemEffectName'}}">
             </div>
 
             <!--Target-->
             <div class="col-4 SR-PaddingRight5">
-                <select name="data.itemEffects.{{@key}}.target" required>
+                <select name="system.itemEffects.{{@key}}.target" required>
                     {{#select target}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 
                     {{#if (eq ../document.type 'itemArmor')}}
-                    <option value="data.armorValue">{{localize 'SR5.ArmorRating'}}</option>
+                    <option value="system.armorValue">{{localize 'SR5.ArmorRating'}}</option>
                     {{/if}}
 					{{#if (eq ../document.type 'itemWeapon')}}
-                    <option value="data.weaponSkill">{{localize 'SR5.DicePool'}}</option>
-					<option value="data.accuracy">{{localize 'SR5.Accuracy'}}</option>
-					<option value="data.reach">{{localize 'SR5.WeaponReach'}}</option>
+                    <option value="system.weaponSkill">{{localize 'SR5.DicePool'}}</option>
+					<option value="system.accuracy">{{localize 'SR5.Accuracy'}}</option>
+					<option value="system.reach">{{localize 'SR5.WeaponReach'}}</option>
                     {{/if}}
 					{{#if (eq ../document.type 'itemMartialArt')}}
-                    <option value="data.calledShot.disarm">{{localize 'SR5.CS_Disarm'}}</option>
-					<option value="data.calledShot.pin">{{localize 'SR5.CS_Pin'}}</option>
-					<option value="data.calledShot.entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
-					<option value="data.calledShot.breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
-					<option value="data.calledShot.feint">{{localize 'SR5.CS_Feint'}}</option>
+                    <option value="system.calledShot.disarm">{{localize 'SR5.CS_Disarm'}}</option>
+					<option value="system.calledShot.pin">{{localize 'SR5.CS_Pin'}}</option>
+					<option value="system.calledShot.entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
+					<option value="system.calledShot.breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
+					<option value="system.calledShot.feint">{{localize 'SR5.CS_Feint'}}</option>
                     {{/if}}
-					<option value="data.conditionMonitors.matrix">{{localize 'SR5.ConditionMonitorMatrix'}}</option>
+					<option value="system.conditionMonitors.matrix">{{localize 'SR5.ConditionMonitorMatrix'}}</option>
                     {{/select}}
 				</select>
             </div>
@@ -64,7 +64,7 @@
             <!--Type-->
             <div class="col-2 SR-PaddingRight5">
 				{{#if target}}
-                <select name="data.itemEffects.{{@key}}.type" required>
+                <select name="system.itemEffects.{{@key}}.type" required>
                     {{#select type}}
 						{{#if (or (endsWith target '.breakWeapon') (endsWith target 'disarm') (endsWith target 'pin') (endsWith target 'entanglement') (endsWith target 'feint'))}}
 							{{dropdownOptions 'boolean'}}
@@ -84,12 +84,12 @@
 							<div class="col-3 SR-TextCenter">
 							{{#if type}}
 								{{#if (eq type 'value')}}
-									<input type="text" data-dtype="Number" name="data.itemEffects.{{@key}}.value" value="{{value}}">
+									<input type="text" data-dtype="Number" name="system.itemEffects.{{@key}}.value" value="{{value}}">
 								{{else if (eq type 'rating')}}
-									{{../data.itemRating}}
+									{{../system.itemRating}}
 								{{else if (eq type 'boolean')}}	
 								<div class="col-12 SR-SelectCenter SR-PaddingRight5">
-									<select name="data.itemEffects.{{@key}}.value" required>
+									<select name="system.itemEffects.{{@key}}.value" required>
 										{{#select value}}
 										<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 										<option value="true">{{localize 'SR5.On'}}</option>
@@ -103,16 +103,16 @@
                    			 <!--Multiplier-->
 							<div class="col-3 SR-TextCenter">
 								{{#if type}}
-								<input type="text" data-dtype="Number" name="data.itemEffects.{{@key}}.multiplier" value="{{multiplier}}" placeholder="1">
+								<input type="text" data-dtype="Number" name="system.itemEffects.{{@key}}.multiplier" value="{{multiplier}}" placeholder="1">
 								{{/if}}
 							</div>
 							<!--Wifi dependant-->
 							<div class="col-3 SR-TextCenter">
-								<input type="checkbox" name="data.itemEffects.{{@key}}.wifi" data-dtype="Boolean" {{checked wifi}}>
+								<input type="checkbox" name="system.itemEffects.{{@key}}.wifi" data-dtype="Boolean" {{checked wifi}}>
 							</div>
 							<!--Transfer-->
 							<div class="col-3 SR-TextCenter">
-								<input type="checkbox" name="data.itemEffects.{{@key}}.transfer" data-dtype="Boolean" {{checked transfer}}>
+								<input type="checkbox" name="system.itemEffects.{{@key}}.transfer" data-dtype="Boolean" {{checked transfer}}>
 							</div>
                 		</div>
             		</div>
@@ -123,7 +123,7 @@
 						<a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="itemEffects" data-action="delete"><em class="fa fa-sm fa-trash"></em></a>
 					</div>
 					<!--Parent's item of effect, hidden-->
-					<div class="hide"><input type="text" data-dtype="String" name="data.itemEffects.{{@key}}.ownerItem" value="{{ownerItem}}"></div>
+					<div class="hide"><input type="text" data-dtype="String" name="system.itemEffects.{{@key}}.ownerItem" value="{{ownerItem}}"></div>
 				</div>
 			</div>
         </li>

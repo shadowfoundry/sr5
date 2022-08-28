@@ -12,9 +12,9 @@
         </li>
         <li class="grid">
             <div class="col-10">{{localize 'SR5.PanCurrentDevices'}}</div>
-            <div class="col-2 SR-TextCenter">{{data.matrix.pan.current}}/{{data.matrix.pan.max}}</div>
+            <div class="col-2 SR-TextCenter">{{system.matrix.pan.current}}/{{system.matrix.pan.max}}</div>
         </li>
-        {{#each data.matrix.pan.content}}
+        {{#each system.matrix.pan.content}}
         <li class="grid panItems">
             <div class="col-11">{{name}}</div>
             <div class="col-1 SR-TextCenter">

@@ -1,12 +1,12 @@
 <form>
-    <div class="form-group">
-      <div>{{localize 'SR5.ChooseDamageType'}}</div>
-      <select name="damageType" data-dtype="String">
-        {{#select damageType}}
-          {{#each list}}
-          <option value="{{@key}}">{{findTranslation 'PCConditionMonitors' @key}}</option>
-          {{/each}}
-        {{/select}}
-      </select>
-    </div>
+	<div class="form-group">
+		<div>{{localize 'SR5.ChooseDamageType'}}</div>
+		<select name="damageType" data-dtype="String">
+			{{#select damageType}}
+				{{#each list}}
+				<option value="{{@key}}">{{findTranslation 'PCConditionMonitors' @key}}</option>
+				{{/each}}
+			{{/select}}
+		</select>
+	</div>
 </form>

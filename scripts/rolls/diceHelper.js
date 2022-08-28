@@ -1,5 +1,5 @@
 import { SR5 } from "../config.js";
-import { SR5_SystemHelpers } from "../system/utility.js";
+import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5Actor } from "../entities/actors/entityActor.js";
 import { _getSRStatusEffect } from "../system/effectsList.js";
@@ -440,7 +440,7 @@ export class SR5_DiceHelper {
     //Get augmented attribute value from attribute name
     static getAttributeValue(key, actor){
         if (key === "none") return 0;
-        else return actor.data.attributes[key].augmented.value;
+        else return actor.system.attributes[key].augmented.value;
     }
 
     //Handle environmental modifiers

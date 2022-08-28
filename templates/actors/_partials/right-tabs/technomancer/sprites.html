@@ -2,7 +2,7 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="SR-LigneEnTete grid">
-			<div class="col-5 SR-TextUppercase">{{localize 'SR5.CompiledSprites'}} ({{localize 'SR5.Registered'}} {{data.matrix.registeredSprite.current}}/{{data.matrix.registeredSprite.max}})</div>
+			<div class="col-5 SR-TextUppercase">{{localize 'SR5.CompiledSprites'}} ({{localize 'SR5.Registered'}} {{system.matrix.registeredSprite.current}}/{{system.matrix.registeredSprite.max}})</div>
 			<div class="col-1 SR-TextCenter">{{localize 'SR5.SpriteTasks'}}</div>
 			<div class="col-1 SR-TextCenter">{{localize 'SR5.Level'}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.Registered'}}</div>
@@ -21,22 +21,22 @@
 		{{#each actor.sprites}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-5">
-				{{#if (missing data.type data.itemRating)}}
+				{{#if (missing system.type system.itemRating)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSprite')}}">
-					{{findTranslation 'spriteTypes'data.type}} ({{name}})</p>
+					{{findTranslation 'spriteTypes'system.type}} ({{name}})</p>
 				{{else}}
-				<p>{{findTranslation 'spriteTypes' data.type}} ({{name}})</p>
+				<p>{{findTranslation 'spriteTypes' system.type}} ({{name}})</p>
 				{{/if}}
 			</div>
-			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.tasks.value"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.tasks.value"
 			  data-helpTitle="{{localize 'SR5.HELP_SpriteService' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_SpriteServiceMsg'}}">
-				{{data.tasks.value}}/{{#if data.tasks.max}}{{data.tasks.max}}{{else}}0{{/if}}
+				{{system.tasks.value}}/{{#if system.tasks.max}}{{system.tasks.max}}{{else}}0{{/if}}
 			</div>
-			<div class="col-1 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash system.itemRating}}</div>
 			<div class="col-2 SR-TextCenter">
-				{{#if data.isRegistered}}
+				{{#if system.isRegistered}}
 					{{localize 'SR5.Yes'}}
 				{{else}}
 					{{localize 'SR5.No'}}
@@ -44,14 +44,14 @@
 			</div>
 			<div class="col-1"></div>
 			<div class="col-1 SR-TextCenter">
-				{{#if data.isCreated}}
-				<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+				{{#if system.isCreated}}
+				<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 				  data-helpTitle="{{localize 'SR5.HELP_SpriteDismiss'key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpriteDismissMsg'}}">
 					<em class="fas fa-flip-both fa-external-link-alt"></em>
 				</a>
 				{{else}}
-				<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+				<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 				  data-helpTitle="{{localize 'SR5.HELP_SpriteCreate'key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpriteCreateMsg'}}">
 					<em class="fas fa-external-link-alt"></em>
@@ -60,7 +60,7 @@
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
-				{{#if data.isCreated}}
+				{{#if system.isCreated}}
 				{{else}}
 				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
 					<em class="fas fa-sm fa-edit item-management"></em>

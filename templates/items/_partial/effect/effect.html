@@ -28,10 +28,10 @@
 			</div>
 			
 		</li>
-		{{#each data.customEffects}}
+		{{#each system.customEffects}}
 		<li class="grid subItemManagement" data-key="{{@key}}">
 			<div class="col-3 SR-PaddingRight5">
-				<select name="data.customEffects.{{@key}}.category" required>
+				<select name="system.customEffects.{{@key}}.category" required>
 					{{#select category}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					<optgroup label="{{localize 'SR5.Attributes'}}">
@@ -93,47 +93,47 @@
 			<div class="col-4 SR-PaddingRight5">
 				{{#if category}}
 				{{#ife category 'custom'}}
-				<input type="text" data-dtype="Text" name="data.customEffects.{{@key}}.target" value="{{target}}" placeholder="data.">
+				<input type="text" data-dtype="Text" name="system.customEffects.{{@key}}.target" value="{{target}}" placeholder="system.">
 				{{else}}
-				<select name="data.customEffects.{{@key}}.target" required>
+				<select name="system.customEffects.{{@key}}.target" required>
 					{{#select target}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 
 					{{#ife category 'characterAttributes'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
+						<option value="system.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
 						</option>
-						<option value="data.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
+						<option value="system.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'characterSpecialAttributes'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.specialAttributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
-						<option value="data.specialAttributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
+						<option value="system.specialAttributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
+						<option value="system.specialAttributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'characterInitiatives'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.initiatives.{{@key}}">{{localize this}}</option>
-						<option value="data.initiatives.{{@key}}.dice">{{localize this}} [{{localize 'SR5.NumberOfDice'}}]</option>
+						<option value="system.initiatives.{{@key}}">{{localize this}}</option>
+						<option value="system.initiatives.{{@key}}.dice">{{localize this}} [{{localize 'SR5.NumberOfDice'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'characterLimits'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.limits.{{@key}}">{{localize this}}</option>
+					<option value="system.limits.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'characterDefenses'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.defenses.{{@key}}">{{localize this}}</option>
-						<option value="data.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.defenses.{{@key}}">{{localize this}}</option>
+						<option value="system.defenses.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 					</optgroup>
 					{{/each}}
 
@@ -143,103 +143,103 @@
 					<optgroup label="{{localize this}}">
 						{{#ife @key 'specialDamage'}}
 						{{#each (lookup ../../lists 'specialDamageTypes')}}
-						<option value="data.resistances.specialDamage.{{@key}}">{{localize @../this}} ({{localize this}})</option>
+						<option value="system.resistances.specialDamage.{{@key}}">{{localize @../this}} ({{localize this}})</option>
 						{{/each}}
 						{{else ife @key 'disease'}}
 						{{#each (lookup ../../lists 'propagationVectors')}}
-						<option value="data.resistances.disease.{{@key}}">{{localize @../this}} ({{localize this}})
+						<option value="system.resistances.disease.{{@key}}">{{localize @../this}} ({{localize this}})
 						</option>
 						{{/each}}
 						{{else ife @key 'toxin'}}
 						{{#each (lookup ../../lists 'propagationVectors')}}
-						<option value="data.resistances.toxin.{{@key}}">{{localize @../this}} ({{localize this}})
+						<option value="system.resistances.toxin.{{@key}}">{{localize @../this}} ({{localize this}})
 						</option>
 						{{/each}}
 						{{else}}
-						<option value="data.resistances.{{@key}}">{{localize this}}</option>
+						<option value="system.resistances.{{@key}}">{{localize this}}</option>
 						{{/ife}}
 					</optgroup>
 					{{/if}}
 					{{/each}}
 					<optgroup label="{{localize 'SR5.DirectSpell'}}">
-						<option value="data.resistances.directSpellMana">{{localize 'SR5.DirectSpellMana'}}</option>
-						<option value="data.resistances.directSpellPhysical">{{localize 'SR5.DirectSpellPhysical'}}</option>
+						<option value="system.resistances.directSpellMana">{{localize 'SR5.DirectSpellMana'}}</option>
+						<option value="system.resistances.directSpellPhysical">{{localize 'SR5.DirectSpellPhysical'}}</option>
 					</optgroup>
 
 					{{else ife category 'essence'}}
-					<option value="data.essence">{{localize 'SR5.Essence'}}</option>
+					<option value="system.essence">{{localize 'SR5.Essence'}}</option>
 
 					{{else ife category 'characterDerivedAttributes'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.derivedAttributes.{{@key}}">{{localize this}}</option>
+					<option value="system.derivedAttributes.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'penaltyTypes'}}
-					<option value="data.penalties.special.actual">{{localize 'SR5.PenaltyValueSpecial'}}</option>
-					<!--<option value="data.penalties.stun.minimum">{{localize 'SR5.PenaltyValueStun'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
-					<option value="data.penalties.condition.minimum">{{localize 'SR5.PenaltyValueCondition'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
-					<option value="data.penalties.physical.minimum">{{localize 'SR5.PenaltyValuePhysical'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option> -->
+					<option value="system.penalties.special.actual">{{localize 'SR5.PenaltyValueSpecial'}}</option>
+					<!--<option value="system.penalties.stun.minimum">{{localize 'SR5.PenaltyValueStun'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
+					<option value="system.penalties.condition.minimum">{{localize 'SR5.PenaltyValueCondition'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option>
+					<option value="system.penalties.physical.minimum">{{localize 'SR5.PenaltyValuePhysical'}} [{{localize 'SR5.GENERAL_Minimum_F'}}]</option> -->
 
 					{{else ife category 'visionTypes'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.visions.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
-					<option value="data.visions.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
+					<option value="system.visions.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]</option>
+					<option value="system.visions.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					{{/each}}
 
 					{{else ife category 'environmentalModifiers'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.itemsProperties.environmentalMod.{{@key}}">{{localize this}}</option>
+					<option value="system.itemsProperties.environmentalMod.{{@key}}">{{localize this}}</option>
 					{{/each}}
 					
 
 					{{else ife category 'movements'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.movements.{{@key}}.movement">{{localize this}} [{{localize 'SR5.Base'}}]</option>
-						<option value="data.movements.{{@key}}.extraMovement">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
-						<option value="data.movements.{{@key}}.maximum">{{localize this}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
-						<option value="data.movements.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]
+						<option value="system.movements.{{@key}}.movement">{{localize this}} [{{localize 'SR5.Base'}}]</option>
+						<option value="system.movements.{{@key}}.extraMovement">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
+						<option value="system.movements.{{@key}}.maximum">{{localize this}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
+						<option value="system.movements.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]
 						</option>
-						<option value="data.movements.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.movements.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'weightActions'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.weightActions.{{@key}}.baseWeight">{{localize this}} [{{localize 'SR5.Base'}}]</option>
-						<option value="data.weightActions.{{@key}}.extraWeight">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
-						<option value="data.weightActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.weightActions.{{@key}}.baseWeight">{{localize this}} [{{localize 'SR5.Base'}}]</option>
+						<option value="system.weightActions.{{@key}}.extraWeight">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
+						<option value="system.weightActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'reach'}}
-					<option value="data.reach">{{localize 'SR5.CharacterReach'}}</option>
+					<option value="system.reach">{{localize 'SR5.CharacterReach'}}</option>
 
 					{{else ife category 'skillGroups'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.skillGroups.{{@key}}">{{localize this}}</option>
+					<option value="system.skillGroups.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'skills'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.skills.{{@key}}.rating">{{localize this}} [{{localize 'SR5.Rating'}}]</option>
-						<option value="data.skills.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
-						<option value="data.skills.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.skills.{{@key}}.rating">{{localize this}} [{{localize 'SR5.Rating'}}]</option>
+						<option value="system.skills.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.skills.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 						{{#if (or (eq @key 'banishing') (eq @key 'binding') (eq @key 'summoning'))}}
 						{{#each ../../lists.spiritTypes}}
-						<option value="data.skills.{{@../key}}.spiritType.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpiritTypeBonus'}}]</option>
+						<option value="system.skills.{{@../key}}.spiritType.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpiritTypeBonus'}}]</option>
 						{{/each}}
 						{{else if (or (eq @key 'counterspelling') (eq @key 'spellcasting') (eq @key 'ritualSpellcasting') (eq @key 'alchemy'))}}
 						{{#each ../../lists.spellCategories}}
-						<option value="data.skills.{{@../key}}.spellCategory.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpellCategoryBonus'}}]</option>
+						<option value="system.skills.{{@../key}}.spellCategory.{{@key}}">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.SpellCategoryBonus'}}]</option>
 						{{/each}}
 						{{/if}}
 						{{#if (eq @key 'perception')}}
 						{{#each ../../lists.perceptionTypes}}
-						<option value="data.skills.{{@../key}}.perceptionType.{{@key}}.test">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.DicePool'}}]</option>
-						<option value="data.skills.{{@../key}}.perceptionType.{{@key}}.limit">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.skills.{{@../key}}.perceptionType.{{@key}}.test">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.skills.{{@../key}}.perceptionType.{{@key}}.limit">{{localize @../this}} ({{localize this}}) [{{localize 'SR5.Limit'}}]</option>
 						{{/each}}
 						{{/if}}
 					</optgroup>
@@ -247,112 +247,112 @@
 
 					{{else ife category 'languageAndKnowledgeskills'}}
 					<optgroup label="{{localize 'SR5.LanguagesSkills'}}">
-						<option value="data.languageSkills">{{localize 'SR5.Languages'}}</option>
+						<option value="system.languageSkills">{{localize 'SR5.Languages'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.KnowledgeSkills'}}">
-						<option value="data.knowledgeSkills">{{localize 'SR5.Knowledges'}}</option>						
+						<option value="system.knowledgeSkills">{{localize 'SR5.Knowledges'}}</option>						
 					</optgroup>
 
 					{{else ife category 'matrixAttributes'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.matrix.attributes.{{@key}}">{{localize this}}</option>
+					<option value="system.matrix.attributes.{{@key}}">{{localize this}}</option>
 					{{/each}}
-					<option value="data.matrix.noise">{{localize 'SR5.MatrixNoise'}}</option>
+					<option value="system.matrix.noise">{{localize 'SR5.MatrixNoise'}}</option>
 
 					{{else ife category 'matrixResistances'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.matrix.resistances.{{@key}}">{{localize this}}</option>
+					<option value="system.matrix.resistances.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'matrixActions'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
-						<option value="data.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
-						<option value="data.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
+						<option value="system.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
 					</optgroup>
 					{{/each}}
 
 					{{else ife category 'programs'}}
-					<option value="data.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
+					<option value="system.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
 					{{#each (lookup ../lists category)}}
-					<option value="data.matrix.programs.{{@key}}.isActive">{{localize this}}</option>
+					<option value="system.matrix.programs.{{@key}}.isActive">{{localize this}}</option>
 					{{/each}}
 					
 					{{else ife category 'astralValues'}}
-					<option value="data.magic.astralDamage">{{localize 'SR5.AstralDamage'}}</option>
-					<option value="data.magic.astralDefense">{{localize 'SR5.AstralDefense'}}</option>
-					<option value="data.magic.astralTracking">{{localize 'SR5.AstralTracking'}}</option>
-					<option value="data.magic.passThroughBarrier">{{localize 'SR5.PassThroughBarrier'}}</option>
-					<option value="data.magic.drainResistance">{{localize 'SR5.DrainResistance'}}</option>
-					<option value="data.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
+					<option value="system.magic.astralDamage">{{localize 'SR5.AstralDamage'}}</option>
+					<option value="system.magic.astralDefense">{{localize 'SR5.AstralDefense'}}</option>
+					<option value="system.magic.astralTracking">{{localize 'SR5.AstralTracking'}}</option>
+					<option value="system.magic.passThroughBarrier">{{localize 'SR5.PassThroughBarrier'}}</option>
+					<option value="system.magic.drainResistance">{{localize 'SR5.DrainResistance'}}</option>
+					<option value="system.magic.powerPoints.maximum">{{localize 'SR5.PowerPoints'}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
 					
 					{{else ife category 'metamagics'}}
 					{{#each (lookup ../lists category)}}					
-					<option value="data.magic.metamagics.{{@key}}">{{localize this}}</option>
+					<option value="system.magic.metamagics.{{@key}}">{{localize this}}</option>
 					{{/each}}
-					<option value="data.magic.metamagics.centeringValue">{{localize 'SR5.MetamagicCentering'}} ({{localize 'SR5.Modifier'}})</option>
-					<option value="data.magic.metamagics.spellShapingValue">{{localize 'SR5.MetamagicSpellShaping'}} ({{localize 'SR5.Modifier'}})</option>
+					<option value="system.magic.metamagics.centeringValue">{{localize 'SR5.MetamagicCentering'}} ({{localize 'SR5.Modifier'}})</option>
+					<option value="system.magic.metamagics.spellShapingValue">{{localize 'SR5.MetamagicSpellShaping'}} ({{localize 'SR5.Modifier'}})</option>
 
 					{{else ife category 'characterConditionMonitors'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.conditionMonitors.{{@key}}">{{localize this}} [{{localize 'SR5.Boxes'}}]</option>
-						<option value="data.penalties.{{@key}}.boxReduction">{{localize this}} [{{localize 'SR5.BoxReduction'}}]</option>
-						<option value="data.penalties.{{@key}}.step">{{localize this}} [{{localize 'SR5.PenaltyStep'}}]</option>
+						<option value="system.conditionMonitors.{{@key}}">{{localize this}} [{{localize 'SR5.Boxes'}}]</option>
+						<option value="system.penalties.{{@key}}.boxReduction">{{localize this}} [{{localize 'SR5.BoxReduction'}}]</option>
+						<option value="system.penalties.{{@key}}.step">{{localize this}} [{{localize 'SR5.PenaltyStep'}}]</option>
 						<option value="{{@key}}.removeDamage">{{localize this}} [{{localize 'SR5.Heal'}}]</option>
 						<option value="{{@key}}.addDamage">{{localize this}} [{{localize 'SR5.Damage'}} {{localize 'SR5.NotResisted'}}]</option>
-						<option value="data.conditionMonitors.{{@key}}.actual">{{localize this}} [{{localize 'SR5.DamageTemporary'}}]</option>
+						<option value="system.conditionMonitors.{{@key}}.actual">{{localize this}} [{{localize 'SR5.DamageTemporary'}}]</option>
 					</optgroup>
 					{{/each}}
 					<optgroup label="{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}}">
-						<option value="data.conditionMonitors.overflow">{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}} [{{localize 'SR5.Boxes'}}]</option>
+						<option value="system.conditionMonitors.overflow">{{localize 'SR5.ConditionMonitorPhysicalOverflowShort'}} [{{localize 'SR5.Boxes'}}]</option>
 					</optgroup>
 
 					{{else ife category 'reputationTypes'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.{{@key}}">{{localize this}}</option>
+					<option value="system.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'specialProperties'}}
 					{{#each ../lists.specialPropertiesList}}
-					<option value="data.specialProperties.{{@key}}">{{localize this}}</option>
+					<option value="system.specialProperties.{{@key}}">{{localize this}}</option>
 					{{/each}}
-					<option value="data.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
-					<option value="data.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
-					<option value="data.specialProperties.energyAura">{{localize 'SR5.SpiritPowerEnergyAura'}}</option>
-					<option value="data.specialProperties.fullDefenseAttribute">{{localize "SR5.FullDefense"}} [{{localize 'SR5.LinkedAttribute'}}]</option>
+					<option value="system.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
+					<option value="system.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
+					<option value="system.specialProperties.energyAura">{{localize 'SR5.SpiritPowerEnergyAura'}}</option>
+					<option value="system.specialProperties.fullDefenseAttribute">{{localize "SR5.FullDefense"}} [{{localize 'SR5.LinkedAttribute'}}]</option>
 
 					{{else ife category 'itemArmor'}}
 					<optgroup label="{{localize 'SR5.Armor'}}">
-						<option value="data.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
+						<option value="system.itemsProperties.armor">{{localize 'SR5.Armor'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.SpecialDamage'}}">
 						{{#each ../lists.specialDamageTypes}}
-						<option value="data.itemsProperties.armor.specialDamage.{{@key}}">{{localize this}}</option>
+						<option value="system.itemsProperties.armor.specialDamage.{{@key}}">{{localize this}}</option>
 						{{/each}}
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Toxins'}}">
 						{{#each ../lists.propagationVectors}}
-						<option value="data.itemsProperties.armor.toxin.{{@key}}">{{localize 'SR5.Toxins'}} ({{localize this}})</option>
+						<option value="system.itemsProperties.armor.toxin.{{@key}}">{{localize 'SR5.Toxins'}} ({{localize this}})</option>
 						{{/each}}
 					</optgroup>
 
 					{{else ife category 'weaponEffectTargets'}}
 					{{#each (lookup ../lists category)}}
-					<option value="data.itemsProperties.weapon.{{@key}}">{{localize this}}</option>
+					<option value="system.itemsProperties.weapon.{{@key}}">{{localize this}}</option>
 					{{/each}}
 
 					{{else ife category 'vehicle'}}
-					<option value="data.vehicleTest.test">{{localize 'SR5.VehicleTest'}}</option>
-					<option value="data.vehicleTest.limit">{{localize 'SR5.VehicleTest'}} ({{localize 'SR5.Limit'}})</option>
+					<option value="system.vehicleTest.test">{{localize 'SR5.VehicleTest'}}</option>
+					<option value="system.vehicleTest.limit">{{localize 'SR5.VehicleTest'}} ({{localize 'SR5.Limit'}})</option>
 
 					{{else ife category 'vehicleAttributes'}}
 					{{#each (lookup ../lists category)}}
 					<optgroup label="{{localize this}}">
-						<option value="data.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
+						<option value="system.attributes.{{@key}}.natural">{{localize this}} [{{localize 'SR5.Natural'}}]
 						</option>
-						<option value="data.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
+						<option value="system.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					</optgroup>
 					{{/each}}
 					{{/ife}}
@@ -366,8 +366,8 @@
 			<div class="col-2 SR-PaddingRight5">
 				{{#if (and category target)}}
 					{{#ife this.category 'weaponEffectTargets'}}
-						{{#ife this.target 'data.itemsProperties.weapon.damageValue'}}
-							<select name="data.customEffects.{{@key}}.type" required>
+						{{#ife this.target 'system.itemsProperties.weapon.damageValue'}}
+							<select name="system.customEffects.{{@key}}.type" required>
 								{{#select type}}
 								<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 								{{#each ../lists.meleeWeaponTypes}}
@@ -376,8 +376,8 @@
 								{{/select}}
 							</select>
 						{{/ife}}
-						{{#ife this.target 'data.itemsProperties.weapon.accuracy'}}
-							<select name="data.customEffects.{{@key}}.type" required>
+						{{#ife this.target 'system.itemsProperties.weapon.accuracy'}}
+							<select name="system.customEffects.{{@key}}.type" required>
 								{{#select type}}
 								<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 								{{#each ../lists.combatSkills}}
@@ -386,8 +386,8 @@
 								{{/select}}
 							</select>
 						{{/ife}}
-					{{else if (eq this.target 'data.specialProperties.hardenedArmorType')}}
-						<select name="data.customEffects.{{@key}}.type" required>
+					{{else if (eq this.target 'system.specialProperties.hardenedArmorType')}}
+						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 							{{#each ../lists.hardenedArmorTypes}}
@@ -395,8 +395,8 @@
 							{{/each}}
 							{{/select}}
 						</select>
-					{{else if (eq this.target 'data.specialProperties.hardenedAstralArmorType')}}
-						<select name="data.customEffects.{{@key}}.type" required>
+					{{else if (eq this.target 'system.specialProperties.hardenedAstralArmorType')}}
+						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 							{{#each ../lists.hardenedAstralArmorTypes}}
@@ -404,14 +404,14 @@
 							{{/each}}
 							{{/select}}
 						</select>
-					{{else if (or (eq this.target 'data.specialProperties.doublePenalties') (eq this.target 'data.specialProperties.regeneration'))}}
-						<select name="data.customEffects.{{@key}}.type" required>
+					{{else if (or (eq this.target 'system.specialProperties.doublePenalties') (eq this.target 'system.specialProperties.regeneration'))}}
+						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 									{{dropdownOptions 'boolean'}}
 							{{/select}}
 						</select>
-					{{else if (eq this.target 'data.specialProperties.energyAura')}}
-					<select name="data.customEffects.{{@key}}.type" required>
+					{{else if (eq this.target 'system.specialProperties.energyAura')}}
+					<select name="system.customEffects.{{@key}}.type" required>
 						{{#select type}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 						{{#each ../lists.specialDamageTypes}}
@@ -420,7 +420,7 @@
 						{{/select}}
 					</select>
 					{{else if (eq this.category 'metamagics')}}
-						<select name="data.customEffects.{{@key}}.type" required>
+						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 								{{#if (or (endsWith target '.centeringValue') (endsWith target '.spellShapingValue'))}}
 									{{dropdownOptions 'value' 'rating'}}
@@ -429,8 +429,8 @@
 								{{/if}}
 							{{/select}}
 						</select>
-					{{else if (eq this.target 'data.specialProperties.fullDefenseAttribute')}}
-						<select name="data.customEffects.{{@key}}.type" required>
+					{{else if (eq this.target 'system.specialProperties.fullDefenseAttribute')}}
+						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 								{{#each (lookup ../lists 'characterAttributes')}}
 								<option value="{{@key}}">{{localize this}}</option>
@@ -438,7 +438,7 @@
 							{{/select}}
 						</select>
 					{{else}}
-						<select name="data.customEffects.{{@key}}.type" required>
+						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 								{{#if (endsWith target '.isActive')}}
 									{{dropdownOptions 'boolean'}}
@@ -459,7 +459,7 @@
 						<div class="grid">
 							{{#if (eq type 'boolean')}}
 							<div class="col-12 SR-SelectCenter SR-PaddingRight5">
-								<select name="data.customEffects.{{@key}}.value" required>
+								<select name="system.customEffects.{{@key}}.value" required>
 									{{#select value}}
 									<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 									<option value="true">{{localize 'SR5.On'}}</option>
@@ -470,31 +470,31 @@
 							{{else}}
 							<div class="col-3 SR-TextCenter">
 								{{#if type}}
-									{{#if (and (eq type 'valueReplace') (eq target 'data.attributes.agility.natural') (eq ../data.category 'cyberlimbs') )}}
-										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{../data.cyberlimbs.agility.value}}">
-									{{else if (and (eq type 'valueReplace') (eq target 'data.attributes.strength.natural') (eq ../data.category 'cyberlimbs') )}}
-										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{../data.cyberlimbs.strength.value}}">
+									{{#if (and (eq type 'valueReplace') (eq target 'system.attributes.agility.natural') (eq ../system.category 'cyberlimbs') )}}
+										<input type="text" data-dtype="Number" name="system.customEffects.{{@key}}.value" value="{{../system.cyberlimbs.agility.value}}">
+									{{else if (and (eq type 'valueReplace') (eq target 'system.attributes.strength.natural') (eq ../system.category 'cyberlimbs') )}}
+										<input type="text" data-dtype="Number" name="system.customEffects.{{@key}}.value" value="{{../system.cyberlimbs.strength.value}}">
 									{{else if (or (eq type 'value') (eq type 'valueReplace') (eq category 'weaponEffectTargets'))}}
-										<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.value" value="{{value}}">
+										<input type="text" data-dtype="Number" name="system.customEffects.{{@key}}.value" value="{{value}}">
 									{{else if (or (eq type 'rating') (eq type 'ratingReplace') )}}
-										{{../data.itemRating}}
+										{{../system.itemRating}}
 									{{else if (eq type 'hits')}}
-										{{#if ../data.hits}}{{../data.hits}}{{else}}0{{/if}}
+										{{#if ../system.hits}}{{../system.hits}}{{else}}0{{/if}}
 									{{/if}}
 								{{/if}}
 							</div>
 
 							<div class="col-3 SR-TextCenter">
 								{{#if type}}
-								<input type="text" data-dtype="Number" name="data.customEffects.{{@key}}.multiplier" value="{{multiplier}}" placeholder="1">
+								<input type="text" data-dtype="Number" name="system.customEffects.{{@key}}.multiplier" value="{{multiplier}}" placeholder="1">
 								{{/if}}
 							</div>
 
 							<div class="col-3 SR-TextCenter">
-								<input type="checkbox" name="data.customEffects.{{@key}}.wifi" data-dtype="Boolean" {{checked wifi}}>
+								<input type="checkbox" name="system.customEffects.{{@key}}.wifi" data-dtype="Boolean" {{checked wifi}}>
 							</div>
 							<div class="col-3 SR-TextCenter">
-								<input type="checkbox" name="data.customEffects.{{@key}}.transfer" data-dtype="Boolean" {{checked transfer}}>
+								<input type="checkbox" name="system.customEffects.{{@key}}.transfer" data-dtype="Boolean" {{checked transfer}}>
 							</div>
 							{{/if}}
 						</div>							

@@ -1,11 +1,11 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Accuracy'}}{{localize 'SR5.Colons'}}</div>
-    {{#if data.accuracy.isPhysicalLimitBased}}
-        <div class="col-1 SR-PaddingLeft3 SR-BorderBottomTransparent">{{data.accuracy.base}}</div>
+    {{#if system.accuracy.isPhysicalLimitBased}}
+        <div class="col-1 SR-PaddingLeft3 SR-BorderBottomTransparent">{{system.accuracy.base}}</div>
     {{else}}
-        <div class="col-1"><input type="number" data-dtype="Number" name="data.accuracy.base" value="{{data.accuracy.base}}" placeholder="0" /></div>
+        <div class="col-1"><input type="number" data-dtype="Number" name="system.accuracy.base" value="{{system.accuracy.base}}" placeholder="0" /></div>
     {{/if}}
     <div class="col-1"></div>
     <div class="col-4 SR-TextRight">{{localize 'SR5.PhysicalLimitBasedAcc'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextRight SR-PaddingRight3"><input type="checkbox" name="data.accuracy.isPhysicalLimitBased" data-dtype="Boolean" {{checked data.accuracy.isPhysicalLimitBased}} /></div>
+    <div class="col-1 SR-TextRight SR-PaddingRight3"><input type="checkbox" name="system.accuracy.isPhysicalLimitBased" data-dtype="Boolean" {{checked system.accuracy.isPhysicalLimitBased}} /></div>
 </li>

@@ -26,18 +26,18 @@
 			</div>
 	  	</li>
 	  	{{#each actor.gears as |item i|}}
-		{{#if (and (eq data.isAccessory true) (eq data.isPlugged false) )}}
+		{{#if (and (eq system.isAccessory true) (eq system.isPlugged false) )}}
 		<li class="item grid SR-LightGreyColor" data-item-id="{{_id}}" draggable="true">
 		  	<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
 				<p>{{name}}</p>
 		  	</div>
-		  	<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.quantity"
+		  	<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.quantity"
 			  data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" 
 			  data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
-				{{data.quantity}}
+				{{system.quantity}}
 			</div>
-			<div class="col-2 SR-TextCenter">[{{valueOrDash data.capacityTaken.value}}]</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
+			<div class="col-2 SR-TextCenter">[{{valueOrDash system.capacityTaken.value}}]</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash system.itemRating}}</div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
@@ -60,44 +60,44 @@
 				{{/if}}
 			</div>
 		</li>
-		{{else if (or (eq data.isPlugged false) (eq item.type 'itemDrug'))}}
+		{{else if (or (eq system.isPlugged false) (eq item.type 'itemDrug'))}}
 	  	<li class="item grid" data-item-id="{{item._id}}" draggable="true">
 		  	<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 				  {{item.name}}
 		  	</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.quantity"
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.quantity"
 			  data-helpTitle="{{localize 'SR5.HELP_Quantity' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_QuantityMsg'}}">
-				{{data.quantity}}
+				{{system.quantity}}
 			</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash data.capacity.value}}</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+			<div class="col-2 SR-TextCenter">{{valueOrDash system.capacity.value}}</div>
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
 			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
-				{{valueOrDash data.itemRating}}
+				{{valueOrDash system.itemRating}}
 			</div>
 			<div class="col-1">
 				<div class="grid">
 					{{#if (eq item.type 'itemDrug')}}
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_DrugToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_DrugToggleMsg'}}">
-						{{#if data.isActive}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+						{{#if system.isActive}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.isActive" data-title="{{localize 'SR5.Unequip'}}">
 							<em class="fas fa-cannabis SR-SubColor"></em>
 						</a>
 						{{else}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.isActive" data-title="{{localize 'SR5.Equip'}}">
 							<em class="fas fa-cannabis"></em>
 						</a>
 						{{/if}}
 					</div>
 					{{else}}
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
-						{{#if data.isActive}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+						{{#if system.isActive}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.isActive" data-title="{{localize 'SR5.Unequip'}}">
 							<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
 						</a>
 						{{else}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.isActive" data-title="{{localize 'SR5.Equip'}}">
 							<em class="fas fa-sm fa-thumbtack"></em>
 						</a>
 						{{/if}}
@@ -105,18 +105,18 @@
 					{{/if}}
 					{{#if (eq item.type 'itemDrug')}}
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_DrugContrecoupToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_DrugContrecoupToggleMsg'}}">
-						{{#if data.wirelessTurnedOn}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.Unequip'}}">
+						{{#if system.wirelessTurnedOn}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.Unequip'}}">
 							<em class="fas fa-virus SR-SubColor"></em>
 						</a>
 						{{else}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.Equip'}}">
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.Equip'}}">
 							<em class="fas fa-virus"></em>
 						</a>
 						{{/if}}
 					</div>
 					{{else}}
-					{{#if (gte data.conditionMonitors.matrix.actual.value data.conditionMonitors.matrix.value)}}
+					{{#if (gte system.conditionMonitors.matrix.actual.value system.conditionMonitors.matrix.value)}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
@@ -125,12 +125,12 @@
 					</div>
 					{{else}}
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
-						{{#if data.wirelessTurnedOn}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
+						{{#if system.wirelessTurnedOn}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
 							<em class="fas fa-sm fa-wifi SR-SubColor"></em>
 						</a>
 						{{else}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
 							<em class="fas fa-sm fa-wifi SR-SubColor25"></em>
 						</a>
 						{{/if}}
@@ -147,21 +147,21 @@
 				{{/if}}
 			</div>
 		</li>
-		{{#each data.accessory as |accessory a|}}
+		{{#each system.accessory as |accessory a|}}
 		<li class="item grid" data-item-id="{{_id}}">
 			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 				<p class="SR-MarginLeft10">{{accessory.name}}</p></div>
 			<div class="col-2 SR-TextCenter"></div>
-			<div class="col-2"><p class="SR-TextCenter">[{{valueOrDash accessory.data.capacityTaken.value}}]</p></div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash accessory.data.itemRating}}</div>
+			<div class="col-2"><p class="SR-TextCenter">[{{valueOrDash accessory.system.capacityTaken.value}}]</p></div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash accessory.system.itemRating}}</div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-thumbtack {{#if accessory.data.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
+							<em class="fas fa-sm fa-thumbtack {{#if accessory.system.isActive}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
-					{{#if (gte ../data.conditionMonitors.matrix.actual.value ../data.conditionMonitors.matrix.value)}}
+					{{#if (gte ../system.conditionMonitors.matrix.actual.value ../system.conditionMonitors.matrix.value)}}
 					<div class="col-6 SR-TextCenter"
 					  data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_BrickedItemMsg'}}"
@@ -171,7 +171,7 @@
 					{{else}}
 					<div class="col-6">
 						<p class="SR-TextCenter">
-							<em class="fas fa-sm fa-wifi {{#if accessory.data.wirelessTurnedOn}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
+							<em class="fas fa-sm fa-wifi {{#if accessory.system.wirelessTurnedOn}}SR-SubColor{{else}}SR-SubColor25{{/if}}"></em>
 						</p>
 					</div>
 					{{/if}}

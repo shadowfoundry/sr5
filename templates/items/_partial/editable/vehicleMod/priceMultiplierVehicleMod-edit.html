@@ -6,58 +6,58 @@
 <!-- Item Price -->
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Price'}}</div>
-    <div class="col-2 SR-Textleft"><input type="number" data-dtype="Number" name="data.price.base" value="{{data.price.base}}" /></div>
-    {{#if data.price.multiplier}}
-     <div class="col-1 SR-Textleft">&nbsp;(x {{findMultiplierValue data.price.multiplier this}})</div>
- {{else}}
-     <div class="col-1"></div>
- {{/if}}
- <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
- <div class="col-2 SR-TextRight">
-     <select name="data.price.multiplier" data-dtype="{{data.price.multiplier}}" required>
-        {{#select data.price.multiplier}}
-            <option value="">{{localize 'SR5.None'}}</option>
-         {{#each lists.valueMultipliersAll}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
-     </select>
-        </div>
+    <div class="col-2 SR-Textleft"><input type="number" data-dtype="Number" name="system.price.base" value="{{system.price.base}}" /></div>
+    {{#if system.price.multiplier}}
+    	<div class="col-1 SR-Textleft">&nbsp;(x {{findMultiplierValue system.price.multiplier this}})</div>
+ 	{{else}}
+     	<div class="col-1"></div>
+ 	{{/if}}
+	<div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
+	<div class="col-2 SR-TextRight">
+		<select name="system.price.multiplier" data-dtype="{{system.price.multiplier}}" required>
+			{{#select system.price.multiplier}}
+				<option value="">{{localize 'SR5.None'}}</option>
+				{{#each lists.valueMultipliersAll}}
+				<option value="{{@key}}">{{localize this}}</option>
+				{{/each}}
+			{{/select}}
+		</select>
+	</div>
 </li>
 
 <!-- Item Availability -->
 <li class="grid">
- <div class="col-5">{{localize 'SR5.Availability'}}</div>
- <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.availability.base" value="{{data.availability.base}}" /></div>
- {{#if data.availability.multiplier}}
-     <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.availability.multiplier this}})</div>
- {{else}}
-     <div class="col-2"></div>
- {{/if}}
- <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
- <div class="col-2 SR-TextRight">
-     <select name="data.availability.multiplier" data-dtype="{{data.availability.multiplier}}" required>
-     {{#select data.availability.multiplier}}
-         <option value="">{{localize 'SR5.None'}}</option>
-         {{#each lists.valueMultipliersAll}}
-         <option value="{{@key}}">{{localize this}}</option>
-         {{/each}}
-     {{/select}}
-     </select>
- </div>
+	<div class="col-5">{{localize 'SR5.Availability'}}</div>
+	<div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.availability.base" value="{{system.availability.base}}" /></div>
+	{{#if system.availability.multiplier}}
+		<div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue system.availability.multiplier this}})</div>
+	{{else}}
+		<div class="col-2"></div>
+	{{/if}}
+	<div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
+	<div class="col-2 SR-TextRight">
+		<select name="system.availability.multiplier" data-dtype="{{system.availability.multiplier}}" required>
+		{{#select system.availability.multiplier}}
+			<option value="">{{localize 'SR5.None'}}</option>
+			{{#each lists.valueMultipliersAll}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
 </li>
 
 <!-- Item Legality -->
 <li class="grid">
- <div class="col-5">{{localize 'SR5.Legality'}}</div>
- <div class="col-7">
-     <select name="data.legality">
-     {{#select data.legality}}
-         <option value="">{{localize 'SR5.Legal'}}</option>
-         {{#each lists.legalTypes}}
-         <option value="{{@key}}">{{localize this}}</option>
-         {{/each}}
-     {{/select}}
-     </select>
- </div>
+	<div class="col-5">{{localize 'SR5.Legality'}}</div>
+	<div class="col-7">
+		<select name="system.legality">
+		{{#select system.legality}}
+			<option value="">{{localize 'SR5.Legal'}}</option>
+			{{#each lists.legalTypes}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
 </li>

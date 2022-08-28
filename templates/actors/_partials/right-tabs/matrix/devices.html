@@ -39,11 +39,11 @@
 					<p>{{item.name}}</p>
 				</div>
 				<div class="col-2">
-					<p class="SR-TextCenter">{{valueOrDash data.deviceRating}}</p>
+					<p class="SR-TextCenter">{{valueOrDash system.deviceRating}}</p>
 				</div>
 				<div class="col-1">
 					<div class="grid">
-						{{#if (gte data.conditionMonitors.matrix.actual.value data.conditionMonitors.matrix.value)}}
+						{{#if (gte system.conditionMonitors.matrix.actual.value system.conditionMonitors.matrix.value)}}
 						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_BrickedItem' key=name}}" data-helpMessage="{{localize 'SR5.HELP_BrickedDeviceMsg'}}">
 							<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>
 						</div>
@@ -52,23 +52,23 @@
 						</div>
 						{{else}}
 						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
-							{{#if data.isActive}}
-							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Unequip'}}">
+							{{#if system.isActive}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.isActive" data-title="{{localize 'SR5.Unequip'}}">
 								<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
 							</a>
 							{{else}}
-							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.isActive" data-title="{{localize 'SR5.Equip'}}">
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.isActive" data-title="{{localize 'SR5.Equip'}}">
 								<em class="fas fa-sm fa-thumbtack"></em>
 							</a>
 							{{/if}}
 						</div>
 						<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_WifiToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_WifiToggleMsg'}}">
-							{{#if data.wirelessTurnedOn}}
-							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
+							{{#if system.wirelessTurnedOn}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.DisableWirelessMode'}}">
 								<em class="fas fa-sm fa-wifi SR-SubColor"></em>
 							</a>
 							{{else}}
-							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="data.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{item._id}}" data-binding="system.wirelessTurnedOn" data-title="{{localize 'SR5.EnableWirelessMode'}}">
 								<em class="fas fa-sm fa-wifi"></em>
 							</a>
 							{{/if}}

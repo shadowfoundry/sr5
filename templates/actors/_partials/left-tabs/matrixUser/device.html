@@ -2,7 +2,7 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="grid SR-LigneEnTete">
-			<div class="col-10 SR-TextUppercase">{{data.matrix.deviceName}}</div>
+			<div class="col-10 SR-TextUppercase">{{system.matrix.deviceName}}</div>
 			{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt') (eq actor.type 'actorDevice') (eq actor.type 'actorDrone'))}}
 			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.DeviceReboot'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_DeviceRebootMsg'}}">
@@ -14,45 +14,45 @@
 		<li class="item grid">
 			<div class="col-10">{{localize 'SR5.DeviceRating'}}</div>
 			{{#if (eq actor.type 'actorDevice')}}
-				<div class="col-2 SR-TextCenter"><input type="number" data-dtype="Number" name="data.matrix.deviceRating" value="{{data.matrix.deviceRating}}" placeholder="1"></div>
+				<div class="col-2 SR-TextCenter"><input type="number" data-dtype="Number" name="system.matrix.deviceRating" value="{{system.matrix.deviceRating}}" placeholder="1"></div>
 			{{else}}
-				<div class="col-2 SR-TextCenter">{{data.matrix.deviceRating}}</div>
+				<div class="col-2 SR-TextCenter">{{system.matrix.deviceRating}}</div>
 			{{/if}}
 		</li>
 		
-		{{#if_g data.specialAttributes.resonance.augmented.value 0}}
+		{{#if_g system.specialAttributes.resonance.augmented.value 0}}
 			<li class="grid">
 				<div class="col-10">{{localize 'SR5.SubmersionGrade'}}</div>
-				<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.matrix.submersionGrade"
+				<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.matrix.submersionGrade"
 				  data-helpTitle="{{localize 'SR5.SubmersionGrade'}}"
               	  data-helpMessage="{{localize 'SR5.HELP_SubmersionGradeMsg'}}"
 				>
-					{{data.matrix.submersionGrade}}
+					{{system.matrix.submersionGrade}}
 				</div>
 			</li>
 		{{/if_g}}
 
-		{{#ife data.matrix.deviceType "slavedDevice"}}
+		{{#ife system.matrix.deviceType "slavedDevice"}}
 		<li class="grid">
 		  	<div class="col-10">{{localize 'SR5.DEVICE_DirectlyConnected'}}</div>
 		  	<div class="col-2 SR-TextCenter"
 		  	  data-helpTitle="{{localize 'SR5.DEVICE_DirectlyConnected'}}"
         	  data-helpMessage="{{localize 'SR5.HELP_DirectlyConnectedMsg'}}"
 		  	>
-		  		<input type="checkbox" name="data.isDirectlyConnected" data-dtype="Boolean" {{checked data.isDirectlyConnected}} />
+		  		<input type="checkbox" name="system.isDirectlyConnected" data-dtype="Boolean" {{checked system.isDirectlyConnected}} />
 			</div>
 		</li>
 		{{/ife}}
 
-		{{#ife data.matrix.deviceType "ice"}}
+		{{#ife system.matrix.deviceType "ice"}}
 		<li class="grid" 
 		  data-helpTitle="{{localize 'SR5.IceType'}}"
           data-helpMessage="{{localize 'SR5.HELP_IceTypeMsg'}}"
 		>
-			<select  name="data.matrix.deviceSubType" data-dtype="String" required>
-				{{#select data.matrix.deviceSubType}}
+			<select  name="system.matrix.deviceSubType" data-dtype="String" required>
+				{{#select system.matrix.deviceSubType}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-					{{#each actor.lists.iceTypes}}
+					{{#each lists.iceTypes}}
 					<option value="{{@key}}">{{localize this}}</option>
 					{{/each}}
 				{{/select}}

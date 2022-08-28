@@ -36,7 +36,7 @@
 						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
 						<!-- Device Type -->
 						{{> systems/sr5/templates/items/_partial/editable/device/type-edit.html}}
-						{{#if (or (eq data.type 'commlink') (eq data.type 'cyberdeck') (eq data.type 'riggerCommandConsole'))}}
+						{{#if (or (eq system.type 'commlink') (eq system.type 'cyberdeck') (eq system.type 'riggerCommandConsole'))}}
 						<!-- Device Rating -->
 						{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}	
 						<!-- Program max -->
@@ -51,7 +51,7 @@
 					</ul>
 
 					<!-- Price & Availability -->
-					{{#if (or (eq data.type 'commlink') (eq data.type 'cyberdeck') (eq data.type 'riggerCommandConsole'))}}
+					{{#if (or (eq system.type 'commlink') (eq system.type 'cyberdeck') (eq system.type 'riggerCommandConsole'))}}
 					<ul class="SR-PaddingTop10">
 						{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
 				 	</ul>

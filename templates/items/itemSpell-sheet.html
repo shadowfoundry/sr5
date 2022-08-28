@@ -50,13 +50,13 @@
 						{{> systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html}}
 					</ul>
 					<!-- Defense Attributes -->
-					{{#if (and (eq data.resisted true) (ne data.category 'combat') )}}
+					{{#if (and (eq system.resisted true) (ne system.category 'combat') )}}
 					<ul class="SR-PaddingTop10">
 						{{> systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html}}
 					</ul>
 					{{/if}}
 					<!-- Quickening -->
-					{{#if document.parent.data.data.magic.metamagics.quickening}}
+					{{#if document.parent.system.system.magic.metamagics.quickening}}
 					<ul class="SR-PaddingTop10">
 						{{> systems/sr5/templates/items/_partial/editable/spell/quickening-edit.html}}
 					</ul>

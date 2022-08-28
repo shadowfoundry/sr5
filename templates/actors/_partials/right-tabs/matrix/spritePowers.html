@@ -26,13 +26,13 @@
 			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 				{{name}}
 			</div>
-			{{#if (gt data.test.dicePool 0)}}
+			{{#if (gt system.test.dicePool 0)}}
 			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="spritePower"
 			  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_PowerRollMsg'}}"
-			  data-helpDetailsItem="data.test"
+			  data-helpDetailsItem="system.test"
 			  data-helpItemId="{{_id}}">
-				{{data.test.dicePool}}
+				{{system.test.dicePool}}
 			</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>

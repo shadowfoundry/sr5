@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleModTypeFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.type" data-dtype="String" required>
-            {{#select data.type}}
+        <select name="system.type" data-dtype="String" required>
+            {{#select system.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.vehicleModType}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -11,25 +11,25 @@
         </select>
     </div>
 </li>
-{{#if (eq data.type "weapons")}}
+{{#if (eq system.type "weapons")}}
 <li class="grid">
     <div class="col-4">{{localize 'SR5.VEHICLE_WeaponMount_F'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="checkbox" name="data.isWeaponMounted" data-dtype="Boolean" {{checked data.isWeaponMounted}} /></div>
+    <div class="col-1"><input type="checkbox" name="system.isWeaponMounted" data-dtype="Boolean" {{checked system.isWeaponMounted}} /></div>
 </li>
 {{/if}}
 
-{{#if (eq data.type "powerTrain")}}
+{{#if (eq system.type "powerTrain")}}
 <li class="grid">
     <div class="col-4">{{localize 'SR5.VEHICLE_SecondaryPropulsion'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="checkbox" name="data.secondaryPropulsion.isSecondaryPropulsion" data-dtype="Boolean" {{checked data.secondaryPropulsion.isSecondaryPropulsion}} /></div>
+    <div class="col-1"><input type="checkbox" name="system.secondaryPropulsion.isSecondaryPropulsion" data-dtype="Boolean" {{checked system.secondaryPropulsion.isSecondaryPropulsion}} /></div>
 </li>
 {{/if}}
-{{#if data.secondaryPropulsion.isSecondaryPropulsion}}
+{{#if system.secondaryPropulsion.isSecondaryPropulsion}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VEHICLE_SecondaryPropulsionMode'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.secondaryPropulsion.type" data-dtype="String" required>
-            {{#select data.secondaryPropulsion.type}}
+        <select name="system.secondaryPropulsion.type" data-dtype="String" required>
+            {{#select system.secondaryPropulsion.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.vehicleSecondaryPropulsionMode}}
                     <option value="{{@key}}">{{localize this}}</option>

@@ -1,17 +1,17 @@
 <li class="grid">
-    {{#if data.isAccessory}}
+    {{#if system.isAccessory}}
         <div class="col-5">{{localize 'SR5.CapacityUsed'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.capacityTaken.base" value="{{data.capacityTaken.base}}" /></div>
-        {{#if data.capacityTaken.multiplier}}
-        <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.capacityTaken.multiplier this}})</div>
+        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.capacityTaken.base" value="{{system.capacityTaken.base}}" /></div>
+        {{#if system.capacityTaken.multiplier}}
+        <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue system.capacityTaken.multiplier this}})</div>
         {{else}}
         <div class="col-2"></div>
         {{/if}}
     {{else}}
         <div class="col-5">{{localize 'SR5.Capacity'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.capacity.base" value="{{data.capacity.base}}" /></div>
-        {{#if data.capacity.multiplier}}
-        <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.capacity.multiplier this}})</div>
+        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.capacity.base" value="{{system.capacity.base}}" /></div>
+        {{#if system.capacity.multiplier}}
+        <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue system.capacity.multiplier this}})</div>
         {{else}}
         <div class="col-2"></div>
         {{/if}}
@@ -19,9 +19,9 @@
     
     <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
     <div class="col-2 SR-TextRight">
-    {{#if data.isAccessory}}
-        <select name="data.capacityTaken.multiplier" data-dtype="{{data.capacityTaken.multiplier}}" required>
-        {{#select data.capacityTaken.multiplier}}
+    {{#if system.isAccessory}}
+        <select name="system.capacityTaken.multiplier" data-dtype="{{system.capacityTaken.multiplier}}" required>
+        {{#select system.capacityTaken.multiplier}}
             <option value="">{{localize 'SR5.None'}}</option>
             {{#each lists.valueMultipliersNoCapacity}}
             <option value="{{@key}}">{{localize this}}</option>
@@ -29,8 +29,8 @@
         {{/select}}
         </select>
     {{else}} 
-        <select name="data.capacity.multiplier" data-dtype="{{data.capacity.multiplier}}" required>
-        {{#select data.capacity.multiplier}}
+        <select name="system.capacity.multiplier" data-dtype="{{system.capacity.multiplier}}" required>
+        {{#select system.capacity.multiplier}}
             <option value="">{{localize 'SR5.None'}}</option>
             {{#each lists.valueMultipliersNoCapacity}}
             <option value="{{@key}}">{{localize this}}</option>
@@ -42,9 +42,9 @@
 </li>
   
 <!-- Accessory -->
-{{#if (eq data.isPlugged false)}}
+{{#if (eq system.isPlugged false)}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ItemIsAnAccessory'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextLeft"><input type="checkbox" name="data.isAccessory" data-dtype="Boolean" {{checked data.isAccessory}} /></div>
+    <div class="col-1 SR-TextLeft"><input type="checkbox" name="system.isAccessory" data-dtype="Boolean" {{checked system.isAccessory}} /></div>
 </li>
 {{/if}}

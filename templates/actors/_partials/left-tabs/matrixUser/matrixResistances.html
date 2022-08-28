@@ -8,19 +8,19 @@
 			<div class="col-10">{{localize 'SR5.MatrixDamage'}}</div>
 			<div class="col-2 SR-TextCenter"
 			data-helpTitle="{{localize 'SR5.HELP_MatrixResistance' key=(localize 'SR5.MatrixDamage') }}"
-		  	data-helpDetails="data.matrix.resistances.matrixDamage"
+		  	data-helpDetails="system.matrix.resistances.matrixDamage"
 			>
-				{{data.matrix.resistances.matrixDamage.dicePool}}
+				{{system.matrix.resistances.matrixDamage.dicePool}}
 			</div>
 		</li>
 			{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt'))}}
-				{{#if (or (eq data.matrix.deviceType "livingPersona") (eq data.matrix.deviceType "headcase") )}}
+				{{#if (or (eq system.matrix.deviceType "livingPersona") (eq system.matrix.deviceType "headcase") )}}
 					<li class="grid">
 						<div class="col-10">{{localize 'SR5.Fading'}}</div>
 						<div class="col-2 SR-TextCenter"
 						  data-helpTitle="{{localize 'SR5.HELP_MatrixResistance' key=(localize 'SR5.Fading') }}"
-		  	  			  data-helpDetails="data.matrix.resistances.fading">
-							  {{data.matrix.resistances.fading.dicePool}}
+		  	  			  data-helpDetails="system.matrix.resistances.fading">
+							  {{system.matrix.resistances.fading.dicePool}}
 							</div>
 					</li>
 				{{/if}}
@@ -28,27 +28,27 @@
 					<div class="col-10">{{localize 'SR5.BiofeedbackDamage'}}</div>
 					<div class="col-2 SR-TextCenter"
 					data-helpTitle="{{localize 'SR5.HELP_MatrixResistance' key=(localize 'SR5.BiofeedbackDamage') }}"
-		  	  		data-helpDetails="data.matrix.resistances.biofeedback"
+		  	  		data-helpDetails="system.matrix.resistances.biofeedback"
 					>
-						{{data.matrix.resistances.biofeedback.dicePool}}
+						{{system.matrix.resistances.biofeedback.dicePool}}
 					</div>
 				</li>
 				<li class="grid">
 					<div class="col-10">{{localize 'SR5.Dumpshock'}}</div>
 					<div class="col-2 SR-TextCenter"
 					data-helpTitle="{{localize 'SR5.HELP_MatrixResistance' key=(localize 'SR5.Dumpshock') }}"
-		  	  		data-helpDetails="data.matrix.resistances.dumpshock"
+		  	  		data-helpDetails="system.matrix.resistances.dumpshock"
 					>
-						{{data.matrix.resistances.dumpshock.dicePool}}
+						{{system.matrix.resistances.dumpshock.dicePool}}
 					</div>
 				</li>
 				<li class="grid">
 					<div class="col-10">{{localize 'SR5.DataBomb'}}</div>
 					<div class="col-2 SR-TextCenter"
 					data-helpTitle="{{localize 'SR5.HELP_MatrixResistance' key=(localize 'SR5.DataBomb') }}"
-		  	  		data-helpDetails="data.matrix.resistances.dataBomb"
+		  	  		data-helpDetails="system.matrix.resistances.dataBomb"
 					>
-						{{data.matrix.resistances.dataBomb.dicePool}}
+						{{system.matrix.resistances.dataBomb.dicePool}}
 					</div>
 				</li>
 			{{/if}}

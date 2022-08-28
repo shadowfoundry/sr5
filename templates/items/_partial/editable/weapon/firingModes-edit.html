@@ -2,10 +2,10 @@
     <p class="SR-TextUppercase">{{localize 'SR5.WeaponModes'}}</p>
 </li>
 <li class="grid">
-    {{#each data.firingMode}}
+    {{#each system.firingMode}}
         {{#if (ne @key 'value')}}
         <div class="col-4">{{findTranslation "weaponModes" @key}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-TextCenter"><input type="checkbox" name="data.firingMode.{{@key}}" data-dtype="Boolean" {{checked this}} /></div>
+        <div class="col-1 SR-TextCenter"><input type="checkbox" name="system.firingMode.{{@key}}" data-dtype="Boolean" {{checked this}} /></div>
         <div class="col-1"></div>
         {{/if}}
     {{/each}}

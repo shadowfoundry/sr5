@@ -1,15 +1,15 @@
-import { SR5_SystemHelpers } from "./system/utility.js";
+import { SR5_SystemHelpers } from "./system/utilitySystem.js";
 
 export default class Migration {
 
 	async migrateWorld() {
-		ui.notifications.info(`Applying SR5 System Migration for version ${game.system.data.version}. Please be patient and do not close your game or shut down your server.`, { permanent: true }); //To Translate
+		ui.notifications.info(`Applying SR5 System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`, { permanent: true }); //To Translate
 
 		// Migrate World Items
 		for (let i of game.items.contents) {
 			try {
 			  const updateData = this.migrateItemData(i.toObject());
-			  if (!foundry.utils.isObjectEmpty(updateData)) {
+			  if (!foundry.utils.isEmpty(updateData)) {
 				SR5_SystemHelpers.srLog(2, `Migrating Item documment ${i.name}`);
 				await i.update(updateData, { enforceTypes: false });
 			  }
@@ -36,8 +36,8 @@ export default class Migration {
 		// Migrate World Actors
 		for (let a of game.actors.contents) {
 			try {
-			  const updateData = this.migrateActorData(a.data);
-			  if (!foundry.utils.isObjectEmpty(updateData)) {
+			  const updateData = this.migrateActorData(a);
+			  if (!foundry.utils.isEmpty(updateData)) {
 				SR5_SystemHelpers.srLog(2, `Migrating Actor entity ${a.name}`);
 				await a.update(updateData, { enforceTypes: false });
 			  }
@@ -50,8 +50,8 @@ export default class Migration {
 		// Migrate Actor Override Tokens
 		for (let s of game.scenes.contents) {
 			try {
-			  const updateData = this.migrateSceneData(s.data);
-			  if (!foundry.utils.isObjectEmpty(updateData)) {
+			  const updateData = this.migrateSceneData(s);
+			  if (!foundry.utils.isEmpty(updateData)) {
 				SR5_SystemHelpers.srLog(2, `Migrating Scene entity ${s.name}`);
 				await s.update(updateData, { enforceTypes: false });
 				// If we do not do this, then synthetic token actors remain in cache
@@ -65,8 +65,8 @@ export default class Migration {
 		  }
 
 		// Set the migration as complete
-		game.settings.set("sr5", "systemMigrationVersion", game.system.data.version);
-		ui.notifications.info(`SR5 System Migration to version ${game.system.data.version} completed!`, { permanent: true }); //To Translate.
+		game.settings.set("sr5", "systemMigrationVersion", game.system.version);
+		ui.notifications.info(`SR5 System Migration to version ${game.system.version} completed!`, { permanent: true }); //To Translate.
 	}
 
 	/* -------------------------------------------- */
@@ -105,7 +105,7 @@ export default class Migration {
 			}
 
 			// Save the entry, if data was changed
-			if (foundry.utils.isObjectEmpty(updateData)) continue;
+			if (foundry.utils.isEmpty(updateData)) continue;
 			await doc.update(updateData);
 			SR5_SystemHelpers.srLog(2, `Migrated ${document} document ${doc.name} in Compendium ${pack.collection}`);
 		}
@@ -136,12 +136,12 @@ export default class Migration {
 	    const updateData = {};
 
     	// Actor Data Updates
-    	if (actor.data) {
+    	if (actor.system) {
 			//Do stuff on Actor
-			if(actor.type !== "actorDrone") updateData["data.penalties.-=resonance"] = null;
-			if(actor.data.vision) updateData["data.-=vision"] = null;
+			if(actor.type !== "actorDrone") updateData["system.penalties.-=resonance"] = null;
+			if(actor.system.vision) updateData["system.-=vision"] = null;
 			if (actor.type === "actorSpirit"){
-				if(actor.data.magic.magicType === "") updateData["data.magic.magicType"] = "spirit";
+				if(actor.system.magic.magicType === "") updateData["system.magic.magicType"] = "spirit";
 			}
 
 
@@ -158,7 +158,7 @@ export default class Migration {
 							"name": game.i18n.localize("SR5.Device"),
 							"type": "itemDevice",
 						}
-						deviceItem.data = {
+						deviceItem.system = {
 							"isActive": true,
 							"type": "baseDevice",
 						}
@@ -168,41 +168,79 @@ export default class Migration {
 			}
 
 			//Change on conditionMonitors template to handle temporary damage
-			if (actor.data.conditionMonitors){
-				for (let key of Object.keys(actor.data.conditionMonitors)){
-					if (actor.data.conditionMonitors[key].current) {
+			if (actor.system.conditionMonitors){
+				for (let key of Object.keys(actor.system.conditionMonitors)){
+					if (actor.system.conditionMonitors[key].current) {
 						if (key === "condition") {
-							updateData["data.conditionMonitors.condition.actual.base"] = actor.data.conditionMonitors.condition.current;
-							updateData["data.conditionMonitors.condition.-=current"] = null;
+							updateData["system.conditionMonitors.condition.actual.base"] = actor.system.conditionMonitors.condition.current;
+							updateData["system.conditionMonitors.condition.-=current"] = null;
 						}
 						if (key === "matrix") {
-							updateData["data.conditionMonitors.matrix.actual.base"] = actor.data.conditionMonitors.matrix.current;
-							updateData["data.conditionMonitors.matrix.-=current"] = null;
+							updateData["system.conditionMonitors.matrix.actual.base"] = actor.system.conditionMonitors.matrix.current;
+							updateData["system.conditionMonitors.matrix.-=current"] = null;
 						}
 						if (key === "stun") {
-							updateData["data.conditionMonitors.stun.actual.base"] = actor.data.conditionMonitors.stun.current;
-							updateData["data.conditionMonitors.stun.-=current"] = null;
+							updateData["system.conditionMonitors.stun.actual.base"] = actor.system.conditionMonitors.stun.current;
+							updateData["system.conditionMonitors.stun.-=current"] = null;
 						}
 						if (key === "physical") {
-							updateData["data.conditionMonitors.physical.actual.base"] = actor.data.conditionMonitors.physical.current;
-							updateData["data.conditionMonitors.physical.-=current"] = null;
+							updateData["system.conditionMonitors.physical.actual.base"] = actor.system.conditionMonitors.physical.current;
+							updateData["system.conditionMonitors.physical.-=current"] = null;
 						}
 						if (key === "edge") {
-							updateData["data.conditionMonitors.edge.actual.base"] = actor.data.conditionMonitors.edge.current;
-							updateData["data.conditionMonitors.edge.-=current"] = null;
+							updateData["system.conditionMonitors.edge.actual.base"] = actor.system.conditionMonitors.edge.current;
+							updateData["system.conditionMonitors.edge.-=current"] = null;
 						}
 						if (key === "overflow") {
-							updateData["data.conditionMonitors.overflow.actual.base"] = actor.data.conditionMonitors.overflow.current;
-							updateData["data.conditionMonitors.overflow.-=current"] = null;
+							updateData["system.conditionMonitors.overflow.actual.base"] = actor.system.conditionMonitors.overflow.current;
+							updateData["system.conditionMonitors.overflow.-=current"] = null;
 						}
 					}
 				}
 			}
 
 			//Change astralCombat limit
-			if (actor.data.skills?.astralCombat){
-				updateData["data.skills.astralCombat.limit.base"] = "astralLimit";
+			if (actor.system.skills?.astralCombat){
+				updateData["system.skills.astralCombat.limit.base"] = "astralLimit";
 			}
+
+			//v10 embedded items in actor
+			if (actor.system.creatorData){
+				let newCreatorData = duplicate(actor.system.creatorData);
+				if (newCreatorData.items){
+					debugger;
+					for (let i of newCreatorData.items){
+						i.system = i.data;
+						if (i.system.customEffects){
+							for (let e of Object.values(i.system.customEffects)){
+								if (e.target){
+									if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+								}
+							}
+						}
+					}
+				}
+				updateData["system.creatorData"] = newCreatorData;
+			}
+
+			if(actor.flags?.sr5?.vehicleControler){
+				debugger;
+				let newFlag = duplicate(actor.flags.sr5.vehicleControler);
+				if (newFlag.items){
+					for (let i of newFlag.items){
+						i.system = i.data;
+						if (i.system.customEffects){
+							for (let e of Object.values(i.system.customEffects)){
+								if (e.target){
+									if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+								}
+							}
+						}
+					}
+				}
+				updateData["flags.sr5.vehicleControler"] = newFlag;
+			}
+
     	}
 
 		// Migrate Owned Items
@@ -213,11 +251,10 @@ export default class Migration {
 				let itemUpdate = this.migrateItemData(itemData);
 
 				// Update the Owned Item
-				if (!isObjectEmpty(itemUpdate)) {
-				itemUpdate._id = itemData._id;
-				arr.push(expandObject(itemUpdate));
+				if (!foundry.utils.isEmpty(itemUpdate)) {
+					itemUpdate._id = itemData._id;
+					arr.push(expandObject(itemUpdate));
 				}
-
 				return arr;
 			}, []);
 			if (items.length > 0) updateData.items = items;
@@ -238,7 +275,7 @@ export default class Migration {
 
 		// Scrub system data
 		const model = game.system.model.Actor[actorData.type];
-		actorData.data = filterObject(actorData.data, model);
+		actorData.system = filterObject(actorData.system, model);
 
 		// Return the scrubbed data
 		return actorData;
@@ -253,50 +290,87 @@ export default class Migration {
 	* @return {object}      The updateData to apply
 	*/
 	migrateItemData(item) {
+		console.log(item);
 		const updateData = {};
 		//Migrate Items
 		if (item.type == "itemQuality"){
-			updateData["data.isActive"] = true;
+			updateData["system.isActive"] = true;
 		}
 
 		if (item.type == "itemWeapon"){
-			if(item.data.type === "amt_special") updateData["data.type"] = "exoticMeleeWeapon";
-			if(item.data.type === "adt_special") updateData["data.type"] = "exoticRangedWeapon";
-			if(item.data.weaponSkill.category === "amt_special") updateData["data.weaponSkill.category"] = "exoticMeleeWeapon";
-			if(item.data.weaponSkill.category === "adt_special") updateData["data.weaponSkill.category"] = "exoticRangedWeapon";
-			if(item.data.category === "grenade"){
-				updateData["data.range.short.base"] = 2;
-				updateData["data.range.medium.base"] = 4;
-				updateData["data.range.long.base"] = 6;
-				updateData["data.range.extreme.base"] = 10;
+			if(item.system.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
+			if(item.system.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
+			if(item.system.weaponSkill.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
+			if(item.system.weaponSkill.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
+			if(item.system.category === "grenade"){
+				updateData["system.range.short.base"] = 2;
+				updateData["system.range.medium.base"] = 4;
+				updateData["system.range.long.base"] = 6;
+				updateData["system.range.extreme.base"] = 10;
 			}
 		}
 
-		if (item.data.conditionMonitors){
-			if (item.data.conditionMonitors.matrix) {
-				updateData["data.conditionMonitors.matrix.actual.base"] = item.data.conditionMonitors.matrix.current;
-				updateData["data.conditionMonitors.matrix.-=current"] = null;
+		if (item.system?.conditionMonitors){
+			if (item.system.conditionMonitors.matrix) {
+				updateData["system.conditionMonitors.matrix.actual.base"] = item.system.conditionMonitors.matrix.current;
+				updateData["system.conditionMonitors.matrix.-=current"] = null;
 			}
-			if (item.data.conditionMonitors.condition) {
-				updateData["data.conditionMonitors.condition.actual.base"] = item.data.conditionMonitors.condition.current;
-				updateData["data.conditionMonitors.condition.-=current"] = null;
+			if (item.system.conditionMonitors.condition) {
+				updateData["system.conditionMonitors.condition.actual.base"] = item.system.conditionMonitors.condition.current;
+				updateData["system.conditionMonitors.condition.-=current"] = null;
 			}
-			if (item.data.conditionMonitors.stun) {
-				updateData["data.conditionMonitors.stun.actual.base"] = item.data.conditionMonitors.stun.current;
-				updateData["data.conditionMonitors.stun.-=current"] = null;
+			if (item.system.conditionMonitors.stun) {
+				updateData["system.conditionMonitors.stun.actual.base"] = item.system.conditionMonitors.stun.current;
+				updateData["system.conditionMonitors.stun.-=current"] = null;
 			}
-			if (item.data.conditionMonitors.physical) {
-				updateData["data.conditionMonitors.physical.actual.base"] = item.data.conditionMonitors.physical.current;
-				updateData["data.conditionMonitors.physical.-=current"] = null;
+			if (item.system.conditionMonitors.physical) {
+				updateData["system.conditionMonitors.physical.actual.base"] = item.system.conditionMonitors.physical.current;
+				updateData["system.conditionMonitors.physical.-=current"] = null;
 			}
 		}
 
 		if (item.type == "itemSpell"){
-			if (item.data.drainModifier) {		
-				updateData["data.drain.base"] = item.data.drainModifier;
-				updateData["data.-=drainModifier"] = null;
+			if (item.system.drainModifier) {		
+				updateData["system.drain.base"] = item.system.drainModifier;
+				updateData["system.-=drainModifier"] = null;
 			}
-	}
+		}
+
+		//v10 migrate custom effects path
+		if (item.system?.customEffects){
+			let newCustomEffects = item.system.customEffects;
+			for (let e of Object.values(newCustomEffects)){
+				if (e.target){
+					if (e.target.includes("data."))	{
+						e.target = e.target.replace('data.','system.');
+						console.log(item);
+					}
+				}
+			}
+			updateData["system.customEffects"] = newCustomEffects;
+		}
+
+		//v10 migrate items effects path
+		if (item.system?.itemEffects){
+			let newItemEffects = item.system.itemEffects;
+			for (let e of Object.values(newItemEffects)){
+				if (e.target){
+					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+				}
+			}
+			updateData["system.itemEffects"] = newItemEffects;
+		}
+
+		//v10 migrate system effects path
+		if (item.system?.systemEffects){
+			let newSystemEffects = item.system.systemEffects;
+			for (let e of Object.values(newSystemEffects)){
+				if (e.target){
+					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+				}
+			}
+			updateData["system.systemEffects"] = newSystemEffects;
+		}
 
 		// Migrate Effects
 		if (item.effects) {
@@ -306,7 +380,7 @@ export default class Migration {
 			let effectUpdate = this.migrateEffectData(effectData);
 
 			// Update the Owned Item
-			if (!isObjectEmpty(effectUpdate)) {
+			if (!foundry.utils.isEmpty(effectUpdate)) {
 				effectUpdate._id = effectData._id;
 				arr.push(expandObject(effectUpdate));
 			}
@@ -329,6 +403,7 @@ export default class Migration {
    */
 	migrateSceneData(scene) {
 		const tokens = scene.tokens.map(token => {
+			debugger;
 			const t = token.toJSON();
 			if (!t.actorId || t.actorLink) {
 				t.actorData = {};
@@ -340,6 +415,11 @@ export default class Migration {
 			else if (!t.actorLink) {
 				const actorData = duplicate(t.actorData);
 				actorData.type = token.actor?.type;
+				if (actorData.items){
+					for (let i of Object.values(actorData.items)){
+						i.system = i.data;
+					}
+				}
 				const update = this.migrateActorData(actorData);
 				['items', 'effects'].forEach(embeddedName => {
 					if (!update[embeddedName]?.length) return;

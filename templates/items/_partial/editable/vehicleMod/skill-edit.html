@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleModSkill'}}</div>
     <div class="col-7">
-        <select name="data.skill" data-dtype="String">
-        {{#select data.skill}}
+        <select name="system.skill" data-dtype="String">
+        {{#select system.skill}}
             <option value="">{{localize 'SR5.None'}}</option>
             {{#each lists.technicalSkills}}
             <option value="{{@key}}">{{localize this}}</option>

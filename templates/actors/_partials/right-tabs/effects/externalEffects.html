@@ -16,23 +16,23 @@
         {{#each actor.effects}}
         <li class="item grid" data-item-id="{{_id}}" draggable="true">
             <div class="col-3 deplie">{{name}}</div>
-            <div class="col-3 SR-TextCenter">{{data.target}}</div>
-            <div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.value"
+            <div class="col-3 SR-TextCenter">{{system.target}}</div>
+            <div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.value"
               data-helpTitle="{{localize 'SR5.HELP_EffectValue' key=name}}"
               data-helpMessage="{{localize 'SR5.HELP_EffectValueMsg'}}">
-                {{data.value}}</div>
-            <div class="col-3 SR-TextCenter">{{findTranslation 'effectTypes' data.type}}</div>
+                {{system.value}}</div>
+            <div class="col-3 SR-TextCenter">{{findTranslation 'effectTypes' system.type}}</div>
             <div class="col-2">
                 <div class="grid">
-                    {{#if (ne data.duration 0)}}
-                    <div class="col-10 SR-TextCenter changeValueByClick" data-binding="data.duration"
+                    {{#if (ne system.duration 0)}}
+                    <div class="col-10 SR-TextCenter changeValueByClick" data-binding="system.duration"
                       data-helpTitle="{{localize 'SR5.HELP_EffectDuration' key=name}}"
                       data-helpMessage="{{localize 'SR5.HELP_EffectDurationMsg'}}">
-                        {{data.duration}} {{findTranslation 'effectDuration' data.durationType}}
+                        {{system.duration}} {{findTranslation 'effectDuration' system.durationType}}
                     </div>
                     {{else}}
                     <div class="col-10 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EffectDuration' key=name}}">
-                        {{findTranslation 'effectDuration' data.durationType}}
+                        {{findTranslation 'effectDuration' system.durationType}}
                     </div>
                     {{/if}}
                     <div class="col-2 SR-TextRight">

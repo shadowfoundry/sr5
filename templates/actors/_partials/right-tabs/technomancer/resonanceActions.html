@@ -12,7 +12,7 @@
 				<div class="col-1 SR-TextCenter">{{localize 'SR5.MatrixGODShort'}}</div>
 			</div>
 		</li>
-		{{#each data.matrix.resonanceActions}}
+		{{#each system.matrix.resonanceActions}}
 		<li class="grid">
 			<div class="col-5">{{findTranslation 'resonanceActions' @key}}</div>
 			<div class="col-2 SR-TextCenter">{{findTranslation 'actionTypes' actionType}}</div>
@@ -20,7 +20,7 @@
 			<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="resonanceAction" data-rollkey="{{@key}}"
 			  data-helpTitle="{{localize 'SR5.HELP_SkillDicePool' key=(findTranslation 'resonanceActions' @key)}}"
 			  data-helpMessage="{{localize 'SR5.HELP_ResonanceActionsDicePoolMsg'}}"
-			  data-helpDetails="data.matrix.resonanceActions.{{@key}}.test">
+			  data-helpDetails="system.matrix.resonanceActions.{{@key}}.test">
 				{{test.dicePool}}</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>

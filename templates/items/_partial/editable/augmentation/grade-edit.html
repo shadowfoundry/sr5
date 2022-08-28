@@ -1,11 +1,11 @@
-{{#if (or (eq data.type "genetech") (eq data.type "hardNanoware") (eq data.type "softNanoware") )}}
+{{#if (or (eq system.type "genetech") (eq system.type "hardNanoware") (eq system.type "softNanoware") )}}
 
 {{else}}
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Grade'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.grade" required>
-        {{#select data.grade}}
+        <select name="system.grade" required>
+        {{#select system.grade}}
             {{#each lists.augmentationGrades}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}

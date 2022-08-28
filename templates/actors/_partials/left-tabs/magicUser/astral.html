@@ -9,7 +9,7 @@
 		  	  data-helpTitle="{{localize 'SR5.HELP_AstralPerception'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_AstralPreceptionMsg'}}"
 			>
-				<input type="checkbox" name="data.visions.astral.isActive" data-dtype="Boolean" {{checked data.visions.astral.isActive}}>
+				<input type="checkbox" name="system.visions.astral.isActive" data-dtype="Boolean" {{checked system.visions.astral.isActive}}>
 			</div>
 	  	</li>
 	  	<li class="grid">
@@ -17,18 +17,18 @@
 			<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="drain"
 		  	  data-helpTitle="{{localize 'SR5.HELP_DrainResistance'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_DrainResistanceMsg'}}"
-		  	  data-helpDetails="data.magic.drainResistance"
+		  	  data-helpDetails="system.magic.drainResistance"
 			>
-		  		{{data.magic.drainResistance.dicePool}}
+		  		{{system.magic.drainResistance.dicePool}}
 			</div>
 	  	</li>
 	  	<li class="grid">
 			<div class="col-10">{{localize 'SR5.AstralDamage'}}</div>
 			<div class="col-2 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.HELP_AstralDamage'}}"
-              data-helpDetails="data.magic.astralDamage"
+              data-helpDetails="system.magic.astralDamage"
 			>
-				{{valueOrDash data.magic.astralDamage.value}}
+				{{valueOrDash system.magic.astralDamage.value}}
 			</div>
 	  	</li>
 	 	<li class="grid">
@@ -36,9 +36,9 @@
 			<div class="col-2 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.HELP_AstralDefense'}}"
               data-helpMessage="{{localize 'SR5.HELP_AstralDefenseMsg'}}"
-              data-helpDetails="data.magic.astralDefense"
+              data-helpDetails="system.magic.astralDefense"
 			>
-				{{valueOrDash data.magic.astralDefense.dicePool}}
+				{{valueOrDash system.magic.astralDefense.dicePool}}
 			</div>
 	  	</li>
 	  	<li class="grid">
@@ -46,9 +46,9 @@
 			<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="passThroughBarrier"
 			  data-helpTitle="{{localize 'SR5.HELP_PassThroughBarrier'}}"
               data-helpMessage="{{localize 'SR5.HELP_PassThroughBarrierMsg'}}"
-              data-helpDetails="data.magic.passThroughBarrier"
+              data-helpDetails="system.magic.passThroughBarrier"
 			>
-				{{valueOrDash data.magic.passThroughBarrier.dicePool}}
+				{{valueOrDash system.magic.passThroughBarrier.dicePool}}
 			</div>
 	  	</li>
 	  	<li class="grid">
@@ -56,9 +56,9 @@
 			<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="astralTracking"
 			  data-helpTitle="{{localize 'SR5.HELP_AstralTracking'}}"
               data-helpMessage="{{localize 'SR5.HELP_AstralTrackingMsg'}}"
-              data-helpDetails="data.magic.astralTracking"
+              data-helpDetails="system.magic.astralTracking"
 			>
-				{{valueOrDash data.magic.astralTracking.dicePool}}
+				{{valueOrDash system.magic.astralTracking.dicePool}}
 			</div>
 	  	</li>
 	</ul>

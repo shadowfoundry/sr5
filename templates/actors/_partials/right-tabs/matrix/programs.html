@@ -23,55 +23,55 @@
 			<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 				<p>{{name}}</p>
 			</div>
-			<div class="col-2"><p class="SR-TextCenter">{{findTranslation 'programTypes' data.type}}</p></div>
+			<div class="col-2"><p class="SR-TextCenter">{{findTranslation 'programTypes' system.type}}</p></div>
 			<div class="col-2 SR-TextCenter">
-				{{#if (eq data.type "autosoft")}}
-					<p class="changeValueByClick" data-binding="data.itemRating"
+				{{#if (eq system.type "autosoft")}}
+					<p class="changeValueByClick" data-binding="system.itemRating"
 					data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
-					data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">{{valueOrDash data.itemRating}}</p>
-				{{else if (eq data.type "agent")}}
-					<p class="changeValueByClick" data-binding="data.itemRating"
+					data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">{{valueOrDash system.itemRating}}</p>
+				{{else if (eq system.type "agent")}}
+					<p class="changeValueByClick" data-binding="system.itemRating"
 					  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
-					  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">{{valueOrDash data.itemRating}}
+					  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">{{valueOrDash system.itemRating}}
 					</p>
 				{{else}}
 					-
 				{{/if}}
 			</div>
 			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_ProgramToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramToggleMsg'}}">
-				{{#if (eq data.type 'agent')}}
+				{{#if (eq system.type 'agent')}}
 				<p class="SR-TextCenter">
-					{{#if data.isCreated}}
-					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+					{{#if system.isCreated}}
+					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					data-helpTitle="{{localize 'SR5.HELP_SpriteDismiss'key=name}}"
 					data-helpMessage="{{localize 'SR5.HELP_SpriteDismissMsg'}}">
 						<em class="fas fa-flip-both fa-external-link-alt"></em>
 					</a>
 					{{else}}
-					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isCreated"
+					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					data-helpTitle="{{localize 'SR5.HELP_SpriteCreate'key=name}}"
 					data-helpMessage="{{localize 'SR5.HELP_SpriteCreateMsg'}}">
 						<em class="fas fa-external-link-alt"></em>
 					</a>					
 					{{/if}}
 				</p>
-				{{else if (and (eq ../actor.type 'actorDrone') (ne ../actor.data.controlMode 'autopilot') )}}
+				{{else if (and (eq ../actor.type 'actorDrone') (ne ../actor.system.controlMode 'autopilot') )}}
 				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerDisabledMsg'}}">
 					<em class="fas fa-times-circle SR-SubColor25"></em>
 				</p>
 				{{else}}
 				<p class="SR-TextCenter">
-				{{#if data.isActive}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{localize 'SR5.StopProgram'}}"><em class="fas fa-sm fa-upload SR-SubColor"></em></a>
+				{{#if system.isActive}}
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive" data-title="{{localize 'SR5.StopProgram'}}"><em class="fas fa-sm fa-upload SR-SubColor"></em></a>
 				{{else}}
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive" data-title="{{localize 'SR5.StartProgram'}}"><em class="fas fa-sm fa-upload"></em></a>
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive" data-title="{{localize 'SR5.StartProgram'}}"><em class="fas fa-sm fa-upload"></em></a>
 				{{/if}}
 				</p>
 				{{/if}}
 			</div>
 			<div class="col-1 SR-TextRight">
 				{{#if ../owner}}
-					{{#if data.isCreated}}
+					{{#if system.isCreated}}
 					{{else}}
 					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
 						<em class="fas fa-sm fa-edit item-management"></em>
@@ -85,18 +85,18 @@
 
 		<!-- Controler's programs -->
 		{{#each actor.flags.sr5.vehicleControler.items}}
-		{{#if (and (eq type "itemProgram") (eq data.type "autosoft"))}}
+		{{#if (and (eq type "itemProgram") (eq system.type "autosoft"))}}
 		<li class="grid">
 			<div class="col-6">{{name}}</div>
-			<div class="col-2 SR-TextCenter">{{findTranslation 'programTypes' data.type}}</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
-			{{#if ../data.matrix.hasLocalAutosoftRunning}}
+			<div class="col-2 SR-TextCenter">{{findTranslation 'programTypes' system.type}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash system.itemRating}}</div>
+			{{#if ../system.matrix.hasLocalAutosoftRunning}}
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerDisabledMsg'}}">
 				<em class="fas fa-times-circle SR-SubColor25"></em>
 			</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerMsg'}}">
-				{{#if data.isActive}}
+				{{#if system.isActive}}
 					<em class="fas fa-sm fa-upload SR-SubColor"></em>
 				{{else}}
 					<em class="fas fa-sm fa-upload SR-SubColor25"></em>
@@ -110,14 +110,14 @@
 
 		<!-- Owner Agent's programs -->
 		{{#if (eq actor.type 'actorAgent')}}
-		{{#each data.creatorData.items}}
-		{{#if (and (eq type "itemProgram") (or (eq data.type "common") (eq data.type "hacking") ))}}
+		{{#each system.creatorsystem.items}}
+		{{#if (and (eq type "itemProgram") (or (eq system.type "common") (eq system.type "hacking") ))}}
 		<li class="grid">
 			<div class="col-6">{{name}}</div>
-			<div class="col-2 SR-TextCenter">{{findTranslation 'programTypes' data.type}}</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash data.itemRating}}</div>
+			<div class="col-2 SR-TextCenter">{{findTranslation 'programTypes' system.type}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash system.itemRating}}</div>
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_ProgramsControler' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ProgramsControlerMsg'}}">
-				{{#if data.isActive}}
+				{{#if system.isActive}}
 					<em class="fas fa-sm fa-upload SR-SubColor"></em>
 				{{else}}
 					<em class="fas fa-sm fa-upload SR-SubColor25"></em>

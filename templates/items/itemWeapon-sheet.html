@@ -42,7 +42,7 @@
 							{{> systems/sr5/templates/items/_partial/editable/weapon/skill-edit.html}}
 							<!-- Device rating -->
 							{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}
-							{{#ife data.type "bow"}}
+							{{#ife system.type "bow"}}
 							<!-- Item rating -->
 							{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
 							{{/ife}}
@@ -59,11 +59,11 @@
 						<!-- Damage value, type & special -->
 						{{> systems/sr5/templates/items/_partial/editable/weapon/damage-edit.html}}
 						<!-- Toxin block -->
-						{{#ife data.damageElement "toxin"}}
+						{{#ife system.damageElement "toxin"}}
 							{{> systems/sr5/templates/items/_partial/editable/weapon/toxin-edit.html}}
 						{{/ife}}
 
-						{{#if (or (eq data.category "rangedWeapon") (eq data.category "meleeWeapon"))}}
+						{{#if (or (eq system.category "rangedWeapon") (eq system.category "meleeWeapon"))}}
 							<!-- Accuracy -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/accuracy-edit.html}}
 						{{/if}}
@@ -71,17 +71,17 @@
 						<!-- Armor Penetration -->
 						{{> systems/sr5/templates/items/_partial/editable/weapon/armorPenetration-edit.html}}
 
-						{{#ife data.category "rangedWeapon"}}
+						{{#ife system.category "rangedWeapon"}}
 							<!-- Recoil Compensation -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/recoilCompensation-edit.html}}
 
-							{{#if (or (eq data.type "grenadeLauncher") (eq data.type "missileLauncher"))}}
+							{{#if (or (eq system.type "grenadeLauncher") (eq system.type "missileLauncher"))}}
 							<!-- Blast & Drop off -->
 								{{> systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html}}
 							{{/if}}
 						{{/ife}}
 
-						{{#ife data.category "grenade"}}
+						{{#ife system.category "grenade"}}
 							<!-- Blast & Drop off -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html}}
 
@@ -97,18 +97,18 @@
 						</li>
 
 						<!-- MELEE -->
-						{{#ife data.category "meleeWeapon"}}
+						{{#ife system.category "meleeWeapon"}}
 							<!-- Reach-->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/reach-edit.html}}
 						{{/ife}}
 
 						<!-- RANGED WEAPON -->
-						{{#if (or (eq data.category "rangedWeapon") (eq data.category "grenade") )}}
+						{{#if (or (eq system.category "rangedWeapon") (eq system.category "grenade") )}}
 							{{> systems/sr5/templates/items/_partial/editable/weapon/range-edit.html}}
 						{{/if}}
 					</ul>
 
-					{{#ife data.category "rangedWeapon"}}
+					{{#ife system.category "rangedWeapon"}}
 					<!-- FIRING MODES -->
 					<ul class="SR-PaddingTop10">
 						{{> systems/sr5/templates/items/_partial/editable/weapon/firingModes-edit.html}}
@@ -123,10 +123,10 @@
 						<!-- Ammunition max -->
 						{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionMax-edit.html}}
 
-						{{#ifne data.type "throwing"}}
+						{{#ifne system.type "throwing"}}
 							<!-- Ammunition type -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html}}
-							{{#ife data.type "bow"}}
+							{{#ife system.type "bow"}}
 							<!-- Ammunition type -->
 							{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionRating-edit.html}}
 							{{/ife}}
