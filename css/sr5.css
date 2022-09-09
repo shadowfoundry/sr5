@@ -4689,6 +4689,12 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-controls a:hover {
   color: #0c9394;
 }
+#combat .combat-tracker-header h3 {
+  font-family: "srfoundry_secondary";
+  text-transform: uppercase;
+  font-size: 1em;
+  margin: 0 0 0 0;
+}
 #scenes .scene {
   border-width: 2px 0 2px 0;
   border-color: rgba(147, 16, 4, 0.5);

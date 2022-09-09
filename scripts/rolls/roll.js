@@ -52,7 +52,7 @@ export class SR5_Roll {
             rulesCalledShot = false,
             firstAttribute, secondAttribute, damageValueBase;
 
-        if (entity.documentName === "Actor") {
+            if (entity.documentName === "Actor") {           
             actor = entity;
             actorData = entity.system;
             if (actor.isToken){
@@ -76,10 +76,7 @@ export class SR5_Roll {
                 skill = actorData.skills[rollKey];
                 //calcul penalties
                 if(actorData.penalties){
-                    penalties = actorData.penalties.condition.actual.value
-                                + actorData.penalties.matrix.actual.value
-                                + actorData.penalties.magic.actual.value
-                                + actorData.penalties.special.actual.value;
+                    penalties = actorData.penalties.condition.actual.value + actorData.penalties.matrix.actual.value + actorData.penalties.magic.actual.value + actorData.penalties.special.actual.value;
                 }
             }
         }
@@ -92,13 +89,13 @@ export class SR5_Roll {
             if (actor.isToken){
                 speakerActor = actor.token.name;
                 speakerId = actor.token.id;
-                speakerImg = actor.token.img;
+                speakerImg = actor.token.texture.src;
             } else {
                 speakerId = actor.id;
                 let token = canvas.scene?.tokens.find((t) => t.actorId === speakerId);
                 if (token){
                     speakerActor = token.name;
-                    speakerImg = token.img;
+                    speakerImg = token.texture.src;
                 } else {
                     speakerActor = actor.name;
                     speakerImg = actor.img;

@@ -992,7 +992,7 @@ export default class SR5_RollDialog extends Dialog {
         let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
         resetedActor.resetRecoil();
         dialogData.rc += actor.flags.sr5.cumulativeRecoil;
-        dialogData.dicePoolMod.recoil = 0;
+        dialogData.dicePoolMod.recoil.value = 0;
         actor.flags.sr5.cumulativeRecoil = 0;
         let recoil = this.calculRecoil(html);
         html.find('[name="recoil"]')[0].value = recoil;

@@ -212,13 +212,13 @@ export class SR5_SystemHelpers {
 	 * @return {templatePosition || 0}   The coordinates of the template on the grid scene
 	 */
 	static getTemplateItemPosition(itemId){
-		let gridUnit = canvas.scene.data.grid;
+		let gridUnit = canvas.scene.grid.size;
 		let templatePosition = 0;
-		let templateItem = canvas.scene.data.templates.find((template) => template.flags.item === itemId);
+		let templateItem = canvas.scene.templates.find((template) => template.flags.item === itemId);
 		if (templateItem) {
 			//token position is based on top left grid.
 			//player will probably launch grenade on the token, so we need to tweak the position of the grenade template
-			templatePosition = { x: templateItem.data.x - (gridUnit/2), y: templateItem.data.y - (gridUnit/2)};
+			templatePosition = { x: templateItem.x - (gridUnit/2), y: templateItem.y - (gridUnit/2)};
 		}
 		return templatePosition;
 	}

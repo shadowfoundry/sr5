@@ -175,8 +175,8 @@ export const registerHooks = function () {
 		if ( !game.user.isGM ) return;
 		for (let combatant of combat.combatants){
 			let actor;
-			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.actorId)
-			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.data.tokenId)
+			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
 			actor.unsetFlag("sr5", "cumulativeDefense");
 		}
 	});
@@ -229,8 +229,8 @@ export const registerHooks = function () {
 			});
 			
 			let actor;
-			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.system.actorId)
-			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.system.tokenId)
+			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
 			actor.setFlag("sr5", "cumulativeDefense", 0);
 		}
 	});
@@ -240,7 +240,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("closeCombatantConfig", (combatant) => {
-		combatant.document.update({"flags.sr5.baseCombatantInitiative": combatant.document.data.initiative,})
+		combatant.document.update({"flags.sr5.baseCombatantInitiative": combatant.document.initiative,})
 	});
 
 	Hooks.on("updateItem", async(document, data, options, userId) => {
@@ -311,7 +311,7 @@ export const registerHooks = function () {
 	Hooks.on("deleteActiveEffect", async (effect) =>{
 		//if (effect.flags.core?.statusId === "astralInit") canvas.sight.refresh();
 		if (effect.flags.core?.statusId === "prone") {
-			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.data.data.type === "prone");
+			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
 			if (itemEffect) {
 				if (itemEffect.parent.isToken) await SR5Actor.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.token.id, itemEffect.id);
 				else await SR5Actor.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.id, itemEffect.id);

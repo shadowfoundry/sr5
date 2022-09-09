@@ -227,7 +227,6 @@ export class SR5_Dice {
 							}
 							return;
 						}
-
 						// Push the limits
 						if (edge && edgeActor) {
 							dialogData.dicePoolMod.edge = {

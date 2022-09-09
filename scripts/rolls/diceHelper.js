@@ -758,9 +758,9 @@ export class SR5_DiceHelper {
             return;
         }
         let distanceMod = message.test.hits;
-        let gridUnit = canvas.scene.data.grid;
+        let gridUnit = canvas.scene.grid.size;
     
-        let template = canvas.scene.data.templates.find((t) => t.flags.item === message.itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.item === message.itemId);
         if (template === undefined){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
             return;
@@ -847,7 +847,7 @@ export class SR5_DiceHelper {
                 break;
         }
     
-        let newPosition = deepClone(template.data);
+        let newPosition = duplicate(template);
         newPosition.x += coordinate.x;
         newPosition.y += coordinate.y;
     

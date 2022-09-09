@@ -123,43 +123,33 @@ export const registerHandlebarsHelpers = function () {
 		let value;
 		switch (property) {
 		case "rating":
-			value = item.data.itemRating;
+			value = item.system.itemRating;
 			break;
 		case "acceleration":
-			value = item.data.vehiclePriceMultiplier.acceleration;
+			value = item.system.vehiclePriceMultiplier.acceleration;
 			break;
 		case "handling":
-			value = item.data.vehiclePriceMultiplier.handling;
+			value = item.system.vehiclePriceMultiplier.handling;
 			break;
 		case "speed":
-			value = item.data.vehiclePriceMultiplier.speed;
+			value = item.system.vehiclePriceMultiplier.speed;
 			break;
 		case "body":
-			value = item.data.vehiclePriceMultiplier.body;
+			value = item.system.vehiclePriceMultiplier.body;
 			break;
 		case "speed":
-			value = item.data.vehiclePriceMultiplier.speed;
+			value = item.system.vehiclePriceMultiplier.speed;
 			break;
 		case "seating":
-			value = item.data.vehiclePriceMultiplier.seating;
+			value = item.system.vehiclePriceMultiplier.seating;
 			break;
 		case "vehicle":
-			value = item.data.vehiclePriceMultiplier.vehicle;
+			value = item.system.vehiclePriceMultiplier.vehicle;
 			break;
 		default:
-			value = SR5_EntityHelpers.resolveObjectPath(`data.${property}.value`, item);
+			value = SR5_EntityHelpers.resolveObjectPath(`system.${property}.value`, item);
 		}
 		return value;
-	});
-
-	Handlebars.registerHelper('countObjects', function (array, objectType) {
-		if (Array.isArray(array)) {
-		let count = 0;
-		for (let object of Object.values(array)) {
-			if (objectType == '*' || object.data.type == objectType) count++;
-		}
-		return count;
-		} else return 'ERR';
 	});
 
 	Handlebars.registerHelper('gainModifiersSum', function (property) {

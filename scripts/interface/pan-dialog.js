@@ -11,13 +11,12 @@ export default class SR5_PanDialog extends Dialog {
 
     activateListeners(html) {
         super.activateListeners(html);
-
         html.find('[name="actor"]').change(ev => {
             ev.preventDefault();
             let actor = SR5_EntityHelpers.getRealActorFromID(ev.target.value);
             let dialogData = {
                 actor: actor.id,
-                list: actor.data.data.matrix.potentialPanObject,
+                list: actor.system.matrix.potentialPanObject,
                 actorList: this.data.data.actorList,
             };
           

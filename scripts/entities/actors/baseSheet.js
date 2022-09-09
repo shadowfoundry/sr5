@@ -647,8 +647,8 @@ export class ActorSheetSR5 extends ActorSheet {
 			value = !oldValue;
 		}
 		setProperty(actor, target, value);
-		let actorData = actor.data;
-		this.actor.update({'data': actorData})
+		let actorData = actor.system;
+		this.actor.update({'system': actorData})
 	}
 
 

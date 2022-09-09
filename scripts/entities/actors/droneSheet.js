@@ -67,7 +67,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 			if (i.type === "itemWeapon") weapons.push(i);
 			else if (i.type === "itemArmor") armors.push(i);
 			else if (i.type === "itemProgram") {
-				if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+				if (i.system.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
 			}
 			else if (i.type === "itemMark") marks.push(i);
 			else if (i.type === "itemAmmunition") ammunitions.push(i);
@@ -89,27 +89,27 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 	}
 
 	/** @override */
-	async _onDropItemCreate(itemData) {
-		switch(itemData.type){
+	async _onDropItemCreate(item) {
+		switch(item.type){
 			case "itemWeapon":
-				if (itemData.data.category !== "rangedWeapon") {
+				if (item.system.category !== "rangedWeapon") {
 					ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
 					return;
 				}
 				for (let i of this.actor.items){
-					if (i.data.type === "itemWeapon" && i.data.data.isActive && (i.data.data.category === itemData.data.category)) {
-						return super._onDropItemCreate(itemData);
+					if (i.system.type === "itemWeapon" && i.system.isActive && (i.system.category === item.system.category)) {
+						return super._onDropItemCreate(item);
 					}
 				}
-				itemData.data.isActive = true;
-				return super._onDropItemCreate(itemData);
+				item.system.isActive = true;
+				return super._onDropItemCreate(item);
 			case "itemArmor":
 			case "itemProgram":
 			case "itemMark":
 			case "itemAmmunition":
 			case "itemVehicleMod":
 			case "itemEffect":
-				return super._onDropItemCreate(itemData);
+				return super._onDropItemCreate(item);
 			default:
 				ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
 				return;

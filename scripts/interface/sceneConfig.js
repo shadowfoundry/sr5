@@ -9,7 +9,7 @@ export default class SR5SceneConfig extends SceneConfig {
         const options = super.defaultOptions;
         return mergeObject(super.defaultOptions, {
             lists: SR5,
-          });
+        });
     }
 
     get template() {
@@ -24,8 +24,6 @@ export default class SR5SceneConfig extends SceneConfig {
 
     activateListeners(html) {
         super.activateListeners(html);
-        //this.matrixNoise = {};
-        //this.document.lists = SR5;
         this.updateMatrixNoise(html);
 
         html.find('[name="matrixSpam"]').change(ev => {

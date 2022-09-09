@@ -11,9 +11,9 @@
  */
 export async function createSR5Macro(data, slot) {
 	if (data.type !== "Item") return ui.notifications.warn(`Pas de marco programmé pour ce type d'objet`);//TODO: translate;
-	if (data.data.type != "itemWeapon" && data.data.type != "itemSpell") return ui.notifications.warn(`Pas de marco programmé pour ce type d'objet`);//TODO: translate
+	if (data.type != "itemWeapon" && data.type != "itemSpell") return ui.notifications.warn(`Pas de marco programmé pour ce type d'objet`);//TODO: translate
 	if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items"); //TODO: translate
-	const item = data.data;
+	const item = data;
 
 	// Create the macro command
 	const command = `game.sr5.rollItemMacro("${item.name}");`;
@@ -55,9 +55,9 @@ export function rollItemMacro(itemName) {
 	const item = items[0];
 
 	// Trigger the item roll
-	if (item.data.type === "itemSpell") return item.rollTest("spell");
-	if (item.data.type === "itemWeapon") {
-		if (item.data.data.category === "grenade")
+	if (item.type === "itemSpell") return item.rollTest("spell");
+	if (item.type === "itemWeapon") {
+		if (item.system.category === "grenade")
 			return item.placeGabarit();
 		else return item.rollTest("weapon");
 	}

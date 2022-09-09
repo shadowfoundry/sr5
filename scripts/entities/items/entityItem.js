@@ -192,162 +192,163 @@ export class SR5Item extends Item {
 
 	// Expand data is used in most dropdown infos
 	getExpandData(htmlOptions) {
-		const data = duplicate(this.data.data);
+		const itemData = duplicate(this.system);
 		let lists = SR5_EntityHelpers.sortTranslations(SR5);
 		let tags =[];
 		let accessories =[];
+		htmlOptions.async = false;
 
-		data.description = data.description || "";
-		data.description = TextEditor.enrichHTML(data.description, htmlOptions);
+		itemData.description = itemData.description || "";
+		itemData.description = TextEditor.enrichHTML(itemData.description, htmlOptions);
 
-		switch(this.data.type){
+		switch(this.type){
 			case "itemAugmentation":
 				tags.push(
-					game.i18n.localize(lists.augmentationTypes[data.type]),
-					game.i18n.localize(lists.augmentationCategories[data.category]),
-					game.i18n.localize(lists.augmentationGeneCategories[data.category]),
+					game.i18n.localize(lists.augmentationTypes[itemData.type]),
+					game.i18n.localize(lists.augmentationCategories[itemData.category]),
+					game.i18n.localize(lists.augmentationGeneCategories[itemData.category]),
 				);
-				if (data.type === "bioware" || data.type === "culturedBioware" || data.type === "cyberware" || data.type === "nanocyber" || data.type === "symbionts") {
-					tags.push(game.i18n.localize(lists.augmentationGrades[data.grade]));
+				if (itemData.type === "bioware" || itemData.type === "culturedBioware" || itemData.type === "cyberware" || itemData.type === "nanocyber" || itemData.type === "symbionts") {
+					tags.push(game.i18n.localize(lists.augmentationGrades[itemData.grade]));
 				}
-				if (data.itemRating > 0) {
-					tags.push(game.i18n.localize("SR5.ItemRating") + ` ${data.itemRating}`);
+				if (itemData.itemRating > 0) {
+					tags.push(game.i18n.localize("SR5.ItemRating") + ` ${itemData.itemRating}`);
 				}
-				if (data.marks.length){
-					for (let m of data.marks){
+				if (itemData.marks.length){
+					for (let m of itemData.marks){
 						tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
 					}
 				}
-				if (data.isSlavedToPan){
-					let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+				if (itemData.isSlavedToPan){
+					let panMaster = SR5_EntityHelpers.getRealActorFromID(itemData.panMaster);
 					tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
 				}
 				break;
 			case "itemWeapon":
-				if (data.category === "rangedWeapon"){
+				if (itemData.category === "rangedWeapon"){
 					tags.push(
-						game.i18n.localize(lists.rangedWeaponTypes[data.type]),
-						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${data.firingMode.value}`,
-						game.i18n.localize(`SR5.RecoilCompensationShort`) + game.i18n.localize(`SR5.Colons`) + ` ${data.recoilCompensation.value}`,
-						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${data.range.short.value}/${data.range.medium.value}/${data.range.long.value}/${data.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
-						game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[data.ammunition.type]),
+						game.i18n.localize(lists.rangedWeaponTypes[itemData.type]),
+						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.firingMode.value}`,
+						game.i18n.localize(`SR5.RecoilCompensationShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.recoilCompensation.value}`,
+						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
+						game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[itemData.ammunition.type]),
 					);
-					if (data.accessory) {
-						for (let a of data.accessory){
-							accessories.push(`${a.name}: ${a.data?.gameEffect}`);
+					if (itemData.accessory) {
+						for (let a of itemData.accessory){
+							accessories.push(`${a.name}: ${a.system?.gameEffect}`);
 							tags.push([game.i18n.localize(lists.weaponAccessories[a.name]), a.gameEffects]);
 						}
 					}
-				} else if (data.category === "meleeWeapon"){
+				} else if (itemData.category === "meleeWeapon"){
 					tags.push(
-						game.i18n.localize(lists.meleeWeaponTypes[data.type]),
-						game.i18n.localize(`SR5.WeaponReach`) + game.i18n.localize(`SR5.Colons`) + ` ${data.reach.value}`,
+						game.i18n.localize(lists.meleeWeaponTypes[itemData.type]),
+						game.i18n.localize(`SR5.WeaponReach`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.reach.value}`,
 					);
-				} else if (data.category === "grenade"){
+				} else if (itemData.category === "grenade"){
 					tags.push(
-						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${data.range.short.value}/${data.range.medium.value}/${data.range.long.value}/${data.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
+						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
 					);
 				}
-				if (data.marks.length){
-					for (let m of data.marks){
+				if (itemData.marks.length){
+					for (let m of itemData.marks){
 						tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
 					}
 				}
-				if (data.isSlavedToPan){
-					let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+				if (itemData.isSlavedToPan){
+					let panMaster = SR5_EntityHelpers.getRealActorFromID(itemData.panMaster);
 					tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
 				}
 				break;
 			case "itemPreparation":
 			case "itemSpell":
-				tags.push(`${game.i18n.localize('SR5.SpellType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.spellTypes[data.type])}`);
-				tags.push(game.i18n.localize(lists.spellCategories[data.category]));
-				switch (data.category){
+				tags.push(`${game.i18n.localize('SR5.SpellType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.spellTypes[itemData.type])}`);
+				tags.push(game.i18n.localize(lists.spellCategories[itemData.category]));
+				switch (itemData.category){
 					case "combat":
-						tags.push(game.i18n.localize(lists.spellCombatTypes[data.subCategory]));
+						tags.push(game.i18n.localize(lists.spellCombatTypes[itemData.subCategory]));
 						break;
 					case "detection":
 						tags.push(
-							game.i18n.localize(lists.spellDetectionTypes[data.subCategory]),
-							game.i18n.localize(lists.spellDetectionSens[data.detectionSense]),
+							game.i18n.localize(lists.spellDetectionTypes[itemData.subCategory]),
+							game.i18n.localize(lists.spellDetectionSens[itemData.detectionSense]),
 						);
 						break;
 					case "health":
-						if (data.healthEssence){
+						if (itemData.healthEssence){
 							tags.push(game.i18n.localize(`SR5.Essence`));
 						}
 						break;
 					case "illusion":
 						tags.push(
-							game.i18n.localize(lists.spellIllusionTypes[data.subCategory]),
-							game.i18n.localize(lists.spellIllusionSens[data.illusionSense]),
+							game.i18n.localize(lists.spellIllusionTypes[itemData.subCategory]),
+							game.i18n.localize(lists.spellIllusionSens[itemData.illusionSense]),
 						);
 						break;
 					case "manipulation":
-						tags.push(game.i18n.localize(lists.spellManipulationTypes[data.subCategory]));
-						if (data.manipulationDamaging){
+						tags.push(game.i18n.localize(lists.spellManipulationTypes[itemData.subCategory]));
+						if (itemData.manipulationDamaging){
 							tags.push(game.i18n.localize(`SR5.Damaging`));
 						}
 						break;
 					default:
 				}
-				if (this.data.type === "itemSpell") {
-					let plus = (data.drain.value <= 0 ? "" : "+");
-					tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${data.drain.value}`);
-					tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${data.drainValue.value}`);
+				if (this.type === "itemSpell") {
+					let plus = (itemData.drain.value <= 0 ? "" : "+");
+					tags.push(`${game.i18n.localize('SR5.SpellDrain')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} ${plus}${itemData.drain.value}`);
+					tags.push(`${game.i18n.localize('SR5.SpellDrainActual')}${game.i18n.localize('SR5.Colons')} ${itemData.drainValue.value}`);
 				}
 				break;
 			case "itemGear":
-				if (data.marks.length){
-					for (let m of data.marks){
+				if (itemData.marks.length){
+					for (let m of itemData.marks){
 						tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
 					}
 				}
-				if (data.isSlavedToPan){
-					let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+				if (itemData.isSlavedToPan){
+					let panMaster = SR5_EntityHelpers.getRealActorFromID(itemData.panMaster);
 					tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
 				}
 				break;
 			case "itemRitual":
-				if (data.anchored) tags.push(game.i18n.localize(`SR5.Anchored`));
-				if (data.materialLink) tags.push(game.i18n.localize(`SR5.MaterialLink`));
-				if (data.minion) tags.push(game.i18n.localize(`SR5.Minion`));
-				if (data.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
-				if (data.spell) tags.push(game.i18n.localize(`SR5.Spell`));
-				tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[data.durationToPerform])}`);
+				if (itemData.anchored) tags.push(game.i18n.localize(`SR5.Anchored`));
+				if (itemData.materialLink) tags.push(game.i18n.localize(`SR5.MaterialLink`));
+				if (itemData.minion) tags.push(game.i18n.localize(`SR5.Minion`));
+				if (itemData.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
+				if (itemData.spell) tags.push(game.i18n.localize(`SR5.Spell`));
+				tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[itemData.durationToPerform])}`);
 				break;
 			case "itemAdeptPower":
-				tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${data.powerPointsCost.value}`);
+				tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${itemData.powerPointsCost.value}`);
 				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[data.actionType])}`);
 				break;
 			case "itemQuality":
-				tags.push(`${game.i18n.localize(lists.qualityTypes[data.type])}`);
-				if (data.itemRating !== 0) tags.push(`${game.i18n.localize('SR5.ItemRating')}${game.i18n.localize('SR5.Colons')} ${data.itemRating}`);
-				tags.push(`${game.i18n.localize('SR5.KarmaCost')}${game.i18n.localize('SR5.Colons')} ${data.karmaCost}`);
+				tags.push(`${game.i18n.localize(lists.qualityTypes[itemData.type])}`);
+				if (itemData.itemRating !== 0) tags.push(`${game.i18n.localize('SR5.ItemRating')}${game.i18n.localize('SR5.Colons')} ${itemData.itemRating}`);
+				tags.push(`${game.i18n.localize('SR5.KarmaCost')}${game.i18n.localize('SR5.Colons')} ${itemData.karmaCost}`);
 				break;
 			case "itemVehicle":
-				tags.push(`${game.i18n.localize(lists.vehiclesCategories[data.category])}`);
-				if (data.vehiclesMod.length){
-					for (let v of data.vehiclesMod){
+				tags.push(`${game.i18n.localize(lists.vehiclesCategories[itemData.category])}`);
+				if (itemData.vehiclesMod.length){
+					for (let v of itemData.vehiclesMod){
 						tags.push(`${v.name}`);
 					}
 				}
-				if (data.marks.length){
-					for (let m of data.marks){
+				if (itemData.marks.length){
+					for (let m of itemData.marks){
 						tags.push(game.i18n.localize("SR5.Mark") + game.i18n.localize(`SR5.Colons`) + ` ${m.ownerName} [${m.value}]`);
 					}
 				}
-				if (data.isSlavedToPan){
-					let panMaster = SR5_EntityHelpers.getRealActorFromID(data.panMaster);
+				if (itemData.isSlavedToPan){
+					let panMaster = SR5_EntityHelpers.getRealActorFromID(itemData.panMaster);
 					tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
 				}        
 				break;
 			default:
 		}
 
-		data.properties = tags.filter(p => !!p);
-		data.accessories = accessories.filter(p => !!p);
-		return data;
+		itemData.properties = tags.filter(p => !!p);
+		itemData.accessories = accessories.filter(p => !!p);
+		return itemData;
 	}
 
 	//Reload ammo based on weapon type && ammunitions

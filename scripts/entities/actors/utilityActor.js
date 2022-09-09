@@ -777,21 +777,20 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static async switchVision(actor, vision){
-		let data = duplicate(actor.system),
-				lists = actor.data.lists,
-				currentVision;
+		let actorData = duplicate(actor.system),
+			currentVision;
 
-		for (let key of Object.keys(lists.visionActive)){
-			if (data.visions[key].isActive) currentVision = key;
+		for (let key of Object.keys(SR5.visionActive)){
+			if (actorData.visions[key].isActive) currentVision = key;
 		}
 
-		for (let key of Object.keys(lists.visionActive)){
-			if (key === vision && key === currentVision) data.visions[key].isActive = false;
-			else if (key === vision) data.visions[key].isActive = true;
-			else data.visions[key].isActive = false;
+		for (let key of Object.keys(SR5.visionActive)){
+			if (key === vision && key === currentVision) actorData.visions[key].isActive = false;
+			else if (key === vision) actorData.visions[key].isActive = true;
+			else actorData.visions[key].isActive = false;
 		}
 
-		await actor.update({ 'data': data });
+		await actor.update({ 'system': actorData });
 	}
 
 	static applyRacialModifers(actor) {
@@ -1413,8 +1412,7 @@ export class SR5_CharacterUtility extends Actor {
 	// Generate physical initiative
 	static updateInitiativePhysical(actor) {
 		let data = actor.system, initiatives = data.initiatives,
-				attributes = data.attributes, initPhy = initiatives.physicalInit,
-				lists = actor.system.lists;
+			attributes = data.attributes, initPhy = initiatives.physicalInit;
 
 		initPhy.base = 0;
 		initPhy.dice.base = 0;
@@ -1448,7 +1446,7 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(initPhy,`${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
 				SR5_EntityHelpers.updateModifier(initPhy,`${game.i18n.localize('SR5.Reaction')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.reaction.augmented.value);
 				initPhy.dice.base = 1;
-				if (data.type !== "homunculus")  SR5_EntityHelpers.updateModifier(initPhy.dice,`${game.i18n.localize('SR5.SpiritType')}`, `${game.i18n.localize(lists.spiritTypes[data.type])}`, 1);
+				if (data.type !== "homunculus")  SR5_EntityHelpers.updateModifier(initPhy.dice,`${game.i18n.localize('SR5.SpiritType')}`, `${game.i18n.localize(SR5.spiritTypes[data.type])}`, 1);
 				break;
 			default:
 				SR5_EntityHelpers.updateModifier(initPhy,`${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
@@ -1507,7 +1505,7 @@ export class SR5_CharacterUtility extends Actor {
 	// Generate matrix initiative
 	static updateInitiativeMatrix(actor) {
 		let data = actor.system, initiatives = data.initiatives, attributes = data.attributes, initMat = initiatives.matrixInit,
-				matrixAttributes = data.matrix.attributes, lists = actor.system.lists;
+			matrixAttributes = data.matrix.attributes, lists = actor.system.lists;
 		initMat.base = 0;
 		initMat.dice.base = 0;
 
@@ -2713,7 +2711,6 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static generateMatrixActions(actor){
-		console.log("generateMatrixActions");
 		let lists = actor.system.lists;
 		let data = actor.system, attributes = data.attributes, skills = data.skills;
 		let matrix = data.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
@@ -3175,7 +3172,7 @@ export class SR5_CharacterUtility extends Actor {
 		if(!actorData.creatorData) return;
 		for (let i of actorData.creatorData.items){
 			if (i.type === "itemProgram" && (i.data.type === "common" || i.data.type === "hacking")){
-				if (Object.keys(i.data.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i.data, actor);
+				if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 			}
 		}
 
@@ -3210,13 +3207,13 @@ export class SR5_CharacterUtility extends Actor {
 
 		if (actor.system.controlMode === "autopilot"){
 			for (let i of controler.items){
-				if (i.type === "itemProgram" && i.data.type === "autosoft" && i.data.isActive && !hasLocalAutosoftRunning){
-					if (i.data.isModelBased){
-						if (i.data.model === actor.system.model){
-							if (Object.keys(i.data.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i.data, actor);
+				if (i.type === "itemProgram" && i.system.type === "autosoft" && i.system.isActive && !hasLocalAutosoftRunning){
+					if (i.system.isModelBased){
+						if (i.system.model === actor.system.model){
+							if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 						}
 					} else {
-						if (Object.keys(i.data.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i.data, actor);
+						if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					}
 				}
 			}
@@ -3227,7 +3224,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	// Modif dû à la possession d'un esprit
 	static _actorModifPossession(spirit, actor) {
-		let lists = actor.system.lists, data = actor.system, actorAttribute = data.attributes;
+		let lists = actor.system.lists, actorData = actor.system, actorAttribute = actorData.attributes;
 		let spiritForce = spirit.system.itemRating, spiritType = spirit.system.type, spiritAttributes = spirit.system.attributes;
 
 		// Attributes modifiers
@@ -3242,42 +3239,42 @@ export class SR5_CharacterUtility extends Actor {
 		}
 		for (let key of Object.keys(lists.characterSpecialAttributes)) {
 			if(spiritAttributes[key]){
-				let mod = spiritAttributes[key] - data.specialAttributes[key].augmented.base;
-				SR5_EntityHelpers.updateModifier(data.specialAttributes[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
+				let mod = spiritAttributes[key] - actorData.specialAttributes[key].augmented.base;
+				SR5_EntityHelpers.updateModifier(actorData.specialAttributes[key].augmented, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
 			}
 		}
 
 		// Skills modifiers
 		for (let key of Object.keys(lists.skillGroups)){
-			if (data.skillGroups[key]){
-				let mod = data.skillGroups[key].base;
-				SR5_EntityHelpers.updateModifier(data.skillGroups[key], `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
+			if (actorData.skillGroups[key]){
+				let mod = actorData.skillGroups[key].base;
+				SR5_EntityHelpers.updateModifier(actorData.skillGroups[key], `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
 			}
 		}
 		for (let key of Object.keys(lists.skills)) {
-			if (data.skills[key]){
+			if (actorData.skills[key]){
 				let spiritSkill = spirit.system.skill.find(skill => skill === key);
 				if (spiritSkill === key) {
-					let mod = spiritForce - data.skills[key].rating.value;
-					SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
+					let mod = spiritForce - actorData.skills[key].rating.value;
+					SR5_EntityHelpers.updateModifier(actorData.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", mod);
 				} else {
-					let mod = data.skills[key].rating.base;
-					SR5_EntityHelpers.updateModifier(data.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
+					let mod = actorData.skills[key].rating.base;
+					SR5_EntityHelpers.updateModifier(actorData.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", -mod);
 				}
 			}
 		}
 
 		// Initiative "modifier"
-		data.initiatives.physicalInit.dice.base = 2;
+		actorData.initiatives.physicalInit.dice.base = 2;
 
 		// Penalties modifiers (rules are so cryptic, I prefer to simplify and just put a "bonus" to penalty)
-		SR5_EntityHelpers.updateModifier(data.penalties.condition.actual, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", spiritForce);
+		SR5_EntityHelpers.updateModifier(actorData.penalties.condition.actual, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(lists.spiritTypes[spiritType])})`, "possession", spiritForce);
 
 	}
 
 	static applyCustomEffects(item, actor) {
-		let lists = actor.system.lists;
-		for (let customEffect of Object.values(item.customEffects)) {
+		let itemData = item.system;
+		for (let customEffect of Object.values(itemData.customEffects)) {
 			let skipCustomEffect = false,
 					cumulative = customEffect.cumulative,
 					isMultiplier = false;
@@ -3288,7 +3285,7 @@ export class SR5_CharacterUtility extends Actor {
 			}
 
 			// For effect depending on wifi
-			if (customEffect.wifi && !item.wirelessTurnedOn){
+			if (customEffect.wifi && !itemData.wirelessTurnedOn){
 				skipCustomEffect = true;
 			}
 
@@ -3298,7 +3295,7 @@ export class SR5_CharacterUtility extends Actor {
 			}
 
 			if (item.type === "itemDrug"){
-				if (!item.isActive && !customEffect.wifi) skipCustomEffect = true;
+				if (!itemData.isActive && !customEffect.wifi) skipCustomEffect = true;
 			}
 
 			let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, actor);
@@ -3312,12 +3309,12 @@ export class SR5_CharacterUtility extends Actor {
 				if (customEffect.category === "weaponEffectTargets"){
 					if (customEffect.target === "system.itemsProperties.weapon.accuracy"){
 						customEffect.value = (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(SR5.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						continue;
 					}
 					if (customEffect.target === "system.itemsProperties.weapon.damageValue"){
 						customEffect.value = (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(lists.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(SR5.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						continue;
 					}
 				}
@@ -3325,13 +3322,13 @@ export class SR5_CharacterUtility extends Actor {
 				//Special case for Hardened Armor
 				if (customEffect.target === "system.specialProperties.hardenedArmorType"){
 					setProperty(actor, customEffect.target, customEffect.type);
-					if (customEffect.type === "rating") setProperty(actor, "system.specialProperties.hardenedArmorRating", (item.itemRating || 0));
+					if (customEffect.type === "rating") setProperty(actor, "system.specialProperties.hardenedArmorRating", (itemData.itemRating || 0));
 					continue;
 				}
 
 				if (customEffect.target === "system.specialProperties.hardenedAstralArmorType"){
 					setProperty(actor, customEffect.target, customEffect.type);
-					if (customEffect.type === "rating") setProperty(actor, "system.specialProperties.hardenedAstralArmorRating", (item.itemRating || 0));
+					if (customEffect.type === "rating") setProperty(actor, "system.specialProperties.hardenedAstralArmorRating", (itemData.itemRating || 0));
 					continue;
 				}
 
@@ -3352,30 +3349,30 @@ export class SR5_CharacterUtility extends Actor {
 
 				switch (customEffect.type) {
 					case "rating":
-						customEffect.value = (item.itemRating || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						customEffect.value = (itemData.itemRating || 0);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(SR5.itemTypes[item.type])}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					case "hits":
-						customEffect.value = (item.hits || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						customEffect.value = (itemData.hits || 0);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(SR5.itemTypes[item.type])}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					case "value":
 						customEffect.value = (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(SR5.itemTypes[item.type])}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					case "valueReplace":
 						targetObject.modifiers= [];
 						if (targetObject.base < 1) targetObject.base = 0;
 						let modValue = -targetObject.base + (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, modValue * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(SR5.itemTypes[item.type])}`, modValue * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					//currently disabled in effects.html
 					case "ratingReplace":
 						targetObject.modifiers= [];
-						customEffect.value = (item.itemRating || 0);
+						customEffect.value = (itemData.itemRating || 0);
 						if (targetObject.base < 1) targetObject.base = 0;
 						let modRating = -targetObject.base + customEffect.value;
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, modRating * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(SR5.itemTypes[item.type])}`, modRating * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					case "boolean":
 						let booleanValue;
@@ -3385,7 +3382,7 @@ export class SR5_CharacterUtility extends Actor {
 						break;            
 					case "divide":
 						let divide = 1 / customEffect.multiplier;
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(lists.itemTypes[item.type])}`, divide, true, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, `${game.i18n.localize(SR5.itemTypes[item.type])}`, divide, true, cumulative);
 						break;
 					default:
 						SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' custom effect type in applyCustomEffects()`, customEffect);

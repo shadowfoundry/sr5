@@ -84,26 +84,26 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
 	}
 
 	/** @override */
-	async _onDropItemCreate(itemData) {
-		switch(itemData.type){
+	async _onDropItemCreate(item) {
+		switch(item.type){
 			case "itemTradition":
 				for (let i of this.actor.items){
-					if (i.data.type === "itemTradition") return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
+					if (i.type === "itemTradition") return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
 				}
-				return super._onDropItemCreate(itemData);
+				return super._onDropItemCreate(item);
 			case "itemWeapon":
 				for (let i of this.actor.items){
-					if (i.data.type === "itemWeapon" && i.data.data.isActive && (i.data.data.category === itemData.data.category)) return super._onDropItemCreate(itemData);
+					if (i.type === "itemWeapon" && i.system.isActive && (i.system.category === item.system.category)) return super._onDropItemCreate(item);
 				}
-				itemData.data.isActive = true;
-				return super._onDropItemCreate(itemData);
+				item.system.isActive = true;
+				return super._onDropItemCreate(item);
 			case "itemPower":
-				if (itemData.data.actionType === "permanent") itemData.data.isActive = true;
-				return super._onDropItemCreate(itemData);
+				if (item.system.actionType === "permanent") item.system.isActive = true;
+				return super._onDropItemCreate(item);
 			case "itemTradition":
 			case "itemSpell":
 			case "itemEffect":
-				return super._onDropItemCreate(itemData);
+				return super._onDropItemCreate(item);
 			default:
 				ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
 				return;

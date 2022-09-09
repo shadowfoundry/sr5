@@ -7,9 +7,9 @@ export default class SR5Template extends MeasuredTemplate {
 
 	static fromItem(item) {
 		let target = 0;
-		if (item.data.data.category === "grenade") target = item.data.data.blast.radius;
-		if (item.data.type === "itemSpell" || item.data.type === "itemPreparation") target = item.data.data.spellAreaOfEffect.value;
-		if (item.data.data.type === "grenadeLauncher" || item.data.data.type === "missileLauncher") target = item.data.data.blast.radius;
+		if (item.system.category === "grenade") target = item.system.blast.radius;
+		if (item.type === "itemSpell" || item.type === "itemPreparation") target = item.system.spellAreaOfEffect.value;
+		if (item.system.type === "grenadeLauncher" || item.system.type === "missileLauncher") target = item.system.blast.radius;
 		const templateShape = "circle";
 		if (!templateShape) return null;
 
@@ -46,6 +46,8 @@ export default class SR5Template extends MeasuredTemplate {
 	/* -------------------------------------------- */
 
 	activatePreviewListeners(initialLayer, item) {
+		if (!canvas.ready || !canvas.stage || !canvas.app) return;
+
 		const handlers = {};
 		let moveTime = 0;
 
@@ -56,7 +58,7 @@ export default class SR5Template extends MeasuredTemplate {
 			if (now - moveTime <= 20) return;
 			const center = event.data.getLocalPosition(this.layer);
 			const snapped = canvas.grid.getSnappedPosition(center.x, center.y, 2);
-			this.data.update({x: snapped.x, y: snapped.y});
+			this.document.updateSource({x: snapped.x, y: snapped.y});
 			this.refresh();
 			moveTime = now;
 		};
@@ -72,13 +74,17 @@ export default class SR5Template extends MeasuredTemplate {
 		};
 
 		// Confirm the workflow (left-click)
-		handlers.lc = async (event) => {
+		handlers.lc = (event) => {
 			handlers.rc(event);
-
+			if (!canvas.grid) return;
 			// Confirm final snapped position
-			const destination = canvas.grid.getSnappedPosition(this.data.x, this.data.y, 2);
-			this.data.update(destination);
-			canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [this.data]);
+			const destination = canvas.grid.getSnappedPosition(this.document.x, this.document.y, 2);
+
+			const templateData = this.document.toObject();
+            templateData.x = destination.x;
+            templateData.y = destination.y;
+
+			canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [templateData]);
 			if (item.type === "itemWeapon"){
 				item.rollTest("weapon");
 				if (this.actorSheet._minimized) this.actorSheet.maximize();
@@ -91,7 +97,8 @@ export default class SR5Template extends MeasuredTemplate {
 			event.stopPropagation();
 			let delta = canvas.grid.type > CONST.GRID_TYPES.SQUARE ? 30 : 15;
 			let snap = event.shiftKey ? delta : 5;
-			this.data.update({direction: this.data.direction + (snap * Math.sign(event.deltaY))});;
+			const direction = this.document.direction + snap * Math.sign(event.deltaY);
+			this.document.updateSource({direction});
 			this.refresh();
 		};
 
