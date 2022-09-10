@@ -19,13 +19,13 @@
 		  		<div class="col-10 deplie">{{item.name}}</div>
 				<div class="col-1 SR-TextCenter">
 					{{#if system.isCreated}}
-					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
+					<a class="sidekickDestroy" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					  data-helpTitle="{{localize 'SR5.HELP_DroneDismiss'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_DroneDismissMsg'}}">
 						<em class="fas fa-flip-both fa-external-link-alt"></em>
 					</a>
 					{{else}}
-					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
+					<a class="sidekickCreate" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					  data-helpTitle="{{localize 'SR5.HELP_DroneCreate'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_DroneCreateMsg'}}">
 						<em class="fas fa-external-link-alt"></em>

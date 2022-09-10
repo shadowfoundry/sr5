@@ -479,7 +479,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "spiritType":
                     if (dialogData.targetActor && (dialogData.typeSub === "binding")){
                         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
-                        let targetType = targetActor.data.data.type;
+                        let targetType = targetActor.system.type;
                         value = actor.system.skills.binding.spiritType[targetType].dicePool - actor.system.skills.binding.test.dicePool;
                         label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetType])})`;
                     } else {

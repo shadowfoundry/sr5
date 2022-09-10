@@ -437,8 +437,7 @@ export class SR5Actor extends Actor {
 					break;
 
 				case "itemSpirit":
-					i.prepareData();
-					SR5_UtilityItem._handleSpirit(iData);
+					//i.prepareData();
 					if (iData.isBounded) actor.system.magic.boundedSpirit.current ++;
 					if (iData.isActive) SR5_CharacterUtility._actorModifPossession(i, actor);
 					break;
@@ -687,9 +686,9 @@ export class SR5Actor extends Actor {
 					}
 					break;
 				case "itemVehicleMod":
-				if (!iData.isWeaponMounted) SR5_UtilityItem._resetWeaponMounted(iData);  
-				SR5_UtilityItem._handleItemPrice(iData);
-				SR5_UtilityItem._handleItemAvailability(iData);
+					if (!iData.isWeaponMounted) SR5_UtilityItem._resetWeaponMounted(iData);  
+					SR5_UtilityItem._handleItemPrice(iData);
+					SR5_UtilityItem._handleItemAvailability(iData);
 					break;
 				case "itemWeapon":
 				case "itemKnowledge":
@@ -1177,8 +1176,7 @@ export class SR5Actor extends Actor {
 
 	//Create a Sidekick
 	static async createSidekick(item, userId, actorId){
-		let itemData = item.system,
-			permissionPath, petType;
+		let itemData = item.system, permissionPath, petType;
 		let ownerActor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		if (item.type === "itemSpirit") {
 			petType = "actorSpirit";
@@ -1344,6 +1342,9 @@ export class SR5Actor extends Actor {
 			});
 		}
 
+		let originalItem = ownerActor.getEmbeddedDocument("Item", item._id);
+		await originalItem.update({"system.isCreated": true,});
+
 		//Create actor
 		await Actor.createDocuments([data]);
 	}
@@ -1356,8 +1357,8 @@ export class SR5Actor extends Actor {
 	//Dismiss sidekick : update his parent item and then delete actor
 	static async dimissSidekick(actor){
 		let ownerActor = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
-		let itemOwner = ownerActor.items.get(actor.system.creatorItemId);
-		let modifiedItem = duplicate(itemOwner);
+		let item = ownerActor.getEmbeddedDocument("Item", actor.system.creatorItemId);
+		let modifiedItem = duplicate(item);
 
 		if (actor.type === "actorSpirit"){
 			modifiedItem.img = actor.img;
@@ -1367,7 +1368,7 @@ export class SR5Actor extends Actor {
 			modifiedItem.system.conditionMonitors.stun.actual = actor.system.conditionMonitors.stun.actual;
 			modifiedItem.system.isBounded = actor.system.isBounded;
 			modifiedItem.system.isCreated = false;
-			itemOwner.update(modifiedItem);
+			await item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorSprite"){
@@ -1382,7 +1383,7 @@ export class SR5Actor extends Actor {
 			modifiedItem.system.conditionMonitors.matrix.actual = actor.system.conditionMonitors.matrix.actual;
 			modifiedItem.system.isRegistered = actor.system.isRegistered;
 			modifiedItem.system.isCreated = false;
-			itemOwner.update(modifiedItem);
+			item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorAgent"){
@@ -1392,7 +1393,7 @@ export class SR5Actor extends Actor {
 			}
 			modifiedItem.img = actor.img;
 			modifiedItem.system.decks = decks;
-			itemOwner.update(modifiedItem);
+			item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorDrone"){
@@ -1451,7 +1452,7 @@ export class SR5Actor extends Actor {
 			modifiedItem.system.secondaryPropulsion.type = actor.system.secondaryPropulsionType;
 			modifiedItem.system.isCreated = false;
 			modifiedItem.img = actor.img;
-			itemOwner.update(modifiedItem);
+			item.update(modifiedItem);
 		}
 
 		if (canvas.scene){
@@ -1810,7 +1811,7 @@ export class SR5Actor extends Actor {
 		if(!canvas.scene) return;
 		
 		let owner = SR5_EntityHelpers.getRealActorFromID(agent.system.creatorId);
-		let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.system.isActive);
+		let ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive);
 		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
 			let updatedActor = duplicate(agent.system);
 			updatedActor.conditionMonitors.matrix = ownerDeck.system.conditionMonitors.matrix;
@@ -1821,7 +1822,7 @@ export class SR5Actor extends Actor {
 	//Keep Owner deck condition Monitor synchro with Agent
 	static async keepDeckSynchroWithAgent(agent){
 		let owner = SR5_EntityHelpers.getRealActorFromID(agent.system.creatorId);
-		let ownerDeck = owner.items.find(i => i.data.type === "itemDevice" && i.system.isActive);
+		let ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive);
 
 		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
 			let newDeck = duplicate(ownerDeck.system);
@@ -1837,30 +1838,30 @@ export class SR5Actor extends Actor {
 		actorData = actorData.toObject(false);
 
 		if (actorData.type === "actorGrunt"){
-			if (actorData.data.conditionMonitors.condition.actual.value > 0){
-				actorData.data.conditionMonitors.condition.actual.base -= damageToRemove;
-				damageToRemove -= actorData.data.conditionMonitors.condition.actual.value;
-				await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.condition.actual, 0);
+			if (actorData.system.conditionMonitors.condition.actual.value > 0){
+				actorData.system.conditionMonitors.condition.actual.base -= damageToRemove;
+				damageToRemove -= actorData.system.conditionMonitors.condition.actual.value;
+				await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.condition.actual, 0);
 			}
 		} else {
-			if (actorData.data.conditionMonitors.overflow.actual.value > 0){
-				actorData.data.conditionMonitors.overflow.actual.base -= damageToRemove;
-				damageToRemove -= actorData.data.conditionMonitors.overflow.actual.value;
-				await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.overflow.actual, 0);
+			if (actorData.system.conditionMonitors.overflow.actual.value > 0){
+				actorData.system.conditionMonitors.overflow.actual.base -= damageToRemove;
+				damageToRemove -= actorData.system.conditionMonitors.overflow.actual.value;
+				await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.overflow.actual, 0);
 			}
-			if (actorData.data.conditionMonitors.physical.actual.value > 0 && damageToRemove > 0){
-				actorData.data.conditionMonitors.physical.actual.base -= damageToRemove;
-				damageToRemove -= actorData.data.conditionMonitors.physical.actual.value;
-				await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.physical.actual, 0);
+			if (actorData.system.conditionMonitors.physical.actual.value > 0 && damageToRemove > 0){
+				actorData.system.conditionMonitors.physical.actual.base -= damageToRemove;
+				damageToRemove -= actorData.system.conditionMonitors.physical.actual.value;
+				await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.physical.actual, 0);
 			}
-			if (actorData.data.conditionMonitors.stun.actual.value > 0 && damageToRemove > 0){
-				actorData.data.conditionMonitors.stun.actual.base -= damageToRemove;
-				damageToRemove -= actorData.data.conditionMonitors.stun.actual.value;
-				await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors.stun.actual, 0);
+			if (actorData.system.conditionMonitors.stun.actual.value > 0 && damageToRemove > 0){
+				actorData.system.conditionMonitors.stun.actual.base -= damageToRemove;
+				damageToRemove -= actorData.system.conditionMonitors.stun.actual.value;
+				await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.stun.actual, 0);
 			}
 		}
 
-		await this.update(actorData);
+		await this.update({system: actorData.system});
 	}
 
 	//Manage Healing
@@ -1868,12 +1869,12 @@ export class SR5Actor extends Actor {
 		let damageToRemove = data.test.hits,
 				damageType = data.typeSub,
 				targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
-				actorData = deepClone(targetActor.data);
+				actorData = deepClone(targetActor);
 				
 		actorData = actorData.toObject(false);
-		actorData.data.conditionMonitors[damageType].actual.base -= damageToRemove;
-		await SR5_EntityHelpers.updateValue(actorData.data.conditionMonitors[damageType].actual, 0);
-		await targetActor.update(actorData);
+		actorData.system.conditionMonitors[damageType].actual.base -= damageToRemove;
+		await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors[damageType].actual, 0);
+		await targetActor.update({system: actorData.system});
 	}
 
 	//Manage Healing by socket

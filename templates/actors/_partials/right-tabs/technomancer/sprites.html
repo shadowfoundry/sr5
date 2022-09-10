@@ -45,13 +45,13 @@
 			<div class="col-1"></div>
 			<div class="col-1 SR-TextCenter">
 				{{#if system.isCreated}}
-				<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
+				<a class="sidekickDestroy" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 				  data-helpTitle="{{localize 'SR5.HELP_SpriteDismiss'key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpriteDismissMsg'}}">
 					<em class="fas fa-flip-both fa-external-link-alt"></em>
 				</a>
 				{{else}}
-				<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
+				<a class="sidekickCreate" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 				  data-helpTitle="{{localize 'SR5.HELP_SpriteCreate'key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SpriteCreateMsg'}}">
 					<em class="fas fa-external-link-alt"></em>

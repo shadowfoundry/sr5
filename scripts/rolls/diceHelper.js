@@ -680,26 +680,32 @@ export class SR5_DiceHelper {
    * @param {Object} messageData - Message data
    * @param {Object} attacker - Actor who do the damage
    */
-    static async applyDamageToDecK(targetActor, messageData, defender) {
+    static async applyDamageToDecK(targetActor, messageData, defender, defenderWin) {
         let damageValue = messageData.matrixDamageValue;
         let targetItem;
-        if (messageData.matrixTargetItemUuid) targetItem = await fromUuid(messageData.matrixTargetItemUuid);
+        if (messageData.matrixTargetItemUuid && !defenderWin) targetItem = await fromUuid(messageData.matrixTargetItemUuid);
         if (!targetItem) targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.system.isActive);
+        let newItem = duplicate(targetItem);
+
+        //targetActor.takeDamage(messageData);
+        if (targetItem.system.type === "livingPersona" || targetItem.system.type === "headcase" ){
+            return targetActor.takeDamage(messageData);
+        }
         
-        let newItem = duplicate(targetItem.data);
         if (targetActor.system.matrix.programs.virtualMachine.isActive) damageValue += 1;
-        newItem.data.conditionMonitors.matrix.actual.base += damageValue;
-        SR5_EntityHelpers.updateValue(newItem.data.conditionMonitors.matrix.actual, 0, newItem.data.conditionMonitors.matrix.value);
-        if (newItem.data.conditionMonitors.matrix.actual.value >= newItem.data.conditionMonitors.matrix.value){
+
+        newItem.system.conditionMonitors.matrix.actual.base += damageValue;
+        SR5_EntityHelpers.updateValue(newItem.system.conditionMonitors.matrix.actual, 0, newItem.system.conditionMonitors.matrix.value);
+        if (newItem.system.conditionMonitors.matrix.actual.value >= newItem.system.conditionMonitors.matrix.value){
             if (targetItem.type === "itemDevice" && targetActor.system.matrix.userMode !== "ar"){
                 let dumpshockData = {damageResistanceType: "dumpshock"};
                 targetActor.rollTest("resistanceCard", null, dumpshockData);
                 ui.notifications.info(`${targetActor.name} ${game.i18n.localize("SR5.INFO_IsDisconnected")}.`);
             }
-            newItem.data.isActive = false;
-            newItem.data.wirelessTurnedOn = false;
+            newItem.system.isActive = false;
+            newItem.system.wirelessTurnedOn = false;
           }
-        targetItem.update(newItem);
+        targetItem.update({system: newItem.system});
 
         if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
         else ui.notifications.info(`${targetActor.name} (${targetItem.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
@@ -863,10 +869,11 @@ export class SR5_DiceHelper {
         let effect = {
             type: "itemEffect",
             "system.type": "iceAttack",
-            "system.ownerID": ice.data._id,
+            "system.ownerID": ice.id,
             "system.ownerName": ice.name,
             "system.durationType": "reboot",
         };
+
         switch(messageData.iceType){
             case "iceAcid":
                 effect = mergeObject(effect, {
@@ -976,7 +983,7 @@ export class SR5_DiceHelper {
         let effect = {
             type: "itemEffect",
             "system.type": "linkLock",
-            "system.ownerID": attacker.data._id,
+            "system.ownerID": attacker.id,
             "system.ownerName": attacker.name,
             "system.durationType": "permanent",
             name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
@@ -1004,7 +1011,7 @@ export class SR5_DiceHelper {
             name: game.i18n.localize("SR5.EffectSensorLock"),
             type: "itemEffect",
             "system.type": "sensorLock",
-            "system.ownerID": drone.data._id,
+            "system.ownerID": drone.id,
             "system.ownerName": drone.name,
             "system.durationType": "permanent",
             "system.target": game.i18n.localize("SR5.Defense"),
@@ -1118,11 +1125,11 @@ export class SR5_DiceHelper {
         let itemEffectID;
         for (let i of actor.items){
             if (i.type === "itemEffect"){
-                if (Object.keys(i.data.customEffects).length){
-                    for (let e of Object.values(i.data.customEffects)){
+                if (Object.keys(i.system.customEffects).length){
+                    for (let e of Object.values(i.system.customEffects)){
                         if (e.target === "system.matrix.isLinkLocked"){
-                            dicePool = i.data.value;
-                            itemEffectID = i._id;
+                            dicePool = i.system.value;
+                            itemEffectID = i.id;
                         }
                     }
                 }
@@ -1380,7 +1387,7 @@ export class SR5_DiceHelper {
 
     static async reduceSideckickService(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId),
-            data = duplicate(actor.system),
+            actorData = duplicate(actor.system),
             key;
 
         if (actor.type === "actorSprite"){
@@ -1390,31 +1397,31 @@ export class SR5_DiceHelper {
             key = "services";
             ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: message.netHits})}`);
         }
-        data[key].value -= message.netHits;
-        if (data[key].value < 0) data[key].value = 0;
-        await actor.update({'data': data});
+        actorData[key].value -= message.netHits;
+        if (actorData[key].value < 0) actorData[key].value = 0;
+        await actor.update({'system': actorData});
     }
 
     static async enslavedSidekick(message, type){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
-        let data = duplicate(actor.system);
+        let actorData = duplicate(actor.system);
 
         if (type === "registerSprite"){
-            data.isRegistered = true;
-            data.tasks.value += message.netHits;
-            data.tasks.max += message.netHits;
+            actorData.isRegistered = true;
+            actorData.tasks.value += message.netHits;
+            actorData.tasks.max += message.netHits;
             ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
         } else if (type === "bindSpirit"){
-            data.isBounded = true;
-            data.services.value += message.netHits;
-            data.services.max += message.netHits;
+            actorData.isBounded = true;
+            actorData.services.value += message.netHits;
+            actorData.services.max += message.netHits;
             ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: message.netHits})}`);
         }
-        await actor.update({'data': data});
+        await actor.update({'system': actorData});
         
-        if (data.creatorItemId){
-            let creator = SR5_EntityHelpers.getRealActorFromID(data.creatorId);
-            let itemSideKick = creator.items.find(i => i.id === data.creatorItemId);
+        if (actorData.creatorItemId){
+            let creator = SR5_EntityHelpers.getRealActorFromID(actorData.creatorId);
+            let itemSideKick = creator.items.find(i => i.id === actorData.creatorItemId);
             let itemData = duplicate(itemSideKick.system);
             if (type === "registerSprite"){
                 itemData.isRegistered = true;
@@ -1425,7 +1432,7 @@ export class SR5_DiceHelper {
                 itemData.services.value += message.netHits;
                 itemData.services.max += message.netHits;
             }
-            await itemSideKick.update({'data': itemData});
+            await itemSideKick.update({'system': itemData});
         }
     }
 
@@ -1756,7 +1763,7 @@ export class SR5_DiceHelper {
                     type: "round",
                     duration: data.hits - data.test.hits,
                 }
-                await actor.createProneEffect(0, actor.data, 0, duration, "buckled");
+                await actor.createProneEffect(0, actor.system, 0, duration, "buckled");
                 break;
             case "deafened": //done        
                 if (hasEffect){
@@ -1924,7 +1931,7 @@ export class SR5_DiceHelper {
                     type: "special",
                     duration: 0,
                 }
-                await actor.createProneEffect(0, actor.data, 0, duration, "knockdown");
+                await actor.createProneEffect(0, actor.system, 0, duration, "knockdown");
                 break;
             case "oneArmBandit": //Partially done: can't apply an effect based on arm usage
                 if (!hasEffect){
@@ -2651,36 +2658,6 @@ export class SR5_DiceHelper {
         }
     }
 
-    static convertSocialCheckboxToMod(type, actorData){
-        switch (type){
-            case "socialIsDistracted":
-            case "socialAuthority":
-                return 1;
-            case "socialAce":
-            case "socialRomantic":
-            case "socialOutnumber":
-            case "socialWieldingWeapon":
-            case "socialTorture":
-            case "socialObliviousToDanger":
-            case "socialFan":
-            case "socialBlackmailed":
-                return 2;
-            case "socialEvaluateSituation":
-            case "socialIntoxicated":
-            case "socialIsDistractedInverse":
-                return -1;
-            case "socialBadLook":
-            case "socialNervous":
-            case "socialOutnumberTarget":
-            case "socialWieldingWeaponTarget":
-            case "socialLacksKnowledge":
-                return -2;
-            case "socialReputation":
-                return actorData.data.streetCred.value;
-            default: return 0;
-        }
-    }
-
     static convertWorkingConditionToMod(type){
         switch (type){
             case "distracting":
@@ -2878,7 +2855,7 @@ export class SR5_DiceHelper {
             }
         }
 
-        item.data.itemEffects.push(effect);
+        item.system.itemEffects.push(effect);
         await actor.updateEmbeddedDocuments("Item", [item]);
     }
 

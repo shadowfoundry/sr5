@@ -60,13 +60,13 @@
 					{{/if}}
 				{{else}}
 					{{#if system.isCreated}}
-					<a class="sidekickDestroy toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
+					<a class="sidekickDestroy" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					  data-helpTitle="{{localize 'SR5.HELP_SpiritDismiss'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpiritDismissMsg'}}">
 						<em class="fas fa-flip-both fa-external-link-alt"></em>
 					</a>
 					{{else}}
-					<a class="sidekickCreate toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
+					<a class="sidekickCreate" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"
 					  data-helpTitle="{{localize 'SR5.HELP_SpiritCreate'key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_SpiritCreateMsg'}}">
 						<em class="fas fa-external-link-alt"></em>

@@ -1701,7 +1701,6 @@ export class SR5_UtilityItem extends Actor {
 
 	////////////////////// ESPRITS  //////s////////////////
 	static _handleSpirit(spirit) {
-
 		for (let att of Object.keys(spirit.attributes)) {
 			spirit.attributes[att] = spirit.itemRating;
 		}

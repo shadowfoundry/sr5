@@ -50,6 +50,7 @@ export class SR5_Roll {
             dicePoolComposition = [],
             rulesMatrixGrid = false,
             rulesCalledShot = false,
+            targetActor,
             firstAttribute, secondAttribute, damageValueBase;
 
             if (entity.documentName === "Actor") {           
@@ -261,7 +262,7 @@ export class SR5_Roll {
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
-                        let targetActor = await SR5_Roll.getTargetedActor();
+                        targetActor = await SR5_Roll.getTargetedActor();
                         
                         //Counterspell 
                         if (typeSub === "counterspelling"){
@@ -290,7 +291,7 @@ export class SR5_Roll {
                             limit = targetActor.system.force.value;
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                targetActor: targetActorId,
+                                targetActor: targetActor.id,
                             });
                         }
 
@@ -299,7 +300,7 @@ export class SR5_Roll {
                             if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                targetActor: targetActorId,
+                                targetActor: targetActor.id,
                             });
                         }
 
@@ -323,7 +324,7 @@ export class SR5_Roll {
                                 hasTarget: true,
                                 targetEssence: targetActor.system.essence.value,
                                 isEmergedOrAwakened: isEmergedOrAwakened,
-                                targetActor: targetActorId,
+                                targetActor: targetActor.id,
                             });
                         }
                     }
@@ -802,7 +803,7 @@ export class SR5_Roll {
                     hits: chatData?.test.hits,
                     originalActionActor: chatData?.originalActionActor,
                     mark: chatData?.mark,
-                    defenseFull: actorData.specialProperties.fullDefenseValue || 0,
+                    defenseFull: actorData.specialProperties?.fullDefenseValue || 0,
                 });
                 break;
 
@@ -853,7 +854,7 @@ export class SR5_Roll {
                     if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
                     else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                     else {
-                        let targetActor = await SR5_Roll.getTargetedActor();
+                        targetActor = await SR5_Roll.getTargetedActor();
 
                         //Kill Complex Form
                         if (typeSub === "killComplexForm"){
@@ -880,7 +881,7 @@ export class SR5_Roll {
                             if (targetActor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                             optionalData = mergeObject(optionalData, {
                                 hasTarget: true,
-                                targetActor: targetActorId,
+                                targetActor: targetActor.id,
                             });
                         }
                     }
@@ -1155,7 +1156,7 @@ export class SR5_Roll {
                         //For now, only allow one target for attack;
                         if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
                         //Get target actor type
-                        let targetActor = await SR5_Roll.getTargetedActor();
+                        targetActor = await SR5_Roll.getTargetedActor();
                         optionalData = mergeObject(optionalData, {
                             targetActorType: targetActor.type,
                             targetActorId: targetActor.id,

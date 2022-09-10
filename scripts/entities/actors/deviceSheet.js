@@ -60,7 +60,7 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 	}
 
   	activateListeners(html) {
-		uper.activateListeners(html);
+		super.activateListeners(html);
   	}
 
 	/** @override */

@@ -1159,7 +1159,7 @@ input[type=range]:focus::-ms-fill-upper {
 #chat-log .message .SR-MessageHeader .whisper-to {
   font-size: 0.9em;
   color: #b2007a;
-  line-height: 12px;
+  line-height: 20px;
 }
 #chat-log .message .part-header {
   margin-left: 5px;
@@ -2961,6 +2961,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] select,
 .app.window-app[id^=rolltable-sheet-] select,
 .app.window-app[id^=cards-sheet-] select,
+.app.window-app[id^=client-settings] select,
 .app.window-app[id^=ambient-light-config-] select,
 .app.window-app.macro-sheet select {
   border: 1px solid #b2007a;
@@ -2977,6 +2978,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] select:focus,
 .app.window-app[id^=rolltable-sheet-] select:focus,
 .app.window-app[id^=cards-sheet-] select:focus,
+.app.window-app[id^=client-settings] select:focus,
 .app.window-app[id^=ambient-light-config-] select:focus,
 .app.window-app.macro-sheet select:focus {
   box-shadow: 0 0 5px #839c88;
@@ -2993,6 +2995,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] select::before,
 .app.window-app[id^=rolltable-sheet-] select::before,
 .app.window-app[id^=cards-sheet-] select::before,
+.app.window-app[id^=client-settings] select::before,
 .app.window-app[id^=ambient-light-config-] select::before,
 .app.window-app.macro-sheet select::before {
   background-color: #000001;
@@ -3008,6 +3011,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] option,
 .app.window-app[id^=rolltable-sheet-] option,
 .app.window-app[id^=cards-sheet-] option,
+.app.window-app[id^=client-settings] option,
 .app.window-app[id^=ambient-light-config-] option,
 .app.window-app.macro-sheet option {
   background-color: #000001;
@@ -3023,6 +3027,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] option:hover,
 .app.window-app[id^=rolltable-sheet-] option:hover,
 .app.window-app[id^=cards-sheet-] option:hover,
+.app.window-app[id^=client-settings] option:hover,
 .app.window-app[id^=ambient-light-config-] option:hover,
 .app.window-app.macro-sheet option:hover {
   background-color: #839c88;
@@ -3038,6 +3043,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button,
 .app.window-app[id^=rolltable-sheet-] button,
 .app.window-app[id^=cards-sheet-] button,
+.app.window-app[id^=client-settings] button,
 .app.window-app[id^=ambient-light-config-] button,
 .app.window-app.macro-sheet button,
 .app.window-app.form a.display-mode,
@@ -3051,6 +3057,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode,
 .app.window-app[id^=rolltable-sheet-] a.display-mode,
 .app.window-app[id^=cards-sheet-] a.display-mode,
+.app.window-app[id^=client-settings] a.display-mode,
 .app.window-app[id^=ambient-light-config-] a.display-mode,
 .app.window-app.macro-sheet a.display-mode {
   position: relative;
@@ -3082,6 +3089,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button:hover,
 .app.window-app[id^=rolltable-sheet-] button:hover,
 .app.window-app[id^=cards-sheet-] button:hover,
+.app.window-app[id^=client-settings] button:hover,
 .app.window-app[id^=ambient-light-config-] button:hover,
 .app.window-app.macro-sheet button:hover,
 .app.window-app.form a.display-mode:hover,
@@ -3095,6 +3103,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode:hover,
 .app.window-app[id^=rolltable-sheet-] a.display-mode:hover,
 .app.window-app[id^=cards-sheet-] a.display-mode:hover,
+.app.window-app[id^=client-settings] a.display-mode:hover,
 .app.window-app[id^=ambient-light-config-] a.display-mode:hover,
 .app.window-app.macro-sheet a.display-mode:hover {
   color: #fffffe;
@@ -3113,6 +3122,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button:hover:before,
 .app.window-app[id^=rolltable-sheet-] button:hover:before,
 .app.window-app[id^=cards-sheet-] button:hover:before,
+.app.window-app[id^=client-settings] button:hover:before,
 .app.window-app[id^=ambient-light-config-] button:hover:before,
 .app.window-app.macro-sheet button:hover:before,
 .app.window-app.form a.display-mode:hover:before,
@@ -3126,6 +3136,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode:hover:before,
 .app.window-app[id^=rolltable-sheet-] a.display-mode:hover:before,
 .app.window-app[id^=cards-sheet-] a.display-mode:hover:before,
+.app.window-app[id^=client-settings] a.display-mode:hover:before,
 .app.window-app[id^=ambient-light-config-] a.display-mode:hover:before,
 .app.window-app.macro-sheet a.display-mode:hover:before {
   left: 0%;
@@ -3143,6 +3154,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] button:before,
 .app.window-app[id^=rolltable-sheet-] button:before,
 .app.window-app[id^=cards-sheet-] button:before,
+.app.window-app[id^=client-settings] button:before,
 .app.window-app[id^=ambient-light-config-] button:before,
 .app.window-app.macro-sheet button:before,
 .app.window-app.form a.display-mode:before,
@@ -3156,6 +3168,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] a.display-mode:before,
 .app.window-app[id^=rolltable-sheet-] a.display-mode:before,
 .app.window-app[id^=cards-sheet-] a.display-mode:before,
+.app.window-app[id^=client-settings] a.display-mode:before,
 .app.window-app[id^=ambient-light-config-] a.display-mode:before,
 .app.window-app.macro-sheet a.display-mode:before {
   display: block;
@@ -3181,6 +3194,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="text"],
 .app.window-app[id^=rolltable-sheet-] input[type="text"],
 .app.window-app[id^=cards-sheet-] input[type="text"],
+.app.window-app[id^=client-settings] input[type="text"],
 .app.window-app[id^=ambient-light-config-] input[type="text"],
 .app.window-app.macro-sheet input[type="text"],
 .app.window-app.form input[type="number"],
@@ -3194,6 +3208,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="number"],
 .app.window-app[id^=rolltable-sheet-] input[type="number"],
 .app.window-app[id^=cards-sheet-] input[type="number"],
+.app.window-app[id^=client-settings] input[type="number"],
 .app.window-app[id^=ambient-light-config-] input[type="number"],
 .app.window-app.macro-sheet input[type="number"],
 .app.window-app.form input[type="color"],
@@ -3207,6 +3222,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="color"],
 .app.window-app[id^=rolltable-sheet-] input[type="color"],
 .app.window-app[id^=cards-sheet-] input[type="color"],
+.app.window-app[id^=client-settings] input[type="color"],
 .app.window-app[id^=ambient-light-config-] input[type="color"],
 .app.window-app.macro-sheet input[type="color"] {
   color: #fffffe;
@@ -3224,6 +3240,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="text"]:focus,
 .app.window-app[id^=rolltable-sheet-] input[type="text"]:focus,
 .app.window-app[id^=cards-sheet-] input[type="text"]:focus,
+.app.window-app[id^=client-settings] input[type="text"]:focus,
 .app.window-app[id^=ambient-light-config-] input[type="text"]:focus,
 .app.window-app.macro-sheet input[type="text"]:focus,
 .app.window-app.form input[type="number"]:focus,
@@ -3237,6 +3254,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="number"]:focus,
 .app.window-app[id^=rolltable-sheet-] input[type="number"]:focus,
 .app.window-app[id^=cards-sheet-] input[type="number"]:focus,
+.app.window-app[id^=client-settings] input[type="number"]:focus,
 .app.window-app[id^=ambient-light-config-] input[type="number"]:focus,
 .app.window-app.macro-sheet input[type="number"]:focus,
 .app.window-app.form input[type="color"]:focus,
@@ -3250,6 +3268,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="color"]:focus,
 .app.window-app[id^=rolltable-sheet-] input[type="color"]:focus,
 .app.window-app[id^=cards-sheet-] input[type="color"]:focus,
+.app.window-app[id^=client-settings] input[type="color"]:focus,
 .app.window-app[id^=ambient-light-config-] input[type="color"]:focus,
 .app.window-app.macro-sheet input[type="color"]:focus {
   box-shadow: 0 0 5px rgba(131, 156, 136, 0.5);
@@ -3266,6 +3285,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="text"]::placeholder,
 .app.window-app[id^=rolltable-sheet-] input[type="text"]::placeholder,
 .app.window-app[id^=cards-sheet-] input[type="text"]::placeholder,
+.app.window-app[id^=client-settings] input[type="text"]::placeholder,
 .app.window-app[id^=ambient-light-config-] input[type="text"]::placeholder,
 .app.window-app.macro-sheet input[type="text"]::placeholder,
 .app.window-app.form input[type="number"]::placeholder,
@@ -3279,6 +3299,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="number"]::placeholder,
 .app.window-app[id^=rolltable-sheet-] input[type="number"]::placeholder,
 .app.window-app[id^=cards-sheet-] input[type="number"]::placeholder,
+.app.window-app[id^=client-settings] input[type="number"]::placeholder,
 .app.window-app[id^=ambient-light-config-] input[type="number"]::placeholder,
 .app.window-app.macro-sheet input[type="number"]::placeholder,
 .app.window-app.form input[type="color"]::placeholder,
@@ -3292,6 +3313,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="color"]::placeholder,
 .app.window-app[id^=rolltable-sheet-] input[type="color"]::placeholder,
 .app.window-app[id^=cards-sheet-] input[type="color"]::placeholder,
+.app.window-app[id^=client-settings] input[type="color"]::placeholder,
 .app.window-app[id^=ambient-light-config-] input[type="color"]::placeholder,
 .app.window-app.macro-sheet input[type="color"]::placeholder {
   color: #b2007a;
@@ -3307,6 +3329,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"],
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"],
 .app.window-app[id^=cards-sheet-] input[type="checkbox"],
+.app.window-app[id^=client-settings] input[type="checkbox"],
 .app.window-app[id^=ambient-light-config-] input[type="checkbox"],
 .app.window-app.macro-sheet input[type="checkbox"] {
   position: relative;
@@ -3329,6 +3352,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]::before,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]::before,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]::before,
+.app.window-app[id^=client-settings] input[type="checkbox"]::before,
 .app.window-app[id^=ambient-light-config-] input[type="checkbox"]::before,
 .app.window-app.macro-sheet input[type="checkbox"]::before {
   position: relative;
@@ -3354,6 +3378,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]:checked,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked,
+.app.window-app[id^=client-settings] input[type="checkbox"]:checked,
 .app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked,
 .app.window-app.macro-sheet input[type="checkbox"]:checked {
   color: #fffffe;
@@ -3371,6 +3396,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked::before,
+.app.window-app[id^=client-settings] input[type="checkbox"]:checked::before,
 .app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked::before {
   opacity: 1;
@@ -3386,6 +3412,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=rolltable-sheet-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=cards-sheet-] input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=client-settings] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -3401,6 +3428,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h2,
 .app.window-app[id^=rolltable-sheet-] h2,
 .app.window-app[id^=cards-sheet-] h2,
+.app.window-app[id^=client-settings] h2,
 .app.window-app[id^=ambient-light-config-] h2,
 .app.window-app.macro-sheet h2,
 .app.window-app.form h3,
@@ -3414,6 +3442,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h3,
 .app.window-app[id^=rolltable-sheet-] h3,
 .app.window-app[id^=cards-sheet-] h3,
+.app.window-app[id^=client-settings] h3,
 .app.window-app[id^=ambient-light-config-] h3,
 .app.window-app.macro-sheet h3 {
   font-family: "srfoundry_secondary";
@@ -3432,6 +3461,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h2,
 .app.window-app[id^=rolltable-sheet-] h2,
 .app.window-app[id^=cards-sheet-] h2,
+.app.window-app[id^=client-settings] h2,
 .app.window-app[id^=ambient-light-config-] h2,
 .app.window-app.macro-sheet h2 {
   text-align: center;
@@ -3450,6 +3480,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] h3,
 .app.window-app[id^=rolltable-sheet-] h3,
 .app.window-app[id^=cards-sheet-] h3,
+.app.window-app[id^=client-settings] h3,
 .app.window-app[id^=ambient-light-config-] h3,
 .app.window-app.macro-sheet h3 {
   border-bottom: 1px solid #b2007a;
@@ -3467,6 +3498,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] span.units,
 .app.window-app[id^=rolltable-sheet-] span.units,
 .app.window-app[id^=cards-sheet-] span.units,
+.app.window-app[id^=client-settings] span.units,
 .app.window-app[id^=ambient-light-config-] span.units,
 .app.window-app.macro-sheet span.units {
   color: #839c88;
@@ -3482,6 +3514,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav,
 .app.window-app[id^=rolltable-sheet-] nav,
 .app.window-app[id^=cards-sheet-] nav,
+.app.window-app[id^=client-settings] nav,
 .app.window-app[id^=ambient-light-config-] nav,
 .app.window-app.macro-sheet nav {
   border-bottom: 1px solid #839c88;
@@ -3497,6 +3530,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item,
 .app.window-app[id^=rolltable-sheet-] nav .item,
 .app.window-app[id^=cards-sheet-] nav .item,
+.app.window-app[id^=client-settings] nav .item,
 .app.window-app[id^=ambient-light-config-] nav .item,
 .app.window-app.macro-sheet nav .item {
   color: #839c88;
@@ -3514,6 +3548,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item.active,
 .app.window-app[id^=rolltable-sheet-] nav .item.active,
 .app.window-app[id^=cards-sheet-] nav .item.active,
+.app.window-app[id^=client-settings] nav .item.active,
 .app.window-app[id^=ambient-light-config-] nav .item.active,
 .app.window-app.macro-sheet nav .item.active {
   color: #fffffe;
@@ -3532,6 +3567,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item.active:hover,
 .app.window-app[id^=rolltable-sheet-] nav .item.active:hover,
 .app.window-app[id^=cards-sheet-] nav .item.active:hover,
+.app.window-app[id^=client-settings] nav .item.active:hover,
 .app.window-app[id^=ambient-light-config-] nav .item.active:hover,
 .app.window-app.macro-sheet nav .item.active:hover {
   border-bottom: none;
@@ -3547,6 +3583,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] nav .item:hover,
 .app.window-app[id^=rolltable-sheet-] nav .item:hover,
 .app.window-app[id^=cards-sheet-] nav .item:hover,
+.app.window-app[id^=client-settings] nav .item:hover,
 .app.window-app[id^=ambient-light-config-] nav .item:hover,
 .app.window-app.macro-sheet nav .item:hover {
   color: #b2007a;
@@ -3562,6 +3599,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=rolltable-sheet-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=cards-sheet-] footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=client-settings] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=ambient-light-config-] footer button:not(:nth-child(0n+1)),
 .app.window-app.macro-sheet footer button:not(:nth-child(0n+1)) {
   margin-left: 10px;
@@ -3577,6 +3615,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content,
 .app.window-app[id^=rolltable-sheet-] .window-content,
 .app.window-app[id^=cards-sheet-] .window-content,
+.app.window-app[id^=client-settings] .window-content,
 .app.window-app[id^=ambient-light-config-] .window-content,
 .app.window-app.macro-sheet .window-content {
   padding: 8px;
@@ -3596,6 +3635,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content header.form-header,
 .app.window-app[id^=rolltable-sheet-] .window-content header.form-header,
 .app.window-app[id^=cards-sheet-] .window-content header.form-header,
+.app.window-app[id^=client-settings] .window-content header.form-header,
 .app.window-app[id^=ambient-light-config-] .window-content header.form-header,
 .app.window-app.macro-sheet .window-content header.form-header {
   border-top: none;
@@ -3613,6 +3653,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content .form-header,
 .app.window-app[id^=rolltable-sheet-] .window-content .form-header,
 .app.window-app[id^=cards-sheet-] .window-content .form-header,
+.app.window-app[id^=client-settings] .window-content .form-header,
 .app.window-app[id^=ambient-light-config-] .window-content .form-header,
 .app.window-app.macro-sheet .window-content .form-header {
   margin-top: 5px;
@@ -3628,6 +3669,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content .notes,
 .app.window-app[id^=rolltable-sheet-] .window-content .notes,
 .app.window-app[id^=cards-sheet-] .window-content .notes,
+.app.window-app[id^=client-settings] .window-content .notes,
 .app.window-app[id^=ambient-light-config-] .window-content .notes,
 .app.window-app.macro-sheet .window-content .notes {
   color: #839c88;
@@ -3645,6 +3687,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=command],
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command],
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=command],
+.app.window-app[id^=client-settings] .window-content textarea[name=command],
 .app.window-app[id^=ambient-light-config-] .window-content textarea[name=command],
 .app.window-app.macro-sheet .window-content textarea[name=command] {
   background-color: rgba(178, 0, 122, 0.25);
@@ -3662,6 +3705,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=command]:focus,
+.app.window-app[id^=client-settings] .window-content textarea[name=command]:focus,
 .app.window-app[id^=ambient-light-config-] .window-content textarea[name=command]:focus,
 .app.window-app.macro-sheet .window-content textarea[name=command]:focus {
   border: 1px solid #839c88;
@@ -3680,6 +3724,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=command]::selection,
+.app.window-app[id^=client-settings] .window-content textarea[name=command]::selection,
 .app.window-app[id^=ambient-light-config-] .window-content textarea[name=command]::selection,
 .app.window-app.macro-sheet .window-content textarea[name=command]::selection {
   background-color: rgba(131, 156, 136, 0.5);
@@ -3695,6 +3740,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content textarea[name=description],
 .app.window-app[id^=rolltable-sheet-] .window-content textarea[name=description],
 .app.window-app[id^=cards-sheet-] .window-content textarea[name=description],
+.app.window-app[id^=client-settings] .window-content textarea[name=description],
 .app.window-app[id^=ambient-light-config-] .window-content textarea[name=description],
 .app.window-app.macro-sheet .window-content textarea[name=description] {
   color: #fffffe;
@@ -3712,6 +3758,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=playlist-config-] .window-content .command,
 .app.window-app[id^=rolltable-sheet-] .window-content .command,
 .app.window-app[id^=cards-sheet-] .window-content .command,
+.app.window-app[id^=client-settings] .window-content .command,
 .app.window-app[id^=ambient-light-config-] .window-content .command,
 .app.window-app.macro-sheet .window-content .command {
   margin-bottom: 10px;
@@ -4688,6 +4735,12 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-controls a:hover {
   color: #839c88;
+}
+#combat .combat-tracker-header h3 {
+  font-family: "srfoundry_secondary";
+  text-transform: uppercase;
+  font-size: 1em;
+  margin: 0 0 0 0;
 }
 #scenes .scene {
   border-width: 2px 0 2px 0;

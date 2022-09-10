@@ -451,7 +451,7 @@ export class SR5_Dice {
 				case "gmroll": //GM + rolling player
 					let gmList = game.users.filter(user => user.isGM);
 					let gmIDList = [];
-					gmList.forEach(gm => gmIDList.push(gm.data._id));
+					gmList.forEach(gm => gmIDList.push(gm.id));
 					whisper = gmIDList;
 					break;
 				case "roll": //everybody
@@ -1044,7 +1044,7 @@ export class SR5_Dice {
 				//If Biofeedback, add damage and button
 				if ((actorData.matrix.programs.biofeedback.isActive || actorData.matrix.programs.blackout.isActive)
 				  && attackerData.matrix.userMode !== "ar"
-				  && (attacker.data.type === "actorPc" || attacker.data.type === "actorGrunt")) {
+				  && (attacker.type === "actorPc" || attacker.type === "actorGrunt")) {
 					cardData.damageValueBase = netHits * -1;
 					cardData.damageValue = netHits * -1;
 					cardData.damageResistanceType = "biofeedback";

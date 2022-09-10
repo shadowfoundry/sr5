@@ -373,7 +373,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				yes: () => {
 					item.delete();
 					if (item.type === "itemEffect"){
-						let statusEffect = this.actor.effects.find(e => e.system.origin === item.system.type);
+						let statusEffect = this.actor.effects.find(e => e.origin === item.system.type);
 						if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
 					}
 				},
@@ -544,7 +544,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		await this.actor.update({
-			"data": actorData,
+			"system": actorData,
 			"items": itemList,
 		})
 		if (this.actor.isToken){
@@ -839,7 +839,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				actor: this.actor.toObject(false),
 			});
 		} else {
-			SR5Actor.dimissSidekick(this.actor.toObject(false));
+			await SR5Actor.dimissSidekick(this.actor.toObject(false));
 		}
 	}
 
@@ -859,7 +859,7 @@ export class ActorSheetSR5 extends ActorSheet {
 					actor: sidekick,
 				});
 			} else {
-				SR5Actor.dimissSidekick(sidekick);
+				await SR5Actor.dimissSidekick(sidekick);
 			}
 		}
 	}
