@@ -796,7 +796,7 @@ export class ActorSheetSR5 extends ActorSheet {
 						this.actor.update({
 							"system.vehicleOwner.id": controler,
 							"system.vehicleOwner.name": controlerName,
-							"flags.sr5.vehicleControler": vehicleControler.system.toObject(false),
+							"flags.sr5.vehicleControler": vehicleControler.toObject(false),
 						});
 					} else {
 						this.actor.update({

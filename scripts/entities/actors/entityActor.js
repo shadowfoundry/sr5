@@ -525,7 +525,7 @@ export class SR5Actor extends Actor {
 						case "qi":
 							break;
 						case "weapon":
-								iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(i, this);
+								iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(this);
 								if (iData.linkedWeapon){
 									let linkedWeapon = this.items.find(w => w.id === iData.linkedWeapon);
 									iData.linkedWeaponName = linkedWeapon.name;
@@ -551,7 +551,7 @@ export class SR5Actor extends Actor {
 
 				case "itemRitual":
 					i.prepareData();
-					iData.spellChoices = SR5_UtilityItem._generateSpellList(iData, actor);
+					iData.spellChoices = SR5_UtilityItem._generateSpellList(actor);
 					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 
@@ -1193,7 +1193,7 @@ export class SR5Actor extends Actor {
 		else img = item.img;
 
 		// Handle base data for Actor Creation
-		let data = {
+		let sideKickData = {
 			"name": item.name,
 			"type": petType,
 			"img": img,
@@ -1202,7 +1202,7 @@ export class SR5Actor extends Actor {
 		// Give permission to player
 		if (userId) {
 			permissionPath = 'permission.' + userId;
-			data = mergeObject(data, {
+			sideKickData = mergeObject(sideKickData, {
 				[permissionPath]: 3,
 			});
 		}
@@ -1225,7 +1225,7 @@ export class SR5Actor extends Actor {
 					}
 				}
 			}
-			data = mergeObject(data, {
+			sideKickData = mergeObject(sideKickData, {
 				"system.type": itemData.type,
 				"system.force.base": itemData.itemRating,
 				"system.isBounded": itemData.isBounded,
@@ -1248,7 +1248,7 @@ export class SR5Actor extends Actor {
 				baseItems.push(deck);
 			}
 
-			data = mergeObject(data, {
+			sideKickData = mergeObject(sideKickData, {
 				"system.type": itemData.type,
 				"system.level": itemData.itemRating,
 				"system.isRegistered": itemData.isRegistered,
@@ -1273,7 +1273,7 @@ export class SR5Actor extends Actor {
 
 			let creatorData = SR5_EntityHelpers.getRealActorFromID(actorId);
 			creatorData = creatorData.toObject(false);
-			data = mergeObject(data, {
+			sideKickData = mergeObject(sideKickData, {
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
 				"system.creatorData": creatorData,
@@ -1295,7 +1295,7 @@ export class SR5Actor extends Actor {
 				baseItems.push(deck);
 			}
 
-			data = mergeObject(data, {
+			sideKickData = mergeObject(sideKickData, {
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
 				"system.type": itemData.type,
@@ -1346,7 +1346,7 @@ export class SR5Actor extends Actor {
 		await originalItem.update({"system.isCreated": true,});
 
 		//Create actor
-		await Actor.createDocuments([data]);
+		await Actor.createDocuments([sideKickData]);
 	}
 
 	//Socket for creating sidekick;

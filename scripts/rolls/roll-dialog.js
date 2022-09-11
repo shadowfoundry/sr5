@@ -582,6 +582,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "mark":
                     value = SR5_DiceHelper.convertMarkToMod(ev.target.value);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${ev.target.value})`;
+                    dialogData.mark = parseInt(value);
                     break;
                 case "matrixRange":
                     value = SR5_DiceHelper.convertMatrixDistanceToDiceMod(ev.target.value);
@@ -830,6 +831,12 @@ export default class SR5_RollDialog extends Dialog {
             name = `[data-modifier=${modifierName}]`;
 
             switch (modifierName){
+                case "mark":
+                    selectValue = html.find(name)[0].value;
+                    inputValue = SR5_DiceHelper.convertMarkToMod(selectValue);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${inputValue})`;
+                    dialogData.mark = parseInt(selectValue);
+                    break;
                 case "incomingFiringMode":
                     selectValue = dialogData.incomingFiringMode;
                     inputValue = SR5_DiceHelper.convertFiringModeToDefenseDicepoolMod(selectValue);

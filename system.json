@@ -43,7 +43,7 @@
   "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
   "download": "https://github.com/shadowfoundry/sr5/releases/download/0.0.4.7/sr5.zip",
   "protected": false,
-  "background": "./img/sr5SplashScreen.jpg",
+  "background": "systems/sr5/img/launcher.jpg",
   "initiative": "1d6",
   "gridDistance": 1,
   "gridUnits": "m"

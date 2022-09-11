@@ -311,9 +311,6 @@ export class SR5_Dice {
 						//Add info to chatCard
 						cardData = dialogData;
 						cardData.test = result;
-						if (dialogData.type === "matrixAction" && (dialogData.typeSub === "hackOnTheFly" || dialogData.typeSub === "bruteForce")){
-							dialogData.mark = SR5_DiceHelper.calculMark(-dialogData.dicePoolMod.matrixMarkWanted);
-						}
 						await SR5_Dice.srDicesAddInfoToCard(cardData, dialogData.actorId);
 
 						// Return roll result and card info to chat message.
@@ -364,12 +361,12 @@ export class SR5_Dice {
 		if (game.user.isGM) cardData.editResult = true;
 
 		//Handle Edge use
-		if (actorData.type === "actorPc") {
+		if (actor.type === "actorPc") {
 			if (actorData.conditionMonitors.edge.actual.value >= actorData.specialAttributes.edge.augmented.value) {
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;
 			}
-		} else if (actorData.type === "actorSpirit" && actorData.creatorId){
+		} else if (actor.type === "actorSpirit" && actorData.creatorId){
 			let creator = await SR5_EntityHelpers.getRealActorFromID(actorData.creatorId);
 			if (creator.system.conditionMonitors.edge?.actual?.value >= creator.system.specialAttributes?.edge?.augmented?.value){
 				cardData.secondeChanceUsed = true;

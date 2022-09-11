@@ -78,7 +78,6 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 		actor.weapons = weapons;
 		actor.armors = armors;
 		actor.programs = programs;
-		actor.marks = marks;
 		actor.ammunitions = ammunitions;
 		actor.vehiclesMod = vehiclesMod;
 		actor.externalEffects = externalEffects;

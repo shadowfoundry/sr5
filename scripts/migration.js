@@ -208,7 +208,6 @@ export default class Migration {
 			if (actor.system.creatorData){
 				let newCreatorData = duplicate(actor.system.creatorData);
 				if (newCreatorData.items){
-					debugger;
 					for (let i of newCreatorData.items){
 						i.system = i.data;
 						if (i.system.customEffects){
@@ -220,11 +219,11 @@ export default class Migration {
 						}
 					}
 				}
+				if (newCreatorData.data) newCreatorData.system = newCreatorData.data;
 				updateData["system.creatorData"] = newCreatorData;
 			}
 
 			if(actor.flags?.sr5?.vehicleControler){
-				debugger;
 				let newFlag = duplicate(actor.flags.sr5.vehicleControler);
 				newFlag.system = newFlag.data;
 				if (newFlag.items){
@@ -369,6 +368,15 @@ export default class Migration {
 			updateData["system.systemEffects"] = newSystemEffects;
 		}
 
+		//v10 migrate agent item
+		if (item.system?.decks){
+			let newDecks = item.system.decks;
+			for (let i of Object.values(newDecks)){
+				if (i.data) i.system = i.data;
+			}
+			updateData["system.decks"] = newDecks;
+		}
+
 		// Migrate Effects
 		if (item.effects) {
 		const effects = item.effects.reduce((arr, e) => {
@@ -400,7 +408,6 @@ export default class Migration {
    */
 	migrateSceneData(scene) {
 		const tokens = scene.tokens.map(token => {
-			debugger;
 			const t = token.toJSON();
 			if (!t.actorId || t.actorLink) {
 				t.actorData = {};

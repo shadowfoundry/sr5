@@ -552,7 +552,7 @@ export class SR5_DiceHelper {
         }
         await item.update({"system": itemToMark});
 
-        //Update attacker deck with data
+        //Update attacker deck with info
         if (!game.user?.isGM) {
                 await SR5_SocketHandler.emitForGM("updateDeckMarkedItems", {
                 ownerID: realAttackerID,
@@ -1219,9 +1219,8 @@ export class SR5_DiceHelper {
         });
     }
 
-    static async eraseMark(messageData, data){
-        let markOwner = SR5_EntityHelpers.getRealActorFromID(messageData.markOwner),
-            item = await fromUuid(messageData.markeditem),
+    static async eraseMark(messageData){
+        let item = await fromUuid(messageData.markeditem),
             itemData = duplicate(item.system);
 
         for (let i = 0; i < itemData.marks.length; i++){
@@ -1444,9 +1443,9 @@ export class SR5_DiceHelper {
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
                 item: item,
-                data: itemData,
+                info: itemData,
             });
-        } else await item.update({'data': itemData});
+        } else await item.update({'system': itemData});
     }
 
     static async applyDerezzEffect(message, sourceActor, target){
@@ -1509,9 +1508,9 @@ export class SR5_DiceHelper {
                     if (!game.user?.isGM){
                         SR5_SocketHandler.emitForGM("updateItem", {
                             item: e,
-                            data: updatedEffect,
+                            info: updatedEffect,
                         });
-                    } else await effect.update({'data': updatedEffect});
+                    } else await effect.update({'system': updatedEffect});
                 }
             }
         }
@@ -1520,15 +1519,15 @@ export class SR5_DiceHelper {
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
                 item: targetedEffect.uuid,
-                data: newEffect,
+                info: newEffect,
             });
-        } else await targetedEffect.update({'data': newEffect});
+        } else await targetedEffect.update({'system': newEffect});
     }
 
     //Socket for updating an item
     static async _socketUpdateItem(message) {
         let target = await fromUuid(message.data.item);
-        await target.update({'data': message.system});
+        await target.update({'system': message.data.info});
 	}
 
     //Socket for deleting an item
@@ -1546,14 +1545,14 @@ export class SR5_DiceHelper {
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
                 item: item,
-                data: itemData,
+                info: itemData,
             });
-        } else await item.update({'data': itemData});
+        } else await item.update({'system': itemData});
     }
 
-    static async getToxinEffect(effecType, data, actor){
+    static async getToxinEffect(effecType, info, actor){
         let itemEffects = [];
-        let toxinType = data.toxin.type;
+        let toxinType = info.toxin.type;
         let hasEffect;
 
         let effect = {
@@ -1637,7 +1636,7 @@ export class SR5_DiceHelper {
     return itemEffects;
     }
 
-    static async getCalledShotsEffect(effecType, data, actor, weakSideSpecific){
+    static async getCalledShotsEffect(effecType, info, actor, weakSideSpecific){
         let itemEffects = [],
             calledShotsType = effecType.name,
             hasEffect = actor.items.find(i => i.system.type === calledShotsType),
@@ -1761,7 +1760,7 @@ export class SR5_DiceHelper {
             case "buckled": //done
                 duration = {
                     type: "round",
-                    duration: data.hits - data.test.hits,
+                    duration: info.hits - info.test.hits,
                 }
                 await actor.createProneEffect(0, actor.system, 0, duration, "buckled");
                 break;
@@ -1849,7 +1848,7 @@ export class SR5_DiceHelper {
                 if (!hasEffect){
                     effect = mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
-                        "system.value": -data.netHits,
+                        "system.value": -info.netHits,
                         "system.duration": 1,
                         "system.durationType": "action",
                         "system.customEffects": {
@@ -1857,31 +1856,31 @@ export class SR5_DiceHelper {
                                 "category": "characterDefenses",
                                 "target": "system.defenses.block",
                                 "type": "value",
-                                "value": -data.netHits,
+                                "value": -info.netHits,
                             },
                             "1": {
                                 "category": "characterDefenses",
                                 "target": "system.defenses.defend",
                                 "type": "value",
-                                "value": -data.netHits,
+                                "value": -info.netHits,
                             },
                             "2": {
                                 "category": "characterDefenses",
                                 "target": "system.defenses.dodge",
                                 "type": "value",
-                                "value": -data.netHits,
+                                "value": -info.netHits,
                             },
                             "3": {
                                 "category": "characterDefenses",
                                 "target": "system.defenses.parryBlades",
                                 "type": "value",
-                                "value": -data.netHits,
+                                "value": -info.netHits,
                             },
                             "4": {
                                 "category": "characterDefenses",
                                 "target": "system.defenses.parryClubs",
                                 "type": "value",
-                                "value": -data.netHits,
+                                "value": -info.netHits,
                             }
                         },
                         "system.gameEffect": game.i18n.localize("SR5.STATUSES_Feint_GE"),
@@ -2007,7 +2006,7 @@ export class SR5_DiceHelper {
                     effect = mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.value": -4,
-                        "system.duration": data.hits - data.test.hits,
+                        "system.duration": info.hits - info.test.hits,
                         "system.durationType": "round",
                         "system.customEffects": {
                             "0": {
@@ -2170,7 +2169,7 @@ export class SR5_DiceHelper {
                 if (!hasEffect){
                     effect = mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.SkillIntimidation"),
-                        "system.value": data.netHits,
+                        "system.value": info.netHits,
                         "system.duration": "1",
                         "system.durationType": "action",
                         "system.customEffects": {
@@ -2178,7 +2177,7 @@ export class SR5_DiceHelper {
                                 "category": "skills",
                                 "target": "system.skills.intimidation.test",
                                 "type": "value",
-                                "value": data.netHits,
+                                "value": info.netHits,
 
                             }
                         },                    
@@ -2192,7 +2191,7 @@ export class SR5_DiceHelper {
                     effect = mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Language"),
                         "system.value": "",
-                        "system.duration": data.damageValue,
+                        "system.duration": info.damageValue,
                         "system.durationType": "hour",
                         "system.gameEffect": game.i18n.localize("SR5.STATUSES_UnableToSpeak_GE"),
                     });
@@ -2827,10 +2826,10 @@ export class SR5_DiceHelper {
         }
     }
 
-    static async applyEffectToItem(data, type){
-        let item = await fromUuid(data.targetItem);
+    static async applyEffectToItem(info, type){
+        let item = await fromUuid(info.targetItem);
         item = item.toObject(false);
-        let actor = SR5_EntityHelpers.getRealActorFromID(data.actorId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(info.actorId);
         let effect;
 
         if (type === "decreaseAccuracy"){
