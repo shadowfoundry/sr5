@@ -391,7 +391,7 @@ export class SR5_UtilityItem extends Actor {
 		if (actor) {
 			if (actor.type === "actorDrone") {
 				let controlerData;
-				if (actor.system.vehicleOwner.id) controlerData = actor.flags.sr5.vehicleControler.system;
+				if (actor.system.vehicleOwner.id) controlerData = actor.system.vehicleOwner.system;
 				itemData.weaponSkill.base = 0;
 
 				switch (actor.system.controlMode){
@@ -404,7 +404,7 @@ export class SR5_UtilityItem extends Actor {
 							}
 						}
 						if (controlerData){
-							for (let i of actor.flags.sr5.vehicleControler.items) {
+							for (let i of actor.system.vehicleOwner.items) {
 								if (i.system.model === item.name && i.type === "itemProgram" && i.system.isActive) {
 									SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), actor.system.attributes.pilot.augmented.value);
 									SR5_EntityHelpers.updateModifier(itemData.weaponSkill, i.name, `${game.i18n.localize('SR5.Program')} (${game.i18n.localize('SR5.Controler')})`, i.system.itemRating);

@@ -134,7 +134,6 @@ export default class Migration {
    	*/
    	migrateActorData(actor) {
 	    const updateData = {};
-
     	// Actor Data Updates
     	if (actor.system) {
 			//Do stuff on Actor
@@ -248,7 +247,7 @@ export default class Migration {
 			const items = actor.items.reduce((arr, i) => {
 				// Migrate the Owned Item
 				const itemData = i instanceof CONFIG.Item.documentClass ? i.toObject() : i;
-				let itemUpdate = this.migrateItemData(itemData);
+				let itemUpdate = this.migrateItemData(itemData, !actor.prototypeToken);
 
 				// Update the Owned Item
 				if (!foundry.utils.isEmpty(itemUpdate)) {
@@ -289,8 +288,14 @@ export default class Migration {
 	* @param {object} item  Item data to migrate
 	* @return {object}      The updateData to apply
 	*/
-	migrateItemData(item) {
+	migrateItemData(item, isToken) {
 		const updateData = {};
+
+		//v10 migrate item's token
+		if (isToken){
+			updateData["system"] = item.data;
+		}
+
 		//Migrate Items
 		if (item.type == "itemQuality"){
 			updateData["system.isActive"] = true;
@@ -299,8 +304,8 @@ export default class Migration {
 		if (item.type == "itemWeapon"){
 			if(item.system.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
 			if(item.system.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
-			if(item.system.weaponSkill.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
-			if(item.system.weaponSkill.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
+			if(item.system.weaponSkill?.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
+			if(item.system.weaponSkill?.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
 			if(item.system.category === "grenade"){
 				updateData["system.range.short.base"] = 2;
 				updateData["system.range.medium.base"] = 4;
@@ -418,12 +423,12 @@ export default class Migration {
 			}
 			else if (!t.actorLink) {
 				const actorData = duplicate(t.actorData);
-				actorData.type = token.actor?.type;
-				if (actorData.items){
+				actorData.type = token.actor?.type;	
+				/*if (actorData.items){
 					for (let i of Object.values(actorData.items)){
 						i.system = i.data;
 					}
-				}
+				}*/
 				const update = this.migrateActorData(actorData);
 				['items', 'effects'].forEach(embeddedName => {
 					if (!update[embeddedName]?.length) return;

@@ -1567,9 +1567,9 @@ export class SR5_Roll {
                             {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: defenseMatrixAttribute},
                         ]);
                     } else {
-                        if (actor.type === "actorDrone" && actorData.slaved && actor.flags.sr5?.vehicleControler !== undefined) {
-                            defenseAttribute = actor.flags.sr5.vehicleControler.system.attributes[chatData.defenseAttribute].augmented.value;
-                            defenseMatrixAttribute = actor.flags.sr5.vehicleControler.system.matrix.attributes[chatData.defenseMatrixAttribute].value;
+                        if (actor.type === "actorDrone" && actorData.slaved && actorData.vehicleOwner.id !== "") {
+                            defenseAttribute = actorData.vehicleOwner.system.attributes[chatData.defenseAttribute].augmented.value;
+                            defenseMatrixAttribute = actorData.vehicleOwner.system.matrix.attributes[chatData.defenseMatrixAttribute].value;
                             dicePoolComposition = ([
                                 {source: game.i18n.localize(SR5.allAttributes[chatData.defenseAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: defenseAttribute},
                                 {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: defenseMatrixAttribute},

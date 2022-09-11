@@ -793,18 +793,21 @@ export class ActorSheetSR5 extends ActorSheet {
 					if (controler) {
 						controlerName = controlerList[controler];
 						let vehicleControler = SR5_EntityHelpers.getRealActorFromID(controler);
+						vehicleControler = vehicleControler.toObject(false);
 						this.actor.update({
 							"system.vehicleOwner.id": controler,
 							"system.vehicleOwner.name": controlerName,
-							"flags.sr5.vehicleControler": vehicleControler.toObject(false),
+							"system.vehicleOwner.system": vehicleControler.system,
+							"system.vehicleOwner.items": vehicleControler.items,
 						});
 					} else {
 						this.actor.update({
 							"system.vehicleOwner.id": "",
 							"system.vehicleOwner.name": "",
+							"system.vehicleOwner.system": "",
+							"system.vehicleOwner.items": [],
 							"system.controlMode": "autopilot"
 						});
-						this.actor.unsetFlag("sr5", "vehicleControler");
 					}
 				},
 			}).render(true);

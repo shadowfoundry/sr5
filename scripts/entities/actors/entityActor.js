@@ -281,7 +281,7 @@ export class SR5Actor extends Actor {
 		if (actor.flags.sr5 === undefined) actor.flags.sr5 = {};
 		switch (actor.type) {
 			case "actorDrone":
-				if (actor.flags.sr5?.vehicleControler) SR5_CharacterUtility.applyAutosoftEffect(actor);
+				if (actor.system.vehicleOwner.items.length) SR5_CharacterUtility.applyAutosoftEffect(actor);
 				SR5_CharacterUtility.updateAttributes(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
@@ -415,7 +415,7 @@ export class SR5Actor extends Actor {
 						if (iData.isCumulative) modifierType = game.i18n.localize("SR5.ArmorAccessory");
 						else modifierType = game.i18n.localize("SR5.Armor");
 						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.armor, `${i.name}`, modifierType, iData.armorValue.value);
-						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
+						if (!iData.isAccessory && actor.system.resistances.fall) SR5_EntityHelpers.updateModifier(actor.system.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
 						if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					}
 					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.armors[i.id] = i.name;
@@ -638,7 +638,7 @@ export class SR5Actor extends Actor {
 							SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
 							SR5_CharacterUtility.updateInitiativeMatrix(actor);
 							if (iData.type ==="riggerCommandConsole") {
-								if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actorData);
+								if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actor);
 							}
 							if (iData.type === "livingPersona" || iData.type === "headcase") SR5_CharacterUtility.generateResonanceMatrix(actor);
 							iData.pan.max = actorData.matrix.deviceRating * 3;
@@ -1294,7 +1294,7 @@ export class SR5Actor extends Actor {
 				deck.system.marks = [];
 				baseItems.push(deck);
 			}
-
+			let ownerActorObject = ownerActor.toObject(false);
 			sideKickData = mergeObject(sideKickData, {
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
@@ -1336,8 +1336,9 @@ export class SR5Actor extends Actor {
 				"system.panMaster": itemData.panMaster,
 				"system.vehicleOwner.id": actorId,
 				"system.vehicleOwner.name": ownerActor.name,
+				"system.vehicleOwner.system": ownerActorObject.system,
+				"system.vehicleOwner.items": ownerActorObject.items,
 				"system.controlMode": itemData.controlMode,
-				"flags.sr5.vehicleControler": ownerActor.system,
 				"items": baseItems,
 			});
 		}

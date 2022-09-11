@@ -1041,7 +1041,6 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-
 	static updateSpriteValues(actor) {
 		let actorData = actor.system, attributes = actorData.attributes, specialAttributes = actorData.specialAttributes, matrixAttributes = actorData.matrix.attributes;
 
@@ -1057,7 +1056,6 @@ export class SR5_CharacterUtility extends Actor {
 		}
 		actorData.matrix.deviceRating = actorData.level;
 	}
-
 
 	// Update Actors Special Attributes
 	static updateSpecialAttributes(actor) {
@@ -1419,7 +1417,7 @@ export class SR5_CharacterUtility extends Actor {
 			case "actorDrone":
 				let controlerData;
 				if (actorData.vehicleOwner.id) {
-					controlerData = actor.flags.sr5.vehicleControler.system;
+					controlerData = actorData.vehicleOwner.system;
 				}
 				switch (actorData.controlMode){
 					case "autopilot":
@@ -1614,7 +1612,7 @@ export class SR5_CharacterUtility extends Actor {
 					case "defend":
 						if (actor.type == "actorDrone") {
 							let controlerData;
-							if (actorData.vehicleOwner.id) controlerData = actor.flags.sr5.vehicleControler.system;
+							if (actorData.vehicleOwner.id) controlerData = actorData.vehicleOwner.system;
 							switch (actorData.controlMode){
 								case "autopilot":
 									SR5_EntityHelpers.updateModifier(defenses[key],`${game.i18n.localize('SR5.VehicleStat_PilotShort')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.pilot.augmented.value);
@@ -1808,8 +1806,8 @@ export class SR5_CharacterUtility extends Actor {
 		let actorData = actor.system, skills = actorData.skills, attributes = actorData.attributes, handlingMode = attributes.handling.augmented.value, handlingName = game.i18n.localize('SR5.VehicleStat_HandlingShort');
 		let controlerData, controlerName;
 		if (actorData.vehicleOwner.id) {
-			controlerData = actor.flags.sr5.vehicleControler.system;
-			controlerName = actor.flags.sr5.vehicleControler.name;
+			controlerData = actorData.vehicleOwner.system;
+			controlerName = actorData.vehicleOwner.name;
 		}
 
 		if (actorData.offRoadMode) {
@@ -1917,8 +1915,8 @@ export class SR5_CharacterUtility extends Actor {
 		vehicleTest.test.base = 0;
 		let controlerData, controlerName;
 		if (actorData.vehicleOwner.id) {
-			controlerData = actor.flags.sr5.vehicleControler.system;
-			controlerName = actor.flags.sr5.vehicleControler.name;
+			controlerData = actorData.vehicleOwner.system;
+			controlerName = actorData.vehicleOwner.name;
 		}
 
 		switch (actorData.controlMode){
@@ -1972,8 +1970,8 @@ export class SR5_CharacterUtility extends Actor {
 		rammingTest.test.base = 0;
 		let controlerData, controlerName;
 		if (actorData.vehicleOwner.id) {
-			controlerData = actor.flags.sr5.vehicleControler.system;
-			controlerName = actor.flags.sr5.vehicleControler.name;
+			controlerData = actorData.vehicleOwner.system;
+			controlerName = actorData.vehicleOwner.name;
 		}
 
 		switch (actorData.controlMode){
@@ -2009,28 +2007,28 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 		// Vehicle Slots Calculations
-	static updateModificationsSlots(actor, vehicleMod){
-		let actorData = actor.system, vm = vehicleMod.system;
+	static updateModificationsSlots(actor, item){
+		let actorData = actor.system, itemData = item.system;
 		
-		if (vm.isActive){
-			switch (vm.type){
+		if (itemData.isActive){
+			switch (itemData.type){
 				case "powerTrain":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.powerTrain, `${vehicleMod.name}`, `${game.i18n.localize(SR5.vehicleModType[vm.type])}`, -vm.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.powerTrain, `${item.name}`, `${game.i18n.localize(SR5.vehicleModType[itemData.type])}`, -itemData.slots.value);
 					break;
 				case "protection":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.protection, `${vehicleMod.name}`, `${game.i18n.localize(SR5.vehicleModType[vm.type])}`, -vm.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.protection, `${item.name}`, `${game.i18n.localize(SR5.vehicleModType[itemData.type])}`, -itemData.slots.value);
 					break;
 				case "body":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.body, `${vehicleMod.name}`, `${game.i18n.localize(SR5.vehicleModType[vm.type])}`, -vm.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.body, `${item.name}`, `${game.i18n.localize(SR5.vehicleModType[itemData.type])}`, -itemData.slots.value);
 					break;
 				case "weapons":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.weapons, `${vehicleMod.name}`, `${game.i18n.localize(SR5.vehicleModType[vm.type])}`, -vm.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.weapons, `${item.name}`, `${game.i18n.localize(SR5.vehicleModType[itemData.type])}`, -itemData.slots.value);
 					break;
 				case "electromagnetic":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.electromagnetic, `${vehicleMod.name}`, `${game.i18n.localize(SR5.vehicleModType[vm.type])}`, -vm.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.electromagnetic, `${item.name}`, `${game.i18n.localize(SR5.vehicleModType[itemData.type])}`, -itemData.slots.value);
 					break;
 				case "cosmetic":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.cosmetic, `${vehicleMod.name}`, `${game.i18n.localize(SR5.vehicleModType[vm.type])}`, -vm.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.cosmetic, `${item.name}`, `${game.i18n.localize(SR5.vehicleModType[itemData.type])}`, -itemData.slots.value);
 					break;
 			}
 		}
@@ -2038,22 +2036,22 @@ export class SR5_CharacterUtility extends Actor {
 
 
 	// Handle Price Multiplier for itemVehicleMod
-	static handleVehiclePriceMultiplier(actor, vehicleMod){
-		let actorData = actor.system, vm = vehicleMod.system;
-		vm.vehiclePriceMultiplier.acceleration = actorData.attributes.acceleration.natural.base;
-		vm.vehiclePriceMultiplier.handling = actorData.attributes.handling.natural.base;
-		vm.vehiclePriceMultiplier.speed = actorData.attributes.speed.natural.base;
-		vm.vehiclePriceMultiplier.body = actorData.attributes.body.natural.base;
-		vm.vehiclePriceMultiplier.seating = actorData.attributes.seating.natural.base;
-		vm.vehiclePriceMultiplier.vehicle = actorData.price;
+	static handleVehiclePriceMultiplier(actor, item){
+		let actorData = actor.system, itemData = item.system;
+		itemData.vehiclePriceMultiplier.acceleration = actorData.attributes.acceleration.natural.base;
+		itemData.vehiclePriceMultiplier.handling = actorData.attributes.handling.natural.base;
+		itemData.vehiclePriceMultiplier.speed = actorData.attributes.speed.natural.base;
+		itemData.vehiclePriceMultiplier.body = actorData.attributes.body.natural.base;
+		itemData.vehiclePriceMultiplier.seating = actorData.attributes.seating.natural.base;
+		itemData.vehiclePriceMultiplier.vehicle = actorData.price;
 	}
 
 	// Handle secondary Vehicle attributes for secondary propulsion
-	static handleSecondaryAttributes(actor, vehicleMod){
-		let actorData = actor.system, attributes = actorData.attributes, vm = vehicleMod.system;
+	static handleSecondaryAttributes(actor, item){
+		let actorData = actor.system, attributes = actorData.attributes, itemData = item.system;
 
-		actorData.isSecondaryPropulsion = vm.secondaryPropulsion.isSecondaryPropulsion ;
-		actorData.secondaryPropulsionType = vm.secondaryPropulsion.type ;
+		actorData.isSecondaryPropulsion = itemData.secondaryPropulsion.isSecondaryPropulsion ;
+		actorData.secondaryPropulsionType = itemData.secondaryPropulsion.type ;
 
 		switch (actorData.secondaryPropulsionType) {
 			case "amphibiousSurface":
@@ -2099,13 +2097,15 @@ export class SR5_CharacterUtility extends Actor {
 
 	// Vehicle slots Update
 	static updateVehicleSlots(actor){
-		let actorData = actor.system, slots = actorData.attributes.body.augmented.value ;
+		let actorData = actor.system, slots = actorData.attributes.body.augmented.value;
+
 		actorData.modificationSlots.powerTrain.base = slots ;
 		actorData.modificationSlots.protection.base = slots ;
 		actorData.modificationSlots.weapons.base = slots + actorData.modificationSlots.extraWeapons;
 		actorData.modificationSlots.body.base = slots + actorData.modificationSlots.extraBody;
 		actorData.modificationSlots.electromagnetic.base = slots ;
 		actorData.modificationSlots.cosmetic.base = slots ;
+
 		SR5_EntityHelpers.updateValue(actorData.modificationSlots.powerTrain);
 		SR5_EntityHelpers.updateValue(actorData.modificationSlots.protection);
 		SR5_EntityHelpers.updateValue(actorData.modificationSlots.body);
@@ -2406,47 +2406,47 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	// Knowledge Dice Pools Calculations
-	static _generateKnowledgeSkills(knowledge, actor) {
+	static _generateKnowledgeSkills(itemData, actor) {
 		let actorData = actor.system, attributes = actorData.attributes;
-		switch (knowledge.type) {
+		switch (itemData.type) {
 			case "academic":
 			case "professional":
-				knowledge.linkedAttribute = "logic";
+				itemData.linkedAttribute = "logic";
 				break;
 			case "interests":
 			case "street":
 			case "tactics":
-				knowledge.linkedAttribute = "intuition";
+				itemData.linkedAttribute = "intuition";
 				break;
 			default:
-				SR5_SystemHelpers.srLog(1, `Unknown '${knowledge.type}' knowledge type in '_generateKnowledgeSkills()'`);
+				SR5_SystemHelpers.srLog(1, `Unknown '${itemData.type}' knowledge type in '_generateKnowledgeSkills()'`);
 				return;
 		}
 
-		let label = `${game.i18n.localize(SR5.characterAttributes[knowledge.linkedAttribute])}`;
-		SR5_EntityHelpers.updateModifier(knowledge, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[knowledge.linkedAttribute].augmented.value);
+		let label = `${game.i18n.localize(SR5.characterAttributes[itemData.linkedAttribute])}`;
+		SR5_EntityHelpers.updateModifier(itemData, label, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes[itemData.linkedAttribute].augmented.value);
 		if (actor.system.knowledgeSkills.modifiers) {
-			knowledge.modifiers = knowledge.modifiers.concat(actor.system.knowledgeSkills.modifiers);
+			itemData.modifiers = itemData.modifiers.concat(actor.system.knowledgeSkills.modifiers);
 		}
-		this.applyPenalty("condition", knowledge, actor);
-		this.applyPenalty("matrix", knowledge, actor);
-		this.applyPenalty("magic", knowledge, actor);
-		this.applyPenalty("special", knowledge, actor);
-		SR5_EntityHelpers.updateValue(knowledge);
+		this.applyPenalty("condition", itemData, actor);
+		this.applyPenalty("matrix", itemData, actor);
+		this.applyPenalty("magic", itemData, actor);
+		this.applyPenalty("special", itemData, actor);
+		SR5_EntityHelpers.updateValue(itemData);
 	}
 
 	// Language Skills Calculations
-	static _generateLanguageSkills(language, actor) {
+	static _generateLanguageSkills(itemData, actor) {
 		let attributes = actor.system.attributes;
 
-		if (!language.isNative) {
-			SR5_EntityHelpers.updateModifier(language, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
-			if (actor.system.languageSkills.modifiers) language.modifiers = language.modifiers.concat(actor.system.languageSkills.modifiers);
-			this.applyPenalty("condition", language, actor);
-			this.applyPenalty("matrix", language, actor);
-			this.applyPenalty("magic", language, actor);
-			this.applyPenalty("special", language, actor);
-			SR5_EntityHelpers.updateValue(language, 0);
+		if (!itemData.isNative) {
+			SR5_EntityHelpers.updateModifier(itemData, `${game.i18n.localize('SR5.Intuition')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.intuition.augmented.value);
+			if (actor.system.languageSkills.modifiers) itemData.modifiers = itemData.modifiers.concat(actor.system.languageSkills.modifiers);
+			this.applyPenalty("condition", itemData, actor);
+			this.applyPenalty("matrix", itemData, actor);
+			this.applyPenalty("magic", itemData, actor);
+			this.applyPenalty("special", itemData, actor);
+			SR5_EntityHelpers.updateValue(itemData, 0);
 		}
 	}
 
@@ -2455,10 +2455,8 @@ export class SR5_CharacterUtility extends Actor {
 		let actorData = actor.system, magic = actorData.magic, specialAttributes = actorData.specialAttributes;
 		magic.powerPoints.base = 0;
 		magic.powerPoints.maximum.base = 0;
-		if (!magic.magicType) {
-			SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
-			return;
-		}
+
+		if (!magic.magicType) return SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
 
 		if (magic.magicType === "adept"){
 			for (let category of Object.keys(SR5.spellCategories)) {
@@ -2469,29 +2467,25 @@ export class SR5_CharacterUtility extends Actor {
 
 		SR5_EntityHelpers.updateValue(magic.powerPoints);
 		SR5_EntityHelpers.updateValue(magic.powerPoints.maximum);
-
 	}
 
 	// Magical Traditions Calculations
-	static updateTradition(actor, tradition) {
+	static updateTradition(actor, itemData) {
 		let magic = actor.system.magic;
 
-		if (!magic.magicType) {
-			SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
-			return;
-		}
+		if (!magic.magicType) return SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
 		magic.possession = false;
 
-		if (tradition){
-			magic.drainResistance.linkedAttribute = tradition.drainAttribute;
-			magic.elements.combat = tradition.spiritCombat;
-			magic.elements.detection = tradition.spiritDetection;
-			magic.elements.illusion = tradition.spiritIllusion;
-			magic.elements.manipulation = tradition.spiritManipulation;
-			magic.elements.health = tradition.spiritHealth;
-			magic.possession = tradition.possession;
-			if (tradition.systemEffects.length){
-				let traditionType = tradition.systemEffects.find(i => i.category = "tradition");
+		if (itemData){
+			magic.drainResistance.linkedAttribute = itemData.drainAttribute;
+			magic.elements.combat = itemData.spiritCombat;
+			magic.elements.detection = itemData.spiritDetection;
+			magic.elements.illusion = itemData.spiritIllusion;
+			magic.elements.manipulation = itemData.spiritManipulation;
+			magic.elements.health = itemData.spiritHealth;
+			magic.possession = itemData.possession;
+			if (itemData.systemEffects.length){
+				let traditionType = itemData.systemEffects.find(i => i.category = "tradition");
 				magic.tradition = traditionType.value;
 			}
 		}
@@ -2501,10 +2495,8 @@ export class SR5_CharacterUtility extends Actor {
 	static updateAstralValues(actor) {
 		let items = actor.items, actorData = actor.system, magic = actorData.magic, attributes = actorData.attributes, specialAttributes = actorData.specialAttributes, skills = actorData.skills;
 
-		if (!magic.magicType) {
-			SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
-			return;
-		}
+		if (!magic.magicType) return SR5_SystemHelpers.srLog(3, `Actor has no magic type selected or no magic capabilities for ${this.name}`);
+
 		if (magic.magicType == 'adept' || magic.magicType == 'mysticalAdept') {
 			if (items) {
 				for (let item of Object.values(items)) {
@@ -2587,40 +2579,40 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	// Generate Matrix attributes
-	static generateMatrixAttributes(deck, actor) {
+	static generateMatrixAttributes(item, actor) {
 		let actorData = actor.system, attributes = actorData.attributes;
 		let matrix = actorData.matrix, matrixAttributes = matrix.attributes;
 
-		matrix.deviceType = deck.system.type;
-		matrix.deviceName = deck.name;
+		matrix.deviceType = item.system.type;
+		matrix.deviceName = item.name;
 
-		switch (deck.system.type) {
+		switch (item.system.type) {
 			case "cyberdeck":
-				matrix.attributesCollection.value1 = deck.system.attributesCollection.value1;
-				matrix.attributesCollection.value2 = deck.system.attributesCollection.value2;
-				matrix.attributesCollection.value3 = deck.system.attributesCollection.value3;
-				matrix.attributesCollection.value4 = deck.system.attributesCollection.value4;
+				matrix.attributesCollection.value1 = item.system.attributesCollection.value1;
+				matrix.attributesCollection.value2 = item.system.attributesCollection.value2;
+				matrix.attributesCollection.value3 = item.system.attributesCollection.value3;
+				matrix.attributesCollection.value4 = item.system.attributesCollection.value4;
 				matrix.programsMaximumActive.base = 0;
-				SR5_EntityHelpers.updateModifier(matrix.programsMaximumActive, deck.name, `${game.i18n.localize('SR5.Device')}`, deck.system.program.max, false, false);
-				matrix.deviceRating = deck.system.deviceRating;
+				SR5_EntityHelpers.updateModifier(matrix.programsMaximumActive, item.name, `${game.i18n.localize('SR5.Device')}`, item.system.program.max, false, false);
+				matrix.deviceRating = item.system.deviceRating;
 				break;
 			case "riggerCommandConsole":
 				matrix.attributes.attack.base = 0;
 				matrix.attributes.sleaze.base = 0;
-				matrix.attributes.dataProcessing.base = deck.system.attributesCollection.value3;
-				matrix.attributes.firewall.base = deck.system.attributesCollection.value4;
+				matrix.attributes.dataProcessing.base = item.system.attributesCollection.value3;
+				matrix.attributes.firewall.base = item.system.attributesCollection.value4;
 				matrix.programsMaximumActive.base = 0;
-				SR5_EntityHelpers.updateModifier(matrix.programsMaximumActive, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating, false, false);
-				matrix.deviceRating = deck.system.deviceRating;
+				SR5_EntityHelpers.updateModifier(matrix.programsMaximumActive, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, item.system.deviceRating, false, false);
+				matrix.deviceRating = item.system.deviceRating;
 				break;
 			case "commlink":
 				matrix.attributes.attack.base = 0;
 				matrix.attributes.sleaze.base = 0;
-				matrix.attributes.dataProcessing.base = deck.system.deviceRating;
-				matrix.attributes.firewall.base = deck.system.deviceRating;
+				matrix.attributes.dataProcessing.base = item.system.deviceRating;
+				matrix.attributes.firewall.base = item.system.deviceRating;
 				matrix.programsMaximumActive.base = 0;
-				SR5_EntityHelpers.updateModifier(matrix.programsMaximumActive, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating, false, false);
-				matrix.deviceRating = deck.system.deviceRating;
+				SR5_EntityHelpers.updateModifier(matrix.programsMaximumActive, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, item.system.deviceRating, false, false);
+				matrix.deviceRating = item.system.deviceRating;
 				break;
 			case "livingPersona":
 				matrix.attributes.attack.base = attributes.charisma.augmented.value;
@@ -2637,13 +2629,13 @@ export class SR5_CharacterUtility extends Actor {
 				matrix.deviceRating = actorData.specialAttributes.resonance.augmented.value;
 				break;
 			default:
-				SR5_SystemHelpers.srLog(1, `Unknown '${deck.system.type}' deck type in generateMatrixAttributes()`);
+				SR5_SystemHelpers.srLog(1, `Unknown '${item.system.type}' deck type in generateMatrixAttributes()`);
 				return;
 		}
 
-		matrix.pan = deck.system.pan;
-		matrix.marks = deck.system.marks;
-		matrix.markedItems = deck.system.markedItems;
+		matrix.pan = item.system.pan;
+		matrix.marks = item.system.marks;
+		matrix.markedItems = item.system.markedItems;
 		SR5_EntityHelpers.updateValue(matrix.noise);
 		SR5_EntityHelpers.updateValue(matrix.programsMaximumActive, 0);
 		SR5_EntityHelpers.updateValue(matrix.programsCurrentActive, 0);
@@ -2805,7 +2797,7 @@ export class SR5_CharacterUtility extends Actor {
 			dataProcessingValue = matrixAttributes.dataProcessing.value;
 			attackValue = matrixAttributes.attack.value;
 		} else if (actor.type === "actorDrone" && actorData.vehicleOwner.id && actorData.slaved) {
-			let controler = actor.flags.sr5.vehicleControler.system;
+			let controler = actorData.vehicleOwner.system;
 
 			if (controler.attributes.intuition.augmented.value > matrix.deviceRating){
 				intuitionValue = controler.attributes.intuition.augmented.value;
@@ -2901,7 +2893,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	static generateMatrixResistances(actor, deck){
+	static generateMatrixResistances(actor, item){
 		let actorData = actor.system, attributes = actorData.attributes, specialAttributes = actorData.specialAttributes;
 		let matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixResistances = matrix.resistances;
 
@@ -2910,47 +2902,47 @@ export class SR5_CharacterUtility extends Actor {
 		matrixResistances.dumpshock.base = 0;
 		matrixResistances.dataBomb.base = 0;
 		matrixResistances.fading.base = 0;
-		switch(deck.system.type){
+		switch(item.system.type){
 			case "commlink":
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, item.system.deviceRating);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				break;
 			case "cyberdeck":
 			case "riggerCommandConsole":
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, item.system.deviceRating);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, item.system.deviceRating);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				break;
 			case "livingPersona":
 			case "headcase":
 				SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.Resonance')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, specialAttributes.resonance.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, `${game.i18n.localize('SR5.Willpower')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, deck.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, deck.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, item.system.deviceRating);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
 				break;
 			case "baseDevice":
 				if (actor.type === "actorDrone"){
-					if (actor.system.vehicleOwner.id && actorData.slaved){
-						let controler = actor.flags.sr5.vehicleControler.system;
-						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Controler')}`, controler.matrix.resistances.matrixDamage.dicePool);
+					if (actorData.vehicleOwner.id && actorData.slaved){
+						let controler = actorData.vehicleOwner.system;
+						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.Controler')}`, controler.matrix.resistances.matrixDamage.dicePool);
 					} else {
-						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, actorData.matrix.deviceRating);
-						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, actorData.matrix.attributes.firewall.value);
+						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, actorData.matrix.deviceRating);
+						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.Firewall')}`, actorData.matrix.attributes.firewall.value);
 					}
 				} else if (actor.type === "actorDevice"){
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.DeviceRating')}`, actorData.matrix.deviceRating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, deck.name, `${game.i18n.localize('SR5.Firewall')}`, actorData.matrix.attributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.DeviceRating')}`, actorData.matrix.deviceRating);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, `${game.i18n.localize('SR5.Firewall')}`, actorData.matrix.attributes.firewall.value);
 				} else if (actor.type === "actorSprite"){
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Level')}`, matrix.deviceRating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), `${game.i18n.localize('SR5.Firewall')}`, matrixAttributes.firewall.value);
@@ -2964,7 +2956,7 @@ export class SR5_CharacterUtility extends Actor {
 				}
 				break;
 			default:
-				SR5_SystemHelpers.srLog(1, `Unknown '${deck.system.type}' deck type in generateMatrixResistances()`);
+				SR5_SystemHelpers.srLog(1, `Unknown '${item.system.type}' deck type in generateMatrixResistances()`);
 				return;
 		}
 
@@ -2973,13 +2965,13 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	static generateVehicleMatrix(actor, deck) {
+	static generateVehicleMatrix(actor, itemData) {
 		let actorData = actor.system;
 
 		actorData.matrix.deviceRating = actorData.attributes.pilot.augmented.value;
 		actorData.matrix.programsMaximumActive.value = Math.ceil(actorData.matrix.deviceRating / 2);
-		actorData.matrix.marks = deck.marks;
-		actorData.matrix.markedItems = deck.markedItems;
+		actorData.matrix.marks = itemData.marks;
+		actorData.matrix.markedItems = itemData.markedItems;
 
 		for (let key of Object.keys(SR5.matrixAttributes)) {
 			actorData.matrix.attributes[key].base = 0;
@@ -2990,12 +2982,12 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateValue(actorData.matrix.noise);
 	}
 
-	static generateDeviceMatrix(actor, deck) {
+	static generateDeviceMatrix(actor, itemData) {
 		let actorData = actor.system, matrix = actorData.matrix, 
 			matrixAttributes = matrix.attributes;
 
-		actorData.matrix.marks = deck.marks;
-		actorData.matrix.markedItems = deck.markedItems;
+		actorData.matrix.marks = itemData.marks;
+		actorData.matrix.markedItems = itemData.markedItems;
 		matrix.deviceName = actor.name;
 
 		if (matrix.deviceType === "host"){
@@ -3065,13 +3057,13 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateValue(matrix.noise)
 	}
 
-	static generateSpriteMatrix(actor, deck) {
+	static generateSpriteMatrix(actor, itemData) {
 		let actorData = actor.system, 
 			matrix = actorData.matrix,
 			matrixAttributes = matrix.attributes;
 
-		actorData.matrix.marks = deck.marks;
-		actorData.matrix.markedItems = deck.markedItems;
+		actorData.matrix.marks = itemData.marks;
+		actorData.matrix.markedItems = itemData.markedItems;
 		matrix.deviceRating = actorData.level;
 
 		//Handle base matrix attributes
@@ -3119,13 +3111,13 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateValue(matrix.noise)
 	}
 
-	static generateAgentMatrix(actor, deck){
+	static generateAgentMatrix(actor, itemData){
 		let actorData = actor.system;
 		if(!actorData.creatorData) return;
 		let matrixAttributes = actorData.matrix.attributes, creatorMatrix = actorData.creatorData.system.matrix;
 
-		actorData.matrix.marks = deck.marks;
-		actorData.matrix.markedItems = deck.markedItems;
+		actorData.matrix.marks = itemData.marks;
+		actorData.matrix.markedItems = itemData.markedItems;
 		//Device
 		actorData.matrix.deviceRating = creatorMatrix.deviceRating;
 
@@ -3163,26 +3155,33 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static async updateControledVehicle(actor){
+		let actorObject = actor.toObject(false);
 		if (game.actors) {
 			for (let a of game.actors) {
-				if(a.system.type === "actorDrone" && a.system.vehicleOwner.id === actor._id){
-					await a.setFlag("sr5", "vehicleControler", actor.toObject(false));
+				if (a.type === "actorDrone" && a.system.vehicleOwner.id === actor._id){
+					await a.update({
+						"system.vehicleOwner.system": actorObject.system,
+						"system.vehicleOwner.items": actorObject.items,
+				 	})
 				}
 			}
 		}
 
 		if (canvas.scene){
 			for (let t of canvas.tokens.placeables) {
-				if(t.actor.system.type === "actorDrone" && t.actor.system.vehicleOwner.id === actor._id){
-					await t.actor.setFlag("sr5", "vehicleControler", actor.toObject(false));
-					if (t.actor.token) await t.actor.token.setFlag("sr5", "vehicleControler", actor.toObject(false));
+				if(t.actor.type === "actorDrone" && t.actor.system.vehicleOwner.id === actor._id){
+					await t.actor.update({
+						"system.vehicleOwner.system": actorObject.system,
+						"system.vehicleOwner.items": actorObject.items,
+				 	})
+					//if (t.actor.token) await t.actor.token.setFlag("sr5", "vehicleControler", actor.toObject(false));
 				}
 			}
 		}
 	}
 
 	static applyAutosoftEffect(actor){
-		let controler = actor.flags.sr5.vehicleControler;
+		let controlerItems = actor.system.vehicleOwner.items;
 		let hasLocalAutosoftRunning = actor.items.find(a => a.system.type === "autosoft" && a.system.isActive);
 		if (hasLocalAutosoftRunning) actor.system.matrix.hasLocalAutosoftRunning = true;
 		else actor.system.matrix.hasLocalAutosoftRunning = false;
@@ -3190,7 +3189,7 @@ export class SR5_CharacterUtility extends Actor {
 		if (actor.system.controlMode !== "autopilot") actor.system.matrix.hasLocalAutosoftRunning = false;
 
 		if (actor.system.controlMode === "autopilot"){
-			for (let i of controler.items){
+			for (let i of controlerItems){
 				if (i.type === "itemProgram" && i.system.type === "autosoft" && i.system.isActive && !hasLocalAutosoftRunning){
 					if (i.system.isModelBased){
 						if (i.system.model === actor.system.model){
@@ -3207,9 +3206,9 @@ export class SR5_CharacterUtility extends Actor {
 	//////////////// MODIFS D'OBJETS ///////////////////
 
 	// Modif dû à la possession d'un esprit
-	static _actorModifPossession(spirit, actor) {
+	static _actorModifPossession(item, actor) {
 		let actorData = actor.system, actorAttribute = actorData.attributes;
-		let spiritForce = spirit.system.itemRating, spiritType = spirit.system.type, spiritAttributes = spirit.system.attributes;
+		let spiritForce = item.system.itemRating, spiritType = item.system.type, spiritAttributes = item.system.attributes;
 
 		// Attributes modifiers
 		for (let key of Object.keys(SR5.characterPhysicalAttributes)) {
@@ -3237,7 +3236,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 		for (let key of Object.keys(SR5.skills)) {
 			if (actorData.skills[key]){
-				let spiritSkill = spirit.system.skill.find(skill => skill === key);
+				let spiritSkill = item.system.skill.find(skill => skill === key);
 				if (spiritSkill === key) {
 					let mod = spiritForce - actorData.skills[key].rating.value;
 					SR5_EntityHelpers.updateModifier(actorData.skills[key].rating, `${game.i18n.localize('SR5.Possession')} (${game.i18n.localize(SR5.spiritTypes[spiritType])})`, "possession", mod);

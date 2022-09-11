@@ -84,7 +84,7 @@
 		{{/each}}
 
 		<!-- Controler's programs -->
-		{{#each actor.flags.sr5.vehicleControler.items}}
+		{{#each system.vehicleOwner.items}}
 		{{#if (and (eq type "itemProgram") (eq system.type "autosoft"))}}
 		<li class="grid">
 			<div class="col-6">{{name}}</div>
