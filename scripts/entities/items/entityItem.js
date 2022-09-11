@@ -437,7 +437,7 @@ export class SR5Item extends Item {
 		const types = originalTypes.filter(
 			(itemType) => !hiddenTypes.includes(itemType)
 		);
-		const folders = parent ? [] : game.folders.filter(f => (f.data.type === documentName) && f.displayed);
+		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
 		const title = game.i18n.localize('SR5.DIALOG_CreateNewItem');
 		
 		// Render the document creation form
@@ -464,7 +464,7 @@ export class SR5Item extends Item {
 			callback: async html => {
 				const form = html[0].querySelector("form");
 				const fd = new FormDataExtended(form);
-				foundry.utils.mergeObject(data, fd.toObject(), {inplace: true});
+				foundry.utils.mergeObject(data, fd.object, {inplace: true});
 				if ( !data.folder ) delete data["folder"];
 				const preset = CONFIG.Cards.presets[data.preset];
 				if ( preset && (preset.type === data.type) ) {

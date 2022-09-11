@@ -293,6 +293,7 @@ export default class Migration {
 
 		//v10 migrate item's token
 		if (isToken){
+			item.system = item.data;
 			updateData["system"] = item.data;
 		}
 
@@ -302,11 +303,11 @@ export default class Migration {
 		}
 
 		if (item.type == "itemWeapon"){
-			if(item.system.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
-			if(item.system.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
-			if(item.system.weaponSkill?.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
-			if(item.system.weaponSkill?.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
-			if(item.system.category === "grenade"){
+			if(item.system?.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
+			if(item.system?.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
+			if(item.system?.weaponSkill?.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
+			if(item.system?.weaponSkill?.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
+			if(item.system?.category === "grenade"){
 				updateData["system.range.short.base"] = 2;
 				updateData["system.range.medium.base"] = 4;
 				updateData["system.range.long.base"] = 6;

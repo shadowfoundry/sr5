@@ -29,7 +29,7 @@ export class SR5Combat extends Combat {
 			"flags.sr5.currentInitRating" : combatant.actor.system.initiatives[key].value,
       		"flags.sr5.currentInitDice" : combatant.actor.system.initiatives[key].dice.value,
 		}
-		if (!combatant.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId) ) {
+		if (!combatant.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId)) {
 			let actualCombatant = combatant.combat.combatants.find(c => c.id === combatant.combat.current.combatantId);
 			if (actualCombatant.initiative > (combatant.initiative + adjustment)) {
 				udpateData = mergeObject(udpateData, {
@@ -43,33 +43,31 @@ export class SR5Combat extends Combat {
 	static async seizeInitiative(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone (actor.system);
-		actorData = actorData.toObject(false);
+		let actorData = deepClone(actor.system);
 		if (actorData.conditionMonitors.edge?.actual?.value < actorData.conditionMonitors.edge?.value){
 			await combatant.setFlag("sr5", "seizeInitiative", true);
 			actorData.conditionMonitors.edge.actual.base += 1;
-			await actor.update(actorData);
-			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiative")}`);
+			await actor.update({system: actorData});
+			ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiative")}`);
 		} else {
-			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiativeFailed")}`);
+			ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiativeFailed")}`);
 		}
 	}
 
 	static async blitz(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone (actor.system);
-		actorData = actorData.toObject(false);
+		let actorData = deepClone(actor.system);
 		if (actorData.conditionMonitors.edge?.actual.value < actorData.conditionMonitors.edge?.value){
 			await combatant.update({
 				initiative: null,
 				"flags.sr5.blitz": true,
 			});
 			actorData.conditionMonitors.edge.actual.base += 1;
-			await actor.update(actorData);
-			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitz")}`);
+			await actor.update({system: actorData});
+			ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitz")}`);
 		} else {
-			ui.notifications.info(`${actorData.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitzFailed")}`);
+			ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitzFailed")}`);
 		}
 	}
 
@@ -99,24 +97,24 @@ export class SR5Combat extends Combat {
 	}
 
 	static async handleNextRound(combatId){
-    //SR5_SystemHelpers.srLog(3, "New combat round");
-    const combat = game.combats?.get(combatId);
-    if (!combat) return;
-    await combat.resetAll();
-    for (let combatant of combat.combatants) {
-      combatant.update({
-        "flags.sr5.seizeInitiative": false,
-        "flags.sr5.blitz": false,
-        "flags.sr5.hasPlayed": combatant.isDefeated,
-      });
-      await SR5Combat.manageTurnEnd(combatant);
-    }
-    await SR5Combat.setInitiativePass(combat, 1);
-    await combat.rollAll();
+		//SR5_SystemHelpers.srLog(3, "New combat round");
+		const combat = game.combats?.get(combatId);
+		if (!combat) return;
+		await combat.resetAll();
+		for (let combatant of combat.combatants) {
+			combatant.update({
+				"flags.sr5.seizeInitiative": false,
+				"flags.sr5.blitz": false,
+				"flags.sr5.hasPlayed": combatant.isDefeated,
+			});
+		await SR5Combat.manageTurnEnd(combatant);
+		}
+		await SR5Combat.setInitiativePass(combat, 1);
+		await combat.rollAll();
 
-    const turn = 0;
-    await combat.update({ turn });
-  }
+		const turn = 0;
+		await combat.update({ turn });
+  	}
 
    	setupTurns(){
 		// Determine the turn order and the current turn
@@ -230,16 +228,20 @@ export class SR5Combat extends Combat {
 
 		// Just step from one combatant to the next!
 		if (nextTurn < this.turns.length) {
-			for (let combatant of this.combatants){
-				if (combatant.getFlag("sr5", "delayedAction")){
-					await combatant.unsetFlag("sr5", "delayedAction");
+			let updatedCombatants = this.combatants.toObject(false);
+			for (let combatant of updatedCombatants){
+				if (combatant.flags.sr5.delayedAction){
+					combatant.flags.sr5.delayedAction = false;
 					continue;
 				}
-				if (combatant.id === this.current.combatantId) {
-					await combatant.setFlag("sr5", "hasPlayed", true);
+				if (combatant._id === this.current.combatantId) {
+					combatant.flags.sr5.hasPlayed = true;
 				}
 			}
-			await this.update({turn: nextTurn});
+			await this.update({
+				turn: nextTurn,
+				combatants: updatedCombatants,
+			});
 			return;
 		}
 
@@ -277,9 +279,9 @@ export class SR5Combat extends Combat {
 
 		// Owner permissions are needed to change the shadowrun initiative round.
 		if (!game.user?.isGM) {
-				await this._createDoNextRoundSocketMessage();
+			await this._createDoNextRoundSocketMessage();
 		} else {
-				await SR5Combat.handleNextRound(this.id);
+			await SR5Combat.handleNextRound(this.id);
 		}
 	}
 
@@ -396,6 +398,7 @@ export class SR5Combat extends Combat {
 		}
 		return false;
 	}
+
 	/**
 	* Check if there is another initiative pass possible with the given score.
 	* @param score
@@ -404,6 +407,7 @@ export class SR5Combat extends Combat {
 	static iniScoreCanDoAnotherPass(score){
 		return SR5Combat.reduceIniResultAfterPass(score) > 0;
 	}
+
 	/**
 	* Reduce the given initiative score according to @PDF SR5#159
 	* @param score This given score can't be reduced under zero.
@@ -414,8 +418,8 @@ export class SR5Combat extends Combat {
 
 	static async _socketDoNextRound(message) {
 		if (!message.data.hasOwnProperty('id') && typeof message.data.id !== 'string') {
-				console.error(`SR5Combat Socket Message 'DoNextRound' data.id must be a string (combat id) but is ${typeof message.data} (${message.data})!`);
-				return;
+			console.error(`SR5Combat Socket Message 'DoNextRound' data.id must be a string (combat id) but is ${typeof message.data} (${message.data})!`);
+			return;
 		}
 
 		return await SR5Combat.handleNextRound(message.data.id);
@@ -423,8 +427,8 @@ export class SR5Combat extends Combat {
 
 	static async _socketDoInitPass(message) {
 		if (!message.data.hasOwnProperty('id') && typeof message.data.id !== 'string') {
-				console.error(`SR5Combat Socket Message 'DoInitPass' data.id must be a string (combat id) but is ${typeof message.data} (${message.data})!`);
-				return;
+			console.error(`SR5Combat Socket Message 'DoInitPass' data.id must be a string (combat id) but is ${typeof message.data} (${message.data})!`);
+			return;
 		}
 
 		return await SR5Combat.handleIniPass(message.data.id);
@@ -455,6 +459,7 @@ export class SR5Combat extends Combat {
 		if (game.combat){
 			let combatant = SR5Combat.getCombatantFromActor(document),
 				sign;
+
 			if (!combatant) return;
 			if (combatant.initiative <= 0) return;
 			else {
@@ -494,32 +499,31 @@ export class SR5Combat extends Combat {
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
 
-		let actorData = deepClone (actor.system);
-		actorData = actorData.toObject(false);
+		let actorData = deepClone(actor.system);
 
 		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
-				let effect = duplicate(item.system);
+				let itemData = duplicate(item.system);
 
 				//Decrease effect duration
 				if (item.system.durationType === "round"){
-					effect.duration -= 1;
+					itemData.duration -= 1;
 					//Delete effect if duration < 0;
-					if (effect.duration <= 0){
+					if (itemData.duration <= 0){
 						await actor.deleteEmbeddedDocuments("Item", [item.id]);
 						let statusEffect = actor.effects.find(e => e.origin === item.system.type);
         				if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
-						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: effect.name})}`);
+						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`);
 					} else {
-						await item.update(effect);
-						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: effect.name})}`);
+						await item.update({system: itemData});
+						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`);
 					}
 				}
 
 				//Special case : Acid Damage
-				if (effect.type === "acidDamage") {
-					let armor = actor.items.find((item) => item.type === "itemArmor" && item.system.isActive && !item.system.isAccessory);
+				if (itemData.type === "acidDamage") {
+					let armor = actor.items.find((i) => i.type === "itemArmor" && i.system.isActive && !i.system.isAccessory);
 					if (armor){
 						let updatedArmor = armor.toObject(false);
 						let itemEffect = updatedArmor.system.itemEffects.find((e) => e.target === "system.armorValue");
@@ -540,11 +544,11 @@ export class SR5Combat extends Combat {
 						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
 					}
 
-					effect.value -= 1;
+					itemData.value -= 1;
 					let damageInfo = {
 						damageResistanceType: "physicalDamage",
 						incomingPA: 0,
-						damageValue: effect.value,
+						damageValue: itemData.value,
 						damageType: "physical",
 						damageElement: "acid",
 					}
@@ -552,15 +556,15 @@ export class SR5Combat extends Combat {
 				}
 
 				//Apply Fire effect if any
-				if (effect.type === "fireDamage") {
+				if (itemData.type === "fireDamage") {
 					let damageInfo = {
-						damageValue: effect.value,
+						damageValue: itemData.value,
 						damageType: "physical",
 					}
 					await actor.takeDamage(damageInfo);
-					effect.value += 1;
-					ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {fire: effect.value})}`);
-					await item.update(effect);
+					itemData.value += 1;
+					ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {fire: itemData.value})}`);
+					await item.update({system: itemData});
 				}
 			}
 
@@ -576,12 +580,13 @@ export class SR5Combat extends Combat {
 		//Reset Spell defense dice pool
 		if (actorData.magic?.counterSpellPool?.current !== actorData.magic?.counterSpellPool?.value){
 			actorData.magic.counterSpellPool.current = actorData.magic.counterSpellPool.value;
-			await actor.update(actorData);
+			await actor.update({system: actorData});
 		}
 
 		//Handle Regeneration
 		if (actorData.specialProperties?.regeneration){
-			actor.rollTest("regeneration");
+			if (actorData.conditionMonitors.physical?.actual?.value > 0 || actorData.conditionMonitors.stun?.actual?.value > 0 || actorData.conditionMonitors.condition?.actual?.value > 0) 
+				actor.rollTest("regeneration");
 		}
 	}
 

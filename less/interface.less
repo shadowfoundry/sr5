@@ -12,7 +12,8 @@
         }
 
         &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
-        &#permission, &[id^=playlist-config-], &[id^=rolltable-sheet-], &[id^=cards-sheet-], &[id^=client-settings], &[id^=ambient-light-config-], &.macro-sheet {
+        &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=ambient-light-config-], &[id^=PlaylistConfig-],
+        &[id^=support-details], &#keybindings, &.macro-sheet {
             select{
                 border: 1px solid @mainColor;
                 color: @neutralLightColor;
@@ -45,7 +46,7 @@
                 border-radius: 3px;
                 text-decoration: none;
                 text-overflow: ellipsis;
-                overflow: hidden;
+                //overflow: hidden;
                 -webkit-transition: all 1s ease;
                 -moz-transition: all 1s ease;
                 -o-transition: all 1s ease;
@@ -1398,8 +1399,9 @@
             }
 
             .token-image{
-                height: 55px;
-                width: 55px;
+                flex: 0 0 50px;
+                height: 50px;
+                width: 50px;
             }
 
             .roll {
@@ -1484,6 +1486,7 @@
 
 #playlists {
     h4 {
+        overflow: visible;
         &:hover {
             background: none;
         }
@@ -1537,6 +1540,7 @@
     }
 
     li.compendium-pack {
+        line-height: 18px;
         border-bottom: 0;
         margin: 0 0 3px 0;
         padding: 5px 5px 7px 5px;

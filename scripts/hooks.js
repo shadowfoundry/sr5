@@ -19,8 +19,6 @@ import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
 import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js";
 import { SR5Token } from "./interface/token.js";
-//Disable for v10
-//import { SR5SightLayer, drawSight } from "./interface/vision.js";
 import { SR5CombatTracker } from "./interface/srcombat-tracker.js";
 import { SR5_EffectArea } from "./system/effectArea.js";
 import { _getSRStatusEffect } from "./system/effectsList.js";
@@ -158,14 +156,6 @@ export const registerHooks = function () {
 	Hooks.on("canvasInit", function() {
 		// Extend Diagonal Measurement
 		SquareGrid.prototype.measureDistances = measureDistances;
-		Hooks.once("canvasPan", async (canvas) => {
-			const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
-			if (tokenOverlay){
-				for (let token of canvas.tokens.placeables) {
-					if(token.actor) await SR5Token.addTokenLayer(token);
-				}
-			}
-		})
 	});
 
 	Hooks.on("getCombatTrackerEntryContext", SR5CombatTracker.addCombatTrackerContextOptions);
@@ -199,13 +189,9 @@ export const registerHooks = function () {
 
 	Hooks.on("createToken", async function(tokenDocument) {
 		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenDocument.update({"texture.src": tokenDocument.actor.img});
-		const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
-		if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
 	});
 
 	Hooks.on("updateToken", async function(tokenDocument, change) {
-		const tokenOverlay = game.settings.get("sr5", "sr5TokenGraphic");
-		if (tokenOverlay) await SR5Token.addTokenLayer(tokenDocument);
 		if (change.x || change.y) SR5_EffectArea.tokenAura(tokenDocument);
 	});
 
@@ -274,7 +260,7 @@ export const registerHooks = function () {
 		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix){
 			await SR5Actor.keepDeckSynchroWithAgent(document);
 		}
-		//let truc = document.effects.find(e => e.system.origin = "linkLock")
+		//let truc = document.effects.find(e => e.origin = "linkLock")
 		//if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
 	});
 

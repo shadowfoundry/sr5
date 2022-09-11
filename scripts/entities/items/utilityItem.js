@@ -1658,7 +1658,7 @@ export class SR5_UtilityItem extends Actor {
 		if (itemData.slots.multiplier) {
 			SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize(SR5.valueMultipliers[itemData.slots.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
 		}
-		SR5_EntityHelpers.updateValue(item.slots, 0);
+		SR5_EntityHelpers.updateValue(itemData.slots, 0);
 	}
 
 	static _handleThresholdMultiplier(itemData) {

@@ -63,28 +63,6 @@ export class SR5_SystemHelpers {
 			onChange: () => window.location.reload()
 		});
 
-		// Add token graphic overlay
-		game.settings.register("sr5", "sr5TokenGraphic", {
-			name: "SR5.SETTINGS_TokenGraphic_T",
-			hint: "SR5.SETTINGS_TokenGraphic_D",
-			scope: "client",
-			config: true,
-			default: true,
-			type: Boolean,
-			onChange: () => window.location.reload()
-		});
-
-		// Add astral color overlay
-		game.settings.register("sr5", "sr5AstralOverlay", {
-			name: "SR5.SETTINGS_AstralOverlay_T",
-			hint: "SR5.SETTINGS_AstralOverlay_D",
-			scope: "client",
-			config: true,
-			default: false,
-			type: Boolean,
-			onChange: () => window.location.reload()
-		});
-
 		// Matrix Grid Rules
 		game.settings.register("sr5", "sr5MatrixGridRules", {
 			name: "SR5.SETTINGS_MatrixGridRules_T",

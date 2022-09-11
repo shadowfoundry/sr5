@@ -156,7 +156,7 @@ export class SR5_EntityHelpers {
 	}
 
 	static updateStatusBars(actor, monitorType) {
-		let data = actor.system, conditionMonitors = data.conditionMonitors, statusBars = data.statusBars;
+		let actorData = actor.system, conditionMonitors = actorData.conditionMonitors, statusBars = actorData.statusBars;
 		statusBars[monitorType].value = conditionMonitors[monitorType].actual.value;
 		statusBars[monitorType].max = conditionMonitors[monitorType].value;
 	}
@@ -199,7 +199,7 @@ export class SR5_EntityHelpers {
 	static getActorCanvasPosition(actor){
 		let actorPosition = 0;
 		if (actor.token) {
-			actorPosition = actor.token._object._validPosition;
+			actorPosition = { x: actor.token.x, y: actor.token.y };
 		} else {
 			let t = canvas.scene?.tokens.find((token) => token.actorId === actor.id);
 			if (t !== undefined) actorPosition = { x: t.x, y: t.y };
