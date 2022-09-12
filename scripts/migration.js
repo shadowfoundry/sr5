@@ -21,16 +21,10 @@ export default class Migration {
 
 		// Migrate World Compendium Packs
 		for (let p of game.packs) {
-			if (p.metadata.type == "Item" && p.metadata.package == "world")
-			  await this.migrateCompendium(p);
-		  }
-		  for (let p of game.packs) {
-			if (p.metadata.type == "Actor" && p.metadata.package == "world")
-			  await this.migrateCompendium(p);
-		  }
-		  for (let p of game.packs) {
-			if (p.metadata.type == "Scene" && p.metadata.package == "world")
-			  await this.migrateCompendium(p);
+			//console.log(p.metadata.packageName);
+			if (p.metadata.packageName === "sr5-Item-Full-fr") continue;
+			if ( !["Actor", "Item", "Scene"].includes(p.documentName) ) continue;
+			await this.migrateCompendium(p);
 		}
 
 		// Migrate World Actors
@@ -77,8 +71,8 @@ export default class Migration {
 	 * @return {Promise}
 	 */
 	async migrateCompendium(pack) {
-		const document = pack.metadata.document;
-		if (!["Actor", "Item", "Scene"].includes(document)) return;
+		const documentName = pack.documentName;
+		if (!["Actor", "Item", "Scene"].includes(documentName)) return;
 
 		// Unlock the pack for editing
 		const wasLocked = pack.locked;
@@ -90,31 +84,31 @@ export default class Migration {
 
 		// Iterate over compendium entries - applying fine-tuned migration functions
 		for (let doc of documents) {
-		let updateData = {};
-		try {
-			switch (document) {
-			case "Actor":
-				updateData = this.migrateActorData(doc.data);
-				break;
-			case "Item":
-				updateData = this.migrateItemData(doc.toObject());
-				break;
-			case "Scene":
-				updateData = this.migrateSceneData(doc.data);
-				break;
+			let updateData = {};
+			try {
+				switch (documentName) {
+					case "Actor":
+						updateData = this.migrateActorData(doc.data);
+						break;
+					case "Item":
+						updateData = this.migrateItemData(doc.toObject());
+						break;
+					case "Scene":
+						updateData = this.migrateSceneData(doc.data);
+						break;
+				}
+
+				// Save the entry, if data was changed
+				if (foundry.utils.isEmpty(updateData)) continue;
+				await doc.update(updateData);
+				SR5_SystemHelpers.srLog(2, `Migrated ${document} document ${doc.name} in Compendium ${pack.collection}`);
 			}
 
-			// Save the entry, if data was changed
-			if (foundry.utils.isEmpty(updateData)) continue;
-			await doc.update(updateData);
-			SR5_SystemHelpers.srLog(2, `Migrated ${document} document ${doc.name} in Compendium ${pack.collection}`);
-		}
-
-		// Handle migration failures
-		catch (err) {
-			err.message = `Failed sr5 system migration for document ${doc.name} in pack ${pack.collection}: ${err.message}`;
-			console.error(err);
-		}
+			// Handle migration failures
+			catch (err) {
+				err.message = `Failed sr5 system migration for document ${doc.name} in pack ${pack.collection}: ${err.message}`;
+				console.error(err);
+			}
 		}
 
 		// Apply the original locked status for the pack
@@ -237,7 +231,9 @@ export default class Migration {
 						}
 					}
 				}
-				updateData["flags.sr5.vehicleControler"] = newFlag;
+				updateData["system.vehicleOwner.system"] = newFlag.system;
+				updateData["system.vehicleOwner.items"] = newFlag.items;
+				updateData["flags.sr5.-=vehicleControler"] = null;
 			}
 
     	}

@@ -19,6 +19,7 @@ import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
 import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js";
 import { SR5Token } from "./interface/token.js";
+import { astralVision } from "./system/vision.js";
 import { SR5CombatTracker } from "./interface/srcombat-tracker.js";
 import { SR5_EffectArea } from "./system/effectArea.js";
 import { _getSRStatusEffect } from "./system/effectsList.js";
@@ -54,6 +55,7 @@ export const registerHooks = function () {
 		CONFIG.Combat.documentClass = SR5Combat;
 		CONFIG.ui.combat = SR5CombatTracker;
 		CONFIG.Token.objectClass = SR5Token;
+		CONFIG.Canvas.visionModes.astralvision = astralVision;
 
 		// ACTIVATE HOOKS DEBUG
 		CONFIG.debug.hooks = false;

@@ -2863,6 +2863,7 @@
 	"SR5.Vision": "Vision",
 	"SR5.VisionType": "Vision type",
 	"SR5.VisionTypes": "Vision types",
+	"SR5.VISION.ModeAstralvision": "Astral Perception",
 	"SR5.Walking": "Walk",
 	"SR5.WARN_DontHavePerm": "You don't have permission !",
 	"SR5.WARN_InvalidActorType": "Invalid Actor Type for this action.",

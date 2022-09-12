@@ -1345,19 +1345,21 @@ export class SR5_CharacterUtility extends Actor {
 			if (actorData.type == "homunculus" || actorData.type == "watcher") {
 				delete actorData.conditionMonitors.physical;
 				delete actorData.conditionMonitors.stun;
-				actorData.conditionMonitors.condition = {
-					"value": 0,
-					"base": 0,
-					"modifiers": [],
-					"actual": {
+				delete actorData.statusBars.physical;
+				delete actorData.statusBars.stun;
+				if (!actorData.conditionMonitors.condition){
+					actorData.conditionMonitors.condition = {
 						"value": 0,
 						"base": 0,
 						"modifiers": [],
-					},
-					"boxes": []
-				};
-				delete actorData.statusBars.physical;
-				delete actorData.statusBars.stun;
+						"actual": {
+							"value": 0,
+							"base": 0,
+							"modifiers": [],
+						},
+						"boxes": []
+					};
+				}
 				actorData.statusBars.condition = {
 					"value": 0,
 					"max": 0
@@ -1655,10 +1657,10 @@ export class SR5_CharacterUtility extends Actor {
 					default:
 						SR5_SystemHelpers.srLog(1, `Unknown '${key}' defense in 'updateDefenses()'`);
 				}
-			this.applyPenalty("condition", defenses[key], actor);
-			this.applyPenalty("matrix", defenses[key], actor);
-			this.applyPenalty("magic", defenses[key], actor);
-			this.applyPenalty("special", defenses[key], actor);
+				this.applyPenalty("condition", defenses[key], actor);
+				this.applyPenalty("matrix", defenses[key], actor);
+				this.applyPenalty("magic", defenses[key], actor);
+				this.applyPenalty("special", defenses[key], actor);
 				SR5_EntityHelpers.updateDicePool(defenses[key], 0);
 			}
 		}

@@ -31,7 +31,7 @@ export class SR5Token extends Token {
           bar.drawRect(index * (this.w / data.max), 0, this.w / data.max, h);
         }
         // Set position
-        let posY = number === 0 ? this.h - (h-2) : 2;
+        let posY = number === 0 ? this.h - (h-4) : 2;
         bar.position.set(2.5, (posY));
     }
 }
