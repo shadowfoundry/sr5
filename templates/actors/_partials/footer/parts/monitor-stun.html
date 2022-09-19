@@ -3,9 +3,9 @@
          data-helpTitle="{{localize 'SR5.ConditionMonitorStun'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorNameMsg'}}">
             {{localize 'SR5.ConditionMonitorStunShort'}}
       </div>
-      <div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.stun.actual.base"
+      <div class="SR-MoniteurCases flexrow" data-target="system.conditionMonitors.stun.actual.base"
         data-helpTitle="{{localize 'SR5.ConditionMonitorStun'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
-                  {{#each data.conditionMonitors.stun.boxes as |box index|}}
+                  {{#each system.conditionMonitors.stun.boxes as |box index|}}
                         {{#if box.locked}}
                         <div class="boxes box-disabled" data-index="{{index}}">
                               <div class="SR-Case SR-CaseNeutralDarkColor"></div>

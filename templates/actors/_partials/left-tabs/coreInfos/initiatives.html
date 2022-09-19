@@ -2,25 +2,21 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="grid SR-LigneEnTete">
-			<div class="col-12"><p class="SR-TextUppercase">{{localize 'SR5.Initiatives'}}</p></div>
+			<div class="col-12 SR-TextUppercase">{{localize 'SR5.Initiatives'}}</div>
 		</li>
-		{{#each data.initiatives}}
-		{{#if (and (eq ../data.isMaterializing false) (eq @key 'physicalInit'))}}
+		{{#each system.initiatives}}
+		{{#if (and (eq ../system.isMaterializing false) (eq @key 'physicalInit'))}}
 		<li class="grid">
-			<div class="col-8 SR-SubColor50">{{findTranslation 'characterInitiatives' @key}}</p></div>
-			<div class="col-1 SR-SubColor50">
-				<em class="fas fa-sm fa-thumbtack"></em></a>
-			</div>
-			<div class="col-1 SR-SubColor50">
-				<p class="SR-TextRight">{{value}}</p>
-			</div>
-			<div class="col-2 SR-SubColor50"><p class="SR-TextRight">+{{dice.value}}d6</p></div>
+			<div class="col-8 SR-SubColor50">{{findTranslation 'characterInitiatives' @key}}</div>
+			<div class="col-1 SR-SubColor50"><em class="fas fa-sm fa-thumbtack"></em></div>
+			<div class="col-1 SR-SubColor50 SR-TextRight">{{value}}</div>
+			<div class="col-2 SR-SubColor50 SR-TextRight">+{{dice.value}}d6</div>
 		</li>
 		{{else}}
 		<li class="grid">
-			<div class="col-8">{{findTranslation 'characterInitiatives' @key}}</p></div>
+			<div class="col-8">{{findTranslation 'characterInitiatives' @key}}</div>
 			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_InitiativeActive' key=(findTranslation 'characterInitiatives' @key)}}"
-			data-helpMessage="{{#if (eq @key 'matrixInit')}}{{localize 'SR5.HELP_InitiativeActiveMatrixMsg'}}
+			  data-helpMessage="{{#if (eq @key 'matrixInit')}}{{localize 'SR5.HELP_InitiativeActiveMatrixMsg'}}
 			  {{else}}{{localize 'SR5.HELP_InitiativeActiveMsg'}}{{/if}}">
 				{{#if isActive}}
 					<em class="fas fa-sm fa-thumbtack SR-SubColor"></em>
@@ -28,13 +24,11 @@
 					<a class="init-switch" data-dtype="Boolean" data-binding="{{@key}}"><em class="fas fa-sm fa-thumbtack"></em></a>
 				{{/if}}
 			</div>
-			<div class="col-1" data-helpTitle="{{localize 'SR5.HELP_InitiativeRating' key=(findTranslation 'characterInitiatives' @key)}}"
-			  data-helpDetails="data.initiatives.{{@key}}">
-				<p class="SR-TextRight">{{value}}</p>
+			<div class="col-1 SR-TextRight" data-helpTitle="{{localize 'SR5.HELP_InitiativeRating' key=(findTranslation 'characterInitiatives' @key)}}" data-helpDetails="system.initiatives.{{@key}}">
+				{{value}}
 			</div>
-			<div class="col-2" data-helpTitle="{{localize 'SR5.HELP_InitiativeDices' key=(findTranslation 'characterInitiatives' @key)}}"
-			data-helpDetails="data.initiatives.{{@key}}.dice">
-				<p class="SR-TextRight">+{{dice.value}}d6</p>
+			<div class="col-2 SR-TextRight" data-helpTitle="{{localize 'SR5.HELP_InitiativeDices' key=(findTranslation 'characterInitiatives' @key)}}" data-helpDetails="system.initiatives.{{@key}}.dice">
+				+{{dice.value}}d6
 			</div>
 		</li>
 		{{/if}}

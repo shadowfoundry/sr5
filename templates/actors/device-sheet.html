@@ -13,7 +13,7 @@
 					<div>
 					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
 					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
-					{{#if (eq data.matrix.deviceType 'ice')}}
+					{{#if (eq system.matrix.deviceType 'ice')}}
 					{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
 					{{/if}}
 					<div class="SRBlockSheet">
@@ -31,10 +31,11 @@
 				<!-- RIGHT TAB -->
 				<div class="col-9">
 					<div class="SR-AppareilMainCentre">
-						{{#if (eq data.matrix.deviceType 'ice')}}
-						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
+						{{#if (eq system.matrix.deviceType 'ice')}}
+							{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
 						{{/if}}
 						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
+						{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
 					</div>
 				</div>
 			</div>

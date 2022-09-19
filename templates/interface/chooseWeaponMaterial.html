@@ -1,12 +1,12 @@
 <form>
-    <div class="form-group">
-      <div>{{localize 'SR5.ChooseWeaponMaterial'}}</div>
-      <select name="barrierType" data-dtype="String">
-        {{#select barrierType}}
-          {{#each list}}
-          <option value="{{@key}}">{{findTranslation 'barrierTypes' @key}}</option>
-          {{/each}}
-        {{/select}}
-      </select>
-    </div>
+	<div class="form-group">
+		<div>{{localize 'SR5.ChooseWeaponMaterial'}}</div>
+		<select name="barrierType" data-dtype="String">
+			{{#select barrierType}}
+				{{#each list}}
+				<option value="{{@key}}">{{findTranslation 'barrierTypes' @key}}</option>
+				{{/each}}
+			{{/select}}
+		</select>
+	</div>
 </form>

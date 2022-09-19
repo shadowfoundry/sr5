@@ -1,14 +1,14 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.PowerPointsCostShort'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.powerPointsCost.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.powerPointsCost.value}}</span>
     </p>
 </li>
-{{#if data.hasDrain}}
+{{#if system.hasDrain}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.SpellDrainShort'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.drainValue.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.drainValue.value}}</span>
     </p>
 </li>
 {{/if}}					

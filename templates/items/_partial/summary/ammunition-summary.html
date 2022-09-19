@@ -1,35 +1,35 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'allAmmunitionTypes' data.type)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'allAmmunitionTypes' system.type)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.WeaponType'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'allWeaponsTypes' data.class)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'allWeaponsTypes' system.class)}}</span>
     </p>
 </li>
 {{#if (or 
-    (eq data.type "av") 
-    (eq data.type "apds") 
-    (eq data.type "capsule")
-    (eq data.type "exExplosive")
-    (eq data.type "explosive")
-    (eq data.type "flechette")
-    (eq data.type "injection")
-    (eq data.type "frangible")
-    (eq data.type "gel")
-    (eq data.type "regular")
-    (eq data.type "hollowPoint")
-    (eq data.type "stickNShock")
-    (eq data.type "tracer")
-    (eq data.type "tracker")
+    (eq system.type "av") 
+    (eq system.type "apds") 
+    (eq system.type "capsule")
+    (eq system.type "exExplosive")
+    (eq system.type "explosive")
+    (eq system.type "flechette")
+    (eq system.type "injection")
+    (eq system.type "frangible")
+    (eq system.type "gel")
+    (eq system.type "regular")
+    (eq system.type "hollowPoint")
+    (eq system.type "stickNShock")
+    (eq system.type "tracer")
+    (eq system.type "tracker")
 )}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.CaseType'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'ammunitionCaseType' data.caseType)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'ammunitionCaseType' system.caseType)}}</span>
     </p>
 </li>
 {{/if}}

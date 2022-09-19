@@ -11,10 +11,10 @@
     {{> systems/sr5/templates/actors/_partials/header/navParts/combat.html}}
     {{> systems/sr5/templates/actors/_partials/header/navParts/gear.html}}
     {{> systems/sr5/templates/actors/_partials/header/navParts/augmentation.html}}
-    {{#ife data.activeSpecialAttribute 'magic'}}
+    {{#ife system.activeSpecialAttribute 'magic'}}
         {{> systems/sr5/templates/actors/_partials/header/navParts/magic.html}}
     {{/ife}}
-    {{#ife data.activeSpecialAttribute 'resonance'}}
+    {{#ife system.activeSpecialAttribute 'resonance'}}
         {{> systems/sr5/templates/actors/_partials/header/navParts/technomancer.html}}
     {{/ife}}
     {{> systems/sr5/templates/actors/_partials/header/navParts/matrix.html}}

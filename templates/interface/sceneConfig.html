@@ -1,7 +1,7 @@
 <form autocomplete="off">
 
     <!-- Configuration Tabs -->
-    <nav class="sheet-tabs tabs">
+    <nav class="sheet-tabs tabs" aria-role="{{localize 'SHEETS.FormNavLabel'}}">
         <a class="item" data-tab="basic"><i class="fas fa-image"></i> {{localize "SCENES.HeaderDetails"}}</a>
         <a class="item" data-tab="grid"><i class="fas fa-ruler"></i> {{localize "SCENES.HeaderGrid"}}</a>
         <a class="item" data-tab="lighting"><i class="fas fas fa-lightbulb"></i> {{localize "SCENES.HeaderVision"}}</a>
@@ -27,8 +27,8 @@
                     {{localize "SCENES.ShowNav"}}
                     <input type="checkbox" name="navigation" {{checked data.navigation}}/>
                 </label>
-                <select name="permission.default" data-dtype="Number">
-                {{#select data.permission.default}}
+                <select name="ownership.default" data-dtype="Number">
+                {{#select data.ownership.default}}
                     <option value="0">{{localize "SCENES.AccessibilityGM"}}</option>
                     <option value="2">{{localize "SCENES.AccessibilityAll"}}</option>
                 {{/select}}
@@ -48,8 +48,9 @@
         <div class="form-group">
             <label>{{localize "SCENES.BackgroundImage"}}</label>
             <div class="form-fields">
-                {{filePicker target="img" type="imagevideo"}}
-                <input class="image" type="text" name="img" placeholder="{{localize 'File Path'}}" value="{{data.img}}"/>
+                {{filePicker target="background.src" type="imagevideo"}}
+                <input class="image" type="text" name="background.src" placeholder="{{localize 'File Path'}}"
+                       value="{{data.background.src}}"/>
             </div>
             <p class="notes">{{localize "SCENES.BackgroundImageHint"}}</p>
         </div>
@@ -67,9 +68,16 @@
         <div class="form-group">
             <label>{{localize "SCENES.BackgroundColor"}}</label>
             <div class="form-fields">
-                <input type="text" name="backgroundColor" value="{{data.backgroundColor}}"/>
-                <input type="color" value="{{data.backgroundColor}}" data-edit="backgroundColor"/>
+                {{colorPicker name="backgroundColor" value=data.backgroundColor}}
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{localize "SCENES.ForegroundElevation"}}</label>
+            <div class="form-fields">
+                {{numberInput data.foregroundElevation name="foregroundElevation" min=1 step=1}}
+            </div>
+            <p class="notes">{{localize "SCENES.ForegroundElevationHint"}}</p>
         </div>
 
         <div class="form-group initial-position">
@@ -78,9 +86,9 @@
                 <button class="capture-position" type="button" title="{{ localize "SCENES.InitialViewButton" }}">
                     <i class="fas fa-crop-alt fa-fw"></i>
                 </button>
-                <label>x</label>
+                <label>X</label>
                 <input type="number" name="initial.x" placeholder="0" value="{{data.initial.x}}" step="1"/>
-                <label>y</label>
+                <label>Y</label>
                 <input type="number" name="initial.y" placeholder="0" value="{{data.initial.y}}" step="1"/>
                 <label>{{localize "SCENES.ZoomLower"}}</label>
                 <input type="number" name="initial.scale" placeholder="1" value="{{data.initial.scale}}" step="any"/>
@@ -97,8 +105,8 @@
                 <button type="button" class="grid-config" title="{{ localize "SCENES.GridConfigTool" }}">
                     <i class="fas fa-ruler-combined"></i>
                 </button>
-                <select name="gridType" data-dtype="Number">
-                    {{ selectOptions gridTypes selected=data.gridType localize=true}}
+                <select name="grid.type" data-dtype="Number">
+                    {{ selectOptions gridTypes selected=data.grid.type localize=true }}
                 </select>
             </div>
         </div>
@@ -106,7 +114,7 @@
         <div class="form-group">
             <label>{{localize "SCENES.GridSize"}} <span class="units">({{localize "SCENES.Pixels"}})</span></label>
             <div class="form-fields">
-                <input type="number" name="grid" placeholder="{{localize 'SCENES.Pixels'}}" value="{{data.grid}}" step="1" min="50"/>
+                {{numberInput data.grid.size name="grid.size" placeholder=(localize "SCENES.Pixels") min=50 step=1}}
             </div>
             <p class="notes">{{localize "SCENES.GridSizeHint"}}</p>
         </div>
@@ -135,9 +143,9 @@
             <label>{{localize "SCENES.ShiftBG"}} <span class="units">({{localize "SCENES.Pixels"}})</span></label>
             <div class="form-fields">
                 <label class="grid-label">{{localize "SCENES.ShiftHorizontal"}}</label>
-                <input type="number" name="shiftX" placeholder="{{localize 'SCENES.Pixels'}}" value="{{data.shiftX}}"/>
+                {{numberInput data.background.offsetX name="background.offsetX" placeholder=(localize "SCENES.Pixels")}}
                 <label class="grid-label">{{localize "SCENES.ShiftVertical"}}</label>
-                <input type="number" name="shiftY" placeholder="{{localize 'SCENES.Pixels'}}" value="{{data.shiftY}}"/>
+                {{numberInput data.background.offsetY name="background.offsetY" placeholder=(localize "SCENES.Pixels")}}
             </div>
         </div>
         <hr>
@@ -146,25 +154,23 @@
             <label>{{localize "SCENES.GridScale"}}</label>
             <div class="form-fields">
                 <label class="grid-label">{{localize "SCENES.GridDistance"}}</label>
-                <input type="number" step="any" name="gridDistance" placeholder="1" value="{{data.gridDistance}}"/>
+                {{numberInput data.grid.distance name="grid.distance" placeholder=1}}
                 <label class="grid-label">{{localize "SCENES.GridUnits"}}</label>
-                <input type="text" name="gridUnits" placeholder="{{localize "None"}}" value="{{data.gridUnits}}"/>
+                <input type="text" name="grid.units" placeholder="{{localize "None"}}" value="{{data.grid.units}}"/>
             </div>
         </div>
 
         <div class="form-group">
             <label>{{localize "SCENES.GridColor"}}</label>
             <div class="form-fields">
-                <input type="text" name="gridColor" value="{{data.gridColor}}"/>
-                <input type="color" value="{{data.gridColor}}" data-edit="gridColor"/>
+                {{colorPicker value=data.grid.color name="grid.color"}}
             </div>
         </div>
 
         <div class="form-group">
             <label>{{localize "SCENES.GridOpacity"}}</label>
             <div class="form-fields">
-                <input type="range" name="gridAlpha" value="{{data.gridAlpha}}" min="0" max="1" step="0.05"/>
-                <span class="range-value">{{data.gridAlpha}}</span>
+                {{rangePicker value=data.grid.alpha name="grid.alpha" min=0 max=1 step=0.05}}
             </div>
         </div>
     </div>
@@ -181,6 +187,31 @@
             <label>{{localize "SCENES.FogExplore"}}</label>
             <input type="checkbox" name="fogExploration" {{checked data.fogExploration}}/>
             <p class="notes">{{localize "SCENES.FogExploreHint"}}</p>
+        </div>
+
+        <div class="form-group">
+            <label>{{localize "SCENES.FogOverlay"}}</label>
+            <div class="form-fields">
+                {{filePicker target="fogOverlay" type="imagevideo"}}
+                <input class="image" type="text" name="fogOverlay" placeholder="{{localize 'File Path'}}" value="{{data.fogOverlay}}"/>
+            </div>
+            <p class="notes">{{localize "SCENES.FogOverlayHint"}}</p>
+        </div>
+
+        <div class="form-group">
+            <label>{{localize "SCENES.FogUnexploredColor"}}</label>
+            <div class="form-fields">
+                {{colorPicker name="fogUnexploredColor" value=data.fogUnexploredColor}}
+            </div>
+            <p class="notes">{{localize "SCENES.FogUnexploredColorHint"}}</p>
+        </div>
+
+        <div class="form-group">
+            <label>{{localize "SCENES.FogExploredColor"}}</label>
+            <div class="form-fields">
+                {{colorPicker name="fogExploredColor" value=data.fogExploredColor}}
+            </div>
+            <p class="notes">{{localize "SCENES.FogExploredColorHint"}}</p>
         </div>
         <hr>
 
@@ -220,6 +251,14 @@
                 {{ selectOptions journals selected=data.journal blank="" nameAttr="id" labelAttr="name"}}
             </select>
             <p class="notes">{{localize "SCENES.JournalEntryHint"}}</p>
+        </div>
+        <div class="form-group">
+            <label>{{localize "JOURNALENTRYPAGE.Page"}}</label>
+            <div class="form-fields">
+                <select name="journalEntryPage">
+                    {{selectOptions pages selected=data.journalEntryPage nameAttr="id" labelAttr="name" blank=""}}
+                </select>
+            </div>
         </div>
         <hr>
 
@@ -377,18 +416,3 @@
         <i class="far fa-save"></i> {{localize "Save Changes"}}
     </button>
 </form>
-
-
-<!-- CUSTOM SR5 PART 
-    <h3 class="form-header"><i class="fas fa-wifi"></i> {{localize 'SR5.SceneMatrixNoise'}}</h3>
-    
-
-    
-
-    
-    <h3 class="form-header"><i ></i> {{localize 'SR5.SceneBackgroundCount'}}</h3>
-    
-    
-    
-
-     END OF CUSTOM SR5 PART -->

@@ -1,18 +1,18 @@
-{{#if (or (eq data.type 'autosoft') (eq data.type 'agent') (eq data.type 'activesoft') 
-(eq data.type 'knowsoft') (eq data.type 'linguasoft') (eq data.type 'tutorsoft') )}}
+{{#if (or (eq system.type 'autosoft') (eq system.type 'agent') (eq system.type 'activesoft') 
+(eq system.type 'knowsoft') (eq system.type 'linguasoft') (eq system.type 'tutorsoft') )}}
 {{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
 {{/if}}
 
-{{#if (eq data.type 'autosoft')}}
+{{#if (eq system.type 'autosoft')}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.ModelSpecific'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="checkbox" name="data.isModelBased" data-dtype="Boolean" {{checked data.isModelBased}} /></div>
+	<div class="col-7"><input type="checkbox" name="system.isModelBased" data-dtype="Boolean" {{checked system.isModelBased}} /></div>
 </li>
 {{/if}}
 
-{{#if data.isModelBased}}
+{{#if system.isModelBased}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Model'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="text" data-dtype="String" name="data.model" value="{{data.model}}" /></div>
+	<div class="col-7"><input type="text" data-dtype="String" name="system.model" value="{{system.model}}" /></div>
 </li>
 {{/if}}

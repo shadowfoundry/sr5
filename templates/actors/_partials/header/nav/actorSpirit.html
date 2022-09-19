@@ -5,43 +5,43 @@
 </nav>
 
 <div class="SR-MarginRight10 SR-MarginLeft10 SR-EspritType">
-    <p class="SRTextInBox">{{findTranslation 'spiritTypes' data.type}}</p>
+    <p class="SRTextInBox">{{findTranslation 'spiritTypes' system.type}}</p>
 </div>
 
 <div class="SRemptyBox">
-    <input class="SRinputInBox" type="text" data-dtype="Number" name="data.force.base" value="{{data.force.base}}">
+    <input class="SRinputInBox" type="text" data-dtype="Number" name="system.force.base" value="{{system.force.base}}">
 </div>
 
 <div class="SR-Materialize"
   data-helpTitle="{{localize 'SR5.HELP_BoundedButton'}}" 
   data-helpMessage="{{localize 'SR5.HELP_BoundedButtonMsg'}}"
 >
-    <input id="boundedIcon" type="checkbox" name="data.isBounded" data-dtype="Boolean" {{checked data.isBounded}}>
-    {{#if data.isBounded}}
+    <input id="boundedIcon" type="checkbox" name="system.isBounded" data-dtype="Boolean" {{checked system.isBounded}}>
+    {{#if system.isBounded}}
     <label for="boundedIcon" class="active">{{> systems/sr5/img/icons/nav-link.svg.hbs}}</label>
     {{else}}
     <label for="boundedIcon">{{> systems/sr5/img/icons/nav-link.svg.hbs}}</label>
     {{/if}}
 </div>
 
-{{#ifne data.type 'watcher'}}
+{{#ifne system.type 'watcher'}}
 <div class="SR-Materialize" 
   title="{{localize 'SR5.Materializing'}}" 
   data-helpTitle="{{localize 'SR5.HELP_MaterializingButton'}}" 
   data-helpMessage="{{localize 'SR5.HELP_MaterializingButtonMsg'}}"
   >
-  {{#if data.isMaterializing}}
-  <input class="init-switch" id="materializeIcon" type="checkbox" name="data.isMaterializing" data-dtype="Boolean" data-binding="astralInit" {{checked data.isMaterializing}} {{#ife data.type 'homunculus'}}disabled{{/ife}}>
+  {{#if system.isMaterializing}}
+  <input class="init-switch" id="materializeIcon" type="checkbox" name="system.isMaterializing" data-dtype="Boolean" data-binding="astralInit" {{checked system.isMaterializing}} {{#ife system.type 'homunculus'}}disabled{{/ife}}>
   <label for="materializeIcon" class="active">{{> systems/sr5/img/icons/nav-materialize.svg.hbs}}</label>
   {{else}}
-  <input class="init-switch" id="materializeIcon" type="checkbox" name="data.isMaterializing" data-dtype="Boolean" data-binding="physicalInit" {{checked data.isMaterializing}} {{#ife data.type 'homunculus'}}disabled{{/ife}}>
+  <input class="init-switch" id="materializeIcon" type="checkbox" name="system.isMaterializing" data-dtype="Boolean" data-binding="physicalInit" {{checked system.isMaterializing}} {{#ife system.type 'homunculus'}}disabled{{/ife}}>
   <label for="materializeIcon">{{> systems/sr5/img/icons/nav-materialize.svg.hbs}}</label>
   {{/if}}
 </div>
 {{/ifne}}
 
 <!-- If we want to suppress actor from his sheet and "send it back" to his owner
-{{#ifne data.creatorId ''}}
+{{#ifne system.creatorId ''}}
 <div class="SR-Materialize">
     <a class="dismissActor">{{> systems/sr5/img/icons/nav-dismiss.svg.hbs}}</a>
 </div>

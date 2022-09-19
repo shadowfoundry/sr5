@@ -1,50 +1,50 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.PreparationTrigger'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'preparationTriggerTypes' data.trigger)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'preparationTriggerTypes' system.trigger)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.PreparationPotency'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.potency}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.potency}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Force'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.force}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.force}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'spellCategories' data.category)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'spellCategories' system.category)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</span>
         <span class="col-auto SR-GreyColor">
-            {{#if data.category}}
-                {{#ife data.category 'illusion'}}{{findTranslation 'spellIllusionTypes' data.subCategory}} {{findTranslation 'spellIllusionSens' data.illusionSense}}{{/ife}}
-                {{#ife data.category 'combat'}}{{findTranslation 'spellCombatTypes' data.subCategory}}{{/ife}}
-                {{#ife data.category 'detection'}}{{findTranslation 'spellDetectionTypes' data.subCategory}} {{findTranslation 'spellDetectionSens' data.detectionSense}}{{/ife}}
-                {{#ife data.category 'manipulation'}}{{findTranslation 'spellManipulationTypes' data.subCategory}}{{/ife}}
-                {{#ife data.category 'health'}}-{{/ife}}
+            {{#if system.category}}
+                {{#ife system.category 'illusion'}}{{findTranslation 'spellIllusionTypes' system.subCategory}} {{findTranslation 'spellIllusionSens' system.illusionSense}}{{/ife}}
+                {{#ife system.category 'combat'}}{{findTranslation 'spellCombatTypes' system.subCategory}}{{/ife}}
+                {{#ife system.category 'detection'}}{{findTranslation 'spellDetectionTypes' system.subCategory}} {{findTranslation 'spellDetectionSens' system.detectionSense}}{{/ife}}
+                {{#ife system.category 'manipulation'}}{{findTranslation 'spellManipulationTypes' system.subCategory}}{{/ife}}
+                {{#ife system.category 'health'}}-{{/ife}}
             {{else}}
                 -
             {{/if}}
         </span>
     </p>
 </li>
-{{#ife data.category "combat"}}
+{{#ife system.category "combat"}}
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</span>
         <span class="col-auto SR-GreyColor">
-            {{#if data.damageValue.base}}
-                {{data.damageValue.base}}{{findTranslation 'damageTypesShort' data.damageType}} ({{findTranslation 'specialDamageTypes' data.damageElement}})
+            {{#if system.damageValue.base}}
+                {{system.damageValue.base}}{{findTranslation 'damageTypesShort' system.damageType}} ({{findTranslation 'specialDamageTypes' system.damageElement}})
             {{else}}
                 -
             {{/if}}

@@ -5,8 +5,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Skill'}} {{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.testSkill" data-dtype="String">
-            {{#select data.testSkill}}
+        <select name="system.testSkill" data-dtype="String">
+            {{#select system.testSkill}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.spriteSkills}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -19,8 +19,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Limit'}} {{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.testLimit" data-dtype="String">
-            {{#select data.testLimit}}
+        <select name="system.testLimit" data-dtype="String">
+            {{#select system.testLimit}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.deckerAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>

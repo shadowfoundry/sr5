@@ -5,12 +5,12 @@
 			<div class="col-12 SR-TextUppercase">{{localize 'SR5.CharacterFinances'}}</div>
 		</li>
 		<li class="grid">
-			<div class="col-2 SR-TextLeft {{#if (gt (lossModifiersSum data.nuyen) (gainModifiersSum data.nuyen))}}incomplete{{/if}}">{{localize 'SR5.CurrentNuyens'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextLeft">{{nuyen (minus (gainModifiersSum data.nuyen) (lossModifiersSum data.nuyen))}}</div>
+			<div class="col-2 SR-TextLeft {{#if (gt (lossModifiersSum system.nuyen) (gainModifiersSum system.nuyen))}}incomplete{{/if}}">{{localize 'SR5.CurrentNuyens'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-2 SR-TextLeft">{{nuyen (minus (gainModifiersSum system.nuyen) (lossModifiersSum system.nuyen))}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.TotalGainedNuyens'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextCenter">{{nuyen (gainModifiersSum data.nuyen)}}</div>
+			<div class="col-2 SR-TextCenter">{{nuyen (gainModifiersSum system.nuyen)}}</div>
 			<div class="col-2 SR-TextRight">{{localize 'SR5.TotalSpentNuyens'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextRight">{{nuyen (lossModifiersSum data.nuyen)}}</div>
+			<div class="col-2 SR-TextRight">{{nuyen (lossModifiersSum system.nuyen)}}</div>
 		</li>
 	</ul>
 </div>
@@ -31,17 +31,17 @@
 			</div>
 		</li>
 		{{#each actor.nuyens}}
-		{{#ife data.type 'gain'}}
+		{{#ife system.type 'gain'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenGainName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenGainNameMsg'}}">
-				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}">
+				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="nuyen.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
 			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{data.amount}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
@@ -72,17 +72,17 @@
 			</div>
 		</li>
 		{{#each actor.nuyens}}
-		{{#ife data.type 'loss'}}
+		{{#ife system.type 'loss'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenExpenseName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenExpenseNameMsg'}}">
-				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}">
+				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="nuyen.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
 			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{data.amount}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}

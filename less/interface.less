@@ -12,7 +12,8 @@
         }
 
         &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
-        &#permission, &[id^=playlist-config-], &[id^=rolltable-sheet-], &[id^=cards-sheet-], &[id^=ambient-light-config-], &.macro-sheet {
+        &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=AmbientLightConfig-], &[id^=PlaylistConfig-],
+        &[id^=support-details], &#keybindings, &.macro-sheet {
             select{
                 border: 1px solid @mainColor;
                 color: @neutralLightColor;
@@ -45,7 +46,7 @@
                 border-radius: 3px;
                 text-decoration: none;
                 text-overflow: ellipsis;
-                overflow: hidden;
+                //overflow: hidden;
                 -webkit-transition: all 1s ease;
                 -moz-transition: all 1s ease;
                 -o-transition: all 1s ease;
@@ -280,6 +281,14 @@
                     }
                 }
 
+                input[type="search"]{
+                    font-family: @SR_BodyText;
+                    color: @neutralLightColor;
+                    border: 1px solid @mainColor;
+                    background: fade(@black, 30%);
+                    text-transform: none;
+                }
+
                 input {
                     background: none;
                     color: @neutralLightColor;
@@ -290,6 +299,7 @@
 
                     &:focus, &:hover {
                         box-shadow: 0 0 5px @subColor;
+                        border: 1px solid @subColor;
                     }
 
                     &.image {
@@ -395,6 +405,30 @@
                     }
                 }
 
+                .journal-header {
+                    display: block;
+                }
+
+                ul {
+                    list-style-type: disc;
+                    margin: 0;
+                    padding: 0 0 0 1.5em;
+                }
+
+            }
+
+            .sidebar {
+                background-image:  url(@Sidebar);
+                background-size: cover;
+                background-position: top;
+                background-repeat: repeat;
+            }
+
+            .journal-entry-content {
+                background-image: url(@NoteTop), url(@BGWhite);
+                background-size: auto 90px, cover;
+                background-position: top, top;
+                background-repeat: repeat-x, repeat;
             }
         }
 
@@ -1398,8 +1432,9 @@
             }
 
             .token-image{
-                height: 55px;
-                width: 55px;
+                flex: 0 0 50px;
+                height: 50px;
+                width: 50px;
             }
 
             .roll {
@@ -1449,6 +1484,15 @@
             }
         }
     }
+
+    .combat-tracker-header {
+        h3 {
+            font-family: @SR_FontTitleAlter;
+            text-transform: uppercase;
+            font-size: @SR_FontSizeNormal;
+            margin: 0 0 0 0;
+        }
+    }
 }
 
 #scenes {
@@ -1475,6 +1519,7 @@
 
 #playlists {
     h4 {
+        overflow: visible;
         &:hover {
             background: none;
         }
@@ -1528,6 +1573,7 @@
     }
 
     li.compendium-pack {
+        line-height: 18px;
         border-bottom: 0;
         margin: 0 0 3px 0;
         padding: 5px 5px 7px 5px;
@@ -1687,6 +1733,7 @@
     .window-header {
         background: @neutralDarkColor;
     }
+
     .window-content {
         padding: 0;
 
@@ -1702,7 +1749,7 @@
         .dialog-content {
             padding: 8px;
 
-            h3 {
+            h3, h4 {
                 color: @mainColor;
                 text-align: center;
                 border-bottom: 1px solid @mainColor;
@@ -2068,115 +2115,4 @@
             }
         }
     }
-}
-
-#dependencies {
-
-  span.clickable {
-    margin-top: 8px;
-    position: relative;
-    display: block;
-    line-height: 20px;
-    color: @neutralLightColor;
-    font-family: @SR_FontTitle;
-    text-transform: uppercase;
-    font-size: @SR_FontSizeSmall ;
-    text-align: center;
-    border-radius: 3px;
-    text-decoration: none;
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-    border: 1px solid @subColor;
-    background: fade(@black, 30%);
-    z-index: 1;
-
-    &:hover {
-      color: @neutralDarkColor;
-      background-color: transparent;
-      box-shadow: none;
-    }
-
-    &:hover:before {
-      left: 0%;
-      right: auto;
-      width: 100%;
-    }
-
-    &:before {
-      display: block;
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      height: 100%;
-      width: 0px;
-      z-index: -1;
-      content: '';
-      color: @neutralDarkColor;
-      background: @subColor;
-      transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-    }
-  }
-
-  header {
-    display: none;
-  }
-
-  .window-content {
-    background: fade(@black, 40%);
-    color: fade(@neutralLightColor, 80%);
-  }
-
-  .dependency-container {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .dependency-column {
-    width: 40em;
-  }
-
-  .dependency-item {
-    text-align: center;
-    padding: 20px;
-    background: @neutralDarkColor;
-
-    p {
-      text-align: left;
-    }
-
-    span.rightsNeeded {
-      color: @mainColor;
-    }
-
-    h2 {
-      font-family: @SR_FontTitleAlter;
-      text-transform: uppercase;
-      border-top: 1px solid @mainColor;
-      border-bottom: 1px solid @mainColor;
-      color: fade(@neutralLightColor, 90%);
-      background: fade(@mainColor, 50%);
-      padding: 3px 8px;
-      margin: 8px 0 20px 0;
-      font-size: @SR_FontSizeBigBig;
-    }
-
-    h3 {
-      background: fade(@mainColor, 50%);
-      font-family: @SR_FontTitle;
-      text-transform: uppercase;
-      border-top: 1px solid @mainColor;
-      border-bottom: 1px solid @mainColor;
-      color: fade(@neutralLightColor, 90%);
-      padding: 3px 8px;
-      font-size: @SR_FontSizeBig;
-      margin: 20px 0 12px 0;
-    }
-  }
-
 }

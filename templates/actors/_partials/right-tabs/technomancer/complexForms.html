@@ -27,7 +27,7 @@
 		{{#each actor.complexForms}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				{{#if (missing data.target data.duration data.fadingValue)}}
+				{{#if (missing system.target system.duration system.fadingValue)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSort')}}">{{name}}</p>
 				{{else}}
@@ -37,47 +37,47 @@
 			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="complexForm"
 			  data-helpTitle="{{localize 'SR5.HELP_SkillDicePool' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_ComplexFormMsg'}}"
-			  data-helpDetails="data.matrix.resonanceActions.threadComplexForm.test">
-				{{../data.matrix.resonanceActions.threadComplexForm.test.dicePool}}</div>
+			  data-helpDetails="system.matrix.resonanceActions.threadComplexForm.test">
+				{{../system.matrix.resonanceActions.threadComplexForm.test.dicePool}}</div>
 			<div class="col-1">
 				<div class="grid">
-					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.level"
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="system.level"
 					  data-helpTitle="{{localize 'SR5.HELP_ComplexFormLevel' key=name}}"
 			  		  data-helpMessage="{{localize 'SR5.HELP_ComplexFormLevelMsg'}}">
-						{{data.level}}
+						{{system.level}}
 					</div>
-					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.hits"
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="system.hits"
 					  data-helpTitle="{{localize 'SR5.HELP_ComplexFormHits' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_ComplexFormHitsMsg'}}">
-					  	{{data.hits}}
+					  	{{system.hits}}
 				  	</div>
 				</div>
 			</div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'complexFormTargets' data.target)}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'complexFormTargets' system.target)}}</div>
 			<div class="col-1">
-				<p class="SR-TextCenter" data-title="{{findTranslation 'spellDurations'data.duration}}">
-					{{#if data.duration}}
-						{{#ife data.duration "sustained"}}
-							{{#if data.isActive}}
-							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+				<p class="SR-TextCenter" data-title="{{findTranslation 'spellDurations'system.duration}}">
+					{{#if system.duration}}
+						{{#ife system.duration "sustained"}}
+							{{#if system.isActive}}
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 								data-title="{{localize 'SR5.StopSustainingSpell'}}">
 								<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
 							</a>
 							{{else}}
-							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+							<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 								data-title="{{localize 'SR5.SustainSpell'}}">
 								<em class="fas fa-sm fa-praying-hands"></em>
 							</a>
 							{{/if}}
 						{{else}}
-							{{findTranslation 'spellDurationsShort' data.duration}}
+							{{findTranslation 'spellDurationsShort' system.duration}}
 						{{/ife}}
 					{{else}}
 						-
 					{{/if}}
 				</p>
 			</div>
-			<div class="col-1 SR-TextCenter">{{data.fadingValue}}</div>
+			<div class="col-1 SR-TextCenter">{{system.fadingValue}}</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
 				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">

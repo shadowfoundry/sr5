@@ -39,7 +39,7 @@
 							{{> systems/sr5/templates/actors/_partials/right-tabs/combat/spiritWeapons.html}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
-							{{#if (or (eq data.type 'man') (eq data.type 'insectCaretaker') (eq data.type 'insectNymph') (eq data.type 'insectQueen') (eq data.type 'plague') (eq data.type 'shedimMaster'))}}
+							{{#if (or (eq system.type 'man') (eq system.type 'insectCaretaker') (eq system.type 'insectNymph') (eq system.type 'insectQueen') (eq system.type 'plague') (eq system.type 'shedimMaster'))}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/magic/spells.html}}
 							{{/if}}
 							{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}

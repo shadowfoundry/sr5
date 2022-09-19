@@ -1,6 +1,5 @@
 <form class="{{cssClass}}" autocomplete="off">
 	<div class="SR-mainContainer">
-
 		<!-- HEADER -->
 		{{> systems/sr5/templates/actors/_partials/header/header.html}}
 
@@ -36,7 +35,7 @@
 						</div>
 						<!-- MATRIX USER LEFT TAB -->
 						<div class="tab" data-group="gauche" data-tab="tab-deck">
-							{{#if data.matrix.deviceName}}
+							{{#if system.matrix.deviceName}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
 							<div class="SRBlockSheet">
 								<ul>

@@ -1,18 +1,18 @@
 <div class="SR-PaddingTop10">
-<li class="SR-EnTete">
-    <p class="SR-TextUppercase">{{localize 'SR5.Source'}}</p>
-</li>
-<li class="grid">
-            <div class="col-9">
-                <select name="data.source" required>
-                {{#select data.source}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.sourceList}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
-                </select>
-            </div>
-            <div class="col-3"><input type="number" data-dtype="Number" name="data.page" value="{{data.page}}" placeholder="page" /></div>
-</li>
+    <li class="SR-EnTete">
+        <p class="SR-TextUppercase">{{localize 'SR5.Source'}}</p>
+    </li>
+    <li class="grid">
+        <div class="col-9">
+            <select name="system.source" required>
+            {{#select system.source}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{#each lists.sourceList}}
+                <option value="{{@key}}">{{localize this}}</option>
+                {{/each}}
+            {{/select}}
+            </select>
+        </div>
+        <div class="col-3"><input type="number" data-dtype="Number" name="system.page" value="{{system.page}}" placeholder="page" onfocus="this.select()"/></div>
+	</li>
 </div>

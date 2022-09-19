@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.type" data-dtype="String" required>
-        {{#select data.type}}
+        <select name="system.type" data-dtype="String" required>
+        {{#select system.type}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.deckTypes}}
             <option value="{{@key}}">{{localize this}}</option>

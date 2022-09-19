@@ -27,7 +27,7 @@
 		</li>
 		{{#each actor.languages}}
 		<li class="item grid" data-item-id="{{_id}}">
-			<div class="col-6 SR-PaddingRight3 {{#if (missing (or data.base data.isNative))}}incomplete{{/if}}" data-category="skills"
+			<div class="col-6 SR-PaddingRight3 {{#if (missing (or system.base system.isNative))}}incomplete{{/if}}" data-category="skills"
 			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsNameMsg'}}">
 				<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value"
@@ -36,26 +36,26 @@
 			<div class="col-3 SR-TextCenter SR-PaddingRight5"
 			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsNativeMsg'}}">
-				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isNative">
-          <input type="checkbox" name="language.{{_id}}.isNative" {{checked data.isNative}}>
+				<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isNative">
+          <input type="checkbox" name="language.{{_id}}.isNative" {{checked system.isNative}}>
 				</a>
 			</div>
-			{{#if data.isNative}}
+			{{#if system.isNative}}
 			<div class="col-1 SR-TextCenter SR-BorderBottomTransparent">{{localize 'SR5.NativeLanguageShort'}}</div>
 			<div class="col-1 SR-TextCenter">&infin;</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsRatingMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.base" type="text" class="edit-value" name="language.{{_id}}.base" value="{{data.base}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.base" type="text" class="edit-value" name="language.{{_id}}.base" value="{{system.base}}" onfocus="this.select()">
 			</div>
 			<div class="col-1"
 				data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsMsg'}}"
 			  data-helpItemId="{{_id}}"
 			  data-helpDetailsItem="data">
-				{{#if data.base}}
-				<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="languageSkill">{{data.value}}</p>
+				{{#if system.base}}
+				<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="languageSkill">{{system.value}}</p>
 				{{else}}
 				<p class="SR-TextCenter">-</p>
 				{{/if}}

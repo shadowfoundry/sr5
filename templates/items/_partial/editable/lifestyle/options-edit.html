@@ -7,10 +7,10 @@
     </div>
 </li>
 
-{{#each data.options}}
+{{#each system.options}}
 <li class="grid subItemManagement" data-key="{{@key}}">
     <div class="col-11">
-        <select name="data.options.{{@key}}" required>
+        <select name="system.options.{{@key}}" required>
         {{#select this}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each ../lists.lifestyleOptions}}

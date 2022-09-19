@@ -1,20 +1,20 @@
 <li class="grid">
     <div class="col-4">{{localize 'SR5.StrengthBasedRange'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="checkbox" name="data.range.isStrengthBased" data-dtype="Boolean" {{checked data.range.isStrengthBased}} /></div>
+    <div class="col-1 SR-TextCenter"><input type="checkbox" name="system.range.isStrengthBased" data-dtype="Boolean" {{checked system.range.isStrengthBased}} /></div>
 </li>
 <li class="grid">
-    <div class="col-4">{{localize 'SR5.WeaponRangeShort'}} {{#if data.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.range.short.base" value="{{data.range.short.base}}" placeholder="0" /></div>
+    <div class="col-4">{{localize 'SR5.WeaponRangeShort'}} {{#if system.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.range.short.base" value="{{system.range.short.base}}" placeholder="0" onfocus="this.select()"/></div>
     <div class="col-1"></div>
-    <div class="col-4">{{localize 'SR5.WeaponRangeMedium'}} {{#if data.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.range.medium.base" value="{{data.range.medium.base}}" placeholder="0" /></div>
+    <div class="col-4">{{localize 'SR5.WeaponRangeMedium'}} {{#if system.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.range.medium.base" value="{{system.range.medium.base}}" placeholder="0" onfocus="this.select()"/></div>
     <div class="col-1"></div>
 </li>
 <li class="grid">
-    <div class="col-4">{{localize 'SR5.WeaponRangeLong'}} {{#if data.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.range.long.base" value="{{data.range.long.base}}" placeholder="0" /></div>
+    <div class="col-4">{{localize 'SR5.WeaponRangeLong'}} {{#if system.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.range.long.base" value="{{system.range.long.base}}" placeholder="0" onfocus="this.select()"/></div>
     <div class="col-1"></div>
-    <div class="col-4">{{localize 'SR5.WeaponRangeExtreme'}} {{#if data.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.range.extreme.base" value="{{data.range.extreme.base}}" placeholder="0" /></div>
+    <div class="col-4">{{localize 'SR5.WeaponRangeExtreme'}} {{#if system.range.isStrengthBased}}({{localize 'SR5.StrengthMultiplier'}}){{/if}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.range.extreme.base" value="{{system.range.extreme.base}}" placeholder="0" onfocus="this.select()"/></div>
     <div class="col-1"></div>
 </li>

@@ -1,4 +1,4 @@
-{{#if data.isRegistered}}
+{{#if system.isRegistered}}
 <li class="SR-EnTete grid">
     <div class="col-11 SR-TextUppercase">
         {{localize 'SR5.SustainedComplexForm'}}
@@ -9,13 +9,13 @@
         {{/if}}
     </div>
 </li>
-{{#each data.sustainedComplexForm as |a i|}}
+{{#each system.sustainedComplexForm as |a i|}}
 <li class="subItemManagement grid" data-key="{{@key}}">
     <div class="col-11">
-        <select name="data.sustainedComplexForm.{{i}}.name">
+        <select name="system.sustainedComplexForm.{{i}}.name">
         {{#select name}}
             <option value="">{{localize 'SR5.None'}}</option>
-                {{#each ../document.actor.data.data.matrix.complexFormList}}
+                {{#each ../document.actor.system.system.matrix.complexFormList}}
                 <option value="{{@key}}">{{this}}</option>
                 {{/each}}
             {{/select}}

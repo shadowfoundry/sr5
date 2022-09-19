@@ -24,7 +24,7 @@
 		{{#each actor.adeptPowers}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				{{#if (missing data.powerPointsCost.value data.actionType)}}
+				{{#if (missing system.powerPointsCost.value system.actionType)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypePouvoiradepte')}}">
 					{{name}}</p>
@@ -32,38 +32,38 @@
 				<p>{{name}}</p>
 				{{/if}}
 			</div>
-			{{#if (gt data.test.dicePool 0)}}
+			{{#if (gt system.test.dicePool 0)}}
 			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="adeptPower"
 			  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_PowerRollMsg'}}"
-			  data-helpDetailsItem="data.test"
+			  data-helpDetailsItem="system.test"
 			  data-helpItemId="{{_id}}">
-				{{data.test.dicePool}}
+				{{system.test.dicePool}}
 			</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>
 			{{/if}}
-			{{#if data.needRoll}}
-			<div class="col-1 sort-ext SR-TextCenter changeValueByClick" data-binding="data.hits"
+			{{#if system.needRoll}}
+			<div class="col-1 sort-ext SR-TextCenter changeValueByClick" data-binding="system.hits"
 			  data-helpTitle="{{localize 'SR5.HELP_SpellHits' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_PowerHitsMsg'}}">
-				{{data.hits}}
+				{{system.hits}}
 			</div>
 			{{else}}
 			<div class="col-1 SR-TextCenter">-</div>
 			{{/if}}
 			<div class="col-3 SR-TextCenter"></div>
-			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
 			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
-        		{{valueOrDash data.itemRating}}
+        		{{valueOrDash system.itemRating}}
 			</div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_PowerSustain' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_PowerSustainMsg'}}">
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive">
-							<em class="fas fa-sm fa-praying-hands {{#if data.isActive}}SR-SubColor{{/if}}"></em>
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive">
+							<em class="fas fa-sm fa-praying-hands {{#if system.isActive}}SR-SubColor{{/if}}"></em>
 						</a>
 					</div>
 					<div class="col-6 grid SR-TextRight">

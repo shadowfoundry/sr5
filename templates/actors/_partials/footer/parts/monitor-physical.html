@@ -3,9 +3,9 @@
 	   data-helpTitle="{{localize 'SR5.ConditionMonitorPhysical'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorNameMsg'}}">
 		{{localize 'SR5.ConditionMonitorPhysicalShort'}}
 	</div>
-	<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.physical.actual.base"
+	<div class="SR-MoniteurCases flexrow" data-target="system.conditionMonitors.physical.actual.base"
 	  data-helpTitle="{{localize 'SR5.ConditionMonitorPhysical'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
-		{{#each data.conditionMonitors.physical.boxes as |box index|}}
+		{{#each system.conditionMonitors.physical.boxes as |box index|}}
 			{{#if box.locked}}
 				<div class="boxes box-disabled flex0" data-index="{{index}}">
 					<div class="SR-Case SR-CaseNeutralDarkColor"></div>
@@ -22,9 +22,9 @@
 		{{/each}}
 		
 		<!-- Physical overflow -->
-		<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.overflow.actual.base"
+		<div class="SR-MoniteurCases flexrow" data-target="system.conditionMonitors.overflow.actual.base"
 			data-helpTitle="{{localize 'SR5.ConditionMonitorPhysicalOverflow'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
-			{{#each data.conditionMonitors.overflow.boxes as |box index|}}
+			{{#each system.conditionMonitors.overflow.boxes as |box index|}}
 				{{#if box.locked}}
 					<div class="boxes box-disabled" data-index="{{index}}">
 						<div class="SR-Case SR-CaseNeutralDarkColor"></div>

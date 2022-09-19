@@ -1,16 +1,16 @@
 <form>
-  <div class="form-group">
-    <div>{{localize 'SR5.SpriteType'}}</div>
-    <select name="spriteType" data-dtype="String">
-      {{#select spriteType}}
-        {{#each lists.spriteTypes}}
-          <option value="{{@key}}">{{localize this}}</option>
-        {{/each}}
-      {{/select}}
-    </select>
-  </div>
-  <div class="form-group">
-    <div>{{localize 'SR5.Level'}}</div>
-    <input type="text" data-dtype="Number" class="input" name="spriteLevel" placeholder="1">
-  </div>
+	<div class="form-group">
+		<div>{{localize 'SR5.SpriteType'}}</div>
+		<select name="spriteType" data-dtype="String">
+			{{#select spriteType}}
+				{{#each lists.spriteTypes}}
+					<option value="{{@key}}">{{localize this}}</option>
+				{{/each}}
+			{{/select}}
+		</select>
+	</div>
+	<div class="form-group">
+		<div>{{localize 'SR5.Level'}}</div>
+		<input type="text" data-dtype="Number" class="input" name="spriteLevel" placeholder="1">
+	</div>
 </form>

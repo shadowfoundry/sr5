@@ -1,7 +1,7 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.ArmorRating'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="data.armorValue.base" value="{{data.armorValue.base}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.armorValue.base" value="{{system.armorValue.base}}" placeholder="0" onfocus="this.select()"/></div>
     <div class="col-2"></div>
     <div class="col-2 SR-TextRight">{{localize 'SR5.Cumulative'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight"><input type="checkbox" name="data.isCumulative" data-dtype="Boolean" {{checked data.isCumulative}} /></div>
+    <div class="col-2 SR-TextRight"><input type="checkbox" name="system.isCumulative" data-dtype="Boolean" {{checked system.isCumulative}} /></div>
 </li>

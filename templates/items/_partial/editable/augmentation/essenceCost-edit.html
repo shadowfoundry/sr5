@@ -1,19 +1,19 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.EssenceCost'}}{{localize 'SR5.Colons'}}</div>
-    {{#if data.isAccessory}}
+    {{#if system.isAccessory}}
         <div class="col-1"><input type="text" value="None" disabled /></div>
         <div class="col-2"></div>
     {{else}}
-        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="data.essenceCost.base" value="{{data.essenceCost.base}}" /></div>
-        {{#if data.essenceCost.multiplier}}
-            <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue data.essenceCost.multiplier this}})</div>
+        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.essenceCost.base" value="{{system.essenceCost.base}}" onfocus="this.select()"/></div>
+        {{#if system.essenceCost.multiplier}}
+            <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue system.essenceCost.multiplier this}})</div>
         {{else}}
             <div class="col-2"></div>
         {{/if}}
         <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
         <div class="col-2 SR-TextRight">
-            <select name="data.essenceCost.multiplier" data-dtype="{{data.essenceCost.multiplier}}" required>
-            {{#select data.essenceCost.multiplier}}
+            <select name="system.essenceCost.multiplier" data-dtype="{{system.essenceCost.multiplier}}" required>
+            {{#select system.essenceCost.multiplier}}
                 <option value="">{{localize 'SR5.None'}}</option>
                 {{#each lists.valueMultipliersNoCapacity}}
                 <option value="{{@key}}">{{localize this}}</option>

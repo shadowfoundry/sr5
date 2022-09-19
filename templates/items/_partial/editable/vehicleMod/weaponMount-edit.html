@@ -4,8 +4,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountSize'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.weaponMount.size" data-dtype="String" required>
-            {{#select data.weaponMount.size}}
+        <select name="system.weaponMount.size" data-dtype="String" required>
+            {{#select system.weaponMount.size}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.WeaponMountSize}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -17,8 +17,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountVisibility'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.weaponMount.visibility" data-dtype="String" required>
-            {{#select data.weaponMount.visibility}}
+        <select name="system.weaponMount.visibility" data-dtype="String" required>
+            {{#select system.weaponMount.visibility}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.WeaponMountVisibility}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -30,8 +30,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountFlexibility'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.weaponMount.flexibility" data-dtype="String" required>
-            {{#select data.weaponMount.flexibility}}
+        <select name="system.weaponMount.flexibility" data-dtype="String" required>
+            {{#select system.weaponMount.flexibility}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.WeaponMountFlexibility}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -43,8 +43,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VEHICLE_WeaponMountControl'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.weaponMount.control" data-dtype="String" required>
-            {{#select data.weaponMount.control}}
+        <select name="system.weaponMount.control" data-dtype="String" required>
+            {{#select system.weaponMount.control}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.WeaponMountControl}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -56,10 +56,10 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Vehicle_MountedWeapon'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.mountedWeapon" data-dtype="String" required>
-        {{#select data.mountedWeapon}}
+        <select name="system.mountedWeapon" data-dtype="String" required>
+        {{#select system.mountedWeapon}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each data.weaponChoices}}
+            {{#each system.weaponChoices}}
                 <option value="{{id}}">{{name}}</option>
             {{/each}}
         {{/select}}

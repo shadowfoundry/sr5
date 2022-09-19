@@ -1,8 +1,8 @@
 <!-- Combined Monitor -->
 <div class="SR-TextUppercase SR-NeutralLightColor SR-Bold flex0 monitorReset" data-target="condition">{{localize 'SR5.ConditionMonitorShort'}}</div>
-<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.condition.actual.base"
+<div class="SR-MoniteurCases flexrow" data-target="system.conditionMonitors.condition.actual.base"
   data-helpTitle="{{localize 'SR5.ConditionMonitor'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
-    {{#each data.conditionMonitors.condition.boxes as |box index|}}
+    {{#each system.conditionMonitors.condition.boxes as |box index|}}
       	{{#if box.locked}}
 			<div class="boxes box-disabled" data-index="{{index}}">
           		<div class="SR-Case SR-CaseNeutralDarkColor"></div>

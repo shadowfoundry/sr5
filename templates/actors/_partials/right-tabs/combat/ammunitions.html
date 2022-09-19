@@ -5,7 +5,7 @@
 			<div class="col-6 SR-TextUppercase">{{localize 'SR5.Ammunition'}}</div>
 			<div class="col-3 SR-TextCenter">{{localize 'SR5.WeaponType'}}</div>
 			<div class="col-1 SR-TextCenter">{{localize 'SR5.QuantityShort'}}</div>
-			<div class="col-1"></div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.ItemRating'}}</div>
 			<div class="col-1">
 				{{#if owner}}
 				<p class="SR-TextRight add-item"
@@ -24,17 +24,29 @@
 				<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 					<p>{{name}}</p>
 				</div>
-				<div class="col-3 SR-TextCenter">{{findTranslation "rangedWeaponTypes" data.class}}</div>
-				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.quantity"
+				<div class="col-3 SR-SelectCenter SR-PaddingRight5"
+				  data-helpTitle="{{localize 'SR5.HELP_AmmoWeaponType' key=name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_AmmoWeaponTypeMsg'}}"
+				>
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="system.class" name="ammunitions.{{_id}}.class" data-dtype="String">
+						{{#select system.class}}
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+						{{#each ../system.lists.rangedWeaponTypes}}
+						<option value="{{@key}}">{{findTranslation 'rangedWeaponTypes' @key}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
+				</div>
+				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.quantity"
 				  data-helpTitle="{{localize 'SR5.HELP_Quantity' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_QuantityMsg'}}">
-					{{data.quantity}}
+					{{system.quantity}}
 				</div>
-				{{#if (or (eq data.type "arrow") (eq data.type "arrowInjection"))}}
-				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="data.itemRating"
+				{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
 				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
-					{{data.itemRating}}
+					{{system.itemRating}}
 				</div>
 				{{else}}
 				<div class="col-1"></div>
@@ -44,7 +56,7 @@
 					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
 						<em class="fas fa-sm fa-edit item-management"></em>
 					</a>
-				{{/if}}
+					{{/if}}
 				</div>
 			</div>
 		</li>

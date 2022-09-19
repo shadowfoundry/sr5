@@ -1,5 +1,5 @@
 <!-- MATRIX PROGRAMS -->
-{{#if (eq data.matrix.deviceType 'livingPersona')}}
+{{#if (eq system.matrix.deviceType 'livingPersona')}}
 {{else}}
 <div class="SRBlockSheet">
     <ul>
@@ -10,11 +10,11 @@
             <div class="col-10">{{localize 'SR5.RunningPrograms'}}</div>
             <div class="col-2">
                 <div class="grid">
-                    <div class="col-6 SR-TextRight" data-helpTitle="{{localize 'SR5.HELP_ProgramsLoaded'}}" data-helpDetails="data.matrix.programsCurrentActive">
-                        {{data.matrix.programsCurrentActive.value}}/
+                    <div class="col-6 SR-TextRight" data-helpTitle="{{localize 'SR5.HELP_ProgramsLoaded'}}" data-helpDetails="system.matrix.programsCurrentActive">
+                        {{system.matrix.programsCurrentActive.value}}/
                     </div>
-                    <div class="col-6" data-helpTitle="{{localize 'SR5.HELP_ProgramsMax'}}" data-helpDetails="data.matrix.programsMaximumActive">
-                        {{data.matrix.programsMaximumActive.value}}
+                    <div class="col-6" data-helpTitle="{{localize 'SR5.HELP_ProgramsMax'}}" data-helpDetails="system.matrix.programsMaximumActive">
+                        {{system.matrix.programsMaximumActive.value}}
                     </div>
                 </div>
             </div>

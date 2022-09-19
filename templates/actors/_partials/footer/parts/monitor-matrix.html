@@ -1,9 +1,9 @@
 <!-- Matrix Monitor -->
-{{#ifne data.matrix.deviceType "host"}}
+{{#ifne system.matrix.deviceType "host"}}
 	<div class="SR-PaddingLeft10 SR-TextUppercase SR-NeutralLightColor SR-Bold monitorReset" data-target="matrix">{{localize 'SR5.ConditionMonitorMatrixShort'}}</div>
-	<div class="SR-MoniteurCases flexrow" data-target="data.conditionMonitors.matrix.actual.base"
+	<div class="SR-MoniteurCases flexrow" data-target="system.conditionMonitors.matrix.actual.base"
 	  data-helpTitle="{{localize 'SR5.MatrixMonitor'}}" data-helpMessage="{{localize 'SR5.HELP_MonitorMsg'}}">
-		{{#each data.conditionMonitors.matrix.boxes as |box index|}}
+		{{#each system.conditionMonitors.matrix.boxes as |box index|}}
 			{{#if box.locked}}
 				<div class="boxes box-disabled" data-index="{{index}}">
 					<div class="SR-Case SR-CaseNeutralDarkColor"></div>

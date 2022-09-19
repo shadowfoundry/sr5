@@ -3,10 +3,10 @@
 	<ul>
 		<li class="grid SR-LigneEnTete SR-TextUppercase">
 			<div class="col-10">{{localize 'SR5.Reagents'}}</div>
-			<div class="col-2 SR-TextCenter SR-NeutralLightColor {{#if data.isGM}}changeValueByClick {{/if}}" data-binding="data.magic.reagents"
+			<div class="col-2 SR-TextCenter SR-NeutralLightColor {{#if system.isGM}}changeValueByClick {{/if}}" data-binding="system.magic.reagents"
 			  data-helpTitle="{{localize 'SR5.Reagents'}}"
               data-helpMessage="{{localize 'SR5.HELP_ReagentsEditMsg'}}">
-				{{data.magic.reagents}}</div>
+				{{system.magic.reagents}}</div>
 		</li>
 	</ul>
 </div>

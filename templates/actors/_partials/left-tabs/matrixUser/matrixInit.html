@@ -2,18 +2,18 @@
   data-helpTitle="{{localize 'SR5.MatrixUserMode'}}"
   data-helpMessage="{{localize 'SR5.HELP_MatrixUserModeMsg'}}"
 >
-	{{#if (or (eq data.matrix.deviceType "livingPersona") (eq data.matrix.deviceType "headcase"))}}
-		<select name="data.matrix.userMode" data-dtype="String" required>
-    		{{#select data.matrix.userMode}}
-			{{#each actor.lists.personaModes}}
+	{{#if (or (eq system.matrix.deviceType "livingPersona") (eq system.matrix.deviceType "headcase"))}}
+		<select name="system.matrix.userMode" data-dtype="String" required>
+    		{{#select system.matrix.userMode}}
+			{{#each lists.personaModes}}
 				<option value="{{@key}}">{{findTranslation 'deckModes' @key}}</option>
 			{{/each}}
 			{{/select}}
 		</select>
 	{{else}}
-		<select name="data.matrix.userMode" data-dtype="String" required>
-			{{#select data.matrix.userMode}}
-			{{#each actor.lists.deckModes}}
+		<select name="system.matrix.userMode" data-dtype="String" required>
+			{{#select system.matrix.userMode}}
+			{{#each lists.deckModes}}
 				<option value="{{@key}}">{{findTranslation 'deckModes' @key}}</option>
 			{{/each}}
 			{{/select}}
@@ -24,14 +24,14 @@
 	<div class="col-9">{{localize 'SR5.InitiativeMatrix'}}</div>
 	<div class="col-1 SR-TextCenter"
 	  data-helpTitle="{{localize 'SR5.HELP_InitiativeRating' key=(findTranslation 'characterInitiatives' 'matrixInit')}}"
-	  data-helpDetails="data.initiatives.matrixInit"
+	  data-helpDetails="system.initiatives.matrixInit"
 	>
-		{{data.initiatives.matrixInit.value}}
+		{{system.initiatives.matrixInit.value}}
 	</div>
 	<div class="col-2 SR-TextCenter"
 	  data-helpTitle="{{localize 'SR5.HELP_InitiativeDices' key=(findTranslation 'characterInitiatives' 'matrixInit')}}"
-	  data-helpDetails="data.initiatives.matrixInit.dice"
+	  data-helpDetails="system.initiatives.matrixInit.dice"
 	>
-		+{{data.initiatives.matrixInit.dice.value}}d6
+		+{{system.initiatives.matrixInit.dice.value}}d6
 	</div>
 </li>

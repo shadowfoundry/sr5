@@ -6,26 +6,26 @@
 		</li>
 
 		<!-- Attributes collection -->
-		{{#if (or (eq data.matrix.deviceType "cyberdeck") 
-		(and (eq actor.type "actorDevice") (eq data.matrix.deviceType "host"))
+		{{#if (or (eq system.matrix.deviceType "cyberdeck") 
+		(and (eq actor.type "actorDevice") (eq system.matrix.deviceType "host"))
 		)}}
 			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/collection.html}}
 		{{/if}}
 
 		<!-- Noise Reduction & Sharing -->
-		{{#if (eq data.matrix.deviceType "riggerCommandConsole")}}
+		{{#if (eq system.matrix.deviceType "riggerCommandConsole")}}
 			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/noiseReduction.html}}
 			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sharing.html}}
 		{{/if}}
 
 		<!-- Attack / Sleaze -->
-		{{#if (or (eq data.matrix.deviceType "cyberdeck") 
-		(eq data.matrix.deviceType "livingPersona") 
-		(eq data.matrix.deviceType "headcase") 
+		{{#if (or (eq system.matrix.deviceType "cyberdeck") 
+		(eq system.matrix.deviceType "livingPersona") 
+		(eq system.matrix.deviceType "headcase") 
 		(eq actor.type "actorSprite") 
 		(eq actor.type "actorAgent")
-		(and (eq actor.type "actorDevice") (eq data.matrix.deviceType "host"))
-		(and (eq actor.type "actorDevice") (eq data.matrix.deviceType "ice"))
+		(and (eq actor.type "actorDevice") (eq system.matrix.deviceType "host"))
+		(and (eq actor.type "actorDevice") (eq system.matrix.deviceType "ice"))
 		)}}
 			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/attack.html}}
 			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sleaze.html}}

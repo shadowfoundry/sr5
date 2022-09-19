@@ -4,12 +4,12 @@
 		<li class="grid SR-LigneEnTete">
 			<div class="col-12"><p class="SR-TextUppercase">{{localize 'SR5.Limits'}}</p></div>
 		</li>
-		{{#each data.limits}}
+		{{#each system.limits}}
 		<li class="grid">
 			<div class="col-10"><p>{{findTranslation 'characterLimits' @key}}</p></div>
 			<div class="col-2"
 			data-helpTitle="{{localize 'SR5.HELP_Limits' key=(findTranslation 'characterLimits' @key)}}" 
-		  	data-helpDetails="data.limits.{{@key}}"
+		  	data-helpDetails="system.limits.{{@key}}"
 		  	>
 			  <p class="SR-TextRight">[{{value}}]</p>
 			</div>

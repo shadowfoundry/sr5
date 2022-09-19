@@ -1,44 +1,44 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <div class="SR-mainContainer">
+	<div class="SR-mainContainer">
 
-    <!-- HEADER -->
-    {{> systems/sr5/templates/actors/_partials/header/header.html}}
+		<!-- HEADER -->
+		{{> systems/sr5/templates/actors/_partials/header/header.html}}
 
-    <div class="SR-MainWindows">
-      <div class="grid">
+		<div class="SR-MainWindows">
+			<div class="grid">
 
-        <!-- LEFT TAB -->
-        <div class="col-3 SR-ActorColGauche">
-          <section class="sr-tabs2">
-            <!-- CORE INFO LEFT TAB -->
-            <div class="tab" data-group="gauche" data-tab="tab-attributs">
-              {{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/attributes.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/resistances.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/defenses.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
-            </div>
-            <!-- DERIVED LEFT TAB -->
-            <div class="tab" data-group="gauche" data-tab="tab-deriv">
-              {{> systems/sr5/templates/actors/_partials/left-tabs/derived/limits.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/derived/derivedAttributes.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/derived/essence.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/derived/carrying.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/derived/movement.html}}
-            </div>
-            <!-- MAGIC USER LEFT TAB -->
-            <div class="tab" data-group="gauche" data-tab="tab-magie">
-              {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/type.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/adeptPowerPoint.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/reagents.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/initiation.html}}
-            </div>
-            <!-- MATRIX USER LEFT TAB -->
-            <div class="tab" data-group="gauche" data-tab="tab-deck">
-              {{#if data.matrix.deviceName}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
-              <div class="SRBlockSheet">
+				<!-- LEFT TAB -->
+				<div class="col-3 SR-ActorColGauche">
+					<section class="sr-tabs2">
+						<!-- CORE INFO LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-attributs">
+							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/attributes.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/resistances.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/defenses.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
+						</div>
+						<!-- DERIVED LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-deriv">
+							{{> systems/sr5/templates/actors/_partials/left-tabs/derived/limits.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/derived/derivedAttributes.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/derived/essence.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/derived/carrying.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/derived/movement.html}}
+						</div>
+						<!-- MAGIC USER LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-magie">
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/type.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/adeptPowerPoint.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/reagents.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/initiation.html}}
+						</div>
+						<!-- MATRIX USER LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-deck">
+							{{#if system.matrix.deviceName}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
+							<div class="SRBlockSheet">
 								<ul>
 									<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
 									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
@@ -46,58 +46,58 @@
 									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
 								</ul>
 							</div>
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixMonitor.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/pan.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/overwatchScore.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
-              {{else}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixMonitor.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/pan.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/overwatchScore.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
+							{{else}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/noDevice.html}}
 							{{/if}}
-            </div>
-            <!-- QUALITIES LEFT TAB -->
-            <div class="tab" data-group="gauche" data-tab="tab-traits">
-              {{> systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html}}
-              {{> systems/sr5/templates/actors/_partials/left-tabs/qualities/visions.html}}
-            </div>
-          </section>
-        </div>
+						</div>
+						<!-- QUALITIES LEFT TAB -->
+						<div class="tab" data-group="gauche" data-tab="tab-traits">
+							{{> systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/qualities/visions.html}}
+						</div>
+					</section>
+				</div>
 
-        <!-- RIGHT TAB -->
-        <div class="col-9">
-          <div class="SR-ActorMainCentre">
-            <section class="sr-tabs">
-              <!-- SKILLS RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-skills">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/skills/skillGroups.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/skills/knowledgeSkills.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/skills/languageSkills.html}}
-              </div>
-              <!-- COMBAT RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-combat">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/combat/rangedWeapons.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/combat/meleeWeapons.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html}}
-              </div>
-              <!-- GEAR RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-gear">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/gear/vehicles.html}}
-              </div>
-              <!-- AUGMENTATION RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-augmentations">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/augmentation/augmentations.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
-              </div>
-              <!-- MAGIC RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-sorts">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/magic/spells.html}}
+				<!-- RIGHT TAB -->
+				<div class="col-9">
+					<div class="SR-ActorMainCentre">
+						<section class="sr-tabs">
+							<!-- SKILLS RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-skills">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/skillGroups.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/knowledgeSkills.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/languageSkills.html}}
+							</div>
+							<!-- COMBAT RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-combat">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/rangedWeapons.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/meleeWeapons.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html}}
+							</div>
+							<!-- GEAR RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-gear">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/gear/vehicles.html}}
+							</div>
+							<!-- AUGMENTATION RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-augmentations">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/augmentation/augmentations.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
+							</div>
+							<!-- MAGIC RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-sorts">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/spells.html}}
 								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/adeptPowers.html}}
 								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/summonedSpirits.html}}
 								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/foci.html}}
@@ -105,34 +105,34 @@
 								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/rituals.html}}
 								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
 								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/metamagics.html}}
-              </div>
-              <!-- TECHNOMANCER RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-technomancer">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/complexForms.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/sprites.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/echoes.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
-              </div>
-              <!-- MATRIX RIGHT TAB -->
-              <div class="tab" data-group="centre" data-tab="tab-matrice">
-                {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/devices.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html}}
-                {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
-              </div>
-              <!-- BIO RIGHT TAB -->
+							</div>
+							<!-- TECHNOMANCER RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-technomancer">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/complexForms.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/sprites.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/echoes.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
+							</div>
+							<!-- MATRIX RIGHT TAB -->
+							<div class="tab" data-group="centre" data-tab="tab-matrice">
+								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/devices.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html}}
+								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
+							</div>
+							<!-- BIO RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-bio">
 								{{> systems/sr5/templates/actors/_partials/right-tabs/biography/descriptionGrunt.html}}
 							</div>
-              <div></div>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
+							<div></div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</div>
 
-    <!-- FOOTER -->
-    {{> systems/sr5/templates/actors/_partials/footer/footer.html }}
-    
-  </div>
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/actors/_partials/footer/footer.html }}
+		
+	</div>
 </form>

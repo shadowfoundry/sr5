@@ -4,8 +4,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Attribute'}} 1{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.testFirstAttribute" data-dtype="String">
-            {{#select data.testFirstAttribute}}
+        <select name="system.testFirstAttribute" data-dtype="String">
+            {{#select system.testFirstAttribute}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.allAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>
@@ -20,8 +20,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Attribute'}} 2{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.testSecondAttribute" data-dtype="String">
-            {{#select data.testSecondAttribute}}
+        <select name="system.testSecondAttribute" data-dtype="String">
+            {{#select system.testSecondAttribute}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.allAttributes}}
                     <option value="{{@key}}">{{localize this}}</option>

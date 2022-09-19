@@ -31,7 +31,7 @@
 		{{#each actor.contacts}}
 		<li class="item" data-item-id="{{_id}}" draggable="true">
 			<div class="grid">
-				<div class="col-4 deplie SR-PaddingRight3 {{#if (missing name data.type data.loyalty data.connection)}}incomplete{{/if}}"
+				<div class="col-4 deplie SR-PaddingRight3 {{#if (missing name system.type system.loyalty system.connection)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactName' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactNameMsg'}}">
 				  <p>{{name}}</p>
@@ -39,17 +39,17 @@
 				<div class="col-4 SR-PaddingRight3 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactType' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactTypeMsg'}}">
-					<input data-item-id="{{_id}}" data-dtype="String" data-binding="data.type" type="text"
-						class="edit-value" name="contact.{{_id}}.type" value="{{data.type}}" onfocus="this.select()">
+					<input data-item-id="{{_id}}" data-dtype="String" data-binding="system.type" type="text"
+						class="edit-value" name="contact.{{_id}}.type" value="{{system.type}}" onfocus="this.select()">
 				</div>
 				<div class="col-2 SR-PaddingRight3 SR-SelectCenter"
 				  data-helpTitle="{{localize 'SR5.HELP_ContactMetatype' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ContactMetatypeMsg'}}">
-					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.metatype" name="contact.{{_id}}.metatype"
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="system.metatype" name="contact.{{_id}}.metatype"
 						data-dtype="String">
-						{{#select data.metatype}}
+						{{#select system.metatype}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each ../actor.lists.metatypes}}
+						{{#each ../system.lists.metatypes}}
 						<option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
 						{{/each}}
 						{{/select}}
@@ -60,14 +60,14 @@
 						<div class="col-6 SR-PaddingRight3 SR-TextCenter"
 						  data-helpTitle="{{localize 'SR5.HELP_ContactLoyalty' key=name}}"
 				  		  data-helpMessage="{{localize 'SR5.HELP_ContactLoyaltyMsg'}}">
-							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.loyalty" type="text"
-								class="edit-value" name="contact.{{_id}}.loyalty" value="{{data.loyalty}}" onfocus="this.select()">
+							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.loyalty" type="text"
+								class="edit-value" name="contact.{{_id}}.loyalty" value="{{system.loyalty}}" onfocus="this.select()">
 						</div>
 						<div class="col-6 SR-PaddingRight3 SR-TextCenter"
 						  data-helpTitle="{{localize 'SR5.HELP_ContactConnection' key=name}}"
 				  		  data-helpMessage="{{localize 'SR5.HELP_ContactConnectionMsg'}}">
-							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.connection" type="text"
-								class="edit-value" name="contact.{{_id}}.connection" value="{{data.connection}}" onfocus="this.select()">
+							<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.connection" type="text"
+								class="edit-value" name="contact.{{_id}}.connection" value="{{system.connection}}" onfocus="this.select()">
 						</div>
 					</div>
 				</div>

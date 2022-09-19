@@ -31,52 +31,52 @@
 			<div class="col-1 roll-logo SR-TextCenter sr-roll" data-rolltype="preparation"
 			  	  data-helpTitle="{{localize 'SR5.DicePool'}}"
 			  	  data-helpMessage="{{localize 'SR5.HELP_PreparationRollMsg'}}"
-			  	  data-helpDetailsItem="data.test"
+			  	  data-helpDetailsItem="system.test"
 			  	  data-helpItemId="{{_id}}">
-					{{data.test.dicePool}}
+					{{system.test.dicePool}}
 				</div>
 			<div class="col-1">
 				<div class="grid">
-					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.force" 
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="system.force" 
 					  data-helpTitle="{{localize 'SR5.HELP_SpellForce' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_PreparationForceMsg'}}">
-					  	{{data.force}}
+					  	{{system.force}}
 					</div>
-					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="data.hits" 
+					<div class="col-6 SR-TextCenter changeValueByClick" data-binding="system.hits" 
 					  data-helpTitle="{{localize 'SR5.HELP_SpellHits' key=name}}"
 					  data-helpMessage="{{localize 'SR5.HELP_PreparationHitsMsg'}}">
-						{{data.hits}}
+						{{system.hits}}
 					</div>
 				</div>
 			</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="data.potency"
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.potency"
 			  data-helpTitle="{{localize 'SR5.HELP_Potency' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_PotencyMsg'}}">
-				{{data.potency}}
+				{{system.potency}}
 			</div>
-			<div class="col-2 SR-TextCenter">{{findTranslation 'preparationTriggerTypes' data.trigger}}</div>
+			<div class="col-2 SR-TextCenter">{{findTranslation 'preparationTriggerTypes' system.trigger}}</div>
 			<div class="col-1 SR-TextCenter">
-				{{#if data.range}}
-					{{findTranslation 'spellRangesShort' data.range}}
-					{{#if_g data.spellAreaOfEffect.value "0"}}
+				{{#if system.range}}
+					{{findTranslation 'spellRangesShort' system.range}}
+					{{#if_g system.spellAreaOfEffect.value "0"}}
 						<span data-helpTitle="{{localize 'SR5.RangeArea'}}"
-						  data-helpDetailsItem="data.spellAreaOfEffect"
+						  data-helpDetailsItem="system.spellAreaOfEffect"
 						  data-helpItemId="{{_id}}">
-							({{data.spellAreaOfEffect.value}} {{localize 'SR5.MeterUnit'}})
+							({{system.spellAreaOfEffect.value}} {{localize 'SR5.MeterUnit'}})
 						</span>
 					{{/if_g}}
 				{{else}}-{{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter">
-				{{#if data.duration}}
-					{{#ife data.duration "sustained"}}
-						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
+				{{#if system.duration}}
+					{{#ife system.duration "sustained"}}
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 						  data-helpTitle="{{localize 'SR5.HELP_SpellSustain' key=name}}"
 						  data-helpMessage="{{localize 'SR5.HELP_SpellSustainMsg'}}">
-							<em class="fas fa-sm fa-praying-hands {{#if data.isActive}}SR-SubColor{{/if}}"></em>
+							<em class="fas fa-sm fa-praying-hands {{#if system.isActive}}SR-SubColor{{/if}}"></em>
 						</a>
 					{{else}}
-						{{findTranslation 'spellDurationsShort' data.duration}}
+						{{findTranslation 'spellDurationsShort' system.duration}}
 					{{/ife}}
 				{{else}}-{{/if}}
 			</div>

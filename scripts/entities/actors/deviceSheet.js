@@ -4,74 +4,73 @@ import { ActorSheetSR5 } from "./baseSheet.js";
  * An Actor sheet for player character type actors in the Shadowrun 5 system.
  */
 export class SR5AppareilSheet extends ActorSheetSR5 {
-  constructor(...args) {
-    super(...args);
-  }
+  	constructor(...args) {
+		super(...args);
+  	}
 
-  static get defaultOptions() {
-    const options = super.defaultOptions;
-    return mergeObject(super.defaultOptions, {
-      template: "systems/sr5/templates/actors/device-sheet.html",
-      width: 800,
-      height: 448,
-      resizable: false,
-      classes: ["sr5", "sheet", "actor", "device"],
-    });
-  }
+  	static get defaultOptions() {
+		const options = super.defaultOptions;
+		return mergeObject(super.defaultOptions, {
+			template: "systems/sr5/templates/actors/device-sheet.html",
+			width: 800,
+			height: 448,
+			resizable: false,
+			classes: ["sr5", "sheet", "actor", "device"],
+		});
+  	}
 
-  getData() {
-    const data ={};
-    const actorData = this.actor.data.toObject(false);
-    data.actor = actorData;
-    data.data = actorData.data;
-    
-    // Owned Items
-    data.items = actorData.items;
-    for ( let i of data.items ) {
-      const item = this.actor.items.get(i._id);
-      i.labels = item.labels;
-    }
-    data.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+	getData() {
+		const actorData = this.actor.toObject(false);
+		const context ={
+			editable: this.isEditable,
+			actor: actorData,
+			system: actorData.system,
+			items: actorData.items,
+			owner: this.actor.isOwner,
+			filters: this._filters,
+			lists: actorData.system.lists,
+		};
 
-    this._prepareItems(data.actor);
+		// Sort Owned Items
+		for ( let i of context.items ) {
+			const item = this.actor.items.get(i._id);
+			i.labels = item.labels;
+		}
+		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
-    data.actor.lists = this.actor.data.lists;
-    data.owner = this.actor.isOwner
-    data.filters = this._filters;
-    if (game.settings.get("sr5", "sr5MatrixGridRules")) data.rulesMatrixGrid = true;
-    else data.rulesMatrixGrid = false;
-    if (game.settings.get("sr5", "sr5CalledShotsRules")) data.rulesCalledShot = true;
-    else data.rulesCalledShot = false;
-    return data;
-  }
+		this._prepareItems(context.actor);
 
-  _prepareItems(actor) {
-    const marks = [];
-    const effects = [];
+		if (game.settings.get("sr5", "sr5MatrixGridRules")) context.rulesMatrixGrid = true;
+		else context.rulesMatrixGrid = false;
+		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
+		else context.rulesCalledShot = false;
 
-    // Iterate through items, allocating to containers
-    for (let i of actor.items) {
-      if (i.type === "itemMark") marks.push(i);
-      else if (i.type === "itemEffect") effects.push(i);
-    }
-    actor.marks = marks;
-    actor.effects = effects;
-  }
+		return context;
+	}
 
-  activateListeners(html) {
-    super.activateListeners(html);
-  }
+	_prepareItems(actor) {
+		const externalEffects = [];
 
-  /** @override */
-  async _onDropItemCreate(itemData) {
-    switch(itemData.type){
-      case "itemMark":
-      case "itemEffect":
-        return super._onDropItemCreate(itemData);
-        break;
-      default:
-        ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
-        return;
-    }        
-  }
+		// Iterate through items, allocating to containers
+		for (let i of actor.items) {		
+			if (i.type === "itemEffect") externalEffects.push(i);
+		}
+		
+		actor.externalEffects = externalEffects;
+	}
+
+  	activateListeners(html) {
+		super.activateListeners(html);
+  	}
+
+	/** @override */
+	async _onDropItemCreate(itemData) {
+		switch(itemData.type){
+		case "itemEffect":
+			return super._onDropItemCreate(itemData);
+		default:
+			ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
+			return;
+		}        
+	}
 }

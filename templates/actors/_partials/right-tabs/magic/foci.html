@@ -29,7 +29,7 @@
 		{{#each actor.focuses}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-4">
-				{{#if (missing data.type data.itemRating)}}
+				{{#if (missing system.type system.itemRating)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeFocus')}}">{{name}}
 				</p>
@@ -37,37 +37,37 @@
 				<p>{{name}}</p>
 				{{/if}}
 			</div>
-			<div class="col-1 changeValueByClick" data-binding="data.itemRating"
+			<div class="col-1 changeValueByClick" data-binding="system.itemRating"
 			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
-				<p class="SR-TextCenter">{{valueOrDash data.itemRating}}</p>
+				<p class="SR-TextCenter">{{valueOrDash system.itemRating}}</p>
 			</div>
 			<div class="col-2">
-				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'focusTypes' data.type)}}</p>
+				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'focusTypes' system.type)}}</p>
 			</div>
-			{{#if (eq data.type "sustaining")}}
+			{{#if (eq system.type "sustaining")}}
 			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}" data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
-				<select class="edit-value" name="sustainedSpell.{{_id}}.name" data-binding="data.sustainedSpell" data-dtype="String"
+				<select class="edit-value" name="sustainedSpell.{{_id}}.name" data-binding="system.sustainedSpell" data-dtype="String"
 					data-item-id="{{_id}}" required>
 					<!-- TODO check this -->
-					{{#select data.sustainedSpell}}
+					{{#select system.sustainedSpell}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-					{{#each data.spellChoices as |name type|}}
+					{{#each system.spellChoices as |name type|}}
 					<option value="{{name}}">{{name}}</option>
 					{{/each}}
 					{{/select}}
 				</select>
 			</div>
-			{{else if (eq data.type "weapon")}}
-			<div class="col-3">{{data.linkedWeaponName}}</div>
+			{{else if (eq system.type "weapon")}}
+			<div class="col-3">{{system.linkedWeaponName}}</div>
 			{{else}}
 			<div class="col-3"></div>
 			{{/if}}
 			<div class="col-1">
 				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
-					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="data.isActive"
-						data-title="{{#if data.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
-						<em class="fas fa-sm fa-thumbtack {{#if data.isActive}}SR-SubColor{{/if}}"></em></a>
+					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
+						data-title="{{#if system.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+						<em class="fas fa-sm fa-thumbtack {{#if system.isActive}}SR-SubColor{{/if}}"></em></a>
 				</p>
 			</div>
 			<div class="col-1 grid SR-TextRight">

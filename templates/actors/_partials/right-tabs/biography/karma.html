@@ -4,12 +4,12 @@
 			<div class="col-12 SR-TextUppercase">{{localize 'SR5.CharacterEvolution'}}</div>
 		</li>
 		<li class="grid">
-			<div class="col-2 SR-TextLeft {{#if (gt (lossModifiersSum data.karma) (gainModifiersSum data.karma))}}incomplete{{/if}}">{{localize 'SR5.KarmaCurrent'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextLeft">{{number (minus (gainModifiersSum data.karma) (lossModifiersSum data.karma))}}</div>
+			<div class="col-2 SR-TextLeft {{#if (gt (lossModifiersSum system.karma) (gainModifiersSum system.karma))}}incomplete{{/if}}">{{localize 'SR5.KarmaCurrent'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-2 SR-TextLeft">{{number (minus (gainModifiersSum system.karma) (lossModifiersSum system.karma))}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.TotalGainedKarma'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextCenter">{{number (gainModifiersSum data.karma)}}</div>
+			<div class="col-2 SR-TextCenter">{{number (gainModifiersSum system.karma)}}</div>
 			<div class="col-2 SR-TextRight">{{localize 'SR5.TotalSpentKarma'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextRight">{{number (lossModifiersSum data.karma)}}</div>
+			<div class="col-2 SR-TextRight">{{number (lossModifiersSum system.karma)}}</div>
 		</li>
 	</ul>
 </div>
@@ -36,10 +36,10 @@
 			</div>
 		</li>
 		{{#each actor.karmas}}
-		{{#ife data.type 'gain'}}
+		{{#ife system.type 'gain'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-9">
-				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}"
+				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.HELP_KarmaGainName' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KarmaGainNameMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="karma.{{_id}}.name" value="{{name}}" onfocus="this.select()">
@@ -48,7 +48,7 @@
 			<div class="col-2 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.KarmaGained'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KarmaGainAmountMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="karma.{{_id}}.amount" value="{{data.amount}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="karma.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
 			</div>
 			{{#if ../owner}}
 			<div class="col-1 SR-TextRight">
@@ -84,10 +84,10 @@
 			</div>
 		</li>
 		{{#each actor.karmas}}
-		{{#ife data.type 'loss'}}
+		{{#ife system.type 'loss'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
 			<div class="col-9">
-				<p class="SR-PaddingRight3 {{#if (missing data.amount)}}incomplete{{/if}}"
+				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.CharacterImprovements'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_CharacterImprovementsMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="karma.{{_id}}.name" value="{{name}}" onfocus="this.select()">
@@ -96,7 +96,7 @@
 			<div class="col-2 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.KarmaSpent'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KarmaSpentMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="data.amount" type="text" class="edit-value" name="karma.{{_id}}.amount" value="{{data.amount}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="karma.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
 			</div>
 			{{#if ../owner}}
 			<div class="col-1 SR-TextRight">

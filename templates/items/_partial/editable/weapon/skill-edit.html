@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Skill'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.weaponSkill.category" required>
-        {{#select data.weaponSkill.category}}
+        <select name="system.weaponSkill.category" required>
+        {{#select system.weaponSkill.category}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
             {{#each lists.combatSkills}}
             <option value="{{@key}}">{{localize this}}</option>

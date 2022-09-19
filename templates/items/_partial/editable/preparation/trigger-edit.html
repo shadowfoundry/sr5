@@ -1,8 +1,8 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.PreparationTrigger'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
-        <select name="data.trigger" data-dtype="String" required>
-            {{#select data.trigger}}
+        <select name="system.trigger" data-dtype="String" required>
+            {{#select system.trigger}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{#each lists.preparationTriggerTypes}}
                     <option value="{{@key}}">{{localize this}}</option>

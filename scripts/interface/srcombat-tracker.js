@@ -14,7 +14,7 @@ export class SR5CombatTracker extends CombatTracker {
 				icon: '<i class="fas fa-sort-numeric-up"></i>',
 				condition: (li) => {
 					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.data.data.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
+					if (combatant.actor.system.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
@@ -27,7 +27,7 @@ export class SR5CombatTracker extends CombatTracker {
 				icon: '<i class="fas fa-bolt"></i>',
 				condition: (li) => {
 					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.data.data.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
+					if (combatant.actor.system.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
@@ -98,7 +98,7 @@ export class SR5CombatTracker extends CombatTracker {
 
 	static async markCombatantAsPlayed(app, html, data){
 		for (let combatant of data.combat.combatants){
-			if (combatant.data.flags.sr5?.hasPlayed || (combatant.data.initiative <= 0)){
+			if (combatant.flags.sr5?.hasPlayed || (combatant.initiative <= 0)){
 				let li = html.find("[data-combatant-id='" + combatant.id +"']")
 				let name = li.find("h4");
 				name.addClass("hasPlayed");

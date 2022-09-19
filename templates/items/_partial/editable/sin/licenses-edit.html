@@ -10,10 +10,10 @@
     </div>
 </li>
 
-{{#each data.license}}
+{{#each system.license}}
     <li class="subItemManagement grid" data-key="{{@key}}">
-        <div class="col-8"><input type="text" data-dtype="String" name="data.license.{{@key}}.name" value="{{name}}" placeholder="" /></div>
-        <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="data.license.{{@key}}.rating" value="{{rating}}" placeholder="1" /></div>
+        <div class="col-8"><input type="text" data-dtype="String" name="system.license.{{@key}}.name" value="{{name}}" placeholder="" /></div>
+        <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.license.{{@key}}.rating" value="{{rating}}" placeholder="1" onfocus="this.select()"/></div>
         <div class="col-1 SR-TextCenter">{{price}}¥</div>
         <div class="col-1 SR-TextCenter">{{availability}}{{findTranslation 'legalTypesShort' legality}}</div>
         <div class="col-1 SR-TextRight"><a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="license" data-action="delete"><i class="fas fa-trash"></i></a></div>

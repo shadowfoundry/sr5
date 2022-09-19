@@ -1,9 +1,9 @@
 {{#if rulesMatrixGrid}}
 <li class="grid">
 	<div class="col-12">
-		<select name="data.matrix.userGrid" data-dtype="String" required>
-			{{#select data.matrix.userGrid}}
-			{{#each actor.lists.gridTypes}}
+		<select name="system.matrix.userGrid" data-dtype="String" required>
+			{{#select system.matrix.userGrid}}
+			{{#each lists.gridTypes}}
 				<option value="{{@key}}">{{findTranslation 'gridTypes' @key}}</option>
 			{{/each}}
 			{{/select}}

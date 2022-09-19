@@ -1,9 +1,9 @@
-{{#ife data.type "spellcasting"}}
+{{#ife system.type "spellcasting"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spellCategories}}
 			<option value="{{@key}}">{{localize this}}</option>
@@ -12,12 +12,12 @@
 		</select>
 	</div>
 </li>
-{{else ife data.type "counterspelling"}}
+{{else ife system.type "counterspelling"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spellCategories}}
 			<option value="{{@key}}">{{localize this}}</option>
@@ -26,12 +26,12 @@
 		</select>
 	</div>
 </li>
-{{else ife data.type "ritualSpellcasting"}}
+{{else ife system.type "ritualSpellcasting"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spellCategories}}
 			<option value="{{@key}}">{{localize this}}</option>
@@ -40,12 +40,12 @@
 		</select>
 	</div>
 </li>
-{{else ife data.type "sustaining"}}
+{{else ife system.type "sustaining"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spellCategories}}
 			<option value="{{@key}}">{{localize this}}</option>
@@ -54,12 +54,12 @@
 		</select>
 	</div>
 </li>
-{{else ife data.type "summoning"}}
+{{else ife system.type "summoning"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spiritTypes}}
 			<option value="{{@key}}">{{localize this}}</option>
@@ -68,12 +68,12 @@
 		</select>
 	</div>
 </li>
-{{else ife data.type "banishing"}}
+{{else ife system.type "banishing"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spiritTypes}}
 			<option value="{{@key}}">{{localize this}}</option>
@@ -82,12 +82,12 @@
 		</select>
 	</div>
 </li>
-{{else ife data.type "binding"}}
+{{else ife system.type "binding"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Subtype'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
-		<select name="data.subType" data-dtype="String" required>
-		{{#select data.subType}}
+		<select name="system.subType" data-dtype="String" required>
+		{{#select system.subType}}
 			<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 			{{#each lists.spiritTypes}}
 			<option value="{{@key}}">{{localize this}}</option>

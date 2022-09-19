@@ -1,7 +1,7 @@
 <div class="SR-footer">
 
 		{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorSpirit') )}}
-			{{#if (or (eq data.type 'watcher') (eq data.type 'homunculus') )}}
+			{{#if (or (eq system.type 'watcher') (eq system.type 'homunculus') )}}
 				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
 			{{else}}
 				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-stun.html }}

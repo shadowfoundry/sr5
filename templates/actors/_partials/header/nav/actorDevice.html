@@ -1,9 +1,9 @@
 <div>{{localize 'SR5.DEVICE_Type_S'}}{{localize 'SR5.Colons'}} </div>
 <div class="SR-MarginLeft10 SR-EspritType">
-    <select  name="data.matrix.deviceType" data-dtype="String" required>
-    {{#select data.matrix.deviceType}}
+    <select  name="system.matrix.deviceType" data-dtype="String" required>
+    {{#select system.matrix.deviceType}}
         <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-        {{#each actor.lists.deviceTypes}}
+        {{#each lists.deviceTypes}}
         <option value="{{@key}}">{{localize this}}</option>
         {{/each}}
     {{/select}}

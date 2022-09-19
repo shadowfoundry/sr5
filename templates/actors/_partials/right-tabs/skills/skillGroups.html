@@ -12,17 +12,17 @@
 			</li>
 		</ul>
 		<ul class="SR-GroupeCompetences">
-			{{#each data.skillGroups}}
+			{{#each system.skillGroups}}
 			{{#unless isHidden}}
 			<li class="grid item {{css}}" data-skillgroup="{{@key}}">
 				<div class="col-9" data-category="skills">{{findTranslation 'skillGroups' @key}}</div>
 				<div class="col-1 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.HELP_SkillGroup' key=(findTranslation 'skillGroups' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_SkillGroupMsg'}}">
-				  	<input type="text" data-dtype="Number" class="input" name="data.skillGroups.{{@key}}.base" value="{{base}}" onfocus="this.select()"></div>
+				  	<input type="text" data-dtype="Number" class="input" name="system.skillGroups.{{@key}}.base" value="{{base}}" onfocus="this.select()"></div>
 				<div class="col-1 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.HELP_SkillGroup' key=(findTranslation 'skillGroups' @key)}}"
-				  data-helpDetails="data.skillGroups.{{@key}}">
+				  data-helpDetails="system.skillGroups.{{@key}}">
 					{{value}}
 				</div>
 			</li>

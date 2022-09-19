@@ -9,32 +9,32 @@
         <li class="grid">
             <div class="col-10"><p>{{findTranslation 'characterDefenses' 'defend'}}</p></div>
             <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="defense" data-rollkey="defend"
-                data-helpTitle="{{localize 'SR5.HELP_Defense' key=(localize 'SR5.StandardDefense')}}"
-                data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
-                data-helpDetails="data.defenses.defend"
-            >{{data.defenses.defend.dicePool}}</div>
+              data-helpTitle="{{localize 'SR5.HELP_Defense' key=(localize 'SR5.StandardDefense')}}"
+              data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
+              data-helpDetails="system.defenses.defend">
+                {{system.defenses.defend.dicePool}}
+            </div>
         </li>
 
         {{#ifne actor.type 'actorDrone'}}
         <li class="grid">
             <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ActiveDefenseChoice'}}"
-            data-helpMessage="{{localize 'SR5.HELP_ActiveDefenseChoiceMsg'}}">
-                <select name="data.sheetPreferences.selections.activeDefense" data-dtype="String">
-                {{#select data.sheetPreferences.selections.activeDefense}}
-                    {{#each actor.lists.characterDefenses}}
+              data-helpMessage="{{localize 'SR5.HELP_ActiveDefenseChoiceMsg'}}">
+                <select name="system.sheetPreferences.selections.activeDefense" data-dtype="String">
+                {{#select system.sheetPreferences.selections.activeDefense}}
+                    {{#each lists.characterDefenses}}
                     {{#ifne @key 'defend'}}
-                    <option value="{{@key}}">{{findTranslation 'characterDefenses' @key}}</option>
+                        <option value="{{@key}}">{{findTranslation 'characterDefenses' @key}}</option>
                     {{/ifne}}
                     {{/each}}
                 {{/select}}
                 </select>
             </div>
-            <div class="col-2 SR-TextCenter roll-logo roll-logo sr-roll" data-rolltype="defense" data-rollkey="{{data.sheetPreferences.selections.activeDefense}}"
-                data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'characterDefenses' data.sheetPreferences.selections.activeDefense)}}"
-                data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
-                data-helpDetails="data.defenses.{{data.sheetPreferences.selections.activeDefense}}"
-            >
-                {{#with (lookup data.defenses data.sheetPreferences.selections.activeDefense)}}{{dicePool}}{{/with}}
+            <div class="col-2 SR-TextCenter roll-logo roll-logo sr-roll" data-rolltype="defense" data-rollkey="{{system.sheetPreferences.selections.activeDefense}}"
+              data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'characterDefenses' system.sheetPreferences.selections.activeDefense)}}"
+              data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
+              data-helpDetails="system.defenses.{{system.sheetPreferences.selections.activeDefense}}">
+                {{#with (lookup system.defenses system.sheetPreferences.selections.activeDefense)}}{{dicePool}}{{/with}}
             </div>
         </li>
         {{/ifne}}

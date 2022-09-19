@@ -1,30 +1,30 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleModTypeFull'}}{{localize 'SR5.Colons'}}</span>
-            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleModType' data.type)}}</span>
+            <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleModType' system.type)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleModSlots'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.slots.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.slots.value}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleModTools'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleModTools' data.tools)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'vehicleModTools' system.tools)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.VehicleModSkill'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'technicalSkills' data.skill)}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'technicalSkills' system.skill)}}</span>
     </p>
 </li>
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Threshold'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash data.threshold.value}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash system.threshold.value}}</span>
     </p>
 </li>

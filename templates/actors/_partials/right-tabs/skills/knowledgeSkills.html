@@ -33,7 +33,7 @@
 				<div class="col-6" data-category="skills"
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsNameMsg'}}">
-					<p class="SR-PaddingRight5 {{#if (missing data.type data.base)}}incomplete{{/if}}">
+					<p class="SR-PaddingRight5 {{#if (missing system.type system.base)}}incomplete{{/if}}">
 						<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text"
 							class="edit-value" name="knowledge.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 					</p>
@@ -42,11 +42,11 @@
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsTypeMsg'}}"
 				>
-					<select data-item-id="{{_id}}" class="edit-value" data-binding="data.type" name="knowledge.{{_id}}.type"
+					<select data-item-id="{{_id}}" class="edit-value" data-binding="system.type" name="knowledge.{{_id}}.type"
 						data-dtype="String">
-						{{#select data.type}}
+						{{#select system.type}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each ../actor.lists.knowledgeSkillTypes}}
+						{{#each ../system.lists.knowledgeSkillTypes}}
 						<option value="{{@key}}">{{findTranslation 'knowledgeSkillTypes' @key}}</option>
 						{{/each}}
 						{{/select}}
@@ -56,8 +56,8 @@
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsRatingMsg'}}"
 				>
-					<input data-item-id="{{_id}}" data-binding="data.base" data-dtype="Number" type="text"
-						class="input edit-value" name="knowledge.{{_id}}.base" value="{{data.base}}" onfocus="this.select()">
+					<input data-item-id="{{_id}}" data-binding="system.base" data-dtype="Number" type="text"
+						class="input edit-value" name="knowledge.{{_id}}.base" value="{{system.base}}" onfocus="this.select()">
 				</div>
 				<div class="col-1"
 					data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
@@ -65,8 +65,8 @@
 					data-helpItemId="{{_id}}"
 					data-helpDetailsItem="data"
 				>
-					{{#if (and data.value data.base)}}
-					<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="knowledgeSkill">{{data.value}}</p>
+					{{#if (and system.value system.base)}}
+					<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="knowledgeSkill">{{system.value}}</p>
 					{{else}}
 					<p class="SR-TextCenter">-</p>
 					{{/if}}

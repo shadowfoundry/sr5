@@ -7,8 +7,8 @@
         <li class="grid">
             <div class="col-5">{{localize 'SR5.ProgramTypeShort'}}{{localize 'SR5.Colons'}}</div>
             <div class="col-7">
-                <select name="data.addiction.type" data-dtype="String">
-                    {{#select data.addiction.type}}
+                <select name="system.addiction.type" data-dtype="String">
+                    {{#select system.addiction.type}}
                         <option value="">{{localize 'SR5.None'}}</option>
                         {{#each lists.addictionTypes}}
                         <option value="{{@key}}">{{localize this}}</option>
@@ -20,12 +20,12 @@
 
         <li class="grid">
             <div class="col-5">{{localize 'SR5.Rating'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1"><input type="number" data-dtype="number" name="data.addiction.rating" value="{{data.addiction.rating}}" placeholder="" /></div>
+            <div class="col-1"><input type="number" data-dtype="number" name="system.addiction.rating" value="{{system.addiction.rating}}" placeholder="" onfocus="this.select()"/></div>
         </li>
 
         <li class="grid">
             <div class="col-5">{{localize 'SR5.Threshold'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1"><input type="number" data-dtype="number" name="data.addiction.threshold" value="{{data.addiction.threshold}}" placeholder="" /></div>
+            <div class="col-1"><input type="number" data-dtype="number" name="system.addiction.threshold" value="{{system.addiction.threshold}}" placeholder="" onfocus="this.select()"/></div>
         </li>
 
     </ul>

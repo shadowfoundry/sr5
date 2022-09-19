@@ -5100,7 +5100,9 @@
       "controlMode": "autopilot",
       "vehicleOwner": {
         "id" : "",
-        "name": ""
+        "name": "",
+        "system": "",
+        "items": []
       },
       "pilotSkill": "",
       "offRoadMode" : false,

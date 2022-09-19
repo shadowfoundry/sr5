@@ -1,20 +1,20 @@
-{{#ife data.type "cyberdeck"}}
+{{#ife system.type "cyberdeck"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.DeviceAttributesArray'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-1 "><input type="number" data-dtype="Number" name="data.attributesCollection.value1" value="{{data.attributesCollection.value1}}" placeholder="0" /></div>
-	<div class="col-1 "><input type="number" data-dtype="Number" name="data.attributesCollection.value2" value="{{data.attributesCollection.value2}}" placeholder="0" /></div>
-	<div class="col-1 "><input type="number" data-dtype="Number" name="data.attributesCollection.value3" value="{{data.attributesCollection.value3}}" placeholder="0" /></div>
-	<div class="col-1 "><input type="number" data-dtype="Number" name="data.attributesCollection.value4" value="{{data.attributesCollection.value4}}" placeholder="0" /></div>
+	<div class="col-1 "><input type="number" data-dtype="Number" name="system.attributesCollection.value1" value="{{system.attributesCollection.value1}}" placeholder="0" onfocus="this.select()"/></div>
+	<div class="col-1 "><input type="number" data-dtype="Number" name="system.attributesCollection.value2" value="{{system.attributesCollection.value2}}" placeholder="0" onfocus="this.select()"/></div>
+	<div class="col-1 "><input type="number" data-dtype="Number" name="system.attributesCollection.value3" value="{{system.attributesCollection.value3}}" placeholder="0" onfocus="this.select()"/></div>
+	<div class="col-1 "><input type="number" data-dtype="Number" name="system.attributesCollection.value4" value="{{system.attributesCollection.value4}}" placeholder="0" onfocus="this.select()"/></div>
 	</li>
 {{/ife}}
 
-{{#ife data.type "riggerCommandConsole"}}
+{{#ife system.type "riggerCommandConsole"}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.DataProcessing'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="number" data-dtype="Number" name="data.attributesCollection.value3" value="{{data.attributesCollection.value3}}" placeholder="0" /></div>
+	<div class="col-7"><input type="number" data-dtype="Number" name="system.attributesCollection.value3" value="{{system.attributesCollection.value3}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Firewall'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="number" data-dtype="Number" name="data.attributesCollection.value4" value="{{data.attributesCollection.value4}}" placeholder="0" /></div>
+	<div class="col-7"><input type="number" data-dtype="Number" name="system.attributesCollection.value4" value="{{system.attributesCollection.value4}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 {{/ife}}
