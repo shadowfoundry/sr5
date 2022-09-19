@@ -284,10 +284,10 @@ export class SR5Actor extends Actor {
 				if (actor.system.vehicleOwner.items.length) SR5_CharacterUtility.applyAutosoftEffect(actor);
 				SR5_CharacterUtility.updateAttributes(actor);
 				SR5_CharacterUtility.updateResistances(actor);
-				SR5_CharacterUtility.updateDefenses(actor);
-				SR5_CharacterUtility.updateRecoil(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);        
-				SR5_CharacterUtility.updatePenalties(actor);        
+				SR5_CharacterUtility.updatePenalties(actor);  
+				SR5_CharacterUtility.updateDefenses(actor);
+				SR5_CharacterUtility.updateRecoil(actor);      
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
 				SR5_CharacterUtility.generateVehicleSkills(actor);
 				SR5_CharacterUtility.generateVehicleTest(actor);        
@@ -354,6 +354,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updatePowerPoints(actor);
 				SR5_CharacterUtility.updateCounterSpellPool(actor);
 				SR5_CharacterUtility.handleVision(actor);
+				SR5_CharacterUtility.handleAstralVision(actor);
 				if (actor.type === "actorPc") {
 					SR5_CharacterUtility.updateKarmas(actor);
 					SR5_CharacterUtility.updateNuyens(actor);

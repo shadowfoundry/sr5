@@ -1,6 +1,6 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="system.damageValue.base" value="{{system.damageValue.base}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.damageValue.base" value="{{system.damageValue.base}}" placeholder="0" onfocus="this.select()"/></div>
     <!-- Strength based dammage-->
     <div class="col-1"></div>
     {{#if (or (and (eq system.type "throwing") (ne system.category "grenade")) (eq system.category "meleeWeapon"))}}

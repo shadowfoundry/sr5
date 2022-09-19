@@ -13,7 +13,8 @@
 			</div>
 		</li>
 		{{#each system.matrix.resonanceActions}}
-		<li class="grid">
+		{{#if (eq actionType 'complex')}}
+		<li class="grid item" data-resonance="{{@key}}">
 			<div class="col-5">{{findTranslation 'resonanceActions' @key}}</div>
 			<div class="col-2 SR-TextCenter">{{findTranslation 'actionTypes' actionType}}</div>
 			{{#if test.dicePool}}
@@ -31,6 +32,7 @@
 			<div class="col-1 SR-TextCenter">{{#if increaseOverwatchScore}}<em
 					class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>{{/if}}</div>
 		</li>
+		{{/if}}
 		{{/each}}
 	</ul>
 </div>

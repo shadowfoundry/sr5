@@ -3,7 +3,7 @@
     {{#if system.accuracy.isPhysicalLimitBased}}
         <div class="col-1 SR-PaddingLeft3 SR-BorderBottomTransparent">{{system.accuracy.base}}</div>
     {{else}}
-        <div class="col-1"><input type="number" data-dtype="Number" name="system.accuracy.base" value="{{system.accuracy.base}}" placeholder="0" /></div>
+        <div class="col-1"><input type="number" data-dtype="Number" name="system.accuracy.base" value="{{system.accuracy.base}}" placeholder="0" onfocus="this.select()"/></div>
     {{/if}}
     <div class="col-1"></div>
     <div class="col-4 SR-TextRight">{{localize 'SR5.PhysicalLimitBasedAcc'}}{{localize 'SR5.Colons'}}</div>

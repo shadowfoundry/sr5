@@ -34,6 +34,7 @@ export class SR5Token extends Token {
         let posY = number === 0 ? this.h - (h-4) : 2;
         bar.position.set(2.5, (posY));
     }
+  
 }
 
 

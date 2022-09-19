@@ -2976,6 +2976,7 @@ SR5.sourceList = {
 	gunHeaven3                : "SOURCE.GunHeaven3",
 	bulletsAndBandages        : "SOURCE.BulletsAndBandages",
 	shadowSpells              : "SOURCE.ShadowSpells",
+	lockdown 				  : "SOURCE.Lockdown",
 };
 
 //-----------------------------------//

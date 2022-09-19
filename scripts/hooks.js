@@ -19,7 +19,7 @@ import { SR5ItemSheet } from "./entities/items/itemSheet.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
 import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js";
 import { SR5Token } from "./interface/token.js";
-import { astralVision } from "./system/vision.js";
+import * as SRVision from "./system/vision.js";
 import { SR5CombatTracker } from "./interface/srcombat-tracker.js";
 import { SR5_EffectArea } from "./system/effectArea.js";
 import { _getSRStatusEffect } from "./system/effectsList.js";
@@ -46,6 +46,7 @@ export const registerHooks = function () {
 			migration: Migration,
 			macros: macros,
 			rollItemMacro: macros.rollItemMacro,
+			rollMacro: macros.rollMacro,
 		};
 
 		// Record Configuration Values
@@ -55,7 +56,7 @@ export const registerHooks = function () {
 		CONFIG.Combat.documentClass = SR5Combat;
 		CONFIG.ui.combat = SR5CombatTracker;
 		CONFIG.Token.objectClass = SR5Token;
-		CONFIG.Canvas.visionModes.astralvision = astralVision;
+		CONFIG.Canvas.visionModes.astralvision = SRVision.astralVision;
 
 		// ACTIVATE HOOKS DEBUG
 		CONFIG.debug.hooks = false;
@@ -126,9 +127,6 @@ export const registerHooks = function () {
 	});
 
 	Hooks.once("ready", function () {
-
-		Hooks.on("hotbarDrop", (bar, data, slot) => macros.createSR5Macro(data, slot));
-		
 		//game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
 		// Determine whether a system migration is required and feasible
 		if ( !game.user.isGM ) return;
@@ -142,6 +140,21 @@ export const registerHooks = function () {
 		//Token hud
 		canvas.hud.token = new SR5TokenHud();
 	});
+
+	Hooks.on("hotbarDrop", (bar, data, slot) => {
+		switch (data.type){
+			case "Item":
+				macros.createSR5MacroItem(data, slot);
+				return false;
+			case "Skill":
+			case "MatrixAction":
+			case "ResonanceAction":
+				macros.createSR5Macro(data, slot);
+				return false;
+			default:
+				return;
+		}
+	})
 
 	registerHandlebarsHelpers();
 
@@ -191,6 +204,9 @@ export const registerHooks = function () {
 
 	Hooks.on("createToken", async function(tokenDocument) {
 		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenDocument.update({"texture.src": tokenDocument.actor.img});
+		if (tokenDocument.actor.system.visions.astral.isActive){
+			tokenDocument.update({sight:{visionMode:'astralvision'}});
+		} else tokenDocument.update({sight:{visionMode:'basic'}});
 	});
 
 	Hooks.on("updateToken", async function(tokenDocument, change) {
@@ -246,17 +262,6 @@ export const registerHooks = function () {
 
 	Hooks.on("updateActor", async(document, data, options, userId) => {
 		if (game.combat) SR5Combat.changeInitInCombat(document);
-		//if (data.system?.visions) canvas.sight.refresh();
-	
-		let astralVisionEffect = await document.effects.find(e => e.origin === "handleVisionAstral")
-		if (document.system.visions?.astral.isActive){
-			if (!astralVisionEffect){
-				let astralEffect = await _getSRStatusEffect("handleVisionAstral");
-				await document.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
-			}
-		} else {
-			if (astralVisionEffect) await document.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
-		}
 
 		//Keep deck condition monitor synchro with agent condition monitor
 		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix){
@@ -297,7 +302,6 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("deleteActiveEffect", async (effect) =>{
-		//if (effect.flags.core?.statusId === "astralInit") canvas.sight.refresh();
 		if (effect.flags.core?.statusId === "prone") {
 			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
 			if (itemEffect) {
@@ -308,7 +312,6 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("createActiveEffect", (effect) =>{
-		//if (effect.flags.core?.statusId === "astralInit") canvas.sight.refresh();
 		if (effect.flags.core?.statusId === "signalJam") {
 			let actorID = effect.parent.id
 			if (effect.parent.isToken) actorID = effect.parent.token.id;
@@ -335,22 +338,9 @@ export const registerHooks = function () {
 			}
 		}
 
-		let astralVisionEffect = await actor.effects.find(e => e.origin === "handleVisionAstral")
-		if (actor.system.visions?.astral.isActive){
-			if (!astralVisionEffect){
-				let astralEffect = await _getSRStatusEffect("handleVisionAstral");
-				await actor.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
-			}
-		} else {
-			if (astralVisionEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [astralVisionEffect.id]);
-		}
-
-		let currentInitiative = SR5_CharacterUtility.findActiveInitiative(actor.system);
-		if (currentInitiative !== "physicalInit") {
-			let previousInitiativeEffect = actor.effects.find(effect => effect.origin === "initiativeMode");
-			if(previousInitiativeEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [previousInitiativeEffect.id]);
-			let initiativeEffect = await _getSRStatusEffect(currentInitiative);
-			await actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
+		if (actor.type ==="actorSpirit") {
+			SR5_CharacterUtility.switchToInitiative(actor, "astralInit");
+			SR5_CharacterUtility.handleAstralVision(actor);
 		}
 	});
 

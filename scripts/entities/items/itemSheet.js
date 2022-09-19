@@ -90,19 +90,19 @@ export class SR5ItemSheet extends ItemSheet {
 	async _onManageSubItem(event){
 		event.preventDefault();
 		const a = event.currentTarget;
-		const data = this.item.system;
+		const itemData = this.item.system;
 		let target = $(event.currentTarget).attr("data-binding");
 		let action = $(event.currentTarget).attr("data-action");
 		let index = $(event.currentTarget).attr("data-index");
 		let targetValue = $(event.currentTarget).attr("data-targetvalue");
-		let key = `data.${target}`;
+		let key = `system.${target}`;
 
 		//Add a subItem
 		if (action === "add") {
 			await this._onSubmit(event); // Submit any unsaved changes
 			// convert back manually to array... so stupid to have to do this.
-			if (typeof data[target] === "object") { data[target] = Object.values(data[target]); } 
-			return this.item.update({[key]: data[target].concat([[""]])});
+			if (typeof itemData[target] === "object") { itemData[target] = Object.values(itemData[target]); } 
+			return this.item.update({[key]: itemData[target].concat([[""]])});
 		}
 
 		// Remove a subItem

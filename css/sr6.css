@@ -1064,40 +1064,6 @@ input[type=range]:focus::-ms-fill-upper {
   background: #00bdca;
   border: 1px solid rgba(0, 189, 202, 0.5);
 }
-.app.window-app.actor .window-content .SR-Editor {
-  position: relative;
-  height: auto;
-  min-height: 100%;
-}
-.app.window-app.actor .window-content .SR-Editor .editor {
-  height: auto;
-  position: unset;
-  height: 100%;
-}
-.app.window-app.actor .window-content .SR-Editor .editor-edit {
-  display: unset;
-  background: none;
-  font-size: inherit;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;
-  top: -17px;
-  right: 5px;
-  color: #fffffe;
-}
-.app.window-app.actor .window-content .SR-Editor .editor-edit:hover {
-  color: #839c88;
-}
-.app.window-app.actor .window-content .SR-Editor .tox.tox-tinymce {
-  height: 100% !important;
-}
-.app.window-app.actor .window-content .SR-Editor .tox-sidebar-wrap {
-  min-height: 200px;
-}
-.app.window-app.actor .window-content .SR-Editor.grunteditor .tox-sidebar-wrap {
-  min-height: 425px;
-}
 /* ----------------------------------------- */
 /* Images
 /* ----------------------------------------- */
@@ -2962,7 +2928,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] select,
 .app.window-app[id^=CardsHand-Cards-] select,
 .app.window-app[id^=client-settings] select,
-.app.window-app[id^=ambient-light-config-] select,
+.app.window-app[id^=AmbientLightConfig-] select,
 .app.window-app[id^=PlaylistConfig-] select,
 .app.window-app[id^=support-details] select,
 .app.window-app#keybindings select,
@@ -2982,7 +2948,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] select:focus,
 .app.window-app[id^=CardsHand-Cards-] select:focus,
 .app.window-app[id^=client-settings] select:focus,
-.app.window-app[id^=ambient-light-config-] select:focus,
+.app.window-app[id^=AmbientLightConfig-] select:focus,
 .app.window-app[id^=PlaylistConfig-] select:focus,
 .app.window-app[id^=support-details] select:focus,
 .app.window-app#keybindings select:focus,
@@ -3002,7 +2968,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] select::before,
 .app.window-app[id^=CardsHand-Cards-] select::before,
 .app.window-app[id^=client-settings] select::before,
-.app.window-app[id^=ambient-light-config-] select::before,
+.app.window-app[id^=AmbientLightConfig-] select::before,
 .app.window-app[id^=PlaylistConfig-] select::before,
 .app.window-app[id^=support-details] select::before,
 .app.window-app#keybindings select::before,
@@ -3021,7 +2987,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] option,
 .app.window-app[id^=CardsHand-Cards-] option,
 .app.window-app[id^=client-settings] option,
-.app.window-app[id^=ambient-light-config-] option,
+.app.window-app[id^=AmbientLightConfig-] option,
 .app.window-app[id^=PlaylistConfig-] option,
 .app.window-app[id^=support-details] option,
 .app.window-app#keybindings option,
@@ -3040,7 +3006,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] option:hover,
 .app.window-app[id^=CardsHand-Cards-] option:hover,
 .app.window-app[id^=client-settings] option:hover,
-.app.window-app[id^=ambient-light-config-] option:hover,
+.app.window-app[id^=AmbientLightConfig-] option:hover,
 .app.window-app[id^=PlaylistConfig-] option:hover,
 .app.window-app[id^=support-details] option:hover,
 .app.window-app#keybindings option:hover,
@@ -3059,7 +3025,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] button,
 .app.window-app[id^=CardsHand-Cards-] button,
 .app.window-app[id^=client-settings] button,
-.app.window-app[id^=ambient-light-config-] button,
+.app.window-app[id^=AmbientLightConfig-] button,
 .app.window-app[id^=PlaylistConfig-] button,
 .app.window-app[id^=support-details] button,
 .app.window-app#keybindings button,
@@ -3076,7 +3042,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] a.display-mode,
 .app.window-app[id^=CardsHand-Cards-] a.display-mode,
 .app.window-app[id^=client-settings] a.display-mode,
-.app.window-app[id^=ambient-light-config-] a.display-mode,
+.app.window-app[id^=AmbientLightConfig-] a.display-mode,
 .app.window-app[id^=PlaylistConfig-] a.display-mode,
 .app.window-app[id^=support-details] a.display-mode,
 .app.window-app#keybindings a.display-mode,
@@ -3110,7 +3076,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] button:hover,
 .app.window-app[id^=CardsHand-Cards-] button:hover,
 .app.window-app[id^=client-settings] button:hover,
-.app.window-app[id^=ambient-light-config-] button:hover,
+.app.window-app[id^=AmbientLightConfig-] button:hover,
 .app.window-app[id^=PlaylistConfig-] button:hover,
 .app.window-app[id^=support-details] button:hover,
 .app.window-app#keybindings button:hover,
@@ -3127,7 +3093,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] a.display-mode:hover,
 .app.window-app[id^=CardsHand-Cards-] a.display-mode:hover,
 .app.window-app[id^=client-settings] a.display-mode:hover,
-.app.window-app[id^=ambient-light-config-] a.display-mode:hover,
+.app.window-app[id^=AmbientLightConfig-] a.display-mode:hover,
 .app.window-app[id^=PlaylistConfig-] a.display-mode:hover,
 .app.window-app[id^=support-details] a.display-mode:hover,
 .app.window-app#keybindings a.display-mode:hover,
@@ -3149,7 +3115,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] button:hover:before,
 .app.window-app[id^=CardsHand-Cards-] button:hover:before,
 .app.window-app[id^=client-settings] button:hover:before,
-.app.window-app[id^=ambient-light-config-] button:hover:before,
+.app.window-app[id^=AmbientLightConfig-] button:hover:before,
 .app.window-app[id^=PlaylistConfig-] button:hover:before,
 .app.window-app[id^=support-details] button:hover:before,
 .app.window-app#keybindings button:hover:before,
@@ -3166,7 +3132,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] a.display-mode:hover:before,
 .app.window-app[id^=CardsHand-Cards-] a.display-mode:hover:before,
 .app.window-app[id^=client-settings] a.display-mode:hover:before,
-.app.window-app[id^=ambient-light-config-] a.display-mode:hover:before,
+.app.window-app[id^=AmbientLightConfig-] a.display-mode:hover:before,
 .app.window-app[id^=PlaylistConfig-] a.display-mode:hover:before,
 .app.window-app[id^=support-details] a.display-mode:hover:before,
 .app.window-app#keybindings a.display-mode:hover:before,
@@ -3187,7 +3153,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] button:before,
 .app.window-app[id^=CardsHand-Cards-] button:before,
 .app.window-app[id^=client-settings] button:before,
-.app.window-app[id^=ambient-light-config-] button:before,
+.app.window-app[id^=AmbientLightConfig-] button:before,
 .app.window-app[id^=PlaylistConfig-] button:before,
 .app.window-app[id^=support-details] button:before,
 .app.window-app#keybindings button:before,
@@ -3204,7 +3170,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] a.display-mode:before,
 .app.window-app[id^=CardsHand-Cards-] a.display-mode:before,
 .app.window-app[id^=client-settings] a.display-mode:before,
-.app.window-app[id^=ambient-light-config-] a.display-mode:before,
+.app.window-app[id^=AmbientLightConfig-] a.display-mode:before,
 .app.window-app[id^=PlaylistConfig-] a.display-mode:before,
 .app.window-app[id^=support-details] a.display-mode:before,
 .app.window-app#keybindings a.display-mode:before,
@@ -3233,7 +3199,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="text"],
 .app.window-app[id^=CardsHand-Cards-] input[type="text"],
 .app.window-app[id^=client-settings] input[type="text"],
-.app.window-app[id^=ambient-light-config-] input[type="text"],
+.app.window-app[id^=AmbientLightConfig-] input[type="text"],
 .app.window-app[id^=PlaylistConfig-] input[type="text"],
 .app.window-app[id^=support-details] input[type="text"],
 .app.window-app#keybindings input[type="text"],
@@ -3250,7 +3216,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="number"],
 .app.window-app[id^=CardsHand-Cards-] input[type="number"],
 .app.window-app[id^=client-settings] input[type="number"],
-.app.window-app[id^=ambient-light-config-] input[type="number"],
+.app.window-app[id^=AmbientLightConfig-] input[type="number"],
 .app.window-app[id^=PlaylistConfig-] input[type="number"],
 .app.window-app[id^=support-details] input[type="number"],
 .app.window-app#keybindings input[type="number"],
@@ -3267,7 +3233,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="color"],
 .app.window-app[id^=CardsHand-Cards-] input[type="color"],
 .app.window-app[id^=client-settings] input[type="color"],
-.app.window-app[id^=ambient-light-config-] input[type="color"],
+.app.window-app[id^=AmbientLightConfig-] input[type="color"],
 .app.window-app[id^=PlaylistConfig-] input[type="color"],
 .app.window-app[id^=support-details] input[type="color"],
 .app.window-app#keybindings input[type="color"],
@@ -3288,7 +3254,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="text"]:focus,
 .app.window-app[id^=CardsHand-Cards-] input[type="text"]:focus,
 .app.window-app[id^=client-settings] input[type="text"]:focus,
-.app.window-app[id^=ambient-light-config-] input[type="text"]:focus,
+.app.window-app[id^=AmbientLightConfig-] input[type="text"]:focus,
 .app.window-app[id^=PlaylistConfig-] input[type="text"]:focus,
 .app.window-app[id^=support-details] input[type="text"]:focus,
 .app.window-app#keybindings input[type="text"]:focus,
@@ -3305,7 +3271,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="number"]:focus,
 .app.window-app[id^=CardsHand-Cards-] input[type="number"]:focus,
 .app.window-app[id^=client-settings] input[type="number"]:focus,
-.app.window-app[id^=ambient-light-config-] input[type="number"]:focus,
+.app.window-app[id^=AmbientLightConfig-] input[type="number"]:focus,
 .app.window-app[id^=PlaylistConfig-] input[type="number"]:focus,
 .app.window-app[id^=support-details] input[type="number"]:focus,
 .app.window-app#keybindings input[type="number"]:focus,
@@ -3322,7 +3288,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="color"]:focus,
 .app.window-app[id^=CardsHand-Cards-] input[type="color"]:focus,
 .app.window-app[id^=client-settings] input[type="color"]:focus,
-.app.window-app[id^=ambient-light-config-] input[type="color"]:focus,
+.app.window-app[id^=AmbientLightConfig-] input[type="color"]:focus,
 .app.window-app[id^=PlaylistConfig-] input[type="color"]:focus,
 .app.window-app[id^=support-details] input[type="color"]:focus,
 .app.window-app#keybindings input[type="color"]:focus,
@@ -3342,7 +3308,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="text"]::placeholder,
 .app.window-app[id^=CardsHand-Cards-] input[type="text"]::placeholder,
 .app.window-app[id^=client-settings] input[type="text"]::placeholder,
-.app.window-app[id^=ambient-light-config-] input[type="text"]::placeholder,
+.app.window-app[id^=AmbientLightConfig-] input[type="text"]::placeholder,
 .app.window-app[id^=PlaylistConfig-] input[type="text"]::placeholder,
 .app.window-app[id^=support-details] input[type="text"]::placeholder,
 .app.window-app#keybindings input[type="text"]::placeholder,
@@ -3359,7 +3325,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="number"]::placeholder,
 .app.window-app[id^=CardsHand-Cards-] input[type="number"]::placeholder,
 .app.window-app[id^=client-settings] input[type="number"]::placeholder,
-.app.window-app[id^=ambient-light-config-] input[type="number"]::placeholder,
+.app.window-app[id^=AmbientLightConfig-] input[type="number"]::placeholder,
 .app.window-app[id^=PlaylistConfig-] input[type="number"]::placeholder,
 .app.window-app[id^=support-details] input[type="number"]::placeholder,
 .app.window-app#keybindings input[type="number"]::placeholder,
@@ -3376,7 +3342,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="color"]::placeholder,
 .app.window-app[id^=CardsHand-Cards-] input[type="color"]::placeholder,
 .app.window-app[id^=client-settings] input[type="color"]::placeholder,
-.app.window-app[id^=ambient-light-config-] input[type="color"]::placeholder,
+.app.window-app[id^=AmbientLightConfig-] input[type="color"]::placeholder,
 .app.window-app[id^=PlaylistConfig-] input[type="color"]::placeholder,
 .app.window-app[id^=support-details] input[type="color"]::placeholder,
 .app.window-app#keybindings input[type="color"]::placeholder,
@@ -3395,7 +3361,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="checkbox"],
 .app.window-app[id^=CardsHand-Cards-] input[type="checkbox"],
 .app.window-app[id^=client-settings] input[type="checkbox"],
-.app.window-app[id^=ambient-light-config-] input[type="checkbox"],
+.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"],
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"],
 .app.window-app[id^=support-details] input[type="checkbox"],
 .app.window-app#keybindings input[type="checkbox"],
@@ -3421,7 +3387,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="checkbox"]::before,
 .app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]::before,
 .app.window-app[id^=client-settings] input[type="checkbox"]::before,
-.app.window-app[id^=ambient-light-config-] input[type="checkbox"]::before,
+.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]::before,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]::before,
 .app.window-app[id^=support-details] input[type="checkbox"]::before,
 .app.window-app#keybindings input[type="checkbox"]::before,
@@ -3450,7 +3416,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="checkbox"]:checked,
 .app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]:checked,
 .app.window-app[id^=client-settings] input[type="checkbox"]:checked,
-.app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked,
+.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked,
 .app.window-app[id^=support-details] input[type="checkbox"]:checked,
 .app.window-app#keybindings input[type="checkbox"]:checked,
@@ -3471,7 +3437,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=client-settings] input[type="checkbox"]:checked::before,
-.app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked::before,
+.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=support-details] input[type="checkbox"]:checked::before,
 .app.window-app#keybindings input[type="checkbox"]:checked::before,
@@ -3490,7 +3456,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=client-settings] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=ambient-light-config-] input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=support-details] input[type="checkbox"]:checked ~ label::before,
 .app.window-app#keybindings input[type="checkbox"]:checked ~ label::before,
@@ -3509,7 +3475,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] h2,
 .app.window-app[id^=CardsHand-Cards-] h2,
 .app.window-app[id^=client-settings] h2,
-.app.window-app[id^=ambient-light-config-] h2,
+.app.window-app[id^=AmbientLightConfig-] h2,
 .app.window-app[id^=PlaylistConfig-] h2,
 .app.window-app[id^=support-details] h2,
 .app.window-app#keybindings h2,
@@ -3526,7 +3492,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] h3,
 .app.window-app[id^=CardsHand-Cards-] h3,
 .app.window-app[id^=client-settings] h3,
-.app.window-app[id^=ambient-light-config-] h3,
+.app.window-app[id^=AmbientLightConfig-] h3,
 .app.window-app[id^=PlaylistConfig-] h3,
 .app.window-app[id^=support-details] h3,
 .app.window-app#keybindings h3,
@@ -3548,7 +3514,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] h2,
 .app.window-app[id^=CardsHand-Cards-] h2,
 .app.window-app[id^=client-settings] h2,
-.app.window-app[id^=ambient-light-config-] h2,
+.app.window-app[id^=AmbientLightConfig-] h2,
 .app.window-app[id^=PlaylistConfig-] h2,
 .app.window-app[id^=support-details] h2,
 .app.window-app#keybindings h2,
@@ -3570,7 +3536,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] h3,
 .app.window-app[id^=CardsHand-Cards-] h3,
 .app.window-app[id^=client-settings] h3,
-.app.window-app[id^=ambient-light-config-] h3,
+.app.window-app[id^=AmbientLightConfig-] h3,
 .app.window-app[id^=PlaylistConfig-] h3,
 .app.window-app[id^=support-details] h3,
 .app.window-app#keybindings h3,
@@ -3591,7 +3557,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] span.units,
 .app.window-app[id^=CardsHand-Cards-] span.units,
 .app.window-app[id^=client-settings] span.units,
-.app.window-app[id^=ambient-light-config-] span.units,
+.app.window-app[id^=AmbientLightConfig-] span.units,
 .app.window-app[id^=PlaylistConfig-] span.units,
 .app.window-app[id^=support-details] span.units,
 .app.window-app#keybindings span.units,
@@ -3610,7 +3576,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] nav,
 .app.window-app[id^=CardsHand-Cards-] nav,
 .app.window-app[id^=client-settings] nav,
-.app.window-app[id^=ambient-light-config-] nav,
+.app.window-app[id^=AmbientLightConfig-] nav,
 .app.window-app[id^=PlaylistConfig-] nav,
 .app.window-app[id^=support-details] nav,
 .app.window-app#keybindings nav,
@@ -3629,7 +3595,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] nav .item,
 .app.window-app[id^=CardsHand-Cards-] nav .item,
 .app.window-app[id^=client-settings] nav .item,
-.app.window-app[id^=ambient-light-config-] nav .item,
+.app.window-app[id^=AmbientLightConfig-] nav .item,
 .app.window-app[id^=PlaylistConfig-] nav .item,
 .app.window-app[id^=support-details] nav .item,
 .app.window-app#keybindings nav .item,
@@ -3650,7 +3616,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] nav .item.active,
 .app.window-app[id^=CardsHand-Cards-] nav .item.active,
 .app.window-app[id^=client-settings] nav .item.active,
-.app.window-app[id^=ambient-light-config-] nav .item.active,
+.app.window-app[id^=AmbientLightConfig-] nav .item.active,
 .app.window-app[id^=PlaylistConfig-] nav .item.active,
 .app.window-app[id^=support-details] nav .item.active,
 .app.window-app#keybindings nav .item.active,
@@ -3672,7 +3638,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] nav .item.active:hover,
 .app.window-app[id^=CardsHand-Cards-] nav .item.active:hover,
 .app.window-app[id^=client-settings] nav .item.active:hover,
-.app.window-app[id^=ambient-light-config-] nav .item.active:hover,
+.app.window-app[id^=AmbientLightConfig-] nav .item.active:hover,
 .app.window-app[id^=PlaylistConfig-] nav .item.active:hover,
 .app.window-app[id^=support-details] nav .item.active:hover,
 .app.window-app#keybindings nav .item.active:hover,
@@ -3691,7 +3657,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] nav .item:hover,
 .app.window-app[id^=CardsHand-Cards-] nav .item:hover,
 .app.window-app[id^=client-settings] nav .item:hover,
-.app.window-app[id^=ambient-light-config-] nav .item:hover,
+.app.window-app[id^=AmbientLightConfig-] nav .item:hover,
 .app.window-app[id^=PlaylistConfig-] nav .item:hover,
 .app.window-app[id^=support-details] nav .item:hover,
 .app.window-app#keybindings nav .item:hover,
@@ -3710,7 +3676,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=CardsHand-Cards-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=client-settings] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=ambient-light-config-] footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=AmbientLightConfig-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=PlaylistConfig-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=support-details] footer button:not(:nth-child(0n+1)),
 .app.window-app#keybindings footer button:not(:nth-child(0n+1)),
@@ -3729,7 +3695,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content,
 .app.window-app[id^=CardsHand-Cards-] .window-content,
 .app.window-app[id^=client-settings] .window-content,
-.app.window-app[id^=ambient-light-config-] .window-content,
+.app.window-app[id^=AmbientLightConfig-] .window-content,
 .app.window-app[id^=PlaylistConfig-] .window-content,
 .app.window-app[id^=support-details] .window-content,
 .app.window-app#keybindings .window-content,
@@ -3752,7 +3718,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content header.form-header,
 .app.window-app[id^=CardsHand-Cards-] .window-content header.form-header,
 .app.window-app[id^=client-settings] .window-content header.form-header,
-.app.window-app[id^=ambient-light-config-] .window-content header.form-header,
+.app.window-app[id^=AmbientLightConfig-] .window-content header.form-header,
 .app.window-app[id^=PlaylistConfig-] .window-content header.form-header,
 .app.window-app[id^=support-details] .window-content header.form-header,
 .app.window-app#keybindings .window-content header.form-header,
@@ -3773,7 +3739,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content .form-header,
 .app.window-app[id^=CardsHand-Cards-] .window-content .form-header,
 .app.window-app[id^=client-settings] .window-content .form-header,
-.app.window-app[id^=ambient-light-config-] .window-content .form-header,
+.app.window-app[id^=AmbientLightConfig-] .window-content .form-header,
 .app.window-app[id^=PlaylistConfig-] .window-content .form-header,
 .app.window-app[id^=support-details] .window-content .form-header,
 .app.window-app#keybindings .window-content .form-header,
@@ -3792,7 +3758,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content .notes,
 .app.window-app[id^=CardsHand-Cards-] .window-content .notes,
 .app.window-app[id^=client-settings] .window-content .notes,
-.app.window-app[id^=ambient-light-config-] .window-content .notes,
+.app.window-app[id^=AmbientLightConfig-] .window-content .notes,
 .app.window-app[id^=PlaylistConfig-] .window-content .notes,
 .app.window-app[id^=support-details] .window-content .notes,
 .app.window-app#keybindings .window-content .notes,
@@ -3813,7 +3779,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content textarea[name=command],
 .app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=command],
 .app.window-app[id^=client-settings] .window-content textarea[name=command],
-.app.window-app[id^=ambient-light-config-] .window-content textarea[name=command],
+.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command],
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command],
 .app.window-app[id^=support-details] .window-content textarea[name=command],
 .app.window-app#keybindings .window-content textarea[name=command],
@@ -3834,7 +3800,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=client-settings] .window-content textarea[name=command]:focus,
-.app.window-app[id^=ambient-light-config-] .window-content textarea[name=command]:focus,
+.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=support-details] .window-content textarea[name=command]:focus,
 .app.window-app#keybindings .window-content textarea[name=command]:focus,
@@ -3856,7 +3822,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=client-settings] .window-content textarea[name=command]::selection,
-.app.window-app[id^=ambient-light-config-] .window-content textarea[name=command]::selection,
+.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=support-details] .window-content textarea[name=command]::selection,
 .app.window-app#keybindings .window-content textarea[name=command]::selection,
@@ -3875,7 +3841,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content textarea[name=description],
 .app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=description],
 .app.window-app[id^=client-settings] .window-content textarea[name=description],
-.app.window-app[id^=ambient-light-config-] .window-content textarea[name=description],
+.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=description],
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=description],
 .app.window-app[id^=support-details] .window-content textarea[name=description],
 .app.window-app#keybindings .window-content textarea[name=description],
@@ -3896,7 +3862,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=RollTableConfig-] .window-content .command,
 .app.window-app[id^=CardsHand-Cards-] .window-content .command,
 .app.window-app[id^=client-settings] .window-content .command,
-.app.window-app[id^=ambient-light-config-] .window-content .command,
+.app.window-app[id^=AmbientLightConfig-] .window-content .command,
 .app.window-app[id^=PlaylistConfig-] .window-content .command,
 .app.window-app[id^=support-details] .window-content .command,
 .app.window-app#keybindings .window-content .command,
@@ -3928,6 +3894,13 @@ input[type=range]:focus::-ms-fill-upper {
   border: 1px solid #839c88;
   box-shadow: 0 0 5px rgba(131, 156, 136, 0.5);
 }
+.app.window-app.journal-sheet .window-content input[type="search"] {
+  font-family: "srfoundry_regular";
+  color: #fffffe;
+  border: 1px solid #b2007a;
+  background: rgba(0, 0, 1, 0.3);
+  text-transform: none;
+}
 .app.window-app.journal-sheet .window-content input {
   background: none;
   color: #fffffe;
@@ -3939,6 +3912,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.journal-sheet .window-content input:focus,
 .app.window-app.journal-sheet .window-content input:hover {
   box-shadow: 0 0 5px #839c88;
+  border: 1px solid #839c88;
 }
 .app.window-app.journal-sheet .window-content input.image {
   font-family: "srfoundry_regular";
@@ -4031,6 +4005,26 @@ input[type=range]:focus::-ms-fill-upper {
   color: #000001;
   background: #839c88;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+.app.window-app.journal-sheet .window-content .journal-header {
+  display: block;
+}
+.app.window-app.journal-sheet .window-content ul {
+  list-style-type: disc;
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+.app.window-app.journal-sheet .sidebar {
+  background-image: url("../img/ui/SR6_BG_Sidebar.jpg");
+  background-size: cover;
+  background-position: top;
+  background-repeat: repeat;
+}
+.app.window-app.journal-sheet .journal-entry-content {
+  background-image: url("../img/ui/SR6_BG_NoteTop.png"), url("../img/ui/SR6_BG_Blanc.jpg");
+  background-size: auto 90px, cover;
+  background-position: top, top;
+  background-repeat: repeat-x, repeat;
 }
 .app.window-app.token-sheet nav .item.active {
   height: 30px;
@@ -5075,7 +5069,8 @@ input[type=range]:focus::-ms-fill-upper {
 .dialog .window-content .dialog-content {
   padding: 8px;
 }
-.dialog .window-content .dialog-content h3 {
+.dialog .window-content .dialog-content h3,
+.dialog .window-content .dialog-content h4 {
   color: #b2007a;
   text-align: center;
   border-bottom: 1px solid #b2007a;
@@ -5388,9 +5383,47 @@ input[type=range]:focus::-ms-fill-upper {
 #menu #menu-items li h4 {
   font-size: 1em;
 }
+.SR-Editor {
+  position: relative;
+  height: auto;
+  min-height: 100%;
+}
+.SR-Editor .editor {
+  height: auto;
+  position: unset;
+  height: 100%;
+}
 .SR-Editor .editor .editor-edit {
   background: transparent;
   color: white;
+  display: unset;
+  font-size: inherit;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  top: -17px;
+  right: 5px;
+  color: #fffffe;
+}
+.SR-Editor .editor .editor-edit:hover {
+  color: #839c88;
+}
+.SR-Editor .editor .editor-content {
+  overflow-y: inherit;
+}
+.SR-Editor .editor .editor-content ul {
+  list-style-type: disc;
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+.SR-Editor .editor .tox {
+  height: 100% !important;
+}
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header {
+  background-color: transparent;
+  padding: 0;
+  box-shadow: none;
 }
 .SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord {
   background-color: transparent;
@@ -5401,21 +5434,32 @@ input[type=range]:focus::-ms-fill-upper {
   box-shadow: none;
   border-bottom: 1px solid #839c88;
 }
-.SR-Editor .editor .tox .tox-tbtn {
-  color: #000001;
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary .tox-tbtn {
   border-radius: 1px;
   height: 25px;
+  background: transparent;
 }
-.SR-Editor .editor .tox .tox-tbtn svg {
-  fill: rgba(0, 0, 1, 0.5);
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary .tox-tbtn svg {
+  fill: rgba(131, 156, 136, 0.5);
 }
-.SR-Editor .editor .tox .tox-tbtn:hover {
-  background: rgba(131, 156, 136, 0.25);
-  color: #000001;
+.SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary .tox-tbtn svg:hover {
+  fill: #839c88;
 }
-.SR-Editor .editor .tox .tox-tbtn:hover svg {
-  fill: #000001;
+.SR-Editor .editor .tox-sidebar-wrap {
+  min-height: 200px;
 }
-.SR-Editor .editor .editor-content {
-  overflow-y: inherit;
+.SR-Editor .editor.grunteditor .tox-sidebar-wrap {
+  min-height: 425px;
+}
+#tinymce.mce-content-body {
+  font-size: 0.8em;
+}
+#tinymce.mce-content-body ul {
+  list-style-type: disc;
+  margin: 0;
+  padding: 0 0 0 1.5em;
+}
+.app.window-app.actor .window-content .SR-Editor .editor .editor-content p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
 }

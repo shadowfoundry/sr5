@@ -326,6 +326,8 @@ export class SR5_EntityHelpers {
 					return game.i18n.localize("SR5.GlobalPenalty");
 				case "system.defenses.defend":
 					return game.i18n.localize("SR5.Defenses");
+				case "system.matrix.noise":
+					return game.i18n.localize("SR5.MatrixNoise");
 				default:
 					SR5_SystemHelpers.srLog(1, `Unknown '${key}' in 'getLabelByKey()'`);
 					return newKey;

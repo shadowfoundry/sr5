@@ -4,15 +4,15 @@
   "description": "A comprehensive ruleset to play Shadowrun 5th Edition with Foundry VTT.",
   "authors": [
     {
-      "name": "Karmaroms, deurk",
+      "name": "Karmaroms, deurk, Michel_Platinium",
       "url": "https://github.com/shadowfoundry/sr5",
       "flags": {}
     }
   ],
-  "version": "0.1.0",
+  "version": "0.1.1",
   "compatibility": {
     "minimum": 10,
-    "verified": "10.278"
+    "verified": "10.285"
   },
   "relationships": {
     "system": [],

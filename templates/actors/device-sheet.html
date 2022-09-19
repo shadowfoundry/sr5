@@ -32,9 +32,10 @@
 				<div class="col-9">
 					<div class="SR-AppareilMainCentre">
 						{{#if (eq system.matrix.deviceType 'ice')}}
-						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
+							{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
 						{{/if}}
 						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
+						{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
 					</div>
 				</div>
 			</div>

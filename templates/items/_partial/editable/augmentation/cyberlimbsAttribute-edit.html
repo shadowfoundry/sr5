@@ -14,7 +14,7 @@
             {{#if system.cyberlimbs.isCustom}}
             <div class="col-1"></div>
             <div class="col-4 SR-TextRight">{{localize 'SR5.CutomCyberlimbStrength'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.cyberlimbs.strength.customization" value="{{system.cyberlimbs.strength.customization}}" /></div>
+            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.cyberlimbs.strength.customization" value="{{system.cyberlimbs.strength.customization}}" onfocus="this.select()"/></div>
             {{/if}}
         </li>
         <li class="grid">
@@ -23,7 +23,7 @@
             {{#if system.cyberlimbs.isCustom}}
             <div class="col-1"></div>
             <div class="col-4 SR-TextRight">{{localize 'SR5.CutomCyberlimbAgility'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.cyberlimbs.agility.customization" value="{{system.cyberlimbs.agility.customization}}" /></div>
+            <div class="col-1 SR-TextCenter"><input type="number" data-dtype="Number" name="system.cyberlimbs.agility.customization" value="{{system.cyberlimbs.agility.customization}}" onfocus="this.select()"/></div>
             {{/if}}
         </li>
     </ul>

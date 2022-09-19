@@ -1,51 +1,109 @@
 .SR-Editor{
+    position  : relative;
+    height    : auto;
+    min-height: 100%;
+
     .editor {
+        height  : auto;
+        position: unset;
+        height  : 100%;
+
         .editor-edit {
             background: transparent;
             color: white;
-        }
-
-        .tox {
-            .tox-editor-container {
-                .tox-editor-header {
-                    .tox-toolbar-overlord {
-                        background-color: transparent;
-                        .tox-toolbar {
-                            &__primary {
-                                background: none;
-                                background-color: transparent;
-                                box-shadow: none;
-                                border-bottom: 1px solid @subColor;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .tox-tbtn {
-                color: @neutralDarkColor;
-                border-radius: 1px;
-                height: 25px;
-
-                svg {
-                    fill: fade(@neutralDarkColor, 50%);
-                }
-
-                &:hover {
-                    background: fade(@subColor, 25%);
-                    color: @neutralDarkColor;
-
-                    svg {
-                        fill: @neutralDarkColor;
-                    }
-                }
+            display      : unset;
+            font-size    : inherit;
+            border       : 0;
+            border-radius: 0;
+            box-shadow   : none;
+            padding      : 0;
+            top          : -17px;
+            right        : 5px;
+            color: @neutralLightColor;
+    
+            &:hover{
+                color: @subColor;
             }
         }
 
         .editor-content {
             //min-height: 75px;
             overflow-y: inherit;
+            
+            ul {
+                list-style-type: disc;
+                margin: 0;
+                padding: 0 0 0 1.5em;
+            }
         }
+        
+        .tox {
+            height: 100% !important;
+        
+            .tox-editor-container {
+                .tox-editor-header {
+                    background-color: transparent;
+                    padding: 0;
+                    box-shadow: none;
+
+                    .tox-toolbar-overlord {
+                        background-color: transparent;
+
+                        .tox-toolbar__primary {
+                            background: none;
+                            background-color: transparent;
+                            box-shadow: none;
+                            border-bottom: 1px solid @subColor;
+
+                            .tox-tbtn {
+                                border-radius: 1px;
+                                height: 25px;
+                                background: transparent;
+
+                                svg {
+                                    fill: fade(@subColor, 50%);;
+                                    &:hover{
+                                        fill: @subColor;
+                                    }
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }        
+        }
+        
+        .tox-sidebar-wrap {
+            min-height: 200px;
+        }
+    
+        &.grunteditor{
+            .tox-sidebar-wrap {
+                min-height: 425px;
+            }
+        }
+
     }
 
+    
+}
+
+#tinymce {
+    &.mce-content-body{
+        font-size: 0.8em;
+
+        ul {
+            list-style-type: disc;
+            margin: 0;
+            padding: 0 0 0 1.5em;
+        }
+    }
+}
+
+.app.window-app.actor .window-content .SR-Editor .editor .editor-content{
+    p {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+    }
 }

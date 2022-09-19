@@ -425,7 +425,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		};
 
-		console.log(chatData.flags.sr5data);
+		//console.log(chatData.flags.sr5data);
 		//Handle Dice so Nice
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 
@@ -1675,8 +1675,13 @@ export class SR5_Dice {
 	}
 
 	static async addResistanceResultInfoToCard(cardData, type){
-		let key, label, labelEnd, applyEffect = true, actor, weapon;
+		let key, label, labelEnd, applyEffect = true, actor, weapon, originalMessage, prevData;
 		cardData.netHits = cardData.test.hits - cardData.hits;
+		
+		if (cardData.originalMessage){
+			originalMessage = game.messages.get(cardData.originalMessage);
+			prevData = originalMessage.flags?.sr5data;
+		}
 
 		switch (type){
 			case "complexFormResistance":
@@ -1707,7 +1712,7 @@ export class SR5_Dice {
 				labelEnd = game.i18n.localize("SR5.SpellResisted");
 				key = "applyEffectAuto";
 				if (!cardData.switch?.transferEffect && !cardData.switch?.transferEffectOnItem) applyEffect = false;
-				if (!cardData.originalMessage?.flags?.sr5data?.spellArea) {
+				if (!prevData.spellArea) {
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("updateChatButton", {
 							message: cardData.originalMessage,

@@ -21,7 +21,6 @@ export default class Migration {
 
 		// Migrate World Compendium Packs
 		for (let p of game.packs) {
-			//console.log(p.metadata.packageName);
 			if (p.metadata.packageName === "sr5-Item-Full-fr") continue;
 			if ( !["Actor", "Item", "Scene"].includes(p.documentName) ) continue;
 			await this.migrateCompendium(p);

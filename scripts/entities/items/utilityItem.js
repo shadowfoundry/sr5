@@ -1,5 +1,6 @@
 import { SR5 } from "../../config.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
+import { SR5_CharacterUtility } from "../actors/utilityActor.js";
 import { SR5_EntityHelpers } from "../helpers.js";
 
 export class SR5_UtilityItem extends Actor {
@@ -106,10 +107,13 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			case "itemTradition":
 				displayName = game.i18n.localize("SR5.TraditionNew");
-			break;
+				break;
 			case "itemRitual":
 				displayName = game.i18n.localize("SR5.RitualNew");
-			break;
+				break;
+			case "itemEffect":
+				displayName = game.i18n.localize("SR5.EffectNew");
+				break;
 			default:
 				displayName = false;
 				SR5_SystemHelpers.srLog(1, `Unknown '${type}' item type`);
@@ -411,6 +415,7 @@ export class SR5_UtilityItem extends Actor {
 								}
 							}
 						}
+						itemData.weaponSkill.modifiers = itemData.weaponSkill.modifiers.concat(actor.system.penalties.special.actual.modifiers);
 						if (actor.system.passiveTargeting) itemData.accuracy.base = actor.system.attributes.sensor.augmented.value;
 						break;
 					case "manual":
@@ -1619,7 +1624,7 @@ export class SR5_UtilityItem extends Actor {
 		itemData.mountedWeaponName = "";
 	}
 
-	static _generateWeaponMountWeaponList(item, actor) {
+	static _generateWeaponMountWeaponList(itemData, actor) {
 		let weaponList = [];
 		for (let i of actor.items) {
 			if (i.type === "itemWeapon" && i.system.category === "rangedWeapon") { 
@@ -1631,7 +1636,7 @@ export class SR5_UtilityItem extends Actor {
 				weaponList.push(weapon);  
 			}
 		}
-		item.system.weaponChoices = weaponList;
+		itemData.weaponChoices = weaponList;
 		return weaponList;
 	}
 

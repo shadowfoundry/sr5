@@ -4,7 +4,7 @@
         {{#if system.rent.bought}}
             <p class="SR-PaddingLeft3">-</p>
         {{else}}
-            <input type="number" data-dtype="Number" name="system.rent.duration" value="{{system.rent.duration}}" placeholder="0" />
+            <input type="number" data-dtype="Number" name="system.rent.duration" value="{{system.rent.duration}}" placeholder="0" onfocus="this.select()"/>
         {{/if}}
     </div>
     <div class="col-1"></div>

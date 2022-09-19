@@ -21,7 +21,7 @@
 		{{#each system.matrix.actions}}
 			{{#if (or (eq ../actor.type 'actorDrone') (eq ../actor.type 'actorDevice'))}}
 				{{#if defense.dicePool}}
-				<li class="grid" data-matrix="{{a}}">
+				<li class="grid" data-matrix="{{@key}}">
 					<div class="col-10">{{findTranslation 'matrixActions' @key}}</div>
 					<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
 					  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
@@ -33,7 +33,7 @@
 				</li>
 				{{/if}}
 			{{else}}
-			<li class="grid" data-matrix="{{a}}">
+			<li class="item grid" data-matrix="{{@key}}">
 				<div class="col-5">
 					<!--Specialization Icon-->
 					<a class="toggle-actorValue" data-dtype="Boolean" data-binding="system.matrix.actions.{{@key}}.specialization"

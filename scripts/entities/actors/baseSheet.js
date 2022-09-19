@@ -223,6 +223,25 @@ export class ActorSheetSR5 extends ActorSheet {
 			return;
 		}
 
+		if (target.dataset.skill){
+			dragData.type = "Skill";
+			dragData.subType = target.dataset.skill;
+			dragData.actor = this.actor;
+			event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+		}
+
+		if (target.dataset.matrix){
+			dragData.type = "MatrixAction";
+			dragData.subType = target.dataset.matrix;
+			event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+		}
+
+		if (target.dataset.resonance){
+			dragData.type = "ResonanceAction";
+			dragData.subType = target.dataset.resonance;
+			event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
+		}
+
 		return super._onDragStart(event);
 	}
 
@@ -284,9 +303,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 		if (type === "itemTradition"){
 			for (let i of this.actor.items){
-				if (i.type === "itemTradition"){
-					return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
-				}
+				if (i.type === "itemTradition") return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
 			}
 		}
 
@@ -322,6 +339,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		event.preventDefault();
 		const li = event.currentTarget.closest(".item");
 		const item = this.actor.items.get(li.dataset.itemId);
+		if (item.type === "itemTradition") return ui.notifications.warn(game.i18n.localize('SR5.WARN_OnlyOneTradition'));
 		let newItem = item.toObject();
 		if (newItem.system.accessory?.length) newItem.system.accessory = [];
 		SR5_SystemHelpers.srLog(2, `Creating a new clone of item '${item.name}'`, item);
@@ -401,6 +419,8 @@ export class ActorSheetSR5 extends ActorSheet {
 		let li = $(event.currentTarget).parents(".item"),
 			item = this.actor.items.get(li.data("item-id")),
 			expandData = item.getExpandData({ secrets: this.actor.isOwner });
+
+		if (!expandData.properties.length && (expandData.gameEffect === "" || !expandData.gameEffect)) return;
 		// Déplie les informations de jeu pour un Objet.
 		if (li.hasClass("expanded")) {
 			let summary = li.children(".item-summary");
@@ -640,7 +660,6 @@ export class ActorSheetSR5 extends ActorSheet {
 		let target = $(event.currentTarget).attr("data-binding");
 		let actor = this.actor.toObject(false);
 
-
 		let value = event.target.value;
 		if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
 			let oldValue = getProperty(actor, target);
@@ -660,7 +679,7 @@ export class ActorSheetSR5 extends ActorSheet {
 	}
 
 	/* -------------------------------------------- */
-	//Recharge les armes
+	//Reload weapon ammo
 	async _onReloadAmmo(event) {
 		event.preventDefault();
 		const id = event.currentTarget.closest(".item").dataset.itemId;
@@ -669,7 +688,7 @@ export class ActorSheetSR5 extends ActorSheet {
 	}
 
 	/* -------------------------------------------- */
-	//Reboot le deck
+	//Reboot deck
 	async _onRebootDeck(event) {
 		event.preventDefault();
 		this.actor.rebootDeck();
@@ -722,7 +741,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			if (itemId) {
 				let item = this.actor.items.find(i => i.id === itemId);
 				let detailsItem = $(event.currentTarget).attr("data-helpDetailsItem");
-				property = SR5_EntityHelpers.resolveObjectPath(`system.${detailsItem}`, item);
+				property = SR5_EntityHelpers.resolveObjectPath(`${detailsItem}`, item);
 			}
 
 			if (property) {
@@ -968,5 +987,4 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (statusEffect) await this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
 		await this.actor.deleteEmbeddedDocuments("Item", [jammingItem.id]);
 	}
-
 }

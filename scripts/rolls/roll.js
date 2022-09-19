@@ -106,10 +106,16 @@ export class SR5_Roll {
 
         if (canvas.scene) {
             activeScene = game.scenes.active;
-            sceneNoise = -activeScene.getFlag("sr5", "matrixNoise") || 0;
-            backgroundAlignement = activeScene.getFlag("sr5", "backgroundCountAlignement") || "";
-            if (backgroundAlignement === actorData.magic?.tradition) backgroundCount = 0;
-            else backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
+            if (activeScene) {
+                sceneNoise = -activeScene.getFlag("sr5", "matrixNoise") || 0;
+                backgroundAlignement = activeScene.getFlag("sr5", "backgroundCountAlignement") || "";
+                if (backgroundAlignement === actorData.magic?.tradition) backgroundCount = 0;
+                else backgroundCount = activeScene.getFlag("sr5", "backgroundCountValue") || 0;
+            } else {
+                sceneNoise = 0;
+                backgroundAlignement = "";
+                backgroundCount = 0;
+            }
         }
 
         if (chatData) originalMessage = chatData.originalMessage;
@@ -1360,14 +1366,20 @@ export class SR5_Roll {
                 let spellItem = await fromUuid(chatData.itemUuid);
                 let spellData = spellItem.system;
                 title = `${game.i18n.localize("SR5.ResistSpell")}${game.i18n.localize("SR5.Colons")} ${spellItem.name}`;
-                firstAttribute = actorData.attributes[spellData.defenseFirstAttribute].augmented.value;
-                secondAttribute = actorData.attributes[spellData.defenseSecondAttribute].augmented.value;
-                dicePoolComposition = ([
-                    {source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: firstAttribute},
-                    {source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: secondAttribute},
-                ]);
-                dicePool = firstAttribute + secondAttribute;
-
+                if (actor.type === "actorDrone" || actor.type === "actorDevice"){
+                    dicePool = 15;
+                    dicePoolComposition = ([
+                        {source: game.i18n.localize(SR5.ObjectHighlyProcessed), type: game.i18n.localize('SR5.Special'), value: 15},
+                    ]);
+                } else {
+                    firstAttribute = actorData.attributes[spellData.defenseFirstAttribute].augmented.value;
+                    secondAttribute = actorData.attributes[spellData.defenseSecondAttribute].augmented.value;
+                    dicePoolComposition = ([
+                        {source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: firstAttribute},
+                        {source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: secondAttribute},
+                    ]);
+                    dicePool = firstAttribute + secondAttribute;
+                }
                 optionalData = {
                     hits: chatData.test.hits,
                     itemUuid: chatData.itemUuid,
@@ -1519,6 +1531,7 @@ export class SR5_Roll {
                     defenseMatrixAttribute: itemData.defenseMatrixAttribute,
                     rulesMatrixGrid: rulesMatrixGrid,
                     "lists.gridTypes": actor.system.lists.gridTypes,
+                    itemUuid: item.uuid,
                 }
 
                 if (actorData.matrix.userGrid === "public") optionalData = mergeObject(optionalData, {"switch.publicGrid": true,});
@@ -1526,20 +1539,14 @@ export class SR5_Roll {
                 //Check if an effect is transferable on taget actor and give the necessary infos
                 for (let e of Object.values(itemData.customEffects)){
                     if (e.transfer) {
-                        optionalData = mergeObject(optionalData, {
-                            "itemUuid": item.uuid,
-                            "switch.transferEffect": true,
-                        });
+                        optionalData = mergeObject(optionalData, {"switch.transferEffect": true,});
                     }
                 }
 
                 //Check if an effect is transferable on target item and give the necessary infos
                 for (let e of Object.values(itemData.itemEffects)){
                     if (e.transfer) {
-                        optionalData = mergeObject(optionalData, {
-                            "itemUuid": item.uuid,
-                            "switch.transferEffectOnItem": true,
-                        });
+                        optionalData = mergeObject(optionalData, {"switch.transferEffectOnItem": true,});
                     }
                 }
                 break;
@@ -1594,7 +1601,7 @@ export class SR5_Roll {
                 }
 
                 //Check if an effect is transferable and give the necessary infos
-                if (chatData.switch.transferEffect){
+                if (chatData.switch?.transferEffect){
                     optionalData = mergeObject(optionalData, {
                         "itemUuid": chatData.itemUuid,
                         "switch.transferEffect": true,

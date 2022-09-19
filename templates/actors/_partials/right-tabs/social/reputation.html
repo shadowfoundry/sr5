@@ -8,26 +8,29 @@
 			<div class="col-12"></div>
 		</li>
 		<li class="grid">
-			<div class="col-3 SR-TextRight">{{localize 'SR5.ReputationStreetCred'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold changeValueByClick" data-binding="system.streetCred.base"
-			data-helpTitle="{{localize 'SR5.HELP_Rating' key=(localize 'SR5.ReputationStreetCred')}}"
-			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}"
-			data-helpDetails="system.streetCred">
-    {{system.streetCred.value}}
+			<div class="col-4 SR-TextLeft">
+				<span class="col-auto">{{localize 'SR5.ReputationStreetCred'}}{{localize 'SR5.Colons'}}</span>
+				<span class="col-auto changeValueByClick" data-binding="system.streetCred.base"
+				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=(localize 'SR5.ReputationStreetCred')}}"
+				  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}" data-helpDetails="system.streetCred">
+					{{system.streetCred.value}}
+				</span>
 			</div>
-			<div class="col-3 SR-TextRight">{{localize 'SR5.ReputationNotoriety'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold changeValueByClick" data-binding="system.notoriety.base"
-			data-helpTitle="{{localize 'SR5.HELP_Rating' key=(localize 'SR5.ReputationNotoriety')}}"
-			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}"
-			data-helpDetails="system.notoriety">
-	  {{system.notoriety.value}}
+			<div class="col-4 SR-TextCenter">
+				<span class="col-auto">{{localize 'SR5.ReputationNotoriety'}}{{localize 'SR5.Colons'}}</span>
+				<span class="col-auto changeValueByClick" data-binding="system.notoriety.base"
+				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=(localize 'SR5.ReputationNotoriety')}}"
+				  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}" data-helpDetails="system.notoriety">
+					{{system.notoriety.value}}
+				</span>
 			</div>
-			<div class="col-3 SR-TextRight">{{localize 'SR5.ReputationPublicAwareness'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-1 SR-CaseChance SR-CaseSubColor SR-NeutralLightColor SR-Bold changeValueByClick" data-binding="system.publicAwareness.base"
-			data-helpTitle="{{localize 'SR5.HELP_Rating' key=(localize 'SR5.ReputationPublicAwareness')}}"
-			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}"
-			data-helpDetails="system.publicAwareness">
-    {{system.publicAwareness.value}}
+			<div class="col-4 SR-TextRight">
+				<span class="col-auto">{{localize 'SR5.ReputationPublicAwareness'}}{{localize 'SR5.Colons'}}</span>
+				<span class="col-auto changeValueByClick" data-binding="system.publicAwareness.base"
+				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=(localize 'SR5.ReputationPublicAwareness')}}"
+				  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}" data-helpDetails="system.publicAwareness">
+					{{system.publicAwareness.value}}
+				</span>
 			</div>
 		</li>
 	</ul>

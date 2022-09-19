@@ -319,7 +319,7 @@ export class SR5Item extends Item {
 				break;
 			case "itemAdeptPower":
 				tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${itemData.powerPointsCost.value}`);
-				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[data.actionType])}`);
+				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[itemData.actionType])}`);
 				break;
 			case "itemQuality":
 				tags.push(`${game.i18n.localize(lists.qualityTypes[itemData.type])}`);
@@ -414,7 +414,8 @@ export class SR5Item extends Item {
 	}
 
 	async placeGabarit(event) {
-		if (canvas.scene) {
+		let actorPosition = await SR5_EntityHelpers.getActorCanvasPosition(this.parent);
+		if (canvas.scene && actorPosition !==0) {
 			const template = AbilityTemplate.fromItem(this);
 			if (template) await template.drawPreview(event, this);
 		} else if (this.type === "itemWeapon") this.rollTest("weapon");

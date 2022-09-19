@@ -12,7 +12,7 @@
         }
 
         &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
-        &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=ambient-light-config-], &[id^=PlaylistConfig-],
+        &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=AmbientLightConfig-], &[id^=PlaylistConfig-],
         &[id^=support-details], &#keybindings, &.macro-sheet {
             select{
                 border: 1px solid @mainColor;
@@ -281,6 +281,14 @@
                     }
                 }
 
+                input[type="search"]{
+                    font-family: @SR_BodyText;
+                    color: @neutralLightColor;
+                    border: 1px solid @mainColor;
+                    background: fade(@black, 30%);
+                    text-transform: none;
+                }
+
                 input {
                     background: none;
                     color: @neutralLightColor;
@@ -291,6 +299,7 @@
 
                     &:focus, &:hover {
                         box-shadow: 0 0 5px @subColor;
+                        border: 1px solid @subColor;
                     }
 
                     &.image {
@@ -396,6 +405,30 @@
                     }
                 }
 
+                .journal-header {
+                    display: block;
+                }
+
+                ul {
+                    list-style-type: disc;
+                    margin: 0;
+                    padding: 0 0 0 1.5em;
+                }
+
+            }
+
+            .sidebar {
+                background-image:  url(@Sidebar);
+                background-size: cover;
+                background-position: top;
+                background-repeat: repeat;
+            }
+
+            .journal-entry-content {
+                background-image: url(@NoteTop), url(@BGWhite);
+                background-size: auto 90px, cover;
+                background-position: top, top;
+                background-repeat: repeat-x, repeat;
             }
         }
 
@@ -1700,6 +1733,7 @@
     .window-header {
         background: @neutralDarkColor;
     }
+
     .window-content {
         padding: 0;
 
@@ -1715,7 +1749,7 @@
         .dialog-content {
             padding: 8px;
 
-            h3 {
+            h3, h4 {
                 color: @mainColor;
                 text-align: center;
                 border-bottom: 1px solid @mainColor;

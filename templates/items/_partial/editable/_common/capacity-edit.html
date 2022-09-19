@@ -1,7 +1,7 @@
 <li class="grid">
     {{#if system.isAccessory}}
         <div class="col-5">{{localize 'SR5.CapacityUsed'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.capacityTaken.base" value="{{system.capacityTaken.base}}" /></div>
+        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.capacityTaken.base" value="{{system.capacityTaken.base}}" onfocus="this.select()"/></div>
         {{#if system.capacityTaken.multiplier}}
         <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue system.capacityTaken.multiplier this}})</div>
         {{else}}
@@ -9,7 +9,7 @@
         {{/if}}
     {{else}}
         <div class="col-5">{{localize 'SR5.Capacity'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.capacity.base" value="{{system.capacity.base}}" /></div>
+        <div class="col-1 SR-Textleft"><input type="number" data-dtype="Number" name="system.capacity.base" value="{{system.capacity.base}}" onfocus="this.select()"/></div>
         {{#if system.capacity.multiplier}}
         <div class="col-2 SR-Textleft">&nbsp;(x {{findMultiplierValue system.capacity.multiplier this}})</div>
         {{else}}

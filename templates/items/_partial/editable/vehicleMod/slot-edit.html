@@ -1,6 +1,6 @@
 <li class="grid">
     <div class="col-5">{{localize 'SR5.VehicleModSlots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="number" data-dtype="Number" name="system.slots.base" value="{{system.slots.base}}" placeholder="0" /></div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.slots.base" value="{{system.slots.base}}" placeholder="0" onfocus="this.select()"/></div>
     {{#if system.slots.multiplier}}
 		<div class="col-1 SR-Textleft">&nbsp;(x {{findMultiplierValue system.slots.multiplier this}})</div>
         {{else}}

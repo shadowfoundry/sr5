@@ -6,13 +6,13 @@
 <!-- Item Price -->
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Price'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="number" data-dtype="Number" name="system.price.base" value="{{system.price.base}}" placeholder="0" /></div>
+	<div class="col-7"><input type="number" data-dtype="Number" name="system.price.base" value="{{system.price.base}}" placeholder="0" onfocus="this.select()"/></div>
 </li>
 
 <!-- Item Availability -->
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.Availability'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-1"><input type="number" data-dtype="Number" name="system.availability.base" value="{{system.availability.base}}" placeholder="0" /></div>
+	<div class="col-1"><input type="number" data-dtype="Number" name="system.availability.base" value="{{system.availability.base}}" placeholder="0" onfocus="this.select()"/></div>
 	<div class="col-6">
 		<select name="system.legality">
 		{{#select system.legality}}

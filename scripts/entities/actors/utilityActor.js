@@ -775,6 +775,34 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
+	//Handle astral vision
+	static async handleAstralVision(actor){
+		let actorData = actor.system;
+		let effect = await actor.effects.find(e => e.origin === "handleVisionAstral");
+		let astralEffect = await _getSRStatusEffect("handleVisionAstral");
+		let token;
+
+		if (actor.token) {
+
+		} else {
+			token = canvas.scene?.tokens.find((t) => t.actorId === actor.id);
+		}
+
+		if (actorData.visions.astral.isActive){
+			if (!effect){
+				await actor.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
+				if (canvas.scene && token) {
+					await token.updateVisionMode('astralvision');
+				}
+			}
+		} else {
+			if (effect) {
+				await actor.deleteEmbeddedDocuments('ActiveEffect', [effect.id]);
+				//if (canvas.scene) await token.updateVisionMode('basic');
+			}
+		}
+	}
+
 	static async switchVision(actor, vision){
 		let actorData = duplicate(actor.system),
 			currentVision;
@@ -1596,6 +1624,7 @@ export class SR5_CharacterUtility extends Actor {
 			if(previousInitiativeEffect) await previousInitiativeEffect.update(initiativeEffect);
 			else actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
 		}
+		
 	}
 
 	// Generate Actor defense
@@ -1618,6 +1647,7 @@ export class SR5_CharacterUtility extends Actor {
 							switch (actorData.controlMode){
 								case "autopilot":
 									SR5_EntityHelpers.updateModifier(defenses[key],`${game.i18n.localize('SR5.VehicleStat_PilotShort')}`, `${game.i18n.localize('SR5.LinkedAttribute')}`, attributes.pilot.augmented.value);
+									defenses[key].modifiers = defenses[key].modifiers.concat(actor.system.penalties.special.actual.modifiers);
 									break;
 								case "remote":
 								case "manual":
@@ -1891,6 +1921,11 @@ export class SR5_CharacterUtility extends Actor {
 		skills.sneaking.test.modifiers = skills.sneaking.test.modifiers.concat(skills.sneaking.rating.modifiers);
 		skills.perception.test.base = 0;
 		skills.perception.test.modifiers = skills.perception.test.modifiers.concat(skills.perception.rating.modifiers);
+		//Special for autopilot drone
+		if (actorData.controlMode === "autopilot"){
+			skills.sneaking.test.modifiers = skills.sneaking.test.modifiers.concat(actor.system.penalties.special.actual.modifiers);
+			skills.perception.test.modifiers = skills.perception.test.modifiers.concat(actor.system.penalties.special.actual.modifiers);
+		}
 		SR5_EntityHelpers.updateDicePool(skills.sneaking.test, 0);
 		SR5_EntityHelpers.updateDicePool(skills.perception.test, 0);
 		//Update Limits
@@ -1924,6 +1959,7 @@ export class SR5_CharacterUtility extends Actor {
 		switch (actorData.controlMode){
 			case "autopilot":
 				SR5_EntityHelpers.updateModifier(vehicleTest.test, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.pilot.augmented.value);
+				vehicleTest.test.modifiers = vehicleTest.test.modifiers.concat(actor.system.penalties.special.actual.modifiers);
 				break;
 			case "remote":
 				if (actorData.pilotSkill) SR5_EntityHelpers.updateModifier(vehicleTest.test, `${game.i18n.localize('SR5.Controler')}${game.i18n.localize('SR5.Colons')} ${controlerName} (${game.i18n.localize(SR5.pilotSkills[actorData.pilotSkill])})`, game.i18n.localize(SR5.vehicleControlModes[actorData.controlMode]), controlerData.skills[actorData.pilotSkill].test.dicePool);
@@ -1979,6 +2015,7 @@ export class SR5_CharacterUtility extends Actor {
 		switch (actorData.controlMode){
 			case "autopilot":
 				SR5_EntityHelpers.updateModifier(rammingTest.test, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), attributes.pilot.augmented.value);
+				rammingTest.test.modifiers = rammingTest.test.modifiers.concat(actor.system.penalties.special.actual.modifiers);
 				break;
 			case "remote":
 				if (actorData.pilotSkill) SR5_EntityHelpers.updateModifier(rammingTest.test, `${game.i18n.localize('SR5.Controler')}${game.i18n.localize('SR5.Colons')} ${controlerName} (${game.i18n.localize(SR5.pilotSkills[actorData.pilotSkill])})`, game.i18n.localize(SR5.vehicleControlModes[actorData.controlMode]), controlerData.skills[actorData.pilotSkill].test.dicePool);
@@ -2009,8 +2046,8 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 		// Vehicle Slots Calculations
-	static updateModificationsSlots(actor, item){
-		let actorData = actor.system, itemData = item.system;
+	static updateModificationsSlots(actor, itemData){
+		let actorData = actor.system;
 		
 		if (itemData.isActive){
 			switch (itemData.type){
@@ -2038,8 +2075,8 @@ export class SR5_CharacterUtility extends Actor {
 
 
 	// Handle Price Multiplier for itemVehicleMod
-	static handleVehiclePriceMultiplier(actor, item){
-		let actorData = actor.system, itemData = item.system;
+	static handleVehiclePriceMultiplier(actor, itemData){
+		let actorData = actor.system;
 		itemData.vehiclePriceMultiplier.acceleration = actorData.attributes.acceleration.natural.base;
 		itemData.vehiclePriceMultiplier.handling = actorData.attributes.handling.natural.base;
 		itemData.vehiclePriceMultiplier.speed = actorData.attributes.speed.natural.base;
@@ -2049,8 +2086,8 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	// Handle secondary Vehicle attributes for secondary propulsion
-	static handleSecondaryAttributes(actor, item){
-		let actorData = actor.system, attributes = actorData.attributes, itemData = item.system;
+	static handleSecondaryAttributes(actor, itemData){
+		let actorData = actor.system, attributes = actorData.attributes;
 
 		actorData.isSecondaryPropulsion = itemData.secondaryPropulsion.isSecondaryPropulsion ;
 		actorData.secondaryPropulsionType = itemData.secondaryPropulsion.type ;
