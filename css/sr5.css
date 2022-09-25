@@ -2931,6 +2931,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] select,
 .app.window-app[id^=PlaylistConfig-] select,
 .app.window-app[id^=support-details] select,
+.app.window-app[id^=UserConfig-User-] select,
 .app.window-app#keybindings select,
 .app.window-app.macro-sheet select {
   border: 1px solid #931004;
@@ -2951,6 +2952,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] select:focus,
 .app.window-app[id^=PlaylistConfig-] select:focus,
 .app.window-app[id^=support-details] select:focus,
+.app.window-app[id^=UserConfig-User-] select:focus,
 .app.window-app#keybindings select:focus,
 .app.window-app.macro-sheet select:focus {
   box-shadow: 0 0 5px #0c9394;
@@ -2971,6 +2973,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] select::before,
 .app.window-app[id^=PlaylistConfig-] select::before,
 .app.window-app[id^=support-details] select::before,
+.app.window-app[id^=UserConfig-User-] select::before,
 .app.window-app#keybindings select::before,
 .app.window-app.macro-sheet select::before {
   background-color: #000001;
@@ -2990,6 +2993,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] option,
 .app.window-app[id^=PlaylistConfig-] option,
 .app.window-app[id^=support-details] option,
+.app.window-app[id^=UserConfig-User-] option,
 .app.window-app#keybindings option,
 .app.window-app.macro-sheet option {
   background-color: #000001;
@@ -3009,6 +3013,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] option:hover,
 .app.window-app[id^=PlaylistConfig-] option:hover,
 .app.window-app[id^=support-details] option:hover,
+.app.window-app[id^=UserConfig-User-] option:hover,
 .app.window-app#keybindings option:hover,
 .app.window-app.macro-sheet option:hover {
   background-color: #0c9394;
@@ -3028,6 +3033,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] button,
 .app.window-app[id^=PlaylistConfig-] button,
 .app.window-app[id^=support-details] button,
+.app.window-app[id^=UserConfig-User-] button,
 .app.window-app#keybindings button,
 .app.window-app.macro-sheet button,
 .app.window-app.form a.display-mode,
@@ -3045,6 +3051,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] a.display-mode,
 .app.window-app[id^=PlaylistConfig-] a.display-mode,
 .app.window-app[id^=support-details] a.display-mode,
+.app.window-app[id^=UserConfig-User-] a.display-mode,
 .app.window-app#keybindings a.display-mode,
 .app.window-app.macro-sheet a.display-mode {
   position: relative;
@@ -3079,6 +3086,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] button:hover,
 .app.window-app[id^=PlaylistConfig-] button:hover,
 .app.window-app[id^=support-details] button:hover,
+.app.window-app[id^=UserConfig-User-] button:hover,
 .app.window-app#keybindings button:hover,
 .app.window-app.macro-sheet button:hover,
 .app.window-app.form a.display-mode:hover,
@@ -3096,6 +3104,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] a.display-mode:hover,
 .app.window-app[id^=PlaylistConfig-] a.display-mode:hover,
 .app.window-app[id^=support-details] a.display-mode:hover,
+.app.window-app[id^=UserConfig-User-] a.display-mode:hover,
 .app.window-app#keybindings a.display-mode:hover,
 .app.window-app.macro-sheet a.display-mode:hover {
   color: #fffffe;
@@ -3118,6 +3127,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] button:hover:before,
 .app.window-app[id^=PlaylistConfig-] button:hover:before,
 .app.window-app[id^=support-details] button:hover:before,
+.app.window-app[id^=UserConfig-User-] button:hover:before,
 .app.window-app#keybindings button:hover:before,
 .app.window-app.macro-sheet button:hover:before,
 .app.window-app.form a.display-mode:hover:before,
@@ -3135,6 +3145,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] a.display-mode:hover:before,
 .app.window-app[id^=PlaylistConfig-] a.display-mode:hover:before,
 .app.window-app[id^=support-details] a.display-mode:hover:before,
+.app.window-app[id^=UserConfig-User-] a.display-mode:hover:before,
 .app.window-app#keybindings a.display-mode:hover:before,
 .app.window-app.macro-sheet a.display-mode:hover:before {
   left: 0%;
@@ -3156,6 +3167,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] button:before,
 .app.window-app[id^=PlaylistConfig-] button:before,
 .app.window-app[id^=support-details] button:before,
+.app.window-app[id^=UserConfig-User-] button:before,
 .app.window-app#keybindings button:before,
 .app.window-app.macro-sheet button:before,
 .app.window-app.form a.display-mode:before,
@@ -3173,6 +3185,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] a.display-mode:before,
 .app.window-app[id^=PlaylistConfig-] a.display-mode:before,
 .app.window-app[id^=support-details] a.display-mode:before,
+.app.window-app[id^=UserConfig-User-] a.display-mode:before,
 .app.window-app#keybindings a.display-mode:before,
 .app.window-app.macro-sheet a.display-mode:before {
   display: block;
@@ -3202,6 +3215,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="text"],
 .app.window-app[id^=PlaylistConfig-] input[type="text"],
 .app.window-app[id^=support-details] input[type="text"],
+.app.window-app[id^=UserConfig-User-] input[type="text"],
 .app.window-app#keybindings input[type="text"],
 .app.window-app.macro-sheet input[type="text"],
 .app.window-app.form input[type="number"],
@@ -3219,6 +3233,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="number"],
 .app.window-app[id^=PlaylistConfig-] input[type="number"],
 .app.window-app[id^=support-details] input[type="number"],
+.app.window-app[id^=UserConfig-User-] input[type="number"],
 .app.window-app#keybindings input[type="number"],
 .app.window-app.macro-sheet input[type="number"],
 .app.window-app.form input[type="color"],
@@ -3236,6 +3251,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="color"],
 .app.window-app[id^=PlaylistConfig-] input[type="color"],
 .app.window-app[id^=support-details] input[type="color"],
+.app.window-app[id^=UserConfig-User-] input[type="color"],
 .app.window-app#keybindings input[type="color"],
 .app.window-app.macro-sheet input[type="color"] {
   color: #fffffe;
@@ -3257,6 +3273,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="text"]:focus,
 .app.window-app[id^=PlaylistConfig-] input[type="text"]:focus,
 .app.window-app[id^=support-details] input[type="text"]:focus,
+.app.window-app[id^=UserConfig-User-] input[type="text"]:focus,
 .app.window-app#keybindings input[type="text"]:focus,
 .app.window-app.macro-sheet input[type="text"]:focus,
 .app.window-app.form input[type="number"]:focus,
@@ -3274,6 +3291,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="number"]:focus,
 .app.window-app[id^=PlaylistConfig-] input[type="number"]:focus,
 .app.window-app[id^=support-details] input[type="number"]:focus,
+.app.window-app[id^=UserConfig-User-] input[type="number"]:focus,
 .app.window-app#keybindings input[type="number"]:focus,
 .app.window-app.macro-sheet input[type="number"]:focus,
 .app.window-app.form input[type="color"]:focus,
@@ -3291,6 +3309,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="color"]:focus,
 .app.window-app[id^=PlaylistConfig-] input[type="color"]:focus,
 .app.window-app[id^=support-details] input[type="color"]:focus,
+.app.window-app[id^=UserConfig-User-] input[type="color"]:focus,
 .app.window-app#keybindings input[type="color"]:focus,
 .app.window-app.macro-sheet input[type="color"]:focus {
   box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
@@ -3311,6 +3330,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="text"]::placeholder,
 .app.window-app[id^=PlaylistConfig-] input[type="text"]::placeholder,
 .app.window-app[id^=support-details] input[type="text"]::placeholder,
+.app.window-app[id^=UserConfig-User-] input[type="text"]::placeholder,
 .app.window-app#keybindings input[type="text"]::placeholder,
 .app.window-app.macro-sheet input[type="text"]::placeholder,
 .app.window-app.form input[type="number"]::placeholder,
@@ -3328,6 +3348,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="number"]::placeholder,
 .app.window-app[id^=PlaylistConfig-] input[type="number"]::placeholder,
 .app.window-app[id^=support-details] input[type="number"]::placeholder,
+.app.window-app[id^=UserConfig-User-] input[type="number"]::placeholder,
 .app.window-app#keybindings input[type="number"]::placeholder,
 .app.window-app.macro-sheet input[type="number"]::placeholder,
 .app.window-app.form input[type="color"]::placeholder,
@@ -3345,6 +3366,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="color"]::placeholder,
 .app.window-app[id^=PlaylistConfig-] input[type="color"]::placeholder,
 .app.window-app[id^=support-details] input[type="color"]::placeholder,
+.app.window-app[id^=UserConfig-User-] input[type="color"]::placeholder,
 .app.window-app#keybindings input[type="color"]::placeholder,
 .app.window-app.macro-sheet input[type="color"]::placeholder {
   color: #931004;
@@ -3364,6 +3386,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="checkbox"],
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"],
 .app.window-app[id^=support-details] input[type="checkbox"],
+.app.window-app[id^=UserConfig-User-] input[type="checkbox"],
 .app.window-app#keybindings input[type="checkbox"],
 .app.window-app.macro-sheet input[type="checkbox"] {
   position: relative;
@@ -3390,6 +3413,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]::before,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]::before,
 .app.window-app[id^=support-details] input[type="checkbox"]::before,
+.app.window-app[id^=UserConfig-User-] input[type="checkbox"]::before,
 .app.window-app#keybindings input[type="checkbox"]::before,
 .app.window-app.macro-sheet input[type="checkbox"]::before {
   position: relative;
@@ -3419,6 +3443,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked,
 .app.window-app[id^=support-details] input[type="checkbox"]:checked,
+.app.window-app[id^=UserConfig-User-] input[type="checkbox"]:checked,
 .app.window-app#keybindings input[type="checkbox"]:checked,
 .app.window-app.macro-sheet input[type="checkbox"]:checked {
   color: #fffffe;
@@ -3440,6 +3465,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked::before,
 .app.window-app[id^=support-details] input[type="checkbox"]:checked::before,
+.app.window-app[id^=UserConfig-User-] input[type="checkbox"]:checked::before,
 .app.window-app#keybindings input[type="checkbox"]:checked::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked::before {
   opacity: 1;
@@ -3459,6 +3485,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app[id^=support-details] input[type="checkbox"]:checked ~ label::before,
+.app.window-app[id^=UserConfig-User-] input[type="checkbox"]:checked ~ label::before,
 .app.window-app#keybindings input[type="checkbox"]:checked ~ label::before,
 .app.window-app.macro-sheet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -3478,6 +3505,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] h2,
 .app.window-app[id^=PlaylistConfig-] h2,
 .app.window-app[id^=support-details] h2,
+.app.window-app[id^=UserConfig-User-] h2,
 .app.window-app#keybindings h2,
 .app.window-app.macro-sheet h2,
 .app.window-app.form h3,
@@ -3495,6 +3523,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] h3,
 .app.window-app[id^=PlaylistConfig-] h3,
 .app.window-app[id^=support-details] h3,
+.app.window-app[id^=UserConfig-User-] h3,
 .app.window-app#keybindings h3,
 .app.window-app.macro-sheet h3 {
   font-family: "srfoundry_secondary";
@@ -3517,6 +3546,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] h2,
 .app.window-app[id^=PlaylistConfig-] h2,
 .app.window-app[id^=support-details] h2,
+.app.window-app[id^=UserConfig-User-] h2,
 .app.window-app#keybindings h2,
 .app.window-app.macro-sheet h2 {
   text-align: center;
@@ -3539,6 +3569,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] h3,
 .app.window-app[id^=PlaylistConfig-] h3,
 .app.window-app[id^=support-details] h3,
+.app.window-app[id^=UserConfig-User-] h3,
 .app.window-app#keybindings h3,
 .app.window-app.macro-sheet h3 {
   border-bottom: 1px solid #931004;
@@ -3560,6 +3591,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] span.units,
 .app.window-app[id^=PlaylistConfig-] span.units,
 .app.window-app[id^=support-details] span.units,
+.app.window-app[id^=UserConfig-User-] span.units,
 .app.window-app#keybindings span.units,
 .app.window-app.macro-sheet span.units {
   color: #0c9394;
@@ -3579,6 +3611,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] nav,
 .app.window-app[id^=PlaylistConfig-] nav,
 .app.window-app[id^=support-details] nav,
+.app.window-app[id^=UserConfig-User-] nav,
 .app.window-app#keybindings nav,
 .app.window-app.macro-sheet nav {
   border-bottom: 1px solid #0c9394;
@@ -3598,6 +3631,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] nav .item,
 .app.window-app[id^=PlaylistConfig-] nav .item,
 .app.window-app[id^=support-details] nav .item,
+.app.window-app[id^=UserConfig-User-] nav .item,
 .app.window-app#keybindings nav .item,
 .app.window-app.macro-sheet nav .item {
   color: #0c9394;
@@ -3619,6 +3653,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] nav .item.active,
 .app.window-app[id^=PlaylistConfig-] nav .item.active,
 .app.window-app[id^=support-details] nav .item.active,
+.app.window-app[id^=UserConfig-User-] nav .item.active,
 .app.window-app#keybindings nav .item.active,
 .app.window-app.macro-sheet nav .item.active {
   color: #fffffe;
@@ -3641,6 +3676,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] nav .item.active:hover,
 .app.window-app[id^=PlaylistConfig-] nav .item.active:hover,
 .app.window-app[id^=support-details] nav .item.active:hover,
+.app.window-app[id^=UserConfig-User-] nav .item.active:hover,
 .app.window-app#keybindings nav .item.active:hover,
 .app.window-app.macro-sheet nav .item.active:hover {
   border-bottom: none;
@@ -3660,6 +3696,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] nav .item:hover,
 .app.window-app[id^=PlaylistConfig-] nav .item:hover,
 .app.window-app[id^=support-details] nav .item:hover,
+.app.window-app[id^=UserConfig-User-] nav .item:hover,
 .app.window-app#keybindings nav .item:hover,
 .app.window-app.macro-sheet nav .item:hover {
   color: #931004;
@@ -3679,6 +3716,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=PlaylistConfig-] footer button:not(:nth-child(0n+1)),
 .app.window-app[id^=support-details] footer button:not(:nth-child(0n+1)),
+.app.window-app[id^=UserConfig-User-] footer button:not(:nth-child(0n+1)),
 .app.window-app#keybindings footer button:not(:nth-child(0n+1)),
 .app.window-app.macro-sheet footer button:not(:nth-child(0n+1)) {
   margin-left: 10px;
@@ -3698,6 +3736,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content,
 .app.window-app[id^=PlaylistConfig-] .window-content,
 .app.window-app[id^=support-details] .window-content,
+.app.window-app[id^=UserConfig-User-] .window-content,
 .app.window-app#keybindings .window-content,
 .app.window-app.macro-sheet .window-content {
   padding: 8px;
@@ -3721,6 +3760,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content header.form-header,
 .app.window-app[id^=PlaylistConfig-] .window-content header.form-header,
 .app.window-app[id^=support-details] .window-content header.form-header,
+.app.window-app[id^=UserConfig-User-] .window-content header.form-header,
 .app.window-app#keybindings .window-content header.form-header,
 .app.window-app.macro-sheet .window-content header.form-header {
   border-top: none;
@@ -3742,6 +3782,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content .form-header,
 .app.window-app[id^=PlaylistConfig-] .window-content .form-header,
 .app.window-app[id^=support-details] .window-content .form-header,
+.app.window-app[id^=UserConfig-User-] .window-content .form-header,
 .app.window-app#keybindings .window-content .form-header,
 .app.window-app.macro-sheet .window-content .form-header {
   margin-top: 5px;
@@ -3761,6 +3802,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content .notes,
 .app.window-app[id^=PlaylistConfig-] .window-content .notes,
 .app.window-app[id^=support-details] .window-content .notes,
+.app.window-app[id^=UserConfig-User-] .window-content .notes,
 .app.window-app#keybindings .window-content .notes,
 .app.window-app.macro-sheet .window-content .notes {
   color: #0c9394;
@@ -3782,6 +3824,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command],
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command],
 .app.window-app[id^=support-details] .window-content textarea[name=command],
+.app.window-app[id^=UserConfig-User-] .window-content textarea[name=command],
 .app.window-app#keybindings .window-content textarea[name=command],
 .app.window-app.macro-sheet .window-content textarea[name=command] {
   background-color: rgba(147, 16, 4, 0.25);
@@ -3803,6 +3846,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command]:focus,
 .app.window-app[id^=support-details] .window-content textarea[name=command]:focus,
+.app.window-app[id^=UserConfig-User-] .window-content textarea[name=command]:focus,
 .app.window-app#keybindings .window-content textarea[name=command]:focus,
 .app.window-app.macro-sheet .window-content textarea[name=command]:focus {
   border: 1px solid #0c9394;
@@ -3825,6 +3869,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command]::selection,
 .app.window-app[id^=support-details] .window-content textarea[name=command]::selection,
+.app.window-app[id^=UserConfig-User-] .window-content textarea[name=command]::selection,
 .app.window-app#keybindings .window-content textarea[name=command]::selection,
 .app.window-app.macro-sheet .window-content textarea[name=command]::selection {
   background-color: rgba(12, 147, 148, 0.5);
@@ -3844,6 +3889,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=description],
 .app.window-app[id^=PlaylistConfig-] .window-content textarea[name=description],
 .app.window-app[id^=support-details] .window-content textarea[name=description],
+.app.window-app[id^=UserConfig-User-] .window-content textarea[name=description],
 .app.window-app#keybindings .window-content textarea[name=description],
 .app.window-app.macro-sheet .window-content textarea[name=description] {
   color: #fffffe;
@@ -3865,6 +3911,7 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=AmbientLightConfig-] .window-content .command,
 .app.window-app[id^=PlaylistConfig-] .window-content .command,
 .app.window-app[id^=support-details] .window-content .command,
+.app.window-app[id^=UserConfig-User-] .window-content .command,
 .app.window-app#keybindings .window-content .command,
 .app.window-app.macro-sheet .window-content .command {
   margin-bottom: 10px;
@@ -5001,6 +5048,41 @@ input[type=range]:focus::-ms-fill-upper {
   margin-top: 8px;
   border-top: 2px solid #0c9394;
 }
+#characters h3 {
+  background-color: transparent;
+  border-top: 0;
+  border-bottom: 0;
+  position: relative;
+  display: block;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+#characters h3:not(:last-child) {
+  box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
+}
+#characters h3:hover {
+  text-shadow: none;
+  background-color: transparent;
+}
+#characters h3:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+#characters h3:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: calc(100% - 2px);
+  width: 0px;
+  content: '';
+  background: rgba(12, 147, 148, 0.25);
+  background-origin: border-box;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
 #av-config .form-group {
   margin-bottom: 10px;
   padding-bottom: 5px;
@@ -5300,22 +5382,10 @@ input[type=range]:focus::-ms-fill-upper {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  /*&:before {
-                    display: block;
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                    height: calc(100% - 2px);
-                    width: 0px;
-                    z-index: -1;
-                    content: '';
-                    background: fade(@subColor, 25%);
-                    background-origin: border-box;
-                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                }*/
 }
 [id^=app-] .compendium.directory li.directory-item:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
+  flex-wrap: wrap;
 }
 [id^=app-] .compendium.directory li.directory-item:hover {
   text-shadow: none;
@@ -5325,6 +5395,16 @@ input[type=range]:focus::-ms-fill-upper {
   left: 0%;
   right: auto;
   width: 100%;
+}
+[id^=app-] .compendium.directory li.directory-item h4 {
+  flex: 1 0 80%;
+}
+[id^=app-] .compendium.directory li.directory-item .SR-CompendiumSubType {
+  line-height: 15px;
+  color: rgba(255, 255, 254, 0.5);
+  text-align: right;
+  padding-right: 5px;
+  padding-bottom: 3px;
 }
 [id^=app-] .compendium.directory img {
   border: 1px solid #0c9394;

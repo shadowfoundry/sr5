@@ -335,4 +335,25 @@ export class SR5_EntityHelpers {
 		}
 	}
 
+	//Return necessery data to update a token vision mode to Astral
+	static async getAstralVisionData(tokenDocument){
+		if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getAstralVisionData()'`);
+		tokenDocument.sight.visionMode = 'astralvision';
+		tokenDocument.sight.range = 300;
+		tokenDocument.sight.color = "#303c50";
+		tokenDocument.detectionModes.push({
+			id: 'astralvision', enabled: true, range: 100,
+		});
+		return tokenDocument;
+	}
+
+	//Return necessery data to update a token vision mode to Astral
+	static async getBasicVisionData(tokenDocument){
+		if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getBasicVisionData()'`);
+		tokenDocument.sight.visionMode = 'basic';
+		tokenDocument.sight.range = 1;
+		tokenDocument.sight.color = null;
+		tokenDocument.detectionModes = tokenDocument.detectionModes.filter(d => d.id !== 'astralvision');
+		return tokenDocument;
+	}
 }

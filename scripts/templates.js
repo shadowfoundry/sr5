@@ -94,7 +94,6 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/actors/_partials/left-tabs/magicUser/adeptPowerPoint.html",
 		"systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html",
 		"systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html",
-		"systems/sr5/templates/actors/_partials/left-tabs/magicUser/initiation.html",
 		"systems/sr5/templates/actors/_partials/left-tabs/magicUser/reagents.html",
 
 		//Left Tab - Matrix user partials

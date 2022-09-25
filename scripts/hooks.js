@@ -26,6 +26,7 @@ import { _getSRStatusEffect } from "./system/effectsList.js";
 import  SR5TokenHud from "./interface/tokenHud.js";
 import { measureDistances } from "./interface/canvas.js";
 import  SR5SceneConfig  from "./interface/sceneConfig.js";
+import {SR5CompendiumInfo} from "./interface/compendium.js";
 import * as macros from "./interface/macros.js";
 import Migration from "./migration.js";
 
@@ -57,7 +58,6 @@ export const registerHooks = function () {
 		CONFIG.ui.combat = SR5CombatTracker;
 		CONFIG.Token.objectClass = SR5Token;
 		CONFIG.Canvas.visionModes.astralvision = SRVision.astralVision;
-
 		// ACTIVATE HOOKS DEBUG
 		CONFIG.debug.hooks = false;
 
@@ -203,10 +203,11 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("createToken", async function(tokenDocument) {
-		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenDocument.update({"texture.src": tokenDocument.actor.img});
-		if (tokenDocument.actor.system.visions.astral.isActive){
-			tokenDocument.update({sight:{visionMode:'astralvision'}});
-		} else tokenDocument.update({sight:{visionMode:'basic'}});
+		let tokenData = duplicate(tokenDocument);
+		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenData.texture.src = tokenDocument.actor.img;
+		if (tokenDocument.actor.system.visions.astral.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
+		else tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
+		await tokenDocument.update(tokenData);
 	});
 
 	Hooks.on("updateToken", async function(tokenDocument, change) {
@@ -344,4 +345,7 @@ export const registerHooks = function () {
 		}
 	});
 
+	Hooks.on('renderCompendium', async (pack, html, compendiumData) => {
+		SR5CompendiumInfo.onRenderCompendium(pack, html, compendiumData)
+	});
 }

@@ -170,11 +170,11 @@ export class SR5Actor extends Actor {
 		await super._preCreate(data, options, user)
 		let createData = {};
 		mergeObject(createData, {
-			"token.vision": true,
-			"token.dimSight": 100,
-			"token.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER,
-			"token.displayBars": CONST.TOKEN_DISPLAY_MODES.OWNER,
-			"token.name": this.name,
+			"prototypeToken.sight.enabled": true,
+			"prototypeToken.sight.range": 1,
+			"prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER,
+			"prototypeToken.displayBars": CONST.TOKEN_DISPLAY_MODES.OWNER,
+			"prototypeToken.name": this.name,
 		});
 
 		let actorLink = false;
@@ -1662,11 +1662,11 @@ export class SR5Actor extends Actor {
 	//Update the source Item of an external Effect
 	static async linkEffectToSource(actorId, targetItem, effectUuid){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
-				item = await fromUuid(targetItem),
-				newItem = duplicate(item.system);
+			item = await fromUuid(targetItem),
+			newItem = duplicate(item.system);
 
 		if (newItem.duration === "sustained") newItem.isActive = true;
-		if (item.type === "itemAdeptPower") newItem.isActive = true;
+		if (item.type === "itemAdeptPower" || item.type === "itemPower") newItem.isActive = true;
 		newItem.targetOfEffect.push(effectUuid);
 		await item.update({"system": newItem});
 	}

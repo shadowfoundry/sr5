@@ -425,7 +425,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		};
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		//Handle Dice so Nice
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 
@@ -492,16 +492,20 @@ export class SR5_Dice {
 			case "activeSensorTargeting":
 			case "preparationFormula":
 			case "matrixIceAttack":
-			case "spritePower":
-			case "power":				
+			case "spritePower":						
 			case "martialArt":
 			case "ritual":
 			case "passThroughBarrier":
 			case "escapeEngulf":							
 			case "rammingTest":
-				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
-				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
+				break;
+			case "power":
+				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
+				if (cardData.typeSub !== "powerWithDefense") { 
+					if (!cardData.switch?.transferEffect) return;
+					else await SR5_Dice.addSpellInfoToCard(cardData);
+				} else await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
 			case "drainCard":
 				await SR5_Dice.addDrainInfoToCard(cardData);
@@ -860,7 +864,7 @@ export class SR5_Dice {
 		//Roll failed
 		else {
 			if (cardData.type === "spell") label = game.i18n.localize("SR5.SpellCastingFailed");
-			else if (cardData.type === "adeptPower") label = game.i18n.localize("SR5.PowerFailure");
+			else if (cardData.type === "adeptPower" || cardData.type === "power") label = game.i18n.localize("SR5.PowerFailure");
 			else label = game.i18n.localize("SR5.PreparationCreateFailed");
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", label);
 		}
