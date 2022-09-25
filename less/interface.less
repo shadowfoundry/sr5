@@ -13,7 +13,7 @@
 
         &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
         &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=AmbientLightConfig-], &[id^=PlaylistConfig-],
-        &[id^=support-details], &#keybindings, &.macro-sheet {
+        &[id^=support-details], &[id^=UserConfig-User-], &#keybindings, &.macro-sheet {
             select{
                 border: 1px solid @mainColor;
                 color: @neutralLightColor;
@@ -506,6 +506,7 @@
         margin: 0;
     }
 }
+
 #logo {
     content:url(@SRLogo);
     height: 60px;
@@ -744,27 +745,28 @@
     }
   }
 
-  #players {
-      position: fixed;
-  z-index: 71;
-  background-image: none;
-  margin-bottom: 0px;
-  right: 315px;
-  left: auto;
-  bottom: 5px;
-  border: 1px solid @mainColor;
-  border-radius: none;
-  box-shadow: none;
-  background-color: fade(@mainColor, 25%);
-  width: auto;
-  h3 {
-    font-family: @SR_FontTitle;
-    text-transform: uppercase;
-  }
+#players {
+    position: fixed;
+    z-index: 71;
+    background-image: none;
+    margin-bottom: 0px;
+    right: 315px;
+    left: auto;
+    bottom: 5px;
+    border: 1px solid @mainColor;
+    border-radius: none;
+    box-shadow: none;
+    background-color: fade(@mainColor, 25%);
+    width: auto;
+    
+    h3 {
+        font-family: @SR_FontTitle;
+        text-transform: uppercase;
+    }
 
-  ol {
-    font-family: @SR_BodyText;
-  }
+    ol {
+        font-family: @SR_BodyText;
+    }
 }
 
 #sidebar.collapsed ~ #players {
@@ -778,7 +780,6 @@
 }
 
 #controls {
-    
     ol.main-controls {
         //padding-left: 10px;
         width: 55px;
@@ -1651,6 +1652,50 @@
     }
 }
 
+#characters {
+    h3 {
+        background-color: transparent;
+        border-top: 0;
+        border-bottom: 0;
+        position: relative;
+        display: block;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        //z-index: 1;
+
+        &:not(:last-child) {
+            box-shadow: 0 1px 0 fade(@mainColor, 50%);
+        }
+
+        &:hover {
+            text-shadow: none;
+            background-color: transparent;
+        }
+
+        &:hover:before {
+            left: 0%;
+            right: auto;
+            width: 100%;
+        }
+
+        &:before {
+            display: block;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            height: calc(100% - 2px);
+            width: 0px;
+            //z-index: -1;
+            content: '';
+            background: fade(@subColor, 25%);
+            background-origin: border-box;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+        }
+    }
+}
+
 #av-config {
     .form-group {
         margin-bottom: 10px;
@@ -2015,6 +2060,7 @@
 
                 &:not(:last-child) {
                 box-shadow: 0 1px 0 fade(@mainColor, 50%);
+                flex-wrap: wrap;
                 }
 
                 &:hover {
@@ -2028,19 +2074,17 @@
                     width: 100%;
                 }
 
-                /*&:before {
-                    display: block;
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                    height: calc(100% - 2px);
-                    width: 0px;
-                    z-index: -1;
-                    content: '';
-                    background: fade(@subColor, 25%);
-                    background-origin: border-box;
-                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                }*/
+                h4{
+                    flex: 1 0 80%;
+                }
+
+                .SR-CompendiumSubType{
+                    line-height: 15px;
+                    color: fade(@neutralLightColor, 50%);
+                    text-align: right;
+                    padding-right: 5px;
+                    padding-bottom: 3px;
+                }
             }
 
             img {

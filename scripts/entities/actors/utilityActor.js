@@ -780,7 +780,7 @@ export class SR5_CharacterUtility extends Actor {
 		let actorData = actor.system;
 		let effect = await actor.effects.find(e => e.origin === "handleVisionAstral");
 		let astralEffect = await _getSRStatusEffect("handleVisionAstral");
-		let token;
+		let token, tokenData;
 
 		if (actor.token) {
 
@@ -788,17 +788,22 @@ export class SR5_CharacterUtility extends Actor {
 			token = canvas.scene?.tokens.find((t) => t.actorId === actor.id);
 		}
 
+		if (token) tokenData = duplicate(token);
 		if (actorData.visions.astral.isActive){
 			if (!effect){
 				await actor.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
 				if (canvas.scene && token) {
-					await token.updateVisionMode('astralvision');
+					tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
+					await token.update(tokenData);
 				}
 			}
 		} else {
 			if (effect) {
 				await actor.deleteEmbeddedDocuments('ActiveEffect', [effect.id]);
-				//if (canvas.scene) await token.updateVisionMode('basic');
+				if (canvas.scene && token){
+					tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
+					await token.update(tokenData);
+				}
 			}
 		}
 	}
@@ -3298,8 +3303,8 @@ export class SR5_CharacterUtility extends Actor {
 		let itemData = item.system;
 		for (let customEffect of Object.values(itemData.customEffects)) {
 			let skipCustomEffect = false,
-					cumulative = customEffect.cumulative,
-					isMultiplier = false;
+				cumulative = customEffect.cumulative,
+				isMultiplier = false;
 
 			if (!customEffect.target || !customEffect.type) {
 				SR5_SystemHelpers.srLog(3, `Empty custom effect target or type in applyCustomEffects()`, customEffect);

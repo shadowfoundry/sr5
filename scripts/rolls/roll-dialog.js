@@ -72,12 +72,12 @@ export default class SR5_RollDialog extends Dialog {
             actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
             item = actor.items.find(i => i.id === this.data.data.itemId);
 
-        if (html.find('[data-modifier="firingMode"]')[0].value === "SS"){
+        if (html.find('[data-modifier="firingMode"]')[0].value === "SS" || html.find('[data-modifier="firingMode"]')[0].value === "SF"){
             firingModeValue = 0;
             $(html).find(".hideBulletsRecoil").hide();
         } else firingModeValue = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
 
-        this.data.data.firedAmmo = firingModeValue;
+        this.data.data.firedAmmo = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
         html.find('[name="recoilBullets"]')[0].value = firingModeValue;
         html.find('[name="recoilCumulative"]')[0].value = actor.flags.sr5?.cumulativeRecoil || 0;
         if (item.system.recoilCompensation.value < 1) $(html).find(".hideWeaponRecoil").hide();
@@ -144,7 +144,7 @@ export default class SR5_RollDialog extends Dialog {
             if (dialogData.typeSub === "physical"){
                 html.find('[name="extendedTime"]')[0].value = "day";
             }
-            this._onToggleExtendedTest(true, dialogData)
+            $(html).find('#extendedBlock').show();
         }
 
         //Toggle hidden div

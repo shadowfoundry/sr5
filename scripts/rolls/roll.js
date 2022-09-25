@@ -1621,6 +1621,7 @@ export class SR5_Roll {
                     "sceneData.backgroundCount": backgroundCount,
                     "sceneData.backgroundAlignement": backgroundAlignement,
                     "lists.extendedInterval": actor.system.lists.extendedInterval,
+                    "itemUuid": item.uuid,
                 }
 
                 if (itemData.defenseFirstAttribute && itemData.defenseSecondAttribute){
@@ -1631,7 +1632,6 @@ export class SR5_Roll {
                         defenseSecondAttribute: itemData.defenseSecondAttribute || 0,
                         "sceneData.backgroundCount": backgroundCount,
                         "sceneData.backgroundAlignement": backgroundAlignement,
-                        "itemUuid": item.uuid,
                     });
                 }
 

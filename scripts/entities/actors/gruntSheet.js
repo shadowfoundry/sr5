@@ -140,7 +140,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		else if (i.type === "itemSpirit") spirits.push(i);
 		else if (i.type === "itemDevice") cyberdecks.push(i);
 		else if (i.type === "itemProgram") {
-			if (i.data.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
+			if (i.system.isActive === true || this._shownInactiveMatrixPrograms) programs.push(i);
 		}
 		else if (i.type === "itemVehicle") vehicles.push(i);
 		else if (i.type === "itemVehicleMod") vehiclesMod.push(i);

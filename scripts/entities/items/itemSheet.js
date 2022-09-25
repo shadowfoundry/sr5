@@ -206,7 +206,7 @@ export class SR5ItemSheet extends ItemSheet {
 			
 			let details = $(event.currentTarget).attr("data-helpDetails");
 			if (details) {
-				property = SR5_EntityHelpers.resolveObjectPath(`item.data.${details}`, this);
+				property = SR5_EntityHelpers.resolveObjectPath(`item.system.${details}`, this);
 			}
 		
 			if (property) {
