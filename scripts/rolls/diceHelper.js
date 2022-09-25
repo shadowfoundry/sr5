@@ -506,7 +506,7 @@ export class SR5_DiceHelper {
 
     //Apply Full defense effect to an actor
     static async applyFullDefenseEffect(actor){
-        let effect = await _getSRStatusEffect("fullDefenseMode");
+        let effect = await _getSRStatusEffect("fullDefense");
         actor.createEmbeddedDocuments("ActiveEffect", [effect]);
     }
 
@@ -1159,8 +1159,7 @@ export class SR5_DiceHelper {
     static async jackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
         await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
-        let statusEffect = actor.effects.find(e => e.origin === "linkLock");
-        if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+        await SR5_EntityHelpers.deleteEffectOnActor(actor, "linkLock");
     }
 
     static async eraseMarkChoice(messageData){

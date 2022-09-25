@@ -512,8 +512,7 @@ export class SR5Combat extends Combat {
 					//Delete effect if duration < 0;
 					if (itemData.duration <= 0){
 						await actor.deleteEmbeddedDocuments("Item", [item.id]);
-						let statusEffect = actor.effects.find(e => e.origin === item.system.type);
-        				if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+						await SR5_EntityHelpers.deleteEffectOnActor(actor, item.system.type);
 						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`);
 					} else {
 						await item.update({system: itemData});
@@ -572,8 +571,7 @@ export class SR5Combat extends Combat {
 
 		//Remove full defense effect
 		if (actor.effects.find(e => e.origin === "fullDefense")){
-			let effectToRemove = actor.effects.find(e => e.origin === "fullDefense")
-			await actor.deleteEmbeddedDocuments("ActiveEffect", [effectToRemove.id]);
+			await SR5_EntityHelpers.deleteEffectOnActor(actor, "fullDefense");
 			ui.notifications.info(`${combatant.name} ${game.i18n.localize("SR5.INFO_FullDefenseEnd")}`);
 		}
 

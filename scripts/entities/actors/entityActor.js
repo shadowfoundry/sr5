@@ -171,7 +171,7 @@ export class SR5Actor extends Actor {
 		let createData = {};
 		mergeObject(createData, {
 			"prototypeToken.sight.enabled": true,
-			"prototypeToken.sight.range": 1,
+			"prototypeToken.sight.range": 0,
 			"prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER,
 			"prototypeToken.displayBars": CONST.TOKEN_DISPLAY_MODES.OWNER,
 			"prototypeToken.name": this.name,

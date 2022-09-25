@@ -380,8 +380,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (event.ctrlKey) {
 			if ( item ) {
 				await item.delete();
-				let statusEffect = this.actor.effects.find(e => e.origin === item.system.type);
-				if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+				await SR5_EntityHelpers.deleteEffectOnActor(this.actor, item.system.type);
 				return
 			}
 		} else {
@@ -391,8 +390,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				yes: () => {
 					item.delete();
 					if (item.type === "itemEffect"){
-						let statusEffect = this.actor.effects.find(e => e.origin === item.system.type);
-						if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+						SR5_EntityHelpers.deleteEffectOnActor(this.actor, item.system.type);
 					}
 				},
 			});
@@ -983,8 +981,7 @@ export class ActorSheetSR5 extends ActorSheet {
 	async _onStopJamming(event){
 		event.preventDefault();
 		let jammingItem = this.actor.items.find(i => i.system.type === "signalJam");
-		let statusEffect = this.actor.effects.find(e => e.origin === "signalJam");
-		if (statusEffect) await this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
 		await this.actor.deleteEmbeddedDocuments("Item", [jammingItem.id]);
+		await SR5_EntityHelpers.deleteEffectOnActor(this.actor, "signalJam");
 	}
 }

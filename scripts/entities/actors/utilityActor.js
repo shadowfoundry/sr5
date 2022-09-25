@@ -778,8 +778,6 @@ export class SR5_CharacterUtility extends Actor {
 	//Handle astral vision
 	static async handleAstralVision(actor){
 		let actorData = actor.system;
-		let effect = await actor.effects.find(e => e.origin === "handleVisionAstral");
-		let astralEffect = await _getSRStatusEffect("handleVisionAstral");
 		let token, tokenData;
 
 		if (actor.token) {
@@ -790,20 +788,16 @@ export class SR5_CharacterUtility extends Actor {
 
 		if (token) tokenData = duplicate(token);
 		if (actorData.visions.astral.isActive){
-			if (!effect){
-				await actor.createEmbeddedDocuments('ActiveEffect', [astralEffect]);
-				if (canvas.scene && token) {
-					tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
-					await token.update(tokenData);
-				}
+			await SR5_EntityHelpers.addEffectToActor(actor, "astralVision");
+			if (canvas.scene && token) {
+				tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
+				await token.update(tokenData);
 			}
 		} else {
-			if (effect) {
-				await actor.deleteEmbeddedDocuments('ActiveEffect', [effect.id]);
-				if (canvas.scene && token){
-					tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
-					await token.update(tokenData);
-				}
+			await SR5_EntityHelpers.deleteEffectOnActor(actor, "astralVision");
+			if (canvas.scene && token){
+				tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
+				await token.update(tokenData);
 			}
 		}
 	}

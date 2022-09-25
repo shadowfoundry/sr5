@@ -1056,6 +1056,7 @@ export class SR5_Roll {
                     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(spellPosition, defenserPosition);
                     //modify the damage based on distance and damage dropoff.
                     if (chatData.spellArea < distance) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
+                    optionalData = mergeObject(optionalData, {spellRange: chatData.spellRange});
                 }
 
                 //Spell damage source
@@ -1108,6 +1109,7 @@ export class SR5_Roll {
                     "activeDefenses.parryBlades": actorData.skills?.blades?.rating.value  || 0,
                     damageContinuous: chatData.damageContinuous,
                     damageOriginalValue: chatData.damageOriginalValue,
+                    targetRangeInMeters: chatData.targetRangeInMeters,
                 });
                 break;
 
@@ -1124,6 +1126,7 @@ export class SR5_Roll {
                 typeSub = itemData.category;
                 testType = "opposedTest";
                 rollType = "attack";
+                let distance = 0;
 
                 //Handle type of weapons for Called Shots
                 if (itemData.type === "unarmed" || itemData.type === "exoticMeleeWeapon" || itemData.type === "exoticRangedWeapon"){                    
@@ -1189,7 +1192,7 @@ export class SR5_Roll {
                         });
                     }
                     //Calcul distance between Attacker and Target
-                    let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(attacker, target);
+                    distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(attacker, target);
                     //Handle Melee specifics
                     if (itemData.category === "meleeWeapon") {
                         optionalData = mergeObject(optionalData, {
@@ -1221,6 +1224,7 @@ export class SR5_Roll {
                     damageElement: itemData.damageElement,
                     incomingPA: itemData.armorPenetration.value,
                     targetRange: rangeValue,
+                    targetRangeInMeters: distance,
                     rc: recoilCompensation,
                     actorRecoil: actorData.recoilCompensation.value,
                     actorRecoilCumulative: actor.flags.sr5.cumulativeRecoil,
