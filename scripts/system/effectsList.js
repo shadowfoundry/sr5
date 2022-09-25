@@ -43,10 +43,10 @@ export const _getSRStatusEffect = async function(origin, value) {
                 },
             }
 
-        case "handleVisionAstral":
+        case "astralVision":
             return effect = {
                 label: game.i18n.localize("SR5.AstralPerception"),
-                origin: "handleVisionAstral",
+                origin: "astralVision",
                 icon: "systems/sr5/img/status/StatusAstralVisionOn.svg",
                 flags: {
                     core: {
@@ -54,7 +54,31 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "astralVision"
                     }
                 },
-            }           
+            }
+        case "cover":
+            return effect = {
+                label: game.i18n.localize("SR5.Cover"),
+                origin: "cover",
+                icon: "systems/sr5/img/status/StatusCover.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "cover"
+                    }
+                },
+            }
+        case "coverFull":
+            return effect = {
+                label: game.i18n.localize("SR5.CoverFull"),
+                origin: "coverFull",
+                icon: "systems/sr5/img/status/StatusCoverFull.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "coverFull"
+                    }
+                },
+            }
         case "fireDamage":
             return effect = {
                 label: game.i18n.localize("SR5.CatchFire"),
@@ -91,7 +115,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
-        case "fullDefenseMode":
+        case "fullDefense":
             return effect = {
                 label: game.i18n.localize("SR5.FullDefense"),
                 origin: "fullDefense",

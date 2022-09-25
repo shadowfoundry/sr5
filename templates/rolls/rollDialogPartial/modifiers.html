@@ -2,15 +2,15 @@
 <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
     <div class="col-11">
         {{localize 'SR5.Modifiers'}}
-        <a class="SR-DialogToggle" data-target="dicePoolModifier" data-action="show" style="display: none;"><i class="fas fa-angle-down SR-SubColor"></i></a>
-		<a class="SR-DialogToggle" data-target="dicePoolModifier" data-action="hide"><i class="fas fa-angle-up SR-SubColor"></i></a>
+        <a class="SR-DialogToggle" data-target="dicePoolModifier" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
+		<a class="SR-DialogToggle" data-target="dicePoolModifier" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
     </div>
     <div class="col-1 SR-TextCenter">
 		<input disabled type="number" name="dicePoolModifiers" value="0" data-dtype="Number" placeholder="0" />
 	</div>
 </li>
 
-<div id="dicePoolModifier">
+<div id="dicePoolModifier" style="display: none;">
     <!-- ATTRIBUTE CHOICE -->
     {{#if switch.attribute}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
@@ -32,6 +32,11 @@
     <!-- ENVIRONMENTAL MODIFIERS -->
     {{#if (and (eq type "attack") (eq typeSub "rangedWeapon")) }}
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
+    {{/if}}
+
+    <!-- ATTACK - VARIOUS RANGED MODIFIERS -->
+	{{#if (eq typeSub "rangedWeapon")}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangedModifier.html}}
     {{/if}}
 
     <!-- SPECIFIC SKILL TEST -->

@@ -4279,6 +4279,9 @@ input[type=range]:focus::-ms-fill-upper {
   background-position-y: bottom;
   background-size: 650px;
 }
+#ui-middle {
+  position: static;
+}
 #hotbar {
   height: 65px;
   padding-top: 15px;

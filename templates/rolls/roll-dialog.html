@@ -12,6 +12,7 @@
 		{{#if (ne type "passThroughDefense")}}
 	  		{{> systems/sr5/templates/rolls/rollDialogPartial/modifiers.html}}
 		{{/if}}
+		
 
 	  	<!-- ATTACK -->
 	  	{{#if (eq type "attack")}}
@@ -35,6 +36,7 @@
         		<!-- CALLED SHOTS -->
         		{{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
         	{{/if}}
+			
 			<!-- ATTACK - AMMO -->
 			{{#if (and (eq type "attack") (eq typeSub "rangedWeapon") )}}
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}

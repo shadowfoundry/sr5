@@ -230,7 +230,7 @@ export class SR5_RollMessage {
                         originalActionActor = SR5_EntityHelpers.getRealActorFromID(messageData.attackerId);
                         await originalActionActor.applyCalledShotsEffect(messageData);
                     } else await actor.applyCalledShotsEffect(messageData);
-                    //SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
                 case "applyFearEffect":
                 case "applyStunnedEffect":

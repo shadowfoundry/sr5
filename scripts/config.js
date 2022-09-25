@@ -2860,6 +2860,27 @@ SR5.dicePoolModTypes = {
 	plansMaterial             : "SR5.PlansMaterial",
 	workingFromMemory         : "SR5.WorkingFromMemory",
 	calledShot                : "SR5.CS_CalledShot",
+	defenseInMelee 			  : "SR5.DefenseModInMeleeTargetedByRange",
+	defenseInsideVehicle      : "SR5.DefenseModInsideMovingVehicle",
+	defenseProne 			  : "SR5.DefenseModProne",
+	defenseProneClose    	  : "SR5.DefenseModProneAndAttackerClose",
+	defenseProneFar 		  : "SR5.DefenseModProneAndAttackerFar",
+	defenseReceivingCharge    : "SR5.DefenseModReceivingCharge",
+	defenseRunning            : "SR5.DefenseModRunning",
+	defenseTargetedByArea     : "SR5.DefenseModTargetedByAreaEffect",
+	attackCharge              : "SR5.AttackModCharge",
+	attackFriendsInMelee      : "SR5.AttackModFriendsInMelee",
+	attackOpponentProne       : "SR5.AttackModOpponentProne",
+	attackProne               : "SR5.AttackModProne",
+	attackSuperiorPosition    : "SR5.AttackModSuperiorPosition",
+	attackTouchOnly           : "SR5.AttackModTouchOnly",
+	attackWrongHand 		  : "SR5.AttackModUsingWrongHand",
+	attackBlindFire 		  : "SR5.AttackModBlindFire",
+	attackInMelee   		  : "SR5.AttackModInMelee",
+	attackFromVehicle 		  : "SR5.AttackModFiringFromVehicle",
+	attackWithImagingDevice	  : "SR5.AttackModFiringWithImagingDevice",
+	attackIsRunning 		  : "SR5.AttackModRunning",
+	attackTakeAim   		  : "SR5.AttackModTakeAim",
 }
 
 SR5.drainModTypes = {
@@ -3009,6 +3030,7 @@ SR5.statusEffects = [
 		icon: "systems/sr5/img/status/StatusProneOn.svg",
 		id: "prone",
 		label: "SR5.STATUSES_Prone",
+		origin: "prone",
 	},
 	{
 		icon: "systems/sr5/img/status/StatusFullDefense.svg",
@@ -3026,6 +3048,18 @@ SR5.statusEffects = [
 			}
 		},
 		origin: "noAction"
+	},
+	{
+		icon: "systems/sr5/img/status/StatusCover.svg",
+		id: "cover",
+		label: "SR5.Cover",
+		origin: "cover"
+	},
+	{
+		icon: "systems/sr5/img/status/StatusCoverFull.svg",
+		id: "coverFull",
+		label: "SR5.CoverFull",
+		origin: "coverFull"
 	},
 ];
 

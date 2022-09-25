@@ -1,5 +1,6 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
+import { _getSRStatusEffect } from "../system/effectsList.js"
 
 export class SR5_EntityHelpers {
 
@@ -351,9 +352,24 @@ export class SR5_EntityHelpers {
 	static async getBasicVisionData(tokenDocument){
 		if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getBasicVisionData()'`);
 		tokenDocument.sight.visionMode = 'basic';
-		tokenDocument.sight.range = 1;
+		tokenDocument.sight.range = 0;
 		tokenDocument.sight.color = null;
 		tokenDocument.detectionModes = tokenDocument.detectionModes.filter(d => d.id !== 'astralvision');
 		return tokenDocument;
 	}
+
+	//Add Effect to actor
+    static async addEffectToActor(actor, effect){
+        let hasEffect = actor.effects.find(e => e.origin === effect);
+        if (hasEffect) return SR5_SystemHelpers.srLog(3, `Effect "${effect}" already on`);
+        let effectToAdd = await _getSRStatusEffect(effect);
+		await actor.createEmbeddedDocuments('ActiveEffect', [effectToAdd]);
+    }
+
+    //Delete Effect on actor
+    static async deleteEffectOnActor(actor, effect){
+        let effectToRemove = actor.effects.find(e => e.origin === effect);
+        if (effectToRemove) await actor.deleteEmbeddedDocuments('ActiveEffect', [effectToRemove.id]);
+        else SR5_SystemHelpers.srLog(3, `No effect "${effect}" to delete`);
+    }
 }
