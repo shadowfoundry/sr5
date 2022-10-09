@@ -7,13 +7,6 @@
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
 {{/if}}
 
-{{#if (eq typeSub 'meleeWeapon')}}
-    <!-- ENVIRONMENTAL MODIFIERS -->
-    {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
-    <!-- DEFENSE - REACH & Others-->
-    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
-{{/if}}
-
 <!-- ACTIVE DEFENSE -->
 {{#if (or (eq typeSub "meleeWeapon")(eq typeSub "ramming"))}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
@@ -39,5 +32,3 @@
 {{#if defenseFull}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
 {{/if}}
-
-{{log this}}

@@ -7,7 +7,20 @@ export default class SR5Template extends MeasuredTemplate {
 
 	static fromItem(item) {
 		let target = 0;
-		if (item.system.category === "grenade") target = item.system.blast.radius;
+		let flags = {};
+		flags.sr5= {
+			"item": item.id,
+			"itemUuid": item.uuid,
+		}
+		if (item.system.category === "grenade") {
+			target = item.system.blast.radius;
+			for (let e of Object.values(item.system.customEffects)){
+				if (e.category === "environmentalModifiers" && e.transfer){
+					let modifierType = e.target.replace('system.itemsProperties.environmentalMod.','');
+					flags.sr5.environmentalModifiers = {[modifierType]: e.value,}
+				}
+			}
+		}
 		if (item.type === "itemSpell" || item.type === "itemPreparation") target = item.system.spellAreaOfEffect.value;
 		if (item.system.type === "grenadeLauncher" || item.system.type === "missileLauncher") target = item.system.blast.radius;
 		const templateShape = "circle";
@@ -16,7 +29,7 @@ export default class SR5Template extends MeasuredTemplate {
 		// Prepare template data
 		const templateData = {
 			t: templateShape,
-			flags: { ["item"]: item.id },
+			flags: flags,
 			user: game.user.id,
 			distance: target,
 			direction: 0,

@@ -60,7 +60,7 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleItemAvailability(itemData);
 				break;
 			case "itemPreparation":
-				if (owner) SR5_UtilityItem._handlePreparation(item);
+				if (owner) SR5_UtilityItem._handlePreparation(item, owner);
 				break;
 			case "itemRitual":
 				if (owner) SR5_UtilityItem._handleRitual(item, owner);
@@ -89,7 +89,7 @@ export class SR5Item extends Item {
 				if (itemData.isWeaponMounted) SR5_UtilityItem._handleWeaponMounted(item);
 				SR5_UtilityItem._handleSlotsMultiplier(itemData);
 				SR5_UtilityItem._handleThresholdMultiplier(itemData);
-			break;
+				break;
 			case "itemArmor":
 			case "itemGear":
 				if (item.type === "itemGear"){

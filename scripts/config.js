@@ -880,6 +880,11 @@ SR5.calledShotsSpecifics = {
 	shakeRattle               : "SR5.CS_AS_ShakeRattle",
 }
 
+SR5.calledShotsAll = {
+	...SR5.calledShots,
+	...SR5.calledShotsSpecifics,
+}
+
 // Called Shots Effects
 SR5.calledShotsEffects = {
 	slowed                   : "SR5.STATUSES_Slowed",
@@ -2715,6 +2720,9 @@ SR5.effectTypes = {
 	calledShot                : "SR5.CS_CalledShot",
 	onPinsAndNeedles          : "SR5.STATUSES_OnPinsAndNeedles",
 	prone                     : "SR5.STATUSES_Prone",
+	visibility				  : "SR5.EnvironmentalModVisibility",
+	areaEffect				  : "SR5.AreaEffect",
+	backgroundCount			  : "SR5.SceneBackgroundCount",
 }
 
 SR5.effectDuration = {
@@ -2896,6 +2904,7 @@ SR5.limitModTypes = {
 	various                   : "SR5.LimitModifiers",
 	perception                : "SR5.SkillPerceptionType",
 	healingSupplies           : "SR5.HealingSupplies",
+	backgroundCount			  : "SR5.SceneBackgroundCount",
 }
 
 //-----------------------------------//
@@ -3001,9 +3010,74 @@ SR5.sourceList = {
 };
 
 //-----------------------------------//
-//          STATUS EFFECTS           //
+//          MODIFIERS TYPE           //
 //-----------------------------------//
 
+SR5.modifiersTypes = {
+	adeptPower				  : "SR5.AdeptPower",
+	ammunitionType 			  : "SR5.AmmunitionType",
+	armor 					  : "SR5.Armor",
+	armorAccessory			  : "SR5.ArmorAccessory",
+	augmentations 			  : "SR5.Augmentations",
+	augmentationGrade		  : "SR5.AugmentationGrade",
+	areaEffect 				  : "SR5.AreaEffect",
+	armorAccessory			  : "SR5.ArmorAccessory",
+	armorEncumbrance		  : "SR5.ArmorEncumbrance",
+	armorMain 				  : "SR5.Armor",
+	astralPlane				  : "SR5.AstralPlane",
+	concentration 			  : "SR5.Concentration",
+	controler 				  : "SR5.Controler",
+	controlerProgram		  : "SR5.ControlerProgram",
+	controleMode			  : "SR5.ControlMode",
+	customCyberlimb			  : "SR5.CutomCyberlimb",
+	device 					  : "SR5.Device",
+	deviceRating 			  : "SR5.DeviceRating",
+	drainModifier			  : "SR5.DrainModifier",
+	hardenedArmor 			  : "SR5.HardenedArmor",
+	hardenedAstralArmor 	  : "SR5.HardenedAstalArmor",
+	itemRating				  : "SR5.ItemRating",
+	karma 					  : "SR5.Karma",
+	level 					  : "SR5.Level",
+	lifeStyleOption 		  : "SR5.LifestyleOption",
+	linkedAttribute 		  : "SR5.LinkedAttribute",
+	matrixAttribute 		  : "SR5.MatrixAttribute",
+	matrixUserMode 			  : "SR5.MatrixUserMode",
+	metatype				  : "SR5.Metatype",
+	metamagic 				  : "SR5.Metamagic",
+	module					  : "SR5.CommlinkModule",
+	multiplier   			  : "SR5.Multiplier",
+	notoriety 				  : "SR5.ReputationNotoriety",
+	penaltycondition		  : "SR5.PenaltyDamage",
+	penaltydamage 			  : "SR5.PenaltyDamage",
+	penaltymagic	   		  : "SR5.PenaltyValueMagic",
+	penaltymatrix			  : "SR5.PenaltyValueMatrix",
+	penaltyspecial		  	  : "SR5.PenaltyValueSpecial",
+	possession 				  : "SR5.Possession",
+	program 				  : "SR5.Program",
+	specialization 			  : "SR5.Skill",
+	skillRating				  : "SR5.SkillRating",
+	skillGroup 				  : "SR5.SkillGroup",
+	spell 					  : "SR5.Spell",
+	spiritType                : "SR5.SpiritType",
+	spriteType 				  : "SR5.SpriteType",
+	vehicleMod				  : "SR5.VehicleMod",
+	visionType				  : "SR5.VisionType",
+	weaponAccessory 		  : "SR5.WeaponAccessory",
+};
+
+SR5.modifierTypes = {
+	...SR5.itemTypes,
+	...SR5.vehicleControlModes,
+	...SR5.vehicleModType,
+	...SR5.actorTypes,
+	...SR5.traditionTypes,
+	...SR5.matrixAttributes,
+	...SR5.modifiersTypes,
+};
+
+//-----------------------------------//
+//          STATUS EFFECTS           //
+//-----------------------------------//
 
 SR5.statusEffects = [
 	{

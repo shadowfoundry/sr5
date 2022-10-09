@@ -747,28 +747,21 @@ export class ActorSheetSR5 extends ActorSheet {
 				if (property.modifiers && property.modifiers.length) {
 					if (property.base) detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationBase')}${game.i18n.localize('SR5.Colons')} ${property.base}</li>`;
 					for (let modifier of Object.values(property.modifiers)) {
-						if (modifier.type === "armorAccessory") modifier.type = game.i18n.localize('SR5.ArmorAccessory');
-						if (modifier.type === "armorMain") modifier.type = game.i18n.localize('SR5.Armor');
-						if (modifier.value != undefined)
-							detailsHTML = detailsHTML + `<li>${modifier.source} [${modifier.type}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.value >= 0 ? '+' : ''))}${modifier.value}</li>`;
-						else
-							detailsHTML = detailsHTML + `<li>${modifier.source} [${modifier.type}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.dicePool >= 0 ? '+' : ''))}${modifier.dicePool}</li>`;
+						if (modifier.value != undefined) detailsHTML = detailsHTML + `<li>${modifier.source} [${game.i18n.localize(SR5.modifierTypes[modifier.type])}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.value >= 0 ? '+' : ''))}${modifier.value}</li>`;
+						else detailsHTML = detailsHTML + `<li>${modifier.source} [${game.i18n.localize(SR5.modifierTypes[modifier.type])}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.dicePool >= 0 ? '+' : ''))}${modifier.dicePool}</li>`;
 					}
 				}
-					if (property.value != undefined)
-						detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.value}</li></ul>`;
-					else
-						detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.dicePool}</li></ul>`;
-					document.querySelector("#sr5helpDetails").innerHTML = detailsHTML;
+				if (property.value != undefined) detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.value}</li></ul>`;
+				else detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.dicePool}</li></ul>`;
+				document.querySelector("#sr5helpDetails").innerHTML = detailsHTML;
 			}
 			target.classList.add("active");
 		}
 	}
+
 	async _hideHelpText() {
 		let target = document.querySelector("#sr5help");
-		if (target) {
-			target.classList.remove("active");
-		}
+		if (target) target.classList.remove("active");
 	}
 
 	//Handle controler choice of a drone / Vehicle

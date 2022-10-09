@@ -295,6 +295,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateVehicleSlots(actor);
 				break;
 			case "actorSpirit":
+				SR5_CharacterUtility.updateBackgroundCount(actor);
 				SR5_CharacterUtility.updateSpiritValues(actor);
 				SR5_CharacterUtility.updateSpiritAttributes(actor);
 				SR5_CharacterUtility.updateAttributes(actor);
@@ -337,6 +338,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateEssence(actor);
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
 				SR5_CharacterUtility.updateSpecialProperties(actor);
+				SR5_CharacterUtility.updateBackgroundCount(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
 				SR5_CharacterUtility.updateLimits(actor);
@@ -413,8 +415,8 @@ export class SR5Actor extends Actor {
 					SR5_UtilityItem._handleItemConcealment(iData);
 					SR5_UtilityItem._handleArmorValue(iData);
 					if (iData.isActive) {
-						if (iData.isCumulative) modifierType = game.i18n.localize("SR5.ArmorAccessory");
-						else modifierType = game.i18n.localize("SR5.Armor");
+						if (iData.isCumulative) modifierType = "armorAccessory";
+						else modifierType = "armor";
 						if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.armor, `${i.name}`, modifierType, iData.armorValue.value);
 						if (!iData.isAccessory && actor.system.resistances.fall) SR5_EntityHelpers.updateModifier(actor.system.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
 						if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
@@ -699,6 +701,7 @@ export class SR5Actor extends Actor {
 				case "itemAdeptPower":
 				case "itemVehicle":
 				case "itemMartialArt":
+				case "itemPreparation":
 					i.prepareData();
 					break;
 			}
@@ -710,7 +713,7 @@ export class SR5Actor extends Actor {
 		SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
 	}
 
-	//Apply Damae to actor
+	//Apply Damage to actor
 	async takeDamage(options) {
 		let damage = options.damageValue,
 				damageType = options.damageType,

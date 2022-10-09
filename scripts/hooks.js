@@ -26,6 +26,7 @@ import { _getSRStatusEffect } from "./system/effectsList.js";
 import  SR5TokenHud from "./interface/tokenHud.js";
 import { measureDistances } from "./interface/canvas.js";
 import  SR5SceneConfig  from "./interface/sceneConfig.js";
+import  SR5MeasuredTemplateConfig  from "./interface/measuredTemplateConfig.js";
 import {SR5CompendiumInfo} from "./interface/compendium.js";
 import * as macros from "./interface/macros.js";
 import Migration from "./migration.js";
@@ -58,6 +59,7 @@ export const registerHooks = function () {
 		CONFIG.ui.combat = SR5CombatTracker;
 		CONFIG.Token.objectClass = SR5Token;
 		CONFIG.Canvas.visionModes.astralvision = SRVision.astralVision;
+		//CONFIG.MeasuredTemplate.sheetClasses.SRTest = SR5MeasuredTemplateConfig;
 		// ACTIVATE HOOKS DEBUG
 		CONFIG.debug.hooks = false;
 
@@ -99,6 +101,10 @@ export const registerHooks = function () {
 			makeDefault: true
 		});
 		DocumentSheetConfig.registerSheet(Scene, "SR5", SR5SceneConfig, {
+			makeDefault: true
+		})
+		//DocumentSheetConfig.unregisterSheet("core", MeasuredTemplateConfig);
+		DocumentSheetConfig.registerSheet(MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {
 			makeDefault: true
 		})
 
@@ -163,6 +169,14 @@ export const registerHooks = function () {
 		SR5_UiModifications.addHelpWindow();
 	});
 
+	Hooks.once('canvasReady', data => {
+		for (let token of data.tokens.ownedTokens){
+			if (token.document.actorLink && (token.scene.flags.sr5.backgroundCountValue !== 0)){
+				token.document.actor.prepareData();
+			}
+		}
+	});
+
 	Hooks.on("renderChatMessage", (app, html, data) => {
 		if (!app.isRoll) SR5_RollMessage.chatListeners(html, data);
 		if (app.isRoll) html[0].classList.add("SRCustomMessage");
@@ -211,7 +225,10 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("updateToken", async function(tokenDocument, change) {
-		if (change.x || change.y) SR5_EffectArea.tokenAura(tokenDocument);
+		if (change.x || change.y) {
+			SR5_EffectArea.tokenAura(tokenDocument);
+			SR5_EffectArea.templateEffect(tokenDocument);
+		}
 	});
 
 	Hooks.on("preDeleteToken", (scene, token) => {
@@ -347,5 +364,13 @@ export const registerHooks = function () {
 
 	Hooks.on('renderCompendium', async (pack, html, compendiumData) => {
 		SR5CompendiumInfo.onRenderCompendium(pack, html, compendiumData)
+	});
+
+	Hooks.on('refreshMeasuredTemplate', async (template) => {
+		await SR5_EffectArea.initiateTemplateEffect(template);
+	});
+
+	Hooks.on('destroyMeasuredTemplate', async (template) => {
+		await SR5_EffectArea.removeTemplateEffect(template);
 	});
 }

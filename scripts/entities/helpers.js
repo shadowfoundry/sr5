@@ -372,4 +372,37 @@ export class SR5_EntityHelpers {
         if (effectToRemove) await actor.deleteEmbeddedDocuments('ActiveEffect', [effectToRemove.id]);
         else SR5_SystemHelpers.srLog(3, `No effect "${effect}" to delete`);
     }
+
+	//Generate itemEffect
+	static async generateItemEffect(name, type, owner, target, value, duration, durationType){
+        let effect = {
+            name: name,
+            type: "itemEffect",
+            system : {
+                type : type,
+                ownerID: owner.id,
+                ownerName: owner.name,
+                target: target,
+                value: value,
+				duration: duration,
+                durationType: durationType,
+                customEffects: [],
+                itemEffects: [],
+                systemEffects: [],
+            },
+        }
+        return effect;
+    }
+
+	//Generate customEffect data
+    static async generateCustomEffect(category, target, type, value, forceAdd){
+        let customEffect = {
+            "category": category,
+            "target": target,
+            "type": type,
+            "value": value,
+            "forceAdd": forceAdd,
+        }
+        return customEffect;
+    }
 }

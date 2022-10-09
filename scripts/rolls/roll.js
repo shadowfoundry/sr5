@@ -147,7 +147,7 @@ export class SR5_Roll {
             case "knowledgeSkill":
                 title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + item.name}`;
                 dicePool = itemData.value;
-                itemData.modifiers.unshift({source: item.name, type: game.i18n.localize("SR5.SkillRating"), value: itemData.base});
+                itemData.modifiers.unshift({source: item.name, type: "skillRating", value: itemData.base});
                 dicePoolComposition = itemData.modifiers;
                 optionalData = {
                     "switch.specialization": true,
@@ -200,6 +200,12 @@ export class SR5_Roll {
                             "lists.spiritTypes": actor.system.lists.spiritTypes,
                             force: actorData.specialAttributes.magic.augmented.value,
                         });
+                        if (actorData.magic.bgCount.value > 0){
+                            optionalData = mergeObject(optionalData, {
+                                "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                                "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                            });
+                        }
                         canBeExtended = false;
                         break;
                     default:
@@ -213,8 +219,6 @@ export class SR5_Roll {
                     "switch.specialization": true,
                     "switch.canUseReagents": canUseReagents,
                     limitType: skill.limit.base,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
                 });
 
                 if (chatData?.opposedSkillTest) {
@@ -764,7 +768,7 @@ export class SR5_Roll {
                 dicePoolComposition = matrixAction.defense.modifiers;
                 typeSub = rollKey;
                 optionalData = {defenseFull: actorData.specialProperties.fullDefenseValue || 0,}
-            break;
+                break;
 
             case "matrixDefense":
                 if (actor.type === "actorSpirit") return;
@@ -1157,6 +1161,7 @@ export class SR5_Roll {
                 let rangeValue = "short";
                 //Get actor and target position and calcul range modifiers
                 if (canvas.scene){
+                    let areaEffect = {visibility:0, light:0, glare:0, wind:0}
                     //Get attacker position
                     let attacker = SR5_EntityHelpers.getActorCanvasPosition(actor);
                     //Handle Targets
@@ -1164,8 +1169,20 @@ export class SR5_Roll {
                     if (game.user.targets.size) {
                         //For now, only allow one target for attack;
                         if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
-                        //Get target actor type
+                        //Get target actor
                         targetActor = await SR5_Roll.getTargetedActor();
+                        //check if actor is in a template effect
+                        let targetActorItems = targetActor.items.filter(i => i.type === "itemEffect" && i.system.type === "areaEffect");
+                        for (let i of targetActorItems){
+                            //Check if current actors is not inside the same area effect
+                            if (!actor.items.find(actorItem => actorItem.system.ownerID === i.system.ownerID)){
+                                //iterate through customEffects and add modifiers to areaEffect variable
+                                for (let e of i.system.customEffects){
+                                    if (e.category === "environmentalModifiers") areaEffect[e.target.slice(40)] = e.value;
+                                }
+                            }
+                        }
+                        //Add actor type and ID to chatMessage                        
                         optionalData = mergeObject(optionalData, {
                             targetActorType: targetActor.type,
                             targetActorId: targetActor.id,
@@ -1200,7 +1217,7 @@ export class SR5_Roll {
                             attackerStrength: actor.system.attributes.strength.augmented.value,
                         });
                         if (distance > (itemData.reach.value + 1)) ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
-                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true);
+                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, true, areaEffect);
                     } else { 
                     // Handle weapon ranged based on distance
                         if (distance < itemData.range.short.value) rangeValue = "short";
@@ -1211,7 +1228,7 @@ export class SR5_Roll {
                             if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
                             return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
                         }
-                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, false);
+                        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(activeScene, actorData, false, areaEffect);
                     }
                 }
 
@@ -1311,12 +1328,19 @@ export class SR5_Roll {
                     limitType: "force",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
                     "switch.canUseReagents": canUseReagents,
                     "switch.specialization": true,
                     itemUuid: item.uuid,
                 }
+
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
+                }
+
                 if (itemData.range === "area"){
                     optionalData = mergeObject(optionalData, {"templatePlace": true,});
                     //Spell Shaping metamagic
@@ -1426,10 +1450,16 @@ export class SR5_Roll {
                     force: 1,
                     itemUuid: item.uuid,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
                     "switch.canUseReagents": canUseReagents,
                     "switch.specialization": true,
+                }
+
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
                 }
                 break;
 
@@ -1447,9 +1477,15 @@ export class SR5_Roll {
                     spellCategory: itemData.category,
                     spellResisted: itemData.resisted,
                     force: itemData.force,
-                    "sceneData.backgroundCount" : backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
                     itemUuid: item.uuid,
+                }
+
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
                 }
 
                 if (itemData.range === "area") optionalData = mergeObject(optionalData, {"templatePlace": true,});
@@ -1502,8 +1538,14 @@ export class SR5_Roll {
                     drainType: "stun",
                     force: actorData.specialAttributes.magic.augmented.value,
                     actorMagic: actorData.specialAttributes.magic.augmented.value,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
+                }
+
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
                 }
 
                 //Check if a spirit can aid sorcery
@@ -1622,10 +1664,16 @@ export class SR5_Roll {
 
                 optionalData = {
                     "switch.extended": true,
-                    "sceneData.backgroundCount": backgroundCount,
-                    "sceneData.backgroundAlignement": backgroundAlignement,
                     "lists.extendedInterval": actor.system.lists.extendedInterval,
                     "itemUuid": item.uuid,
+                }
+
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
                 }
 
                 if (itemData.defenseFirstAttribute && itemData.defenseSecondAttribute){
@@ -1634,8 +1682,6 @@ export class SR5_Roll {
                         typeSub: "powerWithDefense",
                         defenseFirstAttribute: itemData.defenseFirstAttribute || 0,
                         defenseSecondAttribute: itemData.defenseSecondAttribute || 0,
-                        "sceneData.backgroundCount": backgroundCount,
-                        "sceneData.backgroundAlignement": backgroundAlignement,
                     });
                 }
 
@@ -1668,64 +1714,64 @@ export class SR5_Roll {
                 }
                 break;
 
-                case "martialArtDefense":
-                    let firstLabel, secondLabel, firstType, secondType;
-                    let martialArtItem = await fromUuid(chatData.itemUuid);
-                    if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
-                    title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${martialArtItem.name}`;
-                    
-                    if (Object.keys(SR5.characterAttributes).find(e => e === chatData.defenseFirstAttribute)){
-                        firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
-                        firstLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]);
-                        firstType = game.i18n.localize('SR5.LinkedAttribute');
-                    } else {
-                        firstAttribute = actorData.skills[chatData.defenseFirstAttribute].rating.value;
-                        firstLabel = game.i18n.localize(SR5.skills[chatData.defenseFirstAttribute]);
-                        firstType = game.i18n.localize('SR5.Skill');
-                    }
-                    if (Object.keys(SR5.characterAttributes).find(e => e === chatData.defenseSecondAttribute)){
-                        secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
-                        secondLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseSecondAttribute]);
-                        secondType = game.i18n.localize('SR5.LinkedAttribute');
-                    } else {
-                        secondAttribute = actorData.skills[chatData.defenseSecondAttribute].rating.value;                        
-                        secondLabel = game.i18n.localize(SR5.skills[chatData.defenseSecondAttribute]);
-                        secondType = game.i18n.localize('SR5.Skill');
-                    }
+            case "martialArtDefense":
+                let firstLabel, secondLabel, firstType, secondType;
+                let martialArtItem = await fromUuid(chatData.itemUuid);
+                if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
+                title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${martialArtItem.name}`;
 
-                    dicePoolComposition = ([
-                        {source: firstLabel, type: firstType, value: firstAttribute},
-                        {source: secondLabel, type: secondType, value: secondAttribute},
-                    ]);
-                    dicePool = firstAttribute + secondAttribute;
-                    optionalData = {
-                        hits: chatData.test.hits,
-                        defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
-                    }
+                if (Object.keys(SR5.characterAttributes).find(e => e === chatData.defenseFirstAttribute)){
+                    firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
+                    firstLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]);
+                    firstType = game.i18n.localize('SR5.LinkedAttribute');
+                } else {
+                    firstAttribute = actorData.skills[chatData.defenseFirstAttribute].rating.value;
+                    firstLabel = game.i18n.localize(SR5.skills[chatData.defenseFirstAttribute]);
+                    firstType = game.i18n.localize('SR5.Skill');
+                }
+                if (Object.keys(SR5.characterAttributes).find(e => e === chatData.defenseSecondAttribute)){
+                    secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
+                    secondLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseSecondAttribute]);
+                    secondType = game.i18n.localize('SR5.LinkedAttribute');
+                } else {
+                    secondAttribute = actorData.skills[chatData.defenseSecondAttribute].rating.value;                                             
+                    secondLabel = game.i18n.localize(SR5.skills[chatData.defenseSecondAttribute]);
+                    secondType = game.i18n.localize('SR5.Skill');
+                }
+
+                dicePoolComposition = ([
+                    {source: firstLabel, type: firstType, value: firstAttribute},
+                    {source: secondLabel, type: secondType, value: secondAttribute},
+                ]);
+                dicePool = firstAttribute + secondAttribute;
+                optionalData = {
+                    hits: chatData.test.hits,
+                    defenseFull: actorData.attributes?.willpower?.augmented.value || 0,
+                }
     
-                    if (chatData.switch?.transferEffect){
-                        optionalData = mergeObject(optionalData, {"switch.transferEffect": true,});
-                        let martialArtData = martialArtItem.system;
-                        //Check if an effect is transferable on taget actor and give the necessary infos
-                        for (let e of Object.values(martialArtData.customEffects)){
-                            if (e.transfer) {
-                                optionalData = mergeObject(optionalData, {
-                                    "itemUuid": martialArtItem.uuid,
-                                    "switch.transferEffect": true,
-                                });
-                            }
-                        }
-                        //Check if an effect is transferable on target item and give the necessary infos
-                        for (let e of Object.values(martialArtData.itemEffects)){
-                            if (e.transfer) {
-                                optionalData = mergeObject(optionalData, {
-                                    "itemUuid": martialArtItem.uuid,
-                                    "switch.transferEffectOnItem": true,
-                                });
-                            }
+                if (chatData.switch?.transferEffect){
+                    optionalData = mergeObject(optionalData, {"switch.transferEffect": true,});
+                    let martialArtData = martialArtItem.system;
+                    //Check if an effect is transferable on taget actor and give the necessary infos
+                    for (let e of Object.values(martialArtData.customEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": martialArtItem.uuid,
+                                "switch.transferEffect": true,
+                            });
                         }
                     }
-                    break;
+                    //Check if an effect is transferable on target item and give the necessary infos
+                    for (let e of Object.values(martialArtData.itemEffects)){
+                        if (e.transfer) {
+                            optionalData = mergeObject(optionalData, {
+                                "itemUuid": martialArtItem.uuid,
+                                "switch.transferEffectOnItem": true,
+                            });
+                        }
+                    }
+                }
+                break;
 
             case "powerDefense":
                 let powerItem = await fromUuid(chatData.itemUuid);
@@ -1954,6 +2000,13 @@ export class SR5_Roll {
                     "switch.extended": true,
                     "lists.extendedInterval": actor.system.lists.extendedInterval,
                 }
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
+                }
                 break;
 
             case "passThroughBarrier":
@@ -1962,6 +2015,13 @@ export class SR5_Roll {
                 dicePoolComposition = actorData.magic.passThroughBarrier.modifiers;
                 limitType = "astral";
                 limit = actorData.limits.astralLimit.value;
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
+                }
                 break;
 
             case "passThroughDefense":
@@ -1970,6 +2030,13 @@ export class SR5_Roll {
                 optionalData = {
                     hits: chatData.test.hits,
                     manaBarrierRating: 1,
+                }
+                //Background count limit modifier
+                if (actorData.magic.bgCount.value > 0){
+                    optionalData = mergeObject(optionalData, {
+                        "limitMod.backgroundCount.value": actorData.magic.bgCount.value,
+                        "limitMod.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
+                    });
                 }
                 break;
 
