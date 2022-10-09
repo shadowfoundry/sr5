@@ -413,11 +413,11 @@ export class SR5Item extends Item {
 		
 	}
 
-	async placeGabarit(event) {
+	async placeGabarit(event, messageId) {
 		let actorPosition = await SR5_EntityHelpers.getActorCanvasPosition(this.parent);
 		if (canvas.scene && actorPosition !==0) {
 			const template = AbilityTemplate.fromItem(this);
-			if (template) await template.drawPreview(event, this);
+			if (template) await template.drawPreview(event, this, messageId);
 		} else if (this.type === "itemWeapon") this.rollTest("weapon");
 		if (this.actor.sheet._element) {
 			if (this.isOwner && this.actor.sheet) this.actor.sheet.minimize();

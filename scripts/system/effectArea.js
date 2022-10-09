@@ -142,6 +142,7 @@ export class SR5_EffectArea {
             environmentalEffect, noiseEffect, magicEffect, customEffect, hasItem, sourceItem;
 
         for (let t of scene.templates){
+            if (!t.flags.sr5) return;
             let templateObject = t._object;
             if (templateObject.shape.contains(token.center.x - templateObject.x, token.center.y - templateObject.y)) {
                 let sourceName = game.i18n.localize("SR5.AreaEffect");
@@ -198,6 +199,22 @@ export class SR5_EffectArea {
                         if (!hasItem) await actor.createEmbeddedDocuments("Item", [magicEffect]);
                     }
                 }
+                //Other effects
+                if (t.flags.sr5.itemHasEffect){
+                    hasItem = actor.items.find(i => i.type === "itemEffect" && i.system.ownerID === t.id);
+                    //Check if effect is not already on
+                    if (!hasItem){
+                        //Build necessary data to apply effect
+                        let data = {
+                            itemUuid: t.flags.sr5.itemUuid,
+                            actorId : t.id,
+                            ownerName: sourceItem.actor.name,
+                            test: {hits: sourceItem.system.hits},
+                        }
+                        //Apply effect to actor
+                        await actor.applyExternalEffect(data, "customEffects");
+                    }
+                }
             } else {
                 for (let item of actor.items){
                     if (item.type === "itemEffect" && item.system.ownerID === t.id) await actor.deleteEmbeddedDocuments("Item", [item.id]);
@@ -209,11 +226,12 @@ export class SR5_EffectArea {
 
     //Add effect on a token when a template is created
     static async initiateTemplateEffect(template){
-        if (template.actorSheet) return;
-        if (!template.document.flags.sr5?.environmentalModifiers) return;
-        
+        if (template.alpha !== 1) return;
+        if (!template.document.flags.sr5?.environmentalModifiers && !template.document.flags.sr5?.itemHasEffect) return;
+
         for (let t of template.document.parent.tokens){
             if (!t._object) continue;
+            if (!template.shape) continue;
             if (template.shape.contains(t._object.center.x - template.x, t._object.center.y - template.y)) {
                 await this.templateEffect(t);
             }
@@ -222,7 +240,7 @@ export class SR5_EffectArea {
 
     //Remove effect on tokens when template is deleted
     static async removeTemplateEffect(template){
-        if (!template.document.flags.sr5?.environmentalModifiers) return;
+        if (!template.document.flags.sr5?.environmentalModifiers && !template.document.flags.sr5?.itemHasEffect) return;
         for (let t of template.document.parent.tokens){
             let actor = await SR5_EntityHelpers.getRealActorFromID(t.id);
             if (!actor) return;

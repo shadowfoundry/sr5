@@ -1,4 +1,3 @@
-// Test d'attribut simple
 import { SR5 } from "../config.js";
 import { SR5_Dice } from "./dice.js";
 import { SR5_RollMessage } from "./roll-message.js";
@@ -131,7 +130,7 @@ export class SR5_Roll {
                 else title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.allAttributes[rollKey])}`;
                 dicePool = actorData.attributes[rollKey]?.augmented.value;
                 if (dicePool === undefined) dicePool = actorData.specialAttributes[rollKey].augmented.value;
-                dicePoolComposition = ([{source: game.i18n.localize(SR5.allAttributes[rollKey]), type: game.i18n.localize("SR5.LinkedAttribute"), value: dicePool},]);
+                dicePoolComposition = ([{source: game.i18n.localize(SR5.allAttributes[rollKey]), type: "linkedAttribute", value: dicePool},]);
                 optionalData = {
                     "lists.characterAttributes": actor.system.lists.characterAttributes,
                     "lists.vehicleAttributes": actor.system.lists.vehicleAttributes,
@@ -233,8 +232,8 @@ export class SR5_Roll {
                         dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.charisma.augmented.value;
                         limit = actorData.limits.socialLimit.value;
                         dicePoolComposition = ([
-                            {source: game.i18n.localize("SR5.Charisma"), type: game.i18n.localize("SR5.LinkedAttribute"), value: actorData.attributes.charisma.augmented.value},
-                            {source: game.i18n.localize("SR5.SkillPerception"), type: game.i18n.localize("SR5.Skill"), value: actorData.skills[rollKey].rating.value },
+                            {source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value},
+                            {source: game.i18n.localize("SR5.SkillPerception"), type: "skillRating", value: actorData.skills[rollKey].rating.value },
                         ]);
                         optionalData = mergeObject(optionalData, {limitType : "socialLimit",});
                     }
@@ -243,8 +242,8 @@ export class SR5_Roll {
                         title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.hits + ")"}`;
                         dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value;
                         dicePoolComposition = ([
-                            {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize("SR5.LinkedAttribute"), value: actorData.attributes.willpower.augmented.value},
-                            {source: game.i18n.localize("SR5.SkillPerception"), type: game.i18n.localize("SR5.Skill"), value: actorData.skills[rollKey].rating.value },
+                            {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value},
+                            {source: game.i18n.localize("SR5.SkillPerception"), type: "skillRating", value: actorData.skills[rollKey].rating.value },
                         ]);
                     }
 
@@ -252,8 +251,8 @@ export class SR5_Roll {
                         title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize("SR5.Charisma") + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.hits + ")"}`;
                         dicePool = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value;
                         dicePoolComposition = ([
-                            {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize("SR5.LinkedAttribute"), value: actorData.attributes.willpower.augmented.value},
-                            {source: game.i18n.localize("SR5.Charisma"), type: game.i18n.localize("SR5.LinkedAttribute"), value: actorData.attributes.charisma.augmented.value},
+                            {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value},
+                            {source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value},
                         ]);
                         limit = 0;
                         optionalData = mergeObject(optionalData, {
@@ -700,8 +699,8 @@ export class SR5_Roll {
                 iceFirstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value || 0;
                 iceSecondAttribute = actorData.matrix.attributes[chatData.defenseSecondAttribute].value || 0;
                 dicePoolComposition = ([
-                    {source: game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: iceFirstAttribute},
-                    {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseSecondAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: iceSecondAttribute},
+                    {source: game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]), type: "linkedAttribute", value: iceFirstAttribute},
+                    {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseSecondAttribute]), type: "matrixAttribute", value: iceSecondAttribute},
                 ]);
                 dicePool = iceFirstAttribute + iceSecondAttribute;
                 let deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive);
@@ -784,8 +783,8 @@ export class SR5_Roll {
                         title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
                         dicePool = targetItem.system.deviceRating * 2 || 0;
                         dicePoolComposition = ([
-                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.system.deviceRating},
-                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.system.deviceRating},
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: targetItem.system.deviceRating},
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: targetItem.system.deviceRating},
                         ]);
                     } else {
                         let panMaster = SR5_EntityHelpers.getRealActorFromID(targetItem.system.panMaster);
@@ -793,8 +792,8 @@ export class SR5_Roll {
                         if (targetItem.system.deviceRating * 2 > panMasterDefense){
                             dicePool = targetItem.system.deviceRating;
                             dicePoolComposition = ([
-                                {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.system.deviceRating},
-                                {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: targetItem.system.deviceRating},
+                                {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: targetItem.system.deviceRating},
+                                {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: targetItem.system.deviceRating},
                             ]);
                         } else {
                             dicePool = panMasterDefense;
@@ -827,8 +826,8 @@ export class SR5_Roll {
                         title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
                         dicePool = matrixTargetItem.system.deviceRating * 2;
                         dicePoolComposition = ([
-                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: matrixTargetItem.system.deviceRating},
-                            {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: matrixTargetItem.system.deviceRating},
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},
+                            {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},
                         ]);
                     }
                     optionalData = mergeObject(optionalData, {
@@ -1021,8 +1020,8 @@ export class SR5_Roll {
                 if (chatData.firingMode === "SF"){
                     dicePool = actorData.attributes.reaction.augmented.value + (actorData.specialAttributes?.edge?.augmented?.value || 0);
                     dicePoolComposition = [
-                        {source: game.i18n.localize("SR5.Reaction"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.reaction.augmented.value},
-                        {source: game.i18n.localize("SR5.Edge"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.specialAttributes?.edge?.augmented?.value || 0)},
+                        {source: game.i18n.localize("SR5.Reaction"), type: "linkedAttribute", value: actorData.attributes.reaction.augmented.value},
+                        {source: game.i18n.localize("SR5.Edge"), type: "linkedAttribute", value: (actorData.specialAttributes?.edge?.augmented?.value || 0)},
                     ]
                     cover = false;
                     optionalData = mergeObject(optionalData, {firingMode: "SF",});
@@ -1350,11 +1349,11 @@ export class SR5_Roll {
                 if (!itemData.resisted){
                     //Check if an effect is transferable on taget actor and give the necessary infos
                     for (let e of Object.values(itemData.customEffects)){
+                        //If spell has area effect, effect will be automatically applied by canvas template
                         if (e.transfer) {
-                            optionalData = mergeObject(optionalData, {
-                                "itemUuid": item.uuid,
-                                "switch.transferEffect": true,
-                            });
+                            optionalData = mergeObject(optionalData, {"itemUuid": item.uuid,});
+                            if (itemData.range !== "area") optionalData = mergeObject(optionalData, {"switch.transferEffect": true,});
+                            continue;
                         }
                     }
 
@@ -1403,8 +1402,8 @@ export class SR5_Roll {
                     firstAttribute = actorData.attributes[spellData.defenseFirstAttribute].augmented.value;
                     secondAttribute = actorData.attributes[spellData.defenseSecondAttribute].augmented.value;
                     dicePoolComposition = ([
-                        {source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: firstAttribute},
-                        {source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: secondAttribute},
+                        {source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute},
+                        {source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), type: "linkedAttribute", value: secondAttribute},
                     ]);
                     dicePool = firstAttribute + secondAttribute;
                 }
@@ -1608,31 +1607,31 @@ export class SR5_Roll {
                     defenseAttribute = actorData.matrix.deviceRating;
                     defenseMatrixAttribute = actorData.matrix.attributes[chatData.defenseMatrixAttribute].value;
                     dicePoolComposition = ([
-                        {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: defenseAttribute},
-                        {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: defenseMatrixAttribute},
+                        {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: defenseAttribute},
+                        {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: "matrixAttribute", value: defenseMatrixAttribute},
                     ]);
                 } else {
                     if (actorData.attributes[chatData.defenseAttribute]){
                         defenseAttribute = actorData.attributes[chatData.defenseAttribute].augmented.value;
                         defenseMatrixAttribute = actorData.matrix.attributes[chatData.defenseMatrixAttribute].value;
                         dicePoolComposition = ([
-                            {source: game.i18n.localize(SR5.allAttributes[chatData.defenseAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: defenseAttribute},
-                            {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: defenseMatrixAttribute},
+                            {source: game.i18n.localize(SR5.allAttributes[chatData.defenseAttribute]), type: "linkedAttribute", value: defenseAttribute},
+                            {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: "matrixAttribute", value: defenseMatrixAttribute},
                         ]);
                     } else {
                         if (actor.type === "actorDrone" && actorData.slaved && actorData.vehicleOwner.id !== "") {
                             defenseAttribute = actorData.vehicleOwner.system.attributes[chatData.defenseAttribute].augmented.value;
                             defenseMatrixAttribute = actorData.vehicleOwner.system.matrix.attributes[chatData.defenseMatrixAttribute].value;
                             dicePoolComposition = ([
-                                {source: game.i18n.localize(SR5.allAttributes[chatData.defenseAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: defenseAttribute},
-                                {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: defenseMatrixAttribute},
+                                {source: game.i18n.localize(SR5.allAttributes[chatData.defenseAttribute]), type: "linkedAttribute", value: defenseAttribute},
+                                {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: "matrixAttribute", value: defenseMatrixAttribute},
                             ]);
                         } else {
                             defenseAttribute = actorData.matrix.deviceRating;
                             defenseMatrixAttribute = actorData.matrix.attributes[chatData.defenseMatrixAttribute].value;
                             dicePoolComposition = ([
-                                {source: game.i18n.localize("SR5.DeviceRating"), type: game.i18n.localize('SR5.LinkedAttribute'), value: defenseAttribute},
-                                {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: game.i18n.localize('SR5.MatrixAttribute'), value: defenseMatrixAttribute},
+                                {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: defenseAttribute},
+                                {source: game.i18n.localize(SR5.matrixAttributes[chatData.defenseMatrixAttribute]), type: "matrixAttribute", value: defenseMatrixAttribute},
                             ]);
                         }
                     }
@@ -1723,20 +1722,20 @@ export class SR5_Roll {
                 if (Object.keys(SR5.characterAttributes).find(e => e === chatData.defenseFirstAttribute)){
                     firstAttribute = actorData.attributes[chatData.defenseFirstAttribute].augmented.value;
                     firstLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]);
-                    firstType = game.i18n.localize('SR5.LinkedAttribute');
+                    firstType = "linkedAttribute";
                 } else {
                     firstAttribute = actorData.skills[chatData.defenseFirstAttribute].rating.value;
                     firstLabel = game.i18n.localize(SR5.skills[chatData.defenseFirstAttribute]);
-                    firstType = game.i18n.localize('SR5.Skill');
+                    firstType = "skillRating";
                 }
                 if (Object.keys(SR5.characterAttributes).find(e => e === chatData.defenseSecondAttribute)){
                     secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
                     secondLabel = game.i18n.localize(SR5.allAttributes[chatData.defenseSecondAttribute]);
-                    secondType = game.i18n.localize('SR5.LinkedAttribute');
+                    secondType = "linkedAttribute";
                 } else {
                     secondAttribute = actorData.skills[chatData.defenseSecondAttribute].rating.value;                                             
                     secondLabel = game.i18n.localize(SR5.skills[chatData.defenseSecondAttribute]);
-                    secondType = game.i18n.localize('SR5.Skill');
+                    secondType = "skillRating";
                 }
 
                 dicePoolComposition = ([
@@ -1782,8 +1781,8 @@ export class SR5_Roll {
                 if (chatData.defenseSecondAttribute === "edge" || chatData.defenseecondAttribute === "magic" || chatData.defenseSecondAttribute === "resonance") secondAttribute = actorData.specialAttributes[chatData.defenseSecondAttribute].augmented.value;
                 else secondAttribute = actorData.attributes[chatData.defenseSecondAttribute].augmented.value;
                 dicePoolComposition = ([
-                    {source: game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: firstAttribute},
-                    {source: game.i18n.localize(SR5.allAttributes[chatData.defenseSecondAttribute]), type: game.i18n.localize('SR5.LinkedAttribute'), value: secondAttribute},
+                    {source: game.i18n.localize(SR5.allAttributes[chatData.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute},
+                    {source: game.i18n.localize(SR5.allAttributes[chatData.defenseSecondAttribute]), type: "linkedAttribute", value: secondAttribute},
                 ]);
                 dicePool = firstAttribute + secondAttribute;
                 optionalData = {
@@ -1928,10 +1927,10 @@ export class SR5_Roll {
                 if (actor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
                 title = game.i18n.localize("SR5.ResistDecompiling"); 
                 dicePool = actorData.level;
-                dicePoolComposition = [{source: game.i18n.localize("SR5.Level"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.level}];
+                dicePoolComposition = [{source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actorData.level}];
                 if (actorData.isRegistered) {
                     dicePool += actorData.compilerResonance;
-                    dicePoolComposition.push({source: game.i18n.localize("SR5.SpriteCompilerResonance"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.compilerResonance});
+                    dicePoolComposition.push({source: game.i18n.localize("SR5.SpriteCompilerResonance"), type: "linkedAttribute", value: actorData.compilerResonance});
                 }
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
@@ -1944,8 +1943,8 @@ export class SR5_Roll {
                 title = game.i18n.localize("SR5.ResistRegistering"); 
                 dicePool = actorData.level * 2;
                 dicePoolComposition = [
-                    {source: game.i18n.localize("SR5.Level"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.level},
-                    {source: game.i18n.localize("SR5.Level"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.level},
+                    {source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actorData.level},
+                    {source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actorData.level},
                 ];
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
@@ -1958,8 +1957,8 @@ export class SR5_Roll {
                 title = game.i18n.localize("SR5.ResistBinding");
                 dicePool = actorData.force.value * 2;
                 dicePoolComposition = [
-                    {source: game.i18n.localize("SR5.Force"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.force.value},
-                    {source: game.i18n.localize("SR5.Force"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.force.value},
+                    {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actorData.force.value},
+                    {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actorData.force.value},
                 ];
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
@@ -1971,10 +1970,10 @@ export class SR5_Roll {
                 if (actor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
                 title = game.i18n.localize("SR5.ResistBanishing");
                 dicePool = actorData.force.value;
-                dicePoolComposition = [{source: game.i18n.localize("SR5.Force"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.force.value}];
+                dicePoolComposition = [{source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actorData.force.value}];
                 if (actorData.isBounded) {
                     dicePool += actorData.summonerMagic;
-                    dicePoolComposition.push({source: game.i18n.localize("SR5.SpiritSummonerMagic"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.summonerMagic});
+                    dicePoolComposition.push({source: game.i18n.localize("SR5.SpiritSummonerMagic"), type: "linkedAttribute", value: actorData.summonerMagic});
                 }
                 optionalData = {
                     ownerAuthor: chatData.ownerAuthor,
@@ -2069,8 +2068,8 @@ export class SR5_Roll {
                 title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${calledShotEffect.threshold})`;
                 dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
                 dicePoolComposition = ([
-                    {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
-                    {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.attributes.willpower.augmented.value)},
+                    {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
+                    {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: (actorData.attributes.willpower.augmented.value)},
                 ]);
                 optionalData = {
                     hits: calledShotEffect.threshold,
@@ -2084,7 +2083,7 @@ export class SR5_Roll {
                 title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${chatData.damageValue})`;
                 rollType = "buckledResistance";
                 dicePool = actorData.attributes.body.augmented.value;
-                dicePoolComposition = ([{source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},]);                   
+                dicePoolComposition = ([{source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},]);                   
                 optionalData = {
                     hits: chatData.damageValue,
                     calledShot: chatData.calledShot,
@@ -2098,8 +2097,8 @@ export class SR5_Roll {
                 rollType = "nauseousResistance";
                 dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
                 dicePoolComposition = ([
-                    {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
-                    {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.attributes.willpower.augmented.value)},
+                    {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
+                    {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: (actorData.attributes.willpower.augmented.value)},
                 ]);
                 optionalData = {
                     hits: 4,
@@ -2115,8 +2114,8 @@ export class SR5_Roll {
                 rollType = "knockdownResistance";
                 dicePool = actorData.attributes.strength.augmented.value + actorData.attributes.agility.augmented.value;
                 dicePoolComposition = ([
-                    {source: game.i18n.localize("SR5.Strength"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.strength.augmented.value},
-                    {source: game.i18n.localize("SR5.Agility"), type: game.i18n.localize('SR5.LinkedAttribute'), value: (actorData.attributes.agility.augmented.value)},
+                    {source: game.i18n.localize("SR5.Strength"), type: "linkedAttribute", value: actorData.attributes.strength.augmented.value},
+                    {source: game.i18n.localize("SR5.Agility"), type: "linkedAttribute", value: (actorData.attributes.agility.augmented.value)},
                 ]);
                 optionalData = {
                     hits: calledShotEffect.threshold,
@@ -2127,8 +2126,8 @@ export class SR5_Roll {
             case "escapeEngulf":
                 title = game.i18n.localize("SR5.EscapeEngulfAttempt");
                 dicePoolComposition = ([
-                    {source: game.i18n.localize("SR5.Strength"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.strength.augmented.value},
-                    {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
+                    {source: game.i18n.localize("SR5.Strength"), type: "linkedAttribute", value: actorData.attributes.strength.augmented.value},
+                    {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
                 ]);
                 dicePool = actorData.attributes.strength.augmented.value + actorData.attributes.body.augmented.value;
                 optionalData = {attackerId: chatData.attackerId,}
@@ -2137,8 +2136,8 @@ export class SR5_Roll {
             case "regeneration":
                 title = game.i18n.localize("SR5.RegenerationTest");
                 dicePoolComposition = ([
-                    {source: game.i18n.localize("SR5.Magic"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.specialAttributes.magic.augmented.value},
-                    {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
+                    {source: game.i18n.localize("SR5.Magic"), type: "linkedAttribute", value: actorData.specialAttributes.magic.augmented.value},
+                    {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
                 ]);
                 dicePool = actorData.specialAttributes.magic.augmented.value + actorData.attributes.body.augmented.value;
                 optionalData = {actorBody: actorData.attributes.body.augmented.value,}
@@ -2148,14 +2147,14 @@ export class SR5_Roll {
                 title = `${game.i18n.localize("SR5.NaturalRecoveryTest")} [${game.i18n.localize(SR5.damageTypes[rollKey])}]`;
                 if (rollKey === "stun"){
                     dicePoolComposition = ([
-                        {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
-                        {source: game.i18n.localize("SR5.Willpower"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.willpower.augmented.value},
+                        {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value},
                     ]);
                     dicePool = actorData.attributes.body.augmented.value + actorData.attributes.willpower.augmented.value;
                 } else {
                     dicePoolComposition = ([
-                        {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
-                        {source: game.i18n.localize("SR5.Body"), type: game.i18n.localize('SR5.LinkedAttribute'), value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
+                        {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actorData.attributes.body.augmented.value},
                     ]);
                     dicePool = actorData.attributes.body.augmented.value + actorData.attributes.body.augmented.value;
                 }

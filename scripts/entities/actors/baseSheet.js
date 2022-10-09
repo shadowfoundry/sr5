@@ -6,6 +6,7 @@ import { SR5_SocketHandler } from "../../socket.js";
 import SR5_PanDialog from "../../interface/pan-dialog.js";
 import { SR5 } from "../../config.js";
 import { SR5Actor } from "./entityActor.js";
+import { SR5_RollMessage } from "../../rolls/roll-message.js";
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -583,6 +584,16 @@ export class ActorSheetSR5 extends ActorSheet {
 				}
 				item.system.targetOfEffect = [];
 				this.actor.updateEmbeddedDocuments("Item", [item]);
+
+				//faire un truc là pour dégager le template
+				if (item.system.range === "area" && !item.system.resisted){
+					let messageID = null;
+					for (let m of game.messages){
+						if(m.flags.sr5data?.itemId === item._id && m.flags.sr5data?.templateRemove) messageID = m.id;
+					}
+					await SR5_RollMessage.removeTemplate(messageID, item._id);
+				}
+				
 			}
 		}
 

@@ -242,8 +242,7 @@ export class SR5_RollMessage {
                     break;
                 case "templatePlace":
                     let item = actor.items.get(messageData.itemId);
-                    await item.placeGabarit();
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                    await item.placeGabarit(null, messageId);
                     break;
                 case "templateRemove":
                     SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
