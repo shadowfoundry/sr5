@@ -149,25 +149,6 @@
 	  	{{/each}}
 		
 	  	<!-- SPECIAL ATTRIBUTES -->
-		<!-- Edge -->		
-		{{#if (isdefined system.specialAttributes.edge)}}
-		<li class="grid">
-			<div class="col-6">{{localize 'SR5.Edge'}}</div>
-			<div class="col-2 SR-TextCenter"></div>
-			<div class="col-2 SR-TextCenter" 
-			  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(localize 'SR5.Edge')}}" 
-			  data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
-				<input type="text" data-dtype="Number" class="input" name="system.specialAttributes.edge.natural.base" value="{{system.specialAttributes.edge.natural.base}}" onfocus="this.select()">
-			</div>
-			<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="{{@key}}"
-			  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(localize 'SR5.Edge')}}"
-			  data-helpDetails="system.specialAttributes.edge.augmented"
-			  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}">
-				{{system.specialAttributes.edge.augmented.value}}
-			</div>
-		</li>
-		{{/if}}
-			
 		<!-- Handling Magic/Resonance display -->
 		<li class="grid">
 			<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_ActiveSpecialAttribute' key=(localize 'SR5.Edge')}}" data-helpMessage="{{localize 'SR5.HELP_ActiveSpecialAttributeMsg'}}">
@@ -236,5 +217,24 @@
 				</div>
 			{{/ife}}
 		</li>
+
+		<!-- Edge -->
+		{{#if (isdefined system.specialAttributes.edge)}}
+		<li class="grid">
+			<div class="col-6">{{#if (eq actor.type 'actorGrunt')}}{{localize 'SR5.ProfessionalRating'}}{{else}}{{localize 'SR5.Edge'}}{{/if}}</div>
+			<div class="col-2 SR-TextCenter"></div>
+			<div class="col-2 SR-TextCenter" 
+			  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(localize 'SR5.Edge')}}" 
+			  data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
+				<input type="text" data-dtype="Number" class="input" name="system.specialAttributes.edge.natural.base" value="{{system.specialAttributes.edge.natural.base}}" onfocus="this.select()">
+			</div>
+			<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="{{@key}}"
+			  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(localize 'SR5.Edge')}}"
+			  data-helpDetails="system.specialAttributes.edge.augmented"
+			  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}">
+				{{system.specialAttributes.edge.augmented.value}}
+			</div>
+		</li>
+		{{/if}}
 	</ul>
 </div>
