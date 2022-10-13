@@ -14,7 +14,7 @@ export class SR5_Dice {
 	 * @param {Number} limit - Le nombre maximum de succès
 	 * @param {Boolean} explose - Détermine si les 6 explose
 	 */
-	static srd6({ dicePool, limit, explose, edgeRoll }) {
+	static async srd6({ dicePool, limit, explose, edgeRoll }) {
 		let formula = `${dicePool}d6`;
 		if (explose) formula += "x6";
 		if (limit) formula += `kh${limit}`;
@@ -22,8 +22,8 @@ export class SR5_Dice {
 
 		let roll = new Roll(formula);
 		let rollMode = game.settings.get("core", "rollMode");
-		let rollRoll = roll.evaluate({async: true});
-		let rollJSON = roll.toJSON(rollRoll);
+		let rollRoll = await roll.evaluate({async: true});
+		let rollJSON = await roll.toJSON(rollRoll);
 		//Glitch
 		let totalGlitch = 0,
 			glitchRoll = false,
@@ -48,7 +48,7 @@ export class SR5_Dice {
 
 		let rollResult = {
 			dicePool: dicePool,
-			hits: rollJSON.terms[0].total,
+			hits: rollRoll.total,
 			realHits: realHits,
 			glitchRoll: glitchRoll,
 			criticalGlitchRoll: criticalGlitchRoll,
@@ -303,7 +303,7 @@ export class SR5_Dice {
 							dialogData.pushLimitUsed = true;
 							dialogData.secondeChanceUsed = true;
 						} else {
-							result = SR5_Dice.srd6({
+							result = await SR5_Dice.srd6({
 								dicePool: dialogData.dicePool,
 								limit: dialogData.limit,
 							});
