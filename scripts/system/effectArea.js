@@ -2,7 +2,7 @@
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SystemHelpers } from "./utilitySystem.js";
 import { _getSRStatusEffect } from "../system/effectsList.js"
-import { SR5_SocketHandler } from "../socket.js";
+import { SR5 } from "../config.js";
 
 export class SR5_EffectArea {
 
@@ -134,4 +134,137 @@ export class SR5_EffectArea {
         await jammed.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }    
 
+    //Add effect on a token moving inside a template
+    static async createTemplateEffect(token, template){
+        let actor = await SR5_EntityHelpers.getRealActorFromID(token.id),
+            templateData = template.flags.sr5,
+            effect, customEffect, hasItem, sourceItem;
+
+        if (!actor) return;
+        let sourceName = game.i18n.localize("SR5.AreaEffect");
+        if (templateData.itemUuid) sourceItem = await fromUuid(templateData.itemUuid);
+        if (sourceItem) sourceName = sourceItem.name;
+        
+        //environmental effects
+        if (templateData.environmentalModifiers){
+            for (let [key, value] of Object.entries(templateData.environmentalModifiers)){
+                value = parseInt(value);
+                if (value === 0) continue;
+                let effectTarget = 'SR5.EnvironmentalMod'+(key[0].toUpperCase() + key.slice(1));
+                effect = await SR5_EntityHelpers.generateItemEffect(sourceName, "areaEffect", template, game.i18n.localize(effectTarget), value, 0, "permanent");
+                customEffect = await SR5_EntityHelpers.generateCustomEffect("environmentalModifiers", `system.itemsProperties.environmentalMod.${key}`, "value", value, true);
+                effect.system.customEffects.push(customEffect);
+                hasItem = actor.items.find(i => i.type === "itemEffect" && i.system.ownerID === effect.system?.ownerID && i.system.customEffects?.find(e => e.target === `system.itemsProperties.environmentalMod.${key}`));
+                if (!hasItem) await actor.createEmbeddedDocuments("Item", [effect]);
+            }
+        }
+        //matrix noise effect
+        if (templateData.matrixNoise && templateData.matrixNoise !== 0){
+            effect = await SR5_EntityHelpers.generateItemEffect(sourceName, "areaEffect", template, `${game.i18n.localize("SR5.MatrixNoise")}`, -parseInt(templateData.matrixNoise), 0, "permanent");
+            customEffect = await SR5_EntityHelpers.generateCustomEffect("matrixAttributes", "system.matrix.noise", "value", -parseInt(templateData.matrixNoise), true);
+            effect.system.customEffects.push(customEffect);
+            if (effect && effect.system.customEffects.length) {
+                hasItem = actor.items.find(i => i.type === "itemEffect" && i.system.ownerID === effect.system.ownerID && i.system.customEffects?.find(e => e.target ==="system.matrix.noise"));
+                if (!hasItem) await actor.createEmbeddedDocuments("Item", [effect]);
+            }
+        }
+        //Background count
+        if (templateData.backgroundCountValue && templateData.backgroundCountValue !== 0){
+            sourceName = game.i18n.localize("SR5.SceneBackgroundCount");
+            let effectValue = actor.system.magic?.tradition === templateData.backgroundCountAlignement ? templateData.backgroundCountValue : -templateData.backgroundCountValue;
+            effect = await SR5_EntityHelpers.generateItemEffect(sourceName, "areaEffect", template, `${game.i18n.localize("SR5.Magic")}`, effectValue, 0, "permanent");
+            effect.system.customEffects.push(await SR5_EntityHelpers.generateCustomEffect("astralValues", "system.magic.bgCount", "value", effectValue, true));
+            if (effect && effect.system.customEffects.length) {
+                hasItem = actor.items.find(i => i.type === "itemEffect" && i.system.ownerID === effect.system.ownerID && i.system.customEffects?.find(e => e.target ==="system.magic.bgCount"));
+                if (!hasItem) await actor.createEmbeddedDocuments("Item", [effect]);
+            }
+        }
+        //Other effects
+        if (templateData.itemHasEffect){
+            hasItem = actor.items.find(i => i.type === "itemEffect" && i.system.ownerItem === templateData.itemUuid);
+            //Check if effect is not already on
+            if (!hasItem){
+                //Build necessary data to apply effect
+                let data = {
+                    itemUuid: templateData.itemUuid,
+                    actorId : template.id,
+                    ownerName: sourceItem.actor.name,
+                    test: {hits: sourceItem.system.hits},
+                }
+                //If effect is not resisted, apply effect to actor
+                if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects");
+                else {
+                    let message = game.messages.find(m => m.flags.sr5data?.type === "spell" && m.flags.sr5data?.itemUuid === templateData.itemUuid)
+                    let messageData = message.flags.sr5data;
+				    if (messageData) actor.rollTest("resistSpell", null, messageData);
+                }
+            }
+        }
+	}
+
+    //Delete an effect applied by a template on actor
+    static async deleteTemplateEffect(actor, effectID){
+        for (let item of actor.items){
+            if (item.type === "itemEffect" && item.system.ownerItem === effectID) await actor.deleteEmbeddedDocuments("Item", [item.id]);
+        }
+    }
+
+    //Check if given actor already have given effect
+    static async checkIfHasEffect(actor, effectID){
+        return await actor.items.find(i => i.type === "itemEffect" && i.system.ownerItem === effectID);
+    }
+
+    //Test if a template contains a given token
+    static async checkIfTemplateContainsToken(template, token){
+        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({x: template.x, y: template.y}, {x: token.x, y: token.y});
+        if (distance <= template.distance) return true;
+        else return false;
+    }
+
+    //Iterate through canvas template to check if current token is inside
+    static async checkIfTokenIsInTemplate(tokenDocument){
+        for (let templateDocument of tokenDocument.parent.templates){
+            if (templateDocument.flags.sr5.environmentalModifiers || templateDocument.flags.sr5.itemHasEffect){
+                let isInTemplate = await this.checkIfTemplateContainsToken(templateDocument, tokenDocument);
+                let actor = await SR5_EntityHelpers.getRealActorFromID(tokenDocument.id);
+                let effectID = templateDocument.uuid;
+                if (templateDocument.flags.sr5.itemHasEffect) effectID = templateDocument.flags.sr5.itemUuid;
+                let hasEffect = await this.checkIfHasEffect(actor, effectID);
+                if (isInTemplate) {
+                    if (!hasEffect) await this.createTemplateEffect(tokenDocument, templateDocument);
+                } else {
+                    if (hasEffect) await this.deleteTemplateEffect(actor, effectID);
+                }
+            }
+        }
+    }
+
+    //Add effect on a token when a template is created
+    static async initiateTemplateEffect(template){
+        let templateDocument = template.document;
+        if (!templateDocument.flags.sr5?.environmentalModifiers && !templateDocument.flags.sr5?.itemHasEffect) return;
+        for (let t of templateDocument.parent.tokens){
+            let isInTemplate = await this.checkIfTemplateContainsToken(templateDocument, t);
+            if (isInTemplate) await this.createTemplateEffect(t, templateDocument);
+        }
+    }
+
+    //Remove effect on tokens when template is deleted
+    static async removeTemplateEffect(templateDocument){
+        if (!templateDocument.flags.sr5?.environmentalModifiers && !templateDocument.flags.sr5?.itemHasEffect) return;
+        for (let t of templateDocument.parent.tokens){
+            let actor = await SR5_EntityHelpers.getRealActorFromID(t.id);
+            let effectID = templateDocument.uuid;
+            if (templateDocument.flags.sr5.itemHasEffect) effectID = templateDocument.flags.sr5.itemUuid;
+            if (!actor) return;
+            this.deleteTemplateEffect(actor, effectID)
+        }
+    }
+
+    static async checkUpdatedTemplateEffect(templateDocument){
+        if (!templateDocument.flags.sr5?.environmentalModifiers && !templateDocument.flags.sr5?.itemHasEffect) return;
+        for (let t of templateDocument.parent.tokens){
+            SR5_EffectArea.checkIfTokenIsInTemplate(t);
+        }
+    }
 }

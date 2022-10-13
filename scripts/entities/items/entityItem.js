@@ -60,7 +60,7 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleItemAvailability(itemData);
 				break;
 			case "itemPreparation":
-				if (owner) SR5_UtilityItem._handlePreparation(item);
+				if (owner) SR5_UtilityItem._handlePreparation(item, owner);
 				break;
 			case "itemRitual":
 				if (owner) SR5_UtilityItem._handleRitual(item, owner);
@@ -89,7 +89,7 @@ export class SR5Item extends Item {
 				if (itemData.isWeaponMounted) SR5_UtilityItem._handleWeaponMounted(item);
 				SR5_UtilityItem._handleSlotsMultiplier(itemData);
 				SR5_UtilityItem._handleThresholdMultiplier(itemData);
-			break;
+				break;
 			case "itemArmor":
 			case "itemGear":
 				if (item.type === "itemGear"){
@@ -413,11 +413,11 @@ export class SR5Item extends Item {
 		
 	}
 
-	async placeGabarit(event) {
+	async placeGabarit(event, messageId) {
 		let actorPosition = await SR5_EntityHelpers.getActorCanvasPosition(this.parent);
 		if (canvas.scene && actorPosition !==0) {
 			const template = AbilityTemplate.fromItem(this);
-			if (template) await template.drawPreview(event, this);
+			if (template) await template.drawPreview(event, this, messageId);
 		} else if (this.type === "itemWeapon") this.rollTest("weapon");
 		if (this.actor.sheet._element) {
 			if (this.isOwner && this.actor.sheet) this.actor.sheet.minimize();

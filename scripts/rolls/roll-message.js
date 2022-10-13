@@ -242,8 +242,7 @@ export class SR5_RollMessage {
                     break;
                 case "templatePlace":
                     let item = actor.items.get(messageData.itemId);
-                    await item.placeGabarit();
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                    await item.placeGabarit(null, messageId);
                     break;
                 case "templateRemove":
                     SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
@@ -651,7 +650,7 @@ export class SR5_RollMessage {
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
-        let template = canvas.scene.templates.find((t) => t.flags.item === itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === itemId);
         if (template){
             canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [template.id]);
             if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");

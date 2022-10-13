@@ -1,3 +1,5 @@
+import { SR5_RollMessage } from "../rolls/roll-message.js";
+
 export default class SR5Template extends MeasuredTemplate {
 	/**
 	 * A factory method to create an AbilityTemplate instance using provided data from an Item5e instance
@@ -7,16 +9,42 @@ export default class SR5Template extends MeasuredTemplate {
 
 	static fromItem(item) {
 		let target = 0;
-		if (item.system.category === "grenade") target = item.system.blast.radius;
-		if (item.type === "itemSpell" || item.type === "itemPreparation") target = item.system.spellAreaOfEffect.value;
-		if (item.system.type === "grenadeLauncher" || item.system.type === "missileLauncher") target = item.system.blast.radius;
+		let flags = {};
+
+		//Add base flags
+		flags.sr5= {
+			"item": item.id,
+			"itemUuid": item.uuid,
+		}
+
+		if (item.system.category === "grenade" || item.system.type === "grenadeLauncher" || item.system.type === "missileLauncher") {
+			target = item.system.blast.radius;
+			for (let e of Object.values(item.system.customEffects)){
+				if (e.category === "environmentalModifiers" && e.transfer){
+					let modifierType = e.target.replace('system.itemsProperties.environmentalMod.','');
+					flags.sr5.environmentalModifiers = {[modifierType]: e.value,}
+				}
+			}
+		}
+
+		if ((item.type === "itemSpell" || item.type === "itemPreparation")) {
+			target = item.system.spellAreaOfEffect.value;
+			//if spell has a transferable effect, add item to canvas template
+			for (let e of Object.values(item.system.customEffects)){
+				if (e.transfer){
+					flags.sr5.itemHasEffect = true;
+					continue;
+				}
+			}
+		}
+
 		const templateShape = "circle";
 		if (!templateShape) return null;
 
 		// Prepare template data
 		const templateData = {
 			t: templateShape,
-			flags: { ["item"]: item.id },
+			flags: flags,
 			user: game.user.id,
 			distance: target,
 			direction: 0,
@@ -35,17 +63,17 @@ export default class SR5Template extends MeasuredTemplate {
 
 	/* -------------------------------------------- */
 
-	drawPreview(event, item) {
+	drawPreview(event, item, messageId) {
 		const initialLayer = canvas.activeLayer;
 		this.draw();
 		this.layer.activate();
 		this.layer.preview.addChild(this);
-		this.activatePreviewListeners(initialLayer, item);
+		this.activatePreviewListeners(initialLayer, item, messageId);
 	}
 
 	/* -------------------------------------------- */
 
-	activatePreviewListeners(initialLayer, item) {
+	activatePreviewListeners(initialLayer, item, messageId) {
 		if (!canvas.ready || !canvas.stage || !canvas.app) return;
 
 		const handlers = {};
@@ -89,6 +117,7 @@ export default class SR5Template extends MeasuredTemplate {
 				item.rollTest("weapon");
 				if (this.actorSheet._minimized) this.actorSheet.maximize();
 			}
+			if (messageId) SR5_RollMessage.updateChatButtonHelper(messageId, "templatePlace");
 		};
 
 		// Rotate the template by 3 degree increments (mouse-wheel)

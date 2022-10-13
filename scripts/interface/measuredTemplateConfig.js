@@ -1,6 +1,6 @@
 import { SR5 } from "../config.js";
 
-export default class SR5SceneConfig extends SceneConfig {
+export default class SR5MeasuredTemplateConfig extends MeasuredTemplateConfig {
     constructor(...args) {
         super(...args);
     }
@@ -8,12 +8,19 @@ export default class SR5SceneConfig extends SceneConfig {
     static get defaultOptions() {
         const options = super.defaultOptions;
         return mergeObject(super.defaultOptions, {
+            tabs: [
+				{
+					navSelector: ".tabs",
+					contentSelector: "form",
+					initial: "basic",
+				},
+			],
             lists: SR5,
         });
     }
 
     get template() {
-        return `systems/sr5/templates/interface/sceneConfig.html`;
+        return `systems/sr5/templates/interface/srTemplateConfig.html`;
     }
 
     updateMatrixNoise(html) {
@@ -38,5 +45,4 @@ export default class SR5SceneConfig extends SceneConfig {
             this.updateMatrixNoise(html);
         });
     }
-
 }

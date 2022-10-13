@@ -329,6 +329,8 @@ export class SR5_EntityHelpers {
 					return game.i18n.localize("SR5.Defenses");
 				case "system.matrix.noise":
 					return game.i18n.localize("SR5.MatrixNoise");
+				case "system.itemsProperties.environmentalMod.light":
+					return game.i18n.localize("SR5.EnvironmentalModLight");
 				default:
 					SR5_SystemHelpers.srLog(1, `Unknown '${key}' in 'getLabelByKey()'`);
 					return newKey;
@@ -371,5 +373,39 @@ export class SR5_EntityHelpers {
         let effectToRemove = actor.effects.find(e => e.origin === effect);
         if (effectToRemove) await actor.deleteEmbeddedDocuments('ActiveEffect', [effectToRemove.id]);
         else SR5_SystemHelpers.srLog(3, `No effect "${effect}" to delete`);
+    }
+
+	//Generate itemEffect
+	static async generateItemEffect(name, type, owner, target, value, duration, durationType){
+        let effect = {
+            name: name,
+            type: "itemEffect",
+            system: {
+                type : type,
+                ownerID: owner.id,
+                ownerName: owner.name,
+				ownerItem: owner.uuid,
+                target: target,
+                value: value,
+				duration: duration,
+                durationType: durationType,
+                customEffects: [],
+                itemEffects: [],
+                systemEffects: [],
+            },
+        }
+        return effect;
+    }
+
+	//Generate customEffect data
+    static async generateCustomEffect(category, target, type, value, forceAdd){
+        let customEffect = {
+            "category": category,
+            "target": target,
+            "type": type,
+            "value": value,
+            "forceAdd": forceAdd,
+        }
+        return customEffect;
     }
 }

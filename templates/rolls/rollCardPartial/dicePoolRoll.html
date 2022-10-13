@@ -15,14 +15,14 @@
 <div id="dicePoolComposition" style="display: none;">
     {{#each dicePoolComposition}}
     <li class="grid SR-GreyColor">
-        <div class="col-10">{{source}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-10">{{source}} [{{findTranslation 'modifierTypes' type}}]{{localize 'SR5.Colons'}}</div>
         <div class="col-2 SR-TextRight">{{#if (gt value 0)}}+{{/if}}{{value}}</div>
     </li>
     {{/each}}
     {{#each armorComposition}}
     <!--Armor composition-->
     <li class="grid SR-GreyColor">
-        <div class="col-10">{{source}}</div>
+        <div class="col-10">{{source}} [{{findTranslation 'modifierTypes' type}}]{{localize 'SR5.Colons'}}</div>
         <div class="col-2 SR-TextRight">{{#if (gt value 0)}}+{{/if}}{{value}}</div> 
     </li>
     {{/each}}

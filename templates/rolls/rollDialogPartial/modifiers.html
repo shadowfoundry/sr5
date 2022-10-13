@@ -35,8 +35,13 @@
     {{/if}}
 
     <!-- ATTACK - VARIOUS RANGED MODIFIERS -->
-	{{#if (eq typeSub "rangedWeapon")}}
+	{{#if (and (eq type "attack") (eq typeSub "rangedWeapon"))}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangedModifier.html}}
+    {{/if}}
+
+    <!-- ATTACK - VARIOUS MELEE MODIFIERS -->
+    {{#if (and (eq type "attack") (eq typeSub "meleeWeapon"))}}
+        {{> systems/sr5/templates/rolls/rollDialogPartial/meleeModifier.html}}
     {{/if}}
 
     <!-- SPECIFIC SKILL TEST -->
@@ -95,6 +100,16 @@
     {{#if (or (and (eq type "resistanceCard") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') (eq type "resistFire") )}}
 		{{> systems/sr5/templates/rolls/rollDialogPartial/armorPenetrationModifier.html}}
 	{{/if}}
+
+    <!-- DEFENSE MODIFIERS -->
+    {{#if (eq type "defenseCard")}}
+        {{#if (eq typeSub "rangedWeapon")}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifiers.html}}
+        {{/if}}
+        {{#if (eq typeSub "meleeWeapon")}}
+            {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
+        {{/if}}
+    {{/if}}
 
     <!-- CUMULATIVE DEFENSE -->
     {{#if_g cumulativeDefense 0}}

@@ -819,7 +819,7 @@ export default class SR5_RollDialog extends Dialog {
                             dialogData.calledShot.initiative = SR5_DiceHelper.convertCalledShotToInitiativeMod(dialogData.ammoType);
                             break;
                         case "bullsEye": //Errata: “The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3.”
-                            dialogData.incomingPA = dialogData.incomingPA + ((dialogData.incomingPA + 4) * Math.min(dialogData.firedAmmo, 3));
+                            dialogData.incomingPA = ((dialogData.incomingPA + 4) * Math.min(dialogData.firedAmmo, 3)) - 4;
                             break;
                         case "hitEmWhereItCounts":
                             if (dialogData.toxin.power > 0) {
@@ -917,6 +917,7 @@ export default class SR5_RollDialog extends Dialog {
                     selectValue = null;
                     dialogData.firingModeSelected = html.find(name)[0].value;
                     modifierName = "recoil";
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "spiritType":
                     selectValue = html.find(name)[0].value;
