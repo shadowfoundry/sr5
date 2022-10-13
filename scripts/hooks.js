@@ -227,7 +227,7 @@ export const registerHooks = function () {
 	Hooks.on("updateToken", async function(tokenDocument, change) {
 		if (change.x || change.y) {
 			SR5_EffectArea.tokenAura(tokenDocument);
-			SR5_EffectArea.templateEffect(tokenDocument);
+			SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
 		}
 	});
 
@@ -366,11 +366,16 @@ export const registerHooks = function () {
 		SR5CompendiumInfo.onRenderCompendium(pack, html, compendiumData)
 	});
 
-	Hooks.on('refreshMeasuredTemplate', async (template) => {
+	Hooks.on('drawMeasuredTemplate', async (template) => {
 		await SR5_EffectArea.initiateTemplateEffect(template);
 	});
 
-	Hooks.on('destroyMeasuredTemplate', async (template) => {
-		await SR5_EffectArea.removeTemplateEffect(template);
+	Hooks.on('deleteMeasuredTemplate', async (templateDocument) => {
+		await SR5_EffectArea.removeTemplateEffect(templateDocument);
 	});
+
+	Hooks.on('updateMeasuredTemplate', async (templateDocument) => {
+		await SR5_EffectArea.checkUpdatedTemplateEffect(templateDocument);
+	});
+	
 }

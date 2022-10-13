@@ -1759,7 +1759,16 @@ export class SR5_Dice {
 			default :
 		}
 
-		if (cardData.test.hits >= cardData.hits) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+		if (cardData.test.hits >= cardData.hits) {
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+			//if type is a spell with area effect, create an effect at 0 value on defender to avoir new resistance test inside the canvas template
+			if (type === "resistSpell" && prevData.spellArea){
+				//add effect "applyEffectAuto"
+				if (cardData.netHits < 0) cardData.netHits = 0;
+				actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
+				actor.applyExternalEffect(cardData, "customEffects");
+			}
+		}
 		else {
 			if (applyEffect) {
 				if (type === "weaponResistance"){

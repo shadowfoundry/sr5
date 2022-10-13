@@ -27,7 +27,7 @@ export default class SR5Template extends MeasuredTemplate {
 			}
 		}
 
-		if ((item.type === "itemSpell" || item.type === "itemPreparation") && !item.system.resisted) {
+		if ((item.type === "itemSpell" || item.type === "itemPreparation")) {
 			target = item.system.spellAreaOfEffect.value;
 			//if spell has a transferable effect, add item to canvas template
 			for (let e of Object.values(item.system.customEffects)){

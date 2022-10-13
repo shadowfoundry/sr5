@@ -180,7 +180,7 @@ export class SR5_SystemHelpers {
 	static getDistanceBetweenTwoPoint(firstDocument, secondDocument){
 		const r = new Ray(firstDocument, secondDocument);
 		const segments = [{ ray: r }];
-		const distance = Math.round(canvas.grid.measureDistances(segments));
+		const distance = canvas.grid.measureDistances(segments);
 		return distance;
 	}
 

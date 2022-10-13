@@ -380,10 +380,11 @@ export class SR5_EntityHelpers {
         let effect = {
             name: name,
             type: "itemEffect",
-            system : {
+            system: {
                 type : type,
                 ownerID: owner.id,
                 ownerName: owner.name,
+				ownerItem: owner.uuid,
                 target: target,
                 value: value,
 				duration: duration,
