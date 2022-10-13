@@ -4436,10 +4436,25 @@
             "modifiers": []
           },
           "boxes": []
+        },
+        "edge": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
         }
       },
       "statusBars" : {
         "condition": {
+          "value": 0,
+          "max": 0
+        },
+        "edge": {
           "value": 0,
           "max": 0
         }
@@ -4537,6 +4552,20 @@
           "category": "resonanceSkills",
           "canDefault": false,
           "specializations": ""
+        }
+      },
+      "specialAttributes": {
+        "edge": {
+          "natural": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "augmented": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
         }
       }
     },

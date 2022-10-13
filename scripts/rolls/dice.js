@@ -14,7 +14,7 @@ export class SR5_Dice {
 	 * @param {Number} limit - Le nombre maximum de succès
 	 * @param {Boolean} explose - Détermine si les 6 explose
 	 */
-	static srd6({ dicePool, limit, explose, edgeRoll }) {
+	static async srd6({ dicePool, limit, explose, edgeRoll }) {
 		let formula = `${dicePool}d6`;
 		if (explose) formula += "x6";
 		if (limit) formula += `kh${limit}`;
@@ -22,8 +22,8 @@ export class SR5_Dice {
 
 		let roll = new Roll(formula);
 		let rollMode = game.settings.get("core", "rollMode");
-		let rollRoll = roll.evaluate({async: true});
-		let rollJSON = roll.toJSON(rollRoll);
+		let rollRoll = await roll.evaluate({async: true});
+		let rollJSON = await roll.toJSON(rollRoll);
 		//Glitch
 		let totalGlitch = 0,
 			glitchRoll = false,
@@ -48,7 +48,7 @@ export class SR5_Dice {
 
 		let rollResult = {
 			dicePool: dicePool,
-			hits: rollJSON.terms[0].total,
+			hits: rollRoll.total,
 			realHits: realHits,
 			glitchRoll: glitchRoll,
 			criticalGlitchRoll: criticalGlitchRoll,
@@ -73,7 +73,7 @@ export class SR5_Dice {
 		if (dicePool < 0) dicePool = 0;
 		let limit = messageData.test.limit - messageData.test.hits;
 		if (limit < 0) limit = 0;
-		let chance = SR5_Dice.srd6({ dicePool: dicePool, limit: limit, edgeRoll: true,});
+		let chance = await SR5_Dice.srd6({ dicePool: dicePool, limit: limit, edgeRoll: true,});
 		let chanceHit;
 		if (chance.hits > limit) chanceHit = limit;
 		else chanceHit = chance.hits;
@@ -95,9 +95,13 @@ export class SR5_Dice {
 		if (messageData.actorType === "actorSpirit"){
 			let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
 			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
-		} else actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
+		} else {
+			//If actor is grunt, change actor to parent
+			if (actor.isToken) actor = game.actors.get(actor.id);
+			actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
+		}
 
-		//Rafraichi le message avec les nouvelles infos.
+		//update message with new infos
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
 
@@ -105,7 +109,7 @@ export class SR5_Dice {
 	static async extendedRoll(message, actor){
 		let messageData = message.flags.sr5data;
 		let dicePool = messageData.test.dicePool - 1;
-		let newRoll = SR5_Dice.srd6({ dicePool: dicePool, limit: messageData.test.limit });
+		let newRoll = await SR5_Dice.srd6({ dicePool: dicePool, limit: messageData.test.limit });
 		let dices = messageData.test.dices;
 		let dicesKeeped = dices.filter(function (d) {
 			return d.result > 4;
@@ -134,7 +138,7 @@ export class SR5_Dice {
 			dicePool = creator.system.specialAttributes.edge.augmented.value;
 		} else dicePool = actor.system.specialAttributes.edge.augmented.value;
 
-		let newRoll = SR5_Dice.srd6({
+		let newRoll = await SR5_Dice.srd6({
 			dicePool: dicePool,
 			explose: true,
 			edgeRoll: true,
@@ -157,7 +161,11 @@ export class SR5_Dice {
 		//Remove 1 to actor's Edge
 		if (messageData.actorType === "actorSpirit"){
 			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
-		} else actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
+		} else {
+			//If actor is grunt, change actor to parent
+			if (actor.isToken) actor = game.actors.get(actor.id);
+			actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
+		}
 
 		//Rafraichi le message avec les nouvelles infos.
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
@@ -295,7 +303,7 @@ export class SR5_Dice {
 						let result = {};
 						if (edge) {
 							// push the limits
-							result = SR5_Dice.srd6({
+							result = await SR5_Dice.srd6({
 								dicePool: dialogData.dicePool,
 								explose: edge,
 							});
@@ -303,7 +311,7 @@ export class SR5_Dice {
 							dialogData.pushLimitUsed = true;
 							dialogData.secondeChanceUsed = true;
 						} else {
-							result = SR5_Dice.srd6({
+							result = await SR5_Dice.srd6({
 								dicePool: dialogData.dicePool,
 								limit: dialogData.limit,
 							});
@@ -363,7 +371,7 @@ export class SR5_Dice {
 		if (game.user.isGM) cardData.editResult = true;
 
 		//Handle Edge use
-		if (actor.type === "actorPc") {
+		if (actor.type === "actorPc" || actor.type === "actorGrunt") {
 			if (actorData.conditionMonitors.edge.actual.value >= actorData.specialAttributes.edge.augmented.value) {
 				cardData.secondeChanceUsed = true;
 				cardData.pushLimitUsed = true;

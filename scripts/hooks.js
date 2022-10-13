@@ -285,6 +285,11 @@ export const registerHooks = function () {
 		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix){
 			await SR5Actor.keepDeckSynchroWithAgent(document);
 		}
+
+		//Keep edge monitor synchro with tokens
+		if (document.type === "actorGrunt" && data.system.conditionMonitors?.edge){
+			await SR5Actor.keepEdgeSynchroWithGrunt(document);
+		}
 		//let truc = document.effects.find(e => e.origin = "linkLock")
 		//if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
 	});
