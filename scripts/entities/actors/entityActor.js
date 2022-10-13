@@ -1836,6 +1836,20 @@ export class SR5Actor extends Actor {
 		}
 	}
 
+	//Keep grunt edge synchro across unlinked tokens
+	static async keepEdgeSynchroWithGrunt(document){
+		if (canvas.scene){
+			for (let t of canvas.tokens.ownedTokens){
+				if (t.document.actorId === document.id){
+					let actor = SR5_EntityHelpers.getRealActorFromID(t.document.id);
+					let updatedActor = duplicate(actor.system);
+					updatedActor.conditionMonitors.edge = document.system.conditionMonitors.edge;
+					actor.update({"system": updatedActor,});
+				}
+			}
+		}
+	}
+
 	//Manage Regeneration
 	async regenerate(data){
 		let damageToRemove = data.netHits;
