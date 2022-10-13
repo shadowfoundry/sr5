@@ -240,22 +240,18 @@ export class SR5_UtilityItem extends Actor {
 		let valueMultiplier = 0, valueTakenMultiplier = 0;
 
 		//Capacity
-		if (item.capacity.multiplier == "rating") {
-				valueMultiplier = item.itemRating;
-		}
+		if (item.capacity.multiplier == "rating") valueMultiplier = item.itemRating;
 		if (item.capacity.multiplier) {
 			let modifierSource = `${game.i18n.localize(SR5.valueMultipliers[item.capacity.propertyMultiplier])} ${game.i18n.localize('SR5.Multiplier')}`;
-			SR5_EntityHelpers.updateModifier(item.capacity, modifierSource, `valueMultiplier`, valueMultiplier, true, false);
+			SR5_EntityHelpers.updateModifier(item.capacity, modifierSource, "multiplier", valueMultiplier, true, false);
 		}
 		SR5_EntityHelpers.updateValue(item.capacity, 0);
 
 		//Capacity taken
-		if (item.capacityTaken.multiplier == "rating") {
-				valueTakenMultiplier = item.itemRating;
-		}
+		if (item.capacityTaken.multiplier == "rating") valueTakenMultiplier = item.itemRating;
 		if (item.capacityTaken.multiplier) {
 			let modifierSource = `${game.i18n.localize(SR5.valueMultipliers[item.capacityTaken.propertyMultiplier])} ${game.i18n.localize('SR5.Multiplier')}`;
-			SR5_EntityHelpers.updateModifier(item.capacityTaken, modifierSource, `valueMultiplier`, valueTakenMultiplier, true, false);
+			SR5_EntityHelpers.updateModifier(item.capacityTaken, modifierSource, "multiplier", valueTakenMultiplier, true, false);
 		}
 		SR5_EntityHelpers.updateValue(item.capacityTaken, 0);
 	}
@@ -289,9 +285,7 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			default:
 		}
-		if (item.price.multiplier) {
-			SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(SR5.valueMultipliersAll[item.price.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
-		}
+		if (item.price.multiplier) SR5_EntityHelpers.updateModifier(item.price, game.i18n.localize(SR5.valueMultipliersAll[item.price.multiplier]), "multiplier", multiplier, true, false);
 		SR5_EntityHelpers.updateValue(item.price, 0);
 	}
 
@@ -312,9 +306,7 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			default:
 		}
-		if (item.essenceCost.multiplier) {
-			SR5_EntityHelpers.updateModifier(item.essenceCost, game.i18n.localize(SR5.valueMultipliers[item.essenceCost.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
-		}
+		if (item.essenceCost.multiplier) SR5_EntityHelpers.updateModifier(item.essenceCost, game.i18n.localize(SR5.valueMultipliers[item.essenceCost.multiplier]), "multiplier", multiplier, true, false);
 		SR5_EntityHelpers.updateValue(item.essenceCost, 0);
 	}
 
@@ -347,9 +339,7 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			default:
 		}
-		if (item.availability.multiplier) {
-			SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(SR5.valueMultipliersAll[item.availability.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
-		}
+		if (item.availability.multiplier) SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(SR5.valueMultipliersAll[item.availability.multiplier]), "multiplier", multiplier, true, false);
 		SR5_EntityHelpers.updateValue(item.availability, 0);
 	}
 
@@ -381,11 +371,11 @@ export class SR5_UtilityItem extends Actor {
 	static _handleBow(item) {
 		let itemData = item.system;
 		if (itemData.type === "bow") {
-			SR5_EntityHelpers.updateModifier(itemData.price, item.name, game.i18n.localize('SR5.ItemRating'), ((itemData.price.base * itemData.itemRating) - 100));
-			SR5_EntityHelpers.updateModifier(itemData.availability, item.name, game.i18n.localize('SR5.ItemRating'), itemData.itemRating);
-			SR5_EntityHelpers.updateModifier(itemData.armorPenetration, item.name, game.i18n.localize('SR5.ItemRating'), -Math.floor(itemData.itemRating / 4));
+			SR5_EntityHelpers.updateModifier(itemData.price, item.name, "itemRating", ((itemData.price.base * itemData.itemRating) - 100));
+			SR5_EntityHelpers.updateModifier(itemData.availability, item.name, "itemRating", itemData.itemRating);
+			SR5_EntityHelpers.updateModifier(itemData.armorPenetration, item.name, "itemRating", -Math.floor(itemData.itemRating / 4));
 			let value = Math.min(itemData.itemRating,itemData.ammunition.rating);
-			SR5_EntityHelpers.updateModifier(itemData.damageValue, item.name, game.i18n.localize('SR5.ItemRating'), value);
+			SR5_EntityHelpers.updateModifier(itemData.damageValue, item.name, "itemRating", value);
 		}
 	}
 
@@ -403,15 +393,15 @@ export class SR5_UtilityItem extends Actor {
 						for (let i of actor.items) {
 							let iData = i.system;
 							if (iData.model === item.name && i.type === "itemProgram" && iData.isActive) {
-								SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), actor.system.attributes.pilot.augmented.value);
-								SR5_EntityHelpers.updateModifier(itemData.weaponSkill, i.name, game.i18n.localize('SR5.Program'), iData.itemRating);
+								SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VehicleStat_PilotShort'), "linkedAttribute", actor.system.attributes.pilot.augmented.value);
+								SR5_EntityHelpers.updateModifier(itemData.weaponSkill, i.name, "program", iData.itemRating);
 							}
 						}
 						if (controlerData){
 							for (let i of actor.system.vehicleOwner.items) {
 								if (i.system.model === item.name && i.type === "itemProgram" && i.system.isActive) {
-									SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VehicleStat_PilotShort'), game.i18n.localize('SR5.LinkedAttribute'), actor.system.attributes.pilot.augmented.value);
-									SR5_EntityHelpers.updateModifier(itemData.weaponSkill, i.name, `${game.i18n.localize('SR5.Program')} (${game.i18n.localize('SR5.Controler')})`, i.system.itemRating);
+									SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VehicleStat_PilotShort'), "linkedAttribute", actor.system.attributes.pilot.augmented.value);
+									SR5_EntityHelpers.updateModifier(itemData.weaponSkill, i.name, "controlerProgram", i.system.itemRating);
 								}
 							}
 						}
@@ -419,25 +409,25 @@ export class SR5_UtilityItem extends Actor {
 						if (actor.system.passiveTargeting) itemData.accuracy.base = actor.system.attributes.sensor.augmented.value;
 						break;
 					case "manual":
-						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.test.dicePool);
+						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, "controleMode", controlerData.skills.gunnery.test.dicePool);
 						if (actor.system.passiveTargeting) itemData.accuracy.base = actor.system.attributes.sensor.augmented.value;
 						break;
 					case "remote":
-						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.rating.value, false, true);
-						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.Logic')})`, game.i18n.localize('SR5.ControlMode'), controlerData.attributes.logic.augmented.value, false, true);
+						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, "controleMode", controlerData.skills.gunnery.rating.value, false, true);
+						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.Logic')})`, "controleMode", controlerData.attributes.logic.augmented.value, false, true);
 						if (actor.system.passiveTargeting) {
 							if (actor.system.attributes.sensor.augmented.value > controlerData.matrix.attributes.dataProcessing.value) itemData.accuracy.base = controlerData.matrix.attributes.dataProcessing.value;
 							else itemData.accuracy.base = actor.system.attributes.sensor.augmented.value;
 						}
 						break;
 					case "rigging":
-						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, game.i18n.localize('SR5.ControlMode'), controlerData.skills.gunnery.test.dicePool);
-						SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.ControlRigging'), game.i18n.localize('SR5.ControlMode'), 1, false, true);
+						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Controler')} (${game.i18n.localize('SR5.SkillGunnery')})`, "controleMode", controlerData.skills.gunnery.test.dicePool);
+						SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.ControlRigging'), "controleMode", 1, false, true);
 						if (controlerData.specialProperties.controlRig.value) {
-							SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.ControlRig'), game.i18n.localize('SR5.Augmentation'), controlerData.specialProperties.controlRig.value);
-							SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.ControlRig'), game.i18n.localize('SR5.Augmentation'), controlerData.specialProperties.controlRig.value);
+							SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.ControlRig'), "augmentations", controlerData.specialProperties.controlRig.value);
+							SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.ControlRig'), "augmentations", controlerData.specialProperties.controlRig.value);
 						}
-						if (controlerData.matrix.userMode === "hotsim") SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VirtualRealityHotSimShort'), game.i18n.localize('SR5.MatrixUserMode'), 1);
+						if (controlerData.matrix.userMode === "hotsim") SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize('SR5.VirtualRealityHotSimShort'), "matrixUserMode", 1);
 						if (actor.system.passiveTargeting) itemData.accuracy.base = actor.system.attributes.sensor.augmented.value;
 						SR5_EntityHelpers.updateValue(itemData.accuracy);
 						break;
@@ -446,7 +436,7 @@ export class SR5_UtilityItem extends Actor {
 				}
 			} else {
 				if (itemData.weaponSkill.specialization === true) {
-					SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Specialization')}`, `${game.i18n.localize('SR5.Skill')}`, 2, false, true);
+					SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Specialization')}`, "specialization", 2, false, true);
 				}
 				let actorSkill = itemData.weaponSkill.category;
 				if(actor.system.skills[actorSkill] === undefined){
@@ -459,7 +449,7 @@ export class SR5_UtilityItem extends Actor {
 					//Special case : bow
 					if (itemData.type === "bow" && (actor.system.attributes.strength.augmented.value < itemData.itemRating)){
 						let malus = (actor.system.attributes.strength.augmented.value - itemData.itemRating) * 3;
-						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.WeaponTypeBow')}`, `${game.i18n.localize('SR5.ItemRating')}`, malus, false, true);
+						SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.WeaponTypeBow')}`, "itemRating", malus, false, true);
 					}
 				}
 			}
@@ -471,8 +461,8 @@ export class SR5_UtilityItem extends Actor {
 		if (actor) {
 			if (itemData.accuracy.isPhysicalLimitBased) itemData.accuracy.base = actor.system.limits.physicalLimit.value;
 			if (itemData.damageValue.isStrengthBased && actor.type !=="actorDrone") {
-				if ((actor.system.initiatives.astralInit.isActive || itemData.isUsedAsFocus) && itemData.isLinkedToFocus) SR5_EntityHelpers.updateModifier(itemData.damageValue, `${game.i18n.localize('SR5.Charisma')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.system.attributes.charisma.augmented.value);
-				else SR5_EntityHelpers.updateModifier(itemData.damageValue, `${game.i18n.localize('SR5.Strength')}`, `${game.i18n.localize('SR5.Attribute')}`, actor.system.attributes.strength.augmented.value);
+				if ((actor.system.initiatives.astralInit.isActive || itemData.isUsedAsFocus) && itemData.isLinkedToFocus) SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.Charisma'), "linkedAttribute", actor.system.attributes.charisma.augmented.value);
+				else SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.Strength'), "linkedAttribute", actor.system.attributes.strength.augmented.value);
 			}
 			if (actor.system.itemsProperties?.weapon) {
 				for (let modifier of actor.system.itemsProperties.weapon.accuracy.modifiers) {
@@ -638,8 +628,8 @@ export class SR5_UtilityItem extends Actor {
 				SR5_SystemHelpers.srLog(3, "_handleWeaponAmmunition", `Unknown ammunition type: '${itemData.ammunition.type}'`);
 				return;
 		}
-		if (armorPenetration) SR5_EntityHelpers.updateModifier(itemData.armorPenetration, game.i18n.localize(SR5.allAmmunitionTypes[itemData.ammunition.type]), game.i18n.localize('SR5.Ammunition'), armorPenetration);
-		if (damageValue) SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize(SR5.allAmmunitionTypes[itemData.ammunition.type]), game.i18n.localize('SR5.Ammunition'), damageValue);
+		if (armorPenetration) SR5_EntityHelpers.updateModifier(itemData.armorPenetration, game.i18n.localize(SR5.allAmmunitionTypes[itemData.ammunition.type]), "ammunitionType", armorPenetration);
+		if (damageValue) SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize(SR5.allAmmunitionTypes[itemData.ammunition.type]), "ammunitionType", damageValue);
 		itemData.damageType = damageType;
 		itemData.damageElement = damageElement;
 		itemData.blast.damageFallOff = blastDamageFallOff;
@@ -759,14 +749,14 @@ export class SR5_UtilityItem extends Actor {
 			if (actor !== undefined) {
 				let actorStrength = actor.system.attributes.strength.augmented.value;
 
-				SR5_EntityHelpers.updateModifier(itemData.range.short, 'strength', 'attribute', (actorStrength * itemData.range.short.base) - itemData.range.short.base);
-				SR5_EntityHelpers.updateModifier(itemData.range.medium, 'strength', 'attribute', (actorStrength * itemData.range.medium.base) - itemData.range.medium.base);
+				SR5_EntityHelpers.updateModifier(itemData.range.short, game.i18n.localize('SR5.Strength'), "linkedAttribute", (actorStrength * itemData.range.short.base) - itemData.range.short.base);
+				SR5_EntityHelpers.updateModifier(itemData.range.medium, game.i18n.localize('SR5.Strength'), "linkedAttribute", (actorStrength * itemData.range.medium.base) - itemData.range.medium.base);
 				if (itemData.aerodynamic){
-					SR5_EntityHelpers.updateModifier(itemData.range.long, 'strength', 'attribute', (actorStrength * (itemData.range.long.base +2)) - itemData.range.long.base);
-					SR5_EntityHelpers.updateModifier(itemData.range.extreme, 'strength', 'attribute', (actorStrength * (itemData.range.extreme.base +5)) - itemData.range.extreme.base);
+					SR5_EntityHelpers.updateModifier(itemData.range.long, game.i18n.localize('SR5.Strength'), "linkedAttribute", (actorStrength * (itemData.range.long.base +2)) - itemData.range.long.base);
+					SR5_EntityHelpers.updateModifier(itemData.range.extreme, game.i18n.localize('SR5.Strength'), "linkedAttribute", (actorStrength * (itemData.range.extreme.base +5)) - itemData.range.extreme.base);
 				} else {
-					SR5_EntityHelpers.updateModifier(itemData.range.long, 'strength', 'attribute', (actorStrength * itemData.range.long.base) - itemData.range.long.base);
-					SR5_EntityHelpers.updateModifier(itemData.range.extreme, 'strength', 'attribute', (actorStrength * itemData.range.extreme.base) - itemData.range.extreme.base);
+					SR5_EntityHelpers.updateModifier(itemData.range.long, game.i18n.localize('SR5.Strength'), "linkedAttribute", (actorStrength * itemData.range.long.base) - itemData.range.long.base);
+					SR5_EntityHelpers.updateModifier(itemData.range.extreme, game.i18n.localize('SR5.Strength'), "linkedAttribute", (actorStrength * itemData.range.extreme.base) - itemData.range.extreme.base);
 				}
 			}
 		}
@@ -778,10 +768,10 @@ export class SR5_UtilityItem extends Actor {
 			if (itemData.systemEffects.length){
 				for (let systemEffect of Object.values(itemData.systemEffects)){
 					if (systemEffect.value === "noxiousBreath" || systemEffect.value === "corrosiveSpit"){
-						SR5_EntityHelpers.updateModifier(itemData.range.short, 'body', 'attribute', actor.system.attributes.body.augmented.value);
-						SR5_EntityHelpers.updateModifier(itemData.range.medium, 'body', 'attribute', actor.system.attributes.body.augmented.value * 2);
-						SR5_EntityHelpers.updateModifier(itemData.range.long, 'body', 'attribute', actor.system.attributes.body.augmented.value * 3);
-						SR5_EntityHelpers.updateModifier(itemData.range.extreme, 'body', 'attribute', actor.system.attributes.body.augmented.value * 4);
+						SR5_EntityHelpers.updateModifier(itemData.range.short, game.i18n.localize('SR5.Body'), "linkedAttribute", actor.system.attributes.body.augmented.value);
+						SR5_EntityHelpers.updateModifier(itemData.range.medium, game.i18n.localize('SR5.Body'), "linkedAttribute", actor.system.attributes.body.augmented.value * 2);
+						SR5_EntityHelpers.updateModifier(itemData.range.long, game.i18n.localize('SR5.Body'), "linkedAttribute", actor.system.attributes.body.augmented.value * 3);
+						SR5_EntityHelpers.updateModifier(itemData.range.extreme, game.i18n.localize('SR5.Body'), "linkedAttribute", actor.system.attributes.body.augmented.value * 4);
 					}
 				}
 			}
@@ -830,28 +820,28 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "bipod":
 					a.price = 200;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2);
 					break;
 				case "capBall":
 					break;
 				case "concealableHolster":
 					a.price = 150;
 					if (a.isActive) {
-						if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -2);
-						else SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1);
+						if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -2);
+						else SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1);
 					}
 					break;
 				case "concealedQDHolster":
 					a.price = 275;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1);
 					break;
 				case "electronicFiring":
 					a.price = 1000;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "extendedBarrel":
 					a.price = 50;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "extremeEnvironment":
 					a.price = 1500;
@@ -867,26 +857,26 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "foldingStock":
 					a.price = 30;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "foregrip":
 					a.price = 100;
 					if (a.isActive) {
-						SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
-						SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+						SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
+						SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					}
 					break;
 				case "gasVentSystemOne":
 					a.price = 200;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "gasVentSystemTwo":
 					a.price = 400;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2);
 					break;
 				case "gasVentSystemThree":
 					a.price = 600;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 3);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 3);
 					break;
 				case "geckoGrip":
 					a.price = 100;
@@ -896,15 +886,15 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "gyroMount":
 					a.price = 1400;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 6);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 6);
 					break;
 				case "hiddenArmSlide":
 					a.price = 350;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "hipPad":
 					a.price = 250;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "imagingScope":
 					a.price = 300;
@@ -914,8 +904,8 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "laserSight":
 					a.price = 150;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1, false, false);
-					if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1, false, false);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
+					if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
 					break;
 				case "meleeHardening":
 					a.price = 300;
@@ -936,7 +926,7 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "shockPad":
 					a.price = 50;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
 				case "silencerSuppressor":
 					a.price = 500;
@@ -952,17 +942,17 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "smartgunSystemInternal":
 					a.price = "x2";
-					if (!a.isFree) SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2);
+					if (!a.isFree) SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2);
 					if (a.isActive) {
 						if ((actor !== undefined) && (actor.type !== "actorDrone")) {
 							let smartlink = actor.system.specialProperties.smartlink.value;
 							if (smartlink) {
-								SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2, false, false);
+								SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false);
 								if (itemData.wirelessTurnedOn) {
 									if (smartlink === 2) {
-										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2, false, false);
+										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false);
 									} else if (smartlink === 1) {
-										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1, false, false);
+										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
 									}
 								}
 							}
@@ -975,12 +965,12 @@ export class SR5_UtilityItem extends Actor {
 						if ((actor !== undefined) && (actor.type !== "actorDrone")) {
 							let smartlink = actor.system.specialProperties.smartlink.value;
 							if (smartlink) {
-								SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2, false, false);
+								SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false);
 								if (itemData.wirelessTurnedOn) {
 									if (smartlink === 2) {
-										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 2, false, false);
+										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false);
 									} else if (smartlink === 1) {
-										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 1, false, false);
+										SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
 									}
 								}
 							}
@@ -998,7 +988,7 @@ export class SR5_UtilityItem extends Actor {
 					break;        
 				case "tripod":
 					a.price = 500;
-					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), 6);
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 6);
 					break;
 				case "trollAdaptation":
 					break; 
@@ -1038,9 +1028,9 @@ export class SR5_UtilityItem extends Actor {
 				//Add price modifier to weapon
 				if (!a.isFree){
 					if (a.name === "smartgunSystemInternal") {
-						SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), itemData.price.base);
+						SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", itemData.price.base);
 					} else {
-						SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), a.price);
+						SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", a.price);
 					}
 				}
 			}
@@ -1051,8 +1041,8 @@ export class SR5_UtilityItem extends Actor {
 	//Handle if an accessory give environmental modifiers tracer weapon.ammunition.type
 	static _handleVisionAccessory(itemData, actor) {
 		if (itemData.ammunition.type === "tracer" && itemData.isActive) {
-			SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
-			SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), game.i18n.localize('SR5.Ammunition'), -1, false, false);
+			SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false);
+			SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false);
 		}
 
 		if (typeof itemData.accessory === "object") itemData.accessory = Object.values(itemData.accessory);
@@ -1060,13 +1050,13 @@ export class SR5_UtilityItem extends Actor {
 		for (let a of itemData.accessory) {
 			switch (a.name) {
 				case "flashLightInfrared":
-					if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
+					if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true);
 					break;
 				case "flashLightLowLight":
-					if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, true);
+					if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true);
 					break;
 				case "imagingScope":
-					if (a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
+					if (a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, false);
 					break;
 				case "smartgunSystemInternal":
 				case "smartgunSystemExternal":
@@ -1078,7 +1068,7 @@ export class SR5_UtilityItem extends Actor {
 							}
 						}
 					}
-					if (a.isActive && itemData.isActive && hasSmartlink) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), game.i18n.localize('SR5.WeaponAccessory'), -1, false, false);
+					if (a.isActive && itemData.isActive && hasSmartlink) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), "weaponAccessory", -1, false, false);
 					break;
 			}
 		}
@@ -1094,8 +1084,8 @@ export class SR5_UtilityItem extends Actor {
 			cyberlimbs.strength.value = cyberlimbs.strength.base + cyberlimbs.strength.customization;
 			let cyberlimbsPriceMod = (cyberlimbs.agility.customization + cyberlimbs.strength.customization) * 5000;
 			let cyberlimbsAvailabilityMod = (cyberlimbs.agility.customization + cyberlimbs.strength.customization);
-			SR5_EntityHelpers.updateModifier(itemData.availability, 'CustomCyberlimb', 'CustomCyberlimb', cyberlimbsAvailabilityMod);
-			SR5_EntityHelpers.updateModifier(itemData.price, 'CustomCyberlimb', 'CustomCyberlimb', cyberlimbsPriceMod);
+			SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.AugmentationCyberlimbs'), 'CustomCyberlimb', cyberlimbsAvailabilityMod);
+			SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.AugmentationCyberlimbs'), 'CustomCyberlimb', cyberlimbsPriceMod);
 		}
 
 		switch (itemData.grade){
@@ -1135,21 +1125,21 @@ export class SR5_UtilityItem extends Actor {
 		}
 		itemData.deviceRating = deviceRating;
 		modifierSource = `${game.i18n.localize(SR5.augmentationGrades[itemData.grade])}`;
-		SR5_EntityHelpers.updateModifier(itemData.availability, modifierSource, game.i18n.localize('SR5.AugmentationGrade'), availabilityModifier, false, false);
-		SR5_EntityHelpers.updateModifier(itemData.price, modifierSource, game.i18n.localize('SR5.AugmentationGrade'), priceMultiplier, true, false);
+		SR5_EntityHelpers.updateModifier(itemData.availability, modifierSource, "augmentationGrade", availabilityModifier, false, false);
+		SR5_EntityHelpers.updateModifier(itemData.price, modifierSource, "augmentationGrade", priceMultiplier, true, false);
 
 		if (actor){
 			for (let i of actor.items){
 				if (i.system.systemEffects?.length){
 					let WeakImmuneSystem = i.system.systemEffects?.find(iEffect => iEffect.value === "doubleEssenceCost")
 					if (WeakImmuneSystem) {
-						if (i.system.isActive) SR5_EntityHelpers.updateModifier(itemData.essenceCost, i.name, game.i18n.localize(SR5.itemTypes[i.type]), 2, true, false);
+						if (i.system.isActive) SR5_EntityHelpers.updateModifier(itemData.essenceCost, i.name, i.type, 2, true, false);
 					}
 				}
 			}
 		}
 
-		SR5_EntityHelpers.updateModifier(itemData.essenceCost, modifierSource, game.i18n.localize('SR5.AugmentationGrade'), (itemData.isRatingBased ? essenceMultiplier * itemData.itemRating : essenceMultiplier), true, false);
+		SR5_EntityHelpers.updateModifier(itemData.essenceCost, modifierSource, "augmentationGrade", (itemData.isRatingBased ? essenceMultiplier * itemData.itemRating : essenceMultiplier), true, false);
 		this._handleItemCapacity(itemData);
 		this._handleItemPrice(itemData);
 		this._handleItemAvailability(itemData);
@@ -1165,13 +1155,13 @@ export class SR5_UtilityItem extends Actor {
 		if (itemData.category === "combat") {
 			itemData.damageValue.base = 0;
 			if (itemData.subCategory === "indirect") {
-				SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), parseInt(itemData.force || 0), false, true);
-				SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.DiceHits'), game.i18n.localize('SR5.SkillSpellcasting'), parseInt(itemData.hits || 0), false, true);
+				SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.SpellForce'), "spell", parseInt(itemData.force || 0), false, true);
+				SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.DiceHits'), "spell", parseInt(itemData.hits || 0), false, true);
 				SR5_EntityHelpers.updateValue(itemData.damageValue, 0);
-				SR5_EntityHelpers.updateModifier(itemData.armorPenetration, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), -(itemData.force || 0), false, true);
+				SR5_EntityHelpers.updateModifier(itemData.armorPenetration, game.i18n.localize('SR5.SpellForce'), "spell", -(itemData.force || 0), false, true);
 				SR5_EntityHelpers.updateValue(itemData.armorPenetration);
 			} else {
-				SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.DiceHits'), game.i18n.localize('SR5.SkillSpellcasting'), (itemData.hits || 0), false, true);
+				SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize('SR5.DiceHits'), "spell", (itemData.hits || 0), false, true);
 				SR5_EntityHelpers.updateValue(itemData.damageValue, 0);
 			}
 		}
@@ -1179,24 +1169,24 @@ export class SR5_UtilityItem extends Actor {
 		//Handle range
 		itemData.spellAreaOfEffect.base = 0;
 		if (itemData.range === "area" || itemData.category === "detection"){
-			SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), parseInt(itemData.force || 0), false, true);
+			SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellForce'), "spell", parseInt(itemData.force || 0), false, true);
 		}
 		//Range for detection spell
 		if (itemData.category === "detection") {
-			SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellRangeShort'), game.i18n.localize('SR5.SpellCategoryDetection'), actor.system.specialAttributes.magic.augmented.value, true, true);
+			SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellRangeShort'), "spell", actor.system.specialAttributes.magic.augmented.value, true, true);
 			if (itemData.spellAreaExtended === true) {
-				SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.ExtendedRange'), game.i18n.localize('SR5.SpellCategoryDetection'), 10, true, true);
+				SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.ExtendedRange'), "spell", 10, true, true);
 			} 
 		}
 		SR5_EntityHelpers.updateValue(itemData.spellAreaOfEffect, 0);
 
 		//Modified drain value
 		itemData.drainValue.base = 0;
-		SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.SpellForce'), game.i18n.localize('SR5.SkillSpellcasting'), (itemData.force || 0), false, true);
-		SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.SpellDrain'), game.i18n.localize('SR5.DrainModifier'), itemData.drain.base, false, true);
+		SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.SpellForce'), "spell", (itemData.force || 0), false, true);
+		SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.SpellDrain'), "drainModifier", itemData.drain.base, false, true);
 		if (itemData.fetish){
-			SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.DrainModifier'), -2, false, true);
-			SR5_EntityHelpers.updateModifier(itemData.drain, game.i18n.localize('SR5.Fetish'), game.i18n.localize('SR5.Fetish'), -2, false, true);
+			SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.Fetish'), "drainModifier", -2, false, true);
+			SR5_EntityHelpers.updateModifier(itemData.drain, game.i18n.localize('SR5.Fetish'), "spell", -2, false, true);
 		}
 		SR5_EntityHelpers.updateValue(itemData.drainValue, 2);
 		SR5_EntityHelpers.updateValue(itemData.drain);
@@ -1212,11 +1202,13 @@ export class SR5_UtilityItem extends Actor {
 	}
 
 	//Handle Preparation
-	static _handlePreparation(item){
+	static _handlePreparation(item, actor){
 		let itemData = item.system;
 		itemData.test.base = 0;
-		SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.PreparationPotency'), game.i18n.localize('SR5.SkillSpellcasting'), (itemData.potency || 0), false, true);
-		SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.Force'), game.i18n.localize('SR5.LinkedAttribute'), (itemData.force || 0), false, true);
+		SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.PreparationPotency'), "spell", (itemData.potency || 0), false, true);
+		SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.Force'), "linkedAttribute", (itemData.force || 0), false, true);
+		//Background count modifier
+		if (actor.system.magic.bgCount.value < 0) itemData.test.modifiers = itemData.test.modifiers.concat(actor.system.magic.bgCount.modifiers);
 		SR5_EntityHelpers.updateDicePool(itemData.test);
 	}
 
@@ -1224,11 +1216,8 @@ export class SR5_UtilityItem extends Actor {
 	static _handleAdeptPower(itemData, actor) {
 		let firstAttribute, secondAttribute;
 
-		if (itemData.powerPointsCost.isRatingBased) {
-			itemData.powerPointsCost.value = itemData.powerPointsCost.base * itemData.itemRating;
-		} else {
-			itemData.powerPointsCost.value = itemData.powerPointsCost.base;
-		}
+		if (itemData.powerPointsCost.isRatingBased) itemData.powerPointsCost.value = itemData.powerPointsCost.base * itemData.itemRating;
+		else itemData.powerPointsCost.value = itemData.powerPointsCost.base;
 
 		if (itemData.needRoll && actor) {
 			let firstLabel = game.i18n.localize(SR5.allAttributes[itemData.testFirstAttribute]);
@@ -1264,16 +1253,18 @@ export class SR5_UtilityItem extends Actor {
 			}
 
 			itemData.test.base = 0;
-			if (firstAttribute) SR5_EntityHelpers.updateModifier(itemData.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-			if (secondAttribute) SR5_EntityHelpers.updateModifier(itemData.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
+			if (firstAttribute) SR5_EntityHelpers.updateModifier(itemData.test, firstLabel, "linkedAttribute", firstAttribute, false, true);
+			if (secondAttribute) SR5_EntityHelpers.updateModifier(itemData.test, secondLabel, "linkedAttribute", secondAttribute, false, true);
+			//Background count modifier
+			if (actor.system.magic.bgCount.value < 0) itemData.test.modifiers = itemData.test.modifiers.concat(actor.system.magic.bgCount.modifiers);
 			SR5_EntityHelpers.updateDicePool(itemData.test);
 		}
 
 		if (itemData.hasDrain){
 			itemData.drainValue.base = 0;
-			if (itemData.drainType === "rating") SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.ItemRating'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(itemData.itemRating * (itemData.drainMultiplier || 1)), false, true);
+			if (itemData.drainType === "rating") SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.ItemRating'), "adeptPower", Math.ceil(itemData.itemRating * (itemData.drainMultiplier || 1)), false, true);
 			if (itemData.drainType === "magic") {
-				if (actor) SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.Magic'), game.i18n.localize('SR5.AdeptPower'), Math.ceil(actor.system.specialAttributes.magic.augmented.value * (itemData.drainMultiplier || 1)), false, true);
+				if (actor) SR5_EntityHelpers.updateModifier(itemData.drainValue, game.i18n.localize('SR5.Magic'), "adeptPower", Math.ceil(actor.system.specialAttributes.magic.augmented.value * (itemData.drainMultiplier || 1)), false, true);
 			}
 			SR5_EntityHelpers.updateValue(itemData.drainValue);
 		}
@@ -1309,8 +1300,8 @@ export class SR5_UtilityItem extends Actor {
 			}
 
 			itemData.test.base = 0;
-			if (firstAttribute) SR5_EntityHelpers.updateModifier(itemData.test, firstLabel, game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-			if (secondAttribute) SR5_EntityHelpers.updateModifier(itemData.test, secondLabel, game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
+			if (firstAttribute) SR5_EntityHelpers.updateModifier(itemData.test, firstLabel, "linkedAttribute", firstAttribute, false, true);
+			if (secondAttribute) SR5_EntityHelpers.updateModifier(itemData.test, secondLabel, "linkedAttribute", secondAttribute, false, true);
 			SR5_EntityHelpers.updateDicePool(itemData.test);
 		}
 	}
@@ -1402,11 +1393,11 @@ export class SR5_UtilityItem extends Actor {
 	static _handleCommlink(itemData) {
 		switch (itemData.module){
 			case "standard":
-				SR5_EntityHelpers.updateModifier(itemData.price, 'standard', 'module', 100);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.ModuleStandardSim'), 'module', 100);
 				break;
 			case "hotsim":
-				SR5_EntityHelpers.updateModifier(itemData.price, 'hotsim', 'module', 250);
-				SR5_EntityHelpers.updateModifier(itemData.availability, 'hotsim', 'module', 4);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.ModuleHotSim'), 'module', 250);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.ModuleHotSim'), 'module', 4);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(3,"_handleCommlink",`Unknown module : '${itemData.module}'`);
@@ -1471,7 +1462,7 @@ export class SR5_UtilityItem extends Actor {
 		for (let option of itemData.options) {
 			switch (option){
 				case "specialWorkArea":
-					SR5_EntityHelpers.updateModifier(itemData.price, 'specialWorkArea', 'option', 1000);
+					SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.LifeStyleOptionSpecialWorkArea'), 'lifeStyleOption', 1000);
 					break;
 				case "cramped":
 					priceMultiplier -= 0.1;
@@ -1497,7 +1488,7 @@ export class SR5_UtilityItem extends Actor {
 	////////////////////// VEHICULES  ///////////////////////
 	static _handleVehicle(itemData) {
 		for (let vehicleMod of itemData.vehiclesMod){
-			SR5_EntityHelpers.updateModifier(itemData.price, '${vehicleMod.name}', 'price', vehicleMod.system.price.value);
+			SR5_EntityHelpers.updateModifier(itemData.price, `${vehicleMod.name}`, 'vehicleMod', vehicleMod.system.price.value);
 		}
 
 		if (itemData.type === "drone") itemData.deviceRating = itemData.attributes.pilot;
@@ -1551,17 +1542,17 @@ export class SR5_UtilityItem extends Actor {
 			case "external":
 			break;
 			case "internal":
-				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 2);
-				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 6);
-				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 2);
-				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_I'), 1500);
+				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 2);
+				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 6);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 2);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 1500);
 				if (itemData.tools == "kit") itemData.tools = "shop";
 				break;
 			case "concealed":
-				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4);
-				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 10);
-				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4);
-				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountVis_C'), 4000);
+				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 4);
+				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 10);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 4);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountVisibility'), "vehicleMod", 4000);
 				if (itemData.tools == "kit") itemData.tools = "shop";
 				break;
 			default:
@@ -1571,17 +1562,17 @@ export class SR5_UtilityItem extends Actor {
 			case "fixed":
 				break;
 			case "flexible":
-				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 1);
-				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 4);
-				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 2);
-				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_Fl'), 2000);
+				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 1);
+				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 4);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 2);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 2000);
 				if (itemData.tools == "kit") itemData.tools = "shop";
 				break;
 			case "turret":
-				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 2);
-				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 12);
-				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 6);
-				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), game.i18n.localize('SR5.VEHICLE_WeaponMountFlex_T'), 5000);
+				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 2);
+				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 12);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 6);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountFlexibility'), "vehicleMod", 5000);
 				itemData.tools = "facility";
 				break;
 			default:
@@ -1591,18 +1582,18 @@ export class SR5_UtilityItem extends Actor {
 				itemData.surname = " (" + game.i18n.localize(SR5.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(SR5.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(SR5.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(SR5.WeaponMountControl[wm.control]) + ")";
 				break;
 			case "manual":
-				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
-				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 4);
-				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 1);
-				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_M'), 500);
+				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 1);
+				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 4);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 1);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 500);
 				if (itemData.tools == "kit") itemData.tools = "shop";
 				itemData.surname = " (" + game.i18n.localize(SR5.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(SR5.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(SR5.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(SR5.WeaponMountControl[wm.control]) + ")";
 				break;
 			case "armoredManual":
-				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 2);
-				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 6);
-				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 4);
-				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), game.i18n.localize('SR5.VEHICLE_WeaponMountCon_AM'), 1500);
+				SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 2);
+				SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 6);
+				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 4);
+				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.VEHICLE_WeaponMountControl'), "vehicleMod", 1500);
 				if (itemData.tools == "kit") itemData.tools = "shop";
 				itemData.surname = " (" + game.i18n.localize(SR5.WeaponMountSize[wm.size]) + ", " + game.i18n.localize(SR5.WeaponMountVisibility[wm.visibility]) + ", " + game.i18n.localize(SR5.WeaponMountFlexibility[wm.flexibility]) + ", " + game.i18n.localize(SR5.WeaponMountControl[wm.control]) + ")";
 				break;
@@ -1665,7 +1656,7 @@ export class SR5_UtilityItem extends Actor {
 			default:
 		}
 		if (itemData.slots.multiplier) {
-			SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize(SR5.valueMultipliers[itemData.slots.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+			SR5_EntityHelpers.updateModifier(itemData.slots, game.i18n.localize(SR5.valueMultipliers[itemData.slots.multiplier]), "multiplier", multiplier, true, false);
 		}
 		SR5_EntityHelpers.updateValue(itemData.slots, 0);
 	}
@@ -1682,7 +1673,7 @@ export class SR5_UtilityItem extends Actor {
 			default:
 		}
 		if (itemData.threshold.multiplier) {
-			SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize(SR5.valueMultipliers[itemData.threshold.multiplier]), game.i18n.localize('SR5.Multiplier'), multiplier, true, false);
+			SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize(SR5.valueMultipliers[itemData.threshold.multiplier]), "multiplier", multiplier, true, false);
 		}
 		SR5_EntityHelpers.updateValue(itemData.threshold, 0);
 	}
@@ -1878,8 +1869,10 @@ export class SR5_UtilityItem extends Actor {
 			}
 		}
 		itemData.test.base = 0;
-		if (firstAttribute) SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize(SR5.allAttributes[itemData.testFirstAttribute]), game.i18n.localize('SR5.LinkedAttribute'), firstAttribute, false, true);
-		if (secondAttribute) SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize(SR5.allAttributes[itemData.testSecondAttribute]), game.i18n.localize('SR5.LinkedAttribute'), secondAttribute, false, true);
+		if (firstAttribute) SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize(SR5.allAttributes[itemData.testFirstAttribute]), "linkedAttribute", firstAttribute, false, true);
+		if (secondAttribute) SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize(SR5.allAttributes[itemData.testSecondAttribute]), "linkedAttribute", secondAttribute, false, true);
+		//Background count modifier
+		if (actor.system.magic.bgCount.value < 0) itemData.test.modifiers = itemData.test.modifiers.concat(actor.system.magic.bgCount.modifiers);
 		SR5_EntityHelpers.updateDicePool(itemData.test);
 	}
 
@@ -1888,8 +1881,8 @@ export class SR5_UtilityItem extends Actor {
 		let skill = 0;
 		if (itemData.testSkill) {
 			skill = actor.system.skills[itemData.testSkill].rating.value;
-			SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize(SR5.skills[itemData.testSkill]), game.i18n.localize('SR5.Skill'), skill, false, true);
-			SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.Level'), game.i18n.localize('SR5.LinkedAttribute'), actor.system.level, false, true);
+			SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize(SR5.skills[itemData.testSkill]), "skillRating", skill, false, true);
+			SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.Level'), "linkedAttribute", actor.system.level, false, true);
 		}
 		SR5_EntityHelpers.updateDicePool(itemData.test);
 	}
@@ -1961,11 +1954,11 @@ export class SR5_UtilityItem extends Actor {
 				switch (customEffect.type) {
 					case "rating":
 						customEffect.value = (item.system.itemRating || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, item.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					case "value":
 						customEffect.value = (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, `${game.i18n.localize('SR5.ItemEffect')}`, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${customEffect.name}`, item.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
 						break;
 					case "boolean":
 						let booleanValue;

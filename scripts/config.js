@@ -880,6 +880,11 @@ SR5.calledShotsSpecifics = {
 	shakeRattle               : "SR5.CS_AS_ShakeRattle",
 }
 
+SR5.calledShotsAll = {
+	...SR5.calledShots,
+	...SR5.calledShotsSpecifics,
+}
+
 // Called Shots Effects
 SR5.calledShotsEffects = {
 	slowed                   : "SR5.STATUSES_Slowed",
@@ -2715,6 +2720,9 @@ SR5.effectTypes = {
 	calledShot                : "SR5.CS_CalledShot",
 	onPinsAndNeedles          : "SR5.STATUSES_OnPinsAndNeedles",
 	prone                     : "SR5.STATUSES_Prone",
+	visibility				  : "SR5.EnvironmentalModVisibility",
+	areaEffect				  : "SR5.AreaEffect",
+	backgroundCount			  : "SR5.SceneBackgroundCount",
 }
 
 SR5.effectDuration = {
@@ -2860,6 +2868,27 @@ SR5.dicePoolModTypes = {
 	plansMaterial             : "SR5.PlansMaterial",
 	workingFromMemory         : "SR5.WorkingFromMemory",
 	calledShot                : "SR5.CS_CalledShot",
+	defenseInMelee 			  : "SR5.DefenseModInMeleeTargetedByRange",
+	defenseInsideVehicle      : "SR5.DefenseModInsideMovingVehicle",
+	defenseProne 			  : "SR5.DefenseModProne",
+	defenseProneClose    	  : "SR5.DefenseModProneAndAttackerClose",
+	defenseProneFar 		  : "SR5.DefenseModProneAndAttackerFar",
+	defenseReceivingCharge    : "SR5.DefenseModReceivingCharge",
+	defenseRunning            : "SR5.DefenseModRunning",
+	defenseTargetedByArea     : "SR5.DefenseModTargetedByAreaEffect",
+	attackCharge              : "SR5.AttackModCharge",
+	attackFriendsInMelee      : "SR5.AttackModFriendsInMelee",
+	attackOpponentProne       : "SR5.AttackModOpponentProne",
+	attackProne               : "SR5.AttackModProne",
+	attackSuperiorPosition    : "SR5.AttackModSuperiorPosition",
+	attackTouchOnly           : "SR5.AttackModTouchOnly",
+	attackWrongHand 		  : "SR5.AttackModUsingWrongHand",
+	attackBlindFire 		  : "SR5.AttackModBlindFire",
+	attackInMelee   		  : "SR5.AttackModInMelee",
+	attackFromVehicle 		  : "SR5.AttackModFiringFromVehicle",
+	attackWithImagingDevice	  : "SR5.AttackModFiringWithImagingDevice",
+	attackIsRunning 		  : "SR5.AttackModRunning",
+	attackTakeAim   		  : "SR5.AttackModTakeAim",
 }
 
 SR5.drainModTypes = {
@@ -2875,6 +2904,7 @@ SR5.limitModTypes = {
 	various                   : "SR5.LimitModifiers",
 	perception                : "SR5.SkillPerceptionType",
 	healingSupplies           : "SR5.HealingSupplies",
+	backgroundCount			  : "SR5.SceneBackgroundCount",
 }
 
 //-----------------------------------//
@@ -2980,9 +3010,74 @@ SR5.sourceList = {
 };
 
 //-----------------------------------//
-//          STATUS EFFECTS           //
+//          MODIFIERS TYPE           //
 //-----------------------------------//
 
+SR5.modifiersTypes = {
+	adeptPower				  : "SR5.AdeptPower",
+	ammunitionType 			  : "SR5.AmmunitionType",
+	armor 					  : "SR5.Armor",
+	armorAccessory			  : "SR5.ArmorAccessory",
+	augmentations 			  : "SR5.Augmentations",
+	augmentationGrade		  : "SR5.AugmentationGrade",
+	areaEffect 				  : "SR5.AreaEffect",
+	armorAccessory			  : "SR5.ArmorAccessory",
+	armorEncumbrance		  : "SR5.ArmorEncumbrance",
+	armorMain 				  : "SR5.Armor",
+	astralPlane				  : "SR5.AstralPlane",
+	concentration 			  : "SR5.Concentration",
+	controler 				  : "SR5.Controler",
+	controlerProgram		  : "SR5.ControlerProgram",
+	controleMode			  : "SR5.ControlMode",
+	customCyberlimb			  : "SR5.CutomCyberlimb",
+	device 					  : "SR5.Device",
+	deviceRating 			  : "SR5.DeviceRating",
+	drainModifier			  : "SR5.DrainModifier",
+	hardenedArmor 			  : "SR5.HardenedArmor",
+	hardenedAstralArmor 	  : "SR5.HardenedAstalArmor",
+	itemRating				  : "SR5.ItemRating",
+	karma 					  : "SR5.Karma",
+	level 					  : "SR5.Level",
+	lifeStyleOption 		  : "SR5.LifestyleOption",
+	linkedAttribute 		  : "SR5.LinkedAttribute",
+	matrixAttribute 		  : "SR5.MatrixAttribute",
+	matrixUserMode 			  : "SR5.MatrixUserMode",
+	metatype				  : "SR5.Metatype",
+	metamagic 				  : "SR5.Metamagic",
+	module					  : "SR5.CommlinkModule",
+	multiplier   			  : "SR5.Multiplier",
+	notoriety 				  : "SR5.ReputationNotoriety",
+	penaltycondition		  : "SR5.PenaltyDamage",
+	penaltydamage 			  : "SR5.PenaltyDamage",
+	penaltymagic	   		  : "SR5.PenaltyValueMagic",
+	penaltymatrix			  : "SR5.PenaltyValueMatrix",
+	penaltyspecial		  	  : "SR5.PenaltyValueSpecial",
+	possession 				  : "SR5.Possession",
+	program 				  : "SR5.Program",
+	specialization 			  : "SR5.Skill",
+	skillRating				  : "SR5.SkillRating",
+	skillGroup 				  : "SR5.SkillGroup",
+	spell 					  : "SR5.Spell",
+	spiritType                : "SR5.SpiritType",
+	spriteType 				  : "SR5.SpriteType",
+	vehicleMod				  : "SR5.VehicleMod",
+	visionType				  : "SR5.VisionType",
+	weaponAccessory 		  : "SR5.WeaponAccessory",
+};
+
+SR5.modifierTypes = {
+	...SR5.itemTypes,
+	...SR5.vehicleControlModes,
+	...SR5.vehicleModType,
+	...SR5.actorTypes,
+	...SR5.traditionTypes,
+	...SR5.matrixAttributes,
+	...SR5.modifiersTypes,
+};
+
+//-----------------------------------//
+//          STATUS EFFECTS           //
+//-----------------------------------//
 
 SR5.statusEffects = [
 	{
@@ -3009,6 +3104,7 @@ SR5.statusEffects = [
 		icon: "systems/sr5/img/status/StatusProneOn.svg",
 		id: "prone",
 		label: "SR5.STATUSES_Prone",
+		origin: "prone",
 	},
 	{
 		icon: "systems/sr5/img/status/StatusFullDefense.svg",
@@ -3026,6 +3122,18 @@ SR5.statusEffects = [
 			}
 		},
 		origin: "noAction"
+	},
+	{
+		icon: "systems/sr5/img/status/StatusCover.svg",
+		id: "cover",
+		label: "SR5.Cover",
+		origin: "cover"
+	},
+	{
+		icon: "systems/sr5/img/status/StatusCoverFull.svg",
+		id: "coverFull",
+		label: "SR5.CoverFull",
+		origin: "coverFull"
 	},
 ];
 

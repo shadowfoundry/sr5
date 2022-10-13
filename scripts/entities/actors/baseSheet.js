@@ -6,6 +6,7 @@ import { SR5_SocketHandler } from "../../socket.js";
 import SR5_PanDialog from "../../interface/pan-dialog.js";
 import { SR5 } from "../../config.js";
 import { SR5Actor } from "./entityActor.js";
+import { SR5_RollMessage } from "../../rolls/roll-message.js";
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -380,8 +381,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (event.ctrlKey) {
 			if ( item ) {
 				await item.delete();
-				let statusEffect = this.actor.effects.find(e => e.origin === item.system.type);
-				if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+				await SR5_EntityHelpers.deleteEffectOnActor(this.actor, item.system.type);
 				return
 			}
 		} else {
@@ -391,8 +391,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				yes: () => {
 					item.delete();
 					if (item.type === "itemEffect"){
-						let statusEffect = this.actor.effects.find(e => e.origin === item.system.type);
-						if (statusEffect) this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+						SR5_EntityHelpers.deleteEffectOnActor(this.actor, item.system.type);
 					}
 				},
 			});
@@ -585,6 +584,16 @@ export class ActorSheetSR5 extends ActorSheet {
 				}
 				item.system.targetOfEffect = [];
 				this.actor.updateEmbeddedDocuments("Item", [item]);
+
+				//faire un truc là pour dégager le template
+				if (item.system.range === "area" && !item.system.resisted){
+					let messageID = null;
+					for (let m of game.messages){
+						if(m.flags.sr5data?.itemId === item._id && m.flags.sr5data?.templateRemove) messageID = m.id;
+					}
+					await SR5_RollMessage.removeTemplate(messageID, item._id);
+				}
+				
 			}
 		}
 
@@ -749,28 +758,21 @@ export class ActorSheetSR5 extends ActorSheet {
 				if (property.modifiers && property.modifiers.length) {
 					if (property.base) detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationBase')}${game.i18n.localize('SR5.Colons')} ${property.base}</li>`;
 					for (let modifier of Object.values(property.modifiers)) {
-						if (modifier.type === "armorAccessory") modifier.type = game.i18n.localize('SR5.ArmorAccessory');
-						if (modifier.type === "armorMain") modifier.type = game.i18n.localize('SR5.Armor');
-						if (modifier.value != undefined)
-							detailsHTML = detailsHTML + `<li>${modifier.source} [${modifier.type}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.value >= 0 ? '+' : ''))}${modifier.value}</li>`;
-						else
-							detailsHTML = detailsHTML + `<li>${modifier.source} [${modifier.type}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.dicePool >= 0 ? '+' : ''))}${modifier.dicePool}</li>`;
+						if (modifier.value != undefined) detailsHTML = detailsHTML + `<li>${modifier.source} [${game.i18n.localize(SR5.modifierTypes[modifier.type])}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.value >= 0 ? '+' : ''))}${modifier.value}</li>`;
+						else detailsHTML = detailsHTML + `<li>${modifier.source} [${game.i18n.localize(SR5.modifierTypes[modifier.type])}]${game.i18n.localize('SR5.Colons')} ${(modifier.isMultiplier ? 'x' : (modifier.dicePool >= 0 ? '+' : ''))}${modifier.dicePool}</li>`;
 					}
 				}
-					if (property.value != undefined)
-						detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.value}</li></ul>`;
-					else
-						detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.dicePool}</li></ul>`;
-					document.querySelector("#sr5helpDetails").innerHTML = detailsHTML;
+				if (property.value != undefined) detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.value}</li></ul>`;
+				else detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.dicePool}</li></ul>`;
+				document.querySelector("#sr5helpDetails").innerHTML = detailsHTML;
 			}
 			target.classList.add("active");
 		}
 	}
+
 	async _hideHelpText() {
 		let target = document.querySelector("#sr5help");
-		if (target) {
-			target.classList.remove("active");
-		}
+		if (target) target.classList.remove("active");
 	}
 
 	//Handle controler choice of a drone / Vehicle
@@ -983,8 +985,7 @@ export class ActorSheetSR5 extends ActorSheet {
 	async _onStopJamming(event){
 		event.preventDefault();
 		let jammingItem = this.actor.items.find(i => i.system.type === "signalJam");
-		let statusEffect = this.actor.effects.find(e => e.origin === "signalJam");
-		if (statusEffect) await this.actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
 		await this.actor.deleteEmbeddedDocuments("Item", [jammingItem.id]);
+		await SR5_EntityHelpers.deleteEffectOnActor(this.actor, "signalJam");
 	}
 }

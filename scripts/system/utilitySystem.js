@@ -180,7 +180,7 @@ export class SR5_SystemHelpers {
 	static getDistanceBetweenTwoPoint(firstDocument, secondDocument){
 		const r = new Ray(firstDocument, secondDocument);
 		const segments = [{ ray: r }];
-		const distance = Math.round(canvas.grid.measureDistances(segments));
+		const distance = canvas.grid.measureDistances(segments);
 		return distance;
 	}
 
@@ -192,7 +192,7 @@ export class SR5_SystemHelpers {
 	static getTemplateItemPosition(itemId){
 		let gridUnit = canvas.scene.grid.size;
 		let templatePosition = 0;
-		let templateItem = canvas.scene.templates.find((template) => template.flags.item === itemId);
+		let templateItem = canvas.scene.templates.find((template) => template.flags.sr5.item === itemId);
 		if (templateItem) {
 			//token position is based on top left grid.
 			//player will probably launch grenade on the token, so we need to tweak the position of the grenade template

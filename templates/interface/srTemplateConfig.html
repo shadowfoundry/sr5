@@ -1,0 +1,199 @@
+<form autocomplete="off">
+    <!-- Configuration Tabs -->
+    <nav class="sheet-tabs tabs" aria-role="{{localize 'SHEETS.FormNavLabel'}}">
+        <a class="item" data-tab="basic"><i class="fas fa-image"></i> {{localize "SCENES.HeaderDetails"}}</a>
+        <a class="item" data-tab="environmentalMod"><i class="fas fa-cloud-sun-rain"></i> {{localize "SR5.EnvironmentalModifiers"}}</a>
+    </nav>
+
+    <!-- Basic Tab -->
+    <div class="tab" data-tab="basic">
+        <p class="notes">{{ localize "CONTROLS.MeasureConfigHint" }}</p>
+
+        <div class="form-group">
+            <label>{{ localize "CONTROLS.MeasureType" }}</label>
+            <select name="t" data-dtype="String">
+                {{#select data.t}}
+                {{#each templateTypes as |type t|}}
+                <option value="{{t}}">{{localize type}}</option>
+                {{/each}}
+                {{/select}}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "XCoord" }} <span class="units">({{ localize "Pixels" }})</span></label>
+            <input type="text" name="x" placeholder="X" value="{{data.x}}" data-dtype="Number"/>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "YCoord" }} <span class="units">({{ localize "Pixels" }})</span></label>
+            <input type="text" name="y" placeholder="Y" value="{{data.y}}" data-dtype="Number"/>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "Direction" }} <span class="units">({{ localize "Degrees" }})</span></label>
+            <input type="text" name="direction" placeholder="{{ localize "Direction" }}" value="{{data.direction}}" data-dtype="Number"/>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "Angle" }} <span class="units">({{ localize "Degrees" }})</span></label>
+            <input type="text" name="angle" placeholder="{{ localize "Angle" }}" value="{{data.angle}}" data-dtype="Number"/>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "Distance" }} <span class="units">({{gridUnits}})</span></label>
+            {{numberInput data.distance name="distance" placeholder=(localize "Distance") min=0 max=10000}}
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "Width" }} <span class="units">({{gridUnits}})</span></label>
+            <input type="text" name="width" placeholder="{{localize "Width"}}" value="{{data.width}}" data-dtype="Number"/>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "TEMPLATE.BorderColor" }}</label>
+            <div class="form-fields">
+                {{colorPicker name="borderColor" value=data.borderColor}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "TEMPLATE.FillColor" }}</label>
+            <div class="form-fields">
+                {{colorPicker name="fillColor" value=data.fillColor}}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{ localize "TEMPLATE.FillTexture" }}</label>
+            <div class="form-fields">
+                {{filePicker target="texture" type="image"}}
+                <input class="image" type="text" name="texture" placeholder="path/image.png" value="{{data.texture}}" data-dtype="String"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>{{localize "Hidden"}}</label>
+            <input type="checkbox" name="hidden" {{checked data.hidden}}/>
+        </div>
+    </div>
+    
+    <!-- BEGIN CUSTOM SR5 PART -->
+    <!-- Environmental modifiers -->
+    <div class="tab" data-tab="environmentalMod">
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModVisibility'}}</label>
+            <select name="flags.sr5.environmentalModifiers.visibility">
+                {{#select data.flags.sr5.environmentalModifiers.visibility}}
+                    <option value="0">{{localize 'SR5.EnvironmentalVisibilityClear'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalVisibilityLight'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalVisibilityModerate'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalVisibilityHeavy'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModLight'}}</label>
+            <select name="flags.sr5.environmentalModifiers.light">
+                {{#select data.flags.sr5.environmentalModifiers.light}}
+                    <option value="0">{{localize 'SR5.EnvironmentalLightFull'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalLightPartial'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalLightDim'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalLightDarkness'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModGlare'}}</label>
+            <select name="flags.sr5.environmentalModifiers.glare">
+                {{#select data.flags.environmentalModifiers.glare}}
+                    <option value="0">{{localize 'SR5.EnvironmentalGlareNo'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalGlareWeak'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalGlareModerate'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalGlareBlinding'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.EnvironmentalModWind'}}</label>
+            <select name="flags.sr5.environmentalModifiers.wind">
+                {{#select data.flags.sr5.environmentalModifiers.wind}}
+                    <option value="0">{{localize 'SR5.EnvironmentalWindNone'}} (0)</option>
+                    <option value="1">{{localize 'SR5.EnvironmentalWindLight'}} (1)</option>
+                    <option value="2">{{localize 'SR5.EnvironmentalWindModerate'}} (2)</option>
+                    <option value="3">{{localize 'SR5.EnvironmentalWindStrong'}} (3)</option>
+                {{/select}}
+            </select>
+        </div>
+
+        <!-- Matrix Noise -->
+        <div class="form-group">
+            <p class="notes">{{localize 'SR5.SceneMatrixNoiseMsg'}}</p>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.SceneSpamZone'}}</label>
+            <select name="matrixSpam">
+                {{#select data.flags.sr5.matrixSpam}}
+                    <option value="0">{{localize 'SR5.None'}} (0)</option>
+                    <option value="1">{{localize 'SR5.SceneSpamCity'}} (1)</option>
+                    <option value="2">{{localize 'SR5.SceneSpamSprawl'}} (2)</option>
+                    <option value="3">{{localize 'SR5.SceneSpamMajorEvent'}} (3)</option>
+                    <option value="4">{{localize 'SR5.SceneSpamCityCommercial'}} (4)</option>
+                    <option value="5">{{localize 'SR5.SceneSpamSprawlCommercial'}} (5)</option>
+                    <option value="6">{{localize 'SR5.SceneSpamMassiveGatering'}} (6)</option>
+                {{/select}}
+            </select>
+        </div>
+    
+        <div class="form-group">
+            <label>{{localize 'SR5.SceneStaticZone'}}</label>
+            <select name="matrixStatic">
+                {{#select data.flags.sr5.matrixStatic}}
+                    <option value="0">{{localize 'SR5.None'}} (0)</option>
+                    <option value="1">{{localize 'SR5.SceneStaticAbandonedBuilding'}} (1)</option>
+                    <option value="2">{{localize 'SR5.SceneStaticAbandonedNeighborhood'}} (2)</option>
+                    <option value="3">{{localize 'SR5.SceneStaticRuralArea'}} (3)</option>
+                    <option value="4">{{localize 'SR5.SceneStaticWilderness'}} (4)</option>
+                    <option value="5">{{localize 'SR5.SceneStaticRemotePlace'}} (5)</option>
+                    <option value="6">{{localize 'SR5.SceneStaticRemoteEnclosedPlace'}} (6)</option>
+                {{/select}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.SceneNoiseRating'}}</label>
+            <div class="form-fields">
+                <input disabled type="number" name="sceneNoiseRating" placeholder="0" value="{{data.flags.sr5.matrixNoise}}"/>
+            </div>
+        </div>
+
+        <!-- Backgound Count -->
+        <div class="form-group">
+            <p class="notes">{{localize 'SR5.SceneBackgroundCountMsg'}}</p>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.SceneBackgroundCountRating'}}</label>
+            <div class="form-fields">
+                <input type="number" name="flags.sr5.backgroundCountValue" placeholder="0" value="{{data.flags.sr5.backgroundCountValue}}"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize 'SR5.SceneBackgroundCountAlignement'}}</label>
+            <div class="form-fields">
+                <select name="flags.sr5.backgroundCountAlignement">
+                    {{#select data.flags.sr5.backgroundCountAlignement}}
+                        <option value="none">{{localize 'SR5.None'}}</option>
+                        {{#each options.lists.traditionTypes}}
+                            <option value="{{@key}}">{{localize this}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit">
+        <i class="far fa-save"></i> {{ localize submitText }}
+    </button>
+</form>
+
+

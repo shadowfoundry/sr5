@@ -1,5 +1,6 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
+import { _getSRStatusEffect } from "../system/effectsList.js"
 
 export class SR5_EntityHelpers {
 
@@ -328,6 +329,8 @@ export class SR5_EntityHelpers {
 					return game.i18n.localize("SR5.Defenses");
 				case "system.matrix.noise":
 					return game.i18n.localize("SR5.MatrixNoise");
+				case "system.itemsProperties.environmentalMod.light":
+					return game.i18n.localize("SR5.EnvironmentalModLight");
 				default:
 					SR5_SystemHelpers.srLog(1, `Unknown '${key}' in 'getLabelByKey()'`);
 					return newKey;
@@ -335,4 +338,74 @@ export class SR5_EntityHelpers {
 		}
 	}
 
+	//Return necessery data to update a token vision mode to Astral
+	static async getAstralVisionData(tokenDocument){
+		if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getAstralVisionData()'`);
+		tokenDocument.sight.visionMode = 'astralvision';
+		tokenDocument.sight.range = 300;
+		tokenDocument.sight.color = "#303c50";
+		tokenDocument.detectionModes.push({
+			id: 'astralvision', enabled: true, range: 100,
+		});
+		return tokenDocument;
+	}
+
+	//Return necessery data to update a token vision mode to Astral
+	static async getBasicVisionData(tokenDocument){
+		if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getBasicVisionData()'`);
+		tokenDocument.sight.visionMode = 'basic';
+		tokenDocument.sight.range = 0;
+		tokenDocument.sight.color = null;
+		tokenDocument.detectionModes = tokenDocument.detectionModes.filter(d => d.id !== 'astralvision');
+		return tokenDocument;
+	}
+
+	//Add Effect to actor
+    static async addEffectToActor(actor, effect){
+        let hasEffect = actor.effects.find(e => e.origin === effect);
+        if (hasEffect) return SR5_SystemHelpers.srLog(3, `Effect "${effect}" already on`);
+        let effectToAdd = await _getSRStatusEffect(effect);
+		await actor.createEmbeddedDocuments('ActiveEffect', [effectToAdd]);
+    }
+
+    //Delete Effect on actor
+    static async deleteEffectOnActor(actor, effect){
+        let effectToRemove = actor.effects.find(e => e.origin === effect);
+        if (effectToRemove) await actor.deleteEmbeddedDocuments('ActiveEffect', [effectToRemove.id]);
+        else SR5_SystemHelpers.srLog(3, `No effect "${effect}" to delete`);
+    }
+
+	//Generate itemEffect
+	static async generateItemEffect(name, type, owner, target, value, duration, durationType){
+        let effect = {
+            name: name,
+            type: "itemEffect",
+            system: {
+                type : type,
+                ownerID: owner.id,
+                ownerName: owner.name,
+				ownerItem: owner.uuid,
+                target: target,
+                value: value,
+				duration: duration,
+                durationType: durationType,
+                customEffects: [],
+                itemEffects: [],
+                systemEffects: [],
+            },
+        }
+        return effect;
+    }
+
+	//Generate customEffect data
+    static async generateCustomEffect(category, target, type, value, forceAdd){
+        let customEffect = {
+            "category": category,
+            "target": target,
+            "type": type,
+            "value": value,
+            "forceAdd": forceAdd,
+        }
+        return customEffect;
+    }
 }

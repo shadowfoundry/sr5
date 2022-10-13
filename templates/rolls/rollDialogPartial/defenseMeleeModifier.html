@@ -1,6 +1,33 @@
+<!-- ENVIRONMENTAL MODIFIERS -->
+{{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
+
 <li class="grid">
     <div class="col-11">{{localize 'SR5.WeaponReach'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter">
         <input disabled type="number" class="SR-ModInputFilled" data-modifier="reach" value="{{reach}}" data-dtype="Number" />
+    </div>
+</li>
+
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.DefenseModProne'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox SR-ModCheckboxFilled" data-target="dicePoolModDefenseProne" data-modifier="defenseProne"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModDefenseProne" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.DefenseModRunning'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModDefenseRunning" data-modifier="defenseRunning"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModDefenseRunning" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.DefenseModReceivingCharge'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModDefenseReceivingCharge" data-modifier="defenseReceivingCharge"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModDefenseReceivingCharge" value="0" placeholder="0" data-dtype="Number" />
     </div>
 </li>

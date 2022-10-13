@@ -4155,6 +4155,11 @@
               "base": 0,
               "modifiers": []
             }
+          },
+          "bgCount": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
           }
         }
       },

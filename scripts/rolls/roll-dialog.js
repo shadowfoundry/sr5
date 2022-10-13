@@ -2,6 +2,7 @@ import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5 } from "../config.js";
+
 export default class SR5_RollDialog extends Dialog {
 
     static get defaultOptions() {
@@ -72,12 +73,12 @@ export default class SR5_RollDialog extends Dialog {
             actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
             item = actor.items.find(i => i.id === this.data.data.itemId);
 
-        if (html.find('[data-modifier="firingMode"]')[0].value === "SS"){
+        if (html.find('[data-modifier="firingMode"]')[0].value === "SS" || html.find('[data-modifier="firingMode"]')[0].value === "SF"){
             firingModeValue = 0;
             $(html).find(".hideBulletsRecoil").hide();
         } else firingModeValue = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
 
-        this.data.data.firedAmmo = firingModeValue;
+        this.data.data.firedAmmo = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
         html.find('[name="recoilBullets"]')[0].value = firingModeValue;
         html.find('[name="recoilCumulative"]')[0].value = actor.flags.sr5?.cumulativeRecoil || 0;
         if (item.system.recoilCompensation.value < 1) $(html).find(".hideWeaponRecoil").hide();
@@ -144,7 +145,7 @@ export default class SR5_RollDialog extends Dialog {
             if (dialogData.typeSub === "physical"){
                 html.find('[name="extendedTime"]')[0].value = "day";
             }
-            this._onToggleExtendedTest(true, dialogData)
+            $(html).find('#extendedBlock').show();
         }
 
         //Toggle hidden div
@@ -228,7 +229,11 @@ export default class SR5_RollDialog extends Dialog {
                 let threshold = parseInt(html.find('[name="restraintThreshold"]')[0].value);
                 dialogData.threshold = threshold + 1;
                 return;
+            case "defenseProneFar":
+                value = 4;
+                break;
             case "specificallyLooking":
+            case "defenseInsideVehicle":
                 value = 3;
                 break;
             case "escapeSituationPicks":
@@ -243,16 +248,25 @@ export default class SR5_RollDialog extends Dialog {
             case "socialObliviousToDanger":
             case "socialFan":
             case "socialBlackmailed":
+            case "defenseRunning":
+            case "attackCharge":
+            case "attackSuperiorPosition":
+            case "attackTouchOnly":
                 value = 2;
                 break;
             case "controlAvailable":
             case "socialIsDistracted":
             case "socialAuthority":
+            case "defenseReceivingCharge":
+            case "attackFriendsInMelee":
+            case "attackOpponentProne":
+            case "attackTakeAim":
                 value = 1;
                 break;
             case "socialIsDistractedInverse":
             case "socialIntoxicated":
             case "socialEvaluateSituation":
+            case "attackProne":
                 value = -1;
                 break;
             case "escapeSituationWatched":
@@ -267,10 +281,22 @@ export default class SR5_RollDialog extends Dialog {
             case "socialOutnumberTarget":
             case "socialWieldingWeaponTarget":
             case "socialLacksKnowledge":
+            case "defenseProne":
+            case "defenseProneClose":
+            case "defenseTargetedByArea":
+            case "attackWrongHand":
+            case "attackFromVehicle":
+            case "attackIsRunning":
                 value = -2;
                 break;
             case "farAway":
+            case "defenseInMelee":
+            case "attackWithImagingDevice":
+            case "attackInMelee":
                 value = -3;
+                break;
+            case "attackBlindFire":
+                value = -6;
                 break;
         }
 
@@ -283,6 +309,7 @@ export default class SR5_RollDialog extends Dialog {
             }
             this.dicePoolModifier[modifierName] = value;
             this.updateDicePoolValue(html);
+            if (modifierName === "fullDefense") SR5_EntityHelpers.addEffectToActor(actor, "fullDefense");
         } else {
             html.find(name)[0].value = 0;
             dialogData.dicePoolMod[modifierName] = {
@@ -291,6 +318,7 @@ export default class SR5_RollDialog extends Dialog {
             }
             this.dicePoolModifier[modifierName] = 0;
             this.updateDicePoolValue(html);
+            if (modifierName === "fullDefense") SR5_EntityHelpers.deleteEffectOnActor(actor, "fullDefense");
         }
     }
 
@@ -300,7 +328,8 @@ export default class SR5_RollDialog extends Dialog {
         let checkboxName, modifierName, inputName, value;
 
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
-            label;
+            label, 
+            isProned = actor.effects.find(e => e.origin === "prone");
 
         for (let e of checkboxs){
             modifierName = $(e).attr("data-modifier");
@@ -323,18 +352,42 @@ export default class SR5_RollDialog extends Dialog {
                         value = dialogData.defenseFull;
                     }
                     break;
+                case "defenseProneClose":
+                    if (isProned && dialogData.targetRangeInMeters <= 5){
+                        html.find(checkboxName)[0].checked = true;
+                        value = -2;
+                    }
+                    break;
+                case "defenseProneFar":
+                    if (isProned && dialogData.targetRangeInMeters >= 20){
+                        html.find(checkboxName)[0].checked = true;
+                        value = 4;
+                    }
+                    break;
+                case "defenseProne":
+                    if (isProned){
+                        html.find(checkboxName)[0].checked = true;
+                        value = -2;
+                    }
+                    break;
+                case "defenseTargetedByArea":
+                    html.find(checkboxName)[0].checked = true;
+                    value = -2;
+                    break;
+            }
+
+            if (html.find(checkboxName)[0].checked){
+                html.find(inputName)[0].value = value;
+                dialogData.dicePoolMod[modifierName] = {
+                    value: value,
+                    label: label,
+                }
+                this.dicePoolModifier[modifierName] = value;
+                this.updateDicePoolValue(html);
             }
         }
 
-        if (html.find(checkboxName)[0].checked){
-            html.find(inputName)[0].value = value;
-            dialogData.dicePoolMod[modifierName] = {
-                value: value,
-                label: label,
-            }
-            this.dicePoolModifier[modifierName] = value;
-            this.updateDicePoolValue(html);
-        }
+        
     }
 
     //Manage manual input modifier
@@ -578,6 +631,17 @@ export default class SR5_RollDialog extends Dialog {
                 case "cover":
                     value = SR5_DiceHelper.convertCoverToMod(ev.target.value);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[ev.target.value])})`;
+                    if (ev.target.value === "partial") {
+                        SR5_EntityHelpers.addEffectToActor(actor, "cover");
+                        SR5_EntityHelpers.deleteEffectOnActor(actor, "coverFull");
+                    } else if (ev.target.value === "full") {
+                        SR5_EntityHelpers.addEffectToActor(actor, "coverFull");
+                        SR5_EntityHelpers.deleteEffectOnActor(actor, "cover");
+                    }
+                    else {
+                       SR5_EntityHelpers.deleteEffectOnActor(actor, "cover");
+                       SR5_EntityHelpers.deleteEffectOnActor(actor, "coverFull");
+                    }
                     break
                 case "mark":
                     value = SR5_DiceHelper.convertMarkToMod(ev.target.value);
@@ -755,7 +819,7 @@ export default class SR5_RollDialog extends Dialog {
                             dialogData.calledShot.initiative = SR5_DiceHelper.convertCalledShotToInitiativeMod(dialogData.ammoType);
                             break;
                         case "bullsEye": //Errata: “The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3.”
-                            dialogData.incomingPA = dialogData.incomingPA + ((dialogData.incomingPA + 4) * Math.min(dialogData.firedAmmo, 3));
+                            dialogData.incomingPA = ((dialogData.incomingPA + 4) * Math.min(dialogData.firedAmmo, 3)) - 4;
                             break;
                         case "hitEmWhereItCounts":
                             if (dialogData.toxin.power > 0) {
@@ -853,6 +917,7 @@ export default class SR5_RollDialog extends Dialog {
                     selectValue = null;
                     dialogData.firingModeSelected = html.find(name)[0].value;
                     modifierName = "recoil";
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "spiritType":
                     selectValue = html.find(name)[0].value;
@@ -906,6 +971,15 @@ export default class SR5_RollDialog extends Dialog {
                         inputValue = parseInt(actor.system.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.system.skills.counterspelling.test.dicePool);
                         label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
                     } else inputValue = 0;
+                    break;
+                case "cover":
+                    let coverEffect = actor.effects.find(e => e.origin === "cover");
+                    let coverFullEffect = actor.effects.find(e => e.origin === "coverFull")
+                    if (coverFullEffect) selectValue = "full";
+                    else if (coverEffect) selectValue = "partial";
+                    else selectValue = "none";
+                    inputValue = SR5_DiceHelper.convertCoverToMod(selectValue);
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[selectValue])})`;
                     break;
             }
 
@@ -974,22 +1048,6 @@ export default class SR5_RollDialog extends Dialog {
         if (dialogData.type !== "ritual"){
             this.limitModifier.reagents = value;
             this.updateLimitValue(html);
-        }
-    }
-
-    //Add full defense modifier on dialog start
-    _addFullDefenseModifierOnStart(html, dialogData, actor){
-        let fullDefenseEffect = actor.effects.find(e => e.origin === "fullDefense");
-		let isInFullDefense = (fullDefenseEffect) ? true : false;
-        if (isInFullDefense){
-            html.find('[data-modifier="fullDefense"]')[0].checked = true;
-            html.find('[name="dicePoolModFullDefense"]')[0].value = dialogData.defenseFull;
-            dialogData.dicePoolMod.defenseFull = {
-                value: dialogData.defenseFull,
-                label: game.i18n.localize(SR5.dicePoolModTypes["fullDefense"]),
-            }
-            this.dicePoolModifier.fullDefense = dialogData.defenseFull;
-            this.updateDicePoolValue(html);
         }
     }
 

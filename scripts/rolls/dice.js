@@ -263,17 +263,19 @@ export class SR5_Dice {
 							dialogData.level = actorData.specialAttributes.resonance.augmented.value;
 						}
 						if (dialogData.force || dialogData.switch?.canUseReagents){
-							if (dialogData.force) dialogData.limit = dialogData.force;			
+							if (dialogData.force) dialogData.limit = dialogData.force;	
 							if (!isNaN(reagentsSpent) && dialogData.type !== "ritual") {
 								dialogData.limit = reagentsSpent;
 								dialogData.limitType = "reagents";
 							}
 						}
 						if (dialogData.level) dialogData.limit = dialogData.level;
+						//Add limit modifiers
 						for (let key in dialogData.limitMod){
 							dialogData.limit += dialogData.limitMod[key].value;
 							if (dialogData.limitMod[key].value !== 0) dialogData.hasLimitMod = true;
 						}
+						//Add dice pool modifiers
 						dialogData.dicePoolModifiers = 0;
 						for (let key in dialogData.dicePoolMod){
 							dialogData.dicePool += dialogData.dicePoolMod[key].value;
@@ -425,7 +427,7 @@ export class SR5_Dice {
 			borderColor: userActive.color,
 		};
 
-		//console.log(chatData.flags.sr5data);
+		console.log(chatData.flags.sr5data);
 		//Handle Dice so Nice
 		await SR5_Dice.showDiceSoNice(cardData.test.originalRoll, cardData.test.rollMode);
 
@@ -492,16 +494,20 @@ export class SR5_Dice {
 			case "activeSensorTargeting":
 			case "preparationFormula":
 			case "matrixIceAttack":
-			case "spritePower":
-			case "power":				
+			case "spritePower":						
 			case "martialArt":
 			case "ritual":
 			case "passThroughBarrier":
 			case "escapeEngulf":							
 			case "rammingTest":
-				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
-				if (cardData.type === "power" && cardData.typeSub !== "powerWithDefense") return;
 				await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
+				break;
+			case "power":
+				if (cardData.isRegeneration) return SR5_Dice.addRegenerationResultInfoToCard(cardData, cardData.type);
+				if (cardData.typeSub !== "powerWithDefense") { 
+					if (!cardData.switch?.transferEffect) return;
+					else await SR5_Dice.addSpellInfoToCard(cardData);
+				} else await SR5_Dice.addActionHitInfoToCard(cardData, cardData.type);
 				break;
 			case "drainCard":
 				await SR5_Dice.addDrainInfoToCard(cardData);
@@ -600,6 +606,7 @@ export class SR5_Dice {
 			case "resistance":
 			case "matrixSimpleDefense":
 			case "astralTracking":
+			case "derivedAttribute":
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.type}' type in srDicesAddInfoToCard`);
@@ -617,7 +624,7 @@ export class SR5_Dice {
 			let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damageValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damageType])}`;
 			if (cardData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.incomingPA}`;
 			if (cardData.damageElement === "toxin") label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.Toxin")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.toxinTypes[cardData.toxin.type])}`;
-			cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard",label);
+			if (cardData.damageValue > 0) cardData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("opposedTest","resistanceCard",label);
 		} else if (cardData.test.hits > 0) {
 			if (cardData.typeSub === "rangedWeapon") cardData.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseRangedWeapon",game.i18n.localize("SR5.Defend"));
 			else if (cardData.typeSub === "meleeWeapon") cardData.buttons.defenseMeleeWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseMeleeWeapon",game.i18n.localize("SR5.Defend"));
@@ -860,7 +867,7 @@ export class SR5_Dice {
 		//Roll failed
 		else {
 			if (cardData.type === "spell") label = game.i18n.localize("SR5.SpellCastingFailed");
-			else if (cardData.type === "adeptPower") label = game.i18n.localize("SR5.PowerFailure");
+			else if (cardData.type === "adeptPower" || cardData.type === "power") label = game.i18n.localize("SR5.PowerFailure");
 			else label = game.i18n.localize("SR5.PreparationCreateFailed");
 			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", label);
 		}
@@ -1752,7 +1759,16 @@ export class SR5_Dice {
 			default :
 		}
 
-		if (cardData.test.hits >= cardData.hits) cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+		if (cardData.test.hits >= cardData.hits) {
+			cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
+			//if type is a spell with area effect, create an effect at 0 value on defender to avoir new resistance test inside the canvas template
+			if (type === "resistSpell" && prevData.spellArea){
+				//add effect "applyEffectAuto"
+				if (cardData.netHits < 0) cardData.netHits = 0;
+				actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
+				actor.applyExternalEffect(cardData, "customEffects");
+			}
+		}
 		else {
 			if (applyEffect) {
 				if (type === "weaponResistance"){

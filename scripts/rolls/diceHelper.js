@@ -442,18 +442,16 @@ export class SR5_DiceHelper {
     }
 
     //Handle environmental modifiers
-    static handleEnvironmentalModifiers(scene, actor, noWind){
+    static handleEnvironmentalModifiers(scene, actor, noWind, areaEffect = {visibility:0, light:0, glare:0, wind:0}){
         let actorData = actor.itemsProperties.environmentalMod;
-        let visibilityMod = Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + actorData.visibility.value, 0);
-        let lightMod = Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + actorData.light.value, 0);
-        if (actor.visions.lowLight.isActive && scene.getFlag("sr5", "environModLight") > 2) visibilityMod = 3;
-        let glareMod = Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + actorData.glare.value, 0);
-        let windMod = Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + actorData.wind.value, 0);
+        let visibilityMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + areaEffect.visibility + actorData.visibility.value, 0), 4);
+        let lightMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + areaEffect.light + actorData.light.value, 0), 4);
+        if (actor.visions.lowLight.isActive && (parseInt(scene.getFlag("sr5", "environModLight")) + areaEffect.light > 2)) lightMod = 0;
+        let glareMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + areaEffect.glare + actorData.glare.value, 0), 4);
+        let windMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + areaEffect.wind + actorData.wind.value, 0), 4);
 
         let arrayMod = [visibilityMod, lightMod, glareMod, windMod];
-        if (noWind){
-            arrayMod = [visibilityMod, lightMod, glareMod];
-        }
+        if (noWind) arrayMod = [visibilityMod, lightMod, glareMod];
         let finalMod = Math.max(...arrayMod);
 
         if (finalMod > 0 && finalMod < 4) {
@@ -464,6 +462,7 @@ export class SR5_DiceHelper {
             if (nbrOfMaxValue > 1) finalMod++;
         }
 
+        if (finalMod > 4) finalMod = 4;
         let dicePoolMod = SR5_DiceHelper.convertEnvironmentalModToDicePoolMod(finalMod);
         return dicePoolMod;
     }
@@ -506,7 +505,7 @@ export class SR5_DiceHelper {
 
     //Apply Full defense effect to an actor
     static async applyFullDefenseEffect(actor){
-        let effect = await _getSRStatusEffect("fullDefenseMode");
+        let effect = await _getSRStatusEffect("fullDefense");
         actor.createEmbeddedDocuments("ActiveEffect", [effect]);
     }
 
@@ -766,7 +765,7 @@ export class SR5_DiceHelper {
         let distanceMod = message.test.hits;
         let gridUnit = canvas.scene.grid.size;
     
-        let template = canvas.scene.templates.find((t) => t.flags.item === message.itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === message.itemId);
         if (template === undefined){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
             return;
@@ -1159,8 +1158,7 @@ export class SR5_DiceHelper {
     static async jackOut(message){
         let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
         await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
-        let statusEffect = actor.effects.find(e => e.origin === "linkLock");
-        if (statusEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [statusEffect.id]);
+        await SR5_EntityHelpers.deleteEffectOnActor(actor, "linkLock");
     }
 
     static async eraseMarkChoice(messageData){
@@ -2867,18 +2865,14 @@ export class SR5_DiceHelper {
 
         for (let a of dicePool){
             switch(a.type){
-                case "Attribut lié":
-                case "Linked Attribute":
+                case "linkedAttribute":
                     attributes.push(a);
                     break;
-                case "Indice de compétence":
-                case "Groupe de compétences":
-                case "Skill rating":
-                case "Skill Group":
+                case "skillRating":
+                case "skillGroup":
                     skills.push(a);
                     break;
-                case "Armure":
-                case "Armor":
+                case "armor":
                     armors.push(a);
                     break;
                 default: everythingElse.push(a);

@@ -9,16 +9,11 @@
       "flags": {}
     }
   ],
-  "version": "0.1.1",
+  "version": "0.1.2",
   "compatibility": {
-    "minimum": 10,
-    "verified": "10.285"
+    "minimum": "10",
+    "verified": "10.288"
   },
-  "relationships": {
-    "system": [],
-    "requires": []
-  },
-  "scripts": [],
   "esmodules": [
     "sr5.js"
   ],
@@ -29,20 +24,20 @@
     {
       "lang": "en",
       "name": "English",
-      "path": "lang/en.json"
+      "path": "lang/en.json",
+      "flags": {}
     },
     {
       "lang": "fr",
       "name": "Français",
-      "path": "lang/fr.json"
+      "path": "lang/fr.json",
+      "flags": {}
     }
   ],
-  "packs": [],
   "socket": true,
   "url": "https://github.com/shadowfoundry/sr5",
   "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
-  "download": "https://github.com/shadowfoundry/sr5/releases/download/0.0.4.7/sr5.zip",
-  "protected": false,
+  "download": "https://github.com/shadowfoundry/sr5/releases/download/0.1.1/sr5.zip",
   "background": "systems/sr5/img/launcher.jpg",
   "initiative": "1d6",
   "gridDistance": 1,

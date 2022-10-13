@@ -7,16 +7,20 @@
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
 {{/if}}
 
-{{#if (eq typeSub 'meleeWeapon')}}
-    <!-- DEFENSE - REACH -->
-    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
-    <!-- ENVIRONMENTAL MODIFIERS -->
-    {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
-{{/if}}
-
 <!-- ACTIVE DEFENSE -->
 {{#if (or (eq typeSub "meleeWeapon")(eq typeSub "ramming"))}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
+{{/if}}
+
+<!-- SPECIAL CASE FOR SPELL WITH AREA EFFECT-->
+{{#if (eq spellRange "area")}}
+    <li class="grid">
+        <div class="col-10">{{localize 'SR5.DefenseModTargetedByAreaEffect'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox SR-ModCheckboxFilled" data-target="dicePoolModDefenseTargetedByArea" data-modifier="defenseTargetedByArea"></div>
+        <div class="col-1 SR-TextCenter">
+            <input disabled type="number" name="dicePoolModDefenseTargetedByArea" value="0" placeholder="0" data-dtype="Number" />
+        </div>
+    </li>
 {{/if}}
 
 <!-- COVERS -->
@@ -28,4 +32,3 @@
 {{#if defenseFull}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
 {{/if}}
-

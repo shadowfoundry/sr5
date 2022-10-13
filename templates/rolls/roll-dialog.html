@@ -12,6 +12,7 @@
 		{{#if (ne type "passThroughDefense")}}
 	  		{{> systems/sr5/templates/rolls/rollDialogPartial/modifiers.html}}
 		{{/if}}
+		
 
 	  	<!-- ATTACK -->
 	  	{{#if (eq type "attack")}}
@@ -20,8 +21,8 @@
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/firingModeModifier.html}}
 			{{/if}}
 			{{#if (eq typeSub "meleeWeapon")}}
-		  		<!-- ATTACK - MELEE MODIFIERS -->
-		  		{{> systems/sr5/templates/rolls/rollDialogPartial/meleeModifier.html}}
+		  		<!-- ATTACK - MELEE MODIFIERS --> 
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/meleeOptions.html}}
 			{{/if}}
 			{{#if (or (eq typeSub "rangedWeapon") (eq typeSub "grenade") )}}
 		  		<!-- ATTACK - RANGE -->
@@ -35,6 +36,7 @@
         		<!-- CALLED SHOTS -->
         		{{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
         	{{/if}}
+			
 			<!-- ATTACK - AMMO -->
 			{{#if (and (eq type "attack") (eq typeSub "rangedWeapon") )}}
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/ammo.html}}
