@@ -289,7 +289,7 @@ export const registerHooks = function () {
 		}
 
 		//Keep edge monitor synchro with tokens
-		if (document.type === "actorGrunt" && data.system.conditionMonitors?.edge){
+		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge){
 			await SR5Actor.keepEdgeSynchroWithGrunt(document);
 		}
 		//let truc = document.effects.find(e => e.origin = "linkLock")
@@ -365,7 +365,6 @@ export const registerHooks = function () {
 
 		if (actor.type ==="actorSpirit") {
 			SR5_CharacterUtility.switchToInitiative(actor, "astralInit");
-			SR5_CharacterUtility.handleAstralVision(actor);
 		}
 	});
 

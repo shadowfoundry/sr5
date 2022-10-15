@@ -356,7 +356,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updatePowerPoints(actor);
 				SR5_CharacterUtility.updateCounterSpellPool(actor);
 				SR5_CharacterUtility.handleVision(actor);
-				SR5_CharacterUtility.handleAstralVision(actor);
+				//SR5_CharacterUtility.handleAstralVision(actor);
 				if (actor.type === "actorPc") {
 					SR5_CharacterUtility.updateKarmas(actor);
 					SR5_CharacterUtility.updateNuyens(actor);
