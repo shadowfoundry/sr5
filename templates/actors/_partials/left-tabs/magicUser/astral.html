@@ -9,7 +9,11 @@
 		  	  data-helpTitle="{{localize 'SR5.HELP_AstralPerception'}}"
 			  data-helpMessage="{{localize 'SR5.HELP_AstralPreceptionMsg'}}"
 			>
-				<input type="checkbox" name="system.visions.astral.isActive" data-dtype="Boolean" {{checked system.visions.astral.isActive}}>
+			{{#if system.visions.astral.isActive}}
+	            <a class= "vision-switch" data-binding="astral" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack SR-SubColor"></em></a>
+			{{else}}
+			    <a class= "vision-switch" data-binding="astral" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack"></em></a>
+			{{/if}}
 			</div>
 	  	</li>
 	  	<li class="grid">

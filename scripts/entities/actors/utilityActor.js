@@ -781,7 +781,7 @@ export class SR5_CharacterUtility extends Actor {
 		let token, tokenData;
 
 		if (actor.token) {
-
+			token = canvas.scene?.tokens.find((t) => t.id === actor.token.id);
 		} else {
 			token = canvas.scene?.tokens.find((t) => t.actorId === actor.id);
 		}
@@ -790,7 +790,7 @@ export class SR5_CharacterUtility extends Actor {
 		if (actorData.visions.astral.isActive){
 			await SR5_EntityHelpers.addEffectToActor(actor, "astralVision");
 			if (canvas.scene && token) {
-				if (tokenData.sight.visionMode = 'astralvision') return;
+				if (tokenData.sight.visionMode === 'astralvision') return;
 				tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
 				await token.update(tokenData);
 			}
@@ -818,6 +818,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		await actor.update({ 'system': actorData });
+		if (vision === "astral" || currentVision === "astral") this.handleAstralVision(actor);
 	}
 
 	static applyRacialModifers(actor) {
@@ -1609,7 +1610,6 @@ export class SR5_CharacterUtility extends Actor {
 		if (initiative === "astralInit") actorData.visions.astral.isActive = true;
 
 		await actor.update({ 'system': actorData });
-
 		//check if previous effect is on
 		let previousInitiativeEffect = actor.effects.find(effect => effect.origin === "initiativeMode");
 		//generate effect
@@ -1621,9 +1621,10 @@ export class SR5_CharacterUtility extends Actor {
 			if(previousInitiativeEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [previousInitiativeEffect.id]);
 		} else {
 			if(previousInitiativeEffect) await previousInitiativeEffect.update(initiativeEffect);
-			else actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
+			else await actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
 		}
-		
+
+		if (initiative === "astralInit" || currentInitiative === "astralInit") this.handleAstralVision(entity);
 	}
 
 	// Generate Actor defense

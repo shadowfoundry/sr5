@@ -388,7 +388,7 @@ SR5.visionTypes = {
 };
 
 SR5.visionActive = {
-	//astralIsChecked         : "SR5.AstralPerception",
+	astral                    : "SR5.AstralPerception",
 	lowLight                  : "SR5.LowLightVision",
 	thermographic             : "SR5.ThermographicVision",
 	ultrasound                : "SR5.UltrasoundVision",

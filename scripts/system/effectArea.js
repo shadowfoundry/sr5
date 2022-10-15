@@ -225,7 +225,7 @@ export class SR5_EffectArea {
     //Iterate through canvas template to check if current token is inside
     static async checkIfTokenIsInTemplate(tokenDocument){
         for (let templateDocument of tokenDocument.parent.templates){
-            if (templateDocument.flags.sr5.environmentalModifiers || templateDocument.flags.sr5.itemHasEffect){
+            if (templateDocument.flags.sr5?.environmentalModifiers || templateDocument.flags.sr5?.itemHasEffect){
                 let isInTemplate = await this.checkIfTemplateContainsToken(templateDocument, tokenDocument);
                 let actor = await SR5_EntityHelpers.getRealActorFromID(tokenDocument.id);
                 let effectID = templateDocument.uuid;
