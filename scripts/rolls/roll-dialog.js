@@ -148,6 +148,13 @@ export default class SR5_RollDialog extends Dialog {
             $(html).find('#extendedBlock').show();
         }
 
+        //auto fill extended test if data are already present
+        if (dialogData.extendedTest){
+            html.find('[name="toggleExtendedTest"]')[0].checked = true;
+            html.find('[name="extendedTime"]')[0].value = dialogData.extendedInterval;
+            html.find('[name="extendedMultiplier"]')[0].value = dialogData.extendedIntervalMultiplier;
+            $(html).find('#extendedBlock').show();
+        }
         //Toggle hidden div
         html.find(".SR-DialogToggle").click(ev => this._toggleDiv(ev, html));
     }

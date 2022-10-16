@@ -227,7 +227,9 @@ export const registerHooks = function () {
 	Hooks.on("updateToken", async function(tokenDocument, change) {
 		if (change.x || change.y) {
 			SR5_EffectArea.tokenAura(tokenDocument);
-			SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
+			if (game.user.isGM){
+				SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
+			}
 		}
 	});
 
@@ -287,7 +289,7 @@ export const registerHooks = function () {
 		}
 
 		//Keep edge monitor synchro with tokens
-		if (document.type === "actorGrunt" && data.system.conditionMonitors?.edge){
+		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge){
 			await SR5Actor.keepEdgeSynchroWithGrunt(document);
 		}
 		//let truc = document.effects.find(e => e.origin = "linkLock")
@@ -363,7 +365,6 @@ export const registerHooks = function () {
 
 		if (actor.type ==="actorSpirit") {
 			SR5_CharacterUtility.switchToInitiative(actor, "astralInit");
-			SR5_CharacterUtility.handleAstralVision(actor);
 		}
 	});
 
@@ -372,14 +373,17 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on('drawMeasuredTemplate', async (template) => {
+		if ( !game.user.isGM ) return;
 		await SR5_EffectArea.initiateTemplateEffect(template);
 	});
 
 	Hooks.on('deleteMeasuredTemplate', async (templateDocument) => {
+		if ( !game.user.isGM ) return;
 		await SR5_EffectArea.removeTemplateEffect(templateDocument);
 	});
 
 	Hooks.on('updateMeasuredTemplate', async (templateDocument) => {
+		if ( !game.user.isGM ) return;
 		await SR5_EffectArea.checkUpdatedTemplateEffect(templateDocument);
 	});
 	

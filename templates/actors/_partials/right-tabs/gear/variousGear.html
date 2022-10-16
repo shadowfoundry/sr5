@@ -5,7 +5,8 @@
 			<div class="col-4 SR-TextUppercase">{{localize 'SR5.Gear'}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.Quantity'}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.Capacity'}}</div>
-			<div class="col-2 SR-TextCenter">{{localize 'SR5.Rating'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.Rating'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6">
@@ -37,11 +38,16 @@
 				{{system.quantity}}
 			</div>
 			<div class="col-2 SR-TextCenter">[{{valueOrDash system.capacityTaken.value}}]</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
-			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
-			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.itemRating" data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}" data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
 				{{valueOrDash system.itemRating}}
 			</div>
+			{{#if (and (eq system.canRollTest true) (gt system.test.dicePool 0) )}}
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="itemRoll" data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_ItemRollMsg'}}" data-helpDetailsItem="system.test" data-helpItemId="{{_id}}">
+					{{system.test.dicePool}}
+				</div>
+			{{else}}
+				<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_Accessory' key=name}}" data-helpMessage="{{localize 'SR5.HELP_AccessoryMsg'}}">
@@ -67,7 +73,7 @@
 		{{else if (or (eq system.isPlugged false) (eq item.type 'itemDrug'))}}
 	  	<li class="item grid" data-item-id="{{item._id}}" draggable="true">
 		  	<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				  {{item.name}}
+				{{item.name}}
 		  	</div>
 			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.quantity"
 			  data-helpTitle="{{localize 'SR5.HELP_Quantity' key=name}}"
@@ -77,11 +83,18 @@
 			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.capacity.base">
 				{{valueOrDash system.capacity.value}}
 			</div>
-			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
+			<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
 			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
 				{{valueOrDash system.itemRating}}
 			</div>
+			{{#if (and (eq system.canRollTest true) (gt system.test.dicePool 0) )}}
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="itemRoll" data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_ItemRollMsg'}}" data-helpDetailsItem="system.test" data-helpItemId="{{_id}}">
+					{{system.test.dicePool}}
+				</div>
+			{{else}}
+				<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
 			<div class="col-1">
 				<div class="grid">
 					{{#if (eq item.type 'itemDrug')}}
@@ -159,7 +172,14 @@
 				<p class="SR-MarginLeft10">{{accessory.name}}</p></div>
 			<div class="col-2 SR-TextCenter"></div>
 			<div class="col-2"><p class="SR-TextCenter">[{{valueOrDash accessory.system.capacityTaken.value}}]</p></div>
-			<div class="col-2 SR-TextCenter">{{valueOrDash accessory.system.itemRating}}</div>
+			<div class="col-1 SR-TextCenter">{{valueOrDash accessory.system.itemRating}}</div>
+			{{#if (and (eq system.canRollTest true) (gt system.test.dicePool 0) )}}
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="itemRoll" data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_ItemRollMsg'}}" data-helpDetailsItem="system.test" data-helpItemId="{{_id}}">
+					{{system.test.dicePool}}
+				</div>
+			{{else}}
+				<div class="col-1 SR-TextCenter">-</div>
+			{{/if}}
 			<div class="col-1">
 				<div class="grid">
 					<div class="col-6">

@@ -46,7 +46,7 @@ class DetectionModeBasicSightSR extends DetectionModeBasicSight {
 			//check if target has astral effect and hide it if true;
 			detected = tgt.actor.effects.find(e => e.flags.core.statusId === "astralInit");
 			return !detected;
-		} 
+		} else return true;
 	}
   }
 

@@ -443,6 +443,14 @@ export class SR5_RollMessage {
                     await SR5_DiceHelper.applyEffectToItem(messageData, type);
                     SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
+                case "removeCase":
+                    await SR5_DiceHelper.updateActorData(messageData.targetActor, "maglock.caseRemoved", 0, true);
+                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                    break;
+                case "removeAntiTamper":
+                    await SR5_DiceHelper.updateActorData(messageData.targetActor, "maglock.hasAntiTamper", 0, true);
+                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
             }
@@ -581,6 +589,12 @@ export class SR5_RollMessage {
                 break;
             case "firstAid":
                 messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.healValue}${game.i18n.localize(SR5.damageTypesShort[firstOption])} ${game.i18n.localize("SR5.Healed")}`);
+                break;
+            case "removeCase":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MaglockCaseRemoved"));
+                break;
+            case "removeAntiTamper":
+                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MaglockAntiTamperRemoved"));
                 break;
             default:
         }

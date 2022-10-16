@@ -2887,4 +2887,36 @@ export class SR5_DiceHelper {
         let dicePoolComposition = attributes.concat(skills, armors, powers, everythingElse);
         return dicePoolComposition;
     }
+
+    /** Update an actor with given data
+   * @param {string} actorID - Target actor's ID
+   * @param {string} path - Path to the key, without 'system'
+   * @param {number} value - The new value
+   * @param {boolean} boolean - If the value to change is a boolean, default = false
+   */
+    static async updateActorData(actorID, path, value, boolean = false){
+        let actor = SR5_EntityHelpers.getRealActorFromID(actorID);
+        if (!actor) return;
+        let actorData = duplicate(actor.system);
+
+        //change value
+        if (boolean) {
+            let oldvalue = path.split('.').reduce((previous, current) => previous[current], actorData);
+            mergeObject(actorData, {[path]: !oldvalue,});
+        } else mergeObject(actorData, {[path]: value,});
+
+        //update actor
+        if (!game.user?.isGM) {
+            await SR5_SocketHandler.emitForGM("updateActorData", {
+                actorID: actorID,
+                dataToUpdate: actorData,
+            });
+        } else await actor.update({"system": actorData});
+    }
+
+    //Socket for updating an actor
+    static async _socketUpdateActorData(message) {
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.data.actorID);
+        await actor.update({'system': message.data.dataToUpdate});
+	}
 }

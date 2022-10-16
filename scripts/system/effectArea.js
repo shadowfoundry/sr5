@@ -194,7 +194,8 @@ export class SR5_EffectArea {
                 //If effect is not resisted, apply effect to actor
                 if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects");
                 else {
-                    let message = game.messages.find(m => m.flags.sr5data?.type === "spell" && m.flags.sr5data?.itemUuid === templateData.itemUuid)
+                    let message = game.messages.find(m => m.flags.sr5data?.type === "spell" && m.flags.sr5data?.itemUuid === templateData.itemUuid);
+                    if (!message) return;
                     let messageData = message.flags.sr5data;
 				    if (messageData) actor.rollTest("resistSpell", null, messageData);
                 }
@@ -224,7 +225,7 @@ export class SR5_EffectArea {
     //Iterate through canvas template to check if current token is inside
     static async checkIfTokenIsInTemplate(tokenDocument){
         for (let templateDocument of tokenDocument.parent.templates){
-            if (templateDocument.flags.sr5.environmentalModifiers || templateDocument.flags.sr5.itemHasEffect){
+            if (templateDocument.flags.sr5?.environmentalModifiers || templateDocument.flags.sr5?.itemHasEffect){
                 let isInTemplate = await this.checkIfTemplateContainsToken(templateDocument, tokenDocument);
                 let actor = await SR5_EntityHelpers.getRealActorFromID(tokenDocument.id);
                 let effectID = templateDocument.uuid;

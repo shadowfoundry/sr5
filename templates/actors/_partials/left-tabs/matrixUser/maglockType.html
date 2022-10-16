@@ -1,0 +1,45 @@
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-12 SR-TextUppercase">{{localize 'SR5.MaglockType'}}</div>
+		</li>
+
+		{{#each system.maglock.type}}
+		<li class="grid">
+			<div class="col-10">{{findTranslation 'maglockTypes' @key}}</div>
+			<div class="col-2 SR-TextCenter" data-helpTitle="{{findTranslation 'maglockTypes' @key}}" data-helpMessage="{{localize 'SR5.HELP_MaglockTypeToggleMsg'}}">
+		  		<input type="checkbox" name="system.maglock.type.{{@key}}" data-dtype="Boolean" {{checked this}} />
+			</div>
+		</li>
+		{{/each}}
+
+        
+    </ul>
+</div>
+
+<div class="SRBlockSheet">
+	<ul>
+		{{#if (or system.maglock.type.cardReader system.maglock.type.keyPads)}}
+		<li class="grid">
+			<div class="col-10">{{localize 'SR5.MaglockCaseRemoved'}}</div>
+			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.MaglockCaseRemoved'}}" data-helpMessage="{{localize 'SR5.HELP_MaglockCaseRemovedMsg'}}">
+		  		<input type="checkbox" name="system.maglock.caseRemoved" data-dtype="Boolean" {{checked system.maglock.caseRemoved}} />
+			</div>
+		</li>
+		{{/if}}
+        <li class="grid">
+			<div class="col-10">{{localize 'SR5.MaglockAntiTamper'}}</div>
+			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.MaglockAntiTamper'}}" data-helpMessage="{{localize 'SR5.HELP_MaglockAntiTamperMsg'}}">
+		  		<input type="checkbox" name="system.maglock.hasAntiTamper" data-dtype="Boolean" {{checked system.maglock.hasAntiTamper}} />
+			</div>
+		</li>
+		{{#if system.maglock.hasAntiTamper}}
+        <li class="grid">
+			<div class="col-10">{{localize 'SR5.MaglockAntiTamperRating'}}</div>
+			<div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.MaglockAntiTamperRating'}}" data-helpMessage="{{localize 'SR5.HELP_MaglockAntiTamperRatingMsg'}}">
+                <input type="number" data-dtype="Number" name="system.maglock.antiTamperRating" value="{{system.maglock.antiTamperRating}}" placeholder="1">
+			</div>
+		</li>
+		{{/if}}
+    </ul>
+</div>
