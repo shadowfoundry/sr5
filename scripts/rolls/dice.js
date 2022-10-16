@@ -1318,7 +1318,29 @@ export class SR5_Dice {
 					cardData.opposedSkillTestType = cardData.typeSub;
 				}
 				break;
+			case "locksmith":
+				let targetActor = SR5_EntityHelpers.getRealActorFromID(cardData.targetActor);
+				if (cardData.threshold > 0){
+					if (targetActor.system.maglock.type.cardReader || targetActor.system.maglock.type.keyPads){
+						if (targetActor.system.maglock.hasAntiTamper && targetActor.system.maglock.caseRemoved){
+							if (cardData.hits >= cardData.threshold) cardData.buttons.removeAntiTamper = SR5_RollMessage.generateChatButton("nonOpposedTest","removeAntiTamper", game.i18n.localize("SR5.MaglockRemoveAntiTamper"));
+							else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.AlarmTriggered"));
+						} else if (cardData.hits >= cardData.threshold) {
+							if (!targetActor.system.maglock.caseRemoved) cardData.buttons.removeCase = SR5_RollMessage.generateChatButton("nonOpposedTest","removeCase", game.i18n.localize("SR5.MaglockRemoveCase"));
+							else cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.MaglockIsOpen"));
+							cardData.extendedTest = false;
+						}
+					}
+				}
+				break;
 			default:
+				//Manage extended tests with threshold
+				if (cardData.threshold > 0){
+					if (cardData.hits >= cardData.threshold) {
+						cardData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfullTest"));
+						cardData.extendedTest = false;
+					}
+				}
 		}
 	}
 

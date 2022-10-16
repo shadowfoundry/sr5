@@ -969,6 +969,11 @@ SR5.addictionTypes = {
 	psychological             : "SR5.AddictionPsychological",
 };
 
+SR5.itemRollTestType = {
+	rating 					  : "SR5.ItemRating",
+	ratingX2				  : "SR5.ItemRatingX2",
+}
+
 //-----------------------------------//
 //             AUGMENTATIONS         //
 //-----------------------------------//
@@ -2637,6 +2642,7 @@ SR5.deviceTypes = {
 	slavedDevice              : "SR5.DEVICE_TYPE_SlavedDevice_F",
 	host                      : "SR5.DEVICE_TYPE_Host_F",
 	ice                       : "SR5.DEVICE_TYPE_Ice_F",
+	maglock					  : "SR5.DEVICE_TYPE_Maglock",
 };
 
 // Ice types
@@ -2655,6 +2661,16 @@ SR5.iceTypes = {
 	iceSparky                 : "SR5.IceSparky",
 	iceTarBaby                : "SR5.IceTarBaby",
 	iceTrack                  : "SR5.IceTrack",
+}
+
+//Maglocks types
+SR5.maglockTypes = {
+	cardReader				  : "SR5.MaglockCardReader",
+	dnaScanner				  : "SR5.MaglockDnaScanner",
+	facialRecognition		  : "SR5.MaglockFacialRecognition",
+	keyPads					  : "SR5.MaglockKeyPad",
+    printScanner			  : "SR5.MaglockPrintScanner",
+    voiceRecognition		  : "SR5.MaglockVoiceRecognition",
 }
 
 //-----------------------------------//
