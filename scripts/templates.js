@@ -117,6 +117,7 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixInit.html",
 		"systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html",
 		"systems/sr5/templates/actors/_partials/left-tabs/matrixUser/pan.html",
+		"systems/sr5/templates/actors/_partials/left-tabs/matrixUser/maglockType.html",
 
 		//Left Tab - Qualities partials
 		"systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html",
@@ -269,6 +270,7 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/items/_partial/editable/_common/magicRange-edit.html",
 		"systems/sr5/templates/items/_partial/editable/_common/magicDuration-edit.html",
 		"systems/sr5/templates/items/_partial/editable/_common/accessoryChoice-edit.html",
+		"systems/sr5/templates/items/_partial/editable/_common/testRoll-edit.html",
 
 				//Adept power
 				"systems/sr5/templates/items/_partial/editable/adeptPower/powerPointCost-edit.html",

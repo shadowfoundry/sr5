@@ -1,0 +1,15 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.CanRoll'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextLeft"><input type="checkbox" name="system.canRollTest" data-dtype="Boolean" {{checked system.canRollTest}} /></div>
+    {{#if system.canRollTest}}
+    <div class="col-6 SR-TextRight">
+		<select name="system.test.type" data-dtype="String">
+		{{#select system.test.type}}
+			{{#each lists.itemRollTestType}}
+			<option value="{{@key}}">{{localize this}}</option>
+			{{/each}}
+		{{/select}}
+		</select>
+	</div>
+    {{/if}}
+</li>

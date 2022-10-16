@@ -124,6 +124,17 @@ export class SR5_Roll {
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rulesCalledShot = true;
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rulesMatrixGrid = true;
 
+        //targeted tokens
+        if (game.user.targets.size){
+            targetActor = await SR5_Roll.getTargetedActor();
+            if (targetActor){
+                optionalData = mergeObject(optionalData, {
+                    hasTarget: true,
+                    targetActor: await SR5_Roll.getTargetedActorID(),
+                });
+            }
+        }
+
         switch (rollType){
             case "attribute":
                 if (actor.type === "actorDrone") title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.vehicleAttributes[rollKey])}`;
@@ -348,6 +359,27 @@ export class SR5_Roll {
                         "switch.extended": false,
                         "switch.chooseDamageType": true,
                     });
+                }
+
+                //Manage maglock locksmith
+                if (typeSub === "locksmith" && targetActor){
+                    if (targetActor.type === "actorDevice"){
+						if (targetActor.system.maglock.type.cardReader || targetActor.system.maglock.type.keyPads){
+                            if (targetActor.system.maglock.hasAntiTamper && targetActor.system.maglock.caseRemoved){
+                                optionalData = mergeObject(optionalData, {
+                                    threshold: targetActor.system.maglock.antiTamperRating,
+                                });
+                            } else {
+                                optionalData = mergeObject(optionalData, {
+                                    extendedTest: true,
+								    threshold: targetActor.system.matrix.deviceRating * 2,
+								    extendedInterval: "combatTurn",
+								    extendedIntervalValue: 1,
+								    extendedMultiplier: 1,
+                                });
+                            }
+	    				}
+                    }
                 }
                 break;
 
@@ -2165,6 +2197,12 @@ export class SR5_Roll {
                 }
                 break;
 
+            case "itemRoll":
+                title = `${game.i18n.localize("SR5.Use")} ${item.name}`;
+                dicePool = itemData.test.dicePool;
+                dicePoolComposition = itemData.test.modifiers;
+                break;
+
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
@@ -2205,5 +2243,11 @@ export class SR5_Roll {
         let targets = Array.from(game.user.targets);
         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
         return SR5_EntityHelpers.getRealActorFromID(targetActorId);
+    }
+
+    static async getTargetedActorID(){
+        let targets = Array.from(game.user.targets);
+        let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
+        return targetActorId;
     }
 }

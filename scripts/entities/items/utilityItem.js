@@ -136,6 +136,12 @@ export class SR5_UtilityItem extends Actor {
 		if (itemData.availability) itemData.availability.modifiers = [];
 		if (itemData.essenceCost) itemData.essenceCost.modifiers = [];
 
+		//Rest test dicepool
+		if (itemData.test){
+			itemData.test.dicePool = 0;
+			itemData.test.modifiers = [];
+		}
+
 		//Reset weapon modifiers
 		if (item.type === "itemWeapon") {
 			itemData.firingMode.value = [];
@@ -1914,6 +1920,13 @@ export class SR5_UtilityItem extends Actor {
 				itemData.accessory[index] = item;
 			}
 		}
+	}
+
+	static generateTestDicepool(itemData){
+		itemData.test.base = 0;
+		SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize("SR5.ItemRating"), "linkedAttribute", itemData.itemRating, false, true);
+		if (itemData.test.type === "ratingX2") SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize("SR5.ItemRating"), "linkedAttribute", itemData.itemRating, false, true);
+		SR5_EntityHelpers.updateDicePool(itemData.test);
 	}
 
 	static applyItemEffects(item){

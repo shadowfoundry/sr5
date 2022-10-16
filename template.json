@@ -5261,6 +5261,19 @@
           },
           "isActive": true
         }
+      },
+      "maglock": {
+        "hasAntiTamper": false,
+        "antiTamperRating": 0,
+        "caseRemoved": false,
+        "type":{
+          "cardReader": false,
+          "keyPads": false,
+          "facialRecognition": false,
+          "voiceRecognition": false,
+          "printScanner": false,
+          "dnaScanner": false
+        }
       }
     },
     "actorSprite":{
@@ -5965,7 +5978,14 @@
       "charge": 0,
       "isMedkit": false,
       "isPlugged" : false,
-      "accessory": []
+      "accessory": [],
+      "canRollTest": false,
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "type": ""
+      }
     },
     "itemSpirit": {
       "templates": [
