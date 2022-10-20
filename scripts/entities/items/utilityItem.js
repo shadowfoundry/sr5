@@ -137,9 +137,15 @@ export class SR5_UtilityItem extends Actor {
 		if (itemData.essenceCost) itemData.essenceCost.modifiers = [];
 
 		//Rest test dicepool
-		if (itemData.test){
+		if (item.type === "itemKnowledge" || item.type === "itemLanguage"){
 			itemData.test.dicePool = 0;
 			itemData.test.modifiers = [];
+		}
+
+		//Rest rating value
+		if (item.type === "itemKnowledge" || item.type === "itemLanguage"){
+			itemData.rating.value = 0;
+			itemData.rating.modifiers = [];
 		}
 
 		//Reset weapon modifiers
@@ -163,14 +169,6 @@ export class SR5_UtilityItem extends Actor {
 			for (let key of Object.keys(SR5.toxinEffects)) {
 				itemData.toxin.effect[key] = false;
 			}
-		}
-
-		if (item.type === "itemKnowledge"){
-			itemData.modifiers = [];
-		}
-
-		if (item.type === "itemLanguage"){
-			itemData.modifiers = [];
 		}
 
 		if (item.type === "itemDrug"){

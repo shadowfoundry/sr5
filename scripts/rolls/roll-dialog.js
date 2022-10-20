@@ -20,7 +20,7 @@ export default class SR5_RollDialog extends Dialog {
         }
         if (html.find('[name="dicePoolModifiers"]').length) html.find('[name="dicePoolModifiers"]')[0].value = dicePoolModifier;
         let modifiedDicePool = dicePoolModifier + parseInt(html.find('[name="baseDicePool"]')[0].value);
-        this.data.data.dicePoolBase = parseInt(html.find('[name="baseDicePool"]')[0].value);
+        this.data.data.dicePool.base = parseInt(html.find('[name="baseDicePool"]')[0].value);
         if (modifiedDicePool < 0) modifiedDicePool = 0;
         html.find('[data-button="roll"]')[0].innerHTML = `<i class="fas fa-dice-six"></i> ${game.i18n.localize("SR5.RollDice")} (${modifiedDicePool})`;
     }
@@ -36,55 +36,55 @@ export default class SR5_RollDialog extends Dialog {
             modifiedLimit += limitModifier;
             if (modifiedLimit < 0) modifiedLimit = 0;
             html.find('[name="modifiedLimit"]')[0].value = modifiedLimit;
-            this.data.data.limitBase = parseInt(html.find('[name="baseLimit"]')[0].value);
+            this.data.data.limit.base = parseInt(html.find('[name="baseLimit"]')[0].value);
         }
     }
 
     updateDrainValue(html) {
-        this.data.data.force = parseInt(html.find('[name="force"]')[0].value);
+        this.data.data.magic.force = parseInt(html.find('[name="force"]')[0].value);
         if (html.find('[name="drainValue"]')[0]){
-            let drainModifier = this.data.data.drainMod.spell.value;
+            let drainModifier = this.data.data.magic.drain.modifiers;
             for (let value of Object.values(this.drainModifier)){
                 drainModifier += value;
             }
             let drainFinalValue = parseInt(html.find('[name="force"]')[0].value) + drainModifier;
             if (drainFinalValue < 2) drainFinalValue = 2
             html.find('[name="drainValue"]')[0].value = drainFinalValue;
-            this.data.data.drainValue = drainFinalValue;
+            this.data.data.magic.drain.value = drainFinalValue;
         }
     }
 
     updateFadingValue(html) {
-        this.data.data.level = parseInt(html.find('[name="level"]')[0].value);
+        this.data.data.matrix.level = parseInt(html.find('[name="level"]')[0].value);
         if (html.find('[name="fadingValue"]')[0]){
-            let fadingModifier = this.data.data.fadingModifier;
+            let fadingModifier = this.data.data.matrix.fading.modifiers;
             for (let value of Object.values(this.fadingModifier)){
                 fadingModifier += value;
             }
             let fadingFinalValue = parseInt(html.find('[name="level"]')[0].value) + fadingModifier;
             if (fadingFinalValue < 2) fadingFinalValue = 2
             html.find('[name="fadingValue"]')[0].value = fadingFinalValue;
-            this.data.data.fadingValue = fadingFinalValue;
+            this.data.data.matrix.fading.value = fadingFinalValue;
         }
     }
 
     calculRecoil(html){
         let firingModeValue,
-            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
-            item = actor.items.find(i => i.id === this.data.data.itemId);
+            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorID),
+            item = actor.items.find(i => i.id === this.data.data.owner.itemID);
 
         if (html.find('[data-modifier="firingMode"]')[0].value === "SS" || html.find('[data-modifier="firingMode"]')[0].value === "SF"){
             firingModeValue = 0;
             $(html).find(".hideBulletsRecoil").hide();
         } else firingModeValue = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
 
-        this.data.data.firedAmmo = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
+        this.data.data.combat.ammoFired = SR5_DiceHelper.convertModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
         html.find('[name="recoilBullets"]')[0].value = firingModeValue;
         html.find('[name="recoilCumulative"]')[0].value = actor.flags.sr5?.cumulativeRecoil || 0;
         if (item.system.recoilCompensation.value < 1) $(html).find(".hideWeaponRecoil").hide();
         if (actor.flags.sr5?.cumulativeRecoil < 1) $(html).find(".hideCumulativeRecoil").hide();
 
-        let modifiedRecoil = this.data.data.rc - firingModeValue;
+        let modifiedRecoil = this.data.data.combat.recoilCompensation - firingModeValue;
         if (modifiedRecoil > 0) modifiedRecoil = 0;
         return modifiedRecoil || 0;
     }
@@ -101,14 +101,14 @@ export default class SR5_RollDialog extends Dialog {
         this.limitModifier = {};
         this.drainModifier = {};
         this.fadingModifier = {};
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
         let dialogData = this.data.data;
+        let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorID);
 
         this.updateDicePoolValue(html);
         this.updateLimitValue(html);
 
         //Show some block on initial draw
-        if (dialogData.type === "ritual") {
+        if (dialogData.test.type === "ritual") {
             $(html).find('#useReagents').show();
             $(html).find('#reagentsModControl').show();
         }
@@ -139,20 +139,20 @@ export default class SR5_RollDialog extends Dialog {
         html.find('[name="toggleExtendedTest"]').change(ev => this._onToggleExtendedTest(ev.target.checked, dialogData, html));
 
         //Set extended test for Astral Traking or Healing test
-        if (dialogData.type === "astralTracking" || dialogData.type === "healing"){
+        if (dialogData.test.type === "astralTracking" || dialogData.test.type === "healing"){
             html.find('[name="toggleExtendedTest"]')[0].checked = true;
-            dialogData.extendedTest = true;
-            if (dialogData.typeSub === "physical"){
+            dialogData.test.isExtended = true;
+            if (dialogData.test.typeSub === "physical"){
                 html.find('[name="extendedTime"]')[0].value = "day";
             }
             $(html).find('#extendedBlock').show();
         }
 
         //auto fill extended test if data are already present
-        if (dialogData.extendedTest){
+        if (dialogData.test.isExtended){
             html.find('[name="toggleExtendedTest"]')[0].checked = true;
             html.find('[name="extendedTime"]')[0].value = dialogData.extendedInterval;
-            html.find('[name="extendedMultiplier"]')[0].value = dialogData.extendedIntervalMultiplier;
+            html.find('[name="extendedMultiplier"]')[0].value = dialogData.test.extended.multiplier;
             $(html).find('#extendedBlock').show();
         }
         //Toggle hidden div
@@ -188,7 +188,7 @@ export default class SR5_RollDialog extends Dialog {
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             value = 0;
 
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorID);
 
         switch (modifierName){
             case "socialReputation":
@@ -199,10 +199,10 @@ export default class SR5_RollDialog extends Dialog {
                 else value = -(5 - actor.system.attributes.logic.augmented.value);
                 break;
             case "penalty":
-                value = dialogData.penaltyValue;
+                value = actor.system.penalties.condition?.actual.value + actor.system.penalties.matrix?.actual.value + actor.system.penalties.magic?.actual.value + actor.system.penalties.special?.actual.value;;
                 break;
             case "fullDefense":
-                value = dialogData.defenseFull;
+                value = actor.system.specialProperties.fullDefenseValue || 0;
                 break;
             case "reagents":
                 if (isChecked) {
@@ -217,7 +217,7 @@ export default class SR5_RollDialog extends Dialog {
             case "recklessSpellcasting":
                 if (isChecked) value = 3;
                 html.find(name)[0].value = value;
-                dialogData.drainMod.recklessSpellcasting = {
+                dialogData.magic.drain.modifiers.recklessSpellcasting = {
                     value: value,
                     label: game.i18n.localize(SR5.drainModTypes[modifierName]),
                 }
@@ -225,7 +225,7 @@ export default class SR5_RollDialog extends Dialog {
                 this.updateDrainValue(html);
                 return;
             case "spiritAid":
-                value = dialogData.spiritAidMod;
+                value = dialogData.magic.spiritAid.modifier;
                 break;
             case "centering":
                 value = actor.system.magic.metamagics.centeringValue.value;
@@ -234,7 +234,7 @@ export default class SR5_RollDialog extends Dialog {
                 if (isChecked) value = 1;
                 html.find(name)[0].value = value;
                 let threshold = parseInt(html.find('[name="restraintThreshold"]')[0].value);
-                dialogData.threshold = threshold + 1;
+                dialogData.threshold.value = threshold + 1;
                 return;
             case "defenseProneFar":
                 value = 4;
@@ -309,8 +309,8 @@ export default class SR5_RollDialog extends Dialog {
 
         if (isChecked){
             html.find(name)[0].value = value;
-            dialogData.dicePoolMod[modifierName] = value;
-            dialogData.dicePoolMod[modifierName] = {
+            dialogData.dicePool.modifiers[modifierName] = value;
+            dialogData.dicePool.modifiers[modifierName] = {
                 value: value,
                 label: label,
             }
@@ -319,7 +319,7 @@ export default class SR5_RollDialog extends Dialog {
             if (modifierName === "fullDefense") SR5_EntityHelpers.addEffectToActor(actor, "fullDefense");
         } else {
             html.find(name)[0].value = 0;
-            dialogData.dicePoolMod[modifierName] = {
+            dialogData.dicePool.modifiers[modifierName] = {
                 value: 0,
                 label: label,
             }
@@ -335,6 +335,7 @@ export default class SR5_RollDialog extends Dialog {
         let checkboxName, modifierName, inputName, value;
 
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID),
             label, 
             isProned = actor.effects.find(e => e.origin === "prone");
 
@@ -346,7 +347,7 @@ export default class SR5_RollDialog extends Dialog {
 
             switch (modifierName){
                 case "patientAwakenedOrEmerged":
-                    if (dialogData.isEmergedOrAwakened){
+                    if (targetActor.system.specialAttributes.magic.augmented.value > 0 || targetActor.system.specialAttributes.resonance.augmented.value > 0){
                         html.find(checkboxName)[0].checked = true;
                         value = -2;
                     }
@@ -356,17 +357,17 @@ export default class SR5_RollDialog extends Dialog {
 		            let isInFullDefense = (fullDefenseEffect) ? true : false;
                     if (isInFullDefense){
                         html.find(checkboxName)[0].checked = true;
-                        value = dialogData.defenseFull;
+                        value = actor.system.specialProperties.fullDefenseValue || 0;
                     }
                     break;
                 case "defenseProneClose":
-                    if (isProned && dialogData.targetRangeInMeters <= 5){
+                    if (isProned && dialogData.target.rangeInMeters <= 5){
                         html.find(checkboxName)[0].checked = true;
                         value = -2;
                     }
                     break;
                 case "defenseProneFar":
-                    if (isProned && dialogData.targetRangeInMeters >= 20){
+                    if (isProned && dialogData.target.rangeInMeters >= 20){
                         html.find(checkboxName)[0].checked = true;
                         value = 4;
                     }
@@ -385,7 +386,7 @@ export default class SR5_RollDialog extends Dialog {
 
             if (html.find(checkboxName)[0].checked){
                 html.find(inputName)[0].value = value;
-                dialogData.dicePoolMod[modifierName] = {
+                dialogData.dicePool.modifiers[modifierName] = {
                     value: value,
                     label: label,
                 }
@@ -401,6 +402,7 @@ export default class SR5_RollDialog extends Dialog {
     _manualInputModifier(ev, html, dialogData, button = false){
         let target, name, modifierName, value, operator;
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID);
 
         if (button){ //Manage plus minus input
             target = $(ev.currentTarget).attr("data-target");
@@ -426,7 +428,7 @@ export default class SR5_RollDialog extends Dialog {
             case "force":
                 this.updateDrainValue(html);
                 if (html.find('#force').length) html.find('#force')[0].value = value;
-                if (dialogData.type === "ritual") this._updateReagents(value, actor, html, dialogData);
+                if (dialogData.test.type === "ritual") this._updateReagents(value, actor, html, dialogData);
                 return;
             case "reagentsSpent":
                 this._updateReagents(value, actor, html, dialogData);
@@ -443,7 +445,7 @@ export default class SR5_RollDialog extends Dialog {
                     value = -actor.system.magic.metamagics.spellShapingValue.value;
                     ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}));
                 }
-                dialogData.spellAreaMod = -value;
+                dialogData.spell.area = -value;
                 break;
             case "manaBarrierRating":
                 let barrierRating = parseInt((html.find('[name="manaBarrierRating"]')[0].value || 1));
@@ -456,7 +458,7 @@ export default class SR5_RollDialog extends Dialog {
                 let essence = 6 - Math.ceil(dialogData.patientEssence);
                 value = -Math.floor(essence/2);
                 html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
-                dialogData.dicePoolMod.patientEssence = {
+                dialogData.dicePool.modifiers.patientEssence = {
                     value: value,
                     label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${dialogData.patientEssence})`,
                 }
@@ -467,7 +469,7 @@ export default class SR5_RollDialog extends Dialog {
             case "limitModPerception":
             case "limitModVarious":
                 html.find(name)[0].value = value;
-                dialogData.limitMod[modifierName] = {
+                dialogData.limit.modifiers[modifierName] = {
                     value: value,
                     label: `${game.i18n.localize(SR5.limitModTypes[modifierName])}`,
                 }
@@ -477,7 +479,7 @@ export default class SR5_RollDialog extends Dialog {
         }
 
         html.find(name)[0].value = value;
-        dialogData.dicePoolMod[modifierName] = {
+        dialogData.dicePool.modifiers[modifierName] = {
             value: value,
             label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
         }
@@ -511,7 +513,7 @@ export default class SR5_RollDialog extends Dialog {
                     }
                     break;
                 case "matrixSceneNoise":
-                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrixNoiseScene;
+                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrix.noiseScene;
                     else value = 0;
                     break;
                 case "incomingPA":
@@ -531,14 +533,14 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "force":
                     this.updateDrainValue(html);
-                    if (dialogData.type === "ritual") this._updateReagents(1, actor, html, dialogData);
+                    if (dialogData.test.type === "ritual") this._updateReagents(1, actor, html, dialogData);
                     continue;
                 case "level":
                     this.updateFadingValue(html)
                     continue;
                 case "spiritType":
-                    if (dialogData.targetActor && (dialogData.typeSub === "binding")){
-                        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActor)
+                    if (dialogData.target.actorID && (dialogData.test.typeSub === "binding")){
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID)
                         let targetType = targetActor.system.type;
                         value = actor.system.skills.binding.spiritType[targetType].dicePool - actor.system.skills.binding.test.dicePool;
                         label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetType])})`;
@@ -552,7 +554,7 @@ export default class SR5_RollDialog extends Dialog {
                     let essence = 6 - Math.ceil(dialogData.patientEssence);
                     value = -Math.floor(essence/2);
                     html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
-                    dialogData.dicePoolMod.patientEssence = {
+                    dialogData.dicePool.modifiers.patientEssence = {
                         value: value,
                         label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${dialogData.patientEssence})`,
                     }
@@ -568,7 +570,7 @@ export default class SR5_RollDialog extends Dialog {
             }
 
             html.find(name)[0].value = value;
-            dialogData.dicePoolMod[modifierName] = {
+            dialogData.dicePool.modifiers[modifierName] = {
                 value: value,
                 label: label,
             }
@@ -583,7 +585,7 @@ export default class SR5_RollDialog extends Dialog {
             name = `[name=${target}]`,
             modifierName = $(ev.currentTarget).attr("data-modifier"),
             value, limitDV,
-            actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+            actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorID),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             position = this.position;
 
@@ -626,14 +628,14 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "firingMode":
                     value = this.calculRecoil(html);
-                    dialogData.firingModeSelected = ev.target.value;
+                    dialogData.combat.firingModeSelected = ev.target.value;
                     modifierName = "recoil";
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "defenseMode":
-                    value = SR5_DiceHelper.convertActiveDefenseToMod(ev.target.value, dialogData.activeDefenses);
+                    value = SR5_DiceHelper.convertActiveDefenseToMod(ev.target.value, dialogData.combat.activeDefenses);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.characterDefenses[ev.target.value])})`;
-                    dialogData.activeDefenseMode = ev.target.value;
+                    dialogData.combat.activeDefenseSelected = ev.target.value;
                     break;
                 case "cover":
                     value = SR5_DiceHelper.convertCoverToMod(ev.target.value);
@@ -653,7 +655,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "mark":
                     value = SR5_DiceHelper.convertMarkToMod(ev.target.value);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${ev.target.value})`;
-                    dialogData.mark = parseInt(value);
+                    dialogData.matrix.mark = parseInt(value);
                     break;
                 case "matrixRange":
                     value = SR5_DiceHelper.convertMatrixDistanceToDiceMod(ev.target.value);
@@ -662,9 +664,9 @@ export default class SR5_RollDialog extends Dialog {
                         if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').show();
                         if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').show();
                         if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').show();
-                        if (dialogData.targetGrid !== actor.system.matrix.userGrid) {
+                        if (dialogData.target.grid !== actor.system.matrix.userGrid) {
                             html.find('[name="dicePoolModTargetGrid"]')[0].value = -2;
-                            dialogData.dicePoolMod.targetGrid = {
+                            dialogData.dicePool.modifiers.targetGrid = {
                                 value: -2,
                                 label: `${game.i18n.localize(SR5.dicePoolModTypes["targetGrid"])} (${game.i18n.localize(SR5.gridTypes[html.find('[data-modifier="targetGrid"]')[0].value])})`,
                             }
@@ -677,7 +679,7 @@ export default class SR5_RollDialog extends Dialog {
                         if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').hide();
                         html.find('[name="dicePoolModTargetGrid"]')[0].value = 0;
                     }
-                    dialogData.matrixNoiseRange = ev.target.value;
+                    dialogData.matrix.noiseRange = ev.target.value;
                     break;
                 case "targetGrid":
                     if (ev.target.value !== actor.system.matrix.userGrid && ev.target.value !== "none") {
@@ -698,7 +700,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "preparationTrigger":
                     value = SR5_DiceHelper.convertTriggerToMod(ev.target.value);
                     html.find(name)[0].value = value;
-                    dialogData.drainMod.trigger = {
+                    dialogData.magic.drain.modifiers.trigger = {
                         value: value,
                         label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[ev.target.value])})`,
                     };
@@ -716,17 +718,17 @@ export default class SR5_RollDialog extends Dialog {
                     if (ev.target.value === "sight") {
                         $(html).find('#sightPerception').show();
                         if (canvas.scene) {
-                            dialogData.dicePoolMod.environmentalSceneMod = {
+                            dialogData.dicePool.modifiers.environmentalSceneMod = {
                                 value: SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actor.system, true),
                                 label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
                             }
                             label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`;
                         }
-                        html.find('[data-modifier="environmentalSceneMod"]')[0].value = dialogData.dicePoolMod.environmentalSceneMod.value;
-                        this.dicePoolModifier.environmental = dialogData.dicePoolMod.environmentalSceneMod.value;
+                        html.find('[data-modifier="environmentalSceneMod"]')[0].value = dialogData.dicePool.modifiers.environmentalSceneMod.value;
+                        this.dicePoolModifier.environmental = dialogData.dicePool.modifiers.environmentalSceneMod.value;
                     } else {
                         $(html).find('#sightPerception').hide();
-                        dialogData.dicePoolMod.environmentalSceneMod = {
+                        dialogData.dicePool.modifiers.environmentalSceneMod = {
                             value: 0,
                             label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
                         }
@@ -747,8 +749,8 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "searchType":
                     value = SR5_DiceHelper.convertSearchTypeToThreshold(ev.target.value);
-                    dialogData.threshold = value;
-                    dialogData.thresholdType = ev.target.value;
+                    dialogData.threshold.value = value;
+                    dialogData.threshold.type = ev.target.value;
                     html.find(name)[0].value = value;
                     return;
                 case "damageType":
@@ -804,7 +806,7 @@ export default class SR5_RollDialog extends Dialog {
                     return;
                 case "targetEffect":
                     dialogData.targetEffect = ev.target.value;
-                    if (dialogData.typeSub === "counterspelling"){
+                    if (dialogData.test.typeSub === "counterspelling"){
                         let spellCategory = await this.getTargetType(dialogData.targetEffect);
                         value = parseInt(actor.system.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.system.skills.counterspelling.test.dicePool);
                         label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
@@ -839,11 +841,11 @@ export default class SR5_RollDialog extends Dialog {
                             if (dialogData.toxin.speed > 0) dialogData.toxin.speed -= 1;
                             break;
                         case "throughAndInto":
-                            if (!dialogData.targetActorId) {
+                            if (!dialogData.target.actorID) {
                                 ui.notifications.warn(game.i18n.localize('SR5.WARN_TargetTroughAndInto'));
                                 return html.find(ev.currentTarget)[0].value = "";
                             } else {
-                                let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.targetActorId)
+                                let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID)
                                 value = -(targetActor.data.data.itemsProperties.armor.value + Math.floor(targetActor.data.data.attributes.body.augmented.value / 2));
                             }
                             break;
@@ -880,7 +882,7 @@ export default class SR5_RollDialog extends Dialog {
 
         this.setPosition(position);
         html.find(name)[0].value = value;
-        dialogData.dicePoolMod[modifierName] = {
+        dialogData.dicePool.modifiers[modifierName] = {
             value: value,
             label: label,
         }
@@ -937,9 +939,9 @@ export default class SR5_RollDialog extends Dialog {
                     continue;
                 case "preparationTrigger":
                     inputValue = SR5_DiceHelper.convertTriggerToMod(html.find('[data-modifier="preparationTrigger"]')[0].value);
-                    dialogData.drainMod.trigger = inputValue;
+                    dialogData.magic.drain.modifiers.trigger = inputValue;
                     dialogData.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
-                    dialogData.drainMod.trigger = {
+                    dialogData.magic.drain.modifiers.trigger = {
                         value: inputValue,
                         label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.preparationTrigger])})`,
                     };
@@ -949,8 +951,8 @@ export default class SR5_RollDialog extends Dialog {
                 case "searchType":
                     selectValue = html.find(name)[0].value;
                     inputValue = SR5_DiceHelper.convertSearchTypeToThreshold(selectValue);
-                    dialogData.threshold = inputValue;
-                    dialogData.thresholdType = selectValue;
+                    dialogData.threshold.value = inputValue;
+                    dialogData.threshold.type = selectValue;
                     html.find(targetInputName)[0].value = inputValue;
                     continue;
                 case "damageType":
@@ -973,7 +975,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "targetEffect":
                     selectValue = html.find(name)[0].value;
                     dialogData.targetEffect = selectValue;
-                    if (dialogData.typeSub === "counterspelling"){
+                    if (dialogData.test.typeSub === "counterspelling"){
                         let spellCategory = await this.getTargetType(dialogData.targetEffect);
                         inputValue = parseInt(actor.system.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.system.skills.counterspelling.test.dicePool);
                         label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
@@ -992,7 +994,7 @@ export default class SR5_RollDialog extends Dialog {
 
             html.find(targetInputName)[0].value = inputValue;
             if (selectValue) html.find(name)[0].value = selectValue;
-            dialogData.dicePoolMod[modifierName] = {
+            dialogData.dicePool.modifiers[modifierName] = {
                 value: inputValue,
                 label: label,
             }
@@ -1022,8 +1024,8 @@ export default class SR5_RollDialog extends Dialog {
 
         name = `[name=${targetInput}]`;
         html.find(name)[0].value = value;
-        dialogData.threshold = value;
-        dialogData.thresholdType = label;
+        dialogData.threshold.value = value;
+        dialogData.threshold.type = label;
     }
 
     //Manage threhsold
@@ -1039,20 +1041,20 @@ export default class SR5_RollDialog extends Dialog {
 
         let name = `[name=${targetInput}]`;
         html.find(name)[0].value = value;
-        dialogData.threshold = value;
-        dialogData.thresholdType = label;
+        dialogData.threshold.value = value;
+        dialogData.threshold.type = label;
     }
 
     _updateReagents(value, actor, html, dialogData){
         if (value > actor.system.magic.reagents){
             value = actor.system.magic.reagents;
             ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
-            if (dialogData.type === "ritual") html.find('[name="force"]')[0].value = value;
+            if (dialogData.test.type === "ritual") html.find('[name="force"]')[0].value = value;
         }
         html.find('[data-modifier="reagents"]')[0].checked = true;
         html.find('[name="reagentsSpent"]')[0].value = value;
-        dialogData.reagentsUsed = true;
-        if (dialogData.type !== "ritual"){
+        dialogData.magic.hasUsedReagents = true;
+        if (dialogData.test.type !== "ritual"){
             this.limitModifier.reagents = value;
             this.updateLimitValue(html);
         }
@@ -1064,7 +1066,7 @@ export default class SR5_RollDialog extends Dialog {
         let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
         resetedActor.resetRecoil();
         dialogData.rc += actor.flags.sr5.cumulativeRecoil;
-        dialogData.dicePoolMod.recoil.value = 0;
+        dialogData.dicePool.modifiers.recoil.value = 0;
         actor.flags.sr5.cumulativeRecoil = 0;
         let recoil = this.calculRecoil(html);
         html.find('[name="recoil"]')[0].value = recoil;
@@ -1077,7 +1079,7 @@ export default class SR5_RollDialog extends Dialog {
         ev.preventDefault();
         let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
         resetedActor.resetCumulativeDefense();
-        dialogData.dicePoolMod.cumulativeDefense.value = 0;
+        dialogData.dicePool.modifiers.cumulativeDefense.value = 0;
         actor.flags.sr5.cumulativeDefense = 0;
         html.find('[data-modifier="cumulativeDefense"]')[0].value = 0;
         this.dicePoolModifier.cumulativeDefense = 0;
@@ -1090,12 +1092,12 @@ export default class SR5_RollDialog extends Dialog {
         position.height = "auto";    
 
         if (isChecked) {
-            dialogData.extendedTest = true;
+            dialogData.test.isExtended = true;
             $(html).find('#extendedBlock').show();
             this.setPosition(position);
         }
         else {
-            dialogData.extendedTest = false;
+            dialogData.test.isExtended = false;
             $(html).find('#extendedBlock').hide();
             this.setPosition(position);
         }

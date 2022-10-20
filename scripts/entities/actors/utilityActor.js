@@ -2431,8 +2431,11 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	// Knowledge Dice Pools Calculations
-	static _generateKnowledgeSkills(itemData, actor) {
+	static _generateKnowledgeSkills(item, actor) {
+		let itemData = item.system;
 		let actorData = actor.system, attributes = actorData.attributes;
+		SR5_EntityHelpers.updateValue(itemData.rating);
+
 		switch (itemData.type) {
 			case "academic":
 			case "professional":
@@ -2449,29 +2452,33 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		let label = `${game.i18n.localize(SR5.characterAttributes[itemData.linkedAttribute])}`;
-		SR5_EntityHelpers.updateModifier(itemData, label, "linkedAttribute", attributes[itemData.linkedAttribute].augmented.value);
+		SR5_EntityHelpers.updateModifier(itemData.test, item.name, "skillRating", itemData.rating.value);
+		SR5_EntityHelpers.updateModifier(itemData.test, label, "linkedAttribute", attributes[itemData.linkedAttribute].augmented.value);
 		if (actor.system.knowledgeSkills.modifiers) {
-			itemData.modifiers = itemData.modifiers.concat(actor.system.knowledgeSkills.modifiers);
+			itemData.test.modifiers = itemData.test.modifiers.concat(actor.system.knowledgeSkills.modifiers);
 		}
-		this.applyPenalty("condition", itemData, actor);
-		this.applyPenalty("matrix", itemData, actor);
-		this.applyPenalty("magic", itemData, actor);
-		this.applyPenalty("special", itemData, actor);
-		SR5_EntityHelpers.updateValue(itemData);
+		this.applyPenalty("condition", itemData.test, actor);
+		this.applyPenalty("matrix", itemData.test, actor);
+		this.applyPenalty("magic", itemData.test, actor);
+		this.applyPenalty("special", itemData.test, actor);
+		SR5_EntityHelpers.updateDicePool(itemData.test);
 	}
 
 	// Language Skills Calculations
-	static _generateLanguageSkills(itemData, actor) {
+	static _generateLanguageSkills(item, actor) {
+		let itemData = item.system;
 		let attributes = actor.system.attributes;
+		SR5_EntityHelpers.updateValue(itemData.rating);
 
 		if (!itemData.isNative) {
-			SR5_EntityHelpers.updateModifier(itemData,  game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
-			if (actor.system.languageSkills.modifiers) itemData.modifiers = itemData.modifiers.concat(actor.system.languageSkills.modifiers);
-			this.applyPenalty("condition", itemData, actor);
-			this.applyPenalty("matrix", itemData, actor);
-			this.applyPenalty("magic", itemData, actor);
-			this.applyPenalty("special", itemData, actor);
-			SR5_EntityHelpers.updateValue(itemData, 0);
+			SR5_EntityHelpers.updateModifier(itemData.test, item.name, "skillRating", itemData.rating.value);
+			SR5_EntityHelpers.updateModifier(itemData.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+			if (actor.system.languageSkills.modifiers) itemData.test.modifiers = itemData.test.modifiers.concat(actor.system.languageSkills.modifiers);
+			this.applyPenalty("condition", itemData.test, actor);
+			this.applyPenalty("matrix", itemData.test, actor);
+			this.applyPenalty("magic", itemData.test, actor);
+			this.applyPenalty("special", itemData.test, actor);
+			SR5_EntityHelpers.updateDicePool(itemData.test, 0);
 		}
 	}
 

@@ -1,14 +1,14 @@
 <li class="grid">
-    {{#ife type "skill"}}
+    {{#if (eq test.type "skill")}}
     <div class="col-5">{{localize 'SR5.Attribute'}}{{localize 'SR5.Colons'}}</div>
     {{else}}
     <div class="col-5">{{localize 'SR5.AttributeSecondary'}}{{localize 'SR5.Colons'}}</div>
-    {{/ife}}
+    {{/if}}
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect" data-target="dicePoolModAttribute" data-modifier="attribute">
             {{#select attributKey}}
             <option value="none">{{localize 'SR5.None'}}</option>
-            {{#ife actorType "actorDrone"}}
+            {{#if (eq owner.actorType "actorDrone")}}
                 {{#each lists.vehicleAttributes}}
                 <option value="{{@key}}">{{findTranslation 'vehicleAttributes' @key}}</option>
                 {{/each}}
@@ -21,7 +21,7 @@
                     <option value="{{@key}}">{{findTranslation 'characterSpecialAttributes' @key}}</option>
                 {{/ifne}}
                 {{/each}}
-            {{/ife}}
+            {{/if}}
             {{/select}}
         </select>
     </div>

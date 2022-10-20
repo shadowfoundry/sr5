@@ -1,7 +1,7 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
-import { SR5_Dice } from "./dice.js";
+import { SR5_RollTest } from "./roll-test.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
 import { SR5_SocketHandler } from "../socket.js";
 import { SR5Actor } from "../entities/actors/entityActor.js";
@@ -64,7 +64,7 @@ export class SR5_RollMessage {
 
             newMessage.test[button.attr("data-edit-type")] = parseInt(ev.target.value);
 
-            await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
+            await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
             if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
             //Update message with new data
@@ -254,13 +254,13 @@ export class SR5_RollMessage {
                     SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
                 case "secondeChance":
-                    SR5_Dice.secondeChance(message, actor);
+                    SR5_RollTest.secondeChance(message, actor);
                     break;
                 case "pushLimit":
-                    SR5_Dice.pushTheLimit(message, actor);
+                    SR5_RollTest.pushTheLimit(message, actor);
                     break;
                 case "extended":
-                    SR5_Dice.extendedRoll(message, actor);
+                    SR5_RollTest.extendedRoll(message, actor);
                     break;
                 case "attackerPlaceMark":
                     await SR5_DiceHelper.markItem(actor.id, messageData.originalActionActor, messageData.mark, messageData.matrixTargetItemUuid);
@@ -609,7 +609,7 @@ export class SR5_RollMessage {
         if (buttonToUpdate !== "templateRemove" && buttonToUpdate !== "templatePlace"){
             messageData.secondeChanceUsed = true;
             messageData.pushLimitUsed = true;
-            messageData.editResult = false;
+            messageData.chatCard.canEditResult = false;
         }
 
         await SR5_RollMessage.updateRollCard(message.id, messageData);

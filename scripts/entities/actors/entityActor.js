@@ -4,7 +4,7 @@ import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
 import { SR5_UtilityItem } from "../items/utilityItem.js";
 import { SR5_CharacterUtility } from "./utilityActor.js";
 import { SR5_CompendiumUtility } from "./utilityCompendium.js";
-import { SR5_Roll } from "../../rolls/roll.js";
+import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
 import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
@@ -710,7 +710,7 @@ export class SR5Actor extends Actor {
 
 	//Roll a test
 	rollTest(rollType, rollKey, chatData){
-		SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
+		SR5_PrepareRollTest.rollTest(this, rollType, rollKey, chatData);
 	}
 
 	//Apply Damage to actor

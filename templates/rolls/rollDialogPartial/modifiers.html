@@ -12,7 +12,7 @@
 
 <div id="dicePoolModifier" style="display: none;">
     <!-- ATTRIBUTE CHOICE -->
-    {{#if switch.attribute}}
+    {{#if dialogSwitch.attribute}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
     {{/if}}
 
@@ -20,65 +20,65 @@
     {{> systems/sr5/templates/rolls/rollDialogPartial/customModifier.html}}
 
     <!-- WOUND MODIFIER-->
-    {{#if switch.penalty}}
+    {{#if dialogSwitch.penalty}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/woundModifier.html}}
     {{/if}}
 
     <!-- SPECIALIZATION -->
-    {{#if switch.specialization}}
+    {{#if dialogSwitch.specialization}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html}}
     {{/if}}
 
     <!-- ENVIRONMENTAL MODIFIERS -->
-    {{#if (and (eq type "attack") (eq typeSub "rangedWeapon")) }}
+    {{#if (and (eq test.type "attack") (eq test.typeSub "rangedWeapon")) }}
         {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
     {{/if}}
 
     <!-- ATTACK - VARIOUS RANGED MODIFIERS -->
-	{{#if (and (eq type "attack") (eq typeSub "rangedWeapon"))}}
+	{{#if (and (eq test.type "attack") (eq test.typeSub "rangedWeapon"))}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangedModifier.html}}
     {{/if}}
 
     <!-- ATTACK - VARIOUS MELEE MODIFIERS -->
-    {{#if (and (eq type "attack") (eq typeSub "meleeWeapon"))}}
+    {{#if (and (eq test.type "attack") (eq test.typeSub "meleeWeapon"))}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/meleeModifier.html}}
     {{/if}}
 
     <!-- SPECIFIC SKILL TEST -->
-    {{#if (or (eq type 'skill') (eq type 'skillDicePool'))}}
+    {{#if (or (eq test.type 'skill') (eq test.type 'skillDicePool'))}}
         <!-- PERCEPTION -->
-        {{#if (eq typeSub "perception")}}
+        {{#if (eq test.typeSub "perception")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/perceptionType.html}}
         {{/if}}
         <!-- MEDECINE && FIRST AID -->
-        {{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
+        {{#if (or (eq test.typeSub "medecine") (eq test.typeSub "firstAid"))}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/healingModifier.html}}
         {{/if}}
         <!-- ESCAPE ARTIST -->
-        {{#if (eq typeSub "escapeArtist")}}
+        {{#if (eq test.typeSub "escapeArtist")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/escapeArtistModifier.html}}
         {{/if}}
         <!-- SURVIVAL -->
-        {{#if (eq typeSub "survival")}}
+        {{#if (eq test.typeSub "survival")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/survivalModifier.html}}
         {{/if}}
         <!--ETIQUETTE / CON / INTIMIDATION / LEADERSHIP / NEGOCIATION / Impersonation / Performance -->
-        {{#if (or (eq typeSub "etiquette") (eq typeSub "con") (eq typeSub "intimidation") (eq typeSub "leadership") (eq typeSub "negociation") (eq typeSub "impersonation") (eq typeSub "performance"))}}
+        {{#if (or (eq test.typeSub "etiquette") (eq test.typeSub "con") (eq test.typeSub "intimidation") (eq test.typeSub "leadership") (eq test.typeSub "negociation") (eq test.typeSub "impersonation") (eq test.typeSub "performance"))}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/socialModifier.html}}
         {{/if}}
         <!-- AERONAUTICS MECHANIC / ARMORER / AUTOMOTIVE MECHANIC  /CYBERTECHNOLOGY / FORGERY / HARDWARE / INDUSTRIAL MECHANIC / NAUTICAL MECHANIC -->
-        {{#if (or (eq typeSub "aeronauticsMechanic") (eq typeSub "armorer") (eq typeSub "automotiveMechanic") (eq typeSub "cybertechnology") (eq typeSub "forgery") (eq typeSub "hardware") (eq typeSub "industrialMechanic") (eq typeSub "nauticalMechanic") )}}
+        {{#if (or (eq test.typeSub "aeronauticsMechanic") (eq test.typeSub "armorer") (eq test.typeSub "automotiveMechanic") (eq test.typeSub "cybertechnology") (eq test.typeSub "forgery") (eq test.typeSub "hardware") (eq test.typeSub "industrialMechanic") (eq test.typeSub "nauticalMechanic") )}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/buildingModifier.html}}
         {{/if}}
     {{/if}}
 
     <!-- SPELLS - FORCE - BACKGROUND COUNT -->
-    {{#if (or (eq type "spell") (eq type "preparationFormula") (eq type "preparation") (eq type "ritual") (eq type "power") )}}
+    {{#if (or (eq test.type "spell") (eq test.type "preparationFormula") (eq test.type "preparation") (eq test.type "ritual") (eq test.type "power") )}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/backgroundCountModifier.html}}
     {{/if}}
 
     <!-- SUMMONING SPIRIT TYPE -->
-	{{#if (eq typeSub "summoning")}}
+	{{#if (eq test.typeSub "summoning")}}
     <li class="grid">
         <div class="col-11">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-1 SR-TextCenter">
@@ -87,26 +87,26 @@
     {{/if}}
 
     <!-- SPIRIT AID -->
-    {{#if switch.spiritAid}}
+    {{#if dialogSwitch.spiritAid}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidModifier.html}}
     {{/if}}
 
     <!-- TARGET TYPE MODIFIERS -->
-    {{#if (eq typeSub "binding")}}
+    {{#if (eq test.typeSub "binding")}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html}}
     {{/if}}
 
      <!-- ARMOR PENETRATION -->
-    {{#if (or (and (eq type "resistanceCard") (eq typeSub "physicalDamage") ) (eq type 'accidentCard') (eq type "resistFire") )}}
+    {{#if (or (and (eq test.type "resistanceCard") (eq test.typeSub "physicalDamage") ) (eq test.type 'accidentCard') (eq test.type "resistFire") )}}
 		{{> systems/sr5/templates/rolls/rollDialogPartial/armorPenetrationModifier.html}}
 	{{/if}}
 
     <!-- DEFENSE MODIFIERS -->
-    {{#if (eq type "defenseCard")}}
-        {{#if (eq typeSub "rangedWeapon")}}
+    {{#if (eq test.type "defenseCard")}}
+        {{#if (eq test.typeSub "rangedWeapon")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifiers.html}}
         {{/if}}
-        {{#if (eq typeSub "meleeWeapon")}}
+        {{#if (eq test.typeSub "meleeWeapon")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
         {{/if}}
     {{/if}}
@@ -117,18 +117,18 @@
     {{/if_g}}
 
     <!-- SENSOR LOCK -->
-    {{#if switch.isSensorLocked}}
+    {{#if dialogSwitch.isSensorLocked}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html}}
     {{/if}}
 
 </div>
 
 <!-- SIGNATURE TARGETING -->
-{{#if (eq type "activeSensorTargeting")}}
+{{#if (eq test.type "activeSensorTargeting")}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/signature.html}}
 {{/if}}
 
 <!-- CENTERING METAMAGIC -->
-{{#if switch.centering}}
+{{#if dialogSwitch.centering}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/centering.html}}
 {{/if}}

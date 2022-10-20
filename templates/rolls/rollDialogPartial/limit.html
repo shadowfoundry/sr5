@@ -9,7 +9,7 @@
     </div>
 </li>
 <li class="grid" hidden>
-    <div class="col-1 SR-TextCenter" hidden><input disabled hidden type="number"  name="baseLimit" value="{{limit}}" placeholder="0" data-dtype="Number" /></div>
+    <div class="col-1 SR-TextCenter" hidden><input disabled hidden type="number"  name="baseLimit" value="{{limit.value}}" placeholder="0" data-dtype="Number" /></div>
 </li>
 
 <div id="limit" style="display: none;">
@@ -17,7 +17,7 @@
 <li class="grid">
     <div class="col-11">{{localize 'SR5.LimitBase'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter ">
-        <input disabled type="number" name="baseLimit" value="{{limit}}" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="baseLimit" value="{{limit.value}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 
@@ -46,7 +46,7 @@
 </li>
 {{/ife}}
 <!-- HEALING MEDKIT -->
-{{#if (or (eq typeSub "medecine") (eq typeSub "firstAid"))}}
+{{#if (or (eq test.typeSub "medecine") (eq test.typeSub "firstAid"))}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.HealingSupplies'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight">

@@ -47,15 +47,15 @@
 			<div class="col-1 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsRatingMsg'}}">
-				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.base" type="text" class="edit-value" name="language.{{_id}}.base" value="{{system.base}}" onfocus="this.select()">
+				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.rating.base" type="text" class="edit-value" name="language.{{_id}}.rating.base" value="{{system.rating.base}}" onfocus="this.select()">
 			</div>
 			<div class="col-1"
 				data-helpTitle="{{localize 'SR5.HELP_LanguageSkills' key=name}}"
 			  data-helpMessage="{{localize 'SR5.HELP_LanguageSkillsMsg'}}"
 			  data-helpItemId="{{_id}}"
 			  data-helpDetailsItem="system">
-				{{#if system.base}}
-				<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="languageSkill">{{system.value}}</p>
+			  	{{#if (gt system.test.dicePool 0)}}
+				<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="languageSkill">{{system.test.dicePool}}</p>
 				{{else}}
 				<p class="SR-TextCenter">-</p>
 				{{/if}}

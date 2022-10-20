@@ -336,6 +336,15 @@ export default class Migration {
 			}
 		}
 
+		if (item.type === "itemKnowledge" || item.type === "itemLanguage"){
+			if (item.system.base) {
+				updateData["system.rating.base"] = item.system.base;
+				updateData["system.-=base"] = null;
+				updateData["system.-=value"] = null;
+				updateData["system.-=modifiers"] = null;
+			}
+		}
+
 		//v10 migrate custom effects path
 		if (item.system?.customEffects){
 			let newCustomEffects = item.system.customEffects;

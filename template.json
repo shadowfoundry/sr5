@@ -5911,9 +5911,16 @@
       ],
       "type": "",
       "linkedAttribute": "",
-      "value": 0,
-      "base": 0,
-      "modifiers": []
+      "rating": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
     },
     "itemContact": {
       "templates": [
@@ -6113,9 +6120,16 @@
       "templates": [
         "templateDescription"
       ],
-      "value": 0,
-      "base": 0,
-      "modifiers": [],
+      "rating": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "isNative": false
     },
     "itemMark": {

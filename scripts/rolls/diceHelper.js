@@ -3,7 +3,7 @@ import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5Actor } from "../entities/actors/entityActor.js";
 import { _getSRStatusEffect } from "../system/effectsList.js";
-import { SR5_Dice } from "./dice.js";
+import { SR5_RollTest } from "./roll-test.js";
 import { SR5_SocketHandler } from "../socket.js";
 import { SR5_RollMessage } from "./roll-message.js";
 import SR5_SpendDialog from "../interface/spendNetHits-dialog.js";
@@ -249,11 +249,11 @@ export class SR5_DiceHelper {
             });
         }
 
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        let result = SR5_RollTest.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.ownerAuthor);
-        SR5_Dice.renderRollCard(cardData);
+        await SR5_RollTest.srDicesAddInfoToCard(cardData, message.ownerAuthor);
+        SR5_RollTest.renderRollCard(cardData);
     }
 
 
@@ -1148,11 +1148,11 @@ export class SR5_DiceHelper {
             speakerImg: message.speakerImg,
         };
 
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        let result = SR5_RollTest.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionActor);
-        SR5_Dice.renderRollCard(cardData);
+        await SR5_RollTest.srDicesAddInfoToCard(cardData, message.originalActionActor);
+        SR5_RollTest.renderRollCard(cardData);
     }
 
     static async jackOut(message){
@@ -1248,11 +1248,11 @@ export class SR5_DiceHelper {
             speakerImg: message.speakerImg,
         };
 
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        let result = SR5_RollTest.srd6({ dicePool: dicePool });
         cardData.test = result;
 
-        await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionActor);
-        SR5_Dice.renderRollCard(cardData);
+        await SR5_RollTest.srDicesAddInfoToCard(cardData, message.originalActionActor);
+        SR5_RollTest.renderRollCard(cardData);
     }
 
     static async jamSignals(message){
@@ -1374,7 +1374,7 @@ export class SR5_DiceHelper {
                     //Update chatMessage
                     let newMessage = duplicate(messageData);
                     newMessage.hits = messageData.hits - numberCheckedEffects;
-                    SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
+                    SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
                     if (!game.user?.isGM) SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.originalMessage, newMessage: newMessage,});
                     else SR5_RollMessage.updateRollCard(messageData.originalMessage, newMessage);
                 },

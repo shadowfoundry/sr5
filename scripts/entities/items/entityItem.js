@@ -2,7 +2,7 @@ import { SR5_UtilityItem } from "./utilityItem.js";
 import { SR5_CharacterUtility } from "../actors/utilityActor.js";
 import AbilityTemplate from "../../interface/canvas-template.js";
 import { SR5_EntityHelpers } from "../helpers.js";
-import { SR5_Roll } from "../../rolls/roll.js";
+import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5 } from "../../config.js";
 
 /**
@@ -66,10 +66,10 @@ export class SR5Item extends Item {
 				if (owner) SR5_UtilityItem._handleRitual(item, owner);
 				break;
 			case "itemKnowledge":
-				if (owner) SR5_CharacterUtility._generateKnowledgeSkills(itemData, owner);
+				if (owner) SR5_CharacterUtility._generateKnowledgeSkills(item, owner);
 				break;
 			case "itemLanguage":
-				if (owner) SR5_CharacterUtility._generateLanguageSkills(itemData, owner);
+				if (owner) SR5_CharacterUtility._generateLanguageSkills(item, owner);
 				break;
 			case "itemAugmentation":
 				SR5_UtilityItem._handleAugmentation(itemData);
@@ -427,7 +427,7 @@ export class SR5Item extends Item {
 
 	//Roll a test
 	rollTest(rollType, rollKey, chatData){
-		SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
+		SR5_PrepareRollTest.rollTest(this, rollType, rollKey, chatData);
 	}
 
 	/** Overide Item's create Dialog to hide certain items and sort them alphabetically*/

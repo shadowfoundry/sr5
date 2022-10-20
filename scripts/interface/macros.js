@@ -1,5 +1,5 @@
 import { SR5 } from "../config.js";
-import { SR5_Roll } from "../rolls/roll.js";
+import { SR5_PrepareRollTest } from "../rolls/roll-prepare.js";
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
