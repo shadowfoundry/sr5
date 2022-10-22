@@ -3,13 +3,13 @@
 </li>
 
 <!-- SPRITE - LEVEL AND TYPE -->
-{{#if (eq typeSub "compileSprite")}}
+{{#if (eq test.typeSub "compileSprite")}}
 <!-- LEVEL -->
     {{> systems/sr5/templates/rolls/rollDialogPartial/level.html}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.html}}
 {{/if}}
 
 <!-- KILL COMPLEX FORM - CHOOSE TARGET -->
-{{#if (and (eq typeSub "killComplexForm") hasTarget)}}
+{{#if (and (eq test.typeSub "killComplexForm") hasTarget)}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
 {{/if}}

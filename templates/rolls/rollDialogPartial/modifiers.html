@@ -9,15 +9,24 @@
 		<input disabled type="number" name="dicePoolModifiers" value="0" data-dtype="Number" placeholder="0" />
 	</div>
 </li>
+<!-- CUSTOM MODIFIER-->
+{{> systems/sr5/templates/rolls/rollDialogPartial/customModifier.html}}
 
 <div id="dicePoolModifier" style="display: none;">
+    <!-- ALREADY APPLIED MODIFIERS-->
+    {{#each dicePool.modifiers}}
+    {{#if (ne value 0)}}
+    <li class="grid">
+        <div class="col-11">{{label}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-1 SR-TextCenter">{{#if (gt value 0)}}+{{/if}}{{value}}</div>
+    </li>
+    {{/if}}
+    {{/each}}
+
     <!-- ATTRIBUTE CHOICE -->
     {{#if dialogSwitch.attribute}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/attributeChoice.html}}
     {{/if}}
-
-    <!-- CUSTOM MODIFIER-->
-    {{> systems/sr5/templates/rolls/rollDialogPartial/customModifier.html}}
 
     <!-- WOUND MODIFIER-->
     {{#if dialogSwitch.penalty}}

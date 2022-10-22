@@ -1638,7 +1638,7 @@ export class SR5Actor extends Actor {
 				if (effectType === "itemEffects"){
 					let itemToUpdate;
 					//Find the item
-					if (data.typeSub === "redundancy"){
+					if (data.test.typeSub === "redundancy"){
 						if (this.isToken) itemToUpdate = this.token.actor.items.find(d => d.type === "itemDevice" && d.system.isActive);
 						else itemToUpdate = this.items.find(d => d.type === "itemDevice" && d.system.isActive);
 					}
@@ -1885,8 +1885,8 @@ export class SR5Actor extends Actor {
 
 	//Manage Healing
 	static async heal(targetActorID, data){
-		let damageToRemove = data.test.hits,
-				damageType = data.typeSub,
+		let damageToRemove = data.roll.netHits,
+				damageType = data.test.typeSub,
 				targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
 				actorData = deepClone(targetActor);
 				

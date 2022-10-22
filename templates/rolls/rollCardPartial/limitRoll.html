@@ -1,29 +1,29 @@
 <li class="grid SR-LigneEnTete SR-PaddingTop10">
     <div class="col-10">
-        {{#if test.limit}}
-            {{localize 'SR5.Limit'}} {{#if (isdefined limitType)}}({{findTranslation 'testLimits' limitType}}){{/if}}{{localize 'SR5.Colons'}} 
+        {{#if (gt limit.value 0)}}
+            {{localize 'SR5.Limit'}} {{#if (isdefined limit.type)}}({{findTranslation 'testLimits' limit.type}}){{/if}}{{localize 'SR5.Colons'}} 
         {{/if}}
-        {{#if test.pushthelimit}}
+        {{#if edge.hasUsedPushTheLimit}}
             {{localize 'SR5.PushTheLimit'}}
         {{/if}}
-        {{#if hasLimitMod}}
+        {{#if limit.hasModifier}}
             <a class="SR-MessageToggle" data-target="limitModifiers" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
 		    <a class="SR-MessageToggle" data-target="limitModifiers" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
         {{/if}}
     </div>
     <div class="col-2 SR-TextRight">
-        {{#if test.limit}}
-            {{test.limit}}
+        {{#if (gt limit.value 0)}}
+            {{limit.value}}
         {{/if}}
     </div>
 </li>
-{{#if hasLimitMod}}
+{{#if limit.hasModifier}}
 <div id="limitModifiers" style="display: none;">
     <li class="grid SR-PaddingTop5 SR-GreyColor">
         <div class="col-10">{{localize 'SR5.LimitBase'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-2 SR-TextRight">{{limitBase}}</div>
+        <div class="col-2 SR-TextRight">{{limit.base}}</div>
     </li>
-    {{#each limitMod}}
+    {{#each limit.modifiers}}
     {{#if (ne value 0)}}
     <li class="grid SR-GreyColor">
         <div class="col-10">{{label}}{{localize 'SR5.Colons'}}</div>

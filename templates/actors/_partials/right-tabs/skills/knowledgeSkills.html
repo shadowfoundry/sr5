@@ -33,7 +33,7 @@
 				<div class="col-6" data-category="skills"
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsNameMsg'}}">
-					<p class="SR-PaddingRight5 {{#if (missing system.type system.base)}}incomplete{{/if}}">
+					<p class="SR-PaddingRight5 {{#if (missing system.type system.rating.base)}}incomplete{{/if}}">
 						<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text"
 							class="edit-value" name="knowledge.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 					</p>

@@ -9,7 +9,7 @@
     </div>
 </li>
 <li class="grid" hidden>
-    <div class="col-1 SR-TextCenter" hidden><input disabled hidden type="number"  name="baseLimit" value="{{limit.value}}" placeholder="0" data-dtype="Number" /></div>
+    <div class="col-1 SR-TextCenter" hidden><input disabled hidden type="number"  name="baseLimit" value="{{limit.base}}" placeholder="0" data-dtype="Number" /></div>
 </li>
 
 <div id="limit" style="display: none;">
@@ -17,9 +17,19 @@
 <li class="grid">
     <div class="col-11">{{localize 'SR5.LimitBase'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextCenter ">
-        <input disabled type="number" name="baseLimit" value="{{limit.value}}" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="baseLimit" value="{{limit.base}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+
+<!-- ALREADY APPLIED MODIFIERS-->
+{{#each limit.modifiers}}
+{{#if (ne value 0)}}
+<li class="grid">
+    <div class="col-11">{{label}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">{{#if (gt value 0)}}+{{/if}}{{value}}</div>
+</li>
+{{/if}}
+{{/each}}
 
 <!-- VARIOUS MODIFIER -->
 <li class="grid">
@@ -33,7 +43,7 @@
     </div>
 </li>
 <!-- PERCEPTION -->
-{{#ife typeSub "perception"}}
+{{#ife test.typeSub "perception"}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight">

@@ -6,6 +6,7 @@ import { SR5_PrepareRollHelper } from "./roll-prepare-helpers.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import AbilityTemplate from "../interface/canvas-template.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
+import * as SR5_GetRollData from "./roll-prepare-case/index.js";
 
 export class SR5_PrepareRollTest {
 
@@ -31,67 +32,25 @@ export class SR5_PrepareRollTest {
         //Iterate through roll type and add data to rollData;
         switch (rollType){
             case "attribute":
-                rollData = await this.getAttributeOnlyRollData(rollData, rollKey, actor);
+                rollData = await SR5_GetRollData.attributeOnlyRollData(rollData, rollKey, actor);
                 break;
-            case "languageSkill":
             case "knowledgeSkill":
-                rollData = await this.getKnowledgeSkillRollData(rollData, rollType, actor, item);
+            case "languageSkill":
+                rollData = await SR5_GetRollData.knowledgeSkillRollData(rollData, rollType, item);
+                break;
+            case "skill":
+            case "skillDicePool":
+                rollData = await SR5_GetRollData.skillRollData(rollData, rollType, rollKey, actor, chatData);
+                break;
+            case "spell":
+                rollData = await SR5_GetRollData.spellRollData(rollData, actor, item);
                 break;
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
 
         console.log(rollData);
-        await SR5_RollTest.generateRollDialog(rollData);
-    }
-
-    //Add info for Attribute only roll
-    static async getAttributeOnlyRollData(rollData, rollKey, actor){
-        //Determine title
-        if (actor.type === "actorDrone") rollData.test.title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.vehicleAttributes[rollKey])}`;
-        else rollData.test.title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.allAttributes[rollKey])}`;
-
-        //Determine base dicepool
-        if (rollKey === "edge" || rollKey === "magic" || rollKey === "resonance") rollData.dicePool.base = actor.system.specialAttributes[rollKey].augmented.value;
-        else rollData.dicePool.base = actor.system.attributes[rollKey]?.augmented.value;
-        
-        //Determine dicepool composition
-        rollData.dicePool.composition = ([{source: game.i18n.localize(SR5.allAttributes[rollKey]), type: "linkedAttribute", value: rollData.dicePool.base},]);
-
-        //Add others informations
-        rollData.lists.characterAttributes = SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.characterAttributes, "characterAttributes");
-        rollData.lists.vehicleAttributes = SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.vehicleAttributes, "vehicleAttributes");
-        rollData.lists.extendedInterval = SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.extendedInterval, "extendedInterval");
-        rollData.dialogSwitch.attribute = true;
-        rollData.dialogSwitch.penalty = true;
-        rollData.dialogSwitch.extended = true;
-        
-        //add test type and return modified data
-        rollData.test.type = "attributeOnly";
-        return rollData;
-    }
-
-    //Add info for Knowledge / language skill roll
-    static async getKnowledgeSkillRollData(rollData, rollType, actor, item){
-        //Determine title
-        rollData.test.title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + item.name}`;
-
-        //Determine base dicepool
-        rollData.dicePool.base = item.system.value;
-        
-        //Determine dicepool composition
-        rollData.dicePool.composition = item.system.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute"));
-
-        //Determine dicepool modififiers
-        rollData.dicePool.modifiers = item.system.modifiers.filter(mod => (mod.type !== "skillRating" || mod.type !== "linkedAttribute"));
-
-        //Add others informations
-        rollData.lists.extendedInterval = SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.extendedInterval, "extendedInterval");
-        rollData.dialogSwitch.specialization = true;
-        
-        //add test type and return modified data
-        rollData.test.type = rollType;
-        return rollData;
+        if (rollData) SR5_RollTest.generateRollDialog(rollData);
     }
 
     //Get the base data to build a roll test
@@ -129,6 +88,8 @@ export class SR5_PrepareRollTest {
             },
             chatCard: {
                 canEditResult: false,
+                templatePlace: false,
+                templateRemove: false,
                 buttons: {},
             },
             combat: {
@@ -182,7 +143,6 @@ export class SR5_PrepareRollTest {
                 chooseDamageType: false,
                 cover: false,
                 extended: false,
-                objectResistanceTest: false,
                 penalty: false,
                 publicGrid: false,
                 reagents: false, //canUseReagents
@@ -190,8 +150,6 @@ export class SR5_PrepareRollTest {
                 specialization: false,
                 spellShaping: false,
                 spiritAid: false,
-                templatePlace: false,
-                templateRemove: false,
                 transferEffect: false,
                 transferEffectOnItem: false,
             },
@@ -204,11 +162,14 @@ export class SR5_PrepareRollTest {
                 penaltyValue: 0, //replace by getting data from actor
                 cumulativeDefense: 0 //
             },
-            effectsList: {}, //C'est quoi ca ?
             edge: {
                 canUseEdge: false,
                 hasUsedPushTheLimit: false,
                 hasUsedSecondChance: false,
+            },
+            effects: {
+                canApplyEffect: false,
+                canApplyEffectOnItem: false,
             },
             limit: {
                 base: 0,
@@ -218,7 +179,15 @@ export class SR5_PrepareRollTest {
                 type: "", //limitType
                 value: 0,
             },
-            lists: {},
+            lists: {
+                extendedInterval: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.extendedInterval, "extendedInterval"),
+                characterAttributes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.characterAttributes, "characterAttributes"),
+                vehicleAttributes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.vehicleAttributes, "vehicleAttributes"),
+                perceptionModifiers: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.perceptionModifiers, "perceptionModifiers"),
+                perceptionTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.perceptionTypes, "perceptionTypes"),
+                spiritTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.spiritTypes, "spiritTypes"),
+                damageTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.damageTypes, "damageTypes"),
+            },
             magic: {
                 drain: {
                     value: 0,
@@ -230,6 +199,7 @@ export class SR5_PrepareRollTest {
                 spell: {
                     category: "",
                     isResisted: false,
+                    objectCanResist: false, //objectResistanceTest
                     range: 0,
                     area: 0,
                     type: "",
@@ -287,9 +257,8 @@ export class SR5_PrepareRollTest {
                 hasTarget: false,
                 actorID: "", //targetActor
                 actorType: "", //targetActorType remplacer ?
-                essence: 0, //remplacer ?
-                isEmergedOrAwakened: false, //isEmergedOrAwakened remplacer ?
-                itemUuid: "", //matrixTargetItemUuid
+                itemUuid: null, //matrixTargetItemUuid
+                itemList: {},
                 grid: "", //targetGrid
                 rangeInMeters: 0,
                 range: 0,

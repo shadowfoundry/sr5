@@ -34,11 +34,11 @@
     <div class="col-2 SR-TextRight">{{incomingPA}}</div>
 </li>
 <li class="grid">
-    {{#if (eq typeSub 'meleeWeapon')}}
+    {{#if (eq test.typeSub 'meleeWeapon')}}
     <div class="col-10">{{localize 'SR5.WeaponReach'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{attackerReach}}</div>
     {{/if}}
-    {{#if (eq typeSub 'rangedWeapon')}}
+    {{#if (eq test.typeSub 'rangedWeapon')}}
     <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</p>
     </div>
     <div class="col-2 SR-TextRight">{{findTranslation 'weaponModesCode' firingModeSelected}}</div>
@@ -60,7 +60,7 @@
     </div>
 </li>
 {{/if}}
-{{#if (eq typeSub 'grenade')}}
+{{#if (eq test.typeSub 'grenade')}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.Blast'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2 SR-TextRight">{{blastRadius}}m {{#if_l damageFallOff 0}} ({{damageFallOff}}) {{/if_l}}</div>

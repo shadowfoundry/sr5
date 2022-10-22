@@ -11,7 +11,7 @@
                     {{localize 'SR5.CS_BlastOutOfHand'}}
                 {{/if}}
             </option>
-            {{#if (and (eq typeSub "meleeWeapon") calledShot.martialArtBreakWeapon)}}            
+            {{#if (and (eq test.typeSub "meleeWeapon") calledShot.martialArtBreakWeapon)}}            
             <option value="breakWeapon">{{localize 'SR5.CS_BreakWeapon'}}</option>
             {{/if}}
             {{#if (eq damageType "stun")}}
@@ -41,15 +41,15 @@
                     {{localize 'SR5.CS_ShakeUp'}}
                 {{/if}}
             </option>
-            {{#if (and (eq typeSub "meleeWeapon") calledShot.martialArtFeint)}}
+            {{#if (and (eq test.typeSub "meleeWeapon") calledShot.martialArtFeint)}}
             <option value="feint">{{localize 'SR5.CS_Feint'}}</option>  
             {{/if}}
             <option value="splittingDamage">{{localize 'SR5.CS_SplittingDamage'}}</option>
-            {{#if (eq typeSub "meleeWeapon")}}
+            {{#if (eq test.typeSub "meleeWeapon")}}
             <option value="knockdown">{{localize 'SR5.CS_Knockdown'}}</option>
             {{/if}}
             <option value="trickShot">{{localize 'SR5.CS_TrickShot'}}</option>
-            {{#if (and (eq typeSub "meleeWeapon") (eq typeWeapon "unarmed") )}}
+            {{#if (and (eq test.typeSub "meleeWeapon") (eq typeWeapon "unarmed") )}}
             <option value="reversal">{{localize 'SR5.CS_Reversal'}}</option>
             {{/if}}
             <option value="vitals">{{localize 'SR5.CS_Vitals'}}</option>

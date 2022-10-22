@@ -1,0 +1,1 @@
+export {default as addSkillInfo} from "./test-Skill.js";

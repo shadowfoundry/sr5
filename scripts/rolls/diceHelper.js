@@ -65,7 +65,7 @@ export class SR5_DiceHelper {
         };
 
         //Spirit resistance
-        if (message.typeSub === "summoning"){
+        if (message.test.typeSub === "summoning"){
             cardData = mergeObject(cardData, {
                 spiritType: message.spiritType,
                 force: message.force,
@@ -76,7 +76,7 @@ export class SR5_DiceHelper {
         }
 
         //Sprite resistance
-        if (message.typeSub === "compileSprite"){
+        if (message.test.typeSub === "compileSprite"){
             cardData = mergeObject(cardData, {
                 spriteType: message.spriteType,
                 actorResonance: message.actorResonance,
@@ -114,7 +114,7 @@ export class SR5_DiceHelper {
         }
 
         //Complex form resistance
-        if (message.type === "resonanceAction" && message.typeSub === "killComplexForm"){
+        if (message.type === "resonanceAction" && message.test.typeSub === "killComplexForm"){
             targetItem = await fromUuid(message.targetEffect);
             dicePool = targetItem.system.threaderResonance + targetItem.system.level;
             dicePoolComposition = ([
@@ -131,7 +131,7 @@ export class SR5_DiceHelper {
         }
 
         //Spell Resistance
-        if (message.typeSub === "counterspelling"){
+        if (message.test.typeSub === "counterspelling"){
             targetItem = await fromUuid(message.targetEffect);
             dicePool = targetItem.system.casterMagic + targetItem.system.force;
             dicePoolComposition = ([
@@ -152,7 +152,7 @@ export class SR5_DiceHelper {
         }
 
         //Enchantment Resistance
-        if (message.typeSub === "disenchanting"){
+        if (message.test.typeSub === "disenchanting"){
             targetItem = await fromUuid(message.targetEffect);
             if (targetItem.type === "itemFocus") {
                 dicePool = targetItem.parent.system.specialAttributes.magic.augmented.value + targetItem.system.itemRating;
@@ -1052,7 +1052,7 @@ export class SR5_DiceHelper {
                 if (cancel) return;
                 let targetItem = html.find("[name=target]").val();
                 messageData.matrixTargetDevice = targetItem;
-                actor.rollTest("matrixDefense", messageData.typeSub, messageData);
+                actor.rollTest("matrixDefense", messageData.test.typeSub, messageData);
               },
             }).render(true);
         });

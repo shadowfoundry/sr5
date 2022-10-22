@@ -18,6 +18,9 @@ export default class SR5_RollDialog extends Dialog {
         for (let value of Object.values(this.dicePoolModifier)){
             dicePoolModifier += value;
         }
+        for (let key of Object.values(this.data.data.dicePool.modifiers)){
+            dicePoolModifier += key.value;
+        }
         if (html.find('[name="dicePoolModifiers"]').length) html.find('[name="dicePoolModifiers"]')[0].value = dicePoolModifier;
         let modifiedDicePool = dicePoolModifier + parseInt(html.find('[name="baseDicePool"]')[0].value);
         this.data.data.dicePool.base = parseInt(html.find('[name="baseDicePool"]')[0].value);
@@ -29,6 +32,9 @@ export default class SR5_RollDialog extends Dialog {
         if (html.find('[name="baseLimit"]')[0]){
             let modifiedLimit = parseInt(html.find('[name="baseLimit"]')[0].value)
             let limitModifier = 0;
+            for (let key of Object.values(this.data.data.limit.modifiers)){
+                limitModifier += key.value;
+            }
             for (let [key, value] of Object.entries(this.limitModifier)){
                 if (key === "reagents") modifiedLimit = value;
                 else limitModifier += value;
@@ -43,9 +49,12 @@ export default class SR5_RollDialog extends Dialog {
     updateDrainValue(html) {
         this.data.data.magic.force = parseInt(html.find('[name="force"]')[0].value);
         if (html.find('[name="drainValue"]')[0]){
-            let drainModifier = this.data.data.magic.drain.modifiers;
+            let drainModifier = 0;
             for (let value of Object.values(this.drainModifier)){
                 drainModifier += value;
+            }
+            for (let key of Object.values(this.data.data.magic.drain.modifiers)){
+                drainModifier += key.value;
             }
             let drainFinalValue = parseInt(html.find('[name="force"]')[0].value) + drainModifier;
             if (drainFinalValue < 2) drainFinalValue = 2
@@ -334,7 +343,7 @@ export default class SR5_RollDialog extends Dialog {
         if (checkboxs.length === 0) return;
         let checkboxName, modifierName, inputName, value;
 
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorID),
             targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID),
             label, 
             isProned = actor.effects.find(e => e.origin === "prone");
@@ -347,11 +356,17 @@ export default class SR5_RollDialog extends Dialog {
 
             switch (modifierName){
                 case "patientAwakenedOrEmerged":
-                    if (targetActor.system.specialAttributes.magic.augmented.value > 0 || targetActor.system.specialAttributes.resonance.augmented.value > 0){
+                    if (targetActor?.system.specialAttributes.magic.augmented.value > 0 || targetActor?.system.specialAttributes.resonance.augmented.value > 0){
                         html.find(checkboxName)[0].checked = true;
                         value = -2;
+                        html.find(inputName)[0].value = value;
+                        dialogData.dicePool.modifiers[modifierName] = {
+                            value: value,
+                            label: label,
+                        }
+                        this.updateDicePoolValue(html);
                     }
-                    break;
+                    continue;
                 case "fullDefense":
                     let fullDefenseEffect = actor.effects.find(e => e.origin === "fullDefense");
 		            let isInFullDefense = (fullDefenseEffect) ? true : false;
@@ -401,7 +416,7 @@ export default class SR5_RollDialog extends Dialog {
     //Manage manual input modifier
     _manualInputModifier(ev, html, dialogData, button = false){
         let target, name, modifierName, value, operator;
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorID);
         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID);
 
         if (button){ //Manage plus minus input
@@ -454,15 +469,13 @@ export default class SR5_RollDialog extends Dialog {
                 this.updateDicePoolValue(html);
                 return;
             case "patientEssence":
-                dialogData.patientEssence = value;
-                let essence = 6 - Math.ceil(dialogData.patientEssence);
-                value = -Math.floor(essence/2);
+                value = -Math.floor((6 - Math.ceil(value))/2);
                 html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
                 dialogData.dicePool.modifiers.patientEssence = {
                     value: value,
-                    label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${dialogData.patientEssence})`,
+                    label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${value})`,
                 }
-                this.dicePoolModifier.patientEssence = value;
+                //this.dicePoolModifier.patientEssence = value;
                 this.updateDicePoolValue(html);
                 return;
             case "limitModHealingSupplies":
@@ -490,7 +503,8 @@ export default class SR5_RollDialog extends Dialog {
     _filledInputModifier(ev, html, dialogData){
         if (ev.length === 0) return;
         let modifierName, name, value;
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+        let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorID),
+            targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID),
             label;
 
         for (let e of ev){
@@ -540,25 +554,22 @@ export default class SR5_RollDialog extends Dialog {
                     continue;
                 case "spiritType":
                     if (dialogData.target.actorID && (dialogData.test.typeSub === "binding")){
-                        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorID)
-                        let targetType = targetActor.system.type;
-                        value = actor.system.skills.binding.spiritType[targetType].dicePool - actor.system.skills.binding.test.dicePool;
-                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetType])})`;
+                        value = actor.system.skills.binding.spiritType[targetActor.system.type].dicePool - actor.system.skills.binding.test.dicePool;
+                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetActor.system.type])})`;
                     } else {
                         value = 0;
                     }
                     break;
                 case "patientEssence":
-                    dialogData.patientEssence = (dialogData.targetEssence ? dialogData.targetEssence : 6);
-                    html.find('[name="patientEssence"]')[0].value = dialogData.patientEssence;
-                    let essence = 6 - Math.ceil(dialogData.patientEssence);
-                    value = -Math.floor(essence/2);
+                    let patientEssence = (targetActor?.system.essence.value ? targetActor.system.essence.value : 6);
+                    html.find('[name="patientEssence"]')[0].value = patientEssence;
+                    value = -Math.floor((6 - Math.ceil(patientEssence))/2);
                     html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
                     dialogData.dicePool.modifiers.patientEssence = {
                         value: value,
-                        label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${dialogData.patientEssence})`,
+                        label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${patientEssence})`,
                     }
-                    this.dicePoolModifier.patientEssence = value;
+                    //this.dicePoolModifier.patientEssence = value;
                     this.updateDicePoolValue(html);
                     continue;
                 case "backgroundCount":
@@ -894,7 +905,7 @@ export default class SR5_RollDialog extends Dialog {
     async _filledSelectModifier(ev, html, dialogData){
         if (ev.length === 0) return;
         let modifierName, targetInput, targetInputName, name, inputValue, selectValue;
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.actorId),
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorID),
             label;
 
         for (let e of ev){

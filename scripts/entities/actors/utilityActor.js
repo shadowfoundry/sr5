@@ -690,7 +690,7 @@ export class SR5_CharacterUtility extends Actor {
 			case "magic":
 			case "special":
 				if (actorData.penalties[penalty].actual.value) {
-					SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize('SR5.Penalty')}`, `penalty${penalty}`, actorData.penalties[penalty].actual.value);
+					SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize(SR5.modifiersTypes[`penalty${penalty}`])}`, `penalty${penalty}`, actorData.penalties[penalty].actual.value);
 				}
 				break;
 			default:

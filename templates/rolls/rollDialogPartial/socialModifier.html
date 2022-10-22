@@ -1,5 +1,5 @@
 <!-- General Modifiers-->
-{{#unless opposedSkillTest}}
+{{#unless test.isOpposed}}
 <li class="grid">
     <div class="col-7 SR-TopSeparator">{{localize 'SR5.SocialModAttitude'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-TopSeparator SR-TextRight">
@@ -53,7 +53,7 @@
     </div>
 </li>
 {{/unless}}
-{{#if opposedSkillTest}}
+{{#if test.isOpposed}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModAce'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSocialAce" data-modifier="socialAce"></div>
@@ -62,7 +62,7 @@
     </div>
 </li>
 {{/if}}
-{{#unless opposedSkillTest}}
+{{#unless test.isOpposed}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.SocialModRomantic'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSocialRomantic" data-modifier="socialRomantic"></div>
@@ -80,8 +80,8 @@
 {{/unless}}
 
 <!-- Con Modifiers-->
-{{#if (eq typeSub 'con')}}
-{{#unless opposedSkillTest}}
+{{#if (eq test.typeSub 'con')}}
+{{#unless test.isOpposed}}
 <li class="grid">
     <div class="col-10 SR-TopSeparator">{{localize 'SR5.SocialModEvidence'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TopSeparator SR-TextRight">
@@ -110,8 +110,8 @@
 {{/if}}
 
 <!-- Etiquette Modifiers-->
-{{#if (eq typeSub 'etiquette')}}
-{{#unless opposedSkillTest}}
+{{#if (eq test.typeSub 'etiquette')}}
+{{#unless test.isOpposed}}
 <li class="grid">
     <div class="col-10 SR-TopSeparator">{{localize 'SR5.SocialModBadLook'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TopSeparator SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSocialBadLook" data-modifier="socialBadLook"></div>
@@ -131,8 +131,8 @@
 {{/if}}
 
 <!-- Intimidation Modifiers-->
-{{#if (eq typeSub 'intimidation')}}
-{{#unless opposedSkillTest}}
+{{#if (eq test.typeSub 'intimidation')}}
+{{#unless test.isOpposed}}
 <li class="grid">
     <div class="col-10 SR-TopSeparator">{{localize 'SR5.SocialModImposing'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TopSeparator SR-TextRight">
@@ -189,7 +189,7 @@
     </div>
 </li>
 {{/unless}}
-{{#if opposedSkillTest}}
+{{#if test.isOpposed}}
 <li class="grid">
     <div class="col-10 SR-TopSeparator">{{localize 'SR5.SocialModObliviousToDanger'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TopSeparator SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSocialObliviousToDanger" data-modifier="socialObliviousToDanger"></div>
@@ -199,8 +199,8 @@
 {{/if}}
 
 <!-- Leadership Modifiers-->
-{{#if (eq typeSub 'leadership')}}
-{{#unless opposedSkillTest}}
+{{#if (eq test.typeSub 'leadership')}}
+{{#unless test.isOpposed}}
 <li class="grid">
     <div class="col-10 SR-TopSeparator">{{localize 'SR5.SocialModRank'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight SR-TopSeparator">
@@ -245,7 +245,7 @@
 {{/if}}
 
 <!-- Negociation Modifiers-->
-{{#if (eq typeSub 'negociation')}}
+{{#if (eq test.typeSub 'negociation')}}
 <li class="grid">
     <div class="col-10 SR-TopSeparator">{{localize 'SR5.SocialModLacksKnowledge'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TopSeparator SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModSocialLacksKnowledge" data-modifier="socialLacksKnowledge"></div>
