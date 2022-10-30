@@ -196,7 +196,9 @@ export class SR5Item extends Item {
 		const itemData = duplicate(this.system);
 		let lists = SR5_EntityHelpers.sortTranslations(SR5);
 		let tags =[];
-		let accessories =[];
+		let accessories =[];    
+		let options =[];
+		let license =[];
 		htmlOptions.async = false;
 
 		itemData.description = itemData.description || "";
@@ -344,11 +346,36 @@ export class SR5Item extends Item {
 					tags.push(game.i18n.localize("SR5.DeviceSlavedToPan") + ` (${panMaster.name})`);
 				}        
 				break;
+      		case "itemLifestyle":
+        		tags.push(
+       		   [`${game.i18n.localize('SR5.LifestyleComforts')}${game.i18n.localize('SR5.Colons')} ${itemData.comforts.value}`, itemData.comforts.gameEffects],
+	  		   [`${game.i18n.localize('SR5.LifestyleSecurity')}${game.i18n.localize('SR5.Colons')} ${itemData.security.value}`, itemData.security.gameEffects],
+       		   [`${game.i18n.localize('SR5.LifestyleNeighborhood')}${game.i18n.localize('SR5.Colons')} ${itemData.neighborhood.value} (${itemData.neighborhood.zone})`, itemData.neighborhood.gameEffects]
+       		 );
+        		if (itemData.options) {
+          		for (let option of itemData.options){
+            		if(option.type != "modification") {
+            		options.push(`${option.name}`);
+            		tags.push([game.i18n.localize(lists.allLifestyleOptions[option.name]), option.gameEffects]);
+            		}
+          		}		
+        		}
+        		break;
+      		case "itemSin":
+        		if (itemData.license) {
+          		for (let l of itemData.license){
+            		license.push(`${l.name}`);
+            		tags.push(`${l.name} ${l.rating}`);
+          		}
+        		}
+        		break;	
 			default:
 		}
 
 		itemData.properties = tags.filter(p => !!p);
-		itemData.accessories = accessories.filter(p => !!p);
+		itemData.accessories = accessories.filter(p => !!p);		
+		itemData.options = options.filter(p => !!p);
+		itemData.license = license.filter(p => !!p);
 		return itemData;
 	}
 
