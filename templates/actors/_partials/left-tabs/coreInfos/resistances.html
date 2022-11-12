@@ -18,7 +18,7 @@
 						{{/select}}
 					</select>
 				</div>
-				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistance" data-rollkey="disease_{{../system.sheetPreferences.selections.resistanceDisease}}"
+				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistanceSimple" data-rollkey="disease_{{../system.sheetPreferences.selections.resistanceDisease}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
 				  data-helpDetails="system.resistances.{{@key}}.{{../system.sheetPreferences.selections.resistanceDisease}}">
@@ -35,7 +35,7 @@
 						{{/select}}
 					</select>
 				</div>
-				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistance" data-rollkey="toxin_{{../system.sheetPreferences.selections.resistanceToxin}}"
+				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistanceSimple" data-rollkey="toxin_{{../system.sheetPreferences.selections.resistanceToxin}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
 				  data-helpDetails="system.resistances.{{@key}}.{{../system.sheetPreferences.selections.resistanceToxin}}">
@@ -52,7 +52,7 @@
 						{{/select}}
 					</select>
 				</div>
-				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistance" data-rollkey="specialDamage_{{../system.sheetPreferences.selections.resistanceSpecialDamage}}"
+				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="resistanceSimple" data-rollkey="specialDamage_{{../system.sheetPreferences.selections.resistanceSpecialDamage}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
 				  data-helpDetails="system.resistances.{{@key}}.{{../system.sheetPreferences.selections.resistanceSpecialDamage}}">
@@ -61,7 +61,7 @@
 	
 			{{else}}
 				<div class="col-10">{{findTranslation 'characterResistances' @key}}</div>
-				<div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="resistance" data-rollkey="{{@key}}"
+				<div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="resistanceSimple" data-rollkey="{{@key}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Resistances' key=(findTranslation 'characterResistances' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_ResistancesMsg'}}"
 				  data-helpDetails="system.resistances.{{@key}}">

@@ -1,6 +1,7 @@
 import { SR5 } from "../../config.js";
+
 //Add info for Attribute only roll
-export default function attributeOnlyRollData(rollData, rollKey, actor){
+export default function attributeOnly(rollData, rollKey, actor){
     //Determine title
     if (actor.type === "actorDrone") rollData.test.title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.vehicleAttributes[rollKey])}`;
     else rollData.test.title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.allAttributes[rollKey])}`;

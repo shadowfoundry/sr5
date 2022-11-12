@@ -181,7 +181,7 @@ export class SR5_SystemHelpers {
 		const r = new Ray(firstDocument, secondDocument);
 		const segments = [{ ray: r }];
 		const distance = canvas.grid.measureDistances(segments);
-		return distance;
+		return distance[0];
 	}
 
 	/**
@@ -189,10 +189,10 @@ export class SR5_SystemHelpers {
 	 * @param itemId                     The item's id which has created the template
 	 * @return {templatePosition || 0}   The coordinates of the template on the grid scene
 	 */
-	static getTemplateItemPosition(itemId){
+	static async getTemplateItemPosition(itemId){
 		let gridUnit = canvas.scene.grid.size;
 		let templatePosition = 0;
-		let templateItem = canvas.scene.templates.find((template) => template.flags.sr5.item === itemId);
+		let templateItem = await canvas.scene.templates.find((template) => template.flags.sr5.item === itemId);
 		if (templateItem) {
 			//token position is based on top left grid.
 			//player will probably launch grenade on the token, so we need to tweak the position of the grenade template

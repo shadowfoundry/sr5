@@ -23,7 +23,7 @@
 				{{#if defense.dicePool}}
 				<li class="grid" data-matrix="{{@key}}">
 					<div class="col-10">{{findTranslation 'matrixActions' @key}}</div>
-					<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
+					<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixDefenseSimple" data-rollkey="{{@key}}"
 					  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
 				      data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
 				      data-helpDetails="system.matrix.actions.{{@key}}.defense">
@@ -74,7 +74,7 @@
 				</div>
 				{{/if}}
 				{{#if_ge defense.dicePool 1}}
-				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixSimpleDefense" data-rollkey="{{@key}}"
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixDefenseSimple" data-rollkey="{{@key}}"
 				  data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'matrixActions' @key)}}"
 				  data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
 				  data-helpDetails="system.matrix.actions.{{@key}}.defense">

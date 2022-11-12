@@ -299,8 +299,8 @@ export const registerHooks = function () {
 	Hooks.on("deleteItem", async (item) =>{
 		if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
 			if (item.system.type === "signalJam"){
-				let actorID = item.parent.id
-				SR5_EffectArea.onJamEnd(actorID);
+				let actorId = item.parent.id
+				SR5_EffectArea.onJamEnd(actorId);
 			}
 			if (item.type === "itemEffect"){
 				if (item.system.hasEffectOnItem){
@@ -338,9 +338,9 @@ export const registerHooks = function () {
 
 	Hooks.on("createActiveEffect", (effect) =>{
 		if (effect.flags.core?.statusId === "signalJam") {
-			let actorID = effect.parent.id
-			if (effect.parent.isToken) actorID = effect.parent.token.id;
-			SR5_EffectArea.onJamCreation(actorID);
+			let actorId = effect.parent.id
+			if (effect.parent.isToken) actorId = effect.parent.token.id;
+			SR5_EffectArea.onJamCreation(actorId);
 		}
 	});
 

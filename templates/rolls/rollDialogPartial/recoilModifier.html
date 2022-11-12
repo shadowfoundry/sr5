@@ -5,19 +5,19 @@
 		<a class="SR-DialogToggle" data-target="recoilDetail" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
     </div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" name="recoil" value="{{recoil}}" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" name="recoil" value="{{combat.recoil.value}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 
 <li class="grid" id="recoilDetail" style="display: none;">
     <div class="col-10">
-        <span><input disabled type="number" class="SR-RecoilInput" name="recoilBase" value="{{actorRecoil}}" placeholder="0" data-dtype="Number"/></span>
+        <span><input disabled type="number" class="SR-RecoilInput" name="recoilBase" value="{{combat.recoil.compensationActor}}" placeholder="0" data-dtype="Number"/></span>
         <span>({{localize 'SR5.HELP_CalculationBase'}})</span>
-        <span class="hideWeaponRecoil">+<input disabled type="number"class="SR-RecoilInput" name="recoilWeapon" value="{{weaponRecoil}}" placeholder="0" data-dtype="Number"/></span>
+        <span class="hideWeaponRecoil">+<input disabled type="number"class="SR-RecoilInput" name="recoilWeapon" value="{{combat.recoil.compensationWeapon}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideWeaponRecoil">({{localize 'SR5.Weapon'}})</span>
-        <span class="hideBulletsRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilBullets" value="{{weaponRecoil}}" placeholder="0" data-dtype="Number"/></span>
+        <span class="hideBulletsRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilBullets" value="{{combat.recoil.compensationWeapon}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideBulletsRecoil">({{localize 'SR5.Bullets'}})</span>
-        <span class="hideCumulativeRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilCumulative" value="{{actorRecoilCumulative}}" placeholder="0" data-dtype="Number"/></span>
+        <span class="hideCumulativeRecoil">-<input disabled type="number"class="SR-RecoilInput" name="recoilCumulative" value="{{combat.recoil.cumulative}}" placeholder="0" data-dtype="Number"/></span>
         <span class="hideCumulativeRecoil">({{localize 'SR5.CumulativeRecoilShort'}})</span>
         <span class="hideCumulativeRecoil"></span> 
     </div>

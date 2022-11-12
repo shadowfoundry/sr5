@@ -12,8 +12,8 @@ import SR5_SpendDialog from "../interface/spendNetHits-dialog.js";
 export class SR5_DiceHelper {
 
     // Update an item after a roll
-    static async srDicesUpdateItem(cardData, actor) {
-        let item = actor.getEmbeddedDocument("Item", cardData.itemId);
+    static async srDicesUpdateItem(cardData) {
+        let item = await fromUuid(cardData.owner.itemUuid);
         let newItem = duplicate(item);
         let firedAmmo = cardData.firedAmmo;
         
@@ -25,19 +25,19 @@ export class SR5_DiceHelper {
         }
         //update force and hits
         if (newItem.type === "itemSpell" || newItem.type === "itemPreparation" || newItem.type === "itemAdeptPower") {
-            newItem.system.hits = cardData.test.hits;
-            newItem.system.force = cardData.force;
+            newItem.system.hits = cardData.roll.hits;
+            newItem.system.force = cardData.magic.force;
         }
         //update level and hits
         if (newItem.type === "itemComplexForm") {
-            newItem.system.hits = cardData.test.hits;
+            newItem.system.hits = cardData.roll.hits;
             newItem.system.level = cardData.level;
         }
         //Update net hits
         if (newItem.type === "itemRitual") {
             newItem.system.force = cardData.force;
             newItem.system.hits = cardData.hits;
-            newItem.system.netHits = cardData.hits - cardData.test.hits;
+            newItem.system.netHits = cardData.hits - cardData.roll.hits;
             if (newItem.system.netHits < 0) newItem.system.netHits = 0;
         }
         //updateCharge
@@ -200,7 +200,7 @@ export class SR5_DiceHelper {
         }
 
         //Weapon break Resistance
-        if (message.type === "defenseCard"){
+        if (message.type === "defense"){
             let dialogData = {list: SR5.barrierTypes},
                 barrierType,
                 cancel = true;
@@ -754,18 +754,18 @@ export class SR5_DiceHelper {
 
     //Handle grenade scatter
     static async rollScatter(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.actorId);
-        let item = actor.items.find(i => i.id === message.itemId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.owner.actorId);
+        let item = actor.items.find(i => i.id === message.owner.itemId);
         let itemData = item.system;
 
         if (!canvas.scene){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
-        let distanceMod = message.test.hits;
+        let distanceMod = message.roll.hits;
         let gridUnit = canvas.scene.grid.size;
     
-        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === message.itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === message.owner.itemId);
         if (template === undefined){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
             return;
@@ -1205,11 +1205,9 @@ export class SR5_DiceHelper {
                 let targetItem = html.find("[name=item]").val(),
                     item = markedItems.find(i => i.id === targetItem),
                     markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId),
-                    dicePool = markOwner.system.matrix.actions.eraseMark.defense.dicePool;
                 messageData = mergeObject(messageData, {
-                    markOwner: markOwner.id,
-                    dicePool: dicePool,
-                    markeditem: item.uuid,
+                    "owner.actorId": markOwner.id,
+                    "owner.itemUuid": item.uuid,
                 });
                 actor.rollTest("eraseMark", "", messageData);
               },
@@ -1329,7 +1327,7 @@ export class SR5_DiceHelper {
         let numberCheckedEffects = 0, 
             checkedEffects = {};
         let dialogData = {
-            calledShot: messageData.calledShot,
+            calledShot: messageData.combat.calledShot,
             disposableHits: messageData.netHits - 1,
         };
 
@@ -1356,19 +1354,17 @@ export class SR5_DiceHelper {
                         let name = html.find("[name='checkDisposableHitsEffects']:checked")[i].value;
                         checkedEffects = {
                             name: name,
-                            type: messageData.calledShot.location,
-                            threshold: (name === "stunned") ? this._getThresholdEffect(messageData.calledShot.location) : 0,
-                            initiative: (name === "stunned") ? this._getInitiativeEffect(messageData.calledShot.location) : 0,
+                            type: messageData.combat.calledShot.location,
+                            threshold: (name === "stunned") ? this._getThresholdEffect(messageData.combat.calledShot.location) : 0,
+                            initiative: (name === "stunned") ? this._getInitiativeEffect(messageData.combat.calledShot.location) : 0,
                             initialDV: messageData.damageValue,
                         };
                         effects.push(checkedEffects);
                     }
                     ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);      
                     messageData = mergeObject(messageData, {
-                        calledShotHitsSpent: true,
-                        calledShot: {
-                            "effects": effects,
-                        },
+                        "combat.calledShot.hitsSpent": true,
+                        "combat.calledShot.effects": effects,
                     });
 
                     //Update chatMessage
@@ -1755,7 +1751,7 @@ export class SR5_DiceHelper {
                     itemEffects.push(effect2);
                 }
                 break;
-            case "buckled": //done
+            case "calledShotBuckled": //done
                 duration = {
                     type: "round",
                     duration: info.hits - info.test.hits,
@@ -2889,13 +2885,13 @@ export class SR5_DiceHelper {
     }
 
     /** Update an actor with given data
-   * @param {string} actorID - Target actor's ID
+   * @param {string} actorId - Target actor's ID
    * @param {string} path - Path to the key, without 'system'
    * @param {number} value - The new value
    * @param {boolean} boolean - If the value to change is a boolean, default = false
    */
-    static async updateActorData(actorID, path, value, boolean = false){
-        let actor = SR5_EntityHelpers.getRealActorFromID(actorID);
+    static async updateActorData(actorId, path, value, boolean = false){
+        let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
         if (!actor) return;
         let actorData = duplicate(actor.system);
 
@@ -2908,7 +2904,7 @@ export class SR5_DiceHelper {
         //update actor
         if (!game.user?.isGM) {
             await SR5_SocketHandler.emitForGM("updateActorData", {
-                actorID: actorID,
+                actorId: actorId,
                 dataToUpdate: actorData,
             });
         } else await actor.update({"system": actorData});
@@ -2916,7 +2912,7 @@ export class SR5_DiceHelper {
 
     //Socket for updating an actor
     static async _socketUpdateActorData(message) {
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.data.actorID);
+        let actor = SR5_EntityHelpers.getRealActorFromID(message.data.actorId);
         await actor.update({'system': message.data.dataToUpdate});
 	}
 }

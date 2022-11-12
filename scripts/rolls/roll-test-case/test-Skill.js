@@ -1,9 +1,9 @@
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 
-export default async function addSkillInfo(cardData){
+export default async function skillInfo(cardData){
     let itemTarget, testType;
-    let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorID);
+    let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
     let actorData = actor.system;
 
     if (cardData.target.hasTarget) testType = "nonOpposedTest";
@@ -28,7 +28,7 @@ export default async function addSkillInfo(cardData){
                 if (itemTarget.system.force > actorData.specialAttributes.magic.augmented.value) cardData.magic.drain.type = "physical";
                 else cardData.magic.drain.type = "stun";
                 //Add buttons to chat
-                cardData.chatCard.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.magic.drain.value})`);
+                cardData.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.magic.drain.value})`);
                 if (cardData.roll.hits > 0) cardData.chatCard.buttons.dispellResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "dispellResistance", game.i18n.localize("SR5.SpellResistance"), {gmAction: true});
             }
             break;
@@ -38,7 +38,7 @@ export default async function addSkillInfo(cardData){
                     cardData.magic.drain.value = itemTarget.system.drainValue.value;
                     if (cardData.roll.hits > actorData.specialAttributes.magic.augmented.value) cardData.magic.drain.type = "physical";
                     else cardData.magic.drain.type = "stun";
-                    cardData.chatCard.buttons.drainCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "drainCard", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.magic.drain.value})`);
+                    cardData.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.magic.drain.value})`);
                 }
                 if (cardData.roll.hits > 0) {
                     if (itemTarget.type === "itemFocus") cardData.chatCard.buttons.enchantmentResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "enchantmentResistance", game.i18n.localize("SR5.EnchantmentResistance"), {gmAction: true});

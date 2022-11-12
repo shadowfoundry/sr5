@@ -32,7 +32,7 @@
 				<!-- ATTACK - RECOIL COMPENSATION -->
 				{{> systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html}}
 			{{/if}}
-			{{#if (and (or (eq test.typeSub "rangedWeapon") (eq test.typeSub "meleeWeapon")) rulesCalledShot )}}
+			{{#if (and (or (eq test.typeSub "rangedWeapon") (eq test.typeSub "meleeWeapon")) systemRules.calledShots )}}
         		<!-- CALLED SHOTS -->
         		{{> systems/sr5/templates/rolls/rollDialogPartial/calledShots.html}}
         	{{/if}}
@@ -44,7 +44,7 @@
 		{{/if}}
 
 		<!-- DEFENSES -->
-		{{#if (or (eq test.type "defenseCard") (eq test.type "rammingDefense") (eq test.type "defense"))}}
+		{{#if (or (eq test.type "defense") (eq test.type "rammingDefense") (eq test.type "defenseSimple") (eq test.type "matrixDefenseSimple"))}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/defenseOptions.html}}
 		{{/if}}
 
@@ -106,15 +106,15 @@
 		{{/if}}
 
 		<!-- RAMMING TEST -->
-	  	{{#if (eq test.type "rammingTest")}}
+	  	{{#if (eq test.type "ramming")}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/rammingOptions.html}}
 	  	{{/if}}
 
 	  	<!-- LIMIT -->
-	  	{{#if limit}}
+	  	{{#if (gt limit.base 0)}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
 			<!-- REAGENTS -->
-			{{#if switch.canUseReagents}}
+			{{#if switch.reagents}}
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
 			{{/if}}
 	  	{{/if}}

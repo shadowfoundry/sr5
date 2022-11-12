@@ -24,11 +24,11 @@
 {{/if}}
 
 <!-- COVERS -->
-{{#if cover}}
+{{#if dialogSwitch.cover}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/coverModifier.html}}
 {{/if}}
 
 <!-- FULL DEFENSE -->
-{{#if defenseFull}}
+{{#if (gt combat.activeDefenses.full 0)}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
 {{/if}}

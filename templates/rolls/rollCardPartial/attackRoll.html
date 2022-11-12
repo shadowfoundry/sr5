@@ -3,59 +3,58 @@
 </li>
 <li class="grid SR-PaddingTop5">
     <div class="col-10">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{damageValue}}{{findTranslation 'damageTypesShort' damageType}}</div>
+    <div class="col-2 SR-TextRight">{{damage.value}}{{findTranslation 'damageTypesShort' damage.type}}</div>
 </li>
-{{#if (ne damageElement '')}}
+{{#if damage.element}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.SpecialDamage'}}{{localize 'SR5.Colons'}} </div>
-    <div class="col-4 SR-TextRight">{{findTranslation 'specialDamageTypes' damageElement}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'specialDamageTypes' damage.element}}</div>
 </li>
 {{/if}}
-{{#if (eq damageElement "toxin")}}
+{{#if (eq damage.element "toxin")}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}} </div>
-    <div class="col-4 SR-TextRight">{{findTranslation 'toxinTypes' toxin.type}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'toxinTypes' damage.toxin.type}}</div>
 </li>
 <li class="grid">
     <div class="col-8">{{localize 'SR5.ToxinPenetration'}}{{localize 'SR5.Colons'}} </div>
-    <div class="col-4 SR-TextRight">{{toxin.penetration}}</div>
+    <div class="col-4 SR-TextRight">{{damage.toxin.penetration}}</div>
 </li>
 <li class="grid">
     <div class="col-8">{{localize 'SR5.ToxinPower'}}{{localize 'SR5.Colons'}} </div>
-    <div class="col-4 SR-TextRight">{{toxin.power}}</div>
+    <div class="col-4 SR-TextRight">{{damage.toxin.power}}</div>
 </li>
 <li class="grid">
     <div class="col-8">{{localize 'SR5.ToxinSpeed'}}{{localize 'SR5.Colons'}} </div>
-    <div class="col-4 SR-TextRight">{{toxin.speed}}</div>
+    <div class="col-4 SR-TextRight">{{damage.toxin.speed}}</div>
 </li>
 {{/if}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.ArmorPenetration'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{incomingPA}}</div>
+    <div class="col-2 SR-TextRight">{{combat.armorPenetration}}</div>
 </li>
 <li class="grid">
     {{#if (eq test.typeSub 'meleeWeapon')}}
     <div class="col-10">{{localize 'SR5.WeaponReach'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{attackerReach}}</div>
+    <div class="col-2 SR-TextRight">{{combat.reach}}</div>
     {{/if}}
     {{#if (eq test.typeSub 'rangedWeapon')}}
-    <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</p>
-    </div>
-    <div class="col-2 SR-TextRight">{{findTranslation 'weaponModesCode' firingModeSelected}}</div>
+    <div class="col-10">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{findTranslation 'weaponModesCode' combat.firingMode.selected}}</div>
     {{/if}}
 </li>
-{{#if (ne ammoType '')}}
+{{#if (ne combat.ammo.type '')}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.AmmunitionType'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' ammoType}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'allAmmunitionTypes' combat.ammo.type}}</div>
 </li>
 {{/if}}
-{{#if (ne calledShot.name '')}}
+{{#if combat.calledShot.name}}
 <li class="grid">
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-8 SR-TextRight">{{findTranslation 'calledShotsAll' calledShot.name}}
-        {{#if (and (isdefined calledShot.location) (ne calledShot.location ""))}} 
-            ({{findTranslation 'calledShotsSpecifics' calledShot.location}})
+    <div class="col-8 SR-TextRight">{{findTranslation 'calledShotsAll' combat.calledShot.name}}
+        {{#if (and (isdefined combat.calledShot.location) (ne combat.calledShot.location ""))}} 
+            ({{findTranslation 'calledShotsSpecifics' combat.calledShot.location}})
         {{/if}}
     </div>
 </li>
@@ -63,6 +62,6 @@
 {{#if (eq test.typeSub 'grenade')}}
 <li class="grid">
     <div class="col-10">{{localize 'SR5.Blast'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-2 SR-TextRight">{{blastRadius}}m {{#if_l damageFallOff 0}} ({{damageFallOff}}) {{/if_l}}</div>
+    <div class="col-2 SR-TextRight">{{grenade.blastRadius}}m {{#if_l grenade.damageFallOff 0}} ({{grenade.damageFallOff}}) {{/if_l}}</div>
 </li>
 {{/if}}

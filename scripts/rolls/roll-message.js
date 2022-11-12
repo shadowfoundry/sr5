@@ -116,10 +116,10 @@ export class SR5_RollMessage {
                 case "defenseMeleeWeapon":
                 case "defenseRangedWeapon":
                 case "defenseAstralCombat":
-                    actor.rollTest("defenseCard", null, messageData);
+                    actor.rollTest("defense", null, messageData);
                     break;
                 case "defenseThroughAndInto":
-                    actor.rollTest("defenseCard", null, messageData.originalAttackMessage);
+                    actor.rollTest("defense", null, messageData.originalAttackMessage);
                     break;
                 case "matrixDefense":
                     if ((messageData.test.typeSub === "dataSpike" 
@@ -136,8 +136,8 @@ export class SR5_RollMessage {
                 case "powerDefense":
                 case "resistanceCard":
                 case "complexFormDefense":
-                case "matrixIceAttack":
-                case "activeSensorDefense":
+                case "iceAttack":
+                case "sensorDefense":
                 case "decompilingResistance":
                 case "registeringResistance":
                 case "banishingResistance":
@@ -159,7 +159,7 @@ export class SR5_RollMessage {
                     actor.applyExternalEffect(messageData, "itemEffects");
                     SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
-                case "drainCard":
+                case "drain":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "firstAid":
@@ -198,40 +198,40 @@ export class SR5_RollMessage {
     
         //Non-Opposed test : Actor or token is automatically selected
         if (action === "nonOpposedTest" && messageData) {
-            if (!game.user.isGM && messageData.speakerId !== senderId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
-            actor = SR5_EntityHelpers.getRealActorFromID(message.flags.speakerId);
+            if (!game.user.isGM && messageData.owner.speakerId !== senderId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
+            actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
     
             // If there is a matrix action Author, get the Actor to do stuff with him later
             let originalActionActor, targetActor;
             if (messageData.originalActionActor) originalActionActor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionActor);
-            if (messageData.target.hasTarget) targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorID);
+            if (messageData.target.hasTarget) targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
     
             switch (type) {
                 case "resistanceCard":
                 case "resistanceCardAura":
-                case "drainCard":
-                case "fadingCard":
+                case "drain":
+                case "fading":
                 case "objectResistance":
                 case "passThroughDefense":
                 case "accidentCard":
                 case "fatiguedCard":
                     actor.rollTest(type, null, messageData);                   
                     break;
-                case "fear":
-                case "stunned":   
-                case "buckled":   
-                case "nauseous":
-                case "knockdown":
+                case "calledShotFear":
+                case "calledShotStunned":   
+                case "calledShotBuckled":   
+                case "calledShotNauseous":
+                case "calledShotKnockdown":
                     actor.rollTest(type, null, messageData);
                     break;
                 case "damage":
                     if (messageData.test.typeSub === "firstAid") targetActor.takeDamage(messageData);
-                    else if (messageData.calledShot?.name === "splittingDamage") actor.takeSplitDamage(messageData);
+                    else if (messageData.combat.calledShot?.name === "splittingDamage") actor.takeSplitDamage(messageData);
                     else actor.takeDamage(messageData);
                     SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
                 case "calledShotEffect":
-                    if (messageData.calledShot.name === "trickShot"){
+                    if (messageData.combat.calledShot.name === "trickShot"){
                         originalActionActor = SR5_EntityHelpers.getRealActorFromID(messageData.attackerId);
                         await originalActionActor.applyCalledShotsEffect(messageData);
                     } else await actor.applyCalledShotsEffect(messageData);
@@ -246,11 +246,11 @@ export class SR5_RollMessage {
                     actor.rollTest(type, messageData.matrixResistanceType, messageData);
                     break;
                 case "templatePlace":
-                    let item = actor.items.get(messageData.itemId);
-                    await item.placeGabarit(null, messageId);
+                    let item = await fromUuid(messageData.owner.itemUuid);
+                    await item.placeGabarit(messageId);
                     break;
                 case "templateRemove":
-                    SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
+                    SR5_RollMessage.removeTemplate(messageId, messageData.owner.itemUuid);
                     break;
                 case "summonSpirit":
                 case "compileSprite":
@@ -514,11 +514,11 @@ export class SR5_RollMessage {
 
         switch (buttonToUpdate) {
             case "damage":
-                if (messageData.calledShot?.name === "splittingDamage") {
+                if (messageData.combat.calledShot.name === "splittingDamage") {
                     if (messageData.splittedDamageTwo){
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.splittedDamageOne}${game.i18n.localize('SR5.DamageTypeStunShort')} & ${messageData.splittedDamageTwo}${game.i18n.localize('SR5.DamageTypePhysicalShort')} ${game.i18n.localize("SR5.AppliedDamage")}`);
                     } else messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.splittedDamageOne}${game.i18n.localize('SR5.DamageTypeStunShort')} ${game.i18n.localize("SR5.AppliedDamage")}`);
-                } else messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                } else messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damage.value}${game.i18n.localize(SR5.damageTypesShort[messageData.damage.type])} ${game.i18n.localize("SR5.AppliedDamage")}`);
                 break;
             case "takeMatrixDamage":
                 messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.matrixDamageValue} ${game.i18n.localize("SR5.AppliedDamage")}`);
@@ -609,10 +609,10 @@ export class SR5_RollMessage {
             default:
         }
 
-        if (buttonToUpdate === "templateRemove") messageData.templateRemove = false;
+        if (buttonToUpdate === "templateRemove") messageData.chatCard.templateRemove = false;
         if (buttonToUpdate === "templatePlace") {
-            messageData.templateRemove = true;
-            messageData.templatePlace = false;
+            messageData.chatCard.templateRemove = true;
+            messageData.chatCard.templatePlace = false;
         }
 
         //Remove Edge action & Edit succes so it can't be used after action end
@@ -668,13 +668,13 @@ export class SR5_RollMessage {
     }
 
     //Remove a template from scene on click
-    static async removeTemplate(message, itemId){
+    static async removeTemplate(message, itemUuid){
         if (!canvas.scene){
             SR5_RollMessage.updateChatButton(message, "templateRemove");
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
-        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.sr5.itemUuid === itemUuid);
         if (template){
             canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [template.id]);
             if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");

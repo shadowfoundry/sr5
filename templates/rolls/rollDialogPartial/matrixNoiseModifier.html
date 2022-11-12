@@ -19,12 +19,12 @@
 </li>
 
 <!-- SCENE NOISE -->
-{{#if (lt matrixNoiseScene 0)}}
+{{#if (lt matrix.noiseScene 0)}}
 <li class="grid" id="matrixNoiseScene" style="display: none;">
     <div class="col-5">{{localize 'SR5.SceneNoiseRating'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6"></div>
     <div class="col-1 SR-TextCenter">
-        <input disabled type="number" class="SR-ModInputFilled" data-modifier="matrixSceneNoise" value="{{matrixNoiseScene}}" placeholder="0" data-dtype="Number" />
+        <input disabled type="number" class="SR-ModInputFilled" data-modifier="matrixSceneNoise" value="{{matrix.noiseScene}}" placeholder="0" data-dtype="Number" />
     </div>
 </li>
 {{/if}}

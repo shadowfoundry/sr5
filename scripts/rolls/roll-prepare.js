@@ -20,7 +20,7 @@ export class SR5_PrepareRollTest {
         let rollData = this.getBaseRollData(document, actor);
 
         //Add reference to the previous chatMessage
-        if (chatData) rollData.previousMessage.messageID = chatData.originalMessage;
+        if (chatData) rollData.previousMessage.messageId = chatData.originalMessage;
 
         //Add system optionnal rules
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rollData.systemRules.calledShots = true;
@@ -31,19 +31,179 @@ export class SR5_PrepareRollTest {
 
         //Iterate through roll type and add data to rollData;
         switch (rollType){
+            case "astralTracking":
+                rollData = await SR5_GetRollData.astralTracking(rollData, actor);
+                break;
             case "attribute":
-                rollData = await SR5_GetRollData.attributeOnlyRollData(rollData, rollKey, actor);
+                rollData = await SR5_GetRollData.attributeOnly(rollData, rollKey, actor);
+                break;
+            case "banishingResistance":
+                rollData = await SR5_GetRollData.banishingResistance(rollData, actor, chatData);
+                break;
+            case "bindingResistance":
+                rollData = await SR5_GetRollData.bindingResistance(rollData, actor, chatData);
+                break;
+            case "calledShotBuckled":
+                rollData = await SR5_GetRollData.calledShotBuckled(rollData, rollType, actor, chatData);
+                break;
+            case "calledShotFear":
+                rollData = await SR5_GetRollData.calledShotFear(rollData, chatData);
+                break;
+            case "calledShotKnockdown":
+                rollData = await SR5_GetRollData.calledShotKnockdown(rollData, rollType, actor, chatData);
+                break;
+            case "calledShotNauseous":
+                rollData = await SR5_GetRollData.calledShotNauseous(rollData, rollType, actor, chatData);
+                break;
+            case "calledShotStunned":
+                rollData = await SR5_GetRollData.calledShotStunned(rollData, rollType, actor, chatData);
+                break;
+            case "complexForm":
+                rollData = await SR5_GetRollData.complexForm(rollData, actor, item);
+                break;
+            case "complexFormDefense":
+                rollData = await SR5_GetRollData.complexFormDefense(rollData, actor, chatData);
+                break;
+            case "decompilingResistance":
+                rollData = await SR5_GetRollData.decompilingResistance(rollData, actor, chatData);
+                break;
+            case "defense":
+                rollData = await SR5_GetRollData.defense(rollData, actor, chatData);
+                break;
+            case "defenseSimple":
+                rollData = await SR5_GetRollData.defenseSimple(rollData, rollKey, actor);
+                break;
+            case "derivedAttribute":
+                rollData = await SR5_GetRollData.derived(rollData, rollKey, actor);
+                break;
+            case "drain":
+                rollData = await SR5_GetRollData.drain(rollData, actor, chatData);
+                break;
+            case "eraseMark":
+                rollData = await SR5_GetRollData.eraseMark(rollData, actor, chatData);
+                break;
+            case "escapeEngulf":
+                rollData = await SR5_GetRollData.escapeEngulf(rollData, actor, chatData);
+                break;
+            case "fading":
+                rollData = await SR5_GetRollData.fading(rollData, actor, chatData);
+                break;
+            case "healing":
+                rollData = await SR5_GetRollData.healing(rollData, rollKey, actor);
+                break;
+            case "iceAttack":
+                rollData = await SR5_GetRollData.iceAttack(rollData, actorData);
+                break;
+            case "iceDefense":
+                rollData = await SR5_GetRollData.iceDefense(rollData, actorData);
+                break;
+            case "itemRoll":
+                rollData = await SR5_GetRollData.itemRoll(rollData, item);
                 break;
             case "knowledgeSkill":
             case "languageSkill":
-                rollData = await SR5_GetRollData.knowledgeSkillRollData(rollData, rollType, item);
+                rollData = await SR5_GetRollData.knowledgeSkill(rollData, rollType, item);
+                break;
+            case "lift":
+                rollData = await SR5_GetRollData.lift(rollData, rollKey, actor);
+                break;
+            case "martialArtDefense":
+                rollData = await SR5_GetRollData.martialArtsDefense(rollData, actor, chatData);
+                break;
+            case "matrixAction":
+                rollData = await SR5_GetRollData.matrixAction(rollData, rollKey, actor);
+                break;
+            case "matrixDefense":
+                rollData = await SR5_GetRollData.matrixDefense(rollData, rollKey, actor, chatData);
+                break;
+            case "matrixDefenseSimple":
+                rollData = await SR5_GetRollData.matrixDefenseSimple(rollData, rollKey, actor);
+                break;
+            case "matrixResistance":
+                rollData = await SR5_GetRollData.matrixResistance(rollData, rollKey, actor, chatData);
+                break;
+            case "movement":
+                rollData = await SR5_GetRollData.movement(rollData, rollKey, actor);
+                break;
+            case "objectResistance":
+                rollData = await SR5_GetRollData.objectResistance(rollData, chatData);
+                break;
+            case "passThroughBarrier":
+                rollData = await SR5_GetRollData.passThroughBarrier(rollData, actor);
+                break;
+            case "passThroughDefense":
+                rollData = await SR5_GetRollData.passThroughDefense(rollData, chatData);
+                break;
+            case "power":
+            case "adeptPower":
+            case "martialArt": 
+                rollData = await SR5_GetRollData.power(rollData, rollType, item);
+                break;
+            case "powerDefense":
+                rollData = await SR5_GetRollData.powerDefense(rollData, actor, chatData);
+                break;
+            case "preparation":
+                rollData = await SR5_GetRollData.preparation(rollData, actor, item);
+                break;
+            case "preparationFormula":
+                rollData = await SR5_GetRollData.preparationFormula(rollData, actor, item);
+                break;
+            case "regeneration":
+                rollData = await SR5_GetRollData.regeneration(rollData, actor);
+                break;
+            case "resonanceAction":
+                rollData = await SR5_GetRollData.resonanceAction(rollData, rollKey, actor);
+                break;
+            case "resistanceCard":
+            case "resistanceCardAura":
+            case "fatiguedCard":
+                rollData = await SR5_GetRollData.resistance(rollData, rollType, actor, chatData);
+                break;
+            case "ramming":
+                rollData = await SR5_GetRollData.ramming(rollData, actor);
+                break;
+            case "rammingDefense":
+                rollData = await SR5_GetRollData.rammingDefense(rollData, actor, chatData);
+                break;
+            case "registeringResistance":
+                rollData = await SR5_GetRollData.registeringResistance(rollData, actor, chatData);
+                break;
+            case "resistanceSimple":
+                rollData = await SR5_GetRollData.resistanceSimple(rollData, rollKey, actor);
+                break;
+            case "resistFire":
+                rollData = await SR5_GetRollData.resistFire(rollData, actorData, chatData);
+                break;
+            case "ritual":
+                rollData = await SR5_GetRollData.ritual(rollData, actor, item);
+                break;
+            case "sensorTarget":
+                rollData = await SR5_GetRollData.sensorTarget(rollData, actor);
+                break;
+            case "sensorDefense":
+                rollData = await SR5_GetRollData.sensorDefense(rollData, actor, chatData);
                 break;
             case "skill":
             case "skillDicePool":
-                rollData = await SR5_GetRollData.skillRollData(rollData, rollType, rollKey, actor, chatData);
+                rollData = await SR5_GetRollData.skill(rollData, rollType, rollKey, actor, chatData);
                 break;
             case "spell":
-                rollData = await SR5_GetRollData.spellRollData(rollData, actor, item);
+                rollData = await SR5_GetRollData.spell(rollData, actor, item);
+                break;
+            case "spellResistance":
+                rollData = await SR5_GetRollData.spellResistance(rollData, chatData);
+                break;
+            case "spritePower":
+                rollData = await SR5_GetRollData.spritePower(rollData, actor, item);
+                break;
+            case "weapon":
+                rollData = await SR5_GetRollData.weapon(rollData, actor, item);
+                break;
+            case "weaponAstral":
+                rollData = await SR5_GetRollData.weaponAstral(rollData, item);
+                break;
+            case "vehicleTest":
+                rollData = await SR5_GetRollData.vehicleTest(rollData, actor);
                 break;
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
@@ -81,12 +241,8 @@ export class SR5_PrepareRollTest {
         }
 
         let rollData = {
-            armor: {
-                value: 0,
-                composition: [],
-                penetration: 0, //incomingPA
-            },
             chatCard: {
+                calledShotButton: false,
                 canEditResult: false,
                 templatePlace: false,
                 templateRemove: false,
@@ -98,20 +254,43 @@ export class SR5_PrepareRollTest {
                     block: 0,
                     parryClubs: 0,
                     parryBlades: 0,
+                    full: 0,
+                    selected: null,
                 },
-                activeDefenseSelected: "",
-                ammoType: "",
-                ammoValue: 0,
-                ammoMax: 0,
-                ammoFired: 0,
-                calledShot: "",
+                ammo: {
+                    type: "",
+                    value: 0,
+                    max: 0,
+                    fired: 0,
+                },
+                armorPenetration: 0, //incomingPA
+                calledShot: {
+                    name: null,
+                    effects: [],
+                    hitsSpent: false,
+                    initiative: null,
+                    limitDV: 0,
+                    location: null,
+                    martialArts: {
+                        pin: false,
+                        disarm: false,
+                        entanglement: false,
+                        breakWeapon: false,
+                        feint: false,
+                    },
+                },
                 firingMode: {
                     singleShot: false,
                     semiAutomatic: false,
                     burstFire: false,
                     fullyAutomatic: false,
+                    selected: "",
                 },
-                firingModeSelected: "",
+                grenade: {
+                    isGrenade: false,
+                    damageFallOff: 0,
+                    blastRadius: 0,
+                },
                 range: {
                     short: 0,
                     medium: 0,
@@ -119,23 +298,36 @@ export class SR5_PrepareRollTest {
                     extreme: 0,
                 },
                 reach: 0,
+                recoil:{
+                    compensationWeapon: 0,
+                    compensationActor: 0,
+                    cumulative: 0,
+                    value: 0,
+                },
                 weaponType: "",
-                isGrenade: false,
-                damageFallOff: 0,
-                blastRadius: 0,
-                recoilCompensation: 0,
             },
             damage: {
                 base: 0, //damageValueBase
                 value: 0,  //accidentValue
+                accidentValue: 0,
                 type: "", //damageType
-                element: "", //damageElement
-                isToxin: false,
-                toxinType: "",              //toxin
+                element: null, //damageElement
+                toxin: {
+                    type: null,
+                    penetration: 0,
+                    power: 0,
+                    speed: 0,
+                },              //toxin
                 continuous: false,          //damageContinuous
                 isContinuating: false,      //damageIsContinuating
                 source: "",                 //damageSource
-                isFatiguedCard: false       //change to source ?
+                isFatiguedCard: false,       //change to source ?
+                resistanceType: "",
+                fatigued: 0,
+                matrix: {
+                    value: 0, //matrixDamageValue
+                    base: 0, //matrixDamageValueBase
+                },
             },
             dialogSwitch:{
                 attribute: false,
@@ -146,7 +338,6 @@ export class SR5_PrepareRollTest {
                 penalty: false,
                 publicGrid: false,
                 reagents: false, //canUseReagents
-                sensorLocked: false, //isSensorLocked
                 specialization: false,
                 spellShaping: false,
                 spiritAid: false,
@@ -187,6 +378,8 @@ export class SR5_PrepareRollTest {
                 perceptionTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.perceptionTypes, "perceptionTypes"),
                 spiritTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.spiritTypes, "spiritTypes"),
                 damageTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.damageTypes, "damageTypes"),
+                gridTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.gridTypes, "gridTypes"),
+                spriteTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.spriteTypes, "spriteTypes"),
             },
             magic: {
                 drain: {
@@ -203,7 +396,6 @@ export class SR5_PrepareRollTest {
                     range: 0,
                     area: 0,
                     type: "",
-                    itemUuid: "",
                 },
                 spiritAid: {
                     id: "",
@@ -212,14 +404,12 @@ export class SR5_PrepareRollTest {
             },
             matrix: {
                 defenderDoBiofeedbackDamage: false,
-                damage: 0, //matrixDamageValue
-                damageBase: 0, //matrixDamageValueBase
                 iceType: "",
                 mark: 0,
                 actionType: "", //matrixActionType
-                overwatchScore: 0,
-                noiseRange: "", //matrixNoiseRange
-                noiseScene: 0, //matrixNoiseScene
+                overwatchScore: false,
+                noiseRange: "wired",
+                noiseScene: 0,
                 level: 0,
                 fading: {
                     value: 0,
@@ -228,24 +418,21 @@ export class SR5_PrepareRollTest {
                 }
             },
             owner: {
-                actorID: speakerId,
-                actorMagic: "", //remplacer ?
-                actorResonance: "", //remplacer ?
-                actorMagicElements: "", //elements / replace ?
-                actorTradition: "", //remplacer ?
+                actorId: speakerId,
                 actorType: actor?.type,
-                itemID: "",
-                itemUuid: "",
+                itemId: item?.id,
+                itemUuid: item?.uuid,
+                messageId: null,
                 speakerActor: speakerActor,
                 speakerId: speakerId,
                 speakerImg: speakerImg,
             },
             previousMessage:{
-                hits: 0,
-                messageID: "", //originalMessage //continuousDamageId
-                actorID: "", //attackerId //originalActionUser //originalActionActor
+                actorId: null, //attackerId //originalActionUser //originalActionActor
+                itemUuid: null,
                 attackerStrength: 0, //remplacer?
                 damage: 0, //damageOriginalValue
+                messageId: null, //originalMessage //continuousDamageId
                 hits: 0, //previousHits
             },
             roll: {},
@@ -255,7 +442,7 @@ export class SR5_PrepareRollTest {
             },
             target: {
                 hasTarget: false,
-                actorID: "", //targetActor
+                actorId: null, //targetActor
                 actorType: "", //targetActorType remplacer ?
                 itemUuid: null, //matrixTargetItemUuid
                 itemList: {},
@@ -278,20 +465,17 @@ export class SR5_PrepareRollTest {
             },
             threshold: {
                 value: 0, //opposedSkillThreshold //fireTreshold
-                type: "",
+                type: null,
             },
             various: {
                 derivedBaseValue: 0, //peut être récupéré via l'acteur
                 derivedExtraValue: 0, //peut être récupéré via l'acteur
-                unit: "", //peut être récupéré via un helper
-                defenseFirstAttribute: "",
-                defenseSecondAttribute: "",
-                defenseFull: 0, //remplacer
+                unit: null, //peut être récupéré via un helper
+                defenseFirstAttribute: null, //defenseAttribute
+                defenseSecondAttribute: null, //defenseMatrixAttribute
             },
         };
 
         return rollData;
     }
-
-    
 }

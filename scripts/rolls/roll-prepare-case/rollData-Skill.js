@@ -3,7 +3,7 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5 } from "../../config.js";
 
 //Add info for skill dicePool roll
-export default async function skillRollData(rollData, rollType, rollKey, actor, chatData){
+export default async function skill(rollData, rollType, rollKey, actor, chatData){
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey])}`;
     
@@ -34,17 +34,10 @@ export default async function skillRollData(rollData, rollType, rollKey, actor, 
     }
 
     //Determine base limit
-    rollData.limit.base = actor.system.skills[rollKey].limit.value;
-    for (let m of actor.system.skills[rollKey].limit.modifiers){
-        rollData.limit.base -= m.value;
-    }
+    rollData.limit.base = SR5_PrepareRollHelper.getBaseLimit(actor.system.skills[rollKey].limit.value, actor.system.skills[rollKey].limit.modifiers);
 
     //Determine limit modififiers
-    for (let m of actor.system.skills[rollKey].limit.modifiers){
-        rollData.limit.modifiers[m.type] = {};
-        rollData.limit.modifiers[m.type].label = m.source;
-        rollData.limit.modifiers[m.type].value = m.value;
-    }
+    rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, actor.system.skills[rollKey].limit.modifiers);
 
     //Add others informations
     rollData.test.type = "skillDicePool";
@@ -89,8 +82,14 @@ export default async function skillRollData(rollData, rollType, rollKey, actor, 
     return rollData;
 }
 
+
+
+//-----------------------------------//
+//               Helpers             //
+//-----------------------------------//
+
 async function getTargetedData(rollData, rollKey){
-    let targetActor = SR5_EntityHelpers.getRealActorFromID(rollData.target.actorID);
+    let targetActor = SR5_EntityHelpers.getRealActorFromID(rollData.target.actorId);
 
     switch (rollKey){
         case "banishing":

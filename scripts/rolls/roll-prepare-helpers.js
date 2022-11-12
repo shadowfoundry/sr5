@@ -29,6 +29,24 @@ export class SR5_PrepareRollHelper {
         return rollData.dicePool.modifiers;
     }
 
+    //Return the base limit
+    static getBaseLimit(limitBase, limitModifiers){
+        for (let m of limitModifiers){
+            limitBase -= m.value;
+        }
+        return limitBase;
+    }
+
+    //Return limit modifiers object
+    static getLimitModifiers(rollData, limitModifiers){
+        for (let m of limitModifiers){
+            rollData.limit.modifiers[m.type] = {};
+            rollData.limit.modifiers[m.type].label = m.source;
+            rollData.limit.modifiers[m.type].value = m.value;
+        }
+        return rollData.limit.modifiers;
+    }
+
     //Return the actor object targeted on canvas
     static async getTargetedActor(){
         let targets = Array.from(game.user.targets);
@@ -36,6 +54,7 @@ export class SR5_PrepareRollHelper {
         return SR5_EntityHelpers.getRealActorFromID(targetActorId);
     }
 
+    //Return the actor ID targeted on canvas
     static async getTargetedActorID(){
         let targets = Array.from(game.user.targets);
         let targetActorId = targets[0].actor.isToken ? targets[0].actor.token.id : targets[0].actor.id;
@@ -48,10 +67,17 @@ export class SR5_PrepareRollHelper {
         if (targetActor){
             rollData = mergeObject(rollData, {
                 "target.hasTarget": true,
-                "target.actorID": await this.getTargetedActorID(),
+                "target.actorId": await this.getTargetedActorID(),
             });
         }
         return rollData;
+    }
+
+    //Add dicepool modifier
+    static addDicepoolModifier(rollData, modifier, modifierValue, modifierLabel){
+        rollData.dicePool.modifiers[modifier] = {};
+        rollData.dicePool.modifiers[modifier].value = modifierValue;
+        rollData.dicePool.modifiers[modifier].label = modifierLabel;
     }
 
     //Add background count limit modifiers
@@ -60,6 +86,26 @@ export class SR5_PrepareRollHelper {
             value: actor.system.magic.bgCount.value,
             label: game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
         }
+        return rollData;
+    }
+
+    //Get scene Noise modifier
+    static getSceneNoise(){
+        if (canvas.scene) {
+            if (game.scenes.active) return -game.scenes.active.getFlag("sr5", "matrixNoise") || 0;
+        } else return null;
+    }
+
+    //Get Cumulative defense 
+    static handleCumulativeDefense(rollData, actor){
+        let cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
+        if(cumulativeDefense !== null) {
+            actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
+            rollData.dicePool.modifiers.cumulativeDefense = {};
+            rollData.dicePool.modifiers.cumulativeDefense.value = -cumulativeDefense;
+            rollData.dicePool.modifiers.cumulativeDefense.label = game.i18n.localize("SR5.CumulativeDefense");
+        }
+    
         return rollData;
     }
 
@@ -83,6 +129,23 @@ export class SR5_PrepareRollHelper {
             }
         }
 
+        //Check if an object can resist to spell
+        for (let e of Object.values(item.system.systemEffects)){
+            if (e.value === "sre_ObjectResistance"){
+                rollData.magic.spell.objectCanResist = true;
+            }
+        }
+
         return rollData;
+    }
+
+    //Check if a spirit can aid sorcery
+    static handleSpiritAid(actor, item, rollData) {
+        let spiritAid = actor.items.find(i => (i.type === "itemSpirit" && i.system.isBounded && i.system.spellType === item.system.category && i.system.services.value > 0));
+        if (spiritAid) {
+            rollData.dialogSwitch.spiritAid = true;
+            rollData.magic.spiritAid.id = spiritAid.uuid;
+            rollData.magic.spiritAid.modifier = spiritAid.system.itemRating;
+        }
     }
 }

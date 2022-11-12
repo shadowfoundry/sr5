@@ -1,6 +1,7 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
+
 //Add info for Knowledge / language skill roll
-export default function knowledgeSkillRollData(rollData, rollType, item){
+export default function knowledgeSkill(rollData, rollType, item){
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.SkillTest") + game.i18n.localize("SR5.Colons") + " " + item.name}`;
     

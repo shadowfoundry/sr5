@@ -715,23 +715,23 @@ export class SR5Actor extends Actor {
 
 	//Apply Damage to actor
 	async takeDamage(options) {
-		let damage = options.damageValue,
-				damageType = options.damageType,
-				actor = duplicate(this),
-				actorData = actor.system,
-				gelAmmo = 0,
-				damageReduction = 0,
-				realDamage;
+		let damage = options.damage.value,
+			damageType = options.damage.type,
+			actor = duplicate(this),
+			actorData = actor.system,
+			gelAmmo = 0,
+			damageReduction = 0,
+			realDamage;
 
-		if (options.ammoType === "gel") gelAmmo = -2;
+		if (options.combat.ammo.type === "gel") gelAmmo = -2;
 		if (actorData.specialProperties?.damageReduction) damageReduction = actorData.specialProperties.damageReduction.value;
 		if (damage > 1) damage -= damageReduction;
 
 		switch (actor.type){
 			case "actorPc":
 			case "actorSpirit":
-				if (options.matrixDamageValue) {
-					damage = options.matrixDamageValue;
+				if (options.matrix.damage > 0) {
+					damage = options.matrix.damage;
 					damageType = "stun";
 				}
 				if (damageType === "stun") {
@@ -789,20 +789,20 @@ export class SR5Actor extends Actor {
 						controler.rollTest("resistanceCard", null, chatData);
 					}
 				}
-				if (options.damageElement === "electricity") options.matrixDamageValue = Math.floor(options.damageValue / 2);
-				if (options.matrixDamageValue) {
-					actorData.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+				if (options.damage.element === "electricity") options.matrix.damage = Math.floor(options.damage.value / 2);
+				if (options.matrix.damage > 0) {
+					actorData.conditionMonitors.matrix.actual.base += options.matrix.damage;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
-					ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+					ui.notifications.info(`${this.name}: ${options.matrix.damage} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 			case "actorAgent":
 			case "actorSprite":
 			case "actorDevice":
-				if (options.matrixDamageValue) {
-					actorData.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+				if (options.matrix.damage > 0) {
+					actorData.conditionMonitors.matrix.actual.base += options.matrix.damage;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
-					ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+					ui.notifications.info(`${this.name}: ${options.matrix.damage} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 		}
@@ -832,11 +832,11 @@ export class SR5Actor extends Actor {
 		}
 
 		//Special Element Damage
-		if (options.damageElement === "electricity" && actorData.type !== "actorDrone") await this.electricityDamageEffect();
-		if (options.damageElement === "acid") await this.acidDamageEffect(damage, options.damageSource);
-		if (options.damageElement === "fire"){
+		if (options.damage.element === "electricity" && actorData.type !== "actorDrone") await this.electricityDamageEffect();
+		if (options.damage.element === "acid") await this.acidDamageEffect(damage, options.damageSource);
+		if (options.damage.element === "fire"){
 			if (this.system.itemsProperties.armor.value <= 0) await this.fireDamageEffect()
-			else await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
+			else await this.checkIfCatchFire(options.threshold.value, options.damage.source, options.combat.armorPenetration);
 		}
 	}
 
@@ -1024,7 +1024,7 @@ export class SR5Actor extends Actor {
 
 	//Reboot deck = reset Overwatch score and delete any marks on or from the actor
 	async rebootDeck() {
-		let actorID = (this.isToken ? this.token.id : this.id);
+		let actorId = (this.isToken ? this.token.id : this.id);
 		let dataToUpdate = {};
 		let updatedItems = duplicate(this.items);
 
@@ -1045,10 +1045,10 @@ export class SR5Actor extends Actor {
 			if (!game.user?.isGM) {
 				await SR5_SocketHandler.emitForGM("deleteMarksOnActor", {
 					actorData: actorData,
-					actorID: actorID,
+					actorId: actorId,
 				});
 			} else {
-				await SR5Actor.deleteMarksOnActor(actorData, actorID);
+				await SR5Actor.deleteMarksOnActor(actorData, actorId);
 			}
 		}
 
@@ -1058,7 +1058,7 @@ export class SR5Actor extends Actor {
 				for (let m of i.system.marks){
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("deleteMarkInfo", {
-							actorID: m.ownerId,
+							actorId: m.ownerId,
 							item: i._id,
 						});
 					} else {
@@ -1088,13 +1088,13 @@ export class SR5Actor extends Actor {
 	}
 
 	//Delete Marks on Other actors
-	static async deleteMarksOnActor(actorData, actorID){
+	static async deleteMarksOnActor(actorData, actorId){
 		for (let m of actorData.matrix.markedItems){
 			let itemToClean = await fromUuid(m.uuid);
 			if (itemToClean) {
 				let cleanData = duplicate(itemToClean.system);
 				for (let i = 0; i < cleanData.marks.length; i++){
-					if (cleanData.marks[i].ownerId === actorID) {
+					if (cleanData.marks[i].ownerId === actorId) {
 						cleanData.marks.splice(i, 1);
 						i--;
 					}
@@ -1110,12 +1110,12 @@ export class SR5Actor extends Actor {
 
 	//Socket for deletings marks on other actors;
 	static async _socketDeleteMarksOnActor(message) {
-		await SR5Actor.deleteMarksOnActor(message.system.actorData, message.system.actorID);
+		await SR5Actor.deleteMarksOnActor(message.system.actorData, message.system.actorId);
 	}
 
 	//Delete Mark info on other actors
-	static async deleteMarkInfo(actorID, item){
-		let actor = SR5_EntityHelpers.getRealActorFromID(actorID);
+	static async deleteMarkInfo(actorId, item){
+		let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		if (!actor) return SR5_SystemHelpers.srLog(1, `No Actor in deleteMarkInfo()`);
 
 		let deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive),
@@ -1135,7 +1135,7 @@ export class SR5Actor extends Actor {
 		//For host, update all unlinked token with same marked items
 		if (actor.system.matrix.deviceType === "host" && canvas.scene){
 			for (let token of canvas.tokens.placeables){
-					if (token.actor.id === actorID) {
+					if (token.actor.id === actorId) {
 							let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive);
 							let tokenDeckData = duplicate(tokenDeck.system);
 							tokenDeckData.markedItems = deckData.markedItems;
@@ -1147,7 +1147,7 @@ export class SR5Actor extends Actor {
 
 	//Socket for deletings marks info other actors;
 	static async _socketDeleteMarkInfo(message) {
-		await SR5Actor.deleteMarkInfo(message.system.actorID, message.system.item);
+		await SR5Actor.deleteMarkInfo(message.system.actorId, message.system.item);
 	}
 
 	//Raise owerwatch score
@@ -1626,7 +1626,7 @@ export class SR5Actor extends Actor {
 
 				if (!game.user?.isGM) {
 					SR5_SocketHandler.emitForGM("linkEffectToSource", {
-						actorID: data.actorId,
+						actorId: data.actorId,
 						targetItem: data.itemUuid,
 						effectUuid: effect.uuid,
 					});
@@ -1775,7 +1775,7 @@ export class SR5Actor extends Actor {
 
 		for (let key of Object.values(data.calledShot.effects)){
 			//Special for stunned, skip
-			if (key.name === "stunned") continue;
+			if (key.name === "calledShotStunned") continue;
 
 			//special for called shot linked to weak side effect
 			if (data.calledShot.effects.find(e => e.name === "weakSide") && (data.calledShot.effects.find(e => e.name === "oneArmBandit") || data.calledShot.effects.find(e => e.name === "brokenGrip"))) {

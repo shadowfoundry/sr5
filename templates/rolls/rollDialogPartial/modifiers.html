@@ -38,11 +38,6 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/specializationModifier.html}}
     {{/if}}
 
-    <!-- ENVIRONMENTAL MODIFIERS -->
-    {{#if (and (eq test.type "attack") (eq test.typeSub "rangedWeapon")) }}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/environmentalModifiers.html}}
-    {{/if}}
-
     <!-- ATTACK - VARIOUS RANGED MODIFIERS -->
 	{{#if (and (eq test.type "attack") (eq test.typeSub "rangedWeapon"))}}
         {{> systems/sr5/templates/rolls/rollDialogPartial/attackRangedModifier.html}}
@@ -105,13 +100,8 @@
         {{> systems/sr5/templates/rolls/rollDialogPartial/targetTypeModifier.html}}
     {{/if}}
 
-     <!-- ARMOR PENETRATION -->
-    {{#if (or (and (eq test.type "resistanceCard") (eq test.typeSub "physicalDamage") ) (eq test.type 'accidentCard') (eq test.type "resistFire") )}}
-		{{> systems/sr5/templates/rolls/rollDialogPartial/armorPenetrationModifier.html}}
-	{{/if}}
-
     <!-- DEFENSE MODIFIERS -->
-    {{#if (eq test.type "defenseCard")}}
+    {{#if (eq test.type "defense")}}
         {{#if (eq test.typeSub "rangedWeapon")}}
             {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifiers.html}}
         {{/if}}
@@ -119,21 +109,10 @@
             {{> systems/sr5/templates/rolls/rollDialogPartial/defenseMeleeModifier.html}}
         {{/if}}
     {{/if}}
-
-    <!-- CUMULATIVE DEFENSE -->
-    {{#if_g cumulativeDefense 0}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/defenseCumulativeModifier.html}}
-    {{/if_g}}
-
-    <!-- SENSOR LOCK -->
-    {{#if dialogSwitch.isSensorLocked}}
-        {{> systems/sr5/templates/rolls/rollDialogPartial/sensorLock.html}}
-    {{/if}}
-
 </div>
 
 <!-- SIGNATURE TARGETING -->
-{{#if (eq test.type "activeSensorTargeting")}}
+{{#if (eq test.type "sensorTarget")}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/signature.html}}
 {{/if}}
 

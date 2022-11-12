@@ -1,9 +1,7 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
-import { SR5_EntityHelpers } from "../../entities/helpers.js";
-import { SR5 } from "../../config.js";
 
 //Add info for skill dicePool roll
-export default async function spellRollData(rollData, actor, item){
+export default async function spell(rollData, actor, item){
     let itemData = item.system,
         spellCategory = itemData.category,
         actorData = actor.system;
@@ -22,6 +20,7 @@ export default async function spellRollData(rollData, actor, item){
 
     //Limit
     rollData.limit.type = "force";
+    rollData.limit.base = actorData.specialAttributes.magic.augmented.value;
 
     //Add others informations
     rollData.test.type = "spell";
@@ -49,7 +48,7 @@ export default async function spellRollData(rollData, actor, item){
     }
 
     //Add special info for area spell
-    if (itemData.range === "area"){
+    if (itemData.range === "area" || itemData.spellAreaExtended){
         rollData.chatCard.templatePlace = true;
         //Spell Shaping metamagic
         if (actorData.magic.metamagics.spellShaping) rollData.dialogSwitch.spellShaping = true;
@@ -66,12 +65,7 @@ export default async function spellRollData(rollData, actor, item){
     }
 
     //Check if a spirit can aid sorcery
-    let spiritAid = actor.items.find(i => (i.type === "itemSpirit" && i.system.isBounded && i.system.spellType === itemData.category && i.system.services.value > 0));
-    if (spiritAid){
-        rollData.dialogSwitch.spiritAid = true;
-        rollData.magic.spiritAid.id = spiritAid.uuid;
-        rollData.magic.spiritAid.modifier = spiritAid.system.itemRating;
-    }
+    SR5_PrepareRollHelper.handleSpiritAid(actor, item.system, rollData);
 
     return rollData;
 }
