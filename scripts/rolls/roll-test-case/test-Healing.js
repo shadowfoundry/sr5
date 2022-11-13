@@ -2,7 +2,7 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function healingInfo(cardData){
-    if (cardData.roll.glitchRoll || cardData.roll.criticalGlitchRoll) cardData.extendedIntervalValue = cardData.extendedIntervalValue *2;
+    if (cardData.roll.glitchRoll || cardData.roll.criticalGlitchRoll) cardData.test.extended.intervalValue = cardData.test.extended.intervalValue *2;
     if (cardData.roll.criticalGlitchRoll) {
         let failedDamage = new Roll(`1d3`);
         await failedDamage.evaluate({async: true});

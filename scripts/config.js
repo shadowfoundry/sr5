@@ -1027,15 +1027,6 @@ SR5.augmentationGrades = {
 //         ROLL & MODIFIERS          //
 //-----------------------------------//
 
-SR5.extendedInterval = {
-	combatTurn                : "SR5.CombatTurn",
-	minute                    : "SR5.Minute",
-	hour                      : "SR5.Hour",
-	day                       : "SR5.Day",
-	week                      : "SR5.Week",
-	month                     : "SR5.Month",
-};
-
 SR5.extendedIntervals = {
 	combatTurn                : "SR5.CombatTurns",
 	minute                    : "SR5.Minutes",

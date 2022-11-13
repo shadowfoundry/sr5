@@ -3,7 +3,7 @@ import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function resistanceResultInfo(cardData, type){
     let key, label, labelEnd, applyEffect = true, actor, weapon, originalMessage, prevData;
-    cardData.roll.netHits = cardData.roll.hits - cardData.hits;
+    cardData.roll.netHits = cardData.roll.hits - cardData.previousMessage.hits;
     
     if (cardData.previousMessage.messageId){
         originalMessage = game.messages.get(cardData.previousMessage.messageId);
@@ -28,13 +28,13 @@ export default async function resistanceResultInfo(cardData, type){
             key = "desactivateFocus";
             break;
         case "disjointingResistance":
-            cardData.magic.drain.value = cardData.roll.hits;
+            if(cardData.test.typeSub !== "preparation") cardData.magic.drain.value = cardData.roll.hits;
             label = `${game.i18n.localize("SR5.ReducePreparationPotency")} (${cardData.roll.netHits})`;
             labelEnd = game.i18n.localize("SR5.DisjointingFailed");
             key = "reducePreparationPotency";
             break;
         case "spellResistance":
-            cardData.roll.netHits = cardData.hits - cardData.roll.hits;
+            cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
             label = game.i18n.localize("SR5.ApplyEffect");
             labelEnd = game.i18n.localize("SR5.SpellResisted");
             key = "applyEffectAuto";
@@ -50,7 +50,7 @@ export default async function resistanceResultInfo(cardData, type){
             break;
         case "powerDefense":
         case "martialArtDefense":
-            cardData.roll.netHits = cardData.hits - cardData.roll.hits;
+            cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
             if (cardData.switch?.transferEffect){
                 label = game.i18n.localize("SR5.ApplyEffect");
                 key = "applyEffectAuto";
@@ -64,8 +64,8 @@ export default async function resistanceResultInfo(cardData, type){
             break;
         case "weaponResistance":
             labelEnd = game.i18n.localize("SR5.ObjectResistanceSuccess");
-            if (cardData.structure > (cardData.hits - cardData.roll.hits)) {
-                ui.notifications.info(`${game.i18n.format("SR5.INFO_StructureGreaterThanDV", {structure: cardData.structure, damage: cardData.hits})}`);
+            if (cardData.structure > (cardData.previousMessage.hits - cardData.roll.hits)) {
+                ui.notifications.info(`${game.i18n.format("SR5.INFO_StructureGreaterThanDV", {structure: cardData.structure, damage: cardData.previousMessage.hits})}`);
             } else {
                 actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
                 weapon = actor.items.find(i => i.type === "itemWeapon" && i.system.isActive);
@@ -79,7 +79,7 @@ export default async function resistanceResultInfo(cardData, type){
         default :
     }
 
-    if (cardData.roll.hits >= cardData.hits) {
+    if (cardData.roll.hits >= cardData.previousMessage.hits) {
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
         //if type is a spell with area effect, create an effect at 0 value on defender to avoir new resistance test inside the canvas template
         if (type === "spellResistance" && prevData.spellArea){

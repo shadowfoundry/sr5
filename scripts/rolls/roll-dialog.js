@@ -1,6 +1,7 @@
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_DiceHelper } from "./diceHelper.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
+import { SR5_PrepareRollHelper } from "./roll-prepare-helpers.js";
 import { SR5 } from "../config.js";
 
 export default class SR5_RollDialog extends Dialog {
@@ -137,20 +138,10 @@ export default class SR5_RollDialog extends Dialog {
         // Extended test
         html.find('[name="toggleExtendedTest"]').change(ev => this._onToggleExtendedTest(ev.target.checked, dialogData, html));
 
-        //Set extended test for Astral Traking or Healing test
-        if (dialogData.test.type === "astralTracking" || dialogData.test.type === "healing"){
-            html.find('[name="toggleExtendedTest"]')[0].checked = true;
-            dialogData.test.isExtended = true;
-            if (dialogData.test.typeSub === "physical"){
-                html.find('[name="extendedTime"]')[0].value = "day";
-            }
-            $(html).find('#extendedBlock').show();
-        }
-
         //auto fill extended test if data are already present
         if (dialogData.test.isExtended){
             html.find('[name="toggleExtendedTest"]')[0].checked = true;
-            html.find('[name="extendedTime"]')[0].value = dialogData.extendedInterval;
+            html.find('[name="extendedTime"]')[0].value = dialogData.test.extended.interval;
             html.find('[name="extendedMultiplier"]')[0].value = dialogData.test.extended.multiplier;
             $(html).find('#extendedBlock').show();
         }
@@ -693,11 +684,14 @@ export default class SR5_RollDialog extends Dialog {
                     return;
                 case "spiritType":
                     if (ev.target.value !== ""){
-                        value = actor.system.skills.summoning.spiritType[ev.target.value].dicePool - actor.system.skills.summoning.test.dicePool;
-                        label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[ev.target.value])})`;
-                        dialogData.spiritType = ev.target.value;
-                    } else value = 0;
-                    break;
+                        html.find(name)[0].value = actor.system.skills.summoning.spiritType[ev.target.value].dicePool - actor.system.skills.summoning.test.dicePool;
+                        dialogData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills.summoning.spiritType[ev.target.value].modifiers);
+                        dialogData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(dialogData);
+                        dialogData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(dialogData, actor.system.skills.summoning.spiritType[ev.target.value].modifiers);
+                    } 
+                    dialogData.magic.spiritType = ev.target.value;
+                    this.updateDicePoolValue(html);
+                    return;
                 case "preparationTrigger":
                     value = SR5_DiceHelper.convertTriggerToMod(ev.target.value);
                     html.find(name)[0].value = value;
@@ -806,7 +800,7 @@ export default class SR5_RollDialog extends Dialog {
                     html.find(name)[0].value = value;
                     return;
                 case "targetEffect":
-                    dialogData.targetEffect = ev.target.value;
+                    dialogData.target.itemUuid = ev.target.value;
                     if (dialogData.test.typeSub === "counterspelling"){
                         let spellCategory = await this.getTargetType(dialogData.targetEffect);
                         value = parseInt(actor.system.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.system.skills.counterspelling.test.dicePool);
@@ -930,10 +924,13 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "spiritType":
                     selectValue = html.find(name)[0].value;
-                    inputValue = actor.system.skills.summoning.spiritType[selectValue].dicePool - actor.system.skills.summoning.test.dicePool;
-                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[selectValue])})`;
-                    dialogData.spiritType = selectValue;
-                    break;
+                    html.find(targetInputName)[0].value = actor.system.skills.summoning.spiritType[selectValue].dicePool - actor.system.skills.summoning.test.dicePool;
+                    dialogData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills.summoning.spiritType[selectValue].modifiers);
+                    dialogData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(dialogData);
+                    dialogData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(dialogData, actor.system.skills.summoning.spiritType[selectValue].modifiers);
+                    dialogData.magic.spiritType = selectValue;
+                    this.updateDicePoolValue(html);
+                    continue;
                 case "spriteType":
                     dialogData.spriteType = html.find(name)[0].value;
                     continue;
@@ -974,9 +971,9 @@ export default class SR5_RollDialog extends Dialog {
                     continue;
                 case "targetEffect":
                     selectValue = html.find(name)[0].value;
-                    dialogData.targetEffect = selectValue;
+                    dialogData.target.itemUuid = selectValue;
                     if (dialogData.test.typeSub === "counterspelling"){
-                        let spellCategory = await this.getTargetType(dialogData.targetEffect);
+                        let spellCategory = await this.getTargetType(dialogData.target.itemUuid);
                         inputValue = parseInt(actor.system.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.system.skills.counterspelling.test.dicePool);
                         label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;
                     } else inputValue = 0;

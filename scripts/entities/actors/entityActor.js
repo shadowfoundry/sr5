@@ -1536,14 +1536,14 @@ export class SR5Actor extends Actor {
 
 	//Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
 	async applyExternalEffect(data, effectType){
-		let item = await fromUuid(data.itemUuid);
+		let item = await fromUuid(data.owner.itemUuid);
 		let itemData = item.system;
 
 		for (let e of Object.values(itemData[effectType])){
 			if (e.transfer) {
 				let value, key, newData;
-				if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
-				else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
+				if (e.type === "hits") value = Math.floor(data.roll.hits * (e.multiplier || 1));
+				else if (e.type === "netHits") value = Math.floor(data.roll.netHits * (e.multiplier || 1));
 				else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
 				else if (e.type === "rating") value = Math.floor(item.system.itemRating * (e.multiplier || 1));
 
@@ -1580,9 +1580,9 @@ export class SR5Actor extends Actor {
 					"system.target": targetName,
 					"system.value": value,
 					"system.type": item.type,
-					"system.ownerID": data.actorId,
-					"system.ownerName": data.speakerActor,
-					"system.ownerItem": data.itemUuid,
+					"system.ownerID": data.owner.actorId,
+					"system.ownerName": data.owner.speakerActor,
+					"system.ownerItem": data.owner.itemUuid,
 					"system.duration": 0,
 					"system.durationType": "sustained",
 				};
@@ -1610,28 +1610,28 @@ export class SR5Actor extends Actor {
 				let effect;
 				if (this.isToken) {
 					for (let i of this.token.actor.items){
-						if (i.system.ownerItem === data.itemUuid){
+						if (i.system.ownerItem === data.owner.itemUuid){
 							if (!Object.keys(itemData.targetOfEffect).length) effect = i;
-							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.owner.itemUuid) effect = i;
 						}
 					}
 				} else {
 					for (let i of this.items){
-						if (i.system.ownerItem === data.itemUuid){
+						if (i.system.ownerItem === data.owner.itemUuid){
 							if (!Object.keys(itemData.targetOfEffect).length) effect = i;
-							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.owner.itemUuid) effect = i;
 						}
 					}
 				}
 
 				if (!game.user?.isGM) {
 					SR5_SocketHandler.emitForGM("linkEffectToSource", {
-						actorId: data.actorId,
-						targetItem: data.itemUuid,
+						actorId: data.owner.actorId,
+						targetItem: data.owner.itemUuid,
 						effectUuid: effect.uuid,
 					});
 				} else {
-					await SR5Actor.linkEffectToSource(data.actorId, data.itemUuid, effect.uuid);
+					await SR5Actor.linkEffectToSource(data.owner.actorId, data.owner.itemUuid, effect.uuid);
 				}
 
 				//If effect is on Item, update it
@@ -1652,7 +1652,7 @@ export class SR5Actor extends Actor {
 							"type": "value",
 							"value": value,
 							"multiplier": 1,
-							"ownerItem": data.itemUuid,
+							"ownerItem": data.owner.itemUuid,
 						}
 						newItem.system.itemEffects.push(effectItem);
 						await this.updateEmbeddedDocuments("Item", [newItem]);

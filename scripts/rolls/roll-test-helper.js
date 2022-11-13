@@ -1,4 +1,6 @@
 import { SR5_RollMessage } from "./roll-message.js";
+import { SR5_EntityHelpers } from "../entities/helpers.js";
+
 export class SR5_RollTestHelper {
 
     //Handle when a test is aborted
@@ -43,8 +45,34 @@ export class SR5_RollTestHelper {
         return dialogData;
     }
 
+    //Determine from whom actor edge must be reduce
+	static async determineEdgeActor(actor){
+		let edgeActor = actor;
+		if (actor.type === "actorSpirit" && actor.system.creatorId){
+			let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
+			if (creator.system.conditionMonitors.edge?.actual?.value < creator.system.specialAttributes?.edge?.augmented?.value){
+				edgeActor = creator;
+			}
+		}
+		return edgeActor;
+	}
+
+    //Remove 1 edge from actor
+	static async removeEdgeFromActor(messageData, actor) {
+		if (messageData.actorType === "actorSpirit") {
+			let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
+			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
+		} else {
+			//If actor is grunt, change actor to parent
+			if (actor.isToken)
+				actor = game.actors.get(actor.id);
+			actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
+		}
+	}
+
     //Iterate through roll dicepool modifiers and get the final dicePool
     static async handleDicePoolModifiers(dialogData){
+        dialogData.dicePool.modifiersTotal = 0;
         for (let key in dialogData.dicePool.modifiers){
             dialogData.dicePool.modifiersTotal += dialogData.dicePool.modifiers[key].value;
             dialogData.dicePool.hasModifier = true;

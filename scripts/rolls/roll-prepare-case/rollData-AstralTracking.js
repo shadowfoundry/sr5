@@ -21,11 +21,14 @@ export default function astralTracking(rollData, actor){
 
     //Add others informations
     rollData.test.type = "astralTracking";
-    rollData.limit.type = "astral";
+    rollData.limit.type = "astralLimit";
     rollData.dialogSwitch.extended = true;
+    rollData.test.isExtended = true;
+    rollData.test.extended.interval = "hour";
+    rollData.test.extended.intervalValue = 1;
 
     //Background count limit modifier
-    if (actorData.magic.bgCount.value > 0){
+    if (actor.system.magic.bgCount.value > 0){
         rollData = SR5_PrepareRollHelper.addBackgroundCountLimitModifiers(rollData, actor);
     }
 

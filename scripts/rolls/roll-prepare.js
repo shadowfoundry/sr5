@@ -19,9 +19,6 @@ export class SR5_PrepareRollTest {
         //Get the base infos for roll
         let rollData = this.getBaseRollData(document, actor);
 
-        //Add reference to the previous chatMessage
-        if (chatData) rollData.previousMessage.messageId = chatData.originalMessage;
-
         //Add system optionnal rules
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rollData.systemRules.calledShots = true;
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rollData.systemRules.grid = true;
@@ -31,16 +28,16 @@ export class SR5_PrepareRollTest {
 
         //Iterate through roll type and add data to rollData;
         switch (rollType){
-            case "astralTracking":
+            case "astralTracking": //done
                 rollData = await SR5_GetRollData.astralTracking(rollData, actor);
                 break;
-            case "attribute":
+            case "attribute": //done
                 rollData = await SR5_GetRollData.attributeOnly(rollData, rollKey, actor);
                 break;
-            case "banishingResistance":
+            case "banishingResistance": //done
                 rollData = await SR5_GetRollData.banishingResistance(rollData, actor, chatData);
                 break;
-            case "bindingResistance":
+            case "bindingResistance": //done
                 rollData = await SR5_GetRollData.bindingResistance(rollData, actor, chatData);
                 break;
             case "calledShotBuckled":
@@ -218,7 +215,7 @@ export class SR5_PrepareRollTest {
         let actorData, item, itemData, speakerActor, speakerId, speakerImg;
         actorData = actor.system;
 
-        if (document.documentName === "Item"){
+        if (document?.documentName === "Item"){
             item = document;
             itemData = document.system;
         }
@@ -327,6 +324,7 @@ export class SR5_PrepareRollTest {
                 matrix: {
                     value: 0, //matrixDamageValue
                     base: 0, //matrixDamageValueBase
+                    modifiers:{},
                 },
             },
             dialogSwitch:{
@@ -371,7 +369,7 @@ export class SR5_PrepareRollTest {
                 value: 0,
             },
             lists: {
-                extendedInterval: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.extendedInterval, "extendedInterval"),
+                extendedIntervals: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.extendedIntervals, "extendedIntervals"),
                 characterAttributes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.characterAttributes, "characterAttributes"),
                 vehicleAttributes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.vehicleAttributes, "vehicleAttributes"),
                 perceptionModifiers: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.perceptionModifiers, "perceptionModifiers"),
@@ -387,7 +385,7 @@ export class SR5_PrepareRollTest {
                     type: "",
                     modifiers: {},
                 },
-                force: 0,
+                force: null,
                 hasUsedReagents: false,
                 spell: {
                     category: "",
@@ -400,7 +398,9 @@ export class SR5_PrepareRollTest {
                 spiritAid: {
                     id: "",
                     modifier: 0,
-                }
+                },
+                elements: null,
+                spiritType: null,
             },
             matrix: {
                 defenderDoBiofeedbackDamage: false,
@@ -410,7 +410,7 @@ export class SR5_PrepareRollTest {
                 overwatchScore: false,
                 noiseRange: "wired",
                 noiseScene: 0,
-                level: 0,
+                level: null,
                 fading: {
                     value: 0,
                     type: "",

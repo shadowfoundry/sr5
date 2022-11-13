@@ -65,7 +65,7 @@ export default async function spell(rollData, actor, item){
     }
 
     //Check if a spirit can aid sorcery
-    SR5_PrepareRollHelper.handleSpiritAid(actor, item.system, rollData);
+    SR5_PrepareRollHelper.handleSpiritAid(actor, item, rollData);
 
     return rollData;
 }

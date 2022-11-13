@@ -11,14 +11,22 @@ export class SR5_PrepareRollHelper {
 
     //Return the base dice pool
     static getBaseDicepool(rollData){
+        rollData.dicePool.base = 0;
         for (let m of rollData.dicePool.composition){
             rollData.dicePool.base += m.value;
         }
         return rollData.dicePool.base;
     }
 
+    //Return base dice pool composition
+    static getDicepoolComposition(composition){
+        let dicePoolComposition = composition.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));
+        return dicePoolComposition;
+    }
+
     //Return dice pool modifiers object;
     static getDicepoolModifiers(rollData, modifiers){
+        rollData.dicePool.modifiers = {};
         for (let m of modifiers){
             if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup"){
                 rollData.dicePool.modifiers[m.type] = {};

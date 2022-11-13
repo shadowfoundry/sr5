@@ -24,7 +24,7 @@ export default async function skill(rollData, rollType, rollKey, actor, chatData
         } else rollData.test.title += `${" + " + game.i18n.localize(SR5.allAttributes[actor.system.skills[rollKey].linkedAttribute])}`;
 
         //Determine dicepool composition
-        rollData.dicePool.composition = actor.system.skills[rollKey].test.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));
+        rollData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills[rollKey].test.modifiers);
 
         //Determine base dicepool
         rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
@@ -49,15 +49,16 @@ export default async function skill(rollData, rollType, rollKey, actor, chatData
     //Special case for magical skills
     if(rollKey === "banishing" || rollKey === "binding" || rollKey === "counterspelling" || rollKey === "disenchanting" || rollKey === "summoning"){
         rollData.dialogSwitch.extended = false;
-        rollData.dialogSwitch.reagents = false;
+        if (actor.system.magic.reagents > 0 && rollKey !== "binding") rollData.dialogSwitch.reagents = true;
+        rollData.magic.elements = actor.system.magic.elements;
         //Add background count limit modifiers if any
         if (actor.system.magic.bgCount.value > 0){
-            rollData = mergeObject(rollData, {
-                "limit.modifiers.backgroundCount.value": actor.system.magic.bgCount.value,
-                "limit.modifiers.backgroundCount.label": game.i18n.localize(SR5.limitModTypes["backgroundCount"]),
-            });
+            rollData = SR5_PrepareRollHelper.addBackgroundCountLimitModifiers(rollData, actor);
         }
     }
+
+    //Add force default
+    if (rollKey === "summoning") rollData.magic.force = 1;
 
     //Special case for Astral combat
     if (rollKey === "astralCombat"){
@@ -75,7 +76,6 @@ export default async function skill(rollData, rollType, rollKey, actor, chatData
 
     //If roll is opposed, add special info to roll
     if(chatData?.test?.isOpposed){
-        console.log(chatData);
         rollData = await getOpposedData(rollData, chatData, rollKey, actor);
     }
 
@@ -101,19 +101,24 @@ async function getTargetedData(rollData, rollKey){
             else rollData.limit.base = targetActor.system.force.value;
             break;
         case "counterspelling":
-            let effectsList = targetActor.items.filter(i => i.type === "itemSpell" && i.system.isActive);
+            let spellList = targetActor.items.filter(i => i.type === "itemSpell" && i.system.isActive);
             for (let e of Object.values(targetActor.items.filter(i => i.type === "itemEffect" && i.system.type === "itemSpell"))){
                 let parentItem = await fromUuid(e.system.ownerItem);
-                if (effectsList.length === 0) effectsList.push(parentItem);
+                if (spellList.length === 0) spellList.push(parentItem);
                 else {
-                    let itemAlreadyIn = effectsList.find((i) => i.id === parentItem.id);
-                    if (!itemAlreadyIn) effectsList.push(parentItem);
+                    let itemAlreadyIn = spellList.find((i) => i.id === parentItem.id);
+                    if (!itemAlreadyIn) spellList.push(parentItem);
                 }
             }
-            if (effectsList.length !== 0) rollData.target.itemList = effectsList;
+            if (spellList.length !== 0) {
+                for (let s of spellList) rollData.target.itemList[s.uuid] = s.name;
+            }
             break;
         case "disenchanting":
-            rollData.target.itemList = targetActor.items.filter(i => (i.type === "itemFocus" && i.system.isActive) || i.type === "itemPreparation");
+            let focusList = targetActor.items.filter(i => (i.type === "itemFocus" && i.system.isActive) || i.type === "itemPreparation");
+            if (focusList.length !== 0) {
+                for (let s of focusList) rollData.target.itemList[s.uuid] = s.name;
+            }
             break;
         case "locksmith":
             if (targetActor.type === "actorDevice"){

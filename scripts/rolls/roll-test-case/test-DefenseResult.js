@@ -39,8 +39,8 @@ export default async function defenseResultInfo(cardData, type){
             labelEnd = game.i18n.localize("SR5.FailedSummon");
             key = "summonSpirit";
             cardData.magic.drain.value = cardData.roll.hits * 2;
-            if (cardData.force > cardData.actorMagic) cardData.magic.drain.type = "physical";
-            else cardData.magic.drain.type = "stun";
+            /*if (cardData.magic.force > cardData.actorMagic) cardData.magic.drain.type = "physical";
+            else cardData.magic.drain.type = "stun";*/
             if (cardData.magic.drain.value < 2) cardData.magic.drain.value = 2;
             cardData.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.magic.drain.value})`);
             break;
@@ -50,15 +50,15 @@ export default async function defenseResultInfo(cardData, type){
             cardData.magic.drain.value = cardData.roll.hits * 2;
             if (prevData.test.realHits > prevData.actorMagic) cardData.magic.drain.type = "physical";
             else cardData.magic.drain.type = "stun";
-            if (cardData.reagentsSpent > cardData.force) {
+            if (cardData.magic.reagentsSpent > cardData.magic.force) {
                 cardData.drainMod = {};
                 cardData.drainMod.hits = {
                     value: cardData.roll.hits * 2,
                     label: game.i18n.localize(SR5.drainModTypes["hits"]),
                 };
-                cardData.magic.drain.value -= (cardData.reagentsSpent - cardData.force);
+                cardData.magic.drain.value -= (cardData.magic.reagentsSpent - cardData.magic.force);
                 cardData.drainMod.reagents = {
-                    value: -(cardData.reagentsSpent - cardData.force),
+                    value: -(cardData.magic.reagentsSpent - cardData.magic.force),
                     label: game.i18n.localize(SR5.drainModTypes["reagents"]),
                 };
             }
@@ -145,7 +145,7 @@ export default async function defenseResultInfo(cardData, type){
             label = game.i18n.localize("SR5.EscapeEngulfSuccess");
             labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
             successTestType = "SR-CardButtonHit endTest";
-            if (cardData.roll.hits < cardData.hits) {
+            if (cardData.roll.hits < cardData.previousMessage.hits) {
                 let parentMessage = game.messages.find(m => m.flags.sr5data.buttons.escapeEngulf && m.flags.sr5data.attackerId === cardData.attackerId)
                 if (parentMessage) prevData = parentMessage.flags?.sr5data;
                 if (prevData.buttons?.escapeEngulf) {
@@ -167,6 +167,6 @@ export default async function defenseResultInfo(cardData, type){
             break;
     }
 
-    if (cardData.roll.hits < cardData.hits) cardData.chatCard.buttons[key] = SR5_RollMessage.generateChatButton(successTestType, key, label);
+    if (cardData.roll.hits < cardData.previousMessage.hits) cardData.chatCard.buttons[key] = SR5_RollMessage.generateChatButton(successTestType, key, label);
     else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton(failedTestType, failedKey, labelEnd);
 }

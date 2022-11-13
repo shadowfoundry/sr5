@@ -9,7 +9,7 @@ export default async function fadingInfo(cardData){
         //Check if Fading is Stun or Physical
         if (cardData.fadingType) cardData.damage.type = cardData.fadingType;
         else {
-            if (cardData.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damage.type = "physical";
+            if (cardData.previousMessage.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damage.type = "physical";
             else cardData.damage.type = "stun";
         }
         //Add fading damage button

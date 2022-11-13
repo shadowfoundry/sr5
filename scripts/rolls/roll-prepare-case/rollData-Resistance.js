@@ -59,7 +59,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
             rollData = await handleFatiguedDamage(rollData, actorData, chatData);
             break;
         default:
-            SR5_SystemHelpers.srLog(1, `Unknown '${chatData.damageResistanceType}' Damage Resistance Type in roll`);
+            SR5_SystemHelpers.srLog(1, `Unknown '${chatData.damage.resistanceType}' Damage Resistance Type in roll`);
     }
     
     if(!rollData) return;
@@ -238,11 +238,11 @@ async function handleSpiritDamage(rollData, actorData, chatData){
 
 async function handleDirectSpell(rollData, actorData, chatData){
     //Determine title
-    rollData.test.title = `${game.i18n.localize("SR5.ResistanceTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.characterResistances[chatData.damageResistanceType])} (${rollData.damage.base})`;
+    rollData.test.title = `${game.i18n.localize("SR5.ResistanceTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.characterResistances[chatData.damage.resistanceType])} (${rollData.damage.base})`;
 
     //Determine base dicepool & composition
-    rollData.dicePool.base = actorData.resistances[chatData.damageResistanceType].dicePool;
-    rollData.dicePool.composition = actorData.resistances[chatData.damageResistanceType].modifiers;
+    rollData.dicePool.base = actorData.resistances[chatData.damage.resistanceType].dicePool;
+    rollData.dicePool.composition = actorData.resistances[chatData.damage.resistanceType].modifiers;
 
     //Add others informations
     rollData.test.typeSub = "spellDamage";

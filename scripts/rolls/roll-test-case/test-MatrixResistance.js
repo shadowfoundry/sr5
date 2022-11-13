@@ -4,15 +4,15 @@ import { SR5_RollMessage } from "../roll-message.js";
 export default async function matrixResistanceInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
         actorData = actor.system,
-        attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionActor),
+        attacker = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
         attackerData = attacker?.system,
         targetItem;
 
-    if (cardData.matrixTargetItemUuid) targetItem = await fromUuid(cardData.matrixTargetItemUuid);
-    cardData.matrixDamageValue = cardData.matrixDamageValueBase - cardData.roll.hits;
+    if (cardData.target.itemUuid) targetItem = await fromUuid(cardData.target.itemUuid);
+    cardData.damage.matrix.value = cardData.damage.matrix.valueBase - cardData.roll.hits;
 
-    if (cardData.matrixDamageValue > 0) {
-        cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.matrixDamageValue})`);
+    if (cardData.damage.matrix.value > 0) {
+        cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
         //If Biofeedback, add button	
         if ( attackerData.matrix.programs.biofeedback.isActive
         || attackerData.matrix.programs.blackout.isActive
@@ -22,7 +22,7 @@ export default async function matrixResistanceInfo(cardData, actorId){
             if (((actor.type === "actorPc" || actor.type === "actorGrunt") && (actorData.matrix.userMode !== "ar") && (targetItem.type === "itemDevice"))
             || (actor.type === "actorDrone" && actorData.controlMode === "rigging")) {
                 cardData.damage.resistanceType = "biofeedback";
-                cardData.damage.value = cardData.matrixDamageValueBase;
+                cardData.damage.value = cardData.damage.matrix.valueBase;
                 cardData.damage.type = "stun";
                 if ((attackerData.matrix.programs.biofeedback.isActive && actorData.matrix.userMode === "hotSim") || (attackerData.matrix.deviceSubType === "iceBlack")) cardData.damage.type = "physical";
                 cardData.chatCard.buttons.attackerDoBiofeedbackDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "attackerDoBiofeedbackDamage", `${game.i18n.localize('SR5.TakeOnDamageBiofeedback')} ${game.i18n.localize('SR5.DamageValueShort')} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`);

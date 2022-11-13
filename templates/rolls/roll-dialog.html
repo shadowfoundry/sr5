@@ -91,7 +91,7 @@
 		{{/if}}
 
 		<!-- ASTRAL COMBAT DAMAGE CHOICE -->
-		{{#if switch.chooseDamageType}}
+		{{#if dialogSwitch.chooseDamageType}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/astralDamageType.html}}
 		{{/if}}
 
@@ -101,7 +101,7 @@
 		{{/if}}
 	  	
 		<!-- COUNTER SPELL / DISENCHANTING - CHOOSE TARGET -->
-		{{#if (and (or (eq test.typeSub "counterspelling") (eq test.typeSub "disenchanting")) hasTarget)}}
+		{{#if (and (or (eq test.typeSub "counterspelling") (eq test.typeSub "disenchanting")) target.hasTarget)}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
 		{{/if}}
 
@@ -113,11 +113,12 @@
 	  	<!-- LIMIT -->
 	  	{{#if (gt limit.base 0)}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/limit.html}}
-			<!-- REAGENTS -->
-			{{#if switch.reagents}}
-		  		{{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
-			{{/if}}
 	  	{{/if}}
+
+		<!-- REAGENTS -->
+		{{#if dialogSwitch.reagents}}
+			{{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+  		{{/if}}
 
 	  	<!-- ESCAPE ARTIST THRESHOLD-->
 	  	{{#if (eq test.typeSub "escapeArtist")}}
@@ -140,7 +141,7 @@
 	  	{{/if}}
 
 	  	<!-- EXTENDED TEST -->
-	  	{{#if switch.extended}}
+	  	{{#if dialogSwitch.extended}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/extendedTest.html}}
 	  	{{/if}}
 	</ul>

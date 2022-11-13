@@ -6,6 +6,7 @@ import { _getSRStatusEffect } from "../system/effectsList.js";
 import { SR5_RollTest } from "./roll-test.js";
 import { SR5_SocketHandler } from "../socket.js";
 import { SR5_RollMessage } from "./roll-message.js";
+import {SR5_PrepareRollTest} from "./roll-prepare.js";
 import SR5_SpendDialog from "../interface/spendNetHits-dialog.js";
 
 
@@ -15,7 +16,7 @@ export class SR5_DiceHelper {
     static async srDicesUpdateItem(cardData) {
         let item = await fromUuid(cardData.owner.itemUuid);
         let newItem = duplicate(item);
-        let firedAmmo = cardData.firedAmmo;
+        let firedAmmo = cardData.combat.ammo.fired;
         
         //update weapon ammo
         if (!firedAmmo) firedAmmo = 1;
@@ -31,13 +32,13 @@ export class SR5_DiceHelper {
         //update level and hits
         if (newItem.type === "itemComplexForm") {
             newItem.system.hits = cardData.roll.hits;
-            newItem.system.level = cardData.level;
+            newItem.system.level = cardData.matrix.level;
         }
         //Update net hits
         if (newItem.type === "itemRitual") {
-            newItem.system.force = cardData.force;
-            newItem.system.hits = cardData.hits;
-            newItem.system.netHits = cardData.hits - cardData.roll.hits;
+            newItem.system.force = cardData.magic.force;
+            newItem.system.hits = cardData.roll.hits;
+            newItem.system.netHits = cardData.previousMessage.hits - cardData.roll.hits;
             if (newItem.system.netHits < 0) newItem.system.netHits = 0;
         }
         //updateCharge
@@ -49,158 +50,140 @@ export class SR5_DiceHelper {
     }
 
     /** Handle spirit, sprite or preparation resistance
-    * @param {Object} message - The origin message
+    * @param {Object} cardData - The origin cardData
     */
-    static async createItemResistance(message) {
-        let dicePool, targetItem, type, title, dicePoolComposition;
-        let cardData = {
-            actorId: message.ownerAuthor,
-            ownerAuthor: message.ownerAuthor,    
-            hits: message.hits,
-            speakerId: message.speakerId,
-            originalActionUser: message.originalActionUser,
-            speakerActor: message.speakerActor,
-            speakerImg: message.speakerImg,
-            originalMessage: message.originalMessage._id,
-        };
+    static async createItemResistance(cardData, messageId) {
+        let targetItem;
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
+        let rollData = SR5_PrepareRollTest.getBaseRollData(null, actor);
 
-        //Spirit resistance
-        if (message.test.typeSub === "summoning"){
-            cardData = mergeObject(cardData, {
-                spiritType: message.spiritType,
-                force: message.force,
-                type: "summoningResistance",
-                title: `${game.i18n.localize("SR5.SummoningResistance")} (${cardData.hits})`,
-            });
-            dicePool = cardData.force;
+        //Transfer basic info from previous message
+        rollData.previousMessage.actorId = cardData.owner.actorId;
+        rollData.previousMessage.hits = cardData.roll.hits;
+        rollData.previousMessage.messageId = messageId;
+
+        //add roll info for Spirit resistance
+        if (cardData.test.typeSub === "summoning"){
+            rollData.magic.spiritType = cardData.magic.spiritType;
+            rollData.magic.force = cardData.magic.force;
+            rollData.test.type = "summoningResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.SummoningResistance")} (${rollData.previousMessage.hits})`;
+            rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Force"), value: rollData.magic.force},];
+            rollData.dicePool.base = rollData.magic.force;
+            rollData.dicePool.value = rollData.magic.force;
         }
 
-        //Sprite resistance
-        if (message.test.typeSub === "compileSprite"){
-            cardData = mergeObject(cardData, {
-                spriteType: message.spriteType,
-                actorResonance: message.actorResonance,
-                level: message.level,
-                type: "compilingResistance",
-                title: `${game.i18n.localize("SR5.CompilingResistance")} (${cardData.hits})`,
-            });
-            dicePool = cardData.level;    
-        }
-
-        //Preparation resistance
-        if (message.type === "preparationFormula"){
-            cardData = mergeObject(cardData, {
-                itemId: message.itemId,
-                force: message.force,
-                preparationTrigger: message.preparationTrigger,
-                type: "preparationResistance",
-                title: `${game.i18n.localize("SR5.PreparationResistance")} (${cardData.hits})`,
-            });
-            dicePool = cardData.force;    
-        }
-
-        //Ritual resistance
-        if (message.type === "ritual"){
-            cardData = mergeObject(cardData, {
-                itemId: message.itemId,
-                itemUuid: message.itemUuid,
-                originalMessage: message.originalMessage,
-                force: message.force,
-                reagentsSpent: message.reagentsSpent,
-                type: "ritualResistance",
-                title: `${game.i18n.localize("SR5.RitualResistance")} (${cardData.hits})`,
-            });
-            dicePool = cardData.force * 2;
-        }
-
-        //Complex form resistance
-        if (message.type === "resonanceAction" && message.test.typeSub === "killComplexForm"){
-            targetItem = await fromUuid(message.targetEffect);
-            dicePool = targetItem.system.threaderResonance + targetItem.system.level;
-            dicePoolComposition = ([
-                {source: game.i18n.localize("SR5.ThreaderResonance"), value: targetItem.system.threaderResonance},
-                {source: game.i18n.localize("SR5.Level"), value: targetItem.system.level},
-            ]);
-            cardData = mergeObject(cardData, {
-                dicePoolComposition: dicePoolComposition,
-                targetEffect: message.targetEffect,
-                hits: message.test.hits,
-                type: "complexFormResistance",
-                title: `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetItem.name})`,
-            });
+        //add roll info for Sprite resistance
+        else if (cardData.test.typeSub === "compileSprite"){
+            rollData.matrix.spriteType = cardData.matrix.spriteType;
+            rollData.matrix.level = cardData.matrix.level;
+            rollData.test.type = "compilingResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.CompilingResistance")} (${rollData.previousMessage.hits})`;
+            rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Level"), value: rollData.matrix.level},];
+            rollData.dicePool.base = rollData.matrix.level;
+            rollData.dicePool.value = rollData.matrix.level;
         }
 
         //Spell Resistance
-        if (message.test.typeSub === "counterspelling"){
-            targetItem = await fromUuid(message.targetEffect);
-            dicePool = targetItem.system.casterMagic + targetItem.system.force;
-            dicePoolComposition = ([
+        else if (cardData.test.typeSub === "counterspelling"){
+            targetItem = await fromUuid(cardData.target.itemUuid);
+            rollData.dicePool.value = targetItem.system.casterMagic + targetItem.system.force;
+            rollData.dicePool.composition = ([
                 {source: game.i18n.localize("SR5.CasterMagic"), value: targetItem.system.casterMagic},
                 {source: game.i18n.localize("SR5.SpellForce"), value: targetItem.system.force},
             ]);
             if (targetItem.system.quickening) {
-                dicePool += targetItem.system.karmaSpent;
-                dicePoolComposition.push({source: game.i18n.localize("SR5.MetamagicQuickening"), value: targetItem.system.karmaSpent});
+                rollData.dicePool.value += targetItem.system.karmaSpent;
+                rollData.dicePool.composition.push({source: game.i18n.localize("SR5.MetamagicQuickening"), value: targetItem.system.karmaSpent});
             }
-            cardData = mergeObject(cardData, {
-                dicePoolComposition: dicePoolComposition,
-                targetEffect: message.targetEffect,
-                hits: message.test.hits,
-                type: "spellResistance",
-                title: `${game.i18n.localize("SR5.SpellResistance")} (${targetItem.name})`,
-            });
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.test.type = "spellResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.SpellResistance")} (${targetItem.name})`;
+            rollData.target.itemUuid = cardData.target.itemUuid;
         }
 
         //Enchantment Resistance
-        if (message.test.typeSub === "disenchanting"){
-            targetItem = await fromUuid(message.targetEffect);
+        else if (cardData.test.typeSub === "disenchanting"){
+            targetItem = await fromUuid(cardData.target.itemUuid);
             if (targetItem.type === "itemFocus") {
-                dicePool = targetItem.parent.system.specialAttributes.magic.augmented.value + targetItem.system.itemRating;
-                type = "enchantmentResistance";
-                title = `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetItem.name})`;
-                dicePoolComposition = ([
+                rollData.dicePool.value = targetItem.parent.system.specialAttributes.magic.augmented.value + targetItem.system.itemRating;
+                rollData.test.type = "enchantmentResistance";
+                rollData.test.title = `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetItem.name})`;
+                rollData.dicePool.composition = ([
                     {source: game.i18n.localize("SR5.CasterMagic"), value: targetItem.parent.system.specialAttributes.magic.augmented.value},
                     {source: game.i18n.localize("SR5.ItemRating"), value: targetItem.system.itemRating},
                 ]);
             }
             if (targetItem.type === "itemPreparation") {
-                dicePool = targetItem.parent.system.specialAttributes.magic.augmented.value + targetItem.system.force;
-                type = "disjointingResistance";
-                title = `${game.i18n.localize("SR5.DisjointingResistance")} (${targetItem.name})`;
-                dicePoolComposition = ([
+                rollData.dicePool.value = targetItem.parent.system.specialAttributes.magic.augmented.value + targetItem.system.force;
+                rollData.test.type = "disjointingResistance";
+                rollData.test.typeSub = "preparation";
+                rollData.test.title = `${game.i18n.localize("SR5.DisjointingResistance")} (${targetItem.name})`;
+                rollData.dicePool.composition = ([
                     {source: game.i18n.localize("SR5.CasterMagic"), value: targetItem.parent.system.specialAttributes.magic.augmented.value},
-                    {source: game.i18n.localize("SR5.ItemRating"), value: targetItem.system.itemRating},
+                    {source: game.i18n.localize("SR5.ItemRating"), value: targetItem.system.force},
                 ]);
             }
-            cardData = mergeObject(cardData, {
-                dicePoolComposition: dicePoolComposition,
-                targetEffect: message.targetEffect,
-                hits: message.test.hits,
-                type: type,
-                title: title,
-            });
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.test.title = `${game.i18n.localize("SR5.SpellResistance")} (${targetItem.name})`;
+            rollData.target.itemUuid = cardData.target.itemUuid;
+        }
+
+        //Preparation resistance
+        if (cardData.type === "preparationFormula"){
+            rollData.dicePool.value = rollData.magic.force;
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.owner.itemId = cardData.owner.itemId;
+            rollData.magic.force = cardData.magic.force;
+            rollData.magic.preparationTrigger = cardData.magic.preparationTrigger;
+            rollData.test.type = "preparationResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.PreparationResistance")} (${rollData.previousMessage.hits})`;
+        }
+
+        //Ritual resistance
+        else if (cardData.type === "ritual"){
+            rollData.dicePool.value = rollData.magic.force * 2;
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.dicePool.composition = [
+                {source: game.i18n.localize("SR5.Force"), value: rollData.magic.force},
+                {source: game.i18n.localize("SR5.Force"), value: rollData.magic.force},
+            ];
+            rollData.owner.itemId = cardData.owner.itemId;
+            rollData.owner.itemUuid = cardData.owner.itemUuid;
+            rollData.magic.force = cardData.magic.force;
+            rollData.test.type = "ritualResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.RitualResistance")} (${rollData.previousMessage.hits})`;
+        }
+
+        //Complex form resistance
+        else if (cardData.type === "resonanceAction" && cardData.test.typeSub === "killComplexForm"){
+            targetItem = await fromUuid(cardData.target.itemUuid);
+            rollData.dicePool.value = targetItem.system.threaderResonance + targetItem.system.level;
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.dicePool.composition = ([
+                {source: game.i18n.localize("SR5.ThreaderResonance"), value: targetItem.system.threaderResonance},
+                {source: game.i18n.localize("SR5.Level"), value: targetItem.system.level},
+            ]);
+            rollData.target.itemUuid = cardData.target.itemUuid;
+            rollData.test.type = "complexFormResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.ComplexFormResistance")} (${targetItem.name})`;
         }
 
         //Escape Engulf
-        if (message.type === "escapeEngulf"){
-            let spirit = SR5_EntityHelpers.getRealActorFromID(message.attackerId);
-            dicePool = spirit.system.attributes.body.augmented.value + spirit.system.specialAttributes.magic.augmented.value;
-            dicePoolComposition = ([
+        else if (cardData.type === "escapeEngulf"){
+            let spirit = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
+            rollData.dicePool.value = spirit.system.attributes.body.augmented.value + spirit.system.specialAttributes.magic.augmented.value;
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.dicePool.composition = ([
                 {source: game.i18n.localize("SR5.Body"), value: spirit.system.attributes.body.augmented.value},
                 {source: game.i18n.localize("SR5.Magic"), value: spirit.system.specialAttributes.magic.augmented.value},
             ]);
-            cardData = mergeObject(cardData, {
-                attackerId: message.attackerId,
-                dicePoolComposition: dicePoolComposition,
-                originalMessage: message.originalMessage,
-                hits: message.test.hits,
-                type: "engulfResistance",
-                title: `${game.i18n.localize("SR5.SpiritResistance")} (${cardData.hits})`,
-            });
+            rollData.test.type = "engulfResistance";
+            rollData.test.title = `${game.i18n.localize("SR5.SpiritResistance")} (${rollData.previousMessage.hits})`;
         }
 
         //Weapon break Resistance
-        if (message.type === "defense"){
+        else if (cardData.type === "defense"){
             let dialogData = {list: SR5.barrierTypes},
                 barrierType,
                 cancel = true;
@@ -212,12 +195,12 @@ export class SR5_DiceHelper {
                     content: dlg,
                     buttons: {
                         ok: {
-                        label: "Ok",
-                        callback: () => (cancel = false),
+                            label: "Ok",
+                            callback: () => (cancel = false),
                         },
                         cancel: {
-                        label: "Cancel",
-                        callback: () => (cancel = true),
+                            label: "Cancel",
+                            callback: () => (cancel = true),
                         },
                     },
                     default: "ok",
@@ -229,31 +212,25 @@ export class SR5_DiceHelper {
                     }).render(true);
                 });
             });
+
             let structure = SR5_DiceHelper.convertBarrierTypeToStructure(barrierType);
             let armor = SR5_DiceHelper.convertBarrierTypeToArmor(barrierType);
-            dicePool = armor + structure;
-            dicePoolComposition = ([
+
+            rollData.dicePool.value = armor + structure;
+            rollData.dicePool.base = rollData.dicePool.value;
+            rollData.dicePool.composition = ([
                 {source: game.i18n.localize("SR5.Armor"), value: armor},
                 {source: game.i18n.localize("SR5.Structure"), value: structure},
             ]);
 
-            message.ownerAuthor = message.speakerId;
-            cardData = mergeObject(cardData, {
-                ownerAuthor: message.speakerId,
-                actorId: message.speakerId,
-                originalMessage: message.originalMessage,
-                type: "weaponResistance",
-                hits: message.damageValue,
-                dicePoolComposition: dicePoolComposition,
-                structure: structure,
-            });
+            rollData.test.type = "weaponResistance";
+            rollData.combat.structure = structure;
         }
 
-        let result = SR5_RollTest.srd6({ dicePool: dicePool });
-        cardData.test = result;
+        rollData.roll = await SR5_RollTest.srd6({ dicePool: rollData.dicePool.value });
 
-        await SR5_RollTest.srDicesAddInfoToCard(cardData, message.ownerAuthor);
-        SR5_RollTest.renderRollCard(cardData);
+        await SR5_RollTest.srDicesAddInfoToCard(rollData, cardData.owner.actorId);
+        SR5_RollTest.renderRollCard(rollData);
     }
 
 
@@ -416,11 +393,11 @@ export class SR5_DiceHelper {
     //Get time spent on a matrix search
     static async getMatrixSearchDuration(cardData, netHits){
         let timeSpent, duration = "";
-        cardData.matrixSearchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.thresholdType);
-		cardData.matrixSearchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.thresholdType);
+        cardData.matrix.searchUnit = SR5_DiceHelper.convertMatrixSearchTypeToUnitTime(cardData.threshold.type);
+		cardData.matrix.searchTime = SR5_DiceHelper.convertMatrixSearchTypeToTime(cardData.threshold.type);
 
-        if (cardData.matrixSearchUnit === "minute") timeSpent = (cardData.matrixSearchTime * 60)/netHits;
-        if (cardData.matrixSearchUnit === "hour") timeSpent = (cardData.matrixSearchTime * 60 * 60)/netHits;
+        if (cardData.matrix.searchUnit === "minute") timeSpent = (cardData.matrix.searchTime * 60)/netHits;
+        if (cardData.matrix.searchUnit === "hour") timeSpent = (cardData.matrix.searchTime * 60 * 60)/netHits;
         
         let time = new Date(null);
         time.setSeconds(timeSpent);
@@ -676,19 +653,19 @@ export class SR5_DiceHelper {
 
     /** Apply Matrix Damage to a Deck
    * @param {Object} targetActor - The Target Actor who owns the deck/item
-   * @param {Object} messageData - Message data
+   * @param {Object} cardData - Message data
    * @param {Object} attacker - Actor who do the damage
    */
-    static async applyDamageToDecK(targetActor, messageData, defender, defenderWin) {
-        let damageValue = messageData.matrixDamageValue;
+    static async applyDamageToDecK(targetActor, cardData, defender, defenderWin) {
+        let damageValue = cardData.damage.matrix.value;
         let targetItem;
-        if (messageData.matrixTargetItemUuid && !defenderWin) targetItem = await fromUuid(messageData.matrixTargetItemUuid);
+        if (cardData.target.itemUuid && !defenderWin) targetItem = await fromUuid(cardData.target.itemUuid);
         if (!targetItem) targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.system.isActive);
         let newItem = duplicate(targetItem);
 
-        //targetActor.takeDamage(messageData);
+        //targetActor.takeDamage(cardData);
         if (targetItem.system.type === "livingPersona" || targetItem.system.type === "headcase" ){
-            return targetActor.takeDamage(messageData);
+            return targetActor.takeDamage(cardData);
         }
         
         if (targetActor.system.matrix.programs.virtualMachine.isActive) damageValue += 1;
@@ -712,60 +689,60 @@ export class SR5_DiceHelper {
 
     // Update Matrix Damage to a Deck
     static async updateMatrixDamage(cardData, netHits, defender){
-        let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.originalActionActor),
+        let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
             attackerData = attacker?.system,
-            damage = cardData.matrixDamageValueBase,
-            item = await fromUuid(cardData.matrixTargetItemUuid),
-            mark = await SR5_DiceHelper.findMarkValue(item.system, cardData.originalActionActor);
+            damage = cardData.damage.matrix.valueBase,
+            item = await fromUuid(cardData.target.itemUuid),
+            mark = await SR5_DiceHelper.findMarkValue(item.system, cardData.previousMessage.actorId);
 
         if (attacker.type === "actorDevice"){
             if (attacker.system.matrix.deviceType = "ice"){
                 mark = await SR5_DiceHelper.findMarkValue(item.system, attacker.id);
             }
         }
-        cardData.matrixDamageMod = {};
-        cardData.matrixDamageMod.netHits = netHits;
-        cardData.matrixDamageMod.markQty = mark;
+        cardData.damage.matrix.modifiers = {};
+        cardData.damage.matrix.modifiers.netHits = netHits;
+        cardData.damage.matrix.modifiers.markQty = mark;
         
         //Mugger program
         if (mark > 0 && attackerData.matrix.programs.mugger.isActive) {
             mark = mark * 2;
-            cardData.matrixDamageMod.muggerIsActive = true;
+            cardData.damage.matrix.modifiers.muggerIsActive = true;
         }
         //Guard program
         if (defender.system.matrix.programs.guard.isActive) {
-            damage = cardData.matrixDamageValueBase + netHits + mark;
-            cardData.matrixDamageMod.guardIsActive = true;
-            cardData.matrixDamageMod.markDamage = mark;
+            damage = cardData.damage.matrix.valueBase + netHits + mark;
+            cardData.damage.matrix.modifiers.guardIsActive = true;
+            cardData.damage.matrix.modifiers.markDamage = mark;
         } else {
-            damage = cardData.matrixDamageValueBase + netHits + (mark * 2);
-            cardData.matrixDamageMod.markDamage = mark*2;
+            damage = cardData.damage.matrix.valueBase + netHits + (mark * 2);
+            cardData.damage.matrix.modifiers.markDamage = mark*2;
         }
 
         //Hammer program
         if (attackerData.matrix.programs.hammer.isActive) {
             damage += 2;
-            cardData.matrixDamageMod.hammerDamage = 2;
+            cardData.damage.matrix.modifiers.hammerDamage = 2;
         }
 
-        cardData.matrixDamageValue = damage;
+        cardData.damage.matrix.value = damage;
         return cardData;
     }
 
     //Handle grenade scatter
-    static async rollScatter(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.owner.actorId);
-        let item = actor.items.find(i => i.id === message.owner.itemId);
+    static async rollScatter(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
+        let item = actor.items.find(i => i.id === cardData.owner.itemId);
         let itemData = item.system;
 
         if (!canvas.scene){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
-        let distanceMod = message.roll.hits;
+        let distanceMod = cardData.roll.hits;
         let gridUnit = canvas.scene.grid.size;
     
-        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === message.owner.itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === cardData.owner.itemId);
         if (template === undefined){
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
             return;
@@ -860,11 +837,11 @@ export class SR5_DiceHelper {
     }
 
     /** Handle ICE specific attack effect
-    * @param {Object} messageData - The chat message data
+    * @param {Object} cardData - The chat message data
     * @param {Object} ice - The ICE actor
     * @param {Object} target - Actor who is the target of the ICE attack
     */
-    static async applyIceEffect(messageData, ice, target){
+    static async applyIceEffect(cardData, ice, target){
         let effect = {
             type: "itemEffect",
             "system.type": "iceAttack",
@@ -873,7 +850,7 @@ export class SR5_DiceHelper {
             "system.durationType": "reboot",
         };
 
-        switch(messageData.iceType){
+        switch(cardData.matrix.iceType){
             case "iceAcid":
                 effect = mergeObject(effect, {
                     name: game.i18n.localize("SR5.EffectReduceFirewall"),
@@ -955,8 +932,8 @@ export class SR5_DiceHelper {
                 break;
             case "iceScramble":
                 if (target.system.matrix.userMode !== "ar"){
-                    messageData.damageResistanceType = "dumpshock";
-                    target.rollTest("resistanceCard", null, messageData);
+                    cardData.damage.resistanceType = "dumpshock";
+                    target.rollTest("resistanceCard", null, cardData);
                 }
                 let deck = target.items.find((item) => item.type === "itemDevice" && item.system.isActive);
                 target.rebootDeck(deck);
@@ -973,7 +950,7 @@ export class SR5_DiceHelper {
             case "iceProbe":
                 break;
             default:
-                SR5_SystemHelpers.srLog(1, `Unknown '${messageData.iceType}' type in applyIceEffect`);
+                SR5_SystemHelpers.srLog(1, `Unknown '${cardData.matrix.iceType}' type in applyIceEffect`);
         }
     }
 
@@ -1004,8 +981,8 @@ export class SR5_DiceHelper {
     }
 
     //create sensor lock effect
-    static async lockTarget(messageData, drone, target){
-        let value = messageData.test.hits - messageData.hits;
+    static async lockTarget(cardData, drone, target){
+        let value = cardData.roll.hits - cardData.previousMessage.hits;
         let effect = {
             name: game.i18n.localize("SR5.EffectSensorLock"),
             type: "itemEffect",
@@ -1021,7 +998,7 @@ export class SR5_DiceHelper {
         await target.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
-    static async chooseMatrixDefender(messageData, actor){
+    static async chooseMatrixDefender(cardData, actor){
         let cancel = true;
         let list = {};
         for (let key of Object.keys(actor.system.matrix.connectedObject)){
@@ -1051,8 +1028,8 @@ export class SR5_DiceHelper {
               close: (html) => {
                 if (cancel) return;
                 let targetItem = html.find("[name=target]").val();
-                messageData.matrixTargetDevice = targetItem;
-                actor.rollTest("matrixDefense", messageData.test.typeSub, messageData);
+                cardData.matrixTargetDevice = targetItem;
+                actor.rollTest("matrixDefense", cardData.test.typeSub, cardData);
               },
             }).render(true);
         });
@@ -1116,8 +1093,8 @@ export class SR5_DiceHelper {
         });
     }
 
-    static async rollJackOut(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
+    static async rollJackOut(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
         actor = actor.toObject(false);
         let dicePool;
 
@@ -1135,34 +1112,33 @@ export class SR5_DiceHelper {
             }
         }
 
-        let cardData = {
+        let rollData = {
             type: "jackOutDefense",
-            title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${message.test.hits})`,
+            title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${cardData.roll.hits})`,
             dicePool: dicePool, 
-            actorId: message.originalActionActor,
-            originalActionActor: message.originalActionActor,
+            actorId: cardData.previousMessage.actorId,
+            originalActionActor: cardData.previousMessage.actorId,
             itemEffectID: itemEffectID,   
-            hits: message.test.hits,
-            speakerId: message.speakerId,
-            speakerActor: message.speakerActor,
-            speakerImg: message.speakerImg,
+            hits: cardData.roll.hits,
+            speakerId: cardData.speakerId,
+            speakerActor: cardData.speakerActor,
+            speakerImg: cardData.speakerImg,
         };
 
-        let result = SR5_RollTest.srd6({ dicePool: dicePool });
-        cardData.test = result;
+        rollData.roll = await SR5_RollTest.srd6({ dicePool: dicePool });
 
-        await SR5_RollTest.srDicesAddInfoToCard(cardData, message.originalActionActor);
-        SR5_RollTest.renderRollCard(cardData);
+        await SR5_RollTest.srDicesAddInfoToCard(rollData, cardData.previousMessage.actorId);
+        SR5_RollTest.renderRollCard(rollData);
     }
 
-    static async jackOut(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
-        await actor.deleteEmbeddedDocuments("Item", [message.itemEffectID]);
+    static async jackOut(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
+        await actor.deleteEmbeddedDocuments("Item", [cardData.itemEffectID]);
         await SR5_EntityHelpers.deleteEffectOnActor(actor, "linkLock");
     }
 
-    static async eraseMarkChoice(messageData){
-        let actor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionActor),
+    static async eraseMarkChoice(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
             cancel = true,
             target;
 
@@ -1205,56 +1181,55 @@ export class SR5_DiceHelper {
                 let targetItem = html.find("[name=item]").val(),
                     item = markedItems.find(i => i.id === targetItem),
                     markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId),
-                messageData = mergeObject(messageData, {
+                cardData = mergeObject(cardData, {
                     "owner.actorId": markOwner.id,
                     "owner.itemUuid": item.uuid,
                 });
-                actor.rollTest("eraseMark", "", messageData);
+                actor.rollTest("eraseMark", "", cardData);
               },
             }).render(true);
         });
     }
 
-    static async eraseMark(messageData){
-        let item = await fromUuid(messageData.markeditem),
+    static async eraseMark(cardData){
+        let item = await fromUuid(cardData.markeditem),
             itemData = duplicate(item.system);
 
         for (let i = 0; i < itemData.marks.length; i++){
-            if (itemData.marks[i].ownerId === messageData.markOwner) {
+            if (itemData.marks[i].ownerId === cardData.markOwner) {
                 itemData.marks.splice(i, 1);
                 i--;
             }
         }
         await item.update({"system": itemData});
-        await SR5Actor.deleteMarkInfo(messageData.markOwner, messageData.markeditem)
+        await SR5Actor.deleteMarkInfo(cardData.markOwner, cardData.markeditem)
     }
 
-    static async rollOverwatchDefense(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
+    static async rollOverwatchDefense(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
         actor = actor.toObject(false);
         let dicePool = 6;
 
-        let cardData = {
+        let rollData = {
             type: "overwatchResistance",
-            title: `${game.i18n.localize("SR5.OverwatchResistance")} (${message.test.hits})`,
+            title: `${game.i18n.localize("SR5.OverwatchResistance")} (${cardData.roll.hits})`,
             dicePool: dicePool, 
-            actorId: message.originalActionActor,
-            originalActionActor: message.originalActionActor, 
-            hits: message.test.hits,
-            speakerId: message.speakerId,
-            speakerActor: message.speakerActor,
-            speakerImg: message.speakerImg,
+            actorId: cardData.previousMessage.actorId,
+            originalActionActor: cardData.previousMessage.actorId, 
+            hits: cardData.roll.hits,
+            speakerId: cardData.speakerId,
+            speakerActor: cardData.speakerActor,
+            speakerImg: cardData.speakerImg,
         };
 
-        let result = SR5_RollTest.srd6({ dicePool: dicePool });
-        cardData.test = result;
+        rollData.roll = await SR5_RollTest.srd6({ dicePool: dicePool });
 
-        await SR5_RollTest.srDicesAddInfoToCard(cardData, message.originalActionActor);
-        SR5_RollTest.renderRollCard(cardData);
+        await SR5_RollTest.srDicesAddInfoToCard(rollData, cardData.previousMessage.actorId);
+        SR5_RollTest.renderRollCard(rollData);
     }
 
-    static async jamSignals(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.originalActionActor);
+    static async jamSignals(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
         let effect = {
             name: game.i18n.localize("SR5.EffectSignalJam"),
             type: "itemEffect",
@@ -1264,19 +1239,19 @@ export class SR5_DiceHelper {
             "system.duration": 0,
             "system.durationType": "permanent",
             "system.target": game.i18n.localize("SR5.MatrixNoise"),
-            "system.value": -message.test.hits,
+            "system.value": -cardData.roll.hits,
             "system.customEffects": {
                 "0": {
                     "category": "matrixAttributes",
                     "target": "system.matrix.noise",
                     "type": "value",
-                    "value": -message.test.hits,
+                    "value": -cardData.roll.hits,
                     "forceAdd": true,
                 }
             },
         };
         await actor.createEmbeddedDocuments("Item", [effect]);
-        let statusEffect = await _getSRStatusEffect("signalJam", -message.test.hits);
+        let statusEffect = await _getSRStatusEffect("signalJam", -cardData.roll.hits);
         await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
     }
 
@@ -1378,37 +1353,37 @@ export class SR5_DiceHelper {
         });
     }
 
-    static async reduceSideckickService(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId),
+    static async reduceSideckickService(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.speakerId),
             actorData = duplicate(actor.system),
             key;
 
         if (actor.type === "actorSprite"){
             key = "tasks";
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: message.netHits})}`);
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: cardData.roll.netHits})}`);
         } else if (actor.type === "actorSpirit"){
             key = "services";
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: message.netHits})}`);
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: cardData.roll.netHits})}`);
         }
-        actorData[key].value -= message.netHits;
+        actorData[key].value -= cardData.roll.netHits;
         if (actorData[key].value < 0) actorData[key].value = 0;
         await actor.update({'system': actorData});
     }
 
-    static async enslavedSidekick(message, type){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.speakerId);
+    static async enslavedSidekick(cardData, type){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.speakerId);
         let actorData = duplicate(actor.system);
 
         if (type === "registerSprite"){
             actorData.isRegistered = true;
-            actorData.tasks.value += message.netHits;
-            actorData.tasks.max += message.netHits;
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: message.netHits})}`);
+            actorData.tasks.value += cardData.roll.netHits;
+            actorData.tasks.max += cardData.roll.netHits;
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: cardData.roll.netHits})}`);
         } else if (type === "bindSpirit"){
             actorData.isBounded = true;
-            actorData.services.value += message.netHits;
-            actorData.services.max += message.netHits;
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: message.netHits})}`);
+            actorData.services.value += cardData.roll.netHits;
+            actorData.services.max += cardData.roll.netHits;
+            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: cardData.roll.netHits})}`);
         }
         await actor.update({'system': actorData});
         
@@ -1418,19 +1393,19 @@ export class SR5_DiceHelper {
             let itemData = duplicate(itemSideKick.system);
             if (type === "registerSprite"){
                 itemData.isRegistered = true;
-                itemData.tasks.value += message.netHits;
-                itemData.tasks.max += message.netHits;
+                itemData.tasks.value += cardData.roll.netHits;
+                itemData.tasks.max += cardData.roll.netHits;
             } else if (type === "bindSpirit"){
                 itemData.isBounded = true;
-                itemData.services.value += message.netHits;
-                itemData.services.max += message.netHits;
+                itemData.services.value += cardData.roll.netHits;
+                itemData.services.max += cardData.roll.netHits;
             }
             await itemSideKick.update({'system': itemData});
         }
     }
 
-    static async desactivateFocus(message){
-        let item = await fromUuid(message.targetEffect),
+    static async desactivateFocus(cardData){
+        let item = await fromUuid(cardData.target.itemUuid),
             itemData = duplicate(item.system);
         
         itemData.isActive = false;
@@ -1442,12 +1417,12 @@ export class SR5_DiceHelper {
         } else await item.update({'system': itemData});
     }
 
-    static async applyDerezzEffect(message, sourceActor, target){
+    static async applyDerezzEffect(cardData, sourceActor, target){
         let itemEffect = {
             name: game.i18n.localize("SR5.EffectReduceFirewall"),
             type: "itemEffect",
             "system.target": game.i18n.localize("SR5.Firewall"),
-            "system.value": -message.matrixDamageValue,
+            "system.value": -cardData.damage.matrix.value,
             "system.type": "derezz",
             "system.ownerID": sourceActor.id,
             "system.ownerName": sourceActor.name,
@@ -1458,7 +1433,7 @@ export class SR5_DiceHelper {
                   "category": "matrixAttributes",
                   "target": "system.matrix.attributes.firewall",
                   "type": "value",
-                  "value": -message.matrixDamageValue,
+                  "value": -cardData.damage.matrix.value,
                   "forceAdd": true,
                 }
             },
@@ -1466,13 +1441,13 @@ export class SR5_DiceHelper {
         if (!target.items.find(i => i.system.type === "derezz")) await target.createEmbeddedDocuments("Item", [itemEffect]);
     }
 
-    static async reduceTransferedEffect(message){
-        let targetedEffect = await fromUuid(message.targetEffect),
+    static async reduceTransferedEffect(cardData){
+        let targetedEffect = await fromUuid(cardData.target.itemUuid),
             newEffect = duplicate(targetedEffect.system),
             key = "hits";
 
         if (targetedEffect.type ==="itemPreparation") key = "potency";
-        newEffect[key] += message.netHits;
+        newEffect[key] += cardData.roll.netHits;
 
         //If item hits are reduce to 0, delete it
         if (newEffect[key] <= 0){
@@ -1481,11 +1456,8 @@ export class SR5_DiceHelper {
             if (newEffect.targetOfEffect) {
                 for (let e of newEffect.targetOfEffect){
                     let effect = await fromUuid(e);
-                    if (!game.user?.isGM){
-                        SR5_SocketHandler.emitForGM("deleteItem", {
-                            item: e,
-                        });
-                    } else await effect.delete();
+                    if (!game.user?.isGM) SR5_SocketHandler.emitForGM("deleteItem", {item: e,});
+                    else await effect.delete();
                 }
             }
             newEffect.targetOfEffect = [];
@@ -1494,6 +1466,7 @@ export class SR5_DiceHelper {
             if (newEffect.targetOfEffect) {
                 for (let e of newEffect.targetOfEffect){
                     let effect = await fromUuid(e);
+                    if (!effect) continue;
                     let updatedEffect = effect.system;
                     updatedEffect.value = newEffect.hits;
                     for (let cs of Object.values(updatedEffect.customEffects)){
@@ -1530,9 +1503,9 @@ export class SR5_DiceHelper {
         await item.delete();
     }
 
-    static async sealRitual(message){
-        let actor = SR5_EntityHelpers.getRealActorFromID(message.ownerAuthor);
-        let item = actor.items.find(i => i.id === message.itemId),
+    static async sealRitual(cardData){
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.ownerAuthor);
+        let item = actor.items.find(i => i.id === cardData.itemId),
             itemData = duplicate(item.system);
         
         itemData.isActive = true;
@@ -1754,7 +1727,7 @@ export class SR5_DiceHelper {
             case "calledShotBuckled": //done
                 duration = {
                     type: "round",
-                    duration: info.hits - info.test.hits,
+                    duration: info.hits - info.roll.hits,
                 }
                 await actor.createProneEffect(0, actor.system, 0, duration, "buckled");
                 break;
@@ -2000,7 +1973,7 @@ export class SR5_DiceHelper {
                     effect = mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.value": -4,
-                        "system.duration": info.hits - info.test.hits,
+                        "system.duration": info.hits - info.roll.hits,
                         "system.durationType": "round",
                         "system.customEffects": {
                             "0": {

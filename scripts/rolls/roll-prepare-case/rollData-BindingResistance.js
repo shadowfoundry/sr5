@@ -6,17 +6,18 @@ export default function bindingResistance(rollData, actor, chatData){
 
     //Determine dicepool composition
     rollData.dicePool.composition = [
-        {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actorData.force.value},
-        {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actorData.force.value},
+        {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value},
+        {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value},
     ];
 
     //Determine base dicepool
-    rollData.dicePool.base = actorData.force.value * 2;
+    rollData.dicePool.base = actor.system.force.value * 2;
 
     //Add others informations
     rollData.test.type = "bindingResistance";
     rollData.previousMessage.actorId = chatData.owner.actorId;
     rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     return rollData;
 }

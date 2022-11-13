@@ -3,7 +3,7 @@ import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function objectResistanceResultInfo(cardData){
     let labelEnd;
-    cardData.roll.netHits = cardData.hits - cardData.roll.hits;
+    cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
     if (cardData.roll.netHits > 0){
         labelEnd = `${game.i18n.localize("SR5.ObjectResistanceFailed")} (${cardData.roll.netHits})`;
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);

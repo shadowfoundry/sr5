@@ -14,10 +14,10 @@ export default function matrixResistance(rollData, rollKey, actor, chatData){
     //Determine dicepool modififiers
     rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.matrix.resistances[rollKey].modifiers);
 
-    /*if (chatData.matrixTargetItemUuid){
-        let matrixTargetItem = await fromUuid(chatData.matrixTargetItemUuid);
+    /*if (chatData.target.itemUuid){
+        let matrixTargetItem = await fromUuid(chatData.target.itemUuid);
         if (matrixTargetItem.system.type !== "baseDevice" && matrixTargetItem.system.type !== "livingPersona" && matrixTargetItem.system.type !== "headcase"){ 
-            title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.matrixDamageValue})`;
+            title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.damage.matrix.value})`;
             dicePool = matrixTargetItem.system.deviceRating * 2;
             dicePoolComposition = ([
                 {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},
@@ -25,7 +25,7 @@ export default function matrixResistance(rollData, rollKey, actor, chatData){
             ]);
         }
         optionalData = mergeObject(optionalData, {
-            matrixTargetItemUuid: chatData.matrixTargetItemUuid,
+            matrixTargetItemUuid: chatData.target.itemUuid,
         }); 
     }*/
 

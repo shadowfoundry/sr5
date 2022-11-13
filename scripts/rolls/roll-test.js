@@ -19,7 +19,7 @@ export class SR5_RollTest {
 
 		//Handle Edge
 		dialogData.edge.canUseEdge = await SR5_RollTestHelper.canUseEdge(actor, dialogData);
-		let edgeActor = await this.determineEdgeActor(actor);
+		let edgeActor = await SR5_RollTestHelper.determineEdgeActor(actor);
 
 		let buttons = {
 			roll: {
@@ -58,48 +58,49 @@ export class SR5_RollTest {
 						if (edge && edgeActor) dialogData = await SR5_RollTestHelper.handleEdgeUse(edgeActor, dialogData);
 
 						//Verify if reagents are used, if so, remove from actor
-						let reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
-						if (!isNaN(reagentsSpent)) {
-							actor.update({ "system.magic.reagents": actorData.magic.reagents - reagentsSpent});
-							dialogData.reagentsSpent = reagentsSpent;
+						if (dialogData.magic.hasUsedReagents) {
+							dialogData.magic.reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
+							actor.update({ "system.magic.reagents": actorData.magic.reagents - dialogData.magic.reagentsSpent});
 						}
 
-						// Apply modifiers from dialog window
-						if (dialogData.test.isExtended){
-							let extendedMultiplier = parseInt(html.find('[name="extendedMultiplier"]').val());
-							if (isNaN(extendedMultiplier)) extendedMultiplier = 1;
-							dialogData.extendedRoll = 1;
-							dialogData.extendedMultiplier = extendedMultiplier;
-							dialogData.extendedInterval = html.find('[name="extendedTime"]').val();
-							dialogData.test.title = dialogData.test.title.replace("Test", game.i18n.localize("SR5.ExtendedTest"));
-						}
+						//Rename chatCard title for extended test
+						if (dialogData.test.isExtended) dialogData.test.title = dialogData.test.title.replace("Test", game.i18n.localize("SR5.ExtendedTest"));
+
+						//Ensure force and level are determined
 						if ((dialogData.test.type === "spell" || dialogData.test.typeSub === "summoning" || dialogData.test.type === "preparationFormula") && isNaN(dialogData.magic.force)) {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoForce"));
-							dialogData.force = actorData.specialAttributes.magic.augmented.value;
+							dialogData.magic.force = actorData.specialAttributes.magic.augmented.value;
 						}
 						if ((dialogData.test.type === "complexForm" || dialogData.test.typeSub === "compileSprite") && isNaN(dialogData.matrix.level)) {
 							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
-							dialogData.level = actorData.specialAttributes.resonance.augmented.value;
+							dialogData.matrix.level = actorData.specialAttributes.resonance.augmented.value;
 						}
-						if (dialogData.force || dialogData.dialogSwitch.reagents){
-							if (dialogData.magic.force > 0) dialogData.limit.value = dialogData.magic.force;	
-							if (!isNaN(reagentsSpent) && dialogData.test.type !== "ritual") {
-								dialogData.limit.value = reagentsSpent;
+
+						//Add limit for force, reagents and level
+						if (dialogData.magic.force || dialogData.magic.hasUsedReagents){
+							if (dialogData.magic.force > 0) {
+								dialogData.limit.base = dialogData.magic.force;
+								dialogData.limit.type = "force";
+							}
+							if (dialogData.magic.hasUsedReagents && dialogData.test.type !== "ritual") {
+								dialogData.limit.base = dialogData.magic.reagentsSpent;
 								dialogData.limit.type = "reagents";
 							}
 						}
-						if (dialogData.matrix.level) dialogData.limit.value = dialogData.matrix.level;
+						if (dialogData.matrix.level) {
+							dialogData.limit.base = dialogData.matrix.level;
+							dialogData.limit.type = "level";
+						}
 						
 						//Add limit modifiers
 						dialogData = await SR5_RollTestHelper.handleLimitModifiers(dialogData);
 						
 						//Add dice pool modifiers
 						dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData);
-						
 
-						if (dialogData.combat.ammoFired){
+						if (dialogData.combat.ammo.fired > 0){
 							let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
-							actualRecoil += dialogData.ammoFired;
+							actualRecoil += dialogData.combat.ammo.fired;
 							actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);
 						}
 
@@ -217,23 +218,31 @@ export class SR5_RollTest {
 
 	//Handle extended roll
 	static async extendedRoll(message, actor){
-		let messageData = message.flags.sr5data;
-		let dicePool = messageData.test.dicePool - 1;
-		let newRoll = await SR5_RollTest.srd6({ dicePool: dicePool, limit: messageData.test.limit });
-		let dices = messageData.test.dices;
-		let dicesKeeped = dices.filter(function (d) {
+		let messageData = message.flags.sr5data,
+			dicePool = messageData.dicePool.value - 1;
+
+		//roll new test
+		let newRoll = await SR5_RollTest.srd6({ dicePool: dicePool, limit: messageData.limit.value });
+
+		//Keep only original hits and concatenat with new hits
+		let dicesKeeped = messageData.roll.dices.filter(function (d) {
 			return d.result > 4;
 		});
 		let dicesTotal = newRoll.dices.concat(dicesKeeped);
 
+		//Prepare new chat card
 		let newMessage = duplicate(messageData);
 		newMessage.roll.hits = messageData.roll.hits + newRoll.hits;
-		newMessage.test.dices = dicesTotal;
-		newMessage.dicePool = dicePool;
-		newMessage.test.dicePool = dicePool;
-		newMessage.extendedRoll += 1;
+		newMessage.roll.dices = dicesTotal;
+		newMessage.test.extended.roll += 1;
+		newMessage.dicePool.modifiers.extendedTest = {
+			label: game.i18n.localize("SR5.ExtendedTest"),
+			value: -(newMessage.test.extended.roll - 1),
+		}
+		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-		if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+
+		if (newMessage.owner.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
@@ -244,16 +253,17 @@ export class SR5_RollTest {
 	 */
 	static async secondeChance(message, actor) {
 		let messageData = message.flags.sr5data;
+
 		//Re roll failed dices
-		let dicePool = messageData.test.dicePool - messageData.roll.hits;
+		let dicePool = messageData.dicePool.value - messageData.roll.hits;
 		if (dicePool < 0) dicePool = 0;
-		let limit = messageData.test.limit - messageData.roll.hits;
+		let limit = messageData.limit.value - messageData.roll.hits;
 		if (limit < 0) limit = 0;
 		let chance = await SR5_RollTest.srd6({ dicePool: dicePool, limit: limit, edgeRoll: true,});
 		let chanceHit;
 		if (chance.hits > limit) chanceHit = limit;
 		else chanceHit = chance.hits;
-		let dices = messageData.test.dices;
+		let dices = messageData.roll.dices;
 		let dicesKeeped = dices.filter(function (d) {
 			return d.result > 4;
 		});
@@ -261,26 +271,20 @@ export class SR5_RollTest {
 		//Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
 		let newMessage = duplicate(messageData);
 		newMessage.roll.hits = messageData.roll.hits + chanceHit;
-		newMessage.test.dices = dicesKeeped.concat(chance.dices);
-		newMessage.secondeChanceUsed = true;
-		newMessage.pushLimitUsed = true;
+		newMessage.roll.dices = dicesKeeped.concat(chance.dices);
+		newMessage.edge.hasUsedSecondChance = true;
+		newMessage.edge.canUseEdge = false;
 		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-		if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		if (newMessage.owner.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		//Remove 1 to actor's Edge
-		if (messageData.actorType === "actorSpirit"){
-			let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
-			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
-		} else {
-			//If actor is grunt, change actor to parent
-			if (actor.isToken) actor = game.actors.get(actor.id);
-			actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
-		}
+		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
 
 		//update message with new infos
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
 
+	
 	static async pushTheLimit(message, actor) {
 		let messageData = message.flags.sr5data;
 		let dicePool, creator;
@@ -299,43 +303,22 @@ export class SR5_RollTest {
 
 		let newMessage = duplicate(messageData);
 		newMessage.roll.hits = messageData.roll.hits + newRoll.hits;
-		newMessage.test.dices = messageData.test.dices.concat(newRoll.dices);
-		newMessage.secondeChanceUsed = true;
-		newMessage.pushLimitUsed = true;
-		newMessage.dicePoolMod.pushTheLimit = {
+		newMessage.roll.dices = messageData.roll.dices.concat(newRoll.dices);
+		newMessage.edge.hasUsedPushTheLimit = true;
+		newMessage.edge.canUseEdge = false;
+		newMessage.dicePool.modifiers.pushTheLimit = {
 			value: dicePool,
 			label: game.i18n.localize("SR5.PushTheLimit"),
 		}
-		newMessage.dicePoolModHas = true;
-		newMessage.test.dicePool += dicePool;
+		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
 		if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		//Remove 1 to actor's Edge
-		if (messageData.actorType === "actorSpirit"){
-			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
-		} else {
-			//If actor is grunt, change actor to parent
-			if (actor.isToken) actor = game.actors.get(actor.id);
-			actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
-		}
+		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
 
 		//Rafraichi le message avec les nouvelles infos.
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
-	}
-
-	
-
-	//Determine from whom actor edge must be reduce
-	static async determineEdgeActor(actor){
-		let edgeActor = actor;
-		if (actor.type === "actorSpirit" && actor.system.creatorId){
-			let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
-			if (creator.system.conditionMonitors.edge?.actual?.value < creator.system.specialAttributes?.edge?.augmented?.value){
-				edgeActor = creator;
-			}
-		}
-		return edgeActor;
 	}
 
 	static async renderRollCard(cardData) {
@@ -431,7 +414,8 @@ export class SR5_RollTest {
 
 		//Handle Extended Test
 		if (cardData.test.isExtended){
-			cardData.test.extended.intervalValue = cardData.test.extended.multiplier * cardData.extendedRoll;
+			if (!cardData.test.extended.roll) cardData.test.extended.roll = 1;
+			cardData.test.extended.intervalValue = cardData.test.extended.multiplier * cardData.test.extended.roll;
 			if (cardData.dicePool.value <= 0) cardData.test.isExtended = false;
 		}
 

@@ -5,15 +5,15 @@ export default function banishingResistance(rollData, actor, chatData){
     rollData.test.title = game.i18n.localize("SR5.ResistBanishing");
 
     //Determine dicepool composition
-    rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actorData.force.value}];
+    rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value}];
 
     //Determine base dicepool
-    rollData.dicePool.base = actorData.force.value;
+    rollData.dicePool.base = actor.system.force.value;
 
     //Determine dicepool modififiers
     if (actor.system.isBounded) {
         rollData.dicePool.modifiers.summonerMagic = {};
-        rollData.dicePool.modifiers.summonerMagic.label = game.i18n.localize("SR5.v")
+        rollData.dicePool.modifiers.summonerMagic.label = game.i18n.localize("SR5.SpiritSummonerMagic");
         rollData.dicePool.modifiers.summonerMagic.value = actor.system.summonerMagic;
     }
 
@@ -21,6 +21,7 @@ export default function banishingResistance(rollData, actor, chatData){
     rollData.test.type = "banishingResistance";
     rollData.previousMessage.actorId = chatData.owner.actorId;
     rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     return rollData;
 }

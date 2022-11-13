@@ -4,7 +4,7 @@ import { SR5_RollMessage } from "../roll-message.js";
 export default async function matrixActionInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 	let actorData = actor.system;
-	cardData.originalActionActor = cardData.speakerId;
+	cardData.previousMessage.actorId = cardData.speakerId;
 
 	//Matrix search special case
 	if (cardData.test.typeSub === "matrixSearch"){

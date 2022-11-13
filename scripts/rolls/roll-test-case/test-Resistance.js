@@ -99,7 +99,7 @@ export default async function resistanceInfo(cardData, actorId){
 
 
 async function handleCalledShotResistanceInfo(cardData, actor){
-    cardData.roll.netHits = cardData.previousHits - cardData.hits; 
+    cardData.roll.netHits = cardData.previousHits - cardData.previousMessage.hits; 
 
     //Handle specific target limit damage if any 
     if (cardData.combat.calledShot.limitDV !== 0) {

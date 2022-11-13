@@ -4,9 +4,9 @@ import { SR5_RollMessage } from "../roll-message.js";
 export default async function iceDefenseInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
         actorData = actor.system,
-        netHits = cardData.hits - cardData.roll.hits,
-        originalActor = await SR5_EntityHelpers.getRealActorFromID(cardData.originalActionActor),
-        targetItem = await fromUuid(cardData.matrixTargetItemUuid),
+        netHits = cardData.previousMessage.hits - cardData.roll.hits,
+        originalActor = await SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
+        targetItem = await fromUuid(cardData.target.itemUuid),
         existingMark = await SR5_DiceHelper.findMarkValue(targetItem.system, originalActor.id);
 
     cardData.attackerName = originalActor.name;
@@ -14,27 +14,27 @@ export default async function iceDefenseInfo(cardData, actorId){
     if (netHits <= 0) {
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.SuccessfulDefense"));
         if (netHits < 0) {
-            cardData.matrixDamageValue = netHits * -1;
-            cardData.chatCard.buttons.defenderDoMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "defenderDoMatrixDamage", `${game.i18n.format('SR5.DoMatrixDamage', {key: cardData.matrixDamageValue, name: cardData.attackerName})}`);
+            cardData.damage.matrix.value = netHits * -1;
+            cardData.chatCard.buttons.defenderDoMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "defenderDoMatrixDamage", `${game.i18n.format('SR5.DoMatrixDamage', {key: cardData.damage.matrix.value, name: cardData.attackerName})}`);
         }
     } else {
-        cardData.matrixDamageValue = netHits;
-        switch(cardData.iceType){
+        cardData.damage.matrix.value = netHits;
+        switch(cardData.matrix.iceType){
             case "iceAcid":
                 if (actorData.matrix.attributes.firewall.value > 0) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceFirewall"));
-                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.matrixDamageValue})`);
+                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
                 break;
             case "iceBinder":
                 if (actorData.matrix.attributes.dataProcessing.value > 0) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceDataProcessing"));
-                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.matrixDamageValue})`);
+                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
                 break;
             case "iceJammer":
                 if (actorData.matrix.attributes.attack.value > 0) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceAttack"));
-                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.matrixDamageValue})`);
+                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
                 break;
             case "iceMarker":
                 if (actorData.matrix.attributes.dataProcessing.value > 0) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceSleaze"));
-                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.matrixDamageValue})`);
+                else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
                 break;
             case "iceKiller":
             case "iceBlaster":
@@ -42,10 +42,10 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceSparky":
                 cardData.matrixResistanceType = "matrixDamage";
                 cardData = await SR5_DiceHelper.updateMatrixDamage(cardData, netHits, actor);
-                if ((cardData.iceType === "iceBlaster" || cardData.iceType === "iceBlack") && (!actorData.matrix.isLinkLocked)) {
+                if ((cardData.matrix.iceType === "iceBlaster" || cardData.matrix.iceType === "iceBlack") && (!actorData.matrix.isLinkLocked)) {
                     cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.LinkLockConnection"));
                 }
-                cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${(cardData.matrixDamageValue)})`);
+                cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${(cardData.damage.matrix.value)})`);
                 break;
             case "iceCrash":
                 if (existingMark >= 1) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.MatrixActionCrashProgram"));
@@ -71,7 +71,7 @@ export default async function iceDefenseInfo(cardData, actorId){
                 if (existingMark >= 2) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.Geolocated"));
                 break;
             default:
-                SR5_SystemHelpers.srLog(1, `Unknown '${cardData.iceType}' type in addIceDefenseInfoToCard`);
+                SR5_SystemHelpers.srLog(1, `Unknown '${cardData.matrix.iceType}' type in addIceDefenseInfoToCard`);
         }
     }
 }

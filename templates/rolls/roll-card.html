@@ -92,12 +92,12 @@
 				{{#ife test.type "movement"}}
 					({{various.movementTotal}} {{various.unit}})
 				{{/ife}}
-				{{#if_g extendedRoll 0}}
-					[{{extendedIntervalValue}} 
-					{{#if_g extendedIntervalValue 1}}
-					{{findTranslation 'extendedIntervals' extendedInterval}}]
+				{{#if_g test.extended.roll 0}}
+					[{{test.extended.intervalValue}} 
+					{{#if_g test.extended.intervalValue 1}}
+					{{findTranslation 'extendedIntervals' test.extended.interval}}]
 					{{else}}
-					{{findTranslation 'extendedInterval' extendedInterval}}]
+					{{findTranslation 'extendedIntervals' test.extended.interval}}]
 					{{/if_g}}
 				{{/if_g}}
 			</div>
@@ -113,7 +113,7 @@
 		<div id="srButtonTest"></div>
 
 		<!-- EXTENDED TEST -->
-		{{#if extendedTest}}
+		{{#if test.isExtended}}
 			<button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="extended">{{localize 'SR5.NewRoll'}}</button>
 		{{/if}}
 	</div>

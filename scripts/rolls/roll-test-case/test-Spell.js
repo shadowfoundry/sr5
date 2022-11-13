@@ -2,12 +2,10 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function spellInfo(cardData){
-    console.log("addSpellInfo");
     let actionType, label, item;
     let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
     let actorData = actor.system;
 	if (cardData.owner.itemUuid) item = await fromUuid(cardData.owner.itemUuid);
-    console.log(item);
 
 	//Add Resist Drain chat button
 	if (cardData.test.type === "spell" || (cardData.test.type === "adeptPower" && cardData.magic.drain > 0)) {

@@ -4,8 +4,8 @@ export default async function complexFormInfo(cardData){
     cardData.chatCard.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${cardData.fadingValue})`);
 		
 	if (cardData.roll.hits > 0) {
-		cardData.hits = cardData.roll.hits;
-		cardData.originalActionActor = cardData.speakerId;
+		cardData.previousMessage.hits = cardData.roll.hits;
+		cardData.previousMessage.actorId = cardData.speakerId;
 		if (cardData.defenseAttribute !== "" && cardData.defenseMatrixAttribute !== "") cardData.chatCard.buttons.complexFormDefense = SR5_RollMessage.generateChatButton("opposedTest", "complexFormDefense", game.i18n.localize("SR5.Defend"));
 		else {
 			//Generate apply effect on Actor chat button

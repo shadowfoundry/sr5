@@ -1,7 +1,7 @@
 import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function resonanceActionInfo(cardData){
-    cardData.hits = cardData.roll.hits;
+    cardData.previousMessage.hits = cardData.roll.hits;
     let testType = cardData.hasTarget ? "nonOpposedTest" : "opposedTest";
 
     switch (cardData.test.typeSub){

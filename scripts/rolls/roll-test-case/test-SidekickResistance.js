@@ -1,11 +1,10 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function sidekickResistanceInfo(cardData, type){
     let originalMessage = game.messages.get(cardData.previousMessage.messageId);
     let newMessage = originalMessage.flags?.sr5data;
     let key, label, labelEnd, buttonToRemove, resistType;
-    cardData.roll.netHits = cardData.hits - cardData.roll.hits;
+    cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
 
     switch (type){
         case "decompilingResistance":
@@ -38,26 +37,20 @@ export default async function sidekickResistanceInfo(cardData, type){
             break;
     }
 
-    if (cardData.roll.hits < cardData.hits) cardData.chatCard.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
+    if (cardData.roll.hits < cardData.previousMessage.hits) cardData.chatCard.buttons[key] = SR5_RollMessage.generateChatButton("nonOpposedTest", key, label);
     else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", labelEnd);
 
-    if (cardData.roll.hits > 0){
-        if (resistType === "fading"){
-            newMessage.fadingValue = cardData.roll.hits;
-            if (newMessage.fadingValue < 2) newMessage.fadingValue = 2;
-            newMessage.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${newMessage.fadingValue})`);
-        } else if (resistType === "drain"){
-            newMessage.drainValue = cardData.roll.hits;
-            if (newMessage.drainValue < 2) newMessage.drainValue = 2;
-            newMessage.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${newMessage.drainValue})`);
-        }
+    //Manage Drain or Fading
+    if (resistType === "fading"){
+        newMessage.matrix.fading.value = cardData.roll.hits;
+        if (newMessage.matrix.fading.value < 2) newMessage.matrix.fading.value = 2;
+        newMessage.chatCard.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${newMessage.matrix.fading.value})`);
+    } else if (resistType === "drain"){
+        newMessage.magic.drain.value = cardData.roll.hits * 2;
+        if (newMessage.magic.drain.value < 2) newMessage.magic.drain.value = 2;
+        newMessage.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${newMessage.magic.drain.value})`);
     }
 
     await SR5_RollMessage.updateRollCard(cardData.previousMessage.messageId, newMessage);
-    if (!game.user?.isGM) {
-        await SR5_SocketHandler.emitForGM("updateChatButton", {
-            message: cardData.previousMessage.messageId,
-            buttonToUpdate: buttonToRemove,
-        });
-    } else SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, buttonToRemove);
+    SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, buttonToRemove)
 }

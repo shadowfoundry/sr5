@@ -3,8 +3,8 @@
 	<div class="col-8 SR-DialogOption">
 		<select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModTargetType" data-modifier="targetEffect">
 		{{#select item}}
-			{{#each effectsList}}
-			<option value="{{uuid}}">{{name}}</option>
+			{{#each target.itemList}}
+			<option value="{{@key}}">{{this}}</option>
 			{{/each}}
 		{{/select}}
 		</select>

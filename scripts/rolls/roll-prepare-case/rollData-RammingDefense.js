@@ -2,7 +2,7 @@ import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
 export default function rammingDefense(rollData, actor, chatData){
     //Determine title
-    rollData.test.title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.test.hits})`;
+    rollData.test.title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.roll.hits})`;
 
     //Determine dicepool composition
     rollData.dicePool.composition = actor.system.defenses.defend.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));

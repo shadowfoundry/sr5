@@ -21,7 +21,7 @@ export default function matrixDefense(rollData, rollKey, actor, chatData){
     /*if (chatData.matrixTargetDevice && chatData.matrixTargetDevice !== "device"){
         let targetItem = actor.items.find(i => i.id === chatData.matrixTargetDevice);
         if (!targetItem.system.isSlavedToPan){
-            title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.test.hits})`;
+            title = `${targetItem.name} - ${game.i18n.localize("SR5.MatrixDefenseTest")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.matrixRolledActions[rollKey])} (${chatData.roll.hits})`;
             dicePool = targetItem.system.deviceRating * 2 || 0;
             dicePoolComposition = ([
                 {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: targetItem.system.deviceRating},
