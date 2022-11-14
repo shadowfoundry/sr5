@@ -249,7 +249,7 @@ export class SR5_DiceHelper {
             });
         }
 
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        let result = await SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
         await SR5_Dice.srDicesAddInfoToCard(cardData, message.ownerAuthor);
@@ -1148,7 +1148,7 @@ export class SR5_DiceHelper {
             speakerImg: message.speakerImg,
         };
 
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        let result = await SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
         await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionActor);
@@ -1248,7 +1248,7 @@ export class SR5_DiceHelper {
             speakerImg: message.speakerImg,
         };
 
-        let result = SR5_Dice.srd6({ dicePool: dicePool });
+        let result = await SR5_Dice.srd6({ dicePool: dicePool });
         cardData.test = result;
 
         await SR5_Dice.srDicesAddInfoToCard(cardData, message.originalActionActor);
