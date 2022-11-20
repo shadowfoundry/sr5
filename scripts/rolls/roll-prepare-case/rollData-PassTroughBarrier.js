@@ -21,10 +21,10 @@ export default function passThroughBarrier(rollData, actor){
 
     //Add others informations
     rollData.test.type = "passThroughBarrier";
-    rollData.limit.type = "astral";
+    rollData.limit.type = "astralLimit";
 
     //Background count limit modifier
-    if (actorData.magic.bgCount.value > 0){
+    if (actor.system.magic.bgCount.value > 0){
         rollData = SR5_PrepareRollHelper.addBackgroundCountLimitModifiers(rollData, actor);
     }
 

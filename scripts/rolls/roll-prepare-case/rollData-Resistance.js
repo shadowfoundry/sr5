@@ -11,6 +11,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
     //Transfert necessary info from chatCard
     rollData.damage.base = chatData.damage.value;
     rollData.damage.type = chatData.damage.type;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     rollData.test.title = game.i18n.localize("SR5.TakeOnDamageShort");
     
@@ -27,7 +28,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
         rollData.damage.base = auraOwner.system.specialAttributes.magic.augmented.value * 2;
         rollData.combat.armorPenetration = -auraOwner.system.specialAttributes.magic.augmented.value;
         rollData.damage.element = auraOwner.system.specialProperties.energyAura;
-        if (rollData.damage.element === "fire") rollData.treshold.value = auraOwner.system.specialAttributes.magic.augmented.value;
+        if (rollData.damage.element === "fire") rollData.threshold.value = auraOwner.system.specialAttributes.magic.augmented.value;
     }
     
     //handle distance between defenser and explosive device

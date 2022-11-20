@@ -16,33 +16,31 @@ export default async function resonanceAction(rollData, rollKey, actor){
     //Determine dicepool modififiers
     rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, resonanceAction.test.modifiers);
 
-    //Determine base limit
-    rollData.limit.base = SR5_PrepareRollHelper.getBaseLimit(resonanceAction.limit.value, resonanceAction.limit.modifiers);
+    if (resonanceAction.limit){
+        //Determine base limit
+        rollData.limit.base = SR5_PrepareRollHelper.getBaseLimit(resonanceAction.limit.value, resonanceAction.limit.modifiers);
 
-    //Determine limit modififiers
-    rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, resonanceAction.limit.modifiers);
+        //Determine limit modififiers
+        rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, resonanceAction.limit.modifiers);
+        rollData.limit.type = resonanceAction.limit.linkedAttribute;
+    }
 
     //Add others informations
     rollData.test.type = "resonanceAction";
     rollData.test.typeSub = rollKey;
-    rollData.limit.type = resonanceAction.limit.linkedAttribute;
-    rollData.matrix.actionType = resonanceAction.limit.linkedAttribute;
+    rollData.matrix.actionType = resonanceAction.actionType;
     rollData.matrix.overwatchScore = resonanceAction.increaseOverwatchScore;
-    rollData.matrix.level = actorData.specialAttributes.resonance.augmented.value;
+    rollData.matrix.level = actor.system.specialAttributes.resonance.augmented.value;
     rollData.dialogSwitch.specialization = true;
 
     //Handle special case
-    if (game.user.targets.size && (typeSub === "killComplexForm" || typeSub === "decompileSprite" || typeSub === "registerSprite")){
-        if (game.user.targets.size === 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetChooseOne")}`);
-        else if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
-        else {
-            let targetActor = await SR5_PrepareRollHelper.getTargetedActor();
+    if (rollData.target.hasTarget && (rollKey === "killComplexForm" || rollKey === "decompileSprite" || rollKey === "registerSprite")){
+        let targetActor = await SR5_PrepareRollHelper.getTargetedActor();
             
-            //Kill Complex Form
-            if (typeSub === "killComplexForm"){
+        //Kill Complex Form
+        if (rollKey === "killComplexForm"){
             let itemList = targetActor.items.filter(i => i.type === "itemComplexForm" && i.system.isActive);
-            let currentItemList = targetActor.items.filter(i => i.type === "itemEffect" && i.system.type === "itemComplexForm");
-            for (let e of Object.values(currentItemList)){
+            for (let e of Object.values(targetActor.items.filter(i => i.type === "itemEffect" && i.system.type === "itemComplexForm"))){
                 let parentItem = await fromUuid(e.system.ownerItem);
                 if (itemList.length === 0) itemList.push(parentItem);
                 else {
@@ -51,17 +49,15 @@ export default async function resonanceAction(rollData, rollKey, actor){
                 }
             }
             if (itemList.length !== 0){
-                rollData.target.hasTarget = true;
-                rollData.target.itemList = itemList;
-            }
-
-            //Decompiling / Register
-            if (typeSub === "decompileSprite" || typeSub === "registerSprite"){
-                if (targetActor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
-                    rollData.target.hasTarget = true;
-                    rollData.target.actorId = targetActor.id;
-                }
+                for (let s of itemList) rollData.target.itemList[s.uuid] = s.name;
             }
         }
+
+        //Decompiling / Register
+        if (rollKey === "decompileSprite" || rollKey === "registerSprite"){
+            if (targetActor.type !== "actorSprite") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASprite")}`);
+        }
     }
+
+    return rollData;
 }

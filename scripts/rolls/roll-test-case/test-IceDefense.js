@@ -40,7 +40,6 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceBlaster":
             case "iceBlack":
             case "iceSparky":
-                cardData.matrixResistanceType = "matrixDamage";
                 cardData = await SR5_DiceHelper.updateMatrixDamage(cardData, netHits, actor);
                 if ((cardData.matrix.iceType === "iceBlaster" || cardData.matrix.iceType === "iceBlack") && (!actorData.matrix.isLinkLocked)) {
                     cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.LinkLockConnection"));

@@ -124,6 +124,7 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleMatrixMonitor(item);
 				if ((itemData.conditionMonitors.matrix.actual.value >= itemData.conditionMonitors.matrix.value) && (itemData.type !== "baseDevice")) itemData.isActive = false;
 				SR5_EntityHelpers.GenerateMonitorBoxes(itemData, 'matrix');
+				SR5_UtilityItem._handlePan(item);
 				break;
 			case "itemFocus":
 				SR5_UtilityItem._handleFocus(itemData);     

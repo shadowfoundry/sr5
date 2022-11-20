@@ -65,10 +65,10 @@ export class SR5_RollMessage {
             newMessage.roll[button.attr("data-edit-type")] = parseInt(ev.target.value);
 
             await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-            if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+            if (newMessage.owner.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
             //Update message with new data
-            await message.update({[`flags.sr5data.-=buttons`]: null});
+            await message.update({[`flags.sr5data.chatCard.-=buttons`]: null});
             await SR5_RollMessage.updateRollCard(messageId, newMessage); 
         });
 
@@ -142,7 +142,7 @@ export class SR5_RollMessage {
                 case "registeringResistance":
                 case "banishingResistance":
                 case "iceDefense":
-                case "resistSpell":                                        
+                case "spellResistance":                                        
                 case "rammingDefense":
                 case "martialArtDefense":
                     actor.rollTest(type, null, messageData);
@@ -153,7 +153,7 @@ export class SR5_RollMessage {
                     break;
                 case "applyEffect":
                     actor.applyExternalEffect(messageData, "customEffects");
-                    if (!messageData.spellArea > 0) SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                    if (messageData.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
                 case "applyEffectOnItem":
                     actor.applyExternalEffect(messageData, "itemEffects");
@@ -191,6 +191,9 @@ export class SR5_RollMessage {
                 case "etiquette":
                     actor.rollTest("skillDicePool", "perception", messageData);
                     break;
+                case "eraseMark":
+                    SR5_DiceHelper.eraseMarkChoice(messageData);
+                    break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (opposed Test)`);
             }
@@ -215,6 +218,7 @@ export class SR5_RollMessage {
                 case "passThroughDefense":
                 case "accidentCard":
                 case "fatiguedCard":
+                case "spellResistance":
                     actor.rollTest(type, null, messageData);                   
                     break;
                 case "calledShotFear":
@@ -243,7 +247,7 @@ export class SR5_RollMessage {
                     SR5_RollMessage.updateChatButtonHelper(messageId, type);
                     break;
                 case "matrixResistance":
-                    actor.rollTest(type, messageData.matrixResistanceType, messageData);
+                    actor.rollTest(type, null, messageData);
                     break;
                 case "templatePlace":
                     let item = await fromUuid(messageData.owner.itemUuid);
@@ -268,7 +272,7 @@ export class SR5_RollMessage {
                     SR5_RollTest.extendedRoll(message, actor);
                     break;
                 case "attackerPlaceMark":
-                    await SR5_DiceHelper.markItem(actor.id, messageData.previousMessage.actorId, messageData.mark, messageData.target.itemUuid);
+                    await SR5_DiceHelper.markItem(actor.id, messageData.previousMessage.actorId, messageData.matrix.mark, messageData.target.itemUuid);
                     // if defender is a drone and is slaved, add mark to master
                     if (actor.type === "actorDrone" && actor.system.slaved){
                         if (!game.user?.isGM) {
@@ -278,7 +282,7 @@ export class SR5_RollMessage {
                                 mark: mark,
                             });
                         } else { 
-                            await SR5_DiceHelper.markItem(actor.system.vehicleOwner.id, messageData.previousMessage.actorId, messageData.mark);
+                            await SR5_DiceHelper.markItem(actor.system.vehicleOwner.id, messageData.previousMessage.actorId, messageData.matrix.mark);
                         }
                     }
                     SR5_RollMessage.updateChatButtonHelper(messageId, type);
@@ -326,7 +330,7 @@ export class SR5_RollMessage {
                     break;
                 case "attackerDoBiofeedbackDamage":
                     if (actor.type === "actorDrone") actor = SR5_EntityHelpers.getRealActorFromID(actor.system.vehicleOwner.id)
-                    actor.rollTest("resistanceCard", null, messageData);
+                    if (actor) actor.rollTest("resistanceCard", null, messageData);
                     break;
                 case "scatter":
                     SR5_DiceHelper.rollScatter(messageData);
@@ -542,6 +546,7 @@ export class SR5_RollMessage {
                 else endLabel = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: messageData.roll.netHits})}`
                 messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
                 break;
+            case "applyEffect":
             case "applyEffectAuto":
             case "calledShotEffect":
             case "applyStunnedEffect":
@@ -610,12 +615,18 @@ export class SR5_RollMessage {
                 messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.BoundSpirit"));
                 break;
             case "reduceSpell":
-                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.DispellingSuccessfull")} (${messageData.roll.netHits} ${game.i18n.localize("SR5.DiceHits")})`);
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.DispellingSuccessful")} (${messageData.roll.netHits} ${game.i18n.localize("SR5.DiceHits")})`);
                 break;
             //case "reduceComplexForm":
             case "reducePreparationPotency":
-                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.DisjointingSuccessfull")} (${messageData.roll.netHits} ${game.i18n.localize("SR5.DiceHits")})`);
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.DisjointingSuccessful")} (${messageData.roll.netHits} ${game.i18n.localize("SR5.DiceHits")})`);
                 break
+            case "createPreparation":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.PreparationCreateSuccessful"));
+                break;
+            case "jackOutSuccess":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionJackOutSuccessFul"));
+                break;
             default:
         }
 
@@ -727,7 +738,7 @@ export class SR5_RollMessage {
                 ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_CompileSprite")} ${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])} (${messageData.matrix.level})`);
                 break;
             case "createPreparation":
-                let preparation = actor.items.find(i => i.id === messageData.previousMessage.itemId);
+                let preparation = actor.items.find(i => i.uuid === messageData.previousMessage.itemUuid);
                 buildItem = {"system": preparation.system,};
                 buildItem = mergeObject(buildItem, {
                     name: `${game.i18n.localize("SR5.Preparation")}${game.i18n.localize("SR5.Colons")} ${preparation.name}`,

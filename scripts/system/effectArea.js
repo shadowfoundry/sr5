@@ -194,7 +194,7 @@ export class SR5_EffectArea {
                 //If effect is not resisted, apply effect to actor
                 if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects");
                 else {
-                    let message = game.messages.find(m => m.flags.sr5data?.type === "spell" && m.flags.sr5data?.itemUuid === templateData.itemUuid);
+                    let message = game.messages.find(m => m.flags.sr5data?.test.type === "spell" && m.flags.sr5data?.owner.itemUuid === templateData.itemUuid);
                     if (!message) return;
                     let messageData = message.flags.sr5data;
 				    if (messageData) actor.rollTest("spellResistance", null, messageData);

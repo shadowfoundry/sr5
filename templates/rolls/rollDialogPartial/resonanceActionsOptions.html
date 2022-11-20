@@ -1,4 +1,4 @@
-<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+<li class="SR-LigneEnTete SR-PaddingTop10 grid">
     <div class="col-12">{{localize 'SR5.ResonanceActionOptions'}}</div>
 </li>
 
@@ -10,6 +10,6 @@
 {{/if}}
 
 <!-- KILL COMPLEX FORM - CHOOSE TARGET -->
-{{#if (and (eq test.typeSub "killComplexForm") hasTarget)}}
+{{#if (and (eq test.typeSub "killComplexForm") target.hasTarget)}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
 {{/if}}

@@ -15,7 +15,7 @@ export default async function objectResistanceResultInfo(cardData){
             if (newItem.duration === "sustained") newItem.isActive = true;
             await item.update({"system": newItem});
 
-            if (!prevData.spellArea) {
+            if (prevData.magic.spell.area < 1) {
                 if (!game.user?.isGM) {
                     await SR5_SocketHandler.emitForGM("updateChatButton", {
                         message: cardData.previousMessage.messageId,

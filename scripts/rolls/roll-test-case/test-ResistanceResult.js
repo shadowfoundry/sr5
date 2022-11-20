@@ -16,7 +16,7 @@ export default async function resistanceResultInfo(cardData, type){
             labelEnd = game.i18n.localize("SR5.KillComplexFormFailed");
             key = "reduceComplexForm";
             break;
-        case "spellResistance":
+        case "dispellResistance":
             label = `${game.i18n.localize("SR5.ReduceSpell")} (${cardData.roll.netHits})`;
             labelEnd = game.i18n.localize("SR5.DispellingFailed");
             key = "reduceSpell";
@@ -38,20 +38,14 @@ export default async function resistanceResultInfo(cardData, type){
             label = game.i18n.localize("SR5.ApplyEffect");
             labelEnd = game.i18n.localize("SR5.SpellResisted");
             key = "applyEffectAuto";
-            if (!cardData.switch?.transferEffect && !cardData.switch?.transferEffectOnItem) applyEffect = false;
-            if (!prevData.spellArea) {
-                if (!game.user?.isGM) {
-                    await SR5_SocketHandler.emitForGM("updateChatButton", {
-                        message: cardData.previousMessage.messageId,
-                        buttonToUpdate: "spellResistance",
-                    });
-                } else SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "spellResistance");
-            }
+            if (!cardData.effects.canApplyEffect && !cardData.effects.canApplyEffectOnItem) applyEffect = false;
+            else cardData.owner.itemUuid = cardData.previousMessage.itemUuid;
+            if (prevData.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spellResistance");
             break;
         case "powerDefense":
         case "martialArtDefense":
             cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
-            if (cardData.switch?.transferEffect){
+            if (cardData.effects.canApplyEffect){
                 label = game.i18n.localize("SR5.ApplyEffect");
                 key = "applyEffectAuto";
             } else {
@@ -67,7 +61,7 @@ export default async function resistanceResultInfo(cardData, type){
             if (cardData.structure > (cardData.previousMessage.hits - cardData.roll.hits)) {
                 ui.notifications.info(`${game.i18n.format("SR5.INFO_StructureGreaterThanDV", {structure: cardData.structure, damage: cardData.previousMessage.hits})}`);
             } else {
-                actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
+                actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
                 weapon = actor.items.find(i => i.type === "itemWeapon" && i.system.isActive);
                 cardData.targetItem = weapon.uuid;
                 if (weapon.system.accuracy.value <= 3 && weapon.system.reach.value === 0){
@@ -82,10 +76,10 @@ export default async function resistanceResultInfo(cardData, type){
     if (cardData.roll.hits >= cardData.previousMessage.hits) {
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
         //if type is a spell with area effect, create an effect at 0 value on defender to avoir new resistance test inside the canvas template
-        if (type === "spellResistance" && prevData.spellArea){
+        if (type === "spellResistance" && prevData.magic.spell.area > 0){
             //add effect "applyEffectAuto"
             if (cardData.roll.netHits < 0) cardData.roll.netHits = 0;
-            actor = SR5_EntityHelpers.getRealActorFromID(cardData.actorId);
+            actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
             actor.applyExternalEffect(cardData, "customEffects");
         }
     }

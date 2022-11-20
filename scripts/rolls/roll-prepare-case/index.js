@@ -15,7 +15,6 @@ export {default as defenseSimple} from "./rollData-DefenseSimple.js";
 export {default as derived} from "./rollData-Derived.js";
 export {default as drain} from "./rollData-Drain.js";
 export {default as drainSimple} from "./rollData-DrainSimple.js";
-export {default as eraseMark} from "./rollData-EraseMark.js";
 export {default as escapeEngulf} from "./rollData-EscapeEngulf.js";
 export {default as fading} from "./rollData-Fading.js";
 export {default as healing} from "./rollData-Healing.js";

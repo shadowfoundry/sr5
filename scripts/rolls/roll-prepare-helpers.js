@@ -28,7 +28,7 @@ export class SR5_PrepareRollHelper {
     static getDicepoolModifiers(rollData, modifiers){
         rollData.dicePool.modifiers = {};
         for (let m of modifiers){
-            if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup"){
+            if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup" && m.type !== "matrixAttribute"){
                 rollData.dicePool.modifiers[m.type] = {};
                 rollData.dicePool.modifiers[m.type].label = m.source;
                 rollData.dicePool.modifiers[m.type].value = m.value;
@@ -123,8 +123,6 @@ export class SR5_PrepareRollHelper {
         for (let e of Object.values(item.system.customEffects)){
             if (e.transfer) {
                 rollData.effects.canApplyEffect = true;
-                //If spell has area effect, effect will be automatically applied by canvas template
-                if (item.system.range === "area") rollData.effects.canApplyEffect = false;
                 continue;
             }
         }

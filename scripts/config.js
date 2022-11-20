@@ -1051,6 +1051,7 @@ SR5.testLimits = {
 	sharing                   : "SR5.Sharing",
 	sleaze                    : "SR5.Sleaze",
 	reagents                  : "SR5.Reagents",
+	level					  : "SR5.Level",
 };
 
 //-----------------------------------//
@@ -3049,6 +3050,7 @@ SR5.modifiersTypes = {
 	linkedAttribute 		  : "SR5.LinkedAttribute",
 	matrixAttribute 		  : "SR5.MatrixAttribute",
 	matrixUserMode 			  : "SR5.MatrixUserMode",
+	silentMode				  : "SR5.MatrixUserMode",
 	metatype				  : "SR5.Metatype",
 	metamagic 				  : "SR5.Metamagic",
 	module					  : "SR5.CommlinkModule",

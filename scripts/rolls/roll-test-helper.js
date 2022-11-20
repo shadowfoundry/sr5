@@ -7,7 +7,6 @@ export class SR5_RollTestHelper {
     static handleCanceledTest(actor, dialogData){
         //If item have placed a canvas template before rolling the test (like grenade), remove it
         if (dialogData.dialogSwitch.templateRemove) SR5_RollMessage.removeTemplate(null, dialogData.itemUuid);
-		
         //Remove last cumulative Defense if roll is cancelled.
 		if (actor.flags?.sr5?.cumulativeDefense){
 			actor.setFlag("sr5", "cumulativeDefense", (actor.flags.sr5.cumulativeDefense -1));
@@ -64,8 +63,7 @@ export class SR5_RollTestHelper {
 			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
 		} else {
 			//If actor is grunt, change actor to parent
-			if (actor.isToken)
-				actor = game.actors.get(actor.id);
+			if (actor.isToken) actor = game.actors.get(actor.id);
 			actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 });
 		}
 	}

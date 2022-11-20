@@ -3,7 +3,7 @@ import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
 export default async function matrixAction(rollData, rollKey, actor){
     let matrixAction = actor.system.matrix.actions[rollKey];
-
+    debugger;
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.MatrixActionTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.matrixRolledActions[rollKey])}`;
 
@@ -35,7 +35,7 @@ export default async function matrixAction(rollData, rollKey, actor){
     
     //Check target's Marks before rolling if a target is selected.
     if (game.user.targets.size) {
-        let canContinue = await checkTargetMarks(rollData, matrixAction);
+        let canContinue = await checkTargetMarks(rollData, matrixAction, actor);
         if (!canContinue) return;
     }
 
@@ -49,12 +49,19 @@ export default async function matrixAction(rollData, rollKey, actor){
     return rollData;
 }
 
-async function checkTargetMarks(rollData, matrixAction){
+async function checkTargetMarks(rollData, matrixAction, actor){
+    if (game.user.targets.size > 1) {
+        ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`);
+        return false;
+    }
+
     const targeted = game.user.targets;
     const cibles = Array.from(targeted);
+
     for (let t of cibles) {
         rollData.target.grid = t.actor.system.matrix.userGrid;
-        if (matrixAction.neededMarks > 0){
+
+        if (matrixAction.neededMarks > 0 && t.actor.id !== actor.id){
             let listOfMarkedItem = t.actor.items.map(i => i.system.marks);
             listOfMarkedItem = listOfMarkedItem.filter(i => i !== undefined);
             let markItem;

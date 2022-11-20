@@ -1,17 +1,15 @@
+import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
-import { SR5_SocketHandler } from "../../socket.js";
+import { SR5 } from "../../config.js";
 
-export default async function fadingInfo(cardData){
-    let damageValue = cardData.fadingValue - cardData.roll.hits;
+export default async function fadingInfo(cardData, actorId){
+    let damageValue = cardData.matrix.fading.value - cardData.roll.hits;
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 
+    //Fading do damage
     if (damageValue > 0) {
         cardData.damage.value = damageValue;
-        //Check if Fading is Stun or Physical
-        if (cardData.fadingType) cardData.damage.type = cardData.fadingType;
-        else {
-            if (cardData.previousMessage.hits > cardData.actorResonance || cardData.fadingType === "physical") cardData.damage.type = "physical";
-            else cardData.damage.type = "stun";
-        }
+        cardData.damage.type = cardData.matrix.fading.type;
         //Add fading damage button
         cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])})`);
     } else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoFading"));
@@ -22,12 +20,7 @@ export default async function fadingInfo(cardData){
         originalMessage = game.messages.get(cardData.previousMessage.messageId);
         prevData = originalMessage.flags?.sr5data;
     }
-    if (prevData.buttons.fadingResistance) {
-        if (!game.user?.isGM) {
-            await SR5_SocketHandler.emitForGM("updateChatButton", {
-                message: cardData.previousMessage.messageId,
-                buttonToUpdate: "fadingResistance",
-            });
-        } else SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "fadingResistance");
+    if (prevData?.chatCard.buttons.fadingResistance) {
+        SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fadingResistance");
     }
 }

@@ -1,7 +1,7 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
 export default function preparation(rollData, actor, item){
-    let itemData = itemData;
+    let itemData = item.system;
 
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.PreparationUse")}${game.i18n.localize("SR5.Colons")} ${item.name}`;

@@ -21,6 +21,7 @@ export default function decompilingResistance(rollData, actor, chatData){
     rollData.test.type = "decompilingResistance";
     rollData.previousMessage.actorId = chatData.owner.actorId;
     rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     return rollData;
 }

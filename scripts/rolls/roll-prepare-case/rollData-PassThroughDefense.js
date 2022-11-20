@@ -10,6 +10,7 @@ export default function passThroughDefense(rollData, chatData){
     //Add others informations
     rollData.test.type = "passThroughDefense";
     rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
     rollData.manaBarrierRating = 1;
 
     return rollData;

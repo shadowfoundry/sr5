@@ -325,12 +325,6 @@ export class SR5_RollTest {
 		//Add button to edit result for GM
 		if (game.user.isGM) cardData.chatCard.canEditResult = true;
 
-		//If Edge was used previously or test type is an object resistance, turn off edge use on chat message
-		if (!cardData.edge.canUseEdge || cardData.test.type === "objectResistance") {
-			cardData.edge.hasUsedSecondChance = true;
-			cardData.edge.hasUsedPushTheLimit = true;
-		}
-
 		const templateData = cardData;
 		const template = `systems/sr5/templates/rolls/roll-card.html`;
 		let html = await renderTemplate(template, templateData);
@@ -445,14 +439,14 @@ export class SR5_RollTest {
 			case "passThroughBarrier":
 			case "escapeEngulf":							
 			case "ramming":
-				await SR5_AddRollInfo.actionHit(cardData, cardData.type);
+				await SR5_AddRollInfo.actionHitInfo(cardData, cardData.test.type);
 				break;
 			case "power":
-				if (cardDatamagic.spell.category === "regeneration") return SR5_AddRollInfo.regenerationInfo(cardData, cardData.type);
+				if (cardDatamagic.spell.category === "regeneration") return SR5_AddRollInfo.regenerationInfo(cardData, cardData.test.type);
 				if (cardData.test.typeSub !== "powerWithDefense") { 
 					if (!cardData.effects.canApplyEffect) return;
 					else await SR5_AddRollInfo.spellInfo(cardData);
-				} else await SR5_AddRollInfo.actionHit(cardData, cardData.type);
+				} else await SR5_AddRollInfo.actionHitInfo(cardData, cardData.test.type);
 				break;
 			case "drain":
 				await SR5_AddRollInfo.drainInfo(cardData, actorId);
@@ -467,7 +461,7 @@ export class SR5_RollTest {
 				await SR5_AddRollInfo.complexFormDefenseInfo(cardData);
 				break;
 			case "fading":
-				await SR5_AddRollInfo.fadingInfo(cardData);
+				await SR5_AddRollInfo.fadingInfo(cardData, actorId);
 				break;
 			case "matrixAction":
 				await SR5_AddRollInfo.matrixActionInfo(cardData, actorId);
@@ -524,8 +518,9 @@ export class SR5_RollTest {
 			case "banishingResistance":
 				await SR5_AddRollInfo.sidekickResistanceInfo(cardData, cardData.test.type);
 				break;
+			case "dispellResistance":
 			case "spellResistance":
-			case "resistSpell":
+			case "spellResistance":
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":

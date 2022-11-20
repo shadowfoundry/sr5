@@ -238,6 +238,9 @@ export class SR5_UtilityItem extends Actor {
 		if (typeof itemData.itemEffects === "object") {
 			itemData.itemEffects = Object.values(itemData.itemEffects);
 		}
+
+		//Debugger for PAN's problem
+		if (itemData.isSlavedToPan && itemData.panMaster === "") itemData.isSlavedToPan = false;
 	}
 
 	static _handleItemCapacity(item) {
@@ -1422,6 +1425,12 @@ export class SR5_UtilityItem extends Actor {
 				}
 			}
 		}
+	}
+
+	//handle PAN
+	static _handlePan(item){
+		item.system.pan.current = 0;
+		for (let d of item.system.pan.content) item.system.pan.current ++; 
 	}
 
 	////////////////////// SIN /////////////////////////////////

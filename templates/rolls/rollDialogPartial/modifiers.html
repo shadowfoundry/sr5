@@ -17,8 +17,15 @@
     {{#each dicePool.modifiers}}
     {{#if (ne value 0)}}
     <li class="grid">
-        <div class="col-11">{{label}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-1 SR-TextCenter">{{#if (gt value 0)}}+{{/if}}{{value}}</div>
+        <div class="col-11">
+            {{label}}{{localize 'SR5.Colons'}}
+            {{#if (eq @key 'cumulativeDefense')}}
+                <a class="resetCumulativeDefense"><em class="fas fa-sm fa-sync"></em></a>
+            {{/if}}
+        </div>
+        <div class="col-1 SR-TextCenter">
+            <input disabled type="number" name="dicePoolModifiers" value="{{value}}" data-dtype="Number" placeholder="0" data-type="{{@key}}"/>
+        </div>
     </li>
     {{/if}}
     {{/each}}

@@ -97,7 +97,7 @@ export class SR5_DiceHelper {
                 rollData.dicePool.composition.push({source: game.i18n.localize("SR5.MetamagicQuickening"), value: targetItem.system.karmaSpent});
             }
             rollData.dicePool.base = rollData.dicePool.value;
-            rollData.test.type = "spellResistance";
+            rollData.test.type = "dispellResistance";
             rollData.test.title = `${game.i18n.localize("SR5.SpellResistance")} (${targetItem.name})`;
             rollData.target.itemUuid = cardData.target.itemUuid;
         }
@@ -130,18 +130,19 @@ export class SR5_DiceHelper {
         }
 
         //Preparation resistance
-        if (cardData.type === "preparationFormula"){
-            rollData.dicePool.value = rollData.magic.force;
+        if (cardData.test.type === "preparationFormula"){
+            rollData.dicePool.value = cardData.magic.force;
             rollData.dicePool.base = rollData.dicePool.value;
             rollData.owner.itemId = cardData.owner.itemId;
             rollData.magic.force = cardData.magic.force;
             rollData.magic.preparationTrigger = cardData.magic.preparationTrigger;
+            rollData.previousMessage.itemUuid = cardData.owner.itemUuid;
             rollData.test.type = "preparationResistance";
             rollData.test.title = `${game.i18n.localize("SR5.PreparationResistance")} (${rollData.previousMessage.hits})`;
         }
 
         //Ritual resistance
-        else if (cardData.type === "ritual"){
+        else if (cardData.test.type === "ritual"){
             rollData.dicePool.value = rollData.magic.force * 2;
             rollData.dicePool.base = rollData.dicePool.value;
             rollData.dicePool.composition = [
@@ -156,7 +157,7 @@ export class SR5_DiceHelper {
         }
 
         //Complex form resistance
-        else if (cardData.type === "resonanceAction" && cardData.test.typeSub === "killComplexForm"){
+        else if (cardData.test.type === "resonanceAction" && cardData.test.typeSub === "killComplexForm"){
             targetItem = await fromUuid(cardData.target.itemUuid);
             rollData.dicePool.value = targetItem.system.threaderResonance + targetItem.system.level;
             rollData.dicePool.base = rollData.dicePool.value;
@@ -170,7 +171,7 @@ export class SR5_DiceHelper {
         }
 
         //Escape Engulf
-        else if (cardData.type === "escapeEngulf"){
+        else if (cardData.test.type === "escapeEngulf"){
             let spirit = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
             rollData.dicePool.value = spirit.system.attributes.body.augmented.value + spirit.system.specialAttributes.magic.augmented.value;
             rollData.dicePool.base = rollData.dicePool.value;
@@ -183,7 +184,7 @@ export class SR5_DiceHelper {
         }
 
         //Weapon break Resistance
-        else if (cardData.type === "defense"){
+        else if (cardData.test.type === "defense"){
             let dialogData = {list: SR5.barrierTypes},
                 barrierType,
                 cancel = true;
@@ -353,7 +354,7 @@ export class SR5_DiceHelper {
     }
 
     //convert matrix search to dice mod
-    static convertMatrixSearchToTreshold (type){
+    static convertMatrixSearchTothreshold (type){
         switch (type){
             case "general":
                 return 1;
@@ -691,7 +692,7 @@ export class SR5_DiceHelper {
     static async updateMatrixDamage(cardData, netHits, defender){
         let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
             attackerData = attacker?.system,
-            damage = cardData.damage.matrix.valueBase,
+            damage = cardData.damage.matrix.base,
             item = await fromUuid(cardData.target.itemUuid),
             mark = await SR5_DiceHelper.findMarkValue(item.system, cardData.previousMessage.actorId);
 
@@ -711,11 +712,11 @@ export class SR5_DiceHelper {
         }
         //Guard program
         if (defender.system.matrix.programs.guard.isActive) {
-            damage = cardData.damage.matrix.valueBase + netHits + mark;
+            damage = cardData.damage.matrix.base + netHits + mark;
             cardData.damage.matrix.modifiers.guardIsActive = true;
             cardData.damage.matrix.modifiers.markDamage = mark;
         } else {
-            damage = cardData.damage.matrix.valueBase + netHits + (mark * 2);
+            damage = cardData.damage.matrix.base + netHits + (mark * 2);
             cardData.damage.matrix.modifiers.markDamage = mark*2;
         }
 
@@ -1001,6 +1002,7 @@ export class SR5_DiceHelper {
     static async chooseMatrixDefender(cardData, actor){
         let cancel = true;
         let list = {};
+        debugger;
         for (let key of Object.keys(actor.system.matrix.connectedObject)){
             if (Object.keys(actor.system.matrix.connectedObject[key]).length) {
                 list[key] = SR5_EntityHelpers.sortObjectValue(actor.system.matrix.connectedObject[key]);
@@ -1028,7 +1030,7 @@ export class SR5_DiceHelper {
               close: (html) => {
                 if (cancel) return;
                 let targetItem = html.find("[name=target]").val();
-                cardData.matrixTargetDevice = targetItem;
+                if (targetItem !== "device") cardData.target.itemUuid = targetItem;
                 actor.rollTest("matrixDefense", cardData.test.typeSub, cardData);
               },
             }).render(true);
@@ -1094,8 +1096,7 @@ export class SR5_DiceHelper {
     }
 
     static async rollJackOut(cardData){
-        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
-        actor = actor.toObject(false);
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
         let dicePool;
 
         let itemEffectID;
@@ -1112,19 +1113,13 @@ export class SR5_DiceHelper {
             }
         }
 
-        let rollData = {
-            type: "jackOutDefense",
-            title: `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${cardData.roll.hits})`,
-            dicePool: dicePool, 
-            actorId: cardData.previousMessage.actorId,
-            originalActionActor: cardData.previousMessage.actorId,
-            itemEffectID: itemEffectID,   
-            hits: cardData.roll.hits,
-            speakerId: cardData.speakerId,
-            speakerActor: cardData.speakerActor,
-            speakerImg: cardData.speakerImg,
-        };
-
+        let rollData = SR5_PrepareRollTest.getBaseRollData(null, actor);
+        rollData.test.type = "jackOutDefense";
+        rollData.test.title = `${game.i18n.localize("SR5.MatrixActionJackOutResistance")} (${cardData.roll.hits})`;
+        rollData.dicePool.base = dicePool;
+        rollData.dicePool.value = dicePool;
+        rollData.previousMessage.hits = cardData.roll.hits;
+        rollData.previousMessage.itemUuid = itemEffectID;
         rollData.roll = await SR5_RollTest.srd6({ dicePool: dicePool });
 
         await SR5_RollTest.srDicesAddInfoToCard(rollData, cardData.previousMessage.actorId);
@@ -1132,77 +1127,75 @@ export class SR5_DiceHelper {
     }
 
     static async jackOut(cardData){
-        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
-        await actor.deleteEmbeddedDocuments("Item", [cardData.itemEffectID]);
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
+        await actor.deleteEmbeddedDocuments("Item", [cardData.previousMessage.itemUuid]);
         await SR5_EntityHelpers.deleteEffectOnActor(actor, "linkLock");
     }
 
     static async eraseMarkChoice(cardData){
-        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
-            cancel = true,
-            target;
+        let actor, cancel = true, newData = cardData;
 
-        if (game.user.targets.size) {
-            const targeted = game.user.targets;
-            const targets = Array.from(targeted);
-            for (let t of targets) {
-                target = t.document;
-            }
-            if (target) actor = target.getActor();
-        }
+        //Determine actor who is marked
+        if (cardData.target.actorId) actor = SR5_EntityHelpers.getRealActorFromID(cardData.target.actorId);
+        else actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
 
+        //Build marked items list
         let markedItems = actor.items.filter(i => i.system.marks?.length > 0);
-        let dialogData = {
-            list: markedItems,
-        };
+        let dialogData = {list: markedItems,};
 
-        if (!markedItems.length) {
-            return ui.notifications.info(`${actor.name}: ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
-        }
-      
+        //Check if at least one item has a mark
+        if (!markedItems.length) return ui.notifications.info(`${actor.name}: ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
+
+        //Render dialog to choose marked item
         renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData).then((dlg) => {
             new Dialog({
-              title: game.i18n.localize('SR5.ChooseMarkToErase'),
-              content: dlg,
-              data: dialogData,
-              buttons: {
-                ok: {
-                  label: "Ok",
-                  callback: () => (cancel = false),
+                title: game.i18n.localize('SR5.ChooseMarkToErase'),
+                content: dlg,
+                data: dialogData,
+                buttons: {
+                    ok: {
+                        label: "Ok",
+                        callback: () => (cancel = false),
+                    },
+                    cancel: {
+                        label: "Cancel",
+                        callback: () => (cancel = true),
+                    },
                 },
-                cancel: {
-                  label: "Cancel",
-                  callback: () => (cancel = true),
+                default: "ok",
+                close: (html) => {
+                    if (cancel) return;
+
+                    let targetItem = html.find("[name=item]").val(),
+                        item = markedItems.find(i => i.id === targetItem),
+                        markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId);//Determine actor who marked
+
+                    //Add info for building roll
+                    newData.previousMessage.actorId = actor.id;
+                    newData.previousMessage.itemUuid = item.uuid;
+
+                    //Roll matrix defense test
+                    markOwner.rollTest("matrixDefense", "eraseMark", newData);
                 },
-              },
-              default: "ok",
-              close: (html) => {
-                if (cancel) return;
-                let targetItem = html.find("[name=item]").val(),
-                    item = markedItems.find(i => i.id === targetItem),
-                    markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId),
-                cardData = mergeObject(cardData, {
-                    "owner.actorId": markOwner.id,
-                    "owner.itemUuid": item.uuid,
-                });
-                actor.rollTest("eraseMark", "", cardData);
-              },
             }).render(true);
         });
     }
 
     static async eraseMark(cardData){
-        let item = await fromUuid(cardData.markeditem),
+
+        let item = await fromUuid(cardData.previousMessage.itemUuid),
             itemData = duplicate(item.system);
 
+        //Iterate through marked item and remove the one from the same source
         for (let i = 0; i < itemData.marks.length; i++){
-            if (itemData.marks[i].ownerId === cardData.markOwner) {
+            if (itemData.marks[i].ownerId === cardData.owner.actorId) {
                 itemData.marks.splice(i, 1);
                 i--;
             }
         }
         await item.update({"system": itemData});
-        await SR5Actor.deleteMarkInfo(cardData.markOwner, cardData.markeditem)
+        //Delete mark from owner deck
+        await SR5Actor.deleteMarkInfo(cardData.owner.actorId, cardData.previousMessage.itemUuid);
     }
 
     static async rollOverwatchDefense(cardData){
@@ -1229,7 +1222,7 @@ export class SR5_DiceHelper {
     }
 
     static async jamSignals(cardData){
-        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
         let effect = {
             name: game.i18n.localize("SR5.EffectSignalJam"),
             type: "itemEffect",

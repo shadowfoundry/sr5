@@ -49,7 +49,7 @@ export default async function defenseInfo(cardData, actorId){
     if (cardData.combat.calledShot.name) cardData = await handleCalledShotDefenseInfo(cardData, actorData);
 
     //Add fire threshold
-    if (cardData.damage.element === "fire") cardData.treshold.value = cardData.roll.netHit;
+    if (cardData.damage.element === "fire") cardData.threshold.value = cardData.roll.netHit;
 
     //Special case for Drone and vehicle
     if (actor.type === "actorDrone" || actor.type === "actorVehicle") {

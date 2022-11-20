@@ -174,7 +174,6 @@ function getOpposedData(rollData, chatData, rollKey, actor){
             {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value},
             {source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value},
         ]);
-        
     }
 
     if (chatData.test.typeSub === "impersonation") rollData.test.title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[actorData.skills[rollKey].linkedAttribute])  + " (" + chatData.roll.hits + ")"}`;

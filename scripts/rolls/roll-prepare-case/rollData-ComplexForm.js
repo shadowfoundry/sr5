@@ -14,14 +14,14 @@ export default function complexForm(rollData, actor, item){
     rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.matrix.resonanceActions.threadComplexForm.test.modifiers);
 
     //Add others informations
-    rollData.test.type = "matrixAction";
+    rollData.test.type = "complexForm";
     rollData.matrix.fading.type = "stun";
     rollData.matrix.level = actor.system.specialAttributes.resonance.augmented.value;
-    rollData.various.defenseFirstAttribute = itemData.defenseAttribute;
-    rollData.various.defenseSecondAttribute = itemData.defenseMatrixAttribute;
+    rollData.various.defenseFirstAttribute = item.system.defenseAttribute;
+    rollData.various.defenseSecondAttribute = item.system.defenseMatrixAttribute;
     rollData.owner.itemUuid = item.uuid;
     rollData.matrix.fading.modifiers.complexForm = {
-        value: itemData.fadingModifier,
+        value: item.system.fadingModifier,
         label: game.i18n.localize("SR5.FadingModifier"),
     }
 

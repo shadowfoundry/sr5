@@ -55,34 +55,31 @@ export class SR5_PrepareRollTest {
             case "calledShotStunned":
                 rollData = await SR5_GetRollData.calledShotStunned(rollData, rollType, actor, chatData);
                 break;
-            case "complexForm":
+            case "complexForm": //done
                 rollData = await SR5_GetRollData.complexForm(rollData, actor, item);
                 break;
-            case "complexFormDefense":
+            case "complexFormDefense": //done
                 rollData = await SR5_GetRollData.complexFormDefense(rollData, actor, chatData);
                 break;
-            case "decompilingResistance":
+            case "decompilingResistance": //done
                 rollData = await SR5_GetRollData.decompilingResistance(rollData, actor, chatData);
                 break;
             case "defense":
                 rollData = await SR5_GetRollData.defense(rollData, actor, chatData);
                 break;
-            case "defenseSimple":
+            case "defenseSimple": //done
                 rollData = await SR5_GetRollData.defenseSimple(rollData, rollKey, actor);
                 break;
-            case "derivedAttribute":
+            case "derivedAttribute": //done
                 rollData = await SR5_GetRollData.derived(rollData, rollKey, actor);
                 break;
-            case "drain":
+            case "drain": //done
                 rollData = await SR5_GetRollData.drain(rollData, actor, chatData);
-                break;
-            case "eraseMark":
-                rollData = await SR5_GetRollData.eraseMark(rollData, actor, chatData);
                 break;
             case "escapeEngulf":
                 rollData = await SR5_GetRollData.escapeEngulf(rollData, actor, chatData);
                 break;
-            case "fading":
+            case "fading": //done
                 rollData = await SR5_GetRollData.fading(rollData, actor, chatData);
                 break;
             case "healing":
@@ -97,11 +94,11 @@ export class SR5_PrepareRollTest {
             case "itemRoll":
                 rollData = await SR5_GetRollData.itemRoll(rollData, item);
                 break;
-            case "knowledgeSkill":
-            case "languageSkill":
+            case "knowledgeSkill": //done
+            case "languageSkill": //done
                 rollData = await SR5_GetRollData.knowledgeSkill(rollData, rollType, item);
                 break;
-            case "lift":
+            case "lift": //done
                 rollData = await SR5_GetRollData.lift(rollData, rollKey, actor);
                 break;
             case "martialArtDefense":
@@ -117,18 +114,18 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.matrixDefenseSimple(rollData, rollKey, actor);
                 break;
             case "matrixResistance":
-                rollData = await SR5_GetRollData.matrixResistance(rollData, rollKey, actor, chatData);
+                rollData = await SR5_GetRollData.matrixResistance(rollData, actor, chatData);
                 break;
-            case "movement":
+            case "movement": //done
                 rollData = await SR5_GetRollData.movement(rollData, rollKey, actor);
                 break;
             case "objectResistance":
                 rollData = await SR5_GetRollData.objectResistance(rollData, chatData);
                 break;
-            case "passThroughBarrier":
+            case "passThroughBarrier": //done
                 rollData = await SR5_GetRollData.passThroughBarrier(rollData, actor);
                 break;
-            case "passThroughDefense":
+            case "passThroughDefense": //done
                 rollData = await SR5_GetRollData.passThroughDefense(rollData, chatData);
                 break;
             case "power":
@@ -145,8 +142,17 @@ export class SR5_PrepareRollTest {
             case "preparationFormula":
                 rollData = await SR5_GetRollData.preparationFormula(rollData, actor, item);
                 break;
+            case "ramming":
+                rollData = await SR5_GetRollData.ramming(rollData, actor);
+                break;
+            case "rammingDefense":
+                rollData = await SR5_GetRollData.rammingDefense(rollData, actor, chatData);
+                break;
             case "regeneration":
                 rollData = await SR5_GetRollData.regeneration(rollData, actor);
+                break;
+            case "registeringResistance": //done
+                rollData = await SR5_GetRollData.registeringResistance(rollData, actor, chatData);
                 break;
             case "resonanceAction":
                 rollData = await SR5_GetRollData.resonanceAction(rollData, rollKey, actor);
@@ -155,15 +161,6 @@ export class SR5_PrepareRollTest {
             case "resistanceCardAura":
             case "fatiguedCard":
                 rollData = await SR5_GetRollData.resistance(rollData, rollType, actor, chatData);
-                break;
-            case "ramming":
-                rollData = await SR5_GetRollData.ramming(rollData, actor);
-                break;
-            case "rammingDefense":
-                rollData = await SR5_GetRollData.rammingDefense(rollData, actor, chatData);
-                break;
-            case "registeringResistance":
-                rollData = await SR5_GetRollData.registeringResistance(rollData, actor, chatData);
                 break;
             case "resistanceSimple":
                 rollData = await SR5_GetRollData.resistanceSimple(rollData, rollKey, actor);
@@ -181,14 +178,14 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.sensorDefense(rollData, actor, chatData);
                 break;
             case "skill":
-            case "skillDicePool":
+            case "skillDicePool": //done
                 rollData = await SR5_GetRollData.skill(rollData, rollType, rollKey, actor, chatData);
                 break;
             case "spell":
                 rollData = await SR5_GetRollData.spell(rollData, actor, item);
                 break;
-            case "spellResistance":
-                rollData = await SR5_GetRollData.spellResistance(rollData, chatData);
+            case "spellResistance": //done
+                rollData = await SR5_GetRollData.spellResistance(rollData, actor, chatData);
                 break;
             case "spritePower":
                 rollData = await SR5_GetRollData.spritePower(rollData, actor, item);
@@ -401,6 +398,7 @@ export class SR5_PrepareRollTest {
                 },
                 elements: null,
                 spiritType: null,
+                preparationTrigger: null,
             },
             matrix: {
                 defenderDoBiofeedbackDamage: false,
@@ -464,7 +462,7 @@ export class SR5_PrepareRollTest {
                 typeSub: "",
             },
             threshold: {
-                value: 0, //opposedSkillThreshold //fireTreshold
+                value: 0, //opposedSkillThreshold //firethreshold
                 type: null,
             },
             various: {

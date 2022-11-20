@@ -58,9 +58,9 @@ export default class SR5_RollDialog extends Dialog {
     updateFadingValue(html) {
         this.data.data.matrix.level = parseInt(html.find('[name="level"]')[0].value);
         if (html.find('[name="fadingValue"]')[0]){
-            let fadingModifier = this.data.data.matrix.fading.modifiers;
-            for (let value of Object.values(this.fadingModifier)){
-                fadingModifier += value;
+            let fadingModifier = 0;
+            for (let key of Object.values(this.data.data.matrix.fading.modifiers)){
+                fadingModifier += key.value;
             }
             let fadingFinalValue = parseInt(html.find('[name="level"]')[0].value) + fadingModifier;
             if (fadingFinalValue < 2) fadingFinalValue = 2
@@ -448,7 +448,7 @@ export default class SR5_RollDialog extends Dialog {
             case "manaBarrierRating":
                 let barrierRating = parseInt((html.find('[name="manaBarrierRating"]')[0].value || 1));
                 html.find('[name="baseDicePool"]')[0].value = barrierRating * 2;
-                this.data.data.dicePool = barrierRating * 2;
+                this.data.data.dicePool.value = barrierRating * 2;
                 this.updateDicePoolValue(html);
                 return;
             case "patientEssence":
@@ -458,7 +458,6 @@ export default class SR5_RollDialog extends Dialog {
                     value: value,
                     label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${value})`,
                 }
-                //this.dicePoolModifier.patientEssence = value;
                 this.updateDicePoolValue(html);
                 return;
             case "limitModHealingSupplies":
@@ -680,7 +679,7 @@ export default class SR5_RollDialog extends Dialog {
                     } else value = 0;
                     break;
                 case "spriteType":
-                    dialogData.spriteType = ev.target.value;
+                    dialogData.matrix.spriteType = ev.target.value;
                     return;
                 case "spiritType":
                     if (ev.target.value !== ""){
@@ -697,9 +696,9 @@ export default class SR5_RollDialog extends Dialog {
                     html.find(name)[0].value = value;
                     dialogData.magic.drain.modifiers.trigger = {
                         value: value,
-                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[ev.target.value])})`,
+                        label: `${game.i18n.localize("SR5.PreparationTrigger")} (${game.i18n.localize(SR5.preparationTriggerTypes[ev.target.value])})`,
                     };
-                    dialogData.preparationTrigger = ev.target.value;
+                    dialogData.magic.preparationTrigger = ev.target.value;
                     this.drainModifier.preparationTrigger = value;
                     this.updateDrainValue(html);
                     return;
@@ -902,7 +901,7 @@ export default class SR5_RollDialog extends Dialog {
                     selectValue = html.find(name)[0].value;
                     inputValue = SR5_DiceHelper.convertMarkToMod(selectValue);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${inputValue})`;
-                    dialogData.mark = parseInt(selectValue);
+                    dialogData.matrix.mark = parseInt(selectValue);
                     break;
                 case "incomingFiringMode":
                     selectValue = dialogData.combat.firingMode.selected;
@@ -932,15 +931,15 @@ export default class SR5_RollDialog extends Dialog {
                     this.updateDicePoolValue(html);
                     continue;
                 case "spriteType":
-                    dialogData.spriteType = html.find(name)[0].value;
+                    dialogData.matrix.spriteType = html.find(name)[0].value;
                     continue;
                 case "preparationTrigger":
                     inputValue = SR5_DiceHelper.convertTriggerToMod(html.find('[data-modifier="preparationTrigger"]')[0].value);
                     dialogData.magic.drain.modifiers.trigger = inputValue;
-                    dialogData.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
+                    dialogData.magic.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
                     dialogData.magic.drain.modifiers.trigger = {
                         value: inputValue,
-                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.preparationTrigger])})`,
+                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.magic.preparationTrigger])})`,
                     };
                     this.drainModifier.preparationTrigger = inputValue;
                     this.updateDrainValue(html);
@@ -953,7 +952,7 @@ export default class SR5_RollDialog extends Dialog {
                     html.find(targetInputName)[0].value = inputValue;
                     continue;
                 case "damageType":
-                    dialogData.damageType = html.find(name)[0].value;
+                    dialogData.damage.type = html.find(name)[0].value;
                     continue;
                 case "socialResult":
                 case "socialAttitude":
@@ -961,12 +960,12 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "speedRammingAttacker":
                     selectValue = SR5_DiceHelper.convertSpeedToDamageValue(html.find(name)[0].value, actor.system.attributes.body.augmented.value);
-                    dialogData.damageValue = selectValue;
+                    dialogData.damage.value = selectValue;
                     html.find('[name="modifiedDamage"]')[0].value = selectValue;
                     continue;
                 case "speedRammingTarget":
-                    selectValue = SR5_DiceHelper.convertSpeedToAccidentValue(html.find(name)[0].value, dialogData.target);
-                    dialogData.accidentValue = selectValue;
+                    selectValue = SR5_DiceHelper.convertSpeedToAccidentValue(html.find(name)[0].value, dialogData.target); //TODO
+                    dialogData.accidentValue = selectValue; //TODO
                     html.find(targetInputName)[0].value = selectValue;
                     continue;
                 case "targetEffect":
@@ -1061,7 +1060,7 @@ export default class SR5_RollDialog extends Dialog {
         ev.preventDefault();
         let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
         resetedActor.resetRecoil();
-        dialogData.rc += actor.flags.sr5.cumulativeRecoil;
+        //dialogData.combat.rec += actor.flags.sr5.cumulativeRecoil;
         dialogData.dicePool.modifiers.recoil.value = 0;
         actor.flags.sr5.cumulativeRecoil = 0;
         let recoil = this.calculRecoil(html);
@@ -1077,8 +1076,7 @@ export default class SR5_RollDialog extends Dialog {
         resetedActor.resetCumulativeDefense();
         dialogData.dicePool.modifiers.cumulativeDefense.value = 0;
         actor.flags.sr5.cumulativeDefense = 0;
-        html.find('[data-modifier="cumulativeDefense"]')[0].value = 0;
-        this.dicePoolModifier.cumulativeDefense = 0;
+        html.find('[data-type="cumulativeDefense"]')[0].value = 0;
         this.updateDicePoolValue(html);
     }
 

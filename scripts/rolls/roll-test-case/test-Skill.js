@@ -2,12 +2,11 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 
 export default async function skillInfo(cardData){
-    let itemTarget, testType;
+    let itemTarget;
     let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
     let actorData = actor.system;
 
-    if (cardData.target.hasTarget) testType = "nonOpposedTest";
-    else testType = "opposedTest";
+    let testType = cardData.target.hasTarget ? "nonOpposedTest" : "opposedTest";
 
     if (cardData.target.itemUuid) itemTarget = await fromUuid(cardData.target.itemUuid);
 
@@ -116,7 +115,7 @@ export default async function skillInfo(cardData){
             //Manage extended tests with threshold
             if (cardData.threshold.value > 0){
                 if (cardData.roll.hits >= cardData.threshold.value) {
-                    cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfullTest"));
+                    cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulTest"));
                     cardData.test.isExtended = false;
                 }
             }

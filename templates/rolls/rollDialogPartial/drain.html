@@ -19,7 +19,7 @@
 
     {{> systems/sr5/templates/rolls/rollDialogPartial/drainBase.html}}
     
-    {{#if (eq type "spell")}}
+    {{#if (eq test.type "spell")}}
     <!--RECKLESS SPELLCASTING-->
     <li class="grid">
         <div class="col-11">{{localize 'SR5.RecklessSpellcasting'}}{{localize 'SR5.Colons'}}</div>
@@ -29,7 +29,7 @@
     </li>
     {{/if}}
 
-    {{#if (eq type "preparationFormula")}}
+    {{#if (eq test.type "preparationFormula")}}
     <!-- PREPARATION TRIGGER -->
     <li class="grid">
         <div class="col-11">{{localize 'SR5.PreparationTrigger'}}{{localize 'SR5.Colons'}}</div>

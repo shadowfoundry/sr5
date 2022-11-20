@@ -2686,7 +2686,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	// Generate Matrix resistances, actions, actions defenses, user mode....
+	// Generate Resonance actions
 	static generateResonanceMatrix(actor) {
 		let actorData = actor.system, specialAttributes = actorData.specialAttributes, skills = actorData.skills;
 		let matrix = actorData.matrix, resonanceActions = matrix.resonanceActions;
@@ -2725,8 +2725,13 @@ export class SR5_CharacterUtility extends Actor {
 				//test
 				SR5_EntityHelpers.updateDicePool(resonanceActions[key].test);
 				if (resonanceActions[key].test.dicePool < 0) resonanceActions[key].test.dicePool = 0;
-				//limit
-				if (resonanceActions[key].limit) SR5_EntityHelpers.updateValue(resonanceActions[key].limit);
+				// limit calculation
+				if (resonanceActions[key].limit){
+					let linkedLimit = resonanceActions[key].limit.base;
+					if (actorData.limits[linkedLimit]) {
+						resonanceActions[key].limit.value = actorData.limits[linkedLimit].value + SR5_EntityHelpers.modifiersSum(resonanceActions[key].limit.modifiers);
+					}
+				}
 			}
 		}
 	}
@@ -2788,7 +2793,7 @@ export class SR5_CharacterUtility extends Actor {
 			if (matrixActions[key].test !== undefined) {
 				// test
 				if (matrix.runningSilent) {
-					SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.RunningSilent'), "matrixUserMode", -2);
+					SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.RunningSilent'), "silentMode", -2);
 				}
 				if (matrix.userMode === "hotsim") {
 					SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.VirtualRealityHotSimShort'), "matrixUserMode", 2);
@@ -2945,31 +2950,31 @@ export class SR5_CharacterUtility extends Actor {
 		switch(item.system.type){
 			case "commlink":
 				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "deviceRating", item.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				break;
 			case "cyberdeck":
 			case "riggerCommandConsole":
 				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "deviceRating", item.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback,  game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock,  game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, "deviceRating", item.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				break;
 			case "livingPersona":
 			case "headcase":
 				SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.fading,  game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback,  game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock,  game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dumpshock, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, "deviceRating", item.system.deviceRating);
-				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, "firewall", matrixAttributes.firewall.value);
+				SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				break;
 			case "baseDevice":
 				if (actor.type === "actorDrone"){
@@ -2978,21 +2983,21 @@ export class SR5_CharacterUtility extends Actor {
 						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "controler", controler.matrix.resistances.matrixDamage.dicePool);
 					} else {
 						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "deviceRating", actorData.matrix.deviceRating);
-						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "firewall", actorData.matrix.attributes.firewall.value);
+						SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", actorData.matrix.attributes.firewall.value);
 					}
 				} else if (actor.type === "actorDevice"){
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "deviceRating", actorData.matrix.deviceRating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "firewall", actorData.matrix.attributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", actorData.matrix.attributes.firewall.value);
 				} else if (actor.type === "actorSprite"){
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), "level", matrix.deviceRating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), "firewall", matrixAttributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), "level", matrix.deviceRating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), "firewall", matrixAttributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				} else if (actor.type === "actorAgent"){
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, "itemRating", actorData.rating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, "firewall", matrixAttributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, "itemRating", actorData.rating);
-					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, "firewall", matrixAttributes.firewall.value);
+					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				}
 				break;
 			default:

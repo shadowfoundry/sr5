@@ -17,7 +17,7 @@ export default async function attackInfo(cardData){
 		if (cardData.test.typeSub === "rangedWeapon") cardData.chatCard.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseRangedWeapon",game.i18n.localize("SR5.Defend"));
 		else if (cardData.test.typeSub === "meleeWeapon") cardData.chatCard.buttons.defenseMeleeWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseMeleeWeapon",game.i18n.localize("SR5.Defend"));
 	} else {
-		if (cardData.type === "ramming") cardData.chatCard.buttons.defenseRamming = SR5_RollMessage.generateChatButton("opposedTest","defenseRamming",game.i18n.localize("SR5.Defend"));
+		if (cardData.test.type === "ramming") cardData.chatCard.buttons.defenseRamming = SR5_RollMessage.generateChatButton("opposedTest","defenseRamming",game.i18n.localize("SR5.Defend"));
 		cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.AttackMissed"));
 	}
 }

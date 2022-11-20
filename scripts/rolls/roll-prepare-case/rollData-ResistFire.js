@@ -2,7 +2,7 @@ import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
 export default function resistFire(rollData, actorData, chatData){
     //Determine title
-    rollData.test.title = `${game.i18n.localize("SR5.TryToNotCatchFire")} (${chatData.fireTreshold})`;
+    rollData.test.title = `${game.i18n.localize("SR5.TryToNotCatchFire")} (${chatData.firethreshold})`;
 
     //Determine dicepool composition
     rollData.dicePool.composition = actorData.itemsProperties.armor.specialDamage.fire.modifiers.concat(actorData.itemsProperties.armor.modifiers);

@@ -27,5 +27,7 @@ export default async function defenseSimple(rollData, rollKey, actor){
     rollData.test.type = "defenseSimple";
     rollData.test.typeSub = rollKey;
     rollData.dialogSwitch.cover = true;
-    rollData.combat.activeDefenses.full = actorData.specialProperties.fullDefenseValue || 0;
+    rollData.combat.activeDefenses.full = actor.system.specialProperties.fullDefenseValue || 0;
+
+    return rollData;
 }
