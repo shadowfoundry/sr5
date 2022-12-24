@@ -137,9 +137,9 @@ export class SR5_UtilityItem extends Actor {
 		if (itemData.essenceCost) itemData.essenceCost.modifiers = [];
 
 		//Rest test dicepool
-		if (item.type === "itemKnowledge" || item.type === "itemLanguage"){
-			itemData.test.dicePool = 0;
+		if (itemData.test){
 			itemData.test.modifiers = [];
+			itemData.test.dicePool = 0;
 		}
 
 		//Rest rating value
@@ -207,28 +207,16 @@ export class SR5_UtilityItem extends Actor {
 			itemData.freeSustain = false;
 		}
 
-		if (item.type === "itemPower"){
-			itemData.test.modifiers = [];
-		}
-
 		if (item.type === "itemAdeptPower"){
-			itemData.test.dicePool = 0;
-			itemData.test.modifiers = [];
 			itemData.drainValue.modifiers = [];
 		}
 
 		if (item.type === "itemMartialArt"){
-			itemData.test.dicePool = 0;
-			itemData.test.modifiers = [];
 			itemData.pin = false;
 			itemData.entanglement = false;
 			itemData.feint = false;
 			itemData.disarm = false;
 			itemData.breakWeapon = false;
-		}
-
-		if (item.type === "itemPreparation"){
-			itemData.test.modifiers = [];
 		}
 
 		if (typeof itemData.systemEffects === "object") {
@@ -1923,6 +1911,7 @@ export class SR5_UtilityItem extends Actor {
 			if (a != ''){
 				let item = actor.items.find(i => i.id === a._id);
 				let index = itemData.accessory.findIndex(b => b._id === a._id);
+				if (!item) continue;
 				item = item.toObject(false);
 				itemData.accessory[index] = item;
 			}

@@ -6,7 +6,7 @@ export default async function matrixResistance(rollData, actor, chatData){
     rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamageMatrix")} (${chatData.damage.matrix.value})`;
 
     //Determine dicepool composition
-    rollData.dicePool.composition = actor.system.matrix.resistances.matrixDamage.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup" || mod.type === "matrixAttribute"));
+    rollData.dicePool.composition = actor.system.matrix.resistances.matrixDamage.modifiers.filter(mod => (mod.type === "matrixAttribute" || mod.type === "deviceRating"));
  
     //Determine base dicepool
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
@@ -16,7 +16,7 @@ export default async function matrixResistance(rollData, actor, chatData){
 
     if (chatData.target.itemUuid){
         let matrixTargetItem = await fromUuid(chatData.target.itemUuid);
-        if (matrixTargetItem.system.type !== "baseDevice" && matrixTargetItem.system.type !== "livingPersona" && matrixTargetItem.system.type !== "headcase"){ 
+        if (matrixTargetItem.system.type !== "baseDevice" && matrixTargetItem.system.type !== "livingPersona" && matrixTargetItem.system.type !== "headcase" && matrixTargetItem.system.type !== "cyberdeck" && matrixTargetItem.system.type !== "commlink"){ 
             rollData.test.title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.damage.matrix.value})`;
             rollData.dicePool.composition = ([
                 {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},

@@ -20,10 +20,10 @@ export default function ritual(rollData, actor, item){
 
     //Limit
     rollData.limit.type = "force";
-    rollData.limit.base = actorData.specialAttributes.magic.augmented.value;
+    rollData.limit.base = actor.system.specialAttributes.magic.augmented.value;
 
     //Background count limit modifier
-    if (actorData.magic.bgCount.value > 0){
+    if (actor.system.magic.bgCount.value > 0){
         rollData = SR5_PrepareRollHelper.addBackgroundCountLimitModifiers(rollData, actor);
     }
 

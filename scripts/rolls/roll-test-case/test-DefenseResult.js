@@ -29,8 +29,6 @@ export default async function defenseResultInfo(cardData, type){
             labelEnd = game.i18n.localize("SR5.FailedCompiling");
             key = "compileSprite";
             cardData.matrix.fading.value = cardData.roll.hits * 2;
-            /*if (cardData.matrix.level > cardData.actorResonance) cardData.fadingType = "physical";
-            else cardData.fadingType = "stun";*/
             if (cardData.matrix.fading.value < 2) cardData.matrix.fading.value = 2;
             cardData.chatCard.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${cardData.matrix.fading.value})`);
             break;
@@ -39,8 +37,6 @@ export default async function defenseResultInfo(cardData, type){
             labelEnd = game.i18n.localize("SR5.FailedSummon");
             key = "summonSpirit";
             cardData.magic.drain.value = cardData.roll.hits * 2;
-            /*if (cardData.magic.force > cardData.actorMagic) cardData.magic.drain.type = "physical";
-            else cardData.magic.drain.type = "stun";*/
             if (cardData.magic.drain.value < 2) cardData.magic.drain.value = 2;
             cardData.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${cardData.magic.drain.value})`);
             break;
@@ -87,26 +83,26 @@ export default async function defenseResultInfo(cardData, type){
             label = `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.CS_AS_ExtremeIntimidation")}`;
             labelEnd = game.i18n.localize("SR5.Resisted");
             key = "applyFearEffect";
-            if (prevData.chatCard.buttons?.fear) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "calledShotFear");
+            if (prevData.chatCard.buttons?.fear) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fear");
             break;
         case "ricochetResistance":
             label = `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.STATUSES_Shaked")}`;
             labelEnd = game.i18n.localize("SR5.Resisted");
             key = "calledShotEffect";
-            if (prevData.chatCard.buttons?.fear) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "calledShotFear");
+            if (prevData.chatCard.buttons?.fear) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fear");
             break;
         case "warningResistance":
             label = `${game.i18n.localize("SR5.ShiftAttitude")}`;
             labelEnd = game.i18n.localize("SR5.Resisted");
             successTestType = "SR-CardButtonHit endTest";
             key = "warningShotEnd";
-            if (prevData.chatCard.buttons?.fear) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "calledShotFear");
+            if (prevData.chatCard.buttons?.fear) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fear");
             break;
         case "stunnedResistance":
             label = `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.STATUSES_Stunned")}`;
             labelEnd = game.i18n.localize("SR5.Resisted");
             key = "applyStunnedEffect";
-            if (prevData.chatCard.buttons?.stunned) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "calledShotStunned");
+            if (prevData.chatCard.buttons?.stunned) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "stunned");
             break;
         case "buckledResistance":
             label = `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.STATUSES_Buckled")}`;
@@ -118,35 +114,24 @@ export default async function defenseResultInfo(cardData, type){
             label = `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.STATUSES_Nauseous")}`;
             labelEnd = game.i18n.localize("SR5.Resisted");
             key = "calledShotEffect";
-            if (prevData.chatCard.buttons?.nauseous) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "calledShotNauseous");
+            if (prevData.chatCard.buttons?.nauseous) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "nauseous");
             break;
         case "knockdownResistance":
             label = `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.STATUSES_Knockdown")}`;
             labelEnd = game.i18n.localize("SR5.Resisted");
             key = "calledShotEffect";
-            if (prevData.chatCard.buttons?.knockdown) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "calledShotKnockdown");
+            if (prevData.chatCard.buttons?.knockdown) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "knockdown");
             break;
         case "engulfResistance":
             label = game.i18n.localize("SR5.EscapeEngulfSuccess");
             labelEnd = game.i18n.localize("SR5.EscapeEngulfFailed");
             successTestType = "SR-CardButtonHit endTest";
             if (cardData.roll.hits < cardData.previousMessage.hits) {
-                let parentMessage = game.messages.find(m => m.flags.sr5data.buttons.escapeEngulf && m.flags.sr5data.attackerId === cardData.attackerId)
+                let parentMessage = game.messages.find(m => m.flags.sr5data.chatCard.buttons.escapeEngulf && m.flags.sr5data.owner.actorId === cardData.owner.actorId)
                 if (parentMessage) prevData = parentMessage.flags?.sr5data;
                 if (prevData.chatCard.buttons?.escapeEngulf) {
-                    if (!game.user?.isGM) {
-                        await SR5_SocketHandler.emitForGM("updateChatButton", {
-                            message: parentMessage.id,
-                            buttonToUpdate: "escapeEngulf",
-                        });
-                        await SR5_SocketHandler.emitForGM("updateChatButton", {
-                            message: parentMessage.id,
-                            buttonToUpdate: "resistanceCard",
-                        });
-                    } else {
-                        SR5_RollMessage.updateChatButton(parentMessage.id, "escapeEngulf");
-                        SR5_RollMessage.updateChatButton(parentMessage.id, "resistanceCard");
-                    }
+                    SR5_RollMessage.updateChatButtonHelper(parentMessage.id, "escapeEngulf");
+                    SR5_RollMessage.updateChatButtonHelper(parentMessage.id, "resistanceCard");
                 }
             }
             break;

@@ -26,7 +26,7 @@ export default async function spellInfo(cardData){
                 actionType = "resistanceCard";
 				label = game.i18n.localize("SR5.ResistDirectSpell");
 				cardData.damage.value = cardData.roll.hits;
-				if (cardData.spell.type === "mana") cardData.damage.resistanceType = "directSpellMana";
+				if (cardData.magic.spell.type === "mana") cardData.damage.resistanceType = "directSpellMana";
 				else cardData.damage.resistanceType = "directSpellPhysical";
 			}
 			//Generate Resist spell chat button

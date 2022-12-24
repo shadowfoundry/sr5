@@ -242,7 +242,7 @@ export class SR5_RollTest {
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
 
-		if (newMessage.owner.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		if (newMessage.owner.itemUuid) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
@@ -275,7 +275,7 @@ export class SR5_RollTest {
 		newMessage.edge.hasUsedSecondChance = true;
 		newMessage.edge.canUseEdge = false;
 		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-		if (newMessage.owner.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		if (newMessage.owner.itemUuid) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		//Remove 1 to actor's Edge
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
@@ -312,7 +312,7 @@ export class SR5_RollTest {
 		}
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-		if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		if (newMessage.itemUuid) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
 
 		//Remove 1 to actor's Edge
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
@@ -442,7 +442,7 @@ export class SR5_RollTest {
 				await SR5_AddRollInfo.actionHitInfo(cardData, cardData.test.type);
 				break;
 			case "power":
-				if (cardDatamagic.spell.category === "regeneration") return SR5_AddRollInfo.regenerationInfo(cardData, cardData.test.type);
+				if (cardData.magic.spell.category === "regeneration") return SR5_AddRollInfo.regenerationInfo(cardData, cardData.test.type);
 				if (cardData.test.typeSub !== "powerWithDefense") { 
 					if (!cardData.effects.canApplyEffect) return;
 					else await SR5_AddRollInfo.spellInfo(cardData);
@@ -547,6 +547,8 @@ export class SR5_RollTest {
 			case "matrixDefenseSimple":
 			case "astralTracking":
 			case "derivedAttribute":
+			case "itemRoll":
+			case "vehicleTest":
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.type}' type in srDicesAddInfoToCard`);

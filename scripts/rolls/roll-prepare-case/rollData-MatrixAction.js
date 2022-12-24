@@ -3,7 +3,7 @@ import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
 export default async function matrixAction(rollData, rollKey, actor){
     let matrixAction = actor.system.matrix.actions[rollKey];
-    debugger;
+
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.MatrixActionTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.matrixRolledActions[rollKey])}`;
 

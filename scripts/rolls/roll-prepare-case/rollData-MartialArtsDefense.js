@@ -4,7 +4,7 @@ import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 export default async function martialArtsDefense(rollData, actor, chatData){
     if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return;
     let actorData = actor.system,
-        firstLabel, secondLabel, firstType, secondType,
+        firstLabel, secondLabel, firstType, secondType, firstAttribute, secondAttribute,
         martialArtItem = await fromUuid(chatData.owner.itemUuid);
 
     //Determine title
@@ -39,10 +39,11 @@ export default async function martialArtsDefense(rollData, actor, chatData){
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
 
     //Add others informations
-    rollData.test.type = "martialArtsDefense";
+    rollData.test.type = "martialArtDefense";
     rollData.previousMessage.hits = chatData.roll.hits;
     rollData.previousMessage.actorId = chatData?.owner.actorId;
     rollData.combat.activeDefenses.full = actorData.specialProperties.fullDefenseValue || 0;
+    rollData.owner.itemUuid = chatData.owner.itemUuid;
 
     //Check if an effect is transferable
     rollData = SR5_PrepareRollHelper.addTransferableEffect(rollData, martialArtItem);

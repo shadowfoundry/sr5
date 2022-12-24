@@ -9,7 +9,6 @@ export default async function matrixResistanceInfo(cardData, actorId){
         attackerData = attacker?.system,
         targetItem;
 
-    debugger;
     //Get the target item
     if (cardData.target.itemUuid) targetItem = await fromUuid(cardData.target.itemUuid);
 
@@ -35,6 +34,7 @@ export default async function matrixResistanceInfo(cardData, actorId){
         
         //If Link Lock, add button
         if (attackerData.matrix.programs.lockdown.isActive) cardData.chatCard.buttons.linkLock = SR5_RollMessage.generateChatButton("nonOpposedTest", "linkLock", game.i18n.localize('SR5.MatrixLinkLock'));
+        
     } else {
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.NoDamage"));
     }

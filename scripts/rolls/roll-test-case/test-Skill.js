@@ -65,6 +65,8 @@ export default async function skillInfo(cardData){
                 if (cardData.roll.netHits > actorData.skills.firstAid.rating.value) cardData.roll.netHits = actorData.skills.firstAid.rating.value;
                 if (cardData.target.hasTarget) cardData.chatCard.buttons.firstAid = SR5_RollMessage.generateChatButton("nonOpposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.roll.netHits})}`);
                 else cardData.chatCard.buttons.firstAid = SR5_RollMessage.generateChatButton("opposedTest", "firstAid", `${game.i18n.format('SR5.FirstAidButton', {hits: cardData.roll.netHits})}`);
+            } else {
+                cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.HealingFailed"));
             }
             break;
         case "locksmith":

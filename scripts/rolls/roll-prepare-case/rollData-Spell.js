@@ -32,12 +32,12 @@ export default async function spell(rollData, actor, item){
     }
     rollData.damage.type = itemData.damageType;
     rollData.damage.element = itemData.damageElement;
+    rollData.damage.source = "magical";
     rollData.magic.spell.type = itemData.type;
     rollData.magic.spell.category = itemData.category;
     rollData.magic.spell.isResisted = itemData.resisted;
     rollData.magic.spell.range = itemData.range;
     rollData.magic.force = actorData.specialAttributes.magic.augmented.value;
-    //rollData.owner.actorMagic = actorData.specialAttributes.magic.augmented.value;
     rollData.dialogSwitch.reagents = true;
     rollData.dialogSwitch.specialization = true;
     rollData.owner.itemUuid = item.uuid;

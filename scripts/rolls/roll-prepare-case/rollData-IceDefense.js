@@ -7,13 +7,13 @@ export default function iceDefense(rollData, actor, chatData){
     rollData.test.title = game.i18n.localize("SR5.Defense");
 
     //Determine base dicepool & composition
-    let iceFirstAttribute = actor.system.attributes[chatData.various.defenseFirstAttribute].augmented.value || 0;
-    let iceSecondAttribute = actor.system.matrix.attributes[chatData.various.defenseSecondAttribute].value || 0;
+    let firstAttribute = actor.system.attributes[chatData.various.defenseFirstAttribute].augmented.value || 0;
+    let secondAttribute = actor.system.matrix.attributes[chatData.various.defenseSecondAttribute].value || 0;
     rollData.dicePool.composition = ([
-        {source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseFirstAttribute]), type: "linkedAttribute", value: iceFirstAttribute},
-        {source: game.i18n.localize(SR5.matrixAttributes[chatData.various.defenseSecondAttribute]), type: "matrixAttribute", value: iceSecondAttribute},
+        {source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute},
+        {source: game.i18n.localize(SR5.matrixAttributes[chatData.various.defenseSecondAttribute]), type: "matrixAttribute", value: secondAttribute},
     ]);
-    rollData.dicePool.base = iceFirstAttribute + iceSecondAttribute;
+    rollData.dicePool.base = firstAttribute + secondAttribute;
 
     //Determine targeted device
     let deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive);

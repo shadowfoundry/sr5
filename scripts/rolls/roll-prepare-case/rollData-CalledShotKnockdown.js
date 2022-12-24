@@ -1,10 +1,11 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 import { SR5 } from "../../config.js";
 
-export default function calledShotKnockdown(rollData, rollType, actor, chatData){
-    let calledShotEffect = chatData.calledShot.effects.find(e => e.name === rollType);
-    calledShotEffect.threshold = chatData.damageValue + 3;
-    chatData.calledShot.effects = chatData.calledShot.effects.filter(e => e.name === rollType);
+export default function calledShotKnockdown(rollData, actor, chatData){
+    let calledShotEffect = chatData.combat.calledShot.effects.find(e => e.name === "knockdown");
+    calledShotEffect.threshold = chatData.damage.value + 3;
+    rollData.combat.calledShot = chatData.combat.calledShot;
+    rollData.combat.calledShot.effects = chatData.combat.calledShot.effects.filter(e => e.name === "knockdown");
 
     //Determine title
     rollData.test.title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${calledShotEffect.threshold})`;
@@ -20,8 +21,8 @@ export default function calledShotKnockdown(rollData, rollType, actor, chatData)
 
     //Add others informations
     rollData.test.type = "knockdownResistance";
-    rollData.previousMessage.hits = chatData.roll.hits;
-    rollData.combat.calledShot = chatData.combat.calledShot;
+    rollData.previousMessage.hits = calledShotEffect.threshold;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     return rollData;
 }

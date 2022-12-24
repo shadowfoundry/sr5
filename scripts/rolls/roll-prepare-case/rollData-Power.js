@@ -34,8 +34,8 @@ export default function power(rollData, rollType, item){
     //Special power cases
     if (item.system.systemEffects.length){
         for (let e of Object.values(item.system.systemEffects)){
-            if (e.value === "paralyzingHowl") rollData.magic.spell.category == "paralyzingHowl";
-            if (e.value === "regeneration") rollData.magic.spell.category == "regeneration";
+            if (e.value === "paralyzingHowl") rollData.magic.spell.category = "paralyzingHowl";
+            if (e.value === "regeneration") rollData.magic.spell.category = "regeneration";
         }
     }
 

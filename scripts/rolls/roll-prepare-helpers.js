@@ -28,7 +28,7 @@ export class SR5_PrepareRollHelper {
     static getDicepoolModifiers(rollData, modifiers){
         rollData.dicePool.modifiers = {};
         for (let m of modifiers){
-            if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup" && m.type !== "matrixAttribute"){
+            if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup" && m.type !== "matrixAttribute" && m.type !== "devicRating"){
                 rollData.dicePool.modifiers[m.type] = {};
                 rollData.dicePool.modifiers[m.type].label = m.source;
                 rollData.dicePool.modifiers[m.type].value = m.value;
@@ -112,6 +112,8 @@ export class SR5_PrepareRollHelper {
             rollData.dicePool.modifiers.cumulativeDefense = {};
             rollData.dicePool.modifiers.cumulativeDefense.value = -cumulativeDefense;
             rollData.dicePool.modifiers.cumulativeDefense.label = game.i18n.localize("SR5.CumulativeDefense");
+        } else {
+            actor.setFlag("sr5", "cumulativeDefense", 0);
         }
     
         return rollData;

@@ -26,6 +26,7 @@ export default async function powerDefense(rollData, actor, chatData){
 
     //Add others informations
     rollData.test.type = "powerDefense";
+    rollData.owner.itemUuid = chatData.owner.itemUuid;
     rollData.previousMessage.hits = chatData.roll.hits;
     rollData.previousMessage.actorId = chatData?.owner.actorId;
     rollData.combat.activeDefenses.full = actorData.specialProperties.fullDefenseValue || 0;

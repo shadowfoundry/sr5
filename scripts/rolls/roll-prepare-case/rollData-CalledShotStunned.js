@@ -1,8 +1,9 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 import { SR5 } from "../../config.js";
 
-export default function calledShotStunned(rollData, rollType, actor, chatData){
-    let calledShotEffect = chatData.combat.calledShot.effects.find(e => e.name === rollType);
+export default function calledShotStunned(rollData, actor, chatData){
+    let calledShotEffect = chatData.combat.calledShot.effects.find(e => e.name === "stunned");
+    rollData.combat.calledShot.effects = chatData.combat.calledShot.effects.filter(e => e.name === "stunned");
 
     //Determine title
     rollData.test.title = `${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[calledShotEffect.name])})} (${calledShotEffect.threshold})`;;
@@ -18,7 +19,9 @@ export default function calledShotStunned(rollData, rollType, actor, chatData){
 
     //Add others informations
     rollData.test.type = "stunnedResistance";
-    rollData.previousMessage.hits = chatData.roll.hits;
-
+    rollData.previousMessage.hits = calledShotEffect.threshold;
+    rollData.combat.calledShot.initiative = calledShotEffect.initiative;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
+    
     return rollData;
 }

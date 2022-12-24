@@ -46,6 +46,9 @@ export default async function weapon(rollData, actor, item){
 
     //Handle Martial Arts for Called Shots
     rollData = await handleMartialArtsCalledShot(rollData, actor);
+
+    //Handle Toxin
+    if (itemData.damageElement === "toxin") rollData.damage.toxin = itemData.toxin;
     
     //Add others informations
     rollData.test.typeSub = itemData.category;
@@ -54,6 +57,7 @@ export default async function weapon(rollData, actor, item){
     rollData.damage.value = itemData.damageValue.value;
     rollData.damage.type = itemData.damageType;
     rollData.damage.element = itemData.damageElement;
+    if (itemData.isMagical) rollData.damage.source = "magical";
     rollData.combat.armorPenetration = itemData.armorPenetration.value;
     rollData.combat.ammo.type = itemData.ammunition.type;
     rollData.combat.ammo.value = itemData.ammunition.value;
@@ -71,7 +75,7 @@ export default async function weapon(rollData, actor, item){
     if (itemData.systemEffects.length){
         for (let e of Object.values(itemData.systemEffects)){
             if (e.value === "engulfWater" || e.value === "engulfFire" || e.value === "engulfAir" || e.value === "engulfEarth") {
-                rollData.damage.continuous = true;
+                rollData.damage.isContinuous = true;
                 rollData.damage.originalValue = itemData.damageValue.value;
             }
         }
@@ -122,7 +126,7 @@ async function handleTargetInfo(rollData, actor, item){
         //Add actor type and ID to chatMessage
         rollData.target.hasTarget = true;
         rollData.target.actorType = targetActor.type;
-        rollData.target.actorId = targetActor.id;
+        rollData.target.actorId = await SR5_PrepareRollHelper.getTargetedActorID();
 
         //Get target position
         const targeted = game.user.targets;

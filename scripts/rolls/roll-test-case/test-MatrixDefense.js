@@ -11,7 +11,6 @@ export default async function matrixDefenseInfo(cardData, actorId){
 		netHits = cardData.previousMessage.hits - cardData.roll.hits,
 		targetItem = await fromUuid(cardData.target.itemUuid);
 
-	debugger;
 	//Overwatch button if illegal action
 	if (cardData.matrix.overwatchScore && cardData.roll.hits > 0) cardData.chatCard.buttons.overwatch = await SR5_RollMessage.generateChatButton("nonOpposedTest", "overwatch", `${game.i18n.format('SR5.IncreaseOverwatch', {name: attacker.name, score: cardData.roll.hits})}`);
 
@@ -34,7 +33,6 @@ export default async function matrixDefenseInfo(cardData, actorId){
 				cardData.chatCard.buttons.defenderDoBiofeedbackDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "defenderDoBiofeedbackDamage", `${game.i18n.format('SR5.DoBiofeedBackDamage', {damage: cardData.damage.matrix.value, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])), name: attacker.name})}`);
 			}
 		} else if (cardData.matrix.actionType === "sleaze") {
-       		cardData.matrix.mark = 1;
 			cardData.chatCard.buttons.defenderPlaceMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "defenderPlaceMark", `${game.i18n.format('SR5.DefenderPlaceMarkTo', {key: cardData.matrix.mark, item: targetItem.name, name: attacker.name})}`);
 		}
 	}
@@ -56,7 +54,15 @@ export default async function matrixDefenseInfo(cardData, actorId){
 				cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.damage.matrix.value})`);
 				break;
 			default:
-				cardData.chatCard.buttons.actionEnd = await SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.DefenseFailure"));
-			}
+				cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.DefenseFailure"));
 		}
+	}
+
+	//Remove chat button from previous chat message
+    if (cardData.previousMessage.messageId){
+        let originalMessage = game.messages.get(cardData.previousMessage.messageId);
+        if (originalMessage.flags?.sr5data?.chatCard.buttons?.matrixAction) {
+            SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "matrixAction");
+        }
+    }
 }

@@ -23,9 +23,6 @@ export class SR5_PrepareRollTest {
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rollData.systemRules.calledShots = true;
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rollData.systemRules.grid = true;
 
-        //Add targeted token info
-        if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
-
         //Iterate through roll type and add data to rollData;
         switch (rollType){
             case "astralTracking": //done
@@ -40,22 +37,23 @@ export class SR5_PrepareRollTest {
             case "bindingResistance": //done
                 rollData = await SR5_GetRollData.bindingResistance(rollData, actor, chatData);
                 break;
-            case "calledShotBuckled":
-                rollData = await SR5_GetRollData.calledShotBuckled(rollData, rollType, actor, chatData);
+            case "calledShotBuckled": //done
+                rollData = await SR5_GetRollData.calledShotBuckled(rollData, actor, chatData);
                 break;
-            case "calledShotFear":
-                rollData = await SR5_GetRollData.calledShotFear(rollData, chatData);
+            case "calledShotFear": //done
+                rollData = await SR5_GetRollData.calledShotFear(rollData, actor, chatData);
                 break;
-            case "calledShotKnockdown":
-                rollData = await SR5_GetRollData.calledShotKnockdown(rollData, rollType, actor, chatData);
+            case "calledShotKnockdown": //done
+                rollData = await SR5_GetRollData.calledShotKnockdown(rollData, actor, chatData);
                 break;
-            case "calledShotNauseous":
-                rollData = await SR5_GetRollData.calledShotNauseous(rollData, rollType, actor, chatData);
+            case "calledShotNauseous": //done
+                rollData = await SR5_GetRollData.calledShotNauseous(rollData, actor, chatData);
                 break;
-            case "calledShotStunned":
-                rollData = await SR5_GetRollData.calledShotStunned(rollData, rollType, actor, chatData);
+            case "calledShotStunned": //done
+                rollData = await SR5_GetRollData.calledShotStunned(rollData, actor, chatData);
                 break;
             case "complexForm": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.complexForm(rollData, actor, item);
                 break;
             case "complexFormDefense": //done
@@ -76,22 +74,23 @@ export class SR5_PrepareRollTest {
             case "drain": //done
                 rollData = await SR5_GetRollData.drain(rollData, actor, chatData);
                 break;
-            case "escapeEngulf":
+            case "escapeEngulf": //done
                 rollData = await SR5_GetRollData.escapeEngulf(rollData, actor, chatData);
                 break;
             case "fading": //done
                 rollData = await SR5_GetRollData.fading(rollData, actor, chatData);
                 break;
-            case "healing":
+            case "healing": //done
                 rollData = await SR5_GetRollData.healing(rollData, rollKey, actor);
                 break;
-            case "iceAttack":
-                rollData = await SR5_GetRollData.iceAttack(rollData, actorData);
+            case "iceAttack": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
+                rollData = await SR5_GetRollData.iceAttack(rollData, actor);
                 break;
-            case "iceDefense":
-                rollData = await SR5_GetRollData.iceDefense(rollData, actorData);
+            case "iceDefense": //done
+                rollData = await SR5_GetRollData.iceDefense(rollData, actor, chatData);
                 break;
-            case "itemRoll":
+            case "itemRoll": //done
                 rollData = await SR5_GetRollData.itemRoll(rollData, item);
                 break;
             case "knowledgeSkill": //done
@@ -101,25 +100,26 @@ export class SR5_PrepareRollTest {
             case "lift": //done
                 rollData = await SR5_GetRollData.lift(rollData, rollKey, actor);
                 break;
-            case "martialArtDefense":
+            case "martialArtDefense": //done
                 rollData = await SR5_GetRollData.martialArtsDefense(rollData, actor, chatData);
                 break;
-            case "matrixAction":
+            case "matrixAction": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.matrixAction(rollData, rollKey, actor);
                 break;
-            case "matrixDefense":
+            case "matrixDefense": //done
                 rollData = await SR5_GetRollData.matrixDefense(rollData, rollKey, actor, chatData);
                 break;
-            case "matrixDefenseSimple":
+            case "matrixDefenseSimple": //done
                 rollData = await SR5_GetRollData.matrixDefenseSimple(rollData, rollKey, actor);
                 break;
-            case "matrixResistance":
+            case "matrixResistance": //done
                 rollData = await SR5_GetRollData.matrixResistance(rollData, actor, chatData);
                 break;
             case "movement": //done
                 rollData = await SR5_GetRollData.movement(rollData, rollKey, actor);
                 break;
-            case "objectResistance":
+            case "objectResistance": //done
                 rollData = await SR5_GetRollData.objectResistance(rollData, chatData);
                 break;
             case "passThroughBarrier": //done
@@ -130,16 +130,17 @@ export class SR5_PrepareRollTest {
                 break;
             case "power":
             case "adeptPower":
-            case "martialArt": 
+            case "martialArt": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.power(rollData, rollType, item);
                 break;
-            case "powerDefense":
+            case "powerDefense": //done
                 rollData = await SR5_GetRollData.powerDefense(rollData, actor, chatData);
                 break;
-            case "preparation":
+            case "preparation": //done
                 rollData = await SR5_GetRollData.preparation(rollData, actor, item);
                 break;
-            case "preparationFormula":
+            case "preparationFormula": //done
                 rollData = await SR5_GetRollData.preparationFormula(rollData, actor, item);
                 break;
             case "ramming":
@@ -148,13 +149,13 @@ export class SR5_PrepareRollTest {
             case "rammingDefense":
                 rollData = await SR5_GetRollData.rammingDefense(rollData, actor, chatData);
                 break;
-            case "regeneration":
+            case "regeneration": //done
                 rollData = await SR5_GetRollData.regeneration(rollData, actor);
                 break;
             case "registeringResistance": //done
                 rollData = await SR5_GetRollData.registeringResistance(rollData, actor, chatData);
                 break;
-            case "resonanceAction":
+            case "resonanceAction": //done
                 rollData = await SR5_GetRollData.resonanceAction(rollData, rollKey, actor);
                 break;
             case "resistanceCard":
@@ -162,41 +163,47 @@ export class SR5_PrepareRollTest {
             case "fatiguedCard":
                 rollData = await SR5_GetRollData.resistance(rollData, rollType, actor, chatData);
                 break;
-            case "resistanceSimple":
+            case "resistanceSimple": //done
                 rollData = await SR5_GetRollData.resistanceSimple(rollData, rollKey, actor);
                 break;
-            case "resistFire":
-                rollData = await SR5_GetRollData.resistFire(rollData, actorData, chatData);
+            case "resistFire": //done
+                rollData = await SR5_GetRollData.resistFire(rollData, actor, chatData);
                 break;
-            case "ritual":
+            case "ritual": //done
                 rollData = await SR5_GetRollData.ritual(rollData, actor, item);
                 break;
-            case "sensorTarget":
+            case "sensorTarget": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.sensorTarget(rollData, actor);
                 break;
-            case "sensorDefense":
+            case "sensorDefense": //done
                 rollData = await SR5_GetRollData.sensorDefense(rollData, actor, chatData);
                 break;
             case "skill":
             case "skillDicePool": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.skill(rollData, rollType, rollKey, actor, chatData);
                 break;
-            case "spell":
+            case "spell": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.spell(rollData, actor, item);
                 break;
             case "spellResistance": //done
                 rollData = await SR5_GetRollData.spellResistance(rollData, actor, chatData);
                 break;
-            case "spritePower":
+            case "spritePower": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.spritePower(rollData, actor, item);
                 break;
             case "weapon":
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.weapon(rollData, actor, item);
                 break;
-            case "weaponAstral":
+            case "weaponAstral": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.weaponAstral(rollData, item);
                 break;
-            case "vehicleTest":
+            case "vehicleTest": //done
                 rollData = await SR5_GetRollData.vehicleTest(rollData, actor);
                 break;
             default:
@@ -301,26 +308,18 @@ export class SR5_PrepareRollTest {
                 weaponType: "",
             },
             damage: {
-                base: 0, //damageValueBase
+                base: 0,
                 value: 0,  //accidentValue
                 accidentValue: 0,
-                type: "", //damageType
-                element: null, //damageElement
-                toxin: {
-                    type: null,
-                    penetration: 0,
-                    power: 0,
-                    speed: 0,
-                },              //toxin
-                continuous: false,          //damageContinuous
-                isContinuating: false,      //damageIsContinuating
-                source: "",                 //damageSource
-                isFatiguedCard: false,       //change to source ?
+                type: "",
+                element: null,
+                toxin: {},
+                isContinuous: false,
+                source: "",
                 resistanceType: "",
-                fatigued: 0,
                 matrix: {
-                    value: 0, //matrixDamageValue
-                    base: 0, //matrixDamageValueBase
+                    value: 0,
+                    base: 0,
                     modifiers:{},
                 },
             },
@@ -332,7 +331,7 @@ export class SR5_PrepareRollTest {
                 extended: false,
                 penalty: false,
                 publicGrid: false,
-                reagents: false, //canUseReagents
+                reagents: false,
                 specialization: false,
                 spellShaping: false,
                 spiritAid: false,
@@ -340,13 +339,12 @@ export class SR5_PrepareRollTest {
                 transferEffectOnItem: false,
             },
             dicePool: {
-                base: 0, //dicePoolBase
+                base: 0,
                 composition: [],
                 modifiers: {},
                 modifiersTotal: 0,
-                value: 0, //
-                penaltyValue: 0, //replace by getting data from actor
-                cumulativeDefense: 0 //
+                value: 0,
+                cumulativeDefense: 0
             },
             edge: {
                 canUseEdge: false,
@@ -362,7 +360,7 @@ export class SR5_PrepareRollTest {
                 composition: [],
                 modifiers: {},
                 modifiersTotal: 0,
-                type: "", //limitType
+                type: "",
                 value: 0,
             },
             lists: {
@@ -375,6 +373,7 @@ export class SR5_PrepareRollTest {
                 damageTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.damageTypes, "damageTypes"),
                 gridTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.gridTypes, "gridTypes"),
                 spriteTypes: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.spriteTypes, "spriteTypes"),
+                targetSignature: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.targetSignature, "targetSignature"),
             },
             magic: {
                 drain: {
@@ -387,7 +386,7 @@ export class SR5_PrepareRollTest {
                 spell: {
                     category: "",
                     isResisted: false,
-                    objectCanResist: false, //objectResistanceTest
+                    objectCanResist: false,
                     range: 0,
                     area: 0,
                     type: "",
@@ -404,7 +403,7 @@ export class SR5_PrepareRollTest {
                 defenderDoBiofeedbackDamage: false,
                 iceType: "",
                 mark: 0,
-                actionType: "", //matrixActionType
+                actionType: "",
                 overwatchScore: false,
                 noiseRange: "wired",
                 noiseScene: 0,
@@ -428,50 +427,44 @@ export class SR5_PrepareRollTest {
             previousMessage:{
                 actorId: null, //attackerId //originalActionUser //originalActionActor
                 itemUuid: null,
-                attackerStrength: 0, //remplacer?
-                damage: 0, //damageOriginalValue
-                messageId: null, //originalMessage //continuousDamageId
-                hits: 0, //previousHits
+                attackerStrength: 0,
+                damage: 0,
+                messageId: null,
+                hits: 0,
             },
             roll: {},
             systemRules:{
-                calledShots: false, //rulesCalledShot
-                grid: false,  //rulesMatrixGrid
+                calledShots: false,
+                grid: false,
             },
             target: {
                 hasTarget: false,
-                actorId: null, //targetActor
-                actorType: "", //targetActorType remplacer ?
-                itemUuid: null, //matrixTargetItemUuid
+                actorId: null,
+                actorType: "",
+                itemUuid: null,
                 itemList: {},
-                grid: "", //targetGrid
+                grid: "",
                 rangeInMeters: 0,
                 range: 0,
             },
             test: {
                 actionType: "",
-                isExtended: false, //extendedTest
-                isOpposed: false, //opposedSkillTest
+                isExtended: false,
+                isOpposed: false,
                 extended: {
-                    interval: "", //extendedInterval
-                    intervalValue: 0, //extendedIntervalValue
-                    multiplier: 1, //extendedMultiplier
+                    interval: "",
+                    intervalValue: 0,
+                    multiplier: 1,
                 },
                 title: "",
-                type: "", //testType
+                type: "",
                 typeSub: "",
             },
             threshold: {
-                value: 0, //opposedSkillThreshold //firethreshold
+                value: 0,
                 type: null,
             },
-            various: {
-                derivedBaseValue: 0, //peut être récupéré via l'acteur
-                derivedExtraValue: 0, //peut être récupéré via l'acteur
-                unit: null, //peut être récupéré via un helper
-                defenseFirstAttribute: null, //defenseAttribute
-                defenseSecondAttribute: null, //defenseMatrixAttribute
-            },
+            various: {},
         };
 
         return rollData;

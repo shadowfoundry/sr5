@@ -33,18 +33,21 @@ export default async function defense(rollData, actor, chatData){
     //Transfering data from chatCard
     rollData.previousMessage.hits = chatData.roll.hits;
     rollData.previousMessage.actorId = chatData.owner.actorId;
-    rollData.previousMessage.damage = chatData.damage.value; //TODO
+    rollData.previousMessage.messageId = chatData.owner.messageId;
+    rollData.previousMessage.damage = chatData.damage.value;
     rollData.damage.element = chatData.damage.element;
     rollData.damage.value = chatData.damage.value;
     rollData.damage.base = chatData.damage.base;
     rollData.damage.type = chatData.damage.type;
-    rollData.damage.continuous = chatData.damage.continuous;
+    rollData.damage.source = chatData.damage.source;
+    rollData.damage.isContinuous = chatData.damage.isContinuous;
+    rollData.damage.originalValue = chatData.damage.originalValue;
     rollData.combat.ammo.type = chatData.combat.ammo.type;
     rollData.combat.calledShot = chatData.combat.calledShot;
-    rollData.target.actorType = chatData.target.actorType;
-    rollData.target.rangeInMeters = chatData.target.rangeInMeters;
     rollData.combat.armorPenetration = chatData.combat.armorPenetration;
     rollData.combat.firingMode.selected = chatData.combat.firingMode.selected;
+    rollData.target.actorType = chatData.target.actorType;
+    rollData.target.rangeInMeters = chatData.target.rangeInMeters;    
 
     //Add special info for Suppressive fire
     if (chatData.combat.firingMode.selected === "SF"){
@@ -59,7 +62,7 @@ export default async function defense(rollData, actor, chatData){
     //Handle Astral combat defense
     if (chatData.test.typeSub === "astralCombat"){
         if ((actor.type === "actorDevice" || actor.type === "actorSprite") || !actorData.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_TargetIsNotInAstral", {name:actor.name})}`);
-        rollData = await handleAstralCombat(rollData, actor);
+        rollData = await handleAstralCombat(rollData, actor, chatData);
     }
                 
     //Manage spell area templates
@@ -69,10 +72,10 @@ export default async function defense(rollData, actor, chatData){
     }
         
     //Spell damage source
-    if (chatData.test.type === "spell") rollData.damage.source = "spell";
+    if (chatData.test.type === "spell") rollData.damage.source = "magical";
 
     //Add modifiers if actor is locked by sensorHandle sensor locked
-    rollData = await handleSensorLocked(rollData, actor);
+    rollData = await handleSensorLocked(rollData, actor, chatData);
                 
     //Handle toxin, if any
     if (chatData.damage.toxin.type) {
@@ -126,7 +129,7 @@ async function handleMeleeWeaponModifiers(rollData, actor, chatData){
     return rollData;
 }
 
-async function handleAstralCombat(rollData, actor){
+async function handleAstralCombat(rollData, actor, chatData){
     let actorData = actor.system;
 
     //Determine title
@@ -160,8 +163,8 @@ async function handleSpellAreaTemplate(rollData, actor, chatData){
     return rollData;
 }
 
-async function handleSensorLocked(rollData, actor){
-    let sensorLocked = actor.items.find(i => (i.type === "itemEffect") && (i.system.type === "sensorLock") && (i.system.ownerID === chatData.speakerId) );
+async function handleSensorLocked(rollData, actor, chatData){
+    let sensorLocked = actor.items.find(i => (i.type === "itemEffect") && (i.system.type === "sensorLock") && (i.system.ownerID === chatData.owner.speakerId) );
     if(sensorLocked){
         rollData.dicePool.modifiers.sensorLockMod = {};
         rollData.dicePool.modifiers.sensorLockMod.value = sensorLocked.system.value;

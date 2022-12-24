@@ -18,7 +18,6 @@ export default async function matrixDefense(rollData, rollKey, actor, chatData){
     //Determine dicepool modififiers
     rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, matrixAction.defense.modifiers);
 
-    debugger;
     //Handle item targeted
     if (chatData.target.itemUuid){
         let targetItem = await fromUuid(chatData.target.itemUuid);
@@ -58,6 +57,7 @@ export default async function matrixDefense(rollData, rollKey, actor, chatData){
     rollData.matrix.actionType = chatData.matrix.actionType;
     rollData.previousMessage.actorId = chatData.owner.actorId;
     rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     //Special case for erase Mark
     if (rollKey === "eraseMark" && chatData.previousMessage.actorId){

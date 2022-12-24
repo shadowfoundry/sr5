@@ -23,7 +23,11 @@ export default function healing(rollData, rollKey, actor){
 
     //Add others informations
     rollData.test.type = "healing";
-    rollData.test.subType = rollKey;
+    rollData.test.typeSub = rollKey;
+    rollData.test.isExtended = true;
+    if (rollKey === "physical") rollData.test.extended.interval = "day";
+    else rollData.test.extended.interval = "hour";
+    rollData.test.extended.multiplier = 1;
     rollData.dialogSwitch.extended = true;
 
     return rollData;  

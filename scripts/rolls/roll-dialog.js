@@ -423,8 +423,6 @@ export default class SR5_RollDialog extends Dialog {
                 if (html.find('#force').length) {
                     html.find('#force')[0].value = value;
                     dialogData.limit.base = value;
-                    html.find('[name="baseLimit"]')[0].value = value;
-                    this.updateLimitValue(html);
                 }
                 if (dialogData.test.type === "ritual") this._updateReagents(value, actor, html, dialogData);
                 return;
@@ -646,7 +644,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "mark":
                     value = SR5_DiceHelper.convertMarkToMod(ev.target.value);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${ev.target.value})`;
-                    dialogData.matrix.mark = parseInt(value);
+                    dialogData.matrix.mark = parseInt(ev.target.value);
                     break;
                 case "matrixRange":
                     value = SR5_DiceHelper.convertMatrixDistanceToDiceMod(ev.target.value);
@@ -728,8 +726,8 @@ export default class SR5_RollDialog extends Dialog {
                         }
                         this.dicePoolModifier.environmental = 0;
                     }
-                    dialogData.perceptionType = ev.target.value;
-                    dialogData.limitMod.perception = {
+                    dialogData.various.perceptionType = ev.target.value;
+                    dialogData.limit.modifiers.perception = {
                         value: limitMod,
                         label: `${game.i18n.localize(SR5.limitModTypes["perception"])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`,
                     }
@@ -748,7 +746,7 @@ export default class SR5_RollDialog extends Dialog {
                     html.find(name)[0].value = value;
                     return;
                 case "damageType":
-                    dialogData.damageType = ev.target.value;
+                    dialogData.damage.type = ev.target.value;
                     return;
                 case "healingCondition":
                     value = SR5_DiceHelper.convertHealingConditionToDiceMod(ev.target.value);
@@ -756,8 +754,7 @@ export default class SR5_RollDialog extends Dialog {
                     dialogData.healingCondition = ev.target.value;
                     break;
                 case "healingSupplies":
-                    dialogData.limitMod.healingSupplies = 0;
-                    this.limitModifier.healingSupplies = 0;
+                    dialogData.limit.modifiers.healingSupplies = {value:0,};
                     html.find('[name="limitModHealingSupplies"]')[0].value = 0;
                     switch(ev.target.value){
                         case "noSupplies":
@@ -770,27 +767,24 @@ export default class SR5_RollDialog extends Dialog {
                             let medkit = SR5_DiceHelper.findMedkitRating(actor);
                             if (medkit){
                                 value = medkit.rating;
-                                dialogData.itemId = medkit.id;
-                                dialogData.limitMod.healingSupplies = {
-                                    value: medkit.rating,
-                                    label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
-                                }
-                                this.limitModifier.healingSupplies = medkit.rating;
-                                html.find('[name="limitModHealingSupplies"]')[0].value = medkit.rating;
+                                dialogData.owner.itemUuid = medkit.uuid;
+                                dialogData.limit.modifiers.healingSupplies.value = value;
+                                dialogData.limit.modifiers.healingSupplies.label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                                html.find('[name="limitModHealingSupplies"]')[0].value = value;
                             } else {
                                 ui.notifications.warn(game.i18n.format('SR5.WARN_NoMedkit'));
                                 value = 0;
                             }
-                            this.updateLimitValue(html);
                             break;
                         default:
                             value = 0;
                     }
-                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingSupplies[ev.target.value])})`;
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingSupplies[ev.target.value])})`;                   
+                    this.updateLimitValue(html);
                     break;
                 case "speedRammingAttacker":                
                     value = SR5_DiceHelper.convertSpeedToDamageValue(ev.target.value, actor.system.attributes.body.augmented.value);
-                    dialogData.damageValue = value;
+                    dialogData.damage.value = value;
                     html.find('[name="modifiedDamage"]')[0].value = value;
                     return;
                 case "speedRammingTarget":
@@ -822,14 +816,14 @@ export default class SR5_RollDialog extends Dialog {
                             dialogData.combat.calledShot.initiative = SR5_DiceHelper.convertCalledShotToInitiativeMod(dialogData.combat.ammo.type);
                             break;
                         case "bullsEye": //Errata: “The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3.”
-                            dialogData.incomingPA = ((dialogData.incomingPA + 4) * Math.min(dialogData.combat.ammo.fired, 3)) - 4;
+                            dialogData.combat.armorPenetration = ((dialogData.combat.armorPenetration + 4) * Math.min(dialogData.combat.ammo.fired, 3)) - 4;
                             break;
                         case "hitEmWhereItCounts":
                             if (dialogData.toxin.power > 0) {
                                 dialogData.toxin.power += 2;
-                                if (dialogData.damageValue > 0) {
-                                    dialogData.damageValue += 2;
-                                    dialogData.damageValueBase += 2;
+                                if (dialogData.damage.value > 0) {
+                                    dialogData.damage.value += 2;
+                                    dialogData.damage.base += 2;
                                 }
                             }
                             if (dialogData.toxin.speed > 0) dialogData.toxin.speed -= 1;
@@ -839,19 +833,19 @@ export default class SR5_RollDialog extends Dialog {
                                 ui.notifications.warn(game.i18n.localize('SR5.WARN_TargetTroughAndInto'));
                                 return html.find(ev.currentTarget)[0].value = "";
                             } else {
-                                let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId)
-                                value = -(targetActor.data.data.itemsProperties.armor.value + Math.floor(targetActor.data.data.attributes.body.augmented.value / 2));
+                                let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId);
+                                value = -(targetActor.system.itemsProperties.armor.value + Math.floor(targetActor.system.attributes.body.augmented.value / 2));
                             }
                             break;
                         case "upTheAnte":
                             $(html).find('#calledShotSpecificTarget').show();         
                             break;
                         case "harderKnock":
-                            dialogData.damageType = "physical";
+                            dialogData.damage.type = "physical";
                             break;
                         case "vitals":
-                            dialogData.damageValueBase += 2;
-                            dialogData.damageValue += 2;
+                            dialogData.damage.base += 2;
+                            dialogData.damage.value += 2;
                             break;
                     }
                     break;
@@ -939,7 +933,7 @@ export default class SR5_RollDialog extends Dialog {
                     dialogData.magic.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
                     dialogData.magic.drain.modifiers.trigger = {
                         value: inputValue,
-                        label: `${game.i18n.localize(SR5.drainModTypes[modifierName])} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.magic.preparationTrigger])})`,
+                        label: `${game.i18n.localize("SR5.PreparationTrigger")} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.magic.preparationTrigger])})`,
                     };
                     this.drainModifier.preparationTrigger = inputValue;
                     this.updateDrainValue(html);

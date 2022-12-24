@@ -23,6 +23,7 @@ export default function preparationFormula(rollData, actor, item){
     rollData.magic.drain.modifiers.spell.value = item.system.drain.value;
     rollData.magic.drain.modifiers.spell.label = game.i18n.localize("SR5.DrainModifier");
     rollData.magic.force = actor.system.specialAttributes.magic.augmented.value;
+    rollData.owner.itemUuid = item.uuid;
 
     //Background count limit modifier
     if (actor.system.magic.bgCount.value > 0){

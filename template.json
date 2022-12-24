@@ -5857,7 +5857,8 @@
       "isLinkedToFocus": false,
       "isUsedAsFocus": false,
       "isLinkedToMount": false,
-      "isUsedAsMount": false
+      "isUsedAsMount": false,
+      "isMagical": false
     },
     "itemArmor": {
       "templates": [

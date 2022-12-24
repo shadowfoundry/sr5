@@ -3043,6 +3043,7 @@ SR5.modifiersTypes = {
 	drainModifier			  : "SR5.DrainModifier",
 	hardenedArmor 			  : "SR5.HardenedArmor",
 	hardenedAstralArmor 	  : "SR5.HardenedAstalArmor",
+	iceAttack                 : "SR5.EffectTypeIceAttack",
 	itemRating				  : "SR5.ItemRating",
 	karma 					  : "SR5.Karma",
 	level 					  : "SR5.Level",

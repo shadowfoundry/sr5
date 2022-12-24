@@ -7,17 +7,21 @@ import { SR5 } from "../../config.js";
 //Add info for Resistance Roll
 export default async function resistance(rollData, rollType, actor, chatData){
     let actorData = actor.system;
-    
     //Transfert necessary info from chatCard
     rollData.damage.base = chatData.damage.value;
     rollData.damage.type = chatData.damage.type;
+    rollData.damage.element = chatData.damage.element;
+    rollData.damage.source = chatData.damage.source;
     rollData.previousMessage.messageId = chatData.owner.messageId;
+    rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.attackerNetHits = chatData.roll.netHits;
+    rollData.combat.calledShot = chatData.combat.calledShot;
 
     rollData.test.title = game.i18n.localize("SR5.TakeOnDamageShort");
     
     //Special case for fatigued called shot
     if (rollType === "fatiguedCard") {
-        rollData.damage.base = chatData.damage.fatigued;
+        rollData.damage.base = chatData.damage.valueFatiguedBase;
         rollData.damage.type = "stun";
         rollData.damage.resistanceType = "fatiguedDamage";
     }
@@ -64,8 +68,10 @@ export default async function resistance(rollData, rollType, actor, chatData){
     }
     
     if(!rollData) return;
+
+    //Add general information
+    rollData.combat.armorPenetration = chatData.combat.armorPenetration;
     rollData.test.type = "resistanceCard";
-    if (rollData.damage.isContinuating) rollData.damage.base = chatData.damageOriginalValue; //TODO
     
     return rollData;
 }
@@ -79,7 +85,7 @@ async function handlePhysicalDamage(rollData, actor, chatData){
 
     //Determine title
     if (chatData.combat.calledShot.name === "splittingDamage" && (actor.type === "actorPc" || actor.type === "actorSpirit")) {
-        rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamage")} (${damage.base}${game.i18n.localize('SR5.damageTypestunShort')}/${game.i18n.localize('SR5.damage.typePhysicalShort')})`;
+        rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamage")} (${rollData.damage.base}${game.i18n.localize('SR5.DamageTypeStunShort')}/${game.i18n.localize('SR5.DamageTypePhysicalShort')})`;
     } else rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damage.type])} (${rollData.damage.base})`;
     
     //Iterate throught actor type to add dicepool info
@@ -91,7 +97,7 @@ async function handlePhysicalDamage(rollData, actor, chatData){
             break;
         case "actorSpirit":
             if (chatData.damage.element === "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
-            rollData = await handleSpiritDamage();
+            rollData = await handleSpiritDamage(rollData, actorData, chatData);
             break;
         case "actorPc":
         case "actorGrunt":
@@ -109,8 +115,16 @@ async function handlePhysicalDamage(rollData, actor, chatData){
     //Add others informations
     rollData.test.typeSub = "physicalDamage";
     rollData.damage.source = chatData.damage.source;
-    if (rollData.damage.element === "fire") rollData.threshold.value = chatData.threshold.value;
-    //if (chatData.continuousDamageId) optionalData = mergeObject(optionalData, {continuousDamageId: chatData.continuousDamageId,}); //TODO
+    rollData.previousMessage.actorId = chatData.previousMessage.actorId;
+    if (rollData.damage.element === "fire") rollData.threshold.value = chatData.roll.netHits;
+
+    //handle continuous damage;
+    rollData.damage.originalValue = chatData.damage.originalValue;
+    rollData.damage.isContinuous = chatData.damage.isContinuous;
+    if (chatData.test.typeSub === "continuousDamage"){
+        rollData.test.typeSub = chatData.test.typeSub;
+        rollData.damage.base = chatData.damage.originalValue;
+    }
 
     return rollData;
 }
@@ -163,10 +177,10 @@ async function handleToxinDamage(rollData, actorData, chatData){
     let toxinType, vectors = [];
     
     //Determine title
-    rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize(SR5.toxinTypes[chatData.toxin.type])}`;
+    rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize(SR5.toxinTypes[chatData.damage.toxin.type])}`;
     
     //If more than one vector is present, open dialog box
-    for (let [key, value] of Object.entries(chatData.toxin.vector)){
+    for (let [key, value] of Object.entries(chatData.damage.toxin.vector)){
         if (value) {
             toxinType = key;
             vectors.push(key);
@@ -176,11 +190,11 @@ async function handleToxinDamage(rollData, actorData, chatData){
 
     //Check if toxin penetration is greater than armor
     let armor = actorData.itemsProperties.armor.toxin[toxinType].value;
-    if (-chatData.toxin.penetration > armor) chatData.toxin.penetration = armor;
+    if (-chatData.damage.toxin.penetration > armor) chatData.damage.toxin.penetration = armor;
 
     //Add toxin penetration modifiers to dicepool
     rollData.dicePool.modifiers.toxinPenetration = {};
-    rollData.dicePool.modifiers.toxinPenetration.value = chatData.toxin.penetration;
+    rollData.dicePool.modifiers.toxinPenetration.value = chatData.damage.toxin.penetration;
     rollData.dicePool.modifiers.toxinPenetration.label = game.i18n.localize("SR5.ToxinPenetration");
 
     //Get the base dicepool and composition
@@ -188,7 +202,7 @@ async function handleToxinDamage(rollData, actorData, chatData){
     rollData.dicePool.base = actorData.resistances.toxin[toxinType].dicePool;
 
     //Add others informations  
-    rollData.damage.base = chatData.toxin.power;
+    rollData.damage.base = chatData.damage.toxin.power;
     rollData.damage.toxin = chatData.damage.toxin;
 
     return rollData;
@@ -214,20 +228,27 @@ async function handleDroneDamage(rollData, actorData, chatData){
 }
 
 async function handleSpiritDamage(rollData, actorData, chatData){
-    let armor = actorData.essence.value * 2;
+    let armor = 0;
+    if (chatData.damage.source === "magical"){
+        let hardenedArmor = actorData.resistances.physicalDamage.modifiers.filter((el) => el.type === "hardenedArmor");
+        rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers.filter((el) => el.type !=="hardenedArmor");
+        rollData.dicePool.base = actorData.resistances.physicalDamage.dicePool - hardenedArmor[0].value;
+    } else {
+        armor = actorData.essence.value * 2;
 
-    //Check if AP is greater than Armor
-    if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.combat.armorPenetration, damage: rollData.damage.base})}`);
-    if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
-
-    //Add AP modifiers to dicepool
-    rollData.dicePool.modifiers.armorPenetration = {};
-    rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
-    rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
-
-    //Get the base dicepool and composition
-    rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers;
-    rollData.dicePool.base = actorData.resistances.physicalDamage.dicePool;
+        //Check if AP is greater than Armor
+        if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.combat.armorPenetration, damage: rollData.damage.base})}`);
+        
+        //Add AP modifiers to dicepool
+        if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
+        rollData.dicePool.modifiers.armorPenetration = {};
+        rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
+        rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
+    
+        //Get the base dicepool and composition
+        rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers;
+        rollData.dicePool.base = actorData.resistances.physicalDamage.dicePool;
+    }
     
     return rollData;
 }

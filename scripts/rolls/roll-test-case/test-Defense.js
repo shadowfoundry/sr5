@@ -18,8 +18,9 @@ export default async function defenseInfo(cardData, actorId){
     //If Defenser win, return
     if (cardData.roll.netHits <= 0) {
         if (cardData.combat.calledShot.name === "throughAndInto") {
-            let originalAttackMessage = game.messages.get(cardData.previousMessage.messageId);
-            originalAttackMessage.flags.sr5data.calledShot = '';
+            let originalAttackMessage = duplicate(game.messages.get(cardData.previousMessage.messageId));
+            originalAttackMessage.flags.sr5data.combat.calledShot.name = '';
+            cardData.originalAttackMessage = originalAttackMessage.flags.sr5data;
             cardData.chatCard.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseThroughAndInto",game.i18n.localize("SR5.DefendSecondTarget"));
         }
         return cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
@@ -30,7 +31,7 @@ export default async function defenseInfo(cardData, actorId){
     else cardData.damage.resistanceType = "physicalDamage";
 
     //If Hardened Armor, check if damage do something
-    if ((actorData.specialProperties?.hardenedArmor.value > 0) && (cardData.damage.source !== "spell")) {
+    if ((actorData.specialProperties?.hardenedArmor.value > 0) && (cardData.damage.source !== "magical")) {
         let immunity = actorData.specialProperties.hardenedArmor.value + cardData.combat.armorPenetration;
         if (cardData.damage.value + cardData.roll.netHits <= immunity) {
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NormalWeaponsImmunity"));
@@ -41,7 +42,7 @@ export default async function defenseInfo(cardData, actorId){
     //Damage value calculation
     if (cardData.combat.firingMode.selected === "SF") cardData.damage.value = cardData.damage.base;
     else if (cardData.damage.element === "toxin") {
-        if (cardData.toxin.type === "airEngulf") cardData.damage.value = cardData.damage.base + cardData.roll.netHits;
+        if (cardData.damage.toxin.type === "airEngulf") cardData.damage.value = cardData.damage.base + cardData.roll.netHits;
         else cardData.damage.value = cardData.damage.base;
     } else cardData.damage.value = cardData.damage.base + cardData.roll.netHits;
         
@@ -122,10 +123,10 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize('SR5.CS_AS_Tag'));
             break;
         case "throughAndInto":
-            let originalAttackMessage = game.messages.get(cardData.previousMessage.messageId);
+            let originalAttackMessage = duplicate(game.messages.get(cardData.previousMessage.messageId));
             originalAttackMessage.flags.sr5data.combat.calledShot.name = '';
-            originalAttackMessage.flags.sr5data.damageValue -= 1;
-            originalAttackMessage.flags.sr5data.damageValueBase -= 1;
+            originalAttackMessage.flags.sr5data.damage.value -= 1;
+            originalAttackMessage.flags.sr5data.damage.base -= 1;
             cardData.originalAttackMessage = originalAttackMessage.flags.sr5data;
             cardData.chatCard.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseThroughAndInto",game.i18n.localize("SR5.DefendSecondTarget"));
             cardData.chatCard.calledShotButton = false;
@@ -135,7 +136,7 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
     }
 
     //Handle Called Shots specifics
-    if (!cardData.combat.calledShot.hitsSpent && cardData.combat.calledShot.limitDV !== 0 && (cardData.combat.calledShot.name === "specificTarget" || cardData.combat.calledShot.name === "upTheAnte") && cardData.targetActorType !== "actorDrone") {
+    if (!cardData.combat.calledShot.hitsSpent && cardData.combat.calledShot.limitDV !== 0 && (cardData.combat.calledShot.name === "specificTarget" || cardData.combat.calledShot.name === "upTheAnte") && cardData.target.actorType !== "actorDrone") {
         if (cardData.roll.netHits > 1) {
             cardData.chatCard.buttons.spendNetHits = SR5_RollMessage.generateChatButton("attackerTest", "spendNetHits", `${game.i18n.localize("SR5.SpendHits")} (${cardData.roll.netHits - 1})`);
             cardData.chatCard.calledShotButton = true;

@@ -303,7 +303,7 @@ export const registerHooks = function () {
 				SR5_EffectArea.onJamEnd(actorId);
 			}
 			if (item.type === "itemEffect"){
-				if (item.system.hasEffectOnItem){
+				if (item.system.hasEffectOnItem && item.parent){
 					if (item.parent.isToken) await SR5Actor.deleteItemEffectFromItem(item.parent.token.id, item.system.ownerItem);
 					else await SR5Actor.deleteItemEffectFromItem(item.parent.id, item.system.ownerItem);
 				}

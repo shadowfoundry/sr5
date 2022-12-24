@@ -15,7 +15,8 @@ export default function escapeEngulf(rollData, actor, chatData){
 
     //Add others informations
     rollData.test.type = "escapeEngulf";
-    rollData.previousMessage.actorId = chatData.owner.actorId;
+    rollData.previousMessage.actorId = chatData.previousMessage.actorId;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
 
     return rollData;
 }
