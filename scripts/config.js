@@ -1052,6 +1052,7 @@ SR5.testLimits = {
 	sleaze                    : "SR5.Sleaze",
 	reagents                  : "SR5.Reagents",
 	level					  : "SR5.Level",
+	handling				  : "SR5.VehicleStat_HandlingShort",
 };
 
 //-----------------------------------//

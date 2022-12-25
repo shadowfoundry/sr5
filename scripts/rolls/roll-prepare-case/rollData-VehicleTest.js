@@ -1,6 +1,6 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
-export default function vehicleTest(rollData, actor){
+export default function vehicleTest(rollData, actor, chatData){
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.VehicleTest")}`;
 
@@ -18,9 +18,18 @@ export default function vehicleTest(rollData, actor){
 
     //Determine limit modififiers
     rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, actor.system.vehicleTest.limit.modifiers);
+    rollData.limit.type = "handling";
 
     //Add others informations
     rollData.test.type = "vehicleTest";
+
+    //Special, for ramming test
+    if (chatData){
+        if (chatData.test.type === "rammingDefense") {rollData.threshold.value = 3;}
+        if (chatData.test.type === "ramming") rollData.threshold.value = 2;
+        rollData.test.typeSub = chatData.test.type;
+        rollData.test.title = `${game.i18n.localize("SR5.VehicleTest")} (${rollData.threshold.value})`;
+    }
 
     return rollData;
 }

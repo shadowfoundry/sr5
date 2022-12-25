@@ -1,4 +1,3 @@
-export {default as accidentInfo} from "./test-Accident.js";
 export {default as actionHitInfo} from "./test-ActionHit.js";
 export {default as attackInfo} from "./test-Attack.js";
 export {default as complexFormInfo} from "./test-ComplexForm.js";
@@ -25,3 +24,4 @@ export {default as resonanceActionInfo} from "./test-ResonanceAction.js";
 export {default as sidekickResistanceInfo} from "./test-SidekickResistance.js";
 export {default as skillInfo} from "./test-Skill.js";
 export {default as spellInfo} from "./test-Spell.js";
+export {default as vehicleTestInfo} from "./test-VehicleTest.js";

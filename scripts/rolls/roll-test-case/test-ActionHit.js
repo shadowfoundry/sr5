@@ -16,7 +16,6 @@ export default async function actionHitInfo(cardData, type){
             labelEnd = game.i18n.localize("SR5.ActionFailure");
             key = "rammingDefense";
             testType = "opposedTest";
-            cardData.chatCard.buttons.accidentCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "accidentCard", `${game.i18n.localize("SR5.ResistAccident")} (${cardData.accidentValue})`); //TODO
             break;
         case "preparationFormula":
             label = game.i18n.localize("SR5.PreparationResistance");

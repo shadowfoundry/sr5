@@ -548,7 +548,6 @@ export default class SR5_RollDialog extends Dialog {
                         value: value,
                         label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${patientEssence})`,
                     }
-                    //this.dicePoolModifier.patientEssence = value;
                     this.updateDicePoolValue(html);
                     continue;
                 case "backgroundCount":
@@ -784,13 +783,12 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "speedRammingAttacker":                
                     value = SR5_DiceHelper.convertSpeedToDamageValue(ev.target.value, actor.system.attributes.body.augmented.value);
+                    dialogData.owner.speed = ev.target.value;
                     dialogData.damage.value = value;
                     html.find('[name="modifiedDamage"]')[0].value = value;
                     return;
                 case "speedRammingTarget":
-                    value = SR5_DiceHelper.convertSpeedToAccidentValue(ev.target.value, dialogData.target);
-                    dialogData.accidentValue = value;
-                    html.find(name)[0].value = value;
+                    dialogData.target.speed = ev.target.value;
                     return;
                 case "targetEffect":
                     dialogData.target.itemUuid = ev.target.value;
@@ -819,14 +817,14 @@ export default class SR5_RollDialog extends Dialog {
                             dialogData.combat.armorPenetration = ((dialogData.combat.armorPenetration + 4) * Math.min(dialogData.combat.ammo.fired, 3)) - 4;
                             break;
                         case "hitEmWhereItCounts":
-                            if (dialogData.toxin.power > 0) {
-                                dialogData.toxin.power += 2;
+                            if (dialogData.damage.toxin.power > 0) {
+                                dialogData.damage.toxin.power += 2;
                                 if (dialogData.damage.value > 0) {
                                     dialogData.damage.value += 2;
                                     dialogData.damage.base += 2;
                                 }
                             }
-                            if (dialogData.toxin.speed > 0) dialogData.toxin.speed -= 1;
+                            if (dialogData.damage.toxin.speed > 0) dialogData.damage.toxin.speed -= 1;
                             break;
                         case "throughAndInto":
                             if (!dialogData.target.actorId) {
@@ -954,13 +952,12 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "speedRammingAttacker":
                     selectValue = SR5_DiceHelper.convertSpeedToDamageValue(html.find(name)[0].value, actor.system.attributes.body.augmented.value);
+                    dialogData.owner.speed = html.find(name)[0].value;
                     dialogData.damage.value = selectValue;
                     html.find('[name="modifiedDamage"]')[0].value = selectValue;
                     continue;
                 case "speedRammingTarget":
-                    selectValue = SR5_DiceHelper.convertSpeedToAccidentValue(html.find(name)[0].value, dialogData.target); //TODO
-                    dialogData.accidentValue = selectValue; //TODO
-                    html.find(targetInputName)[0].value = selectValue;
+                    dialogData.target.speed = html.find(name)[0].value;
                     continue;
                 case "targetEffect":
                     selectValue = html.find(name)[0].value;
@@ -1054,7 +1051,6 @@ export default class SR5_RollDialog extends Dialog {
         ev.preventDefault();
         let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
         resetedActor.resetRecoil();
-        //dialogData.combat.rec += actor.flags.sr5.cumulativeRecoil;
         dialogData.dicePool.modifiers.recoil.value = 0;
         actor.flags.sr5.cumulativeRecoil = 0;
         let recoil = this.calculRecoil(html);

@@ -18,6 +18,7 @@ export default function ramming(rollData, actor){
 
     //Determine limit modififiers
     rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, actor.system.rammingTest.limit.modifiers);
+    rollData.limit.type = "handling";
 
     //Add others informations
     rollData.test.type = "ramming";
@@ -27,12 +28,6 @@ export default function ramming(rollData, actor){
     rollData.combat.armorPenetration = -6;
     rollData.combat.activeDefenses.full = actor.system.specialProperties.fullDefenseValue || 0;
     rollData.combat.activeDefenses.dodge = actor.system.skills?.gymnastics?.rating.value || 0;
-
-    //Add info for targeted actor
-    let targetActor = getTargetedActor();
-    if (targetActor){
-        rollData.damage.accidentValue = Math.ceil(targetActor.system.attributes.body.augmented.value/2)
-    }
 
     return rollData;
 }

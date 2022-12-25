@@ -210,9 +210,12 @@ async function handleToxinDamage(rollData, actorData, chatData){
 
 async function handleDroneDamage(rollData, actorData, chatData){
     let armor = actorData.attributes.armor.augmented.value;
+    for (let a of actorData.resistances.physicalDamage.modifiers.filter(a => a.type === "armor")){
+        armor += a.value;
+    }  
 
     //Check if AP is greater than Armor
-    if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.combat.armorPenetration, damage: rollData.damage.base})}`);
+    if ((rollData.damage.base < (armor + chatData.combat.armorPenetration)) && chatData.test.type !== "ramming") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.combat.armorPenetration, damage: rollData.damage.base})}`);
     if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
     
     //Add AP modifiers to dicepool

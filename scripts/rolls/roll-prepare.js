@@ -143,10 +143,11 @@ export class SR5_PrepareRollTest {
             case "preparationFormula": //done
                 rollData = await SR5_GetRollData.preparationFormula(rollData, actor, item);
                 break;
-            case "ramming":
+            case "ramming": //done
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.ramming(rollData, actor);
                 break;
-            case "rammingDefense":
+            case "rammingDefense": //done
                 rollData = await SR5_GetRollData.rammingDefense(rollData, actor, chatData);
                 break;
             case "regeneration": //done
@@ -204,7 +205,7 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.weaponAstral(rollData, item);
                 break;
             case "vehicleTest": //done
-                rollData = await SR5_GetRollData.vehicleTest(rollData, actor);
+                rollData = await SR5_GetRollData.vehicleTest(rollData, actor, chatData);
                 break;
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
@@ -309,8 +310,7 @@ export class SR5_PrepareRollTest {
             },
             damage: {
                 base: 0,
-                value: 0,  //accidentValue
-                accidentValue: 0,
+                value: 0,
                 type: "",
                 element: null,
                 toxin: {},

@@ -159,7 +159,6 @@ export class SR5_RollMessage {
             case "fading":
             case "objectResistance":
             case "passThroughDefense":
-            case "accidentCard":
             case "fatiguedCard":
             case "calledShotFear":
             case "calledShotStunned":   
@@ -167,6 +166,7 @@ export class SR5_RollMessage {
             case "calledShotNauseous":
             case "calledShotKnockdown":
             case "matrixResistance":
+            case "vehicleTest":
                 actor.rollTest(type, null, messageData);
                 break;
             case "resistanceCardContinuousDamage":

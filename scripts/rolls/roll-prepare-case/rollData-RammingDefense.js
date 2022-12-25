@@ -28,9 +28,13 @@ export default function rammingDefense(rollData, actor, chatData){
     rollData.damage.value = chatData.damage.value;
     rollData.damage.type = chatData.damage.type;
     rollData.combat.armorPenetration = chatData.combat.armorPenetration;
-    rollData.previousMessage = chatData.roll.hits;
+    rollData.previousMessage.hits = chatData.roll.hits;
+    rollData.previousMessage.actorId = chatData.owner.actorId;
+    rollData.previousMessage.messageId = chatData.owner.messageId;
     rollData.combat.activeDefenses.full = actor.system.specialProperties.fullDefenseValue || 0;
     rollData.combat.activeDefenses.dodge = actor.system.skills?.gymnastics?.rating.value || 0;
+    rollData.owner.speed = chatData.target.speed;
+    rollData.target.speed = chatData.owner.speed;
 
     return rollData;
 }

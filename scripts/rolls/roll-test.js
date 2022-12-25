@@ -451,9 +451,6 @@ export class SR5_RollTest {
 			case "drain":
 				await SR5_AddRollInfo.drainInfo(cardData, actorId);
 				break;
-			case "accidentCard":
-				await SR5_AddRollInfo.accidentInfo(cardData);
-				break;
 			case "complexForm":
 				await SR5_AddRollInfo.complexFormInfo(cardData);
 				break;
@@ -539,6 +536,9 @@ export class SR5_RollTest {
 			case "healing":
 				await SR5_AddRollInfo.healingInfo(cardData);
 				break;
+			case "vehicleTest":
+				await SR5_AddRollInfo.vehicleTestInfo(cardData, actorId);
+				break;
 			case "attributeOnly":
 			case "languageSkill":
             case "knowledgeSkill":
@@ -548,7 +548,6 @@ export class SR5_RollTest {
 			case "astralTracking":
 			case "derivedAttribute":
 			case "itemRoll":
-			case "vehicleTest":
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.type}' type in srDicesAddInfoToCard`);

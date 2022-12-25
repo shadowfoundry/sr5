@@ -2917,6 +2917,8 @@
 	"SR5.VehicleStat_SPSpeedLetter": "V 2",
 	"SR5.VehicleStat_SPSpeedShort": "Vitesse 2",
 	"SR5.VehicleTest": "Test de pilotage",
+	"SR5.VehicleTestControlled": "Véhicule maîtrisé",
+	"SR5.VehicleTestUncontrolled": "Véhicule hors de contrôle",
 	"SR5.VehicleTypeFull": "Type de véhicule",
 	"SR5.VehicleTypeLetter": "T",
 	"SR5.VehicleTypeShort": "Type",
