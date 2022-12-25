@@ -1,9 +1,9 @@
 import { SR5Combat } from "./system/srcombat.js";
 import { SR5_SystemHelpers } from "./system/utilitySystem.js";
 import { SR5Actor } from "./entities/actors/entityActor.js";
-import { SR5_UtilityItem } from "./entities/items/utilityItem.js";
-import { SR5_DiceHelper } from "./rolls/diceHelper.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
+import { SR5_MarkHelpers } from "./rolls/roll-helpers/mark.js";
+import { SR5_MiscellaneousHelpers } from "./rolls/roll-helpers/miscellaneous.js";
 
 export class SR5_SocketHandler {
     static registerSocketListeners() {
@@ -16,20 +16,19 @@ export class SR5_SocketHandler {
             "deleteItemFromPan": [SR5Actor._socketDeleteItemFromPan],
             "deleteMarksOnActor": [SR5Actor._socketDeleteMarksOnActor],
             "deleteMarkInfo": [SR5Actor._socketDeleteMarkInfo],
-            "updateDeckMarkedItems": [SR5_DiceHelper._socketUpdateDeckMarkedItems],
-            "markPanMaster": [SR5_DiceHelper._socketMarkPanMaster],
-            "markSlavedDevice": [SR5_DiceHelper._socketMarkSlavedDevice],
-            "markItem": [SR5_DiceHelper._socketMarkItem],
+            "updateDeckMarkedItems": [SR5_MarkHelpers._socketUpdateDeckMarkedItems],
+            "markPanMaster": [SR5_MarkHelpers._socketMarkPanMaster],
+            "markSlavedDevice": [SR5_MarkHelpers._socketMarkSlavedDevice],
+            "markItem": [SR5_MarkHelpers._socketMarkItem],
             "overwatchIncrease": [SR5Actor._socketOverwatchIncrease],
             "linkEffectToSource": [SR5Actor._socketLinkEffectToSource],
             "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
-            "deleteItem": [SR5_DiceHelper._socketDeleteItem],
-            "updateItem": [SR5_DiceHelper._socketUpdateItem],
+            "deleteItem": [SR5_MiscellaneousHelpers._socketDeleteItem],
+            "updateItem": [SR5_MiscellaneousHelpers._socketUpdateItem],
             "updateChatButton": [SR5_RollMessage._socketupdateChatButton],
             "updateRollCard": [SR5_RollMessage._socketupdateRollCard],
-            "chooseSpendNetHits": [SR5_DiceHelper.chooseSpendNetHits],
             "heal": [SR5Actor._socketHeal],
-            "updateActorData": [SR5_DiceHelper._socketUpdateActorData],
+            "updateActorData": [SR5_MiscellaneousHelpers._socketUpdateActorData],
         }
 
         game.socket.on(`system.sr5`, async (message) => {

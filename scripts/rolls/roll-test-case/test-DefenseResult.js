@@ -1,4 +1,5 @@
 import { SR5_RollMessage } from "../roll-message.js";
+import { SR5_RollTestHelper } from "../roll-test-helper.js";
 
 export default async function defenseResultInfo(cardData, type){
     let key, label, labelEnd, successTestType = "nonOpposedTest", failedTestType = "SR-CardButtonHit endTest", failedKey = "";
@@ -64,7 +65,7 @@ export default async function defenseResultInfo(cardData, type){
             let item = await fromUuid(cardData.owner.itemUuid);
             if (item.system.durationMultiplier === "netHits"){
                 let realActor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
-                SR5_DiceHelper.srDicesUpdateItem(cardData, realActor);
+                SR5_RollTestHelper.updateItemAfterRoll(cardData, realActor);
             }
             break;
         case "eraseMark":

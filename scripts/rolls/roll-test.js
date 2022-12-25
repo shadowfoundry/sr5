@@ -1,18 +1,17 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
-import { SR5_DiceHelper } from "./diceHelper.js";
 import { SR5_RollMessage } from "./roll-message.js";
 import { SR5_RollTestHelper } from "./roll-test-helper.js";
 import * as SR5_AddRollInfo from "./roll-test-case/index.js";
 import { SR5Combat } from "../system/srcombat.js";
 import SR5_RollDialog from "./roll-dialog.js";
+import { SR5_ConverterHelpers } from "./roll-helpers/converter.js";
+import { SR5_CombatHelpers } from "./roll-helpers/combat.js";
 
 export class SR5_RollTest {
-	/** Prepare the roll window
-	 * @param {Object} dialogData - Informations for the dialog window
-	 */
-	 static async generateRollDialog(dialogData, edge = false, cancel = true) {
+	//Prepare the roll window
+	static async generateRollDialog(dialogData, edge = false, cancel = true) {
 		let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
 			actorData = actor.system,
 			template = "systems/sr5/templates/rolls/roll-dialog.html";
@@ -107,26 +106,26 @@ export class SR5_RollTest {
 						// Roll dices
 						if (edge) {
 							// push the limits
-							dialogData.roll = await SR5_RollTest.srd6({
+							dialogData.roll = await SR5_RollTest.rollDice({
 								dicePool: dialogData.dicePool.value,
 								explose: edge,
 							});
 							dialogData.edge.hasUsedPushTheLimit = true;
 						} else {
-							dialogData.roll = await SR5_RollTest.srd6({
+							dialogData.roll = await SR5_RollTest.rollDice({
 								dicePool: dialogData.dicePool.value,
 								limit: dialogData.limit.value,
 							});
 						}
 
 						//Add info to chatCard
-						await SR5_RollTest.srDicesAddInfoToCard(dialogData, dialogData.owner.actorId);
+						await SR5_RollTest.addInfoToCard(dialogData, dialogData.owner.actorId);
 
 						// Return roll result and card info to chat message.
 						await SR5_RollTest.renderRollCard(dialogData);
 
 						//Update items according to roll
-						if (dialogData.owner.itemUuid) SR5_DiceHelper.srDicesUpdateItem(dialogData);
+						if (dialogData.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(dialogData);
 
 						//Update spirit if spirit aid is used
 						if (dialogData.dicePool.modifiers.spiritAid?.value > 0){
@@ -151,10 +150,10 @@ export class SR5_RollTest {
 								let isInFullDefense = (fullDefenseEffect) ? true : false;
 								if (!isInFullDefense){
 									initModifier += -10;
-									SR5_DiceHelper.applyFullDefenseEffect(actor);
+									SR5_CombatHelpers.applyFullDefenseEffect(actor);
 								}
 							}
-							if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_DiceHelper.convertActiveDefenseToInitModifier(dialogData.combat.activeDefenseSelected);
+							if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_ConverterHelpers.activeDefenseToInitMod(dialogData.combat.activeDefenseSelected);
 							if (initModifier < 0) SR5Combat.changeInitInCombat(actor, initModifier);
 						}
 					},
@@ -168,7 +167,7 @@ export class SR5_RollTest {
 	 * @param {Number} limit - Limit maximum success
 	 * @param {Boolean} explose - Handle explosing 6 result
 	 */
-	static async srd6({ dicePool, limit, explose, edgeRoll }) {
+	static async rollDice({ dicePool, limit, explose, edgeRoll }) {
 		let formula = `${dicePool}d6`;
 		if (explose) formula += "x6";
 		if (limit) formula += `kh${limit}`;
@@ -222,7 +221,7 @@ export class SR5_RollTest {
 			dicePool = messageData.dicePool.value - 1;
 
 		//roll new test
-		let newRoll = await SR5_RollTest.srd6({ dicePool: dicePool, limit: messageData.limit.value });
+		let newRoll = await SR5_RollTest.rollDice({ dicePool: dicePool, limit: messageData.limit.value });
 
 		//Keep only original hits and concatenat with new hits
 		let dicesKeeped = messageData.roll.dices.filter(function (d) {
@@ -240,17 +239,14 @@ export class SR5_RollTest {
 			value: -(newMessage.test.extended.roll - 1),
 		}
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
-		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
+		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
 
-		if (newMessage.owner.itemUuid) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
 
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
 
-	 /** Handle second chance : reroll failed dice and update message with new message
-	 * @param {Object} message - ChatMessage data
-	 * @param {Object} actor - actor who use edge
-	 */
+	//Handle second chance : reroll failed dice and update message with new message
 	static async secondeChance(message, actor) {
 		let messageData = message.flags.sr5data;
 
@@ -259,7 +255,7 @@ export class SR5_RollTest {
 		if (dicePool < 0) dicePool = 0;
 		let limit = messageData.limit.value - messageData.roll.hits;
 		if (limit < 0) limit = 0;
-		let chance = await SR5_RollTest.srd6({ dicePool: dicePool, limit: limit, edgeRoll: true,});
+		let chance = await SR5_RollTest.rollDice({ dicePool: dicePool, limit: limit, edgeRoll: true,});
 		let chanceHit;
 		if (chance.hits > limit) chanceHit = limit;
 		else chanceHit = chance.hits;
@@ -274,8 +270,8 @@ export class SR5_RollTest {
 		newMessage.roll.dices = dicesKeeped.concat(chance.dices);
 		newMessage.edge.hasUsedSecondChance = true;
 		newMessage.edge.canUseEdge = false;
-		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-		if (newMessage.owner.itemUuid) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
+		if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
 
 		//Remove 1 to actor's Edge
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
@@ -284,7 +280,7 @@ export class SR5_RollTest {
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
 
-	
+	//Handle Push the Limit test
 	static async pushTheLimit(message, actor) {
 		let messageData = message.flags.sr5data;
 		let dicePool, creator;
@@ -295,7 +291,7 @@ export class SR5_RollTest {
 			dicePool = creator.system.specialAttributes.edge.augmented.value;
 		} else dicePool = actor.system.specialAttributes.edge.augmented.value;
 
-		let newRoll = await SR5_RollTest.srd6({
+		let newRoll = await SR5_RollTest.rollDice({
 			dicePool: dicePool,
 			explose: true,
 			edgeRoll: true,
@@ -311,8 +307,8 @@ export class SR5_RollTest {
 			label: game.i18n.localize("SR5.PushTheLimit"),
 		}
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
-		await SR5_RollTest.srDicesAddInfoToCard(newMessage, actor.id);
-		if (newMessage.itemUuid) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
+		if (newMessage.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
 
 		//Remove 1 to actor's Edge
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
@@ -321,6 +317,7 @@ export class SR5_RollTest {
 		SR5_RollMessage.updateRollCard(message.id, newMessage);
 	}
 
+	//Render the chat message
 	static async renderRollCard(cardData) {
 		//Add button to edit result for GM
 		if (game.user.isGM) cardData.chatCard.canEditResult = true;
@@ -354,6 +351,7 @@ export class SR5_RollTest {
 		else if (cardData.roll.rollMode === "selfroll") chatData["whisper"] = [game.user];
 
 		let userActive = game.users.get(chatData.user);
+		cardData.owner.userId = game.user.id;
 
 		chatData.flags = {
 			sr5data: cardData,
@@ -372,11 +370,7 @@ export class SR5_RollTest {
 		ChatMessage.create(chatData);
 	}
 
-	/**
-	* Add support for the Dice So Nice module
-	* @param {Object} roll
-	* @param {String} rollMode
-	*/
+	//Add support for the Dice So Nice module
 	static async showDiceSoNice(roll, rollMode) {
 		if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
 			let whisper = null;
@@ -402,7 +396,7 @@ export class SR5_RollTest {
 	}
 
 	//Iterate througt test type to handle results
-	static async srDicesAddInfoToCard(cardData, actorId) {
+	static async addInfoToCard(cardData, actorId) {
 		//Reset button
 		cardData.chatCard.buttons = {};
 
@@ -550,7 +544,7 @@ export class SR5_RollTest {
 			case "itemRoll":
 				break;
 			default:
-				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.type}' type in srDicesAddInfoToCard`);
+				SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.type}' type in addInfoToCard`);
 		}
 	}
 }

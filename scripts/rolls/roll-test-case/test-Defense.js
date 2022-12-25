@@ -1,7 +1,7 @@
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5 } from "../../config.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_ConverterHelpers } from "../roll-helpers/converter.js";
 
 export default async function defenseInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
@@ -169,7 +169,7 @@ async function handleRamming(cardData, actorData) {
     //Update previous message with info for accident and vehicle test
     let rammingMessage = duplicate(game.messages.get(cardData.previousMessage.messageId));
     let rammingData = rammingMessage.flags.sr5data;
-    rammingData.damage.base = SR5_DiceHelper.convertSpeedToAccidentValue(cardData.owner.speed, actorData.attributes.body.augmented.value);
+    rammingData.damage.base = SR5_ConverterHelpers.speedToAccidentValue(cardData.owner.speed, actorData.attributes.body.augmented.value);
     rammingData.damage.value = rammingMessage.flags.sr5data.damage.base;
     rammingData.damage.resistanceType = "physicalDamage";
     rammingData.target.actorId = null;

@@ -8,7 +8,9 @@ import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
 import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
-import { SR5_DiceHelper } from "../../rolls/diceHelper.js";
+import { SR5_CombatHelpers } from "../../rolls/roll-helpers/combat.js";
+import { SR5_MarkHelpers } from "../../rolls/roll-helpers/mark.js";
+import { SR5_CalledShotHelpers } from "../../rolls/roll-helpers/calledShot.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Shadowrun 5.
@@ -1099,7 +1101,7 @@ export class SR5Actor extends Actor {
 				}
 				await itemToClean.update({"system" : cleanData});
 				//For Host, keep slaved device marks synchro
-				if (itemToClean.parent.system.matrix.deviceType === "host") SR5_DiceHelper.markSlavedDevice(itemToClean.parent.id);
+				if (itemToClean.parent.system.matrix.deviceType === "host") SR5_MarkHelpers.markSlavedDevice(itemToClean.parent.id);
 			} else {
 				SR5_SystemHelpers.srLog(1, `No Item to Clean in deleteMarksOnActor()`);
 			}
@@ -1108,7 +1110,7 @@ export class SR5Actor extends Actor {
 
 	//Socket for deletings marks on other actors;
 	static async _socketDeleteMarksOnActor(message) {
-		await SR5Actor.deleteMarksOnActor(message.system.actorData, message.system.actorId);
+		await SR5Actor.deleteMarksOnActor(message.data.actorData, message.data.actorId);
 	}
 
 	//Delete Mark info from deck
@@ -1145,7 +1147,7 @@ export class SR5Actor extends Actor {
 
 	//Socket for deletings marks info other actors;
 	static async _socketDeleteMarkInfo(message) {
-		await SR5Actor.deleteMarkInfo(message.system.actorId, message.system.item);
+		await SR5Actor.deleteMarkInfo(message.data.actorId, message.data.item);
 	}
 
 	//Raise owerwatch score
@@ -1161,7 +1163,7 @@ export class SR5Actor extends Actor {
 
 	//Socket for increasing overwatch score;
 	static async _socketOverwatchIncrease(message) {
-		await SR5Actor.overwatchIncrease(message.system.defenseHits, message.system.actorId);
+		await SR5Actor.overwatchIncrease(message.data.defenseHits, message.data.actorId);
 	}
 
 	//Reset Cumulative Recoil
@@ -1721,7 +1723,7 @@ export class SR5Actor extends Actor {
 
 		for (let [key, value] of Object.entries(data.damage.toxin.effect)){
 			if (value) {
-				effects = await SR5_DiceHelper.getToxinEffect(key, data, this);
+				effects = await SR5_CombatHelpers.getToxinEffect(key, data, this);
 				toxinEffects = toxinEffects.concat(effects);
 				//Nausea Status Effect
 				if (key === "nausea"){
@@ -1772,7 +1774,7 @@ export class SR5Actor extends Actor {
 
 		for (let key of Object.values(data.combat.calledShot.effects)){
 			//Special for stunned, skip
-			if (key.name === "calledShotStunned") continue;
+			if (key.name === "stunned") continue;
 
 			//special for called shot linked to weak side effect
 			if (data.combat.calledShot.effects.find(e => e.name === "weakSide") && (data.combat.calledShot.effects.find(e => e.name === "oneArmBandit") || data.combat.calledShot.effects.find(e => e.name === "brokenGrip"))) {
@@ -1782,7 +1784,7 @@ export class SR5Actor extends Actor {
 			}
 
 			//Get the itemEffect
-			effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this, weakSideEffect);
+			effects = await SR5_CalledShotHelpers.getCalledShotsEffect(key, data, this, weakSideEffect);
 
 			//Skip for "prone" effect as it is already applied by getCalledShotsEffect()
 			if (key.name === "buckled" || key.name === "knockdown") continue;

@@ -1,7 +1,7 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_CombatHelpers } from "../roll-helpers/combat.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5 } from "../../config.js";
 
@@ -156,7 +156,7 @@ async function handleTargetInfo(rollData, actor, item){
     if (itemData.category === "meleeWeapon") {
         rollData.combat.reach = itemData.reach.value
         if (rollData.target.rangeInMeters > (itemData.reach.value + 1)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
-        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect);
+        sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect);
     } else { // Handle weapon ranged based on distance
         if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short";
         else if (rollData.target.rangeInMeters < itemData.range.medium.value) rollData.target.range = "medium";
@@ -166,7 +166,7 @@ async function handleTargetInfo(rollData, actor, item){
             if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
             return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
         }
-        sceneEnvironmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actor.system, false, areaEffect);
+        sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, false, areaEffect);
     }
 
     //Add environmental modifiers

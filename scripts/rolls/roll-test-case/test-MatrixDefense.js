@@ -1,7 +1,7 @@
 import { SR5 } from "../../config.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_MatrixHelpers } from "../roll-helpers/matrix.js";
 
 export default async function matrixDefenseInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
@@ -50,7 +50,7 @@ export default async function matrixDefenseInfo(cardData, actorId){
 				break;
 			case "dataSpike":
 				cardData.damage.matrix.base = attacker.system.matrix.attributes.attack.value;
-				cardData = await SR5_DiceHelper.updateMatrixDamage(cardData, netHits, actor);
+				cardData = await SR5_MatrixHelpers.updateMatrixDamage(cardData, netHits, actor);
 				cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.damage.matrix.value})`);
 				break;
 			default:

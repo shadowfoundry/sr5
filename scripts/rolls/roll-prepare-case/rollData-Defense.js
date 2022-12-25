@@ -1,7 +1,7 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_CombatHelpers } from "../roll-helpers/combat.js";
 
 //Add info for Defense Roll
 export default async function defense(rollData, actor, chatData){
@@ -35,6 +35,7 @@ export default async function defense(rollData, actor, chatData){
     rollData.previousMessage.actorId = chatData.owner.actorId;
     rollData.previousMessage.messageId = chatData.owner.messageId;
     rollData.previousMessage.damage = chatData.damage.value;
+    rollData.previousMessage.userId = chatData.owner.userId;
     rollData.damage.element = chatData.damage.element;
     rollData.damage.value = chatData.damage.value;
     rollData.damage.base = chatData.damage.base;
@@ -119,10 +120,10 @@ async function handleMeleeWeaponModifiers(rollData, actor, chatData){
     }
     
     //Add environmental modifiers
-    let environmentalMod = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actor.system, true);
+    let environmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true);
     if (environmentalMod !== 0){
         rollData.dicePool.modifiers.environmentalSceneMod = {};
-        rollData.dicePool.modifiers.environmentalSceneMod.value = SR5_DiceHelper.handleEnvironmentalModifiers(game.scenes.active, actor.system, true);
+        rollData.dicePool.modifiers.environmentalSceneMod.value = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true);
         rollData.dicePool.modifiers.environmentalSceneMod.label = game.i18n.localize("SR5.EnvironmentalModifiers");
     }
 

@@ -1,7 +1,7 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_CombatHelpers } from "../roll-helpers/combat.js";
 import { SR5 } from "../../config.js";
 
 //Add info for Resistance Roll
@@ -186,7 +186,7 @@ async function handleToxinDamage(rollData, actorData, chatData){
             vectors.push(key);
         }
     }
-    if (vectors.length > 1) toxinType = await SR5_DiceHelper.chooseToxinVector(vectors);
+    if (vectors.length > 1) toxinType = await SR5_CombatHelpers.chooseToxinVector(vectors);
 
     //Check if toxin penetration is greater than armor
     let armor = actorData.itemsProperties.armor.toxin[toxinType].value;

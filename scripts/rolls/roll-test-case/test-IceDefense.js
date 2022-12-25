@@ -1,6 +1,7 @@
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_MatrixHelpers } from "../roll-helpers/matrix.js";
+import { SR5_MarkHelpers } from "../roll-helpers/mark.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
 
 export default async function iceDefenseInfo(cardData, actorId){
@@ -9,7 +10,7 @@ export default async function iceDefenseInfo(cardData, actorId){
         netHits = cardData.previousMessage.hits - cardData.roll.hits,
         originalActor = await SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId),
         targetItem = await fromUuid(cardData.target.itemUuid),
-        existingMark = await SR5_DiceHelper.findMarkValue(targetItem.system, originalActor.id);
+        existingMark = await SR5_MarkHelpers.findMarkValue(targetItem.system, originalActor.id);
 
     cardData.attackerName = originalActor.name;
 
@@ -42,7 +43,7 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceBlaster":
             case "iceBlack":
             case "iceSparky":
-                cardData = await SR5_DiceHelper.updateMatrixDamage(cardData, netHits, actor);
+                cardData = await SR5_MatrixHelpers.updateMatrixDamage(cardData, netHits, actor);
                 if ((cardData.test.typeSub === "iceBlaster" || cardData.test.typeSub === "iceBlack") && (!actorData.matrix.isLinkLocked)) {
                     cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.LinkLockConnection"));
                 }

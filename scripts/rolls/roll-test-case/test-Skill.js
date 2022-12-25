@@ -1,5 +1,6 @@
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
+import { SR5_CombatHelpers } from "../roll-helpers/combat.js";
 
 export default async function skillInfo(cardData){
     let itemTarget;
@@ -57,7 +58,7 @@ export default async function skillInfo(cardData){
                 let failedDamage = new Roll(`1d3`);
                 await failedDamage.evaluate({async: true});
                 cardData.damage.value = failedDamage.total;
-                cardData.damage.type = await SR5_DiceHelper.chooseDamageType();
+                cardData.damage.type = await SR5_CombatHelpers.chooseDamageType();
                 if (cardData.target.hasTarget) cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.format('SR5.HealButtonFailed', {hits: cardData.damage.value, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.damage.type]))})}`);
                 else cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("opposedTest", "damage", `${game.i18n.format('SR5.HealButtonFailed', {hits: cardData.damage.value, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.damage.type]))})}`);
             } else if (cardData.roll.hits > 2) {

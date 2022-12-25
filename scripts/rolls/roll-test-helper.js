@@ -92,4 +92,41 @@ export class SR5_RollTestHelper {
         if (dialogData.limit.value < 0) dialogData.limit.value = 0;
         return dialogData;
     }
+
+    // Update an item after a roll
+    static async updateItemAfterRoll(cardData) {
+        let item = await fromUuid(cardData.owner.itemUuid);
+        let newItem = duplicate(item);
+        let firedAmmo = cardData.combat.ammo.fired;
+        
+        //update weapon ammo
+        if (!firedAmmo) firedAmmo = 1;
+        if (newItem.type === "itemWeapon" && newItem.system.category === "rangedWeapon") {
+            newItem.system.ammunition.value -= firedAmmo;
+            if (newItem.system.ammunition.value < 0) newItem.system.ammunition.value = 0;           
+        }
+        //update force and hits
+        if (newItem.type === "itemSpell" || newItem.type === "itemPreparation" || newItem.type === "itemAdeptPower") {
+            newItem.system.hits = cardData.roll.hits;
+            newItem.system.force = cardData.magic.force;
+        }
+        //update level and hits
+        if (newItem.type === "itemComplexForm") {
+            newItem.system.hits = cardData.roll.hits;
+            newItem.system.level = cardData.matrix.level;
+        }
+        //Update net hits
+        if (newItem.type === "itemRitual") {
+            newItem.system.force = cardData.magic.force;
+            newItem.system.hits = cardData.roll.hits;
+            newItem.system.netHits = cardData.previousMessage.hits - cardData.roll.hits;
+            if (newItem.system.netHits < 0) newItem.system.netHits = 0;
+        }
+        //updateCharge
+        if (newItem.type === "itemGear"){
+            newItem.system.charge -= 1;
+        }
+
+        item.update(newItem);
+    }
 }

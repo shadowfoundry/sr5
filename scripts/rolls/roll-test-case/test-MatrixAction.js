@@ -1,7 +1,7 @@
 import { SR5 } from "../../config.js";
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
-import { SR5_DiceHelper } from "../diceHelper.js";
+import { SR5_MatrixHelpers } from "../roll-helpers/matrix.js";
 
 export default async function matrixActionInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
@@ -11,7 +11,7 @@ export default async function matrixActionInfo(cardData, actorId){
 	//Matrix search special case
 	if (cardData.test.typeSub === "matrixSearch"){
 		let netHits = cardData.roll.hits - cardData.threshold.value;
-		cardData.matrix.searchDuration = await SR5_DiceHelper.getMatrixSearchDuration(cardData, netHits);
+		cardData.matrix.searchDuration = await SR5_MatrixHelpers.getMatrixSearchDuration(cardData, netHits);
 		if (netHits <=0) {
 			netHits = 1;
 			cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.MatrixSearchFailed"));
