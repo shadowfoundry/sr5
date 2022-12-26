@@ -2,6 +2,8 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5 } from "../../config.js";
 import { SR5_ConverterHelpers } from "../roll-helpers/converter.js";
+import { SR5_RollTest } from "../roll-test.js";
+import { SR5_PrepareRollTest } from "../roll-prepare.js";
 
 export default async function defenseInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
@@ -15,6 +17,9 @@ export default async function defenseInfo(cardData, actorId){
             return ui.notifications.info(game.i18n.localize("SR5.INFO_NeedAtLeastThreeNetHits"));
         }
     }
+
+    //Handle Energetic Aura
+	if (actorData.specialProperties?.energyAura !== "" && cardData.test.typeSub === "meleeWeapon") await handleEnergeticAura(cardData, actorData);
 
     //If Defenser win, return
     if (cardData.roll.netHits <= 0) {
@@ -66,7 +71,7 @@ export default async function defenseInfo(cardData, actorId){
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.VehicleArmorResistance"));
             return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`);
         }
-        if (actorData.attributes.armor.augmented.value >= cardData.damage.value) {
+        if (actorData.attributes.armor.augmented.value >= cardData.damage.value && cardData.test.type !== "rammingDefense") {
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.VehicleArmorResistance"));
             return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: actorData.attributes.armor.augmented.value, damage:cardData.damage.value})}`); //
         }
@@ -88,6 +93,7 @@ export default async function defenseInfo(cardData, actorId){
 
 async function handleCalledShotDefenseInfo(cardData, actorData){
     cardData.chatCard.calledShotButton = true;
+    let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
     if (typeof cardData.combat.calledShot.effects === "object") cardData.combat.calledShot.effects = Object.values(cardData.combat.calledShot.effects);
 
     switch (cardData.combat.calledShot.name){
@@ -97,11 +103,11 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
             cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`);
             break;
         case "disarm":
-            if ((cardData.roll.netHits + cardData.attackerStrength) > actorData.limits.physicalLimit.value) cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.Disarm"));
+            if ((cardData.roll.netHits + attacker.system.attributes.strength.augmented.value) > actorData.limits.physicalLimit.value) cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.Disarm"));
             else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDisarm"));
             break;
         case "knockdown":
-            if ((cardData.roll.netHits + cardData.attackerStrength) > actorData.limits.physicalLimit.value) {
+            if ((cardData.roll.netHits + attacker.system.attributes.strength.augmented.value) > actorData.limits.physicalLimit.value) {
                 cardData.combat.calledShot.effects = {"0": {"name": "prone",}};
                 cardData.damage.value = 0;				
                 cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`);
@@ -135,6 +141,15 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
             cardData.chatCard.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseThroughAndInto",game.i18n.localize("SR5.DefendSecondTarget"));
             cardData.chatCard.calledShotButton = false;
             break;
+        case "entanglement":
+            cardData.combat.calledShot.effects = {
+                "0": {
+                    "name": "entanglement",
+                    "netHits": cardData.roll.netHits,
+                }
+            };
+            cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect", `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`);
+            break;
         default:
             cardData.chatCard.calledShotButton = false;
     }
@@ -163,20 +178,48 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
 }
 
 async function handleRamming(cardData, actorData) {
-    //Update previous message to remove defense
-    await game.messages.get(cardData.previousMessage.messageId).update({ [`flags.sr5data.chatCard.buttons.-=rammingDefense`]: null });
+    //Get the attacker actor
+    let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
 
-    //Update previous message with info for accident and vehicle test
-    let rammingMessage = duplicate(game.messages.get(cardData.previousMessage.messageId));
-    let rammingData = rammingMessage.flags.sr5data;
-    rammingData.damage.base = SR5_ConverterHelpers.speedToAccidentValue(cardData.owner.speed, actorData.attributes.body.augmented.value);
-    rammingData.damage.value = rammingMessage.flags.sr5data.damage.base;
-    rammingData.damage.resistanceType = "physicalDamage";
-    rammingData.target.actorId = null;
-    rammingData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "resistanceCard", `${game.i18n.localize("SR5.ResistAccident")} (${rammingData.damage.value})`);
-    rammingData.chatCard.buttons.vehicleTest = SR5_RollMessage.generateChatButton("nonOpposedTest", "vehicleTest", `${game.i18n.localize("SR5.VehicleTest")} (2)`);
-    await SR5_RollMessage.updateRollCard(cardData.previousMessage.messageId, rammingData);
+    //build roll data
+    let rollData = SR5_PrepareRollTest.getBaseRollData(null, attacker);
+    rollData.test.type = "falseTest";
+    rollData.test.typeSub = "accident";
+    rollData.test.title = game.i18n.localize("SR5.CrashDamageResistance");
+    rollData.damage.base = SR5_ConverterHelpers.speedToAccidentValue(cardData.owner.speed, actorData.attributes.body.augmented.value);
+    rollData.damage.value = rollData.damage.base;
+    rollData.damage.type = "physical";
+    rollData.damage.resistanceType = "physicalDamage";
+    rollData.target.actorId = null;
+    rollData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "resistanceCard", `${game.i18n.localize("SR5.ResistAccident")} (${rollData.damage.value})`);
+    rollData.chatCard.buttons.vehicleTest = SR5_RollMessage.generateChatButton("nonOpposedTest", "vehicleTest", `${game.i18n.localize("SR5.VehicleTest")} (2)`);
+    
+    // roll a fake test and render chat message
+    rollData.roll = await SR5_RollTest.rollDice({ dicePool: 0 });
+    SR5_RollTest.renderRollCard(rollData);
 
     //Add vehicle test to defender chat Message
     cardData.chatCard.buttons.vehicleTest = SR5_RollMessage.generateChatButton("nonOpposedTest", "vehicleTest", `${game.i18n.localize("SR5.VehicleTest")} (3)`);
+}
+
+async function handleEnergeticAura(cardData, actorData){
+    //Get the attacker actor
+    let attacker = SR5_EntityHelpers.getRealActorFromID(cardData.previousMessage.actorId);
+    
+    //build roll data
+    let rollData = SR5_PrepareRollTest.getBaseRollData(null, attacker);
+    rollData.test.type = "falseTest";
+    rollData.test.typeSub = "energeticAura";
+    rollData.test.title = game.i18n.localize("SR5.SpiritPowerEnergyAura");
+    rollData.damage.base = actorData.specialAttributes.magic.augmented.value * 2;
+    rollData.damage.value = rollData.damage.base;
+    rollData.damage.type = "physical";
+    rollData.damage.resistanceType = "physicalDamage";
+    rollData.damage.source = "magical";
+    rollData.combat.armorPenetration = -actorData.specialAttributes.magic.augmented.value;
+    rollData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard", `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${rollData.damage.value}${game.i18n.localize(SR5.damageTypesShort[rollData.damage.type])}  / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${rollData.combat.armorPenetration}`);
+
+    // roll a fake test and render chat message
+    rollData.roll = await SR5_RollTest.rollDice({ dicePool: 0 });
+    SR5_RollTest.renderRollCard(rollData);
 }

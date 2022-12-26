@@ -154,6 +154,7 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.registeringResistance(rollData, actor, chatData);
                 break;
             case "resonanceAction":
+                if (game.user.targets.size) rollData = await SR5_PrepareRollHelper.getTargetData(rollData);
                 rollData = await SR5_GetRollData.resonanceAction(rollData, rollKey, actor);
                 break;
             case "resistanceCard":

@@ -116,8 +116,9 @@ export class SR5_RollMessage {
             if (actor == null) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`);
         } else if (action === "nonOpposedTest" && messageData) {
             //if (!game.user.isGM && speaker.actor !== messageData.owner.actorId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
-            if (messageData.target.actorId) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
-            else actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
+            //if (messageData.target.actorId) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
+            //else 
+            actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
         }
 
         // If there is a matrix action Author, get the Actor to do stuff with him later
@@ -378,7 +379,7 @@ export class SR5_RollMessage {
             case "escapeEngulfDefense":
             case "weaponResistance":
                 SR5_ThirdPartyHelpers.createItemResistance(messageData, messageId);
-                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                //SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "desactivateFocus":
                 SR5_ThirdPartyHelpers.desactivateFocus(messageData);

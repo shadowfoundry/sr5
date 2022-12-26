@@ -363,8 +363,9 @@ export class SR5_RollTest {
 		};
 
 		console.log(chatData.flags.sr5data);
+
 		//Handle Dice so Nice
-		await SR5_RollTest.showDiceSoNice(cardData.roll.originalRoll, cardData.roll.rollMode);
+		if (cardData.roll.originalRoll) await SR5_RollTest.showDiceSoNice(cardData.roll.originalRoll, cardData.roll.rollMode);
 
 		//Create chat message
 		ChatMessage.create(chatData);

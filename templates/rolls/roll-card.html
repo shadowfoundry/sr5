@@ -5,6 +5,7 @@
     	</div>
   	</header>
 
+	{{#if (ne test.type 'falseTest')}}
   	<div class="SR-CardContent owner">
     	<ul>
 		<li>
@@ -60,8 +61,10 @@
 		{{/if}}
 		</ul>
   	</div>
+	{{/if}}
 
 	<div class="SR-CardButton">
+		{{#if (ne test.type 'falseTest')}}
 		<div class="SR-CardButtonHit grid">
 		<div class="col-2">
 			{{#if chatCard.canEditResult}}
@@ -102,13 +105,14 @@
 				{{/if_g}}
 			</div>
 		</div>
-		<div class="col-2">
-			{{#if (and edge.canUseEdge (ne test.type 'preparation'))}}
-			<a class="messageAction owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
-			<a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>	
-			{{/if}}
+			<div class="col-2">
+				{{#if (and edge.canUseEdge (ne test.type 'preparation'))}}
+				<a class="messageAction owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
+				<a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>	
+				{{/if}}
+			</div>
 		</div>
-		</div>
+		{{/if}}
 
 		<div id="srButtonTest"></div>
 

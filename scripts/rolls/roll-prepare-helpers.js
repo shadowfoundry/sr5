@@ -107,7 +107,7 @@ export class SR5_PrepareRollHelper {
     //Get Cumulative defense 
     static handleCumulativeDefense(rollData, actor){
         let cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
-        if(cumulativeDefense !== null) {
+        if(cumulativeDefense !== undefined) {
             actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
             rollData.dicePool.modifiers.cumulativeDefense = {};
             rollData.dicePool.modifiers.cumulativeDefense.value = -cumulativeDefense;

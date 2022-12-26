@@ -70,6 +70,7 @@ export default async function weapon(rollData, actor, item){
     rollData.combat.range.medium = itemData.range.medium.value;
     rollData.combat.range.long = itemData.range.long.value;
     rollData.combat.range.extreme = itemData.range.extreme.value;
+    rollData.combat.weaponType = itemData.type;
 
     //Special case for engulf
     if (itemData.systemEffects.length){

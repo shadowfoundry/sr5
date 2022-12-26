@@ -844,6 +844,7 @@ SR5.calledShots = {
 	upTheAnte                 : "SR5.CS_AS_UpTheAnte",
 	harderKnock               : "SR5.CS_HarderKnock",
 	vitals                    : "SR5.CS_Vitals",
+	breakWeapon				  : "SR5.CS_BreakWeapon",
 };
 
 SR5.calledShotsSpecifics = {  

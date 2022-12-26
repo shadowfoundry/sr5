@@ -156,17 +156,6 @@ async function handleCalledShotResistanceInfo(cardData, actor){
                 cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`);
             }
             break;
-        case "entanglement":
-            if (cardData.roll.netHits > 0){
-                cardData.combat.calledShot.effects = {
-                    "0": {
-                        "name": "entanglement",
-                        "netHits": cardData.roll.netHits,
-                    }
-                };
-                cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect", `${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`);
-            }
-            break;
         case "splittingDamage":
             let originalDamage = cardData.damage.value;
             cardData.damage.splittedOne = Math.ceil(originalDamage/2);

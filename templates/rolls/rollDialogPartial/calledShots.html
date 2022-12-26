@@ -1,3 +1,4 @@
+{{log this}}
 <li class="grid">
     <div class="col-4">{{localize 'SR5.CS_CalledShots'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7 SR-TextRight" id="calledShot">
@@ -28,10 +29,10 @@
             {{#if (and (or (eq combat.ammo.type "special") (eq combat.ammo.type "bolt") (eq combat.ammo.type "boltInjection") (eq combat.ammo.type "arrow") (eq combat.ammo.type "arrowInjection")) combat.calledShot.martialArts.pin)}} 
             <option value="pin">{{localize 'SR5.CS_Pin'}}</option>
             {{/if}}                          
-            {{#if (and (eq typeWeapon "unarmed") combat.calledShot.martialArts.disarm)}}              
+            {{#if (and (eq combat.weaponType "unarmed") combat.calledShot.martialArts.disarm)}}              
             <option value="disarm">{{localize 'SR5.CS_Disarm'}}</option>
             {{/if}} 
-            {{#if (and (or (eq typeWeapon "exoticRangedWeapon")(eq typeWeapon "exoticMeleeWeapon")) combat.calledShot.martialArts.entanglement)}}  
+            {{#if (and (or (eq combat.weaponType "exoticRangedWeapon")(eq combat.weaponType "exoticMeleeWeapon")) combat.calledShot.martialArts.entanglement)}}  
             <option value="entanglement">{{localize 'SR5.CS_Entanglement'}}</option>
             {{/if}}
             <option value="shakeUp">
@@ -49,7 +50,7 @@
             <option value="knockdown">{{localize 'SR5.CS_Knockdown'}}</option>
             {{/if}}
             <option value="trickShot">{{localize 'SR5.CS_TrickShot'}}</option>
-            {{#if (and (eq test.typeSub "meleeWeapon") (eq typeWeapon "unarmed") )}}
+            {{#if (and (eq test.typeSub "meleeWeapon") (eq combat.weaponType "unarmed") )}}
             <option value="reversal">{{localize 'SR5.CS_Reversal'}}</option>
             {{/if}}
             <option value="vitals">{{localize 'SR5.CS_Vitals'}}</option>

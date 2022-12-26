@@ -74,6 +74,7 @@ export class SR5_EffectArea {
         } else {
             activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorId);
         }
+        if (!activeToken) return;
         let jamEffect =  activeActor.items.find(i => i.system.type === "signalJam" && i.system.ownerID === activeActor.id);
 
         for (let token of canvas.tokens.placeables){
@@ -92,6 +93,7 @@ export class SR5_EffectArea {
     static async onJamEnd(actorId){
         if (!canvas.scene) return;
         let activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorId);
+        if (!activeToken) return;
         for (let token of canvas.tokens.placeables){
             if (token.id !== activeToken.id){
                 let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id);

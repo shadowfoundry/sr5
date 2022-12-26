@@ -4,6 +4,7 @@ import { SR5_PrepareRollHelper } from "./roll-prepare-helpers.js";
 import { SR5_ConverterHelpers } from "./roll-helpers/converter.js";
 import { SR5_CombatHelpers } from "./roll-helpers/combat.js";
 import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js";
+import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js";
 
 export default class SR5_RollDialog extends Dialog {
 

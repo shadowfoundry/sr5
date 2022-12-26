@@ -143,8 +143,14 @@ export class SR5_ThirdPartyHelpers {
 
         //Weapon break Resistance
         else if (cardData.test.type === "defense"){
-            let dialogData = {list: SR5.barrierTypes},
-                barrierType,
+            let activeWeapons = actor.items.filter(i => i.type === "itemWeapon" && i.system.isActive);
+            if (activeWeapons.length === 0) return ui.notifications.warn(game.i18n.localize('SR5.WARN_NoEquippedWeapon'));
+
+            let dialogData = {
+                    list: SR5.barrierTypes,
+                    weaponList: activeWeapons,
+                },
+                barrierType, weapon,
                 cancel = true;
             
             await new Promise((resolve, reject) => {
@@ -166,6 +172,7 @@ export class SR5_ThirdPartyHelpers {
                     close: (html) => {
                         if (cancel) return;
                         barrierType = html.find("[name=barrierType]").val();
+                        weapon = html.find("[name=weapon]").val();
                         resolve(barrierType);
                     },
                     }).render(true);
@@ -181,9 +188,11 @@ export class SR5_ThirdPartyHelpers {
                 {source: game.i18n.localize("SR5.Armor"), type: "linkedAttribute", value: armor},
                 {source: game.i18n.localize("SR5.Structure"), type: "linkedAttribute", value: structure},
             ]);
-
+            rollData.damage.value = cardData.damage.value;
             rollData.test.type = "weaponResistance";
             rollData.combat.structure = structure;
+            rollData.target.itemUuid = weapon;
+            rollData.target.actorId = cardData.owner.actorId;
         }
 
         rollData.roll = await SR5_RollTest.rollDice({ dicePool: rollData.dicePool.value });
@@ -262,7 +271,7 @@ export class SR5_ThirdPartyHelpers {
             key = "hits";
 
         if (targetedEffect.type ==="itemPreparation") key = "potency";
-        newEffect[key] += cardData.roll.netHits;
+        newEffect[key] -= cardData.roll.netHits;
 
         //If item hits are reduce to 0, delete it
         if (newEffect[key] <= 0){
@@ -320,9 +329,9 @@ export class SR5_ThirdPartyHelpers {
     }
 
     static async applyEffectToItem(info, type){
-        let item = await fromUuid(info.targetItem);
+        let item = await fromUuid(info.target.itemUuid);
         item = item.toObject(false);
-        let actor = SR5_EntityHelpers.getRealActorFromID(info.actorId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(info.target.actorId);
         let effect;
 
         if (type === "decreaseAccuracy"){
