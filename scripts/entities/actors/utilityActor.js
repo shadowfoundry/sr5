@@ -160,6 +160,12 @@ export class SR5_CharacterUtility extends Actor {
 			}
 		}
 
+		if (actorData.itemsProperties?.martialArts){
+			for (let key of Object.keys(SR5.calledShotsMartialArts)){
+				actorData.itemsProperties.martialArts[key].isActive = false;
+			}
+		}
+
 		// Reset Essence
 		if (actorData.essence) {
 			actorData.essence.value = 0;

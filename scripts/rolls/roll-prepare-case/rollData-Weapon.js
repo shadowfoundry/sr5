@@ -196,17 +196,8 @@ async function checkIfTargetIsInTemplate(actor, targetActor, areaEffect){
 }
 
 async function handleMartialArtsCalledShot(rollData, actor){
-    if (actor.items.find((item) => item.type === "itemMartialArt")) {
-        let martialArts = actor.items.filter(i => i.type === "itemMartialArt" && i.system.isActive && i.system.calledShot !== "");
-        if (martialArts.length){
-            for (let m of martialArts){
-                if (m.system.calledShot === "pin") rollData.combat.calledShot.martialArts.pin = true;
-                if (m.system.calledShot === "disarm") rollData.combat.calledShot.martialArts.disarm = true;
-                if (m.system.calledShot === "entanglement") rollData.combat.calledShot.martialArts.entanglement = true;
-                if (m.system.calledShot === "breakWeapon") rollData.combat.calledShot.martialArts.breakWeapon = true;
-                if (m.system.calledShot === "feint") rollData.combat.calledShot.martialArts.feint = true;
-            }
-        }
+    for (let [key, value] of Object.entries(actor.system.itemsProperties.martialArts)){
+        if (value.isActive) rollData.combat.calledShot.martialArts[key] = true;
     }
     return rollData;
 }

@@ -80,6 +80,7 @@
 					</optgroup>
 					<optgroup label="{{localize 'SR5.OtherCategories'}}">
 						<option value="reputationTypes">{{localize 'SR5.CharacterReputation'}}</option>
+						<option value="martialArts">{{localize 'SR5.MartialArts'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Special'}}">
 						<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
@@ -356,6 +357,12 @@
 						<option value="system.attributes.{{@key}}.augmented">{{localize this}} [{{localize 'SR5.Augmented'}}]</option>
 					</optgroup>
 					{{/each}}
+
+					{{else ife category 'martialArts'}}
+					{{#each ../lists.calledShotsMartialArts}}
+					<option value="system.itemsProperties.martialArts.{{@key}}.isActive">{{localize this}}</option>
+					{{/each}}
+
 					{{/ife}}
 
 					{{/select}}

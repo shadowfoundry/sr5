@@ -3173,6 +3173,23 @@
               "base": 0,
               "modifiers": []
             }
+          },
+          "martialArts":{
+            "breakWeapon": {
+              "isActive": false
+            },
+            "disarm": {
+              "isActive": false
+            },
+            "entanglement": {
+              "isActive": false
+            },
+            "feint": {
+              "isActive": false
+            },
+            "pin": {
+              "isActive": false
+            }
           }
         }
       },
@@ -6165,9 +6182,7 @@
         "base": 0,
         "modifiers": []
       },
-      "targetOfEffect":[],
-      "needcalledShot": false,
-      "calledShot": ""
+      "targetOfEffect":[]
     },
     "itemMetamagic": {
       "templates": [

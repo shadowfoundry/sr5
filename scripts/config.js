@@ -1500,6 +1500,14 @@ SR5.martialArtsTypes = {
 	wudangsword               : "SR5.martialArtsTypewudangsword",
 };
 
+SR5.calledShotsMartialArts = {
+	breakWeapon				  : "SR5.CS_BreakWeapon",
+	disarm 					  : "SR5.CS_Disarm",
+	entanglement			  : "SR5.CS_Entanglement",
+	feint					  : "SR5.CS_Feint",
+	pin 					  : "SR5.CS_Pin",
+}
+
 //-----------------------------------//
 //             MATRIX                //
 //-----------------------------------//
