@@ -4,7 +4,7 @@
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModSpiritType" data-modifier="spiritType">
             {{#ifne actorTradition ''}}
             {{#select espritType}}
-                {{#each elements}}
+                {{#each magic.elements}}
                 <option value="{{this}}">{{findTranslation "spiritTypes" this}}</option>
                 {{/each}}
             {{/select}}

@@ -7,18 +7,18 @@
     <div class="col-8 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="recoil" data-modifier="firingMode">
             {{#select firingMode}}
-                {{#if firingMode.singleShot}}
+                {{#if combat.firingMode.singleShot}}
                 <option value="SS">{{localize 'SR5.WeaponModeSS'}} ({{localize 'SR5.WeaponModeSSShort'}}) [-1 {{localize 'SR5.Bullet'}}]</option>
                 {{/if}}
-                {{#if firingMode.semiAutomatic}}
+                {{#if combat.firingMode.semiAutomatic}}
                 <option value="SA">{{localize 'SR5.WeaponModeSA'}} ({{localize 'SR5.WeaponModeSAShort'}}) [-1 {{localize 'SR5.Bullet'}}]</option>
                 <option value="SB">{{localize 'SR5.WeaponModeSB'}} ({{localize 'SR5.WeaponModeSBShort'}}) [-3 {{localize 'SR5.Bullets'}}]</option>
                 {{/if}}
-                {{#if firingMode.burstFire}}
+                {{#if combat.firingMode.burstFire}}
                 <option value="BF">{{localize 'SR5.WeaponModeBF'}} ({{localize 'SR5.WeaponModeBFShort'}}) [-3 {{localize 'SR5.Bullets'}}]</option>
                 <option value="LB">{{localize 'SR5.WeaponModeLB'}} ({{localize 'SR5.WeaponModeLBShort'}}) [-6 {{localize 'SR5.Bullets'}}]</option>
                 {{/if}}
-                {{#if firingMode.fullyAutomatic}}
+                {{#if combat.firingMode.fullyAutomatic}}
                 <option value="FA">{{localize 'SR5.WeaponModeFA'}} ({{localize 'SR5.WeaponModeFAShort'}}) [-6 {{localize 'SR5.Bullets'}}]</option>
                 <option value="FAc">{{localize 'SR5.WeaponModeFA'}} ({{localize 'SR5.WeaponModeFAShort'}}) [-10 {{localize 'SR5.Bullets'}}]</option>
                 <option value="SF">{{localize 'SR5.WeaponModeSF'}} ({{localize 'SR5.WeaponModeSFShort'}}) [-20 {{localize 'SR5.Bullets'}}]</option>

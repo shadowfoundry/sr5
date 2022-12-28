@@ -1,6 +1,3 @@
-import { SR5_EntityHelpers } from "../entities/helpers.js";
-import { SR5_DiceHelper } from "../rolls/diceHelper.js";
-
 export default class SR5_SpendDialog extends Dialog {
     
     static get defaultOptions() {

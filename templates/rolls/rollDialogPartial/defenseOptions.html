@@ -3,12 +3,12 @@
 </li>
 
 <!-- DEFENSE - FIRING MODE -->
-{{#if (eq typeSub "rangedWeapon")}}
+{{#if (eq test.typeSub "rangedWeapon")}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
 {{/if}}
 
 <!-- ACTIVE DEFENSE -->
-{{#if (or (eq typeSub "meleeWeapon")(eq typeSub "ramming"))}}
+{{#if (or (eq test.typeSub "meleeWeapon")(eq test.typeSub "ramming"))}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
 {{/if}}
 
@@ -24,11 +24,11 @@
 {{/if}}
 
 <!-- COVERS -->
-{{#if cover}}
+{{#if dialogSwitch.cover}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/coverModifier.html}}
 {{/if}}
 
 <!-- FULL DEFENSE -->
-{{#if defenseFull}}
+{{#if (gt combat.activeDefenses.full 0)}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
 {{/if}}

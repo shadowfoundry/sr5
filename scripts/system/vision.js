@@ -44,7 +44,7 @@ class DetectionModeBasicSightSR extends DetectionModeBasicSight {
 		const tgt = target?.document;
 		if ((tgt instanceof TokenDocument)) {
 			//check if target has astral effect and hide it if true;
-			detected = tgt.actor.effects.find(e => e.flags.core.statusId === "astralInit");
+			detected = tgt.actor?.effects?.find(e => e.flags.core.statusId === "astralInit");
 			return !detected;
 		} else return true;
 	}

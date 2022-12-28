@@ -1,15 +1,16 @@
 <div class="sr5 chat-card item-card" data-actor-id="{{actor.id}}" data-item-id="{{item.id}}" data-token-id="{{tokenId}}">
 	<header class="SR-CardHeader flexrow" title="{{localize 'SR5.ClickForDetails'}}">
     	<div class="SR-CardHeaderTitle grid">
-      		<div class="col-auto align-self-center">{{title}}</div>
+      		<div class="col-auto align-self-center">{{test.title}}</div>
     	</div>
   	</header>
 
+	{{#if (ne test.type 'falseTest')}}
   	<div class="SR-CardContent owner">
     	<ul>
 		<li>
 			<div class="SR-CardDices">
-			{{#each test.dices as |dice d|}}
+			{{#each roll.dices as |dice d|}}
 				{{#if dice.success}}
 				<div class="SR-Dice succes {{#if dice.exploded}}exploded{{/if}} {{#if dice.edge}}edge{{/if}}">{{dice.result}}</div>
 				{{else}}
@@ -26,98 +27,97 @@
 		<!--Dicepool Mod-->
 		{{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.html}}
 		<!--Attack Infos-->
-		{{#if (or (eq type 'attack')(eq type 'rammingTest')(eq type 'accidentCard'))}}
+		{{#if (or (eq test.type 'attack')(eq test.type 'ramming')(eq test.type 'accidentCard'))}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
 		{{/if}}
 		<!--Drain info-->
-		{{#if (or (eq type 'spell') (eq type 'preparationFormula') (eq type 'ritualResistance'))}}
+		{{#if (or (eq test.type 'spell') (eq test.type 'preparationFormula') (eq test.type 'ritualResistance'))}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.html}}
 		{{/if}}
 		<!--Summoning info-->
-		{{#if (or (eq typeSub 'summoning') (eq typeSub 'compileSprite') )}}
+		{{#if (or (eq test.typeSub 'summoning') (eq test.typeSub 'compileSprite') )}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html}}
 		{{/if}}
 		<!--Matrix damage info-->
-		{{#if (eq typeSub 'dataSpike')}}
+		{{#if (eq test.typeSub 'dataSpike')}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
 		{{/if}}
-		{{#if (and (eq type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
+		{{#if (and (eq test.type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
 		{{/if}}
 		<!--Limit info-->
-		{{#if test.limit}}
+		{{#if (gt limit.value 0)}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
 		{{/if}}
 		<!--Assensing info-->
-		{{#if (eq typeSub 'assensing')}}
+		{{#if (eq test.typeSub 'assensing')}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html}}
 		{{/if}}
 		<!--Threshold infos-->
-		{{#if (or (eq typeSub 'escapeArtist') (and (eq typeSub 'perception') (ne thresholdType 'opposed')) (eq typeSub 'survival') (gt threshold 0))}}
-			{{#unless opposedSkillTest}}
+		{{#if (gt threshold.value 0)}} <!--//(or (eq test.typeSub 'escapeArtist') (and (eq test.typeSub 'perception') (ne thresholdType 'opposed')) (eq test.typeSub 'survival') -->
+			{{#unless test.isOpposed}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/threshold.html}}
 			{{/unless}}
 		{{/if}}
 		</ul>
   	</div>
+	{{/if}}
 
 	<div class="SR-CardButton">
+		{{#if (ne test.type 'falseTest')}}
 		<div class="SR-CardButtonHit grid">
 		<div class="col-2">
-			{{#if editResult}}
+			{{#if chatCard.canEditResult}}
 				<a class="chat-button-gm edit-toggle" title="{{localize 'SR5.EditResult'}}"><i class="fas fa-edit"></i></a>
 			{{/if}}
-			{{#if templatePlace}}
+			{{#if chatCard.templatePlace}}
 				<a class="messageAction owner" title="{{localize 'SR5.PlaceTemplate'}}" data-action="nonOpposedTest" data-type="templatePlace"><i class="fas fa-bullseye"></i></a>
 			{{/if}}
-			{{#if templateRemove}}
+			{{#if chatCard.templateRemove}}
 				<a class="messageAction owner" title="{{localize 'SR5.RemoveTemplate'}}" data-action="nonOpposedTest" data-type="templateRemove"><i class="fas fa-ban"></i></a>
 			{{/if}}
 		</div>
 		<div class="col-8">
 			<div class="display-toggle" style="display: none;">
-				<input class="card-edit" data-edit-type="hits" value="{{test.hits}}">{{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
+				<input class="card-edit" data-edit-type="hits" value="{{roll.hits}}">{{ifmto roll.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
 			</div>
 			<div class="display-toggle">
-				{{test.hits}} {{ifmto test.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
-				{{#if test.glitchRoll}}
+				{{roll.hits}} {{ifmto roll.hits 'SR5.DiceHits' 'SR5.DiceHit'}}
+				{{#if roll.glitchRoll}}
 					({{localize 'SR5.Glitch'}})
 				{{/if}}
-				{{#if test.criticalGlitchRoll}}
+				{{#if roll.criticalGlitchRoll}}
 					({{localize 'SR5.GlitchCritical'}})
 				{{/if}}
-				{{#ife type "lift"}}
-					({{weightTotal}}{{localize 'SR5.KilogramUnit'}})
+				{{#ife test.type "lift"}}
+					({{various.weightTotal}}{{localize 'SR5.KilogramUnit'}})
 				{{/ife}}
-				{{#ife type "movement"}}
-					({{movementTotal}} {{unit}})
+				{{#ife test.type "movement"}}
+					({{various.movementTotal}} {{various.unit}})
 				{{/ife}}
-				{{#if_g extendedRoll 0}}
-					[{{extendedIntervalValue}} 
-					{{#if_g extendedIntervalValue 1}}
-					{{findTranslation 'extendedIntervals' extendedInterval}}]
+				{{#if_g test.extended.roll 0}}
+					[{{test.extended.intervalValue}} 
+					{{#if_g test.extended.intervalValue 1}}
+					{{findTranslation 'extendedIntervals' test.extended.interval}}]
 					{{else}}
-					{{findTranslation 'extendedInterval' extendedInterval}}]
+					{{findTranslation 'extendedIntervals' test.extended.interval}}]
 					{{/if_g}}
 				{{/if_g}}
 			</div>
 		</div>
-		<div class="col-2">
-			{{#if (or (eq secondeChanceUsed true) (eq type 'preparation'))}}
-			{{else}}
+			<div class="col-2">
+				{{#if (and edge.canUseEdge (ne test.type 'preparation'))}}
 				<a class="messageAction owner" data-action="nonOpposedTest" data-type="secondeChance" title="{{localize 'SR5.SecondChance'}}"><i class="fas fa-dice"></i></a>
-			{{/if}}
-			{{#if (or (eq pushLimitUsed true) (eq type 'preparation'))}}
-			{{else}}
-				<a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>
-			{{/if}}
+				<a class="messageAction owner" data-action="nonOpposedTest" data-type="pushLimit" title="{{localize 'SR5.PushTheLimit'}}"><i class="fas fa-bomb"></i></a>	
+				{{/if}}
+			</div>
 		</div>
-		</div>
+		{{/if}}
 
 		<div id="srButtonTest"></div>
 
 		<!-- EXTENDED TEST -->
-		{{#if extendedTest}}
+		{{#if test.isExtended}}
 			<button class="messageAction nonOpposedTest chat-button-owner" data-action="nonOpposedTest" data-type="extended">{{localize 'SR5.NewRoll'}}</button>
 		{{/if}}
 	</div>

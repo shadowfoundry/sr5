@@ -549,7 +549,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			let rollData = {
 				drainValue:  item.system.drainValue.value,
 			}
-			this.actor.rollTest("drainCard", null, rollData);
+			this.actor.rollTest("drain", null, rollData);
 		}
 
 		if (item.system.accessory?.length){
@@ -587,11 +587,11 @@ export class ActorSheetSR5 extends ActorSheet {
 
 				//faire un truc là pour dégager le template
 				if (item.system.range === "area" && !item.system.resisted){
-					let messageID = null;
+					let messageId = null;
 					for (let m of game.messages){
-						if(m.flags.sr5data?.itemId === item._id && m.flags.sr5data?.templateRemove) messageID = m.id;
+						if(m.flags.sr5data?.itemId === item._id && m.flags.sr5data?.templateRemove) messageId = m.id;
 					}
-					await SR5_RollMessage.removeTemplate(messageID, item._id);
+					await SR5_RollMessage.removeTemplate(messageId, item.uuid);
 				}
 				
 			}
@@ -721,7 +721,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		event.preventDefault();
 		const iid = event.currentTarget.closest(".item").dataset.itemId;
 		const item = this.actor.items.get(iid);
-		item.placeGabarit(event);
+		await item.placeGabarit();
 	}
 
 	/* -------------------------------------------- */

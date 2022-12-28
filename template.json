@@ -3173,6 +3173,23 @@
               "base": 0,
               "modifiers": []
             }
+          },
+          "martialArts":{
+            "breakWeapon": {
+              "isActive": false
+            },
+            "disarm": {
+              "isActive": false
+            },
+            "entanglement": {
+              "isActive": false
+            },
+            "feint": {
+              "isActive": false
+            },
+            "pin": {
+              "isActive": false
+            }
           }
         }
       },
@@ -3993,6 +4010,11 @@
                 "dicePool": 0,
                 "base": 0,
                 "modifiers": []
+              },
+              "limit": {
+                "base": "socialLimit",
+                "value": 0,
+                "modifiers": []
               }
             },
             "eraseResonanceSignature": {
@@ -4020,6 +4042,11 @@
               "test": {
                 "dicePool": 0,
                 "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": "mentalLimit",
+                "value": 0,
                 "modifiers": []
               }
             },
@@ -5847,7 +5874,8 @@
       "isLinkedToFocus": false,
       "isUsedAsFocus": false,
       "isLinkedToMount": false,
-      "isUsedAsMount": false
+      "isUsedAsMount": false,
+      "isMagical": false
     },
     "itemArmor": {
       "templates": [
@@ -5911,9 +5939,16 @@
       ],
       "type": "",
       "linkedAttribute": "",
-      "value": 0,
-      "base": 0,
-      "modifiers": []
+      "rating": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
     },
     "itemContact": {
       "templates": [
@@ -6113,9 +6148,16 @@
       "templates": [
         "templateDescription"
       ],
-      "value": 0,
-      "base": 0,
-      "modifiers": [],
+      "rating": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "test": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
       "isNative": false
     },
     "itemMark": {
@@ -6140,9 +6182,7 @@
         "base": 0,
         "modifiers": []
       },
-      "targetOfEffect":[],
-      "needcalledShot": false,
-      "calledShot": ""
+      "targetOfEffect":[]
     },
     "itemMetamagic": {
       "templates": [

@@ -61,7 +61,7 @@
 			</div>
 			{{#if ../system.initiatives.astralInit.isActive}}
 				{{#if system.isLinkedToFocus}}
-				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="astralWeapon"
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="weaponAstral"
 				  data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
 				  data-helpDetailsItem="system.weaponSkill" data-helpItemId="{{_id}}">
 					  {{system.weaponSkill.dicePool}}
@@ -74,7 +74,7 @@
 				{{/if}}
 			{{else}}
 				{{#if (and system.isUsedAsFocus ../system.visions.astral.isActive)}}
-				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="astralWeapon"
+				<div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="weaponAstral"
 				data-helpTitle="{{localize 'SR5.DicePool'}}" data-helpMessage="{{localize 'SR5.HELP_AttackRollMsg'}}"
 				data-helpDetailsItem="system.weaponSkill" data-helpItemId="{{_id}}">
 					{{system.weaponSkill.dicePool}}

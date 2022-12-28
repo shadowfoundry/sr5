@@ -4,11 +4,13 @@ import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
 import { SR5_UtilityItem } from "../items/utilityItem.js";
 import { SR5_CharacterUtility } from "./utilityActor.js";
 import { SR5_CompendiumUtility } from "./utilityCompendium.js";
-import { SR5_Roll } from "../../rolls/roll.js";
+import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
 import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
-import { SR5_DiceHelper } from "../../rolls/diceHelper.js";
+import { SR5_CombatHelpers } from "../../rolls/roll-helpers/combat.js";
+import { SR5_MarkHelpers } from "../../rolls/roll-helpers/mark.js";
+import { SR5_CalledShotHelpers } from "../../rolls/roll-helpers/calledShot.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Shadowrun 5.
@@ -382,7 +384,7 @@ export class SR5Actor extends Actor {
 				case "itemGear":
 					i.prepareData();
 					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.gears[i.uuid] = i.name;
-					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.gears[i.id] = i.name;
+					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.gears[i.uuid] = i.name;
 					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 
@@ -421,7 +423,7 @@ export class SR5Actor extends Actor {
 						if (!iData.isAccessory && actor.system.resistances.fall) SR5_EntityHelpers.updateModifier(actor.system.resistances.fall, `${i.name}`, modifierType, iData.armorValue.value);
 						if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					}
-					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.armors[i.id] = i.name;
+					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.armors[i.uuid] = i.name;
 					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.armors[i.uuid] = i.name;
 					break;
 
@@ -430,7 +432,7 @@ export class SR5Actor extends Actor {
 					SR5_UtilityItem._handleAugmentation(iData, actor);
 					if (!iData.isAccessory) SR5_EntityHelpers.updateModifier(actor.system.essence, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, -iData.essenceCost.value);
 					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
-					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.augmentations[i.id] = i.name;
+					if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.augmentations[i.uuid] = i.name;
 					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.augmentations[i.uuid] = i.name;
 					break;
 
@@ -505,7 +507,7 @@ export class SR5Actor extends Actor {
 					}
 					SR5_UtilityItem._handleVisionAccessory(iData, actor);
 					if(actor.system.matrix){
-						if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.weapons[i.id] = i.name;
+						if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.weapons[i.uuid] = i.name;
 						if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.weapons[i.uuid] = i.name;
 					}
 					break;
@@ -595,7 +597,7 @@ export class SR5Actor extends Actor {
 
 				case "itemVehicle":        
 					i.prepareData();
-					actor.system.matrix.connectedObject.vehicles[i.id] = i.name;
+					actor.system.matrix.connectedObject.vehicles[i.uuid] = i.name;
 					if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.vehicles[i.uuid] = i.name;
 					SR5_UtilityItem._handleVehicleSlots(iData);
 					break;
@@ -710,28 +712,28 @@ export class SR5Actor extends Actor {
 
 	//Roll a test
 	rollTest(rollType, rollKey, chatData){
-		SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
+		SR5_PrepareRollTest.rollTest(this, rollType, rollKey, chatData);
 	}
 
 	//Apply Damage to actor
 	async takeDamage(options) {
-		let damage = options.damageValue,
-				damageType = options.damageType,
-				actor = duplicate(this),
-				actorData = actor.system,
-				gelAmmo = 0,
-				damageReduction = 0,
-				realDamage;
+		let damage = options.damage.value,
+			damageType = options.damage.type,
+			actor = duplicate(this),
+			actorData = actor.system,
+			gelAmmo = 0,
+			damageReduction = 0,
+			realDamage;
 
-		if (options.ammoType === "gel") gelAmmo = -2;
+		if (options.combat.ammo.type === "gel") gelAmmo = -2;
 		if (actorData.specialProperties?.damageReduction) damageReduction = actorData.specialProperties.damageReduction.value;
 		if (damage > 1) damage -= damageReduction;
 
 		switch (actor.type){
 			case "actorPc":
 			case "actorSpirit":
-				if (options.matrixDamageValue) {
-					damage = options.matrixDamageValue;
+				if (options.damage.matrix.value > 0) {
+					damage = options.damage.matrix.value;
 					damageType = "stun";
 				}
 				if (damageType === "stun") {
@@ -782,27 +784,28 @@ export class SR5Actor extends Actor {
 					ui.notifications.info(`${this.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 					if (actorData.controlMode === "rigging"){
 						let controler = SR5_EntityHelpers.getRealActorFromID(actorData.vehicleOwner.id)
-						let chatData = {
-							damageResistanceType : "biofeedback",
-							damageValue: Math.ceil(damage/2),
+						let chatData = {}
+						chatData.damage={
+							resistanceType : "biofeedback",
+							value: Math.ceil(damage/2),
 						}
 						controler.rollTest("resistanceCard", null, chatData);
 					}
 				}
-				if (options.damageElement === "electricity") options.matrixDamageValue = Math.floor(options.damageValue / 2);
-				if (options.matrixDamageValue) {
-					actorData.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+				if (options.damage.element === "electricity") options.damage.matrix.value = Math.floor(options.damage.value / 2);
+				if (options.damage.matrix.value > 0) {
+					actorData.conditionMonitors.matrix.actual.base += options.damage.matrix.value;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
-					ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+					ui.notifications.info(`${this.name}: ${options.damage.matrix.value} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 			case "actorAgent":
 			case "actorSprite":
 			case "actorDevice":
-				if (options.matrixDamageValue) {
-					actorData.conditionMonitors.matrix.actual.base += options.matrixDamageValue;
+				if (options.damage.matrix.value > 0) {
+					actorData.conditionMonitors.matrix.actual.base += options.damage.matrix.value;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
-					ui.notifications.info(`${this.name}: ${options.matrixDamageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+					ui.notifications.info(`${this.name}: ${options.damage.matrix.value} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 		}
@@ -832,26 +835,26 @@ export class SR5Actor extends Actor {
 		}
 
 		//Special Element Damage
-		if (options.damageElement === "electricity" && actorData.type !== "actorDrone") await this.electricityDamageEffect();
-		if (options.damageElement === "acid") await this.acidDamageEffect(damage, options.damageSource);
-		if (options.damageElement === "fire"){
+		if (options.damage.element === "electricity" && actorData.type !== "actorDrone") await this.electricityDamageEffect();
+		if (options.damage.element === "acid") await this.acidDamageEffect(damage, options.damage.source);
+		if (options.damage.element === "fire"){
 			if (this.system.itemsProperties.armor.value <= 0) await this.fireDamageEffect()
-			else await this.checkIfCatchFire(options.fireTreshold, options.damageSource, options.incomingPA);
+			else await this.checkIfCatchFire(options.threshold.value, options.damage.source, options.combat.armorPenetration);
 		}
 	}
 
 	//Apply splitted damage to actor
 	async takeSplitDamage(messageData) {
-		let originalDamage = messageData.damageValue;
-		messageData.damageType = "stun";
-		messageData.damageValue = messageData.splittedDamageOne;
+		let originalDamage = messageData.damage.value;
+		messageData.damage.type = "stun";
+		messageData.damage.value = messageData.damage.splittedOne;
 		await this.takeDamage(messageData);
-		if (messageData.splittedDamageTwo){
-			messageData.damageType = "physical";
-			messageData.damageValue = messageData.splittedDamageTwo;
+		if (messageData.damage.splittedTwo){
+			messageData.damage.type = "physical";
+			messageData.damage.value = messageData.damage.splittedTwo;
 			await this.takeDamage(messageData);
 		} else {
-			return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoNoDamage", {armor: messageData.armor + messageData.incomingPA, damage:originalDamage})}`); 
+			return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoNoDamage", {armor: this.itemsProperties.armor.value + messageData.combat.armorPenetration, damage:originalDamage})}`); 
 		}
 	}
 
@@ -1007,24 +1010,21 @@ export class SR5Actor extends Actor {
 		await this.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
 	}
 
-	async checkIfCatchFire (fireTreshold, source, force){
-		let ap = -6
-		let fireType = "weapon";
-		if (source === "spell"){
-			fireType = "magical";
-			ap = force;
-		}
-		let rollInfo = {
-			fireType: fireType,
-			incomingPA: ap,
-			fireTreshold: fireTreshold,
-		}
+	async checkIfCatchFire (firethreshold, source, force){
+		let ap = (source === "spell") ? force : -6;
+		let fireType = (source === "spell") ? "fireMagical" : "fire";
+		
+		let rollInfo = SR5_PrepareRollTest.getBaseRollData(null, this);
+		rollInfo.threshold.type = fireType;
+		rollInfo.combat.armorPenetration = ap;
+		rollInfo.threshold.value = firethreshold;
+
 		this.rollTest("resistFire", null, rollInfo);
 	}
 
 	//Reboot deck = reset Overwatch score and delete any marks on or from the actor
 	async rebootDeck() {
-		let actorID = (this.isToken ? this.token.id : this.id);
+		let actorId = (this.isToken ? this.token.id : this.id);
 		let dataToUpdate = {};
 		let updatedItems = duplicate(this.items);
 
@@ -1045,10 +1045,10 @@ export class SR5Actor extends Actor {
 			if (!game.user?.isGM) {
 				await SR5_SocketHandler.emitForGM("deleteMarksOnActor", {
 					actorData: actorData,
-					actorID: actorID,
+					actorId: actorId,
 				});
 			} else {
-				await SR5Actor.deleteMarksOnActor(actorData, actorID);
+				await SR5Actor.deleteMarksOnActor(actorData, actorId);
 			}
 		}
 
@@ -1058,7 +1058,7 @@ export class SR5Actor extends Actor {
 				for (let m of i.system.marks){
 					if (!game.user?.isGM) {
 						await SR5_SocketHandler.emitForGM("deleteMarkInfo", {
-							actorID: m.ownerId,
+							actorId: m.ownerId,
 							item: i._id,
 						});
 					} else {
@@ -1088,20 +1088,20 @@ export class SR5Actor extends Actor {
 	}
 
 	//Delete Marks on Other actors
-	static async deleteMarksOnActor(actorData, actorID){
+	static async deleteMarksOnActor(actorData, actorId){
 		for (let m of actorData.matrix.markedItems){
 			let itemToClean = await fromUuid(m.uuid);
 			if (itemToClean) {
 				let cleanData = duplicate(itemToClean.system);
 				for (let i = 0; i < cleanData.marks.length; i++){
-					if (cleanData.marks[i].ownerId === actorID) {
+					if (cleanData.marks[i].ownerId === actorId) {
 						cleanData.marks.splice(i, 1);
 						i--;
 					}
 				}
 				await itemToClean.update({"system" : cleanData});
 				//For Host, keep slaved device marks synchro
-				if (itemToClean.parent.system.matrix.deviceType === "host") SR5_DiceHelper.markSlavedDevice(itemToClean.parent.id);
+				if (itemToClean.parent.system.matrix.deviceType === "host") SR5_MarkHelpers.markSlavedDevice(itemToClean.parent.id);
 			} else {
 				SR5_SystemHelpers.srLog(1, `No Item to Clean in deleteMarksOnActor()`);
 			}
@@ -1110,17 +1110,17 @@ export class SR5Actor extends Actor {
 
 	//Socket for deletings marks on other actors;
 	static async _socketDeleteMarksOnActor(message) {
-		await SR5Actor.deleteMarksOnActor(message.system.actorData, message.system.actorID);
+		await SR5Actor.deleteMarksOnActor(message.data.actorData, message.data.actorId);
 	}
 
-	//Delete Mark info on other actors
-	static async deleteMarkInfo(actorID, item){
-		let actor = SR5_EntityHelpers.getRealActorFromID(actorID);
+	//Delete Mark info from deck
+	static async deleteMarkInfo(actorId, item){
+		let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		if (!actor) return SR5_SystemHelpers.srLog(1, `No Actor in deleteMarkInfo()`);
 
 		let deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive),
-				deckData = duplicate(deck.system),
-				index=0;
+			deckData = duplicate(deck.system),
+			index=0;
 
 		for (let m of deckData.markedItems){
 			if (m.uuid.includes(item)){
@@ -1135,7 +1135,7 @@ export class SR5Actor extends Actor {
 		//For host, update all unlinked token with same marked items
 		if (actor.system.matrix.deviceType === "host" && canvas.scene){
 			for (let token of canvas.tokens.placeables){
-					if (token.actor.id === actorID) {
+					if (token.actor.id === actorId) {
 							let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive);
 							let tokenDeckData = duplicate(tokenDeck.system);
 							tokenDeckData.markedItems = deckData.markedItems;
@@ -1147,7 +1147,7 @@ export class SR5Actor extends Actor {
 
 	//Socket for deletings marks info other actors;
 	static async _socketDeleteMarkInfo(message) {
-		await SR5Actor.deleteMarkInfo(message.system.actorID, message.system.item);
+		await SR5Actor.deleteMarkInfo(message.data.actorId, message.data.item);
 	}
 
 	//Raise owerwatch score
@@ -1163,7 +1163,7 @@ export class SR5Actor extends Actor {
 
 	//Socket for increasing overwatch score;
 	static async _socketOverwatchIncrease(message) {
-		await SR5Actor.overwatchIncrease(message.system.defenseHits, message.system.actorId);
+		await SR5Actor.overwatchIncrease(message.data.defenseHits, message.data.actorId);
 	}
 
 	//Reset Cumulative Recoil
@@ -1489,7 +1489,6 @@ export class SR5Actor extends Actor {
 			"uuid": targetItem,
 		}
 		currentPan.content.push(panObject);
-		currentPan.current += 1;
 		await deck.update({"system.pan": currentPan,});
 	}
 
@@ -1502,6 +1501,8 @@ export class SR5Actor extends Actor {
 				deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive),
 				item = await fromUuid(targetItem);
 
+		if (!deck) return;
+
 		if (item) {
 			let newItem = duplicate(item.system);
 			newItem.isSlavedToPan = false;
@@ -1512,7 +1513,6 @@ export class SR5Actor extends Actor {
 		let currentPan = duplicate(deck.system.pan);
 		if (index){
 			currentPan.content.splice(index, 1);
-			currentPan.current -=1;
 		} else {
 			index = 0;
 			let isExisting;
@@ -1520,7 +1520,6 @@ export class SR5Actor extends Actor {
 				isExisting = await fromUuid(p.uuid);
 				if (!isExisting){
 					currentPan.content.splice(index, 1);
-					currentPan.current -=1;
 					index--;
 				}
 				index++;
@@ -1536,14 +1535,14 @@ export class SR5Actor extends Actor {
 
 	//Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
 	async applyExternalEffect(data, effectType){
-		let item = await fromUuid(data.itemUuid);
+		let item = await fromUuid(data.owner.itemUuid);
 		let itemData = item.system;
 
 		for (let e of Object.values(itemData[effectType])){
 			if (e.transfer) {
 				let value, key, newData;
-				if (e.type === "hits") value = Math.floor(data.test.hits * (e.multiplier || 1));
-				else if (e.type === "netHits") value = Math.floor(data.netHits * (e.multiplier || 1));
+				if (e.type === "hits") value = Math.floor(data.roll.hits * (e.multiplier || 1));
+				else if (e.type === "netHits") value = Math.floor(data.roll.netHits * (e.multiplier || 1));
 				else if (e.type === "value") value = Math.floor(e.value * (e.multiplier || 1));
 				else if (e.type === "rating") value = Math.floor(item.system.itemRating * (e.multiplier || 1));
 
@@ -1580,9 +1579,9 @@ export class SR5Actor extends Actor {
 					"system.target": targetName,
 					"system.value": value,
 					"system.type": item.type,
-					"system.ownerID": data.actorId,
-					"system.ownerName": data.speakerActor,
-					"system.ownerItem": data.itemUuid,
+					"system.ownerID": data.owner.actorId,
+					"system.ownerName": data.owner.speakerActor,
+					"system.ownerItem": data.owner.itemUuid,
 					"system.duration": 0,
 					"system.durationType": "sustained",
 				};
@@ -1610,35 +1609,35 @@ export class SR5Actor extends Actor {
 				let effect;
 				if (this.isToken) {
 					for (let i of this.token.actor.items){
-						if (i.system.ownerItem === data.itemUuid){
+						if (i.system.ownerItem === data.owner.itemUuid){
 							if (!Object.keys(itemData.targetOfEffect).length) effect = i;
-							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.owner.itemUuid) effect = i;
 						}
 					}
 				} else {
 					for (let i of this.items){
-						if (i.system.ownerItem === data.itemUuid){
+						if (i.system.ownerItem === data.owner.itemUuid){
 							if (!Object.keys(itemData.targetOfEffect).length) effect = i;
-							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.itemUuid) effect = i;
+							else for (let e of Object.values(itemData.targetOfEffect)) if (e !== data.owner.itemUuid) effect = i;
 						}
 					}
 				}
 
 				if (!game.user?.isGM) {
 					SR5_SocketHandler.emitForGM("linkEffectToSource", {
-						actorID: data.actorId,
-						targetItem: data.itemUuid,
+						actorId: data.owner.actorId,
+						targetItem: data.owner.itemUuid,
 						effectUuid: effect.uuid,
 					});
 				} else {
-					await SR5Actor.linkEffectToSource(data.actorId, data.itemUuid, effect.uuid);
+					await SR5Actor.linkEffectToSource(data.owner.actorId, data.owner.itemUuid, effect.uuid);
 				}
 
 				//If effect is on Item, update it
 				if (effectType === "itemEffects"){
 					let itemToUpdate;
 					//Find the item
-					if (data.typeSub === "redundancy"){
+					if (data.test.typeSub === "redundancy"){
 						if (this.isToken) itemToUpdate = this.token.actor.items.find(d => d.type === "itemDevice" && d.system.isActive);
 						else itemToUpdate = this.items.find(d => d.type === "itemDevice" && d.system.isActive);
 					}
@@ -1652,7 +1651,7 @@ export class SR5Actor extends Actor {
 							"type": "value",
 							"value": value,
 							"multiplier": 1,
-							"ownerItem": data.itemUuid,
+							"ownerItem": data.owner.itemUuid,
 						}
 						newItem.system.itemEffects.push(effectItem);
 						await this.updateEmbeddedDocuments("Item", [newItem]);
@@ -1722,9 +1721,9 @@ export class SR5Actor extends Actor {
 		let toxinEffects = [];
 		let statusEffects = [];
 
-		for (let [key, value] of Object.entries(data.toxin.effect)){
+		for (let [key, value] of Object.entries(data.damage.toxin.effect)){
 			if (value) {
-				effects = await SR5_DiceHelper.getToxinEffect(key, data, this);
+				effects = await SR5_CombatHelpers.getToxinEffect(key, data, this);
 				toxinEffects = toxinEffects.concat(effects);
 				//Nausea Status Effect
 				if (key === "nausea"){
@@ -1733,7 +1732,7 @@ export class SR5Actor extends Actor {
 						status = await _getSRStatusEffect("toxinEffectNausea");
 						statusEffects = statusEffects.concat(status);
 					}
-					if (data.damageValue > this.system.attributes.willpower.augmented.value){
+					if (data.damage.value > this.system.attributes.willpower.augmented.value){
 						isStatusEffectOn = this.effects.find(e => e.origin === "noAction");
 						if (!isStatusEffectOn){
 							status = await _getSRStatusEffect("noAction");
@@ -1750,7 +1749,7 @@ export class SR5Actor extends Actor {
 					}
 				}
 				//Paralysis Status Effect
-				if (key === "paralysis" && (data.damageValue > this.system.attributes.reaction.augmented.value)){
+				if (key === "paralysis" && (data.damage.value > this.system.attributes.reaction.augmented.value)){
 					let isStatusEffectOn = this.effects.find(e => e.origin === "noAction");
 					if (!isStatusEffectOn){
 						status = await _getSRStatusEffect("noAction");
@@ -1762,7 +1761,7 @@ export class SR5Actor extends Actor {
 
 		if (toxinEffects.length) await this.createEmbeddedDocuments("Item", toxinEffects);
 		if (statusEffects.length) await this.createEmbeddedDocuments("ActiveEffect", statusEffects);
-		if (data.damageType && data.damageValue > 0) await this.takeDamage(data);
+		if (data.damage.type && data.damage.value > 0) await this.takeDamage(data);
 	} 
 
 	//Apply specific called shots effect
@@ -1771,21 +1770,21 @@ export class SR5Actor extends Actor {
 		let cSEffects = [];
 		let statusEffects = [];
 
-		if (typeof data.calledShot.effects === "object") data.calledShot.effects = Object.values(data.calledShot.effects);
+		if (typeof data.combat.calledShot.effects === "object") data.combat.calledShot.effects = Object.values(data.combat.calledShot.effects);
 
-		for (let key of Object.values(data.calledShot.effects)){
+		for (let key of Object.values(data.combat.calledShot.effects)){
 			//Special for stunned, skip
 			if (key.name === "stunned") continue;
 
 			//special for called shot linked to weak side effect
-			if (data.calledShot.effects.find(e => e.name === "weakSide") && (data.calledShot.effects.find(e => e.name === "oneArmBandit") || data.calledShot.effects.find(e => e.name === "brokenGrip"))) {
-				data.calledShot.effects = data.calledShot.effects.filter(e => e.name !== "weakSide");
+			if (data.combat.calledShot.effects.find(e => e.name === "weakSide") && (data.combat.calledShot.effects.find(e => e.name === "oneArmBandit") || data.combat.calledShot.effects.find(e => e.name === "brokenGrip"))) {
+				data.combat.calledShot.effects = data.combat.calledShot.effects.filter(e => e.name !== "weakSide");
 				weakSideEffect = true;
 				if (key.name === "weakSide") continue;
 			}
 
 			//Get the itemEffect
-			effects = await SR5_DiceHelper.getCalledShotsEffect(key, data, this, weakSideEffect);
+			effects = await SR5_CalledShotHelpers.getCalledShotsEffect(key, data, this, weakSideEffect);
 
 			//Skip for "prone" effect as it is already applied by getCalledShotsEffect()
 			if (key.name === "buckled" || key.name === "knockdown") continue;
@@ -1799,7 +1798,7 @@ export class SR5Actor extends Actor {
 		}
 	
 		if (weakSideEffect){
-			if (!this.effects.find(e => e.origin === "weakSide")){
+			if (!this.effects.find(e => e.origin === "weakSide") && (!statusEffects.find(s => s.origin === "weakSide")) ){
 				status = await _getSRStatusEffect("weakSide");
 				statusEffects = statusEffects.concat(status);
 				ui.notifications.info(`${this.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
@@ -1852,7 +1851,7 @@ export class SR5Actor extends Actor {
 
 	//Manage Regeneration
 	async regenerate(data){
-		let damageToRemove = data.netHits;
+		let damageToRemove = data.roll.netHits;
 		let actorData = deepClone(this);
 		actorData = actorData.toObject(false);
 
@@ -1885,8 +1884,8 @@ export class SR5Actor extends Actor {
 
 	//Manage Healing
 	static async heal(targetActorID, data){
-		let damageToRemove = data.test.hits,
-				damageType = data.typeSub,
+		let damageToRemove = data.roll.netHits,
+				damageType = data.test.typeSub,
 				targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
 				actorData = deepClone(targetActor);
 				

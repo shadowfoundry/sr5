@@ -2,7 +2,8 @@ import { SR5_UtilityItem } from "./utilityItem.js";
 import { SR5_CharacterUtility } from "../actors/utilityActor.js";
 import AbilityTemplate from "../../interface/canvas-template.js";
 import { SR5_EntityHelpers } from "../helpers.js";
-import { SR5_Roll } from "../../rolls/roll.js";
+import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
+import { SR5_RollMessage } from "../../rolls/roll-message.js";
 import { SR5 } from "../../config.js";
 
 /**
@@ -66,10 +67,10 @@ export class SR5Item extends Item {
 				if (owner) SR5_UtilityItem._handleRitual(item, owner);
 				break;
 			case "itemKnowledge":
-				if (owner) SR5_CharacterUtility._generateKnowledgeSkills(itemData, owner);
+				if (owner) SR5_CharacterUtility._generateKnowledgeSkills(item, owner);
 				break;
 			case "itemLanguage":
-				if (owner) SR5_CharacterUtility._generateLanguageSkills(itemData, owner);
+				if (owner) SR5_CharacterUtility._generateLanguageSkills(item, owner);
 				break;
 			case "itemAugmentation":
 				SR5_UtilityItem._handleAugmentation(itemData);
@@ -123,6 +124,7 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleMatrixMonitor(item);
 				if ((itemData.conditionMonitors.matrix.actual.value >= itemData.conditionMonitors.matrix.value) && (itemData.type !== "baseDevice")) itemData.isActive = false;
 				SR5_EntityHelpers.GenerateMonitorBoxes(itemData, 'matrix');
+				SR5_UtilityItem._handlePan(item);
 				break;
 			case "itemFocus":
 				SR5_UtilityItem._handleFocus(itemData);     
@@ -414,11 +416,15 @@ export class SR5Item extends Item {
 		
 	}
 
-	async placeGabarit(event, messageId) {
-		let actorPosition = await SR5_EntityHelpers.getActorCanvasPosition(this.parent);
+	async placeGabarit(messageId) {
+		let actorPosition = SR5_EntityHelpers.getActorCanvasPosition(this.parent);
 		if (canvas.scene && actorPosition !==0) {
-			const template = AbilityTemplate.fromItem(this);
-			if (template) await template.drawPreview(event, this, messageId);
+			const template = await AbilityTemplate.fromItem(this);
+			if (template) {
+				await template.drawPreview();
+				if (this.type === "itemWeapon") this.rollTest("weapon");
+				if (messageId) SR5_RollMessage.updateChatButtonHelper(messageId, "templatePlace");
+			}
 		} else if (this.type === "itemWeapon") this.rollTest("weapon");
 		if (this.actor.sheet._element) {
 			if (this.isOwner && this.actor.sheet) this.actor.sheet.minimize();
@@ -427,7 +433,7 @@ export class SR5Item extends Item {
 
 	//Roll a test
 	rollTest(rollType, rollKey, chatData){
-		SR5_Roll.actorRoll(this, rollType, rollKey, chatData);
+		SR5_PrepareRollTest.rollTest(this, rollType, rollKey, chatData);
 	}
 
 	/** Overide Item's create Dialog to hide certain items and sort them alphabetically*/

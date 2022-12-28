@@ -33,7 +33,7 @@
 				<div class="col-6" data-category="skills"
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsNameMsg'}}">
-					<p class="SR-PaddingRight5 {{#if (missing system.type system.base)}}incomplete{{/if}}">
+					<p class="SR-PaddingRight5 {{#if (missing system.type system.rating.base)}}incomplete{{/if}}">
 						<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text"
 							class="edit-value" name="knowledge.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 					</p>
@@ -56,8 +56,8 @@
 				  data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KnowledgeSkillsRatingMsg'}}"
 				>
-					<input data-item-id="{{_id}}" data-binding="system.base" data-dtype="Number" type="text"
-						class="input edit-value" name="knowledge.{{_id}}.base" value="{{system.base}}" onfocus="this.select()">
+					<input data-item-id="{{_id}}" data-binding="system.rating.base" data-dtype="Number" type="text"
+						class="input edit-value" name="knowledge.{{_id}}.rating.base" value="{{system.rating.base}}" onfocus="this.select()">
 				</div>
 				<div class="col-1"
 					data-helpTitle="{{localize 'SR5.HELP_KnowledgeSkills' key=name}}"
@@ -65,8 +65,8 @@
 					data-helpItemId="{{_id}}"
 					data-helpDetailsItem="system"
 				>
-					{{#if (and system.value system.base)}}
-					<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="knowledgeSkill">{{system.value}}</p>
+					{{#if (gt system.test.dicePool 0)}}
+					<p class="SR-TextCenter roll-logo sr-roll" data-rolltype="knowledgeSkill">{{system.test.dicePool}}</p>
 					{{else}}
 					<p class="SR-TextCenter">-</p>
 					{{/if}}

@@ -137,7 +137,7 @@ export const registerHooks = function () {
 		// Determine whether a system migration is required and feasible
 		if ( !game.user.isGM ) return;
 		const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-		const NEEDS_MIGRATION_VERSION = "0.0.5.13";
+		const NEEDS_MIGRATION_VERSION = "0.1.4";
 		const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
 		// Perform the migration
@@ -219,7 +219,7 @@ export const registerHooks = function () {
 	Hooks.on("createToken", async function(tokenDocument) {
 		let tokenData = duplicate(tokenDocument);
 		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenData.texture.src = tokenDocument.actor.img;
-		if (tokenDocument.actor.system.visions.astral.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
+		if (tokenDocument.actor.system.visions?.astral?.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
 		else tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
 		await tokenDocument.update(tokenData);
 	});
@@ -299,11 +299,11 @@ export const registerHooks = function () {
 	Hooks.on("deleteItem", async (item) =>{
 		if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
 			if (item.system.type === "signalJam"){
-				let actorID = item.parent.id
-				SR5_EffectArea.onJamEnd(actorID);
+				let actorId = item.parent.id
+				SR5_EffectArea.onJamEnd(actorId);
 			}
 			if (item.type === "itemEffect"){
-				if (item.system.hasEffectOnItem){
+				if (item.system.hasEffectOnItem && item.parent){
 					if (item.parent.isToken) await SR5Actor.deleteItemEffectFromItem(item.parent.token.id, item.system.ownerItem);
 					else await SR5Actor.deleteItemEffectFromItem(item.parent.id, item.system.ownerItem);
 				}
@@ -338,9 +338,9 @@ export const registerHooks = function () {
 
 	Hooks.on("createActiveEffect", (effect) =>{
 		if (effect.flags.core?.statusId === "signalJam") {
-			let actorID = effect.parent.id
-			if (effect.parent.isToken) actorID = effect.parent.token.id;
-			SR5_EffectArea.onJamCreation(actorID);
+			let actorId = effect.parent.id
+			if (effect.parent.isToken) actorId = effect.parent.token.id;
+			SR5_EffectArea.onJamCreation(actorId);
 		}
 	});
 

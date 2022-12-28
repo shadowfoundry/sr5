@@ -1,18 +1,18 @@
 <li class="SR-PaddingTop5 grid">
-    <div class="col-11 SR-DialogOption">Options d'Action matricielle</div>
+    <div class="col-11 SR-DialogOption">{{localize 'SR5.MatrixActionsOptions'}}</div>
 </li>
 
 <!-- NOISE -->
 {{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html}}
 
 <!-- GRID -->
-{{#if switch.publicGrid}}
+{{#if dialogSwitch.publicGrid}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html}}
 {{/if}}
 {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html}}
 
 
 <!-- MARKS WANTED -->
-{{#if (or (eq typeSub "hackOnTheFly") (eq typeSub "bruteForce"))}}
+{{#if (or (eq test.typeSub "hackOnTheFly") (eq test.typeSub "bruteForce"))}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/markModifier.html}}
 {{/if}}

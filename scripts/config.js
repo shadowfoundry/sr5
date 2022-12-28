@@ -844,6 +844,7 @@ SR5.calledShots = {
 	upTheAnte                 : "SR5.CS_AS_UpTheAnte",
 	harderKnock               : "SR5.CS_HarderKnock",
 	vitals                    : "SR5.CS_Vitals",
+	breakWeapon				  : "SR5.CS_BreakWeapon",
 };
 
 SR5.calledShotsSpecifics = {  
@@ -1027,15 +1028,6 @@ SR5.augmentationGrades = {
 //         ROLL & MODIFIERS          //
 //-----------------------------------//
 
-SR5.extendedInterval = {
-	combatTurn                : "SR5.CombatTurn",
-	minute                    : "SR5.Minute",
-	hour                      : "SR5.Hour",
-	day                       : "SR5.Day",
-	week                      : "SR5.Week",
-	month                     : "SR5.Month",
-};
-
 SR5.extendedIntervals = {
 	combatTurn                : "SR5.CombatTurns",
 	minute                    : "SR5.Minutes",
@@ -1060,6 +1052,8 @@ SR5.testLimits = {
 	sharing                   : "SR5.Sharing",
 	sleaze                    : "SR5.Sleaze",
 	reagents                  : "SR5.Reagents",
+	level					  : "SR5.Level",
+	handling				  : "SR5.VehicleStat_HandlingShort",
 };
 
 //-----------------------------------//
@@ -1505,6 +1499,14 @@ SR5.martialArtsTypes = {
 	wrestlingsumo             : "SR5.martialArtsTypewrestlingsumo",
 	wudangsword               : "SR5.martialArtsTypewudangsword",
 };
+
+SR5.calledShotsMartialArts = {
+	breakWeapon				  : "SR5.CS_BreakWeapon",
+	disarm 					  : "SR5.CS_Disarm",
+	entanglement			  : "SR5.CS_Entanglement",
+	feint					  : "SR5.CS_Feint",
+	pin 					  : "SR5.CS_Pin",
+}
 
 //-----------------------------------//
 //             MATRIX                //
@@ -3051,6 +3053,7 @@ SR5.modifiersTypes = {
 	drainModifier			  : "SR5.DrainModifier",
 	hardenedArmor 			  : "SR5.HardenedArmor",
 	hardenedAstralArmor 	  : "SR5.HardenedAstalArmor",
+	iceAttack                 : "SR5.EffectTypeIceAttack",
 	itemRating				  : "SR5.ItemRating",
 	karma 					  : "SR5.Karma",
 	level 					  : "SR5.Level",
@@ -3058,6 +3061,7 @@ SR5.modifiersTypes = {
 	linkedAttribute 		  : "SR5.LinkedAttribute",
 	matrixAttribute 		  : "SR5.MatrixAttribute",
 	matrixUserMode 			  : "SR5.MatrixUserMode",
+	silentMode				  : "SR5.MatrixUserMode",
 	metatype				  : "SR5.Metatype",
 	metamagic 				  : "SR5.Metamagic",
 	module					  : "SR5.CommlinkModule",
