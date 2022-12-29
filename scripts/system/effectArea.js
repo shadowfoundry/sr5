@@ -188,10 +188,12 @@ export class SR5_EffectArea {
             if (!hasItem){
                 //Build necessary data to apply effect
                 let data = {
-                    itemUuid: templateData.itemUuid,
-                    actorId : template.id,
-                    ownerName: sourceItem.actor.name,
-                    test: {hits: sourceItem.system.hits},
+                    owner: {
+                        itemUuid: templateData.itemUuid,
+                        actorId : template.id,
+                        ownerName: sourceItem.actor.name,
+                    },
+                    roll: {hits: sourceItem.system.hits},
                 }
                 //If effect is not resisted, apply effect to actor
                 if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects");

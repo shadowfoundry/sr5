@@ -154,7 +154,7 @@ export class SR5_RollTest {
 								}
 							}
 							if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_ConverterHelpers.activeDefenseToInitMod(dialogData.combat.activeDefenseSelected);
-							if (initModifier < 0) SR5Combat.changeInitInCombat(actor, initModifier);
+							if (initModifier < 0) SR5Combat.changeInitInCombatHelper(actor.id, initModifier);
 						}
 					},
 				}).render(true);
@@ -243,7 +243,7 @@ export class SR5_RollTest {
 
 		if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
 
-		SR5_RollMessage.updateRollCard(message.id, newMessage);
+		SR5_RollMessage.updateRollCardHelper(message.id, newMessage);
 	}
 
 	//Handle second chance : reroll failed dice and update message with new message
@@ -256,11 +256,9 @@ export class SR5_RollTest {
 		let limit = messageData.limit.value - messageData.roll.hits;
 		if (limit < 0) limit = 0;
 		let chance = await SR5_RollTest.rollDice({ dicePool: dicePool, limit: limit, edgeRoll: true,});
-		let chanceHit;
-		if (chance.hits > limit) chanceHit = limit;
-		else chanceHit = chance.hits;
-		let dices = messageData.roll.dices;
-		let dicesKeeped = dices.filter(function (d) {
+		let chanceHit = chance.hits;
+		if (chance.hits > limit && (limit !== 0)) chanceHit = limit;
+		let dicesKeeped = messageData.roll.dices.filter(function (d) {
 			return d.result > 4;
 		});
 
@@ -277,7 +275,7 @@ export class SR5_RollTest {
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
 
 		//update message with new infos
-		SR5_RollMessage.updateRollCard(message.id, newMessage);
+		SR5_RollMessage.updateRollCardHelper(message.id, newMessage);
 	}
 
 	//Handle Push the Limit test
@@ -286,7 +284,7 @@ export class SR5_RollTest {
 		let dicePool, creator;
 
 		//If roller is a bounder spirit, use actor Edge instead
-		if (messageData.actorType === "actorSpirit"){
+		if (actor.type === "actorSpirit"){
 			creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
 			dicePool = creator.system.specialAttributes.edge.augmented.value;
 		} else dicePool = actor.system.specialAttributes.edge.augmented.value;
@@ -314,13 +312,13 @@ export class SR5_RollTest {
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
 
 		//Rafraichi le message avec les nouvelles infos.
-		SR5_RollMessage.updateRollCard(message.id, newMessage);
+		SR5_RollMessage.updateRollCardHelper(message.id, newMessage);
 	}
 
 	//Render the chat message
 	static async renderRollCard(cardData) {
 		//Add button to edit result for GM
-		if (game.user.isGM) cardData.chatCard.canEditResult = true;
+		//if (game.user.isGM) cardData.chatCard.canEditResult = true;
 
 		const templateData = cardData;
 		const template = `systems/sr5/templates/rolls/roll-card.html`;

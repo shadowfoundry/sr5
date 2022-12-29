@@ -1,6 +1,7 @@
 import { SR5_CharacterUtility } from "../entities/actors/utilityActor.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SocketHandler } from "../socket.js";
+import { SR5_PrepareRollTest } from "../rolls/roll-prepare.js";
 
 export class SR5Combat extends Combat {
 	get initiativePass(){
@@ -206,6 +207,7 @@ export class SR5Combat extends Combat {
 
 		return SR5Combat.iniOrderCanDoAnotherPass(currentScores);
 	}
+	
 
 	async nextTurn(){
 		for (let combatant of this.combatants){
@@ -238,10 +240,18 @@ export class SR5Combat extends Combat {
 					combatant.flags.sr5.hasPlayed = true;
 				}
 			}
-			await this.update({
-				turn: nextTurn,
-				combatants: updatedCombatants,
-			});
+			if (game.user?.isGM){
+				await this.update({
+					turn: nextTurn,
+					combatants: updatedCombatants,
+				});
+			} else {
+				SR5_SocketHandler.emitForGM("updateCombat", {
+					combatId: this.id,
+					turn: nextTurn,
+					combatants: updatedCombatants,
+				});
+			}
 			return;
 		}
 
@@ -257,6 +267,14 @@ export class SR5Combat extends Combat {
 		}
 
 		return this.nextRound();
+	}
+
+	static async _socketUpdateCombat(message){
+		let combat = game.combats.get(message.data.combatId);
+        await combat.update({
+			turn: message.data.turn,
+			combatants: message.data.combatants,
+		});
 	}
 
 	async startCombat() {
@@ -455,43 +473,59 @@ export class SR5Combat extends Combat {
 		return combatant;
 	}
 
-	static async changeInitInCombat(document, initChange){
-		if (game.combat){
-			let combatant = SR5Combat.getCombatantFromActor(document),
-				sign;
+	static async changeInitInCombat(documentId, initChange){
+		if (!game.combat) return;
+		let document = SR5_EntityHelpers.getRealActorFromID(documentId);
+		let combatant = SR5Combat.getCombatantFromActor(document),
+			sign;
 
-			if (!combatant) return;
-			if (combatant.initiative <= 0) return;
-			else {
-			  	let initKey = SR5_CharacterUtility.findActiveInitiative(document.system),
-			  		initRatingChange = (initChange ||0), initDiceChange = 0, diceResult = 0,diceToRoll = 0;
-			  	if (document.system.initiatives[initKey].value !== combatant.flags.sr5.currentInitRating) initRatingChange += document.system.initiatives[initKey].value - combatant.flags.sr5.currentInitRating;
-			  	if (document.system.initiatives[initKey].dice.value !== combatant.flags.sr5.currentInitDice) {
-					sign = Math.sign(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
-					diceToRoll = Math.abs(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
-					if (isNaN(diceToRoll)) diceToRoll = 0;
-					diceResult = new Roll(`${diceToRoll}d6`).evaluate({async: false}).total;
-					if (sign > 0) initDiceChange += diceResult;
-					else initDiceChange -= diceResult;
-			  	}
-				if (isNaN(initRatingChange)) initRatingChange = 0;
-			  	let initFinalChange = initRatingChange + initDiceChange;
+		if (!combatant) return;
+		if (combatant.initiative <= 0) return;
+			
+		let initKey = SR5_CharacterUtility.findActiveInitiative(document.system),
+	  		initRatingChange = (initChange ||0), 
+			initDiceChange = 0, 
+			diceResult = 0,
+			diceToRoll = 0;
 
-			  	if (initRatingChange !== 0  || initDiceChange !== 0) {
-				  	await SR5Combat.adjustInitiative(combatant, initFinalChange);
-				  	let signDice ="", signRating="", initRatingValue = Math.abs(initRatingChange), initDiceValue = Math.abs(diceResult);
-				  	if (sign < 0) signDice = "-"
-				  	else signDice = "+"
-				  	if (initRatingChange > 0) signRating = "+"
-				  	else signRating = "-"
-				  	if (diceToRoll > 0) {
-				  		ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombat", {signRating: signRating, signDice: signDice, diceToRoll: diceToRoll, initDiceChange: initDiceValue, initRatingChange: initRatingValue, initFinalChange: initFinalChange})}`);
-					} else {
-						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {initFinalChange: initFinalChange})}`);
-					}
-				}
-			}
+		if (document.system.initiatives[initKey].value !== combatant.flags.sr5.currentInitRating) initRatingChange += document.system.initiatives[initKey].value - combatant.flags.sr5.currentInitRating;
+		if (document.system.initiatives[initKey].dice.value !== combatant.flags.sr5.currentInitDice) {
+			sign = Math.sign(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
+			diceToRoll = Math.abs(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
+			if (isNaN(diceToRoll)) diceToRoll = 0;
+			diceResult = new Roll(`${diceToRoll}d6`).evaluate({async: false}).total;
+			if (sign > 0) initDiceChange += diceResult;
+			else initDiceChange -= diceResult;
+	  	}
+		if (isNaN(initRatingChange)) initRatingChange = 0;
+		let initFinalChange = initRatingChange + initDiceChange;
+
+		if (initRatingChange !== 0  || initDiceChange !== 0) {
+			await SR5Combat.adjustInitiative(combatant, initFinalChange);
+		  	let signDice ="", signRating="", initRatingValue = Math.abs(initRatingChange), initDiceValue = Math.abs(diceResult);
+
+			if (sign < 0) signDice = "-"
+		  	else signDice = "+"
+
+		  	if (initRatingChange > 0) signRating = "+"
+		  	else signRating = "-"
+
+			if (diceToRoll > 0) ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombat", {signRating: signRating, signDice: signDice, diceToRoll: diceToRoll, initDiceChange: initDiceValue, initRatingChange: initRatingValue, initFinalChange: initFinalChange})}`);
+			else ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {initFinalChange: initFinalChange})}`);
 		}
+	}
+
+	static async _socketChangeInitInCombat(message){
+		await SR5Combat.changeInitInCombat(message.data.documentId, message.data.initChange);
+	}
+
+	static async changeInitInCombatHelper(documentId, initChange){
+		if (!game.user?.isGM) {
+            await SR5_SocketHandler.emitForGM("changeInitInCombat", {
+                documentId: documentId,
+                initChange: initChange,
+            });
+        } else await SR5Combat.changeInitInCombat(documentId, initChange);
 	}
 
 	//Do stuff on actor when turn is endin
@@ -556,10 +590,10 @@ export class SR5Combat extends Combat {
 
 				//Apply Fire effect if any
 				if (itemData.type === "fireDamage") {
-					let damageInfo = {
-						damageValue: itemData.value,
-						damageType: "physical",
-					}
+					let damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo.damage.value = itemData.value;
+					damageInfo.damage.type = "physical";
+
 					await actor.takeDamage(damageInfo);
 					itemData.value += 1;
 					ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {fire: itemData.value})}`);

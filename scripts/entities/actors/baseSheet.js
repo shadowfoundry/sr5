@@ -6,6 +6,7 @@ import { SR5_SocketHandler } from "../../socket.js";
 import SR5_PanDialog from "../../interface/pan-dialog.js";
 import { SR5 } from "../../config.js";
 import { SR5Actor } from "./entityActor.js";
+import { SR5_ActorHelper } from "./entityActor-helpers.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
 
 /**
@@ -517,7 +518,7 @@ export class ActorSheetSR5 extends ActorSheet {
 							actorId: this.actor.id,
 						});
 					} else {
-						SR5Actor.deleteItemFromPan(obj.uuid, this.actor.id);
+						SR5_ActorHelper.deleteItemFromPan(obj.uuid, this.actor.id);
 					}
 				}
 				item.system.pan.content = [];
@@ -579,7 +580,7 @@ export class ActorSheetSR5 extends ActorSheet {
 							targetItem: e,
 						});
 					} else {
-						await SR5Actor.deleteSustainedEffect(e);
+						await SR5_ActorHelper.deleteSustainedEffect(e);
 					}
 				}
 				item.system.targetOfEffect = [];
@@ -851,7 +852,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				actorId: actorId,
 			});
 		} else {
-			SR5Actor.createSidekick(item, game.user.id, actorId);
+			SR5_ActorHelper.createSidekick(item, game.user.id, actorId);
 		}
 	}
 
@@ -863,7 +864,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				actor: this.actor.toObject(false),
 			});
 		} else {
-			await SR5Actor.dimissSidekick(this.actor.toObject(false));
+			await SR5_ActorHelper.dimissSidekick(this.actor.toObject(false));
 		}
 	}
 
@@ -883,7 +884,7 @@ export class ActorSheetSR5 extends ActorSheet {
 					actor: sidekick,
 				});
 			} else {
-				await SR5Actor.dimissSidekick(sidekick);
+				await SR5_ActorHelper.dimissSidekick(sidekick);
 			}
 		}
 	}
@@ -955,7 +956,7 @@ export class ActorSheetSR5 extends ActorSheet {
 							actorId: baseActor,
 						});
 					} else {
-						SR5Actor.addItemtoPan(targetItem, baseActor);
+						SR5_ActorHelper.addItemtoPan(targetItem, baseActor);
 					}
 
 				},
@@ -978,7 +979,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				actorId: actor,
 			});
 		} else {
-			SR5Actor.deleteItemFromPan(itemId, actor, index);
+			SR5_ActorHelper.deleteItemFromPan(itemId, actor, index);
 		}
 	}
 

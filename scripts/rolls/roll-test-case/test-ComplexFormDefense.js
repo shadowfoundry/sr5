@@ -11,7 +11,7 @@ export default async function complexFormDefenseInfo(cardData){
         } else {
             if (cardData.effects.canApplyEffect) {
                 cardData.owner.itemUuid = cardData.previousMessage.itemUuid;
-                cardData.chatCard.buttons.applyEffect = SR5_RollMessage.generateChatButton("opposedTest", "applyEffect", game.i18n.localize("SR5.ApplyEffect"));
+                cardData.chatCard.buttons.applyEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "applyEffect", game.i18n.localize("SR5.ApplyEffect"));
             }
             else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.DefenseFailure"));
         }

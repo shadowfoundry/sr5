@@ -4,31 +4,35 @@ import { SR5Actor } from "./entities/actors/entityActor.js";
 import { SR5_RollMessage } from "./rolls/roll-message.js";
 import { SR5_MarkHelpers } from "./rolls/roll-helpers/mark.js";
 import { SR5_MiscellaneousHelpers } from "./rolls/roll-helpers/miscellaneous.js";
+import { SR5_ActorHelper } from "./entities/actors/entityActor-helpers.js";
 
 export class SR5_SocketHandler {
     static registerSocketListeners() {
         const hooks = {
             "doNextRound": [SR5Combat._socketDoNextRound],
             "doInitPass": [SR5Combat._socketDoInitPass],
-            "createSidekick": [SR5Actor._socketCreateSidekick],
-            "dismissSidekick": [SR5Actor._socketDismissSidekick],
-            "addItemToPan": [SR5Actor._socketAddItemToPan],
-            "deleteItemFromPan": [SR5Actor._socketDeleteItemFromPan],
-            "deleteMarksOnActor": [SR5Actor._socketDeleteMarksOnActor],
-            "deleteMarkInfo": [SR5Actor._socketDeleteMarkInfo],
+            "updateCombat": [SR5Combat._socketUpdateCombat],
+            "changeInitInCombat": [SR5Combat._socketChangeInitInCombat],
+            "createSidekick": [SR5_ActorHelper._socketCreateSidekick],
+            "dismissSidekick": [SR5_ActorHelper._socketDismissSidekick],
+            "addItemToPan": [SR5_ActorHelper._socketAddItemToPan],
+            "deleteItemFromPan": [SR5_ActorHelper._socketDeleteItemFromPan],
+            "deleteMarksOnActor": [SR5_ActorHelper._socketDeleteMarksOnActor],
+            "deleteMarkInfo": [SR5_ActorHelper._socketDeleteMarkInfo],
             "updateDeckMarkedItems": [SR5_MarkHelpers._socketUpdateDeckMarkedItems],
             "markPanMaster": [SR5_MarkHelpers._socketMarkPanMaster],
             "markSlavedDevice": [SR5_MarkHelpers._socketMarkSlavedDevice],
             "markItem": [SR5_MarkHelpers._socketMarkItem],
-            "overwatchIncrease": [SR5Actor._socketOverwatchIncrease],
-            "linkEffectToSource": [SR5Actor._socketLinkEffectToSource],
-            "deleteSustainedEffect": [SR5Actor._socketDeleteSustainedEffect],
+            "overwatchIncrease": [SR5_ActorHelper._socketOverwatchIncrease],
+            "linkEffectToSource": [SR5_ActorHelper._socketLinkEffectToSource],
+            "deleteSustainedEffect": [SR5_ActorHelper._socketDeleteSustainedEffect],
             "deleteItem": [SR5_MiscellaneousHelpers._socketDeleteItem],
             "updateItem": [SR5_MiscellaneousHelpers._socketUpdateItem],
-            "updateChatButton": [SR5_RollMessage._socketupdateChatButton],
-            "updateRollCard": [SR5_RollMessage._socketupdateRollCard],
-            "heal": [SR5Actor._socketHeal],
+            "updateChatButton": [SR5_RollMessage._socketUpdateChatButton],
+            "updateRollCard": [SR5_RollMessage._socketUpdateRollCard],
+            "heal": [SR5_ActorHelper._socketHeal],
             "updateActorData": [SR5_MiscellaneousHelpers._socketUpdateActorData],
+            "takeDamage":[SR5_ActorHelper._socketTakeDamage],
         }
 
         game.socket.on(`system.sr5`, async (message) => {
