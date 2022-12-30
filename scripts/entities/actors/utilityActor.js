@@ -2611,11 +2611,12 @@ export class SR5_CharacterUtility extends Actor {
 	// Background count calcultations
 	static updateBackgroundCount(actor){
 		let actorData = actor.system;
-		if (canvas.scene){
-			let token = canvas.scene?.tokens.find((t) => t.actorId === actor.id);
+		let scene = game.scenes.active;
+		if (scene){
+			let token = scene.tokens.find((t) => t.actorId === actor.id);
 			//check if actor already has a modifier on background count to avoid scene modifiers and prefer template modifier
 			if (token && !actorData.magic.bgCount.modifiers.length){
-				let sceneData = token.parent.flags.sr5;
+				let sceneData = scene.flags.sr5;
 				if (sceneData.backgroundCountValue !== 0) {
 					if (sceneData.backgroundCountAlignement === actorData.magic.tradition) SR5_EntityHelpers.updateModifier(actorData.magic.bgCount, game.i18n.localize("SR5.SceneBackgroundCount"), sceneData.backgroundCountAlignement, sceneData.backgroundCountValue, false, true);
 					else SR5_EntityHelpers.updateModifier(actorData.magic.bgCount, game.i18n.localize("SR5.SceneBackgroundCount"), sceneData.backgroundCountAlignement, -sceneData.backgroundCountValue, false, true);

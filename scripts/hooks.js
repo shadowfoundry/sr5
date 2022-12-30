@@ -393,5 +393,13 @@ export const registerHooks = function () {
 		if ( !game.user.isGM ) return;
 		await SR5_EffectArea.checkUpdatedTemplateEffect(templateDocument);
 	});
-	
+
+	Hooks.on('updateScene', async (data) => {
+		//relaunch prepare Data of all actor when a scene is modified, so background count and other effect are correctly applied without needing to manualy refresh an actor
+		if (!game.user.isGM) return;
+		for (let token of data.tokens){
+			token.actor.prepareData();
+			if (token.actor.sheet.rendered) token.actor.sheet.render(false);
+		}
+	});
 }
