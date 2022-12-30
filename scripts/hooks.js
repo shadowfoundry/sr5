@@ -268,7 +268,9 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("updateItem", async(document, data, options, userId) => {
-		if (document.isOwned && game.combat && game.user?.isGM) SR5Combat.changeInitInCombatHelper(document.actor.id);
+		if (document.isOwned && game.combat && game.user?.isGM) {
+			if (document.type === "itemSpell" || document.type === "itemComplexForm") SR5Combat.changeInitInCombatHelper(document.actor.id);
+		}
 		
 		//Keep agent condition monitor synchro with owner deck
 		if(document.type === "itemDevice" && data.system.conditionMonitors?.matrix && document.testUserPermission(game.user, 3) || (game.user?.isGM)){
@@ -281,10 +283,11 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("updateActor", async(document, data, options, userId) => {
-		if (game.combat && game.user?.isGM) {
+		if (game.combat && game.user?.isGM && (data.system?.initiatives || data.system?.conditionMonitors || data.system?.matrix)) {
 			let actorId = document.id;
 			if (document.isToken) actorId = document.token.id;
-			SR5Combat.changeInitInCombatHelper(actorId);
+			
+			await SR5Combat.changeInitInCombatHelper(actorId);
 		}
 
 		//Keep deck condition monitor synchro with agent condition monitor
