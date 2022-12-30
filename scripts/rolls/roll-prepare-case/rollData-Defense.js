@@ -10,15 +10,15 @@ export default async function defense(rollData, actor, chatData){
 
     //Determine title
     rollData.test.title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.roll.hits})`;
-
+    debugger;
     //Determine dicepool composition
-    rollData.dicePool.composition = actorData.defenses.defend.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));
+    rollData.dicePool.composition = actorData.defenses.defend.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup" || mod.type === "controler"));
 
     //Determine base dicepool
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
 
     //Determine dicepool modififiers
-    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actorData.defenses.defend.modifiers);
+    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actorData.defenses.defend.modifiers.filter(mod => (mod.type !== "controler")));
 
     //Add others informations
     rollData.test.type = "defense";
