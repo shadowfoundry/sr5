@@ -81,12 +81,11 @@ export class SR5_ActorHelper {
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0);
 					ui.notifications.info(`${realActor.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 					if (actorData.controlMode === "rigging"){
-						let controler = SR5_EntityHelpers.getRealActorFromID(actorData.vehicleOwner.id)
-						let chatData = {}
-						chatData.damage={
-							resistanceType : "biofeedback",
-							value: Math.ceil(damage/2),
-						}
+						let controler = SR5_EntityHelpers.getRealActorFromID(actorData.vehicleOwner.id);
+						let chatData = SR5_PrepareRollTest.getBaseRollData(null, controler);
+						chatData.damage.resistanceType = "biofeedback";
+						chatData.damage.value = Math.ceil(damage/2);
+						chatData.owner.messageId = options.owner.messageId;
 						controler.rollTest("resistanceCard", null, chatData);
 					}
 				}
