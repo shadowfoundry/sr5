@@ -32,8 +32,8 @@ export class SR5Item extends Item {
 				if (itemData.damageElement === "toxin") SR5_UtilityItem._handleWeaponToxin(itemData, owner);
 				if (itemData.ammunition.value > itemData.ammunition.max) itemData.ammunition.value = itemData.ammunition.max;
 				if (itemData.category === "meleeWeapon" && owner){
-					if (!itemData.isLinkedToFocus) SR5_UtilityItem._handleWeaponFocus(item, owner);
 					SR5_UtilityItem._checkIfWeaponIsFocus(this, owner);
+					if (itemData.isLinkedToFocus) SR5_UtilityItem._handleWeaponFocus(item, owner);
 					if (!owner.system.visions.astral.isActive) itemData.isUsedAsFocus = false;
 				}
 				if (itemData.category === "rangedWeapon" && owner){

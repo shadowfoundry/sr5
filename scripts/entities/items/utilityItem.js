@@ -1363,24 +1363,42 @@ export class SR5_UtilityItem extends Actor {
 		let focus = actor.items.find(w => w.system.linkedWeapon === item.id);
 		if (focus) item.system.isLinkedToFocus = true;
 		else item.system.isLinkedToFocus = false;
+
+		//Remove old effect if still present
+		if (!item.system.isLinkedToFocus){
+			let focusEffect = item.system.itemEffects.find(e => e.target === "system.weaponSkill");
+			if (focusEffect){
+				let arrayEffects = duplicate(item.system.itemEffects);
+				arrayEffects= arrayEffects.filter(e => e.target !== "system.weaponSkill");
+				item.system.itemEffects = arrayEffects;
+			}
+		}
 	}
 
 	static async _handleWeaponFocus(item, actor){
 		let focus = actor.items.find(w => w.system.linkedWeapon === item._id);
-		if (focus) {
-			if (focus.system.isActive){
-				let effect = {
-					"name": `${focus.name}`,
-					"target": "system.weaponSkill",
-					"wifi": false,
-					"transfer": false,
-					"ownerItem": focus.id,
-					"type": "value",
-					"value": focus.system.itemRating,
-					"multiplier": 1
-				}
-				item.system.itemEffects.push(effect);
-			} 
+		if (!focus) return;
+
+		//check if focus effect is present. Add it if not.
+		let focusEffect = item.system.itemEffects.find(e => e.ownerItem === focus.id);
+		if (focus.system.isActive && !focusEffect){
+			let effect = {
+				"name": `${focus.name}`,
+				"target": "system.weaponSkill",
+				"wifi": false,
+				"transfer": false,
+				"ownerItem": focus.id,
+				"type": "value",
+				"value": focus.system.itemRating,
+				"multiplier": 1
+			}
+			item.system.itemEffects.push(effect);
+		}
+		//remove effect if focus is off
+		if (!focus.system.isActive && focusEffect){
+			let arrayEffects = duplicate(item.system.itemEffects);
+			arrayEffects= arrayEffects.filter(e => e.ownerItem !== focus.id);
+			item.system.itemEffects = arrayEffects;
 		}
 	}
 
