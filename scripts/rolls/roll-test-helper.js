@@ -1,5 +1,6 @@
 import { SR5_RollMessage } from "./roll-message.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
+import { SR5_SocketHandler } from "../socket.js";
 
 export class SR5_RollTestHelper {
 
@@ -127,6 +128,11 @@ export class SR5_RollTestHelper {
             newItem.system.charge -= 1;
         }
 
-        item.update(newItem);
+        
+        if (game.user?.isGM) item.update(newItem);
+        else SR5_SocketHandler.emitForGM("updateItem", {
+            item: item.uuid,
+            info: newItem,
+        });
     }
 }

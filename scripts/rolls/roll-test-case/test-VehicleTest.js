@@ -9,4 +9,8 @@ export default async function vehicleTestInfo(cardData, actorId){
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.VehicleTestUncontrolled"));
         }
     }
+
+    if (cardData.previousMessage.messageId) {
+        SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "vehicleTest");
+    }
 }

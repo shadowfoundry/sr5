@@ -7,6 +7,7 @@ import { SR5_CombatHelpers } from "../../rolls/roll-helpers/combat.js";
 import { SR5_CalledShotHelpers } from "../../rolls/roll-helpers/calledShot.js";
 import { SR5_MarkHelpers } from "../../rolls/roll-helpers/mark.js";
 import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
+import { SR5_SocketHandler } from "../../socket.js";
 import { _getSRStatusEffect } from "../../system/effectsList.js";
 
 export class SR5_ActorHelper {
@@ -811,11 +812,13 @@ export class SR5_ActorHelper {
 
     //Keep Agent condition Monitor synchro with Owner deck
 	static async keepAgentMonitorSynchro(agent){
-		if(!agent.system.creatorData) return;
+		if(!agent.system.creatorData) return SR5_SystemHelpers.srLog(1, `No CreatorData for Agent in keepAgentMonitorSynchro()`);
 		if(!canvas.scene) return;
 		
 		let owner = SR5_EntityHelpers.getRealActorFromID(agent.system.creatorId);
+		if (!owner) return SR5_SystemHelpers.srLog(1, `No Owner in keepAgentMonitorSynchro()`);
 		let ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive);
+		if (!ownerDeck) return SR5_SystemHelpers.srLog(1, `No Owner Deck in keepAgentMonitorSynchro()`);
 		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
 			let updatedActor = duplicate(agent.system);
 			updatedActor.conditionMonitors.matrix = ownerDeck.system.conditionMonitors.matrix;
@@ -826,8 +829,9 @@ export class SR5_ActorHelper {
 	//Keep Owner deck condition Monitor synchro with Agent
 	static async keepDeckSynchroWithAgent(agent){
 		let owner = SR5_EntityHelpers.getRealActorFromID(agent.system.creatorId);
+		if (!owner) return SR5_SystemHelpers.srLog(1, `No Owner in keepDeckSynchroWithAgent()`);
 		let ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive);
-
+		if (!ownerDeck) return SR5_SystemHelpers.srLog(1, `No Owner Deck in keepDeckSynchroWithAgent()`);;
 		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
 			let newDeck = duplicate(ownerDeck.system);
 			newDeck.conditionMonitors.matrix = agent.system.conditionMonitors.matrix;
@@ -901,7 +905,7 @@ export class SR5_ActorHelper {
 	}
 
 	//Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
-	async applyExternalEffect(actorId, data, effectType){
+	static async applyExternalEffect(actorId, data, effectType){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		let item = await fromUuid(data.owner.itemUuid);
 		let itemData = item.system;

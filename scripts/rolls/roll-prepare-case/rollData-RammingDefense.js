@@ -5,13 +5,13 @@ export default function rammingDefense(rollData, actor, chatData){
     rollData.test.title = `${game.i18n.localize("SR5.PhysicalDefenseTest")} (${chatData.roll.hits})`;
 
     //Determine dicepool composition
-    rollData.dicePool.composition = actor.system.defenses.defend.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));
+    rollData.dicePool.composition = actor.system.defenses.defend.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup" || mod.type === "controler"));
 
     //Determine base dicepool
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
 
     //Determine dicepool modififiers
-    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.defenses.defend.modifiers);
+    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.defenses.defend.modifiers.filter(mod => (mod.type !== "controler")));
 
     //Determine base limit & modifiers
     if (actor.type === "actorDrone"){

@@ -1,3 +1,4 @@
+import { SR5 } from "../../config.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5_RollTestHelper } from "../roll-test-helper.js";
 
@@ -52,11 +53,14 @@ export default async function defenseResultInfo(cardData, type){
                     value: cardData.roll.hits * 2,
                     label: game.i18n.localize(SR5.drainModTypes["hits"]),
                 };
-                cardData.magic.drain.value -= (cardData.magic.reagentsSpent - cardData.magic.force);
-                cardData.magic.drain.modifiers.reagents = {
-                    value: -(cardData.magic.reagentsSpent - cardData.magic.force),
-                    label: game.i18n.localize(SR5.drainModTypes["reagents"]),
-                };
+                let reagentsMod = Math.floor(cardData.magic.reagentsSpent / cardData.magic.force) - 1;
+                if (reagentsMod > 0) {
+                    cardData.magic.drain.value -= reagentsMod;
+                    cardData.magic.drain.modifiers.reagents = {
+                        value: -reagentsMod,
+                        label: game.i18n.localize(SR5.drainModTypes["reagents"]),
+                    };
+                }
             }
             key = "ritualSealed";
             if (cardData.magic.drain.value < 2) cardData.magic.drain.value = 2;

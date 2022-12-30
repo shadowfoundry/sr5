@@ -119,8 +119,9 @@ export class SR5_RollMessage {
             actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
             if (actor == null) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`);
         } else if (action === "nonOpposedTest" && messageData) {
-            if (messageData.target.actorId && (messageData.test.typeSub === "banishing" 
-              || messageData.test.typeSub ==="binding" || messageData.test.typeSub ==="decompileSprite")) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
+            if (messageData.target.actorId && (messageData.test.typeSub === "banishing"
+              || messageData.test.typeSub ==="binding" || messageData.test.typeSub ==="decompileSprite"
+              || messageData.test.typeSub ==="registerSprite")) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
             else actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
         }
 
@@ -346,7 +347,11 @@ export class SR5_RollMessage {
                 SR5_MarkHelpers.eraseMarkChoice(messageData);
                 break;
             case "eraseMarkSuccess":
-                SR5_MarkHelpers.eraseMark(messageData);
+                if (!game.user?.isGM) {
+                    SR5_SocketHandler.emitForGM("eraseMark", {
+                        cardData: messageData,
+                    });
+                } else SR5_MarkHelpers.eraseMark(messageData);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "checkOverwatchScore":
@@ -447,9 +452,11 @@ export class SR5_RollMessage {
     //Remove or change buttons after action is done
     static async updateChatButton(message, buttonToUpdate, firstOption){
         if (buttonToUpdate === undefined) return;
+
         //Delete useless buttons
         message = await game.messages.get(message);
-        let messageData = duplicate(message.flags.sr5data);
+        if (!message) return;
+        let messageData = duplicate(message.flags?.sr5data);
         for (let key in messageData.chatCard.buttons){
             if (key === buttonToUpdate) await message.update({[`flags.sr5data.chatCard.buttons.-=${key}`]: null}, {render: false});
         }
@@ -573,6 +580,12 @@ export class SR5_RollMessage {
             case "jackOutSuccess":
                 messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionJackOutSuccessFul"));
                 break;
+            case "compileSprite":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.CompiledSprite")} [${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])} (${messageData.matrix.level})]`);
+                break;
+            case "ritualSealed":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.RitualSealed"));
+                break;
             default:
         }
 
@@ -654,17 +667,17 @@ export class SR5_RollMessage {
     //Remove a template from scene on click
     static async removeTemplate(message, itemUuid){
         if (!canvas.scene){
-            SR5_RollMessage.updateChatButton(message, "templateRemove");
+            SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
         let template = canvas.scene.templates.find((t) => t.flags.sr5.itemUuid === itemUuid);
         if (template){
             canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [template.id]);
-            if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");
+            if (message) SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
         } else {
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
-            if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");
+            if (message) SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
         }
     }
 

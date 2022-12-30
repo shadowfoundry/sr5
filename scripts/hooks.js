@@ -227,12 +227,9 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("updateToken", async function(tokenDocument, change) {
-		//if (game.combat) SR5Combat.changeInitInCombatHelper(tokenDocument.id);
 		if (change.x || change.y) {
 			SR5_EffectArea.tokenAura(tokenDocument);
-			if (game.user.isGM){
-				SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
-			}
+			if (game.user.isGM) SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
 		}
 	});
 
@@ -274,7 +271,7 @@ export const registerHooks = function () {
 		if (document.isOwned && game.combat && game.user?.isGM) SR5Combat.changeInitInCombatHelper(document.actor.id);
 		
 		//Keep agent condition monitor synchro with owner deck
-		if(document.type === "itemDevice" && data.system.conditionMonitors?.matrix){
+		if(document.type === "itemDevice" && data.system.conditionMonitors?.matrix && document.testUserPermission(game.user, 3) || (game.user?.isGM)){
 			if (document.parent?.type === "actorPc" || document.parent?.type === "actorGrunt"){
 				for (let a of game.actors) {
 					if(a.type === "actorAgent" && a.system.creatorId === document.parent.id) await SR5_ActorHelper.keepAgentMonitorSynchro(a);
@@ -291,12 +288,12 @@ export const registerHooks = function () {
 		}
 
 		//Keep deck condition monitor synchro with agent condition monitor
-		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix){
+		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix && (document.testUserPermission(game.user, 3) || (game.user?.isGM))){
 			await SR5_ActorHelper.keepDeckSynchroWithAgent(document);
 		}
 
 		//Keep edge monitor synchro with tokens
-		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge){
+		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge && (document.testUserPermission(game.user, 3) || (game.user?.isGM))){
 			await SR5_ActorHelper.keepEdgeSynchroWithGrunt(document);
 		}
 		//let truc = document.effects.find(e => e.origin = "linkLock")
@@ -334,7 +331,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("deleteActiveEffect", async (effect) =>{
-		if (effect.flags.core?.statusId === "prone" && (effect.testUserPermission(game.user, 3) || (game.user?.isGM))) {
+		if (effect.flags.core?.statusId === "prone" && game.user?.isGM){
 			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
 			if (itemEffect) {
 				if (itemEffect.parent.isToken) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.token.id, itemEffect.id);
@@ -344,6 +341,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("createActiveEffect", (effect) =>{
+		if ( !game.user.isGM ) return;
 		if (effect.flags.core?.statusId === "signalJam") {
 			let actorId = effect.parent.id
 			if (effect.parent.isToken) actorId = effect.parent.token.id;
@@ -352,6 +350,8 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("createActor", async (actor) =>{
+		if ( !game.user.isGM ) return;
+
 		//Add itemDevice to Drone/Sprite/Agent if they have none.
 		if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorAgent"){
 			let hasDevice = false;

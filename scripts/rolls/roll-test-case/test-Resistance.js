@@ -17,7 +17,7 @@ export default async function resistanceInfo(cardData, actorId){
 
         //Handle called Shot specifics
         if (cardData.combat.calledShot.name){
-            if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "spendNetHits");
+            if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spendNetHits");
             cardData = await handleCalledShotResistanceInfo(cardData, actor);
         }
 
@@ -71,7 +71,7 @@ export default async function resistanceInfo(cardData, actorId){
 
     //Handle called Shot specifics
     if (cardData.combat.calledShot.name){
-        if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "spendNetHits");
+        if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spendNetHits");
         if (cardData.damage.resistanceType !== "fatiguedDamage") cardData = await handleCalledShotResistanceInfo(cardData, actor, actorId);
         if (cardData.combat.calledShot.name === "splittingDamage") {
             if (cardData.damage.splittedTwo) return cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damage.splittedOne}${game.i18n.localize('SR5.DamageTypeStunShort')} & ${cardData.damage.splittedTwo}${game.i18n.localize('SR5.DamageTypePhysicalShort')}`);
@@ -95,13 +95,13 @@ function handlePreviousButtons(cardData) {
     if (prevData?.test.type === "spell" && prevData?.magic.spell.range === "area");
     else if (prevData?.test.typeSub === "grenade");
     else if (cardData.damage.isContinuous && cardData.test.typeSub === "continuousDamage");
-    else if (cardData.damage.resistanceType === "fatiguedDamage") SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "fatiguedCard"); 
-    else SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "resistanceCard");
+    else if (cardData.damage.resistanceType === "fatiguedDamage") SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fatiguedCard"); 
+    else SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "resistanceCard");
 
     //Remove Biofeedback chat button from previous chat message
     if (cardData.test.typeSub === "biofeedbackDamage") {
-        if (prevData.chatCard.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "attackerDoBiofeedbackDamage");
-        if (prevData.chatCard.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "defenderDoBiofeedbackDamage");
+        if (prevData.chatCard.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "attackerDoBiofeedbackDamage");
+        if (prevData.chatCard.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "defenderDoBiofeedbackDamage");
     }
 }
 

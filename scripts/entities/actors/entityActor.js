@@ -712,10 +712,15 @@ export class SR5Actor extends Actor {
 		SR5_PrepareRollTest.rollTest(this, rollType, rollKey, chatData);
 	}
 
+	static _socketRollTest(message){
+		let actor = SR5_EntityHelpers.getRealActorFromID(message.data.actorId);
+		SR5_PrepareRollTest.rollTest(actor, message.data.rollType, message.data.rollKey, message.data.chatData);
+	}
+
 	//Apply Damage to actor
 	async takeDamage(options){
 		let actorId = (this.isToken ? this.token.id : this.id);
-		if (game.user.isGM || game.user?.id === options.owner?.userId) await SR5_ActorHelper.takeDamage(actorId, options);
+		if (game.user.isGM || this.testUserPermission(game.user, 3)) await SR5_ActorHelper.takeDamage(actorId, options);
 		else {
 			SR5_SocketHandler.emitForGM("takeDamage", {
 				actorId: actorId,

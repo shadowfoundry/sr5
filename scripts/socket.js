@@ -23,6 +23,7 @@ export class SR5_SocketHandler {
             "markPanMaster": [SR5_MarkHelpers._socketMarkPanMaster],
             "markSlavedDevice": [SR5_MarkHelpers._socketMarkSlavedDevice],
             "markItem": [SR5_MarkHelpers._socketMarkItem],
+            "eraseMark": [SR5_MarkHelpers._socketEraseMark],
             "overwatchIncrease": [SR5_ActorHelper._socketOverwatchIncrease],
             "linkEffectToSource": [SR5_ActorHelper._socketLinkEffectToSource],
             "deleteSustainedEffect": [SR5_ActorHelper._socketDeleteSustainedEffect],
@@ -33,6 +34,7 @@ export class SR5_SocketHandler {
             "heal": [SR5_ActorHelper._socketHeal],
             "updateActorData": [SR5_MiscellaneousHelpers._socketUpdateActorData],
             "takeDamage":[SR5_ActorHelper._socketTakeDamage],
+            "actorRoll": [SR5Actor._socketRollTest],
         }
 
         game.socket.on(`system.sr5`, async (message) => {
@@ -64,6 +66,11 @@ export class SR5_SocketHandler {
         if (!gmUser) return SR5_SystemHelpers.srLog(1, 'No active GM user!');
 
         const message = SR5_SocketHandler._createMessage(type, data, gmUser.id);
+        await game.socket.emit(`system.sr5`, message);
+    }
+
+    static async emitForPlayer(type, data, playerId) {
+        const message = SR5_SocketHandler._createMessage(type, data, playerId);
         await game.socket.emit(`system.sr5`, message);
     }
 }

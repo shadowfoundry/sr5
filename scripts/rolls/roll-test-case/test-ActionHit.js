@@ -53,6 +53,7 @@ export default async function actionHitInfo(cardData, type){
             labelEnd = game.i18n.localize("SR5.RitualFailed");
             key = "ritualResistance";
             testType = "nonOpposedTest";
+            gmAction = true;
             break;
         case "passThroughBarrier":
             label = game.i18n.localize("SR5.ManaBarrierResistance");

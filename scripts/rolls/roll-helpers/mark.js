@@ -236,4 +236,8 @@ export class SR5_MarkHelpers {
         //Delete mark from owner deck
         await SR5_ActorHelper.deleteMarkInfo(cardData.owner.actorId, cardData.previousMessage.itemUuid);
     }
+
+    static async _socketEraseMark(message){
+        await SR5_MarkHelpers.eraseMark(message.data.cardData);
+    }
 }

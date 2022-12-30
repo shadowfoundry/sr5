@@ -39,7 +39,7 @@ export default async function resistanceResultInfo(cardData, type){
             key = "applyEffectAuto";
             if (!cardData.effects.canApplyEffect && !cardData.effects.canApplyEffectOnItem) applyEffect = false;
             else cardData.owner.itemUuid = cardData.previousMessage.itemUuid;
-            if (prevData.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spellResistance");
+            if (prevData?.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spellResistance");
             break;
         case "powerDefense":
         case "martialArtDefense":
@@ -73,7 +73,7 @@ export default async function resistanceResultInfo(cardData, type){
     if (cardData.roll.netHits <= 0) {
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", labelEnd);
         //if type is a spell with area effect, create an effect at 0 value on defender to avoir new resistance test inside the canvas template
-        if (type === "spellResistance" && prevData.magic.spell.area > 0){
+        if (type === "spellResistance" && prevData?.magic.spell.area > 0){
             //add effect "applyEffectAuto"
             if (cardData.roll.netHits < 0) cardData.roll.netHits = 0;
             actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);

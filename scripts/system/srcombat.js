@@ -534,6 +534,7 @@ export class SR5Combat extends Combat {
 		if (!actor) return;
 
 		let actorData = deepClone(actor.system);
+		let damageInfo;
 
 		//Decrease external effect duration
 		for (let item of actor.items){
@@ -578,19 +579,18 @@ export class SR5Combat extends Combat {
 					}
 
 					itemData.value -= 1;
-					let damageInfo = {
-						damageResistanceType: "physicalDamage",
-						incomingPA: 0,
-						damageValue: itemData.value,
-						damageType: "physical",
-						damageElement: "acid",
-					}
+					damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo.damage.resistanceType = "physicalDamage";
+					damageInfo.damage.value = itemData.value;
+					damageInfo.damage.type = "physical";
+					damageInfo.damage.element = "acid";
+
 					actor.rollTest("resistanceCard", null, damageInfo);
 				}
 
 				//Apply Fire effect if any
 				if (itemData.type === "fireDamage") {
-					let damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
 					damageInfo.damage.value = itemData.value;
 					damageInfo.damage.type = "physical";
 
