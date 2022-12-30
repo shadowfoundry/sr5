@@ -93,7 +93,7 @@ export default class SR5_RollDialog extends Dialog {
 
     async getTargetType(target){
         let item = await fromUuid(target);
-        if (item.type === "itemSpell") return item.system.category;
+        if (item?.type === "itemSpell") return item.system.category;
         else return null;
     }
 
@@ -965,7 +965,7 @@ export default class SR5_RollDialog extends Dialog {
                 case "targetEffect":
                     selectValue = html.find(name)[0].value;
                     dialogData.target.itemUuid = selectValue;
-                    if (dialogData.test.typeSub === "counterspelling"){
+                    if (dialogData.test.typeSub === "counterspelling" && selectValue){
                         let spellCategory = await this.getTargetType(dialogData.target.itemUuid);
                         inputValue = parseInt(actor.system.skills.counterspelling.spellCategory[spellCategory].dicePool - actor.system.skills.counterspelling.test.dicePool);
                         label = `${game.i18n.localize(SR5.dicePoolModTypes["spellCategory"])} (${game.i18n.localize(SR5.spellCategories[spellCategory])})`;

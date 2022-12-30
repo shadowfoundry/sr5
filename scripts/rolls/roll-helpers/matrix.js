@@ -55,18 +55,26 @@ export class SR5_MatrixHelpers {
         SR5_EntityHelpers.updateValue(newItem.system.conditionMonitors.matrix.actual, 0, newItem.system.conditionMonitors.matrix.value);
         if (newItem.system.conditionMonitors.matrix.actual.value >= newItem.system.conditionMonitors.matrix.value){
             if (targetItem.type === "itemDevice" && targetActor.system.matrix.userMode !== "ar"){
-                let dumpshockData = {damageResistanceType: "dumpshock"};
+                let dumpshockData = {
+                    damage:{resistanceType: "dumpshock"}
+                };
                 targetActor.rollTest("resistanceCard", null, dumpshockData);
                 ui.notifications.info(`${targetActor.name} ${game.i18n.localize("SR5.INFO_IsDisconnected")}.`);
             }
             newItem.system.isActive = false;
             newItem.system.wirelessTurnedOn = false;
-          }
-        targetItem.update({system: newItem.system});
+        }
+        if (game.user?.isGM) targetItem.update({system: newItem.system});
+        else SR5_SocketHandler.emitForGM("updateItem", {
+            item: targetItem.uuid,
+            info: newItem.system,
+        });
 
         if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
         else ui.notifications.info(`${targetActor.name} (${targetItem.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
     }
+
+
 
     // Update Matrix Damage to a Deck
     static async updateMatrixDamage(cardData, netHits, defender){
@@ -200,6 +208,12 @@ export class SR5_MatrixHelpers {
         let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId);
         await actor.deleteEmbeddedDocuments("Item", [cardData.previousMessage.itemUuid]);
         await SR5_EntityHelpers.deleteEffectOnActor(actor, "linkLock");
+
+        if (actor.system.matrix.userMode === "hotsim"){
+            let dumpshockData = SR5_PrepareRollTest.getBaseRollData(null, actor);
+            dumpshockData.damage.resistanceType = "dumpshock";
+            actor.rollTest("resistanceCard", null, dumpshockData);
+        }
     }
 
     static async jamSignals(cardData){

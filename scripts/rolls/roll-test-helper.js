@@ -1,5 +1,6 @@
 import { SR5_RollMessage } from "./roll-message.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
+import { SR5_SocketHandler } from "../socket.js";
 
 export class SR5_RollTestHelper {
 
@@ -58,7 +59,7 @@ export class SR5_RollTestHelper {
 
     //Remove 1 edge from actor
 	static async removeEdgeFromActor(messageData, actor) {
-		if (messageData.actorType === "actorSpirit") {
+		if (actor.type === "actorSpirit") {
 			let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
 			creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 });
 		} else {
@@ -127,6 +128,11 @@ export class SR5_RollTestHelper {
             newItem.system.charge -= 1;
         }
 
-        item.update(newItem);
+        
+        if (game.user?.isGM) item.update(newItem);
+        else SR5_SocketHandler.emitForGM("updateItem", {
+            item: item.uuid,
+            info: newItem,
+        });
     }
 }

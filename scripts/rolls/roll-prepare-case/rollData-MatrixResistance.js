@@ -10,9 +10,9 @@ export default async function matrixResistance(rollData, actor, chatData){
  
     //Determine base dicepool
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
- 
+
     //Determine dicepool modififiers
-    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.matrix.resistances.matrixDamage.modifiers);
+    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.matrix.resistances.matrixDamage.modifiers.filter(mod => (mod.type !== "matrixAttribute" && mod.type !== "deviceRating")));
 
     if (chatData.target.itemUuid){
         let matrixTargetItem = await fromUuid(chatData.target.itemUuid);
@@ -32,7 +32,7 @@ export default async function matrixResistance(rollData, actor, chatData){
     rollData.matrix.actionType = chatData.matrix.actionType;
     rollData.previousMessage.actorId = chatData.previousMessage.actorId;
     rollData.previousMessage.messageId = chatData.owner.messageId;
-    rollData.damage.matrix.base = chatData.damage.matrix.base;
+    rollData.damage.matrix.base = chatData.damage.matrix.value;
     rollData.damage.type = chatData.damage.type;
 
     return rollData;

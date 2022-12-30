@@ -2,6 +2,7 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5 } from "../../config.js";
 import { SR5Combat } from "../../system/srcombat.js";
+import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js";
 
 export default async function resistanceInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
@@ -16,7 +17,7 @@ export default async function resistanceInfo(cardData, actorId){
 
         //Handle called Shot specifics
         if (cardData.combat.calledShot.name){
-            if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "spendNetHits");
+            if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spendNetHits");
             cardData = await handleCalledShotResistanceInfo(cardData, actor);
         }
 
@@ -70,8 +71,8 @@ export default async function resistanceInfo(cardData, actorId){
 
     //Handle called Shot specifics
     if (cardData.combat.calledShot.name){
-        if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "spendNetHits");
-        if (cardData.damage.resistanceType !== "fatiguedDamage") cardData = await handleCalledShotResistanceInfo(cardData, actor);
+        if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spendNetHits");
+        if (cardData.damage.resistanceType !== "fatiguedDamage") cardData = await handleCalledShotResistanceInfo(cardData, actor, actorId);
         if (cardData.combat.calledShot.name === "splittingDamage") {
             if (cardData.damage.splittedTwo) return cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damage.splittedOne}${game.i18n.localize('SR5.DamageTypeStunShort')} & ${cardData.damage.splittedTwo}${game.i18n.localize('SR5.DamageTypePhysicalShort')}`);
             else return cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damage.splittedOne}${game.i18n.localize('SR5.DamageTypeStunShort')}`);
@@ -94,17 +95,17 @@ function handlePreviousButtons(cardData) {
     if (prevData?.test.type === "spell" && prevData?.magic.spell.range === "area");
     else if (prevData?.test.typeSub === "grenade");
     else if (cardData.damage.isContinuous && cardData.test.typeSub === "continuousDamage");
-    else if (cardData.damage.resistanceType === "fatiguedDamage") SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "fatiguedCard"); 
-    else SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "resistanceCard");
+    else if (cardData.damage.resistanceType === "fatiguedDamage") SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fatiguedCard"); 
+    else SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "resistanceCard");
 
     //Remove Biofeedback chat button from previous chat message
     if (cardData.test.typeSub === "biofeedbackDamage") {
-        if (prevData.chatCard.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "attackerDoBiofeedbackDamage");
-        if (prevData.chatCard.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButton(cardData.previousMessage.messageId, "defenderDoBiofeedbackDamage");
+        if (prevData.chatCard.buttons.attackerDoBiofeedbackDamage) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "attackerDoBiofeedbackDamage");
+        if (prevData.chatCard.buttons.defenderDoBiofeedbackDamage) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "defenderDoBiofeedbackDamage");
     }
 }
 
-async function handleCalledShotResistanceInfo(cardData, actor){
+async function handleCalledShotResistanceInfo(cardData, actor, actorId){
     cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
 
     //Handle specific target limit damage if any 
@@ -115,7 +116,7 @@ async function handleCalledShotResistanceInfo(cardData, actor){
 
     switch(cardData.combat.calledShot.name){
         case "flameOn":
-            actor.fireDamageEffect(cardData);
+            SR5_ActorHelper.fireDamageEffect(actorId);
             break;
         case "extremeIntimidation":
             cardData.chatCard.buttons.fear = SR5_RollMessage.generateChatButton("nonOpposedTest","calledShotFear",`${game.i18n.localize('SR5.Composure')} (${cardData.previousMessage.attackerNetHits})`);
@@ -130,12 +131,12 @@ async function handleCalledShotResistanceInfo(cardData, actor){
             cardData.combat.calledShot.effects = {"0":  {"name": "shaked",}};
             break;
         case "bellringer":
-            SR5Combat.changeInitInCombat(actor, -10);
+            SR5Combat.changeInitInCombatHelper(actorId, -10);
             ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_Stunned", {initiative: 10})}`)
             cardData.chatCard.buttons.bellringerEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.EffectApplied")} (${game.i18n.localize("SR5.STATUSES_Stunned")})`);
             break;
         case "shakeUp":
-            SR5Combat.changeInitInCombat(actor, cardData.combat.calledShot.initiative);			
+            SR5Combat.changeInitInCombatHelper(actorId, cardData.combat.calledShot.initiative);			
             ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_ShakeUp", {value: cardData.combat.calledShot.initiative})}`);
             cardData.chatCard.buttons.shakeUpEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.EffectApplied")} (${game.i18n.localize("SR5.STATUSES_Shaked")})`);
             break;

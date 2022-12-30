@@ -5,13 +5,13 @@ export default function ramming(rollData, actor){
     rollData.test.title = `${game.i18n.localize("SR5.RammingWith")} ${actor.name}`;
 
     //Determine dicepool composition
-    rollData.dicePool.composition = actor.system.rammingTest.test.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));
+    rollData.dicePool.composition = actor.system.rammingTest.test.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup" || mod.type === "manual"));
 
     //Determine base dicepool
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
 
     //Determine dicepool modififiers
-    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.rammingTest.test.modifiers);
+    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.rammingTest.test.modifiers.filter(mod => (mod.type !== "manual")));
 
     //Determine base limit
     rollData.limit.base = SR5_PrepareRollHelper.getBaseLimit(actor.system.rammingTest.limit.value, actor.system.rammingTest.limit.modifiers);

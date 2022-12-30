@@ -208,6 +208,14 @@ export class SR5_EntityHelpers {
 		return actorPosition;
 	}
 
+	//Get the id of the player controlling an actor
+	static getUserOwner(actor){
+		const playerOwners = Object.entries(actor.ownership).filter(([id, level]) => (!game.users.get(id)?.isGM && game.users.get(id)?.active) && level === 3).map(([id, level])=> id);
+		if(playerOwners.length > 0) {
+			return game.users.get(playerOwners[0]);
+		} else return game.users.find(u => u.isGM && u.active);
+	}
+
 	// Return object with properties sorted alphabetically by translated terms, using keys from a "table" from config.js
 	// NOTE: no assumptions should be made regarding order of properties in an object so it might not work for all browsers
 	static sortByTranslatedTerm(object, table) {

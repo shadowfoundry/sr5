@@ -1,6 +1,7 @@
 
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SystemHelpers } from "./utilitySystem.js";
+import { SR5_SocketHandler } from "../socket.js";
 import { _getSRStatusEffect } from "../system/effectsList.js"
 import { SR5 } from "../config.js";
 
@@ -188,10 +189,12 @@ export class SR5_EffectArea {
             if (!hasItem){
                 //Build necessary data to apply effect
                 let data = {
-                    itemUuid: templateData.itemUuid,
-                    actorId : template.id,
-                    ownerName: sourceItem.actor.name,
-                    test: {hits: sourceItem.system.hits},
+                    owner: {
+                        itemUuid: templateData.itemUuid,
+                        actorId : template.id,
+                        ownerName: sourceItem.actor.name,
+                    },
+                    roll: {hits: sourceItem.system.hits},
                 }
                 //If effect is not resisted, apply effect to actor
                 if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects");
@@ -199,7 +202,21 @@ export class SR5_EffectArea {
                     let message = game.messages.find(m => m.flags.sr5data?.test.type === "spell" && m.flags.sr5data?.owner.itemUuid === templateData.itemUuid);
                     if (!message) return;
                     let messageData = message.flags.sr5data;
-				    if (messageData) actor.rollTest("spellResistance", null, messageData);
+				    if (messageData) {
+                        messageData.owner.messageId = message.id;
+                        if (actor.hasPlayerOwner){
+                            let user = SR5_EntityHelpers.getUserOwner(actor);
+                            if (user.isGM) actor.rollTest("spellResistance", null, messageData);
+                            else {
+                                await SR5_SocketHandler.emitForPlayer("actorRoll", {
+                                    actorId: token.id,
+                                    rollType: "spellResistance",
+                                    rollKey: null,
+                                    chatData: messageData,
+                                }, user.id);
+                            }
+                        } else actor.rollTest("spellResistance", null, messageData);
+                    }
                 }
             }
         }

@@ -110,6 +110,7 @@ export class SR5_ThirdPartyHelpers {
             rollData.owner.itemId = cardData.owner.itemId;
             rollData.owner.itemUuid = cardData.owner.itemUuid;
             rollData.magic.force = cardData.magic.force;
+            rollData.magic.reagentsSpent = cardData.magic.reagentsSpent;
             rollData.test.type = "ritualResistance";
             rollData.test.title = `${game.i18n.localize("SR5.RitualResistance")} (${rollData.previousMessage.hits})`;
         }
@@ -259,7 +260,7 @@ export class SR5_ThirdPartyHelpers {
         itemData.isActive = false;
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
-                item: item,
+                item: cardData.target.itemUuid,
                 info: itemData,
             });
         } else await item.update({'system': itemData});
@@ -309,7 +310,7 @@ export class SR5_ThirdPartyHelpers {
         //Update item
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
-                item: targetedEffect.uuid,
+                item: cardData.target.itemUuid,
                 info: newEffect,
             });
         } else await targetedEffect.update({'system': newEffect});
@@ -322,7 +323,7 @@ export class SR5_ThirdPartyHelpers {
         itemData.isActive = true;
         if (!game.user?.isGM){
             SR5_SocketHandler.emitForGM("updateItem", {
-                item: item,
+                item: cardData.owner.itemUuid,
                 info: itemData,
             });
         } else await item.update({'system': itemData});

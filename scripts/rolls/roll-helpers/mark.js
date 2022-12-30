@@ -1,7 +1,7 @@
 import { SR5 } from "../../config.js";
 import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_SocketHandler } from "../../socket.js";
-import { SR5Actor } from "../../entities/actors/entityActor.js";
+import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js";
 
 export class SR5_MarkHelpers {
 
@@ -234,6 +234,10 @@ export class SR5_MarkHelpers {
         }
         await item.update({"system": itemData});
         //Delete mark from owner deck
-        await SR5Actor.deleteMarkInfo(cardData.owner.actorId, cardData.previousMessage.itemUuid);
+        await SR5_ActorHelper.deleteMarkInfo(cardData.owner.actorId, cardData.previousMessage.itemUuid);
+    }
+
+    static async _socketEraseMark(message){
+        await SR5_MarkHelpers.eraseMark(message.data.cardData);
     }
 }

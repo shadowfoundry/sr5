@@ -11,7 +11,7 @@ export default async function overwatchResistanceInfo(cardData){
     else label = game.i18n.localize("SR5.MatrixActionCheckOverwatchScoreFailed");
     
     //Add owerwatch
-    cardData.chatCard.buttons.overwatch = await SR5_RollMessage.generateChatButton("nonOpposedTest", "overwatch", `${game.i18n.format('SR5.IncreaseOverwatch', {name: attacker.name, score: cardData.roll.hits})}`);
+    if (cardData.roll.hits > 0)cardData.chatCard.buttons.overwatch = await SR5_RollMessage.generateChatButton("nonOpposedTest", "overwatch", `${game.i18n.format('SR5.IncreaseOverwatch', {name: attacker.name, score: cardData.roll.hits})}`);
 
     cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", label);
 }

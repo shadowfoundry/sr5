@@ -51,6 +51,6 @@ export default async function sidekickResistanceInfo(cardData, type){
         newMessage.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${newMessage.magic.drain.value})`);
     }
 
-    await SR5_RollMessage.updateRollCard(cardData.previousMessage.messageId, newMessage);
+    await SR5_RollMessage.updateRollCardHelper(cardData.previousMessage.messageId, newMessage);
     SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, buttonToRemove)
 }

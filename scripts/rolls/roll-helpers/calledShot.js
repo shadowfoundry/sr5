@@ -2,6 +2,8 @@ import { SR5 } from "../../config.js";
 import { SR5_SocketHandler } from "../../socket.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5_RollTest } from "../roll-test.js";
+import SR5_SpendDialog from "../../interface/spendNetHits-dialog.js";
+import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js";
 
 export class SR5_CalledShotHelpers {
 
@@ -86,7 +88,7 @@ export class SR5_CalledShotHelpers {
                         };
                         effects.push(checkedEffects);
                     }
-                    ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);      
+                    ui.notifications.info(`${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);      
                     messageData = mergeObject(messageData, {
                         "combat.calledShot.hitsSpent": true,
                         "combat.calledShot.effects": effects,
@@ -95,8 +97,7 @@ export class SR5_CalledShotHelpers {
                     let newMessage = duplicate(messageData);
                     newMessage.previousMessage.hits -= numberCheckedEffects;
                     await SR5_RollTest.addInfoToCard(newMessage, actor.id);
-                    if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("updateRollCard", {message: messageData.owner.messageId, newMessage: newMessage,});
-                    else SR5_RollMessage.updateRollCard(messageData.owner.messageId, newMessage);
+                    SR5_RollMessage.updateRollCardHelper(messageData.owner.messageId, newMessage);
                 },
             }).render(true);
         });
@@ -228,7 +229,7 @@ export class SR5_CalledShotHelpers {
                     type: "round",
                     duration: info.previousMessage.hits - info.roll.hits,
                 }
-                await actor.createProneEffect(0, actor.system, 0, duration, "buckled");
+                await SR5_ActorHelper.createProneEffect(actor.id, 0, 0, duration, "buckled");
                 break;
             case "deafened": //done        
                 if (hasEffect){
@@ -396,7 +397,7 @@ export class SR5_CalledShotHelpers {
                     type: "special",
                     duration: 0,
                 }
-                await actor.createProneEffect(0, actor.system, 0, duration, "knockdown");
+                await SR5_ActorHelper.createProneEffect(actor.id, 0, 0, duration, "knockdown");
                 break;
             case "oneArmBandit": //Partially done: can't apply an effect based on arm usage
                 if (!hasEffect){

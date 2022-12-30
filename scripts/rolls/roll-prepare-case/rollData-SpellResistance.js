@@ -2,6 +2,7 @@ import { SR5 } from "../../config.js";
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
 
 export default async function spellResistance(rollData, actor, chatData){
+    if (actor.type === "actorAgent" || actor.type === "actorSprite" || actor.type === "actorDevice") return;
     let spellItem = await fromUuid(chatData.owner.itemUuid);
     let spellData = spellItem.system;
 

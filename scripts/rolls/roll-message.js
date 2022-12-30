@@ -12,6 +12,7 @@ import { SR5_MatrixHelpers } from "./roll-helpers/matrix.js";
 import { SR5_CombatHelpers } from "./roll-helpers/combat.js";
 import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js";
 import { SR5_ThirdPartyHelpers } from "./roll-helpers/thirdparty.js";
+import { SR5_ActorHelper } from "../entities/actors/entityActor-helpers.js";
 
 export class SR5_RollMessage {
     //Handle reaction to roll ChatMessage
@@ -31,10 +32,13 @@ export class SR5_RollMessage {
             html.find(".chat-button-gm").remove();
 
             // Hide if player is not owner of the message
-            if (data.message.speaker.actor && game.actors.get(data.message.speaker.actor)?.permission != 3) html.find(".nonOpposedTest").remove();
+            if (data.message.speaker.actor && game.actors.get(data.message.speaker.actor)?.permission != 3) {
+                html.find(".nonOpposedTest").remove();
+                html.find(".owner").remove();
+            }
             
             // Hide if player is not owner of the message for attackerTest
-            if (data.message.flags.sr5data.previousMessage.userId !== game.user.id) html.find(".attackerTest").remove();
+            if (data.message.flags?.sr5data?.previousMessage?.userId !== game.user.id) html.find(".attackerTest").remove();
 
             // Do not display "Blind" chat cards to non-gm
             if (html.hasClass("blind")) {
@@ -72,7 +76,7 @@ export class SR5_RollMessage {
 
             //Update message with new data
             await message.update({[`flags.sr5data.chatCard.-=buttons`]: null});
-            await SR5_RollMessage.updateRollCard(messageId, newMessage); 
+            await SR5_RollMessage.updateRollCardHelper(messageId, newMessage); 
         });
 
         //Toggle hidden div
@@ -115,10 +119,10 @@ export class SR5_RollMessage {
             actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
             if (actor == null) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`);
         } else if (action === "nonOpposedTest" && messageData) {
-            //if (!game.user.isGM && speaker.actor !== messageData.owner.actorId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
-            //if (messageData.target.actorId) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
-            //else 
-            actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
+            if (messageData.target.actorId && (messageData.test.typeSub === "banishing"
+              || messageData.test.typeSub ==="binding" || messageData.test.typeSub ==="decompileSprite"
+              || messageData.test.typeSub ==="registerSprite")) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
+            else actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
         }
 
         // If there is a matrix action Author, get the Actor to do stuff with him later
@@ -199,7 +203,7 @@ export class SR5_RollMessage {
                 if (actor.type === "actorPc") healData.test.typeSub = await SR5_CombatHelpers.chooseDamageType();
                 else healData.test.typeSub = "condition";
                 let healedID = (actor.isToken ? actor.token.id : actor.id);
-                SR5Actor.heal(healedID, healData);
+                SR5_ActorHelper.heal(healedID, healData);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type, healData.test.typeSub);
                 break;
             case "damage":
@@ -226,7 +230,7 @@ export class SR5_RollMessage {
                 break;
             case "applyFearEffect":
             case "applyStunnedEffect":
-                SR5Combat.changeInitInCombat(actor, -messageData.combat.calledShot.initiative);
+                SR5Combat.changeInitInCombatHelper(actor.id, -messageData.combat.calledShot.initiative);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "templatePlace":
@@ -286,7 +290,7 @@ export class SR5_RollMessage {
                         defenseHits: messageData.roll.hits,
                         actorId: originalActionActor.id,
                     });
-                } else await SR5Actor.overwatchIncrease(messageData.roll.hits, originalActionActor.id);
+                } else await SR5_ActorHelper.overwatchIncrease(messageData.roll.hits, originalActionActor.id);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "defenderDoMatrixDamage":
@@ -324,7 +328,7 @@ export class SR5_RollMessage {
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "catchFire":
-                actor.fireDamageEffect(messageData);
+                SR5_ActorHelper.fireDamageEffect(actor.id);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "targetLocked":
@@ -343,7 +347,11 @@ export class SR5_RollMessage {
                 SR5_MarkHelpers.eraseMarkChoice(messageData);
                 break;
             case "eraseMarkSuccess":
-                SR5_MarkHelpers.eraseMark(messageData);
+                if (!game.user?.isGM) {
+                    SR5_SocketHandler.emitForGM("eraseMark", {
+                        cardData: messageData,
+                    });
+                } else SR5_MarkHelpers.eraseMark(messageData);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "checkOverwatchScore":
@@ -379,7 +387,7 @@ export class SR5_RollMessage {
             case "escapeEngulfDefense":
             case "weaponResistance":
                 SR5_ThirdPartyHelpers.createItemResistance(messageData, messageId);
-                //SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "desactivateFocus":
                 SR5_ThirdPartyHelpers.desactivateFocus(messageData);
@@ -399,11 +407,11 @@ export class SR5_RollMessage {
                 actor.rollTest(type, null, messageData);
                 break;
             case "regeneration":
-                actor.regenerate(messageData);
+                SR5_ActorHelper.regenerate(messageData.owner.speakerId, messageData);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "heal":
-                SR5Actor.heal(messageData.owner.actorId, messageData);
+                SR5_ActorHelper.heal(messageData.owner.actorId, messageData);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "decreaseReach":
@@ -444,9 +452,11 @@ export class SR5_RollMessage {
     //Remove or change buttons after action is done
     static async updateChatButton(message, buttonToUpdate, firstOption){
         if (buttonToUpdate === undefined) return;
+
         //Delete useless buttons
         message = await game.messages.get(message);
-        let messageData = duplicate(message.flags.sr5data);
+        if (!message) return;
+        let messageData = duplicate(message.flags?.sr5data);
         for (let key in messageData.chatCard.buttons){
             if (key === buttonToUpdate) await message.update({[`flags.sr5data.chatCard.buttons.-=${key}`]: null}, {render: false});
         }
@@ -570,6 +580,12 @@ export class SR5_RollMessage {
             case "jackOutSuccess":
                 messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionJackOutSuccessFul"));
                 break;
+            case "compileSprite":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.CompiledSprite")} [${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])} (${messageData.matrix.level})]`);
+                break;
+            case "ritualSealed":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.RitualSealed"));
+                break;
             default:
         }
 
@@ -582,10 +598,10 @@ export class SR5_RollMessage {
         //Remove Edge action & Edit succes so it can't be used after action end
         if (buttonToUpdate !== "templateRemove" && buttonToUpdate !== "templatePlace"){
             messageData.edge.canUseEdge = false;
-            messageData.chatCard.canEditResult = false;
+            //messageData.chatCard.canEditResult = false;
         }
 
-        await SR5_RollMessage.updateRollCard(message.id, messageData);
+        await SR5_RollMessage.updateRollCardHelper(message.id, messageData);
     }
 
     //Update the stat of a chatMessage button
@@ -599,7 +615,7 @@ export class SR5_RollMessage {
         } else await SR5_RollMessage.updateChatButton(message, button, firstOption);
     }
 
-    static async _socketupdateChatButton(message){
+    static async _socketUpdateChatButton(message){
         await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption);
     }
 
@@ -635,25 +651,33 @@ export class SR5_RollMessage {
         });
     }
 
-    static async _socketupdateRollCard(message){
-        SR5_SystemHelpers.srLog(3, `_socketupdateRollCard : message.data.message : '${message.data.message}', message.data.newMessage '${message.data.newMessage}'`);
+    static async _socketUpdateRollCard(message){
         await SR5_RollMessage.updateRollCard(message.data.message, message.data.newMessage);
+    }
+
+    static async updateRollCardHelper(message, newMessage){
+        if (!game.user?.isGM) {
+            await SR5_SocketHandler.emitForGM("updateRollCard", {
+                message: message,
+                newMessage: newMessage,
+            });
+        } else await SR5_RollMessage.updateRollCard(message, newMessage);
     }
 
     //Remove a template from scene on click
     static async removeTemplate(message, itemUuid){
         if (!canvas.scene){
-            SR5_RollMessage.updateChatButton(message, "templateRemove");
+            SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
         let template = canvas.scene.templates.find((t) => t.flags.sr5.itemUuid === itemUuid);
         if (template){
             canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [template.id]);
-            if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");
+            if (message) SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
         } else {
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
-            if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");
+            if (message) SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
         }
     }
 
