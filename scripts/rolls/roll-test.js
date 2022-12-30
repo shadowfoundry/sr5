@@ -143,11 +143,10 @@ export class SR5_RollTest {
 						}
 
 						//Update combatant if Active defense or full defense is used.
-						if (dialogData.dicePool.modifiers.defenseFull || (dialogData.combat.activeDefenseSelected !== "none")){
+						if (dialogData.dicePool.modifiers.fullDefense || (dialogData.combat.activeDefenseSelected !== "none")){
 							let initModifier = 0;
-							if (dialogData.dicePool.modifiers.defenseFull){
-								let fullDefenseEffect = actor.effects.find(e => e.origin === "fullDefense");
-								let isInFullDefense = (fullDefenseEffect) ? true : false;
+							if (dialogData.dicePool.modifiers.fullDefense){
+								let isInFullDefense = actor.effects.find(e => e.origin === "fullDefense") ? true : false;
 								if (!isInFullDefense){
 									initModifier += -10;
 									SR5_CombatHelpers.applyFullDefenseEffect(actor);

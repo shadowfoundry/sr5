@@ -307,7 +307,6 @@ export default class SR5_RollDialog extends Dialog {
                 label: label,
             }
             this.updateDicePoolValue(html);
-            if (modifierName === "fullDefense") SR5_EntityHelpers.addEffectToActor(actor, "fullDefense");
         } else {
             html.find(name)[0].value = 0;
             dialogData.dicePool.modifiers[modifierName] = {
@@ -315,7 +314,6 @@ export default class SR5_RollDialog extends Dialog {
                 label: label,
             }
             this.updateDicePoolValue(html);
-            if (modifierName === "fullDefense") SR5_EntityHelpers.deleteEffectOnActor(actor, "fullDefense");
         }
     }
 

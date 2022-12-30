@@ -8,7 +8,7 @@
 {{/if}}
 
 <!-- ACTIVE DEFENSE -->
-{{#if (or (eq test.typeSub "meleeWeapon")(eq test.typeSub "ramming"))}}
+{{#if (or (eq test.typeSub "meleeWeapon") (eq test.typeSub "ramming"))}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
 {{/if}}
 
