@@ -1371,6 +1371,7 @@ export class SR5_UtilityItem extends Actor {
 				let arrayEffects = duplicate(item.system.itemEffects);
 				arrayEffects= arrayEffects.filter(e => e.target !== "system.weaponSkill");
 				item.system.itemEffects = arrayEffects;
+				item.system.isMagical= false;
 			}
 		}
 	}
@@ -1381,6 +1382,7 @@ export class SR5_UtilityItem extends Actor {
 
 		//check if focus effect is present. Add it if not.
 		let focusEffect = item.system.itemEffects.find(e => e.ownerItem === focus.id);
+		if (focus.system.isActive) item.system.isMagical = true;
 		if (focus.system.isActive && !focusEffect){
 			let effect = {
 				"name": `${focus.name}`,
@@ -1399,6 +1401,7 @@ export class SR5_UtilityItem extends Actor {
 			let arrayEffects = duplicate(item.system.itemEffects);
 			arrayEffects= arrayEffects.filter(e => e.ownerItem !== focus.id);
 			item.system.itemEffects = arrayEffects;
+			item.system.isMagical = false;
 		}
 	}
 
