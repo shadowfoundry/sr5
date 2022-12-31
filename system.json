@@ -9,10 +9,10 @@
       "flags": {}
     }
   ],
-  "version": "0.1.4",
+  "version": "0.1.5",
   "compatibility": {
     "minimum": "10",
-    "verified": "10.288"
+    "verified": "10.291"
   },
   "esmodules": [
     "sr5.js"
