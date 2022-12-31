@@ -1,4 +1,4 @@
-<li class="SR-LigneEnTete SR-PaddingTop10 grid SR-TextUppercase">
+<li class="SR-LigneEnTete SR-PaddingTop10 grid>
     <div class="col-12">{{localize 'SR5.SpellOptions'}}</div>
 </li>
 
@@ -9,16 +9,16 @@
 {{> systems/sr5/templates/rolls/rollDialogPartial/recklessSpellcasting.html}}
 
 <!-- SPIRIT AID -->
-{{#if switch.spiritAid}}
+{{#if dialogSwitch.spiritAid}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidCommand.html}}
 {{/if}}
 
 <!--REAGENTS-->
-{{#if switch.canUseReagents}}
+{{#if dialogSwitch.reagents}}
       {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
 {{/if}}
 
 <!-- SPELL SHAPING METAMAGIC -->
-{{#if switch.spellShaping}}
+{{#if dialogSwitch.spellShaping}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/spellShaping.html}}
 {{/if}}

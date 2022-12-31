@@ -6,8 +6,8 @@
 			<div class="col-1">
 				<input disabled type="number" class="disposableHits" name="disposableHits" value="{{disposableHits}}" placeholder="0" data-dtype="Number" />
 			</div>
-		</li>	
-		{{#if (or (eq calledShot.location "ankle")(eq calledShot.location "knee")(eq calledShot.location "hip")(eq calledShot.location "foot")(eq calledShot.location "shin"))}}	
+		</li>
+		{{#if (or (eq calledShot.location "ankle")(eq calledShot.location "knee")(eq calledShot.location "hip")(eq calledShot.location "foot")(eq calledShot.location "shin")(eq calledShot.location "thigh"))}}	
 			<li class="gridSR-PaddingTop5">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="slowed"/></div>
 				<div class="col-5 SR-Bold">{{localize 'SR5.STATUSES_Slowed'}}{{localize 'SR5.Colons'}}</div>
@@ -17,7 +17,7 @@
 				<div class="col-11 SR-GreyColor">{{localize 'SR5.STATUSES_Slowed_GE'}}</div>
 			</li>
 		{{/if}}
-		{{#if (or (eq calledShot.location "ankle")(eq calledShot.location "knee")(eq calledShot.location "foot")(eq calledShot.location "shin")(eq calledShot.location "sternum"))}}	
+		{{#if (or (eq calledShot.location "ankle")(eq calledShot.location "knee")(eq calledShot.location "foot")(eq calledShot.location "shin")(eq calledShot.location "sternum")(eq calledShot.location "thigh"))}}	
 			<li class="grid SR-PaddingTop5">
 				<div class="col-1"><input type="checkbox" class="input" name="checkDisposableHitsEffects" value="winded"></div>
 				<div class="col-5 SR-Bold">{{localize 'SR5.STATUSES_Winded'}}{{localize 'SR5.Colons'}}</div>

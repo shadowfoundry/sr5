@@ -1,11 +1,18 @@
 import { SR5 } from "../config.js";
 import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
-import { SR5_Dice } from "./dice.js";
-import { SR5_DiceHelper } from "./diceHelper.js";
+import { SR5_RollTest } from "./roll-test.js";
 import { SR5_SocketHandler } from "../socket.js";
 import { SR5Actor } from "../entities/actors/entityActor.js";
 import { SR5Combat } from "../system/srcombat.js";
+import { SR5_RollTestHelper } from "./roll-test-helper.js";
+import { SR5_MarkHelpers } from "./roll-helpers/mark.js";
+import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js";
+import { SR5_MatrixHelpers } from "./roll-helpers/matrix.js";
+import { SR5_CombatHelpers } from "./roll-helpers/combat.js";
+import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js";
+import { SR5_ThirdPartyHelpers } from "./roll-helpers/thirdparty.js";
+import { SR5_ActorHelper } from "../entities/actors/entityActor-helpers.js";
 
 export class SR5_RollMessage {
     //Handle reaction to roll ChatMessage
@@ -20,24 +27,24 @@ export class SR5_RollMessage {
             $(ev.currentTarget).siblings(".SR-CardContent").toggle();
         });
 
-        //Toggle Dice composition details
         if (!game.user.isGM) {
             // Hide GM stuff
             html.find(".chat-button-gm").remove();
+
             // Hide if player is not owner of the message
             if (data.message.speaker.actor && game.actors.get(data.message.speaker.actor)?.permission != 3) {
                 html.find(".nonOpposedTest").remove();
+                html.find(".owner").remove();
             }
+            
             // Hide if player is not owner of the message for attackerTest
-            if (game.user.id !== data.message.flags.sr5data.originalActionUser) {
-                html.find(".attackerTest").remove();
-            }
-        }
+            if (data.message.flags?.sr5data?.previousMessage?.userId !== game.user.id) html.find(".attackerTest").remove();
 
-        // Do not display "Blind" chat cards to non-gm
-        if (html.hasClass("blind") && !game.user.isGM) {
-            html.find(".message-header").remove(); // Remove header so Foundry does not attempt to update its timestamp
-            html.html("").css("display", "none");
+            // Do not display "Blind" chat cards to non-gm
+            if (html.hasClass("blind")) {
+                html.find(".message-header").remove(); // Remove header so Foundry does not attempt to update its timestamp
+                html.html("").css("display", "none");
+            }
         }
 
         // Edit manually the result of a chatmessage roll
@@ -59,17 +66,17 @@ export class SR5_RollMessage {
             let button = $(ev.currentTarget),
                 messageId = button.parents(".message").attr("data-message-id"),
                 message = game.messages.get(messageId),
-                actor = SR5_EntityHelpers.getRealActorFromID(message.flags.speakerId),
+                actor = SR5_EntityHelpers.getRealActorFromID(message.flags.sr5data.owner.speakerId),
                 newMessage = duplicate(message.flags.sr5data);
 
-            newMessage.test[button.attr("data-edit-type")] = parseInt(ev.target.value);
+            newMessage.roll[button.attr("data-edit-type")] = parseInt(ev.target.value);
 
-            await SR5_Dice.srDicesAddInfoToCard(newMessage, actor.id);
-            if (newMessage.itemId) SR5_DiceHelper.srDicesUpdateItem(newMessage, actor);
+            await SR5_RollTest.addInfoToCard(newMessage, actor.id);
+            if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
 
             //Update message with new data
-            await message.update({[`flags.sr5data.-=buttons`]: null});
-            await SR5_RollMessage.updateRollCard(messageId, newMessage); 
+            await message.update({[`flags.sr5data.chatCard.-=buttons`]: null});
+            await SR5_RollMessage.updateRollCardHelper(messageId, newMessage); 
         });
 
         //Toggle hidden div
@@ -91,6 +98,7 @@ export class SR5_RollMessage {
         }
     }
 
+    //Handle action related to chat buttons
     static async chatButtonAction(ev){
         ev.preventDefault();
         
@@ -102,376 +110,498 @@ export class SR5_RollMessage {
                 
         let speaker = ChatMessage.getSpeaker(),
             actor,
-            messageData = message.flags.sr5data,
-            senderId = messageData.speakerId;
+            messageData = message.flags.sr5data;
 
-        messageData.originalMessage = messageId;
+        messageData.owner.messageId = messageId;
     
-        //Opposed test : need to select a Token to operate
+        //Define actor for Opposed test or Non opposed tests
         if (action === "opposedTest") {
             actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
             if (actor == null) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`);
-    
-            switch(type) {
-                case "defenseMeleeWeapon":
-                case "defenseRangedWeapon":
-                case "defenseAstralCombat":
-                    actor.rollTest("defenseCard", null, messageData);
-                    break;
-                case "defenseThroughAndInto":
-                    actor.rollTest("defenseCard", null, messageData.originalAttackMessage);
-                    break;
-                case "matrixDefense":
-                    if ((messageData.typeSub === "dataSpike" 
-                        || messageData.typeSub === "controlDevice"
-                        || messageData.typeSub === "formatDevice"
-                        || messageData.typeSub === "hackOnTheFly"
-                        || messageData.typeSub === "spoofCommand"
-                        || messageData.typeSub === "bruteForce"
-                        || messageData.typeSub === "rebootDevice")
-                        && (actor.type !== "actorDevice" && actor.type !== "actorSprite" && actor.type !== "actorDrone" && actor.type !== "actorAgent")){
-                        SR5_DiceHelper.chooseMatrixDefender(messageData, actor);
-                    } else actor.rollTest(type, messageData.typeSub, messageData);
-                    break;
-                case "powerDefense":
-                case "resistanceCard":
-                case "complexFormDefense":
-                case "matrixIceAttack":
-                case "activeSensorDefense":
-                case "decompilingResistance":
-                case "registeringResistance":
-                case "banishingResistance":
-                case "iceDefense":
-                case "resistSpell":                                        
-                case "rammingDefense":
-                case "martialArtDefense":
-                    actor.rollTest(type, null, messageData);
-                    break;
-                case "bindingResistance":
-                    if (actor.system.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
-                    actor.rollTest(type, null, messageData);
-                    break;
-                case "applyEffect":
-                    actor.applyExternalEffect(messageData, "customEffects");
-                    if (!messageData.spellArea > 0) SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "applyEffectOnItem":
-                    actor.applyExternalEffect(messageData, "itemEffects");
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "drainCard":
-                    actor.rollTest(type, null, messageData);
-                    break;
-                case "firstAid":
-                    let healData = {test:{hits: messageData.healValue,},}
-                    if (actor.type === "actorPc"){
-                        healData.typeSub = await SR5_DiceHelper.chooseDamageType();
-                    } else healData.typeSub = "condition";
-                    let healedID = (actor.isToken ? actor.token.id : actor.id);
-                    SR5Actor.heal(healedID, healData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type, healData.typeSub);
-                    break;
-                case "damage":
-                    actor.takeDamage(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "intimidation":
-                case "performance":
-                case "negociation":
-                case "con":
-                case "leadership":
-                    actor.rollTest("skillDicePool", type, messageData);
-                    break;
-                case "impersonation":
-                case "etiquette":
-                    actor.rollTest("skillDicePool", "perception", messageData);
-                    break;
-                default:
-                    SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (opposed Test)`);
-            }
+        } else if (action === "nonOpposedTest" && messageData) {
+            if (messageData.target.actorId && (messageData.test.typeSub === "banishing"
+              || messageData.test.typeSub ==="binding" || messageData.test.typeSub ==="decompileSprite"
+              || messageData.test.typeSub ==="registerSprite")) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
+            else actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId);
         }
-    
-        //Non-Opposed test : Actor or token is automatically selected
-        if (action === "nonOpposedTest" && messageData) {
-            if (!game.user.isGM && messageData.speakerId !== senderId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
-            actor = SR5_EntityHelpers.getRealActorFromID(message.flags.speakerId);
-    
-            // If there is a matrix action Author, get the Actor to do stuff with him later
-            let originalActionActor, targetActor;
-            if (messageData.originalActionActor) originalActionActor = SR5_EntityHelpers.getRealActorFromID(messageData.originalActionActor);
-            if (messageData.targetActor) targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.targetActor);
-    
-            switch (type) {
-                case "resistanceCard":
-                case "resistanceCardAura":
-                case "drainCard":
-                case "fadingCard":
-                case "objectResistance":
-                case "passThroughDefense":
-                case "accidentCard":
-                case "fatiguedCard":
-                    actor.rollTest(type, null, messageData);                   
+
+        // If there is a matrix action Author, get the Actor to do stuff with him later
+        let originalActionActor, targetActor;
+        if (messageData.previousMessage.actorId) originalActionActor = SR5_EntityHelpers.getRealActorFromID(messageData.previousMessage.actorId);
+        if (messageData.target.hasTarget) targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId);
+
+        switch(type) {
+            case "defenseMeleeWeapon":
+            case "defenseRangedWeapon":
+            case "defenseAstralCombat":
+                actor.rollTest("defense", null, messageData);
+                break;
+            case "defenseThroughAndInto":
+                actor.rollTest("defense", null, messageData.originalAttackMessage);
+                break;
+            case "matrixDefense":
+                if ((messageData.test.typeSub === "dataSpike" 
+                    || messageData.test.typeSub === "controlDevice"
+                    || messageData.test.typeSub === "formatDevice"
+                    || messageData.test.typeSub === "hackOnTheFly"
+                    || messageData.test.typeSub === "spoofCommand"
+                    || messageData.test.typeSub === "bruteForce"
+                    || messageData.test.typeSub === "rebootDevice")
+                    && (actor.type !== "actorDevice" && actor.type !== "actorSprite" && actor.type !== "actorDrone" && actor.type !== "actorAgent")){
+                        SR5_MatrixHelpers.chooseMatrixDefender(messageData, actor);
+                    } else actor.rollTest(type, messageData.test.typeSub, messageData);
                     break;
-                case "fear":
-                case "stunned":   
-                case "buckled":   
-                case "nauseous":
-                case "knockdown":
-                    actor.rollTest(type, null, messageData);
-                    break;
-                case "damage":
-                    if (messageData.typeSub === "firstAid") targetActor.takeDamage(messageData);
-                    else if (messageData.calledShot?.name === "splittingDamage") actor.takeSplitDamage(messageData);
-                    else actor.takeDamage(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "calledShotEffect":
-                    if (messageData.calledShot.name === "trickShot"){
-                        originalActionActor = SR5_EntityHelpers.getRealActorFromID(messageData.attackerId);
-                        await originalActionActor.applyCalledShotsEffect(messageData);
-                    } else await actor.applyCalledShotsEffect(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "applyFearEffect":
-                case "applyStunnedEffect":
-                    SR5Combat.changeInitInCombat(actor, -messageData.initiativeMod);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "matrixResistance":
-                    actor.rollTest(type, messageData.matrixResistanceType, messageData);
-                    break;
-                case "templatePlace":
-                    let item = actor.items.get(messageData.itemId);
-                    await item.placeGabarit(null, messageId);
-                    break;
-                case "templateRemove":
-                    SR5_RollMessage.removeTemplate(messageId, messageData.itemId);
-                    break;
-                case "summonSpirit":
-                case "compileSprite":
-                case "createPreparation":
-                    await SR5_RollMessage.buildItem(messageData, type, actor);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "secondeChance":
-                    SR5_Dice.secondeChance(message, actor);
-                    break;
-                case "pushLimit":
-                    SR5_Dice.pushTheLimit(message, actor);
-                    break;
-                case "extended":
-                    SR5_Dice.extendedRoll(message, actor);
-                    break;
-                case "attackerPlaceMark":
-                    await SR5_DiceHelper.markItem(actor.id, messageData.originalActionActor, messageData.mark, messageData.matrixTargetItemUuid);
-                    // if defender is a drone and is slaved, add mark to master
-                    if (actor.type === "actorDrone" && actor.system.slaved){
-                        if (!game.user?.isGM) {
-                            SR5_SocketHandler.emitForGM("markItem", {
-                                targetActor: actor.system.vehicleOwner.id,
-                                attackerID: originalActionActor,
-                                mark: mark,
-                            });
-                        } else { 
-                            await SR5_DiceHelper.markItem(actor.system.vehicleOwner.id, messageData.originalActionActor, messageData.mark);
-                        }
-                    }
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "defenderPlaceMark":
-                    let attackerID;
-                    if (actor.isToken) attackerID = actor.token.id;
-                    else attackerID = actor.id;
+            case "powerDefense":
+            case "resistanceCard":
+            case "resistanceCardAura":
+            case "complexFormDefense":
+            case "iceAttack":
+            case "sensorDefense":
+            case "decompilingResistance":
+            case "registeringResistance":
+            case "banishingResistance":
+            case "iceDefense":
+            case "spellResistance":                                        
+            case "rammingDefense":
+            case "martialArtDefense":
+            case "drain":
+            case "fading":
+            case "objectResistance":
+            case "passThroughDefense":
+            case "fatiguedCard":
+            case "calledShotFear":
+            case "calledShotStunned":   
+            case "calledShotBuckled":   
+            case "calledShotNauseous":
+            case "calledShotKnockdown":
+            case "matrixResistance":
+            case "vehicleTest":
+                actor.rollTest(type, null, messageData);
+                break;
+            case "resistanceCardContinuousDamage":
+                messageData.test.typeSub = "continuousDamage";
+                actor.rollTest("resistanceCard", null, messageData);
+                break;
+            case "bindingResistance":
+                if (actor.system.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+                actor.rollTest(type, null, messageData);
+                break;
+            case "applyEffect":
+            case "applyEffectAuto":
+                actor.applyExternalEffect(messageData, "customEffects");
+                if (messageData.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "applyEffectOnItem":
+                actor.applyExternalEffect(messageData, "itemEffects");
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "firstAid":
+                let healData = {
+                    test: {},
+                    roll:{netHits: messageData.roll.netHits,},
+                }
+                if (actor.type === "actorPc") healData.test.typeSub = await SR5_CombatHelpers.chooseDamageType();
+                else healData.test.typeSub = "condition";
+                let healedID = (actor.isToken ? actor.token.id : actor.id);
+                SR5_ActorHelper.heal(healedID, healData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type, healData.test.typeSub);
+                break;
+            case "damage":
+                if (messageData.test.typeSub === "firstAid") targetActor.takeDamage(messageData);
+                else if (messageData.combat.calledShot?.name === "splittingDamage") actor.takeSplitDamage(messageData);
+                else actor.takeDamage(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "intimidation":
+            case "performance":
+            case "negociation":
+            case "con":
+            case "leadership":
+                actor.rollTest("skillDicePool", type, messageData);
+                break;
+            case "impersonation":
+            case "etiquette":
+                actor.rollTest("skillDicePool", "perception", messageData);
+                break;
+            case "calledShotEffect":
+                if (messageData.combat.calledShot.name === "trickShot") await originalActionActor.applyCalledShotsEffect(messageData);
+                else await actor.applyCalledShotsEffect(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "applyFearEffect":
+            case "applyStunnedEffect":
+                SR5Combat.changeInitInCombatHelper(actor.id, -messageData.combat.calledShot.initiative);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "templatePlace":
+                let item = await fromUuid(messageData.owner.itemUuid);
+                await item.placeGabarit(messageId);
+                break;
+            case "templateRemove":
+                SR5_RollMessage.removeTemplate(messageId, messageData.owner.itemUuid);
+                break;
+            case "summonSpirit":
+            case "compileSprite":
+            case "createPreparation":
+                await SR5_ThirdPartyHelpers.buildItem(messageData, type, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "secondeChance":
+                SR5_RollTest.secondeChance(message, actor);
+                break;
+            case "pushLimit":
+                SR5_RollTest.pushTheLimit(message, actor);
+                break;
+            case "extended":
+                SR5_RollTest.extendedRoll(message, actor);
+                break;
+            case "attackerPlaceMark":
+                await SR5_MarkHelpers.markItem(actor.id, messageData.previousMessage.actorId, messageData.matrix.mark, messageData.target.itemUuid);
+                // if defender is a drone and is slaved, add mark to master
+                if (actor.type === "actorDrone" && actor.system.slaved){
                     if (!game.user?.isGM) {
                         SR5_SocketHandler.emitForGM("markItem", {
-                            targetActor: originalActionActor.id,
-                            attackerID: attackerID,
-                            mark: 1,
+                            targetActor: actor.system.vehicleOwner.id,
+                            attackerID: originalActionActor.id,
+                            mark: messageData.matrix.mark,
                         });
-                    } else await SR5_DiceHelper.markItem(originalActionActor.id, attackerID, 1);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "overwatch":
-                    if (!game.user?.isGM) {
-                        SR5_SocketHandler.emitForGM("overwatchIncrease", {
-                            defenseHits: messageData.test.hits,
-                            actorId: originalActionActor.id,
-                        });
-                    } else await SR5Actor.overwatchIncrease(messageData.test.hits, originalActionActor.id);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "defenderDoMatrixDamage":
-                    if (originalActionActor.type === "actorPc" || originalActionActor.type === "actorGrunt"){
-                        if (originalActionActor.items.find((item) => item.type === "itemDevice" && item.system.isActive && (item.system.type === "livingPersona" || item.system.type === "headcase"))){
-                            originalActionActor.takeDamage(messageData);
-                        } else SR5_DiceHelper.applyDamageToDecK(originalActionActor, messageData, actor, true);
-                    } else originalActionActor.takeDamage(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "takeMatrixDamage":
-                    if (actor.type === "actorPc" || actor.type === "actorGrunt"){
-                        SR5_DiceHelper.applyDamageToDecK(actor, messageData);
-                    } else actor.takeDamage(messageData);
-                    //Special case for Derezz Complex Form.
-                    if (messageData.typeSub === "derezz") SR5_DiceHelper.applyDerezzEffect(messageData, originalActionActor, actor);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "defenderDoBiofeedbackDamage":
-                    originalActionActor.rollTest("resistanceCard", null, messageData);
-                    break;
-                case "attackerDoBiofeedbackDamage":
-                    if (actor.type === "actorDrone") actor = SR5_EntityHelpers.getRealActorFromID(actor.system.vehicleOwner.id)
-                    actor.rollTest("resistanceCard", null, messageData);
-                    break;
-                case "scatter":
-                    SR5_DiceHelper.rollScatter(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "iceEffect":
-                    SR5_DiceHelper.applyIceEffect(messageData, originalActionActor, actor);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "linkLock":
-                    SR5_DiceHelper.linkLock(originalActionActor, actor);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "catchFire":
-                    actor.fireDamageEffect(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "targetLocked":
-                    SR5_DiceHelper.lockTarget(messageData, originalActionActor, actor);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "jackOut":
-                    SR5_DiceHelper.rollJackOut(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "jackOutSuccess":
-                    SR5_DiceHelper.jackOut(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "eraseMark":
-                    SR5_DiceHelper.eraseMarkChoice(messageData);
-                    break;
-                case "eraseMarkSuccess":
-                    SR5_DiceHelper.eraseMark(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "checkOverwatchScore":
-                    SR5_DiceHelper.rollOverwatchDefense(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "matrixJamSignals":
-                    SR5_DiceHelper.jamSignals(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "reduceService":
-                case "reduceTask":
-                    SR5_DiceHelper.reduceSideckickService(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "registerSprite":
-                case "bindSpirit":
-                    SR5_DiceHelper.enslavedSidekick(messageData, type);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "applyEffectAuto":
-                    actor.applyExternalEffect(messageData, "customEffects");
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "ritualSealed":
-                    SR5_DiceHelper.sealRitual(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "killComplexFormResistance":
-                case "dispellResistance":
-                case "disjointingResistance":
-                case "enchantmentResistance":
-                case "summoningResistance":
-                case "compileSpriteResist":
-                case "preparationResist":
-                case "ritualResistance":
-                case "escapeEngulfDefense":
-                case "weaponResistance":
-                    SR5_DiceHelper.createItemResistance(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "desactivateFocus":
-                    SR5_DiceHelper.desactivateFocus(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "reduceSpell":
-                case "reduceComplexForm":
-                case "reducePreparationPotency":
-                    await SR5_DiceHelper.reduceTransferedEffect(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "bindingResistance":
-                case "banishingResistance":
-                case "decompilingResistance":
-                case "registeringResistance":
-                    targetActor.rollTest(type, null, messageData);
-                    break;
-                case "toxinEffect":
-                    actor.applyToxinEffect(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "escapeEngulf":
-                    actor.rollTest(type, null, messageData);
-                    break;
-                case "regeneration":
-                    actor.regenerate(messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "heal":
-                    SR5Actor.heal(messageData.actorId, messageData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "firstAid":
-                    let healData = {test:{hits: messageData.healValue,},}
-                    if (targetActor.type === "actorPc") healData.typeSub = await SR5_DiceHelper.chooseDamageType();
-                    else healData.typeSub = "condition";
-                    let targetHealedID = (targetActor.isToken ? targetActor.token.id : targetActor.id);
-                    SR5Actor.heal(targetHealedID, healData);
-                    if (!game.user?.isGM) await SR5_SocketHandler.emitForGM("heal", {targetActor: targetHealedID, healData: healData});
-                    else SR5Actor.heal(targetHealedID, healData);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type, healData.typeSub);
-                    break;
-                case "decreaseReach":
-                case "decreaseAccuracy":
-                    await SR5_DiceHelper.applyEffectToItem(messageData, type);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "removeCase":
-                    await SR5_DiceHelper.updateActorData(messageData.targetActor, "maglock.caseRemoved", 0, true);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                case "removeAntiTamper":
-                    await SR5_DiceHelper.updateActorData(messageData.targetActor, "maglock.hasAntiTamper", 0, true);
-                    SR5_RollMessage.updateChatButtonHelper(messageId, type);
-                    break;
-                default:
-                    SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (non-opposed Test)`);
-            }
-        }
+                    } else { 
+                        await SR5_MarkHelpers.markItem(actor.system.vehicleOwner.id, messageData.previousMessage.actorId, messageData.matrix.mark);
+                    }
+                }
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "defenderPlaceMark":
+                let attackerID;
+                if (actor.isToken) attackerID = actor.token.id;
+                else attackerID = actor.id;
+                if (!game.user?.isGM) {
+                    SR5_SocketHandler.emitForGM("markItem", {
+                        targetActor: originalActionActor.id,
+                        attackerID: attackerID,
+                        mark: 1,
+                    });
+                } else await SR5_MarkHelpers.markItem(originalActionActor.id, attackerID, 1);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "overwatch":
+                if (!game.user?.isGM) {
+                    SR5_SocketHandler.emitForGM("overwatchIncrease", {
+                        defenseHits: messageData.roll.hits,
+                        actorId: originalActionActor.id,
+                    });
+                } else await SR5_ActorHelper.overwatchIncrease(messageData.roll.hits, originalActionActor.id);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "defenderDoMatrixDamage":
+                if (originalActionActor.type === "actorPc" || originalActionActor.type === "actorGrunt"){
+                    if (originalActionActor.items.find((item) => item.type === "itemDevice" && item.system.isActive && (item.system.type === "livingPersona" || item.system.type === "headcase"))){
+                        originalActionActor.takeDamage(messageData);
+                    } else SR5_MatrixHelpers.applyDamageToDecK(originalActionActor, messageData, actor, true);
+                } else originalActionActor.takeDamage(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "takeMatrixDamage":
+                if (actor.type === "actorPc" || actor.type === "actorGrunt") SR5_MatrixHelpers.applyDamageToDecK(actor, messageData);
+                else actor.takeDamage(messageData);
+                //Special case for Derezz Complex Form.
+                if (messageData.test.typeSub === "derezz") SR5_MatrixHelpers.applyDerezzEffect(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "defenderDoBiofeedbackDamage":
+                originalActionActor.rollTest("resistanceCard", null, messageData);
+                break;
+            case "attackerDoBiofeedbackDamage":
+                if (actor.type === "actorDrone") actor = SR5_EntityHelpers.getRealActorFromID(actor.system.vehicleOwner.id)
+                if (actor) actor.rollTest("resistanceCard", null, messageData);
+                break;
+            case "scatter":
+                SR5_CombatHelpers.rollScatter(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "iceEffect":
+                SR5_MatrixHelpers.applyIceEffect(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "linkLock":
+                SR5_MatrixHelpers.applylinkLockEffect(originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "catchFire":
+                SR5_ActorHelper.fireDamageEffect(actor.id);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "targetLocked":
+                SR5_CombatHelpers.lockTarget(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "jackOut":
+                SR5_MatrixHelpers.rollJackOut(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "jackOutSuccess":
+                SR5_MatrixHelpers.jackOut(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "eraseMark":
+                SR5_MarkHelpers.eraseMarkChoice(messageData);
+                break;
+            case "eraseMarkSuccess":
+                if (!game.user?.isGM) {
+                    SR5_SocketHandler.emitForGM("eraseMark", {
+                        cardData: messageData,
+                    });
+                } else SR5_MarkHelpers.eraseMark(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "checkOverwatchScore":
+                SR5_MatrixHelpers.rollOverwatchDefense(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "matrixJamSignals":
+                SR5_MatrixHelpers.jamSignals(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "reduceService":
+            case "reduceTask":
+                SR5_ThirdPartyHelpers.reduceSideckickService(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "registerSprite":
+            case "bindSpirit":
+                SR5_ThirdPartyHelpers.enslavedSidekick(messageData, type);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "ritualSealed":
+                SR5_ThirdPartyHelpers.sealRitual(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "killComplexFormResistance":
+            case "dispellResistance":
+            case "disjointingResistance":
+            case "enchantmentResistance":
+            case "summoningResistance":
+            case "compileSpriteResist":
+            case "preparationResist":
+            case "ritualResistance":
+            case "escapeEngulfDefense":
+            case "weaponResistance":
+                SR5_ThirdPartyHelpers.createItemResistance(messageData, messageId);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "desactivateFocus":
+                SR5_ThirdPartyHelpers.desactivateFocus(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "reduceSpell":
+            case "reduceComplexForm":
+            case "reducePreparationPotency":
+                await SR5_ThirdPartyHelpers.reduceTransferedEffect(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "toxinEffect":
+                actor.applyToxinEffect(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "escapeEngulf":
+                actor.rollTest(type, null, messageData);
+                break;
+            case "regeneration":
+                SR5_ActorHelper.regenerate(messageData.owner.speakerId, messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "heal":
+                SR5_ActorHelper.heal(messageData.owner.actorId, messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "decreaseReach":
+            case "decreaseAccuracy":
+                await SR5_ThirdPartyHelpers.applyEffectToItem(messageData, type);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "removeCase":
+                await SR5_MiscellaneousHelpers.updateActorData(messageData.targetActor, "maglock.caseRemoved", 0, true);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "removeAntiTamper":
+                await SR5_MiscellaneousHelpers.updateActorData(messageData.targetActor, "maglock.hasAntiTamper", 0, true);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            default:
+                SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction`);
+        }               
 
         //Attacker test : previous Actor or token is automatically selected
         if (action === "attackerTest" && messageData) {
-            if (!game.user.isGM && game.user.id !== messageData.originalActionUser) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
-            let targetActor = SR5_EntityHelpers.getRealActorFromID(message.flags.speakerId);
-            actor = SR5_EntityHelpers.getRealActorFromID(message.flags.originalActionUser)            
+            if (!game.user.isGM && game.user.id !== messageData.previousMessage.userId) return ui.notifications.warn(game.i18n.localize("SR5.WARN_DontHavePerm"));
             switch (type) {
                 case "spendNetHits":
-                    SR5_DiceHelper.chooseSpendNetHits(message, targetActor);
+                    let targetActor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.actorId);
+                    SR5_CalledShotHelpers.chooseSpendNetHits(message, targetActor);
                     break;
                 case "trickShot":
+                    actor = SR5_EntityHelpers.getRealActorFromID(messageData.previousMessage.actorId);
                     await actor.applyCalledShotsEffect(messageData);
                     break;
                 default:
                     SR5_SystemHelpers.srLog(1, `Unknown '${type}' type in chatButtonAction (attacker Test)`);
             }
         }
+    }
+
+    //Remove or change buttons after action is done
+    static async updateChatButton(message, buttonToUpdate, firstOption){
+        if (buttonToUpdate === undefined) return;
+
+        //Delete useless buttons
+        message = await game.messages.get(message);
+        if (!message) return;
+        let messageData = duplicate(message.flags?.sr5data);
+        for (let key in messageData.chatCard.buttons){
+            if (key === buttonToUpdate) await message.update({[`flags.sr5data.chatCard.buttons.-=${key}`]: null}, {render: false});
+        }
+        messageData = duplicate(message.flags.sr5data);
+
+        //Get actor if any
+        let actor;
+        if (messageData.owner.actorId) actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.actorId);
+
+        //Special cases : add buttons or end action description
+        let endLabel, hits;
+
+        switch (buttonToUpdate) {
+            case "damage":
+                if (messageData.combat.calledShot.name === "splittingDamage") {
+                    if (messageData.damage.splittedTwo){
+                        messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damage.splittedOne}${game.i18n.localize('SR5.DamageTypeStunShort')} & ${messageData.damage.splittedTwo}${game.i18n.localize('SR5.DamageTypePhysicalShort')} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                    } else messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damage.splittedOne}${game.i18n.localize('SR5.DamageTypeStunShort')} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                } else messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damage.value}${game.i18n.localize(SR5.damageTypesShort[messageData.damage.type])} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                break;
+            case "takeMatrixDamage":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damage.matrix.value} ${game.i18n.localize("SR5.AppliedDamage")}`);
+                break;
+            case "eraseMarkSuccess":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionEraseMarkSuccess"));
+                break;
+            case "reduceTask":
+                if ((actor.system.tasks.value - messageData.roll.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.DecompiledSprite");
+                else endLabel = `${game.i18n.format('SR5.INFO_TasksReduced', {task: messageData.roll.netHits})}`;
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
+                break;
+            case "reduceService":
+                if ((actor.system.services.value - messageData.roll.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.BanishedSpirit");
+                else endLabel = `${game.i18n.format('SR5.INFO_ServicesReduced', {service: messageData.roll.netHits})}`;
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
+                break;
+            case "reduceComplexForm":
+                let targetedComplexForm = await fromUuid(messageData.target.itemUuid);
+                if (targetedComplexForm.system.hits <= 0) endLabel = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
+                else endLabel = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: messageData.roll.netHits})}`
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
+                break;
+            case "applyEffect":
+            case "applyEffectAuto":
+            case "calledShotEffect":
+            case "applyStunnedEffect":
+            case "applyFearEffect":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectApplied"));
+                break;
+            case "decreaseReach":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.WeaponReachDecreased"));
+                if (messageData.chatCard.buttons.decreaseAccuracy) delete messageData.chatCard.buttons.decreaseAccuracy;
+                break;
+            case "decreaseAccuracy":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.AccuracyDecreased"));
+                if (messageData.chatCard.buttons.decreaseReach) delete messageData.chatCard.buttons.decreaseReach;
+                break;
+            case "iceEffect":
+                hits = messageData.previousMessage.hits - messageData.roll.hits;
+                switch (messageData.test.typeSub){
+                    case "iceBlaster":
+                        messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectLinkLockedConnection"));
+                        break;
+                    case "iceAcid":
+                        messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceFirewallDone', {hits: hits})}`);
+                        break;
+                    case "iceJammer":
+                        messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceAttackDone', {hits: hits})}`);
+                        break;
+                    case "iceBinder":
+                        messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceDataProcessingDone', {hits: hits})}`);
+                        break;
+                    case "iceMarker":
+                        messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {hits: hits})}`);
+                        break;
+                }
+                break;
+            case "toxinEffect":
+                if (messageData.damage.toxin.type === "airEngulf"){
+                    //Generate Resistance chat button
+			        let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${messageData.damage.base}${game.i18n.localize(SR5.damageTypesShort[messageData.damage.type])}`;
+			        if (messageData.combat.armorPenetration) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${messageData.combat.armorPenetration}`;
+			        messageData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+                    messageData.damage.resistanceType = "physicalDamage";
+                    let oldMessage = game.messages.get(messageData.previousMessage.messageId);
+                    if (oldMessage) await oldMessage.delete();
+                    //Escape engulf
+                    messageData.chatCard.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
+                    messageData.previousMessage.messageId = message.id;
+                }
+                break;
+            case "regeneration":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.roll.netHits} ${game.i18n.localize("SR5.HealedBox")}`);
+                break;
+            case "heal":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.roll.hits}${game.i18n.localize(SR5.damageTypesShort[messageData.test.typeSub])} ${game.i18n.localize("SR5.Healed")}`);
+                messageData.extendedTest = false;
+                break;
+            case "firstAid":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.roll.netHits}${game.i18n.localize(SR5.damageTypesShort[firstOption])} ${game.i18n.localize("SR5.Healed")}`);
+                break;
+            case "removeCase":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MaglockCaseRemoved"));
+                break;
+            case "removeAntiTamper":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MaglockAntiTamperRemoved"));
+                break;
+            case "bindSpirit":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.BoundSpirit"));
+                break;
+            case "reduceSpell":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.DispellingSuccessful")} (${messageData.roll.netHits} ${game.i18n.localize("SR5.DiceHits")})`);
+                break;
+            //case "reduceComplexForm":
+            case "reducePreparationPotency":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.DisjointingSuccessful")} (${messageData.roll.netHits} ${game.i18n.localize("SR5.DiceHits")})`);
+                break
+            case "createPreparation":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.PreparationCreateSuccessful"));
+                break;
+            case "jackOutSuccess":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionJackOutSuccessFul"));
+                break;
+            case "compileSprite":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.CompiledSprite")} [${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])} (${messageData.matrix.level})]`);
+                break;
+            case "ritualSealed":
+                messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.RitualSealed"));
+                break;
+            default:
+        }
+
+        if (buttonToUpdate === "templateRemove") messageData.chatCard.templateRemove = false;
+        if (buttonToUpdate === "templatePlace") {
+            messageData.chatCard.templateRemove = true;
+            messageData.chatCard.templatePlace = false;
+        }
+
+        //Remove Edge action & Edit succes so it can't be used after action end
+        if (buttonToUpdate !== "templateRemove" && buttonToUpdate !== "templatePlace"){
+            messageData.edge.canUseEdge = false;
+            //messageData.chatCard.canEditResult = false;
+        }
+
+        await SR5_RollMessage.updateRollCardHelper(message.id, messageData);
     }
 
     //Update the stat of a chatMessage button
@@ -485,144 +615,8 @@ export class SR5_RollMessage {
         } else await SR5_RollMessage.updateChatButton(message, button, firstOption);
     }
 
-    static async updateChatButton(message, buttonToUpdate, firstOption){
-        if (buttonToUpdate === undefined) return;
-        //Delete useless buttons
-        message = await game.messages.get(message);
-        let messageData = duplicate(message.flags.sr5data);
-        for (let key in messageData.buttons){
-            if (key === buttonToUpdate) await message.update({[`flags.sr5data.buttons.-=${key}`]: null}, {render: false});
-        }
-        messageData = duplicate(message.flags.sr5data);
-
-        //Get actor if any
-        let actor;
-        if (messageData.actorId) actor = SR5_EntityHelpers.getRealActorFromID(messageData.actorId);
-
-        //Special cases : add buttons or end action description
-        let endLabel, hits;
-
-        switch (buttonToUpdate) {
-            case "damage":
-                if (messageData.calledShot?.name === "splittingDamage") {
-                    if (messageData.splittedDamageTwo){
-                        messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.splittedDamageOne}${game.i18n.localize('SR5.DamageTypeStunShort')} & ${messageData.splittedDamageTwo}${game.i18n.localize('SR5.DamageTypePhysicalShort')} ${game.i18n.localize("SR5.AppliedDamage")}`);
-                    } else messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.splittedDamageOne}${game.i18n.localize('SR5.DamageTypeStunShort')} ${game.i18n.localize("SR5.AppliedDamage")}`);
-                } else messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.damageValue}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])} ${game.i18n.localize("SR5.AppliedDamage")}`);
-                break;
-            case "takeMatrixDamage":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.matrixDamageValue} ${game.i18n.localize("SR5.AppliedDamage")}`);
-                break;
-            case "eraseMarkSuccess":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MatrixActionEraseMarkSuccess"));
-                break;
-            case "reduceTask":
-                if ((actor.system.tasks.value - messageData.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.DecompiledSprite");
-                else endLabel = `${game.i18n.format('SR5.INFO_TasksReduced', {task: messageData.netHits})}`;
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
-                break;
-            case "reduceService":
-                if ((actor.system.services.value - messageData.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.BanishedSpirit");
-                else endLabel = `${game.i18n.format('SR5.INFO_ServicesReduced', {service: messageData.netHits})}`;
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
-                break;
-            case "reduceComplexForm":
-                let targetedComplexForm = await fromUuid(messageData.targetEffect);
-                if (targetedComplexForm.system.hits <= 0) endLabel = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
-                else endLabel = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: messageData.netHits})}`
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel);
-                break;
-            case "applyEffectAuto":
-            case "calledShotEffect":
-            case "applyStunnedEffect":
-            case "applyFearEffect":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectApplied"));
-                break;
-            case "decreaseReach":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.WeaponReachDecreased"));
-                if (messageData.buttons.decreaseAccuracy) delete messageData.buttons.decreaseAccuracy;
-                break;
-            case "decreaseAccuracy":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.AccuracyDecreased"));
-                if (messageData.buttons.decreaseReach) delete messageData.buttons.decreaseReach;
-                break;
-            case "iceEffect":
-                hits = messageData.hits - messageData.test.hits;
-                switch (messageData.iceType){
-                    case "iceBlaster":
-                        messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectLinkLockedConnection"));
-                        break;
-                    case "iceAcid":
-                        messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceFirewallDone', {hits: hits})}`);
-                        break;
-                    case "iceJammer":
-                        messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceAttackDone', {hits: hits})}`);
-                        break;
-                    case "iceBinder":
-                        messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceDataProcessingDone', {hits: hits})}`);
-                        break;
-                    case "iceMarker":
-                        messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {hits: hits})}`);
-                        break;
-                }
-                break;
-            case "toxinEffect":
-                if (messageData.toxin.type === "airEngulf"){
-                    //Generate Resistance chat button
-			        let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${messageData.damageValueBase}${game.i18n.localize(SR5.damageTypesShort[messageData.damageType])}`;
-			        if (messageData.incomingPA) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${messageData.incomingPA}`;
-			        messageData.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
-                    messageData.damageResistanceType = "physicalDamage";
-                    let oldMessage = game.messages.get(messageData.continuousDamageId);
-                    if (oldMessage) await oldMessage.delete();
-                    //Escape engulf
-                    messageData.buttons.escapeEngulf = SR5_RollMessage.generateChatButton("nonOpposedTest","escapeEngulf", game.i18n.localize("SR5.EscapeEngulfAttempt"));
-                    messageData.continuousDamageId = message.id;
-                }
-                break;
-            case "regeneration":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.netHits} ${game.i18n.localize("SR5.HealedBox")}`);
-                break;
-            case "heal":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.test.hits}${game.i18n.localize(SR5.damageTypesShort[messageData.typeSub])} ${game.i18n.localize("SR5.Healed")}`);
-                messageData.extendedTest = false;
-                break;
-            case "firstAid":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${messageData.healValue}${game.i18n.localize(SR5.damageTypesShort[firstOption])} ${game.i18n.localize("SR5.Healed")}`);
-                break;
-            case "removeCase":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MaglockCaseRemoved"));
-                break;
-            case "removeAntiTamper":
-                messageData.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.MaglockAntiTamperRemoved"));
-                break;
-            default:
-        }
-
-        if (buttonToUpdate === "templateRemove") messageData.templateRemove = false;
-        if (buttonToUpdate === "templatePlace") {
-            messageData.templateRemove = true;
-            messageData.templatePlace = false;
-        }
-
-        //Remove Edge action & Edit succes so it can't be used after action end
-        if (buttonToUpdate !== "templateRemove" && buttonToUpdate !== "templatePlace"){
-            messageData.secondeChanceUsed = true;
-            messageData.pushLimitUsed = true;
-            messageData.editResult = false;
-        }
-
-        await SR5_RollMessage.updateRollCard(message.id, messageData);
-    }
-
-    static async _socketupdateChatButton(message){
+    static async _socketUpdateChatButton(message){
         await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption);
-    }
-
-
-    static async _socketupdateRollCard(message){
-        SR5_SystemHelpers.srLog(3, `_socketupdateRollCard : message.data.message : '${message.data.message}', message.data.newMessage '${message.data.newMessage}'`);
-        await SR5_RollMessage.updateRollCard(message.data.message, message.data.newMessage);
     }
 
     //Return data for a chat button
@@ -646,8 +640,8 @@ export class SR5_RollMessage {
         return renderTemplate(template, newMessage).then((html) => {
             let newHtml = $(html);
 	        let divButtons = newHtml.find('[id="srButtonTest"]');
-	        for (let button in newMessage.buttons){
-		        divButtons.append(`<button class="messageAction ${newMessage.buttons[button].testType}" data-action="${newMessage.buttons[button].testType}" data-type="${newMessage.buttons[button].actionType}">${newMessage.buttons[button].label}</button>`);
+	        for (let button in newMessage.chatCard.buttons){
+		        divButtons.append(`<button class="messageAction ${newMessage.chatCard.buttons[button].testType}" data-action="${newMessage.chatCard.buttons[button].testType}" data-type="${newMessage.chatCard.buttons[button].actionType}">${newMessage.chatCard.buttons[button].label}</button>`);
 	        }
 	        html = newHtml[0].outerHTML;
             messageToUpdate.update({
@@ -657,76 +651,35 @@ export class SR5_RollMessage {
         });
     }
 
+    static async _socketUpdateRollCard(message){
+        await SR5_RollMessage.updateRollCard(message.data.message, message.data.newMessage);
+    }
+
+    static async updateRollCardHelper(message, newMessage){
+        if (!game.user?.isGM) {
+            await SR5_SocketHandler.emitForGM("updateRollCard", {
+                message: message,
+                newMessage: newMessage,
+            });
+        } else await SR5_RollMessage.updateRollCard(message, newMessage);
+    }
+
     //Remove a template from scene on click
-    static async removeTemplate(message, itemId){
+    static async removeTemplate(message, itemUuid){
         if (!canvas.scene){
-            SR5_RollMessage.updateChatButton(message, "templateRemove");
+            SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`);
             return;
         }
-        let template = canvas.scene.templates.find((t) => t.flags.sr5.item === itemId);
+        let template = canvas.scene.templates.find((t) => t.flags.sr5.itemUuid === itemUuid);
         if (template){
             canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate", [template.id]);
-            if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");
+            if (message) SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
         } else {
             ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`);
-            if (message) SR5_RollMessage.updateChatButton(message, "templateRemove");
+            if (message) SR5_RollMessage.updateChatButtonHelper(message, "templateRemove");
         }
     }
 
-    //Build summoned spirit
-    static async buildItem(messageData, itemType, actor){
-        let actorData = actor.system;
-        let buildItem;
-
-        switch (itemType){
-            case"summonSpirit":
-            buildItem = {
-                    name: `${game.i18n.localize("SR5.SummonedSpirit")} (${game.i18n.localize(SR5.spiritTypes[messageData.spiritType])}, ${messageData.force})`,
-                    type: "itemSpirit",
-                    img: `systems/sr5/img/items/itemSpirit.svg`,
-                    ["system.type"]: messageData.spiritType,
-                    ["system.itemRating"]: messageData.force,
-                    ["system.services.max"]: messageData.hits - messageData.test.hits,
-                    ["system.services.value"]: messageData.hits - messageData.test.hits,
-                    ["system.summonerMagic"]: actorData.specialAttributes.magic.augmented.value,
-                    ["system.magic.tradition"]: actorData.magic.tradition,
-                };
-                ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_SummonSpirit")} ${game.i18n.localize(SR5.spiritTypes[messageData.spiritType])} (${messageData.force})`); 
-                break;
-            case "compileSprite":
-                buildItem = {
-                    name: `${game.i18n.localize("SR5.CompiledSprite")} (${game.i18n.localize(SR5.spriteTypes[messageData.spriteType])}, ${messageData.level})`,
-                    type: "itemSprite",
-                    img: `systems/sr5/img/items/itemSprite.svg`,
-                    ["system.type"]: messageData.spriteType,
-                    ["system.itemRating"]: messageData.level,
-                    ["system.tasks.max"]: messageData.hits - messageData.test.hits,
-                    ["system.tasks.value"]: messageData.hits - messageData.test.hits,
-                    ["system.compilerResonance"]: actorData.specialAttributes.resonance.augmented.value,
-                };
-                ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_CompileSprite")} ${game.i18n.localize(SR5.spriteTypes[messageData.spriteType])} (${messageData.level})`);
-                break;
-            case "createPreparation":
-                let preparation = actor.items.find(i => i.id === messageData.itemId);
-                buildItem = {"system": preparation.system,};
-                buildItem = mergeObject(buildItem, {
-                    name: `${game.i18n.localize("SR5.Preparation")}${game.i18n.localize("SR5.Colons")} ${preparation.name}`,
-                    type: "itemPreparation",
-                    img: `systems/sr5/img/items/itemPreparation.svg`,
-                    ["system.trigger"]: messageData.preparationTrigger,
-                    ["system.potency"]: messageData.hits - messageData.test.hits,
-                    ["system.force"]: messageData.force,
-                    ["system.freeSustain"]: true,
-                    ["system.hits"]: 0,
-                    ["system.drainValue"]:preparation.system.drainValue,
-                });
-                ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_CreatePreparation")} ${preparation.name}`);
-                break;
-            default: 
-                SR5_SystemHelpers.srLog(1, `Unknown '${itemType}' type in 'buildItem()'`);
-        }
-
-        await actor.createEmbeddedDocuments("Item", [buildItem]);
-    }
+    
 }

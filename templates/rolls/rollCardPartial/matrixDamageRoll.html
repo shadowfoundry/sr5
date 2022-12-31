@@ -1,33 +1,33 @@
-{{#if (gt hits test.hits)}}
+{{#if (gt previousMessage.hits roll.hits)}}
     <li class="grid SR-LigneEnTete SR-PaddingTop10">
         <div class="col-10">{{localize 'SR5.MatrixDamage'}}{{localize 'SR5.Colons'}}
             <a class="SR-MessageToggle" data-target="matrixDamageInfo" data-action="show"><i class="fas fa-angle-down SR-SubColor"></i></a>
 		    <a class="SR-MessageToggle" data-target="matrixDamageInfo" data-action="hide" style="display: none;"><i class="fas fa-angle-up SR-SubColor"></i></a>
         </div>
-        <div class="col-2 SR-TextRight">{{matrixDamageValue}}</div>
+        <div class="col-2 SR-TextRight">{{damage.matrix.value}}</div>
     </li>
     <div id="matrixDamageInfo" style="display: none;">  
         <li class="grid SR-GreyColor">
             <div class="col-10">{{localize 'SR5.MatrixDamageBase'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-2 SR-TextRight">{{matrixDamageValueBase}}</div>
+            <div class="col-2 SR-TextRight">{{damage.matrix.base}}</div>
         </li>
         <li class="grid SR-GreyColor">
             <div class="col-10">{{localize 'SR5.NetHits'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-2 SR-TextRight">+{{matrixDamageMod.netHits}}</div>
+            <div class="col-2 SR-TextRight">+{{damage.matrix.modifiers.netHits}}</div>
         </li>
-        {{#if (and (isdefined matrixDamageMod.markQty) (gt matrixDamageMod.markQty 0) )}}
+        {{#if (and (isdefined damage.matrix.modifiers.markQty) (gt damage.matrix.modifiers.markQty 0) )}}
         <li class="grid SR-GreyColor">
             <div class="col-10">{{localize 'SR5.Marks'}} 
-                ({{matrixDamageMod.markQty}} *2{{#if matrixDamageMod.muggerIsActive}} *2 [{{localize 'SR5.ProgramMugger'}}]{{/if}}{{#if matrixDamageMod.guardIsActive}} /2 [{{localize 'SR5.ProgramGuard'}}]{{/if}})
+                ({{damage.matrix.modifiers.markQty}} *2{{#if damage.matrix.modifiers.muggerIsActive}} *2 [{{localize 'SR5.ProgramMugger'}}]{{/if}}{{#if damage.matrix.modifiers.guardIsActive}} /2 [{{localize 'SR5.ProgramGuard'}}]{{/if}})
                 {{localize 'SR5.Colons'}}
             </div>
-            <div class="col-2 SR-TextRight">+{{matrixDamageMod.markDamage}}</div>
+            <div class="col-2 SR-TextRight">+{{damage.matrix.modifiers.markDamage}}</div>
         </li>
         {{/if}}
-        {{#if (gt matrixDamageMod.hammerDamage 0)}}
+        {{#if (gt damage.matrix.modifiers.hammerDamage 0)}}
         <li class="grid SR-GreyColor">
             <div class="col-10">{{localize 'SR5.ProgramHammer'}}{{localize 'SR5.Colons'}}</div>
-            <div class="col-2 SR-TextRight">+{{matrixDamageMod.hammerDamage}}</div>
+            <div class="col-2 SR-TextRight">+{{damage.matrix.modifiers.hammerDamage}}</div>
         </li>       
         {{/if}}
     </div>

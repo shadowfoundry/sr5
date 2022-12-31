@@ -1,6 +1,7 @@
 
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SystemHelpers } from "./utilitySystem.js";
+import { SR5_SocketHandler } from "../socket.js";
 import { _getSRStatusEffect } from "../system/effectsList.js"
 import { SR5 } from "../config.js";
 
@@ -65,22 +66,23 @@ export class SR5_EffectArea {
     }
 
     //Start jamming
-    static async onJamCreation(actorID){
+    static async onJamCreation(actorId){
         if (!canvas.scene) return;
-        let activeActor = SR5_EntityHelpers.getRealActorFromID(actorID);
+        let activeActor = SR5_EntityHelpers.getRealActorFromID(actorId);
         let activeToken;
         if (activeActor.isToken){
-            activeToken = canvas.tokens.placeables.find(t => t.id === actorID);
+            activeToken = canvas.tokens.placeables.find(t => t.id === actorId);
         } else {
-            activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorID);
+            activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorId);
         }
+        if (!activeToken) return;
         let jamEffect =  activeActor.items.find(i => i.system.type === "signalJam" && i.system.ownerID === activeActor.id);
 
         for (let token of canvas.tokens.placeables){
             if (token.id !== activeToken.id){
                 let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id);
                 let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({x: activeToken.x, y: activeToken.y}, {x: token.x, y: token.y});
-                let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorID);
+                let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorId);
                 if (distance < 100 && !jammedEffect){
                     if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(activeActor, tokenActor, jamEffect.system.value);
                 }
@@ -89,13 +91,14 @@ export class SR5_EffectArea {
     }
 
     //End jamming
-    static async onJamEnd(actorID){
+    static async onJamEnd(actorId){
         if (!canvas.scene) return;
-        let activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorID);
+        let activeToken = canvas.tokens.placeables.find(t => t.actor.id === actorId);
+        if (!activeToken) return;
         for (let token of canvas.tokens.placeables){
             if (token.id !== activeToken.id){
                 let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id);
-                let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorID);
+                let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorId);
                 if (jammedEffect) {
                     let jammedActiveEffect = tokenActor.effects.find(i => i.origin === "signalJammed");
                     if (game.user?.isGM){
@@ -186,18 +189,34 @@ export class SR5_EffectArea {
             if (!hasItem){
                 //Build necessary data to apply effect
                 let data = {
-                    itemUuid: templateData.itemUuid,
-                    actorId : template.id,
-                    ownerName: sourceItem.actor.name,
-                    test: {hits: sourceItem.system.hits},
+                    owner: {
+                        itemUuid: templateData.itemUuid,
+                        actorId : template.id,
+                        ownerName: sourceItem.actor.name,
+                    },
+                    roll: {hits: sourceItem.system.hits},
                 }
                 //If effect is not resisted, apply effect to actor
                 if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects");
                 else {
-                    let message = game.messages.find(m => m.flags.sr5data?.type === "spell" && m.flags.sr5data?.itemUuid === templateData.itemUuid);
+                    let message = game.messages.find(m => m.flags.sr5data?.test.type === "spell" && m.flags.sr5data?.owner.itemUuid === templateData.itemUuid);
                     if (!message) return;
                     let messageData = message.flags.sr5data;
-				    if (messageData) actor.rollTest("resistSpell", null, messageData);
+				    if (messageData) {
+                        messageData.owner.messageId = message.id;
+                        if (actor.hasPlayerOwner){
+                            let user = SR5_EntityHelpers.getUserOwner(actor);
+                            if (user.isGM) actor.rollTest("spellResistance", null, messageData);
+                            else {
+                                await SR5_SocketHandler.emitForPlayer("actorRoll", {
+                                    actorId: token.id,
+                                    rollType: "spellResistance",
+                                    rollKey: null,
+                                    chatData: messageData,
+                                }, user.id);
+                            }
+                        } else actor.rollTest("spellResistance", null, messageData);
+                    }
                 }
             }
         }

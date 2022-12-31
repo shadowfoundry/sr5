@@ -8,7 +8,7 @@
 
         <li class="grid">
             <div class="col-10"><p>{{findTranslation 'characterDefenses' 'defend'}}</p></div>
-            <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="defense" data-rollkey="defend"
+            <div class="col-2 roll-logo SR-TextCenter sr-roll" data-rolltype="defenseSimple" data-rollkey="defend"
               data-helpTitle="{{localize 'SR5.HELP_Defense' key=(localize 'SR5.StandardDefense')}}"
               data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
               data-helpDetails="system.defenses.defend">
@@ -30,7 +30,7 @@
                 {{/select}}
                 </select>
             </div>
-            <div class="col-2 SR-TextCenter roll-logo roll-logo sr-roll" data-rolltype="defense" data-rollkey="{{system.sheetPreferences.selections.activeDefense}}"
+            <div class="col-2 SR-TextCenter roll-logo roll-logo sr-roll" data-rolltype="defenseSimple" data-rollkey="{{system.sheetPreferences.selections.activeDefense}}"
               data-helpTitle="{{localize 'SR5.HELP_Defense' key=(findTranslation 'characterDefenses' system.sheetPreferences.selections.activeDefense)}}"
               data-helpMessage="{{localize 'SR5.HELP_DefenseMsg'}}"
               data-helpDetails="system.defenses.{{system.sheetPreferences.selections.activeDefense}}">

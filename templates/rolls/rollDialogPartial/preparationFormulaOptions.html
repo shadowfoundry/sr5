@@ -9,11 +9,11 @@
 {{> systems/sr5/templates/rolls/rollDialogPartial/preparationTrigger.html}}
 
 <!-- SPIRIT AID -->
-{{#if switch.spiritAid}}
+{{#if dialogSwitch.spiritAid}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidCommand.html}}
 {{/if}}
 
 <!--REAGENTS-->
-{{#if switch.canUseReagents}}
+{{#if dialogSwitch.reagents}}
       {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
 {{/if}}

@@ -30,6 +30,7 @@ import  SR5MeasuredTemplateConfig  from "./interface/measuredTemplateConfig.js";
 import {SR5CompendiumInfo} from "./interface/compendium.js";
 import * as macros from "./interface/macros.js";
 import Migration from "./migration.js";
+import { SR5_ActorHelper } from "./entities/actors/entityActor-helpers.js";
 
 export const registerHooks = function () {
 	Hooks.once("init", async function () {
@@ -137,7 +138,7 @@ export const registerHooks = function () {
 		// Determine whether a system migration is required and feasible
 		if ( !game.user.isGM ) return;
 		const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-		const NEEDS_MIGRATION_VERSION = "0.0.5.13";
+		const NEEDS_MIGRATION_VERSION = "0.1.4";
 		const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
 		// Perform the migration
@@ -217,9 +218,10 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("createToken", async function(tokenDocument) {
+		if (!game.user.isGM) return;
 		let tokenData = duplicate(tokenDocument);
 		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenData.texture.src = tokenDocument.actor.img;
-		if (tokenDocument.actor.system.visions.astral.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
+		if (tokenDocument.actor.system.visions?.astral?.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
 		else tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
 		await tokenDocument.update(tokenData);
 	});
@@ -227,9 +229,7 @@ export const registerHooks = function () {
 	Hooks.on("updateToken", async function(tokenDocument, change) {
 		if (change.x || change.y) {
 			SR5_EffectArea.tokenAura(tokenDocument);
-			if (game.user.isGM){
-				SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
-			}
+			if (game.user.isGM) SR5_EffectArea.checkIfTokenIsInTemplate(tokenDocument);
 		}
 	});
 
@@ -268,29 +268,36 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("updateItem", async(document, data, options, userId) => {
-		if (document.isOwned && game.combat) SR5Combat.changeInitInCombat(document.actor);
+		if (document.isOwned && game.combat && game.user?.isGM) {
+			if (document.type === "itemSpell" || document.type === "itemComplexForm") SR5Combat.changeInitInCombatHelper(document.actor.id);
+		}
 		
 		//Keep agent condition monitor synchro with owner deck
-		if(document.type === "itemDevice" && data.system.conditionMonitors?.matrix){
+		if(document.type === "itemDevice" && data.system.conditionMonitors?.matrix && document.testUserPermission(game.user, 3) || (game.user?.isGM)){
 			if (document.parent?.type === "actorPc" || document.parent?.type === "actorGrunt"){
 				for (let a of game.actors) {
-					if(a.type === "actorAgent" && a.system.creatorId === document.parent.id) await SR5Actor.keepAgentMonitorSynchro(a);
+					if(a.type === "actorAgent" && a.system.creatorId === document.parent.id) await SR5_ActorHelper.keepAgentMonitorSynchro(a);
 				}
 			} 
 		}
 	});
 
 	Hooks.on("updateActor", async(document, data, options, userId) => {
-		if (game.combat) SR5Combat.changeInitInCombat(document);
+		if (game.combat && game.user?.isGM && (data.system?.initiatives || data.system?.conditionMonitors || data.system?.matrix)) {
+			let actorId = document.id;
+			if (document.isToken) actorId = document.token.id;
+			
+			await SR5Combat.changeInitInCombatHelper(actorId);
+		}
 
 		//Keep deck condition monitor synchro with agent condition monitor
-		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix){
-			await SR5Actor.keepDeckSynchroWithAgent(document);
+		if (document.type === "actorAgent" && data.system.conditionMonitors?.matrix && (document.testUserPermission(game.user, 3) || (game.user?.isGM))){
+			await SR5_ActorHelper.keepDeckSynchroWithAgent(document);
 		}
 
 		//Keep edge monitor synchro with tokens
-		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge){
-			await SR5Actor.keepEdgeSynchroWithGrunt(document);
+		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge && (document.testUserPermission(game.user, 3) || (game.user?.isGM))){
+			await SR5_ActorHelper.keepEdgeSynchroWithGrunt(document);
 		}
 		//let truc = document.effects.find(e => e.origin = "linkLock")
 		//if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
@@ -299,13 +306,13 @@ export const registerHooks = function () {
 	Hooks.on("deleteItem", async (item) =>{
 		if (item.testUserPermission(game.user, 3) || (game.user?.isGM)){
 			if (item.system.type === "signalJam"){
-				let actorID = item.parent.id
-				SR5_EffectArea.onJamEnd(actorID);
+				let actorId = item.parent.id
+				SR5_EffectArea.onJamEnd(actorId);
 			}
 			if (item.type === "itemEffect"){
-				if (item.system.hasEffectOnItem){
-					if (item.parent.isToken) await SR5Actor.deleteItemEffectFromItem(item.parent.token.id, item.system.ownerItem);
-					else await SR5Actor.deleteItemEffectFromItem(item.parent.id, item.system.ownerItem);
+				if (item.system.hasEffectOnItem && item.parent){
+					if (item.parent.isToken) await SR5_ActorHelper.deleteItemEffectFromItem(item.parent.token.id, item.system.ownerItem);
+					else await SR5_ActorHelper.deleteItemEffectFromItem(item.parent.id, item.system.ownerItem);
 				}
 			}
 
@@ -322,29 +329,32 @@ export const registerHooks = function () {
 		}
 		//Remove item from PAN if it was slaved
 		if (item.system.isSlavedToPan){
-			SR5Actor.deleteItemFromPan(item.uuid, item.system.panMaster, null);
+			SR5_ActorHelper.deleteItemFromPan(item.uuid, item.system.panMaster, null);
 		}
 	});
 
 	Hooks.on("deleteActiveEffect", async (effect) =>{
-		if (effect.flags.core?.statusId === "prone") {
+		if (effect.flags.core?.statusId === "prone" && game.user?.isGM){
 			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
 			if (itemEffect) {
-				if (itemEffect.parent.isToken) await SR5Actor.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.token.id, itemEffect.id);
-				else await SR5Actor.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.id, itemEffect.id);
+				if (itemEffect.parent.isToken) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.token.id, itemEffect.id);
+				else await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.id, itemEffect.id);
 			}
 		}
 	});
 
 	Hooks.on("createActiveEffect", (effect) =>{
+		if ( !game.user.isGM ) return;
 		if (effect.flags.core?.statusId === "signalJam") {
-			let actorID = effect.parent.id
-			if (effect.parent.isToken) actorID = effect.parent.token.id;
-			SR5_EffectArea.onJamCreation(actorID);
+			let actorId = effect.parent.id
+			if (effect.parent.isToken) actorId = effect.parent.token.id;
+			SR5_EffectArea.onJamCreation(actorId);
 		}
 	});
 
 	Hooks.on("createActor", async (actor) =>{
+		if ( !game.user.isGM ) return;
+
 		//Add itemDevice to Drone/Sprite/Agent if they have none.
 		if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorAgent"){
 			let hasDevice = false;
@@ -386,5 +396,13 @@ export const registerHooks = function () {
 		if ( !game.user.isGM ) return;
 		await SR5_EffectArea.checkUpdatedTemplateEffect(templateDocument);
 	});
-	
+
+	Hooks.on('updateScene', async (data) => {
+		//relaunch prepare Data of all actor when a scene is modified, so background count and other effect are correctly applied without needing to manualy refresh an actor
+		if (!game.user.isGM) return;
+		for (let token of data.tokens){
+			token.actor.prepareData();
+			if (token.actor.sheet.rendered) token.actor.sheet.render(false);
+		}
+	});
 }

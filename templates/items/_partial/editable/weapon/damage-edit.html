@@ -11,7 +11,7 @@
 
 <li class="grid">
     <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7">
+    <div class="col-3">
         <select name="system.damageType">
         {{#select system.damageType}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
@@ -21,6 +21,9 @@
         {{/select}}
         </select>
     </div>
+    <div class="col-1"></div>
+    <div class="col-2 SR-TextRight">{{localize 'SR5.MagicalSource'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight SR-PaddingRight3"><input type="checkbox" name="system.isMagical" data-dtype="Boolean" {{checked system.isMagical}} /></div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>

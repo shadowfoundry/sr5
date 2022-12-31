@@ -10,8 +10,8 @@
     <div class="col-4">
         <select name="extendedTime">
         {{#select extendedTime}}
-            {{#each lists.extendedInterval}}
-            <option value="{{@key}}">{{findTranslation 'extendedInterval' @key}}</option>
+            {{#each lists.extendedIntervals}}
+            <option value="{{@key}}">{{findTranslation 'extendedIntervals' @key}}</option>
             {{/each}}
         {{/select}}
         </select>

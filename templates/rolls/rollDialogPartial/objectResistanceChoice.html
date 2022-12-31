@@ -3,7 +3,7 @@
 	<div class="grid SR-TextUppercase">
 		<div class="col-11">{{localize 'SR5.ModifiedDicePool'}}</div>
 	  	<div class="col-1 SR-TextCenter">
-			<input disabled type="number"  name="modifiedDicePool" value="" placeholder="0" data-dtype="Number" />
+			<input disabled type="number"  name="modifiedDicePool" value="{{dicePool.base}}" placeholder="0" data-dtype="Number" />
 	  	</div>
 	</div>
 </li>
@@ -22,13 +22,5 @@
         </select>
     </div>
 
-	<div class="col-1 SR-TextCenter"><input disabled type="number"  name="baseDicePool" value="{{dicePool}}" placeholder="0" data-dtype="Number" /></div>
-</li>
-
-  <!-- USER DICEPOLL MODIFIER -->
-<li class="grid">
-	<div class="col-11">{{localize 'SR5.VariousModifiers'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-1 SR-TextCenter">
-		<input type="number" name="dicePoolModVarious" value="{{dicePoolModVarious}}" data-dtype="Number" placeholder="0" />
-	</div>
+	<div class="col-1 SR-TextCenter"><input disabled type="number"  name="baseDicePool" value="{{dicePool.base}}" placeholder="0" data-dtype="Number" /></div>
 </li>

@@ -177,15 +177,15 @@ export class SR5_EntityHelpers {
 	}
 
 	//Get the real actor Document based on ID
-	static getRealActorFromID(actorID){
+	static getRealActorFromID(actorId){
 		let actor, token, tokenDocument;
-		actor = game.actors.get(actorID);
+		actor = game.actors.get(actorId);
 		if (actor) return actor;
 		if (canvas.scene){
-			token = canvas.tokens.get(actorID);
+			token = canvas.tokens.get(actorId);
 			if (token){
 				const scene = game.scenes.get(token.scene.id);
-				tokenDocument = scene.tokens.get(actorID);
+				tokenDocument = scene.tokens.get(actorId);
 				actor = tokenDocument.actor;
 			}
 		}
@@ -206,6 +206,14 @@ export class SR5_EntityHelpers {
 			if (t !== undefined) actorPosition = { x: t.x, y: t.y };
 		}
 		return actorPosition;
+	}
+
+	//Get the id of the player controlling an actor
+	static getUserOwner(actor){
+		const playerOwners = Object.entries(actor.ownership).filter(([id, level]) => (!game.users.get(id)?.isGM && game.users.get(id)?.active) && level === 3).map(([id, level])=> id);
+		if(playerOwners.length > 0) {
+			return game.users.get(playerOwners[0]);
+		} else return game.users.find(u => u.isGM && u.active);
 	}
 
 	// Return object with properties sorted alphabetically by translated terms, using keys from a "table" from config.js
