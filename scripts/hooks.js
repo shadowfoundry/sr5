@@ -239,28 +239,54 @@ export const registerHooks = function () {
 		TweenMax.killTweensOf(deleteToken.children)
 	});
 
-	Hooks.on("createCombatant", (combatant) => {
-		let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.system);
+	Hooks.on("updateCombat", (combat, data, change) => {
+		//debugger;
+		//SR5CombatTracker.manageActions(combat, data);
+	});
 
+	Hooks.on("createCombatant", async (combatant) => {
 		if (game.user.isGM){
-			combatant.update({
+			let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.system);
+			let actor;
+			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
+			actor.setFlag("sr5", "cumulativeDefense", 0);
+
+			await combatant.update({
 				"flags.sr5.seizeInitiative" : false,
 				"flags.sr5.blitz" : false,
 				"flags.sr5.hasPlayed" : combatant.isDefeated,
 				"flags.sr5.cumulativeDefense" : 0,
 				"flags.sr5.currentInitRating" : combatant.actor.system.initiatives[key].value,
 				"flags.sr5.currentInitDice" : combatant.actor.system.initiatives[key].dice.value,
+				"flags.sr5.actions.free": actor.system.specialProperties.actions.free.current,
+				"flags.sr5.actions.simple": actor.system.specialProperties.actions.simple.current,
+				"flags.sr5.actions.complex": actor.system.specialProperties.actions.complex.current,
 			});
-			
-			let actor;
-			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
-			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
-			actor.setFlag("sr5", "cumulativeDefense", 0);
 		}
 	});
 
 	Hooks.on("updateCombatant", (combatant) => {
 		if (combatant.isDefeated && !combatant.flags.sr5.hasPlayed) combatant.update({"flags.sr5.hasPlayed": true,});
+	});
+
+	Hooks.on("deleteCombat", async (combat) => {
+		if (game.user.isGM){
+			//Reset actions to default values
+			let actor, actorData;
+			for (let combatant of combat.combatants){
+				if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+				else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
+
+				actorData = duplicate(actor.system);
+				for (let key of Object.keys(SR5.actionTypes)) {
+					if (actorData.specialProperties.actions[key]) {
+						actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
+					}
+				}
+				await actor.update({system: actorData});
+			}
+		}
 	});
 
 	Hooks.on("closeCombatantConfig", (combatant) => {

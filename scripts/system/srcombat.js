@@ -1,3 +1,4 @@
+import { SR5 } from "../config.js";
 import { SR5_CharacterUtility } from "../entities/actors/utilityActor.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SocketHandler } from "../socket.js";
@@ -90,6 +91,9 @@ export class SR5Combat extends Combat {
 				"flags.sr5.hasPlayed": combatant.isDefeated,
 				"flags.sr5.baseCombatantInitiative": initiative,
 			});
+			//Update actor's action
+			if (!combatant.actor.isToken) await SR5Combat.resetActionInCombat(combatant.actorId, combatant);
+			else await SR5Combat.resetActionInCombat(combatant.tokenId, combatant);
 		}
 
 		await SR5Combat.setInitiativePass(combat, initiativePass);
@@ -129,7 +133,7 @@ export class SR5Combat extends Combat {
 			round: this.round,
 			turn: this.turn,
 			combatantId: c ? c.id : null,
-			tokenId: c ? c.tokenId : null
+			tokenId: c ? c.tokenId : null,
 		};
 		return this.turns = turns;
 	}
@@ -292,7 +296,10 @@ export class SR5Combat extends Combat {
 		// Let Foundry handle time and some other things.
 		await super.nextRound();
 		for (let combatant of this.combatants){
-			await combatant.setFlag("sr5", "hasPlayed", combatant.isDefeated)
+			await combatant.setFlag("sr5", "hasPlayed", combatant.isDefeated);
+			//Update actor's action
+			if (!combatant.actor.isToken) await SR5Combat.resetActionInCombat(combatant.actorId, combatant);
+			else await SR5Combat.resetActionInCombat(combatant.tokenId, combatant);
 		}
 
 		// Owner permissions are needed to change the shadowrun initiative round.
@@ -528,7 +535,43 @@ export class SR5Combat extends Combat {
         } else await SR5Combat.changeInitInCombat(documentId, initChange);
 	}
 
-	//Do stuff on actor when turn is endin
+	static async changeActionInCombat(documentId, actions){
+		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
+		let combatant = await SR5Combat.getCombatantFromActor(actor);
+		if (!combatant) return;
+
+		//Update actor actions
+		let actorData = duplicate(actor.system);
+		for (let action of actions){
+			actorData.specialProperties.actions[action.type].current -= action.value;
+		}
+		//... and combatant actions
+		await combatant.update({
+			"flags.sr5.actions.free": actorData.specialProperties.actions.free.current,
+			"flags.sr5.actions.simple": actorData.specialProperties.actions.simple.current,
+			"flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
+		});
+		await actor.update({system: actorData});
+	}
+
+	//Reset actions on actor
+	static async resetActionInCombat(documentId, combatant){
+		let actor = SR5_EntityHelpers.getRealActorFromID(documentId);
+		let actorData = duplicate(actor.system);
+		for (let key of Object.keys(SR5.actionTypes)) {
+			if (actorData.specialProperties.actions[key]) {
+				actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
+			}
+		}
+		await combatant.update({
+			"flags.sr5.actions.free": actorData.specialProperties.actions.free.current,
+			"flags.sr5.actions.simple": actorData.specialProperties.actions.simple.current,
+			"flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
+		});
+		await actor.update({system: actorData});
+	}
+
+	//Do stuff on actor when turn is ending
 	static async manageTurnEnd(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;

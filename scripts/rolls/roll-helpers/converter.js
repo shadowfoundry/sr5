@@ -40,6 +40,23 @@ export class SR5_ConverterHelpers {
         }
     }
 
+    //Conver firing mode choice to action type
+    static firingModeToAction(mode){
+        switch(mode){
+            case "SS":
+            case "SA":
+            case "BF":
+            case "FA":
+                return {type: "simple", value: 1, source: "firingMode"};
+            case "SB":
+            case "LB":
+            case "FAc":
+            case "SF":
+                return {type: "complex", value: 1, source: "firingMode"};
+            default: 
+        }
+    }
+
     //Convert range  to environmental line
     static rangeToEnvironmentalLine(mode){
         switch(mode){

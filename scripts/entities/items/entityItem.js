@@ -324,7 +324,7 @@ export class SR5Item extends Item {
 				break;
 			case "itemAdeptPower":
 				tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${itemData.powerPointsCost.value}`);
-				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[itemData.actionType])}`);
+				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.powerActionTypes[itemData.actionType])}`);
 				break;
 			case "itemQuality":
 				tags.push(`${game.i18n.localize(lists.qualityTypes[itemData.type])}`);

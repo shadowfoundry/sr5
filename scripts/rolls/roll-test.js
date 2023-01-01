@@ -155,6 +155,12 @@ export class SR5_RollTest {
 							if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_ConverterHelpers.activeDefenseToInitMod(dialogData.combat.activeDefenseSelected);
 							if (initModifier < 0) SR5Combat.changeInitInCombatHelper(actor.id, initModifier);
 						}
+
+						//Change actions in combat tracker
+						if (game.combat && dialogData.combat.actions.length){
+							console.log("Y'a de l'action!");
+							await SR5Combat.changeActionInCombat(dialogData.owner.actorId, dialogData.combat.actions);
+						}
 					},
 				}).render(true);
 			});

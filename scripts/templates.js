@@ -535,6 +535,7 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html",
 		"systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html",
 		"systems/sr5/templates/rolls/rollCardPartial/threshold.html",
+		"systems/sr5/templates/rolls/rollCardPartial/actions.html",
 	];
 
 	// Load the template parts

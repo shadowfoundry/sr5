@@ -1,0 +1,16 @@
+<li class="grid SR-PaddingTop10 SR-LigneEnTete">
+    <div class="col-12">
+        {{localize 'SR5.ActionType'}} 
+    </div>
+</li>
+
+{{#each combat.actions}}
+<li class="grid">
+    <div class="col-10">
+        {{findTranslation 'actionTypes' this.type}}
+    </div>
+    <div class="col-2 SR-TextRight">
+        {{this.value}}
+    </div>
+</li>
+{{/each}}

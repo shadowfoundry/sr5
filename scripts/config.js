@@ -691,11 +691,17 @@ SR5.lifestyleTypes = {
   };
 
 // Reputation
-
 SR5.reputationTypes = {
 	streetCred                : "SR5.ReputationStreetCred",
 	notoriety                 : "SR5.ReputationNotoriety",
 	publicAwareness           : "SR5.ReputationPublicAwareness",
+}
+
+SR5.actionTypes = {
+	free                      : "SR5.ActionTypeFree",
+	simple                    : "SR5.ActionTypeSimple",
+	complex                   : "SR5.ActionTypeComplex",
+	interrupt                 : "SR5.ActionTypeInterruption",
 }
 
 //-----------------------------------//
@@ -1623,7 +1629,7 @@ SR5.preparationTriggerTypes = {
 };
 
 // Type d'action des pouvoirs d'adepte
-SR5.actionTypes = {
+SR5.powerActionTypes = {
 	free                      : "SR5.ActionTypeFree",
 	simple                    : "SR5.ActionTypeSimple",
 	complex                   : "SR5.ActionTypeComplex",

@@ -1411,6 +1411,30 @@
                     flex: 0 0 27px;
                     font-size: var(--font-size-17);
                     line-height: 25px;
+
+                    .action {
+                        color: @neutralLightColor;
+                        height: 18px;
+                        line-height: 17px;
+                        text-align: center;
+                        margin-right: 2px;
+                        margin-top: 2px;
+
+                        &.free {
+                            border: 1px solid fade(@neutralDarkColor, 50%);
+                            background-color: fade(@neutralDarkColor, 50%);
+                        }
+
+                        &.simple {
+                            border: 1px solid fade(@subColor, 50%);
+                            background-color: fade(@subColor, 50%);
+                        }
+
+                        &.complex {
+                            border: 1px solid fade(@mainColor, 50%);
+                            background-color: fade(@mainColor, 50%);
+                        }
+                    }
                 }
                 .combatant-control {
                     color: @mainColor;

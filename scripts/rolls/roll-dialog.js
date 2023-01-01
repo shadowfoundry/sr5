@@ -572,7 +572,7 @@ export default class SR5_RollDialog extends Dialog {
         let target = $(ev.currentTarget).attr("data-target"),
             name = `[name=${target}]`,
             modifierName = $(ev.currentTarget).attr("data-modifier"),
-            value, limitDV,
+            value, limitDV, action,
             actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             position = this.position;
@@ -618,6 +618,8 @@ export default class SR5_RollDialog extends Dialog {
                 case "firingMode":
                     value = this.calculRecoil(html);
                     dialogData.combat.firingMode.selected = ev.target.value;
+                    action = SR5_ConverterHelpers.firingModeToAction(ev.target.value);
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, action);
                     modifierName = "recoil";
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
@@ -881,7 +883,7 @@ export default class SR5_RollDialog extends Dialog {
         if (ev.length === 0) return;
         let modifierName, targetInput, targetInputName, name, inputValue, selectValue;
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId),
-            label;
+            label, action;
 
         for (let e of ev){
             modifierName = $(e).attr("data-modifier");
@@ -911,6 +913,8 @@ export default class SR5_RollDialog extends Dialog {
                     inputValue = this.calculRecoil(html);
                     selectValue = null;
                     dialogData.combat.firingMode.selected = html.find(name)[0].value;
+                    action = SR5_ConverterHelpers.firingModeToAction(html.find(name)[0].value);
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, action);
                     modifierName = "recoil";
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;

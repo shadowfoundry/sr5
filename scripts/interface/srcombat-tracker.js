@@ -6,6 +6,12 @@ export class SR5CombatTracker extends CombatTracker {
 		return "systems/sr5/templates/interface/srcombat-tracker.html";
 	}
 
+	async getData(options) {
+		let data = await super.getData(options);
+		await SR5CombatTracker.manageActions(data.combat, data.turns);
+		return data;
+	}
+
 	//Add right click options to the combat tracker
 	static addCombatTrackerContextOptions(html, options) {
 		options.push(
@@ -93,7 +99,9 @@ export class SR5CombatTracker extends CombatTracker {
 
 
 	static async renderCombatTracker(app, html, data) {
-		if (game.combat) await SR5CombatTracker.markCombatantAsPlayed(app, html, data)
+		if (game.combat){
+			await SR5CombatTracker.markCombatantAsPlayed(app, html, data);
+		}
 	}
 
 	static async markCombatantAsPlayed(app, html, data){
@@ -108,14 +116,49 @@ export class SR5CombatTracker extends CombatTracker {
 		}
 	}
 
+	//Add actions to combat tracker
+	static async manageActions(combat, turns){
+		for (let c of turns){
+			let combatant = combat.combatants.find(a => a.id === c.id);
+			c.actions = {
+				free: combatant.flags.sr5?.actions?.free,
+				simple: combatant.flags.sr5?.actions?.simple,
+				complex: combatant.flags.sr5?.actions?.complex,
+			}
+		}
+	}
+
 	activateListeners(html) {
 		super.activateListeners(html);	
 		if (!game.user.isGM) this._contextMenu(html);
+
+		//Edit actions
+		html.find('.SR-action-control').click(ev => this._editActions(ev));
+
 	}
 
 	_contextMenu(html) {
 		if (game.user.isGM) ContextMenu.create(this, html, ".directory-item", this._getEntryContextOptions());
 		else ContextMenu.create(this, html, ".directory-item", []);
+	}
+
+	_editActions(ev){
+		let target = $(ev.currentTarget).attr("data-control");
+		let combatantId = ev.currentTarget.closest(".combatant").dataset.combatantId;
+		let combatant = game.combat.combatants.find(c => c.id === combatantId);
+		let actor = SR5Combat.getActorFromCombatant(combatant);
+		let value = combatant.flags.sr5.actions[target];
+
+		switch (ev.button) {
+			case 0:
+				if (ev.shiftKey) value ++;
+				else value--;
+				break;
+		}
+
+		let actions = [{type: target, value: combatant.flags.sr5.actions[target] - value}];
+		if (actor.isToken) SR5Combat.changeActionInCombat(actor.token.id, actions);
+		else SR5Combat.changeActionInCombat(actor.id, actions);
 	}
 
 

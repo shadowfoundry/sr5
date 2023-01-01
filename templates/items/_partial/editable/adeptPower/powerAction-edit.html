@@ -4,7 +4,7 @@
         <select name="system.actionType" data-dtype="{{system.actionType}}" required>
         {{#select system.actionType}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.actionTypes}}
+            {{#each lists.powerActionTypes}}
             <option value="{{@key}}">{{localize this}}</option>
             {{/each}}
         {{/select}}
