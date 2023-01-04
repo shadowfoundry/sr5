@@ -41,6 +41,7 @@ export default class SR5Template extends MeasuredTemplate {
 
 		if (item.system.category === "grenade" || item.system.type === "grenadeLauncher" || item.system.type === "missileLauncher") {
 			target = item.system.blast.radius;
+			if(target === 0) target = 1;
 			for (let e of Object.values(item.system.customEffects)){
 				if (e.category === "environmentalModifiers" && e.transfer){
 					let modifierType = e.target.replace('system.itemsProperties.environmentalMod.','');

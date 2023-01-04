@@ -100,11 +100,14 @@ export class SR5_RollTestHelper {
         let newItem = duplicate(item);
         let firedAmmo = cardData.combat.ammo.fired;
         
-        //update weapon ammo
+        //update weapon ammo and fire Mode
         if (!firedAmmo) firedAmmo = 1;
         if (newItem.type === "itemWeapon" && newItem.system.category === "rangedWeapon") {
             newItem.system.ammunition.value -= firedAmmo;
-            if (newItem.system.ammunition.value < 0) newItem.system.ammunition.value = 0;           
+            if (newItem.system.ammunition.value < 0) newItem.system.ammunition.value = 0;
+            if (newItem.system.firingMode.current !== cardData.combat.firingMode.selected){
+                newItem.system.firingMode.current = cardData.combat.firingMode.selected;
+            }
         }
         //update force and hits
         if (newItem.type === "itemSpell" || newItem.type === "itemPreparation" || newItem.type === "itemAdeptPower") {

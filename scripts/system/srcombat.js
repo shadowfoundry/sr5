@@ -91,9 +91,11 @@ export class SR5Combat extends Combat {
 				"flags.sr5.hasPlayed": combatant.isDefeated,
 				"flags.sr5.baseCombatantInitiative": initiative,
 			});
-			//Update actor's action
-			if (!combatant.actor.isToken) await SR5Combat.resetActionInCombat(combatant.actorId, combatant);
-			else await SR5Combat.resetActionInCombat(combatant.tokenId, combatant);
+			//Update actor's action if he can still play next initiative pass
+			if(initiative > 0){
+				if (!combatant.actor.isToken) await SR5Combat.resetActionInCombat(combatant.actorId, combatant);
+				else await SR5Combat.resetActionInCombat(combatant.tokenId, combatant);
+			}
 		}
 
 		await SR5Combat.setInitiativePass(combat, initiativePass);
@@ -535,23 +537,28 @@ export class SR5Combat extends Combat {
         } else await SR5Combat.changeInitInCombat(documentId, initChange);
 	}
 
-	static async changeActionInCombat(documentId, actions){
+	static async changeActionInCombat(documentId, actions, updateActor = true){
 		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
 		let combatant = await SR5Combat.getCombatantFromActor(actor);
 		if (!combatant) return;
 
-		//Update actor actions
 		let actorData = duplicate(actor.system);
-		for (let action of actions){
-			actorData.specialProperties.actions[action.type].current -= action.value;
+		//Update actor actions
+		if (updateActor){
+			for (let action of actions){
+				if (action.type === "special") continue;
+				actorData.specialProperties.actions[action.type].current -= action.value;
+			}
+			await actor.update({system: actorData});
 		}
+
 		//... and combatant actions
 		await combatant.update({
 			"flags.sr5.actions.free": actorData.specialProperties.actions.free.current,
 			"flags.sr5.actions.simple": actorData.specialProperties.actions.simple.current,
 			"flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
 		});
-		await actor.update({system: actorData});
+		
 	}
 
 	//Reset actions on actor

@@ -69,4 +69,11 @@ export class SR5_MiscellaneousHelpers {
         }
         return actions;
     }
+
+    //Remove an action from array
+    static removeActions(actions, actionToRemove){
+        if (!actions.length) return actions;
+        if (actions.find(a => a.source === actionToRemove)) return actions = actions.filter(a => a.source !== actionToRemove);
+        else return actions;
+    }
 }

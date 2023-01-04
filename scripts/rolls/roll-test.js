@@ -76,7 +76,7 @@ export class SR5_RollTest {
 						}
 
 						//Add limit for force, reagents and level
-						if (dialogData.magic.force || dialogData.magic.hasUsedReagents){
+						if ((dialogData.magic.force || dialogData.magic.hasUsedReagents) && dialogData.test.type !== "spellResistance"){
 							if (dialogData.magic.force > 0) {
 								dialogData.limit.base = dialogData.magic.force;
 								dialogData.limit.type = "force";
@@ -158,7 +158,6 @@ export class SR5_RollTest {
 
 						//Change actions in combat tracker
 						if (game.combat && dialogData.combat.actions.length){
-							console.log("Y'a de l'action!");
 							await SR5Combat.changeActionInCombat(dialogData.owner.actorId, dialogData.combat.actions);
 						}
 					},

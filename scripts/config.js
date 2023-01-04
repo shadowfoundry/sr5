@@ -702,6 +702,7 @@ SR5.actionTypes = {
 	simple                    : "SR5.ActionTypeSimple",
 	complex                   : "SR5.ActionTypeComplex",
 	interrupt                 : "SR5.ActionTypeInterruption",
+	special 				  : "SR5.ActionTypeSpecial",
 }
 
 //-----------------------------------//

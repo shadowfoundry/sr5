@@ -5853,7 +5853,8 @@
         "semiAutomatic": false,
         "burstFire": false,
         "fullyAutomatic": false,
-        "value": []
+        "value": [],
+        "current": ""
       },
       "ammunition": {
         "value": 0,
