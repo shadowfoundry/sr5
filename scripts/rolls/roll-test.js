@@ -97,7 +97,7 @@ export class SR5_RollTest {
 						//Add dice pool modifiers
 						dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData);
 
-						if (dialogData.combat.ammo.fired > 0){
+						if (dialogData.combat.ammo.fired > 0 && dialogData.combat.firingMode.selected !== "SF"){
 							let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
 							actualRecoil += dialogData.combat.ammo.fired;
 							actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);

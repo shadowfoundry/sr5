@@ -64,7 +64,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		//Choose controler
 		html.find(".chooseControler").click(this._onChooseControler.bind(this));
 		//Recharge les armes
-		html.find(".reload-ammo").click(this._onReloadAmmo.bind(this));
+		html.find(".reload-ammo").mousedown(this._onReloadAmmo.bind(this));
 		//Reset weapon recoil
 		html.find(".resetRecoil").click(this._onResetRecoil.bind(this));
 		//Reboot le deck
@@ -277,8 +277,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
 			setProperty(actorData, dropData.valueFromAttribute, parseInt(target.dataset.droppedvalue));
 			//Manage action
-			let actorId = this.actor.id;
-			if (this.actor.isToken) actorId = this.actor.token.id;
+			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
 			actorData.system.specialProperties.actions.free.current -=1;
 			await this.actor.update(actorData);
 			SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1}], false);
@@ -734,7 +733,41 @@ export class ActorSheetSR5 extends ActorSheet {
 		event.preventDefault();
 		const id = event.currentTarget.closest(".item").dataset.itemId;
 		const item = this.actor.items.get(id);
-		if (item) item.reloadAmmo();
+		let option;
+
+		if (!item) return;
+
+		switch (item.system.ammunition.casing){
+			case "clip":
+			case "drum":
+			case "belt":
+				if (event.button === 0){
+					option = "insert";
+					if (event.shiftKey) option = "replace";
+					if (event.ctrlKey) option = "insertRound";
+					if (event.shiftKey && event.ctrlKey) option = "insertRoundFull";
+				} else if (event.button ===2){
+					option = "remove";
+				}
+				break;
+			case "breakAction":
+			case "internalMag":
+			case "muzzle":
+				option = "insertRound";
+				if (event.shiftKey && event.ctrlKey) option = "insertRoundFull";
+				break;
+			case "cylinder":
+				option = "insertRound";
+				if (event.shiftKey && (item.system.accessory.find(a => a.name === "speedLoader"))) option = "insertRoundFull";
+				if (event.shiftKey && event.ctrlKey) option = "insertRoundFull";
+				break;
+			case "special":
+				option = "insertRoundFull";
+				break;
+			default: return ui.notifications.warn(game.i18n.localize('SR5.WARN_MissingCasing'));
+		}
+
+		item.reloadAmmo(option);
 	}
 
 	/* -------------------------------------------- */

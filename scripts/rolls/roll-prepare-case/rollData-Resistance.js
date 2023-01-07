@@ -338,7 +338,7 @@ async function handleAstralDamage(rollData, actorData, chatData){
 
 async function handleFatiguedDamage(rollData, actorData, chatData){
     //Determine title
-    rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damage.type])} (${damage.base})`; //TODO: add details
+    rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[chatData.damage.type])} (${damage.base})`;
 
     //Determine base dicepool & composition
     rollData.dicePool.base = actorData.resistances.physicalDamage.dicePool - actorData.itemsProperties.armor.value;

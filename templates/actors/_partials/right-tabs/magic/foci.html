@@ -49,7 +49,6 @@
 			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}" data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
 				<select class="edit-value" name="sustainedSpell.{{_id}}.name" data-binding="system.sustainedSpell" data-dtype="String"
 					data-item-id="{{_id}}" required>
-					<!-- TODO check this -->
 					{{#select system.sustainedSpell}}
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
 					{{#each system.spellChoices as |name type|}}
