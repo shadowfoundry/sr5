@@ -63,6 +63,7 @@ export default async function weapon(rollData, actor, item){
     rollData.damage.element = itemData.damageElement;
     if (itemData.isMagical) rollData.damage.source = "magical";
     rollData.combat.armorPenetration = itemData.armorPenetration.value;
+    if (itemData.ammunition.type === "av" && rollData.target.actorType === "actorDrone") rollData.combat.armorPenetration -= 4;
     rollData.combat.ammo.type = itemData.ammunition.type;
     rollData.combat.ammo.value = itemData.ammunition.value;
     rollData.combat.ammo.max = itemData.ammunition.max;

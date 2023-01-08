@@ -12,8 +12,9 @@ export default async function resistanceInfo(cardData, actorId){
     handlePreviousButtons(cardData);
 
     //Toxin management
-    if (cardData.damage.element === "toxin"){
-        cardData.damage.value = cardData.damage.base - cardData.roll.hits;
+    if (cardData.test.typeSub === "toxinDamage"){
+        cardData.damage.value = cardData.damage.toxin.power - cardData.roll.hits;
+        cardData.damage.type = cardData.damage.toxin.damageType;
 
         //Handle called Shot specifics
         if (cardData.combat.calledShot.name){
@@ -96,6 +97,7 @@ function handlePreviousButtons(cardData) {
     else if (prevData?.test.typeSub === "grenade");
     else if (cardData.damage.isContinuous && cardData.test.typeSub === "continuousDamage");
     else if (cardData.damage.resistanceType === "fatiguedDamage") SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "fatiguedCard"); 
+    else if (cardData.test.typeSub === "toxinDamage") SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "resistanceToxin");
     else SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "resistanceCard");
 
     //Remove Biofeedback chat button from previous chat message

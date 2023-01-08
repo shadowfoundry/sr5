@@ -41,7 +41,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
     //Iterate throught damage type and add corresponding info
     switch (chatData.damage.resistanceType){
         case "physicalDamage":
-            rollData = await handlePhysicalDamage(rollData, actor, chatData);
+            rollData = await handlePhysicalDamage(rollData, actor, chatData, rollType);
             break;
         case "directSpellMana":
             if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`);
@@ -80,7 +80,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
 //-----------------------------------//
 //       Physical Damage Part        //
 //-----------------------------------//
-async function handlePhysicalDamage(rollData, actor, chatData){
+async function handlePhysicalDamage(rollData, actor, chatData, rollType){
     let actorData = actor.system, armor;
 
     //Determine title
@@ -91,19 +91,19 @@ async function handlePhysicalDamage(rollData, actor, chatData){
     //Iterate throught actor type to add dicepool info
     switch (actor.type){
         case "actorDrone":
-            if (chatData.damage.element === "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
+            if (rollType === "resistanceToxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
             if (chatData.damage.type === "stun") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`);
             rollData = await handleDroneDamage(rollData, actorData, chatData);
             break;
         case "actorSpirit":
-            if (chatData.damage.element === "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
+            if (rollType === "resistanceToxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`);
             rollData = await handleSpiritDamage(rollData, actorData, chatData);
             break;
         case "actorPc":
         case "actorGrunt":
             armor = actorData.itemsProperties.armor.value;
             if (chatData.damage.element) {
-                if (chatData.damage.element === "toxin") rollData = await handleToxinDamage(rollData, actorData, chatData);
+                if (rollType === "resistanceToxin") rollData = await handleToxinDamage(rollData, actorData, chatData);
                 else rollData = await handleElementDamage(rollData, actorData, chatData, armor);
             } else rollData = await handleNormalPhysicalDamage(rollData, actor, chatData, armor);
             break;
@@ -114,6 +114,7 @@ async function handlePhysicalDamage(rollData, actor, chatData){
 
     //Add others informations
     rollData.test.typeSub = "physicalDamage";
+    if (rollType === "resistanceToxin") rollData.test.typeSub = "toxinDamage";
     rollData.damage.source = chatData.damage.source;
     rollData.previousMessage.actorId = chatData.previousMessage.actorId;
     if (rollData.damage.element === "fire") rollData.threshold.value = chatData.roll.netHits;
@@ -176,11 +177,16 @@ async function handleElementDamage(rollData, actorData, chatData, armor){
 async function handleToxinDamage(rollData, actorData, chatData){
     let toxinType, vectors = [];
     
+    //Add previous informations  
+    rollData.damage.toxin = chatData.damage.toxin;
+    if (chatData.damage.toxin.type === "airEngulf") rollData.damage.toxin.power = chatData.damage.toxin.power + (chatData.roll.netHits || 0);
+
     //Determine title
-    rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize(SR5.toxinTypes[chatData.damage.toxin.type])}`;
+    rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize(SR5.toxinTypes[rollData.damage.toxin.type])}`;
+    if (rollData.damage.toxin.damageType) rollData.test.title += ` [${rollData.damage.toxin.power}${game.i18n.localize(SR5.damageTypesShort[rollData.damage.toxin.damageType])}]`;
     
     //If more than one vector is present, open dialog box
-    for (let [key, value] of Object.entries(chatData.damage.toxin.vector)){
+    for (let [key, value] of Object.entries(rollData.damage.toxin.vector)){
         if (value) {
             toxinType = key;
             vectors.push(key);
@@ -190,20 +196,16 @@ async function handleToxinDamage(rollData, actorData, chatData){
 
     //Check if toxin penetration is greater than armor
     let armor = actorData.itemsProperties.armor.toxin[toxinType].value;
-    if (-chatData.damage.toxin.penetration > armor) chatData.damage.toxin.penetration = armor;
+    if (-rollData.damage.toxin.penetration > armor) rollData.damage.toxin.penetration = armor;
 
     //Add toxin penetration modifiers to dicepool
     rollData.dicePool.modifiers.toxinPenetration = {};
-    rollData.dicePool.modifiers.toxinPenetration.value = chatData.damage.toxin.penetration;
+    rollData.dicePool.modifiers.toxinPenetration.value = rollData.damage.toxin.penetration;
     rollData.dicePool.modifiers.toxinPenetration.label = game.i18n.localize("SR5.ToxinPenetration");
 
     //Get the base dicepool and composition
     rollData.dicePool.composition = actorData.resistances.toxin[toxinType].modifiers;
     rollData.dicePool.base = actorData.resistances.toxin[toxinType].dicePool;
-
-    //Add others informations  
-    rollData.damage.base = chatData.damage.toxin.power;
-    rollData.damage.toxin = chatData.damage.toxin;
 
     return rollData;
 }

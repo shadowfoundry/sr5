@@ -5892,7 +5892,8 @@
           "nausea": false,
           "paralysis": false
         },
-        "penetration": 0
+        "penetration": 0,
+        "damageType": null
       },
       "isLinkedToFocus": false,
       "isUsedAsFocus": false,
