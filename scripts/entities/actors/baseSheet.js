@@ -8,6 +8,8 @@ import { SR5 } from "../../config.js";
 import { SR5Actor } from "./entityActor.js";
 import { SR5_ActorHelper } from "./entityActor-helpers.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
+import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
+import { SR5Combat } from "../../system/srcombat.js";
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -62,7 +64,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		//Choose controler
 		html.find(".chooseControler").click(this._onChooseControler.bind(this));
 		//Recharge les armes
-		html.find(".reload-ammo").click(this._onReloadAmmo.bind(this));
+		html.find(".reload-ammo").mousedown(this._onReloadAmmo.bind(this));
 		//Reset weapon recoil
 		html.find(".resetRecoil").click(this._onResetRecoil.bind(this));
 		//Reboot le deck
@@ -88,7 +90,10 @@ export class ActorSheetSR5 extends ActorSheet {
 		html.find(".deleteItemFromPan").click(this._onDeleteItemFromPan.bind(this));
 		// Stop jamming signals
 		html.find(".stop-jamming").click(this._onStopJamming.bind(this));
-
+		// Change matrix user mode
+		html.find(".changeMatrixMode").change(this._onChangeMatrixMode.bind(this));
+		// Change matrix silent mode
+		html.find(".changeSilentMode").click(this._onChangeSilentMode.bind(this));
 
 		// Hide or display some information by clicking on headers allowing it
 		html.find(".hidden").hide();
@@ -253,7 +258,6 @@ export class ActorSheetSR5 extends ActorSheet {
 		let actorData = duplicate(this.actor);
 		const dropData = JSON.parse(event.dataTransfer.getData('text/plain'));
 		const target = event.target;
-
 		if (dropData.valueFromCollection){
 			let existingValue = parseInt(target.dataset.droppedvalue);
 			if (existingValue > 0) {
@@ -272,7 +276,11 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (dropData.valueFromAttribute){
 			setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
 			setProperty(actorData, dropData.valueFromAttribute, parseInt(target.dataset.droppedvalue));
+			//Manage action
+			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
+			actorData.system.specialProperties.actions.free.current -=1;
 			await this.actor.update(actorData);
+			SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"switchAttributes"}], false);
 		}
 		await super._onDrop(event);
 	}
@@ -477,16 +485,20 @@ export class ActorSheetSR5 extends ActorSheet {
 	async _onEditItemValue(event) {
 		let id = $(event.currentTarget).parents(".item").attr("data-item-id");
 		let target = $(event.currentTarget).attr("data-binding");
-		let actor = this.actor.toObject(false);
-		let actorData = actor.system;
+		let actor = this.actor;
+		let actorData = duplicate(actor.system);
 		let itemList = duplicate(this.actor.items);
 		let item = itemList.find((i) => i._id === id);
-
+		let realItem = this.actor.items.find(i => i.id === id);
+		let oldValue, actions;
+		let actorId = actor.id;
+		if (actor.isToken) actorId = actor.token.id;
+		
 		let value = event.target.value;
 		if ($(event.currentTarget).attr("data-dtype") === "Number")
 			value = Number(event.target.value);
 		if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
-			let oldValue = getProperty(item, target);
+			oldValue = getProperty(item, target);
 			value = !oldValue;
 		}
 		setProperty(item, target, value);
@@ -541,15 +553,14 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		if (item.type === "itemProgram" && target === "system.isCreated"){
-			let oldValue = getProperty(item, "system.isActive");
+			oldValue = getProperty(item, "system.isActive");
 			value = !oldValue;
 			setProperty(item, "system.isActive", value);
 		}
 
 		if (item.type === "itemAdeptPower" && !item.system.isActive && item.system.hasDrain && !item.system.needRoll){
-			let rollData = {
-				drainValue:  item.system.drainValue.value,
-			}
+			let rollData = SR5_PrepareRollTest.getBaseRollData(null, actor);
+			rollData.magic.drain.value = item.system.drainValue.value;
 			this.actor.rollTest("drain", null, rollData);
 		}
 
@@ -563,39 +574,68 @@ export class ActorSheetSR5 extends ActorSheet {
 			}
 		}
 
+		//Manage actions
+		if (item.type === "itemFocus" && target === "system.isActive"){
+			if(oldValue === false) {
+				actions = [{type: "simple", value: 1, source: "activateFocus"}];
+				actorData.specialProperties.actions.simple.current -=1;
+			} else {
+				actions = [{type: "free", value: 1, source: "desactivateFocus"}];
+				actorData.specialProperties.actions.free.current -=1;
+			}
+		}
+		if (item.type === "itemProgram" && target === "system.isActive"){
+			if(oldValue === false) actions = [{type: "free", value: 1, source: "loadProgram"}];
+			else actions = [{type: "free", value: 1, source: "unloadProgram"}];
+			actorData.specialProperties.actions.free.current -=1;
+		}
+		if (target === "system.wirelessTurnedOn"){
+			if(oldValue === false) actions = [{type: "free", value: 1, source: "turnOnWifi"}];
+			else actions = [{type: "free", value: 1, source: "turnOffWifi"}];
+			actorData.specialProperties.actions.simple.current -=1;
+		}
+
+		//Update actor
 		await this.actor.update({
 			"system": actorData,
 			"items": itemList,
 		})
-		if (this.actor.isToken){
-			this.actor.sheet.render();
-		}
+		if (this.actor.isToken) this.actor.sheet.render();
 
 		//Delete effects linked to sustaining
 		if ((item.type === "itemComplexForm" || item.type === "itemSpell" || item.type === "itemAdeptPower" || item.type === "itemPower") && target === "system.isActive"){
-			if (!item.system.isActive && item.system.targetOfEffect.length) {
-				for (let e of item.system.targetOfEffect){
-					if (!game.user?.isGM) {
-						await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {
-							targetItem: e,
-						});
-					} else {
-						await SR5_ActorHelper.deleteSustainedEffect(e);
-					}
-				}
-				item.system.targetOfEffect = [];
-				this.actor.updateEmbeddedDocuments("Item", [item]);
+			if (!item.system.isActive) {
 
-				//faire un truc là pour dégager le template
-				if (item.system.range === "area" && !item.system.resisted){
+				//Delete effects
+				if (item.system.targetOfEffect.length){
+					for (let e of item.system.targetOfEffect){
+						if (!game.user?.isGM) {
+							await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {
+								targetItem: e,
+							});
+						} else {
+							await SR5_ActorHelper.deleteSustainedEffect(e);
+						}
+					}
+					item.system.targetOfEffect = [];
+					this.actor.updateEmbeddedDocuments("Item", [item]);
+				}
+				
+				//Delete template, if any
+				if (item.system.range === "area"){
 					let messageId = null;
 					for (let m of game.messages){
-						if(m.flags.sr5data?.itemId === item._id && m.flags.sr5data?.templateRemove) messageId = m.id;
+						if(m.flags.sr5data?.owner.itemId === item._id && m.flags.sr5data?.chatCard.templateRemove) messageId = m.id;
 					}
-					await SR5_RollMessage.removeTemplate(messageId, item.uuid);
+					if (messageId) await SR5_RollMessage.removeTemplate(messageId, realItem.uuid);
 				}
 				
 			}
+		}
+
+		//Manage actions for combatants
+		if (game.combat && actions){
+			SR5Combat.changeActionInCombat(actorId, actions, false);
 		}
 
 	}
@@ -694,7 +734,41 @@ export class ActorSheetSR5 extends ActorSheet {
 		event.preventDefault();
 		const id = event.currentTarget.closest(".item").dataset.itemId;
 		const item = this.actor.items.get(id);
-		if (item) item.reloadAmmo();
+		let option;
+
+		if (!item) return;
+
+		switch (item.system.ammunition.casing){
+			case "clip":
+			case "drum":
+			case "belt":
+				if (event.button === 0){
+					option = "insert";
+					if (event.shiftKey) option = "replace";
+					if (event.ctrlKey) option = "insertRound";
+					if (event.shiftKey && event.ctrlKey) option = "insertRoundFull";
+				} else if (event.button ===2){
+					option = "remove";
+				}
+				break;
+			case "breakAction":
+			case "internalMag":
+			case "muzzle":
+				option = "insertRound";
+				if (event.shiftKey && event.ctrlKey) option = "insertRoundFull";
+				break;
+			case "cylinder":
+				option = "insertRound";
+				if (event.shiftKey && (item.system.accessory.find(a => a.name === "speedLoader"))) option = "insertRoundFull";
+				if (event.shiftKey && event.ctrlKey) option = "insertRoundFull";
+				break;
+			case "special":
+				option = "insertRoundFull";
+				break;
+			default: return ui.notifications.warn(game.i18n.localize('SR5.WARN_MissingCasing'));
+		}
+
+		item.reloadAmmo(option);
 	}
 
 	/* -------------------------------------------- */
@@ -854,6 +928,11 @@ export class ActorSheetSR5 extends ActorSheet {
 		} else {
 			SR5_ActorHelper.createSidekick(item, game.user.id, actorId);
 		}
+
+		//manage actions
+		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"loadAgent"}]);
+		else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"callSprite"}]);
+		else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"callSpirit"}]);
 	}
 
 	//
@@ -887,6 +966,14 @@ export class ActorSheetSR5 extends ActorSheet {
 				await SR5_ActorHelper.dimissSidekick(sidekick);
 			}
 		}
+
+		//manage actions
+		let item = this.actor.items.get(id);
+		let actorId = this.actor.id;
+		if (this.actor.isToken) actorId = this.actor.token.id;
+		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source: "unloadAgent"}]);
+		else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSprite"}]);
+		else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSpirit"}]);
 	}
 
 	async _onAddItemToPan(event){
@@ -988,5 +1075,23 @@ export class ActorSheetSR5 extends ActorSheet {
 		let jammingItem = this.actor.items.find(i => i.system.type === "signalJam");
 		await this.actor.deleteEmbeddedDocuments("Item", [jammingItem.id]);
 		await SR5_EntityHelpers.deleteEffectOnActor(this.actor, "signalJam");
+	}
+
+	_onChangeMatrixMode(event){
+		let actorId = this.actor.id;
+		if (this.actor.isToken) actorId = this.actor.token.id;
+
+		//manage actions
+		SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "switchInitToMatrix"}]);
+	}
+
+	_onChangeSilentMode(event){
+		let actorId = this.actor.id;
+		if (this.actor.isToken) actorId = this.actor.token.id;
+		
+		//manage actions
+		let action = [{type: "free", value: 1, source: "changeSilentMode"}];
+		//action = [{type: "simple", value: 1}];
+		SR5Combat.changeActionInCombat(actorId, action);
 	}
 }

@@ -4,7 +4,6 @@
 		<select name="weapon" data-dtype="String">
 			{{#select weapon}}
 				{{#each weaponList}}
-				{{log this}}
 				<option value="{{this.uuid}}">{{this.name}}</option>
 				{{/each}}
 			{{/select}}

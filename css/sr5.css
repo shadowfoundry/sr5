@@ -4908,6 +4908,26 @@ input[type=range]:focus::-ms-fill-upper {
   font-size: var(--font-size-17);
   line-height: 25px;
 }
+#combat #combat-tracker li.combatant .token-name .combatant-controls .action {
+  color: #fffffe;
+  height: 18px;
+  line-height: 17px;
+  text-align: center;
+  margin-right: 2px;
+  margin-top: 2px;
+}
+#combat #combat-tracker li.combatant .token-name .combatant-controls .action.free {
+  border: 1px solid rgba(0, 0, 1, 0.5);
+  background-color: rgba(0, 0, 1, 0.5);
+}
+#combat #combat-tracker li.combatant .token-name .combatant-controls .action.simple {
+  border: 1px solid rgba(12, 147, 148, 0.5);
+  background-color: rgba(12, 147, 148, 0.5);
+}
+#combat #combat-tracker li.combatant .token-name .combatant-controls .action.complex {
+  border: 1px solid rgba(147, 16, 4, 0.5);
+  background-color: rgba(147, 16, 4, 0.5);
+}
 #combat #combat-tracker li.combatant .token-name .combatant-control {
   color: #931004;
   flex: 0 0 23px;

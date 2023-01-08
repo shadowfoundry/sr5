@@ -86,10 +86,15 @@
 			<div class="col-1 SR-TextCenter">{{valueOrDash system.ammunition.value}}/{{valueOrDash system.ammunition.max}}</div>
 			<div class="col-1">
 				<div class="grid">
-					<div class="col-6 SR-TextCenter"
-					  data-helpTitle="{{localize 'SR5.HELP_AmmoReload'}}"
-					  data-helpMessage="{{localize 'SR5.HELP_AmmoReloadMsg'}}"
-					>
+					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_AmmoReload'}}"
+					  data-helpMessage="{{#if (eq system.ammunition.casing 'clip')}}{{localize 'SR5.HELP_AmmoReloadMsgClip'}}{{/if}}
+					  {{#if (eq system.ammunition.casing 'belt')}}{{localize 'SR5.HELP_AmmoReloadMsgBelt'}}{{/if}}
+					  {{#if (eq system.ammunition.casing 'drum')}}{{localize 'SR5.HELP_AmmoReloadMsgDrum'}}{{/if}}
+					  {{#if (eq system.ammunition.casing 'cylinder')}}{{localize 'SR5.HELP_AmmoReloadMsgCylinder'}}{{/if}}
+					  {{#if (eq system.ammunition.casing 'breakAction')}}{{localize 'SR5.HELP_AmmoReloadMsgBreakAction'}}{{/if}}
+					  {{#if (eq system.ammunition.casing 'internalMag')}}{{localize 'SR5.HELP_AmmoReloadMsgInternalMag'}}{{/if}}
+					  {{#if (eq system.ammunition.casing 'muzzle')}}{{localize 'SR5.HELP_AmmoReloadMsgMuzzle'}}{{/if}}
+					">
 						<a class="reload-ammo" data-title="{{localize 'SR5.ReloadWeapon'}}"><em class="fas fa-sm fa-sync"></em></a>
 					</div>
 					<div class="col-6 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">

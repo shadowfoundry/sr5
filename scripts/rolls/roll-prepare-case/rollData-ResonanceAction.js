@@ -1,5 +1,6 @@
 import { SR5 } from "../../config.js";
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
 
 export default async function resonanceAction(rollData, rollKey, actor){
     let resonanceAction = actor.system.matrix?.resonanceActions[rollKey];
@@ -32,6 +33,9 @@ export default async function resonanceAction(rollData, rollKey, actor){
     rollData.matrix.overwatchScore = resonanceAction.increaseOverwatchScore;
     rollData.matrix.level = actor.system.specialAttributes.resonance.augmented.value;
     rollData.dialogSwitch.specialization = true;
+
+    //Manage actions
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: resonanceAction.actionType, value: 1, source: "resonanceAction"});
 
     //Handle special case
     if (rollData.target.hasTarget && (rollKey === "killComplexForm" || rollKey === "decompileSprite" || rollKey === "registerSprite")){

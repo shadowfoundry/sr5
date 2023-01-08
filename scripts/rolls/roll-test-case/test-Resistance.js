@@ -28,7 +28,7 @@ export default async function resistanceInfo(cardData, actorId){
             
             //Get Speed info
             let speed = game.i18n.localize("SR5.ApplyToxinEffectAtTheEndOfTheRound");
-            if (cardData.damage.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: cardData.damage.toxin.speed})}`; //TODO
+            if (cardData.damage.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: cardData.damage.toxin.speed})}`;
             
             //If Actor is in combat, adjust speed to display the good round
             let combatant = SR5Combat.getCombatantFromActor(actor);
@@ -60,7 +60,7 @@ export default async function resistanceInfo(cardData, actorId){
     //Handle continous damage
     if (cardData.damage.isContinuous && cardData.test.typeSub !== "continuousDamage") {
         cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`);
-        let label = `${game.i18n.localize("SR5.TakeOnDamageContinuous")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.originalValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`; //TODO
+        let label = `${game.i18n.localize("SR5.TakeOnDamageContinuous")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.originalValue}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`;
         if (cardData.combat.armorPenetration) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.combat.armorPenetration}`;
         cardData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCardContinuousDamage",label);
         cardData.damage.resistanceType = "physicalDamage";

@@ -95,6 +95,15 @@
                         <img class="token-effect" src="{{this}}"/>
                         {{/each}}
                     </div>
+                    <!-- Actions count override -->
+                    {{#if owner}}
+                    <div class="flexrow actionControlToggle">
+                        <a class="SR-action-control" data-tooltip="SR5.HELP_ActionFree" data-control="free"><div class="action free">{{this.actions.free}}</div></a>
+                        <a class="SR-action-control" data-tooltip="SR5.HELP_ActionSimple" data-control="simple"><div class="action simple">{{this.actions.simple}}</div></a>
+                        <a class="SR-action-control" data-tooltip="SR5.HELP_ActionComplex" data-control="complex"><div class="action complex">{{this.actions.complex}}</div></a>
+                    </div>
+                    {{/if}}
+                    <!-- End -->
                 </div>
             </div>
 

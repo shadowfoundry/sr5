@@ -258,7 +258,7 @@ export class SR5_EntityHelpers {
 	static sortTranslations(object) {
 		for (let key of Object.keys(object)) {
 			switch (key) {
-				case "actionTypes":
+				case "powerActionTypes":
 				case "augmentationGrades":
 				case "characterAttributes":
 				case "characterDefenses":

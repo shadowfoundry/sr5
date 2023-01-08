@@ -248,6 +248,7 @@ export class SR5_PrepareRollTest {
                 buttons: {},
             },
             combat: {
+                actions: [],
                 activeDefenses: {
                     dodge: 0,
                     block: 0,

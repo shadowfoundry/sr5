@@ -76,7 +76,7 @@ export class SR5_RollTest {
 						}
 
 						//Add limit for force, reagents and level
-						if (dialogData.magic.force || dialogData.magic.hasUsedReagents){
+						if ((dialogData.magic.force || dialogData.magic.hasUsedReagents) && dialogData.test.type !== "spellResistance"){
 							if (dialogData.magic.force > 0) {
 								dialogData.limit.base = dialogData.magic.force;
 								dialogData.limit.type = "force";
@@ -97,7 +97,7 @@ export class SR5_RollTest {
 						//Add dice pool modifiers
 						dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData);
 
-						if (dialogData.combat.ammo.fired > 0){
+						if (dialogData.combat.ammo.fired > 0 && dialogData.combat.firingMode.selected !== "SF"){
 							let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
 							actualRecoil += dialogData.combat.ammo.fired;
 							actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);
@@ -154,6 +154,11 @@ export class SR5_RollTest {
 							}
 							if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_ConverterHelpers.activeDefenseToInitMod(dialogData.combat.activeDefenseSelected);
 							if (initModifier < 0) SR5Combat.changeInitInCombatHelper(actor.id, initModifier);
+						}
+
+						//Change actions in combat tracker
+						if (game.combat && dialogData.combat.actions.length){
+							await SR5Combat.changeActionInCombat(dialogData.owner.actorId, dialogData.combat.actions);
 						}
 					},
 				}).render(true);

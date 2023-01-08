@@ -1,4 +1,5 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
 
 export default function sensorTarget(rollData, actor){
     //Determine title
@@ -21,6 +22,9 @@ export default function sensorTarget(rollData, actor){
 
     //Add others informations
     rollData.test.type = "sensorTarget";
+
+    //Handle Actions
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "simple", value: 1, source: "useActiveSensor"});
 
     return rollData;
 }

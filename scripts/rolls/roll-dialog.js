@@ -5,6 +5,7 @@ import { SR5_ConverterHelpers } from "./roll-helpers/converter.js";
 import { SR5_CombatHelpers } from "./roll-helpers/combat.js";
 import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js";
 import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js";
+import { SR5Combat } from "../system/srcombat.js";
 
 export default class SR5_RollDialog extends Dialog {
 
@@ -75,20 +76,37 @@ export default class SR5_RollDialog extends Dialog {
         let firingModeValue,
             dialogData = this.data.data;
 
-        if (html.find('[data-modifier="firingMode"]')[0].value === "SS" || html.find('[data-modifier="firingMode"]')[0].value === "SF"){
+        if (dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"){
             firingModeValue = 0;
             $(html).find(".hideBulletsRecoil").hide();
-        } else firingModeValue = SR5_ConverterHelpers.firingModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
+        } else firingModeValue = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected);
 
-        dialogData.combat.ammo.fired = SR5_ConverterHelpers.firingModeToBullet(html.find('[data-modifier="firingMode"]')[0].value);
+        dialogData.combat.ammo.fired = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected);
         html.find('[name="recoilBullets"]')[0].value = firingModeValue;
         html.find('[name="recoilCumulative"]')[0].value = dialogData.combat.recoil.cumulative;
         if (dialogData.combat.recoil.compensationWeapon < 1) $(html).find(".hideWeaponRecoil").hide();
         if (dialogData.combat.recoil.cumulative < 1) $(html).find(".hideCumulativeRecoil").hide();
 
-        let modifiedRecoil = dialogData.combat.recoil.value - firingModeValue;
+        let modifiedRecoil = (dialogData.combat.recoil.compensationActor + dialogData.combat.recoil.compensationWeapon) - (firingModeValue + dialogData.combat.recoil.cumulative);
         if (modifiedRecoil > 0) modifiedRecoil = 0;
         return modifiedRecoil || 0;
+    }
+
+    //Toggle reset recoil
+    _onResetRecoil(ev, html, dialogData, actor){
+        ev.preventDefault();
+        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
+        resetedActor.resetRecoil();
+        dialogData.combat.recoil.cumulative = 0;
+        dialogData.combat.recoil.value = dialogData.combat.recoil.compensationActor;
+        let recoil = this.calculRecoil(html);
+        this.setPosition(this.position);
+        html.find('[name="recoil"]')[0].value = recoil;
+        dialogData.dicePool.modifiers.recoil = {
+            value: recoil,
+            label: game.i18n.localize(SR5.dicePoolModTypes.recoil),
+        }
+        this.updateDicePoolValue(html);
     }
 
     async getTargetType(target){
@@ -207,20 +225,27 @@ export default class SR5_RollDialog extends Dialog {
                 }
                 return;
             case "recklessSpellcasting":
-                if (isChecked) value = 3;
+                dialogData.combat.actions = [];
+                if (isChecked) {
+                    value = 3;
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "simple", value: 1, source: "castRecklessSpell"});
+                } else {
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "complex", value: 1, source: "castSpell"});
+                }
                 html.find(name)[0].value = value;
                 dialogData.magic.drain.modifiers.recklessSpellcasting = {
                     value: value,
                     label: game.i18n.localize(SR5.drainModTypes[modifierName]),
                 }
                 this.drainModifier.recklessSpellcasting = value;
-                this.updateDrainValue(html);
+                this.updateDrainValue(html);             
                 return;
             case "spiritAid":
                 value = dialogData.magic.spiritAid.modifier;
                 break;
             case "centering":
                 value = actor.system.magic.metamagics.centeringValue.value;
+                if (isChecked) dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "free", value: 1, source: "useCentering"});
                 break;
             case "restraintReinforced":
                 if (isChecked) value = 1;
@@ -572,7 +597,7 @@ export default class SR5_RollDialog extends Dialog {
         let target = $(ev.currentTarget).attr("data-target"),
             name = `[name=${target}]`,
             modifierName = $(ev.currentTarget).attr("data-modifier"),
-            value, limitDV,
+            value, limitDV, action,
             actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             position = this.position;
@@ -616,10 +641,25 @@ export default class SR5_RollDialog extends Dialog {
                     label = label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "firingMode":
-                    value = this.calculRecoil(html);
                     dialogData.combat.firingMode.selected = ev.target.value;
+                    value = this.calculRecoil(html);
+                    action = SR5_ConverterHelpers.firingModeToAction(ev.target.value);
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, action);
                     modifierName = "recoil";
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    //actions
+                    let weapon = await fromUuid(dialogData.owner.itemUuid);
+                    if (weapon.system.firingMode.current !== dialogData.combat.firingMode.selected && !dialogData.combat.firingMode.actionSpent){
+                        action = [{type: "simple", value: 1, source: "changeFiringMode"}];
+                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "changeFiringMode"}];
+                        SR5Combat.changeActionInCombat(dialogData.owner.actorId, action);
+                        dialogData.combat.firingMode.actionSpent = true;
+                    } else if (weapon.system.firingMode.current === dialogData.combat.firingMode.selected && dialogData.combat.firingMode.actionSpent){
+                        action = [{type: "simple", value: -1, source: "changeFiringMode"}];
+                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: -1, source: "changeFiringMode"}];
+                        SR5Combat.changeActionInCombat(dialogData.owner.actorId, action);
+                        dialogData.combat.firingMode.actionSpent = false;
+                    }
                     break;
                 case "defenseMode":
                     value = SR5_ConverterHelpers.activeDefenseToMod(ev.target.value, dialogData.combat.activeDefenses);
@@ -847,6 +887,9 @@ export default class SR5_RollDialog extends Dialog {
                             dialogData.damage.value += 2;
                             break;
                     }
+                    //Manage actions
+                    if (ev.target.value !== "") dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "free", value: 1, source: "calledShot"});
+                    else dialogData.combat.actions = SR5_MiscellaneousHelpers.removeActions(dialogData.combat.actions, "calledShot");
                     break;
                 case "calledShotSpecificTarget":
                     modifierName = "calledShot";
@@ -881,7 +924,7 @@ export default class SR5_RollDialog extends Dialog {
         if (ev.length === 0) return;
         let modifierName, targetInput, targetInputName, name, inputValue, selectValue;
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId),
-            label;
+            label, action;
 
         for (let e of ev){
             modifierName = $(e).attr("data-modifier");
@@ -908,9 +951,10 @@ export default class SR5_RollDialog extends Dialog {
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "firingMode":
+                    selectValue = dialogData.combat.firingMode.selected;
                     inputValue = this.calculRecoil(html);
-                    selectValue = null;
-                    dialogData.combat.firingMode.selected = html.find(name)[0].value;
+                    action = SR5_ConverterHelpers.firingModeToAction(selectValue);
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, action);
                     modifierName = "recoil";
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
@@ -1047,18 +1091,7 @@ export default class SR5_RollDialog extends Dialog {
         }
     }
 
-    //Toggle reset recoil
-    _onResetRecoil(ev, html, dialogData, actor){
-        ev.preventDefault();
-        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
-        resetedActor.resetRecoil();
-        dialogData.dicePool.modifiers.recoil.value = 0;
-        actor.flags.sr5.cumulativeRecoil = 0;
-        let recoil = this.calculRecoil(html);
-        html.find('[name="recoil"]')[0].value = recoil;
-        this.dicePoolModifier.recoil = recoil;
-        this.updateDicePoolValue(html);
-    }
+    
 
     //Toggle reset defense
     _onResetDefense(ev, html, dialogData, actor){

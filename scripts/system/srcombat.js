@@ -1,3 +1,4 @@
+import { SR5 } from "../config.js";
 import { SR5_CharacterUtility } from "../entities/actors/utilityActor.js";
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 import { SR5_SocketHandler } from "../socket.js";
@@ -90,6 +91,11 @@ export class SR5Combat extends Combat {
 				"flags.sr5.hasPlayed": combatant.isDefeated,
 				"flags.sr5.baseCombatantInitiative": initiative,
 			});
+			//Update actor's action if he can still play next initiative pass
+			if(initiative > 0){
+				if (!combatant.actor.isToken) await SR5Combat.resetActionInCombat(combatant.actorId, combatant);
+				else await SR5Combat.resetActionInCombat(combatant.tokenId, combatant);
+			}
 		}
 
 		await SR5Combat.setInitiativePass(combat, initiativePass);
@@ -129,7 +135,7 @@ export class SR5Combat extends Combat {
 			round: this.round,
 			turn: this.turn,
 			combatantId: c ? c.id : null,
-			tokenId: c ? c.tokenId : null
+			tokenId: c ? c.tokenId : null,
 		};
 		return this.turns = turns;
 	}
@@ -292,7 +298,10 @@ export class SR5Combat extends Combat {
 		// Let Foundry handle time and some other things.
 		await super.nextRound();
 		for (let combatant of this.combatants){
-			await combatant.setFlag("sr5", "hasPlayed", combatant.isDefeated)
+			await combatant.setFlag("sr5", "hasPlayed", combatant.isDefeated);
+			//Update actor's action
+			if (!combatant.actor.isToken) await SR5Combat.resetActionInCombat(combatant.actorId, combatant);
+			else await SR5Combat.resetActionInCombat(combatant.tokenId, combatant);
 		}
 
 		// Owner permissions are needed to change the shadowrun initiative round.
@@ -528,7 +537,56 @@ export class SR5Combat extends Combat {
         } else await SR5Combat.changeInitInCombat(documentId, initChange);
 	}
 
-	//Do stuff on actor when turn is endin
+	static async changeActionInCombat(documentId, actions, updateActor = true){
+		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
+		let actorData = duplicate(actor.system);
+		let combatant = await SR5Combat.getCombatantFromActor(actor);
+		if (!combatant) return;
+		
+		//Update actor actions
+		if (updateActor){
+			for (let action of actions){
+				if (action.type === "special") continue;
+				actorData.specialProperties.actions[action.type].current -= action.value;
+			}
+			await actor.update({system: actorData});
+		}
+
+		//... and combatant actions
+		await combatant.update({
+			"flags.sr5.actions.free": actorData.specialProperties.actions.free.current,
+			"flags.sr5.actions.simple": actorData.specialProperties.actions.simple.current,
+			"flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
+		});
+		
+		for (let action of actions){
+			if (action.source === "manual") {
+				action.value = -action.value;
+				let sign = action.value > 0 ? "+" : ""
+				ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActionsManually", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), sign: sign})}`); 
+			}
+			else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])})}`); 
+		}
+	}
+
+	//Reset actions on actor
+	static async resetActionInCombat(documentId, combatant){
+		let actor = SR5_EntityHelpers.getRealActorFromID(documentId);
+		let actorData = duplicate(actor.system);
+		for (let key of Object.keys(SR5.actionTypes)) {
+			if (actorData.specialProperties.actions[key]) {
+				actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
+			}
+		}
+		await combatant.update({
+			"flags.sr5.actions.free": actorData.specialProperties.actions.free.current,
+			"flags.sr5.actions.simple": actorData.specialProperties.actions.simple.current,
+			"flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
+		});
+		await actor.update({system: actorData});
+	}
+
+	//Do stuff on actor when turn is ending
 	static async manageTurnEnd(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
