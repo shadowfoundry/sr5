@@ -176,6 +176,7 @@ export class SR5_RollMessage {
             case "calledShotKnockdown":
             case "matrixResistance":
             case "vehicleTest":
+            case "resistanceToxin":
                 actor.rollTest(type, null, messageData);
                 break;
             case "resistanceCardContinuousDamage":

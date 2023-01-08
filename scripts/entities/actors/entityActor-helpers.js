@@ -1033,7 +1033,7 @@ export class SR5_ActorHelper {
 	}
 
 	//Apply specific toxin effect
-	async applyToxinEffect(actorId, data){
+	static async applyToxinEffect(actorId, data){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
 			effects, status, isStatusEffectOn,
 			toxinEffects = [],
@@ -1082,7 +1082,7 @@ export class SR5_ActorHelper {
 		if (data.damage.type && data.damage.value > 0) await actor.takeDamage(data);
 	}
 
-	async applyCalledShotsEffect(actorId, data){
+	static async applyCalledShotsEffect(actorId, data){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
 			effects, status, weakSideEffect,
 			cSEffects = [],

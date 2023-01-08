@@ -66,8 +66,12 @@
 			  data-helpDetailsItem="system.damageValue"
 			  data-helpItemId="{{_id}}"
 			>
-			  	{{valueOrDash system.damageValue.value}}{{#if system.damageType}}{{findTranslation "damageTypesShort" system.damageType}}{{/if}}
-			  	{{#if system.damageElement}}({{findTranslation "specialDamageTypes" system.damageElement}}){{/if}}
+				{{#if (eq system.damageElement 'toxin')}}
+					{{findTranslation "specialDamageTypes" system.damageElement}}
+				{{else}}
+			  		{{valueOrDash system.damageValue.value}}{{#if system.damageType}}{{findTranslation "damageTypesShort" system.damageType}}{{/if}}
+			  		{{#if system.damageElement}}({{findTranslation "specialDamageTypes" system.damageElement}}){{/if}}
+				{{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter"
 			  data-helpTitle="{{localize 'SR5.ArmorPenetration'}}"
