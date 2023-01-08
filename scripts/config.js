@@ -691,11 +691,59 @@ SR5.lifestyleTypes = {
   };
 
 // Reputation
-
 SR5.reputationTypes = {
 	streetCred                : "SR5.ReputationStreetCred",
 	notoriety                 : "SR5.ReputationNotoriety",
 	publicAwareness           : "SR5.ReputationPublicAwareness",
+}
+
+SR5.actionTypes = {
+	free                      : "SR5.ActionTypeFree",
+	simple                    : "SR5.ActionTypeSimple",
+	complex                   : "SR5.ActionTypeComplex",
+	interrupt                 : "SR5.ActionTypeInterruption",
+	special 				  : "SR5.ActionTypeSpecial",
+}
+
+SR5.actionSources = {
+	activateFocus			  : "SR5.ActionSourceActivateFocus",
+	attack					  : "SR5.ActionSourceAttack",
+	calledShot				  : "SR5.ActionSourceCalledShot",
+	callSpirit 				  : "SR5.ActionSourceCallSpirit",
+	callSprite 				  : "SR5.ActionSourceCallSprite",
+	castRecklessSpell		  : "SR5.ActionSourceCastRecklessSpell",
+	castSpell				  : "SR5.ActionSourceCastSpell",
+	changeFiringMode		  : "SR5.ActionSourceChangeFiringMode",
+	changeSilentMode		  : "SR5.ActionSourceChangeSilentMode",
+	complexForm				  : "SR5.ActionSourceComplexForm",
+	desactivateFocus		  : "SR5.ActionSourceDesactivateFocus",
+	dismissSpirit			  : "SR5.ActionSourceDismissSpirit",
+	dismissSprite			  : "SR5.ActionSourceDismissSprite",
+	insertClip				  : "SR5.ActionSourceInsertClip",
+	insertRound				  : "SR5.ActionSourceInsertRound",
+	loadAgent				  : "SR5.ActionSourceLoadAgent",
+	loadProgram     		  : "SR5.ActionSourceLoadProgram",
+	manual		     		  : "SR5.ActionSourceManual",
+	ramming					  : "SR5.ActionSourceRamming",
+	rebooDeck				  : "SR5.ActionSourceRebootDeck",
+	replaceClip				  : "SR5.ActionSourceReplaceClip",
+	removeClip				  : "SR5.ActionSourceRemoveClip",
+	standUp  				  : "SR5.ActionSourceStandUp",
+	switchAttributes		  : "SR5.ActionSourceSwitchAttributes",
+	switchInitToAstral		  : "SR5.ActionSourceSwitchInitToAstral",
+	switchInitToPhysical	  : "SR5.ActionSourceSwitchInitToPhysical",
+	switchInitToMatrix		  : "SR5.ActionSourceSwitchInitToMatrix",
+	switchPerception		  : "SR5.ActionSourceSwitchPerception",
+	takeCover				  : "SR5.ActionSourceTakeCover",
+	turnOnWifi				  : "SR5.ActionSourceTurnOnWifi",
+	turnOffWifi				  : "SR5.ActionSourceTurnOffWifi",
+	unloadAgent				  : "SR5.ActionSourceUnloadAgent",
+	unloadProgram	 		  : "SR5.ActionSourceUnloadProgram",
+	useActiveSensor			  : "SR5.ActionSourceUseActiveSensor",
+	useCentering 			  : "SR5.ActionSourceUseCentering",
+	usePreparation			  : "SR5.ActionSourceUsePreparation",
+	useSkill				  : "SR5.ActionSourceUseSkill",
+	vehicleTest				  : "SR5.ActionSourceVehicleTest",
 }
 
 //-----------------------------------//
@@ -1623,7 +1671,7 @@ SR5.preparationTriggerTypes = {
 };
 
 // Type d'action des pouvoirs d'adepte
-SR5.actionTypes = {
+SR5.powerActionTypes = {
 	free                      : "SR5.ActionTypeFree",
 	simple                    : "SR5.ActionTypeSimple",
 	complex                   : "SR5.ActionTypeComplex",

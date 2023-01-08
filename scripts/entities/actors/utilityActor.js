@@ -824,7 +824,11 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		await actor.update({ 'system': actorData });
-		if (vision === "astral" || currentVision === "astral") this.handleAstralVision(actor);
+		if (vision === "astral" || currentVision === "astral") {
+			if (actor.isToken) SR5Combat.changeActionInCombat(actor.token.id, [{type: "simple", value: 1, source: "switchPerception"}]);
+			else SR5Combat.changeActionInCombat(actor.id, [{type: "simple", value: 1, source: "switchPerception"}]);
+			this.handleAstralVision(actor);
+		}
 	}
 
 	static applyRacialModifers(actor) {
@@ -1608,7 +1612,8 @@ export class SR5_CharacterUtility extends Actor {
 
 		let actorData = duplicate(actor.system),
 			initiatives = actorData.initiatives,
-			currentInitiative = this.findActiveInitiative(actor.system);
+			currentInitiative = this.findActiveInitiative(actor.system),
+			actorId = (actor.isToken ? actor.token.id : actor.id);
 
 		if (currentInitiative) initiatives[currentInitiative].isActive = false;
 		if (currentInitiative === "astralInit") actorData.visions.astral.isActive = false;
@@ -1625,9 +1630,14 @@ export class SR5_CharacterUtility extends Actor {
 		// if initiative is physical remove effect, else add or update active effect
 		if (initiative === "physicalInit"){
 			if(previousInitiativeEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [previousInitiativeEffect.id]);
+			if (currentInitiative === "astralInit" && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "complex", value: 1, source: "switchInitToPhysical"}]);
+			else if (currentInitiative === "matrixInit" && game.combat && actorData.matrix.userMode !== "ar") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "switchInitToPhysical"}]);
 		} else {
 			if(previousInitiativeEffect) await previousInitiativeEffect.update(initiativeEffect);
 			else await actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect]);
+			//Manage actions
+			if (initiative === "astralInit" && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "complex", value: 1, source: "switchInitToAstral"}]);
+			else if (initiative === "matrixInit" && game.combat && actorData.matrix.userMode !== "ar") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "switchInitToMatrix"}]);
 		}
 
 		if (initiative === "astralInit" || currentInitiative === "astralInit") this.handleAstralVision(entity);

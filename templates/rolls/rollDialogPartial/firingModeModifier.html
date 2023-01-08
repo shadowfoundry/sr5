@@ -6,6 +6,7 @@
     <div class="col-3">{{localize 'SR5.WeaponMode'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-8 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="recoil" data-modifier="firingMode">
+
             {{#select firingMode}}
                 {{#if combat.firingMode.singleShot}}
                 <option value="SS">{{localize 'SR5.WeaponModeSS'}} ({{localize 'SR5.WeaponModeSSShort'}}) [-1 {{localize 'SR5.Bullet'}}]</option>

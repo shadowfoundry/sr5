@@ -1,4 +1,5 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
 
 export default function complexForm(rollData, actor, item){
     //Determine title
@@ -24,6 +25,9 @@ export default function complexForm(rollData, actor, item){
         value: item.system.fadingModifier,
         label: game.i18n.localize("SR5.FadingModifier"),
     }
+
+    //Manage actions
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "complexForm"});
 
     //Determine sub type
     for (let e of item.system.systemEffects){

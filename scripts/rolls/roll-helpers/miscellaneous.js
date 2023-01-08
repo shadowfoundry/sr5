@@ -56,4 +56,24 @@ export class SR5_MiscellaneousHelpers {
         }
     }
 
+    //Add an action to actions array, removing duplicated source
+    static addActions(actions, actionToAdd){
+        if (!actions.length) actions.push(actionToAdd);
+        else {
+            if (actions.find(a => a.source === actionToAdd.source)) {
+                actions = actions.filter(a => a.source !== actionToAdd.source);
+                actions.push(actionToAdd);
+            } else {
+                actions.push(actionToAdd);
+            }
+        }
+        return actions;
+    }
+
+    //Remove an action from array
+    static removeActions(actions, actionToRemove){
+        if (!actions.length) return actions;
+        if (actions.find(a => a.source === actionToRemove)) return actions = actions.filter(a => a.source !== actionToRemove);
+        else return actions;
+    }
 }

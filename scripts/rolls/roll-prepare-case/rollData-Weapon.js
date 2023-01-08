@@ -3,6 +3,7 @@ import { SR5_EntityHelpers } from "../../entities/helpers.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
 import { SR5_CombatHelpers } from "../roll-helpers/combat.js";
 import { SR5_RollMessage } from "../roll-message.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
 import { SR5 } from "../../config.js";
 
 //Add info for weapon Roll
@@ -36,7 +37,7 @@ export default async function weapon(rollData, actor, item){
     //Recoil Compensation calculation
     rollData.combat.recoil.compensationActor = actorData.recoilCompensation.value;
     rollData.combat.recoil.compensationWeapon = itemData.recoilCompensation.value;
-    rollData.combat.recoil.cumulative = -(actor.getFlag("sr5", "cumulativeRecoil") || 0);
+    rollData.combat.recoil.cumulative = actor.getFlag("sr5", "cumulativeRecoil") || 0;
     rollData.combat.recoil.value = rollData.combat.recoil.compensationActor - rollData.combat.recoil.cumulative;
     if (actor.type !== "actorDrone") rollData.combat.recoil.value += rollData.combat.recoil.compensationWeapon;
     
@@ -49,6 +50,9 @@ export default async function weapon(rollData, actor, item){
 
     //Handle Toxin
     if (itemData.damageElement === "toxin") rollData.damage.toxin = itemData.toxin;
+
+    //Handle Actions
+    if (itemData.category === "meleeWeapon") rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "attack"});
     
     //Add others informations
     rollData.test.typeSub = itemData.category;
@@ -156,7 +160,7 @@ async function handleTargetInfo(rollData, actor, item){
     //Handle Melee specifics
     if (itemData.category === "meleeWeapon") {
         rollData.combat.reach = itemData.reach.value
-        if (rollData.target.rangeInMeters > (itemData.reach.value + 1)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
+        if (rollData.target.rangeInMeters > (itemData.reach.value + 1,41)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
         sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect);
     } else { // Handle weapon ranged based on distance
         if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short";
@@ -168,6 +172,12 @@ async function handleTargetInfo(rollData, actor, item){
             return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);
         }
         sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, false, areaEffect);
+    }
+
+    //Handle ranged weapon current firing mode
+    if (itemData.category === "rangedWeapon") {
+        if (itemData.firingMode.current !== "") rollData.combat.firingMode.selected = itemData.firingMode.current;
+        else rollData.combat.firingMode.selected = itemData.firingMode.value[0];
     }
 
     //Add environmental modifiers

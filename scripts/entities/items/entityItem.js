@@ -5,6 +5,7 @@ import { SR5_EntityHelpers } from "../helpers.js";
 import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
 import { SR5 } from "../../config.js";
+import { SR5Combat } from "../../system/srcombat.js";
 
 /**
  * Override and extend the basic :class:`Item` implementation
@@ -234,6 +235,7 @@ export class SR5Item extends Item {
 					tags.push(
 						game.i18n.localize(lists.rangedWeaponTypes[itemData.type]),
 						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.firingMode.value}`,
+						game.i18n.localize(`SR5.WeaponModeCurrent`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.weaponModesCode[itemData.firingMode.current]),
 						game.i18n.localize(`SR5.RecoilCompensationShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.recoilCompensation.value}`,
 						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
 						game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[itemData.ammunition.type]),
@@ -324,7 +326,7 @@ export class SR5Item extends Item {
 				break;
 			case "itemAdeptPower":
 				tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${itemData.powerPointsCost.value}`);
-				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.actionTypes[itemData.actionType])}`);
+				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.powerActionTypes[itemData.actionType])}`);
 				break;
 			case "itemQuality":
 				tags.push(`${game.i18n.localize(lists.qualityTypes[itemData.type])}`);
@@ -382,65 +384,129 @@ export class SR5Item extends Item {
 	}
 
 	//Reload ammo based on weapon type && ammunitions
-	reloadAmmo() {
-		let lists = SR5_EntityHelpers.sortTranslations(SR5),
-			ownerActor;
-		if (this.actor.isToken) ownerActor = SR5_EntityHelpers.getRealActorFromID(this.actor.token.id);
-		else ownerActor = SR5_EntityHelpers.getRealActorFromID(this.actor.id);
-
+	async reloadAmmo(option) {
+		let lists = SR5_EntityHelpers.sortTranslations(SR5);
+		let actor = (this.actor.isToken ? SR5_EntityHelpers.getRealActorFromID(this.actor.token.id) : SR5_EntityHelpers.getRealActorFromID(this.actor.id));
 		let weapon = duplicate(this),
-			weaponData = weapon.system;
+			weaponData = weapon.system,
+			ammoSpent = weaponData.ammunition.max - weaponData.ammunition.value,
+			ammoNeeded, action, stop = false, falseAmmo = false;
 
-		let ammoNeeded = weaponData.ammunition.max - weaponData.ammunition.value;
-		if (ammoNeeded < 1) return;
+		if (ammoSpent < 1) return;
+		if (weaponData.ammunition.casing === "") return ui.notifications.warn(game.i18n.localize("SR5.WARN_MissingCasing"));
 
-		let ammo = ownerActor.items.find((i) => i.type === "itemAmmunition" && (i.system.type === weaponData.ammunition.type) && (i.system.class === weaponData.type));
-		if (ammo) {
-			let ammoData = duplicate(ammo.system);
-
-			if (ammoData.quantity <=0) {
-				Dialog.confirm({
-					title: game.i18n.localize('SR5.DIALOG_WarningNoMoreAmmoTitle'),
-					content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" 
-									+ game.i18n.format('SR5.DIALOG_WarningNoMoreAmmo', 
-									{actor: ownerActor.name, ammoType: game.i18n.localize(lists.allAmmunitionTypes[weaponData.ammunition.type]), 
-										weaponType: game.i18n.localize(lists.rangedWeaponTypes[weaponData.type]),
-										itemName: weapon.name
-									}) + "</p>",
-					yes: () => { 
-						weaponData.ammunition.value = weaponData.ammunition.max;
-						this.update({system: weaponData});
-					},
-				});
-			} else {
-				if (ammoNeeded <= ammoData.quantity) {
-					weaponData.ammunition.value = weaponData.ammunition.max;
-					this.update({system: weaponData});
-					ammoData.quantity -= ammoNeeded;
-					ammo.update({system: ammoData});
-				} else {
-					weaponData.ammunition.value += ammoData.quantity;
-					this.update({system: weaponData});
-					ammoData.quantity = 0;
-					ammo.update({system: ammoData});
-				}
+		//Manage action in combat, eventually return if no action available
+		if (game.combat){
+			switch (option){
+				case "insert":
+					if (weaponData.ammunition.casing === "clip") action = [{type: "simple", value: 1, source: "insertClip"}];
+					else action = [{type: "complex", value: 1, source: "insertClip"}];
+					break;
+				case "replace":
+					if (weaponData.ammunition.casing === "clip") {
+						if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)){
+							action = [{type: "free", value: 1, source: "removeClip"}, {type: "simple", value: 1, source: "insertClip"}];
+						} else action = [{type: "simple", value: 2, source: "replaceClip"}];
+					}
+					else action = [{type: "complex", value: 2, source: "replaceClip"}];
+					break;
+				case "insertRound":
+					if (weaponData.type === "bow")  action = [{type: "simple", value: 1, source: "insertRound"}];
+					else action = [{type: "complex", value: 1, source: "insertRound"}];
+					break;
+				case "insertRoundFull":
+					if (weaponData.ammunition.casing === "cylinder") action = [{type: "complex", value: 1, source: "insertRound"}];
+					else return ui.notifications.warn(game.i18n.format('SR5.WARN_NotPossibleInCombat'));
+				case "remove":
+					if (weaponData.ammunition.casing === "clip") {
+						if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "removeClip"}];
+						else action = [{type: "simple", value: 1, source: "removeClip"}];
+					}
+					else action = [{type: "complex", value: 1, source: "removeClip"}];
+					break;
 			}
-		} else {
-			Dialog.confirm({
+
+			//chek if actor has enought action left
+			for (let a of action){
+				if (a.value > actor.system.specialProperties.actions[a.type].current) return ui.notifications.warn(game.i18n.format('SR5.WARN_NotEnoughAction', {value: a.value, action: game.i18n.localize(SR5.actionTypes[a.type])}));;
+			}
+		}
+
+		//Manage removing clip/belt/drum
+		if (option === "remove"){
+			weaponData.ammunition.value = 0;
+			weaponData.ammunition.clipInserted = false;
+			this.update({system: weaponData});
+
+			//Update actions in combat
+			if (game.combat){
+				let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
+				SR5Combat.changeActionInCombat(actorId, action);
+			}
+			return;
+		}
+
+		//Check if actor has good type of rounds in inventory
+		let ammo = actor.items.find((i) => i.type === "itemAmmunition" && (i.system.type === weaponData.ammunition.type) && (i.system.class === weaponData.type));
+		let ammoData = ammo ? duplicate(ammo.system) : {};
+
+		if (!ammo || ammo.system.quantity <= 0) {
+			await Dialog.confirm({
 				title: game.i18n.localize('SR5.DIALOG_WarningNoAmmoTypeTitle'),
 				content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" 
 								+ game.i18n.format('SR5.DIALOG_WarningNoAmmoType', 
-								{actor: ownerActor.name, ammoType: game.i18n.localize(lists.allAmmunitionTypes[weaponData.ammunition.type]), 
+								{actor: actor.name, ammoType: game.i18n.localize(lists.allAmmunitionTypes[weaponData.ammunition.type]), 
 									weaponType: game.i18n.localize(lists.rangedWeaponTypes[weaponData.type]),
 									itemName: weapon.name
 								}) + "</p>",
 				yes: () => { 
-					weaponData.ammunition.value = weaponData.ammunition.max;
-					this.update({system: weaponData});
+					falseAmmo = true;
+					ammoData.quantity = 1000;
 				},
+				no: () => {stop = true;},
+				close: () => {stop = true;}
 			});
 		}
-		
+		if (stop) return;
+	
+		switch (option){
+			case "insert":
+			case "replace":
+			case "insertRoundFull":
+				if (option === "insert" && weaponData.ammunition.clipInserted) return ui.notifications.warn(game.i18n.localize("SR5.WARN_RemoveClipFirst"));
+				if (ammoSpent > ammoData.quantity) ammoNeeded = ammoData.quantity
+				else ammoNeeded = ammoSpent;
+				weaponData.ammunition.value += ammoNeeded;
+				weaponData.ammunition.clipInserted = true;
+				break;
+			case "insertRound":
+				if (weaponData.ammunition.casing === "breakAction"){
+					if (ammoData.quantity < 2) ammoNeeded = ammoData.quantity;
+					else ammoNeeded = 2
+				} else {
+					if (actor.system.attributes.agility.augmented.value > ammoData.quantity) ammoNeeded = ammoData.quantity;
+					else ammoNeeded = actor.system.attributes.agility.augmented.value;
+					if (ammoNeeded > ammoSpent) ammoNeeded = ammoSpent;
+				}
+				weaponData.ammunition.value += ammoNeeded;
+				break;
+		}
+
+
+		//update weapon
+		this.update({system: weaponData});
+
+		//Update ammo in inventory if needed
+		if (!falseAmmo){
+			ammoData.quantity -= ammoNeeded;
+			ammo.update({system: ammoData});
+		}
+
+		//Update actions in combat
+		if (game.combat){
+			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
+			SR5Combat.changeActionInCombat(actorId, action);
+		}
 	}
 
 	async placeGabarit(messageId) {
@@ -469,9 +535,7 @@ export class SR5Item extends Item {
 		const documentName = this.metadata.name;
 		const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect", "itemCyberdeck"];
 		const originalTypes = game.system.documentTypes[documentName];
-		const types = originalTypes.filter(
-			(itemType) => !hiddenTypes.includes(itemType)
-		);
+		const types = originalTypes.filter((itemType) => !hiddenTypes.includes(itemType));
 		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
 		const title = game.i18n.localize('SR5.DIALOG_CreateNewItem');
 		

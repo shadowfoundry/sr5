@@ -8,6 +8,7 @@ import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { _getSRStatusEffect } from "../../system/effectsList.js"
 import { SR5_SocketHandler } from "../../socket.js";
 import { SR5_ActorHelper } from "./entityActor-helpers.js";
+import { SR5Combat } from "../../system/srcombat.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Shadowrun 5.
@@ -795,6 +796,9 @@ export class SR5Actor extends Actor {
 			if (i.system.markedItems?.length) i.system.markedItems = [];
 		}
 
+		//Manage actions
+		actorData.specialProperties.actions.complex.current -=1;
+
 		dataToUpdate = mergeObject(dataToUpdate, {
 			"system": actorData,
 			"items": updatedItems,
@@ -809,6 +813,11 @@ export class SR5Actor extends Actor {
 		}
 
 		ui.notifications.info(`${actorData.matrix.deviceName} ${game.i18n.localize("SR5.Rebooted")}.`);
+
+		//Manage action in combat
+		if(game.combat){
+			SR5Combat.changeActionInCombat(actorId, [{type: "complexe", value: 1, source: "rebootDeck"}], false);
+		}
 	}
 
 	//Reset Cumulative Recoil

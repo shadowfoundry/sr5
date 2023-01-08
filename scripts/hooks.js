@@ -239,28 +239,55 @@ export const registerHooks = function () {
 		TweenMax.killTweensOf(deleteToken.children)
 	});
 
-	Hooks.on("createCombatant", (combatant) => {
-		let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.system);
-
+	Hooks.on("createCombatant", async (combatant) => {
 		if (game.user.isGM){
-			combatant.update({
+			let key = SR5_CharacterUtility.findActiveInitiative(combatant.actor.system);
+			let actor;
+			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
+
+			actor.update({
+				"flags.sr5.cumulativeDefense": 0,
+				"system.specialProperties.actions.free.current": actor.system.specialProperties.actions.free.value,
+				"system.specialProperties.actions.simple.current": actor.system.specialProperties.actions.simple.value,
+				"system.specialProperties.actions.complex.current": actor.system.specialProperties.actions.complex.value,
+			})
+
+			await combatant.update({
 				"flags.sr5.seizeInitiative" : false,
 				"flags.sr5.blitz" : false,
 				"flags.sr5.hasPlayed" : combatant.isDefeated,
 				"flags.sr5.cumulativeDefense" : 0,
 				"flags.sr5.currentInitRating" : combatant.actor.system.initiatives[key].value,
 				"flags.sr5.currentInitDice" : combatant.actor.system.initiatives[key].dice.value,
+				"flags.sr5.actions.free": actor.system.specialProperties.actions.free.value,
+				"flags.sr5.actions.simple": actor.system.specialProperties.actions.simple.value,
+				"flags.sr5.actions.complex": actor.system.specialProperties.actions.complex.value,
 			});
-			
-			let actor;
-			if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
-			else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
-			actor.setFlag("sr5", "cumulativeDefense", 0);
 		}
 	});
 
 	Hooks.on("updateCombatant", (combatant) => {
 		if (combatant.isDefeated && !combatant.flags.sr5.hasPlayed) combatant.update({"flags.sr5.hasPlayed": true,});
+	});
+
+	Hooks.on("deleteCombat", async (combat) => {
+		if (game.user.isGM){
+			//Reset actions to default values
+			let actor, actorData;
+			for (let combatant of combat.combatants){
+				if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
+				else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
+
+				actorData = duplicate(actor.system);
+				for (let key of Object.keys(SR5.actionTypes)) {
+					if (actorData.specialProperties.actions[key]) {
+						actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
+					}
+				}
+				await actor.update({system: actorData});
+			}
+		}
 	});
 
 	Hooks.on("closeCombatantConfig", (combatant) => {
@@ -334,22 +361,20 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("deleteActiveEffect", async (effect) =>{
-		if (effect.flags.core?.statusId === "prone" && game.user?.isGM){
+		if (!game.user.isGM ) return;
+		if (effect.flags.core?.statusId === "prone"){
 			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
-			if (itemEffect) {
-				if (itemEffect.parent.isToken) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.token.id, itemEffect.id);
-				else await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(itemEffect.parent.id, itemEffect.id);
-			}
+			let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id);
+			if (itemEffect) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(actorId, itemEffect.id);
+			SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "standUp"}]);
 		}
 	});
 
 	Hooks.on("createActiveEffect", (effect) =>{
-		if ( !game.user.isGM ) return;
-		if (effect.flags.core?.statusId === "signalJam") {
-			let actorId = effect.parent.id
-			if (effect.parent.isToken) actorId = effect.parent.token.id;
-			SR5_EffectArea.onJamCreation(actorId);
-		}
+		if (!game.user.isGM ) return;
+		let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id);
+		if (effect.flags.core?.statusId === "signalJam") SR5_EffectArea.onJamCreation(actorId);
+		if ((effect.flags.core?.statusId === "cover" || effect.flags.core?.statusId === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "takeCover"}]);
 	});
 
 	Hooks.on("createActor", async (actor) =>{

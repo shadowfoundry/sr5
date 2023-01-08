@@ -3,7 +3,7 @@
   data-helpMessage="{{localize 'SR5.HELP_MatrixUserModeMsg'}}"
 >
 	{{#if (or (eq system.matrix.deviceType "livingPersona") (eq system.matrix.deviceType "headcase"))}}
-		<select name="system.matrix.userMode" data-dtype="String" required>
+		<select class="changeMatrixMode" name="system.matrix.userMode" data-dtype="String" required>
     		{{#select system.matrix.userMode}}
 			{{#each lists.personaModes}}
 				<option value="{{@key}}">{{findTranslation 'deckModes' @key}}</option>
@@ -11,7 +11,7 @@
 			{{/select}}
 		</select>
 	{{else}}
-		<select name="system.matrix.userMode" data-dtype="String" required>
+		<select class="changeMatrixMode" name="system.matrix.userMode" data-dtype="String" required>
 			{{#select system.matrix.userMode}}
 			{{#each lists.deckModes}}
 				<option value="{{@key}}">{{findTranslation 'deckModes' @key}}</option>
