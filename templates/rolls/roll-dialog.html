@@ -116,7 +116,7 @@
 	  	{{/if}}
 
 		<!-- REAGENTS -->
-		{{#if dialogSwitch.reagents}}
+		{{#if (and (and (ne test.typeSub 'summoning') (ne test.type 'preparationFormula') (ne test.type 'ritual') (ne test.type 'spell') ) dialogSwitch.reagents)}}
 			{{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
   		{{/if}}
 
