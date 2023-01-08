@@ -20,7 +20,7 @@ export {default as fading} from "./rollData-Fading.js";
 export {default as healing} from "./rollData-Healing.js";
 export {default as iceAttack} from "./rollData-IceAttack.js";
 export {default as iceDefense} from "./rollData-IceDefense.js";
-export {default as itemRoll} from "./rollData-itemRoll.js";
+export {default as itemRoll} from "./rollData-ItemRoll.js";
 export {default as knowledgeSkill} from "./rollData-KnowledgeSkill.js";
 export {default as lift} from "./rollData-Lift.js";
 export {default as martialArtsDefense} from "./rollData-MartialArtsDefense.js";

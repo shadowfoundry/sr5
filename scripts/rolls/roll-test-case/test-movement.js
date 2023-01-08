@@ -18,3 +18,4 @@ export default async function liftInfo(cardData, actorId){
 
     cardData.various.movementTotal = derivedBaseValue + (cardData.roll.hits * derivedExtraValue);
 }
+//
