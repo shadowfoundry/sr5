@@ -473,7 +473,7 @@ export class SR5Item extends Item {
 			case "insert":
 			case "replace":
 			case "insertRoundFull":
-				if (option === "insert" && weaponData.ammunition.clipInserted) return ui.notifications.warn(game.i18n.localize("SR5.WARN_RemoveClipFirst"));
+				if (option === "insert" && weaponData.ammunition.clipInserted && game.combat) return ui.notifications.warn(game.i18n.localize("SR5.WARN_RemoveClipFirst"));
 				if (ammoSpent > ammoData.quantity) ammoNeeded = ammoData.quantity
 				else ammoNeeded = ammoSpent;
 				weaponData.ammunition.value += ammoNeeded;

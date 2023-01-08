@@ -640,8 +640,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.speed = 0;
 				itemData.toxin.power = actor.system.specialAttributes.magic.augmented.value * 2;
 				itemData.toxin.penetration = -actor.system.specialAttributes.magic.augmented.value;
-				itemData.damageValue.base = actor.system.specialAttributes.magic.augmented.value * 2;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "noxiousBreath":
 				if (!actor) return;
@@ -650,8 +649,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.power = actor.system.specialAttributes.magic.augmented.value;
 				itemData.toxin.penetration = 0;
 				itemData.toxin.effect.nausea = true;
-				itemData.damageValue.base = actor.system.specialAttributes.magic.augmented.value;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "gamma":
 				itemData.toxin.vector.injection = true;
@@ -659,8 +657,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.power = 12;
 				itemData.toxin.penetration = 0;
 				itemData.toxin.effect.paralysis = true;
-				itemData.damageValue.base = 0
-				itemData.damageType = null;
+				itemData.toxin.damageType = null;
 				break;
 			case "csTearGas":
 				itemData.toxin.vector.contact = true;
@@ -670,8 +667,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.penetration = 0;
 				itemData.toxin.effect.disorientation = true;
 				itemData.toxin.effect.nausea = true;
-				itemData.damageValue.base = 8;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "pepperPunch":
 				itemData.toxin.vector.contact = true;
@@ -680,8 +676,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.power = 11;
 				itemData.toxin.penetration = 0;
 				itemData.toxin.effect.nausea = true;
-				itemData.damageValue.base = 11;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "nauseaGas":
 				itemData.toxin.vector.inhalation = true;
@@ -690,16 +685,14 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.penetration = 0;
 				itemData.toxin.effect.disorientation = true;
 				itemData.toxin.effect.nausea = true;
-				itemData.damageValue.base = 0;
-				itemData.damageType = null;
+				itemData.toxin.damageType = null;
 				break;
 			case "narcoject":
 				itemData.toxin.vector.injection = true;
 				itemData.toxin.speed = 0;
 				itemData.toxin.power = 15;
 				itemData.toxin.penetration = 0;
-				itemData.damageValue.base = 15;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "neuroStunHeight":
 			case "neuroStunNine":
@@ -709,8 +702,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.power = 15;
 				itemData.toxin.penetration = 0;
 				itemData.toxin.effect.disorientation = true;
-				itemData.damageValue.base = 15;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "neuroStunTen":
 				itemData.toxin.vector.contact = true;
@@ -719,8 +711,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.power = 15;
 				itemData.toxin.penetration = -2;
 				itemData.toxin.effect.disorientation = true;
-				itemData.damageValue.base = 15;
-				itemData.damageType = "stun";
+				itemData.toxin.damageType = "stun";
 				break;
 			case "seven":
 				itemData.toxin.vector.contact = true;
@@ -730,8 +721,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.penetration = -2;
 				itemData.toxin.effect.disorientation = true;
 				itemData.toxin.effect.nausea = true;
-				itemData.damageValue.base = 12;
-				itemData.damageType = "physical";
+				itemData.toxin.damageType = "physical";
 				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);

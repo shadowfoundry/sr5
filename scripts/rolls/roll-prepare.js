@@ -160,6 +160,7 @@ export class SR5_PrepareRollTest {
             case "resistanceCard":
             case "resistanceCardAura":
             case "fatiguedCard":
+            case "resistanceToxin":
                 rollData = await SR5_GetRollData.resistance(rollData, rollType, actor, chatData);
                 break;
             case "resistanceSimple":

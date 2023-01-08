@@ -45,6 +45,16 @@
                     {{/each}}
                 {{/select}}
             </select>
+        {{else if (or
+            (eq system.type "gyrojet")
+            (eq system.type "gyrojetTaser")
+            )}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
+                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                    <option value="exoticRangedWeapon">{{localize 'SR5.WeaponTypeSpecial'}}</option>
+                {{/select}}
+            </select>
         {{else if (or 
             (eq system.type "flashBangMini")
             (eq system.type "fragmentationMini") 
@@ -61,11 +71,20 @@
                     {{/each}}
                 {{/select}}
             </select>
-        {{else if (eq system.type "assaultCannon")}}
+        {{else if (or (eq system.type "assaultCannon") (eq system.type "gauss"))}}
             <select name="system.class" data-dtype="String" required>
                 {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                     {{#each lists.rangedWeaponCanonTypes}}
+                    <option value="{{@key}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+            </select>
+        {{else if (eq system.type "flare")}}
+            <select name="system.class" data-dtype="String" required>
+                {{#select system.class}}
+                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                    {{#each lists.weaponUsingFlareTypes}}
                     <option value="{{@key}}">{{localize this}}</option>
                     {{/each}}
                 {{/select}}

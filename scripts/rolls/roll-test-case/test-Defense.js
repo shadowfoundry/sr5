@@ -50,10 +50,7 @@ export default async function defenseInfo(cardData, actorId){
 
     //Damage value calculation
     if (cardData.combat.firingMode.selected === "SF") cardData.damage.value = cardData.damage.base;
-    else if (cardData.damage.element === "toxin") {
-        if (cardData.damage.toxin.type === "airEngulf") cardData.damage.value = cardData.damage.base + cardData.roll.netHits;
-        else cardData.damage.value = cardData.damage.base;
-    } else cardData.damage.value = cardData.damage.base + cardData.roll.netHits;
+    else cardData.damage.value = cardData.damage.base + cardData.roll.netHits;
         
     //Handle Called Shot specifics
     if (cardData.combat.calledShot.name) cardData = await handleCalledShotDefenseInfo(cardData, actorData);
@@ -83,10 +80,20 @@ export default async function defenseInfo(cardData, actorId){
 
     //Generate Resistance chat button if not already done by called shot
     if (!cardData.chatCard.calledShotButton) {
-        let label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`;
-        if (cardData.damage.element === "toxin" && !cardData.damage.type) label = `${game.i18n.localize("SR5.ResistToxin")}`;
-        if (cardData.combat.armorPenetration) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.combat.armorPenetration}`;
-        cardData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+        let label;
+        if (cardData.damage.element === "toxin"){
+            label = `${game.i18n.localize("SR5.ResistToxin")}`;
+            cardData.chatCard.buttons.resistanceToxin = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceToxin",label);
+            if (cardData.combat.ammo.type === "capsule"){
+                label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`;
+                if (cardData.combat.armorPenetration) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.combat.armorPenetration}`;
+                cardData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+            }
+        } else {
+            label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`;
+            if (cardData.combat.armorPenetration) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.combat.armorPenetration}`;
+            cardData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label);
+        }
     }
 }
 

@@ -891,6 +891,13 @@ SR5.rangedWeaponCanonTypes = {
 	exoticRangedWeapon        : "SR5.WeaponTypeSpecial",
 };
 
+SR5.weaponUsingFlareTypes = {
+	shotgun                   : "SR5.WeaponTypeShotgun",
+	heavyPistol               : "SR5.WeaponTypeHeavyPistol",
+	assaultRifle              : "SR5.WeaponTypeAssaultRifle",
+	submachineGun             : "SR5.WeaponTypeSubmachineGun",
+}
+
 // Types d'armes tout
 SR5.allWeaponsTypes = {
 	...SR5.meleeWeaponTypes,
