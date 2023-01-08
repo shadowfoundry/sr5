@@ -366,7 +366,7 @@ export const registerHooks = function () {
 			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
 			let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id);
 			if (itemEffect) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(actorId, itemEffect.id);
-			SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1}]);
+			SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "standUp"}]);
 		}
 	});
 
@@ -374,7 +374,7 @@ export const registerHooks = function () {
 		if (!game.user.isGM ) return;
 		let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id);
 		if (effect.flags.core?.statusId === "signalJam") SR5_EffectArea.onJamCreation(actorId);
-		if ((effect.flags.core?.statusId === "cover" || effect.flags.core?.statusId === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1}]);
+		if ((effect.flags.core?.statusId === "cover" || effect.flags.core?.statusId === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "takeCover"}]);
 	});
 
 	Hooks.on("createActor", async (actor) =>{

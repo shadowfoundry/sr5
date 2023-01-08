@@ -228,9 +228,9 @@ export default class SR5_RollDialog extends Dialog {
                 dialogData.combat.actions = [];
                 if (isChecked) {
                     value = 3;
-                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "simple", value: 1, source: "skill"});
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "simple", value: 1, source: "castRecklessSpell"});
                 } else {
-                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "complex", value: 1, source: "skill"});
+                    dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "complex", value: 1, source: "castSpell"});
                 }
                 html.find(name)[0].value = value;
                 dialogData.magic.drain.modifiers.recklessSpellcasting = {
@@ -245,7 +245,7 @@ export default class SR5_RollDialog extends Dialog {
                 break;
             case "centering":
                 value = actor.system.magic.metamagics.centeringValue.value;
-                if (isChecked) dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "free", value: 1, source: "centering"});
+                if (isChecked) dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "free", value: 1, source: "useCentering"});
                 break;
             case "restraintReinforced":
                 if (isChecked) value = 1;
@@ -650,13 +650,13 @@ export default class SR5_RollDialog extends Dialog {
                     //actions
                     let weapon = await fromUuid(dialogData.owner.itemUuid);
                     if (weapon.system.firingMode.current !== dialogData.combat.firingMode.selected && !dialogData.combat.firingMode.actionSpent){
-                        action = [{type: "simple", value: 1}];
-                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1}];
+                        action = [{type: "simple", value: 1, source: "changeFiringMode"}];
+                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "changeFiringMode"}];
                         SR5Combat.changeActionInCombat(dialogData.owner.actorId, action);
                         dialogData.combat.firingMode.actionSpent = true;
                     } else if (weapon.system.firingMode.current === dialogData.combat.firingMode.selected && dialogData.combat.firingMode.actionSpent){
-                        action = [{type: "simple", value: -1}];
-                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: -1}];
+                        action = [{type: "simple", value: -1, source: "changeFiringMode"}];
+                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: -1, source: "changeFiringMode"}];
                         SR5Combat.changeActionInCombat(dialogData.owner.actorId, action);
                         dialogData.combat.firingMode.actionSpent = false;
                     }

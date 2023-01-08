@@ -280,7 +280,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
 			actorData.system.specialProperties.actions.free.current -=1;
 			await this.actor.update(actorData);
-			SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1}], false);
+			SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"switchAttributes"}], false);
 		}
 		await super._onDrop(event);
 	}
@@ -577,20 +577,21 @@ export class ActorSheetSR5 extends ActorSheet {
 		//Manage actions
 		if (item.type === "itemFocus" && target === "system.isActive"){
 			if(oldValue === false) {
-				actions = [{type: "simple", value: 1}];
+				actions = [{type: "simple", value: 1, source: "activateFocus"}];
 				actorData.specialProperties.actions.simple.current -=1;
 			} else {
-				actions = [{type: "free", value: 1}];
+				actions = [{type: "free", value: 1, source: "desactivateFocus"}];
 				actorData.specialProperties.actions.free.current -=1;
 			}
 		}
 		if (item.type === "itemProgram" && target === "system.isActive"){
-			actions = [{type: "free", value: 1}];
+			if(oldValue === false) actions = [{type: "free", value: 1, source: "loadProgram"}];
+			else actions = [{type: "free", value: 1, source: "unloadProgram"}];
 			actorData.specialProperties.actions.free.current -=1;
 		}
 		if (target === "system.wirelessTurnedOn"){
-			//actions = [{type: "simple", value: 1}];
-			actions = [{type: "free", value: 1}];
+			if(oldValue === false) actions = [{type: "free", value: 1, source: "turnOnWifi"}];
+			else actions = [{type: "free", value: 1, source: "turnOffWifi"}];
 			actorData.specialProperties.actions.simple.current -=1;
 		}
 
@@ -929,8 +930,9 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		//manage actions
-		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1}]);
-		else if (item.type !== "itemVehicle") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1}]);
+		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"loadAgent"}]);
+		else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"callSprite"}]);
+		else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"callSpirit"}]);
 	}
 
 	//
@@ -969,8 +971,9 @@ export class ActorSheetSR5 extends ActorSheet {
 		let item = this.actor.items.get(id);
 		let actorId = this.actor.id;
 		if (this.actor.isToken) actorId = this.actor.token.id;
-		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1}]);
-		else if (item.type !== "itemVehicle") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1}]);
+		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source: "unloadAgent"}]);
+		else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSprite"}]);
+		else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSpirit"}]);
 	}
 
 	async _onAddItemToPan(event){
@@ -1079,7 +1082,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (this.actor.isToken) actorId = this.actor.token.id;
 
 		//manage actions
-		SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1}]);
+		SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "switchInitToMatrix"}]);
 	}
 
 	_onChangeSilentMode(event){
@@ -1087,7 +1090,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (this.actor.isToken) actorId = this.actor.token.id;
 		
 		//manage actions
-		let action = [{type: "free", value: 1}];
+		let action = [{type: "free", value: 1, source: "changeSilentMode"}];
 		//action = [{type: "simple", value: 1}];
 		SR5Combat.changeActionInCombat(actorId, action);
 	}

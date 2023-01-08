@@ -400,28 +400,29 @@ export class SR5Item extends Item {
 			switch (option){
 				case "insert":
 					if (weaponData.ammunition.casing === "clip") action = [{type: "simple", value: 1, source: "insertClip"}];
-					else if (weaponData.ammunition.casing === "drum") action = [{type: "complex", value: 1, source: "insertDrum"}];
-					else if (weaponData.ammunition.casing === "belt") action = [{type: "complex", value: 1, source: "insertBelt"}];
+					else action = [{type: "complex", value: 1, source: "insertClip"}];
 					break;
 				case "replace":
-					if (weaponData.ammunition.casing === "clip") action = [{type: "simple", value: 2, source: "replaceClip"}];
-					else if (weaponData.ammunition.casing === "drum") action = [{type: "complex", value: 2, source: "replaceDrum"}];
-					else if (weaponData.ammunition.casing === "belt") action = [{type: "complex", value: 2, source: "replaceBelt"}];
+					if (weaponData.ammunition.casing === "clip") {
+						if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)){
+							action = [{type: "free", value: 1, source: "removeClip"}, {type: "simple", value: 1, source: "insertClip"}];
+						} else action = [{type: "simple", value: 2, source: "replaceClip"}];
+					}
+					else action = [{type: "complex", value: 2, source: "replaceClip"}];
 					break;
 				case "insertRound":
-					if (weaponData.ammunition.casing === "clip") action = [{type: "complex", value: 1, source: "insertRoundInClip"}];
-					else if (weaponData.ammunition.casing === "drum") action = [{type: "complex", value: 1, source: "insertRoundInDrum"}];
-					else if (weaponData.ammunition.casing === "belt") action = [{type: "complex", value: 1, source: "insertRoundInBelt"}];
-					else if (weaponData.type === "bow")  action = [{type: "simple", value: 1, source: "insertRound"}];
+					if (weaponData.type === "bow")  action = [{type: "simple", value: 1, source: "insertRound"}];
 					else action = [{type: "complex", value: 1, source: "insertRound"}];
 					break;
 				case "insertRoundFull":
-					if (weaponData.ammunition.casing === "cylinder") action = [{type: "complex", value: 1, source: "insertRoundInClip"}];
+					if (weaponData.ammunition.casing === "cylinder") action = [{type: "complex", value: 1, source: "insertRound"}];
 					else return ui.notifications.warn(game.i18n.format('SR5.WARN_NotPossibleInCombat'));
 				case "remove":
-					if (weaponData.ammunition.casing === "clip") action = [{type: "simple", value: 1, source: "removeClip"}];
-					else if (weaponData.ammunition.casing === "drum") action = [{type: "complex", value: 1, source: "removeDrum"}];
-					else if (weaponData.ammunition.casing === "belt") action = [{type: "complex", value: 1, source: "removeBelt"}];
+					if (weaponData.ammunition.casing === "clip") {
+						if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "removeClip"}];
+						else action = [{type: "simple", value: 1, source: "removeClip"}];
+					}
+					else action = [{type: "complex", value: 1, source: "removeClip"}];
 					break;
 			}
 

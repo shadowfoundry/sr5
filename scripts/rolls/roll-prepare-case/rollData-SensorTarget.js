@@ -24,7 +24,7 @@ export default function sensorTarget(rollData, actor){
     rollData.test.type = "sensorTarget";
 
     //Handle Actions
-    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "simple", value: 1, source: "sensor"});
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "simple", value: 1, source: "useActiveSensor"});
 
     return rollData;
 }

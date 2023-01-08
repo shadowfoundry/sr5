@@ -156,7 +156,7 @@ export class SR5CombatTracker extends CombatTracker {
 				break;
 		}
 
-		let actions = [{type: target, value: combatant.flags.sr5.actions[target] - value}];
+		let actions = [{type: target, value: combatant.flags.sr5.actions[target] - value, source: "manual"}];
 		if (actor.isToken) SR5Combat.changeActionInCombat(actor.token.id, actions);
 		else SR5Combat.changeActionInCombat(actor.id, actions);
 	}

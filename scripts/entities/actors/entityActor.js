@@ -816,7 +816,7 @@ export class SR5Actor extends Actor {
 
 		//Manage action in combat
 		if(game.combat){
-			SR5Combat.changeActionInCombat(actorId, [{type: "complexe", value: 1}], false);
+			SR5Combat.changeActionInCombat(actorId, [{type: "complexe", value: 1, source: "rebootDeck"}], false);
 		}
 	}
 

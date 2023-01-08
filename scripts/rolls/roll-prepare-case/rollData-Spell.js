@@ -24,7 +24,7 @@ export default async function spell(rollData, actor, item){
     rollData.limit.base = actorData.specialAttributes.magic.augmented.value;
 
     //Handle Actions
-    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "spell"});
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "castSpell"});
 
     //Add others informations
     rollData.test.type = "spell";

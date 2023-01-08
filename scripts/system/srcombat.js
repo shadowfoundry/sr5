@@ -539,10 +539,10 @@ export class SR5Combat extends Combat {
 
 	static async changeActionInCombat(documentId, actions, updateActor = true){
 		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
+		let actorData = duplicate(actor.system);
 		let combatant = await SR5Combat.getCombatantFromActor(actor);
 		if (!combatant) return;
-
-		let actorData = duplicate(actor.system);
+		
 		//Update actor actions
 		if (updateActor){
 			for (let action of actions){
@@ -559,6 +559,14 @@ export class SR5Combat extends Combat {
 			"flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
 		});
 		
+		for (let action of actions){
+			if (action.source === "manual") {
+				action.value = -action.value;
+				let sign = action.value > 0 ? "+" : ""
+				ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActionsManually", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), sign: sign})}`); 
+			}
+			else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])})}`); 
+		}
 	}
 
 	//Reset actions on actor

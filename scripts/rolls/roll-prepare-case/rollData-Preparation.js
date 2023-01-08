@@ -33,7 +33,7 @@ export default function preparation(rollData, actor, item){
     rollData.owner.itemUuid = item.uuid;
 
     //Manage actions
-    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "simple", value: 1, source: "preparation"});
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "simple", value: 1, source: "usePreparation"});
 
     //Background count limit modifier
     if (actor.system.magic.bgCount.value > 0){
