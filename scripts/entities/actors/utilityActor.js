@@ -136,6 +136,7 @@ export class SR5_CharacterUtility extends Actor {
 		if (actorData.itemsProperties?.armor){
 			actorData.itemsProperties.armor.value = 0;
 			actorData.itemsProperties.armor.modifiers = [];
+			actorData.itemsProperties.armor.padded = false;
 			for (let key of Object.keys(SR5.specialDamageTypes)){
 				actorData.itemsProperties.armor.specialDamage[key].modifiers = [];
 				actorData.itemsProperties.armor.specialDamage[key].value = 0;

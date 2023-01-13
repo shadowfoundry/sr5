@@ -339,6 +339,9 @@
 						<option value="system.itemsProperties.armor.toxin.{{@key}}">{{localize 'SR5.Toxins'}} ({{localize this}})</option>
 						{{/each}}
 					</optgroup>
+					<optgroup label="{{localize 'SR5.Special'}}">
+						<option value="system.itemsProperties.armor.padded">{{localize 'SR5.Padded'}}</option>
+					</optgroup>
 
 					{{else ife category 'weaponEffectTargets'}}
 					{{#each (lookup ../lists category)}}
@@ -419,14 +422,14 @@
 							{{/select}}
 						</select>
 					{{else if (eq this.target 'system.specialProperties.energyAura')}}
-					<select name="system.customEffects.{{@key}}.type" required>
-						{{#select type}}
-						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each ../lists.specialDamageTypes}}
-						<option value="{{@key}}">{{localize this}}</option>
-						{{/each}}
-						{{/select}}
-					</select>
+						<select name="system.customEffects.{{@key}}.type" required>
+							{{#select type}}
+							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+							{{#each ../lists.specialDamageTypes}}
+							<option value="{{@key}}">{{localize this}}</option>
+							{{/each}}
+							{{/select}}
+						</select>
 					{{else if (eq this.category 'metamagics')}}
 						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
@@ -443,6 +446,12 @@
 								{{#each (lookup ../lists 'characterAttributes')}}
 								<option value="{{@key}}">{{localize this}}</option>
 							{{/each}}
+							{{/select}}
+						</select>
+					{{else if (eq this.target 'system.itemsProperties.armor.padded')}}
+						<select name="system.customEffects.{{@key}}.type" required>
+							{{#select type}}
+								{{dropdownOptions 'boolean'}}
 							{{/select}}
 						</select>
 					{{else}}
