@@ -844,7 +844,13 @@ export default class SR5_RollDialog extends Dialog {
                     this.updateDicePoolValue(html);
                     return;
                 case "calledShot":
-                    value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type);
+                    if (dialogData.target.hasTarget){
+                        let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId);
+                        let padded = targetActor.system.itemsProperties.armor.padded ? true : false;
+                        value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type, padded);
+                    } else {
+                        value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type);
+                    }
                     if (ev.target.value === "specificTarget") $(html).find('#calledShotSpecificTarget').show();
                     else $(html).find('#calledShotSpecificTarget').hide();
                     dialogData.combat.calledShot.name = ev.target.value;

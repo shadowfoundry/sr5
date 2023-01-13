@@ -3163,7 +3163,8 @@
                 "base": 0,
                 "modifiers": []
               }
-            }
+            },
+            "padded": false
           },
           "environmentalMod":{
             "visibility": {
