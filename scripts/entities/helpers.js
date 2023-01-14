@@ -85,7 +85,7 @@ export class SR5_EntityHelpers {
 		return totalModifiers;
 	}
 
-	static updateModifier(property, modifierLabel, modifierType, modifierValue, isMultiplier = false, cumulative = true) {
+	static updateModifier(property, modifierLabel, modifierType, modifierValue, isMultiplier = false, cumulative = true, details) {
 		if (property === undefined) { SR5_SystemHelpers.srLog(1, `Missing or incorrect property sent to 'updateModifier()'`); return; }
 		if (!property.modifiers) { SR5_SystemHelpers.srLog(1, `Missing or incorrect modifiers for '${property}' property sent to 'updateModifier()'`); return; }
 		let modifiersArray = property.modifiers;
@@ -107,7 +107,7 @@ export class SR5_EntityHelpers {
 			}
 		});
 		if (!modified) {
-			modifiersArray.push({ source: modifierLabel, type: modifierType, value: modifierValue, isMultiplier: isMultiplier });
+			modifiersArray.push({ source: modifierLabel, type: modifierType, value: modifierValue, isMultiplier: isMultiplier , details: details});
 		}
 	}
 

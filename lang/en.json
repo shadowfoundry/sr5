@@ -2052,7 +2052,7 @@
 	"SR5.PenaltyValueMagic": "Sustaining Spell",
 	"SR5.PenaltyValueMatrix": "Matrix Sources",
 	"SR5.PenaltyValuePhysical": "Condition Monitor (Physical)",
-	"SR5.PenaltyValueSpecial": "External effect",
+	"SR5.PenaltyValueSpecial": "Special effect",
 	"SR5.PenaltyValueStun": "Condition Monitor (Stun)",
 	"SR5.PerceptionFailed": "Perception failed",
 	"SR5.PerceptionModDistracted": "Perceiver is distracted",

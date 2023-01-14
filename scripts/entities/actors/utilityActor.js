@@ -690,14 +690,27 @@ export class SR5_CharacterUtility extends Actor {
 		if (!penalty || !property || !actor) { SR5_SystemHelpers.srLog(1, `Missing or invalid parameter in call to 'applyPenalty()'`); return; }
 		if (!actor.system.penalties) { SR5_SystemHelpers.srLog(3, `No existing penalties on '${actor.name}' actor in call to 'applyPenalty()'`); return; }
 		let actorData = actor.system;
+		let details = [];
 
 		switch (penalty) {
 			case "condition":
 			case "matrix":
 			case "magic":
-			case "special":
 				if (actorData.penalties[penalty].actual.value) {
 					SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize(SR5.modifiersTypes[`penalty${penalty}`])}`, `penalty${penalty}`, actorData.penalties[penalty].actual.value);
+				}
+				break;
+			case "special":
+				if (actorData.penalties[penalty].actual.value) {
+					for (let mod of actorData.penalties.special.actual.modifiers){
+						let detail = {
+							source: mod.source,
+							type: mod.type,
+							value: mod.value,
+						}
+						details.push(detail);
+					}
+					SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize(SR5.modifiersTypes[`penalty${penalty}`])}`, `penalty${penalty}`, actorData.penalties[penalty].actual.value, false, true, details);
 				}
 				break;
 			default:
@@ -3319,6 +3332,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	static applyCustomEffects(item, actor) {
 		let itemData = item.system;
+
 		for (let customEffect of Object.values(itemData.customEffects)) {
 			let skipCustomEffect = false,
 				cumulative = customEffect.cumulative,
