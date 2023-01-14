@@ -523,15 +523,20 @@ export default class SR5_RollDialog extends Dialog {
                         value = 0;
                     }
                     else {
-                        let rangeMod = this.dicePoolModifier.matrixRange || 0,
-                            sceneNoise = this.dicePoolModifier.matrixSceneNoise || 0;
+                        let rangeMod = dialogData.matrix.noiseRangeValue || 0,
+                            sceneNoise = dialogData.matrix.noiseScene || 0,
+                            actorNoise = dialogData.matrix.personalNoise || 0;
                         value = actor.system.matrix.attributes.noiseReduction.value;
-                        if (-value < rangeMod + sceneNoise) value = -(rangeMod + sceneNoise);
-                        if (rangeMod + sceneNoise === 0) value = 0;
+                        if (-value < rangeMod + sceneNoise + actorNoise) value = -(rangeMod + sceneNoise + actorNoise);
+                        if (rangeMod + sceneNoise + actorNoise === 0) value = 0;
                     }
                     break;
                 case "matrixSceneNoise":
                     if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrix.noiseScene;
+                    else value = 0;
+                    break;
+                case "matrixActorNoise":
+                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrix.personalNoise;
                     else value = 0;
                     break;
                 case "incomingPA":
@@ -701,13 +706,15 @@ export default class SR5_RollDialog extends Dialog {
                             }
                             this.dicePoolModifier.targetGrid = -2;
                         }
-                    }
-                    else {
+                        if ((dialogData.matrix.personalNoise < 0) && (html.find('#matrixNoiseActor'))) $(html).find('#matrixNoiseActor').show();
+                    } else {
                         if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').hide();
                         if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').hide();
                         if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').hide();
+                        if (html.find('#matrixNoiseActor')) $(html).find('#matrixNoiseActor').hide();
                         html.find('[name="dicePoolModTargetGrid"]')[0].value = 0;
                     }
+                    dialogData.matrix.noiseRangeValue = value;
                     dialogData.matrix.noiseRange = ev.target.value;
                     break;
                 case "targetGrid":
