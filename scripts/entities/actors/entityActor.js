@@ -396,7 +396,7 @@ export class SR5Actor extends Actor {
 				case "itemPreparation":
 				case "itemQuality":
 					i.prepareData();
-					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
+					if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 
 				case "itemSpell":

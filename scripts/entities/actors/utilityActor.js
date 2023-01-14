@@ -3336,6 +3336,13 @@ export class SR5_CharacterUtility extends Actor {
 			if (item.type === "itemDrug"){
 				if (!itemData.isActive && !customEffect.wifi) skipCustomEffect = true;
 			}
+			// Quality : if an effect has "wifi on" check box to true, effect is always turned on, even if quality is not "equiped"
+			if (item.type === "itemQuality"){
+				console.log("huhu")
+				if (itemData.isActive && customEffect.wifi) skipCustomEffect = false;
+				else if (!itemData.isActive && customEffect.wifi) skipCustomEffect = false;
+				else if (!itemData.isActive) skipCustomEffect = true;
+			}
 
 			let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, actor);
 			if (targetObject === null) skipCustomEffect = true;
