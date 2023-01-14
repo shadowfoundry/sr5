@@ -46,6 +46,7 @@ export default async function matrixAction(rollData, rollKey, actor){
     //Add scene noise modifier, if any
     let noiseScene = SR5_PrepareRollHelper.getSceneNoise();
     if (noiseScene) rollData.matrix.noiseScene = noiseScene;
+    rollData.matrix.personalNoise = -actor.system.matrix.noise.value;
 
     //Add special info for Data spike
     if (rollKey === "dataSpike") rollData.damage.matrix.base = actor.system.matrix.attributes.attack.value;

@@ -3130,6 +3130,7 @@ SR5.dicePoolModTypes = {
 	matrixRange               : "SR5.MatrixNoise",
 	matrixSceneNoise          : "SR5.SceneNoiseRating",
 	matrixNoiseReduction      : "SR5.NoiseReduction",
+	matrixActorNoise 		  : "SR5.PersonalMatrixNoise",
 	publicGrid                : "SR5.GridPublicOn",
 	targetGrid                : "SR5.GridTargetDifferent",
 	spiritAid                 : "SR5.SpiritAid",
