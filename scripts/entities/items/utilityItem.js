@@ -307,7 +307,6 @@ export class SR5_UtilityItem extends Actor {
 
 	static _handleItemAvailability(item) {
 		let multiplier;
-		//console.log(item);
 		switch (item.availability.multiplier) {
 			case "rating":
 				multiplier = item.itemRating;
