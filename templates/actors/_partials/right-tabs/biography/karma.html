@@ -18,11 +18,11 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="SR-EnTete grid">
-			<div class="col-9">
+			<div class="col-8">
 				<p class="filterKarmaGains SR-TextUppercase unfoldDark">{{localize 'SR5.PastRuns'}}</p>
 			</div>
-			<div class="col-2">
-				<p class=" SR-TextCenterOverflow">{{localize 'SR5.KarmaGained'}}</p>
+			<div class="col-3">
+				<p class="SR-TextCenterOverflow">{{localize 'SR5.KarmaGained'}}</p>
 			</div>
 			<div class="col-1">
 				{{#if owner}}
@@ -38,14 +38,14 @@
 		{{#each actor.karmas}}
 		{{#ife system.type 'gain'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-9">
+			<div class="col-8 deplie">
 				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.HELP_KarmaGainName' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KarmaGainNameMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="karma.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
-			<div class="col-2 SR-TextCenter"
+			<div class="col-3 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.KarmaGained'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KarmaGainAmountMsg'}}">
 				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="karma.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
@@ -67,10 +67,10 @@
 <div class="SRBlockSheet">
 	<ul>
 		<li class="SR-EnTete grid">
-			<div class="col-9">
+			<div class="col-8">
 				<p class="filterKarmaExpenses SR-TextUppercase unfoldDark">{{localize 'SR5.CharacterImprovements'}}</p>
 			</div>
-			<div class="col-2">
+			<div class="col-3">
 				<p class=" SR-TextCenterOverflow">{{localize 'SR5.KarmaSpent'}}</p>
 			</div>
 			<div class="col-1">
@@ -86,14 +86,14 @@
 		{{#each actor.karmas}}
 		{{#ife system.type 'loss'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-9">
+			<div class="col-8 deplie">
 				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}"
 				  data-helpTitle="{{localize 'SR5.CharacterImprovements'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_CharacterImprovementsMsg'}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="karma.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
-			<div class="col-2 SR-TextCenter"
+			<div class="col-3 SR-TextCenter"
 				  data-helpTitle="{{localize 'SR5.KarmaSpent'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_KarmaSpentMsg'}}">
 				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="karma.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">

@@ -33,14 +33,14 @@
 		{{#each actor.nuyens}}
 		{{#ife system.type 'gain'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenGainName' key=name}}"
+			<div class="col-8 deplie" data-helpTitle="{{localize 'SR5.HELP_NuyenGainName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenGainNameMsg'}}">
 				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="nuyen.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
 			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}"
-			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
+			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountNameMsg'}}">
 				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
 			</div>
 			<div class="col-1 grid SR-TextRight">
@@ -74,14 +74,14 @@
 		{{#each actor.nuyens}}
 		{{#ife system.type 'loss'}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-8" data-helpTitle="{{localize 'SR5.HELP_NuyenExpenseName' key=name}}"
+			<div class="col-8 deplie" data-helpTitle="{{localize 'SR5.HELP_NuyenExpenseName' key=name}}"
 			data-helpMessage="{{localize 'SR5.HELP_NuyenExpenseNameMsg'}}">
 				<p class="SR-PaddingRight3 {{#if (missing system.amount)}}incomplete{{/if}}">
 					<input data-item-id="{{_id}}" data-dtype="String" data-binding="name" type="text" class="edit-value" name="nuyen.{{_id}}.name" value="{{name}}" onfocus="this.select()">
 				</p>
 			</div>
 			<div class="col-3 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_NuyenAmountName' key=name}}"
-			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountMsg'}}">
+			data-helpMessage="{{localize 'SR5.HELP_NuyenAmountNameMsg'}}">
 				<input data-item-id="{{_id}}" data-dtype="Number" data-binding="system.amount" type="text" class="edit-value" name="nuyen.{{_id}}.amount" value="{{system.amount}}" onfocus="this.select()">
 			</div>
 			<div class="col-1 grid SR-TextRight">
