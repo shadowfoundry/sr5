@@ -1542,6 +1542,7 @@ SR5.magicTypes = {
 // Magical Tradition Types
 SR5.traditionTypes = {
 	aztec                     : "SR5.TraditionAztec",
+	aboriginal                : "SR5.TraditionAboriginal",
 	buddhism                  : "SR5.TraditionBuddhism",
 	qabbalism                 : "SR5.TraditionQabbalism",
 	chamanism                 : "SR5.TraditionChamanism",
@@ -1568,7 +1569,8 @@ SR5.traditionTypes = {
 	necroMagic                : "SR5.TraditionNecroMagic",
 	olympianism               : "SR5.TraditionOlympianism",
 	pathOfPariah              : "SR5.TraditionpathOfPariah",
-	planarMagic               : "SR5.TraditionPlanarMagic",
+	planarMagic               : "SR5.TraditionPlanarMagic",	
+	psionic                   : "SR5.TraditionPsionic",
 	redMagic                  : "SR5.TraditionRedMagic",
 	romani                    : "SR5.TraditionRomani",
 	tarot                     : "SR5.TraditionTarot",
