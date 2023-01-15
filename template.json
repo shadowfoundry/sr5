@@ -3060,18 +3060,26 @@
           "actions":{
             "free": {
               "value": 1,
+              "base":1,
+              "modifiers": [],
               "current": 1
             },
             "simple": {
               "value": 2,
+              "base":2,
+              "modifiers": [],
               "current": 2
             },
             "complex": {
               "value": 1,
+              "base":1,
+              "modifiers": [],
               "current": 1
             },
             "interrupt": {
               "value": 10,
+              "base":10,
+              "modifiers": [],
               "current": 10
             }
           }

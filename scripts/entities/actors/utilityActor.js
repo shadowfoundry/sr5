@@ -344,6 +344,12 @@ export class SR5_CharacterUtility extends Actor {
 			actorData.specialProperties.regeneration = "";
 			actorData.specialProperties.fullDefenseAttribute = "willpower";
 			actorData.specialProperties.fullDefenseValue = 0;
+			for (let key of Object.keys(SR5.actionTypes)) {
+				if (actorData.specialProperties.actions[key]){
+					actorData.specialProperties.actions[key].value = 0;
+					actorData.specialProperties.actions[key].modifiers = [];
+				}
+			}
 		}
 
 		// Reset Vehicule Test
@@ -576,7 +582,6 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		// Reset Reputation
-
 		if (actorData.notoriety) {
 			actorData.notoriety.value = 0;
 			actorData.notoriety.modifiers = [];
@@ -597,10 +602,16 @@ export class SR5_CharacterUtility extends Actor {
 			actorData.nuyen.value = 0;
 			actorData.nuyen.modifiers = [];
 		}
-
 	}
 
 	///////////////////////////////////////
+
+	static updateActions(actor) {
+		for (let key of Object.keys(SR5.actionTypes)) {
+			if (actor.system.specialProperties.actions[key]) SR5_EntityHelpers.updateValue(actor.system.specialProperties.actions[key]);
+		}
+		
+	}
 
 	static updateNuyens(actor) {
 		SR5_EntityHelpers.updateValue(actor.system.nuyen);
@@ -1208,7 +1219,11 @@ export class SR5_CharacterUtility extends Actor {
 			}
 		}
 
-		if (actorData.specialProperties.fullDefenseAttribute) actorData.specialProperties.fullDefenseValue = actorData.attributes[actorData.specialProperties.fullDefenseAttribute].augmented.value;
+		if (actorData.specialProperties.fullDefenseAttribute) {
+			if (actorData.specialProperties.fullDefenseAttribute === "perception" || actorData.specialProperties.fullDefenseAttribute === "gymnastics"){
+				actorData.specialProperties.fullDefenseValue = actorData.skills[actorData.specialProperties.fullDefenseAttribute].rating.value;
+			} else actorData.specialProperties.fullDefenseValue = actorData.attributes[actorData.specialProperties.fullDefenseAttribute].augmented.value;
+		}
 
 		for (let key of Object.keys(SR5.specialProperties)) {
 			if (actorData.specialProperties[key]) {
@@ -3353,7 +3368,6 @@ export class SR5_CharacterUtility extends Actor {
 			}
 			// Quality : if an effect has "wifi on" check box to true, effect is always turned on, even if quality is not "equiped"
 			if (item.type === "itemQuality"){
-				console.log("huhu")
 				if (itemData.isActive && customEffect.wifi) skipCustomEffect = false;
 				else if (!itemData.isActive && customEffect.wifi) skipCustomEffect = false;
 				else if (!itemData.isActive) skipCustomEffect = true;

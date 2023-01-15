@@ -81,6 +81,7 @@
 					<optgroup label="{{localize 'SR5.OtherCategories'}}">
 						<option value="reputationTypes">{{localize 'SR5.CharacterReputation'}}</option>
 						<option value="martialArts">{{localize 'SR5.MartialArts'}}</option>
+						<option value="actions">{{localize 'SR5.Actions'}}</option>
 					</optgroup>
 					<optgroup label="{{localize 'SR5.Special'}}">
 						<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
@@ -366,8 +367,14 @@
 					<option value="system.itemsProperties.martialArts.{{@key}}.isActive">{{localize this}}</option>
 					{{/each}}
 
-					{{/ife}}
+					{{else ife category 'actions'}}
+					{{#each ../lists.actionTypes}}
+						{{#if (ne @key 'special')}}
+						<option value="system.specialProperties.actions.{{@key}}">{{localize this}}</option>
+						{{/if}}
+					{{/each}}
 
+					{{/ife}}
 					{{/select}}
 				</select>
 				{{/ife}}
@@ -446,6 +453,8 @@
 								{{#each (lookup ../lists 'characterAttributes')}}
 								<option value="{{@key}}">{{localize this}}</option>
 							{{/each}}
+							<option value="gymnastics">{{localize 'SR5.SkillGymnastics'}}</option>
+							<option value="perception">{{localize 'SR5.SkillPerception'}}</option>
 							{{/select}}
 						</select>
 					{{else if (eq this.target 'system.itemsProperties.armor.padded')}}
