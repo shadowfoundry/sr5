@@ -2,9 +2,14 @@
     <p>
         <span class="col-auto">{{localize 'SR5.Details'}}{{localize 'SR5.Colons'}}</span>
         <span class="col-auto SR-GreyColor">
+            {{#if system.adeptRitual}}{{localize 'SR5.AdeptRitual'}}{{/if}}
             {{#if system.anchored}}{{localize 'SR5.Anchored'}}{{/if}}
+            {{#if system.bloody}}{{localize 'SR5.Bloody'}}{{/if}}
+            {{#if system.contractual}}{{localize 'SR5.Contractual'}}{{/if}}
+            {{#if system.manaRitual}}{{localize 'SR5.ManaRitual'}}{{/if}}
             {{#if system.materialLink}}{{localize 'SR5.MaterialLink'}}{{/if}}
             {{#if system.minion}}{{localize 'SR5.Minion'}}{{/if}}
+            {{#if system.organicalLink}}{{localize 'SR5.OrganicalLink'}}{{/if}}
             {{#if system.spotter}}{{localize 'SR5.Spotter'}}{{/if}}
             {{#if system.spell}}{{localize 'SR5.Spell'}}{{/if}}
         </span>
