@@ -6159,14 +6159,16 @@
         "templateDescription"
       ],
       "amount": 0,
-      "type": "gain"
+      "type": "gain",
+      "date": 0
     },
     "itemNuyen": {
       "templates": [
         "templateDescription"
       ],
       "amount": 0,
-      "type": "gain"
+      "type": "gain",
+      "date": 0
     },
     "itemLanguage": {
       "templates": [
