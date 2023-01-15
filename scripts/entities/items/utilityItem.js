@@ -2096,7 +2096,7 @@ export class SR5_UtilityItem extends Actor {
 	}
 
 	static _handleWeaponMounted(item) {
-		let itemData = item.data, wm = itemData.weaponMount;
+		let itemData = item.system, wm = itemData.weaponMount;
 		switch (wm.size) {
 			case "light":
 				itemData.slots.base = 1;
@@ -2260,7 +2260,6 @@ export class SR5_UtilityItem extends Actor {
 			case "capacity":
 				multiplier = itemData.capacity.value;
 				break;
-			default:
 		}
 		if (itemData.threshold.multiplier) {
 			SR5_EntityHelpers.updateModifier(itemData.threshold, game.i18n.localize(SR5.valueMultipliers[itemData.threshold.multiplier]), "multiplier", multiplier, true, false);

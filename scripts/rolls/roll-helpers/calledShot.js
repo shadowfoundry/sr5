@@ -828,7 +828,7 @@ export class SR5_CalledShotHelpers {
         return itemEffects;
     }
 
-    static convertCalledShotToMod(calledShot, ammoType){
+    static convertCalledShotToMod(calledShot, ammoType, padded = false){
         switch(calledShot) {
             case "shakeUp":
             case "trickShot":
@@ -852,8 +852,10 @@ export class SR5_CalledShotHelpers {
             case "shreddedFlesh":
             case "upTheAnte":
             case "harderKnock":
-            case "vitals":
                 return -4;
+            case "vitals":
+                if (padded) return -6;
+                else return -4;
             case "gut": 
             case "forearm":
             case "shin": 

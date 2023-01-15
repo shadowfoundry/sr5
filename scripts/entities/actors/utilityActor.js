@@ -136,6 +136,7 @@ export class SR5_CharacterUtility extends Actor {
 		if (actorData.itemsProperties?.armor){
 			actorData.itemsProperties.armor.value = 0;
 			actorData.itemsProperties.armor.modifiers = [];
+			actorData.itemsProperties.armor.padded = false;
 			for (let key of Object.keys(SR5.specialDamageTypes)){
 				actorData.itemsProperties.armor.specialDamage[key].modifiers = [];
 				actorData.itemsProperties.armor.specialDamage[key].value = 0;
@@ -343,6 +344,12 @@ export class SR5_CharacterUtility extends Actor {
 			actorData.specialProperties.regeneration = "";
 			actorData.specialProperties.fullDefenseAttribute = "willpower";
 			actorData.specialProperties.fullDefenseValue = 0;
+			for (let key of Object.keys(SR5.actionTypes)) {
+				if (actorData.specialProperties.actions[key]){
+					actorData.specialProperties.actions[key].value = 0;
+					actorData.specialProperties.actions[key].modifiers = [];
+				}
+			}
 		}
 
 		// Reset Vehicule Test
@@ -575,7 +582,6 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		// Reset Reputation
-
 		if (actorData.notoriety) {
 			actorData.notoriety.value = 0;
 			actorData.notoriety.modifiers = [];
@@ -596,10 +602,16 @@ export class SR5_CharacterUtility extends Actor {
 			actorData.nuyen.value = 0;
 			actorData.nuyen.modifiers = [];
 		}
-
 	}
 
 	///////////////////////////////////////
+
+	static updateActions(actor) {
+		for (let key of Object.keys(SR5.actionTypes)) {
+			if (actor.system.specialProperties.actions[key]) SR5_EntityHelpers.updateValue(actor.system.specialProperties.actions[key]);
+		}
+		
+	}
 
 	static updateNuyens(actor) {
 		SR5_EntityHelpers.updateValue(actor.system.nuyen);
@@ -689,14 +701,27 @@ export class SR5_CharacterUtility extends Actor {
 		if (!penalty || !property || !actor) { SR5_SystemHelpers.srLog(1, `Missing or invalid parameter in call to 'applyPenalty()'`); return; }
 		if (!actor.system.penalties) { SR5_SystemHelpers.srLog(3, `No existing penalties on '${actor.name}' actor in call to 'applyPenalty()'`); return; }
 		let actorData = actor.system;
+		let details = [];
 
 		switch (penalty) {
 			case "condition":
 			case "matrix":
 			case "magic":
-			case "special":
 				if (actorData.penalties[penalty].actual.value) {
 					SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize(SR5.modifiersTypes[`penalty${penalty}`])}`, `penalty${penalty}`, actorData.penalties[penalty].actual.value);
+				}
+				break;
+			case "special":
+				if (actorData.penalties[penalty].actual.value) {
+					for (let mod of actorData.penalties.special.actual.modifiers){
+						let detail = {
+							source: mod.source,
+							type: mod.type,
+							value: mod.value,
+						}
+						details.push(detail);
+					}
+					SR5_EntityHelpers.updateModifier(property, `${game.i18n.localize(SR5.modifiersTypes[`penalty${penalty}`])}`, `penalty${penalty}`, actorData.penalties[penalty].actual.value, false, true, details);
 				}
 				break;
 			default:
@@ -1194,7 +1219,11 @@ export class SR5_CharacterUtility extends Actor {
 			}
 		}
 
-		if (actorData.specialProperties.fullDefenseAttribute) actorData.specialProperties.fullDefenseValue = actorData.attributes[actorData.specialProperties.fullDefenseAttribute].augmented.value;
+		if (actorData.specialProperties.fullDefenseAttribute) {
+			if (actorData.specialProperties.fullDefenseAttribute === "perception" || actorData.specialProperties.fullDefenseAttribute === "gymnastics"){
+				actorData.specialProperties.fullDefenseValue = actorData.skills[actorData.specialProperties.fullDefenseAttribute].rating.value;
+			} else actorData.specialProperties.fullDefenseValue = actorData.attributes[actorData.specialProperties.fullDefenseAttribute].augmented.value;
+		}
 
 		for (let key of Object.keys(SR5.specialProperties)) {
 			if (actorData.specialProperties[key]) {
@@ -3318,6 +3347,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	static applyCustomEffects(item, actor) {
 		let itemData = item.system;
+
 		for (let customEffect of Object.values(itemData.customEffects)) {
 			let skipCustomEffect = false,
 				cumulative = customEffect.cumulative,
@@ -3335,6 +3365,12 @@ export class SR5_CharacterUtility extends Actor {
 			// Drugs
 			if (item.type === "itemDrug"){
 				if (!itemData.isActive && !customEffect.wifi) skipCustomEffect = true;
+			}
+			// Quality : if an effect has "wifi on" check box to true, effect is always turned on, even if quality is not "equiped"
+			if (item.type === "itemQuality"){
+				if (itemData.isActive && customEffect.wifi) skipCustomEffect = false;
+				else if (!itemData.isActive && customEffect.wifi) skipCustomEffect = false;
+				else if (!itemData.isActive) skipCustomEffect = true;
 			}
 
 			let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, actor);

@@ -293,6 +293,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.generateVehicleTest(actor);        
 				SR5_CharacterUtility.generateRammingTest(actor);
 				SR5_CharacterUtility.updateVehicleSlots(actor);
+				SR5_CharacterUtility.updateActions(actor);
 				break;
 			case "actorSpirit":
 				SR5_CharacterUtility.updateBackgroundCount(actor);
@@ -302,7 +303,6 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateEssence(actor);
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
 				if (actor.system.isMaterializing) actor.system.specialProperties.hardenedArmorType = "essenceX2";
-				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
@@ -310,6 +310,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateLimits(actor);
 				SR5_CharacterUtility.generateSpiritSkills(actor);
 				SR5_CharacterUtility.updateSkills(actor);
+				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
 				SR5_CharacterUtility.updateDerivedAttributes(actor);
@@ -317,6 +318,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateAstralValues(actor);
 				SR5_CharacterUtility.updateEncumbrance(actor);
 				SR5_CharacterUtility.handleVision(actor);
+				SR5_CharacterUtility.updateActions(actor);
 				break;
 			case "actorSprite":
 				SR5_CharacterUtility.updateSpriteValues(actor);
@@ -326,18 +328,20 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.generateSpriteSkills(actor);
 				SR5_CharacterUtility.updateSkills(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
+				SR5_CharacterUtility.updateActions(actor);
 			case "actorDevice":
 				SR5_CharacterUtility.updateConditionMonitors(actor);
+				SR5_CharacterUtility.updateActions(actor);
 				break;
 			case "actorAgent":
 				SR5_CharacterUtility.applyProgramToAgent(actor);
+				SR5_CharacterUtility.updateActions(actor);
 				break;
 			case "actorPc":
 			case "actorGrunt":
 				SR5_CharacterUtility.updateAttributes(actor);
 				SR5_CharacterUtility.updateEssence(actor);
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
-				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateBackgroundCount(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
@@ -345,6 +349,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
 				SR5_CharacterUtility.updateInitiativeAstral(actor);
 				SR5_CharacterUtility.updateSkills(actor);
+				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateArmor(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
@@ -356,7 +361,6 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updatePowerPoints(actor);
 				SR5_CharacterUtility.updateCounterSpellPool(actor);
 				SR5_CharacterUtility.handleVision(actor);
-				//SR5_CharacterUtility.handleAstralVision(actor);
 				if (actor.type === "actorPc") {
 					SR5_CharacterUtility.updateKarmas(actor);
 					SR5_CharacterUtility.updateNuyens(actor);
@@ -364,6 +368,7 @@ export class SR5Actor extends Actor {
 					SR5_CharacterUtility.updateNotoriety(actor);
 					SR5_CharacterUtility.updatePublicAwareness(actor);
 				}
+				SR5_CharacterUtility.updateActions(actor);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${actor.type}' actor type in prepareDerivedData()`);
@@ -396,7 +401,7 @@ export class SR5Actor extends Actor {
 				case "itemPreparation":
 				case "itemQuality":
 					i.prepareData();
-					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
+					if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 
 				case "itemSpell":
@@ -572,6 +577,7 @@ export class SR5Actor extends Actor {
 				case "itemTradition":
 					i.prepareData();
 					SR5_CharacterUtility.updateTradition(actor, iData);
+					if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 
 				case "itemSprite":

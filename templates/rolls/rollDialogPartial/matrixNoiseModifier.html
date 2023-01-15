@@ -29,6 +29,15 @@
 </li>
 {{/if}}
 
+<!-- PERSONAL NOISE -->
+<li class="grid" id="matrixNoiseActor" style="display: none;">
+    <div class="col-5">{{localize 'SR5.PersonalMatrixNoise'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" class="SR-ModInputFilled" data-modifier="matrixActorNoise" value="{{matrix.personalNoise}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+
 <!-- NOISE REDUCTION -->
 <li class="grid" id="matrixNoiseReduction" style="display: none;">
     <div class="col-5">{{localize 'SR5.NoiseReduction'}}{{localize 'SR5.Colons'}}</div>
