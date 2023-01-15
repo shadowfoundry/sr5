@@ -1,14 +1,30 @@
 <li class="grid">
+    <div class="col-5">{{localize 'SR5.AdeptRitual'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="system.adeptRitual" data-dtype="Boolean" {{checked system.adeptRitual}} /></div>
     <div class="col-5">{{localize 'SR5.Anchored'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1"><input type="checkbox" name="system.anchored" data-dtype="Boolean" {{checked system.anchored}} /></div>
 </li>
 <li class="grid">
+    <div class="col-5">{{localize 'SR5.Bloody'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="system.bloody" data-dtype="Boolean" {{checked system.bloody}} /></div>
+    <div class="col-5">{{localize 'SR5.Contractual'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="system.contractual" data-dtype="Boolean" {{checked system.contractual}} /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.ManaRitual'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="system.manaRitual" data-dtype="Boolean" {{checked system.manaRitual}} /></div>
     <div class="col-5">{{localize 'SR5.MaterialLink'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1"><input type="checkbox" name="system.materialLink" data-dtype="Boolean" {{checked system.materialLink}} /></div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Minion'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1"><input type="checkbox" name="system.minion" data-dtype="Boolean" {{checked system.minion}} /></div>
+    <div class="col-5">{{localize 'SR5.OrganicalLink'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="system.organicalLink" data-dtype="Boolean" {{checked system.organicalLink}} /></div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.Spotter'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" name="system.spotter" data-dtype="Boolean" {{checked system.spotter}} /></div>
 </li>
 <li class="grid">
     <div class="col-5">{{localize 'SR5.Spell'}}{{localize 'SR5.Colons'}}</div>
@@ -25,8 +41,4 @@
 		</select>
     </div>
     {{/if}}
-</li>
-<li class="grid">
-    <div class="col-5">{{localize 'SR5.Spotter'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1"><input type="checkbox" name="system.spotter" data-dtype="Boolean" {{checked system.spotter}} /></div>
 </li>

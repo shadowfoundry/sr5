@@ -317,9 +317,14 @@ export class SR5Item extends Item {
 				}
 				break;
 			case "itemRitual":
+				if (itemData.adeptRitual) tags.push(game.i18n.localize(`SR5.AdeptRitual`));
 				if (itemData.anchored) tags.push(game.i18n.localize(`SR5.Anchored`));
+				if (itemData.bloody) tags.push(game.i18n.localize(`SR5.Bloody`));
+				if (itemData.contractual) tags.push(game.i18n.localize(`SR5.Contractual`));
+				if (itemData.manaRitual) tags.push(game.i18n.localize(`SR5.ManaRitual`));
 				if (itemData.materialLink) tags.push(game.i18n.localize(`SR5.MaterialLink`));
 				if (itemData.minion) tags.push(game.i18n.localize(`SR5.Minion`));
+				if (itemData.organicalLink) tags.push(game.i18n.localize(`SR5.OrganicalLink`));
 				if (itemData.spotter) tags.push(game.i18n.localize(`SR5.Spotter`));
 				if (itemData.spell) tags.push(game.i18n.localize(`SR5.Spell`));
 				tags.push(`${game.i18n.localize('SR5.DurationToPerform')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize('SR5.SpellForceShort')} × ${game.i18n.localize(lists.ritualDurations[itemData.durationToPerform])}`);
