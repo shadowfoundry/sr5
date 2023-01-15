@@ -577,6 +577,7 @@ export class SR5Actor extends Actor {
 				case "itemTradition":
 					i.prepareData();
 					SR5_CharacterUtility.updateTradition(actor, iData);
+					if (Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 
 				case "itemSprite":
