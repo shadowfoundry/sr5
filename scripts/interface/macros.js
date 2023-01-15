@@ -117,3 +117,37 @@ export function rollMacro(type, subType){
 			return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoMacro")}`);
 	}
 }
+
+
+//Import json to create compendium, here for backUp
+/*
+let fileName;
+
+const pickedFile = new FilePicker({
+    type: "json",
+    path: "",
+    callback: async (picked) => {
+        fileName = (picked.split('\\').pop().split('/').pop().split('.'))[0];
+
+        const file = await fetch(picked);
+        const dataToJson = await file.json(); // This should be an array of raw data objects
+        let data = dataToJson.items;
+
+        let compendium = game.world.packs.find((p) => p.name == fileName);
+
+        if (compendium){
+            console.log("ca existe déjà");
+        } else {
+            await CompendiumCollection.createCompendium({
+                type : "Item", 
+                label : fileName, 
+                name : fileName, 
+                private : false
+            });
+            const items = await Item.createDocuments(data, { pack: `world.${fileName}`});
+        }
+    }
+});
+
+await pickedFile.browse();
+*/
