@@ -236,11 +236,10 @@ async function handleDroneDamage(rollData, actorData, chatData){
 async function handleSpiritDamage(rollData, actorData, chatData){
     let armor = 0;
     if (chatData.damage.source === "magical"){
-        let hardenedArmor = actorData.resistances.physicalDamage.modifiers.filter((el) => el.type === "hardenedArmor");
-        rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers.filter((el) => el.type !=="hardenedArmor");
-        rollData.dicePool.base = actorData.resistances.physicalDamage.dicePool - hardenedArmor[0].value;
+        rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers.filter(x => !actorData.specialProperties.hardenedArmors.normalWeapon.modifiers.includes(x));
+        rollData.dicePool.base = actorData.resistances.physicalDamage.dicePool - actorData.specialProperties.hardenedArmors.normalWeapon.value;
     } else {
-        armor = actorData.essence.value * 2;
+        armor = actorData.itemsProperties.armor.value;
 
         //Check if AP is greater than Armor
         if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.combat.armorPenetration, damage: rollData.damage.base})}`);

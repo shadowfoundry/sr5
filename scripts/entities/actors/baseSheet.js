@@ -289,6 +289,17 @@ export class ActorSheetSR5 extends ActorSheet {
 	_onInitiativeSwitch(event) {
 		let wantedInitiative = $(event.currentTarget).attr("data-binding");
 		SR5_CharacterUtility.switchToInitiative(this.actor, wantedInitiative);
+		//special case for materialization button on spirit sheet
+		if (event.target.id === "materializeIcon"){
+			let item;
+			for (let i of this.actor.items){
+				if (i.system.systemEffects.find(e => e.value === "materialization")) item = i;
+			}
+			if (item){
+				let value = getProperty(item, "system.isActive");
+				item.update({"system.isActive": !value})
+			}
+		}
 	}
 
 	_onVisionSwitch(event){
@@ -595,6 +606,13 @@ export class ActorSheetSR5 extends ActorSheet {
 			actorData.specialProperties.actions.simple.current -=1;
 		}
 
+		//Special case for materialization
+		if (item.type === "itemPower" && actor.type === "actorSpirit"){
+			if (realItem.system.systemEffects.find(e => e.value === "materialization")){
+				actorData.isMaterializing = value;
+			}
+		}
+		
 		//Update actor
 		await this.actor.update({
 			"system": actorData,

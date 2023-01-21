@@ -136,29 +136,6 @@ export default class Migration {
 				if(actor.system.magic.magicType === "") updateData["system.magic.magicType"] = "spirit";
 			}
 
-
-			//Add itemDevice to actor if there is not TO REMOVE ON 0.4.4
-			if (actor.type === "actorDrone" || actor.type === "actorSprite" || actor.type === "actorDevice"){
-				let hasDevice = false;
-				if (actor.items){
-					for (let i of actor.items){
-						if (i.type === "itemDevice") hasDevice = true;
-					}
-
-					if (!hasDevice){
-						let deviceItem = {
-							"name": game.i18n.localize("SR5.Device"),
-							"type": "itemDevice",
-						}
-						deviceItem.system = {
-							"isActive": true,
-							"type": "baseDevice",
-						}
-						actor.document.createEmbeddedDocuments("Item", [deviceItem]);
-					}
-				}
-			}
-
 			//Change on conditionMonitors template to handle temporary damage
 			if (actor.system.conditionMonitors){
 				for (let key of Object.keys(actor.system.conditionMonitors)){
@@ -235,6 +212,15 @@ export default class Migration {
 				updateData["flags.sr5.-=vehicleControler"] = null;
 			}
 
+			//Change on hardened armors
+			if(actor.system.specialProperties){
+				updateData["system.specialProperties.-=hardenedArmorType"] = null;
+				updateData["system.specialProperties.-=hardenedArmorRating"] = null;
+				updateData["system.specialProperties.-=hardenedArmor"] = null;
+				updateData["system.specialProperties.-=hardenedAstralArmorType"] = null;
+				updateData["system.specialProperties.-=hardenedAstralArmorRating"] = null;
+				updateData["system.specialProperties.-=hardenedAstralArmor"] = null;
+			}
     	}
 
 		// Migrate Owned Items
@@ -351,6 +337,15 @@ export default class Migration {
 			for (let e of Object.values(newCustomEffects)){
 				if (e.target){
 					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+					//Change to hardened armor
+					if (e.target === "system.specialProperties.hardenedAstralArmorType"){
+						e.category = "hardenedArmors";
+						e.target = "system.specialProperties.hardenedArmors.astral";
+					}
+					if (e.target === "system.specialProperties.hardenedArmorType"){
+						e.category = "hardenedArmors";
+						e.target = "system.specialProperties.hardenedArmors.normalWeapon";
+					}
 				}
 			}
 			updateData["system.customEffects"] = newCustomEffects;

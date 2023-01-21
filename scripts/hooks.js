@@ -60,7 +60,7 @@ export const registerHooks = function () {
 		CONFIG.ui.combat = SR5CombatTracker;
 		CONFIG.Token.objectClass = SR5Token;
 		CONFIG.Canvas.visionModes.astralvision = SRVision.astralVision;
-		//CONFIG.MeasuredTemplate.sheetClasses.SRTest = SR5MeasuredTemplateConfig;
+
 		// ACTIVATE HOOKS DEBUG
 		CONFIG.debug.hooks = false;
 
@@ -138,7 +138,7 @@ export const registerHooks = function () {
 		// Determine whether a system migration is required and feasible
 		if ( !game.user.isGM ) return;
 		const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-		const NEEDS_MIGRATION_VERSION = "0.1.4";
+		const NEEDS_MIGRATION_VERSION = "0.1.8";
 		const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
 		// Perform the migration
