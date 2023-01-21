@@ -516,6 +516,11 @@
               "base": "",
               "value": 0,
               "modifiers": []
+            },
+            "multiplier": {
+              "base": 2,
+              "value": 0,
+              "modifiers": []
             }
           },
           "run": {
@@ -541,6 +546,11 @@
             },
             "limit": {
               "base": "physicalLimit",
+              "value": 0,
+              "modifiers": []
+            },
+            "multiplier": {
+              "base": 4,
               "value": 0,
               "modifiers": []
             }
@@ -3038,19 +3048,37 @@
             "base": 0,
             "modifiers": []
           },
-          "hardenedArmorType": "",
-          "hardenedArmorRating": 0,
-          "hardenedArmor":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "hardenedAstralArmorType": "",
-          "hardenedAstralArmorRating": 0,
-          "hardenedAstralArmor":{
-            "value": 0,
-            "base": 0,
-            "modifiers": []
+          "hardenedArmors":{
+            "normalWeapon":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []  
+            },
+            "astral":{
+              "type": "",
+              "value": 0,
+                "base": 0,
+                "modifiers": []  
+              },
+            "fire":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "toxins":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "pathogens":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            }
           },
           "doublePenalties": false,
           "energyAura": "",

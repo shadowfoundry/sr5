@@ -217,6 +217,10 @@ export class SR5_CharacterUtility extends Actor {
 				actorData.movements[key].maximum.modifiers = [];
 				actorData.movements[key].limit.value = 0;
 				actorData.movements[key].limit.modifiers = [];
+				if (key === "walk" || key === "run"){
+					actorData.movements[key].multiplier.value = 0;
+					actorData.movements[key].multiplier.modifiers = [];
+				}
 			}
 		}
 
@@ -335,21 +339,22 @@ export class SR5_CharacterUtility extends Actor {
 				actorData.specialProperties[key].value = 0;
 				actorData.specialProperties[key].modifiers = [];
 			}
-			actorData.specialProperties.hardenedArmorType = "";
-			actorData.specialProperties.hardenedArmorRating = 0;
-			actorData.specialProperties.hardenedAstralArmorType = "";
-			actorData.specialProperties.hardenedAstralArmorRating = 0;
-			actorData.specialProperties.doublePenalties = false;
-			actorData.specialProperties.energyAura = "";
-			actorData.specialProperties.regeneration = "";
-			actorData.specialProperties.fullDefenseAttribute = "willpower";
-			actorData.specialProperties.fullDefenseValue = 0;
+			for (let key of Object.keys(SR5.hardenedArmorTypes)) {
+				actorData.specialProperties.hardenedArmors[key].value = 0;
+				actorData.specialProperties.hardenedArmors[key].modifiers = [];
+				actorData.specialProperties.hardenedArmors[key].type = "";
+			}
 			for (let key of Object.keys(SR5.actionTypes)) {
 				if (actorData.specialProperties.actions[key]){
 					actorData.specialProperties.actions[key].value = 0;
 					actorData.specialProperties.actions[key].modifiers = [];
 				}
 			}
+			actorData.specialProperties.doublePenalties = false;
+			actorData.specialProperties.energyAura = "";
+			actorData.specialProperties.regeneration = "";
+			actorData.specialProperties.fullDefenseAttribute = "willpower";
+			actorData.specialProperties.fullDefenseValue = 0;
 		}
 
 		// Reset Vehicule Test
@@ -1173,49 +1178,50 @@ export class SR5_CharacterUtility extends Actor {
 	// Generate Special Properties
 	static updateSpecialProperties(actor) {
 		let actorData = actor.system, armor = 0;
+		let hardenedArmors = actorData.specialProperties.hardenedArmors;
 
-		//Hardened Armor special property.
-		if (actorData.specialProperties.hardenedArmorType){
-			switch (actorData.specialProperties.hardenedArmorType){
-				case "essence":
-					armor = actorData.essence.value;
-					SR5_EntityHelpers.updateModifier(actorData.specialProperties.hardenedArmor, game.i18n.localize('SR5.Essence'), "hardenedArmor", armor);
-					SR5_EntityHelpers.updateModifier(actorData.itemsProperties.armor, game.i18n.localize('SR5.Essence'), "hardenedArmor", armor);
-					break;
-				case "essenceX2":
-					armor = actorData.essence.value * 2;
-					SR5_EntityHelpers.updateModifier(actorData.specialProperties.hardenedArmor, game.i18n.localize('SR5.EssenceX2'), "hardenedArmor", armor);
-					SR5_EntityHelpers.updateModifier(actorData.itemsProperties.armor, game.i18n.localize('SR5.EssenceX2'), "hardenedArmor", armor);
-					break;
-				case "body":
-					armor = actorData.attributes.body.augmented.value;
-					SR5_EntityHelpers.updateModifier(actorData.specialProperties.hardenedArmor, game.i18n.localize('SR5.Body'), "hardenedArmor", armor);
-					SR5_EntityHelpers.updateModifier(actorData.itemsProperties.armor, game.i18n.localize('SR5.Body'), "hardenedArmor", armor);
-					break;
-				case "rating":
-					armor = actorData.specialProperties.hardenedArmorRating;
-					SR5_EntityHelpers.updateModifier(actorData.specialProperties.hardenedArmor, game.i18n.localize('SR5.Power'), "hardenedArmor", armor);
-					SR5_EntityHelpers.updateModifier(actorData.itemsProperties.armor, game.i18n.localize('SR5.Power'), "hardenedArmor", armor);
-					break;
-				default:
-					SR5_SystemHelpers.srLog(3, `Unknown ${actorData.specialProperties.hardenedArmorType} Hardened Armor type in 'updateSpecialProperties()'`);
+		//Hardened Armors
+		for (let key of Object.keys(SR5.hardenedArmorTypes)){
+			//Special = for hardened armor values linked to an attributes
+			for (let m of hardenedArmors[key].modifiers){
+				if (m.details){
+					switch(m.details.type){
+						case "essence":
+							m.value = actorData.essence.value;
+							break;
+						case "essenceX2":
+							m.value = actorData.essence.value * 2;
+							break;
+						case "willpower":
+							m.value = actorData.attributes.willpower.augmented.value;
+							break;
+						case "body":
+							m.value = actorData.attributes.body.augmented.value;
+							break;
+					}
+				}
 			}
-		}
 
-		if (actorData.specialProperties.hardenedAstralArmorType){
-			switch (actorData.specialProperties.hardenedAstralArmorType){
-				case "willpower":
-					armor = actorData.attributes.willpower.augmented.value;
-					SR5_EntityHelpers.updateModifier(actorData.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Willpower'), "hardenedAstralArmor", armor);
-					SR5_EntityHelpers.updateModifier(actorData.resistances.astralDamage, game.i18n.localize('SR5.Willpower'), "hardenedAstralArmor", armor);
+			//Updates hardened armors values
+			SR5_EntityHelpers.updateValue(hardenedArmors[key]);
+
+			//Update resistance linked to hardened armor
+			switch(key){
+				case "normalWeapon":
+					actorData.itemsProperties.armor.modifiers = actorData.itemsProperties.armor.modifiers.concat(hardenedArmors[key].modifiers);
 					break;
-				case "rating":
-					armor = actorData.specialProperties.hardenedAstralArmorRating;
-					SR5_EntityHelpers.updateModifier(actorData.specialProperties.hardenedAstralArmor, game.i18n.localize('SR5.Power'), "hardenedAstralArmor", armor);
-					SR5_EntityHelpers.updateModifier(actorData.resistances.astralDamage, game.i18n.localize('SR5.Power'), "hardenedAstralArmor", armor);
+				case "astral":
+					actorData.resistances.astralDamage.modifiers = actorData.resistances.astralDamage.modifiers.concat(hardenedArmors[key].modifiers);
 					break;
-				default:
-					SR5_SystemHelpers.srLog(3, `Unknown ${actorData.specialProperties.hardenedAstralArmorType} Hardened Astral Armor type in 'updateSpecialProperties()'`);
+				case "fire":
+					actorData.resistances.specialDamage.fire.modifiers = actorData.resistances.specialDamage.fire.modifiers.concat(hardenedArmors[key].modifiers);
+					break;
+				case "toxins":
+					actorData.resistances.toxin.contact.modifiers = actorData.resistances.toxin.contact.modifiers.concat(hardenedArmors[key].modifiers);
+					actorData.resistances.toxin.ingestion.modifiers = actorData.resistances.toxin.ingestion.modifiers.concat(hardenedArmors[key].modifiers);
+					actorData.resistances.toxin.inhalation.modifiers = actorData.resistances.toxin.inhalation.modifiers.concat(hardenedArmors[key].modifiers);
+					actorData.resistances.toxin.injection.modifiers = actorData.resistances.toxin.injection.modifiers.concat(hardenedArmors[key].modifiers);
+					break;
 			}
 		}
 
@@ -1318,6 +1324,10 @@ export class SR5_CharacterUtility extends Actor {
 			skills = actor.system.skills,
 			biography = actor.system.biography;
 
+		//Manage walk and run multiplier
+		SR5_EntityHelpers.updateValue(movements.walk.multiplier);
+		SR5_EntityHelpers.updateValue(movements.run.multiplier);
+
 		for (let key of Object.keys(SR5.movements)) {
 			movements[key].movement.base = 0;
 			switch (key) {
@@ -1354,7 +1364,7 @@ export class SR5_CharacterUtility extends Actor {
 				case "run":
 					SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.Strength'), "linkedAttribute", attributes.strength.augmented.value);
 					SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.SkillRunning'), "skillRating", skills.running.rating.value);
-					movements[key].movement.base = attributes.agility.augmented.value * 4;
+					movements[key].movement.base = attributes.agility.augmented.value * movements[key].multiplier.value;
 					if (biography && (biography.characterMetatype === "dwarf" || biography.characterMetatype === "troll"))
 						movements[key].extraMovement.base = 1;
 					else {
@@ -1386,7 +1396,7 @@ export class SR5_CharacterUtility extends Actor {
 					movements[key].extraMovement.base = attributes.strength.augmented.value;
 					break;
 				case "walk":
-					SR5_EntityHelpers.updateModifier(movements[key].movement, game.i18n.localize('SR5.Agility'), "linkedAttribute", attributes.agility.augmented.value * 2);
+					SR5_EntityHelpers.updateModifier(movements[key].movement, game.i18n.localize('SR5.Agility'), "linkedAttribute", attributes.agility.augmented.value * movements[key].multiplier.value);
 					break;
 				default:
 					SR5_SystemHelpers.srLog(1, `Unknown movement '${key}' in 'updateMovements()'`);
@@ -3394,17 +3404,12 @@ export class SR5_CharacterUtility extends Actor {
 					}
 				}
 
-				//Special case for Hardened Armor
-				if (customEffect.target === "system.specialProperties.hardenedArmorType"){
-					setProperty(actor, customEffect.target, customEffect.type);
-					if (customEffect.type === "rating") setProperty(actor, "system.specialProperties.hardenedArmorRating", (itemData.itemRating || 0));
-					continue;
-				}
-
-				if (customEffect.target === "system.specialProperties.hardenedAstralArmorType"){
-					setProperty(actor, customEffect.target, customEffect.type);
-					if (customEffect.type === "rating") setProperty(actor, "system.specialProperties.hardenedAstralArmorRating", (itemData.itemRating || 0));
-					continue;
+				//Special case for Hardened Armor : value based on actor attributes are not yet calculated, so we need a trick
+				if (customEffect.category === "hardenedArmors"){
+					if (customEffect.type !== "rating") {
+						SR5_EntityHelpers.updateModifier(targetObject, item.name, item.type, 0, isMultiplier, cumulative, customEffect);
+						continue;
+					}
 				}
 
 				//Special case for Energetic Aura

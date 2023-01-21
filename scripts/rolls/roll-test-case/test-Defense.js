@@ -8,6 +8,7 @@ import { SR5_PrepareRollTest } from "../roll-prepare.js";
 export default async function defenseInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
     let actorData = actor.system;
+    let immunity;
     cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits;
 
     //Special case for injection ammo, need 3 net hits if armor is weared
@@ -40,11 +41,11 @@ export default async function defenseInfo(cardData, actorId){
     else cardData.damage.resistanceType = "physicalDamage";
 
     //If Hardened Armor, check if damage do something
-    if ((actorData.specialProperties?.hardenedArmor.value > 0) && (cardData.damage.source !== "magical")) {
-        let immunity = actorData.specialProperties.hardenedArmor.value + cardData.combat.armorPenetration;
+    if ((actorData.specialProperties?.hardenedArmors.normalWeapon.value > 0) && (cardData.damage.source !== "magical")) {
+        immunity = actorData.specialProperties.hardenedArmors.normalWeapon.value + cardData.combat.armorPenetration;
         if (cardData.damage.value + cardData.roll.netHits <= immunity) {
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NormalWeaponsImmunity"));
-            return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: actorData.essence.value * 2, pa: cardData.combat.armorPenetration, damage: cardData.damage.value})}`);
+            return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {hardenedArmor: immunity, pa: cardData.combat.armorPenetration, damage: cardData.damage.value})}`);
         }
     }
 
@@ -56,7 +57,17 @@ export default async function defenseInfo(cardData, actorId){
     if (cardData.combat.calledShot.name) cardData = await handleCalledShotDefenseInfo(cardData, actorData);
 
     //Add fire threshold
-    if (cardData.damage.element === "fire") cardData.threshold.value = cardData.roll.netHit;
+    if (cardData.damage.element === "fire") {
+        cardData.threshold.value = cardData.roll.netHit;
+        //If Hardened Armor, check if damage do something
+        if (actorData.specialProperties?.hardenedArmors.fire.value > 0) {
+            immunity = actorData.specialProperties.hardenedArmors.fire.value + cardData.combat.armorPenetration;
+            if (cardData.damage.value + cardData.roll.netHits <= immunity) {
+                cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FireImmunity"));
+                return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {hardenedArmor: immunity, pa: cardData.combat.armorPenetration, damage: cardData.damage.value})}`);
+            }
+        }
+    }
 
     //Special case for Drone and vehicle
     if (actor.type === "actorDrone" || actor.type === "actorVehicle") {

@@ -56,6 +56,7 @@
 						<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
 						<option value="characterResistances">{{localize 'SR5.Resistances'}}</option>
 						<option value="itemArmor">{{localize 'SR5.Armor'}}</option>
+						<option value="hardenedArmors">{{localize 'SR5.HardenedArmors'}}</option>
 						<option value="characterConditionMonitors">{{localize 'SR5.ConditionMonitors'}}</option>
 						<option value="penaltyTypes">{{localize 'SR5.Penalties'}}</option>
 					</optgroup>
@@ -200,9 +201,11 @@
 						<option value="system.movements.{{@key}}.movement">{{localize this}} [{{localize 'SR5.Base'}}]</option>
 						<option value="system.movements.{{@key}}.extraMovement">{{localize this}} [{{localize 'SR5.Extra'}}]</option>
 						<option value="system.movements.{{@key}}.maximum">{{localize this}} [{{localize 'SR5.GENERAL_Maximum_F'}}]</option>
-						<option value="system.movements.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]
-						</option>
+						<option value="system.movements.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
 						<option value="system.movements.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						{{#if (or (eq @key 'walk') (eq @key 'run'))}}
+						<option value="system.movements.{{@key}}.multiplier">{{localize this}} [{{localize 'SR5.Multiplier'}}]</option>
+						{{/if}}
 					</optgroup>
 					{{/each}}
 
@@ -321,8 +324,6 @@
 					{{#each ../lists.specialPropertiesList}}
 					<option value="system.specialProperties.{{@key}}">{{localize this}}</option>
 					{{/each}}
-					<option value="system.specialProperties.hardenedArmorType">{{localize 'SR5.HardenedArmor'}}</option>
-					<option value="system.specialProperties.hardenedAstralArmorType">{{localize 'SR5.HardenedAstalArmor'}}</option>
 					<option value="system.specialProperties.energyAura">{{localize 'SR5.SpiritPowerEnergyAura'}}</option>
 					<option value="system.specialProperties.fullDefenseAttribute">{{localize "SR5.FullDefense"}} [{{localize 'SR5.LinkedAttribute'}}]</option>
 
@@ -344,6 +345,11 @@
 						<option value="system.itemsProperties.armor.padded">{{localize 'SR5.Padded'}}</option>
 					</optgroup>
 
+					{{else ife category 'hardenedArmors'}}
+					{{#each ../lists.hardenedArmorTypes}}
+					<option value="system.specialProperties.hardenedArmors.{{@key}}">{{localize this}}</option>
+					{{/each}}
+					
 					{{else ife category 'weaponEffectTargets'}}
 					{{#each (lookup ../lists category)}}
 					<option value="system.itemsProperties.weapon.{{@key}}">{{localize this}}</option>
@@ -404,20 +410,25 @@
 								{{/select}}
 							</select>
 						{{/ife}}
-					{{else if (eq this.target 'system.specialProperties.hardenedArmorType')}}
+					{{else if (eq this.category 'hardenedArmors')}}
 						<select name="system.customEffects.{{@key}}.type" required>
-							{{#select type}}
-							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-							{{#each ../lists.hardenedArmorTypes}}
-							<option value="{{@key}}">{{localize this}}</option>
-							{{/each}}
-							{{/select}}
+						{{#select type}}
+							{{#if (eq this.target 'system.specialProperties.hardenedArmors.astral')}}
+								{{#each ../lists.hardenedAstralArmorValueTypes}}
+								<option value="{{@key}}">{{localize this}}</option>
+								{{/each}}
+							{{else}}
+								{{#each ../lists.hardenedArmorValueTypes}}
+								<option value="{{@key}}">{{localize this}}</option>
+								{{/each}}
+							{{/if}}
+						{{/select}}
 						</select>
 					{{else if (eq this.target 'system.specialProperties.hardenedAstralArmorType')}}
 						<select name="system.customEffects.{{@key}}.type" required>
 							{{#select type}}
 							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-							{{#each ../lists.hardenedAstralArmorTypes}}
+							{{#each ../lists.hardenedAstralArmorValueTypes}}
 							<option value="{{@key}}">{{localize this}}</option>
 							{{/each}}
 							{{/select}}
