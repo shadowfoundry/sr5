@@ -4247,6 +4247,84 @@
       },
       "sheetPreferencesTemplate": {
         "sheetPreferences": {
+          "tabAugmentations":{
+            "isActive": true,
+            "augmentations": true,
+            "effects": true
+          },
+          "tabAwaken":{
+            "isActive": true,
+            "type": true,
+            "tradition": true,
+            "astral": true,
+            "reagents":true
+          },
+          "tabBiography":{
+            "isActive": true,
+            "biography": true,
+            "description": true,
+            "background": true,
+            "karma": true
+          },
+          "tabCombat":{
+            "isActive": true,
+            "rangedWeapons": true,
+            "meleeWeapons": true,
+            "grenades": true,
+            "armors":true,
+            "ammunitions": true,
+            "martialArts": true
+          },
+          "tabGear":{
+            "isActive": true,
+            "various": true,
+            "vehicles": true,
+            "money": true
+          },
+          "tabMagic":{
+            "isActive": true,
+            "spells": true,
+            "adeptPowers": true,
+            "summonedSpirits": true,
+            "foci": true,
+            "preparations": true,
+            "rituals": true,
+            "powers": true,
+            "metamagics": true
+          },
+          "tabMatrix":{
+            "isActive": true,
+            "programs": true,
+            "matrixActions": true
+          },
+          "tabMatrixUser":{
+            "isActive": true,
+            "programs": true,
+            "pan": true,
+            "marksControled": true
+          },
+          "tabSkill":{
+            "isActive": true,
+            "actives": true,
+            "groups": true,
+            "knowledge": true,
+            "languages":true
+          },
+          "tabSocial":{
+            "isActive": true,
+            "contacts": true,
+            "lifestyles": true,
+            "sins": true,
+            "reputation":true
+          },
+          "tabTechno":{
+            "isActive": true,
+            "resonanceActions": true,
+            "complexForms": true,
+            "sprites": true,
+            "echoes":true,
+            "powers": true
+          },
           "selections": {
             "activeDefense": "dodge",
             "resistanceDisease": "contact",

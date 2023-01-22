@@ -314,7 +314,7 @@ export const registerHooks = function () {
 			let actorId = document.id;
 			if (document.isToken) actorId = document.token.id;
 			
-			await SR5Combat.changeInitInCombatHelper(actorId);
+			if (actorId) await SR5Combat.changeInitInCombatHelper(actorId);
 		}
 
 		//Keep deck condition monitor synchro with agent condition monitor

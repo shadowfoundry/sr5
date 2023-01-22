@@ -10,6 +10,7 @@ import { SR5_ActorHelper } from "./entityActor-helpers.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
 import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
+import { SRActorSheetConfig } from "../../interface/sheet-config.js"; 
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -1122,4 +1123,17 @@ export class ActorSheetSR5 extends ActorSheet {
 		//action = [{type: "simple", value: 1}];
 		SR5Combat.changeActionInCombat(actorId, action);
 	}
+
+	//Sheet customization
+	_getHeaderButtons() {
+        let buttons = super._getHeaderButtons();
+        if (this.actor.isOwner && (this.actor.type === "actorPc" || this.actor.type === "actorGrunt")) {
+            buttons.unshift({
+                class: "actorConfig",
+                icon: `fas fa-tools`,
+                onclick: async() => SRActorSheetConfig.buildDialog(this.actor)
+            })
+        }
+        return buttons;
+    }
 }
