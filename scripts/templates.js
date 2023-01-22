@@ -327,6 +327,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/focus/weaponLink-edit.html",
 
 				//Karma
+				"systems/sr5/templates/items/_partial/editable/karma/date-edit.html",
 				"systems/sr5/templates/items/_partial/editable/karma/type-edit.html",
 				"systems/sr5/templates/items/_partial/editable/karma/amount-edit.html",
 
@@ -354,7 +355,8 @@ export const preloadHandlebarsTemplates = async function () {
 
 				//Nuyen
 				"systems/sr5/templates/items/_partial/editable/nuyen/type-edit.html",
-				"systems/sr5/templates/items/_partial/editable/nuyen/amount-edit.html",
+				"systems/sr5/templates/items/_partial/editable/nuyen/amount-edit.html",				
+				"systems/sr5/templates/items/_partial/editable/nuyen/date-edit.html",
 
 				//Power
 				"systems/sr5/templates/items/_partial/editable/power/attributeTest-edit.html",

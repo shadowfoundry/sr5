@@ -27,33 +27,34 @@
 						</div>
 						<!-- MAGIC USER LEFT TAB -->
 						<div class="tab" data-group="gauche" data-tab="tab-magie">
-							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/type.html}}
+							{{#if system.sheetPreferences.tabAwaken.type}} {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/type.html}} {{/if}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/adeptPowerPoint.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/reagents.html}}
+							{{#if system.sheetPreferences.tabAwaken.tradition}} {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/tradition.html}} {{/if}}
+							{{#if system.sheetPreferences.tabAwaken.astral}} {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/astral.html}} {{/if}}
+							{{#if system.sheetPreferences.tabAwaken.reagents}} {{> systems/sr5/templates/actors/_partials/left-tabs/magicUser/reagents.html}} {{/if}}
 						</div>
 						<!-- MATRIX USER LEFT TAB -->
 						<div class="tab" data-group="gauche" data-tab="tab-deck">
 							{{#if system.matrix.deviceName}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
-							<div class="SRBlockSheet">
-								<ul>
-									<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixInit.html}}
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
-								</ul>
-							</div>
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixMonitor.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/pan.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/overwatchScore.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
+								<div class="SRBlockSheet">
+									<ul>
+										<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
+										{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
+										{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixInit.html}}
+										{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
+									</ul>
+								</div>
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
+								{{#if system.sheetPreferences.tabMatrixUser.programs}} {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixPrograms.html}} {{/if}}
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixMonitor.html}}
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
+								{{#if system.sheetPreferences.tabMatrixUser.pan}} {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/pan.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMatrixUser.marksControled}} {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}} {{/if}}
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/overwatchScore.html}}
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
 							{{else}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/noDevice.html}}
+								{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/noDevice.html}}
 							{{/if}}
 						</div>
 						<!-- QUALITIES LEFT TAB -->
@@ -70,54 +71,54 @@
 						<section class="sr-tabs">
 							<!-- SKILLS RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-skills">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/skillGroups.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/knowledgeSkills.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/languageSkills.html}}
+								{{#if system.sheetPreferences.tabSkill.actives}} {{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}} {{/if}}
+								{{#if system.sheetPreferences.tabSkill.groups}} {{> systems/sr5/templates/actors/_partials/right-tabs/skills/skillGroups.html}} {{/if}}
+								{{#if system.sheetPreferences.tabSkill.knowledge}} {{> systems/sr5/templates/actors/_partials/right-tabs/skills/knowledgeSkills.html}} {{/if}}
+								{{#if system.sheetPreferences.tabSkill.languages}} {{> systems/sr5/templates/actors/_partials/right-tabs/skills/languageSkills.html}} {{/if}}
 							</div>
 							<!-- COMBAT RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-combat">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/rangedWeapons.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/meleeWeapons.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html}}
+								{{#if system.sheetPreferences.tabCombat.rangedWeapons}} {{> systems/sr5/templates/actors/_partials/right-tabs/combat/rangedWeapons.html}} {{/if}}
+								{{#if system.sheetPreferences.tabCombat.meleeWeapons}} {{> systems/sr5/templates/actors/_partials/right-tabs/combat/meleeWeapons.html}} {{/if}}
+								{{#if system.sheetPreferences.tabCombat.grenades}} {{> systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html}} {{/if}}
+								{{#if system.sheetPreferences.tabCombat.armors}} {{> systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html}} {{/if}}
+								{{#if system.sheetPreferences.tabCombat.ammunitions}} {{> systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html}} {{/if}}
+								{{#if system.sheetPreferences.tabCombat.martialArts}} {{> systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html}} {{/if}}
 							</div>
 							<!-- GEAR RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-gear">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/gear/vehicles.html}}
+								{{#if system.sheetPreferences.tabGear.various}} {{> systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.html}} {{/if}}
+								{{#if system.sheetPreferences.tabGear.vehicles}} {{> systems/sr5/templates/actors/_partials/right-tabs/gear/vehicles.html}} {{/if}}
 							</div>
 							<!-- AUGMENTATION RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-augmentations">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/augmentation/augmentations.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
+								{{#if system.sheetPreferences.tabAugmentations.augmentations}} {{> systems/sr5/templates/actors/_partials/right-tabs/augmentation/augmentations.html}} {{/if}}
+								{{#if system.sheetPreferences.tabAugmentations.effects}} {{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}} {{/if}}
 							</div>
 							<!-- MAGIC RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-sorts">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/spells.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/adeptPowers.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/summonedSpirits.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/foci.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/preparations.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/rituals.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/metamagics.html}}
+								{{#if system.sheetPreferences.tabMagic.spells}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/spells.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.adeptPowers}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/adeptPowers.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.summonedSpirits}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/summonedSpirits.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.foci}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/foci.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.preparations}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/preparations.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.rituals}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/rituals.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.powers}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMagic.metamagics}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/metamagics.html}} {{/if}}
 							</div>
 							<!-- TECHNOMANCER RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-technomancer">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/complexForms.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/sprites.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/echoes.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}}
+								{{#if system.sheetPreferences.tabTechno.resonanceActions}} {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html}} {{/if}}
+								{{#if system.sheetPreferences.tabTechno.complexForms}} {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/complexForms.html}} {{/if}}
+								{{#if system.sheetPreferences.tabTechno.sprites}} {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/sprites.html}} {{/if}}
+								{{#if system.sheetPreferences.tabTechno.echoes}} {{> systems/sr5/templates/actors/_partials/right-tabs/technomancer/echoes.html}} {{/if}}
+								{{#if system.sheetPreferences.tabTechno.powers}} {{> systems/sr5/templates/actors/_partials/right-tabs/magic/powers.html}} {{/if}}
 							</div>
 							<!-- MATRIX RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-matrice">
 								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/devices.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
+								{{#if system.sheetPreferences.tabMatrix.programs}} {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html}} {{/if}}
+								{{#if system.sheetPreferences.tabMatrix.matrixActions}} {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}} {{/if}}
 							</div>
 							<!-- BIO RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-bio">

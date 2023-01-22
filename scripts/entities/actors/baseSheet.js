@@ -10,6 +10,7 @@ import { SR5_ActorHelper } from "./entityActor-helpers.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
 import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
+import { SRActorSheetConfig } from "../../interface/sheet-config.js"; 
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -289,6 +290,17 @@ export class ActorSheetSR5 extends ActorSheet {
 	_onInitiativeSwitch(event) {
 		let wantedInitiative = $(event.currentTarget).attr("data-binding");
 		SR5_CharacterUtility.switchToInitiative(this.actor, wantedInitiative);
+		//special case for materialization button on spirit sheet
+		if (event.target.id === "materializeIcon"){
+			let item;
+			for (let i of this.actor.items){
+				if (i.system.systemEffects.find(e => e.value === "materialization")) item = i;
+			}
+			if (item){
+				let value = getProperty(item, "system.isActive");
+				item.update({"system.isActive": !value})
+			}
+		}
 	}
 
 	_onVisionSwitch(event){
@@ -595,6 +607,13 @@ export class ActorSheetSR5 extends ActorSheet {
 			actorData.specialProperties.actions.simple.current -=1;
 		}
 
+		//Special case for materialization
+		if (item.type === "itemPower" && actor.type === "actorSpirit"){
+			if (realItem.system.systemEffects.find(e => e.value === "materialization")){
+				actorData.isMaterializing = value;
+			}
+		}
+		
 		//Update actor
 		await this.actor.update({
 			"system": actorData,
@@ -1104,4 +1123,17 @@ export class ActorSheetSR5 extends ActorSheet {
 		//action = [{type: "simple", value: 1}];
 		SR5Combat.changeActionInCombat(actorId, action);
 	}
+
+	//Sheet customization
+	_getHeaderButtons() {
+        let buttons = super._getHeaderButtons();
+        if (this.actor.isOwner && (this.actor.type === "actorPc" || this.actor.type === "actorGrunt")) {
+            buttons.unshift({
+                class: "actorConfig",
+                icon: `fas fa-tools`,
+                onclick: async() => SRActorSheetConfig.buildDialog(this.actor)
+            })
+        }
+        return buttons;
+    }
 }

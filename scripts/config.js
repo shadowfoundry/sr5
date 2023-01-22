@@ -2406,7 +2406,7 @@ SR5.spiritBasePowersfire = {
 	astralForm                 : "SR5.SpiritPowerAstralForm",
 	confusion                  : "SR5.SpiritPowerConfusion",
 	elementalAttack            : "SR5.SpiritPowerElementalAttack",
-	energyAura                 : "SR5.SpiritPowerEnergyAura",
+	energyAuraFire             : "SR5.SpiritPowerEnergyAura",
 	engulfFire                 : "SR5.SpiritPowerEngulfFire",
 	materialization            : "SR5.SpiritPowerMaterialization",
 	sapience                   : "SR5.SpiritPowerSapience",
@@ -3068,8 +3068,6 @@ SR5.specialProperties = {
 	controlRig                : "SR5.ControlRig",
 	smartlink                 : "SR5.Smartlink",
 	damageReduction           : "SR5.DamageReduction",
-	hardenedArmor             : "SR5.HardenedArmor",
-	hardenedAstralArmor       : "SR5.HardenedAstralArmor",
 }
 
 SR5.specialPropertiesList = {
@@ -3093,13 +3091,21 @@ SR5.fireType = {
 }
 
 SR5.hardenedArmorTypes = {
+	normalWeapon              : "SR5.HardenedArmorNormalWeapon",
+	astral                    : "SR5.HardenedAstalArmor",
+	fire                      : "SR5.HardenedFireArmor",
+	toxins 					  : "SR5.HardenedToxinArmor",
+	pathogens				  : "SR5.HardenedPathogenArmor",
+}
+
+SR5.hardenedArmorValueTypes = {
 	rating                    : "SR5.ItemRating",
 	essence                   : "SR5.Essence",
 	essenceX2                 : "SR5.EssenceX2",
 	body                      : "SR5.Body"
 }
 
-SR5.hardenedAstralArmorTypes = {
+SR5.hardenedAstralArmorValueTypes = {
 	rating                    : "SR5.ItemRating",
 	willpower                 : "SR5.Willpower"
 }

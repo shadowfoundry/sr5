@@ -377,7 +377,12 @@ export class SR5Item extends Item {
             		tags.push(`${l.name} ${l.rating}`);
           		}
         		}
-        		break;	
+        		break;
+      		case "itemKarma":
+			case "itemNuyen":
+				tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${itemData.date}`);
+				itemData.gameEffect = itemData.description;
+        		break;		
 			default:
 		}
 

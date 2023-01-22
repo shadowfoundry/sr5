@@ -100,6 +100,9 @@ export class SR5_RollTestHelper {
         let newItem = duplicate(item);
         let firedAmmo = cardData.combat.ammo.fired;
         
+        //Discard for none supported item
+        if (newItem.type === "itemKnowledge") return;
+
         //update weapon ammo and fire Mode
         if (!firedAmmo) firedAmmo = 1;
         if (newItem.type === "itemWeapon" && newItem.system.category === "rangedWeapon") {

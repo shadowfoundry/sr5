@@ -7,6 +7,7 @@ import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js";
 export default async function resistanceInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
     let actorData = actor.system;
+    let hardenedArmor;
 
     //Remove Resist chat button from previous chat message, if necessary
     handlePreviousButtons(cardData);
@@ -44,8 +45,15 @@ export default async function resistanceInfo(cardData, actorId){
     }
 
     //Add automatic succes for Hardened Armor.
-    if ((actorData.specialProperties?.hardenedArmor.value > 0) && (cardData.damage.source !== "magical")) {
-        let hardenedArmor = Math.floor((actorData.specialProperties.hardenedArmor.value + cardData.combat.armorPenetration) / 2);
+    if ((actorData.specialProperties?.hardenedArmors.normalWeapon.value > 0) && (cardData.damage.source !== "magical")) {
+        hardenedArmor = Math.floor((actorData.specialProperties.hardenedArmors.normalWeapon.value + cardData.combat.armorPenetration) / 2);
+        if (hardenedArmor > 0) {
+            ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}: ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
+            cardData.roll.hits += hardenedArmor;
+        }
+    }
+    if ((actorData.specialProperties?.hardenedArmors.fire.value > 0) && (cardData.damage.element === "fire")) {
+        hardenedArmor = Math.floor((actorData.specialProperties.hardenedArmors.fire.value + cardData.combat.armorPenetration) / 2);
         if (hardenedArmor > 0) {
             ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}: ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
             cardData.roll.hits += hardenedArmor;
