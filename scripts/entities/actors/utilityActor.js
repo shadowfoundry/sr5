@@ -2095,22 +2095,22 @@ export class SR5_CharacterUtility extends Actor {
 		if (itemData.isActive){
 			switch (itemData.type){
 				case "powerTrain":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.powerTrain, item.name, itemData.type, -itemData.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.powerTrain, itemData.name, itemData.type, -itemData.slots.value);
 					break;
 				case "protection":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.protection, item.name, itemData.type, -itemData.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.protection, itemData.name, itemData.type, -itemData.slots.value);
 					break;
 				case "body":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.body, item.name, itemData.type, -itemData.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.body, itemData.name, itemData.type, -itemData.slots.value);
 					break;
 				case "weapons":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.weapons, item.name, itemData.type, -itemData.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.weapons, itemData.name, itemData.type, -itemData.slots.value);
 					break;
 				case "electromagnetic":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.electromagnetic, item.name, itemData.type, -itemData.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.electromagnetic, itemData.name, itemData.type, -itemData.slots.value);
 					break;
 				case "cosmetic":
-					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.cosmetic, item.name, itemData.type, -itemData.slots.value);
+					SR5_EntityHelpers.updateModifier(actorData.modificationSlots.cosmetic, itemData.name, itemData.type, -itemData.slots.value);
 					break;
 			}
 		}
