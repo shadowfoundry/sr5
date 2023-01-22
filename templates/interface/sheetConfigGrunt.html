@@ -1,0 +1,319 @@
+<div class="grid">
+    <div class="col-6 SR-PaddingRight10">
+        <form class="SR5jet">
+            <!--Magic left tab-->
+            <ul id="awaken" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase">
+                    <div class="col-11">{{localize 'SR5.Magic'}} ({{localize 'SR5.TabLeft'}})</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabAwaken" value="tabAwaken.isActive" data-dtype="Boolean" {{checked tabAwaken.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.MagicType'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabAwakentype" value="tabAwaken.type" data-dtype="Boolean" {{checked tabAwaken.type}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.MagicalTradition'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabAwakentradition" value="tabAwaken.tradition" data-dtype="Boolean" {{checked tabAwaken.tradition}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.AstralPlane'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabAwakenastral" value="tabAwaken.astral" data-dtype="Boolean" {{checked tabAwaken.astral}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Reagents'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabAwakenreagents" value="tabAwaken.reagents" data-dtype="Boolean" {{checked tabAwaken.reagents}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Matrix left tab-->
+            <ul id="matrixUser" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Matrix'}} ({{localize 'SR5.TabLeft'}})</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabMatrixUser" value="tabMatrixUser.isActive" data-dtype="Boolean" {{checked tabMatrixUser.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Programs'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMatrixUserprograms" value="tabMatrixUser.programs" data-dtype="Boolean" {{checked tabMatrixUser.programs}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.PAN'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMatrixUserpan" value="tabMatrixUser.pan" data-dtype="Boolean" {{checked tabMatrixUser.pan}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.MarkedDevices'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMatrixUsermarksControled" value="tabMatrixUser.marksControled" data-dtype="Boolean" {{checked tabMatrixUser.marksControled}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Skills right tab-->
+            <ul id="skills" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Skills'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabSkill" value="tabSkill.isActive" data-dtype="Boolean" {{checked tabSkill.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.ActiveSkills'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabSkillActives" value="tabSkill.actives" data-dtype="Boolean" {{checked tabSkill.actives}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.SkillGroups'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabSkillGroups" value="tabSkill.groups" data-dtype="Boolean" {{checked tabSkill.groups}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.KnowledgeSkills'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabSkillKnowledge" value="tabSkill.knowledge" data-dtype="Boolean" {{checked tabSkill.knowledge}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.LanguagesSkills'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabSkillLanguages" value="tabSkill.languages" data-dtype="Boolean" {{checked tabSkill.languages}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Combat right tab-->
+            <ul id="combat" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Combat'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabCombat" value="tabCombat.isActive" data-dtype="Boolean" {{checked tabCombat.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.RangedWeapons'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabCombatrangedWeapons" value="tabCombat.rangedWeapons" data-dtype="Boolean" {{checked tabCombat.rangedWeapons}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.MeleeWeapons'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabCombatmeleeWeapons" value="tabCombat.meleeWeapons" data-dtype="Boolean" {{checked tabCombat.meleeWeapons}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Grenades'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabCombatgrenades" value="tabCombat.grenades" data-dtype="Boolean" {{checked tabCombat.grenades}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Armors'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabCombatarmors" value="tabCombat.armors" data-dtype="Boolean" {{checked tabCombat.armors}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Ammunition'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabCombatammunitions" value="tabCombat.ammunitions" data-dtype="Boolean" {{checked tabCombat.ammunitions}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.MartialArts'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabCombatmartialArts" value="tabCombat.martialArts" data-dtype="Boolean" {{checked tabCombat.martialArts}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Gear right tab-->
+            <ul id="gear" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Gear'}} & {{localize 'SR5.CharacterFinances'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabGear" value="tabGear.isActive" data-dtype="Boolean" {{checked tabGear.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Gear'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabGearvarious" value="tabGear.various" data-dtype="Boolean" {{checked tabGear.various}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Vehicles'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabGearvehicles" value="tabGear.vehicles" data-dtype="Boolean" {{checked tabGear.vehicles}}/>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+
+    <div class="col-6 SR-PaddingLeft10">
+        <form class="SR5jet">
+            <!--augmentations right tab-->
+            <ul id="augmentations" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase">
+                    <div class="col-11">{{localize 'SR5.Augmentations'}} & {{localize 'SR5.ExternalEffects'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabAugmentations" value="tabAugmentations.isActive" data-dtype="Boolean" {{checked tabAugmentations.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Augmentations'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabAugmentationsaugmentations" value="tabAugmentations.augmentations" data-dtype="Boolean" {{checked tabAugmentations.augmentations}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.ExternalEffects'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabAugmentationseffects" value="tabAugmentations.effects" data-dtype="Boolean" {{checked tabAugmentations.effects}}/>
+                    </div>
+                </li>
+                </li>
+            </ul>
+            <!--Magic right tab-->
+            <ul id="magic" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Magic'}} ({{localize 'SR5.TabRight'}})</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabMagic" value="tabMagic.isActive" data-dtype="Boolean" {{checked tabMagic.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Spells'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicspells" value="tabMagic.spells" data-dtype="Boolean" {{checked tabMagic.spells}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.AdeptPowers'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicadeptPowers" value="tabMagic.adeptPowers" data-dtype="Boolean" {{checked tabMagic.adeptPowers}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.SummonedSpirits'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicsummonedSpirits" value="tabMagic.summonedSpirits" data-dtype="Boolean" {{checked tabMagic.summonedSpirits}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Foci'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicfoci" value="tabMagic.foci" data-dtype="Boolean" {{checked tabMagic.foci}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Preparations'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicpreparations" value="tabMagic.preparations" data-dtype="Boolean" {{checked tabMagic.preparations}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Rituals'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicrituals" value="tabMagic.rituals" data-dtype="Boolean" {{checked tabMagic.rituals}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Powers'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicpowers" value="tabMagic.powers" data-dtype="Boolean" {{checked tabMagic.powers}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Metamagics'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMagicmetamagics" value="tabMagic.metamagics" data-dtype="Boolean" {{checked tabMagic.metamagics}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Technomancer right tab-->
+            <ul id="technomancer" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Technomancy'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabTechno" value="tabTechno.isActive" data-dtype="Boolean" {{checked tabTechno.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.ResonanceActions'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabTechnoresonanceActions" value="tabTechno.resonanceActions" data-dtype="Boolean" {{checked tabTechno.resonanceActions}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.ComplexForms'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabTechnocomplexForms" value="tabTechno.complexForms" data-dtype="Boolean" {{checked tabTechno.complexForms}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.CompiledSprites'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabTechnosprites" value="tabTechno.sprites" data-dtype="Boolean" {{checked tabTechno.sprites}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Echoes'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabTechnoechoes" value="tabTechno.echoes" data-dtype="Boolean" {{checked tabTechno.echoes}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Powers'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabTechnopowers" value="tabTechno.powers" data-dtype="Boolean" {{checked tabTechno.powers}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Matrix right tab-->
+            <ul id="matrix" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Matrix'}} ({{localize 'SR5.TabRight'}})</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabMatrix" value="tabMatrix.isActive" data-dtype="Boolean" {{checked tabMatrix.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Programs'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMatrixprograms" value="tabMatrix.programs" data-dtype="Boolean" {{checked tabMatrix.programs}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.MatrixActions'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabMatrixmatrixActions" value="tabMatrix.matrixActions" data-dtype="Boolean" {{checked tabMatrix.matrixActions}}/>
+                    </div>
+                </li>
+            </ul>
+            <!--Biography right tab-->
+            <ul id="biography" class="">
+                <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
+                    <div class="col-11">{{localize 'SR5.Description'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input toggleSection" name="option" id="tabBiography" value="tabBiography.isActive" data-dtype="Boolean" {{checked tabBiography.isActive}}/>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+
