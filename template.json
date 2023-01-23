@@ -3061,6 +3061,12 @@
                 "base": 0,
                 "modifiers": []  
               },
+            "cold":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
             "fire":{
               "type": "",
               "value": 0,

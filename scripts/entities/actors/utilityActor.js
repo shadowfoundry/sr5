@@ -1214,7 +1214,8 @@ export class SR5_CharacterUtility extends Actor {
 					actorData.resistances.astralDamage.modifiers = actorData.resistances.astralDamage.modifiers.concat(hardenedArmors[key].modifiers);
 					break;
 				case "fire":
-					actorData.resistances.specialDamage.fire.modifiers = actorData.resistances.specialDamage.fire.modifiers.concat(hardenedArmors[key].modifiers);
+				case "cold" :
+					actorData.resistances.specialDamage[key].modifiers = actorData.resistances.specialDamage[key].modifiers.concat(hardenedArmors[key].modifiers);
 					break;
 				case "toxins":
 					actorData.resistances.toxin.contact.modifiers = actorData.resistances.toxin.contact.modifiers.concat(hardenedArmors[key].modifiers);

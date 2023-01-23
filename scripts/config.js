@@ -3094,6 +3094,7 @@ SR5.hardenedArmorTypes = {
 	normalWeapon              : "SR5.HardenedArmorNormalWeapon",
 	astral                    : "SR5.HardenedAstalArmor",
 	fire                      : "SR5.HardenedFireArmor",
+	cold                      : "SR5.HardenedColdArmor",
 	toxins 					  : "SR5.HardenedToxinArmor",
 	pathogens				  : "SR5.HardenedPathogenArmor",
 }
