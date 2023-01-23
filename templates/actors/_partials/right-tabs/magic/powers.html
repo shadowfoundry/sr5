@@ -37,7 +37,7 @@
 				{{#if (missing system.type system.range system.actionType system.duration)}}
 				<p class="incomplete" data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypePouvoir')}}">{{name}}</p>
 				{{else}}
-				<p>{{name}}</p>
+				<p>{{name}}{{#if system.itemRating}} ({{system.itemRating}}){{/if}}</p>
 				{{/if}}
 			</div>
 			{{#if (gt system.test.dicePool 0)}}
