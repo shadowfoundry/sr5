@@ -18,7 +18,7 @@
 					{{name}}
 				</p>
 				{{else}}
-				<p>{{name}}</p>
+				<p>{{name}}{{#if system.itemRating}} ({{system.itemRating}}){{/if}}</p>
 				{{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_QualityToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_QualityToggleMsg'}}">
