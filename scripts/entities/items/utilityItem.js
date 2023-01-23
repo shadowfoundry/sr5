@@ -723,6 +723,16 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.nausea = true;
 				itemData.toxin.damageType = "physical";
 				break;
+			case "deathrattleVenom":
+				itemData.toxin.vector.contact = true;
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 1;
+				itemData.toxin.power = 10;
+				itemData.toxin.penetration = -3;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.damageType = "physical";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}
