@@ -306,6 +306,8 @@
 	"SR5.Amount": "Montant",
 	"SR5.Anchored": "Ancré",
 	"SR5.AndShort": "&",
+	"SR5.Anticoagulant": "Anti-coagulant",
+	"SR5.Anticoagulant_GE": "L'attaque de la créature véhicule une forme d'anticoagulant qui empêche le sang de la cible de coaguler. Une fois touché par ce pouvoir, le sang de la victime continue de couler, causant deux cases de dégâts d'étourdissement par minute auxquels il est impossible de résister. L'hémorragie peut être arrêtée avec une trousse médicale (ou un meilleur équipement médical) et un test de Premiers secours + Logique [Mentale] (3).",
 	"SR5.Applied": "appliqué(s)",
 	"SR5.AppliedDamage": "Dommages appliqués",
 	"SR5.AppliedMatrixDamage": "Dommages matriciels appliqués",

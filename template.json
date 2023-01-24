@@ -3089,6 +3089,7 @@
           "doublePenalties": false,
           "energyAura": "",
           "regeneration": false,
+          "anticoagulant": false,
           "fullDefenseAttribute": "willpower",
           "fullDefenseValue": 0,
           "actions":{

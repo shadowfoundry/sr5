@@ -115,6 +115,18 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
+        case "anticoagulantDamage":
+            return effect = {
+                label: game.i18n.localize("SR5.Anticoagulant"),
+                origin: "anticoagulantDamage",
+                icon: "systems/sr5/img/status/StatusAnticoagulantOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "anticoagulantDamage",
+                    }
+                },
+            }
         case "fullDefense":
             return effect = {
                 label: game.i18n.localize("SR5.FullDefense"),

@@ -3051,6 +3051,7 @@ SR5.effectTypes = {
 	visibility				  : "SR5.EnvironmentalModVisibility",
 	areaEffect				  : "SR5.AreaEffect",
 	backgroundCount			  : "SR5.SceneBackgroundCount",
+	anticoagulantDamage       : "SR5.Anticoagulant",
 }
 
 SR5.effectDuration = {
@@ -3078,6 +3079,7 @@ SR5.specialPropertiesList = {
 	damageReduction           : "SR5.DamageReduction",
 	doublePenalties           : "SR5.PenaltyDouble",
 	regeneration              : "SR5.SpiritPowerRegeneration",
+	anticoagulant             : "SR5.Anticoagulant"
 }
 
 SR5.transactionsTypes = {

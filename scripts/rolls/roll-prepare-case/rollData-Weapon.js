@@ -51,6 +51,9 @@ export default async function weapon(rollData, actor, item){
     //Handle Toxin
     if (itemData.damageElement === "toxin") rollData.damage.toxin = itemData.toxin;
 
+    //Handle Anticoagulant
+    if (actorData.specialProperties.anticoagulant === true) itemData.damageElement = "anticoagulant";
+
     //Handle Actions
     if (itemData.category === "meleeWeapon") rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "attack"});
     
