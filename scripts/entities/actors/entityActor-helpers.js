@@ -1103,9 +1103,9 @@ export class SR5_ActorHelper {
 				}
 				//Agony Status Effect
 				if (key === "agony" && (data.damage.value > actor.system.attributes.willpower.augmented.value)){
-					let isStatusEffectOn = actor.effects.find(e => e.origin === "agony");
+					let isStatusEffectOn = actor.effects.find(e => e.origin === "toxinEffectAgony");
 					if (!isStatusEffectOn){
-						status = await _getSRStatusEffect("agony");
+						status = await _getSRStatusEffect("toxinEffectAgony");
 						statusEffects = statusEffects.concat(status);
 					}
 				}

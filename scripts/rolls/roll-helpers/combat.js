@@ -282,9 +282,9 @@ export class SR5_CombatHelpers {
                     effect = mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.type": "toxinEffectAgony",
-                        "system.value": 0,
-                        "system.duration": 0,
-                        "system.durationType": 0,
+                        "system.value": 1,
+                        "system.duration": 10,
+                        "system.durationType": "minute",
                         "system.gameEffect": game.i18n.localize("SR5.ToxinEffectAgony_GE"),
                     });
                     itemEffects.push(effect);
