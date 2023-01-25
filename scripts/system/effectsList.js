@@ -226,6 +226,18 @@ export const _getSRStatusEffect = async function(origin, value) {
                     }
                 },
             }
+        case "toxinEffectAgony":
+            return effect = {
+                label: game.i18n.localize("SR5.ToxinEffectAgony"),
+                origin: "toxinEffectAgony",
+                icon: "systems/sr5/img/status/StatusAgonyOn.svg",
+                flags: {
+                    core: {
+                        active: true,
+                        statusId: "toxinEffectAgony",
+                    }
+                },
+            }
         case "astralInit":
             return effect = {
                 label: game.i18n.localize('SR5.InitiativeAstral'),

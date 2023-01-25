@@ -276,6 +276,20 @@ export class SR5_CombatHelpers {
                     itemEffects.push(effect);
                 }
                 break;
+            case "agony":
+                hasEffect = actor.items.find(i => i.system.type === "toxinEffectAgony");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "system.target": game.i18n.localize("SR5.GlobalPenalty"),
+                        "system.type": "toxinEffectAgony",
+                        "system.value": 0,
+                        "system.duration": 0,
+                        "system.durationType": 0,
+                        "system.gameEffect": game.i18n.localize("SR5.ToxinEffectAgony_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
             default:
         }
     

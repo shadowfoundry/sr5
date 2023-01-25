@@ -1117,6 +1117,7 @@ SR5.toxinEffects = {
 	disorientation            : "SR5.ToxinEffectDisorientation",
 	nausea                    : "SR5.ToxinEffectNausea",
 	paralysis                 : "SR5.ToxinEffectParalysis",
+	agony                     : "SR5.ToxinEffectAgony",
 };
 
 //Cover
@@ -3021,6 +3022,7 @@ SR5.effectTypes = {
 	toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
 	toxinEffectNausea         : "SR5.ToxinEffectNausea",
 	toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
+	toxinEffectAgony          : "SR5.ToxinEffectAgony",
 	slowed                    : "SR5.STATUSES_Slowed",
 	winded                    : "SR5.STATUSES_Winded",
 	deafened                  : "SR5.STATUSES_Deafened",

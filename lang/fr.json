@@ -2883,6 +2883,8 @@
 	"SR5.ToxinEffectNausea_GE": "Terme fourre-tout ; cela inclut la douleur, la panique, les vomissements et les troubles de la vision. Si la Puissance d’une attaque après test de résistance aux toxines dépasse la Volonté de la cible, elle est neutralisée, incapable de la moindre action pendant 3 tours de combat, ceci s’accompagnant de vomissements et de vertiges. Que la cible soit ou non neutralisée, la Nausée double tous les modificateurs de blessures du personnage pour dix minutes. Un personnage qui en souffre et a encaissé 3 cases de dommages (un modificateur de blessures de -1 dé) subira par exemple à la place un modificateur de -2 dés sur tous ses tests.",
 	"SR5.ToxinEffectParalysis": "Paralysie",
 	"SR5.ToxinEffectParalysis_GE": "Rend la victime incapable de bouger en bloquant les signaux neuromusculaires de son corps. Si la Puissance d’une attaque après le test de résistance aux toxines dépasse la Réaction de la cible, la cible est paralysée et incapable de toute action physique pendant une heure. Même si la cible n’est pas paralysée, elle subit un modificateur de -2 dés pendant l’heure qui suit.",
+	"SR5.ToxinEffectAgony": "Agonie",
+	"SR5.ToxinEffectAgony_GE": "Le personnage est brisé par une douleure insoutenable et difficile à décrire. Si la Puissance résiduelle de la toxine surpasse la Volonté du personnage, il ne peut plus parler de manière cohérente ni se déplacer plus vite qu'en rampant lentement.",
 	"SR5.ToxinGamma": "Gamma-scopolamine",
 	"SR5.ToxinNarcojet": "Narcojet",
 	"SR5.ToxinNauseaGas": "Gaz vomitif",

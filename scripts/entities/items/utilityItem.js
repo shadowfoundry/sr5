@@ -731,6 +731,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.penetration = -3;
 				itemData.toxin.effect.disorientation = true;
 				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.agony = true;
 				itemData.toxin.damageType = "physical";
 				break;
 			case "snakeVenom":
