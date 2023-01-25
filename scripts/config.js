@@ -1108,6 +1108,7 @@ SR5.toxinTypes = {
 	neuroStunTen              : "SR5.ToxinNeuroStunTen",
 	seven                     : "SR5.ToxinSeven",
 	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",
+	snakeVenom                : "SR5.ToxinSnakeVenom",
 	noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
