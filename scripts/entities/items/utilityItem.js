@@ -775,6 +775,16 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.disorientation = true;
 				itemData.toxin.damageType = "physical";
 				break;
+			case "spiderBeastVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 0;
+				itemData.toxin.power = 6;
+				itemData.toxin.penetration = -4;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.paralysis = true;
+				itemData.toxin.damageType = "physical";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}
