@@ -1107,6 +1107,13 @@ SR5.toxinTypes = {
 	neuroStunNine             : "SR5.ToxinNeuroStunNine",
 	neuroStunTen              : "SR5.ToxinNeuroStunTen",
 	seven                     : "SR5.ToxinSeven",
+	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",	
+	nagaVenom                 : "SR5.ToxinNagaVenom",	
+	novaScorpionVenom         : "SR5.ToxinNovaScorpionVenom",
+	martichorasVenom          : "SR5.ToxinMartichorasVenom",
+	snakeVenom                : "SR5.ToxinSnakeVenom",
+	snowSnakeVenom            : "SR5.ToxinSnowSnakeVenom",
+	spiderBeastVenom          : "SR5.ToxinSpiderBeastVenom",
 	noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
@@ -1115,6 +1122,7 @@ SR5.toxinEffects = {
 	disorientation            : "SR5.ToxinEffectDisorientation",
 	nausea                    : "SR5.ToxinEffectNausea",
 	paralysis                 : "SR5.ToxinEffectParalysis",
+	agony                     : "SR5.ToxinEffectAgony",
 };
 
 //Cover
@@ -3019,6 +3027,7 @@ SR5.effectTypes = {
 	toxinEffectDisorientation : "SR5.ToxinEffectDisorientation",
 	toxinEffectNausea         : "SR5.ToxinEffectNausea",
 	toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
+	toxinEffectAgony          : "SR5.ToxinEffectAgony",
 	slowed                    : "SR5.STATUSES_Slowed",
 	winded                    : "SR5.STATUSES_Winded",
 	deafened                  : "SR5.STATUSES_Deafened",
@@ -3050,6 +3059,7 @@ SR5.effectTypes = {
 	visibility				  : "SR5.EnvironmentalModVisibility",
 	areaEffect				  : "SR5.AreaEffect",
 	backgroundCount			  : "SR5.SceneBackgroundCount",
+	anticoagulantDamage       : "SR5.Anticoagulant",
 }
 
 SR5.effectDuration = {
@@ -3077,6 +3087,7 @@ SR5.specialPropertiesList = {
 	damageReduction           : "SR5.DamageReduction",
 	doublePenalties           : "SR5.PenaltyDouble",
 	regeneration              : "SR5.SpiritPowerRegeneration",
+	anticoagulant             : "SR5.Anticoagulant"
 }
 
 SR5.transactionsTypes = {
@@ -3094,6 +3105,7 @@ SR5.hardenedArmorTypes = {
 	normalWeapon              : "SR5.HardenedArmorNormalWeapon",
 	astral                    : "SR5.HardenedAstalArmor",
 	fire                      : "SR5.HardenedFireArmor",
+	cold                      : "SR5.HardenedColdArmor",
 	toxins 					  : "SR5.HardenedToxinArmor",
 	pathogens				  : "SR5.HardenedPathogenArmor",
 }

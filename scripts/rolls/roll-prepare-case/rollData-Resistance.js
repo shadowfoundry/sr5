@@ -155,7 +155,8 @@ async function handleNormalPhysicalDamage(rollData, actor, chatData, armor){
 
 async function handleElementDamage(rollData, actorData, chatData, armor){
     let element = chatData.damage.element;
-    
+    if (element != "anticoagulant") {
+
     //Add special armor if any
     armor += actorData.itemsProperties.armor.specialDamage[element].value;
 
@@ -170,7 +171,8 @@ async function handleElementDamage(rollData, actorData, chatData, armor){
     //Get the base dicepool and composition
     rollData.dicePool.composition = actorData.resistances.specialDamage[element].modifiers;
     rollData.dicePool.base = actorData.resistances.specialDamage[element].dicePool;
-
+    }
+    
     return rollData;
 }
 

@@ -133,6 +133,7 @@ export class SR5_ActorHelper {
 
 		//Special Element Damage
 		if (options.damage.element === "electricity" && actorData.type !== "actorDrone") await SR5_ActorHelper.electricityDamageEffect(actorId);
+		if (options.damage.element === "anticoagulant" && actorData.type !== "actorDrone") await SR5_ActorHelper.anticoagulantDamageEffect(actorId);
 		if (options.damage.element === "acid") await SR5_ActorHelper.acidDamageEffect(actorId, damage, options.damage.source);
 		if (options.damage.element === "fire"){
 			if (actorData.itemsProperties.armor.value <= 0) await SR5_ActorHelper.fireDamageEffect(actorId)
@@ -240,6 +241,32 @@ export class SR5_ActorHelper {
 			let statusEffect = await _getSRStatusEffect("electricityDamage");
 			await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
 		}
+	}
+
+	//Handle Special Damage : Anticoagulant
+	static async anticoagulantDamageEffect(actorId){
+        let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
+		let existingEffect = actor.items.find((item) => item.type === "itemEffect" && item.system.type === "anticoagulantDamage");
+
+		if (existingEffect) return ;
+
+			let effect = {
+				name: `${game.i18n.localize("SR5.Anticoagulant")}`,
+				type: "itemEffect",
+				"system.type": "anticoagulantDamage",
+				"system.target": game.i18n.localize("SR5.ConditionMonitorStunShort"),
+				"system.value": -2,
+				"system.durationType": "minute",
+				"system.duration": 1,
+				"system.gameEffect": game.i18n.localize("SR5.Anticoagulant_GE")
+			}
+
+			ui.notifications.info(`${actor.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+			await SR5Combat.changeInitInCombatHelper(actorId, -5);
+			await actor.createEmbeddedDocuments("Item", [effect]);
+
+			let statusEffect = await _getSRStatusEffect("anticoagulantDamage");
+			await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
 	}
 
     //Handle Elemental Damage : Acid
@@ -1071,6 +1098,14 @@ export class SR5_ActorHelper {
 					let isStatusEffectOn = actor.effects.find(e => e.origin === "noAction");
 					if (!isStatusEffectOn){
 						status = await _getSRStatusEffect("noAction");
+						statusEffects = statusEffects.concat(status);
+					}
+				}
+				//Agony Status Effect
+				if (key === "agony" && (data.damage.value > actor.system.attributes.willpower.augmented.value)){
+					let isStatusEffectOn = actor.effects.find(e => e.origin === "toxinEffectAgony");
+					if (!isStatusEffectOn){
+						status = await _getSRStatusEffect("toxinEffectAgony");
 						statusEffects = statusEffects.concat(status);
 					}
 				}

@@ -6,7 +6,8 @@
 			<div class="col-3"><p class="SR-TextCenterOverflow">{{localize 'SR5.Values'}}</p></div>
 			<div class="col-2"><p class="SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</p></div>
 	  	</li>
-	  	{{#each system.movements}}
+		{{#if (or (eq actor.type 'actorSpirit') system.skills.flight.rating.value)}}
+		{{#each system.movements}}
 
 		  		<li class="grid">
 					<div class="col-7"><p>{{findTranslation 'movements' @key}}</p></div>
@@ -49,5 +50,50 @@
 		  		</li>
 
 	  	{{/each}}
+		{{else}}
+	  	{{#each system.movements}}
+		  {{#if (ne @key 'fly')}}
+		  		<li class="grid">
+					<div class="col-7"><p>{{findTranslation 'movements' @key}}</p></div>
+					<div class="col-3">
+						<p class="SR-TextCenterOverflow">
+						{{#if (or test.dicePool movement.value)}}
+				  			{{#if (eq @key 'walk')}}
+								{{movement.value}} {{localize 'SR5.MeterUnit'}}
+				  			{{else}}
+								{{#if (and (and (ne @key 'verticalJump') (ne @key 'horizontalJumpRunning')) (ne @key 'horizontalJumpStanding'))}}
+					  				{{movement.value}} (+{{extraMovement.value}})
+					  					{{#ife @key 'holdBreath'}}
+											{{localize 'SR5.SecondUnit'}}
+					  					{{else ife @key 'treadWater'}}
+											{{localize 'SR5.MinuteUnit'}}
+					  					{{else}}
+											{{localize 'SR5.MeterUnit'}}
+					  					{{/ife}}
+								{{else}}
+					  				+{{extraMovement.value}} {{localize 'SR5.MeterUnit'}}
+								{{/if}}
+				  			{{/if}}
+						{{else}}
+				  			-
+						{{/if}}
+						</p>
+					</div>
+					<div class="col-2">
+			  			{{#if (and test.dicePool (ne @key 'walk'))}}
+							<p class="SR-TextCenter roll-logo sr-roll" data-rolltype= "movement" data-rollkey="{{@key}}"
+							data-helpTitle="{{localize 'SR5.HELP_Movements' key=(findTranslation 'movements' @key)}}" 
+							data-helpMessage="{{localize 'SR5.HELP_MovementsMsg'}}" 
+							data-helpDetails="system.movements.{{@key}}.test"
+							>
+							{{test.dicePool}}</p>
+			  			{{else}}
+							<p class="SR-TextCenter">-</p>
+			  			{{/if}}
+					</div>
+		  		</li>
+		{{/if}}
+	  	{{/each}}
+		{{/if}}
 	</ul>
 </div>

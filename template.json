@@ -3061,6 +3061,12 @@
                 "base": 0,
                 "modifiers": []  
               },
+            "cold":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
             "fire":{
               "type": "",
               "value": 0,
@@ -3083,6 +3089,7 @@
           "doublePenalties": false,
           "energyAura": "",
           "regeneration": false,
+          "anticoagulant": false,
           "fullDefenseAttribute": "willpower",
           "fullDefenseValue": 0,
           "actions":{
@@ -6005,7 +6012,8 @@
         "effect": {
           "disorientation": false,
           "nausea": false,
-          "paralysis": false
+          "paralysis": false,
+          "agony": false
         },
         "penetration": 0,
         "damageType": null
