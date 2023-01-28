@@ -766,6 +766,15 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.nausea = true;
 				itemData.toxin.damageType = "physical";
 				break;
+			case "snowSnakeVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 1;
+				itemData.toxin.power = 8;
+				itemData.toxin.penetration = -1;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.damageType = "physical";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}
