@@ -1337,10 +1337,10 @@ export class SR5_CharacterUtility extends Actor {
 						movements[key].extraMovement.base = 5;
 					}
 					if (skills.flight.rating.value > 0) {
-						SR5_EntityHelpers.updateModifier(movements[key].movement, game.i18n.localize('SR5.Agility'), "linkedAttribute", attributes.agility.augmented.value * movements.walk.multiplier.value);
+						SR5_EntityHelpers.updateModifier(movements[key].movement, game.i18n.localize('SR5.Agility'), "linkedAttribute", attributes.agility.augmented.value * movements.run.multiplier.value);
 						SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.Strength'), "linkedAttribute", attributes.strength.augmented.value);
 						SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.SkillFly'), "skillRating", skills.flight.rating.value);
-						movements[key].extraMovement.base = 5;
+						movements[key].extraMovement.base = 2;
 					}
 					break;
 				case "verticalJump":

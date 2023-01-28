@@ -734,6 +734,15 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.agony = true;
 				itemData.toxin.damageType = "physical";
 				break;
+			case "martichorasVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 1;
+				itemData.toxin.power = 9;
+				itemData.toxin.penetration = -2;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.damageType = "physical";
+				break;
 			case "snakeVenom":
 				itemData.toxin.vector.injection = true;
 				itemData.toxin.speed = 1;
