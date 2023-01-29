@@ -122,7 +122,9 @@
 							</div>
 							<!-- BIO RIGHT TAB -->
 							<div class="tab" data-group="centre" data-tab="tab-bio">
+								{{#if system.sheetPreferences.tabBiography.biography}} {{> systems/sr5/templates/actors/_partials/right-tabs/biography/biographyContact.html}} {{/if}}
 								{{> systems/sr5/templates/actors/_partials/right-tabs/biography/descriptionGrunt.html}}
+								{{#if system.sheetPreferences.tabBiography.background}} {{> systems/sr5/templates/actors/_partials/right-tabs/biography/background.html}} {{/if}}
 							</div>
 							<div></div>
 						</section>

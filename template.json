@@ -4629,7 +4629,17 @@
       },
       "biography": {
         "characterMetatype": "",
-        "description": ""        
+        "nickname": "",
+        "description": "",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "gender": "",
+        "nationality": "",
+        "age": "",
+        "preferedPaymentType": "",
+        "hobbiesVices": "",
+        "personalLife": "",
+        "background": ""     
       },
       "activeSpecialAttribute": "magic",
       "skills": {

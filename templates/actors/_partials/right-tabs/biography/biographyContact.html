@@ -1,0 +1,96 @@
+<!-- BIO -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-4">
+				<p class=" SR-TextUppercase">{{localize 'SR5.Biography'}}</p>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="grid">
+	<div class="col-10">
+		<ul>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CharacterNickname'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CharacterNickname'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.biography.characterAlias" value="{{system.biography.characterAlias}}" placeholder="{{localize 'SR5.CharacterNickname'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.MetatypeVariant'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.MetatypeVariant'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioMetatypeVariantMsg'}}">
+					<input type="text" data-dtype="String" class="input"
+						name="system.biography.characterMetatypeVariant"
+						value="{{system.biography.characterMetatypeVariant}}"
+						placeholder="{{localize 'SR5.MetatypeVariant'}}" /></div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.EthnicalGroup'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.EthnicalGroup'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioEthnicalGroupMsg'}}">
+					<input type="text" data-dtype="String" class="input"
+						name="system.biography.characterEthnicalGroup" value="{{system.biography.characterEthnicalGroup}}"
+						placeholder="{{localize 'SR5.EthnicalGroup'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.Gender'}}{{localize 'SR5.Colons'}}&nbsp;</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Gender'}}"
+				  data-helpMessage="{{localize 'SR5.HELP_BioGenderMsg'}}">
+					<select name="system.biography.characterGender" data-dtype="String" required>
+						{{#select system.biography.characterGender}}
+						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+						{{#each lists.genders}}
+						<option value="{{@key}}">{{findTranslation 'genders' @key}}</option>
+						{{/each}}
+						{{/select}}
+					</select>
+				</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.Nationality'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Nationality'}}"
+				  data-helpMessage="{{localize 'SR5.HELP_BioNationalityMsg'}}">
+					<input type="text" data-dtype="String" class="input"
+						name="system.biography.characterNationality" value="{{system.biography.characterNationality}}"
+						placeholder="{{localize 'SR5.Nationality'}}" /></div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.Age'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Age'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioAgeMsg'}}">
+					<input type="number" data-dtype="Number" class="input"
+						name="system.biography.characterAge" value="{{system.biography.characterAge}}"
+						placeholder="{{localize 'SR5.Age'}}" /></div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.PreferedPaymentTypeShort'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.PreferedPaymentType'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioPreferedPaymentTypeMsg'}}">
+					<input type="text" data-dtype="String" class="input"
+						name="system.biography.PreferedPaymentType"
+						value="{{system.biography.PreferedPaymentType}}"
+						placeholder="{{localize 'SR5.PreferedPaymentType'}}" /></div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.HobbiesVices'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.HobbiesVices'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioHobbiesVicesMsg'}}">
+					<input type="text" data-dtype="String" class="input"
+						name="system.biography.hobbiesVices" value="{{system.biography.hobbiesVices}}"
+						placeholder="{{localize 'SR5.HobbiesVices'}}" /></div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.PersonalLife'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.PersonalLife'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioPersonalLifeMsg'}}">
+					<input type="text" data-dtype="String" class="input"
+						name="system.biography.personalLife" value="{{system.biography.personalLife}}"
+						placeholder="{{localize 'SR5.PersonalLife'}}" /></div>
+			</li>
+		</ul>
+	</div>
+</div>
