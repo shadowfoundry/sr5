@@ -4636,9 +4636,9 @@
         "gender": "",
         "nationality": "",
         "age": "",
-        "preferedPaymentType": "",
-        "hobbiesVices": "",
-        "personalLife": "",
+        "paymentMethod": "",
+        "hobby": "",
+        "familySituation": "",
         "background": ""     
       },
       "activeSpecialAttribute": "magic",
@@ -6110,7 +6110,11 @@
     },
     "itemContact": {
       "templates": [
-        "templateDescription"
+        "templateDescription",
+        "characterAttributesTemplate",
+        "characterMagicAttributesTemplate",
+        "skillGroupsTemplate",
+        "skillsTemplate"
       ],
       "connection": 0,
       "loyalty": 0,
@@ -6120,7 +6124,19 @@
       "type": "",
       "paymentMethod": "",
       "hobby": "",
-      "familySituation": ""
+      "familySituation": "",
+      "nickname": "",
+      "metatypeVariant": "",
+      "ethnicalGroup": "",
+      "nationality": "",
+      "language": [],
+      "knowledge": [],
+      "weapons": [],
+      "ammunitions": [],
+      "armors": [],
+      "decks": [],
+      "vehicles": [],
+      "isCreated": false
     },
     "itemDevice": {
       "templates": [
