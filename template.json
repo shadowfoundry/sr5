@@ -4262,6 +4262,7 @@
           "tabBiography":{
             "isActive": true,
             "biography": true,
+            "critterBiography": false,
             "description": true,
             "background": true,
             "karma": true
@@ -4450,6 +4451,15 @@
         "skin": "",
         "description": "",
         "background": ""
+      },
+      "critterBiography": {
+        "binomial": "",
+        "terrain": "",
+        "diet": "",
+        "activity": "",
+        "aggroIndex": "",
+        "lengthHeight": "",
+        "mass": ""
       },
       "karma": {
         "value": 0,

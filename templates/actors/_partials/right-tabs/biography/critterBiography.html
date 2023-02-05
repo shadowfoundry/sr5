@@ -1,0 +1,69 @@
+<!-- BIO -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-4">
+				<p class=" SR-TextUppercase">{{localize 'SR5.CritterBiography'}}</p>
+			</div>
+		</li>
+	</ul>
+</div>
+<div class="grid">
+	<div class="col-6">
+		<ul>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterBinomial'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterBinomial'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNameMsg'}}">
+					<input type="text" data-dtype="String" name="system.critterBiography.binomial" value="{{system.critterBiography.binomial}}" placeholder="{{localize 'SR5.CritterBinomial'}}" />
+				</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterTerrain'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterTerrain'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.critterBiography.terrain" value="{{system.critterBiography.terrain}}" placeholder="{{localize 'SR5.CritterTerrain'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterDiet'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterDiet'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.critterBiography.diet" value="{{system.critterBiography.diet}}" placeholder="{{localize 'SR5.CritterDiet'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterActivity'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterActivity'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.critterBiography.activity" value="{{system.critterBiography.activity}}" placeholder="{{localize 'SR5.CritterActivity'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterAggroIndex'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterAggroIndex'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.critterBiography.aggroIndex" value="{{system.critterBiography.aggroIndex}}" placeholder="{{localize 'SR5.CritterAggroIndex'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterLengthHeight'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterLengthHeight'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.critterBiography.lengthHeight" value="{{system.critterBiography.lengthHeight}}" placeholder="{{localize 'SR5.CritterLengthHeight'}}" />
+					</div>
+			</li>
+			<li class="SR-BioLigne">
+				<div >{{localize 'SR5.CritterMass'}}{{localize 'SR5.Colons'}}</div>
+				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CritterMass'}}"
+				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
+					<input type="text" data-dtype="String" class="input" name="system.critterBiography.mass" value="{{system.critterBiography.mass}}" placeholder="{{localize 'SR5.CritterMass'}}" />
+					</div>
+			</li>
+		</ul>
+	</div>
+	<div class="col-6">
+		<div class="SR-BioPortrait" style="background-image: url({{actor.img}});"
+			data-title="{{localize 'SR5.PORTRAIT_OptimalSize'}}"></div>
+	</div>
+</div>
