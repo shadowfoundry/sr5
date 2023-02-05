@@ -524,7 +524,7 @@ export class SR5_ActorHelper {
 
 			sideKickData = mergeObject(sideKickData, {
 				"system.biography.description": itemData.description,
-				"system.biography.background": itemData.type,
+				"system.biography.background": itemData.gameEffect,
 				"system.biography.characterMetatype": itemData.metatype,
 				"system.biography.gender": itemData.gender,
 				"system.biography.age": itemData.age,
@@ -714,11 +714,12 @@ export class SR5_ActorHelper {
 			modifiedItem.system.nationality = actor.system.biography.nationality,
 			modifiedItem.system.paymentMethod = actor.system.biography.paymentMethod,
 			modifiedItem.system.hobby = actor.system.biography.hobby,
-			modifiedItem.system.familySituation = actor.system.familySituation,
+			modifiedItem.system.familySituation = actor.system.biography.familySituation,
 			modifiedItem.system.skills = actor.system.skills,
 			modifiedItem.system.skillGroups = actor.system.skillGroups,
 			modifiedItem.system.attributes = actor.system.attributes,
-			modifiedItem.system.description = actor.system.biography.description,		
+			modifiedItem.system.description = actor.system.biography.description,
+			modifiedItem.system.gameEffect = actor.system.biography.background,	
 			modifiedItem.system.isCreated = false;
 			item.update(modifiedItem);
 		}

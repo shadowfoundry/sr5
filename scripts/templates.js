@@ -310,6 +310,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/contact/paymentMethod-edit.html",
 				"systems/sr5/templates/items/_partial/editable/contact/hobby-edit.html",
 				"systems/sr5/templates/items/_partial/editable/contact/familySituation-edit.html",
+				"systems/sr5/templates/items/_partial/editable/contact/items-edit.html",
 				
 				//Device
 				"systems/sr5/templates/items/_partial/editable/device/type-edit.html",
