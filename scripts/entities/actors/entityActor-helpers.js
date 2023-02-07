@@ -540,6 +540,7 @@ export class SR5_ActorHelper {
 				"system.skillGroups": itemData.skillGroups,
 				"system.attributes": itemData.attributes,
 				"system.specialAttributes.edge.natural.base": itemData.connection,
+				"system.conditionMonitors": itemData.conditionMonitors,
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
 				"items": baseItems,
@@ -699,6 +700,7 @@ export class SR5_ActorHelper {
 				if (a.type === "itemDevice") decks.push(a);
 				if (a.type === "itemVehicle") vehicles.push(a);
 			}
+			modifiedItem.name = actor.name;
 			modifiedItem.img = actor.img;	
 			modifiedItem.system.language = language,	
 			modifiedItem.system.knowledge = knowledge,	
@@ -722,6 +724,7 @@ export class SR5_ActorHelper {
 			modifiedItem.system.attributes = actor.system.attributes,
 			modifiedItem.system.description = actor.system.biography.description,
 			modifiedItem.system.gameEffect = actor.system.biography.background,	
+			modifiedItem.system.conditionMonitors = actor.system.conditionMonitors,
 			modifiedItem.system.isCreated = false;
 			item.update(modifiedItem);
 		}

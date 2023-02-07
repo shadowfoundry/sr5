@@ -6137,6 +6137,30 @@
       "armors": [],
       "decks": [],
       "vehicles": [],
+      "conditionMonitors": {
+        "condition": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
+        },
+        "edge": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
+        }
+      },
       "isCreated": false
     },
     "itemDevice": {
