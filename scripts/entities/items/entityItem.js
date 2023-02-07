@@ -378,6 +378,17 @@ export class SR5Item extends Item {
           		}
         		}
         		break;
+      		case "itemContact":
+        		if (itemData.paymentMethod) {
+					tags.push(`${game.i18n.localize('SR5.PreferedPaymentTypeShort')}${game.i18n.localize('SR5.Colons')} ${itemData.paymentMethod}`);
+        		}
+        		if (itemData.hobby) {
+					tags.push(`${game.i18n.localize('SR5.HobbiesVices')}${game.i18n.localize('SR5.Colons')} ${itemData.hobby}`);
+        		}
+        		if (itemData.familySituation) {
+					tags.push(`${game.i18n.localize('SR5.PersonalLife')}${game.i18n.localize('SR5.Colons')} ${itemData.familySituation}`);
+        		}
+        		break;
       		case "itemKarma":
 			case "itemNuyen":
 				tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${itemData.date}`);
