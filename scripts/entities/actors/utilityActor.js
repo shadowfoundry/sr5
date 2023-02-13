@@ -353,6 +353,8 @@ export class SR5_CharacterUtility extends Actor {
 			actorData.specialProperties.doublePenalties = false;
 			actorData.specialProperties.energyAura = "";
 			actorData.specialProperties.regeneration = "";
+			actorData.specialProperties.anticoagulant = "";
+			actorData.specialProperties.essenceDrain = "";
 			actorData.specialProperties.fullDefenseAttribute = "willpower";
 			actorData.specialProperties.fullDefenseValue = 0;
 		}

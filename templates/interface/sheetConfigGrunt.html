@@ -307,9 +307,27 @@
             <!--Biography right tab-->
             <ul id="biography" class="">
                 <li class="grid SR-LigneEnTete SR-TextUppercase SR-PaddingTop10">
-                    <div class="col-11">{{localize 'SR5.Description'}}</div>
+                    <div class="col-11">{{localize 'SR5.Biography'}} & {{localize 'SR5.Karma'}}</div>
                     <div class="col-1 SR-TextRight"> 
                         <input type="checkbox" class="input toggleSection" name="option" id="tabBiography" value="tabBiography.isActive" data-dtype="Boolean" {{checked tabBiography.isActive}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Biography'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabBiographybiography" value="tabBiography.biography" data-dtype="Boolean" {{checked tabBiography.biography}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Description'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabBiographydescription" value="tabBiography.description" data-dtype="Boolean" {{checked tabBiography.description}}/>
+                    </div>
+                </li>
+                <li class="grid">
+                    <div class="col-11 SR-PaddingLeft5">{{localize 'SR5.Background'}}</div>
+                    <div class="col-1 SR-TextRight"> 
+                        <input type="checkbox" class="input" name="option" id="tabBiographybackground" value="tabBiography.background" data-dtype="Boolean" {{checked tabBiography.background}}/>
                     </div>
                 </li>
             </ul>

@@ -3089,6 +3089,7 @@
           "doublePenalties": false,
           "energyAura": "",
           "regeneration": false,
+          "essenceDrain": false,
           "anticoagulant": false,
           "fullDefenseAttribute": "willpower",
           "fullDefenseValue": 0,
@@ -4638,7 +4639,17 @@
       },
       "biography": {
         "characterMetatype": "",
-        "description": ""        
+        "nickname": "",
+        "description": "",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "gender": "",
+        "nationality": "",
+        "age": "",
+        "paymentMethod": "",
+        "hobby": "",
+        "familySituation": "",
+        "background": ""     
       },
       "activeSpecialAttribute": "magic",
       "skills": {
@@ -6109,7 +6120,12 @@
     },
     "itemContact": {
       "templates": [
-        "templateDescription"
+        "templateDescription",
+        "characterAttributesTemplate",
+        "characterMagicAttributesTemplate",
+        "skillGroupsTemplate",
+        "skillsTemplate",
+        "sheetPreferencesTemplate"
       ],
       "connection": 0,
       "loyalty": 0,
@@ -6119,7 +6135,43 @@
       "type": "",
       "paymentMethod": "",
       "hobby": "",
-      "familySituation": ""
+      "familySituation": "",
+      "nickname": "",
+      "metatypeVariant": "",
+      "ethnicalGroup": "",
+      "nationality": "",
+      "language": [],
+      "knowledge": [],
+      "weapons": [],
+      "ammunitions": [],
+      "armors": [],
+      "decks": [],
+      "vehicles": [],
+      "conditionMonitors": {
+        "condition": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
+        },
+        "edge": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
+        }
+      },
+      "isCreated": false
     },
     "itemDevice": {
       "templates": [

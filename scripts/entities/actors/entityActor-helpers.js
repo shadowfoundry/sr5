@@ -437,6 +437,7 @@ export class SR5_ActorHelper {
 		else if (item.type === "itemVehicle") petType = "actorDrone";
 		else if (item.type === "itemSprite") petType = "actorSprite";
         else if (item.type === "itemProgram") petType = "actorAgent";
+		else if (item.type === "itemContact") petType = "actorGrunt";
 
 		if (item.img === `systems/sr5/img/items/${item.type}.svg`) img = `systems/sr5/img/actors/${petType}.svg`;
 		else img = item.img;
@@ -507,6 +508,41 @@ export class SR5_ActorHelper {
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
 				"system.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
+				"items": baseItems,
+			});
+		}
+
+		if (item.type === "itemContact") {	
+			let baseItems = await SR5_CompendiumUtility.getBaseItems("actorGrunt", itemData.type);
+			for (let language of itemData.language) baseItems.push(language);
+			for (let knowledge of itemData.knowledge) baseItems.push(knowledge);
+			for (let weapon of itemData.weapons) baseItems.push(weapon);
+			for (let ammunitions of itemData.ammunitions) baseItems.push(ammunitions);
+			for (let armor of itemData.armors) baseItems.push(armor);
+			for (let decks of itemData.decks) baseItems.push(decks);
+			for (let vehicles of itemData.vehicles) baseItems.push(vehicles);
+
+			sideKickData = mergeObject(sideKickData, {
+				"system.biography.description": itemData.description,
+				"system.biography.background": itemData.gameEffect,
+				"system.biography.characterMetatype": itemData.metatype,
+				"system.biography.gender": itemData.gender,
+				"system.biography.age": itemData.age,
+				"system.biography.nickname": itemData.nickname,
+				"system.biography.metatypeVariant": itemData.metatypeVariant,
+				"system.biography.ethnicalGroup": itemData.ethnicalGroup,
+				"system.biography.nationality": itemData.nationality,
+				"system.biography.paymentMethod": itemData.paymentMethod,
+				"system.biography.hobby": itemData.hobby,
+				"system.biography.familySituation": itemData.familySituation,
+				"system.sheetPreferences": itemData.sheetPreferences,
+				"system.skills": itemData.skills,
+				"system.skillGroups": itemData.skillGroups,
+				"system.attributes": itemData.attributes,
+				"system.specialAttributes.edge.natural.base": itemData.connection,
+				"system.conditionMonitors": itemData.conditionMonitors,
+				"system.creatorId": actorId,
+				"system.creatorItemId": item._id,
 				"items": baseItems,
 			});
 		}
@@ -644,6 +680,52 @@ export class SR5_ActorHelper {
 			}
 			modifiedItem.img = actor.img;
 			modifiedItem.system.decks = decks;
+			item.update(modifiedItem);
+		}
+
+		if (actor.type === "actorGrunt"){
+			let language = [],
+				knowledge = [],
+				weapons = [],
+				ammunitions = [],
+				armors = [],
+				decks = [],
+				vehicles = [];
+			for (let a of actor.items){
+				if (a.type === "itemLanguage") language.push(a);
+				if (a.type === "itemKnowledge") knowledge.push(a);
+				if (a.type === "itemWeapon") weapons.push(a);
+				if (a.type === "itemAmmunition") ammunitions.push(a);
+				if (a.type === "itemArmor") armors.push(a);
+				if (a.type === "itemDevice") decks.push(a);
+				if (a.type === "itemVehicle") vehicles.push(a);
+			}
+			modifiedItem.name = actor.name;
+			modifiedItem.img = actor.img;	
+			modifiedItem.system.language = language,	
+			modifiedItem.system.knowledge = knowledge,	
+			modifiedItem.system.weapons = weapons,	
+			modifiedItem.system.ammunitions = ammunitions,	
+			modifiedItem.system.armors = armors,	
+			modifiedItem.system.decks = decks,
+			modifiedItem.system.vehicles = vehicles,
+			modifiedItem.system.gender = actor.system.biography.gender,
+			modifiedItem.system.age = actor.system.biography.age,
+			modifiedItem.system.nickname = actor.system.biography.nickname,
+			modifiedItem.system.metatypeVariant = actor.system.biography.metatypeVariant,
+			modifiedItem.system.ethnicalGroup = actor.system.biography.ethnicalGroup,
+			modifiedItem.system.nationality = actor.system.biography.nationality,
+			modifiedItem.system.paymentMethod = actor.system.biography.paymentMethod,
+			modifiedItem.system.hobby = actor.system.biography.hobby,
+			modifiedItem.system.familySituation = actor.system.biography.familySituation,
+			modifiedItem.system.sheetPreferences = actor.system.sheetPreferences,
+			modifiedItem.system.skills = actor.system.skills,
+			modifiedItem.system.skillGroups = actor.system.skillGroups,
+			modifiedItem.system.attributes = actor.system.attributes,
+			modifiedItem.system.description = actor.system.biography.description,
+			modifiedItem.system.gameEffect = actor.system.biography.background,	
+			modifiedItem.system.conditionMonitors = actor.system.conditionMonitors,
+			modifiedItem.system.isCreated = false;
 			item.update(modifiedItem);
 		}
 

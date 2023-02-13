@@ -3087,7 +3087,8 @@ SR5.specialPropertiesList = {
 	damageReduction           : "SR5.DamageReduction",
 	doublePenalties           : "SR5.PenaltyDouble",
 	regeneration              : "SR5.SpiritPowerRegeneration",
-	anticoagulant             : "SR5.Anticoagulant"
+	anticoagulant             : "SR5.Anticoagulant",
+	essenceDrain              : "SR5.EssenceDrain",
 }
 
 SR5.transactionsTypes = {
