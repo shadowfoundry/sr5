@@ -536,7 +536,8 @@ export class SR5Actor extends Actor {
 								iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(this);
 								if (iData.linkedWeapon){
 									let linkedWeapon = this.items.find(w => w.id === iData.linkedWeapon);
-									iData.linkedWeaponName = linkedWeapon.name;
+									if (linkedWeapon) iData.linkedWeaponName = linkedWeapon.name;
+									else iData.linkedWeaponName = "";
 								}
 							break;
 						case "sustaining":

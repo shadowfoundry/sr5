@@ -1,0 +1,34 @@
+{{#if system.knowledge}}
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete SR-PaddingTop10">
+        <div class="col-10 SR-TextUppercase">{{localize 'SR5.KnowledgeSkills'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.Rating'}}</div>
+    </li>
+    {{#each system.knowledge as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-10">{{a.name}}</div>
+        <div class="col-2 SR-TextCenter">{{a.system.test.dicePool}}</div>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}
+{{#if system.language}}
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete SR-PaddingTop10">
+        <div class="col-10 SR-TextUppercase">{{localize 'SR5.LanguagesSkills'}}</div>
+        <div class="col-2 SR-TextCenter">{{localize 'SR5.Rating'}}</div>
+    </li>
+    {{#each system.language as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-10">{{a.name}}</div>
+        <div class="col-2 SR-TextCenter">        
+            {{#if a.system.isNative}}
+            &infin;
+            {{else}}
+            {{a.system.test.dicePool}}
+            {{/if}}
+        </div>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}

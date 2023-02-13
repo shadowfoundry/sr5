@@ -3061,6 +3061,12 @@
                 "base": 0,
                 "modifiers": []  
               },
+            "cold":{
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
             "fire":{
               "type": "",
               "value": 0,
@@ -3083,6 +3089,8 @@
           "doublePenalties": false,
           "energyAura": "",
           "regeneration": false,
+          "essenceDrain": false,
+          "anticoagulant": false,
           "fullDefenseAttribute": "willpower",
           "fullDefenseValue": 0,
           "actions":{
@@ -4262,6 +4270,7 @@
           "tabBiography":{
             "isActive": true,
             "biography": true,
+            "critterBiography": false,
             "description": true,
             "background": true,
             "karma": true
@@ -4451,6 +4460,15 @@
         "description": "",
         "background": ""
       },
+      "critterBiography": {
+        "binomial": "",
+        "terrain": "",
+        "diet": "",
+        "activity": "",
+        "aggroIndex": "",
+        "lengthHeight": "",
+        "mass": ""
+      },
       "karma": {
         "value": 0,
         "base": 0,
@@ -4621,7 +4639,17 @@
       },
       "biography": {
         "characterMetatype": "",
-        "description": ""        
+        "nickname": "",
+        "description": "",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "gender": "",
+        "nationality": "",
+        "age": "",
+        "paymentMethod": "",
+        "hobby": "",
+        "familySituation": "",
+        "background": ""     
       },
       "activeSpecialAttribute": "magic",
       "skills": {
@@ -6005,7 +6033,8 @@
         "effect": {
           "disorientation": false,
           "nausea": false,
-          "paralysis": false
+          "paralysis": false,
+          "agony": false
         },
         "penetration": 0,
         "damageType": null
@@ -6091,7 +6120,12 @@
     },
     "itemContact": {
       "templates": [
-        "templateDescription"
+        "templateDescription",
+        "characterAttributesTemplate",
+        "characterMagicAttributesTemplate",
+        "skillGroupsTemplate",
+        "skillsTemplate",
+        "sheetPreferencesTemplate"
       ],
       "connection": 0,
       "loyalty": 0,
@@ -6101,7 +6135,43 @@
       "type": "",
       "paymentMethod": "",
       "hobby": "",
-      "familySituation": ""
+      "familySituation": "",
+      "nickname": "",
+      "metatypeVariant": "",
+      "ethnicalGroup": "",
+      "nationality": "",
+      "language": [],
+      "knowledge": [],
+      "weapons": [],
+      "ammunitions": [],
+      "armors": [],
+      "decks": [],
+      "vehicles": [],
+      "conditionMonitors": {
+        "condition": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
+        },
+        "edge": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "actual": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "boxes": []
+        }
+      },
+      "isCreated": false
     },
     "itemDevice": {
       "templates": [

@@ -22,7 +22,7 @@ export class SR5CompendiumInfo {
             break;
             case "itemArmor":
                 if (item.system.isAccessory) info = game.i18n.localize('SR5.ArmorAccessory');
-                else info = `${game.i18n.localize('SR5.ArmorRating')}: ${item.system.armorValue.value}`;
+                else info = `${game.i18n.localize('SR5.ArmorRating')}${game.i18n.localize('SR5.Colons')} ${item.system.armorValue.value}`;
                 break;
             case "itemDevice":
                 info = `${game.i18n.localize(SR5.deckTypes[item.system.type])} (${item.system.deviceRating})`;
@@ -37,13 +37,19 @@ export class SR5CompendiumInfo {
                 info = `${game.i18n.localize(SR5.spellCategories[item.system.category])}`;
                 break;
             case "itemQuality":
-                info = `${game.i18n.localize('SR5.KarmaCost')}: ${item.system.karmaCost}`;
+                info = `${game.i18n.localize('SR5.KarmaCost')}${game.i18n.localize('SR5.Colons')} ${item.system.karmaCost}`;
                 break;
             case "itemVehicle":
                 info = `${game.i18n.localize(SR5.vehiclesCategories[item.system.category])}`;
                 break;
             case "itemVehicleMod":
                 info = `${game.i18n.localize(SR5.vehicleModType[item.system.type])}`;
+                break;
+            case "actorPc":
+                if (item.system.sheetPreferences.tabBiography.critterBiography && item.system.critterBiography.terrain !== "") {
+                    info = `${game.i18n.localize('SR5.CritterTerrain')}${game.i18n.localize('SR5.Colons')} ${item.system.critterBiography.terrain}`;
+                }
+                else info = ""
                 break;
             default:
                 info = ""

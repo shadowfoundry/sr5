@@ -5,7 +5,7 @@
     <div class="col-1"></div>
     {{#if (or (and (eq system.type "throwing") (ne system.category "grenade")) (eq system.category "meleeWeapon"))}}
     <div class="col-4 SR-TextRight">{{localize 'SR5.StrengthBasedDV'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-1 SR-TextRight"><input type="checkbox" name="system.damageValue.isStrengthBased" data-dtype="Boolean" {{checked system.damageValue.isStrengthBased}} /></div>
+    <div class="col-1 SR-TextRight SR-PaddingRight3"><input type="checkbox" name="system.damageValue.isStrengthBased" data-dtype="Boolean" {{checked system.damageValue.isStrengthBased}} /></div>
     {{/if}}
 </li>
 

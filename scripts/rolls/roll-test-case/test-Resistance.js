@@ -78,6 +78,11 @@ export default async function resistanceInfo(cardData, actorId){
         return;
     }
 
+    //Handle anticoagulant effect
+    if(cardData.damage.element === "anticoagulant") {
+        cardData.combat.calledShot.effects = {"0": {"name": "anticoagulant",}};
+    }
+
     //Handle called Shot specifics
     if (cardData.combat.calledShot.name){
         if (cardData.previousMessage.messageId) SR5_RollMessage.updateChatButtonHelper(cardData.previousMessage.messageId, "spendNetHits");
