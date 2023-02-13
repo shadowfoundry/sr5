@@ -1239,9 +1239,9 @@ export class SR5_UtilityItem extends Actor {
 		SR5_EntityHelpers.updateValue(itemData.drain);
 
 		//Check if spell is sustained by a spirit
-		for (let item of actor.items){
-			if (item.type === "itemSpirit" && item.system.isBounded){
-				for (let s of Object.values(item.system.sustainedSpell)){
+		for (let itemSpirit of actor.items){
+			if (itemSpirit.type === "itemSpirit" && itemSpirit.system.isBounded){
+				for (let s of Object.values(itemSpirit.system.sustainedSpell)){
 					if (s.name === item._id) itemData.freeSustain = true;
 				}
 			}
