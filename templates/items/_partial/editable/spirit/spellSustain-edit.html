@@ -16,7 +16,7 @@
             <select name="system.sustainedSpell.{{i}}.name">
             {{#select name}}
                 <option value="">{{localize 'SR5.None'}}</option>
-                    {{#each ../document.actor.system.system.magic.spellList}}
+                    {{#each ../document.actor.system.magic.spellList}}
                     <option value="{{@key}}">{{this}}</option>
                     {{/each}}
                 {{/select}}
