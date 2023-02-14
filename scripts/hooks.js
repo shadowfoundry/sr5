@@ -64,6 +64,15 @@ export const registerHooks = function () {
 		// ACTIVATE HOOKS DEBUG
 		CONFIG.debug.hooks = false;
 
+		//TOURS		
+		game.tours.register("SR5", "welcome", await SidebarTour.fromJSON("./tours/welcome.json"));	
+		game.tours.register("SR5", "sr5", await SidebarTour.fromJSON("./tours/test-SR5.json"));
+		game.tours.register("SR5", "installingASystem", await SetupTour.fromJSON("./tours/installing-a-system.json"));
+		game.tours.register("SR5", "creatingAWorld", await SetupTour.fromJSON("./tours/creating-a-world.json"));
+		game.tours.register("SR5", "uiOverview", await Tour.fromJSON("./tours/ui-overview.json"));
+		game.tours.register("SR5", "sidebar", await SidebarTour.fromJSON("./tours/sidebar.json"));
+		game.tours.register("SR5", "canvasControls", await CanvasTour.fromJSON("./tours/canvas-controls.json"));
+
 		// Patch Core Functions
 		Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 

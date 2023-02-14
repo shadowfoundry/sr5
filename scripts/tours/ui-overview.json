@@ -1,0 +1,78 @@
+{
+  "title": "UIOVERVIEW.Title",
+  "description": "UIOVERVIEW.Description",
+  "canBeResumed": true,
+  "display": true,
+  "steps": [
+    {
+      "id": "canvas",
+      "selector": "",
+      "title": "UIOVERVIEW.CanvasTitle",
+      "content": "UIOVERVIEW.CanvasContent"
+    },
+    {
+      "id": "sidebar",
+      "selector": "#sidebar",
+      "title": "UIOVERVIEW.SidebarTitle",
+      "content": "UIOVERVIEW.SidebarContent",
+      "tooltipDirection": "RIGHT"
+    },
+    {
+      "id": "hotbar",
+      "selector": "#hotbar",
+      "title": "UIOVERVIEW.HotbarTitle",
+      "content": "UIOVERVIEW.HotbarContent",
+      "tooltipDirection": "UP"
+    },
+    {
+      "id": "hotbarCollapse",
+      "selector": "#bar-toggle",
+      "title": "UIOVERVIEW.HotbarCollapseTitle",
+      "content": "UIOVERVIEW.HotbarCollapseContent",
+      "tooltipDirection": "UP"
+    },
+    {
+      "id": "players",
+      "selector": "#players",
+      "title": "UIOVERVIEW.PlayersTitle",
+      "content": "UIOVERVIEW.PlayersContent",
+      "tooltipDirection": "UP"
+    },
+    {
+      "id": "canvasControls",
+      "selector": "#controls",
+      "title": "UIOVERVIEW.CanvasControlsTitle",
+      "content": "UIOVERVIEW.CanvasControlsContent",
+      "tooltipDirection": "CENTER"
+    },
+    {
+      "id": "navigation",
+      "selector": "#navigation",
+      "title": "UIOVERVIEW.NavigationTitle",
+      "content": "UIOVERVIEW.NavigationContent",
+      "tooltipDirection": "CENTER"
+    }
+  ],
+  "suggestedNextTours": [
+    "core.sidebar",
+    "core.canvasControls"
+  ],
+  "localization": {
+    "UIOVERVIEW.Title": "UI Overview",
+    "UIOVERVIEW.Description": "This Tour will give you a general overview of the UI",
+    "UIOVERVIEW.CanvasTitle": "The Canvas",
+    "UIOVERVIEW.CanvasContent": "The large center area is the <span class='reference'>Canvas</span>. This is where you'll display <span class='reference'>Scenes</span> for theater of the mind play, exploration, and combat.",
+    "UIOVERVIEW.SidebarTitle": "The Sidebar",
+    "UIOVERVIEW.SidebarContent": "The <span class='reference'>Sidebar</span> is where you can find all of your content like the <span class='reference'>Chat Log</span> which holds messages and rolls, <span class='reference'>Actors</span> for player characters and NPCs, <span class='reference'>Items</span> that make up your equipment and abilities, and lots more.",
+    "UIOVERVIEW.HotbarTitle": "The Hotbar",
+    "UIOVERVIEW.HotbarContent": "You can drag-and-drop often-used items, abilities, and powers from your character sheet on to the <span class='reference'>Hotbar</span> for quick access or create and run custom <span class='reference'>Macros</span>.",
+    "UIOVERVIEW.HotbarCollapseTitle": "Hotbar Collapse",
+    "UIOVERVIEW.HotbarCollapseContent": "If you don't need the Hotbar display, you can collapse it to get it out of the way.",
+    "UIOVERVIEW.PlayersTitle": "The Player List",
+    "UIOVERVIEW.PlayersContent": "The <span class='reference'>Player List</span> shows <span class='reference'>Users</span> that are currently connected and their primary character. A GM can right click on a <span class='reference'>User</span> to configure, kick, or ban them as well as pull them to the currently selected <span class='reference'>Scene</span>.",
+    "UIOVERVIEW.CanvasControlsTitle": "Canvas Controls",
+    "UIOVERVIEW.CanvasControlsContent": "<span class='reference'>Canvas Controls</span> allow you to control <span class='reference'>Tokens</span>, <span class='reference'>Lights</span>, <span class='reference'>Walls</span>, and other elements that can be placed on a <span class='reference'>Scene</span>. Some of these tools are only available to GMs.",
+    "UIOVERVIEW.NavigationTitle": "Scene Navigation",
+    "UIOVERVIEW.NavigationContent": "The <span class='reference'>Navigation Bar</span> shows the current <span class='reference'>Scene</span> and others you may want to access quickly. GMs can control what <span class='reference'>Scenes</span> are visible here and right clicking on one will allow you to <span class='reference action'>Activate</span> it as the main scene which will pull all <span class='reference'>Users</span> to it or <span class='reference action'>Pre-Load</span> the scene for <span class='reference'>Users</span> with poor internet connections."
+   }
+}

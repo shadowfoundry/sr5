@@ -1,0 +1,42 @@
+{
+    "title": "SR5.Title",
+    "description": "SR5.Description",
+    "canBeResumed": true,
+    "display": true,
+    "steps": [
+      {
+        "id": "sr5",
+        "selector": "",
+        "title": "SR5.WelcomeTitle",
+        "content": "SR5.WelcomeContent"
+      },
+      {
+        "id": "help",
+        "selector": "#settings-documentation",
+        "title": "SR5.HelpTitle",
+        "content": "SR5.HelpContent",
+        "sidebarTab": "settings"
+      },
+      {
+        "id": "tours",
+        "selector": "button[data-action=\"tours\"]",
+        "title": "SR5.ToursTitle",
+        "content": "SR5.ToursContent",
+        "sidebarTab": "settings"
+      }
+    ],
+    "suggestedNextTours": [
+      "core.uiOverview"
+    ],
+    "localization": {
+      "SR5.Title": "Welcome to Foundry Virtual Tabletop for SR5",
+      "SR5.Description": "This Tour will give you a landing pad for new users to learn the basics of Foundry VTT.",
+      "SR5.WelcomeTitle": "Welcome to Foundry Virtual Tabletop",
+      "SR5.WelcomeContent": "We hope our software will be an amazing tool for you and your group. Foundry Virtual Tabletop has a large number of features to learn about, but there are tutorials, guides, and other resources that can help you find your way.\nThis is a \"tour\" which helps introduce you to the basic functionality of the software. You can advance or rewind through tour steps using the buttons at the bottom of this window.",
+      "SR5.HelpTitle": "Available Resources",
+      "SR5.HelpContent": "You are not alone in learning Foundry Virtual Tabletop, there are a wealth of resources available to help you. Some of the best resources include our official <a href='https://foundryvtt.com/kb/' target='_blank'>Knowledge Base</a> and the <a href='https://foundryvtt.wiki/' target='_blank'>Community Wiki</a>. You may also join our official <a href='https://discord.gg/FoundryVTT' target='_blank'>Discord server</a> where we have a welcoming community ready to support you on your journey!",
+      "SR5.ToursTitle": "First Steps",
+      "SR5.ToursContent": "If you are a new user we suggest that you spend 10 minutes going through the available tours which will help you orient yourself. You can view your progress through available tours, or repeat tours which you previously completed by clicking the Tour Management button in the Settings sidebar tab."
+    }
+  }
+  

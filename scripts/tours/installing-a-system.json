@@ -1,0 +1,44 @@
+{
+  "title": "INSTALLINGASYSTEM.Title",
+  "description": "INSTALLINGASYSTEM.Description",
+  "canBeResumed": false,
+  "display": true,
+  "steps": [
+    {
+      "id": "systemsTab",
+      "selector": "[data-tab=\"systems\"]",
+      "title": "INSTALLINGASYSTEM.SystemsTabTitle",
+      "content": "INSTALLINGASYSTEM.SystemsTabContent"
+    },
+    {
+      "id": "browse",
+      "selector": "[data-tab=\"systems\"] .install-package",
+      "title": "INSTALLINGASYSTEM.BrowseTitle",
+      "content": "INSTALLINGASYSTEM.BrowseContent"
+    },
+    {
+      "id": "searching",
+      "selector": "[name=\"filter\"]",
+      "title": "INSTALLINGASYSTEM.SearchingTitle",
+      "content": "INSTALLINGASYSTEM.SearchingContent"
+    },
+    {
+      "id": "install",
+      "selector": "[data-package-id=\"worldbuilding\"] .install",
+      "title": "INSTALLINGASYSTEM.InstallTitle",
+      "content": "INSTALLINGASYSTEM.InstallContent"
+    }
+  ],
+  "localization": {
+    "INSTALLINGASYSTEM.Title": "Installing a System",
+    "INSTALLINGASYSTEM.Description": "This Tour will walk you through the process of installing your first System.",
+    "INSTALLINGASYSTEM.SystemsTabTitle": "The Game Systems Tab",
+    "INSTALLINGASYSTEM.SystemsTabContent": "This tab shows you all of your currently installed Systems. You don't have any installed currently, so let's go grab one.",
+    "INSTALLINGASYSTEM.BrowseTitle": "Install System Button",
+    "INSTALLINGASYSTEM.BrowseContent": "This button will launch a browser of available Systems",
+    "INSTALLINGASYSTEM.SearchingTitle": "Searching",
+    "INSTALLINGASYSTEM.SearchingContent": "There are hundreds of Systems available for Foundry, with more being added regularly. If your specific TTRPG of choice is not yet implemented, there are flexible Systems for generic play as well. Let's find one of those — \"Simple World Building\".",
+    "INSTALLINGASYSTEM.InstallTitle": "Installing the System",
+    "INSTALLINGASYSTEM.InstallContent": "Once you've found one you like, go ahead and click the Install button. You can install as many Systems as you like — feel free to try it out — then head to the \"Game Worlds\" tab when you're ready to create your first World."
+  }
+}

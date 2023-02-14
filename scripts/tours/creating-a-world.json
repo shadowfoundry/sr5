@@ -1,0 +1,76 @@
+{
+  "title": "CREATINGAWORLD.Title",
+  "description": "CREATINGAWORLD.Description",
+  "canBeResumed": false,
+  "display": true,
+  "steps": [
+    {
+      "id": "worldsTab",
+      "selector": "[data-tab=\"worlds\"]",
+      "title": "CREATINGAWORLD.WorldsTabTitle",
+      "content": "CREATINGAWORLD.WorldsTabContent"
+    },
+    {
+      "id": "createWorld",
+      "selector": "#create-world",
+      "title": "CREATINGAWORLD.CreateWorldTitle",
+      "content": "CREATINGAWORLD.CreateWorldContent"
+    },
+    {
+      "id": "worldTitle",
+      "selector": "[name=\"title\"]",
+      "title": "CREATINGAWORLD.WorldTitleTitle",
+      "content": "CREATINGAWORLD.WorldTitleContent"
+    },
+    {
+      "id": "worldId",
+      "selector": "[name=\"id\"]",
+      "title": "CREATINGAWORLD.WorldIdTitle",
+      "content": "CREATINGAWORLD.WorldIdContent"
+    },
+    {
+      "id": "worldSystem",
+      "selector": "[name=\"system\"]",
+      "title": "CREATINGAWORLD.WorldSystemTitle",
+      "content": "CREATINGAWORLD.WorldSystemContent"
+    },
+    {
+      "id": "worldDescription",
+      "selector": "#world-config .editor",
+      "title": "CREATINGAWORLD.WorldDescriptionTitle",
+      "content": "CREATINGAWORLD.WorldDescriptionContent"
+    },
+    {
+      "id": "create",
+      "selector": "#world-config [type=\"submit\"]",
+      "title": "CREATINGAWORLD.CreateTitle",
+      "content": "CREATINGAWORLD.CreateContent"
+    },
+    {
+      "id": "launching",
+      "selector": "[data-action=\"launchWorld\"]",
+      "title": "CREATINGAWORLD.LaunchingTitle",
+      "content": "CREATINGAWORLD.LaunchingContent"
+    }
+  ],
+  "localization": {
+    "CREATINGAWORLD.Title": "Creating a World",
+    "CREATINGAWORLD.Description": "This Tour will guide you through creating your first World",
+    "CREATINGAWORLD.WorldsTabTitle": "The Worlds Tab",
+    "CREATINGAWORLD.WorldsTabContent": "This tab shows you all of your currently created Worlds. You don't have any created currently, so we will guide you through creating one.",
+    "CREATINGAWORLD.CreateWorldTitle": "Creating a World",
+    "CREATINGAWORLD.CreateWorldContent": "The Create World button is in the bottom-right and will open up a configuration window.",
+    "CREATINGAWORLD.WorldTitleTitle": "World Title",
+    "CREATINGAWORLD.WorldTitleContent": "The World Title is the name of your World. It is used to identify your World in the Worlds Tab.",
+    "CREATINGAWORLD.WorldIdTitle": "World ID",
+    "CREATINGAWORLD.WorldIdContent": "The World ID is the unique identifier of your World. A folder of the same ID will be created to store your World data. The ID is automatically set to a machine-friendly version of the Title, but can be overridden.",
+    "CREATINGAWORLD.WorldSystemTitle": "World System",
+    "CREATINGAWORLD.WorldSystemContent": "The System dropdown lets you pick what Game System to make your World for. You can pick any Game System that you have installed on your machine. For now, we'll pick the System you just installed.",
+    "CREATINGAWORLD.WorldDescriptionTitle": "Other fields",
+    "CREATINGAWORLD.WorldDescriptionContent": "Other fields like Description are not required. You can read more about them in our <a href='https://foundryvtt.com/article/game-worlds/' target='_blank'>World</a> documentation.",
+    "CREATINGAWORLD.CreateTitle": "Create World",
+    "CREATINGAWORLD.CreateContent": "When you're done with setup, the Create button will create your World. You can change most World settings later by editing an existing World.",
+    "CREATINGAWORLD.LaunchingTitle": "Launching",
+    "CREATINGAWORLD.LaunchingContent": "You're all set! You can now start playing in your World by clicking the Launch World button."
+  }
+}

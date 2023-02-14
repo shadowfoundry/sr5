@@ -1,0 +1,41 @@
+{
+  "title": "WELCOME.Title",
+  "description": "WELCOME.Description",
+  "canBeResumed": true,
+  "display": true,
+  "steps": [
+    {
+      "id": "welcome",
+      "selector": "",
+      "title": "WELCOME.WelcomeTitle",
+      "content": "WELCOME.WelcomeContent"
+    },
+    {
+      "id": "help",
+      "selector": "#settings-documentation",
+      "title": "WELCOME.HelpTitle",
+      "content": "WELCOME.HelpContent",
+      "sidebarTab": "settings"
+    },
+    {
+      "id": "tours",
+      "selector": "button[data-action=\"tours\"]",
+      "title": "WELCOME.ToursTitle",
+      "content": "WELCOME.ToursContent",
+      "sidebarTab": "settings"
+    }
+  ],
+  "suggestedNextTours": [
+    "core.uiOverview"
+  ],
+  "localization": {
+    "WELCOME.Title": "Welcome to Foundry Virtual Tabletop",
+    "WELCOME.Description": "This Tour will give you a landing pad for new users to learn the basics of Foundry VTT.",
+    "WELCOME.WelcomeTitle": "Welcome to Foundry Virtual Tabletop",
+    "WELCOME.WelcomeContent": "We hope our software will be an amazing tool for you and your group. Foundry Virtual Tabletop has a large number of features to learn about, but there are tutorials, guides, and other resources that can help you find your way.\nThis is a \"tour\" which helps introduce you to the basic functionality of the software. You can advance or rewind through tour steps using the buttons at the bottom of this window.",
+    "WELCOME.HelpTitle": "Available Resources",
+    "WELCOME.HelpContent": "You are not alone in learning Foundry Virtual Tabletop, there are a wealth of resources available to help you. Some of the best resources include our official <a href='https://foundryvtt.com/kb/' target='_blank'>Knowledge Base</a> and the <a href='https://foundryvtt.wiki/' target='_blank'>Community Wiki</a>. You may also join our official <a href='https://discord.gg/FoundryVTT' target='_blank'>Discord server</a> where we have a welcoming community ready to support you on your journey!",
+    "WELCOME.ToursTitle": "First Steps",
+    "WELCOME.ToursContent": "If you are a new user we suggest that you spend 10 minutes going through the available tours which will help you orient yourself. You can view your progress through available tours, or repeat tours which you previously completed by clicking the Tour Management button in the Settings sidebar tab."
+  }
+}
