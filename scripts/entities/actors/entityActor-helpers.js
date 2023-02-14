@@ -655,6 +655,14 @@ export class SR5_ActorHelper {
 			modifiedItem.system.conditionMonitors.stun.actual = actor.system.conditionMonitors.stun.actual;
 			modifiedItem.system.isBounded = actor.system.isBounded;
 			modifiedItem.system.isCreated = false;
+			if (actor.img != "systems/sr5/img/actors/actorSpirit.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			await item.update(modifiedItem);
 		}
 
@@ -670,6 +678,14 @@ export class SR5_ActorHelper {
 			modifiedItem.system.conditionMonitors.matrix.actual = actor.system.conditionMonitors.matrix.actual;
 			modifiedItem.system.isRegistered = actor.system.isRegistered;
 			modifiedItem.system.isCreated = false;
+			if (actor.img != "systems/sr5/img/actors/actorSprite.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
@@ -680,6 +696,14 @@ export class SR5_ActorHelper {
 			}
 			modifiedItem.img = actor.img;
 			modifiedItem.system.decks = decks;
+			if (actor.img != "systems/sr5/img/actors/actorAgent.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
@@ -726,6 +750,14 @@ export class SR5_ActorHelper {
 			modifiedItem.system.gameEffect = actor.system.biography.background,	
 			modifiedItem.system.conditionMonitors = actor.system.conditionMonitors,
 			modifiedItem.system.isCreated = false;
+			if (actor.img != "systems/sr5/img/actors/actorGrunt.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
@@ -785,6 +817,14 @@ export class SR5_ActorHelper {
 			modifiedItem.system.secondaryPropulsion.type = actor.system.secondaryPropulsionType;
 			modifiedItem.system.isCreated = false;
 			modifiedItem.img = actor.img;
+			if (actor.img != "systems/sr5/img/actors/actorDrone.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
