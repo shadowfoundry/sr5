@@ -74,6 +74,8 @@ export class ActorSheetSR5 extends ActorSheet {
 		html.find('input[type="checkbox"]').change(this._onSubmit.bind(this));
 		// Déplie les infos
 		html.find(".deplie").click(this._onItemSummary.bind(this));
+		// Déplie les infos matricielles
+		html.find(".deplieMatrix").click(this._onMatrixSummary.bind(this));
 		// Lancés de dés
 		html.find(".sr-roll").click(this._onRoll.bind(this));
 		html.find(".sr-rollGrenade").click(this._onRollGrenade.bind(this));
@@ -465,6 +467,61 @@ export class ActorSheetSR5 extends ActorSheet {
 			div.find(".tag-summary").click((event) => {
 				let i =  $(event.currentTarget).attr("data-index");
 				let gameEffect = expandData.properties[i][1];
+
+				let tagDiv = $(`<div class="item-properties tag-description ${i}">${gameEffect}</div>`);
+
+				if (div.hasClass("expandedTag") && div.hasClass(i)){
+					let tagSummary = div.children(".tag-description");
+					tagSummary.slideUp(200, () => tagSummary.remove());
+					div.removeClass(i);
+				} else if (div.hasClass("expandedTag")) {
+					let tagSummary = div.children(".tag-description");
+					tagSummary.slideUp(200, () => tagSummary.remove());
+					div.removeClass();
+					div.addClass("col-x item-summary expdandedTag");
+					div.addClass(i);
+					div.append(tagDiv.hide());
+					tagDiv.slideDown(200);
+				} else {
+					div.append(tagDiv.hide());
+					div.addClass(i);
+					tagDiv.slideDown(200);
+				}
+				div.toggleClass("expandedTag");
+			});
+
+		}
+		li.toggleClass("expanded");
+	}
+
+	/* -------------------------------------------- */
+
+	_onMatrixSummary(event) {
+		event.preventDefault();
+		let li = $(event.currentTarget).parents(".item") ;
+		let key = li.data("item-id");
+		let expandData;	
+		expandData = this.actor.system.matrix.actions[key];		
+
+		if (expandData === "" || !expandData) return;
+
+		// Déplie les informations de jeu pour un Objet.
+		if (li.hasClass("expanded")) {
+			let summary = li.children(".item-summary");
+			summary.slideUp(200, () => summary.remove());
+		} else {
+			let accessoryClass = ($(event.currentTarget).hasClass("SR-MarginLeft10") ? "SR-MarginLeft10" : "");
+
+			let div = $(`<div class="col-x item-summary ${accessoryClass}">${game.i18n.localize(SR5.matrixGameEffects[key])}</div>`);
+			let props = $(`<div class="item-properties"></div>`);
+
+			div.append(props);
+			li.append(div.hide());
+			div.slideDown(200);
+
+			div.find(".tag-summary").click((event) => {
+				let i =  $(event.currentTarget).attr("data-index");
+				let gameEffect = `${game.i18n.localize(SR5.matrixGameEffects[key])}`;
 
 				let tagDiv = $(`<div class="item-properties tag-description ${i}">${gameEffect}</div>`);
 

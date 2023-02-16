@@ -3257,7 +3257,7 @@ export class SR5_CharacterUtility extends Actor {
 		let actorData = actor.system;
 		if(!actorData.creatorData) return;
 		for (let i of actorData.creatorData.items){
-			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking")){
+			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking") && i.system.isActive){
 				if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 			}
 		}

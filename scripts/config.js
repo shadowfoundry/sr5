@@ -1966,6 +1966,45 @@ SR5.matrixActions = {
 	...SR5.matrixOtherActions,
 };
 
+// Matrix Informations
+SR5.matrixGameEffects = {
+	bruteForce                : "SR5.MatrixActionBruteForce_GE",
+	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore_GE",
+	controlDevice             : "SR5.MatrixActionControlDevice_GE",
+	crackFile                 : "SR5.MatrixActionCrackFile_GE",
+	crashProgram              : "SR5.MatrixActionCrashProgram_GE",
+	dataSpike                 : "SR5.MatrixActionDataSpike_GE",
+	disarmDataBomb            : "SR5.MatrixActionDisarmDataBomb_GE",
+	editFile                  : "SR5.MatrixActionEditFile_GE",
+	eraseMark                 : "SR5.MatrixActionEraseMark_GE",
+	eraseMatrixSignature      : "SR5.MatrixActionEraseMatrixSignature_GE",
+	formatDevice              : "SR5.MatrixActionFormatDevice_GE",
+	garbageInGarbageOut       : "SR5.MatrixActionGarbageInGarbageOut_GE",
+	hackOnTheFly              : "SR5.MatrixActionHackOnTheFly_GE",
+	hide                      : "SR5.MatrixActionHide_GE",
+	jackOut                   : "SR5.MatrixActionJackOut_GE",
+	jamSignals                : "SR5.MatrixActionJamSignals_GE",
+	jumpIntoRiggedDevice      : "SR5.MatrixActionJumpIntoRiggedDevice_GE",
+	matrixPerception          : "SR5.MatrixActionMatrixPerception_GE",
+	matrixSearch              : "SR5.MatrixActionMatrixSearch_GE",
+	rebootDevice              : "SR5.MatrixActionRebootDevice_GE",
+	setDataBomb               : "SR5.MatrixActionSetDataBomb_GE",
+	snoop                     : "SR5.MatrixActionSnoop_GE",
+	spoofCommand              : "SR5.MatrixActionSpoofCommand_GE",
+	traceIcon                 : "SR5.MatrixActionTraceIcon_GE",
+	trackback                 : "SR5.MatrixActionTrackback_GE",
+	changeIcon                : "SR5.MatrixActionChangeIcon_GE",
+	enterOrExitHost           : "SR5.MatrixActionEnterOrExitHost_GE",
+	gridHop                   : "SR5.MatrixActionGridHop_GE",
+	inviteMark                : "SR5.MatrixActionInviteMark_GE",
+	sendMessage               : "SR5.MatrixActionSendMessage_GE",
+	switchInterfaceMode       : "SR5.MatrixActionSwitchInterfaceMode_GE",
+	loadProgram               : "SR5.MatrixActionLoadProgram_GE",
+	switchTwoMatrixAttributes : "SR5.MatrixActionSwitchTwoMatrixAttributes_GE",
+	swapTwoPrograms           : "SR5.MatrixActionSwapTwoPrograms_GE",
+	unloadProgram             : "SR5.MatrixActionUnloadProgram_GE",
+};
+
 // Complex Form Targets
 SR5.complexFormTargets = {
 	device                    : "SR5.ComplexFormTargetDevice",

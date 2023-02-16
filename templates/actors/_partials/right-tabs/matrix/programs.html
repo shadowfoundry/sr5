@@ -110,7 +110,7 @@
 
 		<!-- Owner Agent's programs -->
 		{{#if (eq actor.type 'actorAgent')}}
-		{{#each system.creatorsystem.items}}
+		{{#each system.creatorData.items}}
 		{{#if (and (eq type "itemProgram") (or (eq system.type "common") (eq system.type "hacking") ))}}
 		<li class="grid">
 			<div class="col-6">{{name}}</div>
