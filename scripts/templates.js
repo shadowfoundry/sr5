@@ -397,6 +397,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/spirit/bound-edit.html",
 				"systems/sr5/templates/items/_partial/editable/spirit/optionalPowers-edit.html",
 				"systems/sr5/templates/items/_partial/editable/spirit/spellSustain-edit.html",
+				"systems/sr5/templates/items/_partial/editable/spirit/powers.html",
 
 				//Sprite
 				"systems/sr5/templates/items/_partial/editable/sprite/level-edit.html",
@@ -404,6 +405,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/sprite/taskMax-edit.html",
 				"systems/sr5/templates/items/_partial/editable/sprite/registered-edit.html",
 				"systems/sr5/templates/items/_partial/editable/sprite/complexFormSustain-edit.html",
+				"systems/sr5/templates/items/_partial/editable/sprite/spritePowers.html",
 
 				//Tradition
 				"systems/sr5/templates/items/_partial/editable/tradition/drain-edit.html",

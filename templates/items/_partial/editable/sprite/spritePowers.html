@@ -1,0 +1,12 @@
+{{#if system.spritePowers}}
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete">
+        <div class="col-6 SR-TextUppercase">{{localize 'SR5.Powers'}}</div>
+    </li>
+    {{#each system.spritePowers as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-6 deplie">{{a.name}}</div>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}

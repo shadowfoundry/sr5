@@ -20,7 +20,7 @@
 		</li>
 		{{#each actor.sprites}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-5">
+			<div class="col-5 deplie">
 				{{#if (missing system.type system.itemRating)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSprite')}}">

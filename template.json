@@ -6275,6 +6275,7 @@
         "power4" : "",
         "power5" : ""
       },
+      "powers" : [],
       "conditionMonitors": {
         "physical": {
           "actual": {
@@ -6307,6 +6308,7 @@
         "max": 0
       },
       "decks": [],
+      "spritePowers": [],
       "isRegistered": false,
       "conditionMonitors":{
         "matrix": {
