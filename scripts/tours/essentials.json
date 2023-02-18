@@ -1,0 +1,48 @@
+{
+    "title": "SR5.TOUR_Essentials_Title",
+    "description": "SR5.TOUR_Essentials_Description",
+    "canBeResumed": true,
+    "display": true,
+    "steps": [
+      {
+        "id": "essentials",
+        "selector": "",
+        "title": "SR5.TOUR_Essentials_1_Title",
+        "content": "SR5.TOUR_Essentials_1_Description"
+      },
+      {
+        "id": "actorDirectory",
+        "selector": ".tabs>a[data-tab='actors']",
+        "title": "SR5.TOUR_Essentials_2_Title",
+        "content": "SR5.TOUR_Essentials_2_Description",
+        "sidebarTab": "actors"
+      },
+      {
+        "id": "actionButtons",
+        "selector": "#actors .header-actions>button.create-document",
+        "title": "SR5.TOUR_Essentials_2_Title",
+        "content": "SR5.TOUR_Essentials_2_Description",
+        "sidebarTab": "actors"
+      },
+      {
+        "id": "createActor",
+        "selector": "#actors .header-actions>button.create-document",
+        "title": "SR5.TOUR_Essentials_3_Title",
+        "content": "SR5.TOUR_Essentials_3_Description",
+        "sidebarTab": "actors",
+        "action": "click",
+        "target": "#actors .header-actions>button.create-document"
+      },
+      {
+        "id": "tours",
+        "selector": "button[data-action=\"tours\"]",
+        "title": "SR5.TOUR_Essentials_3_Title",
+        "content": "SR5.TOUR_Essentials_3_Description",
+        "sidebarTab": "settings"
+      }
+    ],
+    "suggestedNextTours": [
+      "core.uiOverview"
+    ]
+  }
+  
