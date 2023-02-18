@@ -3268,7 +3268,6 @@ export class SR5_CharacterUtility extends Actor {
 		let actorObject = actor.toObject(false);
 		if (game.actors) {
 			for (let a of game.actors) {
-				if (a.system.creatorId) console.log(a.system.creatorId);
 				if (a.type === "actorAgent" && a.system.creatorId === actor._id){					
 					await a.update({
 						"system.creatorData.items": actorObject.items,

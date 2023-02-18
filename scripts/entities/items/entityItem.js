@@ -131,7 +131,6 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleFocus(itemData);     
 				break;
 			case "itemSpirit":
-				if (typeof itemData.powers === "object") itemData.powers = Object.values(itemData.powers);
 				SR5_UtilityItem._handleSpirit(itemData);
 				break;
 			case "itemAdeptPower":
@@ -144,7 +143,6 @@ export class SR5Item extends Item {
 				if (owner) SR5_UtilityItem._handlePower(itemData, owner) 
 				break;
 			case "itemSpritePower": 
-				if (typeof itemData.spritePowers === "object") itemData.spritePowers = Object.values(itemData.spritePowers);
 				if (owner) SR5_UtilityItem._handleSpritePower(itemData, owner)
 				break;
 			case "itemProgram":
@@ -204,8 +202,6 @@ export class SR5Item extends Item {
 		let accessories =[];    
 		let options =[];
 		let license =[];
-		let powers = [];
-		let spritePowers = [];
 		htmlOptions.async = false;
 
 		itemData.description = itemData.description || "";
@@ -382,22 +378,6 @@ export class SR5Item extends Item {
           		}
         		}
         		break;
-      		case "itemSpirit":
-        		if (itemData.powers) {
-          		for (let power of itemData.powers){
-            		powers.push(`${power.name}`);
-            		tags.push(`${power.name}`);
-          		}
-        		}
-        		break;
-      		case "itemSprite":
-        		if (itemData.spritePowers) {
-          		for (let power of itemData.spritePowers){
-            		spritePowers.push(`${power.name}`);
-            		tags.push(`${power.name}`);
-          		}
-        		}
-        		break;
       		case "itemContact":
         		if (itemData.paymentMethod) {
 					tags.push(`${game.i18n.localize('SR5.PreferedPaymentTypeShort')}${game.i18n.localize('SR5.Colons')} ${itemData.paymentMethod}`);
@@ -411,7 +391,8 @@ export class SR5Item extends Item {
         		break;
       		case "itemKarma":
 			case "itemNuyen":
-				tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${itemData.date}`);
+				const locateDate = new Date(itemData.date).toLocaleDateString(game.i18n.localize(`SR5.LocateDate`));
+				tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${locateDate}`);
 				itemData.gameEffect = itemData.description;
         		break;		
 			default:
@@ -421,8 +402,6 @@ export class SR5Item extends Item {
 		itemData.accessories = accessories.filter(p => !!p);		
 		itemData.options = options.filter(p => !!p);
 		itemData.license = license.filter(p => !!p);
-		itemData.powers = powers.filter(p => !!p);
-		itemData.spritePowers = spritePowers.filter(p => !!p);
 		return itemData;
 	}
 
