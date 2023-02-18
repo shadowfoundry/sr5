@@ -3264,6 +3264,30 @@ export class SR5_CharacterUtility extends Actor {
 
 	}
 
+	static async updateProgramAgent(actor){
+		let actorObject = actor.toObject(false);
+		if (game.actors) {
+			for (let a of game.actors) {
+				if (a.system.creatorId) console.log(a.system.creatorId);
+				if (a.type === "actorAgent" && a.system.creatorId === actor._id){					
+					await a.update({
+						"system.creatorData.items": actorObject.items,
+				 	})
+				}
+			}
+		}
+
+		if (canvas.scene){
+			for (let t of canvas.tokens.placeables) {
+				if(t.actor.type === "actorAgent" && t.actor.system.creatorId === actor._id){
+					await t.actor.update({
+						"system.creatorData.items": actorObject.items,
+				 	})
+				}
+			}
+		}
+	}
+
 	static async updateControledVehicle(actor){
 		let actorObject = actor.toObject(false);
 		if (game.actors) {

@@ -8,11 +8,13 @@
 			<div class="col-1"><p class="SR-TextCenter" data-title="{{localize 'SR5.RunningPrograms'}}">{{localize 'SR5.RunningProgramShort'}}</p></div>
 			<div class="col-1">
 				{{#if owner}}
-				{{#if (ne actor.type 'actorAgent')}}
+				{{#if (ne actor.type 'actorAgent')}}				
+				{{#if (ne actor.type 'actorDrone')}}
 					<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemProgram')}}" 
 					data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
 						<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemProgram"><em class="fas fa-plus"></em></a>
 					</p>
+				{{/if}}
 				{{/if}}
 				{{/if}}
 			</div>
