@@ -795,6 +795,13 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.agony = true;
 				itemData.toxin.damageType = "stun";
 				break;
+			case "flatwormViperVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 2;
+				itemData.toxin.power = 12;
+				itemData.toxin.penetration = 0;
+				itemData.toxin.damageType = "physical";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}

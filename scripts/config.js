@@ -1108,6 +1108,7 @@ SR5.toxinTypes = {
 	neuroStunTen              : "SR5.ToxinNeuroStunTen",
 	seven                     : "SR5.ToxinSeven",
 	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",
+	flatwormViperVenom		  : "SR5.ToxinFlatwormViperVenom",
 	glowRatVenom			  : "SR5.ToxinGlowRatVenom",	
 	nagaVenom                 : "SR5.ToxinNagaVenom",	
 	novaScorpionVenom         : "SR5.ToxinNovaScorpionVenom",
