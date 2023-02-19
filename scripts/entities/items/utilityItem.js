@@ -802,6 +802,17 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.penetration = 0;
 				itemData.toxin.damageType = "physical";
 				break;
+			case "iridescentOwlVenom":
+				itemData.toxin.vector.contact = true;
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 0;
+				itemData.toxin.power = 8;
+				itemData.toxin.penetration = -6;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.agony = true;
+				itemData.toxin.damageType = "stun";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}

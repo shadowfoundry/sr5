@@ -1110,6 +1110,7 @@ SR5.toxinTypes = {
 	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",
 	flatwormViperVenom		  : "SR5.ToxinFlatwormViperVenom",
 	glowRatVenom			  : "SR5.ToxinGlowRatVenom",	
+	iridescentOwlVenom		  : "SR5.ToxinIridescentOwlFeathersVenom",
 	nagaVenom                 : "SR5.ToxinNagaVenom",	
 	novaScorpionVenom         : "SR5.ToxinNovaScorpionVenom",
 	martichorasVenom          : "SR5.ToxinMartichorasVenom",
