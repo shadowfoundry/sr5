@@ -3128,11 +3128,13 @@ export class SR5_CharacterUtility extends Actor {
 				case "iceKiller" :
 				case "iceProbe" :
 				case "iceSparky" :
+				case "iceShocker":
 					matrix.ice.defenseFirstAttribute = "intuition";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
 				case "iceBlaster" :
 				case "iceTarBaby" :
+				case "iceCatapult":
 					matrix.ice.defenseFirstAttribute = "logic";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
@@ -3142,6 +3144,7 @@ export class SR5_CharacterUtility extends Actor {
 					break;
 				case "iceTrack" :
 				case "iceMarker" :
+				case "iceBloodhound":
 					matrix.ice.defenseFirstAttribute = "willpower";
 					matrix.ice.defenseSecondAttribute = "sleaze";
 					break;

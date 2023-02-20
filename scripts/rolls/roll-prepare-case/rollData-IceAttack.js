@@ -22,6 +22,10 @@ export default function iceAttack(rollData, actor){
     rollData.damage.matrix.base = actor.system.matrix.attributes.attack.value;
     rollData.various.defenseFirstAttribute = actor.system.matrix.ice.defenseFirstAttribute;
     rollData.various.defenseSecondAttribute = actor.system.matrix.ice.defenseSecondAttribute;
-
+    if (rollData.test.typeSub === "iceCatapult") {
+        rollData.damage.value = rollData.damage.matrix.value ;
+        rollData.damage.type = "stun";
+        rollData.damage.resistanceType = "physicalDamage";
+    }
     return rollData;
 }

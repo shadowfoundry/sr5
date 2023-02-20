@@ -522,6 +522,7 @@ export class SR5_RollMessage {
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectLinkLockedConnection"));
                         break;
                     case "iceAcid":
+                    case "iceCatapult":
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceFirewallDone', {hits: hits})}`);
                         break;
                     case "iceJammer":
@@ -533,6 +534,7 @@ export class SR5_RollMessage {
                     case "iceMarker":
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {hits: hits})}`);
                         break;
+                    
                 }
                 break;
             case "toxinEffect":
