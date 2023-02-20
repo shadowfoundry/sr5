@@ -1115,6 +1115,7 @@ SR5.toxinTypes = {
 	nagaVenom                 : "SR5.ToxinNagaVenom",	
 	novaScorpionVenom         : "SR5.ToxinNovaScorpionVenom",
 	martichorasVenom          : "SR5.ToxinMartichorasVenom",
+	montaukVenom              : "SR5.ToxinMontaukVenom",
 	snakeVenom                : "SR5.ToxinSnakeVenom",
 	snowSnakeVenom            : "SR5.ToxinSnowSnakeVenom",
 	spiderBeastVenom          : "SR5.ToxinSpiderBeastVenom",
