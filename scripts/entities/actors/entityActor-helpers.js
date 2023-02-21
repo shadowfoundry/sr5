@@ -655,8 +655,13 @@ export class SR5_ActorHelper {
 			modifiedItem.img = actor.img;
 			modifiedItem.system.services.value = actor.system.services.value;
 			modifiedItem.system.services.max = actor.system.services.max;
-			modifiedItem.system.conditionMonitors.physical.actual = actor.system.conditionMonitors.physical.actual;
-			modifiedItem.system.conditionMonitors.stun.actual = actor.system.conditionMonitors.stun.actual;
+			if (actor.system.type === "watcher"){
+				modifiedItem.system.conditionMonitors.physical.actual = actor.system.conditionMonitors.condition.actual;
+				modifiedItem.system.conditionMonitors.stun.actual = actor.system.conditionMonitors.condition.actual;
+			} else {
+				modifiedItem.system.conditionMonitors.physical.actual = actor.system.conditionMonitors.physical.actual;
+				modifiedItem.system.conditionMonitors.stun.actual = actor.system.conditionMonitors.stun.actual;
+			}
 			modifiedItem.system.isBounded = actor.system.isBounded;
 			modifiedItem.system.isCreated = false;
 			modifiedItem.system.powers = powers ;
