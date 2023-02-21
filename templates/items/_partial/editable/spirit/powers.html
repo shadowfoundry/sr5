@@ -1,0 +1,28 @@
+{{#if system.powers}}
+<ul class="SR-PaddingTop10">
+    <li class="grid SR-EnTete">
+        <div class="col-6 SR-TextUppercase">{{localize 'SR5.Powers'}}</div>
+        <div class="col-1 SR-TextCenter">
+            <p data-title="{{localize 'SR5.PowerTypes'}}">{{localize 'SR5.PowerTypeShort'}}</p>
+        </div>
+        <div class="col-1 SR-TextCenter">
+            <p data-title="{{localize 'SR5.PowerRange'}}">{{localize 'SR5.PowerRangeShort'}}</p>
+        </div>
+        <div class="col-2 SR-TextCenter">
+            <p data-title="{{localize 'SR5.ActionType'}}">{{localize 'SR5.ActionTypeShort'}}</p>
+        </div>
+        <div class="col-2 SR-TextCenter">
+            <p data-title="{{localize 'SR5.PowerDuration'}}">{{localize 'SR5.PowerDurationShort'}}</p>
+        </div>
+    </li>
+    {{#each system.powers as |a i|}}
+    <li class="subItemManagement grid" data-key="{{@key}}">
+        <div class="col-6 deplie">{{a.name}}</div>
+        <div class="col-1 SR-TextCenter">{{valueOrDash (findTranslation 'spellTypesShort' a.system.type)}}</div>
+        <div class="col-1 SR-TextCenter">{{valueOrDash (findTranslation 'spellRangesShort' a.system.range)}}</div>
+        <div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'powerActionTypes' a.system.actionType)}}</div>
+        <div class="col-2 SR-TextCenter">{{valueOrDash (findTranslation 'spellDurationsShort' a.system.duration)}}</div>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}

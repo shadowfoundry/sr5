@@ -711,6 +711,9 @@ export class SR5Actor extends Actor {
 				case "itemPreparation":
 					i.prepareData();
 					break;
+				case "itemProgram":
+					if (actor.items.find(item => item.system.type === "agent")) SR5_CharacterUtility.updateProgramAgent(actor);
+					break;
 			}
 		}
 	}

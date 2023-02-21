@@ -3257,11 +3257,34 @@ export class SR5_CharacterUtility extends Actor {
 		let actorData = actor.system;
 		if(!actorData.creatorData) return;
 		for (let i of actorData.creatorData.items){
-			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking")){
+			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking") && i.system.isActive){
 				if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 			}
 		}
 
+	}
+
+	static async updateProgramAgent(actor){
+		let actorObject = actor.toObject(false);
+		if (game.actors) {
+			for (let a of game.actors) {
+				if (a.type === "actorAgent" && a.system.creatorId === actor._id){					
+					await a.update({
+						"system.creatorData.items": actorObject.items,
+				 	})
+				}
+			}
+		}
+
+		if (canvas.scene){
+			for (let t of canvas.tokens.placeables) {
+				if(t.actor.type === "actorAgent" && t.actor.system.creatorId === actor._id){
+					await t.actor.update({
+						"system.creatorData.items": actorObject.items,
+				 	})
+				}
+			}
+		}
 	}
 
 	static async updateControledVehicle(actor){

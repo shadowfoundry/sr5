@@ -647,7 +647,11 @@ export class SR5_ActorHelper {
 		let item = ownerActor.getEmbeddedDocument("Item", actor.system.creatorItemId);
 		let modifiedItem = duplicate(item);
 
-		if (actor.type === "actorSpirit"){
+		if (actor.type === "actorSpirit"){			
+			let powers = [];
+			for (let a of actor.items){
+				if (a.type === "itemPower") powers.push(a);
+			}
 			modifiedItem.img = actor.img;
 			modifiedItem.system.services.value = actor.system.services.value;
 			modifiedItem.system.services.max = actor.system.services.max;
@@ -655,21 +659,40 @@ export class SR5_ActorHelper {
 			modifiedItem.system.conditionMonitors.stun.actual = actor.system.conditionMonitors.stun.actual;
 			modifiedItem.system.isBounded = actor.system.isBounded;
 			modifiedItem.system.isCreated = false;
+			modifiedItem.system.powers = powers ;
+			if (actor.img != "systems/sr5/img/actors/actorSpirit.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			await item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorSprite"){
-			let decks = [];
+			let decks = [], spritePowers = [];
 			for (let a of actor.items){
-				if (a.type === "itemDevice") decks.push(a);
+				if (a.type === "itemDevice") decks.push(a);				
+				if (a.type === "itemSpritePower") spritePowers.push(a);
 			}
 			modifiedItem.img = actor.img;
 			modifiedItem.system.decks = decks;
+			modifiedItem.system.spritePowers = spritePowers;
 			modifiedItem.system.tasks.value = actor.system.tasks.value;
 			modifiedItem.system.tasks.max = actor.system.tasks.max;
 			modifiedItem.system.conditionMonitors.matrix.actual = actor.system.conditionMonitors.matrix.actual;
 			modifiedItem.system.isRegistered = actor.system.isRegistered;
 			modifiedItem.system.isCreated = false;
+			if (actor.img != "systems/sr5/img/actors/actorSprite.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
@@ -680,6 +703,14 @@ export class SR5_ActorHelper {
 			}
 			modifiedItem.img = actor.img;
 			modifiedItem.system.decks = decks;
+			if (actor.img != "systems/sr5/img/actors/actorAgent.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
@@ -726,6 +757,14 @@ export class SR5_ActorHelper {
 			modifiedItem.system.gameEffect = actor.system.biography.background,	
 			modifiedItem.system.conditionMonitors = actor.system.conditionMonitors,
 			modifiedItem.system.isCreated = false;
+			if (actor.img != "systems/sr5/img/actors/actorGrunt.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 
@@ -785,6 +824,14 @@ export class SR5_ActorHelper {
 			modifiedItem.system.secondaryPropulsion.type = actor.system.secondaryPropulsionType;
 			modifiedItem.system.isCreated = false;
 			modifiedItem.img = actor.img;
+			if (actor.img != "systems/sr5/img/actors/actorDrone.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
+				modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")");
+				}
+				else {					
+				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
+				};
+			};
 			item.update(modifiedItem);
 		}
 

@@ -966,6 +966,17 @@ input[type=range]:focus::-ms-fill-upper {
   background-repeat: no-repeat;
   background-position: center 10%;
 }
+.app.window-app.actor .window-content .SR-BioItemPortrait {
+  float: left;
+  width: 144px;
+  height: 144px;
+  border: 1px solid;
+  border-color: #b2007a;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 10%;
+  margin-right: 5px;
+}
 .app.window-app.actor .window-content .SR-footer {
   margin-top: 25px;
   padding: 0px 3px 0px 3px;
