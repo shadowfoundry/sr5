@@ -5463,7 +5463,8 @@
           "printScanner": false,
           "dnaScanner": false
         }
-      }
+      },
+      "description": ""
     },
     "actorSprite":{
       "templates": [

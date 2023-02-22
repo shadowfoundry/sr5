@@ -907,6 +907,9 @@ input[type=range]:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid #931004;
 }
+.app.window-app.actor .window-content .SR-AppareilMainCentre li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
+  background-color: rgba(12, 147, 148, 0.1);
+}
 .app.window-app.actor .window-content .SR-EspritMainCentre {
   margin-left: 10px;
   padding-left: 10px;
