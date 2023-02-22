@@ -6034,7 +6034,8 @@
           "disorientation": false,
           "nausea": false,
           "paralysis": false,
-          "agony": false
+          "agony": false,
+          "arcaneInhibitor": false
         },
         "penetration": 0,
         "damageType": null
@@ -6824,6 +6825,7 @@
         "templateCustomEffects"
         ],
       "type": "",
+      "itemRating": "",
       "target": "",
       "duration": 1,
       "durationType":"",

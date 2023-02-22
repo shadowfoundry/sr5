@@ -1119,6 +1119,7 @@ SR5.toxinTypes = {
 	snakeVenom                : "SR5.ToxinSnakeVenom",
 	snowSnakeVenom            : "SR5.ToxinSnowSnakeVenom",
 	spiderBeastVenom          : "SR5.ToxinSpiderBeastVenom",
+	voidWaspVenom             : "SR5.ToxinVoidWaspVenom",
 	noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
@@ -1128,6 +1129,7 @@ SR5.toxinEffects = {
 	nausea                    : "SR5.ToxinEffectNausea",
 	paralysis                 : "SR5.ToxinEffectParalysis",
 	agony                     : "SR5.ToxinEffectAgony",
+	arcaneInhibitor			  : "SR5.ToxinEffectArcaneInhibitor",
 };
 
 //Cover
@@ -3036,6 +3038,7 @@ SR5.effectTypes = {
 	toxinEffectNausea         : "SR5.ToxinEffectNausea",
 	toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 	toxinEffectAgony          : "SR5.ToxinEffectAgony",
+	toxinEffectArcaneInhibitor: "SR5.ToxinEffectArcaneInhibitor",
 	slowed                    : "SR5.STATUSES_Slowed",
 	winded                    : "SR5.STATUSES_Winded",
 	deafened                  : "SR5.STATUSES_Deafened",

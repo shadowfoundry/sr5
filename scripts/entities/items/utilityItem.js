@@ -832,6 +832,14 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.nausea = true;
 				itemData.toxin.damageType = "physical";
 				break;
+			case "voidWaspVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 3;
+				itemData.toxin.power = 10;
+				itemData.toxin.penetration = -4;
+				itemData.toxin.effect.arcaneInhibitor = true;
+				itemData.toxin.damageType = "stun";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}

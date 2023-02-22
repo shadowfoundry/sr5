@@ -1191,6 +1191,14 @@ export class SR5_ActorHelper {
 						statusEffects = statusEffects.concat(status);
 					}
 				}
+				//Arcane Inhibitor Status Effect
+				if (key === "arcaneInhibitor"){					
+					let isStatusEffectOn = actor.effects.find(e => e.origin === "toxinEffectArcaneInhibitor");
+					if (!isStatusEffectOn){
+						status = await _getSRStatusEffect("toxinEffectArcaneInhibitor");
+						statusEffects = statusEffects.concat(status);
+					}
+				}
 			}
 		}
 
