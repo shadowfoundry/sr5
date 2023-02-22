@@ -5412,7 +5412,6 @@
         "itemsPropertiesTemplate"
       ],
       "isDirectlyConnected": false,
-      "notConnected": false,
       "matrix":{
         "ice":{
           "attackDicepool": 0,
@@ -5450,17 +5449,6 @@
             "modifiers": []
           },
           "isActive": true
-        },
-        "physicalInit": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "dice": {
-            "value": 0,
-            "base": 1,
-            "modifiers": []
-          },
-          "isActive": false
         }
       },
       "maglock": {
