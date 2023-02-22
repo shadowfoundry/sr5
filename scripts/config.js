@@ -1107,13 +1107,19 @@ SR5.toxinTypes = {
 	neuroStunNine             : "SR5.ToxinNeuroStunNine",
 	neuroStunTen              : "SR5.ToxinNeuroStunTen",
 	seven                     : "SR5.ToxinSeven",
-	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",	
+	kokoroCobraVenom          : "SR5.ToxinKokoroCobraVenom",
+	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",
+	flatwormViperVenom		  : "SR5.ToxinFlatwormViperVenom",
+	glowRatVenom			  : "SR5.ToxinGlowRatVenom",	
+	iridescentOwlVenom		  : "SR5.ToxinIridescentOwlFeathersVenom",
 	nagaVenom                 : "SR5.ToxinNagaVenom",	
 	novaScorpionVenom         : "SR5.ToxinNovaScorpionVenom",
 	martichorasVenom          : "SR5.ToxinMartichorasVenom",
+	montaukVenom              : "SR5.ToxinMontaukVenom",
 	snakeVenom                : "SR5.ToxinSnakeVenom",
 	snowSnakeVenom            : "SR5.ToxinSnowSnakeVenom",
 	spiderBeastVenom          : "SR5.ToxinSpiderBeastVenom",
+	voidWaspVenom             : "SR5.ToxinVoidWaspVenom",
 	noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
@@ -1123,6 +1129,7 @@ SR5.toxinEffects = {
 	nausea                    : "SR5.ToxinEffectNausea",
 	paralysis                 : "SR5.ToxinEffectParalysis",
 	agony                     : "SR5.ToxinEffectAgony",
+	arcaneInhibitor			  : "SR5.ToxinEffectArcaneInhibitor",
 };
 
 //Cover
@@ -2294,6 +2301,7 @@ SR5.vehicleModTools = {
 // Spirit types
 SR5.spiritTypes = {
 	abomination               : "SR5.Abomination",
+	anarch                    : "SR5.Anarch",
 	air                       : "SR5.Air",
 	barren                    : "SR5.Barren",
 	beasts                    : "SR5.Beasts",
@@ -2925,6 +2933,17 @@ SR5.spiritBasePowerswatcher = {
 	search                     : "SR5.SpiritPowerSearch",
 }
 
+
+SR5.spiritBasePowersanarch = {
+	accident                   : "SR5.SpiritPowerAccident",
+	auraMasking                : "SR5.SpiritPowerAuraMasking",
+	banishingResistance        : "SR5.SpiritPowerBanishingResistance",	
+	materialization            : "SR5.SpiritPowerMaterialization",
+	realisticForm              : "SR5.SpiritPowerRealisticForm",
+	sapience                   : "SR5.SpiritPowerSapience",
+	naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
+}
+
 SR5.AllSpiritPowers = {
 	accident                   : "SR5.SpiritPowerAccident",
 	animalControl              : "SR5.SpiritPowerAnimalControl",
@@ -3009,6 +3028,8 @@ SR5.iceTypes = {
 	iceBinder                 : "SR5.IceBinder",
 	iceBlack                  : "SR5.IceBlack",
 	iceBlaster                : "SR5.IceBlaster",
+	iceBloodhound             : "SR5.IceBloodhound",
+	iceCatapult               : "SR5.IceCatapult",
 	iceCrash                  : "SR5.IceCrash",
 	iceJammer                 : "SR5.IceJammer",
 	iceKiller                 : "SR5.IceKiller",
@@ -3016,6 +3037,7 @@ SR5.iceTypes = {
 	icePatrol                 : "SR5.IcePatrol",
 	iceProbe                  : "SR5.IceProbe",
 	iceScramble               : "SR5.IceScramble",
+	iceShocker                : "SR5.IceShocker",
 	iceSparky                 : "SR5.IceSparky",
 	iceTarBaby                : "SR5.IceTarBaby",
 	iceTrack                  : "SR5.IceTrack",
@@ -3067,6 +3089,7 @@ SR5.effectTypes = {
 	toxinEffectNausea         : "SR5.ToxinEffectNausea",
 	toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 	toxinEffectAgony          : "SR5.ToxinEffectAgony",
+	toxinEffectArcaneInhibitor: "SR5.ToxinEffectArcaneInhibitor",
 	slowed                    : "SR5.STATUSES_Slowed",
 	winded                    : "SR5.STATUSES_Winded",
 	deafened                  : "SR5.STATUSES_Deafened",

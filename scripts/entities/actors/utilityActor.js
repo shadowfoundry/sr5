@@ -1106,6 +1106,12 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(attributes.reaction.natural, label, 'spiritType', +2);
 				SR5_EntityHelpers.updateModifier(attributes.strength.natural, label, 'spiritType', +2);
 				break;
+			case "anarch":
+				SR5_EntityHelpers.updateModifier(attributes.body.natural, label, 'spiritType', -1);
+				SR5_EntityHelpers.updateModifier(attributes.agility.natural, label, 'spiritType', -1);
+				SR5_EntityHelpers.updateModifier(attributes.reaction.natural, label, 'spiritType', +1);
+				SR5_EntityHelpers.updateModifier(attributes.strength.natural, label, 'spiritType', -1);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, `Unknown ${actorData.type} spirit type in 'updateSpiritAttributes()'`);
 				return false;
@@ -2343,6 +2349,25 @@ export class SR5_CharacterUtility extends Actor {
 				skills.artisan.rating.base = actorData.force.value;
 				skills.unarmedCombat.rating.base = actorData.force.value;
 				break;
+			case "anarch":
+				skills.assensing.rating.base = actorData.force.value;
+				skills.automatics.rating.base = actorData.force.value;
+				skills.blades.rating.base = actorData.force.value;
+				skills.clubs.rating.base = actorData.force.value;
+				skills.con.rating.base = actorData.force.value;
+				skills.demolitions.rating.base = actorData.force.value;
+				skills.disguise.rating.base = actorData.force.value;
+				skills.forgery.rating.base = actorData.force.value;
+				skills.gymnastics.rating.base = actorData.force.value;
+				skills.impersonation.rating.base = actorData.force.value;
+				skills.locksmith.rating.base = actorData.force.value;
+				skills.palming.rating.base = actorData.force.value;
+				skills.perception.rating.base = actorData.force.value;
+				skills.pistols.rating.base = actorData.force.value;
+				skills.sneaking.rating.base = actorData.force.value;
+				skills.throwingWeapons.rating.base = actorData.force.value;
+				skills.unarmedCombat.rating.base = actorData.force.value;
+				break;
 		}
 
 		for (let key of Object.keys(SR5.skills)) {
@@ -3128,11 +3153,13 @@ export class SR5_CharacterUtility extends Actor {
 				case "iceKiller" :
 				case "iceProbe" :
 				case "iceSparky" :
+				case "iceShocker":
 					matrix.ice.defenseFirstAttribute = "intuition";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
 				case "iceBlaster" :
 				case "iceTarBaby" :
+				case "iceCatapult":
 					matrix.ice.defenseFirstAttribute = "logic";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
@@ -3142,6 +3169,7 @@ export class SR5_CharacterUtility extends Actor {
 					break;
 				case "iceTrack" :
 				case "iceMarker" :
+				case "iceBloodhound":
 					matrix.ice.defenseFirstAttribute = "willpower";
 					matrix.ice.defenseSecondAttribute = "sleaze";
 					break;

@@ -3,6 +3,8 @@ import { SR5_RollMessage } from "../roll-message.js";
 import { SR5_MatrixHelpers } from "../roll-helpers/matrix.js";
 import { SR5_MarkHelpers } from "../roll-helpers/mark.js";
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js";
+import { SR5Combat } from "../../system/srcombat.js";
+import { SR5 } from "../../config.js";
 
 export default async function iceDefenseInfo(cardData, actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
@@ -26,6 +28,13 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceAcid":
                 if (actorData.matrix.attributes.firewall.value > 0) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceFirewall"));
                 else cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
+                break;
+            case "iceCatapult":
+                cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceFirewall"));
+                cardData.damage.value = netHits + existingMark;                
+                cardData.damage.type = "stun";
+                cardData.damage.resistanceType = "physicalDamage";
+                cardData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest", "resistanceCard", `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`);
                 break;
             case "iceBinder":
                 if (actorData.matrix.attributes.dataProcessing.value > 0) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.EffectReduceDataProcessing"));
@@ -54,6 +63,10 @@ export default async function iceDefenseInfo(cardData, actorId){
                 break;
             case "icePatrol":
                 break;
+            case "iceBloodhound":
+                cardData.matrix.mark = 2;
+                cardData.chatCard.buttons.attackerPlaceMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "attackerPlaceMark", `${game.i18n.format('SR5.AttackerPlaceMarkTo', {key: cardData.matrix.mark, item: targetItem.name, name: cardData.owner.speakerActor})}`);
+                break;
             case "iceProbe":
                 cardData.matrix.mark = 1;
                 cardData.chatCard.buttons.attackerPlaceMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "attackerPlaceMark", `${game.i18n.format('SR5.AttackerPlaceMarkTo', {key: cardData.matrix.mark, item: targetItem.name, name: cardData.owner.speakerActor})}`);
@@ -71,6 +84,9 @@ export default async function iceDefenseInfo(cardData, actorId){
                 break;
             case "iceTrack":
                 if (existingMark >= 2) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.Geolocated"));
+                break;
+            case "iceShocker":           
+            SR5Combat.changeInitInCombatHelper(actorId, -5);
                 break;
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.typeSub}' type in iceDefenseInfo`);

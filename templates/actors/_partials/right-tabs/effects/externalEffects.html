@@ -20,9 +20,16 @@
         <li class="item grid" data-item-id="{{_id}}" draggable="true">
             <div class="col-3 deplie">{{name}}</div>
             <div class="col-3 SR-TextCenter">{{system.target}}</div>
+            {{#if system.value}}
             <div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.value" data-helpTitle="{{localize 'SR5.HELP_EffectValue' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EffectValueMsg'}}">
                 {{system.value}}
             </div>
+            {{/if}}
+            {{#if system.itemRating}}
+            <div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.itemRating" data-helpTitle="{{localize 'SR5.HELP_EffectValue' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EffectValueMsg'}}">
+                {{system.itemRating}}
+            </div>
+            {{/if}}
             <div class="col-3 SR-TextCenter">{{findTranslation 'effectTypes' system.type}}</div>
             {{#if (ne system.duration 0)}}
             <div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.duration" data-helpTitle="{{localize 'SR5.HELP_EffectDuration' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EffectDurationMsg'}}">

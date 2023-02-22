@@ -342,6 +342,23 @@ export class SR5_MatrixHelpers {
                 });
                 target.createEmbeddedDocuments("Item", [effect]);
                 break;
+            case "iceCatapult":
+                effect = mergeObject(effect, {
+                    name: game.i18n.localize("SR5.EffectReduceFirewall"),
+                    "system.target": game.i18n.localize("SR5.Firewall"),
+                    "system.value": -1,
+                    "system.customEffects": {
+                        "0": {
+                            "category": "matrixAttributes",
+                            "target": "system.matrix.attributes.firewall",
+                            "type": "value",
+                            "value": -1,
+                            "forceAdd": true,
+                        }
+                    },
+                });
+                target.createEmbeddedDocuments("Item", [effect]);
+                break;
             case "iceCrash":
                 let programs = [];
                 for (let i of target.items){
@@ -400,11 +417,13 @@ export class SR5_MatrixHelpers {
             case "iceTarBaby":
                 await SR5_MatrixHelpers.applylinkLockEffect(ice, target);
                 break;
+            case "iceShocker":
             case "iceSparky":
             case "iceKiller":
             case "iceTrack":
             case "icePatrol":
             case "iceProbe":
+            case "iceBloodhound":
                 break;
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.typeSub}' type in applyIceEffect`);
