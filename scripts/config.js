@@ -2262,6 +2262,7 @@ SR5.vehicleModTools = {
 // Spirit types
 SR5.spiritTypes = {
 	abomination               : "SR5.Abomination",
+	anarch                    : "SR5.Anarch",
 	air                       : "SR5.Air",
 	barren                    : "SR5.Barren",
 	beasts                    : "SR5.Beasts",
@@ -2891,6 +2892,17 @@ SR5.spiritBasePowerswatcher = {
 	astralForm                 : "SR5.SpiritPowerAstralForm",
 	sapience                   : "SR5.SpiritPowerSapience",
 	search                     : "SR5.SpiritPowerSearch",
+}
+
+
+SR5.spiritBasePowersanarch = {
+	accident                   : "SR5.SpiritPowerAccident",
+	auraMasking                : "SR5.SpiritPowerAuraMasking",
+	banishingResistance        : "SR5.SpiritPowerBanishingResistance",	
+	materialization            : "SR5.SpiritPowerMaterialization",
+	realisticForm              : "SR5.SpiritPowerRealisticForm",
+	sapience                   : "SR5.SpiritPowerSapience",
+	naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
 }
 
 SR5.AllSpiritPowers = {

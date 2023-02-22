@@ -2400,6 +2400,13 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			case "abomination":
 				itemData.attributes.body += 2;
+				itemData.attributes.agility += -1;
+				itemData.attributes.reaction += +1;
+				itemData.attributes.strength += -1;
+				itemData.skill.push("assensing", "automatics", "blades", "clubs", "con", "demolitions", "disguise", "forgery", "gymnastics", "impersonation", "locksmith", "palming", "perception", "pistols", "sneaking", "throwingWeapons", "unarmedCombat");
+				break;
+			case "anarch":
+				itemData.attributes.body += -1;
 				itemData.attributes.agility += 1;
 				itemData.attributes.strength += 2;
 				itemData.skill.push("astralCombat", "assensing", "perception", "exoticRangedWeapon", "unarmedCombat", "running", "gymnastics");
@@ -2560,6 +2567,11 @@ export class SR5_UtilityItem extends Actor {
 	static _handlePower(itemData, actor) {
 		let firstAttribute, secondAttribute;
 		if (itemData.testFirstAttribute){
+			console.log("power : " + itemData.name + ", attribute : " + itemData.testFirstAttribute);
+			if (actor.type === "actorSpirit" && itemData.testFirstAttribute === "edge"){
+				itemData.testFirstAttribute = "magic"; 				
+				console.log("first attribut power : " + JSON.stringify(itemData) + ", attribute : " + itemData.testFirstAttribute);
+			}
 			if (itemData.testFirstAttribute === "edge" || itemData.testFirstAttribute === "magic" || itemData.testFirstAttribute === "resonance"){
 				firstAttribute = actor.system.specialAttributes[itemData.testFirstAttribute].augmented.value;
 			} else {
@@ -2568,6 +2580,10 @@ export class SR5_UtilityItem extends Actor {
 		}
 
 		if (itemData.testSecondAttribute){
+			if (actor.type === "actorSpirit" && itemData.testSecondAttribute === "edge"){
+				itemData.testSecondAttribute = "magic"; 				
+				console.log("second attribut power : " + JSON.stringify(itemData) + ", attribute : " + itemData.testSecondAttribute);
+			}
 			if (itemData.testSecondAttribute === "edge" || itemData.testSecondAttribute === "magic" || itemData.testSecondAttribute === "resonance"){
 				secondAttribute = actor.system.specialAttributes[itemData.testSecondAttribute].augmented.value;
 			} else {
