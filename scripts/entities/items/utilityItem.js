@@ -2398,14 +2398,14 @@ export class SR5_UtilityItem extends Actor {
 				itemData.attributes.strength += -3;
 				itemData.skill.push("astralCombat", "assensing", "perception", "exoticRangedWeapon", "unarmedCombat", "running", "flight");
 				break;
-			case "abomination":
+			case "anarch":
 				itemData.attributes.body += 2;
 				itemData.attributes.agility += -1;
 				itemData.attributes.reaction += +1;
 				itemData.attributes.strength += -1;
 				itemData.skill.push("assensing", "automatics", "blades", "clubs", "con", "demolitions", "disguise", "forgery", "gymnastics", "impersonation", "locksmith", "palming", "perception", "pistols", "sneaking", "throwingWeapons", "unarmedCombat");
 				break;
-			case "anarch":
+			case "abomination":
 				itemData.attributes.body += -1;
 				itemData.attributes.agility += 1;
 				itemData.attributes.strength += 2;
