@@ -3363,6 +3363,24 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
+	static async updateInitiativeMatrix(actor){		
+		let status, isStatusEffectOn, statusEffects = [];
+		isStatusEffectOn = actor.effects.find(e => e.flags.core?.statusId === "matrixInit");
+		if (!actor.system.isDirectlyConnected) {
+			if (!isStatusEffectOn){				
+				status = await _getSRStatusEffect("matrixInit");
+				statusEffects = statusEffects.concat(status);
+			}
+		} else {
+			if (isStatusEffectOn){	
+			console.log("isStatusEffectOn : " + JSON.stringify(isStatusEffectOn));
+			await actor.deleteEmbeddedDocuments("ActiveEffect", [isStatusEffectOn._id]);
+			}
+		}
+		if (statusEffects.length) await actor.createEmbeddedDocuments("ActiveEffect", statusEffects);
+		
+	}
+
 	//////////////// MODIFS D'OBJETS ///////////////////
 
 	// Modif dû à la possession d'un esprit
