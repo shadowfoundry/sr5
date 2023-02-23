@@ -3363,7 +3363,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	static async updateInitiativeMatrix(actor){		
+	static async updateMatrixEffect(actor){		
 		let status, isStatusEffectOn, statusEffects = [];
 		isStatusEffectOn = actor.effects.find(e => e.flags.core?.statusId === "matrixInit");
 		if (!actor.system.isDirectlyConnected) {
@@ -3373,7 +3373,6 @@ export class SR5_CharacterUtility extends Actor {
 			}
 		} else {
 			if (isStatusEffectOn){	
-			console.log("isStatusEffectOn : " + JSON.stringify(isStatusEffectOn));
 			await actor.deleteEmbeddedDocuments("ActiveEffect", [isStatusEffectOn._id]);
 			}
 		}

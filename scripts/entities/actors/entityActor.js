@@ -332,7 +332,7 @@ export class SR5Actor extends Actor {
 			case "actorDevice":
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updateActions(actor);
-				SR5_CharacterUtility.updateInitiativeMatrix(actor);
+				SR5_CharacterUtility.updateMatrixEffect(actor);
 				break;
 			case "actorAgent":
 				SR5_CharacterUtility.applyProgramToAgent(actor);
