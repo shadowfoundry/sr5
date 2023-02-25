@@ -52,6 +52,8 @@ export class SR5AgentSheet extends ActorSheetSR5 {
 		else context.rulesMatrixGrid = false;
 		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
 		else context.rulesCalledShot = false;
+		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
+		else context.rulesKillCode = false;
 
 		return context;
 	}
@@ -67,9 +69,10 @@ export class SR5AgentSheet extends ActorSheetSR5 {
 	}
 
 	_prepareMatrixActions(actor) {
-		const activeMatrixActions = {};
+		const activeMatrixActions = {};		
+		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
-			if (matrixAction.test?.dicePool > 0 || matrixAction.defense?.dicePool > 0 || this._shownNonRollableMatrixActions) {
+			if (matrixAction.test?.dicePool > 0 || matrixAction.defense?.dicePool > 0  || (killCodeRules && matrixAction.source === "killCode") || this._shownNonRollableMatrixActions) {
 				activeMatrixActions[key] = matrixAction;
 			}
 		}

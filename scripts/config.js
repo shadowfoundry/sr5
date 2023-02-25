@@ -701,7 +701,7 @@ SR5.actionTypes = {
 	free                      : "SR5.ActionTypeFree",
 	simple                    : "SR5.ActionTypeSimple",
 	complex                   : "SR5.ActionTypeComplex",
-	interrupt                 : "SR5.ActionTypeInterruption",
+	interruption              : "SR5.ActionTypeInterruption",
 	special 				  : "SR5.ActionTypeSpecial",
 }
 
@@ -724,6 +724,7 @@ SR5.actionSources = {
 	loadAgent				  : "SR5.ActionSourceLoadAgent",
 	loadProgram     		  : "SR5.ActionSourceLoadProgram",
 	manual		     		  : "SR5.ActionSourceManual",
+	matrixAction              : "SR5.ActionSourceMatrixAction",
 	ramming					  : "SR5.ActionSourceRamming",
 	rebooDeck				  : "SR5.ActionSourceRebootDeck",
 	replaceClip				  : "SR5.ActionSourceReplaceClip",
@@ -1914,7 +1915,7 @@ SR5.matrixResistances = {
 };
 
 // Matrix Rolled Actions
-SR5.matrixRolledActions = {
+SR5.matrixCoreRolledActions = {
 	bruteForce                : "SR5.MatrixActionBruteForce",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
 	controlDevice             : "SR5.MatrixActionControlDevice",
@@ -1968,12 +1969,32 @@ SR5.resonanceActions = {
 	threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
 };
 
+// Kill Code Actions
+SR5.matrixKillCodeActions = {
+	calibration               : "SR5.MatrixActionCalibration",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	iAmTheFirewall            : "SR5.MatrixActionIAmTheFirewall",
+	haywire                   : "SR5.MatrixActionHaywire",
+	intervene                 : "SR5.MatrixActionIntervene",
+	masquerade                : "SR5.MatrixActionMasquerade",
+	popup                     : "SR5.MatrixActionPopup",
+	squelch                   : "SR5.MatrixActionSquelch",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure",
+	tag                       : "SR5.MatrixActionTag",
+	watchdog                  : "SR5.MatrixActionWatchdog",
+};
+
+SR5.matrixRolledActions = {
+		...SR5.matrixCoreRolledActions,
+		...SR5.matrixKillCodeActions,
+	};
+
 SR5.matrixActions = {
 	...SR5.matrixRolledActions,
 	...SR5.matrixOtherActions,
 };
 
-// Matrix Informations
+// Matrix Informations Game Effects
 SR5.matrixGameEffects = {
 	bruteForce                : "SR5.MatrixActionBruteForce_GE",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore_GE",
@@ -2010,6 +2031,17 @@ SR5.matrixGameEffects = {
 	switchTwoMatrixAttributes : "SR5.MatrixActionSwitchTwoMatrixAttributes_GE",
 	swapTwoPrograms           : "SR5.MatrixActionSwapTwoPrograms_GE",
 	unloadProgram             : "SR5.MatrixActionUnloadProgram_GE",
+	calibration               : "SR5.MatrixActionCalibration_GE",
+	denialOfService           : "SR5.MatrixActionDenialOfService_GE",
+	iAmTheFirewall            : "SR5.MatrixActionIAmTheFirewall_GE",
+	haywire                   : "SR5.MatrixActionHaywire_GE",
+	intervene                 : "SR5.MatrixActionIntervene_GE",
+	masquerade                : "SR5.MatrixActionMasquerade_GE",
+	popup                     : "SR5.MatrixActionPopup_GE",
+	squelch                   : "SR5.MatrixActionSquelch_GE",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure_GE",
+	tag                       : "SR5.MatrixActionTag_GE",
+	watchdog                  : "SR5.MatrixActionWatchdog_GE",
 };
 
 // Complex Form Targets
@@ -2051,6 +2083,14 @@ SR5.matrixActionsDefenses = {
 	jackOut                   : "SR5.MatrixActionJackOut",
 	traceIcon                 : "SR5.MatrixActionTraceIcon",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	haywire                   : "SR5.MatrixActionHaywire",
+	masquerade                : "SR5.MatrixActionMasquerade",
+	popup                     : "SR5.MatrixActionPopup",
+	squelch                   : "SR5.MatrixActionSquelch",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure",
+	tag                       : "SR5.MatrixActionTag",
+	watchdog                  : "SR5.MatrixActionWatchdog",
 };
 
 // Type de deck

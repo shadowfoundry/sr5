@@ -74,13 +74,24 @@ export class SR5_SystemHelpers {
 			onChange: () => window.location.reload()
 		});
 
-		// Matrix Grid Rules
+		// Run & Gun Rules
 		game.settings.register("sr5", "sr5CalledShotsRules", {
 			name: "SR5.SETTINGS_CalledShotsRules_T",
 			hint: "SR5.SETTINGS_CalledShotsRules_D",
 			scope: "world",
 			config: true,
 			default: true,
+			type: Boolean,
+			onChange: () => window.location.reload()
+		});
+
+		// Kill Code Rules
+		game.settings.register("sr5", "sr5KillCodeRules", {
+			name: "SR5.SETTINGS_KillCodeRules_T",
+			hint: "SR5.SETTINGS_KillCodeRules_D",
+			scope: "world",
+			config: true,
+			default: false,
 			type: Boolean,
 			onChange: () => window.location.reload()
 		});

@@ -541,6 +541,7 @@ export class SR5Combat extends Combat {
 		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
 		let actorData = duplicate(actor.system);
 		let combatant = await SR5Combat.getCombatantFromActor(actor);
+		let initModifier;
 		if (!combatant) return;
 		
 		//Update actor actions
@@ -566,7 +567,12 @@ export class SR5Combat extends Combat {
 				ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActionsManually", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), sign: sign})}`); 
 			}
 			else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])})}`); 
+			if (action.type === "interruption") {
+				console.log(JSON.stringify(action));
+				initModifier = -5;
+			}
 		}
+		if (initModifier) await SR5Combat.changeInitInCombatHelper(documentId, initModifier);
 	}
 
 	//Reset actions on actor

@@ -55,6 +55,8 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		else context.rulesMatrixGrid = false;
 		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
 		else context.rulesCalledShot = false;
+		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
+		else context.rulesKillCode = false;
 
 		return context;
 	}
@@ -81,13 +83,14 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		const activeMatrixActions = {};
 		let hasAttack = (actor.system.matrix.attributes.attack.value > 0) ? true : false; 
 		let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false; 
-		
+		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");
+
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
 			if ( (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
 			|| (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
 			|| (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
-			|| this._shownNonRollableMatrixActions) {
+			|| (killCodeRules && matrixAction.source === "killCode") || this._shownNonRollableMatrixActions) {
 				activeMatrixActions[key] = matrixAction;
 			}
 		}

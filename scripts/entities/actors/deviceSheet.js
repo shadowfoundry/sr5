@@ -44,6 +44,8 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 		else context.rulesMatrixGrid = false;
 		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
 		else context.rulesCalledShot = false;
+		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
+		else context.rulesKillCode = false;
 
 		return context;
 	}
