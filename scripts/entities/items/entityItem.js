@@ -238,7 +238,7 @@ export class SR5Item extends Item {
 				if (itemData.category === "rangedWeapon"){
 					tags.push(
 						game.i18n.localize(lists.rangedWeaponTypes[itemData.type]),
-						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.firingMode.value}`,
+						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.firingMode.value.join("/")}`,
 						game.i18n.localize(`SR5.WeaponModeCurrent`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.weaponModesCode[itemData.firingMode.current]),
 						game.i18n.localize(`SR5.RecoilCompensationShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.recoilCompensation.value}`,
 						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
