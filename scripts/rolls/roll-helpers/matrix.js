@@ -290,7 +290,7 @@ export class SR5_MatrixHelpers {
         target.createEmbeddedDocuments("Item", [effect]);
         let statusEffect = await _getSRStatusEffect("linkLock");
         await target.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
-        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${attacker.name}`);
+        ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${attacker.name}`);
     }
 
     //create denial of service Effect
@@ -320,30 +320,45 @@ export class SR5_MatrixHelpers {
             "system.gameEffect": game.i18n.localize("SR5.MatrixActionDenialOfService_GE"),
         };
         await target.createEmbeddedDocuments("Item", [effect]);
-        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`);
+        ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`);
     }
 
-    //create Haywire Effect
-    static async applyHaywireEffect(cardData, sourceActor, target){
-    
-        let netHits = cardData.previousMessage.hits - cardData.roll.hits;
+    //create I Am the Firewall Effect
+    static async applyIAmTheFirewallEffect(cardData, speaker, sourceActor){
+
+
+        let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
+                
+        console.log("actor : " + actor.name + " | cardData : " + JSON.stringify(cardData));
+
+        let hits = cardData.roll.hits;
 
         let effect = {
-            name: game.i18n.localize("SR5.MatrixActionHaywire"),
+            name: `${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (${sourceActor.name})`,            
             type: "itemEffect",
-            "system.type": "haywire",
+            "system.target": game.i18n.localize("SR5.Firewall"),
+            "system.value": hits,
             "system.ownerID": sourceActor.id,
             "system.ownerName": sourceActor.name,
-            "system.duration": 0,
-            "system.durationType": "reboot",
-            "system.target": game.i18n.localize("SR5.ComplexFormTargetPersona"),
-            "system.value": netHits,
-            "system.gameEffect": game.i18n.localize("SR5.MatrixActionHaywire_GE"),
+            "system.duration": 1,
+            "system.durationType": "round",
+            "system.customEffects": {
+                "0": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.firewall",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionIAmTheFirewall_GE"),
         };
-        await target.createEmbeddedDocuments("Item", [effect]);
-        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.MatrixActionHaywire')}`);
+        await actor.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.EffectIncreaseFirewallDone', {hits: hits})}`);
 
     }
+
+    
 
     /** Handle ICE specific attack effect
     * @param {Object} cardData - The chat message data

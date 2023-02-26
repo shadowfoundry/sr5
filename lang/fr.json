@@ -846,6 +846,8 @@
 	"SR5.EffectNew": "Nouvel effet",
 	"SR5.EffectNoAction": "Incapable d'agir",
 	"SR5.EffectNoMagic": "Incapable d'utiliser la Magie",
+	"SR5.EffectIncreaseFirewall": "Augmentation de Firewall",
+	"SR5.EffectIncreaseFirewallDone": "Firewall augmenté de {hits}",
 	"SR5.EffectReduceAttack": "Réduction d'Attaque",
 	"SR5.EffectReduceAttackDone": "Attaque réduit de {hits}",
 	"SR5.EffectReduceDataProcessing": "Réduction de Traitement de Données",

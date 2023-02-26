@@ -372,6 +372,11 @@ export class SR5_RollMessage {
                 SR5_MatrixHelpers.applyHaywireEffect(messageData, originalActionActor, actor);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
+            case "iAmTheFirewall":
+                console.log("speaker : " + JSON.stringify(speaker));
+                console.log("messageData : " + JSON.stringify(messageData));
+                SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, actor);
+                break;
             case "reduceService":
             case "reduceTask":
                 SR5_ThirdPartyHelpers.reduceSideckickService(messageData);
