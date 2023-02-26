@@ -373,9 +373,11 @@ export class SR5_RollMessage {
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "iAmTheFirewall":
-                console.log("speaker : " + JSON.stringify(speaker));
-                console.log("messageData : " + JSON.stringify(messageData));
                 SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, actor);
+                break;
+            case "intervene":
+                SR5_MatrixHelpers.applyInterveneEffect(messageData, speaker, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "popup":
                 SR5_MatrixHelpers.applyPopupEffect(messageData, originalActionActor, actor);

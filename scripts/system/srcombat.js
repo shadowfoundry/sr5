@@ -573,6 +573,28 @@ export class SR5Combat extends Combat {
 			}
 		}
 		if (initModifier) await SR5Combat.changeInitInCombatHelper(documentId, initModifier);
+
+		//Decrease external effect duration
+		for (let item of actor.items){
+			if (item.type === "itemEffect") {
+				let itemData = duplicate(item.system);
+
+				//Decrease effect duration
+				if (item.system.durationType === "action"){
+					itemData.duration -= 1;
+					//Delete effect if duration < 0;
+					if (itemData.duration <= 0){
+						await actor.deleteEmbeddedDocuments("Item", [item.id]);
+						await SR5_EntityHelpers.deleteEffectOnActor(actor, item.system.type);
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`);
+					} else {
+						await item.update({system: itemData});
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`);
+					}
+				}
+			}
+		}
+
 	}
 
 	//Reset actions on actor

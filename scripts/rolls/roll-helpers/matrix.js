@@ -355,6 +355,59 @@ export class SR5_MatrixHelpers {
 
     }
 
+    //create Intervene Effect
+    static async applyInterveneEffect(cardData, speaker, sourceActor){
+
+        let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
+        let hits = cardData.roll.hits;
+
+        let effect = {
+            name: `${game.i18n.format('SR5.MatrixActionIntervene')} (${sourceActor.name})`,            
+            type: "itemEffect",
+            "system.target": game.i18n.localize("SR5.Defense"),
+            "system.type": "matrixAction",
+            "system.value": hits,
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "action",
+            "system.customEffects": {
+                "0": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.firewall",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                },
+                "1": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.dataProcessing",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                },
+                "2": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.sleaze",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                },
+                "3": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.attack",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionIntervene_GE"),
+        };
+        await actor.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffect', {hits: hits})}`);
+
+    }
+
     //create popup Effect
     static async applyPopupEffect(cardData, sourceActor, target){
         console.log(JSON.stringify(cardData));
