@@ -568,7 +568,6 @@ export class SR5Combat extends Combat {
 			}
 			else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])})}`); 
 			if (action.type === "interruption") {
-				console.log(JSON.stringify(action));
 				initModifier = -5;
 			}
 		}

@@ -410,7 +410,6 @@ export class SR5_MatrixHelpers {
 
     //create popup Effect
     static async applyPopupEffect(cardData, sourceActor, target){
-        console.log(JSON.stringify(cardData));
         let netHits = cardData.previousMessage.hits - cardData.roll.hits;
         let deviceTarget = await fromUuid(cardData.target.itemUuid);
         let action = cardData.test.typeSub;

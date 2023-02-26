@@ -291,10 +291,7 @@ export class SR5_CombatHelpers {
                 }
                 break;
             case "arcaneInhibitor":
-                console.log("effecType : " + JSON.stringify(effecType));
-                console.log("info : " + JSON.stringify(info));
                 let value = info.damage.base;
-                console.log("value : " + value);
                 hasEffect = actor.items.find(i => i.system.type === "toxinEffectArcaneInhibitor");
                 if (!hasEffect){
                     effect = mergeObject(effect, {
