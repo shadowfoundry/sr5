@@ -49,6 +49,7 @@ export default async function matrixDefenseInfo(cardData, actorId){
 				if (actorData.matrix.deviceType !== "host") cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.damage.matrix.value})`);
 				break;
 			case "dataSpike":
+			case "iceBlueGoo":
 				cardData.damage.matrix.base = attacker.system.matrix.attributes.attack.value;
 				cardData = await SR5_MatrixHelpers.updateMatrixDamage(cardData, netHits, actor);
 				cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.damage.matrix.value})`);

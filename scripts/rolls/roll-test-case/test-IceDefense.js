@@ -52,10 +52,12 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceBlaster":
             case "iceBlack":
             case "iceSparky":
+            case "iceBlueGoo":          
+                if (cardData.test.typeSub === "iceBlueGoo") cardData.damage.matrix.base = originalActor.system.matrix.attributes.attack.value ; 
                 cardData = await SR5_MatrixHelpers.updateMatrixDamage(cardData, netHits, actor);
-                if ((cardData.test.typeSub === "iceBlaster" || cardData.test.typeSub === "iceBlack") && (!actorData.matrix.isLinkLocked)) {
+                if ((cardData.test.typeSub === "iceBlaster" || cardData.test.typeSub === "iceBlack") && (!actorData.matrix.isLinkLocked) || cardData.test.typeSub === "iceBlueGoo") {
                     cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.LinkLockConnection"));
-                }
+                }  
                 cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${(cardData.damage.matrix.value)})`);
                 break;
             case "iceFlicker":                
@@ -97,10 +99,7 @@ export default async function iceDefenseInfo(cardData, actorId){
                 break;
             case "iceShocker":           
             SR5Combat.changeInitInCombatHelper(actorId, -5);
-                break;
-            case "iceBlueGoo":                
-                cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.LinkLockConnection"));
-                break;                
+                break;               
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.typeSub}' type in iceDefenseInfo`);
         }

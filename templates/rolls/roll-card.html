@@ -39,7 +39,7 @@
 			{{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html}}
 		{{/if}}
 		<!--Matrix damage info-->
-		{{#if (or (eq test.typeSub 'dataSpike')(eq test.typeSub 'popupCybercombat'))}}
+		{{#if (or (eq test.typeSub 'dataSpike') (eq test.typeSub 'popupCybercombat') (eq test.typeSub 'iceSparky') (eq test.typeSub 'iceBlueGoo') (eq test.typeSub 'iceBlack'))}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
 		{{/if}}
 		{{#if (and (eq test.type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
