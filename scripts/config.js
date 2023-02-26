@@ -726,7 +726,7 @@ SR5.actionSources = {
 	manual		     		  : "SR5.ActionSourceManual",
 	matrixAction              : "SR5.ActionSourceMatrixAction",
 	ramming					  : "SR5.ActionSourceRamming",
-	rebooDeck				  : "SR5.ActionSourceRebootDeck",
+	rebootDeck				  : "SR5.ActionSourceRebootDeck",
 	replaceClip				  : "SR5.ActionSourceReplaceClip",
 	removeClip				  : "SR5.ActionSourceRemoveClip",
 	standUp  				  : "SR5.ActionSourceStandUp",
@@ -3162,6 +3162,8 @@ SR5.effectTypes = {
 	areaEffect				  : "SR5.AreaEffect",
 	backgroundCount			  : "SR5.SceneBackgroundCount",
 	anticoagulantDamage       : "SR5.Anticoagulant",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	haywire                   : "SR5.MatrixActionHaywire",
 }
 
 SR5.effectDuration = {

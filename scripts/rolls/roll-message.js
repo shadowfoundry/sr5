@@ -146,7 +146,8 @@ export class SR5_RollMessage {
                     || messageData.test.typeSub === "hackOnTheFly"
                     || messageData.test.typeSub === "spoofCommand"
                     || messageData.test.typeSub === "bruteForce"
-                    || messageData.test.typeSub === "rebootDevice")
+                    || messageData.test.typeSub === "rebootDevice"
+                    || messageData.test.typeSub === "denialOfService")
                     && (actor.type !== "actorDevice" && actor.type !== "actorSprite" && actor.type !== "actorDrone" && actor.type !== "actorAgent")){
                         SR5_MatrixHelpers.chooseMatrixDefender(messageData, actor);
                     } else actor.rollTest(type, messageData.test.typeSub, messageData);
@@ -361,6 +362,14 @@ export class SR5_RollMessage {
                 break;
             case "matrixJamSignals":
                 SR5_MatrixHelpers.jamSignals(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "denialOfService":
+                SR5_MatrixHelpers.applyDenialOfServiceEffect(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "haywire":
+                SR5_MatrixHelpers.applyHaywireEffect(messageData, originalActionActor, actor);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "reduceService":

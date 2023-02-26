@@ -88,7 +88,6 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		let hasAttack = (actor.system.matrix.attributes.attack.value > 0) ? true : false;
 		let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false;
 		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;
-		console.log("killCodeRules : " + killCodeRules);
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
 			let source = matrixAction.source;
@@ -96,23 +95,6 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 			  || (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
 			  || (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
 			  || this._shownNonRollableMatrixActions)) {
-				console.log("filtre killcode : " + key + ", " + (source !== "killCode"));
-				
-				console.log("filtre attaque : " + key + ", " + (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) ));
-				
-				console.log("filtre corruption : " + key + ", " + (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) ));
-				
-				console.log("filtre action : " + key + ", " + (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") ));
-				
-				console.log("filtre _shownNonRollableMatrixActions : " + key + ", " + (this._shownNonRollableMatrixActions));
-								
-				console.log("filtre global : " + key + ", " + ((source !== "killCode") && (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
-				|| (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
-				|| (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
-				|| this._shownNonRollableMatrixActions));
-
-				console.log("action rules : " + key + ", " + (killCodeRules && source === "killCode"));
-				console.log("action : " + key + ", " + JSON.stringify(matrixAction));
 				activeMatrixActions[key] = matrixAction;
 			}
 		}

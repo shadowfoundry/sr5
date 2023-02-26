@@ -293,6 +293,58 @@ export class SR5_MatrixHelpers {
         ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${attacker.name}`);
     }
 
+    //create denial of service Effect
+    static async applyDenialOfServiceEffect(cardData, sourceActor, target){
+        
+        let netHits = cardData.previousMessage.hits - cardData.roll.hits;
+        let deviceTarget = await fromUuid(cardData.target.itemUuid);
+        let effect = {
+            name: `${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`,
+            type: "itemEffect",
+            "system.type": "denialOfService",
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "round",
+            "system.target": deviceTarget.name,
+            "system.value": (netHits * 2),
+            "system.customEffects": {
+                "0": {
+                    "category": "penaltyTypes",
+                    "target": "system.penalties.special.actual",
+                    "type": "value",
+                    "value": -(netHits * 2),
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionDenialOfService_GE"),
+        };
+        await target.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`);
+    }
+
+    //create Haywire Effect
+    static async applyHaywireEffect(cardData, sourceActor, target){
+    
+        let netHits = cardData.previousMessage.hits - cardData.roll.hits;
+
+        let effect = {
+            name: game.i18n.localize("SR5.MatrixActionHaywire"),
+            type: "itemEffect",
+            "system.type": "haywire",
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 0,
+            "system.durationType": "reboot",
+            "system.target": game.i18n.localize("SR5.ComplexFormTargetPersona"),
+            "system.value": netHits,
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionHaywire_GE"),
+        };
+        await target.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.MatrixActionHaywire')}`);
+
+    }
+
     /** Handle ICE specific attack effect
     * @param {Object} cardData - The chat message data
     * @param {Object} ice - The ICE actor
