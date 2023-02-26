@@ -72,7 +72,7 @@ export class SR5AgentSheet extends ActorSheetSR5 {
 		const activeMatrixActions = {};		
 		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
-			if (matrixAction.test?.dicePool > 0 || matrixAction.defense?.dicePool > 0  || (killCodeRules && matrixAction.source === "killCode") || this._shownNonRollableMatrixActions) {
+			if ((matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode")) &&   matrixAction.test?.dicePool > 0 || matrixAction.defense?.dicePool > 0  || this._shownNonRollableMatrixActions) {
 				activeMatrixActions[key] = matrixAction;
 			}
 		}

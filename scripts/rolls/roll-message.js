@@ -377,6 +377,10 @@ export class SR5_RollMessage {
                 console.log("messageData : " + JSON.stringify(messageData));
                 SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, actor);
                 break;
+            case "popup":
+                SR5_MatrixHelpers.applyPopupEffect(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
             case "reduceService":
             case "reduceTask":
                 SR5_ThirdPartyHelpers.reduceSideckickService(messageData);

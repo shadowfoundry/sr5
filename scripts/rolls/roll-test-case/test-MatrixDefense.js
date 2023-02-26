@@ -53,6 +53,15 @@ export default async function matrixDefenseInfo(cardData, actorId){
 				cardData = await SR5_MatrixHelpers.updateMatrixDamage(cardData, netHits, actor);
 				cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.damage.matrix.value})`);
 				break;
+			case "popupCybercombat":
+				cardData.damage.matrix.base = 0;
+				cardData = await SR5_MatrixHelpers.updateMatrixDamage(cardData, netHits, actor);
+				cardData.chatCard.buttons.matrixResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "matrixResistance", `${game.i18n.localize('SR5.TakeOnDamageMatrix')} (${cardData.damage.matrix.value})`);
+				cardData.chatCard.buttons.popup = SR5_RollMessage.generateChatButton("nonOpposedTest", "popup", game.i18n.localize("SR5.ApplyEffect"));
+				break;
+			case "popupHacking":
+				cardData.chatCard.buttons.popup = SR5_RollMessage.generateChatButton("nonOpposedTest", "popup", game.i18n.localize("SR5.ApplyEffect"));
+				break;
 			case "denialOfService":
 				cardData.chatCard.buttons.denialOfService = SR5_RollMessage.generateChatButton("nonOpposedTest", "denialOfService", game.i18n.localize("SR5.ApplyEffect"));
 				break;

@@ -87,10 +87,10 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
-			if ( (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
+			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode")) &&   (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
 			|| (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
 			|| (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
-			|| (killCodeRules && matrixAction.source === "killCode") || this._shownNonRollableMatrixActions) {
+			|| this._shownNonRollableMatrixActions) {
 				activeMatrixActions[key] = matrixAction;
 			}
 		}

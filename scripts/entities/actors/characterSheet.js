@@ -90,8 +90,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
-			let source = matrixAction.source;
-			if ( (source === "core" || (killCodeRules && source === "killCode")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
+			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
 			  || (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
 			  || (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
 			  || this._shownNonRollableMatrixActions)) {

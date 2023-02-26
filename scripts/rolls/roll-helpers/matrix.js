@@ -301,7 +301,7 @@ export class SR5_MatrixHelpers {
         let effect = {
             name: `${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`,
             type: "itemEffect",
-            "system.type": "denialOfService",
+            "system.type": "matrixAction",
             "system.ownerID": sourceActor.id,
             "system.ownerName": sourceActor.name,
             "system.duration": 1,
@@ -326,17 +326,14 @@ export class SR5_MatrixHelpers {
     //create I Am the Firewall Effect
     static async applyIAmTheFirewallEffect(cardData, speaker, sourceActor){
 
-
         let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
-                
-        console.log("actor : " + actor.name + " | cardData : " + JSON.stringify(cardData));
-
         let hits = cardData.roll.hits;
 
         let effect = {
             name: `${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (${sourceActor.name})`,            
             type: "itemEffect",
             "system.target": game.i18n.localize("SR5.Firewall"),
+            "system.type": "matrixAction",
             "system.value": hits,
             "system.ownerID": sourceActor.id,
             "system.ownerName": sourceActor.name,
@@ -358,6 +355,36 @@ export class SR5_MatrixHelpers {
 
     }
 
+    //create popup Effect
+    static async applyPopupEffect(cardData, sourceActor, target){
+        console.log(JSON.stringify(cardData));
+        let netHits = cardData.previousMessage.hits - cardData.roll.hits;
+        let deviceTarget = await fromUuid(cardData.target.itemUuid);
+        let action = cardData.test.typeSub;
+        let effect = {
+            name: `${game.i18n.localize(SR5.matrixKillCodeActions[action])} (${deviceTarget.name})`,
+            type: "itemEffect",
+            "system.type": "matrixAction",
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "round",
+            "system.target": deviceTarget.name,
+            "system.value": netHits,
+            "system.customEffects": {
+                "0": {
+                    "category": "penaltyTypes",
+                    "target": "system.penalties.special.actual",
+                    "type": "value",
+                    "value": -netHits,
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize(SR5.matrixKillCodeActions[action] + "_GE"),
+        };
+        await target.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize(SR5.matrixKillCodeActions[action])}`);
+    }
     
 
     /** Handle ICE specific attack effect
