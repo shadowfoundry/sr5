@@ -80,6 +80,10 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceScramble":
                 if (existingMark >= 3) cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.DeviceReboot"));
                 break;
+            case "iceSleuther":
+                cardData.matrix.mark = 1;
+                cardData.chatCard.buttons.attackerPlaceMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "attackerPlaceMark", `${game.i18n.format('SR5.AttackerPlaceMarkTo', {key: cardData.matrix.mark, item: targetItem.name, name: cardData.owner.speakerActor})}`);
+                break;
             case "iceTarBaby":
                 if (actorData.matrix.isLinkLocked) {
                     cardData.matrix.mark = 1;
@@ -94,6 +98,9 @@ export default async function iceDefenseInfo(cardData, actorId){
             case "iceShocker":           
             SR5Combat.changeInitInCombatHelper(actorId, -5);
                 break;
+            case "iceBlueGoo":                
+                cardData.chatCard.buttons.iceEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "iceEffect", game.i18n.localize("SR5.LinkLockConnection"));
+                break;                
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.typeSub}' type in iceDefenseInfo`);
         }

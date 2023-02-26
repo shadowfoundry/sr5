@@ -3183,6 +3183,7 @@ export class SR5_CharacterUtility extends Actor {
 
 		//Handle Ice attack and defense
 		if (matrix.deviceType === "ice") {
+			actorData.description = game.i18n.localize(SR5.iceTypes[matrix.deviceSubType] + "_GE");
 			matrix.ice.attackDicepool = matrix.deviceRating * 2;
 			matrix.actions.matrixPerception.test.dicePool = matrix.deviceRating * 2;
 			SR5_EntityHelpers.updateValue(matrixAttributes.dataProcessing, 0);
@@ -3210,6 +3211,8 @@ export class SR5_CharacterUtility extends Actor {
 				case "iceTarBaby" :
 				case "iceCatapult":
 				case "iceFlicker" :
+				case "iceSleuther" :
+				case "iceBlueGoo" :	
 					matrix.ice.defenseFirstAttribute = "logic";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;

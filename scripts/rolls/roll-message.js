@@ -310,6 +310,9 @@ export class SR5_RollMessage {
                 if (messageData.test.typeSub === "derezz") SR5_MatrixHelpers.applyDerezzEffect(messageData, originalActionActor, actor);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
+            case "blueGooExplosion":                
+                actor.rollTest("iceAttack", null, messageData);
+                break;
             case "defenderDoBiofeedbackDamage":
                 originalActionActor.rollTest("resistanceCard", null, messageData);
                 break;

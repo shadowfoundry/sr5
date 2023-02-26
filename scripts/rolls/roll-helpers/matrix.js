@@ -561,6 +561,7 @@ export class SR5_MatrixHelpers {
             case "iceBlaster":
             case "iceBlack":
             case "iceTarBaby":
+            case "iceBlueGoo":
                 await SR5_MatrixHelpers.applylinkLockEffect(ice, target);
                 break;
             case "iceShocker":
