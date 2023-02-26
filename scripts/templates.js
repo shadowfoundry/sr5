@@ -163,7 +163,8 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html",
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html",
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/spritePowers.html",
-		
+		"systems/sr5/templates/actors/_partials/right-tabs/matrix/maglockDescription.html",
+
 
 		//Right Tab - Technomancer partials
 		"systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html",

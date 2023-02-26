@@ -743,7 +743,7 @@
 	"SR5.Description": "Description",
 	"SR5.Details": "Details",
 	"SR5.Device": "Device",
-	"SR5.DEVICE_DirectlyConnected": "Directly Connected",
+	"SR5.DEVICE_DirectlyConnected": "Directly Connected",	
 	"SR5.DEVICE_TYPE_Device_F": "Device",
 	"SR5.DEVICE_Type_F": "Device Type",
 	"SR5.DEVICE_TYPE_Host_F": "Host",

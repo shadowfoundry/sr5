@@ -1695,7 +1695,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		if (initiative === "astralInit" || currentInitiative === "astralInit") this.handleAstralVision(entity);
-	}
+	}	
 
 	// Generate Actor defense
 	static updateDefenses(actor) {

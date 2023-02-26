@@ -1,51 +1,60 @@
 <form class="{{cssClass}}" autocomplete="off">
-	<div class="SR-mainContainer">
+  <div class="SR-mainContainer">
 
-		<!-- HEADER -->
-		{{> systems/sr5/templates/actors/_partials/header/header.html}}
+    <!-- HEADER -->
+    {{> systems/sr5/templates/actors/_partials/header/header.html}}
 
-		<div class="SR-MainWindows">
-			<div class="grid">
+    <div class="SR-MainWindows">
+      <div class="grid">
 
-				<!-- LEFT TAB -->
-				<div class="col-3 SR-AppareilColGauche">
-					<!-- CORE INFO LEFT TAB -->
-					<div>
-					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
-					{{#if (eq system.matrix.deviceType "maglock")}}
-						{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/maglockType.html}}
-					{{/if}}
-					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
-					{{#if (eq system.matrix.deviceType 'ice')}}
-						{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
-					{{/if}}
-					<div class="SRBlockSheet">
-						<ul>
-							<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
-						</ul>
-					</div>
-					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
-					{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
-					</div>
-				</div>
+        <!-- LEFT TAB -->
+        <div class="col-3 SR-AppareilColGauche">
+          <!-- CORE INFO LEFT TAB -->
+          <div>
+            {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
+            {{#if (eq system.matrix.deviceType "maglock")}}
+            {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/maglockType.html}}
+            {{/if}}
+            {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
+            {{#if (eq system.matrix.deviceType 'ice')}}
+            {{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
+            {{/if}}
+            <div class="SRBlockSheet">
+              <ul>
+                <li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
+                {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
+                {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
+              </ul>
+            </div>
+            {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
+            {{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
+          </div>
+        </div>
 
-				<!-- RIGHT TAB -->
-				<div class="col-9">
-					<div class="SR-AppareilMainCentre">
-						{{#if (eq system.matrix.deviceType 'ice')}}
-							{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
-						{{/if}}
-						{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
-						{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
-					</div>
-				</div>
-			</div>
-		</div>
+        <!-- RIGHT TAB -->
+        <div class="col-9">
+          <div class="SR-AppareilMainCentre">
+            <section class="sr-tabs">
+              <!-- MATRIX RIGHT TAB -->
+              <div class="tab" data-group="centre" data-tab="tab-matrice">
+                {{#if (eq system.matrix.deviceType 'ice')}}
+                {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/iceAttack.html}}
+                {{/if}}
+                {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
+                {{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
+              </div>
+              <!-- BIO RIGHT TAB -->
+              <div class="tab" data-group="centre" data-tab="tab-bio">
+                {{> systems/sr5/templates/actors/_partials/right-tabs/matrix/maglockDescription.html}}
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<!-- FOOTER -->
-		{{> systems/sr5/templates/actors/_partials/footer/footer.html}}
+    <!-- FOOTER -->
+    {{> systems/sr5/templates/actors/_partials/footer/footer.html}}
 
-	</div>
+  </div>
 </form>
