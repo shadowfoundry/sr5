@@ -3072,8 +3072,10 @@ SR5.iceTypes = {
 	iceBlack                  : "SR5.IceBlack",
 	iceBlaster                : "SR5.IceBlaster",
 	iceBloodhound             : "SR5.IceBloodhound",
+	iceBlueGoo                : "SR5.IceBlueGoo",
 	iceCatapult               : "SR5.IceCatapult",
 	iceCrash                  : "SR5.IceCrash",
+	iceFlicker                : "SR5.IceFlicker",
 	iceJammer                 : "SR5.IceJammer",
 	iceKiller                 : "SR5.IceKiller",
 	iceMarker                 : "SR5.IceMarker",
@@ -3082,6 +3084,7 @@ SR5.iceTypes = {
 	iceScramble               : "SR5.IceScramble",
 	iceShocker                : "SR5.IceShocker",
 	iceSparky                 : "SR5.IceSparky",
+	iceSleuther               : "SR5.IceSleuther",
 	iceTarBaby                : "SR5.IceTarBaby",
 	iceTrack                  : "SR5.IceTrack",
 }

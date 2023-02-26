@@ -571,6 +571,21 @@ export class SR5_MatrixHelpers {
             case "iceProbe":
             case "iceBloodhound":
                 break;
+            case "iceFlicker":
+                
+                let item = await fromUuid(cardData.target.itemUuid),
+                existingMark = await SR5_MarkHelpers.findMarkValue(item.system, ice.id);
+                if (!target.system.matrix.isLinkLocked) 
+                await SR5_MatrixHelpers.applylinkLockEffect(ice, target);
+                if (existingMark >= 2) {                    
+                if (target.system.matrix.userMode !== "ar"){
+                    cardData.damage.resistanceType = "dumpshock";
+                    target.rollTest("resistanceCard", null, cardData);
+                }
+                let deck_iceFlicker = target.items.find((item) => item.type === "itemDevice" && item.system.isActive);
+                target.rebootDeck(deck_iceFlicker);
+                }
+                break;
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.typeSub}' type in applyIceEffect`);
         }

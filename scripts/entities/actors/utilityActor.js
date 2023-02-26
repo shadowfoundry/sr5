@@ -3209,6 +3209,7 @@ export class SR5_CharacterUtility extends Actor {
 				case "iceBlaster" :
 				case "iceTarBaby" :
 				case "iceCatapult":
+				case "iceFlicker" :
 					matrix.ice.defenseFirstAttribute = "logic";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
