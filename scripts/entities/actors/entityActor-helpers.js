@@ -47,7 +47,7 @@ export class SR5_ActorHelper {
 						realDamage = damage - (actorData.conditionMonitors.physical.actual.value - actorData.conditionMonitors.physical.value);
 					} else realDamage = damage ;
 				}
-				if (realDamage > 0) ui.notifications.info(`${realActor.name}: ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
+				if (realDamage > 0) ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 
 				if (actorData.conditionMonitors.stun.actual.value > actorData.conditionMonitors.stun.value) {
 					let carriedDamage = actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value;
@@ -55,7 +55,7 @@ export class SR5_ActorHelper {
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0);
 					actorData.conditionMonitors.stun.actual.base = actorData.conditionMonitors.stun.value;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.stun.actual, 0);
-					ui.notifications.info(`${realActor.name}: ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
+					ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`);
 				}
 
 				if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actorData.type === "actorPc") {
@@ -73,13 +73,13 @@ export class SR5_ActorHelper {
 			case "actorGrunt":
 				actorData.conditionMonitors.condition.actual.base += damage;
 				SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0);
-				ui.notifications.info(`${realActor.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
+				ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 				break;
 			case "actorDrone":
 				if (damageType === "physical") {
 					actorData.conditionMonitors.condition.actual.base += damage;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0);
-					ui.notifications.info(`${realActor.name}: ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
+					ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`);
 					if (actorData.controlMode === "rigging"){
 						let controler = SR5_EntityHelpers.getRealActorFromID(actorData.vehicleOwner.id);
 						let chatData = SR5_PrepareRollTest.getBaseRollData(null, controler);
@@ -93,7 +93,7 @@ export class SR5_ActorHelper {
 				if (options.damage.matrix.value > 0) {
 					actorData.conditionMonitors.matrix.actual.base += options.damage.matrix.value;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
-					ui.notifications.info(`${realActor.name}: ${options.damage.matrix.value} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+					ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${options.damage.matrix.value} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 			case "actorAgent":
@@ -102,7 +102,7 @@ export class SR5_ActorHelper {
 				if (options.damage.matrix.value > 0) {
 					actorData.conditionMonitors.matrix.actual.base += options.damage.matrix.value;
 					SR5_EntityHelpers.updateValue(actorData.conditionMonitors.matrix.actual, 0);
-					ui.notifications.info(`${realActor.name}: ${options.damage.matrix.value} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+					ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${options.damage.matrix.value} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
 				}
 				break;
 		}
@@ -177,9 +177,9 @@ export class SR5_ActorHelper {
 		let statusEffect = await _getSRStatusEffect("prone");
 		await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
 		await actor.createEmbeddedDocuments("Item", [effect]);
-		if (damage >= 10) ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
-		else if (gelAmmo < 0) ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.limits.physicalLimit.value})}`);
-		else if (damage > 0) ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.limits.physicalLimit.value})}`);
+		if (damage >= 10) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`);
+		else if (gelAmmo < 0) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.limits.physicalLimit.value})}`);
+		else if (damage > 0) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.limits.physicalLimit.value})}`);
 		else ui.notifications.info(`${actor.name} ${game.i18n.format("SR5.INFO_DropProne")}`);
 	}
 
@@ -191,7 +191,7 @@ export class SR5_ActorHelper {
 		}
 		let effect = await _getSRStatusEffect("dead");
 		await actor.createEmbeddedDocuments('ActiveEffect', [effect]);
-		ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_DamageActorDead")}`);
+		ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.INFO_DamageActorDead")}`);
 	}
 
 	//Handle ko effect
@@ -202,7 +202,7 @@ export class SR5_ActorHelper {
 		}
 		let effect = await _getSRStatusEffect("unconscious")
 		await actor.createEmbeddedDocuments('ActiveEffect', [effect]);
-		ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_DamageActorKo")}`);
+		ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.INFO_DamageActorKo")}`);
 	}
 
     //Handle Elemental Damage : Electricity
@@ -214,7 +214,7 @@ export class SR5_ActorHelper {
 			let updatedEffect = existingEffect.toObject(false);
 			updatedEffect.system.duration += 1;
 			await actor.updateEmbeddedDocuments("Item", [updatedEffect]);
-			ui.notifications.info(`${actor.name}: ${existingEffect.name} ${game.i18n.localize("SR5.INFO_DurationExtendOneRound")}.`);
+			ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${existingEffect.name} ${game.i18n.localize("SR5.INFO_DurationExtendOneRound")}.`);
 		} else {
 			let effect = {
 				name: `${game.i18n.localize("SR5.ElementalDamage")} (${game.i18n.localize("SR5.ElementalDamageElectricity")})`,
@@ -234,7 +234,7 @@ export class SR5_ActorHelper {
 					}
 				}
 			}
-			ui.notifications.info(`${actor.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+			ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
 			await SR5Combat.changeInitInCombatHelper(actorId, -5);
 			await actor.createEmbeddedDocuments("Item", [effect]);
 
@@ -261,7 +261,7 @@ export class SR5_ActorHelper {
 				"system.gameEffect": game.i18n.localize("SR5.Anticoagulant_GE")
 			}
 
-			ui.notifications.info(`${actor.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+			ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
 			await SR5Combat.changeInitInCombatHelper(actorId, -5);
 			await actor.createEmbeddedDocuments("Item", [effect]);
 
@@ -288,7 +288,7 @@ export class SR5_ActorHelper {
 			}
 			updatedArmor.system.itemEffects.push(armorEffect);
 			await actor.updateEmbeddedDocuments("Item", [updatedArmor]);
-			ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
+			ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
 		}
 
 		let duration;
@@ -304,7 +304,7 @@ export class SR5_ActorHelper {
 			"system.duration": duration,
 		}
 		
-        ui.notifications.info(`${actor.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+        ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
 		await SR5Combat.changeInitInCombatHelper(actorId, -5);
 		await actor.createEmbeddedDocuments("Item", [effect]);
 
@@ -327,7 +327,7 @@ export class SR5_ActorHelper {
             "system.durationType": "special",
             "system.duration": 0,
         }
-        ui.notifications.info(`${actor.name}: ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
+        ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} ${game.i18n.localize("SR5.Applied")}.`);
         await actor.createEmbeddedDocuments("Item", [effect]);
 
         let statusEffect = await _getSRStatusEffect("fireDamage");
@@ -1288,7 +1288,7 @@ export class SR5_ActorHelper {
 			if (!actor.effects.find(e => e.origin === key.name)){
 				status = await _getSRStatusEffect(key.name);
 				statusEffects = statusEffects.concat(status);
-				ui.notifications.info(`${actor.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
+				ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
 			}
 		}
 	
@@ -1296,7 +1296,7 @@ export class SR5_ActorHelper {
 			if (!actor.effects.find(e => e.origin === "weakSide") && (!statusEffects.find(s => s.origin === "weakSide")) ){
 				status = await _getSRStatusEffect("weakSide");
 				statusEffects = statusEffects.concat(status);
-				ui.notifications.info(`${actor.name}: ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
+				ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${status.label} ${game.i18n.localize("SR5.Applied")}.`);
 			}
 		}
 

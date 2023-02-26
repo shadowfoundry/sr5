@@ -1070,7 +1070,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				baseActor = this.actor.id;
 
 		if (actor.system.matrix.pan.current === actor.system.matrix.pan.max){
-			ui.notifications.info(`${actor.name}: ${game.i18n.localize("SR5.INFO_PanIsFull")}`);
+			ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.INFO_PanIsFull")}`);
 			return;
 		}
 

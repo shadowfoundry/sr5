@@ -209,10 +209,10 @@ export class SR5_ThirdPartyHelpers {
 
         if (actor.type === "actorSprite"){
             key = "tasks";
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_TasksReduced', {task: cardData.roll.netHits})}`);
+            ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_TasksReduced', {task: cardData.roll.netHits})}`);
         } else if (actor.type === "actorSpirit"){
             key = "services";
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: cardData.roll.netHits})}`);
+            ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: cardData.roll.netHits})}`);
         }
         actorData[key].value -= cardData.roll.netHits;
         if (actorData[key].value < 0) actorData[key].value = 0;
@@ -227,12 +227,12 @@ export class SR5_ThirdPartyHelpers {
             actorData.isRegistered = true;
             actorData.tasks.value += cardData.roll.netHits;
             actorData.tasks.max += cardData.roll.netHits;
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: cardData.roll.netHits})}`);
+            ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: cardData.roll.netHits})}`);
         } else if (type === "bindSpirit"){
             actorData.isBounded = true;
             actorData.services.value += cardData.roll.netHits;
             actorData.services.max += cardData.roll.netHits;
-            ui.notifications.info(`${actor.name}: ${game.i18n.format('SR5.INFO_SpiritBounded', {service: cardData.roll.netHits})}`);
+            ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_SpiritBounded', {service: cardData.roll.netHits})}`);
         }
         await actor.update({'system': actorData});
         
