@@ -391,6 +391,7 @@ export class SR5_ThirdPartyHelpers {
                     ["system.tasks.max"]: messageData.previousMessage.hits - messageData.roll.hits,
                     ["system.tasks.value"]: messageData.previousMessage.hits - messageData.roll.hits,
                     ["system.compilerResonance"]: actorData.specialAttributes.resonance.augmented.value,
+                    ["system.description"]: `${game.i18n.localize(SR5.spriteTypesDescription[messageData.matrix.spriteType])}`,
                 };
                 ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_CompileSprite")} ${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])} (${messageData.matrix.level})`);
                 break;

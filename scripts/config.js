@@ -2068,6 +2068,28 @@ SR5.spriteTypes = {
 	generalist                : "SR5.SpriteGeneralist",
 }
 
+// Sprite Types
+SR5.spriteTypesDescription = {
+	courier                   : "SR5.SpriteCourierDescription",
+	crack                     : "SR5.SpriteCrackDescription",
+	data                      : "SR5.SpriteDataDescription",
+	fault                     : "SR5.SpriteFaultDescription",
+	machine                   : "SR5.SpriteMachineDescription",
+	companion                 : "SR5.SpriteCompanionDescription",
+	generalist                : "SR5.SpriteGeneralistDescription",
+}
+
+SR5.spriteOptionalPowers = {
+	activeAnalytics           : "SR5.SpritePowerActiveAnalytics",
+	borrowedIP                : "SR5.SpritePowerBorrowedIP",
+	decompilingResistance     : "SR5.SpritePowerDecompilingResistance",
+	enhance                   : "SR5.SpritePowerEnhance",
+	navi                      : "SR5.SpritePowerNavi",
+	resilientCode             : "SR5.SpritePowerResilientCode",
+	resonanceSpooling         : "SR5.SpritePowerResonanceSpooling",
+
+}
+
 SR5.matrixActionsDefenses = {
 	editFile                  : "SR5.MatrixActionEditFile",
 	eraseMark                 : "SR5.MatrixActionEraseMark",

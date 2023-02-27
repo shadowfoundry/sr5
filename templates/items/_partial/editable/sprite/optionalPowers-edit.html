@@ -1,0 +1,90 @@
+<div class="SR-PaddingTop10">
+    <ul>
+        <li class="grid SR-EnTete">
+            <div class="col-12 SR-TextUppercase">{{localize 'SR5.OptionalPowers'}}</div>
+        </li>
+        {{#if_g system.itemRating "2"}}
+        <li class="grid">
+            <div class="col-5">{{localize 'SR5.OptionalPowers'}} 1{{localize 'SR5.Colons'}}</div>
+            <div class="col-7">
+                <select name="system.optionalPowers.power1" data-dtype="String" required>
+                    {{#select system.optionalPowers.power1}}
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each (lookup lists "spriteOptionalPowers")}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </li>
+        {{/if_g}}
+        {{#if_g system.itemRating "5"}}
+        <li class="grid">
+            <div class="col-5">{{localize 'SR5.OptionalPowers'}} 2{{localize 'SR5.Colons'}}</div>
+            <div class="col-7">
+                <select name="system.optionalPowers.power2" data-dtype="String" required>
+                    {{#select system.optionalPowers.power2}}
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each (lookup lists "spriteOptionalPowers")}}
+                        {{#if (ne @key ../system.optionalPowers.power1)}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                        {{/if}}
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </li>
+        {{/if_g}}
+        {{#if_g system.itemRating "8"}}
+        <li class="grid">
+            <div class="col-5">{{localize 'SR5.OptionalPowers'}} 3{{localize 'SR5.Colons'}}</div>
+            <div class="col-7">
+                <select name="system.optionalPowers.power3" data-dtype="String" required>
+                    {{#select system.optionalPowers.power3}}
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each (lookup lists "spriteOptionalPowers")}}
+                        {{#if (and (ne @key ../system.optionalPowers.power1) (ne @key ../system.optionalPowers.power2))}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                        {{/if}}
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </li>
+        {{/if_g}}
+        {{#if_g system.itemRating "11"}}
+        <li class="grid">
+            <div class="col-5">{{localize 'SR5.OptionalPowers'}} 4{{localize 'SR5.Colons'}}</div>
+            <div class="col-7">
+                <select name="system.optionalPowers.power4" data-dtype="String" required>
+                    {{#select system.optionalPowers.power4}}
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each (lookup lists "spriteOptionalPowers")}}
+                        {{#if (and (ne @key ../system.optionalPowers.power1) (ne @key ../system.optionalPowers.power2) (ne @key ../system.optionalPowers.power3))}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                        {{/if}}
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </li>
+        {{/if_g}}
+        {{#if_g system.itemRating "14"}}
+        <li class="grid">
+            <div class="col-5">{{localize 'SR5.OptionalPowers'}} 5{{localize 'SR5.Colons'}}</div>
+            <div class="col-7">
+                <select name="system.optionalPowers.power5" data-dtype="String" required>
+                    {{#select system.optionalPowers.power5}}
+                        <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                        {{#each (lookup lists "spriteOptionalPowers")}}
+                        {{#if (and (ne @key ../system.optionalPowers.power1) (ne @key ../system.optionalPowers.power2) (ne @key ../system.optionalPowers.power3) (ne @key ../system.optionalPowers.power4))}}
+                        <option value="{{@key}}">{{localize this}}</option>
+                        {{/if}}
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+        </li>
+        {{/if_g}}
+    </ul>
+</div>

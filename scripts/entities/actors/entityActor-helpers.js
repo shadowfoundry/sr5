@@ -493,6 +493,8 @@ export class SR5_ActorHelper {
 
 		if (item.type === "itemSprite") {
 			let baseItems = await SR5_CompendiumUtility.getBaseItems("actorSprite", itemData.type, itemData.itemRating);
+			baseItems = await SR5_CompendiumUtility.addOptionalSpritePowersFromItem(baseItems, itemData.optionalPowers);
+			
 			for (let deck of itemData.decks) {
 				deck.system.marks = [];
 				baseItems.push(deck);
