@@ -2413,6 +2413,15 @@ export class SR5_CharacterUtility extends Actor {
 				skills.electronicWarfare.rating.base = actorData.level;
 				skills.hardware.rating.base = actorData.level;
 				break;
+			case "companion":
+				skills.computer.rating.base = actorData.level;
+				skills.electronicWarfare.rating.base = actorData.level;
+				break;
+			case "generalist":
+				skills.computer.rating.base = actorData.level;
+				skills.electronicWarfare.rating.base = actorData.level;
+				skills.hacking.rating.base = actorData.level;
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${actorData.type}' sprite type in '_generateSpriteSkills()'`);
 				return;
@@ -3289,6 +3298,18 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(matrixAttributes.attack, label, "spriteType", +1);
 				SR5_EntityHelpers.updateModifier(matrixAttributes.dataProcessing, label, "spriteType", +3);
 				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +2);
+				break;
+			case "companion":
+				SR5_EntityHelpers.updateModifier(matrixAttributes.attack, label, "spriteType", -1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.sleaze, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +4);
+				break;
+			case "generalist":
+				SR5_EntityHelpers.updateModifier(matrixAttributes.attack, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.sleaze, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.dataProcessing, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrix.initiatives.matrixInit, label, "spriteType", +1);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${actorData.type}' sprite type in generateSpriteMatrix()`);

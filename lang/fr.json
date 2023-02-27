@@ -2835,6 +2835,8 @@
 	"SR5.SpriteData": "Données",
 	"SR5.SpriteFault": "Erreur",
 	"SR5.SpriteMachine": "Machine",
+	"SR5.SpriteCompanion": "Compagnon",
+	"SR5.SpriteGeneralist": "Généraliste",
 	"SR5.SpriteMaximumTasks": "Tâches maximum",
 	"SR5.SpriteNew": "Nouveau Sprite",
 	"SR5.SpritePowerNew": "Nouveau pouvoir de Sprite",

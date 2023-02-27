@@ -2064,6 +2064,8 @@ SR5.spriteTypes = {
 	data                      : "SR5.SpriteData",
 	fault                     : "SR5.SpriteFault",
 	machine                   : "SR5.SpriteMachine",
+	companion                 : "SR5.SpriteCompanion",
+	generalist                : "SR5.SpriteGeneralist",
 }
 
 SR5.matrixActionsDefenses = {
