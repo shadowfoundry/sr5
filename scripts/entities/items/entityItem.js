@@ -389,6 +389,15 @@ export class SR5Item extends Item {
             		tags.push([power.name, power.system.gameEffect])
           		}
         		}
+				if (itemData.sustainedSpell) {
+					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.conjurer);
+					let spells = [];
+					for (let sustained of Object.values(itemData.sustainedSpell)){
+					let sustainedSpellName = actor.items.find(s => s.type === "itemSpell" && s._id === sustained.name);
+					tags.push([`${game.i18n.localize('SR5.Sustaining')}${game.i18n.localize('SR5.Colons')} ${sustainedSpellName.name}`, sustainedSpellName.system.gameEffect]);
+					spells.push(sustainedSpellName.name);
+					}	
+				  }
         		break;
       		case "itemSprite":
         		if (itemData.spritePowers) {
@@ -397,6 +406,13 @@ export class SR5Item extends Item {
             		tags.push([power.name, power.system.gameEffect]);
           		}
         		}
+				if (itemData.sustainedComplexForm) {
+					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.compiler);
+					for (let sustained of Object.values(itemData.sustainedComplexForm)) {						
+					let sustainedComplexFormName = actor.items.find(s => s.type === "itemComplexForm" && s._id === sustained.name);
+					tags.push([`${game.i18n.localize('SR5.Sustaining')}${game.i18n.localize('SR5.Colons')} ${sustainedComplexFormName.name}`, sustainedComplexFormName.system.gameEffect]);
+					}
+				  }
         		break;
       		case "itemContact":
         		if (itemData.paymentMethod) {

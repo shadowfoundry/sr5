@@ -378,6 +378,7 @@ export class SR5_ThirdPartyHelpers {
                     ["system.services.value"]: messageData.previousMessage.hits - messageData.roll.hits,
                     ["system.summonerMagic"]: actorData.specialAttributes.magic.augmented.value,
                     ["system.magic.tradition"]: actorData.magic.tradition,
+                    ["system.conjurer"]: actor.id,
                 };
                 ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_SummonSpirit")} ${game.i18n.localize(SR5.spiritTypes[messageData.magic.spiritType])} (${messageData.magic.force})`); 
                 break;
@@ -392,6 +393,7 @@ export class SR5_ThirdPartyHelpers {
                     ["system.tasks.value"]: messageData.previousMessage.hits - messageData.roll.hits,
                     ["system.compilerResonance"]: actorData.specialAttributes.resonance.augmented.value,
                     ["system.description"]: `${game.i18n.localize(SR5.spriteTypesDescription[messageData.matrix.spriteType])}`,
+                    ["system.compiler"]: actor.id,
                 };
                 ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_CompileSprite")} ${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])} (${messageData.matrix.level})`);
                 break;

@@ -5,7 +5,8 @@
 			<div class="col-5 SR-TextUppercase">{{localize 'SR5.SummonedSpirits'}} ({{localize 'SR5.Binded'}} {{system.magic.boundedSpirit.current}}/{{system.magic.boundedSpirit.max}})</div>
 			<div class="col-1 SR-TextCenter" data-title="{{localize 'SR5.SpiritServices'}}">{{localize 'SR5.SpiritServicesShort'}}</div>
 			<div class="col-2 SR-TextCenter" data-title="{{localize 'SR5.SpiritForce'}}">{{localize 'SR5.SpiritForceShort'}}</div>
-			<div class="col-2 SR-TextCenter">{{localize 'SR5.Bounded'}}</div>
+			<div class="col-1 SR-TextCenter">{{localize 'SR5.Bounded'}}</div>
+			<div class="col-1"></div>
 			<div class="col-1"></div>
 			<div class="col-1">
 				{{#if owner}}
@@ -35,11 +36,16 @@
 				{{system.services.value}}/{{#if system.services.max}}{{system.services.max}}{{else}}0{{/if}}
 			</div>
 			<div class="col-2 SR-TextCenter">{{valueOrDash system.itemRating}}</div>
-			<div class="col-2 SR-TextCenter">
+			<div class="col-1 SR-TextCenter">
 				{{#if system.isBounded}}
 					{{localize 'SR5.Yes'}}
 				{{else}}
 					{{localize 'SR5.No'}}
+				{{/if}}
+			</div>
+			<div class="col-1 SR-TextCenter">
+				{{#if system.sustainedSpell}}
+				<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
 				{{/if}}
 			</div>
 			<div class="col-1 SR-TextCenter">

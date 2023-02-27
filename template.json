@@ -6596,6 +6596,7 @@
         }
       },
       "sustainedSpell": [],
+      "conjurer": "",
       "spellType": ""
     },
     "itemSprite": {
@@ -6633,7 +6634,8 @@
           "boxes": []
         }
       },
-      "sustainedComplexForm": []
+      "sustainedComplexForm": [],
+      "compiler": ""
     },
     "itemFocus": {
       "templates": [
