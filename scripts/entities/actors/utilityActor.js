@@ -2739,6 +2739,7 @@ export class SR5_CharacterUtility extends Actor {
 					"modifiers": []
 				  },
 				"addiction.type": "psychological",
+				"addiction.threshold": 2,
 				"weekAddiction": {
 					"value": 0,
 					"base": 11 - item.system.itemRating,

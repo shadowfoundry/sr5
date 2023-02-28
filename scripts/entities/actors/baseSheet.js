@@ -653,11 +653,10 @@ export class ActorSheetSR5 extends ActorSheet {
 				// Handle drug taken
 				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
 				let addiction = [];
-				console.log("actor.addictions avant " + JSON.stringify(actorData.addictions));
 				if (item.system.addiction.rating > 0 && item.system.isActive){
 					if (alreadyTaken) {
-						console.log("alreadyTaken : " + JSON.stringify(alreadyTaken));
 						alreadyTaken.shot.value += 1;
+						alreadyTaken.addiction.threshold = item.system.addiction.threshold;
 					}
 					else {
 						addiction = SR5_CharacterUtility.generateDrugAddiction(item);
@@ -666,11 +665,11 @@ export class ActorSheetSR5 extends ActorSheet {
 					}		
 					SR5_EntityHelpers.updateValue(actorData.addictions.shot);
 					SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);
-					console.log("actor.addictions après " + JSON.stringify(actorData.addictions));
 
 				}
 			} else if (target === "system.wirelessTurnedOn"){
 				setProperty(item, "system.isActive", false);
+				if (item.system.contrecoup && item.system.wirelessTurnedOn) ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoup")} (${item.name})${item.system.contrecoup}`);
 			}
 		}
 
@@ -705,12 +704,11 @@ export class ActorSheetSR5 extends ActorSheet {
 				// Handle focus addicition
 				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
 				let addiction = [];
-				console.log("actor.addictions avant " + JSON.stringify(actorData.addictions));
 				if (item.system.isActive){
 					if (alreadyTaken) {
-						console.log("alreadyTaken : " + JSON.stringify(alreadyTaken));
 						alreadyTaken.shot.value += 1;
 						alreadyTaken.weekAddiction.value = 11 - item.system.itemRating;
+						alreadyTaken.addiction.threshold = 2;
 					}
 					else {
 						addiction = SR5_CharacterUtility.generateDrugAddiction(item);
@@ -718,12 +716,12 @@ export class ActorSheetSR5 extends ActorSheet {
 					}		
 					SR5_EntityHelpers.updateValue(actorData.addictions.shot);
 					SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);		
-					console.log("actor.addictions après " + JSON.stringify(actorData.addictions));
 				}
 
 			} else {
 				actions = [{type: "free", value: 1, source: "desactivateFocus"}];
 				actorData.specialProperties.actions.free.current -=1;
+
 			}
 		}
 		if (item.type === "itemProgram" && target === "system.isActive"){
@@ -846,12 +844,7 @@ export class ActorSheetSR5 extends ActorSheet {
 
 		if (id){
 			setProperty(entity, target, value);
-			this.actor.updateEmbeddedDocuments("Item", [entity]);
 		} else {
-			console.log("event : " + JSON.stringify(event));
-			console.log("entity : " + JSON.stringify(entity));
-			console.log("target : " + target);
-			console.log("value : " + value);
 			setProperty(entity, target, value);
 			this.actor.update(entity);
 		}

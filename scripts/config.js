@@ -1292,6 +1292,13 @@ SR5.addictionTypes = {
 	psychological             : "SR5.AddictionPsychological",
 };
 
+// Addiction types Shorts
+SR5.addictionTypesShort = {
+	both                      : "SR5.AddictionBothShort",
+	physiological             : "SR5.AddictionPhysiologicalShort",
+	psychological             : "SR5.AddictionPsychologicalShort",
+};
+
 SR5.itemRollTestType = {
 	rating 					  : "SR5.ItemRating",
 	ratingX2				  : "SR5.ItemRatingX2",
