@@ -4489,6 +4489,7 @@
         "base": 0,
         "modifiers": []
       },
+      "dependance": [],
       "publicAwareness": {
         "value": 0,
         "base": 0,
