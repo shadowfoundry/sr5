@@ -389,7 +389,7 @@ export class SR5Item extends Item {
             		tags.push([power.name, power.system.gameEffect])
           		}
         		}
-				if (itemData.sustainedSpell) {
+				if (Object.keys(itemData.sustainedSpell).length) {
 					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.conjurer);
 					let spells = [];
 					for (let sustained of Object.values(itemData.sustainedSpell)){
@@ -406,7 +406,7 @@ export class SR5Item extends Item {
             		tags.push([power.name, power.system.gameEffect]);
           		}
         		}
-				if (itemData.sustainedComplexForm) {
+				if (Object.keys(itemData.sustainedComplexForm).length) {
 					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.compiler);
 					for (let sustained of Object.values(itemData.sustainedComplexForm)) {						
 					let sustainedComplexFormName = actor.items.find(s => s.type === "itemComplexForm" && s._id === sustained.name);
