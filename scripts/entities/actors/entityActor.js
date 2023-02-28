@@ -836,7 +836,25 @@ export class SR5Actor extends Actor {
 		ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
 	}
 
-	//Reset Cumulative Recoil
+	//Reset Addiction
+	async resetAddiction(){
+		let actorId = (this.isToken ? this.token.id : this.id);
+		let dataToUpdate = {};
+		let updatedItems = duplicate(this.items);
+
+		//Reset le SS à 0
+		let actorData = duplicate(this.system);
+		actorData.addictions = [];
+
+		dataToUpdate = mergeObject(dataToUpdate, {
+			"system": actorData,
+		});
+		await this.update(dataToUpdate);
+
+		ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.AddictionsSettoNone")}.`);
+	}
+
+	//Reset Cumulative Defense
 	resetCumulativeDefense(){
 		this.setFlag("sr5", "cumulativeDefense", 0);
 		ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
