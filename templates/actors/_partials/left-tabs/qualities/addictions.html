@@ -1,0 +1,30 @@
+<!-- ADDICTIONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-8 SR-TextUppercase">{{localize 'SR5.Addiction'}}</div>
+            <div class="col-2 SR-TextCenter">{{localize 'SR5.WeeksShort'}}</div>
+            <div class="col-2 SR-TextCenter">{{localize 'SR5.ShotsShort'}}</div>
+
+		</li>
+		{{#each actor.system.addictions}}
+        {{#if_ge shot.value 1}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-8">
+				<p>{{name}} ({{findTranslation 'addictionTypes' addiction.type}})</p>
+			</div>
+			<div class="col-2 SR-TextCenter" data-binding="weekAddiction.value"
+			data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+                <p>{{weekAddiction.value}}</p>
+			</div>
+			<div class="col-2 SR-TextCenter" data-binding="shot.value"
+			data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+			data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+                <p>{{shot.value}}</p>
+			</div>
+		</li>
+        {{/if_ge}}
+		{{/each}}
+	</ul>
+</div>

@@ -2709,6 +2709,49 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateValue(actor.system.magic.bgCount);	
 	}
 
+	// Generate Drug addiction
+	static generateDrugAddiction(item){
+		let addiction = [], drugTaken;
+		
+		if (item.type === "itemDrug") {
+			drugTaken = {
+				"name": item.name,
+				"shot": {
+					"value": 0,
+					"base": 1,
+					"modifiers": []
+				  },
+				"addiction": item.system.addiction,
+				"weekAddiction": {
+					"value": 0,
+					"base": 11 - item.system.addiction.rating,
+					"modifiers": []
+				  },
+			}
+		}
+
+		if (item.type === "itemFocus") {
+			drugTaken = {
+				"name": item.name,
+				"shot": {
+					"value": 0,
+					"base": 1,
+					"modifiers": []
+				  },
+				"addiction.type": "psychological",
+				"weekAddiction": {
+					"value": 0,
+					"base": 11 - item.system.itemRating,
+					"modifiers": []
+				  },
+			}
+		}
+		SR5_EntityHelpers.updateValue(drugTaken.shot);
+		SR5_EntityHelpers.updateValue(drugTaken.weekAddiction);
+		addiction.push(drugTaken);
+		return addiction;
+	}
+
 	// Generate Matrix attributes
 	static generateMatrixAttributes(item, actor) {
 		let actorData = actor.system, attributes = actorData.attributes;

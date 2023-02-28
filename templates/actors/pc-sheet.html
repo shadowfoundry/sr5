@@ -60,6 +60,9 @@
 						<div class="tab" data-group="gauche" data-tab="tab-traits">
 							{{> systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html}}
 							{{> systems/sr5/templates/actors/_partials/left-tabs/qualities/visions.html}}
+							{{#if system.addictions}}
+							{{> systems/sr5/templates/actors/_partials/left-tabs/qualities/addictions.html}}
+							{{/if}}
 						</div>
 					</section>
 				</div>

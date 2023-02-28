@@ -616,6 +616,25 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (item.type === "itemDrug") {
 			if (target === "system.isActive"){
 				setProperty(item, "system.wirelessTurnedOn", false);
+
+				// Handle drug taken
+				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
+				let addiction = [];
+				console.log("actor.addictions avant " + JSON.stringify(actorData.addictions));
+				if (item.system.addiction.rating > 0 && item.system.isActive){
+					if (alreadyTaken) {
+						console.log("alreadyTaken : " + JSON.stringify(alreadyTaken));
+						alreadyTaken.shot.value += 1;
+					}
+					else {
+						addiction = SR5_CharacterUtility.generateDrugAddiction(item);
+						actorData.addictions = actorData.addictions.concat(addiction);
+					}		
+					SR5_EntityHelpers.updateValue(actorData.addictions.shot);
+					SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);
+					console.log("actor.addictions après " + JSON.stringify(actorData.addictions));
+
+				}
 			} else if (target === "system.wirelessTurnedOn"){
 				setProperty(item, "system.isActive", false);
 			}
@@ -648,6 +667,26 @@ export class ActorSheetSR5 extends ActorSheet {
 			if(oldValue === false) {
 				actions = [{type: "simple", value: 1, source: "activateFocus"}];
 				actorData.specialProperties.actions.simple.current -=1;
+
+				// Handle focus addicition
+				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
+				let addiction = [];
+				console.log("actor.addictions avant " + JSON.stringify(actorData.addictions));
+				if (item.system.isActive){
+					if (alreadyTaken) {
+						console.log("alreadyTaken : " + JSON.stringify(alreadyTaken));
+						alreadyTaken.shot.value += 1;
+						alreadyTaken.weekAddiction.value = 11 - item.system.itemRating;
+					}
+					else {
+						addiction = SR5_CharacterUtility.generateDrugAddiction(item);
+						actorData.addictions = actorData.addictions.concat(addiction);
+					}		
+					SR5_EntityHelpers.updateValue(actorData.addictions.shot);
+					SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);		
+					console.log("actor.addictions après " + JSON.stringify(actorData.addictions));
+				}
+
 			} else {
 				actions = [{type: "free", value: 1, source: "desactivateFocus"}];
 				actorData.specialProperties.actions.free.current -=1;
@@ -775,6 +814,10 @@ export class ActorSheetSR5 extends ActorSheet {
 			setProperty(entity, target, value);
 			this.actor.updateEmbeddedDocuments("Item", [entity]);
 		} else {
+			console.log("event : " + JSON.stringify(event));
+			console.log("entity : " + JSON.stringify(entity));
+			console.log("target : " + target);
+			console.log("value : " + value);
 			setProperty(entity, target, value);
 			this.actor.update(entity);
 		}
