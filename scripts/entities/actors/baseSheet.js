@@ -893,6 +893,7 @@ export class ActorSheetSR5 extends ActorSheet {
 
 		if (id){
 			setProperty(entity, target, value);
+			this.actor.updateEmbeddedDocuments("Item", [entity]);
 		} else {
 			setProperty(entity, target, value);
 			this.actor.update(entity);
