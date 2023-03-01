@@ -386,9 +386,7 @@ export class SR5Item extends Item {
         		if (itemData.powers) {
           		for (let power of itemData.powers){
             		powers.push(`${power.name}: ${power.system?.gameEffect}`);
-					console.log("powers : " + JSON.stringify(powers));
             		tags.push([power.name, power.system.gameEffect]);					
-					console.log("tags : " + JSON.stringify(tags));
           		}
         		}
         		break;
@@ -396,9 +394,7 @@ export class SR5Item extends Item {
         		if (itemData.spritePowers) {
           		for (let power of itemData.spritePowers){
             		spritePowers.push(`${power.name}: ${power.system?.gameEffect}`);
-					console.log("spritePowers : " + JSON.stringify(spritePowers));
             		tags.push([power.name, power.system.gameEffect]);					
-					console.log("tags : " + JSON.stringify(tags));
           		}
         		}
         		break;

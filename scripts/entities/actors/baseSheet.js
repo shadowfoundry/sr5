@@ -452,7 +452,6 @@ export class ActorSheetSR5 extends ActorSheet {
 				await this._onSubmit(event); // Submit any unsaved changes
 				const li = a.closest(".subItemManagement");
 				let removed = duplicate(this.actor.system[target]);
-				console.log("type of removed : " + typeof removed);
 				// convert back manually to array... so stupid to have to do this.
 				if (typeof removed === "object") { removed = Object.values(removed); } 
 				removed.splice(Number(li.dataset.key), 1);
@@ -647,29 +646,79 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		if (item.type === "itemDrug") {
+			let drugType = "", drug = [], itemData = item.system;
+			if (Object.keys(itemData.systemEffects).length) {
+				drugType = Object.values(itemData.systemEffects).find(i => i.category === "drug");
+			}
 			if (target === "system.isActive"){
 				setProperty(item, "system.wirelessTurnedOn", false);
 
 				// Handle drug taken
 				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
 				let addiction = [];
-				if (item.system.addiction.rating > 0 && item.system.isActive){
-					if (alreadyTaken) {
-						alreadyTaken.shot.value += 1;
-						alreadyTaken.addiction.threshold = item.system.addiction.threshold;
+				
+				// Check if the drug is activated
+				if (item.system.isActive) {
+						// Check if the drug has already been taken
+						if (alreadyTaken) {
+							// Add one take
+							alreadyTaken.shot.value += 1;
+							// Reset the threshold
+							alreadyTaken.addiction.threshold = item.system.addiction.threshold;
+						}
+						else {
+							// Generate and populate the drug addiction
+							addiction = SR5_CharacterUtility.generateDrugAddiction(item);
+							actorData.addictions = actorData.addictions.concat(addiction);
+							actorData.addictions = Object.values(actorData.addictions);
+						}		
+						SR5_EntityHelpers.updateValue(actorData.addictions.shot);
+						SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);
+					
+					// Check if the drug is set on systemEffect					
+					if (drugType) {
+						
+						// Generate the drug stat
+						drug = await SR5_CharacterUtility.handleDrugShots(item, drugType, actorData);
+						itemData.handleShot = drug;
+						let speedType = "";
+						
+						// Generate the speed type if not pure text
+						if (itemData.handleShot.speedType) speedType = game.i18n.localize(itemData.handleShot.speedType);
+						
+						// Notify info drug taken
+						await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.localize(SR5.drugs[itemData.handleShot.name])}${game.i18n.format("SR5.Colons")}
+						<ul><li>${game.i18n.format("SR5.ToxinSpeed")}${game.i18n.format("SR5.Colons")} ${itemData.handleShot.speed} ${speedType}</li><li>${game.i18n.format("SR5.Duration")}${game.i18n.format("SR5.Colons")} ${itemData.handleShot.duration} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationType])}</li></ul>`);
+						
+						// Notify info on effect for Laes/Leal
+						if (itemData.handleShot.effectDuration) await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.ErasedMemoryFor")} ${itemData.handleShot.effectDuration} ${game.i18n.localize(itemData.handleShot.effectDurationType)}`);
 					}
-					else {
-						addiction = SR5_CharacterUtility.generateDrugAddiction(item);
-						actorData.addictions = actorData.addictions.concat(addiction);
-						actorData.addictions = Object.values(actorData.addictions);
-					}		
-					SR5_EntityHelpers.updateValue(actorData.addictions.shot);
-					SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);
-
 				}
 			} else if (target === "system.wirelessTurnedOn"){
 				setProperty(item, "system.isActive", false);
-				if (item.system.contrecoup && item.system.wirelessTurnedOn) ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoup")} (${item.name})${item.system.contrecoup}`);
+				
+				// Check if the item is a drug set on systemEffect and has contrecoup duration
+				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.durationContrecoup) {
+					// Notify info on contrecoup				
+					await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoup")} (${game.i18n.localize(SR5.drugs[itemData.handleShot.name])})${game.i18n.format("SR5.Colons")} ${itemData.handleShot.durationContrecoup} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationContrecoupType])}`);
+				}
+				
+				// Handle if the item is a drug set on systemEffect and has untresisted stun contrecoup
+				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.unresistedStunDamage) {
+					let damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo.damage.value = itemData.handleShot.unresistedStunDamage;
+					damageInfo.damage.type = "stun";
+					this.actor.takeDamage(damageInfo);
+				}
+				
+				// Handle if the item is a drug set on systemEffect and has resisted stun contrecoup
+				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.resistedStunDamage) {
+					let damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo.damage.value = itemData.handleShot.resistedStunDamage;
+					damageInfo.damage.type = "stun";
+					damageInfo.damage.resistanceType = "physicalDamage";
+					this.actor.rollTest("resistanceCard", null, damageInfo);
+				}
 			}
 		}
 

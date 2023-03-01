@@ -324,8 +324,7 @@ export const preloadHandlebarsTemplates = async function () {
 				//Drugs
 				"systems/sr5/templates/items/_partial/editable/drug/attributes-edit.html",
 				"systems/sr5/templates/items/_partial/editable/drug/addiction-edit.html",
-				"systems/sr5/templates/items/_partial/editable/drug/contrecoup-edit.html",
-
+				
 				//Focus
 				"systems/sr5/templates/items/_partial/editable/focus/type-edit.html",
 				"systems/sr5/templates/items/_partial/editable/focus/subType-edit.html",
