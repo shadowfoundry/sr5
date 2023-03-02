@@ -55,7 +55,7 @@ export class SR5_ConverterHelpers {
                 return {type: "complex", value: 1, source: "attack"};
             default: 
         }
-    }
+    }      
 
     //Convert range  to environmental line
     static rangeToEnvironmentalLine(mode){
@@ -156,6 +156,44 @@ export class SR5_ConverterHelpers {
                 return -6;
             case 4:
                 return -10;
+            default:
+                return 0;
+        }
+    }
+
+    //Convert environmental modifier to dice pool modifier
+    static chokeSettingsOnTargetRange(modifier, range){
+        console.log("chokeSettingsOnTargetRange : " + modifier + " / " + range);
+        
+        switch (modifier){
+            case "narrow":
+                return 0;
+            case "medium":
+                switch (range){
+                    case "short":
+                        return 0;
+                    case "medium":
+                        return 0;
+                    case "long":
+                        return 0;
+                    case "extreme":
+                        return 0;
+                    default:
+                        return 0;
+                }
+            case "wide":
+                switch (range){
+                    case "short":
+                        return 0;
+                    case "medium":
+                        return 0;
+                    case "long":
+                        return 0;
+                    case "extreme":
+                        return 0;
+                    default:
+                        return 0;
+                }
             default:
                 return 0;
         }

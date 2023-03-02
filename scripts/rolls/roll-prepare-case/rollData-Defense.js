@@ -48,7 +48,9 @@ export default async function defense(rollData, actor, chatData){
     rollData.combat.armorPenetration = chatData.combat.armorPenetration;
     rollData.combat.firingMode.selected = chatData.combat.firingMode.selected;
     rollData.target.actorType = chatData.target.actorType;
-    rollData.target.rangeInMeters = chatData.target.rangeInMeters;    
+    rollData.target.rangeInMeters = chatData.target.rangeInMeters;   
+    rollData.target.range = chatData.target.range; 
+    rollData.combat.choke = chatData.target.choke;  
 
     //Add special info for Suppressive fire
     if (chatData.combat.firingMode.selected === "SF"){

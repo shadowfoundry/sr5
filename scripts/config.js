@@ -784,6 +784,12 @@ SR5.weaponRanges ={
 	extreme                   : "SR5.WeaponRangeExtreme",
 };
 
+// Choke settings
+SR5.chokeSettings ={
+	narrow                    : "SR5.ChokeSettingsNarrowSpread",
+	medium                    : "SR5.ChokeSettingsMediumSpread",
+	wide                      : "SR5.ChokeSettingsWideSpread",
+};
 
 // Modes de rechargement des armes à distance
 SR5.reloadingMethods = {
@@ -3298,6 +3304,7 @@ SR5.dicePoolModTypes = {
 	attackWithImagingDevice	  : "SR5.AttackModFiringWithImagingDevice",
 	attackIsRunning 		  : "SR5.AttackModRunning",
 	attackTakeAim   		  : "SR5.AttackModTakeAim",
+	chokeSettings             : "SR5.ChokeSettings",
 }
 
 SR5.drainModTypes = {

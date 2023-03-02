@@ -156,4 +156,76 @@ export class SR5_PrepareRollHelper {
             rollData.magic.spiritAid.modifier = spiritAid.system.itemRating;
         }
     }
+
+    //Handle Choke settings on attack
+    static chokeSettingsOnDamage(modifier, range, dialogData) {
+
+        switch (modifier){
+            case "narrow":
+                return 0;
+            case "medium":
+                switch (range){
+                    case "short":
+                        return 1;
+                    case "medium":
+                        return 3;
+                    case "long":
+                        return 5;
+                    case "extreme":
+                        return 7;
+                    default:
+                        return 0;
+                }
+            case "wide":
+                switch (range){
+                    case "short":
+                        return 3;
+                    case "medium":
+                        return 5;
+                    case "long":
+                        return 7;
+                    case "extreme":
+                        return 9;
+                    default:
+                        return;
+                }
+            default:
+                return;
+        }
+    }
+
+        //Handle Choke settings on attack
+        static chokeSettingsOnLimit(modifier, range, dialogData) {
+            console.log("chokeSettingsOnTargetRange : " + modifier + " / " + range);
+            
+            switch (modifier){
+                case "narrow":
+                    return;
+                case "medium":
+                    switch (range){
+                        case "short":
+                        case "medium":
+                        case "long":
+                            return 0;
+                        case "extreme":
+                           return -1;
+                        default:
+                            return 0;
+                    }
+                case "wide":
+                    switch (range){
+                        case "short":
+                        case "medium":                            
+                            return 0;
+                        case "long":
+                        case "extreme":
+                            return -1;
+                        default:
+                            return;
+                    }
+                default:
+                    return;
+            }
+        }
+
 }

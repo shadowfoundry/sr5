@@ -20,6 +20,7 @@ export class SR5_PrepareRollTest {
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rollData.systemRules.calledShots = true;
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rollData.systemRules.grid = true;
 
+ 
         //Iterate through roll type and add data to rollData;
         switch (rollType){
             case "astralTracking":
@@ -60,7 +61,9 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.decompilingResistance(rollData, actor, chatData);
                 break;
             case "defense":
+                console.log("PrepareRollTest rollData : " + actor.name + " " + JSON.stringify(rollData));
                 rollData = await SR5_GetRollData.defense(rollData, actor, chatData);
+                console.log("PrepareRollTest rollData : " + actor.name + " " + JSON.stringify(rollData));
                 break;
             case "defenseSimple":
                 rollData = await SR5_GetRollData.defenseSimple(rollData, rollKey, actor);
@@ -209,7 +212,7 @@ export class SR5_PrepareRollTest {
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
-
+        
         if (rollData) SR5_RollTest.generateRollDialog(rollData);
     }
 
@@ -298,6 +301,8 @@ export class SR5_PrepareRollTest {
                     long: 0,
                     extreme: 0,
                 },
+                rangeSelected: "",
+                choke: "",
                 reach: 0,
                 recoil:{
                     compensationWeapon: 0,

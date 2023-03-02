@@ -1,0 +1,15 @@
+<li class="grid">
+    <div class="col-6">{{localize 'SR5.ChokeSettings'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-5 SR-TextRight">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModChokeSettings" data-modifier="chokeSettings">
+        {{#select chokeSettings}}
+            <option value="narrow">{{localize 'SR5.ChokeSettingsNarrowSpread'}}</option>
+            <option value="medium">{{localize 'SR5.ChokeSettingsMediumSpread'}}</option>
+            <option value="wide">{{localize 'SR5.ChokeSettingsWideSpread'}}</option>
+        {{/select}}
+        </select>
+    </div> 
+	<div class="col-1 SR-TextCenter">
+        <input disabled type="hidden" name="dicePoolModChokeSettings" value="" placeholder="0" data-dtype="Number" />
+    </div>
+</li>

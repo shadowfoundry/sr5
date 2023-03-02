@@ -602,10 +602,11 @@ export default class SR5_RollDialog extends Dialog {
         let target = $(ev.currentTarget).attr("data-target"),
             name = `[name=${target}]`,
             modifierName = $(ev.currentTarget).attr("data-modifier"),
-            value, limitDV, action,
+            value, limitDV, action, rangeType,
             actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
-            position = this.position;
+            position = this.position,
+            weapon;
 
         position.height = "auto";
 
@@ -644,6 +645,28 @@ export default class SR5_RollDialog extends Dialog {
                     baseRange += actor.system.itemsProperties.environmentalMod.range.value;
                     value = SR5_ConverterHelpers.environmentalLineToMod(baseRange);
                     label = label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    dialogData.target.range = ev.target.value;
+                    break;
+                case "chokeSettings":
+                    value = SR5_ConverterHelpers.chokeSettingsOnTargetRange(ev.target.value, dialogData.target.range);
+                    dialogData.combat.choke = ev.target.value;
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    let damageModify, limitModify, index;
+                    damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(ev.target.value, dialogData.target.range);
+                    limitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(ev.target.value, dialogData.target.range);
+                    dialogData.damage.value -= damageModify ;
+                    if (limitModify) {                         
+                        dialogData.limit.modifiers[modifierName] = {
+                          value: limitModify,
+                          label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke])}`,
+                    }
+                    this.limitModifier[modifierName] = limitModify;
+                    this.updateLimitValue(html);
+                    }
+                    console.log(index);
+                    console.log("dialogData.limit.modifiers what : " + Array.isArray(dialogData.limit.modifiers));
+                    console.log("dialogData.limit.modifiers typeof : " + typeof dialogData.limit.modifiers);
+                    console.log("dialogData.damage.value : " + dialogData.damage.value + " | dialogData.limit.modifiers : " + JSON.stringify(dialogData.limit.modifiers) + " length : " + Object.entries(dialogData.limit.modifiers).length +  " | limitModify " + limitModify);
                     break;
                 case "firingMode":
                     dialogData.combat.firingMode.selected = ev.target.value;
@@ -924,7 +947,7 @@ export default class SR5_RollDialog extends Dialog {
         }
 
         this.setPosition(position);
-        html.find(name)[0].value = value;
+        if (html.find(name)[0].value) html.find(name)[0].value = value;
         dialogData.dicePool.modifiers[modifierName] = {
             value: value,
             label: label,
@@ -961,6 +984,11 @@ export default class SR5_RollDialog extends Dialog {
                     let baseRange = SR5_ConverterHelpers.rangeToEnvironmentalLine(dialogData.target.range);
                     baseRange += actor.system.itemsProperties.environmentalMod.range.value;
                     inputValue = SR5_ConverterHelpers.environmentalLineToMod(baseRange);
+                    label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
+                    break;
+                case "chokeSettings":   
+                    dialogData.combat.choke = e.value;
+                    selectValue = dialogData.combat.choke;
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "firingMode":
@@ -1037,7 +1065,7 @@ export default class SR5_RollDialog extends Dialog {
                     break;
             }
 
-            html.find(targetInputName)[0].value = inputValue;
+            if (inputValue) html.find(targetInputName)[0].value = inputValue;
             if (selectValue) html.find(name)[0].value = selectValue;
             dialogData.dicePool.modifiers[modifierName] = {
                 value: inputValue,
