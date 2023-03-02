@@ -161,44 +161,6 @@ export class SR5_ConverterHelpers {
         }
     }
 
-    //Convert environmental modifier to dice pool modifier
-    static chokeSettingsOnTargetRange(modifier, range){
-        console.log("chokeSettingsOnTargetRange : " + modifier + " / " + range);
-        
-        switch (modifier){
-            case "narrow":
-                return 0;
-            case "medium":
-                switch (range){
-                    case "short":
-                        return 0;
-                    case "medium":
-                        return 0;
-                    case "long":
-                        return 0;
-                    case "extreme":
-                        return 0;
-                    default:
-                        return 0;
-                }
-            case "wide":
-                switch (range){
-                    case "short":
-                        return 0;
-                    case "medium":
-                        return 0;
-                    case "long":
-                        return 0;
-                    case "extreme":
-                        return 0;
-                    default:
-                        return 0;
-                }
-            default:
-                return 0;
-        }
-    }
-
     //Get signature modifier
     static signatureToMod(signature){
         switch (signature){

@@ -200,7 +200,7 @@ export class SR5_PrepareRollHelper {
             
             switch (modifier){
                 case "narrow":
-                    return;
+                    return 0;
                 case "medium":
                     switch (range){
                         case "short":
@@ -215,16 +215,47 @@ export class SR5_PrepareRollHelper {
                 case "wide":
                     switch (range){
                         case "short":
-                        case "medium":                            
+                        case "medium":                           
                             return 0;
                         case "long":
                         case "extreme":
                             return -1;
                         default:
-                            return;
+                            return 0;
                     }
                 default:
-                    return;
+                    return 0;
+            }
+        }
+
+        //Handle Choke settings on attack
+        static chokeSettingsOnDefense(modifier, range, dialogData) {
+            
+            switch (modifier){
+                case "narrow":
+                    return -1;
+                case "medium":
+                    switch (range){
+                        case "short":
+                        case "medium":
+                        case "long":
+                        case "extreme":
+                           return -3;
+                        default:
+                            return 0;
+                    }
+                case "wide":
+                    switch (range){
+                        case "short":
+                        case "medium": 
+                        case "long":
+                        case "extreme":
+                            return -5;
+                        default:
+                            return 0;
+                    }
+                default:
+                    return 0;
             }
         }
 

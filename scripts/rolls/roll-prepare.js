@@ -302,7 +302,11 @@ export class SR5_PrepareRollTest {
                     extreme: 0,
                 },
                 rangeSelected: "",
-                choke: "",
+                choke: {
+                    type: "",
+                    limit: "",
+                    defense: "",
+                },
                 reach: 0,
                 recoil:{
                     compensationWeapon: 0,
