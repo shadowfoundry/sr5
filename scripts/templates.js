@@ -450,6 +450,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/weapon/category-edit.html",
 				"systems/sr5/templates/items/_partial/editable/weapon/damage-edit.html",
 				"systems/sr5/templates/items/_partial/editable/weapon/firingModes-edit.html",
+				"systems/sr5/templates/items/_partial/editable/weapon/chokeSettings-edit.html",
 				"systems/sr5/templates/items/_partial/editable/weapon/range-edit.html",
 				"systems/sr5/templates/items/_partial/editable/weapon/reach-edit.html",
 				"systems/sr5/templates/items/_partial/editable/weapon/recoilCompensation-edit.html",

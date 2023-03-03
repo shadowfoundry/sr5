@@ -4,6 +4,11 @@ import { SR5 } from "../../config.js";
 export default async function attackInfo(cardData){
     cardData.damage.resistanceType = "physicalDamage";
 
+	// handle choke settings
+	if (cardData.combat.choke.damageModify) {
+		cardData.damage.base -= cardData.combat.choke.damageModify ;
+		cardData.damage.value -= cardData.combat.choke.damageModify ;
+	}
 	if (cardData.test.typeSub === "grenade") {
 		cardData.damage.value = cardData.damage.base;
 		//Handle scatter

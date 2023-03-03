@@ -183,6 +183,12 @@ async function handleTargetInfo(rollData, actor, item){
         if (itemData.firingMode.current !== "") rollData.combat.firingMode.selected = itemData.firingMode.current;
         else rollData.combat.firingMode.selected = itemData.firingMode.value[0];
     }
+    
+    //Handle shotgun current choke settings
+    if (itemData.type === "shotgun") {
+        if (itemData.choke.current !== "") rollData.combat.choke.selected = itemData.choke.current;
+        else rollData.combat.choke.selected = itemData.choke.value[0];
+    }
 
     //Add environmental modifiers
     if (sceneEnvironmentalMod !== 0){

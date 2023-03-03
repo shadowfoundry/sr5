@@ -61,9 +61,7 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.decompilingResistance(rollData, actor, chatData);
                 break;
             case "defense":
-                console.log("PrepareRollTest rollData : " + actor.name + " " + JSON.stringify(rollData));
                 rollData = await SR5_GetRollData.defense(rollData, actor, chatData);
-                console.log("PrepareRollTest rollData : " + actor.name + " " + JSON.stringify(rollData));
                 break;
             case "defenseSimple":
                 rollData = await SR5_GetRollData.defenseSimple(rollData, rollKey, actor);
@@ -301,11 +299,11 @@ export class SR5_PrepareRollTest {
                     long: 0,
                     extreme: 0,
                 },
-                rangeSelected: "",
                 choke: {
-                    type: "",
+                    selected: "",
                     limit: "",
                     defense: "",
+                    damageModify: 0,
                 },
                 reach: 0,
                 recoil:{

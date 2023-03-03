@@ -5999,6 +5999,10 @@
         "value": [],
         "current": ""
       },
+      "choke": {
+        "current": "",
+        "value": []
+      },
       "ammunition": {
         "value": 0,
         "max": 0,

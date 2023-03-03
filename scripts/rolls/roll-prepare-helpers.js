@@ -158,7 +158,7 @@ export class SR5_PrepareRollHelper {
     }
 
     //Handle Choke settings on attack
-    static chokeSettingsOnDamage(modifier, range, dialogData) {
+    static chokeSettingsOnDamage(modifier, range) {
 
         switch (modifier){
             case "narrow":
@@ -195,8 +195,7 @@ export class SR5_PrepareRollHelper {
     }
 
         //Handle Choke settings on attack
-        static chokeSettingsOnLimit(modifier, range, dialogData) {
-            console.log("chokeSettingsOnTargetRange : " + modifier + " / " + range);
+        static chokeSettingsOnLimit(modifier, range) {
             
             switch (modifier){
                 case "narrow":
@@ -229,7 +228,7 @@ export class SR5_PrepareRollHelper {
         }
 
         //Handle Choke settings on attack
-        static chokeSettingsOnDefense(modifier, range, dialogData) {
+        static chokeSettingsOnDefense(modifier, range) {
             
             switch (modifier){
                 case "narrow":

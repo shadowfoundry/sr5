@@ -1,0 +1,15 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.ChokeSettings'}}</p>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.ChokeSettingsCurrent'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7">
+        <select name="system.choke.current">
+            {{#select system.choke.current}}
+            <option value="narrow">{{localize 'SR5.ChokeSettingsNarrowSpread'}}</option>
+            <option value="medium">{{localize 'SR5.ChokeSettingsMediumSpread'}}</option>
+            <option value="wide">{{localize 'SR5.ChokeSettingsWideSpread'}}</option>
+            {{/select}}
+            </select>
+    </div>
+</li>

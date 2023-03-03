@@ -482,6 +482,13 @@ export class SR5_UtilityItem extends Actor {
 			}
 		}
 
+		itemData.choke.value = [];
+		for (let key of Object.keys(SR5.chokeSettings)) {
+			if (itemData.choke[key]) {
+				itemData.choke.value.push(game.i18n.localize(SR5.chokeSettings[key]));
+			}
+		}
+
 		SR5_EntityHelpers.updateValue(itemData.damageValue, 0);
 		SR5_EntityHelpers.updateValue(itemData.armorPenetration);
 		SR5_EntityHelpers.updateValue(itemData.recoilCompensation);
@@ -2567,10 +2574,8 @@ export class SR5_UtilityItem extends Actor {
 	static _handlePower(itemData, actor) {
 		let firstAttribute, secondAttribute;
 		if (itemData.testFirstAttribute){
-			console.log("power : " + itemData.name + ", attribute : " + itemData.testFirstAttribute);
 			if (actor.type === "actorSpirit" && itemData.testFirstAttribute === "edge"){
 				itemData.testFirstAttribute = "magic"; 				
-				console.log("first attribut power : " + JSON.stringify(itemData) + ", attribute : " + itemData.testFirstAttribute);
 			}
 			if (itemData.testFirstAttribute === "edge" || itemData.testFirstAttribute === "magic" || itemData.testFirstAttribute === "resonance"){
 				firstAttribute = actor.system.specialAttributes[itemData.testFirstAttribute].augmented.value;
@@ -2582,7 +2587,6 @@ export class SR5_UtilityItem extends Actor {
 		if (itemData.testSecondAttribute){
 			if (actor.type === "actorSpirit" && itemData.testSecondAttribute === "edge"){
 				itemData.testSecondAttribute = "magic"; 				
-				console.log("second attribut power : " + JSON.stringify(itemData) + ", attribute : " + itemData.testSecondAttribute);
 			}
 			if (itemData.testSecondAttribute === "edge" || itemData.testSecondAttribute === "magic" || itemData.testSecondAttribute === "resonance"){
 				secondAttribute = actor.system.specialAttributes[itemData.testSecondAttribute].augmented.value;

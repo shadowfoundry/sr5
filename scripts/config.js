@@ -713,6 +713,7 @@ SR5.actionSources = {
 	callSprite 				  : "SR5.ActionSourceCallSprite",
 	castRecklessSpell		  : "SR5.ActionSourceCastRecklessSpell",
 	castSpell				  : "SR5.ActionSourceCastSpell",
+	changeChokeSettings       : "SR5.ActionSourceChangeChokeSettings",
 	changeFiringMode		  : "SR5.ActionSourceChangeFiringMode",
 	changeSilentMode		  : "SR5.ActionSourceChangeSilentMode",
 	complexForm				  : "SR5.ActionSourceComplexForm",

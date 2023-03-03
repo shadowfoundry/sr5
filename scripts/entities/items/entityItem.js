@@ -244,6 +244,11 @@ export class SR5Item extends Item {
 						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
 						game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[itemData.ammunition.type]),
 					);
+					if (itemData.type === "shotgun"){
+						tags.push(
+							game.i18n.localize(`SR5.ChokeSettings`) + game.i18n.localize(`SR5.Colons`) + ` ${game.i18n.localize(lists.chokeSettings[itemData.choke.current])}`
+						)	
+					}
 					if (itemData.accessory) {
 						for (let a of itemData.accessory){
 							accessories.push(`${a.name}: ${a.system?.gameEffect}`);
@@ -386,9 +391,7 @@ export class SR5Item extends Item {
         		if (itemData.powers) {
           		for (let power of itemData.powers){
             		powers.push(`${power.name}: ${power.system?.gameEffect}`);
-					console.log("powers : " + JSON.stringify(powers));
             		tags.push([power.name, power.system.gameEffect]);					
-					console.log("tags : " + JSON.stringify(tags));
           		}
         		}
         		break;
@@ -396,9 +399,7 @@ export class SR5Item extends Item {
         		if (itemData.spritePowers) {
           		for (let power of itemData.spritePowers){
             		spritePowers.push(`${power.name}: ${power.system?.gameEffect}`);
-					console.log("spritePowers : " + JSON.stringify(spritePowers));
             		tags.push([power.name, power.system.gameEffect]);					
-					console.log("tags : " + JSON.stringify(tags));
           		}
         		}
         		break;

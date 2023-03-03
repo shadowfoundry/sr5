@@ -44,7 +44,7 @@
     {{/if}}
     {{#if (eq combat.weaponType "shotgun")}}
     <div class="col-6">{{localize 'SR5.ChokeSettings'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-6 SR-TextRight">{{findTranslation 'chokeSettings' combat.choke.type}}</div>
+    <div class="col-6 SR-TextRight">{{findTranslation 'chokeSettings' combat.choke.selected}}</div>
     {{/if}}
 </li>
 {{#if (ne combat.ammo.type '')}}

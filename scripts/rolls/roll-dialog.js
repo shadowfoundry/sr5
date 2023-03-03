@@ -606,7 +606,7 @@ export default class SR5_RollDialog extends Dialog {
             actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             position = this.position,
-            damageModify, limitModify, limitModified;
+            chokeLimitModify, chokeLimitModified, weapon;
 
         position.height = "auto";
 
@@ -646,46 +646,56 @@ export default class SR5_RollDialog extends Dialog {
                     value = SR5_ConverterHelpers.environmentalLineToMod(baseRange);
                     label = label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     dialogData.target.range = ev.target.value;
-                    damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(dialogData.combat.choke.type, dialogData.target.range);
-                    limitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(dialogData.combat.choke.type, dialogData.target.range);
-                    dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.type, dialogData.target.range);
-                    dialogData.damage.value -= damageModify ;
-                    limitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
-                    console.log(limitModified);
-                    if (limitModify && !limitModified) {                     
-                        dialogData.limit.modifiers["chokeSettings"] = {
-                          value: limitModify,
-                          label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.type])}`,
-                        }                        
-                        html.find("[name=chokeSettings]")[0].value = limitModify;
-                        this.limitModifier[modifierName] = limitModify;
+                    // Handle choke 
+                    if (dialogData.combat.weaponType === "shotgun") {
+                        dialogData.combat.choke.damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(dialogData.combat.choke.selected, dialogData.target.range);
+                        chokeLimitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(dialogData.combat.choke.selected, dialogData.target.range);
+                        dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.selected, dialogData.target.range);
+                        chokeLimitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
+                        if (chokeLimitModify && !chokeLimitModified) {                     
+                            dialogData.limit.modifiers["chokeSettings"] = {
+                                value: chokeLimitModify,
+                                label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.selected])}`,
+                            }                        
+                        html.find("[name=chokeSettings]")[0].value = chokeLimitModify;
+                        this.limitModifier[modifierName] = chokeLimitModify;
                         this.updateLimitValue(html);
-                        dialogData.combat.choke.limit = limitModify;
-                    }  
+                        dialogData.combat.choke.limit = chokeLimitModify;
+                        } 
+                    }
                     break;
                 case "chokeSettings":
-                    dialogData.combat.choke.type = ev.target.value;
-                    console.log("name : " + name);
-                    console.log("target : " + target);
-                    console.log("modifierName : " + modifierName);
+                    dialogData.combat.choke.selected = ev.target.value;
                     html.find(name)[0].value = value;
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
-                    damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(ev.target.value, dialogData.target.range);
-                    limitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(ev.target.value, dialogData.target.range);
-                    dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.type, dialogData.target.range);
-                    value = limitModify;
-                    dialogData.damage.value -= damageModify ;
-                    limitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
-                    console.log(limitModified);
-                    if (limitModify && !limitModified) {                         
+                    dialogData.combat.choke.damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(ev.target.value, dialogData.target.range);
+                    chokeLimitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(ev.target.value, dialogData.target.range);
+                    dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.selected, dialogData.target.range);
+                    value = chokeLimitModify;
+                    chokeLimitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
+                    if (chokeLimitModify && !chokeLimitModified) {                         
                         dialogData.limit.modifiers[modifierName] = {
-                          value: limitModify,
-                          label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.type])}`,
+                          value: chokeLimitModify,
+                          label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.selected])}`,
                         }
-                        this.limitModifier[modifierName] = limitModify;
+                        this.limitModifier[modifierName] = chokeLimitModify;
                         this.updateLimitValue(html);
-                        dialogData.combat.choke.limit = limitModify;
+                        dialogData.combat.choke.limit = chokeLimitModify;
                     }
+                    //actions
+                    weapon = await fromUuid(dialogData.owner.itemUuid);
+                    if (weapon.system.choke.current !== dialogData.combat.choke.selected && !dialogData.combat.choke.actionSpent){
+                        action = [{type: "simple", value: 1, source: "changeChokeSettings"}];
+                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "changeChokeSettings"}];
+                        SR5Combat.changeActionInCombat(dialogData.owner.actorId, action);
+                        dialogData.combat.choke.actionSpent = true;
+                    } else if (weapon.system.choke.current === dialogData.combat.choke.selected && dialogData.combat.choke.actionSpent){
+                        action = [{type: "simple", value: -1, source: "changeChokeSettings"}];
+                        if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: -1, source: "changeChokeSettings"}];
+                        SR5Combat.changeActionInCombat(dialogData.owner.actorId, action);
+                        dialogData.combat.choke.actionSpent = false;
+                    }
+
                     break;
                 case "firingMode":
                     dialogData.combat.firingMode.selected = ev.target.value;
@@ -695,7 +705,7 @@ export default class SR5_RollDialog extends Dialog {
                     modifierName = "recoil";
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     //actions
-                    let weapon = await fromUuid(dialogData.owner.itemUuid);
+                    weapon = await fromUuid(dialogData.owner.itemUuid);
                     if (weapon.system.firingMode.current !== dialogData.combat.firingMode.selected && !dialogData.combat.firingMode.actionSpent){
                         action = [{type: "simple", value: 1, source: "changeFiringMode"}];
                         if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "changeFiringMode"}];
@@ -1007,28 +1017,25 @@ export default class SR5_RollDialog extends Dialog {
                     inputValue = SR5_ConverterHelpers.environmentalLineToMod(baseRange);
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
-                case "chokeSettings":   
-                    console.log("modifierName : " + modifierName);
-                    console.log("targetInput : " + targetInput);
-                    console.log("targetInputName : " + targetInputName);
-                    console.log("name : " + name);
-                    dialogData.combat.choke.type = e.value;
-                    selectValue = dialogData.combat.choke;
+                case "chokeSettings":
+                    selectValue = dialogData.combat.choke.selected;
+                    html.find(name)[0].value = selectValue;
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
-                    let damageModify, limitModify;
-                    damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(e.value, dialogData.target.range);
-                    limitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(e.value, dialogData.target.range);
-                    dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.type, dialogData.target.range);
-                    inputValue = limitModify;
-                    dialogData.damage.value -= damageModify ;
-                    if (limitModify) {                         
+                    dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.selected, dialogData.target.range);
+                    dialogData.combat.choke.damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(selectValue, dialogData.target.range);
+                    //if (dialogData.damage.value) dialogData.damage.value -= ;
+                    let chokeLimitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(selectValue, dialogData.target.range);
+                    dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(selectValue, dialogData.target.range);
+                    inputValue = chokeLimitModify;
+                    let chokeLimitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
+                    if (chokeLimitModify && !chokeLimitModified) {                         
                         dialogData.limit.modifiers[modifierName] = {
-                          value: limitModify,
-                          label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.type])}`,
+                          value: chokeLimitModify,
+                          label: `${game.i18n.localize(SR5.chokeSettings[selectValue])}`,
                         }
-                        this.limitModifier[modifierName] = limitModify;
+                        this.limitModifier[modifierName] = chokeLimitModify;
                         this.updateLimitValue(html);
-                        dialogData.combat.choke.limit = limitModify;
+                        dialogData.combat.choke.limit = chokeLimitModify;
                     }
                     break;
                 case "firingMode":
