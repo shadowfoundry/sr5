@@ -4790,6 +4790,7 @@
         "base": 0,
         "modifiers": []
       },
+      "addictions": [],
       "publicAwareness": {
         "value": 0,
         "base": 0,
@@ -7170,6 +7171,7 @@
         "rating": 0,
         "threshold": 0
       },
+      "handleShot": [],
       "wirelessTurnedOn": false
     },
     "itemTradition":{

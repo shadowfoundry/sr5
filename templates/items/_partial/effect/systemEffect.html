@@ -26,6 +26,7 @@
 					<option value="spiritPower">{{localize 'SR5.SpiritPower'}}</option>
 					<option value="spritePower">{{localize 'SR5.SpritePower'}}</option>
 					<option value="tradition">{{localize 'SR5.HELP_MagicalTradition'}}</option>
+					<option value="drug">{{localize 'SR5.Drug'}}</option>
 					<option value="baseOwnItem">{{localize 'SR5.BaseOwnedItem'}}</option>
 					<option value="specificItem">{{localize 'SR5.SpecificItem'}}</option>
 					{{/select}}
@@ -80,6 +81,12 @@
 
 					{{#ife category 'tradition'}}
 						{{#each (lookup ../lists 'traditionTypes')}}
+						<option value="{{@key}}">{{localize this}}</option>	
+						{{/each}}						
+					{{/ife}}
+
+					{{#ife category 'drug'}}
+						{{#each (lookup ../lists 'drugs')}}
 						<option value="{{@key}}">{{localize this}}</option>	
 						{{/each}}						
 					{{/ife}}

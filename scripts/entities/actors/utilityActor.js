@@ -2718,6 +2718,714 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateValue(actor.system.magic.bgCount);	
 	}
 
+	// Generate Drug addiction
+	static generateDrugAddiction(item){
+		let addiction = [], drugTaken;
+		
+		if (item.type === "itemDrug") {
+			drugTaken = {
+				"name": item.name,
+				"shot": {
+					"value": 0,
+					"base": 1,
+					"modifiers": []
+				  },
+				"addiction": item.system.addiction,
+				"weekAddiction": {
+					"value": 0,
+					"base": 11 - item.system.addiction.rating,
+					"modifiers": []
+				  },
+			}
+		}
+
+		if (item.type === "itemFocus") {
+			drugTaken = {
+				"name": item.name,
+				"shot": {
+					"value": 0,
+					"base": 1,
+					"modifiers": []
+				  },
+				"addiction.type": "psychological",
+				"addiction.threshold": 2,
+				"weekAddiction": {
+					"value": 0,
+					"base": 11 - item.system.itemRating,
+					"modifiers": []
+				  },
+			}
+		}
+		SR5_EntityHelpers.updateValue(drugTaken.shot);
+		SR5_EntityHelpers.updateValue(drugTaken.weekAddiction);
+		addiction.push(drugTaken);
+		return addiction;
+	}
+	
+	// Handle drug stats
+	static async handleDrugShots(item, drugType, actorData){
+		let drug = [];
+		let drugStat;
+		let roll, rollRoll, rollSpeed, rollRollSpeed, duration, effect;
+
+		switch (drugType.value) {
+			case "bliss":	
+				duration = Math.max(6 - actorData.attributes.body.augmented.value, 1);	
+				drugStat = {			
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "cram":	
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 10,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 6,
+				}
+			break;
+			case "deepweed":
+				duration = Math.max(6 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "jazz":	
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "kamikaze":	
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "minute",
+					"unresistedStunDamage": 6,
+				}	
+			break;
+			case "longHaul":	
+				roll = new Roll(`8d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 10,
+					"speedType": "SR5.Minutes",
+					"duration": 4,
+					"durationType": "day",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "nitro":		
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "minute",
+					"unresistedStunDamage": 9,
+				}	
+			break;
+			case "novacoke":
+				duration = Math.max(10 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "psyche":	
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 10,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "zen":		
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 5,
+					"speedType": "SR5.Minutes",
+					"duration": rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "aexd":		
+				roll = new Roll(`2d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "aisa":		
+				roll = new Roll(`2d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 20 * rollRoll.total,
+					"durationType": "minute",
+					"unresistedStunDamage": 2,
+				}
+			break;
+			case "animalTongue":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`3d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "ayaosWill":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 2,
+					"speedType": "SR5.CombatTurns",
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "betel":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "betameth":
+				duration = Math.max(9 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.Minute",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 6,
+				}
+			break;
+			case "cereprax":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);		
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 5,
+				}
+			break;
+			case "crimsonOrchid":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 6,
+				}
+			break;
+			case "dopadrine":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "eX":
+				duration = Math.max(8 - actorData.attributes.body.augmented.value, 1);		
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": actorData.attributes.body.augmented.value,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "forgetMeNot":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "galak":
+				duration = Math.max(9 - actorData.attributes.body.augmented.value, 3);		
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "g3":
+				duration = Math.max(15 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "guts":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "hecatesBlessing":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+					"durationContrecoup": 2 * duration,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "hurlg":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"resistedStunDamage": 9,
+				}
+			break;
+			case "immortalFlower":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 16,
+					"speedType": "SR5.CombatTurns",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": rollRollSpeed.total,
+				}
+			break;
+			case "k10":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 5 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+					"unresistedStunDamage": 18,
+				}
+			break;
+			case "laes":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 20 * rollRoll.total;
+				effect = Math.max(12 - actorData.attributes.body.augmented.value, 1);	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+					"resistedStunDamage": 12,
+					"effectDuration": effect,
+					"effectDurationType": "SR5.Hours",
+				}
+			break;
+			case "leal":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 5 * rollRoll.total;
+				effect = Math.max(120 - actorData.attributes.body.augmented.value, 100);	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+					"resistedStunDamage": 12,
+					"effectDuration": effect,
+					"effectDurationType": "SR5.Minutes",
+				}
+			break;
+			case "littleSmoke":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "memoryFog":
+				duration = Math.max(14 - actorData.attributes.body.augmented.value, 2);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Minute",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "nightwatch":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 20 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+				}
+			break;
+			case "noPaint":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "hour",
+				}
+			break;
+			case "oneiro":		
+				roll = new Roll(`3d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "oxygenatedFluorocarbons":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRoll.total,
+					"speedType": "SR5.Hours",
+					"duration": 1,
+					"durationType": "week",
+					"durationContrecoup": actorData.attributes.body.augmented.value,			
+					"durationContrecoupType": "day",
+				}
+			break;
+			case "overdrive":
+				duration = Math.max(10 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 8,
+				}
+			break;
+			case "pixieDust":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await roll.evaluate({async: true});	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"resistedStunDamage": 12,
+					"effectDuration": rollRollSpeed.total,
+					"effectDurationType": "SR5.Minutes",
+				}
+			break;
+			case "push":
+				duration = Math.max(15 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Minute",
+					"duration": duration,
+					"durationType": "minute",
+				}
+			break;
+			case "redMescaline":
+				duration = Math.max(18 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "ripper":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+					"unresistedStunDamage": 2,
+				}
+			break;
+			case "rockLizardBlood":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 30,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+					"unresistedStunDamage": 2,
+				}
+			break;
+			case "shade":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 10,
+				}
+			break;
+			case "slab":
+				duration = Math.max(10 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 2,
+					"speedType": "SR5.CombatTurns",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": Math.floor(duration / 2),			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "snuff":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.Minute",
+					"duration": duration,
+					"durationType": "minute",
+					"durationContrecoup": duration * 2,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "soberTime":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+				}
+			break;
+			case "soothsayer":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
+				let malus = 0;
+				if (alreadyTaken.shot.value) malus = alreadyTaken.shot.value - 1;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Minute",
+					"duration": duration,
+					"durationType": "hour",
+					"resistedStunDamage": 8 - malus,
+				}
+			break;
+			case "trance":
+				duration = Math.max(6 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "woad":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 5 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+					"durationContrecoup": 10 * duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "wuduAku":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": 24,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "zero":
+				duration = Math.max(20 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "zombieDust":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 2,
+					"speedType": "SR5.CombatTurns",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "zone":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			default:
+				SR5_SystemHelpers.srLog(1, `Unknown '${drugType.value}' drug type in handleDrugShots()`);
+				return;
+		}
+		return drugStat;
+	}
+
 	// Generate Matrix attributes
 	static generateMatrixAttributes(item, actor) {
 		let actorData = actor.system, attributes = actorData.attributes;

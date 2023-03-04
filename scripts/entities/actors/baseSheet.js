@@ -55,6 +55,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		html.find(".item-edit").click(this._onItemEdit.bind(this));
 		html.find(".item-delete").click(this._onItemDelete.bind(this));
 		html.find(".item-management").mousedown(this._onItemManagement.bind(this));
+		html.find(".subItem").click(this._onManageSubItem.bind(this));
 		//Edit item value from actor sheet
 		html.find(".edit-value").change(this._onEditItemValue.bind(this));
 		html.find(".select-value").change(this._onEditItemValue.bind(this));
@@ -68,6 +69,8 @@ export class ActorSheetSR5 extends ActorSheet {
 		html.find(".reload-ammo").mousedown(this._onReloadAmmo.bind(this));
 		//Reset weapon recoil
 		html.find(".resetRecoil").click(this._onResetRecoil.bind(this));
+		//Reset drug addiction
+		html.find(".resetAddiction").click(this._onResetAddiction.bind(this));
 		//Reboot le deck
 		html.find(".reset-deck").click(this._onRebootDeck.bind(this));
 		// Checkbox changes
@@ -419,9 +422,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				},
 			});
 		}
-	}
-
-	/* -------------------------------------------- */
+	}	/* -------------------------------------------- */
 
 	_onItemManagement(event){
 		event.preventDefault();
@@ -432,6 +433,37 @@ export class ActorSheetSR5 extends ActorSheet {
 				else this._onItemEdit(event)
 				break;
 		}
+	}	/* -------------------------------------------- */
+
+		// Manage "Sub Item", accessory, licenses, effects...
+		async _onManageSubItem(event){
+	
+			event.preventDefault();
+			const a = event.currentTarget;
+			const actorData = this.actor.system;
+			let target = $(event.currentTarget).attr("data-binding");
+			let action = $(event.currentTarget).attr("data-action");
+			let index = $(event.currentTarget).attr("data-index");
+			let targetValue = $(event.currentTarget).attr("data-targetvalue");
+			let key = `system.${target}`;
+
+			// Remove a subItem
+			if (action === "delete") {
+				await this._onSubmit(event); // Submit any unsaved changes
+				const li = a.closest(".subItemManagement");
+				let removed = duplicate(this.actor.system[target]);
+				// convert back manually to array... so stupid to have to do this.
+				if (typeof removed === "object") { removed = Object.values(removed); } 
+				removed.splice(Number(li.dataset.key), 1);
+				return this.actor.update({[key]: removed });
+			}
+		}
+
+			/* -------------------------------------------- */
+	// Reset actor drug addictions to blank
+	async _onResetAddiction(event){
+		event.preventDefault();
+		this.actor.resetAddiction();
 	}
 
 	/* -------------------------------------------- */
@@ -614,10 +646,79 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		if (item.type === "itemDrug") {
+			let drugType = "", drug = [], itemData = item.system;
+			if (Object.keys(itemData.systemEffects).length) {
+				drugType = Object.values(itemData.systemEffects).find(i => i.category === "drug");
+			}
 			if (target === "system.isActive"){
 				setProperty(item, "system.wirelessTurnedOn", false);
+
+				// Handle drug taken
+				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
+				let addiction = [];
+				
+				// Check if the drug is activated
+				if (item.system.isActive) {
+						// Check if the drug has already been taken
+						if (alreadyTaken) {
+							// Add one take
+							alreadyTaken.shot.value += 1;
+							// Reset the threshold
+							alreadyTaken.addiction.threshold = item.system.addiction.threshold;
+						}
+						else {
+							// Generate and populate the drug addiction
+							addiction = SR5_CharacterUtility.generateDrugAddiction(item);
+							actorData.addictions = actorData.addictions.concat(addiction);
+							actorData.addictions = Object.values(actorData.addictions);
+						}		
+						SR5_EntityHelpers.updateValue(actorData.addictions.shot);
+						SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);
+					
+					// Check if the drug is set on systemEffect					
+					if (drugType) {
+						
+						// Generate the drug stat
+						drug = await SR5_CharacterUtility.handleDrugShots(item, drugType, actorData);
+						itemData.handleShot = drug;
+						let speedType = "";
+						
+						// Generate the speed type if not pure text
+						if (itemData.handleShot.speedType) speedType = game.i18n.localize(itemData.handleShot.speedType);
+						
+						// Notify info drug taken
+						await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.localize(SR5.drugs[itemData.handleShot.name])}${game.i18n.format("SR5.Colons")}
+						<ul><li>${game.i18n.format("SR5.ToxinSpeed")}${game.i18n.format("SR5.Colons")} ${itemData.handleShot.speed} ${speedType}</li><li>${game.i18n.format("SR5.Duration")}${game.i18n.format("SR5.Colons")} ${itemData.handleShot.duration} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationType])}</li></ul>`);
+						
+						// Notify info on effect for Laes/Leal
+						if (itemData.handleShot.effectDuration) await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.ErasedMemoryFor")} ${itemData.handleShot.effectDuration} ${game.i18n.localize(itemData.handleShot.effectDurationType)}`);
+					}
+				}
 			} else if (target === "system.wirelessTurnedOn"){
 				setProperty(item, "system.isActive", false);
+				
+				// Check if the item is a drug set on systemEffect and has contrecoup duration
+				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.durationContrecoup) {
+					// Notify info on contrecoup				
+					await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoup")} (${game.i18n.localize(SR5.drugs[itemData.handleShot.name])})${game.i18n.format("SR5.Colons")} ${itemData.handleShot.durationContrecoup} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationContrecoupType])}`);
+				}
+				
+				// Handle if the item is a drug set on systemEffect and has untresisted stun contrecoup
+				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.unresistedStunDamage) {
+					let damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo.damage.value = itemData.handleShot.unresistedStunDamage;
+					damageInfo.damage.type = "stun";
+					this.actor.takeDamage(damageInfo);
+				}
+				
+				// Handle if the item is a drug set on systemEffect and has resisted stun contrecoup
+				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.resistedStunDamage) {
+					let damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor);
+					damageInfo.damage.value = itemData.handleShot.resistedStunDamage;
+					damageInfo.damage.type = "stun";
+					damageInfo.damage.resistanceType = "physicalDamage";
+					this.actor.rollTest("resistanceCard", null, damageInfo);
+				}
 			}
 		}
 
@@ -648,9 +749,28 @@ export class ActorSheetSR5 extends ActorSheet {
 			if(oldValue === false) {
 				actions = [{type: "simple", value: 1, source: "activateFocus"}];
 				actorData.specialProperties.actions.simple.current -=1;
+
+				// Handle focus addicition
+				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
+				let addiction = [];
+				if (item.system.isActive){
+					if (alreadyTaken) {
+						alreadyTaken.shot.value += 1;
+						alreadyTaken.weekAddiction.value = 11 - item.system.itemRating;
+						alreadyTaken.addiction.threshold = 2;
+					}
+					else {
+						addiction = SR5_CharacterUtility.generateDrugAddiction(item);
+						actorData.addictions = actorData.addictions.concat(addiction);
+					}		
+					SR5_EntityHelpers.updateValue(actorData.addictions.shot);
+					SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);		
+				}
+
 			} else {
 				actions = [{type: "free", value: 1, source: "desactivateFocus"}];
 				actorData.specialProperties.actions.free.current -=1;
+
 			}
 		}
 		if (item.type === "itemProgram" && target === "system.isActive"){
