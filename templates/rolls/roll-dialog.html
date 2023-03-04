@@ -28,6 +28,10 @@
 		  		<!-- ATTACK - RANGE -->
 		  		{{> systems/sr5/templates/rolls/rollDialogPartial/attackRangeModifier.html}}
 			{{/if}}
+			{{#if (eq combat.weaponType "shotgun")}}
+		  		<!-- ATTACK - CHOKE -->
+		  		{{> systems/sr5/templates/rolls/rollDialogPartial/chokeSettingsModifier.html}}
+			{{/if}}
 			{{#if (eq test.typeSub "rangedWeapon")}}
 				<!-- ATTACK - RECOIL COMPENSATION -->
 				{{> systems/sr5/templates/rolls/rollDialogPartial/recoilModifier.html}}

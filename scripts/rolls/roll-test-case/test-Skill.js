@@ -71,7 +71,7 @@ export default async function skillInfo(cardData){
             }
             break;
         case "locksmith":
-            let targetActor = SR5_EntityHelpers.getRealActorFromID(cardData.targetActor);
+            let targetActor = SR5_EntityHelpers.getRealActorFromID(cardData.target.actorId);
             if (cardData.threshold.value > 0){
                 if (targetActor.system.maglock.type.cardReader || targetActor.system.maglock.type.keyPads){
                     if (targetActor.system.maglock.hasAntiTamper && targetActor.system.maglock.caseRemoved){

@@ -17,7 +17,7 @@ export default async function matrixResistance(rollData, actor, chatData){
     if (chatData.target.itemUuid){
         let matrixTargetItem = await fromUuid(chatData.target.itemUuid);
         if (matrixTargetItem.system.type !== "baseDevice" && matrixTargetItem.system.type !== "livingPersona" && matrixTargetItem.system.type !== "headcase" && matrixTargetItem.system.type !== "cyberdeck" && matrixTargetItem.system.type !== "commlink"){ 
-            rollData.test.title = `${matrixTargetItem.name}: ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.damage.matrix.value})`;
+            rollData.test.title = `${matrixTargetItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.damage.matrix.value})`;
             rollData.dicePool.composition = ([
                 {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},
                 {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},

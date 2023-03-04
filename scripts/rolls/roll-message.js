@@ -146,7 +146,8 @@ export class SR5_RollMessage {
                     || messageData.test.typeSub === "hackOnTheFly"
                     || messageData.test.typeSub === "spoofCommand"
                     || messageData.test.typeSub === "bruteForce"
-                    || messageData.test.typeSub === "rebootDevice")
+                    || messageData.test.typeSub === "rebootDevice"
+                    || messageData.test.typeSub === "denialOfService")
                     && (actor.type !== "actorDevice" && actor.type !== "actorSprite" && actor.type !== "actorDrone" && actor.type !== "actorAgent")){
                         SR5_MatrixHelpers.chooseMatrixDefender(messageData, actor);
                     } else actor.rollTest(type, messageData.test.typeSub, messageData);
@@ -309,6 +310,9 @@ export class SR5_RollMessage {
                 if (messageData.test.typeSub === "derezz") SR5_MatrixHelpers.applyDerezzEffect(messageData, originalActionActor, actor);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
+            case "blueGooExplosion":                
+                actor.rollTest("iceAttack", null, messageData);
+                break;
             case "defenderDoBiofeedbackDamage":
                 originalActionActor.rollTest("resistanceCard", null, messageData);
                 break;
@@ -361,6 +365,25 @@ export class SR5_RollMessage {
                 break;
             case "matrixJamSignals":
                 SR5_MatrixHelpers.jamSignals(messageData);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "denialOfService":
+                SR5_MatrixHelpers.applyDenialOfServiceEffect(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "haywire":
+                SR5_MatrixHelpers.applyHaywireEffect(messageData, originalActionActor, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "iAmTheFirewall":
+                SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, actor);
+                break;
+            case "intervene":
+                SR5_MatrixHelpers.applyInterveneEffect(messageData, speaker, actor);
+                SR5_RollMessage.updateChatButtonHelper(messageId, type);
+                break;
+            case "popup":
+                SR5_MatrixHelpers.applyPopupEffect(messageData, originalActionActor, actor);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "reduceService":
@@ -421,11 +444,11 @@ export class SR5_RollMessage {
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "removeCase":
-                await SR5_MiscellaneousHelpers.updateActorData(messageData.targetActor, "maglock.caseRemoved", 0, true);
+                await SR5_MiscellaneousHelpers.updateActorData(messageData.target.actorId, "maglock.caseRemoved", 0, true);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             case "removeAntiTamper":
-                await SR5_MiscellaneousHelpers.updateActorData(messageData.targetActor, "maglock.hasAntiTamper", 0, true);
+                await SR5_MiscellaneousHelpers.updateActorData(messageData.target.actorId, "maglock.hasAntiTamper", 0, true);
                 SR5_RollMessage.updateChatButtonHelper(messageId, type);
                 break;
             default:
@@ -522,6 +545,7 @@ export class SR5_RollMessage {
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", game.i18n.localize("SR5.EffectLinkLockedConnection"));
                         break;
                     case "iceAcid":
+                    case "iceCatapult":
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceFirewallDone', {hits: hits})}`);
                         break;
                     case "iceJammer":
@@ -533,6 +557,7 @@ export class SR5_RollMessage {
                     case "iceMarker":
                         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {hits: hits})}`);
                         break;
+                    
                 }
                 break;
             case "toxinEffect":

@@ -71,7 +71,7 @@ export class SR5_MatrixHelpers {
         });
 
         if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`); 
-        else ui.notifications.info(`${targetActor.name} (${targetItem.name}): ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
+        else ui.notifications.info(`${targetActor.name} (${targetItem.name})${game.i18n.localize("SR5.Colons")} ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`);
     }
 
 
@@ -290,8 +290,154 @@ export class SR5_MatrixHelpers {
         target.createEmbeddedDocuments("Item", [effect]);
         let statusEffect = await _getSRStatusEffect("linkLock");
         await target.createEmbeddedDocuments('ActiveEffect', [statusEffect]);
-        ui.notifications.info(`${target.name}: ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${attacker.name}`);
+        ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize('SR5.INFO_IsLinkLocked')} ${attacker.name}`);
     }
+
+    //create denial of service Effect
+    static async applyDenialOfServiceEffect(cardData, sourceActor, target){
+        
+        let netHits = cardData.previousMessage.hits - cardData.roll.hits;
+        let deviceTarget = await fromUuid(cardData.target.itemUuid);
+        let effect = {
+            name: `${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`,
+            type: "itemEffect",
+            "system.type": "matrixAction",
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "round",
+            "system.target": deviceTarget.name,
+            "system.value": (netHits * 2),
+            "system.customEffects": {
+                "0": {
+                    "category": "penaltyTypes",
+                    "target": "system.penalties.special.actual",
+                    "type": "value",
+                    "value": -(netHits * 2),
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionDenialOfService_GE"),
+        };
+        await target.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`);
+    }
+
+    //create I Am the Firewall Effect
+    static async applyIAmTheFirewallEffect(cardData, speaker, sourceActor){
+
+        let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
+        let hits = cardData.roll.hits;
+
+        let effect = {
+            name: `${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (${sourceActor.name})`,            
+            type: "itemEffect",
+            "system.target": game.i18n.localize("SR5.Firewall"),
+            "system.type": "matrixAction",
+            "system.value": hits,
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "round",
+            "system.customEffects": {
+                "0": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.firewall",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionIAmTheFirewall_GE"),
+        };
+        await actor.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.EffectIncreaseFirewallDone', {hits: hits})}`);
+
+    }
+
+    //create Intervene Effect
+    static async applyInterveneEffect(cardData, speaker, sourceActor){
+
+        let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token);
+        let hits = cardData.roll.hits;
+
+        let effect = {
+            name: `${game.i18n.format('SR5.MatrixActionIntervene')} (${sourceActor.name})`,            
+            type: "itemEffect",
+            "system.target": game.i18n.localize("SR5.Defense"),
+            "system.type": "matrixAction",
+            "system.value": hits,
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "action",
+            "system.customEffects": {
+                "0": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.firewall",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                },
+                "1": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.dataProcessing",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                },
+                "2": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.sleaze",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                },
+                "3": {
+                    "category": "matrixAttributes",
+                    "target": "system.matrix.attributes.attack",
+                    "type": "value",
+                    "value": hits,
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize("SR5.MatrixActionIntervene_GE"),
+        };
+        await actor.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffect', {hits: hits})}`);
+
+    }
+
+    //create popup Effect
+    static async applyPopupEffect(cardData, sourceActor, target){
+        let netHits = cardData.previousMessage.hits - cardData.roll.hits;
+        let deviceTarget = await fromUuid(cardData.target.itemUuid);
+        let action = cardData.test.typeSub;
+        let effect = {
+            name: `${game.i18n.localize(SR5.matrixKillCodeActions[action])} (${deviceTarget.name})`,
+            type: "itemEffect",
+            "system.type": "matrixAction",
+            "system.ownerID": sourceActor.id,
+            "system.ownerName": sourceActor.name,
+            "system.duration": 1,
+            "system.durationType": "round",
+            "system.target": deviceTarget.name,
+            "system.value": netHits,
+            "system.customEffects": {
+                "0": {
+                    "category": "penaltyTypes",
+                    "target": "system.penalties.special.actual",
+                    "type": "value",
+                    "value": -netHits,
+                    "forceAdd": true,
+                }
+            },
+            "system.gameEffect": game.i18n.localize(SR5.matrixKillCodeActions[action] + "_GE"),
+        };
+        await target.createEmbeddedDocuments("Item", [effect]);
+        ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize(SR5.matrixKillCodeActions[action])}`);
+    }
+    
 
     /** Handle ICE specific attack effect
     * @param {Object} cardData - The chat message data
@@ -334,6 +480,23 @@ export class SR5_MatrixHelpers {
                         "0": {
                             "category": "matrixAttributes",
                             "target": "system.matrix.attributes.dataProcessing",
+                            "type": "value",
+                            "value": -1,
+                            "forceAdd": true,
+                        }
+                    },
+                });
+                target.createEmbeddedDocuments("Item", [effect]);
+                break;
+            case "iceCatapult":
+                effect = mergeObject(effect, {
+                    name: game.i18n.localize("SR5.EffectReduceFirewall"),
+                    "system.target": game.i18n.localize("SR5.Firewall"),
+                    "system.value": -1,
+                    "system.customEffects": {
+                        "0": {
+                            "category": "matrixAttributes",
+                            "target": "system.matrix.attributes.firewall",
                             "type": "value",
                             "value": -1,
                             "forceAdd": true,
@@ -398,13 +561,31 @@ export class SR5_MatrixHelpers {
             case "iceBlaster":
             case "iceBlack":
             case "iceTarBaby":
+            case "iceBlueGoo":
                 await SR5_MatrixHelpers.applylinkLockEffect(ice, target);
                 break;
+            case "iceShocker":
             case "iceSparky":
             case "iceKiller":
             case "iceTrack":
             case "icePatrol":
             case "iceProbe":
+            case "iceBloodhound":
+                break;
+            case "iceFlicker":
+                
+                let item = await fromUuid(cardData.target.itemUuid),
+                existingMark = await SR5_MarkHelpers.findMarkValue(item.system, ice.id);
+                if (!target.system.matrix.isLinkLocked) 
+                await SR5_MatrixHelpers.applylinkLockEffect(ice, target);
+                if (existingMark >= 2) {                    
+                if (target.system.matrix.userMode !== "ar"){
+                    cardData.damage.resistanceType = "dumpshock";
+                    target.rollTest("resistanceCard", null, cardData);
+                }
+                let deck_iceFlicker = target.items.find((item) => item.type === "itemDevice" && item.system.isActive);
+                target.rebootDeck(deck_iceFlicker);
+                }
                 break;
             default:
                 SR5_SystemHelpers.srLog(1, `Unknown '${cardData.test.typeSub}' type in applyIceEffect`);

@@ -907,6 +907,9 @@ input[type=range]:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid #931004;
 }
+.app.window-app.actor .window-content .SR-AppareilMainCentre li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
+  background-color: rgba(12, 147, 148, 0.1);
+}
 .app.window-app.actor .window-content .SR-EspritMainCentre {
   margin-left: 10px;
   padding-left: 10px;
@@ -966,6 +969,19 @@ input[type=range]:focus::-ms-fill-upper {
   background-repeat: no-repeat;
   background-position: center 10%;
 }
+
+.app.window-app.actor .window-content .SR-BioItemPortrait {
+  float: left;
+  width: 144px;
+  height: 144px;
+  border: 1px solid;
+  border-color: #931004;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 10%;
+  margin-right: 5px;
+}
+
 .app.window-app.actor .window-content .SR-footer {
   margin-top: 25px;
   padding: 0px 3px 0px 3px;

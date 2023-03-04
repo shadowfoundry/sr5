@@ -20,6 +20,7 @@ export class SR5_PrepareRollTest {
         if (game.settings.get("sr5", "sr5CalledShotsRules")) rollData.systemRules.calledShots = true;
         if (game.settings.get("sr5", "sr5MatrixGridRules")) rollData.systemRules.grid = true;
 
+ 
         //Iterate through roll type and add data to rollData;
         switch (rollType){
             case "astralTracking":
@@ -209,7 +210,7 @@ export class SR5_PrepareRollTest {
             default:
                 SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
-
+        
         if (rollData) SR5_RollTest.generateRollDialog(rollData);
     }
 
@@ -297,6 +298,12 @@ export class SR5_PrepareRollTest {
                     medium: 0,
                     long: 0,
                     extreme: 0,
+                },
+                choke: {
+                    selected: "",
+                    limit: "",
+                    defense: "",
+                    damageModify: 0,
                 },
                 reach: 0,
                 recoil:{

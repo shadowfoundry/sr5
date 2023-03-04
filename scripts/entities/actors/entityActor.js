@@ -332,6 +332,7 @@ export class SR5Actor extends Actor {
 			case "actorDevice":
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updateActions(actor);
+				SR5_CharacterUtility.updateMatrixEffect(actor);
 				break;
 			case "actorAgent":
 				SR5_CharacterUtility.applyProgramToAgent(actor);
@@ -711,6 +712,9 @@ export class SR5Actor extends Actor {
 				case "itemPreparation":
 					i.prepareData();
 					break;
+				case "itemProgram":
+					if (actor.items.find(item => item.system.type === "agent")) SR5_CharacterUtility.updateProgramAgent(actor);
+					break;
 			}
 		}
 	}
@@ -823,20 +827,38 @@ export class SR5Actor extends Actor {
 
 		//Manage action in combat
 		if(game.combat){
-			SR5Combat.changeActionInCombat(actorId, [{type: "complexe", value: 1, source: "rebootDeck"}], false);
+			SR5Combat.changeActionInCombat(actorId, [{type: "complex", value: 1, source: "rebootDeck"}], false);
 		}
 	}
 
 	//Reset Cumulative Recoil
 	resetRecoil(){
 		this.setFlag("sr5", "cumulativeRecoil", 0);
-		ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
+		ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
 	}
 
-	//Reset Cumulative Recoil
+	//Reset Addiction
+	async resetAddiction(){
+		let actorId = (this.isToken ? this.token.id : this.id);
+		let dataToUpdate = {};
+		let updatedItems = duplicate(this.items);
+
+		//Reset le SS à 0
+		let actorData = duplicate(this.system);
+		actorData.addictions = [];
+
+		dataToUpdate = mergeObject(dataToUpdate, {
+			"system": actorData,
+		});
+		await this.update(dataToUpdate);
+
+		ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.AddictionsSettoNone")}.`);
+	}
+
+	//Reset Cumulative Defense
 	resetCumulativeDefense(){
 		this.setFlag("sr5", "cumulativeDefense", 0);
-		ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
+		ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
 	}
 
 	//Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage

@@ -131,6 +131,7 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleFocus(itemData);     
 				break;
 			case "itemSpirit":
+				if (typeof itemData.powers === "object") itemData.powers = Object.values(itemData.powers);
 				SR5_UtilityItem._handleSpirit(itemData);
 				break;
 			case "itemAdeptPower":
@@ -143,6 +144,7 @@ export class SR5Item extends Item {
 				if (owner) SR5_UtilityItem._handlePower(itemData, owner) 
 				break;
 			case "itemSpritePower": 
+				if (typeof itemData.spritePowers === "object") itemData.spritePowers = Object.values(itemData.spritePowers);
 				if (owner) SR5_UtilityItem._handleSpritePower(itemData, owner)
 				break;
 			case "itemProgram":
@@ -202,6 +204,8 @@ export class SR5Item extends Item {
 		let accessories =[];    
 		let options =[];
 		let license =[];
+		let powers = [];
+		let spritePowers = [];
 		htmlOptions.async = false;
 
 		itemData.description = itemData.description || "";
@@ -234,15 +238,20 @@ export class SR5Item extends Item {
 				if (itemData.category === "rangedWeapon"){
 					tags.push(
 						game.i18n.localize(lists.rangedWeaponTypes[itemData.type]),
-						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.firingMode.value}`,
+						game.i18n.localize(`SR5.WeaponModesShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.firingMode.value.join("/")}`,
 						game.i18n.localize(`SR5.WeaponModeCurrent`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.weaponModesCode[itemData.firingMode.current]),
 						game.i18n.localize(`SR5.RecoilCompensationShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.recoilCompensation.value}`,
 						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
 						game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[itemData.ammunition.type]),
 					);
+					if (itemData.type === "shotgun"){
+						tags.push(
+							game.i18n.localize(`SR5.ChokeSettings`) + game.i18n.localize(`SR5.Colons`) + ` ${game.i18n.localize(lists.chokeSettings[itemData.choke.current])}`
+						)	
+					}
 					if (itemData.accessory) {
 						for (let a of itemData.accessory){
-							accessories.push(`${a.name}: ${a.system?.gameEffect}`);
+							accessories.push(`${a.name}${game.i18n.localize("SR5.Colons")} ${a.system?.gameEffect}`);
 							tags.push([game.i18n.localize(lists.weaponAccessories[a.name]), a.gameEffects]);
 						}
 					}
@@ -378,6 +387,38 @@ export class SR5Item extends Item {
           		}
         		}
         		break;
+			case "itemSpirit":
+        		if (itemData.powers) {
+          		for (let power of itemData.powers){
+            		powers.push(`${power.name}${game.i18n.localize("SR5.Colons")} ${power.system?.gameEffect}`);
+            		tags.push([power.name, power.system.gameEffect])
+          		}
+        		}
+				if (Object.keys(itemData.sustainedSpell).length) {
+					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.conjurer);
+					let spells = [];
+					for (let sustained of Object.values(itemData.sustainedSpell)){
+					let sustainedSpellName = actor.items.find(s => s.type === "itemSpell" && s._id === sustained.name);
+					tags.push([`${game.i18n.localize('SR5.Sustaining')}${game.i18n.localize('SR5.Colons')} ${sustainedSpellName.name}`, sustainedSpellName.system.gameEffect]);
+					spells.push(sustainedSpellName.name);
+					}	
+				  }
+        		break;
+      		case "itemSprite":
+        		if (itemData.spritePowers) {
+          		for (let power of itemData.spritePowers){
+            		spritePowers.push(`${power.name}${game.i18n.localize("SR5.Colons")} ${power.system?.gameEffect}`);
+            		tags.push([power.name, power.system.gameEffect]);
+          		}
+        		}
+				if (Object.keys(itemData.sustainedComplexForm).length) {
+					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.compiler);
+					for (let sustained of Object.values(itemData.sustainedComplexForm)) {						
+					let sustainedComplexFormName = actor.items.find(s => s.type === "itemComplexForm" && s._id === sustained.name);
+					tags.push([`${game.i18n.localize('SR5.Sustaining')}${game.i18n.localize('SR5.Colons')} ${sustainedComplexFormName.name}`, sustainedComplexFormName.system.gameEffect]);
+					}
+				  }
+        		break;
       		case "itemContact":
         		if (itemData.paymentMethod) {
 					tags.push(`${game.i18n.localize('SR5.PreferedPaymentTypeShort')}${game.i18n.localize('SR5.Colons')} ${itemData.paymentMethod}`);
@@ -391,7 +432,8 @@ export class SR5Item extends Item {
         		break;
       		case "itemKarma":
 			case "itemNuyen":
-				tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${itemData.date}`);
+				const locateDate = new Date(itemData.date).toLocaleDateString(game.i18n.localize(`SR5.LocateDate`));
+				tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${locateDate}`);
 				itemData.gameEffect = itemData.description;
         		break;		
 			default:
@@ -401,6 +443,8 @@ export class SR5Item extends Item {
 		itemData.accessories = accessories.filter(p => !!p);		
 		itemData.options = options.filter(p => !!p);
 		itemData.license = license.filter(p => !!p);
+		itemData.powers = powers.filter(p => !!p);
+		itemData.spritePowers = spritePowers.filter(p => !!p);
 		return itemData;
 	}
 

@@ -55,7 +55,7 @@ export class SR5_ConverterHelpers {
                 return {type: "complex", value: 1, source: "attack"};
             default: 
         }
-    }
+    }      
 
     //Convert range  to environmental line
     static rangeToEnvironmentalLine(mode){

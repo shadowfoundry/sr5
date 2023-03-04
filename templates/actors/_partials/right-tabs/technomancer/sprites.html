@@ -20,7 +20,7 @@
 		</li>
 		{{#each actor.sprites}}
 		<li class="item grid" data-item-id="{{_id}}" draggable="true">
-			<div class="col-5">
+			<div class="col-5 deplie">
 				{{#if (missing system.type system.itemRating)}}
 				<p class="incomplete"
 					data-title="{{localize 'SR5.UI_WarningMissingValues' type=(localize 'ITEM.TypeSprite')}}">
@@ -42,7 +42,11 @@
 					{{localize 'SR5.No'}}
 				{{/if}}
 			</div>
-			<div class="col-1"></div>
+			<div class="col-1 SR-TextCenter">
+				{{#if system.sustainedComplexForm}}
+				<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
+				{{/if}}
+			</div>
 			<div class="col-1 SR-TextCenter">
 				{{#if system.isCreated}}
 				<a class="sidekickDestroy" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"

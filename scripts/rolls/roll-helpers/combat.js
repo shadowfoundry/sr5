@@ -290,6 +290,31 @@ export class SR5_CombatHelpers {
                     itemEffects.push(effect);
                 }
                 break;
+            case "arcaneInhibitor":
+                let value = info.damage.base;
+                hasEffect = actor.items.find(i => i.system.type === "toxinEffectArcaneInhibitor");
+                if (!hasEffect){
+                    effect = mergeObject(effect, {
+                        "system.target": game.i18n.localize("SR5.Magic"),
+                        "system.type": "toxinEffectArcaneInhibitor", 
+                        "system.itemRating": value,                       
+                        "system.value": "",
+                        "system.duration": "",
+                        "system.durationType": "special",
+                        "system.customEffects": {
+                            "0": {
+                                "category": "characterSpecialAttributes",
+                                "target": "system.specialAttributes.magic.augmented",
+                                "type": "rating",
+                                "multiplier": -1,
+                                "forceAdd": true,
+                            }
+                        },
+                        "system.gameEffect": game.i18n.localize("SR5.ToxinEffectArcaneInhibitor_GE"),
+                    });
+                    itemEffects.push(effect);
+                }
+                break;
             default:
         }
     

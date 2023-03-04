@@ -482,6 +482,13 @@ export class SR5_UtilityItem extends Actor {
 			}
 		}
 
+		itemData.choke.value = [];
+		for (let key of Object.keys(SR5.chokeSettings)) {
+			if (itemData.choke[key]) {
+				itemData.choke.value.push(game.i18n.localize(SR5.chokeSettings[key]));
+			}
+		}
+
 		SR5_EntityHelpers.updateValue(itemData.damageValue, 0);
 		SR5_EntityHelpers.updateValue(itemData.armorPenetration);
 		SR5_EntityHelpers.updateValue(itemData.recoilCompensation);
@@ -784,6 +791,61 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.effect.disorientation = true;
 				itemData.toxin.effect.paralysis = true;
 				itemData.toxin.damageType = "physical";
+				break;
+			case "glowRatVenom":
+				itemData.toxin.vector.contact = true;
+				itemData.toxin.speed = 0;
+				itemData.toxin.power = 10;
+				itemData.toxin.penetration = -6;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.agony = true;
+				itemData.toxin.damageType = "stun";
+				break;
+			case "flatwormViperVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 2;
+				itemData.toxin.power = 12;
+				itemData.toxin.penetration = 0;
+				itemData.toxin.damageType = "physical";
+				break;
+			case "iridescentOwlVenom":
+				itemData.toxin.vector.contact = true;
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 0;
+				itemData.toxin.power = 8;
+				itemData.toxin.penetration = -6;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.agony = true;
+				itemData.toxin.damageType = "stun";
+				break;
+			case "kokoroCobraVenom":
+				itemData.toxin.vector.contact = true;
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 0;
+				itemData.toxin.power = 12;
+				itemData.toxin.penetration = -6;
+				itemData.toxin.effect.disorientation = true;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.effect.agony = true;
+				itemData.toxin.damageType = "physical";
+				break;
+			case "montaukVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 1;
+				itemData.toxin.power = 6;
+				itemData.toxin.penetration = 0;
+				itemData.toxin.effect.nausea = true;
+				itemData.toxin.damageType = "physical";
+				break;
+			case "voidWaspVenom":
+				itemData.toxin.vector.injection = true;
+				itemData.toxin.speed = 3;
+				itemData.toxin.power = 10;
+				itemData.toxin.penetration = -4;
+				itemData.toxin.effect.arcaneInhibitor = true;
+				itemData.toxin.damageType = "stun";
 				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
@@ -2343,8 +2405,15 @@ export class SR5_UtilityItem extends Actor {
 				itemData.attributes.strength += -3;
 				itemData.skill.push("astralCombat", "assensing", "perception", "exoticRangedWeapon", "unarmedCombat", "running", "flight");
 				break;
-			case "abomination":
+			case "anarch":
 				itemData.attributes.body += 2;
+				itemData.attributes.agility += -1;
+				itemData.attributes.reaction += +1;
+				itemData.attributes.strength += -1;
+				itemData.skill.push("assensing", "automatics", "blades", "clubs", "con", "demolitions", "disguise", "forgery", "gymnastics", "impersonation", "locksmith", "palming", "perception", "pistols", "sneaking", "throwingWeapons", "unarmedCombat");
+				break;
+			case "abomination":
+				itemData.attributes.body += -1;
 				itemData.attributes.agility += 1;
 				itemData.attributes.strength += 2;
 				itemData.skill.push("astralCombat", "assensing", "perception", "exoticRangedWeapon", "unarmedCombat", "running", "gymnastics");
@@ -2505,6 +2574,9 @@ export class SR5_UtilityItem extends Actor {
 	static _handlePower(itemData, actor) {
 		let firstAttribute, secondAttribute;
 		if (itemData.testFirstAttribute){
+			if (actor.type === "actorSpirit" && itemData.testFirstAttribute === "edge"){
+				itemData.testFirstAttribute = "magic"; 				
+			}
 			if (itemData.testFirstAttribute === "edge" || itemData.testFirstAttribute === "magic" || itemData.testFirstAttribute === "resonance"){
 				firstAttribute = actor.system.specialAttributes[itemData.testFirstAttribute].augmented.value;
 			} else {
@@ -2513,6 +2585,9 @@ export class SR5_UtilityItem extends Actor {
 		}
 
 		if (itemData.testSecondAttribute){
+			if (actor.type === "actorSpirit" && itemData.testSecondAttribute === "edge"){
+				itemData.testSecondAttribute = "magic"; 				
+			}
 			if (itemData.testSecondAttribute === "edge" || itemData.testSecondAttribute === "magic" || itemData.testSecondAttribute === "resonance"){
 				secondAttribute = actor.system.specialAttributes[itemData.testSecondAttribute].augmented.value;
 			} else {

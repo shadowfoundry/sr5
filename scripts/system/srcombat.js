@@ -519,8 +519,8 @@ export class SR5Combat extends Combat {
 		  	if (initRatingChange > 0) signRating = "+"
 		  	else signRating = "-"
 
-			if (diceToRoll > 0) ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombat", {signRating: signRating, signDice: signDice, diceToRoll: diceToRoll, initDiceChange: initDiceValue, initRatingChange: initRatingValue, initFinalChange: initFinalChange})}`);
-			else ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {initFinalChange: initFinalChange})}`);
+			if (diceToRoll > 0) ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ChangeInitInCombat", {signRating: signRating, signDice: signDice, diceToRoll: diceToRoll, initDiceChange: initDiceValue, initRatingChange: initRatingValue, initFinalChange: initFinalChange})}`);
+			else ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {initFinalChange: initFinalChange})}`);
 		}
 	}
 
@@ -541,6 +541,7 @@ export class SR5Combat extends Combat {
 		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
 		let actorData = duplicate(actor.system);
 		let combatant = await SR5Combat.getCombatantFromActor(actor);
+		let initModifier;
 		if (!combatant) return;
 		
 		//Update actor actions
@@ -566,7 +567,33 @@ export class SR5Combat extends Combat {
 				ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActionsManually", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), sign: sign})}`); 
 			}
 			else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])})}`); 
+			if (action.type === "interruption") {
+				initModifier = -5;
+			}
 		}
+		if (initModifier) await SR5Combat.changeInitInCombatHelper(documentId, initModifier);
+
+		//Decrease external effect duration
+		for (let item of actor.items){
+			if (item.type === "itemEffect") {
+				let itemData = duplicate(item.system);
+
+				//Decrease effect duration
+				if (item.system.durationType === "action"){
+					itemData.duration -= 1;
+					//Delete effect if duration < 0;
+					if (itemData.duration <= 0){
+						await actor.deleteEmbeddedDocuments("Item", [item.id]);
+						await SR5_EntityHelpers.deleteEffectOnActor(actor, item.system.type);
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`);
+					} else {
+						await item.update({system: itemData});
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`);
+					}
+				}
+			}
+		}
+
 	}
 
 	//Reset actions on actor
@@ -606,10 +633,10 @@ export class SR5Combat extends Combat {
 					if (itemData.duration <= 0){
 						await actor.deleteEmbeddedDocuments("Item", [item.id]);
 						await SR5_EntityHelpers.deleteEffectOnActor(actor, item.system.type);
-						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`);
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`);
 					} else {
 						await item.update({system: itemData});
-						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`);
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`);
 					}
 				}
 
@@ -633,7 +660,7 @@ export class SR5Combat extends Combat {
 							updatedArmor.system.itemEffects.push(armorEffect);
 						}
 						await actor.updateEmbeddedDocuments("Item", [updatedArmor]);
-						ui.notifications.info(`${combatant.name}: ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
+						ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`);
 					}
 
 					itemData.value -= 1;

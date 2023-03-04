@@ -128,6 +128,32 @@ export class SR5_CompendiumUtility extends Actor {
 		return baseItems;
 	}
 
+		//Add optional powers to an array of existing powers based on an itemSprite
+		static async addOptionalSpritePowersFromItem(baseItems, optionalPowers) {
+			console.log("addOptionalSpritePowersFromItem ok !");
+			console.log("optionalPowers : " + JSON.stringify(optionalPowers));
+			let powers = await SR5_CompendiumUtility.getItemCompendium("powers-sprites");
+			console.log("powers : " + JSON.stringify(powers));
+			
+			for (let value of Object.values(optionalPowers)){
+				if (value) {
+					for (let i of powers){
+						let systemEffects = i.system.systemEffects;
+						if (systemEffects.length){
+							  for (let systemEffect of Object.values(systemEffects)){
+								if ((systemEffect.category === "spritePower") && (systemEffect.value === value)){
+									  let iObject = i.toObject(false);
+									  baseItems.push(iObject);
+								}
+							  }
+						}
+					}
+				}
+			}
+		
+			return baseItems;
+		}
+
 	static async createItemFromArray(ItemArray){
 		let baseItems = [];
 		for (let i of ItemArray){

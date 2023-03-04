@@ -1106,6 +1106,12 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(attributes.reaction.natural, label, 'spiritType', +2);
 				SR5_EntityHelpers.updateModifier(attributes.strength.natural, label, 'spiritType', +2);
 				break;
+			case "anarch":
+				SR5_EntityHelpers.updateModifier(attributes.body.natural, label, 'spiritType', -1);
+				SR5_EntityHelpers.updateModifier(attributes.agility.natural, label, 'spiritType', -1);
+				SR5_EntityHelpers.updateModifier(attributes.reaction.natural, label, 'spiritType', +1);
+				SR5_EntityHelpers.updateModifier(attributes.strength.natural, label, 'spiritType', -1);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, `Unknown ${actorData.type} spirit type in 'updateSpiritAttributes()'`);
 				return false;
@@ -1689,7 +1695,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		if (initiative === "astralInit" || currentInitiative === "astralInit") this.handleAstralVision(entity);
-	}
+	}	
 
 	// Generate Actor defense
 	static updateDefenses(actor) {
@@ -2343,6 +2349,25 @@ export class SR5_CharacterUtility extends Actor {
 				skills.artisan.rating.base = actorData.force.value;
 				skills.unarmedCombat.rating.base = actorData.force.value;
 				break;
+			case "anarch":
+				skills.assensing.rating.base = actorData.force.value;
+				skills.automatics.rating.base = actorData.force.value;
+				skills.blades.rating.base = actorData.force.value;
+				skills.clubs.rating.base = actorData.force.value;
+				skills.con.rating.base = actorData.force.value;
+				skills.demolitions.rating.base = actorData.force.value;
+				skills.disguise.rating.base = actorData.force.value;
+				skills.forgery.rating.base = actorData.force.value;
+				skills.gymnastics.rating.base = actorData.force.value;
+				skills.impersonation.rating.base = actorData.force.value;
+				skills.locksmith.rating.base = actorData.force.value;
+				skills.palming.rating.base = actorData.force.value;
+				skills.perception.rating.base = actorData.force.value;
+				skills.pistols.rating.base = actorData.force.value;
+				skills.sneaking.rating.base = actorData.force.value;
+				skills.throwingWeapons.rating.base = actorData.force.value;
+				skills.unarmedCombat.rating.base = actorData.force.value;
+				break;
 		}
 
 		for (let key of Object.keys(SR5.skills)) {
@@ -2387,6 +2412,15 @@ export class SR5_CharacterUtility extends Actor {
 				skills.computer.rating.base = actorData.level;
 				skills.electronicWarfare.rating.base = actorData.level;
 				skills.hardware.rating.base = actorData.level;
+				break;
+			case "companion":
+				skills.computer.rating.base = actorData.level;
+				skills.electronicWarfare.rating.base = actorData.level;
+				break;
+			case "generalist":
+				skills.computer.rating.base = actorData.level;
+				skills.electronicWarfare.rating.base = actorData.level;
+				skills.hacking.rating.base = actorData.level;
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${actorData.type}' sprite type in '_generateSpriteSkills()'`);
@@ -2684,6 +2718,714 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateValue(actor.system.magic.bgCount);	
 	}
 
+	// Generate Drug addiction
+	static generateDrugAddiction(item){
+		let addiction = [], drugTaken;
+		
+		if (item.type === "itemDrug") {
+			drugTaken = {
+				"name": item.name,
+				"shot": {
+					"value": 0,
+					"base": 1,
+					"modifiers": []
+				  },
+				"addiction": item.system.addiction,
+				"weekAddiction": {
+					"value": 0,
+					"base": 11 - item.system.addiction.rating,
+					"modifiers": []
+				  },
+			}
+		}
+
+		if (item.type === "itemFocus") {
+			drugTaken = {
+				"name": item.name,
+				"shot": {
+					"value": 0,
+					"base": 1,
+					"modifiers": []
+				  },
+				"addiction.type": "psychological",
+				"addiction.threshold": 2,
+				"weekAddiction": {
+					"value": 0,
+					"base": 11 - item.system.itemRating,
+					"modifiers": []
+				  },
+			}
+		}
+		SR5_EntityHelpers.updateValue(drugTaken.shot);
+		SR5_EntityHelpers.updateValue(drugTaken.weekAddiction);
+		addiction.push(drugTaken);
+		return addiction;
+	}
+	
+	// Handle drug stats
+	static async handleDrugShots(item, drugType, actorData){
+		let drug = [];
+		let drugStat;
+		let roll, rollRoll, rollSpeed, rollRollSpeed, duration, effect;
+
+		switch (drugType.value) {
+			case "bliss":	
+				duration = Math.max(6 - actorData.attributes.body.augmented.value, 1);	
+				drugStat = {			
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "cram":	
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 10,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 6,
+				}
+			break;
+			case "deepweed":
+				duration = Math.max(6 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "jazz":	
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "kamikaze":	
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "minute",
+					"unresistedStunDamage": 6,
+				}	
+			break;
+			case "longHaul":	
+				roll = new Roll(`8d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 10,
+					"speedType": "SR5.Minutes",
+					"duration": 4,
+					"durationType": "day",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "nitro":		
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": rollRoll.total,			
+					"durationContrecoupType": "minute",
+					"unresistedStunDamage": 9,
+				}	
+			break;
+			case "novacoke":
+				duration = Math.max(10 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "psyche":	
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 10,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "zen":		
+				roll = new Roll(`10d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 5,
+					"speedType": "SR5.Minutes",
+					"duration": rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "aexd":		
+				roll = new Roll(`2d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "aisa":		
+				roll = new Roll(`2d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 20 * rollRoll.total,
+					"durationType": "minute",
+					"unresistedStunDamage": 2,
+				}
+			break;
+			case "animalTongue":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`3d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "ayaosWill":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 2,
+					"speedType": "SR5.CombatTurns",
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "betel":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "betameth":
+				duration = Math.max(9 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.Minute",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 6,
+				}
+			break;
+			case "cereprax":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);		
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 5,
+				}
+			break;
+			case "crimsonOrchid":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 6,
+				}
+			break;
+			case "dopadrine":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": 10 * rollRoll.total,
+					"durationType": "minute",
+				}
+			break;
+			case "eX":
+				duration = Math.max(8 - actorData.attributes.body.augmented.value, 1);		
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": actorData.attributes.body.augmented.value,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "forgetMeNot":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "galak":
+				duration = Math.max(9 - actorData.attributes.body.augmented.value, 3);		
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "g3":
+				duration = Math.max(15 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "guts":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "hecatesBlessing":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+					"durationContrecoup": 2 * duration,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "hurlg":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"resistedStunDamage": 9,
+				}
+			break;
+			case "immortalFlower":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 16,
+					"speedType": "SR5.CombatTurns",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": rollRollSpeed.total,
+				}
+			break;
+			case "k10":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 5 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+					"unresistedStunDamage": 18,
+				}
+			break;
+			case "laes":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 20 * rollRoll.total;
+				effect = Math.max(12 - actorData.attributes.body.augmented.value, 1);	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+					"resistedStunDamage": 12,
+					"effectDuration": effect,
+					"effectDurationType": "SR5.Hours",
+				}
+			break;
+			case "leal":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 5 * rollRoll.total;
+				effect = Math.max(120 - actorData.attributes.body.augmented.value, 100);	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+					"resistedStunDamage": 12,
+					"effectDuration": effect,
+					"effectDurationType": "SR5.Minutes",
+				}
+			break;
+			case "littleSmoke":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "memoryFog":
+				duration = Math.max(14 - actorData.attributes.body.augmented.value, 2);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Minute",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "nightwatch":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 20 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+				}
+			break;
+			case "noPaint":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "hour",
+				}
+			break;
+			case "oneiro":		
+				roll = new Roll(`3d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "oxygenatedFluorocarbons":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRoll.total,
+					"speedType": "SR5.Hours",
+					"duration": 1,
+					"durationType": "week",
+					"durationContrecoup": actorData.attributes.body.augmented.value,			
+					"durationContrecoupType": "day",
+				}
+			break;
+			case "overdrive":
+				duration = Math.max(10 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 8,
+				}
+			break;
+			case "pixieDust":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				rollSpeed = new Roll(`1d6`);
+				rollRollSpeed = await roll.evaluate({async: true});	
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": rollRoll.total,
+					"durationType": "minute",
+					"resistedStunDamage": 12,
+					"effectDuration": rollRollSpeed.total,
+					"effectDurationType": "SR5.Minutes",
+				}
+			break;
+			case "push":
+				duration = Math.max(15 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Minute",
+					"duration": duration,
+					"durationType": "minute",
+				}
+			break;
+			case "redMescaline":
+				duration = Math.max(18 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "ripper":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "minute",
+					"unresistedStunDamage": 2,
+				}
+			break;
+			case "rockLizardBlood":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 30,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+					"unresistedStunDamage": 2,
+				}
+			break;
+			case "shade":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": item.system.speed,
+					"duration": duration,
+					"durationType": "hour",
+					"unresistedStunDamage": 10,
+				}
+			break;
+			case "slab":
+				duration = Math.max(10 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 2,
+					"speedType": "SR5.CombatTurns",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": Math.floor(duration / 2),			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "snuff":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.Minute",
+					"duration": duration,
+					"durationType": "minute",
+					"durationContrecoup": duration * 2,			
+					"durationContrecoupType": "minute",
+				}
+			break;
+			case "soberTime":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 10 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+				}
+			break;
+			case "soothsayer":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
+				let malus = 0;
+				if (alreadyTaken.shot.value) malus = alreadyTaken.shot.value - 1;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Minute",
+					"duration": duration,
+					"durationType": "hour",
+					"resistedStunDamage": 8 - malus,
+				}
+			break;
+			case "trance":
+				duration = Math.max(6 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "woad":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = 5 * rollRoll.total;
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speed": "SR5.CombatTurn",
+					"duration": duration,
+					"durationType": "minute",
+					"durationContrecoup": 10 * duration,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "wuduAku":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);		
+				rollSpeed = new Roll(`2d6`);
+				rollRollSpeed = await rollSpeed.evaluate({async: true});
+				drugStat = {					
+					"name": drugType.value,
+					"speed": rollRollSpeed.total,
+					"speedType": "SR5.Minutes",
+					"duration": duration,
+					"durationType": "hour",
+					"durationContrecoup": 24,			
+					"durationContrecoupType": "hour",
+				}
+			break;
+			case "zero":
+				duration = Math.max(20 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "zombieDust":		
+				roll = new Roll(`1d6`);
+				rollRoll = await roll.evaluate({async: true});
+				duration = Math.min(rollRoll.total + actorData.essence.value, 12);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 2,
+					"speedType": "SR5.CombatTurns",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			case "zone":
+				duration = Math.max(12 - actorData.attributes.body.augmented.value, 1);
+				drugStat = {					
+					"name": drugType.value,
+					"speed": 1,
+					"speedType": "SR5.Hour",
+					"duration": duration,
+					"durationType": "hour",
+				}
+			break;
+			default:
+				SR5_SystemHelpers.srLog(1, `Unknown '${drugType.value}' drug type in handleDrugShots()`);
+				return;
+		}
+		return drugStat;
+	}
+
 	// Generate Matrix attributes
 	static generateMatrixAttributes(item, actor) {
 		let actorData = actor.system, attributes = actorData.attributes;
@@ -2854,6 +3596,33 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateModifier(matrixActions.checkOverwatchScore.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
 		SR5_EntityHelpers.updateModifier(matrixActions.checkOverwatchScore.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
 
+		if (game.settings.get("sr5", "sr5KillCodeRules")) {
+		SR5_EntityHelpers.updateModifier(matrixActions.calibration.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.calibration.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.denialOfService.test, game.i18n.localize('SR5.SkillCybercombat'), "skillRating", skills.cybercombat.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.denialOfService.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.iAmTheFirewall.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.iAmTheFirewall.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.haywire.test, game.i18n.localize('SR5.SkillCybercombat'), "skillRating", skills.cybercombat.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.haywire.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.intervene.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.intervene.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.masquerade.test, game.i18n.localize('SR5.SkillHacking'), "skillRating", skills.hacking.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.masquerade.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.popupHacking.test, game.i18n.localize('SR5.SkillHacking'), "skillRating", skills.hacking.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.popupHacking.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.popupCybercombat.test, game.i18n.localize('SR5.SkillCybercombat'), "skillRating", skills.cybercombat.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.popupCybercombat.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.squelch.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.squelch.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.subvertInfrastructure.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.subvertInfrastructure.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.tag.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.tag.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.watchdog.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+		SR5_EntityHelpers.updateModifier(matrixActions.watchdog.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		}
+
 		for (let key of Object.keys(SR5.matrixActions)) {
 			if (matrixActions[key].test !== undefined) {
 				// test
@@ -2988,6 +3757,28 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, game.i18n.localize('SR5.Intuition'), modifierTypeIntuition, intuitionValue);
 		SR5_EntityHelpers.updateModifier(matrixActions.controlDevice.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );
 
+		if (game.settings.get("sr5", "sr5KillCodeRules")) {
+			SR5_EntityHelpers.updateModifier(matrixActions.denialOfService.defense, game.i18n.localize('SR5.Willpower'), modifierTypeWillpower, willpowerValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.denialOfService.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );			
+			SR5_EntityHelpers.updateModifier(matrixActions.haywire.defense, game.i18n.localize('SR5.Willpower'), modifierTypeWillpower, willpowerValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.haywire.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );	
+			SR5_EntityHelpers.updateModifier(matrixActions.masquerade.defense, game.i18n.localize('SR5.Intuition'), modifierTypeLogic, logicValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.masquerade.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );		
+			SR5_EntityHelpers.updateModifier(matrixActions.popupHacking.defense, game.i18n.localize('SR5.Intuition'), modifierTypeWillpower, willpowerValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.popupHacking.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );		
+			SR5_EntityHelpers.updateModifier(matrixActions.popupCybercombat.defense, game.i18n.localize('SR5.Intuition'), modifierTypeWillpower, willpowerValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.popupCybercombat.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );		
+			SR5_EntityHelpers.updateModifier(matrixActions.squelch.defense, game.i18n.localize('SR5.Intuition'), modifierTypeIntuition, intuitionValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.squelch.defense, game.i18n.localize('SR5.Firewall'), modifierTypeSleaze, sleazeValue );		
+			SR5_EntityHelpers.updateModifier(matrixActions.subvertInfrastructure.defense, game.i18n.localize('SR5.Intuition'), modifierTypeIntuition, intuitionValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.subvertInfrastructure.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );			
+			SR5_EntityHelpers.updateModifier(matrixActions.tag.defense, game.i18n.localize('SR5.Intuition'), modifierTypeIntuition, intuitionValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.tag.defense, game.i18n.localize('SR5.Firewall'), modifierTypeSleaze, sleazeValue );		
+			SR5_EntityHelpers.updateModifier(matrixActions.watchdog.defense, game.i18n.localize('SR5.Intuition'), modifierTypeLogic, logicValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.watchdog.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue );
+		}
+
+
 		matrixActions.checkOverwatchScore.defense.base = 6;
 
 
@@ -3109,6 +3900,7 @@ export class SR5_CharacterUtility extends Actor {
 
 		//Handle Ice attack and defense
 		if (matrix.deviceType === "ice") {
+			actorData.description = game.i18n.localize(SR5.iceTypes[matrix.deviceSubType] + "_GE");
 			matrix.ice.attackDicepool = matrix.deviceRating * 2;
 			matrix.actions.matrixPerception.test.dicePool = matrix.deviceRating * 2;
 			SR5_EntityHelpers.updateValue(matrixAttributes.dataProcessing, 0);
@@ -3128,11 +3920,16 @@ export class SR5_CharacterUtility extends Actor {
 				case "iceKiller" :
 				case "iceProbe" :
 				case "iceSparky" :
+				case "iceShocker":
 					matrix.ice.defenseFirstAttribute = "intuition";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
 				case "iceBlaster" :
 				case "iceTarBaby" :
+				case "iceCatapult":
+				case "iceFlicker" :
+				case "iceSleuther" :
+				case "iceBlueGoo" :	
 					matrix.ice.defenseFirstAttribute = "logic";
 					matrix.ice.defenseSecondAttribute = "firewall";
 					break;
@@ -3142,6 +3939,7 @@ export class SR5_CharacterUtility extends Actor {
 					break;
 				case "iceTrack" :
 				case "iceMarker" :
+				case "iceBloodhound":
 					matrix.ice.defenseFirstAttribute = "willpower";
 					matrix.ice.defenseSecondAttribute = "sleaze";
 					break;
@@ -3209,6 +4007,18 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(matrixAttributes.dataProcessing, label, "spriteType", +3);
 				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +2);
 				break;
+			case "companion":
+				SR5_EntityHelpers.updateModifier(matrixAttributes.attack, label, "spriteType", -1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.sleaze, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +4);
+				break;
+			case "generalist":
+				SR5_EntityHelpers.updateModifier(matrixAttributes.attack, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.sleaze, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.dataProcessing, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(matrix.initiatives.matrixInit, label, "spriteType", +1);
+				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${actorData.type}' sprite type in generateSpriteMatrix()`);
 		}
@@ -3257,11 +4067,34 @@ export class SR5_CharacterUtility extends Actor {
 		let actorData = actor.system;
 		if(!actorData.creatorData) return;
 		for (let i of actorData.creatorData.items){
-			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking")){
+			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking") && i.system.isActive){
 				if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 			}
 		}
 
+	}
+
+	static async updateProgramAgent(actor){
+		let actorObject = actor.toObject(false);
+		if (game.actors) {
+			for (let a of game.actors) {
+				if (a.type === "actorAgent" && a.system.creatorId === actor._id){					
+					await a.update({
+						"system.creatorData.items": actorObject.items,
+				 	})
+				}
+			}
+		}
+
+		if (canvas.scene){
+			for (let t of canvas.tokens.placeables) {
+				if(t.actor.type === "actorAgent" && t.actor.system.creatorId === actor._id){
+					await t.actor.update({
+						"system.creatorData.items": actorObject.items,
+				 	})
+				}
+			}
+		}
 	}
 
 	static async updateControledVehicle(actor){
@@ -3310,6 +4143,23 @@ export class SR5_CharacterUtility extends Actor {
 				}
 			}
 		}
+	}
+
+	static async updateMatrixEffect(actor){		
+		let status, isStatusEffectOn, statusEffects = [];
+		isStatusEffectOn = actor.effects.find(e => e.flags.core?.statusId === "matrixInit");
+		if (!actor.system.isDirectlyConnected) {
+			if (!isStatusEffectOn){				
+				status = await _getSRStatusEffect("matrixInit");
+				statusEffects = statusEffects.concat(status);
+			}
+		} else {
+			if (isStatusEffectOn){	
+			await actor.deleteEmbeddedDocuments("ActiveEffect", [isStatusEffectOn._id]);
+			}
+		}
+		if (statusEffects.length) await actor.createEmbeddedDocuments("ActiveEffect", statusEffects);
+		
 	}
 
 	//////////////// MODIFS D'OBJETS ///////////////////

@@ -59,6 +59,15 @@
     </p>
 </li>
 
+{{#ife system.type "shotgun"}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.ChokeSettingsCurrent'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{findTranslation "chokeSettings" system.choke.current}}</span>
+    </p>
+</li>
+{{/ife}}
+
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.RecoilCompensation'}}{{localize 'SR5.Colons'}}</span>

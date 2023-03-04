@@ -103,6 +103,64 @@ SR5.propagationVectors = {
 	injection                 : "SR5.VectorInjection",
 };
 
+// Drugs
+SR5.drugs = {
+	bliss                     : "SR5.DrugBliss",
+	cram                      : "SR5.DrugCram",
+	deepweed                  : "SR5.DrugDeepweed",
+	jazz                      : "SR5.DrugJazz",
+	kamikaze                  : "SR5.DrugKamikaze",
+	longHaul                  : "SR5.DrugLongHaul",
+	nitro                     : "SR5.DrugNitro",
+	novacoke                  : "SR5.DrugNovacoke",
+	psyche                    : "SR5.DrugPsyche",
+	zen                       : "SR5.DrugZen",
+	aexd                      : "SR5.DrugAEXD",
+	aisa                      : "SR5.DrugAisa",
+	animalTongue              : "SR5.DrugAnimalTongue",
+	ayaosWill                 : "SR5.DrugAyaosWill",
+	betel                     : "SR5.DrugBetel",
+	betameth                  : "SR5.DrugBetameth",
+	cereprax                  : "SR5.DrugCeteprax",
+	crimsonOrchid             : "SR5.DrugCrimsonOrchid",
+	dopadrine                 : "SR5.DrugDopadrine",
+	eX                        : "SR5.DrugEX",
+	forgetMeNot               : "SR5.DrugForgetMeNot",
+	galak                     : "SR5.DrugGalak",
+	g3                        : "SR5.DrugG3",
+	guts                      : "SR5.DrugGuts",
+	hecatesBlessing           : "SR5.DrugHecatesBlessing",
+	hurlg                     : "SR5.DrugHurlg",
+	immortalFlower            : "SR5.DrugImmortalFlower",
+	k10                       : "SR5.DrugK10",
+	laes                      : "SR5.DrugLaes",
+	leal                      : "SR5.DrugLeal",
+	littleSmoke               : "SR5.DrugLittleSmoke",
+	memoryFog                 : "SR5.DrugMemoryFog",
+	nightwatch                : "SR5.DrugNightwatch",
+	noPaint                   : "SR5.DrugNoPaint",
+	oneiro                    : "SR5.DrugOneiro",
+	oxygenatedFluorocarbons   : "SR5.DrugOxygenatedFluorocarbons",
+	overdrive                 : "SR5.DrugOverdrive",
+	pixieDust                 : "SR5.DrugPixieDust",
+	push                      : "SR5.DrugPush",
+	redMescaline              : "SR5.DrugRedMescaline",
+	ripper                    : "SR5.DrugRipper",
+	rockLizardBlood           : "SR5.DrugRockLizardBlood",
+	shade                     : "SR5.DrugShade",
+	slab                      : "SR5.DrugSlab",
+	snuff                     : "SR5.DrugSnuff",
+	soberTime                 : "SR5.DrugSoberTime",
+	soothsayer                : "SR5.DrugSoothSayer",
+	trance                    : "SR5.DrugTrance",
+	woad                      : "SR5.DrugWoad",
+	wuduAku                   : "SR5.DrugWuduAku",
+	zero                      : "SR5.DrugZero",
+	zombieDust                : "SR5.DrugZombieDust",
+	zone                      : "SR5.DrugZone",
+};
+
+
 // Derived Attributes
 SR5.characterDerivedAttributes = {
 	composure                 : "SR5.Composure",
@@ -701,7 +759,7 @@ SR5.actionTypes = {
 	free                      : "SR5.ActionTypeFree",
 	simple                    : "SR5.ActionTypeSimple",
 	complex                   : "SR5.ActionTypeComplex",
-	interrupt                 : "SR5.ActionTypeInterruption",
+	interruption              : "SR5.ActionTypeInterruption",
 	special 				  : "SR5.ActionTypeSpecial",
 }
 
@@ -713,6 +771,7 @@ SR5.actionSources = {
 	callSprite 				  : "SR5.ActionSourceCallSprite",
 	castRecklessSpell		  : "SR5.ActionSourceCastRecklessSpell",
 	castSpell				  : "SR5.ActionSourceCastSpell",
+	changeChokeSettings       : "SR5.ActionSourceChangeChokeSettings",
 	changeFiringMode		  : "SR5.ActionSourceChangeFiringMode",
 	changeSilentMode		  : "SR5.ActionSourceChangeSilentMode",
 	complexForm				  : "SR5.ActionSourceComplexForm",
@@ -724,8 +783,9 @@ SR5.actionSources = {
 	loadAgent				  : "SR5.ActionSourceLoadAgent",
 	loadProgram     		  : "SR5.ActionSourceLoadProgram",
 	manual		     		  : "SR5.ActionSourceManual",
+	matrixAction              : "SR5.ActionSourceMatrixAction",
 	ramming					  : "SR5.ActionSourceRamming",
-	rebooDeck				  : "SR5.ActionSourceRebootDeck",
+	rebootDeck				  : "SR5.ActionSourceRebootDeck",
 	replaceClip				  : "SR5.ActionSourceReplaceClip",
 	removeClip				  : "SR5.ActionSourceRemoveClip",
 	standUp  				  : "SR5.ActionSourceStandUp",
@@ -784,6 +844,12 @@ SR5.weaponRanges ={
 	extreme                   : "SR5.WeaponRangeExtreme",
 };
 
+// Choke settings
+SR5.chokeSettings ={
+	narrow                    : "SR5.ChokeSettingsNarrowSpread",
+	medium                    : "SR5.ChokeSettingsMediumSpread",
+	wide                      : "SR5.ChokeSettingsWideSpread",
+};
 
 // Modes de rechargement des armes à distance
 SR5.reloadingMethods = {
@@ -1107,13 +1173,19 @@ SR5.toxinTypes = {
 	neuroStunNine             : "SR5.ToxinNeuroStunNine",
 	neuroStunTen              : "SR5.ToxinNeuroStunTen",
 	seven                     : "SR5.ToxinSeven",
-	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",	
+	kokoroCobraVenom          : "SR5.ToxinKokoroCobraVenom",
+	deathrattleVenom          : "SR5.ToxinDeathrattleVenom",
+	flatwormViperVenom		  : "SR5.ToxinFlatwormViperVenom",
+	glowRatVenom			  : "SR5.ToxinGlowRatVenom",	
+	iridescentOwlVenom		  : "SR5.ToxinIridescentOwlFeathersVenom",
 	nagaVenom                 : "SR5.ToxinNagaVenom",	
 	novaScorpionVenom         : "SR5.ToxinNovaScorpionVenom",
 	martichorasVenom          : "SR5.ToxinMartichorasVenom",
+	montaukVenom              : "SR5.ToxinMontaukVenom",
 	snakeVenom                : "SR5.ToxinSnakeVenom",
 	snowSnakeVenom            : "SR5.ToxinSnowSnakeVenom",
 	spiderBeastVenom          : "SR5.ToxinSpiderBeastVenom",
+	voidWaspVenom             : "SR5.ToxinVoidWaspVenom",
 	noxiousBreath             : "SR5.SpiritPowerNoxiousBreath",
 };
 
@@ -1123,6 +1195,7 @@ SR5.toxinEffects = {
 	nausea                    : "SR5.ToxinEffectNausea",
 	paralysis                 : "SR5.ToxinEffectParalysis",
 	agony                     : "SR5.ToxinEffectAgony",
+	arcaneInhibitor			  : "SR5.ToxinEffectArcaneInhibitor",
 };
 
 //Cover
@@ -1283,6 +1356,13 @@ SR5.addictionTypes = {
 	both                      : "SR5.AddictionBoth",
 	physiological             : "SR5.AddictionPhysiological",
 	psychological             : "SR5.AddictionPsychological",
+};
+
+// Addiction types Shorts
+SR5.addictionTypesShort = {
+	both                      : "SR5.AddictionBothShort",
+	physiological             : "SR5.AddictionPhysiologicalShort",
+	psychological             : "SR5.AddictionPsychologicalShort",
 };
 
 SR5.itemRollTestType = {
@@ -1907,7 +1987,7 @@ SR5.matrixResistances = {
 };
 
 // Matrix Rolled Actions
-SR5.matrixRolledActions = {
+SR5.matrixCoreRolledActions = {
 	bruteForce                : "SR5.MatrixActionBruteForce",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
 	controlDevice             : "SR5.MatrixActionControlDevice",
@@ -1961,9 +2041,81 @@ SR5.resonanceActions = {
 	threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
 };
 
+// Kill Code Actions
+SR5.matrixKillCodeActions = {
+	calibration               : "SR5.MatrixActionCalibration",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	iAmTheFirewall            : "SR5.MatrixActionIAmTheFirewall",
+	haywire                   : "SR5.MatrixActionHaywire",
+	intervene                 : "SR5.MatrixActionIntervene",
+	masquerade                : "SR5.MatrixActionMasquerade",
+	popupCybercombat          : "SR5.MatrixActionPopupCybercombat",
+	popupHacking              : "SR5.MatrixActionPopupHacking",
+	squelch                   : "SR5.MatrixActionSquelch",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure",
+	tag                       : "SR5.MatrixActionTag",
+	watchdog                  : "SR5.MatrixActionWatchdog",
+};
+
+SR5.matrixRolledActions = {
+		...SR5.matrixCoreRolledActions,
+		...SR5.matrixKillCodeActions,
+	};
+
 SR5.matrixActions = {
 	...SR5.matrixRolledActions,
 	...SR5.matrixOtherActions,
+};
+
+// Matrix Informations Game Effects
+SR5.matrixGameEffects = {
+	bruteForce                : "SR5.MatrixActionBruteForce_GE",
+	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore_GE",
+	controlDevice             : "SR5.MatrixActionControlDevice_GE",
+	crackFile                 : "SR5.MatrixActionCrackFile_GE",
+	crashProgram              : "SR5.MatrixActionCrashProgram_GE",
+	dataSpike                 : "SR5.MatrixActionDataSpike_GE",
+	disarmDataBomb            : "SR5.MatrixActionDisarmDataBomb_GE",
+	editFile                  : "SR5.MatrixActionEditFile_GE",
+	eraseMark                 : "SR5.MatrixActionEraseMark_GE",
+	eraseMatrixSignature      : "SR5.MatrixActionEraseMatrixSignature_GE",
+	formatDevice              : "SR5.MatrixActionFormatDevice_GE",
+	garbageInGarbageOut       : "SR5.MatrixActionGarbageInGarbageOut_GE",
+	hackOnTheFly              : "SR5.MatrixActionHackOnTheFly_GE",
+	hide                      : "SR5.MatrixActionHide_GE",
+	jackOut                   : "SR5.MatrixActionJackOut_GE",
+	jamSignals                : "SR5.MatrixActionJamSignals_GE",
+	jumpIntoRiggedDevice      : "SR5.MatrixActionJumpIntoRiggedDevice_GE",
+	matrixPerception          : "SR5.MatrixActionMatrixPerception_GE",
+	matrixSearch              : "SR5.MatrixActionMatrixSearch_GE",
+	rebootDevice              : "SR5.MatrixActionRebootDevice_GE",
+	setDataBomb               : "SR5.MatrixActionSetDataBomb_GE",
+	snoop                     : "SR5.MatrixActionSnoop_GE",
+	spoofCommand              : "SR5.MatrixActionSpoofCommand_GE",
+	traceIcon                 : "SR5.MatrixActionTraceIcon_GE",
+	trackback                 : "SR5.MatrixActionTrackback_GE",
+	changeIcon                : "SR5.MatrixActionChangeIcon_GE",
+	enterOrExitHost           : "SR5.MatrixActionEnterOrExitHost_GE",
+	gridHop                   : "SR5.MatrixActionGridHop_GE",
+	inviteMark                : "SR5.MatrixActionInviteMark_GE",
+	sendMessage               : "SR5.MatrixActionSendMessage_GE",
+	switchInterfaceMode       : "SR5.MatrixActionSwitchInterfaceMode_GE",
+	loadProgram               : "SR5.MatrixActionLoadProgram_GE",
+	switchTwoMatrixAttributes : "SR5.MatrixActionSwitchTwoMatrixAttributes_GE",
+	swapTwoPrograms           : "SR5.MatrixActionSwapTwoPrograms_GE",
+	unloadProgram             : "SR5.MatrixActionUnloadProgram_GE",
+	calibration               : "SR5.MatrixActionCalibration_GE",
+	denialOfService           : "SR5.MatrixActionDenialOfService_GE",
+	iAmTheFirewall            : "SR5.MatrixActionIAmTheFirewall_GE",
+	haywire                   : "SR5.MatrixActionHaywire_GE",
+	intervene                 : "SR5.MatrixActionIntervene_GE",
+	masquerade                : "SR5.MatrixActionMasquerade_GE",
+	popupCybercombat          : "SR5.MatrixActionPopupCybercombat_GE",
+	popupHacking              : "SR5.MatrixActionPopupHacking_GE",
+	squelch                   : "SR5.MatrixActionSquelch_GE",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure_GE",
+	tag                       : "SR5.MatrixActionTag_GE",
+	watchdog                  : "SR5.MatrixActionWatchdog_GE",
 };
 
 // Complex Form Targets
@@ -1984,6 +2136,30 @@ SR5.spriteTypes = {
 	data                      : "SR5.SpriteData",
 	fault                     : "SR5.SpriteFault",
 	machine                   : "SR5.SpriteMachine",
+	companion                 : "SR5.SpriteCompanion",
+	generalist                : "SR5.SpriteGeneralist",
+}
+
+// Sprite Types
+SR5.spriteTypesDescription = {
+	courier                   : "SR5.SpriteCourierDescription",
+	crack                     : "SR5.SpriteCrackDescription",
+	data                      : "SR5.SpriteDataDescription",
+	fault                     : "SR5.SpriteFaultDescription",
+	machine                   : "SR5.SpriteMachineDescription",
+	companion                 : "SR5.SpriteCompanionDescription",
+	generalist                : "SR5.SpriteGeneralistDescription",
+}
+
+SR5.spriteOptionalPowers = {
+	activeAnalytics           : "SR5.SpritePowerActiveAnalytics",
+	borrowedIP                : "SR5.SpritePowerBorrowedIP",
+	decompilingResistance     : "SR5.SpritePowerDecompilingResistance",
+	enhance                   : "SR5.SpritePowerEnhance",
+	navi                      : "SR5.SpritePowerNavi",
+	resilientCode             : "SR5.SpritePowerResilientCode",
+	resonanceSpooling         : "SR5.SpritePowerResonanceSpooling",
+
 }
 
 SR5.matrixActionsDefenses = {
@@ -2005,6 +2181,15 @@ SR5.matrixActionsDefenses = {
 	jackOut                   : "SR5.MatrixActionJackOut",
 	traceIcon                 : "SR5.MatrixActionTraceIcon",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	haywire                   : "SR5.MatrixActionHaywire",
+	masquerade                : "SR5.MatrixActionMasquerade",
+	popupCybercombat          : "SR5.MatrixActionPopupCybercombat",
+	popupHacking              : "SR5.MatrixActionPopupHacking",
+	squelch                   : "SR5.MatrixActionSquelch",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure",
+	tag                       : "SR5.MatrixActionTag",
+	watchdog                  : "SR5.MatrixActionWatchdog",
 };
 
 // Type de deck
@@ -2255,6 +2440,7 @@ SR5.vehicleModTools = {
 // Spirit types
 SR5.spiritTypes = {
 	abomination               : "SR5.Abomination",
+	anarch                    : "SR5.Anarch",
 	air                       : "SR5.Air",
 	barren                    : "SR5.Barren",
 	beasts                    : "SR5.Beasts",
@@ -2886,6 +3072,17 @@ SR5.spiritBasePowerswatcher = {
 	search                     : "SR5.SpiritPowerSearch",
 }
 
+
+SR5.spiritBasePowersanarch = {
+	accident                   : "SR5.SpiritPowerAccident",
+	auraMasking                : "SR5.SpiritPowerAuraMasking",
+	banishingResistance        : "SR5.SpiritPowerBanishingResistance",	
+	materialization            : "SR5.SpiritPowerMaterialization",
+	realisticForm              : "SR5.SpiritPowerRealisticForm",
+	sapience                   : "SR5.SpiritPowerSapience",
+	naturalWeapon              : "SR5.SpiritPowerNaturalWeapon",
+}
+
 SR5.AllSpiritPowers = {
 	accident                   : "SR5.SpiritPowerAccident",
 	animalControl              : "SR5.SpiritPowerAnimalControl",
@@ -2970,14 +3167,20 @@ SR5.iceTypes = {
 	iceBinder                 : "SR5.IceBinder",
 	iceBlack                  : "SR5.IceBlack",
 	iceBlaster                : "SR5.IceBlaster",
+	iceBloodhound             : "SR5.IceBloodhound",
+	iceBlueGoo                : "SR5.IceBlueGoo",
+	iceCatapult               : "SR5.IceCatapult",
 	iceCrash                  : "SR5.IceCrash",
+	iceFlicker                : "SR5.IceFlicker",
 	iceJammer                 : "SR5.IceJammer",
 	iceKiller                 : "SR5.IceKiller",
 	iceMarker                 : "SR5.IceMarker",
 	icePatrol                 : "SR5.IcePatrol",
 	iceProbe                  : "SR5.IceProbe",
 	iceScramble               : "SR5.IceScramble",
+	iceShocker                : "SR5.IceShocker",
 	iceSparky                 : "SR5.IceSparky",
+	iceSleuther               : "SR5.IceSleuther",
 	iceTarBaby                : "SR5.IceTarBaby",
 	iceTrack                  : "SR5.IceTrack",
 }
@@ -3028,6 +3231,7 @@ SR5.effectTypes = {
 	toxinEffectNausea         : "SR5.ToxinEffectNausea",
 	toxinEffectParalysis      : "SR5.ToxinEffectParalysis",
 	toxinEffectAgony          : "SR5.ToxinEffectAgony",
+	toxinEffectArcaneInhibitor: "SR5.ToxinEffectArcaneInhibitor",
 	slowed                    : "SR5.STATUSES_Slowed",
 	winded                    : "SR5.STATUSES_Winded",
 	deafened                  : "SR5.STATUSES_Deafened",
@@ -3060,6 +3264,7 @@ SR5.effectTypes = {
 	areaEffect				  : "SR5.AreaEffect",
 	backgroundCount			  : "SR5.SceneBackgroundCount",
 	anticoagulantDamage       : "SR5.Anticoagulant",
+	matrixAction              : "SR5.MatrixAction",
 }
 
 SR5.effectDuration = {
@@ -3236,6 +3441,7 @@ SR5.dicePoolModTypes = {
 	attackWithImagingDevice	  : "SR5.AttackModFiringWithImagingDevice",
 	attackIsRunning 		  : "SR5.AttackModRunning",
 	attackTakeAim   		  : "SR5.AttackModTakeAim",
+	chokeSettings             : "SR5.ChokeSettings",
 }
 
 SR5.drainModTypes = {

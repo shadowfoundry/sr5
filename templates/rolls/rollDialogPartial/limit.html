@@ -27,6 +27,14 @@
 </li>
 {{/if}}
 {{/each}}
+{{#if (eq combat.weaponType "shotgun")}}
+<li class="grid">
+    <div class="col-11" data-target="chokeSettings" data-modifier="chokeSettings">{{localize 'SR5.ChokeSettings'}}{{localize 'SR5.Colons'}}</div>    
+	<div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="chokeSettings" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}
 
 <!-- VARIOUS MODIFIER -->
 <li class="grid">
