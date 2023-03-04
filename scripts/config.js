@@ -701,7 +701,7 @@ SR5.actionTypes = {
 	free                      : "SR5.ActionTypeFree",
 	simple                    : "SR5.ActionTypeSimple",
 	complex                   : "SR5.ActionTypeComplex",
-	interrupt                 : "SR5.ActionTypeInterruption",
+	interruption              : "SR5.ActionTypeInterruption",
 	special 				  : "SR5.ActionTypeSpecial",
 }
 
@@ -724,8 +724,9 @@ SR5.actionSources = {
 	loadAgent				  : "SR5.ActionSourceLoadAgent",
 	loadProgram     		  : "SR5.ActionSourceLoadProgram",
 	manual		     		  : "SR5.ActionSourceManual",
+	matrixAction              : "SR5.ActionSourceMatrixAction",
 	ramming					  : "SR5.ActionSourceRamming",
-	rebooDeck				  : "SR5.ActionSourceRebootDeck",
+	rebootDeck				  : "SR5.ActionSourceRebootDeck",
 	replaceClip				  : "SR5.ActionSourceReplaceClip",
 	removeClip				  : "SR5.ActionSourceRemoveClip",
 	standUp  				  : "SR5.ActionSourceStandUp",
@@ -1914,7 +1915,7 @@ SR5.matrixResistances = {
 };
 
 // Matrix Rolled Actions
-SR5.matrixRolledActions = {
+SR5.matrixCoreRolledActions = {
 	bruteForce                : "SR5.MatrixActionBruteForce",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
 	controlDevice             : "SR5.MatrixActionControlDevice",
@@ -1968,12 +1969,33 @@ SR5.resonanceActions = {
 	threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
 };
 
+// Kill Code Actions
+SR5.matrixKillCodeActions = {
+	calibration               : "SR5.MatrixActionCalibration",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	iAmTheFirewall            : "SR5.MatrixActionIAmTheFirewall",
+	haywire                   : "SR5.MatrixActionHaywire",
+	intervene                 : "SR5.MatrixActionIntervene",
+	masquerade                : "SR5.MatrixActionMasquerade",
+	popupCybercombat          : "SR5.MatrixActionPopupCybercombat",
+	popupHacking              : "SR5.MatrixActionPopupHacking",
+	squelch                   : "SR5.MatrixActionSquelch",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure",
+	tag                       : "SR5.MatrixActionTag",
+	watchdog                  : "SR5.MatrixActionWatchdog",
+};
+
+SR5.matrixRolledActions = {
+		...SR5.matrixCoreRolledActions,
+		...SR5.matrixKillCodeActions,
+	};
+
 SR5.matrixActions = {
 	...SR5.matrixRolledActions,
 	...SR5.matrixOtherActions,
 };
 
-// Matrix Informations
+// Matrix Informations Game Effects
 SR5.matrixGameEffects = {
 	bruteForce                : "SR5.MatrixActionBruteForce_GE",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore_GE",
@@ -2010,6 +2032,18 @@ SR5.matrixGameEffects = {
 	switchTwoMatrixAttributes : "SR5.MatrixActionSwitchTwoMatrixAttributes_GE",
 	swapTwoPrograms           : "SR5.MatrixActionSwapTwoPrograms_GE",
 	unloadProgram             : "SR5.MatrixActionUnloadProgram_GE",
+	calibration               : "SR5.MatrixActionCalibration_GE",
+	denialOfService           : "SR5.MatrixActionDenialOfService_GE",
+	iAmTheFirewall            : "SR5.MatrixActionIAmTheFirewall_GE",
+	haywire                   : "SR5.MatrixActionHaywire_GE",
+	intervene                 : "SR5.MatrixActionIntervene_GE",
+	masquerade                : "SR5.MatrixActionMasquerade_GE",
+	popupCybercombat          : "SR5.MatrixActionPopupCybercombat_GE",
+	popupHacking              : "SR5.MatrixActionPopupHacking_GE",
+	squelch                   : "SR5.MatrixActionSquelch_GE",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure_GE",
+	tag                       : "SR5.MatrixActionTag_GE",
+	watchdog                  : "SR5.MatrixActionWatchdog_GE",
 };
 
 // Complex Form Targets
@@ -2030,6 +2064,30 @@ SR5.spriteTypes = {
 	data                      : "SR5.SpriteData",
 	fault                     : "SR5.SpriteFault",
 	machine                   : "SR5.SpriteMachine",
+	companion                 : "SR5.SpriteCompanion",
+	generalist                : "SR5.SpriteGeneralist",
+}
+
+// Sprite Types
+SR5.spriteTypesDescription = {
+	courier                   : "SR5.SpriteCourierDescription",
+	crack                     : "SR5.SpriteCrackDescription",
+	data                      : "SR5.SpriteDataDescription",
+	fault                     : "SR5.SpriteFaultDescription",
+	machine                   : "SR5.SpriteMachineDescription",
+	companion                 : "SR5.SpriteCompanionDescription",
+	generalist                : "SR5.SpriteGeneralistDescription",
+}
+
+SR5.spriteOptionalPowers = {
+	activeAnalytics           : "SR5.SpritePowerActiveAnalytics",
+	borrowedIP                : "SR5.SpritePowerBorrowedIP",
+	decompilingResistance     : "SR5.SpritePowerDecompilingResistance",
+	enhance                   : "SR5.SpritePowerEnhance",
+	navi                      : "SR5.SpritePowerNavi",
+	resilientCode             : "SR5.SpritePowerResilientCode",
+	resonanceSpooling         : "SR5.SpritePowerResonanceSpooling",
+
 }
 
 SR5.matrixActionsDefenses = {
@@ -2051,6 +2109,15 @@ SR5.matrixActionsDefenses = {
 	jackOut                   : "SR5.MatrixActionJackOut",
 	traceIcon                 : "SR5.MatrixActionTraceIcon",
 	checkOverwatchScore       : "SR5.MatrixActionCheckOverwatchScore",
+	denialOfService           : "SR5.MatrixActionDenialOfService",
+	haywire                   : "SR5.MatrixActionHaywire",
+	masquerade                : "SR5.MatrixActionMasquerade",
+	popupCybercombat          : "SR5.MatrixActionPopupCybercombat",
+	popupHacking              : "SR5.MatrixActionPopupHacking",
+	squelch                   : "SR5.MatrixActionSquelch",
+	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure",
+	tag                       : "SR5.MatrixActionTag",
+	watchdog                  : "SR5.MatrixActionWatchdog",
 };
 
 // Type de deck
@@ -3029,8 +3096,10 @@ SR5.iceTypes = {
 	iceBlack                  : "SR5.IceBlack",
 	iceBlaster                : "SR5.IceBlaster",
 	iceBloodhound             : "SR5.IceBloodhound",
+	iceBlueGoo                : "SR5.IceBlueGoo",
 	iceCatapult               : "SR5.IceCatapult",
 	iceCrash                  : "SR5.IceCrash",
+	iceFlicker                : "SR5.IceFlicker",
 	iceJammer                 : "SR5.IceJammer",
 	iceKiller                 : "SR5.IceKiller",
 	iceMarker                 : "SR5.IceMarker",
@@ -3039,6 +3108,7 @@ SR5.iceTypes = {
 	iceScramble               : "SR5.IceScramble",
 	iceShocker                : "SR5.IceShocker",
 	iceSparky                 : "SR5.IceSparky",
+	iceSleuther               : "SR5.IceSleuther",
 	iceTarBaby                : "SR5.IceTarBaby",
 	iceTrack                  : "SR5.IceTrack",
 }
@@ -3122,6 +3192,7 @@ SR5.effectTypes = {
 	areaEffect				  : "SR5.AreaEffect",
 	backgroundCount			  : "SR5.SceneBackgroundCount",
 	anticoagulantDamage       : "SR5.Anticoagulant",
+	matrixAction              : "SR5.MatrixAction",
 }
 
 SR5.effectDuration = {

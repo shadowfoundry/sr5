@@ -181,7 +181,7 @@ export class SR5_MarkHelpers {
         let dialogData = {list: markedItems,};
 
         //Check if at least one item has a mark
-        if (!markedItems.length) return ui.notifications.info(`${actor.name}: ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
+        if (!markedItems.length) return ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
 
         //Render dialog to choose marked item
         renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData).then((dlg) => {

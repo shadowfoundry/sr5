@@ -5,7 +5,7 @@
             <div class="col-1 SR-TextCenter">{{localize 'SR5.DicePoolShort'}}</div>
             <div class="col-1 SR-TextCenter">{{localize 'SR5.LimitShort'}}</div>
         </li>
-        {{#if (eq system.matrix.deviceSubType 'icePatrol')}}
+        {{#if (or (eq system.matrix.deviceSubType 'icePatrol') (eq system.matrix.deviceSubType 'iceBlueGoo'))}}
         <li class="grid">
             <div class="col-10">{{localize 'SR5.MatrixActionMatrixPerception'}}</div>
             <div class="col-1 SR-TextCenter roll-logo sr-roll" data-rolltype="matrixAction" data-rollkey="matrixPerception">{{system.matrix.actions.matrixPerception.test.dicePool}}</div>
