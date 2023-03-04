@@ -7175,6 +7175,10 @@
         "rating": 0,
         "threshold": 0
       },
+      "onUse": {
+        "duration": "",
+        "contrecoup": ""
+      },
       "handleShot": [],
       "wirelessTurnedOn": false
     },

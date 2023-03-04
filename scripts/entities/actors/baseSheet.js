@@ -681,6 +681,8 @@ export class ActorSheetSR5 extends ActorSheet {
 						// Generate the drug stat
 						drug = await SR5_CharacterUtility.handleDrugShots(item, drugType, actorData);
 						itemData.handleShot = drug;
+						itemData.onUse.duration = `${itemData.handleShot.duration} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationType])}`;
+						itemData.onUse.contrecoup = "";
 						let speedType = "";
 						
 						// Generate the speed type if not pure text
@@ -696,6 +698,10 @@ export class ActorSheetSR5 extends ActorSheet {
 				}
 			} else if (target === "system.wirelessTurnedOn"){
 				setProperty(item, "system.isActive", false);
+
+								
+				itemData.onUse.duration = "";
+				if (itemData.handleShot.durationContrecoup) itemData.onUse.contrecoup = `${itemData.handleShot.durationContrecoup} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationContrecoupType])}`;
 				
 				// Check if the item is a drug set on systemEffect and has contrecoup duration
 				if (item.system.wirelessTurnedOn && drugType && itemData.handleShot.durationContrecoup) {
