@@ -164,7 +164,8 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html",
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html",
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/spritePowers.html",
-		
+		"systems/sr5/templates/actors/_partials/right-tabs/matrix/description.html",
+
 
 		//Right Tab - Technomancer partials
 		"systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html",
@@ -407,6 +408,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/sprite/registered-edit.html",
 				"systems/sr5/templates/items/_partial/editable/sprite/complexFormSustain-edit.html",
 				"systems/sr5/templates/items/_partial/editable/sprite/spritePowers.html",
+				"systems/sr5/templates/items/_partial/editable/sprite/optionalPowers-edit.html",
 
 				//Tradition
 				"systems/sr5/templates/items/_partial/editable/tradition/drain-edit.html",

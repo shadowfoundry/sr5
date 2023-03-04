@@ -48,14 +48,14 @@ export default async function resistanceInfo(cardData, actorId){
     if ((actorData.specialProperties?.hardenedArmors.normalWeapon.value > 0) && (cardData.damage.source !== "magical")) {
         hardenedArmor = Math.floor((actorData.specialProperties.hardenedArmors.normalWeapon.value + cardData.combat.armorPenetration) / 2);
         if (hardenedArmor > 0) {
-            ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}: ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
+            ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}${game.i18n.localize("SR5.Colons")} ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
             cardData.roll.hits += hardenedArmor;
         }
     }
     if ((actorData.specialProperties?.hardenedArmors.fire.value > 0) && (cardData.damage.element === "fire")) {
         hardenedArmor = Math.floor((actorData.specialProperties.hardenedArmors.fire.value + cardData.combat.armorPenetration) / 2);
         if (hardenedArmor > 0) {
-            ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}: ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
+            ui.notifications.info(`${game.i18n.localize("SR5.HardenedArmor")}${game.i18n.localize("SR5.Colons")} ${hardenedArmor} ${game.i18n.localize("SR5.INFO_AutomaticHits")}`);
             cardData.roll.hits += hardenedArmor;
         }
     }
@@ -147,12 +147,12 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
             break;
         case "bellringer":
             SR5Combat.changeInitInCombatHelper(actorId, -10);
-            ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_Stunned", {initiative: 10})}`)
+            ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_Stunned", {initiative: 10})}`)
             cardData.chatCard.buttons.bellringerEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.EffectApplied")} (${game.i18n.localize("SR5.STATUSES_Stunned")})`);
             break;
         case "shakeUp":
             SR5Combat.changeInitInCombatHelper(actorId, cardData.combat.calledShot.initiative);			
-            ui.notifications.info(`${actor.name}: ${game.i18n.format("SR5.INFO_ShakeUp", {value: cardData.combat.calledShot.initiative})}`);
+            ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ShakeUp", {value: cardData.combat.calledShot.initiative})}`);
             cardData.chatCard.buttons.shakeUpEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.EffectApplied")} (${game.i18n.localize("SR5.STATUSES_Shaked")})`);
             break;
         case "pin":

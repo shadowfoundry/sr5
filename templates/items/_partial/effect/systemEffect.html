@@ -24,6 +24,7 @@
 					<option value="specialCase">{{localize 'SR5.SpecialCase'}}</option>
 					<option value="specificRollEffect">{{localize 'SR5.SpecificRollEffect'}}</option>
 					<option value="spiritPower">{{localize 'SR5.SpiritPower'}}</option>
+					<option value="spritePower">{{localize 'SR5.SpritePower'}}</option>
 					<option value="tradition">{{localize 'SR5.HELP_MagicalTradition'}}</option>
 					<option value="drug">{{localize 'SR5.Drug'}}</option>
 					<option value="baseOwnItem">{{localize 'SR5.BaseOwnedItem'}}</option>
@@ -47,10 +48,10 @@
 						<option value="{{@key}}">{{localize this}}</option>	
 						{{/each}}
 						{{#each (lookup ../lists 'spiritTypes')}}
-						<option value="{{@key}}">{{localize 'SR5.Spirit'}}: {{localize this}}</option>
+						<option value="{{@key}}">{{localize 'SR5.Spirit'}}{{localize 'SR5.Colons'}} {{localize this}}</option>
 						{{/each}}
 						{{#each (lookup ../lists 'spriteTypes')}}
-						<option value="{{@key}}">{{localize 'SR5.Sprite'}}: {{localize this}}</option>
+						<option value="{{@key}}">{{localize 'SR5.Sprite'}}{{localize 'SR5.Colons'}} {{localize this}}</option>
 						{{/each}}							
 					{{/ife}}
 
@@ -68,6 +69,12 @@
 
 					{{#ife category 'spiritPower'}}
 						{{#each (lookup ../lists 'AllSpiritPowers')}}
+						<option value="{{@key}}">{{localize this}}</option>	
+						{{/each}}						
+					{{/ife}}
+
+					{{#ife category 'spritePower'}}
+						{{#each (lookup ../lists 'spriteOptionalPowers')}}
 						<option value="{{@key}}">{{localize this}}</option>	
 						{{/each}}						
 					{{/ife}}

@@ -34,12 +34,11 @@
 
 		{{#if (or (eq system.matrix.deviceType "slavedDevice") (eq system.matrix.deviceType "maglock"))}}
 		<li class="grid">
-		  	<div class="col-10">{{localize 'SR5.DEVICE_DirectlyConnected'}}</div>
-		  	<div class="col-2 SR-TextCenter"
-		  	  data-helpTitle="{{localize 'SR5.DEVICE_DirectlyConnected'}}"
-        	  data-helpMessage="{{localize 'SR5.HELP_DirectlyConnectedMsg'}}"
-		  	>
-		  		<input type="checkbox" name="system.isDirectlyConnected" data-dtype="Boolean" {{checked system.isDirectlyConnected}} />
+			<div class="col-10">{{localize 'SR5.DEVICE_DirectlyConnected'}}</div>
+			<div class="col-2 SR-TextCenter"
+			  data-helpTitle="{{localize 'SR5.DEVICE_DirectlyConnected'}}"
+			data-helpMessage="{{localize 'SR5.HELP_DirectlyConnectedMsg'}}"
+			>
 			</div>
 		</li>
 		{{/if}}

@@ -332,6 +332,7 @@ export class SR5Actor extends Actor {
 			case "actorDevice":
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updateActions(actor);
+				SR5_CharacterUtility.updateMatrixEffect(actor);
 				break;
 			case "actorAgent":
 				SR5_CharacterUtility.applyProgramToAgent(actor);
@@ -826,14 +827,14 @@ export class SR5Actor extends Actor {
 
 		//Manage action in combat
 		if(game.combat){
-			SR5Combat.changeActionInCombat(actorId, [{type: "complexe", value: 1, source: "rebootDeck"}], false);
+			SR5Combat.changeActionInCombat(actorId, [{type: "complex", value: 1, source: "rebootDeck"}], false);
 		}
 	}
 
 	//Reset Cumulative Recoil
 	resetRecoil(){
 		this.setFlag("sr5", "cumulativeRecoil", 0);
-		ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
+		ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`);
 	}
 
 	//Reset Addiction
@@ -857,7 +858,7 @@ export class SR5Actor extends Actor {
 	//Reset Cumulative Defense
 	resetCumulativeDefense(){
 		this.setFlag("sr5", "cumulativeDefense", 0);
-		ui.notifications.info(`${this.name}: ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
+		ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.CumulativeDefenseSetTo0")}.`);
 	}
 
 	//Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
