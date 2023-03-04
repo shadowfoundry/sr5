@@ -3112,7 +3112,7 @@
               "modifiers": [],
               "current": 1
             },
-            "interrupt": {
+            "interruption": {
               "value": 10,
               "base":10,
               "modifiers": [],
@@ -3453,6 +3453,7 @@
           "actions": {
             "jamSignals": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 4,
               "specialization": false,
@@ -3475,6 +3476,7 @@
             },
             "controlDevice": {
               "actionType": "special",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": "S",
               "specialization": false,
@@ -3497,6 +3499,7 @@
             },
             "disarmDataBomb": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
               "specialization": false,
@@ -3519,6 +3522,7 @@
             },
             "editFile": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 1,
               "specialization": false,
@@ -3541,6 +3545,7 @@
             },
             "eraseMark": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": "3",
               "specialization": false,
@@ -3563,6 +3568,7 @@
             },
             "eraseMatrixSignature": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": "0",
               "specialization": false,
@@ -3585,6 +3591,7 @@
             },
             "formatDevice": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 3,
               "specialization": false,
@@ -3607,6 +3614,7 @@
             },
             "snoop": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
               "specialization": false,
@@ -3629,6 +3637,7 @@
             },
             "hackOnTheFly": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
               "specialization": false,
@@ -3651,6 +3660,7 @@
             },
             "spoofCommand": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
               "specialization": false,
@@ -3673,6 +3683,7 @@
             },
             "garbageInGarbageOut": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 3,
               "specialization": false,
@@ -3695,6 +3706,7 @@
             },
             "bruteForce": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
               "specialization": false,
@@ -3717,6 +3729,7 @@
             },
             "matrixPerception": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 0,
               "specialization": false,
@@ -3739,6 +3752,7 @@
             },
             "dataSpike": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
               "specialization": false,
@@ -3761,6 +3775,7 @@
             },
             "crackFile": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
               "specialization": false,
@@ -3783,6 +3798,7 @@
             },
             "crashProgram": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
               "specialization": false,
@@ -3805,6 +3821,7 @@
             },
             "jumpIntoRiggedDevice": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 3,
               "specialization": false,
@@ -3827,6 +3844,7 @@
             },
             "setDataBomb": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 1,
               "specialization": false,
@@ -3849,6 +3867,7 @@
             },
             "rebootDevice": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 3,
               "specialization": false,
@@ -3871,6 +3890,7 @@
             },
             "matrixSearch": {
               "actionType": "special",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": "S",
               "specialization": false,
@@ -3893,6 +3913,7 @@
             },
             "trackback": {
               "actionType": "special",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 4,
               "specialization": false,
@@ -3915,6 +3936,7 @@
             },
             "hide": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
               "specialization": false,
@@ -3937,6 +3959,7 @@
             },
             "jackOut": {
               "actionType": "simple",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 4,
               "specialization": false,
@@ -3959,6 +3982,7 @@
             },
             "traceIcon": {
               "actionType": "complex",
+              "source": "core",
               "increaseOverwatchScore": false,
               "neededMarks": 2,
               "specialization": false,
@@ -3981,6 +4005,283 @@
             },
             "checkOverwatchScore": {
               "actionType": "simple",
+              "source": "core",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "calibration": {
+              "actionType": "simple",
+              "source": "killCode",
+              "increaseOverwatchScore": false,
+              "neededMarks": 1,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "denialOfService": {
+              "actionType": "simple",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "iAmTheFirewall": {
+              "actionType": "interruption",
+              "source": "killCode",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "haywire": {
+              "actionType": "complex",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "intervene": {
+              "actionType": "interruption",
+              "source": "killCode",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "masquerade": {
+              "actionType": "complex",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 2,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "popupHacking": {
+              "actionType": "simple",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "popupCybercombat": {
+              "actionType": "simple",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "squelch": {
+              "actionType": "simple",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "attack"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "subvertInfrastructure": {
+              "actionType": "complex",
+              "source": "killCode",
+              "increaseOverwatchScore": true,
+              "neededMarks": 1,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "sleaze"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "tag": {
+              "actionType": "simple",
+              "source": "killCode",
+              "increaseOverwatchScore": false,
+              "neededMarks": 0,
+              "specialization": false,
+              "test": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              },
+              "limit": {
+                "base": 0,
+                "value": 0,
+                "modifiers": [],
+                "linkedAttribute": "dataProcessing"
+              },
+              "defense": {
+                "dicePool": 0,
+                "base": 0,
+                "modifiers": []
+              }
+            },
+            "watchdog": {
+              "actionType": "complex",
+              "source": "killCode",
               "increaseOverwatchScore": true,
               "neededMarks": 0,
               "specialization": false,
@@ -4489,6 +4790,7 @@
         "base": 0,
         "modifiers": []
       },
+      "addictions": [],
       "publicAwareness": {
         "value": 0,
         "base": 0,
@@ -5463,7 +5765,8 @@
           "printScanner": false,
           "dnaScanner": false
         }
-      }
+      },
+      "description": ""
     },
     "actorSprite":{
       "templates": [
@@ -6298,6 +6601,7 @@
         }
       },
       "sustainedSpell": [],
+      "conjurer": "",
       "spellType": ""
     },
     "itemSprite": {
@@ -6313,6 +6617,13 @@
         "max": 0
       },
       "decks": [],
+      "optionalPowers": {
+        "power1" : "",
+        "power2" : "",
+        "power3" : "",
+        "power4" : "",
+        "power5" : ""
+      },
       "spritePowers": [],
       "isRegistered": false,
       "conditionMonitors":{
@@ -6328,7 +6639,8 @@
           "boxes": []
         }
       },
-      "sustainedComplexForm": []
+      "sustainedComplexForm": [],
+      "compiler": ""
     },
     "itemFocus": {
       "templates": [
@@ -6863,6 +7175,7 @@
         "rating": 0,
         "threshold": 0
       },
+      "handleShot": [],
       "wirelessTurnedOn": false
     },
     "itemTradition":{

@@ -42,7 +42,11 @@
 					{{localize 'SR5.No'}}
 				{{/if}}
 			</div>
-			<div class="col-1"></div>
+			<div class="col-1 SR-TextCenter">
+				{{#if system.sustainedComplexForm}}
+				<em class="fas fa-sm fa-praying-hands SR-SubColor"></em>
+				{{/if}}
+			</div>
 			<div class="col-1 SR-TextCenter">
 				{{#if system.isCreated}}
 				<a class="sidekickDestroy" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"

@@ -1,0 +1,43 @@
+<!-- ADDICTIONS -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-5 SR-TextUppercase">{{localize 'SR5.Addiction'}}</div>
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_AddictionThresholdTitle'}}"
+			data-helpMessage="{{localize 'SR5.HELP_AddictionThresholdMsg'}}">{{localize 'SR5.Threshold'}}</div>
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_AddictionWeekTitle'}}"
+			data-helpMessage="{{localize 'SR5.HELP_AddictionWeekMsg'}}">{{localize 'SR5.WeeksShort'}}</div>
+            <div class="col-2 SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_AddictionShotTitle'}}"
+			data-helpMessage="{{localize 'SR5.HELP_AddictionShotMsg'}}">{{localize 'SR5.ShotsShort'}}</div>            
+            <div class="col-1 SR-TextRight" data-helpTitle="{{localize 'SR5.HELP_DrugDeleteAll'}}"
+            data-helpMessage="{{localize 'SR5.HELP_DrugDeleteAllMsg'}}"><a class="resetAddiction"><i class="fas fa-trash"></i></a></div>
+
+		</li>
+		{{#each actor.system.addictions as |a i|}}
+        {{#if_ge shot.value 1}}
+		<li class="subItemManagement grid" data-key="{{@key}}">
+			<div class="col-5">
+				<p>{{name}} ({{findTranslation 'addictionTypesShort' addiction.type}})</p>
+			</div>
+			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.addictions.{{i}}.addiction.threshold"
+			data-helpTitle="{{localize 'SR5.HELP_AddictionThreshold' key=name}}"
+			data-helpMessage="{{localize 'SR5.HELP_AddictionThresholdMsg'}}">
+                <p>{{addiction.threshold}}</p>
+			</div>
+			<div class="col-2 SR-TextCenter" data-binding="weekAddiction.value" 
+			data-helpTitle="{{localize 'SR5.HELP_AddictionWeek' key=name}}"
+			data-helpMessage="{{localize 'SR5.HELP_AddictionWeekMsg'}}">
+                <p>{{weekAddiction.value}}</p>
+			</div>
+			<div class="col-2 SR-TextCenter" data-binding="shot.value" 
+			data-helpTitle="{{localize 'SR5.HELP_AddictionShot' key=name}}"
+			data-helpMessage="{{localize 'SR5.HELP_AddictionShotMsg'}}">
+                <p>{{shot.value}}</p>
+			</div>
+            <div class="col-1 SR-TextRight"><a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="addictions" data-action="delete" data-helpTitle="{{localize 'SR5.HELP_DrugDelete' key=name}}"
+            data-helpMessage="{{localize 'SR5.HELP_DrugDeleteMsg'}}"><i class="fas fa-trash"></i></a></div>
+		</li>
+        {{/if_ge}}
+		{{/each}}
+	</ul>
+</div>

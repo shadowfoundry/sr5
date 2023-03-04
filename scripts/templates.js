@@ -122,6 +122,7 @@ export const preloadHandlebarsTemplates = async function () {
 		//Left Tab - Qualities partials
 		"systems/sr5/templates/actors/_partials/left-tabs/qualities/qualities.html",
 		"systems/sr5/templates/actors/_partials/left-tabs/qualities/visions.html",
+		"systems/sr5/templates/actors/_partials/left-tabs/qualities/addictions.html",
 
 		//Right Tab - Skills partials
 		"systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html",
@@ -163,7 +164,8 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html",
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html",
 		"systems/sr5/templates/actors/_partials/right-tabs/matrix/spritePowers.html",
-		
+		"systems/sr5/templates/actors/_partials/right-tabs/matrix/description.html",
+
 
 		//Right Tab - Technomancer partials
 		"systems/sr5/templates/actors/_partials/right-tabs/technomancer/resonanceActions.html",
@@ -323,7 +325,7 @@ export const preloadHandlebarsTemplates = async function () {
 				//Drugs
 				"systems/sr5/templates/items/_partial/editable/drug/attributes-edit.html",
 				"systems/sr5/templates/items/_partial/editable/drug/addiction-edit.html",
-
+				
 				//Focus
 				"systems/sr5/templates/items/_partial/editable/focus/type-edit.html",
 				"systems/sr5/templates/items/_partial/editable/focus/subType-edit.html",
@@ -406,6 +408,7 @@ export const preloadHandlebarsTemplates = async function () {
 				"systems/sr5/templates/items/_partial/editable/sprite/registered-edit.html",
 				"systems/sr5/templates/items/_partial/editable/sprite/complexFormSustain-edit.html",
 				"systems/sr5/templates/items/_partial/editable/sprite/spritePowers.html",
+				"systems/sr5/templates/items/_partial/editable/sprite/optionalPowers-edit.html",
 
 				//Tradition
 				"systems/sr5/templates/items/_partial/editable/tradition/drain-edit.html",

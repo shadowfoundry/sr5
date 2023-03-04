@@ -133,7 +133,7 @@ export class SR5_RollTest {
 							let spiritItemData = duplicate(spiritItem.system);
         					spiritItemData.services.value -= 1;
         					await spiritItem.update({'data': spiritItemData});
-							ui.notifications.info(`${spiritItem.name}: ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`);
+							ui.notifications.info(`${spiritItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`);
 							let spiritActor = game.actors.find(a => a.system.creatorItemId === spiritItem.id);
 							if (spiritActor){
         						let spiritActorData = duplicate(spiritActor.system);

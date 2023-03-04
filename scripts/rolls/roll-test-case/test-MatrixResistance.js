@@ -15,8 +15,11 @@ export default async function matrixResistanceInfo(cardData, actorId){
     //Determine matrix damage
     cardData.damage.matrix.value = cardData.damage.matrix.base - cardData.roll.hits;
 
-    if (cardData.damage.matrix.value > 0) {
+    if (cardData.damage.matrix.value > 0) {       
         cardData.chatCard.buttons.takeMatrixDamage = SR5_RollMessage.generateChatButton("nonOpposedTest", "takeMatrixDamage", `${game.i18n.localize("SR5.ApplyDamage")} (${cardData.damage.matrix.value})`);
+
+        //Handle Blue Goo Ice
+        if (actorData.matrix.deviceSubType === "iceBlueGoo") cardData.chatCard.buttons.blueGooExplosion = SR5_RollMessage.generateChatButton("nonOpposedTest", "blueGooExplosion", `${game.i18n.format('SR5.IceBlueGooExplosion')}`);
         
         //Handle Biofeedback
         if ( attackerData.matrix.programs.biofeedback.isActive || attackerData.matrix.programs.blackout.isActive
