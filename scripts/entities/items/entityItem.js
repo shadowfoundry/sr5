@@ -244,6 +244,11 @@ export class SR5Item extends Item {
 						game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
 						game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[itemData.ammunition.type]),
 					);
+					if (itemData.type === "shotgun"){
+						tags.push(
+							game.i18n.localize(`SR5.ChokeSettings`) + game.i18n.localize(`SR5.Colons`) + ` ${game.i18n.localize(lists.chokeSettings[itemData.choke.current])}`
+						)	
+					}
 					if (itemData.accessory) {
 						for (let a of itemData.accessory){
 							accessories.push(`${a.name}${game.i18n.localize("SR5.Colons")} ${a.system?.gameEffect}`);

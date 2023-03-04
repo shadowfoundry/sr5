@@ -482,6 +482,13 @@ export class SR5_UtilityItem extends Actor {
 			}
 		}
 
+		itemData.choke.value = [];
+		for (let key of Object.keys(SR5.chokeSettings)) {
+			if (itemData.choke[key]) {
+				itemData.choke.value.push(game.i18n.localize(SR5.chokeSettings[key]));
+			}
+		}
+
 		SR5_EntityHelpers.updateValue(itemData.damageValue, 0);
 		SR5_EntityHelpers.updateValue(itemData.armorPenetration);
 		SR5_EntityHelpers.updateValue(itemData.recoilCompensation);

@@ -771,6 +771,7 @@ SR5.actionSources = {
 	callSprite 				  : "SR5.ActionSourceCallSprite",
 	castRecklessSpell		  : "SR5.ActionSourceCastRecklessSpell",
 	castSpell				  : "SR5.ActionSourceCastSpell",
+	changeChokeSettings       : "SR5.ActionSourceChangeChokeSettings",
 	changeFiringMode		  : "SR5.ActionSourceChangeFiringMode",
 	changeSilentMode		  : "SR5.ActionSourceChangeSilentMode",
 	complexForm				  : "SR5.ActionSourceComplexForm",
@@ -843,6 +844,12 @@ SR5.weaponRanges ={
 	extreme                   : "SR5.WeaponRangeExtreme",
 };
 
+// Choke settings
+SR5.chokeSettings ={
+	narrow                    : "SR5.ChokeSettingsNarrowSpread",
+	medium                    : "SR5.ChokeSettingsMediumSpread",
+	wide                      : "SR5.ChokeSettingsWideSpread",
+};
 
 // Modes de rechargement des armes à distance
 SR5.reloadingMethods = {
@@ -3434,6 +3441,7 @@ SR5.dicePoolModTypes = {
 	attackWithImagingDevice	  : "SR5.AttackModFiringWithImagingDevice",
 	attackIsRunning 		  : "SR5.AttackModRunning",
 	attackTakeAim   		  : "SR5.AttackModTakeAim",
+	chokeSettings             : "SR5.ChokeSettings",
 }
 
 SR5.drainModTypes = {

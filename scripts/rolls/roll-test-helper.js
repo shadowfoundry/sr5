@@ -111,6 +111,9 @@ export class SR5_RollTestHelper {
             if (newItem.system.firingMode.current !== cardData.combat.firingMode.selected){
                 newItem.system.firingMode.current = cardData.combat.firingMode.selected;
             }
+            if (newItem.system.choke.current !== cardData.combat.choke.selected){
+                newItem.system.choke.current = cardData.combat.choke.selected;
+            }
         }
         //update force and hits
         if (newItem.type === "itemSpell" || newItem.type === "itemPreparation" || newItem.type === "itemAdeptPower") {

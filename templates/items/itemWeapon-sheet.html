@@ -114,6 +114,14 @@
 						{{> systems/sr5/templates/items/_partial/editable/weapon/firingModes-edit.html}}
 					</ul>
 
+					{{#ife system.type "shotgun"}}
+					<!-- CHOKE SETTINGS -->
+					<ul class="SR-PaddingTop10">
+						{{> systems/sr5/templates/items/_partial/editable/weapon/chokeSettings-edit.html}}
+					</ul>
+
+					{{/ife}}
+
 					<!-- AMMUNITION -->
 					<ul class="SR-PaddingTop10">
 						<li class="SR-EnTete">

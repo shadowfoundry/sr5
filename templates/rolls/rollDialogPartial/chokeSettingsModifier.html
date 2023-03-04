@@ -1,0 +1,12 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.ChokeSettings'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6 SR-TextRight">
+        <select class="SR-ModSelect SR-ModSelectFilled" data-target="chokeSettings" data-modifier="chokeSettings">
+        {{#select chokeSettings}}
+            <option value="narrow">{{localize 'SR5.ChokeSettingsNarrowSpread'}}</option>
+            <option value="medium">{{localize 'SR5.ChokeSettingsMediumSpread'}}</option>
+            <option value="wide">{{localize 'SR5.ChokeSettingsWideSpread'}}</option>
+        {{/select}}
+        </select>
+    </div>
+</li>

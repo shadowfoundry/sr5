@@ -1,3 +1,15 @@
+
+{{#if (eq combat.weaponType "shotgun")}}
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.ChokeSettings'}}{{localize 'SR5.Colons'}}</div>
+    
+    <div class="col-1 SR-TextRight"><input type="hidden" class="SR-ModSelectFilled" data-target="dicePoolModDefenseChokeSettings" data-modifier="defenseChokeSettings"></div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModDefenseChokeSettings" value={{combat.choke.defense}} placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}
+
 <li class="grid">
     <div class="col-10">{{localize 'SR5.DefenseModInsideMovingVehicle'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight"><input type="checkbox" class="SR-ModCheckbox" data-target="dicePoolModDefenseInsideVehicle" data-modifier="defenseInsideVehicle"></div>
