@@ -1,6 +1,7 @@
 import { SR5 } from "../../config.js";
 import { SR5_RollMessage } from "../roll-message.js";
 import { SR5_RollTestHelper } from "../roll-test-helper.js";
+import { SR5_EntityHelpers } from "../../entities/helpers.js";
 
 export default async function defenseResultInfo(cardData, type){
     let key, label, labelEnd, successTestType = "nonOpposedTest", failedTestType = "SR-CardButtonHit endTest", failedKey = "";
