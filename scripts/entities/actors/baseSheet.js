@@ -695,6 +695,77 @@ export class ActorSheetSR5 extends ActorSheet {
 						
 						// Generate the speed type if not pure text
 						if (itemData.handleShot.speedType) speedType = game.i18n.localize(itemData.handleShot.speedType);
+
+						// Handle interaction but reparsing so ...
+						let interactionDrug = actor.items.filter((d) => d.type === "itemDrug" && (d.system.isActive || d.system.wirelessTurnedOn));
+						if (interactionDrug.length > 0) {
+							let roll, interactionDiceResult, drugs = [];
+							roll = new Roll(`${interactionDrug.length}d2`);
+							interactionDiceResult = await roll.evaluate({async: true});
+
+							for (let d of interactionDrug){
+							drugs.push(d.name);
+							}
+
+							switch(interactionDiceResult.total){
+								case 19:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugDurationDoubled")}`);
+
+									console.log(" before : " + JSON.stringify(interactionDrug));
+
+									for (let d of interactionDrug){
+										let updatedDrug = duplicate(d);
+										console.log(updatedDrug.system.handleShot.duration);
+										updatedDrug.system.handleShot.duration = updatedDrug.system.handleShot.duration * 2;
+										console.log(updatedDrug.system.handleShot.duration);
+										if (updatedDrug.system.handleShot.durationContrecoup) updatedDrug.	system.handleShot.durationContrecoup = updatedDrug.system.handleShot.durationContrecoup * 2;
+										if (updatedDrug.system.onUse.duration) updatedDrug.system.onUse.duration = `${updatedDrug.system.handleShot.duration * 2} ${game.i18n.localize(SR5.extendedIntervals[updatedDrug.system.handleShot.durationType])}`;
+										
+										let originalD = actor.getEmbeddedDocument("Item", d._id);
+										await actor.updateEmbeddedDocuments("Item", [originalD]);
+										await originalD.update(updatedDrug);
+										//await d.getExpandData({ secrets: this.actor.isOwner });
+									}
+								
+									console.log(" after : " + JSON.stringify(interactionDrug));
+									break;
+								case 1:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugDurationDoubled")}`);
+
+									console.log(" before : " + JSON.stringify(interactionDrug));
+
+									for (let d of interactionDrug){
+									await d.update(
+										{
+										"system.handleShot.duration": d.system.handleShot.duration * 2,
+										"system.onUse.duration": `${d.system.handleShot.duration * 2} ${game.i18n.localize(SR5.extendedIntervals[d.system.handleShot.durationType])}`,
+										}
+									)
+									}
+								
+									console.log(" after : " + JSON.stringify(interactionDrug));
+									break;
+
+								case 2, 3, 4:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								case 5, 6 :
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								case 7, 8, 9:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								case 10:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								case 11, 12, 13:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								default:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+							}
+						}
 						
 						// Notify info drug taken
 						await ui.notifications.info(`${actor.name}${game.i18n.format("SR5.Colons")} ${game.i18n.localize(SR5.drugs[itemData.handleShot.name])}${game.i18n.format("SR5.Colons")}<ul><li>${game.i18n.format("SR5.ToxinSpeed")}${game.i18n.format("SR5.Colons")} ${itemData.handleShot.speed} ${speedType}</li><li>${game.i18n.format("SR5.Duration")}${game.i18n.format("SR5.Colons")} ${itemData.handleShot.duration} ${game.i18n.localize(SR5.extendedIntervals[itemData.handleShot.durationType])}</li></ul>`);
