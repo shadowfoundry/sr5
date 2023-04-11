@@ -8,13 +8,13 @@ export default function matrixDefenseSimple(rollData, rollKey, actor){
     rollData.test.title = `${game.i18n.localize("SR5.MatrixDefenseTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.matrixRolledActions[rollKey])}`;
 
     //Determine dicepool composition
-    rollData.dicePool.composition = matrixAction.test.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup"));
+    rollData.dicePool.composition = matrixAction.defense.modifiers.filter(mod => (mod.type === "skillRating" || mod.type === "linkedAttribute" || mod.type === "skillGroup" || mod.type === "matrixAttribute"));
 
     //Determine base dicepool
     rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData);
 
     //Determine dicepool modififiers
-    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, matrixAction.test.modifiers);
+    rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, matrixAction.defense.modifiers);
 
     //Add others informations
     rollData.test.type = "matrixDefenseSimple";
