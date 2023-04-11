@@ -658,8 +658,9 @@ export class ActorSheetSR5 extends ActorSheet {
 				let alreadyTaken = actorData.addictions.find((d) => item.name === d.name);
 				let addiction = [];
 
+				// Handle quantity 				
+				itemData.quantity -= 1;
 
-				
 				// Check if the drug is activated
 				if (item.system.isActive) {
 						// Check if the drug has already been taken
@@ -699,7 +700,7 @@ export class ActorSheetSR5 extends ActorSheet {
 						let interactionDrug = actor.items.filter((d) => d.type === "itemDrug" && (d.system.isActive || d.system.wirelessTurnedOn));
 						if (interactionDrug.length > 0) {
 							let roll, interactionDiceResult, drugs = [];
-							roll = new Roll(`${interactionDrug.length}d6`);
+							roll = new Roll(`${interactionDrug.length}d1`);
 							interactionDiceResult = await roll.evaluate({async: true});
 
 							for (let d of interactionDrug){						
@@ -709,6 +710,7 @@ export class ActorSheetSR5 extends ActorSheet {
 							}
 
 							let damageInfo;
+							let activeDrugs = actor.items.filter((d) => d.type === "itemDrug" && d.system.isActive);
 
 							switch(interactionDiceResult.total){
 								case 1:
@@ -728,6 +730,51 @@ export class ActorSheetSR5 extends ActorSheet {
 										});
 										
 										await d.updateSource(updatedDrug);
+
+										console.log(" before : d.updateSource " + JSON.stringify(d));
+										await d.update(updatedDrug);	
+
+										console.log(" before d.update : " + JSON.stringify(d));									
+										await actor.updateEmbeddedDocuments("Item", [d]);
+
+										console.log(" before  actor.updateEmbeddedDocuments : " + JSON.stringify(interactionDrug));
+										await actor.updateItems(actor);
+
+										console.log(" before await actor.updateItems(actor); : " + JSON.stringify(interactionDrug));
+										console.log(" before await actor.updateItems(actor); : " + JSON.stringify(actor.items));
+
+										
+       									await actor.update({'system': actorData});
+									}
+								
+									console.log(" after : " + JSON.stringify(interactionDrug));
+									break;
+								case 2:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugNoInteractEffect")}`);
+									break;
+								case 3:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugNoInteractEffect")}`);
+									break;
+								case 4:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugNoInteractEffect")}`);
+									break;
+								case 5 :
+									// not working
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoupDurationDoubled")}`);
+
+									console.log(" before : " + JSON.stringify(interactionDrug));
+
+									for (let d of interactionDrug){
+										let contrecoup, onUseContrecoup; 
+										if (d.system.handleShot.durationContrecoup) contrecoup = d.system.handleShot.durationContrecoup * 2;
+										if (d.system.onUse.contrecoup) onUseContrecoup = `${d.system.handleShot.durationContrecoup} ${game.i18n.localize(SR5.extendedIntervals[d.system.handleShot.durationContrecoupType])}`;
+										let updatedDrug = {};
+										mergeObject(updatedDrug, {
+											"system.handleShot.durationContrecoup": contrecoup || 0,
+											"system.onUse.contrecoup": onUseContrecoup || 0,
+										});
+										
+										await d.updateSource(updatedDrug);
 										await d.update(updatedDrug);										
 										await actor.updateEmbeddedDocuments("Item", [d]);
 										await actor.updateItems(actor);
@@ -737,10 +784,7 @@ export class ActorSheetSR5 extends ActorSheet {
 								
 									console.log(" after : " + JSON.stringify(interactionDrug));
 									break;
-								case 2, 3, 4:
-									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugNoInteractEffect")}`);
-									break;
-								case 5, 6 :
+								case 6 :
 									// not working
 									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoupDurationDoubled")}`);
 
@@ -772,7 +816,35 @@ export class ActorSheetSR5 extends ActorSheet {
 
 									console.log(" before : " + JSON.stringify(interactionDrug));
 
-									let activeDrugs = actor.items.filter((d) => d.type === "itemDrug" && d.system.isActive);
+									if (activeDrugs.length){										
+										for (let d of activeDrugs){
+											setProperty(d, "system.isActive", false);
+											setProperty(d, "system.wirelessTurnedOn", true);
+										}
+									}
+								
+									console.log(" after : " + JSON.stringify(interactionDrug));
+									break;
+								case 8:
+									//not working
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoupDurationDoubled")}`);
+
+									console.log(" before : " + JSON.stringify(interactionDrug));
+
+									if (activeDrugs.length){										
+										for (let d of activeDrugs){
+											setProperty(d, "system.isActive", false);
+											setProperty(d, "system.wirelessTurnedOn", true);
+										}
+									}
+								
+									console.log(" after : " + JSON.stringify(interactionDrug));
+									break;
+								case 9:
+									//not working
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")} ${drugs.toString().replace(",", ", ")}${game.i18n.format("SR5.Colons")} ${game.i18n.format("SR5.DrugContrecoupDurationDoubled")}`);
+
+									console.log(" before : " + JSON.stringify(interactionDrug));
 
 									if (activeDrugs.length){										
 										for (let d of activeDrugs){
@@ -790,7 +862,13 @@ export class ActorSheetSR5 extends ActorSheet {
 									damageInfo.damage.type = "stun";
 									this.actor.takeDamage(damageInfo);
 									break;
-								case 11, 12, 13:
+								case 11:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								case 12:
+									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
+									break;
+								case 13:
 									await ui.notifications.info(`${game.i18n.format("SR5.DrugInteraction")}${game.i18n.format("SR5.Colons")} ${drugs.toString().replace(",", ", ")} ${interactionDiceResult.total}`);
 									break;
 								default:
