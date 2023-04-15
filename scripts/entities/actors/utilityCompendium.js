@@ -130,10 +130,10 @@ export class SR5_CompendiumUtility extends Actor {
 
 		//Add optional powers to an array of existing powers based on an itemSprite
 		static async addOptionalSpritePowersFromItem(baseItems, optionalPowers) {
-			console.log("addOptionalSpritePowersFromItem ok !");
-			console.log("optionalPowers : " + JSON.stringify(optionalPowers));
+			//console.log("addOptionalSpritePowersFromItem ok !");
+			//console.log("optionalPowers : " + JSON.stringify(optionalPowers));
 			let powers = await SR5_CompendiumUtility.getItemCompendium("powers-sprites");
-			console.log("powers : " + JSON.stringify(powers));
+			//console.log("powers : " + JSON.stringify(powers));
 			
 			for (let value of Object.values(optionalPowers)){
 				if (value) {
