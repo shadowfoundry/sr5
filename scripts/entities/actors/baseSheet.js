@@ -1157,12 +1157,16 @@ export class ActorSheetSR5 extends ActorSheet {
 		event.preventDefault();
 		const id = event.currentTarget.closest(".item").dataset.itemId;
 		let sidekick;
+		let item = this.actor.items.get(id);
+		let actorId = this.actor.id;
+		
 		for (let a of game.actors){
 			if (a.system.creatorItemId === id) {
 				sidekick = a.toObject(false);
 				break;
 			}
 		}
+
 		if(sidekick !== undefined) {
 			if (!game.user?.isGM) {
 				await SR5_SocketHandler.emitForGM("dismissSidekick", {
@@ -1171,11 +1175,11 @@ export class ActorSheetSR5 extends ActorSheet {
 			} else {
 				await SR5_ActorHelper.dimissSidekick(sidekick);
 			}
+		} else {
+			item.update({"system.isCreated": false})
 		}
 
 		//manage actions
-		let item = this.actor.items.get(id);
-		let actorId = this.actor.id;
 		if (this.actor.isToken) actorId = this.actor.token.id;
 		if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source: "unloadAgent"}]);
 		else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSprite"}]);

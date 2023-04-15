@@ -329,6 +329,7 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateSkills(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updateActions(actor);
+				break;
 			case "actorDevice":
 				SR5_CharacterUtility.updateConditionMonitors(actor);
 				SR5_CharacterUtility.updateActions(actor);
