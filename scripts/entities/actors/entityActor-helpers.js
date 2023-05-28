@@ -151,7 +151,7 @@ export class SR5_ActorHelper {
             actorData = actor.system;
             
 		for (let e of actor.effects){
-			if (e.flags.core?.statusId === "prone") return;
+			if (e.statuses.has("prone")) return;
 		}
 
 		//Currently, if duration is null, prone is comming from Damage
@@ -172,6 +172,7 @@ export class SR5_ActorHelper {
 			"system.value": 0,
 			"system.durationType": duration.type,
 			"system.duration": duration.duration,
+			"system.statuses": ["prone"]
 		}
 
 		let statusEffect = await _getSRStatusEffect("prone");
@@ -185,9 +186,9 @@ export class SR5_ActorHelper {
 
     //Handle death effect
 	static async createDeadEffect(actorId){
-        let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		for (let e of actor.effects){
-			if (e.flags.core?.statusId === "dead") return;
+			if (e.statuses === "dead") return;
 		}
 		let effect = await _getSRStatusEffect("dead");
 		await actor.createEmbeddedDocuments('ActiveEffect', [effect]);
@@ -198,7 +199,7 @@ export class SR5_ActorHelper {
 	static async createKoEffect(actorId){
         let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		for (let e of actor.effects){
-			if (e.flags.core?.statusId === "unconscious") return;
+			if (e.statuses === "unconscious") return;
 		}
 		let effect = await _getSRStatusEffect("unconscious")
 		await actor.createEmbeddedDocuments('ActiveEffect', [effect]);
