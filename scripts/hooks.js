@@ -362,7 +362,7 @@ export const registerHooks = function () {
 
 	Hooks.on("deleteActiveEffect", async (effect) =>{
 		if (!game.user.isGM ) return;
-		if (effect.flags.core?.statusId === "prone"){
+		if (effect.statuses.has("prone")){
 			let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone");
 			let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id);
 			if (itemEffect) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(actorId, itemEffect.id);
@@ -373,8 +373,8 @@ export const registerHooks = function () {
 	Hooks.on("createActiveEffect", (effect) =>{
 		if (!game.user.isGM ) return;
 		let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id);
-		if (effect.flags.core?.statusId === "signalJam") SR5_EffectArea.onJamCreation(actorId);
-		if ((effect.flags.core?.statusId === "cover" || effect.flags.core?.statusId === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "takeCover"}]);
+		if (effect.statuses === "signalJam") SR5_EffectArea.onJamCreation(actorId);
+		if ((effect.statuses === "cover" || effect.statuses === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "takeCover"}]);
 	});
 
 	Hooks.on("createActor", async (actor) =>{

@@ -1626,17 +1626,17 @@ export class SR5_CharacterUtility extends Actor {
 			case "actorSprite":
 				SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.Level'), "linkedAttribute", actorData.level);
 				SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.DataProcessing'), "linkedAttribute", matrixAttributes.dataProcessing.value);
-				SR5_EntityHelpers.updateModifier(initMat.dice, game.i18n.localize(SR5.spriteTypes[actorData.type]), `${game.i18n.localize('ACTOR.TypeActorsprite')}`, 4);
+				SR5_EntityHelpers.updateModifier(initMat.dice, game.i18n.localize(SR5.spriteTypes[actorData.type]), `${game.i18n.localize('TYPES.Actor.actorsprite')}`, 4);
 				break;
 			case "actorAgent":
 				SR5_EntityHelpers.updateModifier(initMat,`${game.i18n.localize('SR5.Rating')}`, "linkedAttribute", actorData.rating);
 				SR5_EntityHelpers.updateModifier(initMat, `${game.i18n.localize('SR5.DataProcessing')}`, "linkedAttribute", matrixAttributes.dataProcessing.value);
-				SR5_EntityHelpers.updateModifier(initMat.dice, game.i18n.localize(SR5.spriteTypes[actorData.type]), `${game.i18n.localize('ACTOR.TypeActoragent')}`, 4);
+				SR5_EntityHelpers.updateModifier(initMat.dice, game.i18n.localize(SR5.spriteTypes[actorData.type]), `${game.i18n.localize('TYPES.Actor.actoragent')}`, 4);
 				break;
 			case "actorDevice":
 				SR5_EntityHelpers.updateModifier(initMat,`${game.i18n.localize('SR5.DeviceRating')}`, "linkedAttribute", actorData.matrix.deviceRating);
 				SR5_EntityHelpers.updateModifier(initMat,`${game.i18n.localize('SR5.DataProcessing')}`, "linkedAttribute", matrixAttributes.dataProcessing.value);
-				SR5_EntityHelpers.updateModifier(initMat.dice, `${game.i18n.localize(SR5.deviceTypes[actorData.matrix.deviceType])}`, `${game.i18n.localize('ACTOR.TypeActordevice')}`, 4);
+				SR5_EntityHelpers.updateModifier(initMat.dice, `${game.i18n.localize(SR5.deviceTypes[actorData.matrix.deviceType])}`, `${game.i18n.localize('TYPES.Actor.actordevice')}`, 4);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown actor type '${actor.type}' in 'updateInitiativeMatrix()'`);
@@ -1661,7 +1661,7 @@ export class SR5_CharacterUtility extends Actor {
 	// Switch Actor To New Initiative
 	static async switchToInitiative(entity, initiative) {
 		let actor;
-		if (entity.token) actor = entity.token.getActor();
+		if (entity.token) actor = entity.token.actor;
 		else actor = entity;
 
 		let actorData = duplicate(actor.system),
@@ -3845,9 +3845,9 @@ export class SR5_CharacterUtility extends Actor {
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, item.name, "deviceRating", actorData.matrix.deviceRating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", actorData.matrix.attributes.firewall.value);
 				} else if (actor.type === "actorSprite"){
-					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('ACTOR.TypeActorsprite'), "level", matrix.deviceRating);
+					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('TYPES.Actor.actorsprite'), "level", matrix.deviceRating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
-					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('ACTOR.TypeActorsprite'), "level", matrix.deviceRating);
+					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('TYPES.Actor.actorsprite'), "level", matrix.deviceRating);
 					SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value);
 				} else if (actor.type === "actorAgent"){
 					SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.ProgramTypeAgent')}`, "itemRating", actorData.rating);
@@ -4145,7 +4145,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	static async updateMatrixEffect(actor){		
+	static async updateMatrixEffect(actor){
 		let status, isStatusEffectOn, statusEffects = [];
 		isStatusEffectOn = actor.effects.find(e => e.flags.core?.statusId === "matrixInit");
 		if (!actor.system.isDirectlyConnected) {

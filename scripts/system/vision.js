@@ -14,7 +14,7 @@ export const astralVision = new VisionMode({
 			uniforms: { exposure: 0.8 }
 		},
 		coloration: {
-			postProcessingModes: ["SATURATION", "TINT", "EXPOSURE"],
+			//postProcessingModes: ["SATURATION", "TINT", "EXPOSURE"], BUG in v11
 			uniforms: { saturation: -0.75, exposure: 8.0, tint: [0.75, 0.75, 1] }
 		},
 		levels: {
@@ -44,7 +44,7 @@ class DetectionModeBasicSightSR extends DetectionModeBasicSight {
 		const tgt = target?.document;
 		if ((tgt instanceof TokenDocument)) {
 			//check if target has astral effect and hide it if true;
-			detected = tgt.actor?.effects?.find(e => e.flags.core.statusId === "astralInit");
+			detected = tgt.actor?.effects?.find(e => e.statuses.has("astralInit"));
 			return !detected;
 		} else return true;
 	}
