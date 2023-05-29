@@ -15,6 +15,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "dead"
                     }
                 },
+                statuses: ["dead"]
             }
 
         case "unconscious" :
@@ -28,6 +29,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "unconscious"
                     }
                 },
+                statuses: ["unconscious"]
             }
         
         case "prone":
@@ -41,6 +43,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "prone"
                     }
                 },
+                statuses: ["prone"]
             }
 
         case "astralVision":
@@ -54,6 +57,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "astralVision"
                     }
                 },
+                statuses: ["astralVision"]
             }
         case "cover":
             return effect = {
@@ -66,6 +70,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "cover"
                     }
                 },
+                statuses: ["cover"]
             }
         case "coverFull":
             return effect = {
@@ -78,6 +83,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "coverFull"
                     }
                 },
+                statuses: ["coverFull"]
             }
         case "fireDamage":
             return effect = {
@@ -90,6 +96,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "fireDamage"
                     }
                 },
+                statuses: ["fireDamage"]
             }
         case "acidDamage":
             return effect = {
@@ -102,6 +109,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "acidDamage"
                     }
                 },
+                statuses: ["acidDamage"]
             }
         case "electricityDamage":
             return effect = {
@@ -114,6 +122,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "electricityDamage"
                     }
                 },
+                statuses: ["electricityDamage"]
             }
         case "anticoagulantDamage":
             return effect = {
@@ -126,6 +135,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "anticoagulantDamage",
                     }
                 },
+                statuses: ["anticoagulantDamage"]
             }
         case "fullDefense":
             return effect = {
@@ -138,6 +148,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "fullDefense"
                     }
                 },
+                statuses: ["fullDefense"]
             }
         case "sensorLock":
             return effect = {
@@ -150,6 +161,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "sensorLock"
                     }
                 },
+                statuses: ["sensorLock"]
             }
         case "linkLock":
             return effect = {
@@ -162,6 +174,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "linkLock"
                     }
                 },
+                statuses: ["linkLock"]
             }
         case "signalJam":
             return effect = {
@@ -175,6 +188,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         value: value,
                     }
                 },
+                statuses: ["signalJam"]
             }
         case "signalJammed":
             return effect = {
@@ -188,6 +202,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         value: value,
                     }
                 },
+                statuses: ["signalJammed"]
             }
         case "noAction":
             return effect = {
@@ -201,6 +216,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "noAction",
                     }
                 },
+                statuses: ["noAction"]
             }
         case "toxinEffectNausea":
             return effect = {
@@ -213,6 +229,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "toxinEffectNausea",
                     }
                 },
+                statuses: ["toxinEffectNausea"]
             }
         case "toxinEffectDisorientation":
             return effect = {
@@ -225,6 +242,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "toxinEffectDisorientation",
                     }
                 },
+                statuses: ["toxinEffectDisorientation"]
             }
         case "toxinEffectAgony":
             return effect = {
@@ -237,6 +255,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "toxinEffectAgony",
                     }
                 },
+                statuses: ["toxinEffectAgony"]
             }
         case "toxinEffectArcaneInhibitor":
             return effect = {
@@ -249,6 +268,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "toxinEffectArcaneInhibitor",
                     }
                 },
+                statuses: ["toxinEffectArcaneInhibitor"]
             }
         case "astralInit":
             return effect = {
@@ -261,6 +281,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "astralInit",
                     }
                 },
+                statuses: ["astralInit"]
             }
         case "matrixInit":
             return effect = {
@@ -273,6 +294,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "matrixInit",
                     }
                 },
+                statuses: ["matrixInit"]
             }
         case "slowed":
             return effect = {
@@ -285,6 +307,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "slowed",
                     }
                 },
+                statuses: ["slowed"]
             }
             case "winded":
                 return effect = {
@@ -297,6 +320,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "winded",
                         }
                     },
+                    statuses: ["winded"]
                 }
             case "deafened":
                 return effect = {
@@ -309,6 +333,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "deafened",
                         }
                     },
+                    statuses: ["deafened"]
                 }
             case "blinded":
                 return effect = {
@@ -321,6 +346,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "blinded",
                         }
                     },
+                    statuses: ["blinded"]
                 }
             case "brokenGrip":
                 return effect = {
@@ -333,6 +359,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "brokenGrip",
                         }
                     },
+                    statuses: ["brokenGrip"]
                 }
         case "weakSide":
             return effect = {
@@ -345,6 +372,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "weakSide",
                     }
                 },
+                statuses: ["weakSide"]
             }
             case "nauseous":
                 return effect = {
@@ -357,6 +385,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "nauseous",
                         }
                     },
+                    statuses: ["nauseous"]
                 }
             case "buckled":
                 return effect = {
@@ -369,6 +398,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "buckled",
                         }
                     },
+                    statuses: ["buckled"]
                 }
         case "slowDeath":
             return effect = {
@@ -381,6 +411,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "slowDeath",
                     }
                 },
+                statuses: ["slowDeath"]
             }
             case "unableToSpeak":
                 return effect = {
@@ -393,6 +424,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "unableToSpeak",
                         }
                     },
+                    statuses: ["unableToSpeak"]
                 }
         case "bleedOut":
             return effect = {
@@ -405,6 +437,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                         statusId: "bleedOut",
                     }
                 },
+                statuses: ["bleedOut"]
             }
             case "oneArmBandit":
                 return effect = {
@@ -417,6 +450,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "oneArmBandit",
                         }
                     },
+                    statuses: ["oneArmBandit"]
                 }
             case "pin":
                 return effect = {
@@ -429,6 +463,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "pin",
                         }
                     },
+                    statuses: ["pin"]
                 }
             case "dirtyTrick":
                 return effect = {
@@ -441,6 +476,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "dirtyTrick",
                         }
                     },
+                    statuses: ["dirtyTrick"]
                 }
             case "trickShot":
                 return effect = {
@@ -453,6 +489,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "trickShot",
                         }
                     },
+                    statuses: ["trickShot"]
                 }
             case "entanglement":
                 return effect = {
@@ -465,6 +502,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "entanglement",
                         }
                     },
+                    statuses: ["entanglement"]
                 }
             case "antenna":
                 return effect = {
@@ -477,6 +515,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "antenna",
                         }
                     },
+                    statuses: ["antenna"]
                 }
             case "engineBlock":
                 return effect = {
@@ -490,6 +529,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             overlay: true,
                         }
                     },
+                    statuses: ["engineBlock"]
                 }
             case "windowMotor":
                 return effect = {
@@ -502,6 +542,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "windowMotor",
                         }
                     },
+                    statuses: ["windowMotor"]
                 }
             case "doorLock":
                 return effect = {
@@ -514,6 +555,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "doorLock",
                         }
                     },
+                    statuses: ["doorLock"]
                 }
             case "axle":
                 return effect = {
@@ -526,6 +568,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "axle",
                         }
                     },
+                    statuses: ["axle"]
                 }
             case "fuelTankBattery":
                 return effect = {
@@ -539,6 +582,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             overlay: true,
                         }
                     },
+                    statuses: ["fuelTankBattery"]
                 }
             case "flared":
                 return effect = {
@@ -551,6 +595,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "flared",
                         }
                     },
+                    statuses: ["flared"]
                 }
             case "shaked":
                 return effect = {
@@ -563,6 +608,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "shaked",
                         }
                     },
+                    statuses: ["shaked"]
                 }
             case "onPinsAndNeedles":
                 return effect = {
@@ -575,6 +621,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "onPinsAndNeedles",
                         }
                     },
+                    statuses: ["onPinsAndNeedles"]
                 }
             case "feint":
                 return effect = {
@@ -587,6 +634,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                             statusId: "feint",
                         }
                     },
+                    statuses: ["feint"]
                 }
         default: return null
     }

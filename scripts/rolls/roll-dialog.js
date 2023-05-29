@@ -350,8 +350,8 @@ export default class SR5_RollDialog extends Dialog {
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId),
             targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId),
             label, 
-            isProned = actor.effects.find(e => e.origin === "prone");
-
+            isProned = actor.effects.find(e => e.statuses.has("prone"));
+        
         for (let e of checkboxs){
             modifierName = $(e).attr("data-modifier");
             checkboxName = `[data-modifier=${modifierName}]`;

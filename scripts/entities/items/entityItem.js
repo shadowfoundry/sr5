@@ -598,7 +598,7 @@ export class SR5Item extends Item {
 	static async createDialog(data={}, {parent=null, pack=null, ...options}={}) {
 		// Collect data
 		const documentName = this.metadata.name;
-		const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect", "itemCyberdeck"];
+		const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect", "itemCyberdeck", "base"];
 		const originalTypes = game.system.documentTypes[documentName];
 		const types = originalTypes.filter((itemType) => !hiddenTypes.includes(itemType));
 		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);

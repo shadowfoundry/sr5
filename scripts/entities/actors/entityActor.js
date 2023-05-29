@@ -21,7 +21,7 @@ export class SR5Actor extends Actor {
 
 		// Collect data
 		const documentName = this.metadata.name;
-		const hiddenTypes = ["actorAgent"];
+		const hiddenTypes = ["actorAgent", "base"];
 		const originalTypes = game.system.documentTypes[documentName];
 		const types = originalTypes.filter((actorType) => !hiddenTypes.includes(actorType));
 		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
