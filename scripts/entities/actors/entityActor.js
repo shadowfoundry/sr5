@@ -70,6 +70,7 @@ export class SR5Actor extends Actor {
 
 		// Initialize empty items
 		data.items = [];
+		data.effects = []
 
 		// Handle special create method
 		let dialogData = {lists: SR5_EntityHelpers.sortTranslations(SR5),};
@@ -151,6 +152,11 @@ export class SR5Actor extends Actor {
 					"type": "baseDevice",
 				}
 				data.items.push(baseItems);
+				let effect = await _getSRStatusEffect("matrixInit");
+				let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect);
+				const effects = data.effects.map(e => e.toObject());
+				effects.push(initiativeEffect.toObject());
+				mergeObject(data, {"effects": effects });
 				super.create(data, options);
 				break;
 			case "actorGrunt":
@@ -218,17 +224,12 @@ export class SR5Actor extends Actor {
 				break;
 			case "actorDevice":
 			case "actorSprite":
-			case "actorAgent":
+			case "actorAgent": 
 				mergeObject(createData, {
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar2": {attribute: "statusBars.matrix",},
 				});
-				let effect = await _getSRStatusEffect("matrixInit");
-				let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect);
-				const effects = this.effects.map(e => e.toObject());
-				effects.push(initiativeEffect.toObject());
-				mergeObject(createData, {"effects": effects });
 				break;
 			default :
 				SR5_SystemHelpers.srLog(1, `Unknown '${this.type}' type in 'base _preCreate()'`);
@@ -662,6 +663,7 @@ export class SR5Actor extends Actor {
 					} else if (actor.type === "actorDevice"){
 						SR5_CharacterUtility.generateDeviceMatrix(actor, iData);
 						SR5_CharacterUtility.generateMatrixResistances(actor, i);
+						SR5_CharacterUtility.generateDeviceMatrixActions(actor);
 						SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
 						if (actorData.matrix.deviceType === "ice") SR5_CharacterUtility.updateInitiativeMatrix(actor);
 					} else if (actor.type === "actorSprite"){

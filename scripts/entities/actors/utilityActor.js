@@ -3649,6 +3649,33 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
+	static generateDeviceMatrixActions(actor){
+		let actorData = actor.system, matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
+
+		for (let key of Object.keys(SR5.matrixActions)) {
+			if (matrixActions[key].test !== undefined) {
+				SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.DeviceRating'), "linkedAttribute", matrix.deviceRating);
+				SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.DeviceRating'), "linkedAttribute", matrix.deviceRating);
+				// test
+				if (matrix.runningSilent) {
+					SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.RunningSilent'), "silentMode", -2);
+				}
+				if (matrix.userMode === "hotsim") {
+					SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.VirtualRealityHotSimShort'), "matrixUserMode", 2);
+				}
+				if (matrixActions[key].specialization){
+					SR5_EntityHelpers.updateModifier(matrixActions[key].test, `${game.i18n.localize('SR5.Specialization')}`, "specialization", 2, false, true);
+				}
+				SR5_EntityHelpers.updateDicePool(matrixActions[key].test, 0);
+				// limits
+				let linkedAttribute = matrixActions[key].limit.linkedAttribute;
+				matrixActions[key].limit.base = 0;
+				SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value);
+				SR5_EntityHelpers.updateValue(matrixActions[key].limit, 0);
+			}
+		}
+	}
+
 	static generateMatrixActionsDefenses(actor) {
 		let actorData = actor.system, matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
 		let intuitionValue, willpowerValue, logicValue, firewallValue, sleazeValue, dataProcessingValue, attackValue;
@@ -4147,7 +4174,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	static async updateMatrixEffect(actor){
 		let status, isStatusEffectOn, statusEffects = [];
-		isStatusEffectOn = actor.effects.find(e => e.flags.core?.statusId === "matrixInit");
+		isStatusEffectOn = actor.effects.find(e => e.statuses.has("matrixInit"));
 		if (!actor.system.isDirectlyConnected) {
 			if (!isStatusEffectOn){				
 				status = await _getSRStatusEffect("matrixInit");
