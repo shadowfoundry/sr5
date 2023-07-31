@@ -364,8 +364,6 @@ export class SR5_RollTest {
 			borderColor: userActive.color,
 		};
 
-		console.log(chatData.flags.sr5data);
-
 		//Handle Dice so Nice
 		if (cardData.roll.originalRoll) await SR5_RollTest.showDiceSoNice(cardData.roll.originalRoll, cardData.roll.rollMode);
 
