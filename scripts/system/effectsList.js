@@ -12,7 +12,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     core: {
                         active: true,
                         overlay: true,
-                        statusId: "dead"
                     }
                 },
                 statuses: ["dead"]
@@ -26,7 +25,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "unconscious"
                     }
                 },
                 statuses: ["unconscious"]
@@ -40,7 +38,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "prone"
                     }
                 },
                 statuses: ["prone"]
@@ -54,7 +51,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "astralVision"
                     }
                 },
                 statuses: ["astralVision"]
@@ -67,7 +63,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "cover"
                     }
                 },
                 statuses: ["cover"]
@@ -80,7 +75,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "coverFull"
                     }
                 },
                 statuses: ["coverFull"]
@@ -93,7 +87,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "fireDamage"
                     }
                 },
                 statuses: ["fireDamage"]
@@ -106,7 +99,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "acidDamage"
                     }
                 },
                 statuses: ["acidDamage"]
@@ -119,7 +111,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "electricityDamage"
                     }
                 },
                 statuses: ["electricityDamage"]
@@ -132,7 +123,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "anticoagulantDamage",
                     }
                 },
                 statuses: ["anticoagulantDamage"]
@@ -145,7 +135,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "fullDefense"
                     }
                 },
                 statuses: ["fullDefense"]
@@ -158,7 +147,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "sensorLock"
                     }
                 },
                 statuses: ["sensorLock"]
@@ -171,7 +159,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "linkLock"
                     }
                 },
                 statuses: ["linkLock"]
@@ -184,7 +171,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "signalJam",
                         value: value,
                     }
                 },
@@ -198,7 +184,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "signalJammed",
                         value: value,
                     }
                 },
@@ -213,7 +198,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     core: {
                         active: true,
                         overlay: true,
-                        statusId: "noAction",
                     }
                 },
                 statuses: ["noAction"]
@@ -226,7 +210,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "toxinEffectNausea",
                     }
                 },
                 statuses: ["toxinEffectNausea"]
@@ -239,7 +222,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "toxinEffectDisorientation",
                     }
                 },
                 statuses: ["toxinEffectDisorientation"]
@@ -252,7 +234,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "toxinEffectAgony",
                     }
                 },
                 statuses: ["toxinEffectAgony"]
@@ -265,7 +246,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "toxinEffectArcaneInhibitor",
                     }
                 },
                 statuses: ["toxinEffectArcaneInhibitor"]
@@ -278,7 +258,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "astralInit",
                     }
                 },
                 statuses: ["astralInit"]
@@ -291,7 +270,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "matrixInit",
                     }
                 },
                 statuses: ["matrixInit"]
@@ -304,7 +282,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "slowed",
                     }
                 },
                 statuses: ["slowed"]
@@ -317,7 +294,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "winded",
                         }
                     },
                     statuses: ["winded"]
@@ -330,7 +306,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "deafened",
                         }
                     },
                     statuses: ["deafened"]
@@ -343,7 +318,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "blinded",
                         }
                     },
                     statuses: ["blinded"]
@@ -356,7 +330,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "brokenGrip",
                         }
                     },
                     statuses: ["brokenGrip"]
@@ -369,7 +342,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "weakSide",
                     }
                 },
                 statuses: ["weakSide"]
@@ -382,7 +354,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "nauseous",
                         }
                     },
                     statuses: ["nauseous"]
@@ -395,7 +366,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "buckled",
                         }
                     },
                     statuses: ["buckled"]
@@ -408,7 +378,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "slowDeath",
                     }
                 },
                 statuses: ["slowDeath"]
@@ -421,7 +390,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "unableToSpeak",
                         }
                     },
                     statuses: ["unableToSpeak"]
@@ -434,7 +402,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                 flags: {
                     core: {
                         active: true,
-                        statusId: "bleedOut",
                     }
                 },
                 statuses: ["bleedOut"]
@@ -447,7 +414,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "oneArmBandit",
                         }
                     },
                     statuses: ["oneArmBandit"]
@@ -460,7 +426,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "pin",
                         }
                     },
                     statuses: ["pin"]
@@ -473,7 +438,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "dirtyTrick",
                         }
                     },
                     statuses: ["dirtyTrick"]
@@ -486,7 +450,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "trickShot",
                         }
                     },
                     statuses: ["trickShot"]
@@ -499,7 +462,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "entanglement",
                         }
                     },
                     statuses: ["entanglement"]
@@ -512,7 +474,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "antenna",
                         }
                     },
                     statuses: ["antenna"]
@@ -525,7 +486,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "engineBlock",
                             overlay: true,
                         }
                     },
@@ -539,7 +499,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "windowMotor",
                         }
                     },
                     statuses: ["windowMotor"]
@@ -552,7 +511,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "doorLock",
                         }
                     },
                     statuses: ["doorLock"]
@@ -565,7 +523,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "axle",
                         }
                     },
                     statuses: ["axle"]
@@ -578,7 +535,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "fuelTankBattery",
                             overlay: true,
                         }
                     },
@@ -592,7 +548,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "flared",
                         }
                     },
                     statuses: ["flared"]
@@ -605,7 +560,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "shaked",
                         }
                     },
                     statuses: ["shaked"]
@@ -618,7 +572,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "onPinsAndNeedles",
                         }
                     },
                     statuses: ["onPinsAndNeedles"]
@@ -631,7 +584,6 @@ export const _getSRStatusEffect = async function(origin, value) {
                     flags: {
                         core: {
                             active: true,
-                            statusId: "feint",
                         }
                     },
                     statuses: ["feint"]
