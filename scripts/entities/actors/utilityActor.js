@@ -1143,12 +1143,17 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].natural, 0);
 
 				actorData.specialAttributes[key].augmented.base = actorData.specialAttributes[key].natural.value;
+				SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
+
 				if (key == 'magic' || key == 'resonance') {
 					if (actorData.essence?.base - actorData.essence?.value) {
-						SR5_EntityHelpers.updateModifier(actorData.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), "augmentations", -1 * Math.ceil(actorData.essence.base - actorData.essence.value));
+						console.log(actorData.essence?.base - actorData.essence?.value)
+						if (actorData.specialAttributes[key].augmented.value > actorData.essence?.value) {
+							SR5_EntityHelpers.updateModifier(actorData.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), "augmentations", -1 * Math.ceil(actorData.essence.base - actorData.essence.value));
+							SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
+						}
 					}
 				}
-				SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
 			}
 		}
 
@@ -1546,8 +1551,8 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		this.applyPenalty("condition", initPhy, actor);
-		this.applyPenalty("matrix", initPhy, actor);
-		this.applyPenalty("magic", initPhy, actor);
+		//this.applyPenalty("matrix", initPhy, actor);
+		//this.applyPenalty("magic", initPhy, actor);
 		SR5_EntityHelpers.updateValue(initPhy, 0);
 		SR5_EntityHelpers.updateValue(initPhy.dice, 0, 5);
 		initPhy.dice.value = Math.floor(initPhy.dice.value);
@@ -1586,8 +1591,8 @@ export class SR5_CharacterUtility extends Actor {
 			SR5_EntityHelpers.updateModifier(initAst.dice, game.i18n.localize('SR5.AstralProjection'), "astralPlane", 3);
 		}
 		this.applyPenalty("condition", initAst, actor);
-		this.applyPenalty("matrix", initAst, actor);
-		this.applyPenalty("magic", initAst, actor);
+		//this.applyPenalty("matrix", initAst, actor);
+		//this.applyPenalty("magic", initAst, actor);
 		SR5_EntityHelpers.updateValue(initAst, 0);
 		SR5_EntityHelpers.updateValue(initAst.dice, 0, 5);
 		initAst.dice.value = Math.floor(initAst.dice.value);
@@ -1643,8 +1648,8 @@ export class SR5_CharacterUtility extends Actor {
 		}
 
 		if (actorData.matrix.userMode !== "ar") this.applyPenalty("condition", initMat, actor);
-		this.applyPenalty("matrix", initMat, actor);
-		this.applyPenalty("magic", initMat, actor);
+		//this.applyPenalty("matrix", initMat, actor);
+		//this.applyPenalty("magic", initMat, actor);
 		SR5_EntityHelpers.updateValue(initMat, 0);
 		SR5_EntityHelpers.updateValue(initMat.dice, 0, 5);
 		initMat.dice.value = Math.floor(initMat.dice.value);
