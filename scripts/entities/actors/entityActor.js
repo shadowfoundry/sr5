@@ -545,15 +545,6 @@ export class SR5Actor extends Actor {
 							break;
 						case "sustaining":
 							iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actor);
-							if (iData.isActive){
-								let sustainedSpell = actor.items.find(s => s.name == iData.sustainedSpell)
-								if (sustainedSpell
-									&& !sustainedSpell.system.freeSustain
-									&& sustainedSpell.system.isActive
-									&& (sustainedSpell.system.force <= iData.itemRating)){
-										sustainedSpell.system.freeSustain = true;
-									}
-								}
 							break;
 						default:
 							SR5_SystemHelpers.srLog(3,`Unknown focus type '${iData.type}' in 'prepareEmbeddedDocuments()'`);
