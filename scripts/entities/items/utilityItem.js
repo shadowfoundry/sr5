@@ -1308,6 +1308,14 @@ export class SR5_UtilityItem extends Actor {
 				}
 			}
 		}
+
+		//Check if spell is sustrained by a focus
+		for (let itemFocus of actor.items){
+			if (itemFocus.type === "itemFocus" && itemFocus.system.type === "sustaining"){
+				let focusData = itemFocus.system;
+				if (focusData.sustainedSpell === item.name && (focusData.itemRating >= itemData.force)) itemData.freeSustain = true;
+			}
+		}
 	}
 
 	//Handle Preparation
