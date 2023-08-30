@@ -286,6 +286,7 @@ export default class Migration {
 		if (item.type == "itemWeapon"){
 			if(item.system?.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
 			if(item.system?.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
+			if(item.system?.type === "unarmed") updateData["system.type"] = "unarmedCombat";
 			if(item.system?.weaponSkill?.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
 			if(item.system?.weaponSkill?.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
 			if(item.system?.category === "grenade"){
@@ -347,6 +348,7 @@ export default class Migration {
 						e.target = "system.specialProperties.hardenedArmors.normalWeapon";
 					}
 				}
+				if (e.type === "unarmed") e.type = "unarmedCombat";
 			}
 			updateData["system.customEffects"] = newCustomEffects;
 		}
