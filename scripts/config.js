@@ -874,7 +874,7 @@ SR5.weaponCategories = {
 SR5.meleeWeaponTypes = {
 	clubs                     : "SR5.MeleeWeaponTypeClubs",
 	blades                    : "SR5.MeleeWeaponTypeBlades",
-	unarmed                   : "SR5.MeleeWeaponTypeUnarmed",
+	unarmedCombat             : "SR5.MeleeWeaponTypeUnarmed",
 	exoticMeleeWeapon         : "SR5.MeleeWeaponTypeOther",
 };
 
