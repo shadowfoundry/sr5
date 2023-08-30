@@ -1147,7 +1147,6 @@ export class SR5_CharacterUtility extends Actor {
 
 				if (key == 'magic' || key == 'resonance') {
 					if (actorData.essence?.base - actorData.essence?.value) {
-						console.log(actorData.essence?.base - actorData.essence?.value)
 						if (actorData.specialAttributes[key].augmented.value > actorData.essence?.value) {
 							SR5_EntityHelpers.updateModifier(actorData.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), "augmentations", -1 * Math.ceil(actorData.essence.base - actorData.essence.value));
 							SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
@@ -4285,12 +4284,12 @@ export class SR5_CharacterUtility extends Actor {
 				if (customEffect.category === "weaponEffectTargets"){
 					if (customEffect.target === "system.itemsProperties.weapon.accuracy"){
 						customEffect.value = (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(SR5.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`, item.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative, customEffect.type);
 						continue;
 					}
 					if (customEffect.target === "system.itemsProperties.weapon.damageValue"){
 						customEffect.value = (customEffect.value || 0);
-						SR5_EntityHelpers.updateModifier(targetObject, `${item.name} (${game.i18n.localize(SR5.itemTypes[item.type])})`, customEffect.type, customEffect.value * customEffect.multiplier, isMultiplier, cumulative);
+						SR5_EntityHelpers.updateModifier(targetObject, `${item.name}`,item.type , customEffect.value * customEffect.multiplier, isMultiplier, cumulative, customEffect.type);
 						continue;
 					}
 				}
