@@ -846,7 +846,6 @@ export class ActorSheetSR5 extends ActorSheet {
 
 		if (id) original = this.actor.items.get(id);
 		else original = this.actor;
-		console.log("truc")
 		entity = original.toObject(false);
 		let value = getProperty(entity, target);
 		switch (event.button) {

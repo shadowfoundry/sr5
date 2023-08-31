@@ -461,10 +461,10 @@ export class SR5_UtilityItem extends Actor {
 			}
 			if (actor.system.itemsProperties?.weapon) {
 				for (let modifier of actor.system.itemsProperties.weapon.accuracy.modifiers) {
-					if (modifier.type === itemData.weaponSkill.category) itemData.accuracy.modifiers = itemData.accuracy.modifiers.concat(modifier);
+					if (modifier.details === itemData.weaponSkill.category) itemData.accuracy.modifiers = itemData.accuracy.modifiers.concat(modifier);
 				}
 				for (let modifier of actor.system.itemsProperties.weapon.damageValue.modifiers) {
-					if (modifier.type === itemData.weaponSkill.category) itemData.damageValue.modifiers = itemData.damageValue.modifiers.concat(modifier);
+					if (modifier.details === itemData.weaponSkill.category) itemData.damageValue.modifiers = itemData.damageValue.modifiers.concat(modifier);
 				}
 			}
 
