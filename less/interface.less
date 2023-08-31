@@ -1141,6 +1141,7 @@
 
             .document-name {
                 margin: 0 0 0 0px;
+                flex-basis: 80%;
             }
 
             h4 {
@@ -1593,19 +1594,20 @@
 
 #compendium {
     h3 {
-        font-family: @SR_FontTitleAlter;
+        font-family: @SR_FontTitle;
+        font-size: 14px;
         text-transform: uppercase;
-        border-width: 1px 0 1px 0;
-        border-color: @mainColor;
-        background: fade(@mainColor, 50%);
-        margin-bottom: 2px;
+        max-width: 95%;
+        text-align: left;
+        background: none;
+        border: none;
+        padding: 0 5px 5px 0;
+        margin: 0 0 0 5px;
     }
 
-    li.compendium-pack {
+    li.compendium {
         line-height: 18px;
         border-bottom: 0;
-        margin: 0 0 3px 0;
-        padding: 5px 5px 7px 5px;
         position: relative;
         display: block;
         -webkit-transition: all 1s ease;
@@ -1657,7 +1659,34 @@
     .compendium-footer {
       color: fade(@subColor, 50%);
     }
-  }
+}
+
+.compendium-sidebar{
+    .directory-item.compendium {
+        height: 50px;
+        align-items: flex-start;
+
+        .compendium-banner {
+            display: none;
+        }
+    }
+}
+
+.compendium.directory {
+    .directory-list {
+        .directory-item {
+            flex-wrap: wrap;
+
+            .SR-CompendiumSubType{
+                line-height: 15px;
+                color: fade(@neutralLightColor, 50%);
+                text-align: right;
+                padding-right: 5px;
+                padding-bottom: 3px;
+            }
+        }
+    }
+}
 
 #client-settings, #av-config {
     nav.tabs {
@@ -2106,13 +2135,7 @@
                     flex: 1 0 80%;
                 }
 
-                .SR-CompendiumSubType{
-                    line-height: 15px;
-                    color: fade(@neutralLightColor, 50%);
-                    text-align: right;
-                    padding-right: 5px;
-                    padding-bottom: 3px;
-                }
+                
             }
 
             img {
