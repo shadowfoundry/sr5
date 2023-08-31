@@ -26,12 +26,11 @@ export class SR5_PrepareRollHelper {
 
     //Return dice pool modifiers object;
     static getDicepoolModifiers(rollData, modifiers){
-        rollData.dicePool.modifiers = {};
+        rollData.dicePool.modifiers = [];
         for (let m of modifiers){
+            console.log(m)
             if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup" && m.type !== "matrixAttribute" && m.type !== "devicRating"){
-                rollData.dicePool.modifiers[m.type] = {};
-                rollData.dicePool.modifiers[m.type].label = m.source;
-                rollData.dicePool.modifiers[m.type].value = m.value;
+                rollData.dicePool.modifiers.push({type: m.type, label: m.source, value: m.value})
             }
         }
         return rollData.dicePool.modifiers;
