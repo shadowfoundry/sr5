@@ -5065,7 +5065,7 @@ input[type=range]:focus::-ms-fill-upper {
   background: rgba(178, 0, 122, 0.5);
   margin-bottom: 2px;
 }
-#compendium li.compendium-pack {
+#compendium li.compendium {
   line-height: 18px;
   border-bottom: 0;
   margin: 0 0 3px 0;
@@ -5077,19 +5077,19 @@ input[type=range]:focus::-ms-fill-upper {
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-#compendium li.compendium-pack:not(:last-child) {
+#compendium li.compendium:not(:last-child) {
   box-shadow: 0 1px 0 rgba(178, 0, 122, 0.5);
 }
-#compendium li.compendium-pack:hover {
+#compendium li.compendium:hover {
   text-shadow: none;
   background-color: transparent;
 }
-#compendium li.compendium-pack:hover:before {
+#compendium li.compendium:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-#compendium li.compendium-pack:before {
+#compendium li.compendium:before {
   display: block;
   position: absolute;
   top: 0px;
@@ -5101,10 +5101,10 @@ input[type=range]:focus::-ms-fill-upper {
   background-origin: border-box;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-#compendium li.compendium-pack .pack-title {
+#compendium li.compendium .pack-title {
   margin: 0;
 }
-#compendium li.compendium-pack .status-icons {
+#compendium li.compendium .status-icons {
   top: 0;
   padding: 5px 0 0 0;
   color: #b2007a;

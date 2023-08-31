@@ -907,9 +907,6 @@ input[type=range]:focus::-ms-fill-upper {
   overflow: auto;
   border-left: 1px solid #931004;
 }
-.app.window-app.actor .window-content .SR-AppareilMainCentre li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
-  background-color: rgba(12, 147, 148, 0.1);
-}
 .app.window-app.actor .window-content .SR-EspritMainCentre {
   margin-left: 10px;
   padding-left: 10px;
@@ -969,7 +966,6 @@ input[type=range]:focus::-ms-fill-upper {
   background-repeat: no-repeat;
   background-position: center 10%;
 }
-
 .app.window-app.actor .window-content .SR-BioItemPortrait {
   float: left;
   width: 144px;
@@ -981,7 +977,6 @@ input[type=range]:focus::-ms-fill-upper {
   background-position: center 10%;
   margin-right: 5px;
 }
-
 .app.window-app.actor .window-content .SR-footer {
   margin-top: 25px;
   padding: 0px 3px 0px 3px;
@@ -4713,6 +4708,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list .directory-item .document-name {
   margin: 0 0 0 0px;
+  flex-basis: 80%;
 }
 .sidebar-tab .directory-list .directory-item h4 {
   background-image: linear-gradient(to right, rgba(12, 147, 148, 0.25) 0, rgba(12, 147, 148, 0.25) 100%);
@@ -5063,18 +5059,19 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
 }
 #compendium h3 {
-  font-family: "srfoundry_secondary";
+  font-family: "srfoundry_primary";
+  font-size: 14px;
   text-transform: uppercase;
-  border-width: 1px 0 1px 0;
-  border-color: #931004;
-  background: rgba(147, 16, 4, 0.5);
-  margin-bottom: 2px;
+  max-width: 95%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0 5px 5px 0;
+  margin: 0 0 0 5px;
 }
-#compendium li.compendium-pack {
+#compendium li.compendium {
   line-height: 18px;
   border-bottom: 0;
-  margin: 0 0 3px 0;
-  padding: 5px 5px 7px 5px;
   position: relative;
   display: block;
   -webkit-transition: all 1s ease;
@@ -5082,19 +5079,19 @@ input[type=range]:focus::-ms-fill-upper {
   -o-transition: all 1s ease;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-#compendium li.compendium-pack:not(:last-child) {
+#compendium li.compendium:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
 }
-#compendium li.compendium-pack:hover {
+#compendium li.compendium:hover {
   text-shadow: none;
   background-color: transparent;
 }
-#compendium li.compendium-pack:hover:before {
+#compendium li.compendium:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-#compendium li.compendium-pack:before {
+#compendium li.compendium:before {
   display: block;
   position: absolute;
   top: 0px;
@@ -5106,16 +5103,33 @@ input[type=range]:focus::-ms-fill-upper {
   background-origin: border-box;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-#compendium li.compendium-pack .pack-title {
+#compendium li.compendium .pack-title {
   margin: 0;
 }
-#compendium li.compendium-pack .status-icons {
+#compendium li.compendium .status-icons {
   top: 0;
   padding: 5px 0 0 0;
   color: #931004;
 }
 #compendium .compendium-footer {
   color: rgba(12, 147, 148, 0.5);
+}
+.compendium-sidebar .directory-item.compendium {
+  height: 50px;
+  align-items: flex-start;
+}
+.compendium-sidebar .directory-item.compendium .compendium-banner {
+  display: none;
+}
+.compendium.directory .directory-list .directory-item {
+  flex-wrap: wrap;
+}
+.compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
+  line-height: 15px;
+  color: rgba(255, 255, 254, 0.5);
+  text-align: right;
+  padding-right: 5px;
+  padding-bottom: 3px;
 }
 #client-settings nav.tabs,
 #av-config nav.tabs {
@@ -5484,13 +5498,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 [id^=app-] .compendium.directory li.directory-item h4 {
   flex: 1 0 80%;
-}
-[id^=app-] .compendium.directory li.directory-item .SR-CompendiumSubType {
-  line-height: 15px;
-  color: rgba(255, 255, 254, 0.5);
-  text-align: right;
-  padding-right: 5px;
-  padding-bottom: 3px;
 }
 [id^=app-] .compendium.directory img {
   border: 1px solid #0c9394;
