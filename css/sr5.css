@@ -1380,6 +1380,15 @@ input[type=range]:focus::-ms-fill-upper {
   color: #0c9394;
   box-shadow: none;
 }
+#chat-log .message .table-draw ol {
+  padding: 0 0 0 0.5em;
+}
+#chat-log .message .table-draw .result-image {
+  display: none;
+}
+#chat-log .message .table-draw .result-text {
+  padding-top: 5px;
+}
 .dice-roll .dice-formula {
   background: none;
 }
@@ -3973,6 +3982,27 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app#keybindings .window-content .command,
 .app.window-app.macro-sheet .window-content .command {
   margin-bottom: 10px;
+}
+.app.window-app.form .window-content table tr:nth-child(even),
+.app.window-app.scene-sheet .window-content table tr:nth-child(even),
+.app.window-app.token-sheet .window-content table tr:nth-child(even),
+.app.window-app.combat-sheet .window-content table tr:nth-child(even),
+.app.window-app.folder-edit .window-content table tr:nth-child(even),
+.app.window-app[id^=app-]:not(.dialog) .window-content table tr:nth-child(even),
+.app.window-app.app.window-app[id^=permission-] .window-content table tr:nth-child(even),
+.app.window-app#permission .window-content table tr:nth-child(even),
+.app.window-app[id^=PlaylistSoundConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=RollTableConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=CardsHand-Cards-] .window-content table tr:nth-child(even),
+.app.window-app[id^=client-settings] .window-content table tr:nth-child(even),
+.app.window-app[id^=AmbientLightConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=PlaylistConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=support-details] .window-content table tr:nth-child(even),
+.app.window-app[id^=UserConfig-User-] .window-content table tr:nth-child(even),
+.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content table tr:nth-child(even),
+.app.window-app#keybindings .window-content table tr:nth-child(even),
+.app.window-app.macro-sheet .window-content table tr:nth-child(even) {
+  background-color: rgba(147, 16, 4, 0.25);
 }
 .app.window-app.scene-sheet nav.sheet-tabs.tabs {
   flex-wrap: wrap;
