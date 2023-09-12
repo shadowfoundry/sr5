@@ -1380,6 +1380,15 @@ input[type=range]:focus::-ms-fill-upper {
   color: #839c88;
   box-shadow: none;
 }
+#chat-log .message .table-draw ol {
+  padding: 0 0 0 0.5em;
+}
+#chat-log .message .table-draw .result-image {
+  display: none;
+}
+#chat-log .message .table-draw .result-text {
+  padding-top: 5px;
+}
 .dice-roll .dice-formula {
   background: none;
 }
@@ -3974,6 +3983,27 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.macro-sheet .window-content .command {
   margin-bottom: 10px;
 }
+.app.window-app.form .window-content table tr:nth-child(even),
+.app.window-app.scene-sheet .window-content table tr:nth-child(even),
+.app.window-app.token-sheet .window-content table tr:nth-child(even),
+.app.window-app.combat-sheet .window-content table tr:nth-child(even),
+.app.window-app.folder-edit .window-content table tr:nth-child(even),
+.app.window-app[id^=app-]:not(.dialog) .window-content table tr:nth-child(even),
+.app.window-app.app.window-app[id^=permission-] .window-content table tr:nth-child(even),
+.app.window-app#permission .window-content table tr:nth-child(even),
+.app.window-app[id^=PlaylistSoundConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=RollTableConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=CardsHand-Cards-] .window-content table tr:nth-child(even),
+.app.window-app[id^=client-settings] .window-content table tr:nth-child(even),
+.app.window-app[id^=AmbientLightConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=PlaylistConfig-] .window-content table tr:nth-child(even),
+.app.window-app[id^=support-details] .window-content table tr:nth-child(even),
+.app.window-app[id^=UserConfig-User-] .window-content table tr:nth-child(even),
+.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content table tr:nth-child(even),
+.app.window-app#keybindings .window-content table tr:nth-child(even),
+.app.window-app.macro-sheet .window-content table tr:nth-child(even) {
+  background-color: rgba(178, 0, 122, 0.25);
+}
 .app.window-app.scene-sheet nav.sheet-tabs.tabs {
   flex-wrap: wrap;
   height: auto;
@@ -4708,6 +4738,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list .directory-item .document-name {
   margin: 0 0 0 0px;
+  flex-basis: 80%;
 }
 .sidebar-tab .directory-list .directory-item h4 {
   background-image: linear-gradient(to right, rgba(131, 156, 136, 0.25) 0, rgba(131, 156, 136, 0.25) 100%);
@@ -5058,18 +5089,19 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
 }
 #compendium h3 {
-  font-family: "srfoundry_secondary";
+  font-family: "srfoundry_primary";
+  font-size: 14px;
   text-transform: uppercase;
-  border-width: 1px 0 1px 0;
-  border-color: #b2007a;
-  background: rgba(178, 0, 122, 0.5);
-  margin-bottom: 2px;
+  max-width: 95%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0 5px 5px 0;
+  margin: 0 0 0 5px;
 }
 #compendium li.compendium {
   line-height: 18px;
   border-bottom: 0;
-  margin: 0 0 3px 0;
-  padding: 5px 5px 7px 5px;
   position: relative;
   display: block;
   -webkit-transition: all 1s ease;
@@ -5111,6 +5143,23 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #compendium .compendium-footer {
   color: rgba(131, 156, 136, 0.5);
+}
+.compendium-sidebar .directory-item.compendium {
+  height: 50px;
+  align-items: flex-start;
+}
+.compendium-sidebar .directory-item.compendium .compendium-banner {
+  display: none;
+}
+.compendium.directory .directory-list .directory-item {
+  flex-wrap: wrap;
+}
+.compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
+  line-height: 15px;
+  color: rgba(255, 255, 254, 0.5);
+  text-align: right;
+  padding-right: 5px;
+  padding-bottom: 3px;
 }
 #client-settings nav.tabs,
 #av-config nav.tabs {
@@ -5479,13 +5528,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 [id^=app-] .compendium.directory li.directory-item h4 {
   flex: 1 0 80%;
-}
-[id^=app-] .compendium.directory li.directory-item .SR-CompendiumSubType {
-  line-height: 15px;
-  color: rgba(255, 255, 254, 0.5);
-  text-align: right;
-  padding-right: 5px;
-  padding-bottom: 3px;
 }
 [id^=app-] .compendium.directory img {
   border: 1px solid #839c88;
