@@ -23,12 +23,12 @@
         </nav>
         {{/if}}
         -->
-        <nav class="encounters flexrow {{#if hasCombat}}combat{{/if}}">
+        <div class="encounter-controls flexrow {{#if hasCombat}}combat{{/if}}">
             {{#if user.isGM}}
-            <a class="combat-button combat-control" data-tooltip="COMBAT.RollAll" data-control="rollAll" {{#unless turns}}disabled{{/unless}}>
+            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.RollAll'}}" role="button" data-tooltip="COMBAT.RollAll" data-control="rollAll" {{#unless turns}}disabled{{/unless}}>
                 <i class="fas fa-users"></i>
             </a>
-            <a class="combat-button combat-control" data-tooltip="COMBAT.RollNPC" data-control="rollNPC" {{#unless turns}}disabled{{/unless}}>
+            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.RollNPC'}}" role="button" data-tooltip="COMBAT.RollNPC" data-control="rollNPC" {{#unless turns}}disabled{{/unless}}>
                 <i class="fas fa-users-cog"></i>
             </a>
             {{/if}}
@@ -44,7 +44,7 @@
             {{/if}}
 
             {{#if user.isGM}}
-            <a class="combat-button combat-control" data-tooltip="COMBAT.InitiativeReset" data-control="resetAll"
+            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.InitiativeReset'}}" role="button" data-tooltip="COMBAT.InitiativeReset" data-control="resetAll"
                 {{#unless hasCombat}}disabled{{/unless}}>
                 <i class="fas fa-undo"></i>
             </a>
@@ -54,11 +54,15 @@
                 <i class="fas fa-{{#unless linked}}un{{/unless}}link"></i>
             </a>
             -->
-            <a class="combat-button combat-settings" data-tooltip="COMBAT.Settings" data-control="trackerSettings">
-                <i class="fas fa-cog"></i>
+            <a class="combat-button combat-control" aria-label="{{localize 'labels.scope'}}" role="button" data-tooltip="{{labels.scope}}"
+                data-control="toggleSceneLink" {{#unless hasCombat}}disabled{{/unless}}>
+                <i class="fas fa-{{#unless linked}}un{{/unless}}link"></i>
             </a>
             {{/if}}
-        </nav>
+            <a class="combat-button combat-settings" aria-label="{{localize 'COMBAT.Settings'}}" role="button" data-tooltip="COMBAT.Settings" data-control="trackerSettings">
+                <i class="fas fa-cog"></i>
+            </a>
+        </div>
 
         <!-- Add initiative Pass count -->
         {{#if combatCount}}
@@ -78,15 +82,15 @@
                 <h4>{{this.name}}</h4>
                 <div class="combatant-controls flexrow">
                     {{#if ../user.isGM}}
-                    <a class="combatant-control {{#if this.hidden}}active{{/if}}" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">
+                    <a class="combatant-control {{#if this.hidden}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleVis'}}" role="button" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">
                         <i class="fas fa-eye-slash"></i>
                     </a>
-                    <a class="combatant-control {{#if this.defeated}}active{{/if}}" data-tooltip="COMBAT.ToggleDead" data-control="toggleDefeated">
+                    <a class="combatant-control {{#if this.defeated}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleDead'}}" role="button" data-tooltip="COMBAT.ToggleDead" data-control="toggleDefeated">
                         <i class="fas fa-skull"></i>
                     </a>
                     {{/if}}
                     {{#if this.canPing}}
-                    <a class="combatant-control" data-tooltip="COMBAT.PingCombatant" data-control="pingCombatant">
+                    <a class="combatant-control" aria-label="{{localize 'COMBAT.PingCombatant'}}" role="button" data-tooltip="COMBAT.PingCombatant" data-control="pingCombatant">
                         <i class="fa-solid fa-bullseye-arrow"></i>
                     </a>
                     {{/if}}
@@ -117,7 +121,7 @@
                 {{#if this.hasRolled}}
                 <span class="initiative">{{this.initiative}}</span>
                 {{else if this.owner}}
-                <a class="combatant-control roll" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
+                <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="rollInitiative"></a>
                 {{/if}}
             </div>
         </li>
@@ -129,18 +133,18 @@
             {{#if user.isGM}}
                 {{#if round}}
                 <!--<a class="combat-control" data-tooltip="COMBAT.RoundPrev" data-control="previousRound"><i class="fas fa-step-backward"></i></a>-->
-                <a class="combat-control" data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
-                <a class="combat-control center" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
-                <a class="combat-control" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
+                <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button" data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
+                <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
+                <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
                 <!--<a class="combat-control" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>-->
                 {{else}}
-                <a class="combat-control center" data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
-                {{/if}}
-            {{else if control}}
-            <a class="combat-control" data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
-            <a class="combat-control center" data-control="nextTurn">{{localize 'COMBAT.TurnEnd'}}</a>
-            <a class="combat-control" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
+                <a class="combat-control center" aria-label="{{localize 'COMBAT.Begin'}}" role="button"  data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
             {{/if}}
+        {{else if control}}
+        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button"  data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
+        <a class="combat-control center" aria-label="{{localize 'COMBAT.TurnEnd'}}" role="button"  data-control="nextTurn">{{localize 'COMBAT.TurnEnd'}}</a>
+        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button"  data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
         {{/if}}
-        </nav>
+    {{/if}}
+    </nav>
 </section>

@@ -6,9 +6,6 @@
         <a class="item" data-tab="grid"><i class="fas fa-ruler"></i> {{localize "SCENES.HeaderGrid"}}</a>
         <a class="item" data-tab="lighting"><i class="fas fas fa-lightbulb"></i> {{localize "SCENES.HeaderVision"}}</a>
         <a class="item" data-tab="ambience"><i class="fas fa-cloud-sun"></i> {{localize "SCENES.HeaderAmbience"}}</a>
-        <a class="item" data-tab="environmentalMod"><i class="fas fa-cloud-sun-rain"></i> {{localize "SR5.EnvironmentalModifiers"}}</a>
-        <a class="item" data-tab="matrixNoise"><i class="fas fa-wifi"></i> {{localize "SR5.SceneMatrixNoise"}}</a>
-        <a class="item" data-tab="backgroundCount"><i class="fab fa-hornbill"></i> {{localize "SR5.SceneBackgroundCount"}}</a>
     </nav>
 
     <!-- Basic Tab -->
@@ -83,7 +80,7 @@
         <div class="form-group initial-position">
             <label>{{localize "SCENES.InitialView"}}</label>
             <div class="form-fields">
-                <button class="capture-position" type="button" title="{{ localize "SCENES.InitialViewButton" }}">
+                <button class="capture-position" type="button" data-tooltip="{{ localize "SCENES.InitialViewButton" }}">
                     <i class="fas fa-crop-alt fa-fw"></i>
                 </button>
                 <label>X</label>
@@ -102,7 +99,7 @@
         <div class="form-group">
             <label>{{localize "SCENES.GridType"}}</label>
             <div class="form-fields">
-                <button type="button" class="grid-config" title="{{ localize "SCENES.GridConfigTool" }}">
+                <button type="button" class="grid-config" data-tooltip="{{ localize "SCENES.GridConfigTool" }}">
                     <i class="fas fa-ruler-combined"></i>
                 </button>
                 <select name="grid.type" data-dtype="Number">
@@ -122,10 +119,13 @@
         <div class="form-group">
             <label>{{localize "SCENES.Dimensions"}} <span class="units">({{localize "SCENES.Pixels"}})</span></label>
             <div class="form-fields">
-                <label class="grid-label">{{localize "Width"}}</label>
-                <input type="number" name="width" placeholder="{{localize 'SCENES.Pixels'}}" value="{{data.width}}"/>
-                <label class="grid-label">{{localize "Height"}}</label>
-                <input type="number" name="height" placeholder="{{localize 'SCENES.Pixels'}}" value="{{data.height}}"/>
+                <label>{{localize "Width"}}</label>
+                {{numberInput data.width name="width"}}
+                <button type="button" class="dimension-link" data-tooltip="{{ localize 'SCENES.DimensionLinked' }}">
+                    <i class="fas fa-link-simple"></i>
+                </button>
+                <label>{{localize "Height"}}</label>
+                {{numberInput data.height name="height"}}
             </div>
             <p class="notes">{{localize "SCENES.DimensionsHint"}}</p>
         </div>
@@ -412,7 +412,7 @@
     <!-- END OF CUSTOM SR5 PART -->
 
     <!-- Form Submission -->
-    <button type="submit" name="submit">
+    <button type="submit">
         <i class="far fa-save"></i> {{localize "Save Changes"}}
     </button>
 </form>
