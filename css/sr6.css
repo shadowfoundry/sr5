@@ -4581,7 +4581,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #sidebar.collapsed {
   width: 35px!important;
-  height: 340px!important;
   border-bottom: 1px solid #839c88;
   border-bottom-left-radius: 10px;
 }
