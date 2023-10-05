@@ -915,6 +915,9 @@ export class SR5_UtilityItem extends Actor {
 				case "airburstLink":
 					a.price = 600;
 					break;
+				case "ammoSkipSystem":
+					a.price = 250;
+					break;
 				case "batteryBackPack":
 					a.price = 2500;
 					break;
@@ -932,6 +935,27 @@ export class SR5_UtilityItem extends Actor {
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2);
 					break;
 				case "capBall":
+					break;
+				case "ceramicPlasteelCompo1":
+					a.price = itemData.price.base;
+					break;
+				case "ceramicPlasteelCompo2":
+					a.price = 2 * itemData.price.base;
+					break;
+				case "ceramicPlasteelCompo3":
+					a.price = 3 * itemData.price.base;
+					break;
+				case "ceramicPlasteelCompo4":
+					a.price = 4 * itemData.price.base;
+					break;
+				case "ceramicPlasteelCompo5":
+					a.price = 5 * itemData.price.base;
+					break;
+				case "ceramicPlasteelCompo6":
+					a.price = 6 * itemData.price.base;
+					break;
+				case "chameleonCoating":
+					a.price = 1000;
 					break;
 				case "concealableHolster":
 					a.price = 150;
