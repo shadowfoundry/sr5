@@ -897,6 +897,10 @@ export class SR5_UtilityItem extends Actor {
 		for (let a of itemData.accessory) {   
 			a.price = 0;
 			switch (a.name) {
+				case "additionalClipMagazine":
+					a.price = itemData.price.base;
+					a.slot = "side";
+					break;
 				case "advancedSafetySystem":
 					a.price = 600;
 					break;
@@ -917,6 +921,7 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "ammoSkipSystem":
 					a.price = 250;
+					a.slot = "underneath";
 					break;
 				case "batteryBackPack":
 					a.price = 2500;
@@ -956,6 +961,9 @@ export class SR5_UtilityItem extends Actor {
 					break;
 				case "chameleonCoating":
 					a.price = 1000;
+					a.slot = "side";					
+					if (a.isActive && itemData.requiredHands == 1) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -2);					
+					if (a.isActive && itemData.requiredHands == 2) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1);
 					break;
 				case "concealableHolster":
 					a.price = 150;
@@ -968,13 +976,33 @@ export class SR5_UtilityItem extends Actor {
 					a.price = 275;
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1);
 					break;
+				case "customLook":
+					a.price = 300;
+					break;
+				case "easyBreakdownManual":
+					a.price = 750;
+					a.slot = "side";
+					break;
+				case "easyBreakdownPowered":
+					a.price = 1250;
+					a.slot = "side";
+					break;
 				case "electronicFiring":
 					a.price = 1000;
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
 					break;
+				case "explosiveClip":
+					a.price = 20;
+					break;
 				case "extendedBarrel":
 					a.price = 50;
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
+					break;
+				case "extendedClip1":
+					a.price = 35;
+					break;
+				case "extendedClip2":
+					a.price = 35;
 					break;
 				case "extremeEnvironment":
 					a.price = 1500;
@@ -1021,6 +1049,12 @@ export class SR5_UtilityItem extends Actor {
 					a.price = 1400;
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 6);
 					break;
+				case "holographicSight":
+					a.price = 125;
+					a.slot = "top";
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
+					if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
+					break;
 				case "hiddenArmSlide":
 					a.price = 350;
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1);
@@ -1035,21 +1069,62 @@ export class SR5_UtilityItem extends Actor {
 				case "improvedRangeFinder":
 					a.price = 2000;
 					break;
+				case "krimePack":
+					a.price = 500;
+					break;
+				case "krimeStunONet":
+					a.price = 800;
+					a.slot = "underneath";
+					break;
 				case "laserSight":
 					a.price = 150;
 					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
 					if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
 					break;
+				case "longbarrel":
+					a.price = itemData.price.base;
+					a.slot = "barrel"
+					break;
 				case "meleeHardening":
 					a.price = 300;
 					break;
+				case "mountedCrossbow":
+					a.price = 1000;
+					break;
+				case "narcojectDazzler":
+					a.price = 1000;
+					a.slot = "top";
+					break;
+				case "overcloked":
+					a.price = 200;
+					if (a.isActive && itemData.damageType == "stun") {
+						itemData.damageType = "physical";
+						SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -2, false, false);
+					}
+					break;
 				case "periscope":
 					a.price = 70;
+					break;
+				case "personalizedGrip":
+					a.price = 100;
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false);
 					break;
 				case "quickDrawHolster":
 					a.price = 175;
 					break;
 				case "reducedWeight":
+					break;
+				case "redDotSight":
+					a.price = 75;
+					a.slot = "top";
+					break;
+				case "retractibleBayonet":
+					a.price = 200;
+					break;
+				case "sawedoffShortbarrel":
+					a.price = 20;
+					a.slot = "barrel";
+					if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, false);
 					break;
 				case "safeTargetSystem":
 					a.price = 750;
@@ -1113,6 +1188,14 @@ export class SR5_UtilityItem extends Actor {
 				case "speedLoader":
 					a.price = 25;
 					break;
+				case "stockRemoval":
+					a.price = 20;
+					a.slot = "stock";
+					if (a.isActive) {
+						SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1);
+						SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1);
+					}
+					break;
 				case "tracker":
 					a.price = 150;
 					break;
@@ -1130,6 +1213,9 @@ export class SR5_UtilityItem extends Actor {
 					break; 
 				case "underbarrelChainsaw":
 					a.price = 500;
+					break;  
+				case "underbarrelLaser":
+					a.price = 22000;
 					break; 
 				case "underbarrelFlamethrower":
 					a.price = 200;
@@ -1138,7 +1224,10 @@ export class SR5_UtilityItem extends Actor {
 					a.price = 600;
 					break; 
 				case "underbarrelGrenadeLauncher":
-					a.price = 3500;
+					a.price = 3500; 
+				case "underbarrelShotgun":
+					a.price = 600;
+					a.slot = "underneath"
 					break; 
 				case "vintage":
 					break; 

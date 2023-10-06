@@ -1083,6 +1083,7 @@ SR5.weaponEffectTargets = {
 
 // Accessoires pour armes à feu
 SR5.weaponAccessories = {
+	additionalClipMagazine    : "SR5.AccessoryAdditionalClipMagazine",
 	advancedSafetySystem      : "SR5.AccessoryAdvancedSafetySystem",
 	advancedSafetySystemElec  : "SR5.AccessoryAdvancedSafetySystemElec",
 	advancedSafetySystemExSD  : "SR5.AccessoryAdvancedSafetySystemExSD",
@@ -1130,14 +1131,18 @@ SR5.weaponAccessories = {
 	hipPad                    : "SR5.AccessoryHipPad",
 	imagingScope              : "SR5.AccessoryImagingScope",
 	improvedRangeFinder       : "SR5.AccessoryImprovedRangeFinder",
+	krimePack                 : "SR5.AccessoryKrimePack",
+	krimeStunONet             : "SR5.AccessoryKrimeStunONet",
 	laserSight                : "SR5.AccessoryLaserSight",
 	longbarrel                : "SR5.AccessoryLongbarrel",
 	meleeHardening            : "SR5.AccessoryMeleeHardening",
 	mountedCrossbow           : "SR5.AccessoryMountedCrossbow",
+	narcojectDazzler          : "SR5.AccessoryNarcojectDazzler",
 	overcloked                : "SR5.AccessoryOverclocked",
 	periscope                 : "SR5.AccessoryPeriscope",
 	personalizedGrip          : "SR5.AccessoryPersonalizedGrip",
 	quickDrawHolster          : "SR5.AccessoryQuickDrawHolster",
+	redDotSight               : "SR5.AccessoryRedDotSight",
 	reducedWeight             : "SR5.AccessoryReducedWeight",
 	retractibleBayonet        : "SR5.AccessoryRetractibleBayonet",
 	sawedoffShortbarrel       : "SR5.AccessorySawedoffShortbarrel",
