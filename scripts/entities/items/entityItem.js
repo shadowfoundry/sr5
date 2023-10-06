@@ -51,7 +51,8 @@ export class SR5Item extends Item {
 				SR5_UtilityItem._handleMatrixMonitor(item);
 				SR5_EntityHelpers.GenerateMonitorBoxes(itemData, 'matrix');
 				SR5_UtilityItem._handleItemPrice(itemData);
-				SR5_UtilityItem._handleItemAvailability(itemData);
+				SR5_UtilityItem._handleItemAvailability(itemData);				
+				SR5_UtilityItem._handleItemConcealment(itemData);
 				if (itemData.conditionMonitors.matrix.actual.value >= itemData.conditionMonitors.matrix.value) itemData.wirelessTurnedOn = false;
 				break;
 			case "itemSpell":
