@@ -1,0 +1,24 @@
+/* ----------------------------------------- */
+/* Fonts
+/* ----------------------------------------- */
+@font-face {
+  font-family: "srfoundry_primary";
+  src: url("fonts/srfoundry_primary.otf");
+}
+@font-face {
+  font-family: "srfoundry_secondary";
+  src: url("fonts/srfoundry_secondary.otf");
+}
+@font-face {
+  font-family: "srfoundry_regular";
+  src: url("fonts/srfoundry_regular.otf");
+}
+@font-face {
+  font-family: "srfoundry_bold";
+  font-weight: bold;
+  src: url("fonts/srfoundry_bold.otf");
+}
+@font-face {
+  font-family: "srfoundry_journal";
+  src: url("fonts/sabon_roman.otf");
+}

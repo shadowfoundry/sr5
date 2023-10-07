@@ -9,11 +9,11 @@
       "flags": {}
     }
   ],
-  "version": "11.0.7",
+  "version": "11.0.8",
   "compatibility": {
     "minimum": "11",
     "maximum": "11",
-    "verified": "11.308"
+    "verified": "11.313"
   },
   "esmodules": [
     "sr5.js"

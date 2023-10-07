@@ -511,7 +511,8 @@ export class SR5Actor extends Actor {
 					for (let mode of Object.entries(iData.firingMode)) {
 						if (mode[1].value) modes.push(game.i18n.localize(SR5.weaponModesAbbreviated[mode[0]]));
 					}
-					SR5_UtilityItem._handleVisionAccessory(iData, actor);
+					SR5_UtilityItem._handleVisionAccessory(iData, actor);					
+					SR5_UtilityItem._handleItemConcealment(iData);
 					if(actor.system.matrix){
 						if (iData.isActive && iData.wirelessTurnedOn) actor.system.matrix.connectedObject.weapons[i.uuid] = i.name;
 						if (!iData.isSlavedToPan) actor.system.matrix.potentialPanObject.weapons[i.uuid] = i.name;
