@@ -1419,6 +1419,10 @@ input[type=range]:focus::-ms-fill-upper {
   font-weight: bold;
   src: url("./fonts/srfoundry_bold.otf");
 }
+@font-face {
+  font-family: "srfoundry_journal";
+  src: url("./fonts/sabon_roman.otf");
+}
 .SR5iconActor {
   height: 32px;
   width: 32px;
@@ -4154,6 +4158,67 @@ input[type=range]:focus::-ms-fill-upper {
   background-size: cover;
   background-position: top;
   background-repeat: repeat;
+}
+.app.window-app.journal-sheet .journal-entry-page p,
+.app.window-app.journal-sheet .journal-page-content p {
+  font-family: "srfoundry_journal";
+}
+.app.window-app.journal-sheet .journal-entry-page code,
+.app.window-app.journal-sheet .journal-page-content code {
+  text-wrap: wrap;
+  font-family: "srfoundry_regular";
+}
+.app.window-app.journal-sheet .journal-entry-page blockquote,
+.app.window-app.journal-sheet .journal-page-content blockquote {
+  background: rgba(178, 0, 122, 0.1);
+  border: 1px solid #b2007a;
+  margin: 1em 0 1em 0;
+  padding: 0px 10px 0px 10px;
+}
+.app.window-app.journal-sheet .journal-entry-page blockquote p,
+.app.window-app.journal-sheet .journal-page-content blockquote p {
+  font-family: "srfoundry_regular";
+  font-style: normal;
+}
+.app.window-app.journal-sheet .journal-entry-page blockquote p:not(:first-child),
+.app.window-app.journal-sheet .journal-page-content blockquote p:not(:first-child) {
+  margin-top: 0px;
+}
+.app.window-app.journal-sheet .journal-entry-page blockquote h1,
+.app.window-app.journal-sheet .journal-page-content blockquote h1,
+.app.window-app.journal-sheet .journal-entry-page blockquote h2,
+.app.window-app.journal-sheet .journal-page-content blockquote h2,
+.app.window-app.journal-sheet .journal-entry-page blockquote h3,
+.app.window-app.journal-sheet .journal-page-content blockquote h3,
+.app.window-app.journal-sheet .journal-entry-page blockquote h4,
+.app.window-app.journal-sheet .journal-page-content blockquote h4 {
+  font-family: "srfoundry_primary";
+  text-transform: uppercase;
+  color: #b2007a;
+  font-style: normal;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+.app.window-app.journal-sheet .journal-entry-page blockquote h1:not(:first-child),
+.app.window-app.journal-sheet .journal-page-content blockquote h1:not(:first-child),
+.app.window-app.journal-sheet .journal-entry-page blockquote h2:not(:first-child),
+.app.window-app.journal-sheet .journal-page-content blockquote h2:not(:first-child),
+.app.window-app.journal-sheet .journal-entry-page blockquote h3:not(:first-child),
+.app.window-app.journal-sheet .journal-page-content blockquote h3:not(:first-child),
+.app.window-app.journal-sheet .journal-entry-page blockquote h4:not(:first-child),
+.app.window-app.journal-sheet .journal-page-content blockquote h4:not(:first-child) {
+  margin-top: 20px;
+}
+.app.window-app.journal-sheet .journal-entry-page a.content-link,
+.app.window-app.journal-sheet .journal-page-content a.content-link {
+  color: #b2007a;
+  background: transparent;
+  border: none;
+  font-family: "srfoundry_regular";
+}
+.app.window-app.journal-sheet .journal-entry-page a.content-link i,
+.app.window-app.journal-sheet .journal-page-content a.content-link i {
+  color: #b2007a;
 }
 .app.window-app.journal-sheet .journal-entry-content {
   background-image: url("../img/ui/SR6_BG_NoteTop.png"), url("../img/ui/SR6_BG_Blanc.jpg");
