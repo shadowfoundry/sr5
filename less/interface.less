@@ -429,6 +429,57 @@
                 background-repeat: repeat;
             }
 
+            .journal-entry-page, .journal-page-content {
+                p {
+                    font-family: @SR_JournalText;
+                }
+
+                code {
+                    text-wrap: wrap;
+                    font-family: @SR_BodyText;
+                }
+
+                blockquote {
+                    background: fade(@mainColor, 10%);
+                    border: 1px solid @mainColor;
+                    margin: 1em 0 1em 0;
+                    padding: 0px 10px 0px 10px;
+
+                    p {
+                        font-family: @SR_BodyText;
+                        font-style: normal;
+
+                        &:not(:first-child) {
+                           margin-top: 0px;
+                        }
+                    }
+
+                    h1, h2, h3, h4 {
+                        font-family: @SR_FontTitle;
+                        text-transform: uppercase;
+                        color: @mainColor;
+                        font-style: normal;
+                        border-bottom: none;
+                        margin-bottom: 0;
+
+                        &:not(:first-child) {
+                            margin-top: 20px;
+                        }
+                    }
+                }
+
+                a.content-link {
+                    color: @mainColor;
+                    background: transparent;
+                    border: none;
+                    font-family: @SR_BodyText;
+
+                    i {
+                        color: @mainColor;
+                    }
+                }
+            }
+
             .journal-entry-content {
                 background-image: url(@NoteTop), url(@BGWhite);
                 background-size: auto 90px, cover;
