@@ -4048,7 +4048,7 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(matrixAttributes.sleaze, label, "spriteType", +1);
 				SR5_EntityHelpers.updateModifier(matrixAttributes.dataProcessing, label, "spriteType", +1);
 				SR5_EntityHelpers.updateModifier(matrixAttributes.firewall, label, "spriteType", +1);
-				SR5_EntityHelpers.updateModifier(matrix.initiatives.matrixInit, label, "spriteType", +1);
+				SR5_EntityHelpers.updateModifier(actorData.initiatives.matrixInit, label, "spriteType", +1);
 				break;
 			default:
 				SR5_SystemHelpers.srLog(1, `Unknown '${actorData.type}' sprite type in generateSpriteMatrix()`);
