@@ -212,6 +212,7 @@ export class SR5Actor extends Actor {
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar1": {attribute: "statusBars.physical",},
 					"prototypeToken.bar2": {attribute: "statusBars.stun",},
+					"prototypeToken.texture.src": this.img,
 				});
 				break;
 			case "actorDrone":
@@ -220,6 +221,7 @@ export class SR5Actor extends Actor {
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar1": {attribute: "statusBars.condition",},
 					"prototypeToken.bar2": {attribute: "statusBars.matrix",},
+					"prototypeToken.texture.src": this.img,
 				});
 				break;
 			case "actorDevice":
@@ -229,6 +231,7 @@ export class SR5Actor extends Actor {
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar2": {attribute: "statusBars.matrix",},
+					"prototypeToken.texture.src": this.img,
 				});
 				break;
 			default :
