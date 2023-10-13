@@ -23,6 +23,8 @@ export class SR5_EffectArea {
         let actor = SR5_EntityHelpers.getRealActorFromID(active.id);
         let passiveActor = SR5_EntityHelpers.getRealActorFromID(passive.id);
 
+        if(!actor || !passiveActor) return 
+
         let actorJammedEffect = actor.items.find(i => i.system.type === "signalJammed");
         let actorJamEffect = actor.items.find(i => i.system.type === "signalJam");
         let passiveJammedEffect = passiveActor.items.find(i => i.system.type === "signalJammed");

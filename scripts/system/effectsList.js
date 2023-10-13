@@ -5,7 +5,7 @@ export const _getSRStatusEffect = async function(origin, value) {
     switch (origin){
         case "dead": 
             return effect = {
-                label: game.i18n.localize("SR5.STATUSES_Dead_F"),
+                name: game.i18n.localize("SR5.STATUSES_Dead_F"),
                 origin: "dead",
                 icon: "systems/sr5/img/status/StatusDeadOn.svg",
                 flags: {
@@ -19,7 +19,7 @@ export const _getSRStatusEffect = async function(origin, value) {
 
         case "unconscious" :
             return effect = {
-                label: game.i18n.localize("SR5.STATUSES_Unconscious_F"),
+                name: game.i18n.localize("SR5.STATUSES_Unconscious_F"),
                 origin: "unconscious",
                 icon: "systems/sr5/img/status/StatusUnconsciousOn.svg",
                 flags: {
@@ -32,7 +32,7 @@ export const _getSRStatusEffect = async function(origin, value) {
         
         case "prone":
             return effect = {
-                label: game.i18n.localize("SR5.STATUSES_Prone"),
+                name: game.i18n.localize("SR5.STATUSES_Prone"),
                 origin: "prone",
                 icon: "systems/sr5/img/status/StatusProneOn.svg",
                 flags: {
@@ -45,7 +45,7 @@ export const _getSRStatusEffect = async function(origin, value) {
 
         case "astralVision":
             return effect = {
-                label: game.i18n.localize("SR5.AstralPerception"),
+                name: game.i18n.localize("SR5.AstralPerception"),
                 origin: "astralVision",
                 icon: "systems/sr5/img/status/StatusAstralVisionOn.svg",
                 flags: {
@@ -57,7 +57,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "cover":
             return effect = {
-                label: game.i18n.localize("SR5.Cover"),
+                name: game.i18n.localize("SR5.Cover"),
                 origin: "cover",
                 icon: "systems/sr5/img/status/StatusCover.svg",
                 flags: {
@@ -69,7 +69,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "coverFull":
             return effect = {
-                label: game.i18n.localize("SR5.CoverFull"),
+                name: game.i18n.localize("SR5.CoverFull"),
                 origin: "coverFull",
                 icon: "systems/sr5/img/status/StatusCoverFull.svg",
                 flags: {
@@ -81,7 +81,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "fireDamage":
             return effect = {
-                label: game.i18n.localize("SR5.CatchFire"),
+                name: game.i18n.localize("SR5.CatchFire"),
                 origin: "fireDamage",
                 icon: "systems/sr5/img/status/StatusInFireOn.svg",
                 flags: {
@@ -93,7 +93,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "acidDamage":
             return effect = {
-                label: game.i18n.localize("SR5.ElementalDamageAcid"),
+                name: game.i18n.localize("SR5.ElementalDamageAcid"),
                 origin: "acidDamage",
                 icon: "systems/sr5/img/status/StatusAcidOn.svg",
                 flags: {
@@ -105,7 +105,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "electricityDamage":
             return effect = {
-                label: game.i18n.localize("SR5.ElementalDamageElectricity"),
+                name: game.i18n.localize("SR5.ElementalDamageElectricity"),
                 origin: "electricityDamage",
                 icon: "systems/sr5/img/status/StatusElectricityOn.svg",
                 flags: {
@@ -117,7 +117,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "anticoagulantDamage":
             return effect = {
-                label: game.i18n.localize("SR5.Anticoagulant"),
+                name: game.i18n.localize("SR5.Anticoagulant"),
                 origin: "anticoagulantDamage",
                 icon: "systems/sr5/img/status/StatusAnticoagulantOn.svg",
                 flags: {
@@ -129,7 +129,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "fullDefense":
             return effect = {
-                label: game.i18n.localize("SR5.FullDefense"),
+                name: game.i18n.localize("SR5.FullDefense"),
                 origin: "fullDefense",
                 icon: "systems/sr5/img/status/StatusFullDefense.svg",
                 flags: {
@@ -141,7 +141,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "sensorLock":
             return effect = {
-                label: game.i18n.localize("SR5.EffectSensorLock"),
+                name: game.i18n.localize("SR5.EffectSensorLock"),
                 origin: "sensorLock",
                 icon: "systems/sr5/img/status/StatusSensorLock.svg",
                 flags: {
@@ -153,7 +153,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "linkLock":
             return effect = {
-                label: game.i18n.localize("SR5.EffectLinkLockedConnection"),
+                name: game.i18n.localize("SR5.EffectLinkLockedConnection"),
                 origin: "linkLock",
                 icon: "systems/sr5/img/status/StatusLinkLock.svg",
                 flags: {
@@ -165,7 +165,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "signalJam":
             return effect = {
-                label: game.i18n.localize("SR5.EffectSignalJam"),
+                name: game.i18n.localize("SR5.EffectSignalJam"),
                 origin: "signalJam",
                 icon: "systems/sr5/img/status/StatusJamSignalsOn.svg",
                 flags: {
@@ -178,7 +178,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "signalJammed":
             return effect = {
-                label: game.i18n.localize("SR5.EffectSignalJammed"),
+                name: game.i18n.localize("SR5.EffectSignalJammed"),
                 origin: "signalJammed",
                 icon: "systems/sr5/img/status/StatusJammedSignalsOn.svg",
                 flags: {
@@ -191,7 +191,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "noAction":
             return effect = {
-                label: game.i18n.localize("SR5.EffectNoAction"),
+                name: game.i18n.localize("SR5.EffectNoAction"),
                 origin: "noAction",
                 icon: "systems/sr5/img/status/StatusNoActionOn.svg",
                 flags: {
@@ -204,7 +204,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "toxinEffectNausea":
             return effect = {
-                label: game.i18n.localize("SR5.ToxinEffectNausea"),
+                name: game.i18n.localize("SR5.ToxinEffectNausea"),
                 origin: "toxinEffectNausea",
                 icon: "systems/sr5/img/status/StatusNauseaOn.svg",
                 flags: {
@@ -216,7 +216,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "toxinEffectDisorientation":
             return effect = {
-                label: game.i18n.localize("SR5.ToxinEffectDisorientation"),
+                name: game.i18n.localize("SR5.ToxinEffectDisorientation"),
                 origin: "toxinEffectDisorientation",
                 icon: "systems/sr5/img/status/StatusDisorientationOn.svg",
                 flags: {
@@ -228,7 +228,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "toxinEffectAgony":
             return effect = {
-                label: game.i18n.localize("SR5.ToxinEffectAgony"),
+                name: game.i18n.localize("SR5.ToxinEffectAgony"),
                 origin: "toxinEffectAgony",
                 icon: "systems/sr5/img/status/StatusAgonyOn.svg",
                 flags: {
@@ -240,7 +240,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "toxinEffectArcaneInhibitor":
             return effect = {
-                label: game.i18n.localize("SR5.ToxinEffectArcaneInhibitor"),
+                name: game.i18n.localize("SR5.ToxinEffectArcaneInhibitor"),
                 origin: "toxinEffectArcaneInhibitor",
                 icon: "systems/sr5/img/status/StatusArcaneInhibtorOn.svg",
                 flags: {
@@ -252,7 +252,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "astralInit":
             return effect = {
-                label: game.i18n.localize('SR5.InitiativeAstral'),
+                name: game.i18n.localize('SR5.InitiativeAstral'),
                 origin: "initiativeMode",
                 icon: "systems/sr5/img/status/StatusInitAstalOn.svg",
                 flags: {
@@ -264,7 +264,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "matrixInit":
             return effect = {
-                label: game.i18n.localize('SR5.InitiativeMatrix'),
+                name: game.i18n.localize('SR5.InitiativeMatrix'),
                 origin: "initiativeMode",
                 icon: "systems/sr5/img/status/StatusInitMatrixOn.svg",
                 flags: {
@@ -276,7 +276,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
         case "slowed":
             return effect = {
-                label: game.i18n.localize('SR5.STATUSES_Slowed'),
+                name: game.i18n.localize('SR5.STATUSES_Slowed'),
                 origin: "slowed",
                 icon: "systems/sr5/img/status/StatusSlowedOn.svg",
                 flags: {
@@ -288,7 +288,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
             case "winded":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Winded'),
+                    name: game.i18n.localize('SR5.STATUSES_Winded'),
                     origin: "winded",
                     icon: "systems/sr5/img/status/StatusWindedOn.svg",
                     flags: {
@@ -300,7 +300,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "deafened":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Deafened'),
+                    name: game.i18n.localize('SR5.STATUSES_Deafened'),
                     origin: "deafened",
                     icon: "systems/sr5/img/status/StatusDeafenedOn.svg",
                     flags: {
@@ -312,7 +312,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "blinded":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Blinded'),
+                    name: game.i18n.localize('SR5.STATUSES_Blinded'),
                     origin: "blinded",
                     icon: "systems/sr5/img/status/StatusBlindedOn.svg",
                     flags: {
@@ -324,7 +324,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "brokenGrip":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_BrokenGrip'),
+                    name: game.i18n.localize('SR5.STATUSES_BrokenGrip'),
                     origin: "brokenGrip",
                     icon: "systems/sr5/img/status/StatusBrokenGripOn.svg",
                     flags: {
@@ -336,7 +336,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
         case "weakSide":
             return effect = {
-                label: game.i18n.localize('SR5.STATUSES_WeakSide'),
+                name: game.i18n.localize('SR5.STATUSES_WeakSide'),
                 origin: "weakSide",
                 icon: "systems/sr5/img/status/StatusWeakSideOn.svg",
                 flags: {
@@ -348,7 +348,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
             case "nauseous":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Nauseous'),
+                    name: game.i18n.localize('SR5.STATUSES_Nauseous'),
                     origin: "nauseous",
                     icon: "systems/sr5/img/status/StatusNauseousOn.svg",
                     flags: {
@@ -360,7 +360,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "buckled":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Buckled'),
+                    name: game.i18n.localize('SR5.STATUSES_Buckled'),
                     origin: "buckled",
                     icon: "systems/sr5/img/status/StatusBuckledOn.svg",
                     flags: {
@@ -372,7 +372,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
         case "slowDeath":
             return effect = {
-                label: game.i18n.localize('SR5.STATUSES_SlowDeath'),
+                name: game.i18n.localize('SR5.STATUSES_SlowDeath'),
                 origin: "slowDeath",
                 icon: "systems/sr5/img/status/StatusSlowDeathOn.svg",
                 flags: {
@@ -384,7 +384,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
             case "unableToSpeak":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_UnableToSpeak'),
+                    name: game.i18n.localize('SR5.STATUSES_UnableToSpeak'),
                     origin: "unableToSpeak",
                     icon: "systems/sr5/img/status/StatusUnableToSpeakOn.svg",
                     flags: {
@@ -396,7 +396,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
         case "bleedOut":
             return effect = {
-                label: game.i18n.localize('SR5.STATUSES_BleedOut'),
+                name: game.i18n.localize('SR5.STATUSES_BleedOut'),
                 origin: "bleedOut",
                 icon: "systems/sr5/img/status/StatusBleedOutOn.svg",
                 flags: {
@@ -408,7 +408,7 @@ export const _getSRStatusEffect = async function(origin, value) {
             }
             case "oneArmBandit":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_OneArmBandit'),
+                    name: game.i18n.localize('SR5.STATUSES_OneArmBandit'),
                     origin: "oneArmBandit",
                     icon: "systems/sr5/img/status/StatusOneArmBanditOn.svg",
                     flags: {
@@ -420,7 +420,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "pin":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Pin'),
+                    name: game.i18n.localize('SR5.STATUSES_Pin'),
                     origin: "pin",
                     icon: "systems/sr5/img/status/StatusPinOn.svg",
                     flags: {
@@ -432,7 +432,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "dirtyTrick":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_DirtyTrick'),
+                    name: game.i18n.localize('SR5.STATUSES_DirtyTrick'),
                     origin: "dirtyTrick",
                     icon: "systems/sr5/img/status/StatusDirtyTrickOn.svg",
                     flags: {
@@ -444,7 +444,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "trickShot":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_TrickShot'),
+                    name: game.i18n.localize('SR5.STATUSES_TrickShot'),
                     origin: "trickShot",
                     icon: "systems/sr5/img/status/StatusTrickShotOn.svg",
                     flags: {
@@ -456,7 +456,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "entanglement":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Entanglement'),
+                    name: game.i18n.localize('SR5.STATUSES_Entanglement'),
                     origin: "entanglement",
                     icon: "systems/sr5/img/status/StatusEntanglementOn.svg",
                     flags: {
@@ -468,7 +468,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "antenna":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Antenna'),
+                    name: game.i18n.localize('SR5.STATUSES_Antenna'),
                     origin: "antenna",
                     icon: "systems/sr5/img/status/StatusAntennaOn.svg",
                     flags: {
@@ -480,7 +480,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "engineBlock":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_EngineBlock'),
+                    name: game.i18n.localize('SR5.STATUSES_EngineBlock'),
                     origin: "engineBlock",
                     icon: "systems/sr5/img/status/StatusEngineBlockOn.svg",
                     flags: {
@@ -493,7 +493,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "windowMotor":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_WindowMotor'),
+                    name: game.i18n.localize('SR5.STATUSES_WindowMotor'),
                     origin: "windowMotor",
                     icon: "systems/sr5/img/status/StatusWindowMotorOn.svg",
                     flags: {
@@ -505,7 +505,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "doorLock":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_DoorLock'),
+                    name: game.i18n.localize('SR5.STATUSES_DoorLock'),
                     origin: "doorLock",
                     icon: "systems/sr5/img/status/StatusDoorLockOn.svg",
                     flags: {
@@ -517,7 +517,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "axle":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Axle'),
+                    name: game.i18n.localize('SR5.STATUSES_Axle'),
                     origin: "axle",
                     icon: "systems/sr5/img/status/StatusAxleOn.svg",
                     flags: {
@@ -529,7 +529,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "fuelTankBattery":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_FuelTankBattery'),
+                    name: game.i18n.localize('SR5.STATUSES_FuelTankBattery'),
                     origin: "fuelTankBattery",
                     icon: "systems/sr5/img/status/StatusFuelTankBatteryOn.svg",
                     flags: {
@@ -542,7 +542,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "flared":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Flared'),
+                    name: game.i18n.localize('SR5.STATUSES_Flared'),
                     origin: "flared",
                     icon: "systems/sr5/img/status/StatusFlaredOn.svg",
                     flags: {
@@ -554,7 +554,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "shaked":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Shaked'),
+                    name: game.i18n.localize('SR5.STATUSES_Shaked'),
                     origin: "shaked",
                     icon: "systems/sr5/img/status/StatusShakedOn.svg",
                     flags: {
@@ -566,7 +566,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "onPinsAndNeedles":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_OnPinsAndNeedles'),
+                    name: game.i18n.localize('SR5.STATUSES_OnPinsAndNeedles'),
                     origin: "onPinsAndNeedles",
                     icon: "systems/sr5/img/status/StatusOnPinsAndNeedlesOn.svg",
                     flags: {
@@ -578,7 +578,7 @@ export const _getSRStatusEffect = async function(origin, value) {
                 }
             case "feint":
                 return effect = {
-                    label: game.i18n.localize('SR5.STATUSES_Feint'),
+                    name: game.i18n.localize('SR5.STATUSES_Feint'),
                     origin: "feint",
                     icon: "systems/sr5/img/status/StatusFeintOn.svg",
                     flags: {
