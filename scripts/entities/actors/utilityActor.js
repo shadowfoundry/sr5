@@ -1145,12 +1145,14 @@ export class SR5_CharacterUtility extends Actor {
 				actorData.specialAttributes[key].augmented.base = actorData.specialAttributes[key].natural.value;
 				SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
 
-				if (key == 'magic' || key == 'resonance') {
-					if (actorData.essence?.base - actorData.essence?.value) {
-						if (actorData.specialAttributes[key].augmented.value > actorData.essence?.value) {
-							SR5_EntityHelpers.updateModifier(actorData.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), "augmentations", -1 * Math.ceil(actorData.essence.base - actorData.essence.value));
-							SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
-						}
+				if ((key == 'magic' || key == 'resonance') && actorData.essence) {
+					let edgeLoss = 0
+					for (let m of actorData.essence.modifiers){
+						if (m.type === 'itemAugmentation') edgeLoss += m.value
+					}
+					if (edgeLoss < 0){
+						SR5_EntityHelpers.updateModifier(actorData.specialAttributes[key].augmented, game.i18n.localize('SR5.EssenceLoss'), "augmentations", Math.floor(edgeLoss));
+						SR5_EntityHelpers.updateValue(actorData.specialAttributes[key].augmented, 0);
 					}
 				}
 			}
