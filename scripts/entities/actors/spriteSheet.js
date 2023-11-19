@@ -98,7 +98,7 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 	/** @override */
 	async _onDropItemCreate(itemData) {
 		switch(itemData.type){
-		case "spritePowers":
+		case "itemSpritePower":
 		case "itemEffect":
 			return super._onDropItemCreate(itemData);
 		default:
