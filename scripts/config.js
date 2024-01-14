@@ -2070,6 +2070,16 @@ SR5.resonanceActions = {
 	threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
 };
 
+// Resonance Actions with rolled
+SR5.resonanceActionsRolled = {
+	compileSprite             : "SR5.MatrixActionCompileSprite",
+	decompileSprite           : "SR5.MatrixActionDecompileSprite",
+	eraseResonanceSignature   : "SR5.MatrixActionEraseResonanceSignature",
+	killComplexForm           : "SR5.MatrixActionKillComplexForm",
+	registerSprite            : "SR5.MatrixActionRegisterSprite",
+	threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
+};
+
 // Kill Code Actions
 SR5.matrixKillCodeActions = {
 	calibration               : "SR5.MatrixActionCalibration",
