@@ -238,6 +238,13 @@ export class SR5Actor extends Actor {
 				SR5_SystemHelpers.srLog(1, `Unknown '${this.type}' type in 'base _preCreate()'`);
 		}
 
+		if (this.system.sideKickPrototypeToken) {
+			mergeObject(createData, {
+				"prototypeToken": this.system.sideKickPrototypeToken,
+			});
+			console.log("sidekick: ", createData.prototypeToken);
+		};
+
 		this.updateSource(createData);
 	}
 
