@@ -19,7 +19,7 @@
                             {{> systems/sr5/templates/items/_partial/summary/ammunition-summary.html}}
                             <!-- Quantity -->
                             {{> systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html}}
-                            {{#if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+                            {{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
                             <!-- Rating -->
                             {{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.html}}
                             {{/if}}
@@ -46,7 +46,7 @@
                         {{> systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html}}
                         <!-- Ammunition case type -->
                         {{> systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html}}
-                        {{#if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+                        {{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
                         <!-- Item Rating -->
 						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
                         {{/if}}
@@ -54,7 +54,7 @@
 
                     <!-- Price & Availability -->
                     <ul class="SR-PaddingTop10">
-                        {{#if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+                        {{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
                         <!-- Rating multiplier-->
 						{{> systems/sr5/templates/items/_partial/editable/_common/priceMultiplier-edit.html}}
                         {{else}}
