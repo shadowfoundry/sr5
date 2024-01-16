@@ -1012,6 +1012,13 @@ SR5.ammunitionCrossbowTypes = {
 SR5.ammunitionBowTypes = {
 	arrow                     : "SR5.AmmunitionTypeArrow",
 	arrowInjection            : "SR5.AmmunitionTypeInjectionArrow",
+	arrowBarbedHead           : "SR5.AmmunitionTypeArrowBarbedHead",
+	arrowExplosiveHead	      : "SR5.AmmunitionTypeArrowExplosiveHead",
+	arrowHammerhead		   	  : "SR5.AmmunitionTypeArrowHammerhead",
+	arrowIncendiaryHead	      : "SR5.AmmunitionTypeArrowIncendiaryHead",
+	arrowScreamerHead	      : "SR5.AmmunitionTypeArrowScreamerHead",
+	arrowStickNShock          : "SR5.AmmunitionTypeArrowStickNShock",
+	arrowStaticShaft		  : "SR5.AmmunitionTypeArrowStaticShaft",
 };
 
 //Types de munitions de lance grenade
