@@ -31,69 +31,70 @@
 
 		</li>
 		{{#each system.customEffects}}
-			<li class="grid subItemManagement" data-key="{{@key}}">
-				<div class="col-3 SR-PaddingRight5">
-					<select name="system.customEffects.{{@key}}.category" required>
-						{{#select category}}
-							<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-							<optgroup label="{{localize 'SR5.Attributes'}}">
-								<option value="characterAttributes">{{localize 'SR5.Attributes'}}</option>
-								<option value="characterSpecialAttributes">{{localize 'SR5.SpecialAttributes'}}</option>
-								<option value="essence">{{localize 'SR5.Essence'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.DerivedAttributes'}}">
-								<option value="characterInitiatives">{{localize 'SR5.Initiatives'}}</option>
-								<option value="characterLimits">{{localize 'SR5.Limits'}}</option>
-								<option value="reach">{{localize 'SR5.CharacterReach'}}</option>
-								<option value="characterDerivedAttributes">{{localize 'SR5.DerivedAttributes'}}</option>
-								<option value="movements">{{localize 'SR5.Movement'}}</option>
-								<option value="weightActions">{{localize 'SR5.CarryingGear'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Skills'}}">
-								<option value="skills">{{localize 'SR5.Skills'}}</option>
-								<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>
-								<option value="languageAndKnowledgeskills">{{localize 'SR5.LanguageAndKnowledgeSkills'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Damage'}}">
-								<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
-								<option value="characterResistances">{{localize 'SR5.Resistances'}}</option>
-								<option value="itemArmor">{{localize 'SR5.Armor'}}</option>
-								<option value="hardenedArmors">{{localize 'SR5.HardenedArmors'}}</option>
-								<option value="characterConditionMonitors">{{localize 'SR5.ConditionMonitors'}}</option>
-								<option value="penaltyTypes">{{localize 'SR5.Penalties'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Matrix'}}">
-								<option value="matrixAttributes">{{localize 'SR5.MatrixAttributes'}}</option>
-								<option value="matrixResistances">{{localize 'SR5.MatrixResistances'}}</option>
-								<option value="matrixActions">{{localize 'SR5.MatrixActions'}}</option>
-								<!--<option value="matrixValues">{{localize 'SR5.ProgramsMax'}}</option>-->
-								<option value="programs">{{localize 'SR5.Programs'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Magic'}}">
-								<option value="astralValues">{{localize 'SR5.Magic'}}</option>
-								<option value="metamagics">{{localize 'SR5.Metamagic'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Vehicle'}}">
-								<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
-								<option value="vehicleAttributes">{{localize 'SR5.VehicleAttributes'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Vision'}}">
-								<option value="visionTypes">{{localize 'SR5.VisionTypes'}}</option>
-								<option value="environmentalModifiers">{{localize 'SR5.EnvironmentalModifiers'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.OtherCategories'}}">
-								<option value="reputationTypes">{{localize 'SR5.CharacterReputation'}}</option>
-								<option value="martialArts">{{localize 'SR5.MartialArts'}}</option>
-								<option value="actions">{{localize 'SR5.Actions'}}</option>
-							</optgroup>
-							<optgroup label="{{localize 'SR5.Special'}}">
-								<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
-								<option value="weaponEffectTargets">{{localize 'SR5.Weapons'}}</option>
-								<option value="custom">{{localize 'SR5.GENERAL_Custom'}}...</option>
-							</optgroup>
-						{{/select}}
-					</select>
-				</div>
+		<li class="grid subItemManagement" data-key="{{@key}}">
+			<div class="col-3 SR-PaddingRight5">
+				<select name="system.customEffects.{{@key}}.category" required>
+					{{#select category}}
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+					<optgroup label="{{localize 'SR5.Attributes'}}">
+						<option value="characterAttributes">{{localize 'SR5.Attributes'}}</option>
+						<option value="characterSpecialAttributes">{{localize 'SR5.SpecialAttributes'}}</option>
+						<option value="essence">{{localize 'SR5.Essence'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.DerivedAttributes'}}">
+						<option value="characterInitiatives">{{localize 'SR5.Initiatives'}}</option>
+						<option value="characterLimits">{{localize 'SR5.Limits'}}</option>
+						<option value="reach">{{localize 'SR5.CharacterReach'}}</option>
+						<option value="characterDerivedAttributes">{{localize 'SR5.DerivedAttributes'}}</option>
+						<option value="movements">{{localize 'SR5.Movement'}}</option>
+						<option value="weightActions">{{localize 'SR5.CarryingGear'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Skills'}}">
+						<option value="skills">{{localize 'SR5.Skills'}}</option>
+						<option value="skillGroups">{{localize 'SR5.SkillGroups'}}</option>
+						<option value="languageAndKnowledgeskills">{{localize 'SR5.LanguageAndKnowledgeSkills'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Damage'}}">
+						<option value="characterDefenses">{{localize 'SR5.Defenses'}}</option>
+						<option value="characterResistances">{{localize 'SR5.Resistances'}}</option>
+						<option value="itemArmor">{{localize 'SR5.Armor'}}</option>
+						<option value="hardenedArmors">{{localize 'SR5.HardenedArmors'}}</option>
+						<option value="characterConditionMonitors">{{localize 'SR5.ConditionMonitors'}}</option>
+						<option value="penaltyTypes">{{localize 'SR5.Penalties'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Matrix'}}">
+						<option value="matrixAttributes">{{localize 'SR5.MatrixAttributes'}}</option>
+						<option value="matrixResistances">{{localize 'SR5.MatrixResistances'}}</option>
+						<option value="matrixActions">{{localize 'SR5.MatrixActions'}}</option>
+						<option value="resonanceActionsRolled">{{localize 'SR5.ResonanceActions'}}</option>
+						<!--<option value="matrixValues">{{localize 'SR5.ProgramsMax'}}</option>-->
+						<option value="programs">{{localize 'SR5.Programs'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Magic'}}">
+						<option value="astralValues">{{localize 'SR5.Magic'}}</option>
+						<option value="metamagics">{{localize 'SR5.Metamagic'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Vehicle'}}">
+						<option value="vehicle">{{localize 'SR5.VehicleTest'}}</option>
+						<option value="vehicleAttributes">{{localize 'SR5.VehicleAttributes'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Vision'}}">
+						<option value="visionTypes">{{localize 'SR5.VisionTypes'}}</option>
+						<option value="environmentalModifiers">{{localize 'SR5.EnvironmentalModifiers'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.OtherCategories'}}">
+						<option value="reputationTypes">{{localize 'SR5.CharacterReputation'}}</option>
+						<option value="martialArts">{{localize 'SR5.MartialArts'}}</option>
+						<option value="actions">{{localize 'SR5.Actions'}}</option>
+					</optgroup>
+					<optgroup label="{{localize 'SR5.Special'}}">
+						<option value="specialProperties">{{localize 'SR5.SpecialCase'}}</option>
+						<option value="weaponEffectTargets">{{localize 'SR5.Weapons'}}</option>
+						<option value="custom">{{localize 'SR5.GENERAL_Custom'}}...</option>
+					</optgroup>		
+					{{/select}}
+				</select>
+			</div>
 
 				<div class="col-4 SR-PaddingRight5">
 					{{#if category}}
@@ -272,13 +273,33 @@
 						{{/each}}
 
 					{{else ife category 'matrixActions'}}
-						{{#each (lookup ../lists category)}}
-							<optgroup label="{{localize this}}">
-								<option value="system.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
-								<option value="system.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
-								<option value="system.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
-							</optgroup>
-						{{/each}}
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="system.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
+					</optgroup>
+					{{/each}}
+
+					{{else ife category 'resonanceActionsRolled'}}
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="system.matrix.resonanceActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
+					</optgroup>
+					{{/each}}
+
+					{{else ife category 'programs'}}
+					<option value="system.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
+
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="system.matrix.resonanceActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
+					</optgroup>
+					{{/each}}
 
 					{{else ife category 'programs'}}
 						<option value="system.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>

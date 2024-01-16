@@ -477,6 +477,7 @@ export class SR5_ActorHelper {
 			}
 
 			sideKickData = mergeObject(sideKickData, {
+				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.type": itemData.type,
 				"system.force.base": itemData.itemRating,
 				"system.isBounded": itemData.isBounded,
@@ -502,6 +503,7 @@ export class SR5_ActorHelper {
 			}
 
 			sideKickData = mergeObject(sideKickData, {
+				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.type": itemData.type,
 				"system.level": itemData.itemRating,
 				"system.isRegistered": itemData.isRegistered,
@@ -526,6 +528,7 @@ export class SR5_ActorHelper {
 			for (let vehicles of itemData.vehicles) baseItems.push(vehicles);
 
 			sideKickData = mergeObject(sideKickData, {
+				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.biography.description": itemData.description,
 				"system.biography.background": itemData.gameEffect,
 				"system.biography.characterMetatype": itemData.metatype,
@@ -585,6 +588,7 @@ export class SR5_ActorHelper {
 			let ownerActorObject = ownerActor.toObject(false);
 
 			sideKickData = mergeObject(sideKickData, {
+				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
 				"system.type": itemData.type,
@@ -656,6 +660,7 @@ export class SR5_ActorHelper {
 				if (a.type === "itemPower") powers.push(a);
 			}
 			modifiedItem.img = actor.img;
+			modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken;
 			modifiedItem.system.services.value = actor.system.services.value;
 			modifiedItem.system.services.max = actor.system.services.max;
 			if (actor.system.type === "watcher" || actor.system.type === "homunculus"){
@@ -686,6 +691,7 @@ export class SR5_ActorHelper {
 				if (a.type === "itemSpritePower") spritePowers.push(a);
 			}
 			modifiedItem.img = actor.img;
+			modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken;
 			modifiedItem.system.decks = decks;
 			modifiedItem.system.spritePowers = spritePowers;
 			modifiedItem.system.tasks.value = actor.system.tasks.value;
@@ -710,6 +716,7 @@ export class SR5_ActorHelper {
 				if (a.type === "itemDevice") decks.push(a);
 			}
 			modifiedItem.img = actor.img;
+			modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken;
 			modifiedItem.system.decks = decks;
 			if (actor.img != "systems/sr5/img/actors/actorAgent.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
 				if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
@@ -741,6 +748,7 @@ export class SR5_ActorHelper {
 			}
 			modifiedItem.name = actor.name;
 			modifiedItem.img = actor.img;	
+			modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken;
 			modifiedItem.system.language = language,	
 			modifiedItem.system.knowledge = knowledge,	
 			modifiedItem.system.weapons = weapons,	
@@ -792,6 +800,7 @@ export class SR5_ActorHelper {
 				if (a.type === "itemVehicleMod") vehiclesMod.push(a);
 			}
 			modifiedItem.img = actor.img;
+			modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken;
 			modifiedItem.system.autosoft = autosoft;
 			modifiedItem.system.weapons = weapons;
 			modifiedItem.system.ammunitions = ammunitions;

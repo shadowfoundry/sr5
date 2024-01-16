@@ -68,11 +68,11 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 	/** @override */
 	async _onDropItemCreate(itemData) {
 		switch(itemData.type){
-		case "itemEffect":
-			return super._onDropItemCreate(itemData);
-		default:
-			ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
-			return;
-		}        
+			case "itemEffect":
+				return super._onDropItemCreate(itemData);
+			default:
+				ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
+				return;
+		}
 	}
 }

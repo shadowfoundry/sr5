@@ -622,10 +622,43 @@ export class SR5_UtilityItem extends Actor {
 				blastDamageFallOff = -4;
 				blastRadius = 6;
 				break;
-				case "arrow":
-				case "arrowInjection":
-					damageValue = itemData.ammunition.itemRating;
-					break;
+			case "arrow":
+			case "arrowInjection":
+				damageValue = itemData.ammunition.itemRating;
+				break;
+			case "arrowBarbedHead":
+				damageValue = itemData.ammunition.itemRating + 1;					
+				break;
+			case "arrowExplosiveHead":
+				damageValue = itemData.ammunition.itemRating + 2;
+				armorPenetration = -1;
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5AmmunitionTypeArrowExplosiveHead'), "ammunitionType", -1);
+				break;
+			case "arrowHammerhead":
+				damageValue = itemData.ammunition.itemRating + 1;
+				damageType = "stun";
+				armorPenetration = +2;	
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowHammerhead'), "ammunitionType", -1);					break;
+			case "arrowIncendiaryHead":
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowIncendiaryHead'), "ammunitionType", -1);
+				// phosphorous fire not coded
+				break;
+			case "arrowScreamerHead":
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowScreamerHead'), "ammunitionType", -2);
+				armorPenetration = +6;	
+				break;
+			case "arrowStickNShock":
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowStickNShock'), "ammunitionType", -1);
+				damageValue = 8;
+				damageType = "stun";
+				damageElement = "electricity";
+				armorPenetration = -5;	
+				break;
+			case "arrowStaticShaft":
+				damageValue = itemData.ammunition.itemRating + 4;
+				damageType = "stun";
+				damageElement = "electricity";
+				break;
 			default:
 				SR5_SystemHelpers.srLog(3, "_handleWeaponAmmunition", `Unknown ammunition type: '${itemData.ammunition.type}'`);
 				return;
