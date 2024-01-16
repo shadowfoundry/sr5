@@ -64,6 +64,7 @@
 						<option value="matrixAttributes">{{localize 'SR5.MatrixAttributes'}}</option>
 						<option value="matrixResistances">{{localize 'SR5.MatrixResistances'}}</option>
 						<option value="matrixActions">{{localize 'SR5.MatrixActions'}}</option>
+						<option value="resonanceActionsRolled">{{localize 'SR5.ResonanceActions'}}</option>
 						<!--<option value="matrixValues">{{localize 'SR5.ProgramsMax'}}</option>-->
 						<option value="programs">{{localize 'SR5.Programs'}}</option>
 					</optgroup>
@@ -275,6 +276,15 @@
 						<option value="system.matrix.actions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
 						<option value="system.matrix.actions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
 						<option value="system.matrix.actions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
+					</optgroup>
+					{{/each}}
+
+					{{else ife category 'resonanceActionsRolled'}}
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="system.matrix.resonanceActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
 					</optgroup>
 					{{/each}}
 
