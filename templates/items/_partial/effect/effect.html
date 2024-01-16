@@ -291,6 +291,17 @@
 					{{/each}}
 
 					{{else ife category 'programs'}}
+					<option value="system.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
+
+					{{#each (lookup ../lists category)}}
+					<optgroup label="{{localize this}}">
+						<option value="system.matrix.resonanceActions.{{@key}}.test">{{localize this}} [{{localize 'SR5.DicePool'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.limit">{{localize this}} [{{localize 'SR5.Limit'}}]</option>
+						<option value="system.matrix.resonanceActions.{{@key}}.defense">{{localize this}} [{{localize 'SR5.DefenseDicePool'}}]</option>
+					</optgroup>
+					{{/each}}
+
+					{{else ife category 'programs'}}
 						<option value="system.matrix.programsMaximumActive">{{localize 'SR5.ProgramsMax'}}</option>
 						{{#each (lookup ../lists category)}}
 							<option value="system.matrix.programs.{{@key}}.isActive">{{localize this}}</option>
