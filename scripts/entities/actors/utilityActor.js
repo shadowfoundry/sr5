@@ -1611,9 +1611,9 @@ export class SR5_CharacterUtility extends Actor {
 			case "actorGrunt":
 				switch (actorData.matrix.userMode) {
 					case "ar":
-						initMat.modifiers = initMat.modifiers.concat(initiatives.physicalInit.modifiers);
+						initMat.modifiers = initiatives.physicalInit.modifiers;
 						initMat.dice.base = 1;
-						initMat.dice.modifiers = initMat.dice.modifiers.concat(initiatives.physicalInit.dice.modifiers);
+						initMat.dice.modifiers = initiatives.physicalInit.dice.modifiers;
 						break;
 					case "coldsim":
 						SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
