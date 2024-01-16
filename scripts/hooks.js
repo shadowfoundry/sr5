@@ -220,7 +220,7 @@ export const registerHooks = function () {
 	Hooks.on("createToken", async function(tokenDocument) {
 		if (!game.user.isGM) return;
 		let tokenData = duplicate(tokenDocument);
-		if (tokenDocument.texture.src.includes("systems/sr5/img/actors/")) tokenData.texture.src = tokenDocument.actor.img;
+		if (tokenData.texture.src == "") tokenData.texture.src = tokenDocument.actor.img;
 		if (tokenDocument.actor.system.visions?.astral?.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
 		else tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
 		await tokenDocument.update(tokenData);
