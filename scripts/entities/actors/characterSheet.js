@@ -258,6 +258,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 			case "itemMartialArt" :
 				if (itemData.system.actionType === "permanent") itemData.system.isActive = true;
 				return super._onDropItemCreate(itemData);
+			case "itemVehicleMod":
+				return ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
 			default:
 				return super._onDropItemCreate(itemData);
 		}

@@ -8,54 +8,54 @@ export default class Migration {
 		// Migrate World Items
 		for (let i of game.items.contents) {
 			try {
-			  const updateData = this.migrateItemData(i.toObject());
-			  if (!foundry.utils.isEmpty(updateData)) {
-				SR5_SystemHelpers.srLog(2, `Migrating Item documment ${i.name}`);
-				await i.update(updateData, { enforceTypes: false });
-			  }
+				const updateData = this.migrateItemData(i.toObject());
+				if (!foundry.utils.isEmpty(updateData)) {
+					SR5_SystemHelpers.srLog(2, `Migrating Item documment ${i.name}`);
+					await i.update(updateData, { enforceTypes: false });
+				}
 			} catch (err) {
-			  err.message = `Failed sr5 system migration for Item ${i.name}: ${err.message}`;
-			  console.error(err);
+				err.message = `Failed sr5 system migration for Item ${i.name}: ${err.message}`;
+				console.error(err);
 			}
 		}
 
 		// Migrate World Compendium Packs
 		for (let p of game.packs) {
-			if (p.metadata.packageName === "sr5-Item-Full-fr") continue;
-			if ( !["Actor", "Item", "Scene"].includes(p.documentName) ) continue;
+			if (p.metadata.packageName === "sr5-compendiums") continue;
+			if (!["Actor", "Item", "Scene"].includes(p.documentName)) continue;
 			await this.migrateCompendium(p);
 		}
 
 		// Migrate World Actors
 		for (let a of game.actors.contents) {
 			try {
-			  const updateData = this.migrateActorData(a);
-			  if (!foundry.utils.isEmpty(updateData)) {
-				SR5_SystemHelpers.srLog(2, `Migrating Actor entity ${a.name}`);
-				await a.update(updateData, { enforceTypes: false });
-			  }
+				const updateData = this.migrateActorData(a);
+				if (!foundry.utils.isEmpty(updateData)) {
+					SR5_SystemHelpers.srLog(2, `Migrating Actor entity ${a.name}`);
+					await a.update(updateData, { enforceTypes: false });
+				}
 			} catch (err) {
-			  err.message = `Failed sr5 system migration for Actor ${a.name}: ${err.message}`;
-			  console.error(err);
+				err.message = `Failed sr5 system migration for Actor ${a.name}: ${err.message}`;
+				console.error(err);
 			}
 		}
 
 		// Migrate Actor Override Tokens
 		for (let s of game.scenes.contents) {
 			try {
-			  const updateData = this.migrateSceneData(s);
-			  if (!foundry.utils.isEmpty(updateData)) {
-				SR5_SystemHelpers.srLog(2, `Migrating Scene entity ${s.name}`);
-				await s.update(updateData, { enforceTypes: false });
-				// If we do not do this, then synthetic token actors remain in cache
-				// with the un-updated actorData.
-				s.tokens.contents.forEach(t => t._actor = null);
-			  }
+				const updateData = this.migrateSceneData(s);
+				if (!foundry.utils.isEmpty(updateData)) {
+					SR5_SystemHelpers.srLog(2, `Migrating Scene entity ${s.name}`);
+					await s.update(updateData, { enforceTypes: false });
+					// If we do not do this, then synthetic token actors remain in cache
+					// with the un-updated actorData.
+					s.tokens.contents.forEach(t => t._actor = null);
+				}
 			} catch (err) {
-			  err.message = `Failed sr5 system migration for Scene ${s.name}: ${err.message}`;
-			  console.error(err);
+				err.message = `Failed sr5 system migration for Scene ${s.name}: ${err.message}`;
+				console.error(err);
 			}
-		  }
+		}
 
 		// Set the migration as complete
 		game.settings.set("sr5", "systemMigrationVersion", game.system.version);
@@ -112,33 +112,33 @@ export default class Migration {
 
 		// Apply the original locked status for the pack
 		await pack.configure({ locked: wasLocked });
-		SR5_SystemHelpers.srLog(2,`Migrated all ${document} entities from Compendium ${pack.collection}`);
+		SR5_SystemHelpers.srLog(2, `Migrated all ${document} entities from Compendium ${pack.collection}`);
 	};
 
 	/* -------------------------------------------- */
-  	/*  Entity Type Migration Helpers               */
-  	/* -------------------------------------------- */
+	/*  Entity Type Migration Helpers               */
+	/* -------------------------------------------- */
 
-  	/**
-   	* Migrate a single Actor entity to incorporate latest data model changes
-   	* Return an Object of updateData to be applied
-   	* @param {object} actor    The actor data object to update
-   	* @return {Object}         The updateData to apply
-   	*/
-   	migrateActorData(actor) {
-	    const updateData = {};
-    	// Actor Data Updates
-    	if (actor.system) {
+	/**
+		* Migrate a single Actor entity to incorporate latest data model changes
+		* Return an Object of updateData to be applied
+		* @param {object} actor    The actor data object to update
+		* @return {Object}         The updateData to apply
+		*/
+	migrateActorData(actor) {
+		const updateData = {};
+		// Actor Data Updates
+		if (actor.system) {
 			//Do stuff on Actor
-			if(actor.type !== "actorDrone") updateData["system.penalties.-=resonance"] = null;
-			if(actor.system.vision) updateData["system.-=vision"] = null;
-			if (actor.type === "actorSpirit"){
-				if(actor.system.magic.magicType === "") updateData["system.magic.magicType"] = "spirit";
+			if (actor.type !== "actorDrone") updateData["system.penalties.-=resonance"] = null;
+			if (actor.system.vision) updateData["system.-=vision"] = null;
+			if (actor.type === "actorSpirit") {
+				if (actor.system.magic.magicType === "") updateData["system.magic.magicType"] = "spirit";
 			}
 
 			//Change on conditionMonitors template to handle temporary damage
-			if (actor.system.conditionMonitors){
-				for (let key of Object.keys(actor.system.conditionMonitors)){
+			if (actor.system.conditionMonitors) {
+				for (let key of Object.keys(actor.system.conditionMonitors)) {
 					if (actor.system.conditionMonitors[key].current) {
 						if (key === "condition") {
 							updateData["system.conditionMonitors.condition.actual.base"] = actor.system.conditionMonitors.condition.current;
@@ -169,20 +169,20 @@ export default class Migration {
 			}
 
 			//Change astralCombat limit
-			if (actor.system.skills?.astralCombat){
+			if (actor.system.skills?.astralCombat) {
 				updateData["system.skills.astralCombat.limit.base"] = "astralLimit";
 			}
 
 			//v10 embedded items in actor
-			if (actor.system.creatorData){
+			if (actor.system.creatorData) {
 				let newCreatorData = duplicate(actor.system.creatorData);
-				if (newCreatorData.items){
-					for (let i of newCreatorData.items){
+				if (newCreatorData.items) {
+					for (let i of newCreatorData.items) {
 						i.system = i.data;
-						if (i.system.customEffects){
-							for (let e of Object.values(i.system.customEffects)){
-								if (e.target){
-									if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+						if (i.system.customEffects) {
+							for (let e of Object.values(i.system.customEffects)) {
+								if (e.target) {
+									if (e.target.includes("data.")) e.target = e.target.replace('data.', 'system.');
 								}
 							}
 						}
@@ -192,16 +192,16 @@ export default class Migration {
 				updateData["system.creatorData"] = newCreatorData;
 			}
 
-			if(actor.flags?.sr5?.vehicleControler){
+			if (actor.flags?.sr5?.vehicleControler) {
 				let newFlag = duplicate(actor.flags.sr5.vehicleControler);
 				newFlag.system = newFlag.data;
-				if (newFlag.items){
-					for (let i of newFlag.items){
+				if (newFlag.items) {
+					for (let i of newFlag.items) {
 						i.system = i.data;
-						if (i.system.customEffects){
-							for (let e of Object.values(i.system.customEffects)){
-								if (e.target){
-									if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+						if (i.system.customEffects) {
+							for (let e of Object.values(i.system.customEffects)) {
+								if (e.target) {
+									if (e.target.includes("data.")) e.target = e.target.replace('data.', 'system.');
 								}
 							}
 						}
@@ -213,7 +213,7 @@ export default class Migration {
 			}
 
 			//Change on hardened armors
-			if(actor.system.specialProperties){
+			if (actor.system.specialProperties) {
 				updateData["system.specialProperties.-=hardenedArmorType"] = null;
 				updateData["system.specialProperties.-=hardenedArmorRating"] = null;
 				updateData["system.specialProperties.-=hardenedArmor"] = null;
@@ -221,7 +221,7 @@ export default class Migration {
 				updateData["system.specialProperties.-=hardenedAstralArmorRating"] = null;
 				updateData["system.specialProperties.-=hardenedAstralArmor"] = null;
 			}
-    	}
+		}
 
 		// Migrate Owned Items
 		if (actor.items) {
@@ -273,23 +273,23 @@ export default class Migration {
 		const updateData = {};
 
 		//v10 migrate item's token
-		if (isToken){
+		if (isToken) {
 			item.system = item.data;
 			updateData["system"] = item.data;
 		}
 
 		//Migrate Items
-		if (item.type == "itemQuality"){
+		if (item.type == "itemQuality") {
 			updateData["system.isActive"] = true;
 		}
 
-		if (item.type == "itemWeapon"){
-			if(item.system?.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
-			if(item.system?.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
-			if(item.system?.type === "unarmed") updateData["system.type"] = "unarmedCombat";
-			if(item.system?.weaponSkill?.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
-			if(item.system?.weaponSkill?.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
-			if(item.system?.category === "grenade"){
+		if (item.type == "itemWeapon") {
+			if (item.system?.type === "amt_special") updateData["system.type"] = "exoticMeleeWeapon";
+			if (item.system?.type === "adt_special") updateData["system.type"] = "exoticRangedWeapon";
+			if (item.system?.type === "unarmed") updateData["system.type"] = "unarmedCombat";
+			if (item.system?.weaponSkill?.category === "amt_special") updateData["system.weaponSkill.category"] = "exoticMeleeWeapon";
+			if (item.system?.weaponSkill?.category === "adt_special") updateData["system.weaponSkill.category"] = "exoticRangedWeapon";
+			if (item.system?.category === "grenade") {
 				updateData["system.range.short.base"] = 2;
 				updateData["system.range.medium.base"] = 4;
 				updateData["system.range.long.base"] = 6;
@@ -297,7 +297,7 @@ export default class Migration {
 			}
 		}
 
-		if (item.system?.conditionMonitors){
+		if (item.system?.conditionMonitors) {
 			if (item.system.conditionMonitors.matrix) {
 				updateData["system.conditionMonitors.matrix.actual.base"] = item.system.conditionMonitors.matrix.current;
 				updateData["system.conditionMonitors.matrix.-=current"] = null;
@@ -316,14 +316,14 @@ export default class Migration {
 			}
 		}
 
-		if (item.type == "itemSpell"){
-			if (item.system.drainModifier) {		
+		if (item.type == "itemSpell") {
+			if (item.system.drainModifier) {
 				updateData["system.drain.base"] = item.system.drainModifier;
 				updateData["system.-=drainModifier"] = null;
 			}
 		}
 
-		if (item.type === "itemKnowledge" || item.type === "itemLanguage"){
+		if (item.type === "itemKnowledge" || item.type === "itemLanguage") {
 			if (item.system.base) {
 				updateData["system.rating.base"] = item.system.base;
 				updateData["system.-=base"] = null;
@@ -333,17 +333,17 @@ export default class Migration {
 		}
 
 		//v10 migrate custom effects path
-		if (item.system?.customEffects){
+		if (item.system?.customEffects) {
 			let newCustomEffects = item.system.customEffects;
-			for (let e of Object.values(newCustomEffects)){
-				if (e.target){
-					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+			for (let e of Object.values(newCustomEffects)) {
+				if (e.target) {
+					if (e.target.includes("data.")) e.target = e.target.replace('data.', 'system.');
 					//Change to hardened armor
-					if (e.target === "system.specialProperties.hardenedAstralArmorType"){
+					if (e.target === "system.specialProperties.hardenedAstralArmorType") {
 						e.category = "hardenedArmors";
 						e.target = "system.specialProperties.hardenedArmors.astral";
 					}
-					if (e.target === "system.specialProperties.hardenedArmorType"){
+					if (e.target === "system.specialProperties.hardenedArmorType") {
 						e.category = "hardenedArmors";
 						e.target = "system.specialProperties.hardenedArmors.normalWeapon";
 					}
@@ -354,31 +354,31 @@ export default class Migration {
 		}
 
 		//v10 migrate items effects path
-		if (item.system?.itemEffects){
+		if (item.system?.itemEffects) {
 			let newItemEffects = item.system.itemEffects;
-			for (let e of Object.values(newItemEffects)){
-				if (e.target){
-					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+			for (let e of Object.values(newItemEffects)) {
+				if (e.target) {
+					if (e.target.includes("data.")) e.target = e.target.replace('data.', 'system.');
 				}
 			}
 			updateData["system.itemEffects"] = newItemEffects;
 		}
 
 		//v10 migrate system effects path
-		if (item.system?.systemEffects){
+		if (item.system?.systemEffects) {
 			let newSystemEffects = item.system.systemEffects;
-			for (let e of Object.values(newSystemEffects)){
-				if (e.target){
-					if (e.target.includes("data."))	e.target = e.target.replace('data.','system.');
+			for (let e of Object.values(newSystemEffects)) {
+				if (e.target) {
+					if (e.target.includes("data.")) e.target = e.target.replace('data.', 'system.');
 				}
 			}
 			updateData["system.systemEffects"] = newSystemEffects;
 		}
 
 		//v10 migrate agent item
-		if (item.system?.decks){
+		if (item.system?.decks) {
 			let newDecks = item.system.decks;
-			for (let i of Object.values(newDecks)){
+			for (let i of Object.values(newDecks)) {
 				if (i.data) i.system = i.data;
 			}
 			updateData["system.decks"] = newDecks;
@@ -386,20 +386,20 @@ export default class Migration {
 
 		// Migrate Effects
 		if (item.effects) {
-		const effects = item.effects.reduce((arr, e) => {
-			// Migrate the Owned Item
-			const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
-			let effectUpdate = this.migrateEffectData(effectData);
+			const effects = item.effects.reduce((arr, e) => {
+				// Migrate the Owned Item
+				const effectData = e instanceof CONFIG.ActiveEffect.documentClass ? e.toObject() : e;
+				let effectUpdate = this.migrateEffectData(effectData);
 
-			// Update the Owned Item
-			if (!foundry.utils.isEmpty(effectUpdate)) {
-				effectUpdate._id = effectData._id;
-				arr.push(expandObject(effectUpdate));
-			}
+				// Update the Owned Item
+				if (!foundry.utils.isEmpty(effectUpdate)) {
+					effectUpdate._id = effectData._id;
+					arr.push(expandObject(effectUpdate));
+				}
 
-			return arr;
-		}, []);
-		if (effects.length > 0) updateData.effects = effects;
+				return arr;
+			}, []);
+			if (effects.length > 0) updateData.effects = effects;
 		}
 
 		return updateData;
@@ -408,11 +408,11 @@ export default class Migration {
 	/* -------------------------------------------- */
 
 	/**
-   * Migrate a single Scene entity to incorporate changes to the data model of it's actor data overrides
-   * Return an Object of updateData to be applied
-   * @param {Object} scene  The Scene data to Update
-   * @return {Object}       The updateData to apply
-   */
+	 * Migrate a single Scene entity to incorporate changes to the data model of it's actor data overrides
+	 * Return an Object of updateData to be applied
+	 * @param {Object} scene  The Scene data to Update
+	 * @return {Object}       The updateData to apply
+	 */
 	migrateSceneData(scene) {
 		const tokens = scene.tokens.map(token => {
 			const t = token.toJSON();
@@ -425,7 +425,7 @@ export default class Migration {
 			}
 			else if (!t.actorLink) {
 				const actorData = duplicate(t.actorData);
-				actorData.type = token.actor?.type;	
+				actorData.type = token.actor?.type;
 				/*if (actorData.items){
 					for (let i of Object.values(actorData.items)){
 						i.system = i.data;
