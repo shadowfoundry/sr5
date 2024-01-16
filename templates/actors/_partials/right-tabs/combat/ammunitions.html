@@ -42,7 +42,7 @@
 				  data-helpMessage="{{localize 'SR5.HELP_QuantityMsg'}}">
 					{{system.quantity}}
 				</div>
-				{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+				{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
 				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
 				  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
 				  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">

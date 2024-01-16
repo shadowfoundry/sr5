@@ -20,7 +20,7 @@
                     {{/each}}
                 {{/select}}
             </select> 
-        {{else if (or (eq system.type "arrow") (eq system.type "arrowInjection"))}}
+        {{else if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
             <select name="system.class" data-dtype="String" required>
                 {{#select system.class}}
                     <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
