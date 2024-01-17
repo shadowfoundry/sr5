@@ -3655,7 +3655,8 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	static generateDeviceMatrixActions(actor) {
+
+	static generateDeviceMatrixActions(actor){
 		let actorData = actor.system, matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
 
 		for (let key of Object.keys(SR5.matrixActions)) {
@@ -3669,7 +3670,7 @@ export class SR5_CharacterUtility extends Actor {
 				if (matrix.userMode === "hotsim") {
 					SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.VirtualRealityHotSimShort'), "matrixUserMode", 2);
 				}
-				if (matrixActions[key].specialization) {
+				if (matrixActions[key].specialization){
 					SR5_EntityHelpers.updateModifier(matrixActions[key].test, `${game.i18n.localize('SR5.Specialization')}`, "specialization", 2, false, true);
 				}
 				SR5_EntityHelpers.updateDicePool(matrixActions[key].test, 0);
@@ -4178,7 +4179,7 @@ export class SR5_CharacterUtility extends Actor {
 		}
 	}
 
-	static async updateMatrixEffect(actor) {
+	static async updateMatrixEffect(actor){
 		let status, isStatusEffectOn, statusEffects = [];
 		isStatusEffectOn = actor.effects.find(e => e.statuses.has("matrixInit"));
 		if (!actor.system.isDirectlyConnected) {
