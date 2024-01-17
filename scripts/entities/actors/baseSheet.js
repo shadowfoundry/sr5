@@ -679,11 +679,19 @@ export class ActorSheetSR5 extends ActorSheet {
 							actorData.addictions = actorData.addictions.concat(addiction);
 							actorData.addictions = Object.values(actorData.addictions);
 						}		
-						if (actorData.addictions.shot?.value) SR5_EntityHelpers.updateValue(actorData.addictions.shot);
-						
+          
+						SR5_SystemHelpers.srLog(1, "actorData.addictions : " + JSON.stringify(actorData.addictions));
+						if (actorData.addictions.shot) SR5_EntityHelpers.updateValue(actorData.addictions.shot);
+						if (actorData.addictions.weekAddiction) SR5_EntityHelpers.updateValue(actorData.addictions.weekAddiction);		
+					
 					// Check if the drug is set on systemEffect					
 					if (drugType) {
 						
+						SR5_SystemHelpers.srLog(1, "Check drugType");
+
+						// Generate the drug stat
+						drug = await SR5_CharacterUtility.handleDrugShots(item, drugType, actorData);
+						itemData.handleShot = drug;
 						
 						let speedType = "";
 

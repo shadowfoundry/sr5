@@ -1012,6 +1012,13 @@ SR5.ammunitionCrossbowTypes = {
 SR5.ammunitionBowTypes = {
 	arrow                     : "SR5.AmmunitionTypeArrow",
 	arrowInjection            : "SR5.AmmunitionTypeInjectionArrow",
+	arrowBarbedHead           : "SR5.AmmunitionTypeArrowBarbedHead",
+	arrowExplosiveHead	      : "SR5.AmmunitionTypeArrowExplosiveHead",
+	arrowHammerhead		   	  : "SR5.AmmunitionTypeArrowHammerhead",
+	arrowIncendiaryHead	      : "SR5.AmmunitionTypeArrowIncendiaryHead",
+	arrowScreamerHead	      : "SR5.AmmunitionTypeArrowScreamerHead",
+	arrowStickNShock          : "SR5.AmmunitionTypeArrowStickNShock",
+	arrowStaticShaft		  : "SR5.AmmunitionTypeArrowStaticShaft",
 };
 
 //Types de munitions de lance grenade
@@ -2062,6 +2069,16 @@ SR5.matrixOtherActions = {
 SR5.resonanceActions = {
 	callOrDismissSprite       : "SR5.MatrixActionCallOrDismissSprite",
 	commandSprite             : "SR5.MatrixActionCommandSprite",
+	compileSprite             : "SR5.MatrixActionCompileSprite",
+	decompileSprite           : "SR5.MatrixActionDecompileSprite",
+	eraseResonanceSignature   : "SR5.MatrixActionEraseResonanceSignature",
+	killComplexForm           : "SR5.MatrixActionKillComplexForm",
+	registerSprite            : "SR5.MatrixActionRegisterSprite",
+	threadComplexForm         : "SR5.MatrixActionThreadComplexForm",
+};
+
+// Resonance Actions with rolled
+SR5.resonanceActionsRolled = {
 	compileSprite             : "SR5.MatrixActionCompileSprite",
 	decompileSprite           : "SR5.MatrixActionDecompileSprite",
 	eraseResonanceSignature   : "SR5.MatrixActionEraseResonanceSignature",

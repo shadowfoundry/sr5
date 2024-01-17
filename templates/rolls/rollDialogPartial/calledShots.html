@@ -83,10 +83,10 @@
                 {{#if (or (eq combat.ammo.type "injection")(eq combat.ammo.type "boltInjection")(eq combat.ammo.type "arrowInjection") )}} 
                 <option value="hitEmWhereItCounts">{{localize 'SR5.CS_AS_HitEmWhereItCounts'}}</option>
                 {{/if}}
-                {{#if (or (eq combat.ammo.type "flechette") (eq combat.ammo.type "arrow") (eq combat.ammo.type "bolt"))}} 
+                {{#if (or (eq combat.ammo.type "flechette") (eq combat.ammo.type "arrow") (eq combat.ammo.type "arrowBarbedHead") (eq combat.ammo.type "arrowExplosiveHead") (eq combat.ammo.type "arrowHammerhead") (eq combat.ammo.type "arrowIncendiaryHead") (eq combat.ammo.type "arrowScreamerHead") (eq combat.ammo.type "arrowStickNShock") (eq combat.ammo.type "arrowStaticShaft") (eq combat.ammo.type "bolt"))}} 
                 <option value="onPinsAndNeedles">{{localize 'SR5.CS_AS_OnPinsAndNeedles'}}</option>
                 {{/if}}
-                {{#if (or (eq combat.ammo.type "flechette") (eq combat.ammo.type "arrow") (eq combat.ammo.type "bolt"))}} 
+                {{#if (or (eq combat.ammo.type "flechette") (eq combat.ammo.type "arrow") (eq combat.ammo.type "arrowBarbedHead") (eq combat.ammo.type "arrowExplosiveHead") (eq combat.ammo.type "arrowHammerhead") (eq combat.ammo.type "arrowIncendiaryHead") (eq combat.ammo.type "arrowScreamerHead") (eq combat.ammo.type "arrowStickNShock") (eq combat.ammo.type "arrowStaticShaft") (eq combat.ammo.type "bolt"))}} 
                 <option value="shreddedFlesh">{{localize 'SR5.CS_AS_ShreddedFlesh'}}</option>
                 {{/if}}
                 {{#if (eq combat.ammo.type "tracker")}} 
