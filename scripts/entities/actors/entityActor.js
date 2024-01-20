@@ -242,7 +242,6 @@ export class SR5Actor extends Actor {
 			mergeObject(createData, {
 				"prototypeToken": this.system.sideKickPrototypeToken,
 			});
-			console.log("sidekick: ", createData.prototypeToken);
 		};
 
 		this.updateSource(createData);
