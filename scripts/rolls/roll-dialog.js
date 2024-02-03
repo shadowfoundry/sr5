@@ -157,6 +157,8 @@ export default class SR5_RollDialog extends Dialog {
 
         // Extended test
         html.find('[name="toggleExtendedTest"]').change(ev => this._onToggleExtendedTest(ev.target.checked, dialogData, html));
+        html.find('[name="extendedTime"]').change(ev => this._onChangeExtendedTest(ev.target.checked, dialogData, html));
+        html.find('[name="extendedMultiplier"]').change(ev => this._onChangeExtendedTest(ev.target.checked, dialogData, html));
 
         //auto fill extended test if data are already present
         if (dialogData.test.isExtended){
@@ -1202,6 +1204,8 @@ export default class SR5_RollDialog extends Dialog {
 
         if (isChecked) {
             dialogData.test.isExtended = true;
+            dialogData.test.extended.interval = html.find('[name="extendedTime"]')[0].value;
+            dialogData.test.extended.multiplier = html.find('[name="extendedMultiplier"]')[0].value;
             $(html).find('#extendedBlock').show();
             this.setPosition(position);
         }
@@ -1210,6 +1214,12 @@ export default class SR5_RollDialog extends Dialog {
             $(html).find('#extendedBlock').hide();
             this.setPosition(position);
         }
+    }
+
+    //Handle Extended Test Value
+    _onChangeExtendedTest(isChecked, dialogData, html){
+            dialogData.test.extended.interval = html.find('[name="extendedTime"]')[0].value;
+            dialogData.test.extended.multiplier = html.find('[name="extendedMultiplier"]')[0].value;
     }
 
 }

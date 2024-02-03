@@ -223,12 +223,14 @@ export class SR5_UiModifications {
 	}
 
 	static async addHelpWindow() {
-		let template = "systems/sr5/templates/interface/help.html";
-		const html = await renderTemplate(template);
+        let template = "systems/sr5/templates/interface/help.html";
+        const html = await renderTemplate(template);
 
-		if (game.settings.get("sr5", "sr5Help.active")) {
-			document.getElementById('pause').insertAdjacentHTML("afterend", html);
-		}
-	}
+        if (game.settings.get("sr5", "sr5Help.active")) {
+            let target = document.querySelector("#sr5help");
+            if (!target)
+                document.getElementById('pause').insertAdjacentHTML("afterend", html);
+        }
+    }
 
 }

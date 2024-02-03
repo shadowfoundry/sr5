@@ -238,9 +238,12 @@ export class SR5_RollTest {
 		newMessage.roll.hits = messageData.roll.hits + newRoll.hits;
 		newMessage.roll.dices = dicesTotal;
 		newMessage.test.extended.roll += 1;
+		if (typeof newMessage.originalModifiers === 'undefined') {
+				newMessage.originalModifiers = messageData.dicePool.modifiersTotal;
+		}
 		newMessage.dicePool.modifiers.extendedTest = {
 			label: game.i18n.localize("SR5.ExtendedTest"),
-			value: -(newMessage.test.extended.roll - 1),
+			value: -( - newMessage.originalModifiers + newMessage.test.extended.roll - 1),
 		}
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.addInfoToCard(newMessage, actor.id);

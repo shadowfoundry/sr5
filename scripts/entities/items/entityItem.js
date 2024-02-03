@@ -343,6 +343,10 @@ export class SR5Item extends Item {
 				tags.push(`${game.i18n.localize('SR5.PowerPointsCost')}${game.i18n.localize('SR5.Colons')} ${itemData.powerPointsCost.value}`);
 				tags.push(`${game.i18n.localize('SR5.ActionType')}${game.i18n.localize('SR5.Colons')} ${game.i18n.localize(lists.powerActionTypes[itemData.actionType])}`);
 				break;
+			case "itemDrug":
+				if (itemData.onUse.duration) tags.push(`${game.i18n.localize('SR5.DrugDuration')}${game.i18n.localize('SR5.Colons')} ${itemData.onUse.duration}`);
+				if (itemData.onUse.contrecoup) tags.push(`${game.i18n.localize('SR5.DrugContrecoupDuration')}${game.i18n.localize('SR5.Colons')} ${itemData.onUse.contrecoup}`);
+				break;
 			case "itemQuality":
 				tags.push(`${game.i18n.localize(lists.qualityTypes[itemData.type])}`);
 				if (itemData.itemRating !== 0) tags.push(`${game.i18n.localize('SR5.ItemRating')}${game.i18n.localize('SR5.Colons')} ${itemData.itemRating}`);
