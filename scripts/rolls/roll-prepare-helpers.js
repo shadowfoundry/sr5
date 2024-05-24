@@ -71,7 +71,7 @@ export class SR5_PrepareRollHelper {
     static async getTargetData(rollData){
         let targetActor = await this.getTargetedActor();
         if (targetActor){
-            rollData = mergeObject(rollData, {
+            rollData = foundry.utils.mergeObject(rollData, {
                 "target.hasTarget": true,
                 "target.actorId": await this.getTargetedActorID(),
             });

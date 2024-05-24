@@ -17,7 +17,7 @@ export class SR5_ActorHelper {
         let realActor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		let damage = options.damage.value,
 			damageType = options.damage.type,
-			actor = duplicate(realActor),
+			actor = foundry.utils.duplicate(realActor),
 			actorData = actor.system,
 			gelAmmo = 0,
 			damageReduction = 0,
@@ -352,7 +352,7 @@ export class SR5_ActorHelper {
     //Raise owerwatch score
     static async overwatchIncrease(defenseHits, actorId) {
         let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
-        let actorData = duplicate(actor.system);
+        let actorData = foundry.utils.duplicate(actor.system);
 
         if (actorData.matrix.overwatchScore === null) actorData.matrix.overwatchScore = 0;
         actorData.matrix.overwatchScore += defenseHits;
@@ -370,7 +370,7 @@ export class SR5_ActorHelper {
 		for (let m of actorData.matrix.markedItems){
 			let itemToClean = await fromUuid(m.uuid);
 			if (itemToClean) {
-				let cleanData = duplicate(itemToClean.system);
+				let cleanData = foundry.utils.duplicate(itemToClean.system);
 				for (let i = 0; i < cleanData.marks.length; i++){
 					if (cleanData.marks[i].ownerId === actorId) {
 						cleanData.marks.splice(i, 1);
@@ -397,7 +397,7 @@ export class SR5_ActorHelper {
 		if (!actor) return SR5_SystemHelpers.srLog(1, `No Actor in deleteMarkInfo()`);
 
 		let deck = actor.items.find(d => d.type === "itemDevice" && d.system.isActive),
-			deckData = duplicate(deck.system),
+			deckData = foundry.utils.duplicate(deck.system),
 			index=0;
 
 		for (let m of deckData.markedItems){
@@ -415,7 +415,7 @@ export class SR5_ActorHelper {
 			for (let token of canvas.tokens.placeables){
 				if (token.actor.id === actorId) {
 					let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive);
-					let tokenDeckData = duplicate(tokenDeck.system);
+					let tokenDeckData = foundry.utils.duplicate(tokenDeck.system);
 					tokenDeckData.markedItems = deckData.markedItems;
 					await tokenDeck.update({"system": tokenDeckData});
 				}
@@ -453,7 +453,7 @@ export class SR5_ActorHelper {
 		// Give permission to player
 		if (userId) {
 			permissionPath = 'permission.' + userId;
-			sideKickData = mergeObject(sideKickData, {[permissionPath]: 3,});
+			sideKickData = foundry.utils.mergeObject(sideKickData, {[permissionPath]: 3,});
 		}
 
 		// Handle specific data for Actor creation
@@ -476,7 +476,7 @@ export class SR5_ActorHelper {
 				}
 			}
 
-			sideKickData = mergeObject(sideKickData, {
+			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.type": itemData.type,
 				"system.force.base": itemData.itemRating,
@@ -502,7 +502,7 @@ export class SR5_ActorHelper {
 				baseItems.push(deck);
 			}
 
-			sideKickData = mergeObject(sideKickData, {
+			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.type": itemData.type,
 				"system.level": itemData.itemRating,
@@ -527,7 +527,7 @@ export class SR5_ActorHelper {
 			for (let decks of itemData.decks) baseItems.push(decks);
 			for (let vehicles of itemData.vehicles) baseItems.push(vehicles);
 
-			sideKickData = mergeObject(sideKickData, {
+			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.biography.description": itemData.description,
 				"system.biography.background": itemData.gameEffect,
@@ -564,7 +564,7 @@ export class SR5_ActorHelper {
 
 			let creatorData = SR5_EntityHelpers.getRealActorFromID(actorId);
 			creatorData = creatorData.toObject(false);
-			sideKickData = mergeObject(sideKickData, {
+			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
 				"system.creatorData": creatorData,
@@ -587,7 +587,7 @@ export class SR5_ActorHelper {
 			}
 			let ownerActorObject = ownerActor.toObject(false);
 
-			sideKickData = mergeObject(sideKickData, {
+			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.creatorId": actorId,
 				"system.creatorItemId": item._id,
@@ -652,7 +652,7 @@ export class SR5_ActorHelper {
 	static async dimissSidekick(actor){
 		let ownerActor = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId);
 		let item = ownerActor.getEmbeddedDocument("Item", actor.system.creatorItemId);
-		let modifiedItem = duplicate(item);
+		let modifiedItem = foundry.utils.duplicate(item);
 
 		if (actor.type === "actorSpirit"){			
 			let powers = [];
@@ -876,7 +876,7 @@ export class SR5_ActorHelper {
 		itemToAdd.system.panMaster = actorId;
 		await item.update({"system": itemToAdd.system});
 
-		let currentPan = duplicate(deck.system.pan);
+		let currentPan = foundry.utils.duplicate(deck.system.pan);
 		let panObject = {
 			"name": item.name,
 			"uuid": targetItem,
@@ -898,13 +898,13 @@ export class SR5_ActorHelper {
 		if (!deck) return;
 
 		if (item) {
-			let newItem = duplicate(item.system);
+			let newItem = foundry.utils.duplicate(item.system);
 			newItem.isSlavedToPan = false;
 			newItem.panMaster = "";
 			await item.update({"system": newItem,});
 		}
 
-		let currentPan = duplicate(deck.system.pan);
+		let currentPan = foundry.utils.duplicate(deck.system.pan);
 		if (index){
 			currentPan.content.splice(index, 1);
 		} else {
@@ -931,7 +931,7 @@ export class SR5_ActorHelper {
 	static async linkEffectToSource(actorId, targetItem, effectUuid){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId),
 			item = await fromUuid(targetItem),
-			newItem = duplicate(item.system);
+			newItem = foundry.utils.duplicate(item.system);
 
 		if (newItem.duration === "sustained") newItem.isActive = true;
 		if (item.type === "itemAdeptPower" || item.type === "itemPower") newItem.isActive = true;
@@ -961,7 +961,7 @@ export class SR5_ActorHelper {
 		for (let i of actor.items){
 			let needUpdate = false;
 			if (i.system.itemEffects?.length){
-				dataToUpdate = duplicate(i.system)
+				dataToUpdate = foundry.utils.duplicate(i.system)
 				index = 0;
 				for (let e of dataToUpdate.itemEffects){
 					if (e.ownerItem === parentItemEffect){
@@ -992,7 +992,7 @@ export class SR5_ActorHelper {
 		let ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive);
 		if (!ownerDeck) return SR5_SystemHelpers.srLog(1, `No Owner Deck in keepAgentMonitorSynchro()`);
 		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
-			let updatedActor = duplicate(agent.system);
+			let updatedActor = foundry.utils.duplicate(agent.system);
 			updatedActor.conditionMonitors.matrix = ownerDeck.system.conditionMonitors.matrix;
 			await agent.update({"system": updatedActor,});
 		}
@@ -1005,7 +1005,7 @@ export class SR5_ActorHelper {
 		let ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive);
 		if (!ownerDeck) return SR5_SystemHelpers.srLog(1, `No Owner Deck in keepDeckSynchroWithAgent()`);;
 		if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
-			let newDeck = duplicate(ownerDeck.system);
+			let newDeck = foundry.utils.duplicate(ownerDeck.system);
 			newDeck.conditionMonitors.matrix = agent.system.conditionMonitors.matrix;
 			await ownerDeck.update({"system": newDeck});
 		}
@@ -1017,7 +1017,7 @@ export class SR5_ActorHelper {
 		for (let t of canvas.tokens.ownedTokens){
 			if (t.document.actorId === document.id){
 				let actor = SR5_EntityHelpers.getRealActorFromID(t.document.id);
-				let updatedActor = duplicate(actor.system);
+				let updatedActor = foundry.utils.duplicate(actor.system);
 				updatedActor.conditionMonitors.edge = document.system.conditionMonitors.edge;
 				actor.update({"system": updatedActor,});
 			}
@@ -1131,7 +1131,7 @@ export class SR5_ActorHelper {
 				};
 
 				if (effectType === "customEffects"){
-					itemEffect = mergeObject(itemEffect, {
+					itemEffect = foundry.utils.mergeObject(itemEffect, {
 						"system.customEffects": {
 							"0": {
 								"category": e.category,
@@ -1143,7 +1143,7 @@ export class SR5_ActorHelper {
 						},
 					});
 				} else if (effectType === "itemEffects"){
-					itemEffect = mergeObject(itemEffect, {
+					itemEffect = foundry.utils.mergeObject(itemEffect, {
 						"system.hasEffectOnItem": true,
 					});
 				}

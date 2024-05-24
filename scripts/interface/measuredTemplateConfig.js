@@ -7,7 +7,7 @@ export default class SR5MeasuredTemplateConfig extends MeasuredTemplateConfig {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             tabs: [
 				{
 					navSelector: ".tabs",

@@ -10,7 +10,7 @@ import { SR5Combat } from "../system/srcombat.js";
 export default class SR5_RollDialog extends Dialog {
 
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             height: 'auto',
             width: 450,
             resizable: false,

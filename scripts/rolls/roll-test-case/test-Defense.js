@@ -25,7 +25,7 @@ export default async function defenseInfo(cardData, actorId){
     //If Defenser win, return
     if (cardData.roll.netHits <= 0) {
         if (cardData.combat.calledShot.name === "throughAndInto") {
-            let originalAttackMessage = duplicate(game.messages.get(cardData.previousMessage.messageId));
+            let originalAttackMessage = foundry.utils.duplicate(game.messages.get(cardData.previousMessage.messageId));
             originalAttackMessage.flags.sr5data.combat.calledShot.name = '';
             cardData.originalAttackMessage = originalAttackMessage.flags.sr5data;
             cardData.chatCard.buttons.defenseRangedWeapon = SR5_RollMessage.generateChatButton("opposedTest","defenseThroughAndInto",game.i18n.localize("SR5.DefendSecondTarget"));
@@ -151,7 +151,7 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
             cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize('SR5.CS_AS_Tag'));
             break;
         case "throughAndInto":
-            let originalAttackMessage = duplicate(game.messages.get(cardData.previousMessage.messageId));
+            let originalAttackMessage = foundry.utils.duplicate(game.messages.get(cardData.previousMessage.messageId));
             originalAttackMessage.flags.sr5data.combat.calledShot.name = '';
             originalAttackMessage.flags.sr5data.damage.value -= 1;
             originalAttackMessage.flags.sr5data.damage.base -= 1;

@@ -16,7 +16,7 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			template: "systems/sr5/templates/actors/sprite-sheet.html",
 			width: 800,
 			height: 618,

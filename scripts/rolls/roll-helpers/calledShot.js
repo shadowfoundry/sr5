@@ -89,12 +89,12 @@ export class SR5_CalledShotHelpers {
                         effects.push(checkedEffects);
                     }
                     ui.notifications.info(`${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);      
-                    messageData = mergeObject(messageData, {
+                    messageData = foundry.utils.mergeObject(messageData, {
                         "combat.calledShot.hitsSpent": true,
                         "combat.calledShot.effects": effects,
                     });
                     //Update chatMessage
-                    let newMessage = duplicate(messageData);
+                    let newMessage = foundry.utils.duplicate(messageData);
                     newMessage.previousMessage.hits -= numberCheckedEffects;
                     await SR5_RollTest.addInfoToCard(newMessage, actor.id);
                     SR5_RollMessage.updateRollCardHelper(messageData.owner.messageId, newMessage);
@@ -120,7 +120,7 @@ export class SR5_CalledShotHelpers {
         switch (calledShotsType){
             case "bleedOut": //done, can't be automatised
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.duration": "",
                         "system.durationType": "special",
@@ -131,7 +131,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "blinded": //partially done: effect apply to all sight action, but for now only perception is concerned
                 if (hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.SightPenalty"),
                         "system.value": -8,
                         "system.duration": effecType.initialDV,
@@ -149,7 +149,7 @@ export class SR5_CalledShotHelpers {
                     await actor.deleteEmbeddedDocuments("Item", [hasEffect.id]);
                     itemEffects.push(effect);
                 } else {
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.SightPenalty"),
                         "system.value": -4,
                         "system.duration": effecType.initialDV,
@@ -169,7 +169,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "brokenGrip": //Partially done: can't apply an effect based on arm usage
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.value": -1,
                         "system.duration": effecType.initialDV,
@@ -180,7 +180,7 @@ export class SR5_CalledShotHelpers {
                 }
                 if (hasWeakSide || weakSideSpecific) {
                     if(hasWeakSide) await actor.deleteEmbeddedDocuments("Item", [hasWeakSide.id]);
-                    effect2 = mergeObject(effect2, {
+                    effect2 = foundry.utils.mergeObject(effect2, {
                         "name": game.i18n.localize(SR5.calledShotsEffects["weakSide"]),
                         "system.type": "weakSide",
                         "system.target": game.i18n.localize("SR5.Penalty"),
@@ -233,7 +233,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "deafened": //done        
                 if (hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.HearingPenalty"),
                         "system.value": -4,
                         "system.duration": effecType.initialDV,
@@ -252,7 +252,7 @@ export class SR5_CalledShotHelpers {
                     itemEffects.push(effect);
                 }
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.HearingPenalty"),
                         "system.value": -2,
                         "system.duration": effecType.initialDV,
@@ -272,7 +272,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "dirtyTrick": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.value": effecType.value || -4,
                         "system.duration": 1,
@@ -293,7 +293,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "entanglement": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Agility"),
                         "system.value": -effecType.netHits,
                         "system.duration": "",
@@ -313,7 +313,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "feint":  //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.value": -info.roll.netHits,
                         "system.duration": 1,
@@ -357,7 +357,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "flared": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.value": -8,
                         "system.duration": 1,
@@ -373,7 +373,7 @@ export class SR5_CalledShotHelpers {
                         }, 
                         "system.gameEffect": game.i18n.localize("SR5.STATUSES_Flared_GE"),
                     });
-                    effect2 = mergeObject(effect2, {
+                    effect2 = foundry.utils.mergeObject(effect2, {
                         "system.target": game.i18n.localize("SR5.SightPenalty"),
                         "system.value": -99,
                         "system.duration": 10,
@@ -401,7 +401,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "oneArmBandit": //Partially done: can't apply an effect based on arm usage
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.value": -6,
                         "system.duration": effecType.initialDV,
@@ -413,7 +413,7 @@ export class SR5_CalledShotHelpers {
                 //Apply weak side effect in the same time
                 if (hasWeakSide || weakSideSpecific) {
                     if (hasWeakSide) await actor.deleteEmbeddedDocuments("Item", [hasWeakSide.id]);
-                    effect2 = mergeObject(effect2, {
+                    effect2 = foundry.utils.mergeObject(effect2, {
                         "name": game.i18n.localize(SR5.calledShotsEffects["weakSide"]),
                         "system.type": "weakSide",
                         "system.target": game.i18n.localize("SR5.Penalty"),
@@ -459,7 +459,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "onPinsAndNeedles": //done, can't be automatised
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.MovementPenalty"),
                         "system.duration": "",
                         "system.durationType": "special",
@@ -470,7 +470,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "nauseous": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.value": -4,
                         "system.duration": info.previousMessage.hits - info.roll.hits,
@@ -491,7 +491,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "pin": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Defenses"),
                         "system.value": effecType.initialDV,
                         "system.duration": "",
@@ -535,7 +535,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "shaked": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.value": -1,
                         "system.duration": "",
@@ -556,7 +556,7 @@ export class SR5_CalledShotHelpers {
                 break;  
             case "slowDeath": //done, can't be automatised
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.duration": "",
                         "system.durationType": "special",
@@ -567,7 +567,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "slowed": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.MovementPenalty"),
                         "system.duration": "",
                         "system.durationType": "special",
@@ -634,7 +634,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "trickShot": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.SkillIntimidation"),
                         "system.value": info.previousMessage.attackerNetHits,
                         "system.duration": "1",
@@ -655,7 +655,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "unableToSpeak": //done, can't be automatised
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Language"),
                         "system.value": "",
                         "system.duration": info.damage.value,
@@ -670,7 +670,7 @@ export class SR5_CalledShotHelpers {
                 let hasOneArm = actor.items.find(i => i.system.type === "oneArmBandit");
                 if (hasEffect) await actor.deleteEmbeddedDocuments("Item", [hasEffect.id]);
                 if (hasBrokenGrip || hasOneArm) {
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.value": -1,
                         "system.duration": effecType.initialDV,
@@ -711,7 +711,7 @@ export class SR5_CalledShotHelpers {
                     });
                     itemEffects.push(effect);
                 } else if(!weakSideSpecific) {
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Penalty"),
                         "system.duration": "",
                         "system.durationType": "special",
@@ -722,7 +722,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "winded": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.ComplexAction"),
                         "system.duration": effecType.initialDV,
                         "system.durationType": "round",
@@ -733,7 +733,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "antenna":
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.CS_ST_Antenna"),
                         "system.value": "",
                         "system.duration": "",
@@ -745,7 +745,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "engineBlock": //done
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.CS_ST_EngineBlock"),
                         "system.value": "",
                         "system.duration": "",
@@ -757,7 +757,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "windowMotor":
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.CS_ST_WindowMotor"),
                         "system.value": "",
                         "system.duration": "",
@@ -769,7 +769,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "doorLock":
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.CS_ST_DoorLock"),
                         "system.value": "",
                         "system.duration": "",
@@ -781,7 +781,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "axle":
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.CS_ST_Axle"),
                         "system.value": "",
                         "system.duration": "",
@@ -813,7 +813,7 @@ export class SR5_CalledShotHelpers {
                 break;
             case "fuelTankBattery":
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.CS_ST_FuelTankBattery"),
                         "system.value": "",
                         "system.duration": "",

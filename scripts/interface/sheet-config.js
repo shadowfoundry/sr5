@@ -2,7 +2,7 @@
 
 export class SRActorSheetConfig extends Dialog {
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             height: 'auto',
             width: 600,
             resizable: false,
@@ -12,7 +12,7 @@ export class SRActorSheetConfig extends Dialog {
     static async buildDialog(actor) {
         let cancel = true;
         let dialogData = actor.system.sheetPreferences;
-        let actorData = duplicate(actor.system);
+        let actorData = foundry.utils.duplicate(actor.system);
         let template;
 
         if (actor.type === "actorPc") template = "systems/sr5/templates/interface/sheetConfigActor.html";
@@ -40,7 +40,7 @@ export class SRActorSheetConfig extends Dialog {
                     for (let o of options){
                         let isChecked = html.find(`[id=${o.id}]`).is(":checked");
                         let path= "sheetPreferences." + o.value;
-                        setProperty(actorData, path, isChecked);
+                        foundry.utils.setProperty(actorData, path, isChecked);
                     }
                     actor.update({"system": actorData});
 

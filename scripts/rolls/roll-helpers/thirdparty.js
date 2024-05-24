@@ -204,7 +204,7 @@ export class SR5_ThirdPartyHelpers {
 
     static async reduceSideckickService(cardData){
         let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.speakerId),
-            actorData = duplicate(actor.system),
+            actorData = foundry.utils.duplicate(actor.system),
             key;
 
         if (actor.type === "actorSprite"){
@@ -221,7 +221,7 @@ export class SR5_ThirdPartyHelpers {
 
     static async enslavedSidekick(cardData, type){
         let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.speakerId);
-        let actorData = duplicate(actor.system);
+        let actorData = foundry.utils.duplicate(actor.system);
 
         if (type === "registerSprite"){
             actorData.isRegistered = true;
@@ -239,7 +239,7 @@ export class SR5_ThirdPartyHelpers {
         if (actorData.creatorItemId){
             let creator = SR5_EntityHelpers.getRealActorFromID(actorData.creatorId);
             let itemSideKick = creator.items.find(i => i.id === actorData.creatorItemId);
-            let itemData = duplicate(itemSideKick.system);
+            let itemData = foundry.utils.duplicate(itemSideKick.system);
             if (type === "registerSprite"){
                 itemData.isRegistered = true;
                 itemData.tasks.value += cardData.roll.netHits;
@@ -255,7 +255,7 @@ export class SR5_ThirdPartyHelpers {
 
     static async desactivateFocus(cardData){
         let item = await fromUuid(cardData.target.itemUuid),
-            itemData = duplicate(item.system);
+            itemData = foundry.utils.duplicate(item.system);
         
         itemData.isActive = false;
         if (!game.user?.isGM){
@@ -268,7 +268,7 @@ export class SR5_ThirdPartyHelpers {
 
     static async reduceTransferedEffect(cardData){
         let targetedEffect = await fromUuid(cardData.target.itemUuid),
-            newEffect = duplicate(targetedEffect.system),
+            newEffect = foundry.utils.duplicate(targetedEffect.system),
             key = "hits";
 
         if (targetedEffect.type ==="itemPreparation") key = "potency";
@@ -318,7 +318,7 @@ export class SR5_ThirdPartyHelpers {
 
     static async sealRitual(cardData){
         let item = await fromUuid(cardData.owner.itemUuid),
-            itemData = duplicate(item.system);
+            itemData = foundry.utils.duplicate(item.system);
         
         itemData.isActive = true;
         if (!game.user?.isGM){
@@ -400,7 +400,7 @@ export class SR5_ThirdPartyHelpers {
             case "createPreparation":
                 let preparation = actor.items.find(i => i.uuid === messageData.owner.itemUuid);
                 buildItem = {"system": preparation.system,};
-                buildItem = mergeObject(buildItem, {
+                buildItem = foundry.utils.mergeObject(buildItem, {
                     name: `${game.i18n.localize("SR5.Preparation")}${game.i18n.localize("SR5.Colons")} ${preparation.name}`,
                     type: "itemPreparation",
                     img: `systems/sr5/img/items/itemPreparation.svg`,

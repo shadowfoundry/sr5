@@ -7,7 +7,7 @@ export default class SR5SceneConfig extends SceneConfig {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             lists: SR5,
         });
     }

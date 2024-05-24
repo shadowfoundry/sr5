@@ -139,7 +139,7 @@ export const registerHooks = function () {
 		if ( !game.user.isGM ) return;
 		const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
 		const NEEDS_MIGRATION_VERSION = "11.0.3";
-		const needsMigration = !currentVersion || isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
+		const needsMigration = !currentVersion || foundry.utils.isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
 		// Perform the migration
 		if (needsMigration) new game.sr5.migration().migrateWorld();
@@ -185,7 +185,7 @@ export const registerHooks = function () {
 
 	Hooks.on("canvasInit", function() {
 		// Extend Diagonal Measurement
-		SquareGrid.prototype.measureDistances = measureDistances;
+		//SquareGrid.prototype.measureDistances = measureDistances;
 	});
 
 	Hooks.on("getCombatTrackerEntryContext", SR5CombatTracker.addCombatTrackerContextOptions);
@@ -219,7 +219,7 @@ export const registerHooks = function () {
 
 	Hooks.on("createToken", async function(tokenDocument) {
 		if (!game.user.isGM) return;
-		let tokenData = duplicate(tokenDocument);
+		let tokenData = foundry.utils.duplicate(tokenDocument);
 		if (tokenData.texture.src == "") tokenData.texture.src = tokenDocument.actor.img;
 		if (tokenDocument.actor.system.visions?.astral?.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData);
 		else tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData);
@@ -279,7 +279,7 @@ export const registerHooks = function () {
 				if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
 				else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
 
-				actorData = duplicate(actor.system);
+				actorData = foundry.utils.duplicate(actor.system);
 				for (let key of Object.keys(SR5.actionTypes)) {
 					if (actorData.specialProperties.actions[key]) {
 						actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
@@ -348,7 +348,7 @@ export const registerHooks = function () {
 		if (item.system.pan?.content?.length){
 			for (let i of item.system.pan.content){
 				let panItem = await fromUuid(i.uuid);
-				let newItem = duplicate(panItem.system);
+				let newItem = foundry.utils.duplicate(panItem.system);
 				newItem.isSlavedToPan = false;
 				newItem.panMaster = "";
 				await panItem.update({"system": newItem,});

@@ -16,7 +16,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			template: "systems/sr5/templates/actors/drone-sheet.html",
 			width: 800,
 			height: 618,

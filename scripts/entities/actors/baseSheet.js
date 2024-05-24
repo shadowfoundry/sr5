@@ -26,7 +26,7 @@ export class ActorSheetSR5 extends ActorSheet {
 
 	/** @override */
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			scrollY: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
 			tabs: [
 				{
@@ -159,7 +159,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			/* Item Dragging */
 			// Core handlers from foundry.js
 			var handler;
-			if (!isNewerVersion(game.version, "0.7")) {
+			if (!foundry.utils.isNewerVersion(game.version, "0.7")) {
 				handler = ev => this._onDragItemStart(ev);
 			}
 			else {
@@ -186,15 +186,15 @@ export class ActorSheetSR5 extends ActorSheet {
 			if (monitor === "stun" || monitor === "physical") this.actor.rollTest("healing", monitor);
 		}
 		if ((e.which === 3 || e.button === 2)) {
-				let actorData = duplicate(this.actor);
-				setProperty(actorData, `system.conditionMonitors.${monitor}.actual.base`, 0);
+				let actorData = foundry.utils.duplicate(this.actor);
+				foundry.utils.setProperty(actorData, `system.conditionMonitors.${monitor}.actual.base`, 0);
 				this.actor.update(actorData);
 			}
 		});
 
 		// Gestion des cases de dégats
 		html.find(".boxes:not(.box-disabled)").click((ev) => {
-			let actorData = duplicate(this.actor);
+			let actorData = foundry.utils.duplicate(this.actor);
 			let index = Number($(ev.currentTarget).attr("data-index"));
 			let target = $(ev.currentTarget)
 				.parents(".SR-MoniteurCases")
@@ -203,13 +203,13 @@ export class ActorSheetSR5 extends ActorSheet {
 			let value = getProperty(actorData, target);
 			if (value == index + 1)
 				// If the last one was clicked, decrease by 1
-				setProperty(actorData, target, index);
+				foundry.utils.setProperty(actorData, target, index);
 			// Otherwise, value = index clicked
-			else setProperty(actorData, target, index + 1);
+			else foundry.utils.setProperty(actorData, target, index + 1);
 
 			if (target == 'system.conditionMonitors.physical.actual.base' && getProperty(actorData, 'system.conditionMonitors.overflow.actual.value')) {
 				if (actorData.system.conditionMonitors.physical.actual.value < actorData.system.conditionMonitors.physical.value.value) {
-					setProperty(actorData, 'system.conditionMonitors.overflow.actual.base', 0);
+					foundry.utils.setProperty(actorData, 'system.conditionMonitors.overflow.actual.base', 0);
 				}
 			}
 
@@ -261,7 +261,7 @@ export class ActorSheetSR5 extends ActorSheet {
 	async _onDrop(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		let actorData = duplicate(this.actor);
+		let actorData = foundry.utils.duplicate(this.actor);
 		const dropData = JSON.parse(event.dataTransfer.getData('text/plain'));
 		const target = event.target;
 		if (dropData.valueFromCollection){
@@ -269,19 +269,19 @@ export class ActorSheetSR5 extends ActorSheet {
 			if (existingValue > 0) {
 				for (let [key, value] of Object.entries(actorData.system.matrix.attributesCollection)){
 					if (value === existingValue){
-						setProperty(actorData, `system.matrix.attributesCollection.${key}isSet`, false);
+						foundry.utils.setProperty(actorData, `system.matrix.attributesCollection.${key}isSet`, false);
 						break;
 					}
 				}
 			}
-			setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
-			setProperty(actorData, `system.matrix.attributesCollection.${dropData.valueFromCollection}`, true);
+			foundry.utils.setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
+			foundry.utils.setProperty(actorData, `system.matrix.attributesCollection.${dropData.valueFromCollection}`, true);
 			await this.actor.update(actorData);
 		}
 
 		if (dropData.valueFromAttribute){
-			setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
-			setProperty(actorData, dropData.valueFromAttribute, parseInt(target.dataset.droppedvalue));
+			foundry.utils.setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
+			foundry.utils.setProperty(actorData, dropData.valueFromAttribute, parseInt(target.dataset.droppedvalue));
 			//Manage action
 			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
 			actorData.system.specialProperties.actions.free.current -=1;
@@ -451,7 +451,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			if (action === "delete") {
 				await this._onSubmit(event); // Submit any unsaved changes
 				const li = a.closest(".subItemManagement");
-				let removed = duplicate(this.actor.system[target]);
+				let removed = foundry.utils.duplicate(this.actor.system[target]);
 				// convert back manually to array... so stupid to have to do this.
 				if (typeof removed === "object") { removed = Object.values(removed); } 
 				removed.splice(Number(li.dataset.key), 1);
@@ -587,8 +587,8 @@ export class ActorSheetSR5 extends ActorSheet {
 		let id = $(event.currentTarget).parents(".item").attr("data-item-id");
 		let target = $(event.currentTarget).attr("data-binding");
 		let actor = this.actor;
-		let actorData = duplicate(actor.system);
-		let itemList = duplicate(this.actor.items);
+		let actorData = foundry.utils.duplicate(actor.system);
+		let itemList = foundry.utils.duplicate(this.actor.items);
 		let item = itemList.find((i) => i._id === id);
 		let realItem = this.actor.items.find(i => i.id === id);
 		let oldValue, actions;
@@ -602,7 +602,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			oldValue = getProperty(item, target);
 			value = !oldValue;
 		}
-		setProperty(item, target, value);
+		foundry.utils.setProperty(item, target, value);
 
 		//Spécial, pour les decks, désactiver les autres decks lorsque l'un d'entre eux et équipé
 		if (item.type === "itemDevice" && target !== "system.conditionMonitors.matrix.actual.base") {
@@ -653,7 +653,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			
 			
 			if (target === "system.isActive"){
-				setProperty(item, "system.wirelessTurnedOn", false);
+				foundry.utils.setProperty(item, "system.wirelessTurnedOn", false);
 
 				// Handle drug taken
 				SR5_SystemHelpers.srLog(1, "Handle drug taken: " + drugType);
@@ -712,7 +712,7 @@ export class ActorSheetSR5 extends ActorSheet {
 						if (interactionDrug.length > 0) {
 							let roll, interactionDiceResult, drugs = [];
 							roll = new Roll(`${interactionDrug.length}d6`);
-							interactionDiceResult = await roll.evaluate({async: true});
+							interactionDiceResult = await roll.evaluate();
 
 							for (let d of interactionDrug){						
 							await d.update({"system.interact": true});
@@ -734,7 +734,7 @@ export class ActorSheetSR5 extends ActorSheet {
 										if (d.system.handleShot.duration) duration = d.system.handleShot.duration * 2;
 										if (d.system.onUse.duration) onUseDuration = `${d.system.handleShot.duration * 2} ${game.i18n.localize(SR5.extendedIntervals[d.system.handleShot.durationType])}`; 
 										let updatedDrug = {};
-										mergeObject(updatedDrug, {
+										foundry.utils.mergeObject(updatedDrug, {
 											"system.handleShot.duration": duration || 0,
 											"system.onUse.duration": onUseDuration || 0,
 										});
@@ -763,7 +763,7 @@ export class ActorSheetSR5 extends ActorSheet {
 										if (d.system.handleShot.durationContrecoup) contrecoup = d.system.handleShot.durationContrecoup * 2;
 										if (d.system.onUse.contrecoup) onUseContrecoup = `${d.system.handleShot.durationContrecoup} ${game.i18n.localize(SR5.extendedIntervals[d.system.handleShot.durationContrecoupType])}`;
 										let updatedDrug = {};
-										mergeObject(updatedDrug, {
+										foundry.utils.mergeObject(updatedDrug, {
 											"system.handleShot.durationContrecoup": contrecoup || 0,
 											"system.onUse.contrecoup": onUseContrecoup || 0,
 										});
@@ -788,8 +788,8 @@ export class ActorSheetSR5 extends ActorSheet {
 
 									if (activeDrugs.length){										
 										for (let d of activeDrugs){
-											setProperty(d, "system.isActive", false);
-											setProperty(d, "system.wirelessTurnedOn", true);
+											foundry.utils.setProperty(d, "system.isActive", false);
+											foundry.utils.setProperty(d, "system.wirelessTurnedOn", true);
 										}
 									}
 								
@@ -834,7 +834,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				}
 
 			} else if (target === "system.wirelessTurnedOn"){
-				setProperty(item, "system.isActive", false);
+				foundry.utils.setProperty(item, "system.isActive", false);
 
 								
 				itemData.onUse.duration = "";
@@ -873,7 +873,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (item.type === "itemProgram" && target === "system.isCreated"){
 			oldValue = getProperty(item, "system.isActive");
 			value = !oldValue;
-			setProperty(item, "system.isActive", value);
+			foundry.utils.setProperty(item, "system.isActive", value);
 		}
 
 		if (item.type === "itemAdeptPower" && !item.system.isActive && item.system.hasDrain && !item.system.needRoll){
@@ -1012,7 +1012,7 @@ export class ActorSheetSR5 extends ActorSheet {
 							value++;
 						} else {
 							if (noiseReduction > 0) {
-								setProperty(entity, "system.matrix.attributes.noiseReduction.base", (noiseReduction - 1));
+								foundry.utils.setProperty(entity, "system.matrix.attributes.noiseReduction.base", (noiseReduction - 1));
 								value++;
 							} else {
 								SR5_SystemHelpers.srLog(3, "Reached maximum value");
@@ -1024,7 +1024,7 @@ export class ActorSheetSR5 extends ActorSheet {
 							value++;
 						} else {
 							if (sharing > 0) {
-								setProperty(entity, "system.matrix.attributes.sharing.base", (sharing - 1));
+								foundry.utils.setProperty(entity, "system.matrix.attributes.sharing.base", (sharing - 1));
 								value++;
 							} else {
 								SR5_SystemHelpers.srLog(3, "Reached maximum value");
@@ -1039,10 +1039,10 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		if (id){
-			setProperty(entity, target, value);
+			foundry.utils.setProperty(entity, target, value);
 			this.actor.updateEmbeddedDocuments("Item", [entity]);
 		} else {
-			setProperty(entity, target, value);
+			foundry.utils.setProperty(entity, target, value);
 			this.actor.update(entity);
 		}
 	}
@@ -1058,7 +1058,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			let oldValue = getProperty(actor, target);
 			value = !oldValue;
 		}
-		setProperty(actor, target, value);
+		foundry.utils.setProperty(actor, target, value);
 		let actorData = actor.system;
 		this.actor.update({'system': actorData})
 	}

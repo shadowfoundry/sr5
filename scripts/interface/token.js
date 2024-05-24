@@ -27,7 +27,7 @@ export class SR5Token extends Token {
         }
         // each actual value draw a rectangle from dark green to red
         bar.beginFill(new PIXI.Color(mainColor).toNumber(), 0.7).lineStyle(0.5, 0x000000, 1);
-        for (let index = 0; index < Math.clamped(val, 0, data.max); index++) {
+        for (let index = 0; index < Math.clamp(val, 0, data.max); index++) {
           bar.drawRect(index * (this.w / data.max), 0, this.w / data.max, h);
         }
         // Set position

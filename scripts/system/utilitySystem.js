@@ -189,10 +189,8 @@ export class SR5_SystemHelpers {
 	 * @return {distance}       The distance between first and second document based on grid scene round to the nearest integrer.
 	 */
 	static getDistanceBetweenTwoPoint(firstDocument, secondDocument){
-		const r = new Ray(firstDocument, secondDocument);
-		const segments = [{ ray: r }];
-		const distance = canvas.grid.measureDistances(segments);
-		return distance[0];
+		const distance = canvas.grid.measurePath([firstDocument, secondDocument]);
+    return distance.distance;
 	}
 
 	/**

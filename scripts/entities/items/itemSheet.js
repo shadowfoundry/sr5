@@ -13,7 +13,7 @@ export class SR5ItemSheet extends ItemSheet {
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			width: 510,
 			height: 445,
 			classes: ["SR-Item", "sheet", "item"],
@@ -69,7 +69,7 @@ export class SR5ItemSheet extends ItemSheet {
 
 		// Gestion des cases de dégats
 		html.find(".boxes:not(.box-disabled)").click((ev) => {
-			let itemData = duplicate(this.item);
+			let itemData = foundry.utils.duplicate(this.item);
 			let index = Number($(ev.currentTarget).attr("data-index"));
 			let target = $(ev.currentTarget)
 				.parents(".SR-MoniteurCases")
@@ -78,9 +78,9 @@ export class SR5ItemSheet extends ItemSheet {
 			let value = getProperty(itemData, target);
 			if (value == index + 1)
 				// If the last one was clicked, decrease by 1
-				setProperty(itemData, target, index);
+				foundry.utils.setProperty(itemData, target, index);
 			// Otherwise, value = index clicked
-			else setProperty(itemData, target, index + 1);
+			else foundry.utils.setProperty(itemData, target, index + 1);
 
 			this.item.update(itemData);
 		});
@@ -109,7 +109,7 @@ export class SR5ItemSheet extends ItemSheet {
 		if (action === "delete") {
 			await this._onSubmit(event); // Submit any unsaved changes
 			const li = a.closest(".subItemManagement");
-			let removed = duplicate(this.item.system[target]);
+			let removed = foundry.utils.duplicate(this.item.system[target]);
 			// convert back manually to array... so stupid to have to do this.
 			if (typeof removed === "object") { removed = Object.values(removed); } 
 			removed.splice(Number(li.dataset.key), 1);
@@ -120,7 +120,7 @@ export class SR5ItemSheet extends ItemSheet {
 		if (action === "clone") {
 			await this._onSubmit(event); // Submit any unsaved changes
 			const li = a.closest(".subItemManagement");
-			let cloned = duplicate(this.item.system[target]);
+			let cloned = foundry.utils.duplicate(this.item.system[target]);
 			// convert back manually to array... so stupid to have to do this.
 			if (typeof cloned === "object") { cloned = Object.values(cloned); }
 			cloned.push(cloned[Number(li.dataset.key)]);

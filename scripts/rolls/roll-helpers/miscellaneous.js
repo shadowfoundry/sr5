@@ -11,13 +11,13 @@ export class SR5_MiscellaneousHelpers {
     static async updateActorData(actorId, path, value, boolean = false){
         let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
         if (!actor) return;
-        let actorData = duplicate(actor.system);
+        let actorData = foundry.utils.duplicate(actor.system);
 
         //change value
         if (boolean) {
             let oldvalue = path.split('.').reduce((previous, current) => previous[current], actorData);
-            mergeObject(actorData, {[path]: !oldvalue,});
-        } else mergeObject(actorData, {[path]: value,});
+            foundry.utils.mergeObject(actorData, {[path]: !oldvalue,});
+        } else foundry.utils.mergeObject(actorData, {[path]: value,});
 
         //update actor
         if (!game.user?.isGM) {
@@ -56,7 +56,7 @@ export class SR5_MiscellaneousHelpers {
         }
     }
 
-    //Add an action to actions array, removing duplicated source
+    //Add an action to actions array, removing foundry.utils.duplicated source
     static addActions(actions, actionToAdd){
         if (!actions.length) actions.push(actionToAdd);
         else {

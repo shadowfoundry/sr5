@@ -34,7 +34,7 @@ export class SR5Combat extends Combat {
 		if (!combatant.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId)) {
 			let actualCombatant = combatant.combat.combatants.find(c => c.id === combatant.combat.current.combatantId);
 			if (actualCombatant.initiative > (combatant.initiative + adjustment)) {
-				udpateData = mergeObject(udpateData, {
+				udpateData = foundry.utils.mergeObject(udpateData, {
 					"flags.sr5.baseCombatantInitiative": Number(combatant.initiative) + adjustment,
 				});
 			}
@@ -126,7 +126,7 @@ export class SR5Combat extends Combat {
    	setupTurns(){
 		// Determine the turn order and the current turn
 		const turns = this.combatants.contents.sort(SR5Combat.sortByRERIC);
-		this.turn = Math.clamped(this.turn, 0, turns.length-1);
+		this.turn = Math.clamp(this.turn, 0, turns.length-1);
 
 		// Update state tracking
 		let c = turns[this.turn];
@@ -343,7 +343,7 @@ export class SR5Combat extends Combat {
 
 			// Produce an initiative roll for the Combatant
 			const roll = combatant.getInitiativeRoll(formula);
-			await roll.evaluate({async: true});
+			await roll.evaluate();
 			let initiative = roll.total;
 
 			if (this.flags.sr5?.combatInitiativePass > 1){
@@ -377,7 +377,7 @@ export class SR5Combat extends Combat {
 			};
 			const template = `systems/sr5/templates/rolls/roll-init.html`;
 			const html = await renderTemplate(template, templateData);
-			const messageData = mergeObject(
+			const messageData = foundry.utils.mergeObject(
 				{
 					speaker: {
 						scene: this.scene.id,
@@ -539,7 +539,7 @@ export class SR5Combat extends Combat {
 
 	static async changeActionInCombat(documentId, actions, updateActor = true){
 		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
-		let actorData = duplicate(actor.system);
+		let actorData = foundry.utils.duplicate(actor.system);
 		let combatant = await SR5Combat.getCombatantFromActor(actor);
 		let initModifier;
 		if (!combatant) return;
@@ -576,7 +576,7 @@ export class SR5Combat extends Combat {
 		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
-				let itemData = duplicate(item.system);
+				let itemData = foundry.utils.duplicate(item.system);
 
 				//Decrease effect duration
 				if (item.system.durationType === "action"){
@@ -599,7 +599,7 @@ export class SR5Combat extends Combat {
 	//Reset actions on actor
 	static async resetActionInCombat(documentId, combatant){
 		let actor = SR5_EntityHelpers.getRealActorFromID(documentId);
-		let actorData = duplicate(actor.system);
+		let actorData = foundry.utils.duplicate(actor.system);
 		for (let key of Object.keys(SR5.actionTypes)) {
 			if (actorData.specialProperties.actions[key]) {
 				actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
@@ -624,7 +624,7 @@ export class SR5Combat extends Combat {
 		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
-				let itemData = duplicate(item.system);
+				let itemData = foundry.utils.duplicate(item.system);
 
 				//Decrease effect duration
 				if (item.system.durationType === "round"){

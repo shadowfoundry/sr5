@@ -29,7 +29,7 @@ export class SR5_RollTest {
 			},
 		}
 		if (dialogData.edge.canUseEdge){
-			buttons = mergeObject(buttons, {
+			buttons = foundry.utils.mergeObject(buttons, {
 				edge: {
 					label: game.i18n.localize("SR5.PushTheLimit"),
 					icon: '<i class="fas fa-bomb"></i>',
@@ -130,13 +130,13 @@ export class SR5_RollTest {
 						//Update spirit if spirit aid is used
 						if (dialogData.dicePool.modifiers.spiritAid?.value > 0){
 							let spiritItem = await fromUuid(dialogData.magic.spiritAid.id);
-							let spiritItemData = duplicate(spiritItem.system);
+							let spiritItemData = foundry.utils.duplicate(spiritItem.system);
         					spiritItemData.services.value -= 1;
         					await spiritItem.update({'data': spiritItemData});
 							ui.notifications.info(`${spiritItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`);
 							let spiritActor = game.actors.find(a => a.system.creatorItemId === spiritItem.id);
 							if (spiritActor){
-        						let spiritActorData = duplicate(spiritActor.system);
+        						let spiritActorData = foundry.utils.duplicate(spiritActor.system);
 								spiritActorData.services.value -= 1;
 								await spiritActor.update({'data': spiritActorData});
 							}
@@ -179,7 +179,7 @@ export class SR5_RollTest {
 
 		let roll = new Roll(formula);
 		let rollMode = game.settings.get("core", "rollMode");
-		let rollRoll = await roll.evaluate({async: true});
+		let rollRoll = await roll.evaluate();
 		let rollJSON = await roll.toJSON(rollRoll);
 		//Glitch
 		let totalGlitch = 0,
@@ -234,7 +234,7 @@ export class SR5_RollTest {
 		let dicesTotal = newRoll.dices.concat(dicesKeeped);
 
 		//Prepare new chat card
-		let newMessage = duplicate(messageData);
+		let newMessage = foundry.utils.duplicate(messageData);
 		newMessage.roll.hits = messageData.roll.hits + newRoll.hits;
 		newMessage.roll.dices = dicesTotal;
 		newMessage.test.extended.roll += 1;
@@ -270,7 +270,7 @@ export class SR5_RollTest {
 		});
 
 		//Met à jour les infos sur le nouveau message avec le résultat du nouveau jet.
-		let newMessage = duplicate(messageData);
+		let newMessage = foundry.utils.duplicate(messageData);
 		newMessage.roll.hits = messageData.roll.hits + chanceHit;
 		newMessage.roll.dices = dicesKeeped.concat(chance.dices);
 		newMessage.edge.hasUsedSecondChance = true;
@@ -302,7 +302,7 @@ export class SR5_RollTest {
 			edgeRoll: true,
 		});
 
-		let newMessage = duplicate(messageData);
+		let newMessage = foundry.utils.duplicate(messageData);
 		newMessage.roll.hits = messageData.roll.hits + newRoll.hits;
 		newMessage.roll.dices = messageData.roll.dices.concat(newRoll.dices);
 		newMessage.edge.hasUsedPushTheLimit = true;

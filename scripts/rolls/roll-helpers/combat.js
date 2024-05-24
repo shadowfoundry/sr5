@@ -70,11 +70,11 @@ export class SR5_CombatHelpers {
         }
         
         let directionRoll = new Roll(`1d8`);
-        await directionRoll.evaluate({async: true});
+        await directionRoll.evaluate();
     
         let distanceFormula = `${distanceDice}d6 - ${distanceMod}`;
         let distanceRoll= new Roll(distanceFormula);
-        await distanceRoll.evaluate({async: true});
+        await distanceRoll.evaluate();
 
         if (distanceRoll.total < 1) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_NoScattering")}`);
         else ui.notifications.info(`${game.i18n.format("SR5.INFO_ScatterDistance", {distance: distanceRoll.total})}`);
@@ -131,7 +131,7 @@ export class SR5_CombatHelpers {
                 break;
         }
     
-        let newPosition = duplicate(template);
+        let newPosition = foundry.utils.duplicate(template);
         newPosition.x += coordinate.x;
         newPosition.y += coordinate.y;
     
@@ -210,7 +210,7 @@ export class SR5_CombatHelpers {
             case "disorientation":
                 hasEffect = actor.items.find(i => i.system.type === "toxinEffectDisorientation");
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.type": "toxinEffectDisorientation",
                         "system.value": -2,
@@ -233,7 +233,7 @@ export class SR5_CombatHelpers {
             case "nausea":
                 hasEffect = actor.items.find(i => i.system.type === "toxinEffectNausea");
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.PenaltyDouble"),
                         "system.type": "toxinEffectNausea",
                         "system.value": "x2",
@@ -256,7 +256,7 @@ export class SR5_CombatHelpers {
             case "paralysis":
                 hasEffect = actor.items.find(i => i.system.type === "toxinEffectParalysis");
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.type": "toxinEffectParalysis",
                         "system.value": -2,
@@ -279,7 +279,7 @@ export class SR5_CombatHelpers {
             case "agony":
                 hasEffect = actor.items.find(i => i.system.type === "toxinEffectAgony");
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.GlobalPenalty"),
                         "system.type": "toxinEffectAgony",
                         "system.value": 1,
@@ -294,7 +294,7 @@ export class SR5_CombatHelpers {
                 let value = info.damage.base;
                 hasEffect = actor.items.find(i => i.system.type === "toxinEffectArcaneInhibitor");
                 if (!hasEffect){
-                    effect = mergeObject(effect, {
+                    effect = foundry.utils.mergeObject(effect, {
                         "system.target": game.i18n.localize("SR5.Magic"),
                         "system.type": "toxinEffectArcaneInhibitor", 
                         "system.itemRating": value,                       

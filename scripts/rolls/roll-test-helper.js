@@ -97,7 +97,7 @@ export class SR5_RollTestHelper {
     // Update an item after a roll
     static async updateItemAfterRoll(cardData) {
         let item = await fromUuid(cardData.owner.itemUuid);
-        let newItem = duplicate(item);
+        let newItem = foundry.utils.duplicate(item);
         let firedAmmo = cardData.combat.ammo.fired;
         
         //Discard for none supported item

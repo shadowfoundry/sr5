@@ -16,7 +16,7 @@ export class SR5AgentSheet extends ActorSheetSR5 {
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			template: "systems/sr5/templates/actors/agent-sheet.html",
 			width: 800,
 			height: 618,

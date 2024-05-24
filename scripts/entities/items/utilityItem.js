@@ -1636,7 +1636,7 @@ export class SR5_UtilityItem extends Actor {
 		if (!item.system.isLinkedToFocus){
 			let focusEffect = item.system.itemEffects.find(e => e.target === "system.weaponSkill");
 			if (focusEffect){
-				let arrayEffects = duplicate(item.system.itemEffects);
+				let arrayEffects = foundry.utils.duplicate(item.system.itemEffects);
 				arrayEffects= arrayEffects.filter(e => e.target !== "system.weaponSkill");
 				item.system.itemEffects = arrayEffects;
 				item.system.isMagical= false;
@@ -1666,7 +1666,7 @@ export class SR5_UtilityItem extends Actor {
 		}
 		//remove effect if focus is off
 		if (!focus.system.isActive && focusEffect){
-			let arrayEffects = duplicate(item.system.itemEffects);
+			let arrayEffects = foundry.utils.duplicate(item.system.itemEffects);
 			arrayEffects= arrayEffects.filter(e => e.ownerItem !== focus.id);
 			item.system.itemEffects = arrayEffects;
 			item.system.isMagical = false;
@@ -2829,7 +2829,7 @@ export class SR5_UtilityItem extends Actor {
 				let booleanValue;
 				if (customEffect.value === "true") booleanValue = true;
 				else booleanValue = false;
-				setProperty(item, customEffect.target, booleanValue);
+				foundry.utils.setProperty(item, customEffect.target, booleanValue);
 				SR5_SystemHelpers.srLog(3, ` customEffect.target ==> '${customEffect.target}' , booleanValue ==> '${booleanValue}', item.system ==> '${JSON.stringify(item.system)}' applyItemEffects()`);
 			}
 
@@ -2852,7 +2852,7 @@ export class SR5_UtilityItem extends Actor {
 						let booleanValue;
 						if (customEffect.value === "true") booleanValue = true;
 						else booleanValue = false;
-						setProperty(item, customEffect.target, booleanValue);
+						foundry.utils.setProperty(item, customEffect.target, booleanValue);
 						break;
 					default:
 						SR5_SystemHelpers.srLog(1, `Unknown '${customEffect.type}' item effect type in applyItemEffects()`, item.name);
