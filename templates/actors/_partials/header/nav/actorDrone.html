@@ -13,11 +13,7 @@
 <div class="SR-MarginLeft10 SR-EspritType">
     <p data-helpTitle="{{localize 'SR5.HELP_VehicleTypeChoice'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleTypeChoiceMsg'}}">
         <select name="system.type" data-dtype="String">
-        {{#select system.type}}
-            {{#each lists.vehicleTypes}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.vehicleTypes selected=system.type localize=true}}
         </select>
     </p>
 </div>

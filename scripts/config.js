@@ -38,10 +38,20 @@ SR5.characterSpecialAttributes = {
 	resonance                 : "SR5.Resonance",
 };
 
+SR5.magicOrResonance = {
+	magic                     : "SR5.Magic",
+	resonance                 : "SR5.Resonance",
+};
+
 //
 SR5.allAttributes = {
 	...SR5.characterAttributes,
 	...SR5.characterSpecialAttributes
+}
+
+SR5.allAttributesWithoutEdge = {
+	...SR5.characterAttributes,
+	...SR5.magicOrResonance
 }
 
 // Initiatives
@@ -66,6 +76,17 @@ SR5.characterDefenses = {
 	dodge                     : "SR5.Dodge",
 	parryBlades               : "SR5.ParrySlashing",
 	parryClubs                : "SR5.ParryBlunt",
+};
+
+SR5.characterSpecialDefenses = {
+	block                     : "SR5.Block",
+	dodge                     : "SR5.Dodge",
+	parryBlades               : "SR5.ParrySlashing",
+	parryClubs                : "SR5.ParryBlunt",
+};
+
+SR5.characterSpecialDefensesDodge = {
+	dodge                     : "SR5.Dodge",
 };
 
 // Resistances
@@ -2315,6 +2336,13 @@ SR5.matrixSearchInfoType = {
 	hidden                    :"SR5.MatrixSearchInfoTypeHidden",
 }
 
+//Matrix marks
+SR5.matrixMarks = {
+	1													:"SR5.MarkOne",
+	2													:"SR5.MarkTwo",
+	3													:"SR5.MarkThree",
+}
+
 //-----------------------------------//
 //            VEHICULES              //
 //-----------------------------------//
@@ -2477,6 +2505,15 @@ SR5.vehicleModTools = {
 	kit                       : "SR5.VehicleModToolsKit",
 	shop                      : "SR5.VehicleModToolsShop",
 	facility                  : "SR5.VehicleModToolsFacility",
+};
+
+SR5.vehicleSpeed = {
+	speedRamming1							: "SR5.VehicleRelativeSpeed_1",
+	speedRamming11						: "SR5.VehicleRelativeSpeed_11",
+	speedRamming51						: "SR5.VehicleRelativeSpeed_51",
+	speedRamming201						: "SR5.VehicleRelativeSpeed_201",
+	speedRamming301						: "SR5.VehicleRelativeSpeed_301",
+	speedRamming501						: "SR5.VehicleRelativeSpeed_501",
 };
 
 //-----------------------------------//
@@ -3520,6 +3557,13 @@ SR5.barrierTypes = {
 	structuralHeavy           : "SR5.BarrierStructuralHeavyMaterial",
 	armored                   : "SR5.BarrierArmoredMaterial",
 	hardened                  : "SR5.BarrierHardenedMaterial",
+}
+
+SR5.objectTypes = {
+	3													: "SR5.ObjectTypeNatural",
+	6													: "SR5.ObjectTypeManufacturedLow",
+	9													: "SR5.ObjectTypeManufacturedHigh",
+	15												: "SR5.ObjectTypeHighlyProcessed",
 }
 
 

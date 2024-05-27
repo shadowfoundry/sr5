@@ -9,12 +9,8 @@
             data-helpMessage="{{localize 'SR5.HELP_MagicTypeMsg'}}"
 			>
 				<select name="system.magic.magicType" data-dtype="String">
-				{{#select system.magic.magicType}}
 					<option value="">{{localize 'SR5.None'}}</option>
-					{{#each lists.magicTypes}}
-					<option value="{{@key}}">{{localize this}}</option>
-					{{/each}}
-				{{/select}}
+					{{selectOptions lists.magicTypes selected=system.magic.magicType localize=true}}
 				</select>
 			</div>
 		</li>

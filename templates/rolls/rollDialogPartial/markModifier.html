@@ -2,11 +2,7 @@
     <div class="col-5">{{localize 'SR5.NumberOfWantedMarks'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModMarkWanted" data-modifier="mark" name="mark">
-            {{#select mark}}
-            <option value="1">1 {{localize 'SR5.Mark'}}</option>
-            <option value="2">2 {{localize 'SR5.Marks'}}</option>
-            <option value="3">3 {{localize 'SR5.Marks'}}</option>
-            {{/select}}
+            {{selectOptions lists.matrixMarks selected=mark localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

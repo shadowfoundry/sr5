@@ -6,23 +6,12 @@
     {{/if}}
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect" data-target="dicePoolModAttribute" data-modifier="attribute">
-            {{#select attributKey}}
             <option value="none">{{localize 'SR5.None'}}</option>
             {{#if (eq owner.actorType "actorDrone")}}
-                {{#each lists.vehicleAttributes}}
-                <option value="{{@key}}">{{findTranslation 'vehicleAttributes' @key}}</option>
-                {{/each}}
+                {{selectOptions lists.vehicleAttributes selected=attributKey localize=true sort=true}}
             {{else}}
-                {{#each lists.characterAttributes}}
-                <option value="{{@key}}">{{findTranslation 'characterAttributes' @key}}</option>
-                {{/each}}
-                {{#each lists.characterSpecialAttributes}}
-                {{#ifne @key 'edge'}}
-                    <option value="{{@key}}">{{findTranslation 'characterSpecialAttributes' @key}}</option>
-                {{/ifne}}
-                {{/each}}
+                {{selectOptions lists.allAttributesWithoutEdge selected=attributKey localize=true sort=true}}
             {{/if}}
-            {{/select}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

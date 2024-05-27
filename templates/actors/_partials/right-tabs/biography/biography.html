@@ -30,12 +30,8 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Metatype'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioMetatypeMsg'}}">
 					<select name="system.biography.characterMetatype" data-dtype="String" required>
-						{{#select system.biography.characterMetatype}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each lists.metatypes}}
-						<option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
-						{{/each}}
-						{{/select}}
+						{{selectOptions lists.metatypes selected=system.biography.characterMetatype localize=true}}
 					</select>
 				</div>
 			</li>
@@ -62,12 +58,8 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Gender'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioGenderMsg'}}">
 					<select name="system.biography.characterGender" data-dtype="String" required>
-						{{#select system.biography.characterGender}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each lists.genders}}
-						<option value="{{@key}}">{{findTranslation 'genders' @key}}</option>
-						{{/each}}
-						{{/select}}
+						{{selectOptions lists.genders selected=system.biography.characterGender localize=true}}
 					</select>
 				</div>
 			</li>

@@ -41,12 +41,8 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Gender'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioGenderMsg'}}">
 					<select name="system.biography.gender" data-dtype="String" required>
-						{{#select system.biography.gender}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each lists.genders}}
-						<option value="{{@key}}">{{findTranslation 'genders' @key}}</option>
-						{{/each}}
-						{{/select}}
+						{{selectOptions lists.genders selected=system.biography.gender localize=true}}
 					</select>
 				</div>
 			</li>

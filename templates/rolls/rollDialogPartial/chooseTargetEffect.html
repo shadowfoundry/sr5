@@ -2,11 +2,7 @@
     <div class="col-3 SR-DialogOption">{{localize 'SR5.Target'}}</div>
 	<div class="col-8 SR-DialogOption">
 		<select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModTargetType" data-modifier="targetEffect">
-		{{#select item}}
-			{{#each target.itemList}}
-			<option value="{{@key}}">{{this}}</option>
-			{{/each}}
-		{{/select}}
+			{{selectOptions target.itemList selected=item localize=false sort=true}}
 		</select>
 	</div> 
 	<div class="col-1 SR-TextCenter">

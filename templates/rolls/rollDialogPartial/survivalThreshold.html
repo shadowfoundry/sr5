@@ -6,12 +6,7 @@
     <div class="col-3">{{localize 'SR5.SurvivalTerrain'}}{{localize 'SR5.Colons'}}</div> 
     <div class="col-8">
         <select class="SR-ManageThreshold" name="survivalThresholdType" data-target="survivalThreshold">
-        {{#select survivalThresholdType}}
-            <option value="mild">{{localize 'SR5.SurvivalTerrainMild'}}</option>
-            <option value="moderate">{{localize 'SR5.SurvivalTerrainModerate'}}</option>
-            <option value="tough">{{localize 'SR5.SurvivalTerrainTough'}}</option>
-            <option value="extreme">{{localize 'SR5.SurvivalTerrainExtreme'}}</option>
-        {{/select}}
+            {{selectOptions lists.survivalTerrain selected=survivalThresholdType localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

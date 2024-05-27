@@ -74,11 +74,34 @@ export default async function weapon(rollData, actor, item){
     rollData.combat.firingMode.semiAutomatic = itemData.firingMode.semiAutomatic;
     rollData.combat.firingMode.burstFire = itemData.firingMode.burstFire;
     rollData.combat.firingMode.fullyAutomatic = itemData.firingMode.fullyAutomatic;
+
+    rollData.lists.firingModes = {}
+    if (rollData.combat.firingMode.singleShot) rollData.lists.firingModes.SS = `${game.i18n.localize("SR5.WeaponModeSS")} (${game.i18n.localize("SR5.WeaponModeSSShort")} [-1 ${game.i18n.localize("SR5.Bullet")}]`;
+    if (rollData.combat.firingMode.semiAutomatic) {
+        rollData.lists.firingModes.SA = `${game.i18n.localize("SR5.WeaponModeSA")} (${game.i18n.localize("SR5.WeaponModeSAShort")} [-1 ${game.i18n.localize("SR5.Bullet")}]`;
+        rollData.lists.firingModes.SB = `${game.i18n.localize("SR5.WeaponModeSB")} (${game.i18n.localize("SR5.WeaponModeSBShort")} [-3 ${game.i18n.localize("SR5.Bullets")}]`;
+    }
+    if (rollData.combat.firingMode.burstFire) {
+        rollData.lists.firingModes.BF = `${game.i18n.localize("SR5.WeaponModeBF")} (${game.i18n.localize("SR5.WeaponModeBFShort")} [-3 ${game.i18n.localize("SR5.Bullets")}]`;
+        rollData.lists.firingModes.LB = `${game.i18n.localize("SR5.WeaponModeLB")} (${game.i18n.localize("SR5.WeaponModeLBShort")} [-6 ${game.i18n.localize("SR5.Bullets")}]`;
+    }
+    if (rollData.combat.firingMode.fullyAutomatic) {
+        rollData.lists.firingModes.FA = `${game.i18n.localize("SR5.WeaponModeFA")} (${game.i18n.localize("SR5.WeaponModeFAShort")} [-6 ${game.i18n.localize("SR5.Bullets")}]`;
+        rollData.lists.firingModes.FAc = `${game.i18n.localize("SR5.WeaponModeFA")} (${game.i18n.localize("SR5.WeaponModeFAShort")} [-10 ${game.i18n.localize("SR5.Bullets")}]`;
+        rollData.lists.firingModes.SF = `${game.i18n.localize("SR5.WeaponModeSF")} (${game.i18n.localize("SR5.WeaponModeSFShort")} [-20 ${game.i18n.localize("SR5.Bullets")}]`;
+    }
+    
     rollData.combat.range.short = itemData.range.short.value;
     rollData.combat.range.medium = itemData.range.medium.value;
     rollData.combat.range.long = itemData.range.long.value;
     rollData.combat.range.extreme = itemData.range.extreme.value;
     rollData.combat.weaponType = itemData.type;
+    rollData.lists.weaponRanges = {
+        short: `${game.i18n.localize("SR5.WeaponRangeShort")} (${game.i18n.localize("SR5.WeaponRangeUpTo")} ${rollData.combat.range.short}) ${game.i18n.localize("SR5.MeterUnit")}`,
+        medium: `${game.i18n.localize("SR5.WeaponRangeMedium")} (${game.i18n.localize("SR5.WeaponRangeUpTo")} ${rollData.combat.range.medium}) ${game.i18n.localize("SR5.MeterUnit")}`,
+        long: `${game.i18n.localize("SR5.WeaponRangeLong")} (${game.i18n.localize("SR5.WeaponRangeUpTo")} ${rollData.combat.range.long}) ${game.i18n.localize("SR5.MeterUnit")}`,
+        extreme: `${game.i18n.localize("SR5.WeaponRangeExtreme")} (${game.i18n.localize("SR5.WeaponRangeUpTo")} ${rollData.combat.range.extreme}) ${game.i18n.localize("SR5.MeterUnit")}`,
+    }
 
     //Special case for engulf
     if (itemData.systemEffects.length){
@@ -98,6 +121,8 @@ export default async function weapon(rollData, actor, item){
         rollData.damage.element = actorData.specialProperties.energyAura;
         if (actorData.specialProperties.energyAura !== "electricity") rollData.damage.type = "physical";
     }
+
+    _buildCalledShotList(rollData)
 
     return rollData;
 }
@@ -220,4 +245,121 @@ async function handleMartialArtsCalledShot(rollData, actor){
         if (value.isActive) rollData.combat.calledShot.martialArts[key] = true;
     }
     return rollData;
+}
+
+function _buildCalledShotList(rollData){
+    rollData.lists.calledShots = {}
+    rollData.lists.calledShotsSpecific = {}
+
+    let ammoType = rollData.combat.ammo.type
+
+    if (ammoType === "explosive" || ammoType ==="exExplosive" || ammoType === "flechette" || ammoType === "arrow" || ammoType === "bolt" || ammoType === "gel" || ammoType === "hollowPoint") {
+        rollData.lists.calledShots.blastOutOfHand = game.i18n.localize("SR5.CS_AS_FingerPopper")
+    } else {
+        rollData.lists.calledShots.blastOutOfHand = game.i18n.localize("SR5.CS_BlastOutOfHand")
+    }
+
+    if (rollData.test.typeSub === "meleeWeapon" && rollData.combat.calledShot.martialArts.breakWeapon){
+        rollData.lists.calledShots.breakWeapon = game.i18n.localize("SR5.CS_BreakWeapon")
+    }
+
+    if (rollData.damageType === "stun"){
+        rollData.lists.calledShots.harderKnock = game.i18n.localize("SR5.CS_HarderKnock")
+    }
+
+    rollData.lists.calledShots.specificTarget = game.i18n.localize("SR5.CS_SpecificTarget")
+
+    if (ammoType === "explosive" || ammoType ==="exExplosive" || ammoType === "frangible" || ammoType === "gel" || ammoType === "gyrojet" || ammoType === "gyrojetTaser" || ammoType === "hollowPoint") {
+        rollData.lists.calledShots.dirtyTrick = game.i18n.localize("SR5.CS_AS_HereMuckInYourEye")
+    } else {
+        rollData.lists.calledShots.dirtyTrick = game.i18n.localize("SR5.CS_DirtyTrick")
+    }
+
+    if ((ammoType === "special" || ammoType ==="bolt" || ammoType ==="boltInjection" || ammoType ==="arrow" || ammoType ==="arrowInjection") && rollData.combat.calledShot.martialArts.pin){
+        rollData.lists.calledShots.pin = game.i18n.localize("SR5.CS_Pin")
+    }
+    
+    if (rollData.combat.weaponType === "unarmed" && rollData.combat.calledShot.martialArts.disarm){
+        rollData.lists.calledShots.disarm = game.i18n.localize("SR5.CS_Disarm")
+    }
+
+    if ((rollData.combat.weaponType === "exoticRangedWeapon" || rollData.combat.weaponType === "exoticMeleeWeapon") && rollData.combat.calledShot.martialArts.entanglement){
+        rollData.lists.calledShots.entanglement = game.i18n.localize("SR5.CS_Entanglement")
+    }
+
+    if (ammoType === "explosive" || ammoType ==="exExplosive") {
+        rollData.lists.calledShots.shakeUp = game.i18n.localize("SR5.CS_AS_ShakeRattle")
+    } else {
+        rollData.lists.calledShots.shakeUp = game.i18n.localize("SR5.CS_ShakeUp")
+    }
+
+    if (rollData.combat.weaponType === "meleeWeapon" && rollData.combat.calledShot.martialArts.feint){
+        rollData.lists.calledShots.feint = game.i18n.localize("SR5.CS_Feint")
+    }
+
+    rollData.lists.calledShots.splittingDamage = game.i18n.localize("SR5.CS_SplittingDamage")
+
+    if (rollData.combat.weaponType === "meleeWeapon"){
+        rollData.lists.calledShots.knockdown = game.i18n.localize("SR5.CS_Knockdown")
+    }
+
+    rollData.lists.calledShots.trickShot = game.i18n.localize("SR5.CS_TrickShot")
+
+    if (rollData.combat.weaponType === "meleeWeapon" || rollData.combat.weaponType === "meleeWeunarmedapon"){
+        rollData.lists.calledShots.reversal = game.i18n.localize("SR5.CS_Reversal")
+    }
+
+    rollData.lists.calledShots.vitals = game.i18n.localize("SR5.CS_Vitals")
+
+    //Ammo specifics called shots
+    if (ammoType === "gel") rollData.lists.calledShotsSpecific.bellringer = game.i18n.localize("SR5.CS_AS_Bellringer")
+    if (ammoType === "gel" || ammoType === "gyrojet" || ammoType === "gyrojetTaser") rollData.lists.calledShotsSpecific.ricochetShot = game.i18n.localize("SR5.CS_AS_RicochetShot")
+    if (ammoType === "apds") rollData.lists.calledShotsSpecific.bullsEye = game.i18n.localize("SR5.CS_AS_BullsEye")
+    if (ammoType === "capsule" || ammoType === "capsuleDmso") rollData.lists.calledShotsSpecific.downTheGullet = game.i18n.localize("SR5.CS_AS_DownTheGullet")
+    if (ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.extremeIntimidation = game.i18n.localize("SR5.CS_AS_ExtremeIntimidation")
+    if (ammoType === "injection" || ammoType === "boltInjection" || ammoType === "arrowInjection") {
+        rollData.lists.calledShotsSpecific.warningShot = game.i18n.localize("SR5.CS_AS_WarningShot")
+        rollData.lists.calledShotsSpecific.hitEmWhereItCounts = game.i18n.localize("SR5.CS_AS_HitEmWhereItCounts")
+    }
+    if (ammoType === "flare" || ammoType === "gyrojetTaser" || ammoType === "tracer") rollData.lists.calledShotsSpecific.flameOn = game.i18n.localize("SR5.CS_AS_FlameOn")
+    if (ammoType === "flare") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_FlashBlind")
+    if (ammoType === "flechette" || ammoType === "arrow" || ammoType === "arrowBarbedHead" || ammoType === "arrowExplosiveHead" 
+       || ammoType === "arrowHammerhead" || ammoType === "arrowIncendiaryHead" || ammoType === "arrowScreamerHead"
+       || ammoType === "arrowStickNShock" || ammoType === "arrowStaticShaft" || ammoType === "bolt") {
+        rollData.lists.calledShotsSpecific.onPinsAndNeedles = game.i18n.localize("SR5.CS_AS_OnPinsAndNeedles")
+        rollData.lists.calledShotsSpecific.shreddedFlesh = game.i18n.localize("SR5.CS_AS_ShreddedFlesh")
+    }
+    if (ammoType === "tracker") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_Tag")
+    if (ammoType === "apds" || ammoType === "gauss") rollData.lists.calledShotsSpecific.throughAndInto = game.i18n.localize("SR5.CS_AS_ThroughAndInto")
+    if (ammoType === "av" || ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.upTheAnte = game.i18n.localize("SR5.CS_AS_UpTheAnte")
+
+    rollData.lists.calledShotsSpecificDroneTarget = {
+        engineBlock: game.i18n.localize("SR5.CS_ST_EngineBlock"),
+        fuelTankBattery: game.i18n.localize("SR5.CS_ST_FuelTankBattery"),
+        axle: game.i18n.localize("SR5.CS_ST_Axle"),
+        antenna: game.i18n.localize("SR5.CS_ST_Antenna"),
+        doorLock: game.i18n.localize("SR5.CS_ST_DoorLock"),
+        windowMotor: game.i18n.localize("SR5.CS_ST_WindowMotor"),
+    }
+
+    rollData.lists.calledShotsSpecificTarget = {
+        ankle: game.i18n.localize("SR5.CS_ST_Ankle"),
+        ear: game.i18n.localize("SR5.CS_ST_Ear"),
+        eye: game.i18n.localize("SR5.CS_ST_Eye"),
+        foot: game.i18n.localize("SR5.CS_ST_Foot"),
+        forearm: game.i18n.localize("SR5.CS_ST_Forearm"),
+        genitals: game.i18n.localize("SR5.CS_ST_Genitals"),
+        gut: game.i18n.localize("SR5.CS_ST_Gut"),
+        hand: game.i18n.localize("SR5.CS_ST_Hand"),
+        hip: game.i18n.localize("SR5.CS_ST_Hip"),
+        jaw: game.i18n.localize("SR5.CS_ST_Jaw"),
+        knee: game.i18n.localize("SR5.CS_ST_Knee"),
+        neck: game.i18n.localize("SR5.CS_ST_Neck"),
+        shin: game.i18n.localize("SR5.CS_ST_Shin"),
+        shoulder: game.i18n.localize("SR5.CS_ST_Shoulder"),
+        sternum: game.i18n.localize("SR5.CS_ST_Sternum"),
+        thigh: game.i18n.localize("SR5.CS_ST_Thigh"),
+    }
+
+    return rollData
 }

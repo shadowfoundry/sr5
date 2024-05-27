@@ -44,12 +44,8 @@
 				>
 					<select data-item-id="{{_id}}" class="edit-value" data-binding="system.type" name="knowledge.{{_id}}.type"
 						data-dtype="String">
-						{{#select system.type}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each ../system.lists.knowledgeSkillTypes}}
-						<option value="{{@key}}">{{findTranslation 'knowledgeSkillTypes' @key}}</option>
-						{{/each}}
-						{{/select}}
+						{{selectOptions ../system.lists.knowledgeSkillTypes selected=system.type localize=true}}
 					</select>
 				</div>
 				<div class="col-1 SR-TextCenter"

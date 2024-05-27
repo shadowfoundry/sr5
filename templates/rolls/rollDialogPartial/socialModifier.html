@@ -4,14 +4,7 @@
     <div class="col-7 SR-TopSeparator">{{localize 'SR5.SocialModAttitude'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4 SR-TopSeparator SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModSocialAttitude" data-modifier="socialAttitude">
-            {{#select socialAttitude}}
-                <option value="friendly">{{localize 'SR5.SocialModAttitudeFriendly'}}</option>
-                <option value="neutral" selected="selected">{{localize 'SR5.SocialModAttitudeNeutral'}}</option>
-                <option value="suspicious">{{localize 'SR5.SocialModAttitudeSuspicious'}}</option>
-                <option value="prejudiced">{{localize 'SR5.SocialModAttitudePrejudiced'}}</option>
-                <option value="hostile">{{localize 'SR5.SocialModAttitudeHostile'}}</option>
-                <option value="enemy">{{localize 'SR5.SocialModAttitudeEnemy'}}</option>
-            {{/select}}
+            {{selectOptions lists.socialAttitude selected=socialAttitude localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">
@@ -22,13 +15,7 @@
     <div class="col-6">{{localize 'SR5.SocialModDesiredResult'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-5 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModSocialResult" data-modifier="socialResult">
-            {{#select socialResult}}
-                <option value="advantageous">{{localize 'SR5.SocialModDesiredResultAdvantageous'}}</option>
-                <option value="ofNoValue" selected="selected">{{localize 'SR5.SocialModDesiredResultOfNoValue'}}</option>
-                <option value="annoying">{{localize 'SR5.SocialModDesiredResultAnnoying'}}</option>
-                <option value="harmful">{{localize 'SR5.SocialModDesiredResultHarmful'}}</option>
-                <option value="disastrous">{{localize 'SR5.SocialModDesiredResultDisastrous'}}</option>
-            {{/select}}
+            {{selectOptions lists.socialResult selected=socialResult localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

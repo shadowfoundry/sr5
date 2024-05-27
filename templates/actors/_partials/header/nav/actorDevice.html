@@ -7,11 +7,7 @@
 </nav>
 <div class="SR-MarginLeft10 SR-EspritType">
     <select  name="system.matrix.deviceType" data-dtype="String" required>
-    {{#select system.matrix.deviceType}}
         <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-        {{#each lists.deviceTypes}}
-        <option value="{{@key}}">{{localize this}}</option>
-        {{/each}}
-    {{/select}}
+        {{selectOptions lists.deviceTypes selected=system.matrix.deviceType localize=true}}
     </select>
 </div>

@@ -9,11 +9,7 @@
     <div class="col-1"><input type="number" name="extendedMultiplier" value="{{extendedMultiplier}}" data-dtype="Number" placeholder="1" /></div>
     <div class="col-4">
         <select name="extendedTime">
-        {{#select extendedTime}}
-            {{#each lists.extendedIntervals}}
-            <option value="{{@key}}">{{findTranslation 'extendedIntervals' @key}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.extendedIntervals selected=extendedTime localize=true sort=false}}
         </select>
     </div>
 </li>

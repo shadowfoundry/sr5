@@ -33,12 +33,8 @@
             <div class="col-6">{{localize 'SR5.PilotSkill'}}</div>
             <div class="col-6" data-helpTitle="{{localize 'SR5.HELP_VehiclePilotSkill'}}" data-helpMessage="{{localize 'SR5.HELP_VehiclePilotSkillMsg'}}">
                 <select name="system.pilotSkill" data-dtype="String">
-                {{#select system.pilotSkill}}
                     <option value="">{{localize 'SR5.None'}}</option>
-                    {{#each lists.pilotSkills}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                    {{selectOptions lists.pilotSkills selected=system.pilotSkill localize=true}}
                 </select>
             </div>
         </li>
