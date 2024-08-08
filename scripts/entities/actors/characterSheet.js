@@ -251,6 +251,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 			case "itemFocus":
 			case "itemAugmentation":
 			case "itemQuality":
+			case "itemEcho":
 				itemData.system.isActive = true;
 				return super._onDropItemCreate(itemData);
 			case "itemAdeptPower":

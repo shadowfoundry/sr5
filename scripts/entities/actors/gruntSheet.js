@@ -221,6 +221,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		case "itemFocus":
 		case "itemAugmentation":
 		case "itemQuality":
+		case "itemEcho":
 			item.system.isActive = true;
 			return super._onDropItemCreate(item);
 		case "itemAdeptPower":
