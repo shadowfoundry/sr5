@@ -3550,7 +3550,7 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static generateMatrixActions(actor) {
-		let actorData = actor.system, attributes = actorData.attributes, skills = actorData.skills,
+		let actorData = actor.system, attributes = actorData.attributes, specialAttributes = actorData.specialAttributes, skills = actorData.skills,
 			matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions;
 
 		SR5_EntityHelpers.updateModifier(matrixActions.jamSignals.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
@@ -3563,6 +3563,10 @@ export class SR5_CharacterUtility extends Actor {
 		SR5_EntityHelpers.updateModifier(matrixActions.editFile.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
 		SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
 		SR5_EntityHelpers.updateModifier(matrixActions.eraseMark.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		if (specialAttributes.resonance.augmented.value > 0) {
+			SR5_EntityHelpers.updateModifier(matrixActions.eraseMatrixSignature.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.eraseMatrixSignature.test, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value);
+		}
 		SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
 		SR5_EntityHelpers.updateModifier(matrixActions.formatDevice.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
 		SR5_EntityHelpers.updateModifier(matrixActions.snoop.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
