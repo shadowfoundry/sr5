@@ -525,8 +525,8 @@ export class SR5_UtilityItem extends Actor {
 				damageValue = -4;
 				break;
 			case "explosive":
-				armorPenetration = 1;
-				damageValue = -1;
+				armorPenetration = -1;
+				damageValue = 1;
 				break;
 			case "exExplosive":
 				armorPenetration = -1;
