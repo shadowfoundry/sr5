@@ -998,7 +998,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin: 1px -5px 0px 0px;
 }
 .app.window-app.actor .window-content .SR-footer select {
-  background: none;
+  background: #000001;
   color: #fffffe;
   margin-left: 0px;
 }
