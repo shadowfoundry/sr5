@@ -4020,7 +4020,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.journal-sheet .window-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
-  background-size: auto 80px, auto 80px, cover;
+  background-size: auto 50px, auto 50px, cover;
   background-position: top, bottom, top;
   background-repeat: repeat-x, repeat-x, repeat;
 }
