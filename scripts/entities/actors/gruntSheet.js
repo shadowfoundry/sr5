@@ -57,6 +57,8 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		else context.rulesCalledShot = false;
 		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
 		else context.rulesKillCode = false;
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
+		else context.matrixActionsRigger5 = false;
 
 		return context;
 	}
@@ -83,11 +85,12 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		const activeMatrixActions = {};
 		let hasAttack = (actor.system.matrix.attributes.attack.value > 0) ? true : false; 
 		let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false; 
-		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");
+		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");	
+		let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions");
 
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
-			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode")) &&   (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
+			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5")) &&   (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
 			|| (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
 			|| (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
 			|| this._shownNonRollableMatrixActions) {

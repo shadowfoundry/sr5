@@ -450,6 +450,7 @@ export class SR5_CharacterUtility extends Actor {
 			// Reset Matrix Actions
 			if (actorData.matrix.actions) {
 				for (let key of Object.keys(SR5.matrixRolledActions)) {
+					console.log('Reset Matrix Actions : ', key, JSON.stringify(actorData.matrix.actions[key]))
 					actorData.matrix.actions[key].test.base = 0;
 					actorData.matrix.actions[key].test.dicePool = 0;
 					actorData.matrix.actions[key].test.modifiers = [];
@@ -3631,6 +3632,23 @@ export class SR5_CharacterUtility extends Actor {
 			SR5_EntityHelpers.updateModifier(matrixActions.tag.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
 			SR5_EntityHelpers.updateModifier(matrixActions.watchdog.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
 			SR5_EntityHelpers.updateModifier(matrixActions.watchdog.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+		}		
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) {
+			SR5_EntityHelpers.updateModifier(matrixActions.breakTargetLock.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.breakTargetLock.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.breakTargetLock.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.confusePilot.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.confusePilot.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.confusePilot.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.detectTargetLock.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.detectTargetLock.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.detectTargetLock.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.suppressNoise.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.suppressNoise.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.suppressNoise.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.test, game.i18n.localize('SR5.SkillElectronicWarfare'), "skillRating", skills.electronicWarfare.rating.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.test, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value);
+			SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value);
 		}
 
 		for (let key of Object.keys(SR5.matrixActions)) {
@@ -3696,6 +3714,8 @@ export class SR5_CharacterUtility extends Actor {
 		let modifierTypeSleaze = "matrixAttribute";
 		let modifierTypeDataProcessing = "matrixAttribute";
 		let modifierTypeAttack = "matrixAttribute";
+		let modifierTypeSensor = "sensorAttribute";
+		let modifierTypePilot = "pilotAttribute"
 
 		if (actor.type === "actorPc" || actor.type === "actorGrunt" || actor.type === "actorAgent") {
 			intuitionValue = actorData.attributes.intuition.augmented.value;
@@ -3813,6 +3833,17 @@ export class SR5_CharacterUtility extends Actor {
 			SR5_EntityHelpers.updateModifier(matrixActions.tag.defense, game.i18n.localize('SR5.Firewall'), modifierTypeSleaze, sleazeValue);
 			SR5_EntityHelpers.updateModifier(matrixActions.watchdog.defense, game.i18n.localize('SR5.Intuition'), modifierTypeLogic, logicValue);
 			SR5_EntityHelpers.updateModifier(matrixActions.watchdog.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue);
+		}
+
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) {
+			SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.defense, game.i18n.localize('SR5.Intuition'), modifierTypeWillpower, willpowerValue);
+			SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue);
+			if (actor.type === "actorDrone") {	
+				SR5_EntityHelpers.updateModifier(matrixActions.breakTargetLock.defense, game.i18n.localize('SR5.Logic'), modifierTypeLogic, logicValue);
+				SR5_EntityHelpers.updateModifier(matrixActions.breakTargetLock.defense, game.i18n.localize('SR5.VehicleStat_SensorFull'), modifierTypeSensor, actorData.attributes.sensor.augmented.value);
+				SR5_EntityHelpers.updateModifier(matrixActions.confusePilot.defense, game.i18n.localize('SR5.VehicleStat_PilotFull'), modifierTypePilot, actorData.attributes.pilot.augmented.value);
+				SR5_EntityHelpers.updateModifier(matrixActions.confusePilot.defense, game.i18n.localize('SR5.Firewall'), modifierTypeFirewall, firewallValue);
+			}
 		}
 
 

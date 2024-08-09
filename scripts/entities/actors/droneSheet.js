@@ -52,7 +52,8 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 		else context.rulesCalledShot = false;
 		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
 		else context.rulesKillCode = false;
-
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
+		else context.matrixActionsRigger5 = false;
 		return context;
 	}
 
