@@ -1,37 +1,27 @@
 <form>
 	<div class="form-group">
-	  	<select name="target" data-dtype="String">
-		{{#select item}}
-		  	<option value="device">{{device}}</option>
-		  	{{#if list.augmentations}}
+	  <select name="target" data-dtype="String">
+		 	<option value="device">{{device}}</option>
+		 	{{#if list.augmentations}}
 				<optgroup label="{{localize 'SR5.Augmentations'}}">
-					{{#each list.augmentations}}
-					<option value="{{@key}}">{{this}}</option>
-					{{/each}}
+					{{selectOptions lists.augmentations selected=item localize=false}}
 				</optgroup>
-		  	{{/if}}
-		  	{{#if list.weapons}}
-		  		<optgroup label="{{localize 'SR5.Weapons'}}">
-					{{#each list.weapons}}
-					<option value="{{@key}}">{{this}}</option>
-					{{/each}}
-		  		</optgroup>
-		  	{{/if}}
-		  	{{#if list.armors}}
+		 	{{/if}}
+		 	{{#if list.weapons}}
+		 		<optgroup label="{{localize 'SR5.Weapons'}}">
+					{{selectOptions lists.weapons selected=item localize=false}}
+		 		</optgroup>
+		 	{{/if}}
+		 	{{#if list.armors}}
 				<optgroup label="{{localize 'SR5.Armors'}}">
-			  		{{#each list.armors}}
-			  		<option value="{{@key}}">{{this}}</option>
-			  		{{/each}}
+					{{selectOptions lists.armors selected=item localize=false}}
 				</optgroup>
-		  	{{/if}}
-		  	{{#if list.gears}}
-		  		<optgroup label="{{localize 'SR5.Gear'}}">
-					{{#each list.gears}}
-					<option value="{{@key}}">{{this}}</option>
-					{{/each}}
-		  			</optgroup>
-		  	{{/if}}
-		{{/select}}
+		 	{{/if}}
+		 	{{#if list.gears}}
+		 		<optgroup label="{{localize 'SR5.Gear'}}">
+					{{selectOptions lists.gears selected=item localize=false}}
+	  		</optgroup>
+		 	{{/if}}
 		</select>
 	</div>
 </form>

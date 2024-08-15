@@ -2,12 +2,8 @@
 	<div class="form-group">
 		<div>{{localize 'SR5.ChooseControler'}}</div>
 		<select name="controler" data-dtype="String">
-			{{#select constoler}}
-				<option value="">{{localize 'SR5.None'}}</option>
-				{{#each controlerList}}
-				<option value="{{@key}}">{{this}}</option>
-				{{/each}}
-			{{/select}}
+			<option value="">{{localize 'SR5.None'}}</option>
+			{{selectOptions controlerList selected=controler localize=false}}
 		</select>
 	</div>
 </form>

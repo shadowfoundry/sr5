@@ -1606,7 +1606,7 @@ export class SR5_UtilityItem extends Actor {
 		let spellList = [];
 		for (let i of actor.items) {
 			if (i.type === "itemSpell" && i.system.category === itemData.subType && !i.system.preparation) {
-				spellList.push(i.name);
+				spellList.push({name: i.name});
 			}
 		}
 		return spellList;

@@ -19,6 +19,12 @@ export default class SR5MeasuredTemplateConfig extends MeasuredTemplateConfig {
         });
     }
 
+    getData(options={}) {
+        const context = super.getData(options);
+        context.data.flags.sr5.lists = SR5
+        return context
+    }
+    
     get template() {
         return `systems/sr5/templates/interface/srTemplateConfig.html`;
     }

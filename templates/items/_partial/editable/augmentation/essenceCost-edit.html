@@ -13,12 +13,8 @@
         <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
         <div class="col-2 SR-TextRight">
             <select name="system.essenceCost.multiplier" data-dtype="{{system.essenceCost.multiplier}}" required>
-            {{#select system.essenceCost.multiplier}}
                 <option value="">{{localize 'SR5.None'}}</option>
-                {{#each lists.valueMultipliersNoCapacity}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.valueMultipliersNoCapacity selected=system.essenceCost.multiplier localize=true}}
             </select>
         </div>
     {{/if}}

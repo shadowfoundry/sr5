@@ -828,6 +828,58 @@ SR5.actionSources = {
 }
 
 //-----------------------------------//
+//            SCENES                 //
+//-----------------------------------//
+
+SR5.environModVisibility = {
+	0: "SR5.EnvironmentalVisibilityClear",
+	1: "SR5.EnvironmentalVisibilityLight",
+	2: "SR5.EnvironmentalVisibilityModerate",
+	3: "SR5.EnvironmentalVisibilityHeavy",
+}
+
+SR5.environModLight = {
+	0: "SR5.EnvironmentalLightFull",
+	1: "SR5.EnvironmentalLightPartial",
+	2: "SR5.EnvironmentalLightDim",
+	3: "SR5.EnvironmentalLightDarkness",
+}
+
+SR5.environModGlare = {
+	0: "SR5.EnvironmentalGlareNo",
+	1: "SR5.EnvironmentalGlareWeak",
+	2: "SR5.EnvironmentalGlareModerate",
+	3: "SR5.EnvironmentalGlareBlinding",
+}
+
+SR5.environModWind = {
+	0: "SR5.EnvironmentalWindNone",
+	1: "SR5.EnvironmentalWindLight",
+	2: "SR5.EnvironmentalWindModerate",
+	3: "SR5.EnvironmentalWindStrong",
+}
+
+SR5.matrixSpam = {
+	0: "SR5.None",
+	1: "SR5.SceneSpamCity",
+	2: "SR5.SceneSpamSprawl",
+	3: "SR5.SceneSpamMajorEvent",
+	4: "SR5.SceneSpamCityCommercial",
+	5: "SR5.SceneSpamSprawlCommercial",
+	6: "SR5.SceneSpamMassiveGatering",
+}
+
+SR5.matrixStatic = {
+	0: "SR5.None",
+	1: "SR5.SceneStaticAbandonedBuilding",
+	2: "SR5.SceneStaticAbandonedNeighborhood",
+	3: "SR5.SceneStaticRuralArea",
+	4: "SR5.SceneStaticWilderness",
+	5: "SR5.SceneStaticRemotePlace",
+	6: "SR5.SceneStaticRemoteEnclosedPlace",
+}
+
+//-----------------------------------//
 //            WEAPONS                //
 //-----------------------------------//
 
@@ -2454,6 +2506,19 @@ SR5.vehicleSecondaryPropulsionMode = {
 };
 
 // Vehicle and Drone Control mode
+SR5.vehicleControlModesAutopilot = {
+	autopilot                 : "SR5.ControlAutopilot",
+}
+
+SR5.vehicleControlModesSimple = {
+	manual                    : "SR5.ControlManual",
+	remote                    : "SR5.ControlRemote",
+}
+
+SR5.vehicleControlModesRigging = {
+	rigging                   : "SR5.ControlRigging",
+}
+
 SR5.vehicleControlModes = {
 	autopilot                 : "SR5.ControlAutopilot",
 	manual                    : "SR5.ControlManual",
