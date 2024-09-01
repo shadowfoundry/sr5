@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.ActionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-3">
         <select name="system.actionType" data-dtype="{{system.actionType}}" required>
-        {{#select system.actionType}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.powerActionTypes}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.powerActionTypes selected=system.actionType localize=true}}
         </select>
     </div>
     <div class="col-3 SR-TextRight">{{localize 'SR5.NeedRoll'}}{{localize 'SR5.Colons'}}</div>

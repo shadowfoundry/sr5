@@ -3,12 +3,8 @@
     <div class="col-5">{{localize 'SR5.LinkedWeapon'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.linkedWeapon" data-dtype="String" required>
-        {{#select system.linkedWeapon}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each system.weaponChoices}}
-                <option value="{{id}}">{{name}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.weaponChoices selected=system.linkedWeapon localize=true}}
         </select>
     </div>
 </li>

@@ -3,11 +3,8 @@
 	<div class="col-5">{{localize 'SR5.CommlinkModule'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
 		<select name="system.module" data-dtype="String">
-		{{#select system.module}}
 			<option value="">{{localize 'SR5.None'}}</option>
-			{{#each lists.deckModules}}
-			<option value="{{@key}}">{{localize this}}</option>
-			{{/each}}
+			{{selectOptions lists.deckModules selected=system.module localize=true}}
 		{{/select}}
 		</select>
 	</div>

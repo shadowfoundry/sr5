@@ -9,12 +9,8 @@
     <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
     <div class="col-2 SR-TextRight">
     	<select name="system.slots.multiplier" data-dtype="{{system.slots.multiplier}}" required>
-       	{{#select system.slots.multiplier}}
        		<option value="">{{localize 'SR5.None'}}</option>
-       		{{#each lists.valueMultipliers}}
-           	<option value="{{@key}}">{{localize this}}</option>
-       		{{/each}}
-       	{{/select}}
+					{{selectOptions lists.valueMultipliers selected=system.slots.multiplier localize=true}}
     	</select>
     </div>
 </li>

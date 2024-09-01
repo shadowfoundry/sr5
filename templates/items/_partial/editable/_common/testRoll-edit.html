@@ -4,11 +4,7 @@
     {{#if system.canRollTest}}
     <div class="col-6 SR-TextRight">
 		<select name="system.test.type" data-dtype="String">
-		{{#select system.test.type}}
-			{{#each lists.itemRollTestType}}
-			<option value="{{@key}}">{{localize this}}</option>
-			{{/each}}
-		{{/select}}
+			{{selectOptions lists.itemRollTestType selected=system.test.type localize=true}}
 		</select>
 	</div>
     {{/if}}

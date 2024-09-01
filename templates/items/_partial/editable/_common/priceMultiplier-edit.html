@@ -15,14 +15,10 @@
     <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
     <div class="col-2 SR-TextRight">
     	<select name="system.price.multiplier" data-dtype="{{system.price.multiplier}}" required>
-       	{{#select system.price.multiplier}}
-       		<option value="">{{localize 'SR5.None'}}</option>
-       		{{#each lists.valueMultipliers}}
-           	<option value="{{@key}}">{{localize this}}</option>
-       		{{/each}}
-       	{{/select}}
+     		<option value="">{{localize 'SR5.None'}}</option>
+				{{selectOptions lists.valueMultipliers selected=system.price.multiplier localize=true}}
     	</select>
-       	</div>
+   	</div>
 </li>
 
 <!-- Item Availability -->
@@ -37,12 +33,8 @@
 	<div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
 	<div class="col-2 SR-TextRight">
 		<select name="system.availability.multiplier" data-dtype="{{system.availability.multiplier}}" required>
-		{{#select system.availability.multiplier}}
 			<option value="">{{localize 'SR5.None'}}</option>
-			{{#each lists.valueMultipliers}}
-			<option value="{{@key}}">{{localize this}}</option>
-			{{/each}}
-		{{/select}}
+			{{selectOptions lists.valueMultipliers selected=system.availability.multiplier localize=true}}
 		</select>
 	</div>
 </li>
@@ -52,12 +44,8 @@
 	<div class="col-5">{{localize 'SR5.Legality'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
 		<select name="system.legality">
-		{{#select system.legality}}
 			<option value="">{{localize 'SR5.Legal'}}</option>
-			{{#each lists.legalTypes}}
-			<option value="{{@key}}">{{localize this}}</option>
-			{{/each}}
-		{{/select}}
+			{{selectOptions lists.legalTypes selected=system.legality localize=true}}
 		</select>
 	</div>
 </li>

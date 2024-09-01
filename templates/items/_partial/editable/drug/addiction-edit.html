@@ -8,12 +8,8 @@
             <div class="col-5">{{localize 'SR5.ProgramTypeShort'}}{{localize 'SR5.Colons'}}</div>
             <div class="col-7">
                 <select name="system.addiction.type" data-dtype="String">
-                    {{#select system.addiction.type}}
-                        <option value="">{{localize 'SR5.None'}}</option>
-                        {{#each lists.addictionTypes}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                        {{/each}}
-                    {{/select}}
+                    <option value="">{{localize 'SR5.None'}}</option>
+                    {{selectOptions lists.addictionTypes selected=system.addiction.type localize=true}}
                 </select>
             </div>
         </li>

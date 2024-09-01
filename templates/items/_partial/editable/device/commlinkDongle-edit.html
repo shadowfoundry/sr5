@@ -1,14 +1,10 @@
 {{#ife system.type "commlink"}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.CommlinkDongle'}}{{localize 'SR5.Colons'}}</div>
+  <div class="col-5">{{localize 'SR5.CommlinkDongle'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
 		<select name="system.dongle" data-dtype="String">
-		{{#select system.dongle}}
 			<option value="">{{localize 'SR5.None'}}</option>
-			{{#each lists.deckDongles}}
-			<option value="{{@key}}">{{localize this}}</option>
-	    	{{/each}}
-		{{/select}}
+			{{selectOptions lists.deckDongles selected=system.dongle localize=true}}
 		</select>
 	</div>
 </li>

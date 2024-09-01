@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.Gender'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.gender" data-dtype="String" required>
-        {{#select system.gender}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.genders}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.genders selected=system.gender localize=true}}
         </select>
     </div>
 </li>

@@ -3,77 +3,45 @@
     <div class="col-7">
         {{#ife system.type "grenadeLauncher"}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.miniGrenadeTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.miniGrenadeTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else ife system.type "missileLauncher"}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.ammunitionLauncherTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.ammunitionLauncherTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else ife system.type "assaultCannon"}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.ammunitionCannonTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.ammunitionCannonTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else if (or (eq system.type "heavyCrossbow") 
             (eq system.type "lightCrossbow") 
             (eq system.type "mediumCrossbow") 
             (eq system.type "harpoonGuns"))}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.ammunitionCrossbowTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.ammunitionCrossbowTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else ife system.type "bow"}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.ammunitionBowTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.ammunitionBowTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else ife system.type "taser"}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
-                {{#each lists.ammunitionTaserTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.ammunitionTaserTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else ife system.type "exoticRangedWeapon"}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.allAmmunitionTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.allAmmunitionTypes selected=system.ammunition.type localize=true}}
             </select>
         {{else}}
             <select name="system.ammunition.type" required>
-            {{#select system.ammunition.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.ammunitionTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.ammunitionTypes selected=system.ammunition.type localize=true}}
             </select>
         {{/ife}}
     </div>

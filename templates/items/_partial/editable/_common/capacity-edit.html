@@ -21,21 +21,13 @@
     <div class="col-2 SR-TextRight">
     {{#if system.isAccessory}}
         <select name="system.capacityTaken.multiplier" data-dtype="{{system.capacityTaken.multiplier}}" required>
-        {{#select system.capacityTaken.multiplier}}
             <option value="">{{localize 'SR5.None'}}</option>
-            {{#each lists.valueMultipliersNoCapacity}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.valueMultipliersNoCapacity selected=system.capacityTaken.multiplier localize=true}}
         </select>
     {{else}} 
         <select name="system.capacity.multiplier" data-dtype="{{system.capacity.multiplier}}" required>
-        {{#select system.capacity.multiplier}}
             <option value="">{{localize 'SR5.None'}}</option>
-            {{#each lists.valueMultipliersNoCapacity}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.valueMultipliersNoCapacity selected=system.capacity.multiplier localize=true}}
         </select>
     {{/if}}
     </div>

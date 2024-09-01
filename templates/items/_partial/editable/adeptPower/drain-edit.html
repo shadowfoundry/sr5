@@ -4,12 +4,8 @@
     {{#if system.hasDrain}}
     <div class="col-3">
         <select name="system.drainType" data-dtype="{{system.drainType}}" required>
-        {{#select system.drainType}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.adeptPowerDrainTypes}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.adeptPowerDrainTypes selected=system.drainType localize=true}}
         </select>
     </div>
     <div class="col-2 SR-TextRight">

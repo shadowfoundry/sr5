@@ -2,12 +2,8 @@
     <div class="col-6">{{localize 'SR5.SpriteType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6">
         <select name="system.type" data-dtype="String" required>
-            {{#select system.type}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.spriteTypes}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.spriteTypes selected=system.type localize=true}}
         </select>
     </div>
 </li>

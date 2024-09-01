@@ -604,7 +604,7 @@ export class SR5Item extends Item {
 		// Collect data
 		const documentName = this.metadata.name;
 		const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect", "itemCyberdeck", "base"];
-		const originalTypes = game.system.documentTypes[documentName];
+		const originalTypes = game.documentTypes[documentName];
 		const types = originalTypes.filter((itemType) => !hiddenTypes.includes(itemType));
 		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
 		const title = game.i18n.localize('SR5.DIALOG_CreateNewItem');

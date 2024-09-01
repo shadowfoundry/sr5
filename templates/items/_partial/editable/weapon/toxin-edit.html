@@ -3,12 +3,8 @@
     <div class="col-3">{{localize 'SR5.ToxinType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-4">
         <select name="system.toxin.type" required>
-        {{#select system.toxin.type}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.toxinTypes}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.toxinTypes selected=system.toxin.type localize=true}}
         </select>
     </div>
 </li>

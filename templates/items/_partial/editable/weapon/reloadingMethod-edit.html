@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.ReloadingMethod'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.ammunition.casing" required>
-        {{#select system.ammunition.casing}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.reloadingMethods}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.reloadingMethods selected=system.ammunition.casing localize=true}}
         </select>
     </div>
 </li>

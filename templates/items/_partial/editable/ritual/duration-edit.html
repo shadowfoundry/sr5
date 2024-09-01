@@ -7,12 +7,8 @@
     <div class="col-2">{{localize 'SR5.Force'}} ×</div>
     <div class="col-5">
         <select name="system.durationToPerform" data-dtype="String" required>
-            {{#select system.durationToPerform}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.extendedIntervals}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.extendedIntervals selected=system.durationToPerform localize=true}}
         </select>
     </div>
 </li>
@@ -21,23 +17,15 @@
     <div class="col-5">{{localize 'SR5.Duration'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-3">
         <select name="system.duration" data-dtype="String" required>
-            {{#select system.duration}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.ritualDurations}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.ritualDurations selected=system.duration localize=true}}
         </select>
     </div>
     <div class="col-2">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-2">
         <select name="system.durationMultiplier" data-dtype="{{system.durationMultiplier}}" required>
-            {{#select system.durationMultiplier}}
-                <option value="">{{localize 'SR5.None'}}</option>
-                {{#each lists.ritualDurationMultipliers}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option value="">{{localize 'SR5.None'}}</option>
+            {{selectOptions lists.ritualDurationMultipliers selected=system.durationMultiplier localize=true}}
          </select>
     </div>
 </li>

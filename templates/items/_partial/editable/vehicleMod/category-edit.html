@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.VehicleModTypeFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.type" data-dtype="String" required>
-            {{#select system.type}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.vehicleModType}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.vehicleModType selected=system.type localize=true}}
         </select>
     </div>
 </li>
@@ -29,12 +25,8 @@
     <div class="col-5">{{localize 'SR5.VEHICLE_SecondaryPropulsionMode'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.secondaryPropulsion.type" data-dtype="String" required>
-            {{#select system.secondaryPropulsion.type}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.vehicleSecondaryPropulsionMode}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.vehicleSecondaryPropulsionMode selected=system.secondaryPropulsion.type localize=true}}
         </select>
     </div>
 </li>

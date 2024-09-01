@@ -6,12 +6,8 @@
     <div class="col-5">{{localize 'SR5.Skill'}} {{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.testSkill" data-dtype="String">
-            {{#select system.testSkill}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.spriteSkills}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.spriteSkills selected=system.testSkill localize=true}}
         </select>
     </div>
 </li>
@@ -20,12 +16,8 @@
     <div class="col-5">{{localize 'SR5.Limit'}} {{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.testLimit" data-dtype="String">
-            {{#select system.testLimit}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.deckerAttributes}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.deckerAttributes selected=system.testLimit localize=true}}
         </select>
     </div>
 </li>
