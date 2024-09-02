@@ -1,9 +1,7 @@
 <div>{{localize 'SR5.DEVICE_Type_S'}}{{localize 'SR5.Colons'}} </div>
 <nav class="tabs SR-PaddingLeft10" data-group="centre">
     {{> systems/sr5/templates/actors/_partials/header/navParts/matrix.html}}
-    {{#if (or (eq system.matrix.deviceType "maglock") (eq system.matrix.deviceType "device") (eq system.matrix.deviceType "slavedDevice") (eq system.matrix.deviceType "ice"))}}
     {{> systems/sr5/templates/actors/_partials/header/navParts/biography.html}}
-    {{/if}}
 </nav>
 <div class="SR-MarginLeft10 SR-EspritType">
     <select  name="system.matrix.deviceType" data-dtype="String" required>

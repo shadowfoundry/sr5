@@ -60,7 +60,9 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
 		else context.rulesCalledShot = false;
 		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
-		else context.rulesKillCode = false;
+		else context.rulesKillCode = false;		
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
+		else context.matrixActionsRigger5 = false;
 
 		return context;
 	}
@@ -87,10 +89,12 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		const activeMatrixActions = {};
 		let hasAttack = (actor.system.matrix.attributes.attack.value > 0) ? true : false;
 		let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false;
-		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;
+		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;	
+		let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions") ? true : false;
+		console.log("_prepareMatrixActions : Rigger5 ? ",rigger5Actions);
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
-			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
+			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
 			  || (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) )
 			  || (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") )
 			  || this._shownNonRollableMatrixActions)) {
@@ -251,6 +255,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 			case "itemFocus":
 			case "itemAugmentation":
 			case "itemQuality":
+			case "itemEcho":
 				itemData.system.isActive = true;
 				return super._onDropItemCreate(itemData);
 			case "itemAdeptPower":

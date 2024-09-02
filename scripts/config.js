@@ -2176,9 +2176,19 @@ SR5.matrixKillCodeActions = {
 	watchdog                  : "SR5.MatrixActionWatchdog",
 };
 
+// Rigger 5 Actions
+SR5.matrixRigger5Actions = {
+	breakTargetLock           : "SR5.MatrixActionBreakTargetLock",
+	confusePilot              : "SR5.MatrixActionConfusePilot",
+	detectTargetLock          : "SR5.MatrixActionDetectTargetLock",
+	suppressNoise             : "SR5.MatrixActionSuppressNoise",
+	targetDevice              : "SR5.MatrixActionTargetDevice",
+};
+
 SR5.matrixRolledActions = {
 		...SR5.matrixCoreRolledActions,
-		...SR5.matrixKillCodeActions,
+		...SR5.matrixKillCodeActions,		
+		...SR5.matrixRigger5Actions,
 	};
 
 SR5.matrixActions = {
@@ -2235,6 +2245,11 @@ SR5.matrixGameEffects = {
 	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure_GE",
 	tag                       : "SR5.MatrixActionTag_GE",
 	watchdog                  : "SR5.MatrixActionWatchdog_GE",
+	breakTargetLock           : "SR5.MatrixActionBreakTargetLock_GE",
+	confusePilot              : "SR5.MatrixActionConfusePilot_GE",
+	detectTargetLock          : "SR5.MatrixActionDetectTargetLock_GE",
+	suppressNoise             : "SR5.MatrixActionSuppressNoise_GE",
+	targetDevice              : "SR5.MatrixActionTargetDevice_GE",
 };
 
 // Complex Form Targets
@@ -3763,8 +3778,10 @@ SR5.modifiersTypes = {
 	penaltymagic	   		  : "SR5.PenaltyValueMagic",
 	penaltymatrix			  : "SR5.PenaltyValueMatrix",
 	penaltyspecial		  	  : "SR5.PenaltyValueSpecial",
+	pilotAttribute            : "SR5.VehicleStat_PilotShort",
 	possession 				  : "SR5.Possession",
 	program 				  : "SR5.Program",
+	sensorAttribute           : "SR5.VehicleStat_SensorShort",
 	specialization 			  : "SR5.Skill",
 	skillRating				  : "SR5.SkillRating",
 	skillGroup 				  : "SR5.SkillGroup",
