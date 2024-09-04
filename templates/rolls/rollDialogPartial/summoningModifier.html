@@ -2,10 +2,18 @@
     <div class="col-5">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModSpiritType" data-modifier="spiritType">
-            {{#ifne actorTradition ''}}
-                {{selectOptions magic.elements selected=espritType localize=true sort=false}}
+            {{#ifne magic.tradition ''}}
+            {{#select espritType}}
+                {{#each magic.elements}}
+                <option value="{{this}}">{{findTranslation "spiritTypes" this}}</option>
+                {{/each}}
+            {{/select}}
             {{else}}
-                {{selectOptions lists.spiritTypes selected=espritType localize=true sort=true}}
+            {{#select espritType}}
+                {{#each lists.spiritTypes}}
+                <option value="{{@key}}">{{findTranslation "spiritTypes" @key}}</option>
+                {{/each}}
+            {{/select}}
             {{/ifne}}
         </select>
     </div>

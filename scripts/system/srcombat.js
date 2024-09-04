@@ -45,7 +45,7 @@ export class SR5Combat extends Combat {
 	static async seizeInitiative(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone(actor.system);
+		let actorData = foundry.utils.deepClone(actor.system);
 		if (actorData.conditionMonitors.edge?.actual?.value < actorData.conditionMonitors.edge?.value){
 			await combatant.setFlag("sr5", "seizeInitiative", true);
 			actorData.conditionMonitors.edge.actual.base += 1;
@@ -59,7 +59,7 @@ export class SR5Combat extends Combat {
 	static async blitz(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone(actor.system);
+		let actorData = foundry.utils.deepClone(actor.system);
 		if (actorData.conditionMonitors.edge?.actual.value < actorData.conditionMonitors.edge?.value){
 			await combatant.update({
 				initiative: null,
@@ -123,21 +123,10 @@ export class SR5Combat extends Combat {
 		await combat.update({ turn });
   	}
 
-   	setupTurns(){
+  setupTurns(){
 		// Determine the turn order and the current turn
-		const turns = this.combatants.contents.sort(SR5Combat.sortByRERIC);
-		this.turn = Math.clamp(this.turn, 0, turns.length-1);
-
-		// Update state tracking
-		let c = turns[this.turn];
-
-		this.current = {
-			round: this.round,
-			turn: this.turn,
-			combatantId: c ? c.id : null,
-			tokenId: c ? c.tokenId : null,
-		};
-		return this.turns = turns;
+		const turns = super.setupTurns();
+    return turns.sort(SR5Combat.sortByRERIC);
 	}
 
 	static sortByRERIC(left, right) {
@@ -331,7 +320,8 @@ export class SR5Combat extends Combat {
 
 		// Structure input data
 		ids = typeof ids === "string" ? [ids] : ids;
-		const currentId = this.combatant.id;
+		const currentId = this.combatant?.id;
+		const chatRollMode = game.settings.get("core", "rollMode");
 
 		// Iterate over Combatants, performing an initiative roll for each
 		const updates = [];
@@ -339,11 +329,11 @@ export class SR5Combat extends Combat {
 		for ( let [i, id] of ids.entries() ) {
 			// Get Combatant data (non-strictly)
 			const combatant = this.combatants.get(id);
-			if ( !combatant?.isOwner ) return results;
+      if ( !combatant?.isOwner ) continue;
 
 			// Produce an initiative roll for the Combatant
 			const roll = combatant.getInitiativeRoll(formula);
-			await roll.evaluate();
+      await roll.evaluate()
 			let initiative = roll.total;
 
 			if (this.flags.sr5?.combatInitiativePass > 1){
@@ -370,13 +360,15 @@ export class SR5Combat extends Combat {
 					title = game.i18n.localize('SR5.InitiativeMatrix');
 					break;
 			}
-			var templateData = {
+			let templateData = {
 				actor: combatant.actor,
 				title: title,
 				roll: roll,
 			};
+
 			const template = `systems/sr5/templates/rolls/roll-init.html`;
 			const html = await renderTemplate(template, templateData);
+
 			const messageData = foundry.utils.mergeObject(
 				{
 					speaker: {
@@ -396,6 +388,11 @@ export class SR5Combat extends Combat {
 			);
 
 			let chatData = new ChatMessage(messageData, {create: false})
+
+			// If the combatant is hidden, use a private roll unless an alternative rollMode was explicitly requested
+      chatData.rollMode = "rollMode" in messageOptions ? messageOptions.rollMode
+        : (combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : chatRollMode );
+
 			// Play 1 sound for the whole rolled set
 			if ( i > 0 ) chatData.sound = null;
 			messages.push(chatData.toObject());
@@ -414,7 +411,7 @@ export class SR5Combat extends Combat {
 		if (this.initiativePass === 1) await this.update({turn: 0});
 
 		// Create multiple chat messages
-		await ChatMessage.create(messages);
+		await ChatMessage.implementation.create(messages);
 
 		return this;
 	}
@@ -618,7 +615,7 @@ export class SR5Combat extends Combat {
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
 
-		let actorData = deepClone(actor.system);
+		let actorData = foundry.utils.deepClone(actor.system);
 		let damageInfo;
 
 		//Decrease external effect duration

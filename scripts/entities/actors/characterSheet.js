@@ -91,7 +91,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false;
 		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;	
 		let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions") ? true : false;
-		console.log("_prepareMatrixActions : Rigger5 ? ",rigger5Actions);
+		//console.log("_prepareMatrixActions : Rigger5 ? ",rigger5Actions);
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
 			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )

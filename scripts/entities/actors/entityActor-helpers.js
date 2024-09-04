@@ -1029,7 +1029,7 @@ export class SR5_ActorHelper {
 		let damageToRemove = data.roll.netHits,
 			damageType = data.test.typeSub,
 			targetActor = SR5_EntityHelpers.getRealActorFromID(targetActorID),
-			actorData = deepClone(targetActor);
+			actorData = foundry.utils.deepClone(targetActor);
 				
 		actorData = actorData.toObject(false);
 		actorData.system.conditionMonitors[damageType].actual.base -= damageToRemove;
@@ -1046,7 +1046,7 @@ export class SR5_ActorHelper {
 	static async regenerate(actorId, data){
 		let actor = SR5_EntityHelpers.getRealActorFromID(actorId);
 		let damageToRemove = data.roll.netHits;
-		let actorData = deepClone(actor);
+		let actorData = foundry.utils.deepClone(actor);
 		actorData = actorData.toObject(false);
 
 		if (actorData.type === "actorGrunt"){

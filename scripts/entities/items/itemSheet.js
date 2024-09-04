@@ -172,7 +172,7 @@ export class SR5ItemSheet extends ItemSheet {
 					let accessory = html.find("[name=accessory]").val();
 					if (accessory) {
 						let aItem = this.actor.items.find(i => i.id === accessory);
-						let cloned = deepClone(this.item.system.accessory);
+						let cloned = foundry.utils.deepClone(this.item.system.accessory);
 						cloned.push(aItem.toObject(false));
 						this.item.update({"system.accessory": cloned });
 						aItem.update({

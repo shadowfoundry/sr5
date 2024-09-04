@@ -450,7 +450,7 @@ export class SR5_CharacterUtility extends Actor {
 			// Reset Matrix Actions
 			if (actorData.matrix.actions) {
 				for (let key of Object.keys(SR5.matrixRolledActions)) {
-					console.log('Reset Matrix Actions : ', key, JSON.stringify(actorData.matrix.actions[key]))
+					//console.log('Reset Matrix Actions : ', key, JSON.stringify(actorData.matrix.actions[key]))
 					actorData.matrix.actions[key].test.base = 0;
 					actorData.matrix.actions[key].test.dicePool = 0;
 					actorData.matrix.actions[key].test.modifiers = [];

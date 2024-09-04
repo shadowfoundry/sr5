@@ -48,12 +48,6 @@
                 {{#unless hasCombat}}disabled{{/unless}}>
                 <i class="fas fa-undo"></i>
             </a>
-            <!--
-            <a class="combat-button combat-control" data-tooltip="{{labels.scope}}"
-                data-control="toggleSceneLink" {{#unless hasCombat}}disabled{{/unless}}>
-                <i class="fas fa-{{#unless linked}}un{{/unless}}link"></i>
-            </a>
-            -->
             <a class="combat-button combat-control" aria-label="{{localize 'labels.scope'}}" role="button" data-tooltip="{{labels.scope}}"
                 data-control="toggleSceneLink" {{#unless hasCombat}}disabled{{/unless}}>
                 <i class="fas fa-{{#unless linked}}un{{/unless}}link"></i>
@@ -94,6 +88,11 @@
                         <i class="fa-solid fa-bullseye-arrow"></i>
                     </a>
                     {{/if}}
+                    {{#unless ../user.isGM}}
+                    <a class="combatant-control" aria-label="{{localize 'COMBAT.PanToCombatant'}}" role="button" data-tooltip="COMBAT.PanToCombatant" data-control="panToCombatant">
+                        <i class="fa-solid fa-arrows-to-eye"></i>
+                    </a>
+                    {{/unless}}
                     <div class="token-effects">
                         {{#each this.effects}}
                         <img class="token-effect" src="{{this}}"/>
@@ -132,19 +131,19 @@
         {{#if hasCombat}}
             {{#if user.isGM}}
                 {{#if round}}
-                <!--<a class="combat-control" data-tooltip="COMBAT.RoundPrev" data-control="previousRound"><i class="fas fa-step-backward"></i></a>-->
+                <!--<a class="combat-control" aria-label="{{localize 'COMBAT.RoundPrev'}}" role="button" data-tooltip="COMBAT.RoundPrev" data-control="previousRound"><i class="fas fa-step-backward"></i></a>-->
                 <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button" data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
                 <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
                 <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
-                <!--<a class="combat-control" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>-->
+                <!--<a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>-->
                 {{else}}
                 <a class="combat-control center" aria-label="{{localize 'COMBAT.Begin'}}" role="button"  data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
+                {{/if}}
+            {{else if control}}
+            <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button"  data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
+            <a class="combat-control center" aria-label="{{localize 'COMBAT.TurnEnd'}}" role="button"  data-control="nextTurn">{{localize 'COMBAT.TurnEnd'}}</a>
+            <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button"  data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
             {{/if}}
-        {{else if control}}
-        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button"  data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
-        <a class="combat-control center" aria-label="{{localize 'COMBAT.TurnEnd'}}" role="button"  data-control="nextTurn">{{localize 'COMBAT.TurnEnd'}}</a>
-        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button"  data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
         {{/if}}
-    {{/if}}
-    </nav>
+        </nav>
 </section>

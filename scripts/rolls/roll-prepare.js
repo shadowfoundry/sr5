@@ -426,6 +426,7 @@ export class SR5_PrepareRollTest {
                 },
                 elements: null,
                 spiritType: null,
+                tradition: actor.system.magic.tradition,
                 preparationTrigger: null,
             },
             matrix: {
