@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.VehicleModTools'}}</div>
     <div class="col-7">
         <select name="system.tools" data-dtype="String">
-        {{#select system.tools}}
             <option value="">{{localize 'SR5.None'}}</option>
-            {{#each lists.vehicleModTools}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.vehicleModTools selected=system.tools localize=true}}
         </select>
     </div>
 </li>

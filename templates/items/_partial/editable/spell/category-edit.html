@@ -6,12 +6,8 @@
     <div class="col-7">
     {{/if}}
         <select name="system.category" data-dtype="String" required>
-            {{#select system.category}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.spellCategories}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.spellCategories selected=system.category localize=true}}
         </select>
     </div>
     {{#if (ne system.category "combat")}}
@@ -27,12 +23,8 @@
         <div class="col-5">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-7">
             <select name="system.subCategory" data-dtype="String" required>
-                {{#select system.subCategory}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.spellCombatTypes}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.spellCombatTypes selected=system.subCategory localize=true}}
             </select>
         </div>
     </li>
@@ -44,12 +36,8 @@
         <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-7">
             <select name="system.damageType" data-dtype="String" required>
-                {{#select system.damageType}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.damageTypes}}
-                        <option value="{{@key}}">{{findTranslation 'damageTypes' @key}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.damageTypes selected=system.damageType localize=true}}
             </select>
         </div>
     </li>
@@ -57,12 +45,8 @@
         <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-7">
             <select name="system.damageElement" data-dtype="String" required>
-                {{#select system.damageElement}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.specialDamageTypes}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.specialDamageTypes selected=system.damageElement localize=true}}
             </select>
         </div>
     </li>
@@ -74,22 +58,14 @@
         <div class="col-1"><input type="checkbox" name="system.spellAreaExtended" data-dtype="Boolean" {{checked system.spellAreaExtended}} /></div>
         <div class="col-3">
             <select name="system.subCategory" data-dtype="String" required>
-                {{#select system.subCategory}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.spellDetectionTypes}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.spellDetectionTypes selected=system.subCategory localize=true}}
             </select>
         </div>
         <div class="col-3">
             <select name="system.detectionSense" data-dtype="String" required>
-                {{#select system.detectionSense}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.spellDetectionSens}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.spellDetectionSens selected=system.detectionSense localize=true}}
             </select>
         </div>
     </li>
@@ -100,12 +76,8 @@
         <div class="col-5">{{localize 'SR5.SpellTypeManipulation'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-4">
             <select name="system.subCategory" data-dtype="String" required>
-                {{#select system.subCategory}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.spellManipulationTypes}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.spellManipulationTypes selected=system.subCategory localize=true}}
             </select>
         </div>
         <div class="col-2 SR-TextRight">{{localize 'SR5.Damaging'}}{{localize 'SR5.Colons'}}</div>
@@ -127,22 +99,14 @@
         <div class="col-5">{{localize 'SR5.SpellTypeIllusion'}}{{localize 'SR5.Colons'}}</div>
         <div class="col-3">
             <select name="system.subCategory" data-dtype="String" required>
-                {{#select system.subCategory}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.spellIllusionTypes}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.spellIllusionTypes selected=system.subCategory localize=true}}
             </select>
         </div>
         <div class="col-4">
             <select name="system.illusionSense" data-dtype="{{system.illusionSense}}" required>
-                {{#select system.illusionSense}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.spellIllusionSens}}
-                        <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.spellIllusionSens selected=system.illusionSense localize=true}}
             </select>
         </div>
     </li>

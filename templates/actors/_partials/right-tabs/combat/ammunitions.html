@@ -29,12 +29,8 @@
 				  data-helpMessage="{{localize 'SR5.HELP_AmmoWeaponTypeMsg'}}"
 				>
 					<select data-item-id="{{_id}}" class="edit-value" data-binding="system.class" name="ammunitions.{{_id}}.class" data-dtype="String">
-						{{#select system.class}}
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{#each ../system.lists.rangedWeaponTypes}}
-						<option value="{{@key}}">{{findTranslation 'rangedWeaponTypes' @key}}</option>
-						{{/each}}
-						{{/select}}
+						{{selectOptions ../system.lists.rangedWeaponTypes selected=system.class localize=true}}
 					</select>
 				</div>
 				<div class="col-1 SR-TextCenter changeValueByClick" data-binding="system.quantity"

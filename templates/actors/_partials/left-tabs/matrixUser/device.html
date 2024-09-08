@@ -49,12 +49,8 @@
           data-helpMessage="{{localize 'SR5.HELP_IceTypeMsg'}}"
 		>
 			<select name="system.matrix.deviceSubType" data-dtype="String" required>
-				{{#select system.matrix.deviceSubType}}
-					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-					{{#each lists.iceTypes}}
-					<option value="{{@key}}">{{localize this}}</option>
-					{{/each}}
-				{{/select}}
+				<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+				{{selectOptions lists.iceTypes selected=system.matrix.deviceSubType localize=true}}
 			</select>
 		</li>
 		{{/ife}}

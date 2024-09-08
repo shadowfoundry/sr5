@@ -2,12 +2,7 @@
     <div class="col-5">{{localize 'SR5.WeaponRange'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModRange" data-modifier="targetRange">
-        {{#select targetRange}}
-            <option value="short">{{localize 'SR5.WeaponRangeShort'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{combat.range.short}} {{localize 'SR5.MeterUnit'}})</option>
-            <option value="medium">{{localize 'SR5.WeaponRangeMedium'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{combat.range.medium}} {{localize 'SR5.MeterUnit'}})</option>
-            <option value="long">{{localize 'SR5.WeaponRangeLong'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{combat.range.long}} {{localize 'SR5.MeterUnit'}})</option>
-            <option value="extreme">{{localize 'SR5.WeaponRangeExtreme'}} ({{localize 'SR5.WeaponRangeUpTo'}} {{combat.range.extreme}} {{localize 'SR5.MeterUnit'}})</option>
-        {{/select}}
+            {{selectOptions lists.weaponRanges selected=targetRange localize=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

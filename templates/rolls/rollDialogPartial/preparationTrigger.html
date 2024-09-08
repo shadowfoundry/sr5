@@ -2,11 +2,7 @@
     <div class="col-5">{{localize 'SR5.PreparationTrigger'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModTrigger" data-modifier="preparationTrigger">
-            {{#select preparationTrigger}}
-            <option value="command">{{localize 'SR5.PreparationTriggerCommand'}}</option>
-            <option value="contact">{{localize 'SR5.PreparationTriggerContact'}}</option>
-            <option value="time">{{localize 'SR5.PreparationTriggerTime'}}</option>
-            {{/select}}
+            {{selectOptions lists.preparationTriggerTypes selected=preparationTrigger localize=true sort=true}}
         </select>
     </div>
 </li>

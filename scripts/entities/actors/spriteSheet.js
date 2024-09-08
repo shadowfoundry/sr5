@@ -16,7 +16,7 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 	}
 
 	static get defaultOptions() {
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			template: "systems/sr5/templates/actors/sprite-sheet.html",
 			width: 800,
 			height: 618,
@@ -54,6 +54,8 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 		else context.rulesCalledShot = false;
 		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
 		else context.rulesKillCode = false;
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
+		else context.matrixActionsRigger5 = false;
 
 		return context;
 	}
@@ -69,10 +71,11 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 
 	_prepareMatrixActions(actor) {
 		const activeMatrixActions = {};
-		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");
+		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules");	
+		let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions");
 
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
-			if ((matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode")) && matrixAction.test?.dicePool > 0 || matrixAction.defense?.dicePool > 0 || this._shownNonRollableMatrixActions) activeMatrixActions[key] = matrixAction;
+			if ((matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5")) && matrixAction.test?.dicePool > 0 || matrixAction.defense?.dicePool > 0 || this._shownNonRollableMatrixActions) activeMatrixActions[key] = matrixAction;
 		}
 		actor.system.matrix.actions = activeMatrixActions;
 	}

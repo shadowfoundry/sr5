@@ -5,21 +5,13 @@
     <div class="col-7">
         {{#ife system.category "rangedWeapon"}}
             <select name="system.type" required>
-            {{#select system.type}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.rangedWeaponTypes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.rangedWeaponTypes selected=system.type localize=true}}
             </select>
         {{else ife system.category "meleeWeapon"}}
             <select name="system.type" required>
-                {{#select system.type}}
-                    <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                    {{#each lists.meleeWeaponTypes}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-            {{/select}}   
+                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+                {{selectOptions lists.meleeWeaponTypes selected=system.type localize=true}}
             </select>
         {{/ife}}
     </div>

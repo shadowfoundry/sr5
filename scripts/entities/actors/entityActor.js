@@ -22,7 +22,7 @@ export class SR5Actor extends Actor {
 		// Collect data
 		const documentName = this.metadata.name;
 		const hiddenTypes = ["actorAgent", "base"];
-		const originalTypes = game.system.documentTypes[documentName];
+		const originalTypes = game.documentTypes[documentName];
 		const types = originalTypes.filter((actorType) => !hiddenTypes.includes(actorType));
 		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
 		const label = game.i18n.localize(this.metadata.label);
@@ -65,7 +65,7 @@ export class SR5Actor extends Actor {
 	static async create(data, options) {
 		if (!data.img) data.img = `systems/sr5/img/actors/${data.type}.svg`;
 
-		// If the created actor has items (only applicable to duplicated actors) bypass the new actor creation logic
+		// If the created actor has items (only applicable to foundry.utils.duplicated actors) bypass the new actor creation logic
 		if (data.items) return super.create(data, options);
 
 		// Initialize empty items
@@ -156,7 +156,7 @@ export class SR5Actor extends Actor {
 				let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect);
 				const effects = data.effects.map(e => e.toObject());
 				effects.push(initiativeEffect.toObject());
-				mergeObject(data, {"effects": effects });
+				foundry.utils.mergeObject(data, {"effects": effects });
 				super.create(data, options);
 				break;
 			case "actorGrunt":
@@ -175,7 +175,7 @@ export class SR5Actor extends Actor {
 	async _preCreate(data, options, user) {
 		await super._preCreate(data, options, user)
 		let createData = {};
-		mergeObject(createData, {
+		foundry.utils.mergeObject(createData, {
 			"prototypeToken.sight.enabled": true,
 			"prototypeToken.sight.range": 0,
 			"prototypeToken.displayName": CONST.TOKEN_DISPLAY_MODES.OWNER,
@@ -192,7 +192,7 @@ export class SR5Actor extends Actor {
 
 		switch(this.type){
 			case "actorPc":
-				mergeObject(createData, {
+				foundry.utils.mergeObject(createData, {
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.bar1": {attribute: "statusBars.physical",},
@@ -200,14 +200,14 @@ export class SR5Actor extends Actor {
 				});
 				break;
 			case "actorGrunt":
-				mergeObject(createData, {
+				foundry.utils.mergeObject(createData, {
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.disposition": CONST.TOKEN_DISPOSITIONS.HOSTILE,
 					"prototypeToken.bar1": {attribute: "statusBars.condition",},
 				});
 				break;
 			case "actorSpirit":
-				mergeObject(createData, {
+				foundry.utils.mergeObject(createData, {
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar1": {attribute: "statusBars.physical",},
@@ -216,7 +216,7 @@ export class SR5Actor extends Actor {
 				});
 				break;
 			case "actorDrone":
-				mergeObject(createData, {
+				foundry.utils.mergeObject(createData, {
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar1": {attribute: "statusBars.condition",},
@@ -227,7 +227,7 @@ export class SR5Actor extends Actor {
 			case "actorDevice":
 			case "actorSprite":
 			case "actorAgent": 
-				mergeObject(createData, {
+				foundry.utils.mergeObject(createData, {
 					"prototypeToken.lockRotation": true,
 					"prototypeToken.actorLink": actorLink,
 					"prototypeToken.bar2": {attribute: "statusBars.matrix",},
@@ -239,7 +239,7 @@ export class SR5Actor extends Actor {
 		}
 
 		if (this.system.sideKickPrototypeToken) {
-			mergeObject(createData, {
+			foundry.utils.mergeObject(createData, {
 				"prototypeToken": this.system.sideKickPrototypeToken,
 			});
 		};
@@ -313,13 +313,13 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateEssence(actor);
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
+				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
 				SR5_CharacterUtility.updateInitiativeAstral(actor);
 				SR5_CharacterUtility.updateLimits(actor);
 				SR5_CharacterUtility.generateSpiritSkills(actor);
 				SR5_CharacterUtility.updateSkills(actor);
-				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateArmor(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
@@ -356,12 +356,12 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
 				SR5_CharacterUtility.updateBackgroundCount(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
+				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
 				SR5_CharacterUtility.updateLimits(actor);
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
 				SR5_CharacterUtility.updateInitiativeAstral(actor);
 				SR5_CharacterUtility.updateSkills(actor);
-				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateArmor(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
@@ -405,11 +405,11 @@ export class SR5Actor extends Actor {
 
 				case "itemPower":
 				case "itemMartialArt":
-					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
-					break;
-
 				case "itemMetamagic":
 				case "itemEcho":
+					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
+					break;
+					
 				case "itemPreparation":
 				case "itemQuality":
 					i.prepareData();
@@ -766,10 +766,10 @@ export class SR5Actor extends Actor {
 	async rebootDeck() {
 		let actorId = (this.isToken ? this.token.id : this.id);
 		let dataToUpdate = {};
-		let updatedItems = duplicate(this.items);
+		let updatedItems = foundry.utils.duplicate(this.items);
 
 		//Reset le SS à 0
-		let actorData = duplicate(this.system);
+		let actorData = foundry.utils.duplicate(this.system);
 		actorData.matrix.attributes.attack.base = 0;
 		actorData.matrix.attributes.dataProcessing.base = 0;
 		actorData.matrix.attributes.firewall.base = 0;
@@ -814,7 +814,7 @@ export class SR5Actor extends Actor {
 		//Manage actions
 		actorData.specialProperties.actions.complex.current -=1;
 
-		dataToUpdate = mergeObject(dataToUpdate, {
+		dataToUpdate = foundry.utils.mergeObject(dataToUpdate, {
 			"system": actorData,
 			"items": updatedItems,
 		});
@@ -845,13 +845,13 @@ export class SR5Actor extends Actor {
 	async resetAddiction(){
 		let actorId = (this.isToken ? this.token.id : this.id);
 		let dataToUpdate = {};
-		let updatedItems = duplicate(this.items);
+		let updatedItems = foundry.utils.duplicate(this.items);
 
 		//Reset le SS à 0
-		let actorData = duplicate(this.system);
+		let actorData = foundry.utils.duplicate(this.system);
 		actorData.addictions = [];
 
-		dataToUpdate = mergeObject(dataToUpdate, {
+		dataToUpdate = foundry.utils.mergeObject(dataToUpdate, {
 			"system": actorData,
 		});
 		await this.update(dataToUpdate);

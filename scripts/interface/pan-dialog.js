@@ -3,7 +3,7 @@ import { SR5_EntityHelpers } from "../entities/helpers.js";
 export default class SR5_PanDialog extends Dialog {
     
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             height: 'auto',
             resizable: false,
         });

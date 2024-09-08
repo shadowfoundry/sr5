@@ -2,12 +2,7 @@
     <div class="col-5">{{localize 'SR5.TargetSize'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-PaddingRight10">
         <select class="SR-ModSelect" data-target="dicePoolModSignature" data-modifier="signatureSize" name="signatureSize">
-            {{#select signatureSize}}
-                <option value="none">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.targetSignature}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            {{selectOptions lists.targetSignature selected=signatureSize localize=true sort=true}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

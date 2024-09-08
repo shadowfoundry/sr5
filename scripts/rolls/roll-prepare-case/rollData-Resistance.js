@@ -135,9 +135,11 @@ async function handleNormalPhysicalDamage(rollData, actor, chatData, armor){
     if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
 
     //Add AP modifiers to dicepool
-    rollData.dicePool.modifiers.armorPenetration = {};
-    rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
-    rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
+    rollData.dicePool.modifiers.push({
+        type: "armorPenetration", 
+        label: game.i18n.localize("SR5.ArmorPenetration"),
+        value: chatData.combat.armorPenetration,
+    })
 
     //Get the base dicepool and composition
     rollData.dicePool.composition = actor.system.resistances.physicalDamage.modifiers;
@@ -164,9 +166,11 @@ async function handleElementDamage(rollData, actorData, chatData, armor){
     if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
 
     //Add AP modifiers to dicepool
-    rollData.dicePool.modifiers.armorPenetration = {};
-    rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
-    rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
+    rollData.dicePool.modifiers.push({
+        type: "armorPenetration", 
+        label: game.i18n.localize("SR5.ArmorPenetration"),
+        value: chatData.combat.armorPenetration,
+    })
 
     //Get the base dicepool and composition
     rollData.dicePool.composition = actorData.resistances.specialDamage[element].modifiers;
@@ -201,9 +205,11 @@ async function handleToxinDamage(rollData, actorData, chatData){
     if (-rollData.damage.toxin.penetration > armor) rollData.damage.toxin.penetration = armor;
 
     //Add toxin penetration modifiers to dicepool
-    rollData.dicePool.modifiers.toxinPenetration = {};
-    rollData.dicePool.modifiers.toxinPenetration.value = rollData.damage.toxin.penetration;
-    rollData.dicePool.modifiers.toxinPenetration.label = game.i18n.localize("SR5.ToxinPenetration");
+    rollData.dicePool.modifiers.push({
+        type: "toxinPenetration", 
+        label: game.i18n.localize("SR5.ToxinPenetration"),
+        value: rollData.damage.toxin.penetration,
+    })
 
     //Get the base dicepool and composition
     rollData.dicePool.composition = actorData.resistances.toxin[toxinType].modifiers;
@@ -224,9 +230,11 @@ async function handleDroneDamage(rollData, actorData, chatData){
     if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
     
     //Add AP modifiers to dicepool
-    rollData.dicePool.modifiers.armorPenetration = {};
-    rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
-    rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
+    rollData.dicePool.modifiers.push({
+        type: "armorPenetration", 
+        label: game.i18n.localize("SR5.ArmorPenetration"),
+        value: chatData.combat.armorPenetration,
+    })
 
     //Get the base dicepool and composition
     rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers;
@@ -248,9 +256,11 @@ async function handleSpiritDamage(rollData, actorData, chatData){
         
         //Add AP modifiers to dicepool
         if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
-        rollData.dicePool.modifiers.armorPenetration = {};
-        rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
-        rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
+        rollData.dicePool.modifiers.push({
+            type: "armorPenetration", 
+            label: game.i18n.localize("SR5.ArmorPenetration"),
+            value: chatData.combat.armorPenetration,
+        })
     
         //Get the base dicepool and composition
         rollData.dicePool.composition = actorData.resistances.physicalDamage.modifiers;

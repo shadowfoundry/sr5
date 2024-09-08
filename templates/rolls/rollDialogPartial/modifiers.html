@@ -15,11 +15,10 @@
 <div id="dicePoolModifier" style="display: none;">
     <!-- ALREADY APPLIED MODIFIERS-->
     {{#each dicePool.modifiers}}
-    {{#if (ne value 0)}}
     <li class="grid">
         <div class="col-11">
             {{label}}{{localize 'SR5.Colons'}}
-            {{#if (eq @key 'cumulativeDefense')}}
+            {{#if (eq type 'cumulativeDefense')}}
                 <a class="resetCumulativeDefense"><em class="fas fa-sm fa-sync"></em></a>
             {{/if}}
         </div>
@@ -27,7 +26,7 @@
             <input disabled type="number" name="dicePoolModifiers" value="{{value}}" data-dtype="Number" placeholder="0" data-type="{{@key}}"/>
         </div>
     </li>
-    {{/if}}
+    
     {{/each}}
 
     <!-- ATTRIBUTE CHOICE -->

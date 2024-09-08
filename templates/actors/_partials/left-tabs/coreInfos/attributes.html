@@ -154,10 +154,7 @@
 			<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_ActiveSpecialAttribute' key=(localize 'SR5.Edge')}}" data-helpMessage="{{localize 'SR5.HELP_ActiveSpecialAttributeMsg'}}">
 				{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt'))}}
 					<select name="system.activeSpecialAttribute" data-dtype="String">
-					{{#select system.activeSpecialAttribute}}
-						<option value="magic">{{localize 'SR5.Magic'}}</option>
-						<option value="resonance">{{localize 'SR5.Resonance'}}</option>
-					{{/select}}
+						{{selectOptions lists.magicOrResonance selected=system.activeSpecialAttribute localize=true}}
 					</select>
 				{{else if (eq actor.type 'actorSpirit')}}
 					{{localize 'SR5.Magic'}}

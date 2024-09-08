@@ -16,16 +16,13 @@
         <li class="grid">
             <div class="col-12" data-helpTitle="{{localize 'SR5.HELP_VehicleControleMode'}}" data-helpMessage="{{localize 'SR5.HELP_VehicleControleModeMsg'}}">
                 <select name="system.controlMode" data-dtype="String">
-                {{#select system.controlMode}}
-                    <option value="autopilot">{{localize 'SR5.ControlAutopilot'}}</option>
+                    {{selectOptions lists.vehicleControlModesAutopilot selected=system.controlMode localize=true}}
                     {{#ifne system.vehicleOwner.id ""}}
-                    <option value="manual">{{localize 'SR5.ControlManual'}}</option>
-                    <option value="remote">{{localize 'SR5.ControlRemote'}}</option>
-                    {{#if system.riggerInterface}}
-                    <option value="rigging">{{localize 'SR5.ControlRigging'}}</option>
-                    {{/if}}
+                        {{selectOptions lists.vehicleControlModesSimple selected=system.controlMode localize=true}}
+                        {{#if system.riggerInterface}}
+                            {{selectOptions lists.vehicleControlModesRigging selected=system.controlMode localize=true}}
+                        {{/if}}
                     {{/ifne}}
-                {{/select}}
                 </select>
             </div>
         </li>
@@ -33,12 +30,8 @@
             <div class="col-6">{{localize 'SR5.PilotSkill'}}</div>
             <div class="col-6" data-helpTitle="{{localize 'SR5.HELP_VehiclePilotSkill'}}" data-helpMessage="{{localize 'SR5.HELP_VehiclePilotSkillMsg'}}">
                 <select name="system.pilotSkill" data-dtype="String">
-                {{#select system.pilotSkill}}
                     <option value="">{{localize 'SR5.None'}}</option>
-                    {{#each lists.pilotSkills}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                    {{/each}}
-                {{/select}}
+                    {{selectOptions lists.pilotSkills selected=system.pilotSkill localize=true}}
                 </select>
             </div>
         </li>

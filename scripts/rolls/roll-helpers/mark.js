@@ -22,7 +22,7 @@ export class SR5_MarkHelpers {
         else item = targetActor.items.find(i => i.type === "itemDevice" && i.system.isActive);
         if (item.parent.type === "actorDevice" && item.parent.isToken) item = targetActor.items.find(i => i.type === "itemDevice" && i.system.isActive);
 
-        let itemToMark = duplicate(item.system);
+        let itemToMark = foundry.utils.duplicate(item.system);
 
         //If attacker is an ice use serveur id to mark
         if(attacker.system.matrix.deviceType === "ice" && attacker.isToken){
@@ -98,7 +98,7 @@ export class SR5_MarkHelpers {
         for (let token of canvas.tokens.placeables){
             if (token.actor.id === targetActorID) {
                 let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive);
-                let tokenDeckData = duplicate(tokenDeck.system);
+                let tokenDeckData = foundry.utils.duplicate(tokenDeck.system);
                 tokenDeckData.marks = item.system.marks;
                 await tokenDeck.update({"system": tokenDeckData});
             }
@@ -114,7 +114,7 @@ export class SR5_MarkHelpers {
     static async updateDeckMarkedItems(ownerID, markedItem, mark){
         let owner = SR5_EntityHelpers.getRealActorFromID(ownerID),
             ownerDeck = owner.items.find(i => i.type === "itemDevice" && i.system.isActive),
-            deckData = duplicate(ownerDeck.system),
+            deckData = foundry.utils.duplicate(ownerDeck.system),
             itemMarked = await fromUuid(markedItem),
             alreadyMarked = false;
 
@@ -142,7 +142,7 @@ export class SR5_MarkHelpers {
             for (let token of canvas.tokens.placeables){
                 if (token.actor.id === ownerID) {
                     let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive);
-                    let tokenDeckData = duplicate(tokenDeck.system);
+                    let tokenDeckData = foundry.utils.duplicate(tokenDeck.system);
                     tokenDeckData.markedItems = deckData.markedItems;
                     await tokenDeck.update({"system": tokenDeckData});
                 }
@@ -220,7 +220,7 @@ export class SR5_MarkHelpers {
 
     static async eraseMark(cardData){
         let item = await fromUuid(cardData.previousMessage.itemUuid),
-            itemData = duplicate(item.system);
+            itemData = foundry.utils.duplicate(item.system);
 
         //Iterate through marked item and remove the one from the same source
         for (let i = 0; i < itemData.marks.length; i++){

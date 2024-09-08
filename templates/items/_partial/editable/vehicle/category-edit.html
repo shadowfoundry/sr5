@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.VehicleTypeFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.type" data-dtype="String" required>
-            {{#select system.type}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.vehicleTypes}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.vehicleTypes selected=system.type localize=true}}
         </select>
     </div>
 </li>
@@ -16,12 +12,8 @@
     <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.category" data-dtype="String" required>
-            {{#select system.category}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.droneCategories}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.droneCategories selected=system.category localize=true}}
         </select>
     </div>
 </li>
@@ -30,12 +22,8 @@
     <div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.category" data-dtype="String" required>
-            {{#select system.category}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.vehicleCategories}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.vehicleCategories selected=system.category localize=true}}
         </select>
     </div>
 </li>

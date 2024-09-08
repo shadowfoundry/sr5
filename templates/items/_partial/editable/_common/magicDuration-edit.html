@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.Duration'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.duration" data-dtype="String" required>
-            {{#select system.duration}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.spellDurations}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.spellDurations selected=system.duration localize=true}}
         </select>
     </div>
 </li>

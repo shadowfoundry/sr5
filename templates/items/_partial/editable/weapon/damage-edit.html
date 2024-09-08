@@ -13,12 +13,8 @@
     <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-3">
         <select name="system.damageType">
-        {{#select system.damageType}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.damageTypes}}
-            <option value="{{@key}}">{{findTranslation 'damageTypes' @key}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.damageTypes selected=system.damageType localize=true}}
         </select>
     </div>
     <div class="col-1"></div>
@@ -29,12 +25,8 @@
     <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.damageElement">
-        {{#select system.damageElement}}
             <option value="">{{localize 'SR5.SpecialDamageNone'}}</option>
-            {{#each lists.specialDamageTypes}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.specialDamageTypes selected=system.damageElement localize=true}}
         </select>
     </div>
 </li>

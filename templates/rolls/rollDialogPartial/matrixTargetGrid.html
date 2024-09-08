@@ -4,12 +4,8 @@
     <div class="col-5">{{localize 'SR5.GridTarget'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect" data-target="dicePoolModTargetGrid" data-modifier="targetGrid" >
-            {{#select targetGrid}}
-                <option value="none">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.gridTypes}}
-                    <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.gridTypes selected=targetGrid localize=true sort=true}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

@@ -3,14 +3,7 @@
     <div class="col-5">{{localize 'SR5.MatrixNoiseRange'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect" data-target="dicePoolModMatrixNoiseRange" data-modifier="matrixRange">
-            {{#select matrixRange}}
-            <option value="wired">{{localize 'SR5.MatrixDistanceConnected'}}</option>
-            <option value="upTo100m">{{localize 'SR5.MatrixDistance100m'}}</option>
-            <option value="upTo1km">{{localize 'SR5.MatrixDistance1km'}}</option>
-            <option value="upTo10km">{{localize 'SR5.MatrixDistance10km'}}</option>
-            <option value="upTo100km">{{localize 'SR5.MatrixDistance100km'}}</option>
-            <option value="farAway">{{localize 'SR5.MatrixDistanceGreater'}}</option>
-            {{/select}}
+            {{selectOptions lists.matrixNoiseDistance selected=matrixRange localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

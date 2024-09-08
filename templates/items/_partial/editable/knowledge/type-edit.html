@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.type" data-dtype="{{system.type}}" required>
-        {{#select system.type}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.knowledgeSkillTypes}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.knowledgeSkillTypes selected=system.type localize=true}}
         </select>
     </div>
 </li>

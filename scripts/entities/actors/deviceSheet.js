@@ -10,7 +10,7 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 
   	static get defaultOptions() {
 		const options = super.defaultOptions;
-		return mergeObject(super.defaultOptions, {
+		return foundry.utils.mergeObject(super.defaultOptions, {
 			template: "systems/sr5/templates/actors/device-sheet.html",
 			width: 800,
 			height: 448,
@@ -46,6 +46,8 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 		else context.rulesCalledShot = false;
 		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
 		else context.rulesKillCode = false;
+		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
+		else context.matrixActionsRigger5 = false;
 
 		return context;
 	}

@@ -2,11 +2,7 @@
     <div class="col-5">{{localize 'SR5.SpriteType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextCenter ">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="" data-modifier="spriteType">
-            {{#select spriteType}}
-            {{#each lists.spriteTypes}}
-                <option value="{{@key}}">{{findTranslation "spriteTypes" @key}}</option>
-            {{/each}}
-            {{/select}}
+            {{selectOptions lists.spriteTypes selected=spriteType localize=true sort=true}}
         </select>
     </div>
 </li>

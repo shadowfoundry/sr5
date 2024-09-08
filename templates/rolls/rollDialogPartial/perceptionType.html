@@ -2,12 +2,8 @@
     <div class="col-5">{{localize 'SR5.SkillPerceptionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6">
         <select class="SR-ModSelect" data-target="dicePoolModOerceptionType" data-modifier="perceptionType">
-            {{#select perceptionType}}
-                <option value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each lists.perceptionTypes}}
-                <option value="{{@key}}">{{findTranslation 'perceptionTypes' @key}}</option>
-            {{/each}}
-            {{/select}}
+            <option value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.perceptionTypes selected=perceptionType localize=true sort=true}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

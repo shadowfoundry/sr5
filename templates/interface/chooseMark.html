@@ -1,11 +1,7 @@
 <form name="pan">
 	<div class="form-group">
 		<select name="item" data-dtype="String">
-			{{#select item}}
-			{{#each list}}
-			<option value="{{id}}">{{name}}</option>
-			{{/each}}
-			{{/select}}
+			{{selectOptions list selected=item valueAttr='id' labelAttr='name' localize=false}}
 		</select>
 	</div>
 </form>

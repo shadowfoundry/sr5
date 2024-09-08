@@ -1,10 +1,6 @@
 <div class="SR-PaddingLeft10 SR-TextUppercase SR-NeutralLightColor SR-Bold">{{localize 'SR5.Metatype'}}{{localize 'SR5.Colons'}}&nbsp;</div>
 <div >
     <select class="SRMetatype" name="system.biography.characterMetatype" data-dtype="String">
-        {{#select system.biography.characterMetatype}}
-        {{#each lists.metatypes}}
-        <option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
-        {{/each}}
-        {{/select}}
+        {{selectOptions lists.metatypes selected=system.biography.characterMetatype localize=true}}
     </select>
 </div>

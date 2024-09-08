@@ -6,12 +6,7 @@
     <div class="col-3">{{localize 'SR5.RestraintType'}}{{localize 'SR5.Colons'}}</div> 
     <div class="col-8">
         <select class="SR-ManageThreshold" name="restraintType" data-target="restraintThreshold">
-        {{#select restraintType}}
-            <option value="rope">{{localize 'SR5.RestraintTypeRope'}}</option>
-            <option value="metal">{{localize 'SR5.RestraintTypeMetal'}}</option>
-            <option value="straitjacket">{{localize 'SR5.RestraintTypeStraitjacket'}}</option>
-            <option value="containment">{{localize 'SR5.RestraintTypeContainment'}}</option>
-        {{/select}}
+            {{selectOptions lists.restraintType selected=restraintType localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

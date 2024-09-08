@@ -117,17 +117,21 @@ async function handleMeleeWeaponModifiers(rollData, actor, chatData){
     if (weaponUsedToDefend) reach = weaponUsedToDefend.system.reach.value - chatData.combat.reach;
     rollData.combat.reach = reach;
     if (reach !== 0){
-        rollData.dicePool.modifiers.reach = {};
-        rollData.dicePool.modifiers.reach.value = reach;
-        rollData.dicePool.modifiers.reach.label = game.i18n.localize("SR5.CharacterReach");
+        rollData.dicePool.modifiers.push({
+            type: "reach", 
+            label: game.i18n.localize("SR5.CharacterReach"),
+            value: reach,
+        })
     }
     
     //Add environmental modifiers
     let environmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true);
     if (environmentalMod !== 0){
-        rollData.dicePool.modifiers.environmentalSceneMod = {};
-        rollData.dicePool.modifiers.environmentalSceneMod.value = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true);
-        rollData.dicePool.modifiers.environmentalSceneMod.label = game.i18n.localize("SR5.EnvironmentalModifiers");
+        rollData.dicePool.modifiers.push({
+            type: "environmentalSceneMod", 
+            label: game.i18n.localize("SR5.EnvironmentalModifiers"),
+            value: SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true),
+        })
     }
 
     return rollData;
@@ -170,9 +174,11 @@ async function handleSpellAreaTemplate(rollData, actor, chatData){
 async function handleSensorLocked(rollData, actor, chatData){
     let sensorLocked = actor.items.find(i => (i.type === "itemEffect") && (i.system.type === "sensorLock") && (i.system.ownerID === chatData.owner.speakerId) );
     if(sensorLocked){
-        rollData.dicePool.modifiers.sensorLockMod = {};
-        rollData.dicePool.modifiers.sensorLockMod.value = sensorLocked.system.value;
-        rollData.dicePool.modifiers.sensorLockMod.label = game.i18n.localize("SR5.EffectSensorLock");
+        rollData.dicePool.modifiers.push({
+            type: "sensorLockMod", 
+            label: game.i18n.localize("SR5.EffectSensorLock"),
+            value: sensorLocked.system.value,
+        })
     }
 
     return rollData;

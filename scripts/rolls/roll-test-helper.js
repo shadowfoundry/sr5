@@ -34,10 +34,11 @@ export class SR5_RollTestHelper {
 
     //Handle the use of Edge : remove edge point from actor and add info to roll data
     static async handleEdgeUse(edgeActor, dialogData){
-        dialogData.dicePool.modifiers.edge = {
-            value: edgeActor.system.specialAttributes.edge.augmented.value,
+        dialogData.dicePool.modifiers.push({
+            type: "edge", 
             label: game.i18n.localize("SR5.Edge"),
-        }
+            value: edgeActor.system.specialAttributes.edge.augmented.value,
+        })
         edgeActor.update({
             "system.conditionMonitors.edge.actual.base": edgeActor.system.conditionMonitors.edge.actual.base + 1,
         });
@@ -97,7 +98,7 @@ export class SR5_RollTestHelper {
     // Update an item after a roll
     static async updateItemAfterRoll(cardData) {
         let item = await fromUuid(cardData.owner.itemUuid);
-        let newItem = duplicate(item);
+        let newItem = foundry.utils.duplicate(item);
         let firedAmmo = cardData.combat.ammo.fired;
         
         //Discard for none supported item
@@ -138,7 +139,7 @@ export class SR5_RollTestHelper {
         }
 
         
-        if (game.user?.isGM) item.update(newItem);
+        if (game.user?.isGM || cardData.owner.actorId == game.user?.character?._id) item.update(newItem);
         else SR5_SocketHandler.emitForGM("updateItem", {
             item: item.uuid,
             info: newItem,

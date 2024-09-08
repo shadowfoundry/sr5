@@ -2,7 +2,7 @@
     <div class="col-5">{{localize 'SR5.SpiritType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModSpiritType" data-modifier="spiritType">
-            {{#ifne actorTradition ''}}
+            {{#ifne magic.tradition ''}}
             {{#select espritType}}
                 {{#each magic.elements}}
                 <option value="{{this}}">{{findTranslation "spiritTypes" this}}</option>

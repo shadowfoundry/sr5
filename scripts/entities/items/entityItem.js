@@ -199,7 +199,7 @@ export class SR5Item extends Item {
 
 	// Expand data is used in most dropdown infos
 	getExpandData(htmlOptions) {
-		const itemData = duplicate(this.system);
+		const itemData = foundry.utils.duplicate(this.system);
 		let lists = SR5_EntityHelpers.sortTranslations(SR5);
 		let tags =[];
 		let accessories =[];    
@@ -457,7 +457,7 @@ export class SR5Item extends Item {
 	async reloadAmmo(option) {
 		let lists = SR5_EntityHelpers.sortTranslations(SR5);
 		let actor = (this.actor.isToken ? SR5_EntityHelpers.getRealActorFromID(this.actor.token.id) : SR5_EntityHelpers.getRealActorFromID(this.actor.id));
-		let weapon = duplicate(this),
+		let weapon = foundry.utils.duplicate(this),
 			weaponData = weapon.system,
 			ammoSpent = weaponData.ammunition.max - weaponData.ammunition.value,
 			ammoNeeded, action, stop = false, falseAmmo = false;
@@ -518,7 +518,7 @@ export class SR5Item extends Item {
 
 		//Check if actor has good type of rounds in inventory
 		let ammo = actor.items.find((i) => i.type === "itemAmmunition" && (i.system.type === weaponData.ammunition.type) && (i.system.class === weaponData.type));
-		let ammoData = ammo ? duplicate(ammo.system) : {};
+		let ammoData = ammo ? foundry.utils.duplicate(ammo.system) : {};
 
 		if (!ammo || ammo.system.quantity <= 0) {
 			await Dialog.confirm({
@@ -604,7 +604,7 @@ export class SR5Item extends Item {
 		// Collect data
 		const documentName = this.metadata.name;
 		const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect", "itemCyberdeck", "base"];
-		const originalTypes = game.system.documentTypes[documentName];
+		const originalTypes = game.documentTypes[documentName];
 		const types = originalTypes.filter((itemType) => !hiddenTypes.includes(itemType));
 		const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed);
 		const title = game.i18n.localize('SR5.DIALOG_CreateNewItem');

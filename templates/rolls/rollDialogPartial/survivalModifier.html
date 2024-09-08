@@ -53,12 +53,8 @@
     <div class="col-5">{{localize 'SR5.SurvivalWeather'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-PaddingRight10">
         <select class="SR-ModSelect" data-target="dicePoolModWeather" data-modifier="weather">
-            {{#select weather}}
-                <option value="none">{{localize 'SR5.ChooseOne'}}</option>
-                <option value="poor">{{localize 'SR5.SurvivalWeatherPoor'}}</option>
-                <option value="terrible">{{localize 'SR5.SurvivalWeatherTerrible'}}</option>
-                <option value="extreme">{{localize 'SR5.SurvivalWeatherExtreme'}}</option>
-            {{/select}}
+            <option value="none">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.survivalWeather selected=weather localize=true sort=true}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

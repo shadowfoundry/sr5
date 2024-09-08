@@ -56,7 +56,7 @@ export default async function skillInfo(cardData){
         case "firstAid":
             if (cardData.roll.criticalGlitchRoll) {
                 let failedDamage = new Roll(`1d3`);
-                await failedDamage.evaluate({async: true});
+                await failedDamage.evaluate();
                 cardData.damage.value = failedDamage.total;
                 cardData.damage.type = await SR5_CombatHelpers.chooseDamageType();
                 if (cardData.target.hasTarget) cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage", `${game.i18n.format('SR5.HealButtonFailed', {hits: cardData.damage.value, damageType: (game.i18n.localize(SR5.damageTypesShort[cardData.damage.type]))})}`);
@@ -106,7 +106,7 @@ export default async function skillInfo(cardData){
         case "intimidation":
         case "performance":
         case "leadership":
-            if (cardData.test.isOpposed){
+            if (cardData.test.isOpposed && cardData.threshold.type !== null){
                 if (cardData.roll.hits >= cardData.threshold.value) cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
                 else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FailedDefense"));
             } else {

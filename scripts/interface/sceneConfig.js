@@ -7,13 +7,19 @@ export default class SR5SceneConfig extends SceneConfig {
 
     static get defaultOptions() {
         const options = super.defaultOptions;
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             lists: SR5,
         });
     }
 
     get template() {
         return `systems/sr5/templates/interface/sceneConfig.html`;
+    }
+
+    getData(options={}) {
+        const context = super.getData(options);
+        context.data.flags.sr5.lists = SR5
+        return context
     }
 
     updateMatrixNoise(html) {

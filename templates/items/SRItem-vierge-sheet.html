@@ -88,12 +88,8 @@
 								<div class="col-5">{{localize 'SR5.VehicleCategoryFull'}}{{localize 'SR5.Colons'}}</div>
 								<div class="col-7">
 									<select name="system.categorie.value" data-dtype="{{system.categorie.type}}" required>
-										{{#select system.categorie.value}}
-											<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-											{{#each vehiculeCategorie}}
-												<option value="{{@key}}">{{localize this}}</option>
-											{{/each}}
-										{{/select}}
+										<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+										{{selectOptions vehiculeCategorie selected=system.categorie.value localize=true}}
 									</select>
 								</div>
 							</li>
@@ -102,22 +98,14 @@
 								<div class="col-7">
 									{{#ife system.categorie.value "vehicule"}}
 										<select name="system.type.value" data-dtype="{{system.type.type}}" required>
-											{{#select system.type.value}}
-												<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-												{{#each vehiculeTypes}}
-													<option value="{{@key}}">{{localize this}}</option>
-												{{/each}}
-											{{/select}}
+											<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+											{{selectOptions vehiculeTypes selected=system.type.value localize=true}}
 										</select>
 									{{/ife}}
 									{{#ife system.categorie.value "drone"}}
 										<select name="system.type.value" data-dtype="{{system.type.type}}" required>
-											{{#select system.type.value}}
-												<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-												{{#each droneTypes}}
-													<option value="{{@key}}">{{localize this}}</option>
-												{{/each}}
-											{{/select}}
+											<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+											{{selectOptions droneTypes selected=system.type.value localize=true}}
 										</select>
 									{{/ife}}
 								</div>
@@ -185,12 +173,8 @@
 									<li class="grid sr5-monture" data-sr5-monture="{{@key}}">
 										<div class="col-3">
 											<select name="system.monture.{{@key}}.type" required>
-												{{#select this.type }}
-													<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-													{{#each ../config.mountTypes}}
-														<option value="{{@key}}">{{localize this}}</option>
-													{{/each}}
-												{{/select}}
+												<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+												{{selectOptions ../config.mountTypes selected=this.type localize=true}}
 											</select>
 										</div>
 										<div class="col-7"><input type="text" data-dtype="String" name="system.monture.{{@key}}.name" value="{{monture.name}}" placeholder="" /></div>
@@ -220,12 +204,8 @@
 								<div class="col-5">{{localize 'SR5.Legality'}}{{localize 'SR5.Colons'}}</div>
 								<div class="col-7">
 									<select name="system.legal.value" data-dtype="{{system.legal.type}}">
-										{{#select system.legal.value}}
-											<option value="">{{localize 'SR5.Legal'}}</option>
-											{{#each legalTypes}}
-												<option value="{{@key}}">{{localize this}}</option>
-											{{/each}}
-										{{/select}}
+										<option value="">{{localize 'SR5.Legal'}}</option>
+										{{selectOptions legalTypes selected=system.legal.value localize=true}}
 									</select>
 								</div>
 							</li>

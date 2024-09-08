@@ -5,12 +5,8 @@
     <li class="grid">
         <div class="col-9">
             <select name="system.source" required>
-            {{#select system.source}}
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.sourceList}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+                {{selectOptions lists.sourceList selected=system.source localize=true}}
             </select>
         </div>
         <div class="col-3"><input type="number" data-dtype="Number" name="system.page" value="{{system.page}}" placeholder="page" onfocus="this.select()"/></div>

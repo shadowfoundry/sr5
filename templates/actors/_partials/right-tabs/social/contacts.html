@@ -51,12 +51,8 @@
           data-helpMessage="{{localize 'SR5.HELP_ContactMetatypeMsg'}}">
           <select data-item-id="{{_id}}" class="edit-value" data-binding="system.metatype"
             name="contact.{{_id}}.metatype" data-dtype="String">
-            {{#select system.metatype}}
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#each ../system.lists.metatypes}}
-            <option value="{{@key}}">{{findTranslation 'metatypes' @key}}</option>
-            {{/each}}
-            {{/select}}
+            {{selectOptions ../system.lists.metatypes selected=system.metatype localize=true}}
           </select>
         </div>
         <div class="col-1">

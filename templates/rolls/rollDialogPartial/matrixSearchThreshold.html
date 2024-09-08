@@ -6,11 +6,7 @@
     <div class="col-4">{{localize 'SR5.MatrixSearchInformationType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="searchThreshold" data-modifier="searchType">
-            {{#select searchType}}
-            <option value="general">{{localize 'SR5.MatrixSearchInfoTypeGeneral'}}</option>
-                <option value="limited">{{localize 'SR5.MatrixSearchInfoTypeLimited'}}</option>
-                <option value="hidden">{{localize 'SR5.MatrixSearchInfoTypeHidden'}}</option>
-            {{/select}}
+            {{selectOptions lists.matrixSearchInfoType selected=searchType localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

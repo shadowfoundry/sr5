@@ -15,9 +15,11 @@ export default function resistFire(rollData, actor, chatData){
     if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor;
 
     //Add AP modifiers to dicepool
-    rollData.dicePool.modifiers.armorPenetration = {};
-    rollData.dicePool.modifiers.armorPenetration.value = chatData.combat.armorPenetration;
-    rollData.dicePool.modifiers.armorPenetration.label = game.i18n.localize("SR5.ArmorPenetration");
+    rollData.dicePool.modifiers.push({
+        type: "armorPenetration", 
+        label: game.i18n.localize("SR5.ArmorPenetration"),
+        value: chatData.combat.armorPenetration,
+    })
 
     //Add others informations
     rollData.threshold.value = chatData.threshold.value;

@@ -5,12 +5,8 @@
     <div class="col-5">{{localize 'SR5.Attribute'}} {{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.defenseAttribute" data-dtype="String">
-            {{#select system.defenseAttribute}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.spritePowerDefenseAttributes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.spritePowerDefenseAttributes selected=system.defenseAttribute localize=true}}
         </select>
     </div>
 </li>
@@ -18,12 +14,8 @@
     <div class="col-5">{{localize 'SR5.Attribute'}} 2{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.defenseMatrixAttribute" data-dtype="String">
-            {{#select system.defenseMatrixAttribute}}
-                <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{#each lists.deckerAttributes}}
-                <option value="{{@key}}">{{localize this}}</option>
-                {{/each}}
-            {{/select}}
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.deckerAttributes selected=system.defenseMatrixAttribute localize=true}}
         </select>
     </div>
 </li>

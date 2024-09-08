@@ -67,7 +67,7 @@ export class SR5_RollMessage {
                 messageId = button.parents(".message").attr("data-message-id"),
                 message = game.messages.get(messageId),
                 actor = SR5_EntityHelpers.getRealActorFromID(message.flags.sr5data.owner.speakerId),
-                newMessage = duplicate(message.flags.sr5data);
+                newMessage = foundry.utils.duplicate(message.flags.sr5data);
 
             newMessage.roll[button.attr("data-edit-type")] = parseInt(ev.target.value);
 
@@ -480,11 +480,11 @@ export class SR5_RollMessage {
         //Delete useless buttons
         message = await game.messages.get(message);
         if (!message) return;
-        let messageData = duplicate(message.flags?.sr5data);
+        let messageData = foundry.utils.duplicate(message.flags?.sr5data);
         for (let key in messageData.chatCard.buttons){
             if (key === buttonToUpdate) await message.update({[`flags.sr5data.chatCard.buttons.-=${key}`]: null}, {render: false});
         }
-        messageData = duplicate(message.flags.sr5data);
+        messageData = foundry.utils.duplicate(message.flags.sr5data);
 
         //Get actor if any
         let actor;

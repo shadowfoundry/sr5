@@ -1,7 +1,7 @@
 export default class SR5_SpendDialog extends Dialog {
     
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             height: 'auto',
             resizable: false,
         });

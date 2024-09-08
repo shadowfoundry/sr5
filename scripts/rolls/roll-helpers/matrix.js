@@ -42,7 +42,7 @@ export class SR5_MatrixHelpers {
         let targetItem;
         if (cardData.target.itemUuid && !defenderWin) targetItem = await fromUuid(cardData.target.itemUuid);
         if (!targetItem) targetItem = targetActor.items.find((item) => item.type === "itemDevice" && item.system.isActive);
-        let newItem = duplicate(targetItem);
+        let newItem = foundry.utils.duplicate(targetItem);
 
         //targetActor.takeDamage(cardData);
         if (targetItem.system.type === "livingPersona" || targetItem.system.type === "headcase" ){
@@ -455,7 +455,7 @@ export class SR5_MatrixHelpers {
 
         switch(cardData.test.typeSub){
             case "iceAcid":
-                effect = mergeObject(effect, {
+                effect = foundry.utils.mergeObject(effect, {
                     name: game.i18n.localize("SR5.EffectReduceFirewall"),
                     "system.target": game.i18n.localize("SR5.Firewall"),
                     "system.value": -1,
@@ -472,7 +472,7 @@ export class SR5_MatrixHelpers {
                 target.createEmbeddedDocuments("Item", [effect]);
                 break;
             case "iceBinder":
-                effect = mergeObject(effect, {
+                effect = foundry.utils.mergeObject(effect, {
                     name: game.i18n.localize("SR5.EffectReduceDataProcessing"),
                     "system.target": game.i18n.localize("SR5.DataProcessing"),
                     "system.value": -1,
@@ -489,7 +489,7 @@ export class SR5_MatrixHelpers {
                 target.createEmbeddedDocuments("Item", [effect]);
                 break;
             case "iceCatapult":
-                effect = mergeObject(effect, {
+                effect = foundry.utils.mergeObject(effect, {
                     name: game.i18n.localize("SR5.EffectReduceFirewall"),
                     "system.target": game.i18n.localize("SR5.Firewall"),
                     "system.value": -1,
@@ -517,7 +517,7 @@ export class SR5_MatrixHelpers {
                 ui.notifications.info(`${randomProgram.name} ${game.i18n.localize("SR5.INFO_CrashProgram")}`);
                 break;
             case "iceJammer":
-                effect = mergeObject(effect, {
+                effect = foundry.utils.mergeObject(effect, {
                     name: game.i18n.localize("SR5.EffectReduceAttack"),
                     "system.target": game.i18n.localize("SR5.MatrixAttack"),
                     "system.value": -1,
@@ -534,7 +534,7 @@ export class SR5_MatrixHelpers {
                 target.createEmbeddedDocuments("Item", [effect]);
                 break;
             case "iceMarker":
-                effect = mergeObject(effect, {
+                effect = foundry.utils.mergeObject(effect, {
                     name: game.i18n.localize("SR5.EffectReduceSleaze"),
                     "system.target": game.i18n.localize("SR5.Sleaze"),
                     "system.value": -1,

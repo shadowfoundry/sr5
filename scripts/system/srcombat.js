@@ -34,7 +34,7 @@ export class SR5Combat extends Combat {
 		if (!combatant.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId)) {
 			let actualCombatant = combatant.combat.combatants.find(c => c.id === combatant.combat.current.combatantId);
 			if (actualCombatant.initiative > (combatant.initiative + adjustment)) {
-				udpateData = mergeObject(udpateData, {
+				udpateData = foundry.utils.mergeObject(udpateData, {
 					"flags.sr5.baseCombatantInitiative": Number(combatant.initiative) + adjustment,
 				});
 			}
@@ -45,7 +45,7 @@ export class SR5Combat extends Combat {
 	static async seizeInitiative(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone(actor.system);
+		let actorData = foundry.utils.deepClone(actor.system);
 		if (actorData.conditionMonitors.edge?.actual?.value < actorData.conditionMonitors.edge?.value){
 			await combatant.setFlag("sr5", "seizeInitiative", true);
 			actorData.conditionMonitors.edge.actual.base += 1;
@@ -59,7 +59,7 @@ export class SR5Combat extends Combat {
 	static async blitz(combatant){
 		let actor = SR5Combat.getActorFromCombatant(combatant)
 		if (!actor) return;
-		let actorData = deepClone(actor.system);
+		let actorData = foundry.utils.deepClone(actor.system);
 		if (actorData.conditionMonitors.edge?.actual.value < actorData.conditionMonitors.edge?.value){
 			await combatant.update({
 				initiative: null,
@@ -123,21 +123,10 @@ export class SR5Combat extends Combat {
 		await combat.update({ turn });
   	}
 
-   	setupTurns(){
+  setupTurns(){
 		// Determine the turn order and the current turn
-		const turns = this.combatants.contents.sort(SR5Combat.sortByRERIC);
-		this.turn = Math.clamped(this.turn, 0, turns.length-1);
-
-		// Update state tracking
-		let c = turns[this.turn];
-
-		this.current = {
-			round: this.round,
-			turn: this.turn,
-			combatantId: c ? c.id : null,
-			tokenId: c ? c.tokenId : null,
-		};
-		return this.turns = turns;
+		const turns = super.setupTurns();
+    return turns.sort(SR5Combat.sortByRERIC);
 	}
 
 	static sortByRERIC(left, right) {
@@ -162,7 +151,7 @@ export class SR5Combat extends Combat {
 				actor.system.specialAttributes?.edge?.augmented.value,
 				actor.system.attributes?.reaction?.augmented.value,
 				actor.system.attributes?.intuition?.augmented.value,
-				new Roll("1d2").roll({async:true}).total,
+				new Roll("1d2").roll().total,
 			];
 		};
 
@@ -331,7 +320,8 @@ export class SR5Combat extends Combat {
 
 		// Structure input data
 		ids = typeof ids === "string" ? [ids] : ids;
-		const currentId = this.combatant.id;
+		const currentId = this.combatant?.id;
+		const chatRollMode = game.settings.get("core", "rollMode");
 
 		// Iterate over Combatants, performing an initiative roll for each
 		const updates = [];
@@ -339,11 +329,11 @@ export class SR5Combat extends Combat {
 		for ( let [i, id] of ids.entries() ) {
 			// Get Combatant data (non-strictly)
 			const combatant = this.combatants.get(id);
-			if ( !combatant?.isOwner ) return results;
+      if ( !combatant?.isOwner ) continue;
 
 			// Produce an initiative roll for the Combatant
 			const roll = combatant.getInitiativeRoll(formula);
-			await roll.evaluate({async: true});
+      await roll.evaluate()
 			let initiative = roll.total;
 
 			if (this.flags.sr5?.combatInitiativePass > 1){
@@ -370,14 +360,16 @@ export class SR5Combat extends Combat {
 					title = game.i18n.localize('SR5.InitiativeMatrix');
 					break;
 			}
-			var templateData = {
+			let templateData = {
 				actor: combatant.actor,
 				title: title,
 				roll: roll,
 			};
+
 			const template = `systems/sr5/templates/rolls/roll-init.html`;
 			const html = await renderTemplate(template, templateData);
-			const messageData = mergeObject(
+
+			const messageData = foundry.utils.mergeObject(
 				{
 					speaker: {
 						scene: this.scene.id,
@@ -396,6 +388,11 @@ export class SR5Combat extends Combat {
 			);
 
 			let chatData = new ChatMessage(messageData, {create: false})
+
+			// If the combatant is hidden, use a private roll unless an alternative rollMode was explicitly requested
+      chatData.rollMode = "rollMode" in messageOptions ? messageOptions.rollMode
+        : (combatant.hidden ? CONST.DICE_ROLL_MODES.PRIVATE : chatRollMode );
+
 			// Play 1 sound for the whole rolled set
 			if ( i > 0 ) chatData.sound = null;
 			messages.push(chatData.toObject());
@@ -414,7 +411,7 @@ export class SR5Combat extends Combat {
 		if (this.initiativePass === 1) await this.update({turn: 0});
 
 		// Create multiple chat messages
-		await ChatMessage.create(messages);
+		await ChatMessage.implementation.create(messages);
 
 		return this;
 	}
@@ -539,7 +536,7 @@ export class SR5Combat extends Combat {
 
 	static async changeActionInCombat(documentId, actions, updateActor = true){
 		let actor = await SR5_EntityHelpers.getRealActorFromID(documentId);
-		let actorData = duplicate(actor.system);
+		let actorData = foundry.utils.duplicate(actor.system);
 		let combatant = await SR5Combat.getCombatantFromActor(actor);
 		let initModifier;
 		if (!combatant) return;
@@ -576,7 +573,7 @@ export class SR5Combat extends Combat {
 		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
-				let itemData = duplicate(item.system);
+				let itemData = foundry.utils.duplicate(item.system);
 
 				//Decrease effect duration
 				if (item.system.durationType === "action"){
@@ -599,7 +596,7 @@ export class SR5Combat extends Combat {
 	//Reset actions on actor
 	static async resetActionInCombat(documentId, combatant){
 		let actor = SR5_EntityHelpers.getRealActorFromID(documentId);
-		let actorData = duplicate(actor.system);
+		let actorData = foundry.utils.duplicate(actor.system);
 		for (let key of Object.keys(SR5.actionTypes)) {
 			if (actorData.specialProperties.actions[key]) {
 				actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value;
@@ -618,13 +615,13 @@ export class SR5Combat extends Combat {
 		let actor = SR5Combat.getActorFromCombatant(combatant);
 		if (!actor) return;
 
-		let actorData = deepClone(actor.system);
+		let actorData = foundry.utils.deepClone(actor.system);
 		let damageInfo;
 
 		//Decrease external effect duration
 		for (let item of actor.items){
 			if (item.type === "itemEffect") {
-				let itemData = duplicate(item.system);
+				let itemData = foundry.utils.duplicate(item.system);
 
 				//Decrease effect duration
 				if (item.system.durationType === "round"){

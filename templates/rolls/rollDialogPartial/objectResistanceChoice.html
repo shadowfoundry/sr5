@@ -13,12 +13,7 @@
 	<div class="col-3">{{localize 'SR5.ObjectType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-8">
         <select class="SR-ModSelect" data-target="baseDicePool" data-modifier="objectType">
-            {{#select objectType}}
-            <option value="3">{{localize 'SR5.ObjectTypeNatural'}}</option>
-            <option value="6">{{localize 'SR5.ObjectTypeManufacturedLow'}}</option>
-            <option value="9">{{localize 'SR5.ObjectTypeManufacturedHigh'}}</option>
-			<option value="15">{{localize 'SR5.ObjectTypeHighlyProcessed'}}</option>
-            {{/select}}
+            {{selectOptions lists.objectTypes selected=objectType localize=true sort=false}}
         </select>
     </div>
 

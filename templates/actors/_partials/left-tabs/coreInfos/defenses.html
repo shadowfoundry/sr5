@@ -21,13 +21,7 @@
             <div class="col-10" data-helpTitle="{{localize 'SR5.HELP_ActiveDefenseChoice'}}"
               data-helpMessage="{{localize 'SR5.HELP_ActiveDefenseChoiceMsg'}}">
                 <select name="system.sheetPreferences.selections.activeDefense" data-dtype="String">
-                {{#select system.sheetPreferences.selections.activeDefense}}
-                    {{#each lists.characterDefenses}}
-                    {{#ifne @key 'defend'}}
-                        <option value="{{@key}}">{{findTranslation 'characterDefenses' @key}}</option>
-                    {{/ifne}}
-                    {{/each}}
-                {{/select}}
+                    {{selectOptions lists.characterSpecialDefenses selected=system.sheetPreferences.selections.activeDefense localize=true}}
                 </select>
             </div>
             <div class="col-2 SR-TextCenter roll-logo roll-logo sr-roll" data-rolltype="defenseSimple" data-rollkey="{{system.sheetPreferences.selections.activeDefense}}"

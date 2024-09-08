@@ -14,7 +14,7 @@ export default async function objectResistanceResultInfo(cardData){
         if (prevData?.test.type === "spell") {
             //Update spell
             let item = await fromUuid(prevData.owner.itemUuid);
-            let newItem = duplicate(item.system);
+            let newItem = foundry.utils.duplicate(item.system);
             if (newItem.duration === "sustained") newItem.isActive = true;
             await item.update({"system": newItem});
         }

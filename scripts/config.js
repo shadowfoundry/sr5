@@ -38,10 +38,20 @@ SR5.characterSpecialAttributes = {
 	resonance                 : "SR5.Resonance",
 };
 
+SR5.magicOrResonance = {
+	magic                     : "SR5.Magic",
+	resonance                 : "SR5.Resonance",
+};
+
 //
 SR5.allAttributes = {
 	...SR5.characterAttributes,
 	...SR5.characterSpecialAttributes
+}
+
+SR5.allAttributesWithoutEdge = {
+	...SR5.characterAttributes,
+	...SR5.magicOrResonance
 }
 
 // Initiatives
@@ -66,6 +76,17 @@ SR5.characterDefenses = {
 	dodge                     : "SR5.Dodge",
 	parryBlades               : "SR5.ParrySlashing",
 	parryClubs                : "SR5.ParryBlunt",
+};
+
+SR5.characterSpecialDefenses = {
+	block                     : "SR5.Block",
+	dodge                     : "SR5.Dodge",
+	parryBlades               : "SR5.ParrySlashing",
+	parryClubs                : "SR5.ParryBlunt",
+};
+
+SR5.characterSpecialDefensesDodge = {
+	dodge                     : "SR5.Dodge",
 };
 
 // Resistances
@@ -804,6 +825,58 @@ SR5.actionSources = {
 	usePreparation			  : "SR5.ActionSourceUsePreparation",
 	useSkill				  : "SR5.ActionSourceUseSkill",
 	vehicleTest				  : "SR5.ActionSourceVehicleTest",
+}
+
+//-----------------------------------//
+//            SCENES                 //
+//-----------------------------------//
+
+SR5.environModVisibility = {
+	0: "SR5.EnvironmentalVisibilityClear",
+	1: "SR5.EnvironmentalVisibilityLight",
+	2: "SR5.EnvironmentalVisibilityModerate",
+	3: "SR5.EnvironmentalVisibilityHeavy",
+}
+
+SR5.environModLight = {
+	0: "SR5.EnvironmentalLightFull",
+	1: "SR5.EnvironmentalLightPartial",
+	2: "SR5.EnvironmentalLightDim",
+	3: "SR5.EnvironmentalLightDarkness",
+}
+
+SR5.environModGlare = {
+	0: "SR5.EnvironmentalGlareNo",
+	1: "SR5.EnvironmentalGlareWeak",
+	2: "SR5.EnvironmentalGlareModerate",
+	3: "SR5.EnvironmentalGlareBlinding",
+}
+
+SR5.environModWind = {
+	0: "SR5.EnvironmentalWindNone",
+	1: "SR5.EnvironmentalWindLight",
+	2: "SR5.EnvironmentalWindModerate",
+	3: "SR5.EnvironmentalWindStrong",
+}
+
+SR5.matrixSpam = {
+	0: "SR5.None",
+	1: "SR5.SceneSpamCity",
+	2: "SR5.SceneSpamSprawl",
+	3: "SR5.SceneSpamMajorEvent",
+	4: "SR5.SceneSpamCityCommercial",
+	5: "SR5.SceneSpamSprawlCommercial",
+	6: "SR5.SceneSpamMassiveGatering",
+}
+
+SR5.matrixStatic = {
+	0: "SR5.None",
+	1: "SR5.SceneStaticAbandonedBuilding",
+	2: "SR5.SceneStaticAbandonedNeighborhood",
+	3: "SR5.SceneStaticRuralArea",
+	4: "SR5.SceneStaticWilderness",
+	5: "SR5.SceneStaticRemotePlace",
+	6: "SR5.SceneStaticRemoteEnclosedPlace",
 }
 
 //-----------------------------------//
@@ -2103,9 +2176,19 @@ SR5.matrixKillCodeActions = {
 	watchdog                  : "SR5.MatrixActionWatchdog",
 };
 
+// Rigger 5 Actions
+SR5.matrixRigger5Actions = {
+	breakTargetLock           : "SR5.MatrixActionBreakTargetLock",
+	confusePilot              : "SR5.MatrixActionConfusePilot",
+	detectTargetLock          : "SR5.MatrixActionDetectTargetLock",
+	suppressNoise             : "SR5.MatrixActionSuppressNoise",
+	targetDevice              : "SR5.MatrixActionTargetDevice",
+};
+
 SR5.matrixRolledActions = {
 		...SR5.matrixCoreRolledActions,
-		...SR5.matrixKillCodeActions,
+		...SR5.matrixKillCodeActions,		
+		...SR5.matrixRigger5Actions,
 	};
 
 SR5.matrixActions = {
@@ -2162,6 +2245,11 @@ SR5.matrixGameEffects = {
 	subvertInfrastructure     : "SR5.MatrixActionSubvertInfrastructure_GE",
 	tag                       : "SR5.MatrixActionTag_GE",
 	watchdog                  : "SR5.MatrixActionWatchdog_GE",
+	breakTargetLock           : "SR5.MatrixActionBreakTargetLock_GE",
+	confusePilot              : "SR5.MatrixActionConfusePilot_GE",
+	detectTargetLock          : "SR5.MatrixActionDetectTargetLock_GE",
+	suppressNoise             : "SR5.MatrixActionSuppressNoise_GE",
+	targetDevice              : "SR5.MatrixActionTargetDevice_GE",
 };
 
 // Complex Form Targets
@@ -2315,6 +2403,13 @@ SR5.matrixSearchInfoType = {
 	hidden                    :"SR5.MatrixSearchInfoTypeHidden",
 }
 
+//Matrix marks
+SR5.matrixMarks = {
+	1													:"SR5.MarkOne",
+	2													:"SR5.MarkTwo",
+	3													:"SR5.MarkThree",
+}
+
 //-----------------------------------//
 //            VEHICULES              //
 //-----------------------------------//
@@ -2426,6 +2521,19 @@ SR5.vehicleSecondaryPropulsionMode = {
 };
 
 // Vehicle and Drone Control mode
+SR5.vehicleControlModesAutopilot = {
+	autopilot                 : "SR5.ControlAutopilot",
+}
+
+SR5.vehicleControlModesSimple = {
+	manual                    : "SR5.ControlManual",
+	remote                    : "SR5.ControlRemote",
+}
+
+SR5.vehicleControlModesRigging = {
+	rigging                   : "SR5.ControlRigging",
+}
+
 SR5.vehicleControlModes = {
 	autopilot                 : "SR5.ControlAutopilot",
 	manual                    : "SR5.ControlManual",
@@ -2477,6 +2585,15 @@ SR5.vehicleModTools = {
 	kit                       : "SR5.VehicleModToolsKit",
 	shop                      : "SR5.VehicleModToolsShop",
 	facility                  : "SR5.VehicleModToolsFacility",
+};
+
+SR5.vehicleSpeed = {
+	speedRamming1							: "SR5.VehicleRelativeSpeed_1",
+	speedRamming11						: "SR5.VehicleRelativeSpeed_11",
+	speedRamming51						: "SR5.VehicleRelativeSpeed_51",
+	speedRamming201						: "SR5.VehicleRelativeSpeed_201",
+	speedRamming301						: "SR5.VehicleRelativeSpeed_301",
+	speedRamming501						: "SR5.VehicleRelativeSpeed_501",
 };
 
 //-----------------------------------//
@@ -3500,10 +3617,10 @@ SR5.drainModTypes = {
 }
 
 SR5.limitModTypes = {
-	various                   : "SR5.LimitModifiers",
-	perception                : "SR5.SkillPerceptionType",
-	healingSupplies           : "SR5.HealingSupplies",
-	backgroundCount			  : "SR5.SceneBackgroundCount",
+	limitModVarious         : "SR5.VariousModifiers",
+	limitModPerception      : "SR5.SkillPerceptionType",
+	limitModHealingSupplies : "SR5.HealingSupplies",
+	backgroundCount			    : "SR5.SceneBackgroundCount",
 }
 
 //-----------------------------------//
@@ -3520,6 +3637,13 @@ SR5.barrierTypes = {
 	structuralHeavy           : "SR5.BarrierStructuralHeavyMaterial",
 	armored                   : "SR5.BarrierArmoredMaterial",
 	hardened                  : "SR5.BarrierHardenedMaterial",
+}
+
+SR5.objectTypes = {
+	3													: "SR5.ObjectTypeNatural",
+	6													: "SR5.ObjectTypeManufacturedLow",
+	9													: "SR5.ObjectTypeManufacturedHigh",
+	15												: "SR5.ObjectTypeHighlyProcessed",
 }
 
 
@@ -3654,8 +3778,10 @@ SR5.modifiersTypes = {
 	penaltymagic	   		  : "SR5.PenaltyValueMagic",
 	penaltymatrix			  : "SR5.PenaltyValueMatrix",
 	penaltyspecial		  	  : "SR5.PenaltyValueSpecial",
+	pilotAttribute            : "SR5.VehicleStat_PilotShort",
 	possession 				  : "SR5.Possession",
 	program 				  : "SR5.Program",
+	sensorAttribute           : "SR5.VehicleStat_SensorShort",
 	specialization 			  : "SR5.Skill",
 	skillRating				  : "SR5.SkillRating",
 	skillGroup 				  : "SR5.SkillGroup",
@@ -3683,9 +3809,9 @@ SR5.modifierTypes = {
 
 SR5.statusEffects = [
 	{
-		icon: "systems/sr5/img/status/StatusUnconsciousOn.svg",
+		img: "systems/sr5/img/status/StatusUnconsciousOn.svg",
 		id: "unconscious",
-		label: "SR5.STATUSES_Unconscious_F",
+		name: "SR5.STATUSES_Unconscious_F",
 		flags: {
 			core: {
 				overlay: true,
@@ -3693,9 +3819,9 @@ SR5.statusEffects = [
 		}
 	},
 	{
-		icon: "systems/sr5/img/status/StatusDeadOn.svg",
+		img: "systems/sr5/img/status/StatusDeadOn.svg",
 		id: "dead",
-		label: "SR5.STATUSES_Dead_F",
+		name: "SR5.STATUSES_Dead_F",
 		flags: {
 			core: {
 				overlay: true,
@@ -3703,21 +3829,21 @@ SR5.statusEffects = [
 		},
 	},
 	{
-		icon: "systems/sr5/img/status/StatusProneOn.svg",
+		img: "systems/sr5/img/status/StatusProneOn.svg",
 		id: "prone",
-		label: "SR5.STATUSES_Prone",
+		name: "SR5.STATUSES_Prone",
 		origin: "prone",
 	},
 	{
-		icon: "systems/sr5/img/status/StatusFullDefense.svg",
+		img: "systems/sr5/img/status/StatusFullDefense.svg",
 		id: "fullDefense",
-		label: "SR5.STATUSES_FullDefense",
+		name: "SR5.STATUSES_FullDefense",
 		origin: "fullDefense"
 	},
 	{
-		icon: "systems/sr5/img/status/StatusNoActionOn.svg",
+		img: "systems/sr5/img/status/StatusNoActionOn.svg",
 		id: "noAction",
-		label: "SR5.EffectNoAction",
+		name: "SR5.EffectNoAction",
 		flags: {
 			core: {
 				overlay: true,
@@ -3726,15 +3852,15 @@ SR5.statusEffects = [
 		origin: "noAction"
 	},
 	{
-		icon: "systems/sr5/img/status/StatusCover.svg",
+		img: "systems/sr5/img/status/StatusCover.svg",
 		id: "cover",
-		label: "SR5.Cover",
+		name: "SR5.Cover",
 		origin: "cover"
 	},
 	{
-		icon: "systems/sr5/img/status/StatusCoverFull.svg",
+		img: "systems/sr5/img/status/StatusCoverFull.svg",
 		id: "coverFull",
-		label: "SR5.CoverFull",
+		name: "SR5.CoverFull",
 		origin: "coverFull"
 	},
 ];

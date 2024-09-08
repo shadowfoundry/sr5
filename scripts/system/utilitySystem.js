@@ -95,6 +95,17 @@ export class SR5_SystemHelpers {
 			type: Boolean,
 			onChange: () => window.location.reload()
 		});
+
+		// Rigger 5 Rules
+		game.settings.register("sr5", "sr5Rigger5Actions", {
+			name: "SR5.SETTINGS_Rigger5Actions_T",
+			hint: "SR5.SETTINGS_Rigger5Actions_D",
+			scope: "world",
+			config: true,
+			default: false,
+			type: Boolean,
+			onChange: () => window.location.reload()
+		});
 	}
 
 	/* Display Shadowrun Themed Log Entries Based on Logging Level
@@ -189,10 +200,8 @@ export class SR5_SystemHelpers {
 	 * @return {distance}       The distance between first and second document based on grid scene round to the nearest integrer.
 	 */
 	static getDistanceBetweenTwoPoint(firstDocument, secondDocument){
-		const r = new Ray(firstDocument, secondDocument);
-		const segments = [{ ray: r }];
-		const distance = canvas.grid.measureDistances(segments);
-		return distance[0];
+		const distance = canvas.grid.measurePath([firstDocument, secondDocument]);
+    return distance.distance;
 	}
 
 	/**

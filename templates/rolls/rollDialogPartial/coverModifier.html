@@ -2,11 +2,7 @@
     <div class="col-5">{{localize 'SR5.Cover'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-6 SR-TextRight">
         <select class="SR-ModSelect SR-ModSelectFilled" data-target="dicePoolModCover" data-modifier="cover">
-            {{#select cover}}
-            <option value="none">{{localize 'SR5.CoverNone'}}</option>
-            <option value="partial">{{localize 'SR5.CoverPartial'}}</option>
-            <option value="full">{{localize 'SR5.CoverFull'}}</option>
-            {{/select}}
+            {{selectOptions lists.coverTypes selected=cover localize=true sort=false}}
         </select>
     </div>
     <div class="col-1 SR-TextCenter">

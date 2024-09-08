@@ -5,11 +5,7 @@
     <div class="col-5">{{localize 'SR5.Grade'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-7">
         <select name="system.grade" required>
-        {{#select system.grade}}
-            {{#each lists.augmentationGrades}}
-            <option value="{{@key}}">{{localize this}}</option>
-            {{/each}}
-        {{/select}}
+            {{selectOptions lists.augmentationGrades selected=system.grade localize=true}}
         </select>
     </div>
 </li>

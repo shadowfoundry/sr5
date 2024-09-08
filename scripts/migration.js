@@ -175,7 +175,7 @@ export default class Migration {
 
 			//v10 embedded items in actor
 			if (actor.system.creatorData) {
-				let newCreatorData = duplicate(actor.system.creatorData);
+				let newCreatorData = foundry.utils.duplicate(actor.system.creatorData);
 				if (newCreatorData.items) {
 					for (let i of newCreatorData.items) {
 						i.system = i.data;
@@ -193,7 +193,7 @@ export default class Migration {
 			}
 
 			if (actor.flags?.sr5?.vehicleControler) {
-				let newFlag = duplicate(actor.flags.sr5.vehicleControler);
+				let newFlag = foundry.utils.duplicate(actor.flags.sr5.vehicleControler);
 				newFlag.system = newFlag.data;
 				if (newFlag.items) {
 					for (let i of newFlag.items) {
@@ -424,7 +424,7 @@ export default class Migration {
 				t.actorData = {};
 			}
 			else if (!t.actorLink) {
-				const actorData = duplicate(t.actorData);
+				const actorData = foundry.utils.duplicate(t.actorData);
 				actorData.type = token.actor?.type;
 				/*if (actorData.items){
 					for (let i of Object.values(actorData.items)){
@@ -437,12 +437,12 @@ export default class Migration {
 					const updates = new Map(update[embeddedName].map(u => [u._id, u]));
 					t.actorData[embeddedName].forEach(original => {
 						const update = updates.get(original._id);
-						if (update) mergeObject(original, update);
+						if (update) foundry.utils.mergeObject(original, update);
 					});
 					delete update[embeddedName];
 				});
 
-				mergeObject(t.actorData, update);
+				foundry.utils.mergeObject(t.actorData, update);
 			}
 			return t;
 		});

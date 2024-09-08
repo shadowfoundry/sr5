@@ -9,11 +9,11 @@
       "flags": {}
     }
   ],
-  "version": "11.0.14",
+  "version": "12.0.0",
   "compatibility": {
-    "minimum": "11",
-    "maximum": "11",
-    "verified": "11.315"
+    "minimum": "12",
+    "maximum": "12",
+    "verified": "12.331"
   },
   "esmodules": [
     "sr5.js"
@@ -38,15 +38,27 @@
   "socket": true,
   "url": "https://github.com/shadowfoundry/sr5",
   "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
-  "download": "https://github.com/shadowfoundry/sr5/releases/download/0.1.4/sr5.zip",
+  "download": "https://github.com/shadowfoundry/sr5/releases/download/11.0.14/sr5.zip",
   "background": "systems/sr5/img/launcher.jpg",
   "initiative": "1d6",
-  "gridDistance": 1,
-  "gridUnits": "m",
   "flags": {
     "hotReload": {
-      "extensions": ["css", "html", "hbs", "json", "js"],
-      "paths": ["templates", "css", "lang", "js"]
+      "extensions": [
+        "css",
+        "html",
+        "hbs",
+        "json",
+        "js"
+      ],
+      "paths": [
+        "templates",
+        "css",
+        "lang",
+        "js"
+      ]
     }
+  },
+  "grid": {
+    "units": "m"
   }
 }

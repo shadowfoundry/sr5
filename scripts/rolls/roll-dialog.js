@@ -10,7 +10,7 @@ import { SR5Combat } from "../system/srcombat.js";
 export default class SR5_RollDialog extends Dialog {
 
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             height: 'auto',
             width: 450,
             resizable: false,
@@ -102,10 +102,7 @@ export default class SR5_RollDialog extends Dialog {
         let recoil = this.calculRecoil(html);
         this.setPosition(this.position);
         html.find('[name="recoil"]')[0].value = recoil;
-        dialogData.dicePool.modifiers.recoil = {
-            value: recoil,
-            label: game.i18n.localize(SR5.dicePoolModTypes.recoil),
-        }
+        SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "recoil")
         this.updateDicePoolValue(html);
     }
 
@@ -328,18 +325,15 @@ export default class SR5_RollDialog extends Dialog {
 
         if (isChecked){
             html.find(name)[0].value = value;
-            dialogData.dicePool.modifiers[modifierName] = value;
-            dialogData.dicePool.modifiers[modifierName] = {
-                value: value,
+            dialogData.dicePool.modifiers.push({
+                type: modifierName, 
                 label: label,
-            }
+                value: value
+            })
             this.updateDicePoolValue(html);
         } else {
             html.find(name)[0].value = 0;
-            dialogData.dicePool.modifiers[modifierName] = {
-                value: 0,
-                label: label,
-            }
+            SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', modifierName)
             this.updateDicePoolValue(html);
         }
     }
@@ -366,10 +360,11 @@ export default class SR5_RollDialog extends Dialog {
                         html.find(checkboxName)[0].checked = true;
                         value = -2;
                         html.find(inputName)[0].value = value;
-                        dialogData.dicePool.modifiers[modifierName] = {
-                            value: value,
+                        dialogData.dicePool.modifiers.push({
+                            type: modifierName, 
                             label: label,
-                        }
+                            value: value
+                        })
                         this.updateDicePoolValue(html);
                     }
                     continue;
@@ -407,10 +402,11 @@ export default class SR5_RollDialog extends Dialog {
 
             if (html.find(checkboxName)[0].checked){
                 html.find(inputName)[0].value = value;
-                dialogData.dicePool.modifiers[modifierName] = {
-                    value: value,
+                dialogData.dicePool.modifiers.push({
+                    type: modifierName, 
                     label: label,
-                }
+                    value: value
+                })
                 this.updateDicePoolValue(html);
             }
         }
@@ -479,10 +475,12 @@ export default class SR5_RollDialog extends Dialog {
             case "patientEssence":
                 value = -Math.floor((6 - Math.ceil(value))/2);
                 html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
-                dialogData.dicePool.modifiers.patientEssence = {
-                    value: value,
+                SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "patientEssence")
+                dialogData.dicePool.modifiers.push({
+                    type: "patientEssence", 
                     label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${value})`,
-                }
+                    value: value
+                })
                 this.updateDicePoolValue(html);
                 return;
             case "limitModHealingSupplies":
@@ -499,10 +497,12 @@ export default class SR5_RollDialog extends Dialog {
         }
 
         html.find(name)[0].value = value;
-        dialogData.dicePool.modifiers[modifierName] = {
-            value: value,
+        SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', modifierName)
+        dialogData.dicePool.modifiers.push({
+            type: modifierName, 
             label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
-        }
+            value: value
+        })
         this.updateDicePoolValue(html);
     }
 
@@ -576,10 +576,11 @@ export default class SR5_RollDialog extends Dialog {
                     html.find('[name="patientEssence"]')[0].value = patientEssence;
                     value = -Math.floor((6 - Math.ceil(patientEssence))/2);
                     html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
-                    dialogData.dicePool.modifiers.patientEssence = {
-                        value: value,
+                    dialogData.dicePool.modifiers.push({
+                        type: "patientEssence", 
                         label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${patientEssence})`,
-                    }
+                        value: value
+                    })
                     this.updateDicePoolValue(html);
                     continue;
                 case "backgroundCount":
@@ -591,10 +592,11 @@ export default class SR5_RollDialog extends Dialog {
             }
 
             html.find(name)[0].value = value;
-            dialogData.dicePool.modifiers[modifierName] = {
-                value: value,
+            dialogData.dicePool.modifiers.push({
+                type: modifierName,
                 label: label,
-            }
+                value: value
+            })
             this.updateDicePoolValue(html);
         }
     }
@@ -635,7 +637,13 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "attribute":
                     if (ev.target.value === "none") value = 0;
-                    else value = actor.system.attributes[ev.target.value].augmented.value;
+                    else {
+                        if (ev.target.value === "edge" || ev.target.value === "magic" || ev.target.value === "resonance"){
+                            value = actor.system.specialAttributes[ev.target.value].augmented.value;
+                        } else {
+                            value = actor.system.attributes[ev.target.value].augmented.value;
+                        }
+                    }
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.allAttributes[ev.target.value])})`;
                     break;
                 case "incomingFiringMode":
@@ -754,10 +762,12 @@ export default class SR5_RollDialog extends Dialog {
                         if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').show();
                         if (dialogData.target.grid !== actor.system.matrix.userGrid) {
                             html.find('[name="dicePoolModTargetGrid"]')[0].value = -2;
-                            dialogData.dicePool.modifiers.targetGrid = {
-                                value: -2,
+                            SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "targetGrid")
+                            dialogData.dicePool.modifiers.push({
+                                type: "targetGrid",
                                 label: `${game.i18n.localize(SR5.dicePoolModTypes["targetGrid"])} (${game.i18n.localize(SR5.gridTypes[html.find('[data-modifier="targetGrid"]')[0].value])})`,
-                            }
+                                value: -2
+                            })
                             this.dicePoolModifier.targetGrid = -2;
                         }
                         if ((dialogData.matrix.personalNoise < 0) && (html.find('#matrixNoiseActor'))) $(html).find('#matrixNoiseActor').show();
@@ -811,20 +821,19 @@ export default class SR5_RollDialog extends Dialog {
                     if (ev.target.value === "sight") {
                         $(html).find('#sightPerception').show();
                         if (canvas.scene) {
-                            dialogData.dicePool.modifiers.environmentalSceneMod = {
-                                value: SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true),
+                            SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "environmentalSceneMod")
+                            dialogData.dicePool.modifiers.push({
+                                type: "environmentalSceneMod",
                                 label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
-                            }
+                                value: SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true),
+                            })
                             label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`;
                         }
                         html.find('[data-modifier="environmentalSceneMod"]')[0].value = dialogData.dicePool.modifiers.environmentalSceneMod.value;
                         this.dicePoolModifier.environmental = dialogData.dicePool.modifiers.environmentalSceneMod.value;
                     } else {
                         $(html).find('#sightPerception').hide();
-                        dialogData.dicePool.modifiers.environmentalSceneMod = {
-                            value: 0,
-                            label: game.i18n.localize(SR5.dicePoolModTypes["environmentalSceneMod"]),
-                        }
+                        SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "environmentalSceneMod")
                         this.dicePoolModifier.environmental = 0;
                     }
                     dialogData.various.perceptionType = ev.target.value;
@@ -979,11 +988,16 @@ export default class SR5_RollDialog extends Dialog {
 
         this.setPosition(position);
         html.find(name)[0].value = value;
+
+        //Remove previous mod
+        SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', modifierName)
+
         if (modifierName !== "chokeSettings") {
-            dialogData.dicePool.modifiers[modifierName] = {
-            value: value,
-            label: label,
-            }
+            dialogData.dicePool.modifiers.push({
+                type: modifierName,
+                label: label,
+                value: value,
+            })
         }
         this.updateDicePoolValue(html);
         if (modifierName === "matrixRange") this._filledInputModifier(html.find('.SR-ModInputFilled'), html, dialogData);
@@ -1119,10 +1133,11 @@ export default class SR5_RollDialog extends Dialog {
 
             html.find(targetInputName)[0].value = inputValue;
             html.find(name)[0].value = selectValue;
-            dialogData.dicePool.modifiers[modifierName] = {
-                value: inputValue,
+            dialogData.dicePool.modifiers.push({
+                type: modifierName,
                 label: label,
-            }
+                value: inputValue,
+            })
             this.updateDicePoolValue(html);
         }
     }
@@ -1191,7 +1206,7 @@ export default class SR5_RollDialog extends Dialog {
         ev.preventDefault();
         let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
         resetedActor.resetCumulativeDefense();
-        dialogData.dicePool.modifiers.cumulativeDefense.value = 0;
+        SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "cumulativeDefense")
         actor.flags.sr5.cumulativeDefense = 0;
         html.find('[data-type="cumulativeDefense"]')[0].value = 0;
         this.updateDicePoolValue(html);
