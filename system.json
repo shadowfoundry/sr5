@@ -11,9 +11,9 @@
   ],
   "version": "12.0.0",
   "compatibility": {
-    "minimum": "11",
+    "minimum": "12",
     "maximum": "12",
-    "verified": "12.324"
+    "verified": "12.331"
   },
   "esmodules": [
     "sr5.js"
