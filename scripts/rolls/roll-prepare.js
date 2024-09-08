@@ -347,7 +347,7 @@ export class SR5_PrepareRollTest {
             dicePool: {
                 base: 0,
                 composition: [],
-                modifiers: {},
+                modifiers: [],
                 modifiersTotal: 0,
                 value: 0,
                 cumulativeDefense: 0
@@ -370,6 +370,7 @@ export class SR5_PrepareRollTest {
                 value: 0,
             },
             lists: {
+                allAttributesWithoutEdge: actor.system.lists.allAttributesWithoutEdge,
                 extendedIntervals: SR5_EntityHelpers.sortByTranslatedTerm(actor.system.lists.extendedIntervals, "extendedIntervals"),
                 characterAttributes: actor.system.lists.characterAttributes,
                 vehicleAttributes: actor.system.lists.vehicleAttributes,

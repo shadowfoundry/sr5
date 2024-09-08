@@ -637,7 +637,13 @@ export default class SR5_RollDialog extends Dialog {
                     break;
                 case "attribute":
                     if (ev.target.value === "none") value = 0;
-                    else value = actor.system.attributes[ev.target.value].augmented.value;
+                    else {
+                        if (ev.target.value === "edge" || ev.target.value === "magic" || ev.target.value === "resonance"){
+                            value = actor.system.specialAttributes[ev.target.value].augmented.value;
+                        } else {
+                            value = actor.system.attributes[ev.target.value].augmented.value;
+                        }
+                    }
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.allAttributes[ev.target.value])})`;
                     break;
                 case "incomingFiringMode":
