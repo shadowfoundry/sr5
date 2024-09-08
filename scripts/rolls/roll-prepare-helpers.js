@@ -81,9 +81,11 @@ export class SR5_PrepareRollHelper {
 
     //Add dicepool modifier
     static addDicepoolModifier(rollData, modifier, modifierValue, modifierLabel){
-        rollData.dicePool.modifiers[modifier] = {};
-        rollData.dicePool.modifiers[modifier].value = modifierValue;
-        rollData.dicePool.modifiers[modifier].label = modifierLabel;
+        rollData.dicePool.modifiers.push({
+            type: modifier, 
+            label: modifierLabel, 
+            value: modifierValue
+        })
     }
 
     //Add background count limit modifiers
@@ -107,9 +109,11 @@ export class SR5_PrepareRollHelper {
         let cumulativeDefense = actor.getFlag("sr5", "cumulativeDefense");
         if(cumulativeDefense !== undefined) {
             actor.setFlag("sr5", "cumulativeDefense", cumulativeDefense + 1);
-            rollData.dicePool.modifiers.cumulativeDefense = {};
-            rollData.dicePool.modifiers.cumulativeDefense.value = -cumulativeDefense;
-            rollData.dicePool.modifiers.cumulativeDefense.label = game.i18n.localize("SR5.CumulativeDefense");
+            rollData.dicePool.modifiers.push({
+                type: "cumulativeDefense", 
+                label: game.i18n.localize("SR5.CumulativeDefense"),
+                value: -cumulativeDefense
+            })
         } else {
             actor.setFlag("sr5", "cumulativeDefense", 0);
         }

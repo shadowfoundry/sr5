@@ -12,9 +12,11 @@ export default function banishingResistance(rollData, actor, chatData){
 
     //Determine dicepool modififiers
     if (actor.system.isBounded) {
-        rollData.dicePool.modifiers.summonerMagic = {};
-        rollData.dicePool.modifiers.summonerMagic.label = game.i18n.localize("SR5.SpiritSummonerMagic");
-        rollData.dicePool.modifiers.summonerMagic.value = actor.system.summonerMagic;
+        rollData.dicePool.modifiers.push({
+            type: "summonerMagic", 
+            label: game.i18n.localize("SR5.SpiritSummonerMagic"),
+            value: actor.system.summonerMagic,
+        })
     }
 
     //Add others informations

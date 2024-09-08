@@ -241,10 +241,11 @@ export class SR5_RollTest {
 		if (typeof newMessage.originalModifiers === 'undefined') {
 				newMessage.originalModifiers = messageData.dicePool.modifiersTotal;
 		}
-		newMessage.dicePool.modifiers.extendedTest = {
+		newMessage.dicePool.modifiers.push({
+			type: "extendedTest",
 			label: game.i18n.localize("SR5.ExtendedTest"),
 			value: -( - newMessage.originalModifiers + newMessage.test.extended.roll - 1),
-		}
+		})
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
 
@@ -307,10 +308,11 @@ export class SR5_RollTest {
 		newMessage.roll.dices = messageData.roll.dices.concat(newRoll.dices);
 		newMessage.edge.hasUsedPushTheLimit = true;
 		newMessage.edge.canUseEdge = false;
-		newMessage.dicePool.modifiers.pushTheLimit = {
-			value: dicePool,
+		newMessage.dicePool.modifiers.push({
+			type: "pushTheLimit",
 			label: game.i18n.localize("SR5.PushTheLimit"),
-		}
+			value: dicePool,
+		})
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
 		if (newMessage.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);

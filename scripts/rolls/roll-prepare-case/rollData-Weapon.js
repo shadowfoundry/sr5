@@ -217,9 +217,11 @@ async function handleTargetInfo(rollData, actor, item){
 
     //Add environmental modifiers
     if (sceneEnvironmentalMod !== 0){
-        rollData.dicePool.modifiers.environmentalSceneMod = {};
-        rollData.dicePool.modifiers.environmentalSceneMod.value = sceneEnvironmentalMod;
-        rollData.dicePool.modifiers.environmentalSceneMod.label = game.i18n.localize("SR5.EnvironmentalModifiers");
+        rollData.dicePool.modifiers.push({
+            type: "environmentalSceneMod", 
+            label: game.i18n.localize("SR5.EnvironmentalModifiers"),
+            value: sceneEnvironmentalMod,
+        })
     }
 
     return rollData;

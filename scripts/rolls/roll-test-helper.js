@@ -34,10 +34,11 @@ export class SR5_RollTestHelper {
 
     //Handle the use of Edge : remove edge point from actor and add info to roll data
     static async handleEdgeUse(edgeActor, dialogData){
-        dialogData.dicePool.modifiers.edge = {
-            value: edgeActor.system.specialAttributes.edge.augmented.value,
+        dialogData.dicePool.modifiers.push({
+            type: "edge", 
             label: game.i18n.localize("SR5.Edge"),
-        }
+            value: edgeActor.system.specialAttributes.edge.augmented.value,
+        })
         edgeActor.update({
             "system.conditionMonitors.edge.actual.base": edgeActor.system.conditionMonitors.edge.actual.base + 1,
         });

@@ -200,14 +200,14 @@ export class ActorSheetSR5 extends ActorSheet {
 				.parents(".SR-MoniteurCases")
 				.attr("data-target");
 
-			let value = getProperty(actorData, target);
+			let value = foundry.utils.getProperty(actorData, target);
 			if (value == index + 1)
 				// If the last one was clicked, decrease by 1
 				foundry.utils.setProperty(actorData, target, index);
 			// Otherwise, value = index clicked
 			else foundry.utils.setProperty(actorData, target, index + 1);
 
-			if (target == 'system.conditionMonitors.physical.actual.base' && getProperty(actorData, 'system.conditionMonitors.overflow.actual.value')) {
+			if (target == 'system.conditionMonitors.physical.actual.base' && foundry.utils.getProperty(actorData, 'system.conditionMonitors.overflow.actual.value')) {
 				if (actorData.system.conditionMonitors.physical.actual.value < actorData.system.conditionMonitors.physical.value.value) {
 					foundry.utils.setProperty(actorData, 'system.conditionMonitors.overflow.actual.base', 0);
 				}
@@ -302,7 +302,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				if (i.system.systemEffects.find(e => e.value === "materialization")) item = i;
 			}
 			if (item){
-				let value = getProperty(item, "system.isActive");
+				let value = foundry.utils.getProperty(item, "system.isActive");
 				item.update({"system.isActive": !value})
 			}
 		}
@@ -599,7 +599,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if ($(event.currentTarget).attr("data-dtype") === "Number")
 			value = Number(event.target.value);
 		if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
-			oldValue = getProperty(item, target);
+			oldValue = foundry.utils.getProperty(item, target);
 			value = !oldValue;
 		}
 		foundry.utils.setProperty(item, target, value);
@@ -871,7 +871,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		}
 
 		if (item.type === "itemProgram" && target === "system.isCreated"){
-			oldValue = getProperty(item, "system.isActive");
+			oldValue = foundry.utils.getProperty(item, "system.isActive");
 			value = !oldValue;
 			foundry.utils.setProperty(item, "system.isActive", value);
 		}
@@ -995,7 +995,7 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (id) original = this.actor.items.get(id);
 		else original = this.actor;
 		entity = original.toObject(false);
-		let value = getProperty(entity, target);
+		let value = foundry.utils.getProperty(entity, target);
 		switch (event.button) {
 			case 0:
 				if (event.ctrlKey && target === "system.quantity") value -= 10;
@@ -1055,7 +1055,7 @@ export class ActorSheetSR5 extends ActorSheet {
 
 		let value = event.target.value;
 		if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
-			let oldValue = getProperty(actor, target);
+			let oldValue = foundry.utils.getProperty(actor, target);
 			value = !oldValue;
 		}
 		foundry.utils.setProperty(actor, target, value);

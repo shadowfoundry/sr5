@@ -12,9 +12,11 @@ export default function decompilingResistance(rollData, actor, chatData){
 
     //Determine dicepool modififiers
     if (actor.system.isRegistered) {
-        rollData.dicePool.modifiers.compilerResonance = {};
-        rollData.dicePool.modifiers.compilerResonance.label = game.i18n.localize("SR5.SpriteCompilerResonance")
-        rollData.dicePool.modifiers.compilerResonance.value = actor.system.compilerResonance;
+        rollData.dicePool.modifiers.push({
+            type: "compilerResonance", 
+            label: game.i18n.localize("SR5.SpriteCompilerResonance"),
+            value: actor.system.compilerResonance,
+        })
     }
 
     //Add others informations

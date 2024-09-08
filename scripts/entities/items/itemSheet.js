@@ -75,7 +75,7 @@ export class SR5ItemSheet extends ItemSheet {
 				.parents(".SR-MoniteurCases")
 				.attr("data-target");
 
-			let value = getProperty(itemData, target);
+			let value = foundry.utils.getProperty(itemData, target);
 			if (value == index + 1)
 				// If the last one was clicked, decrease by 1
 				foundry.utils.setProperty(itemData, target, index);
