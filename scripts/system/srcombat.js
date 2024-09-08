@@ -151,7 +151,7 @@ export class SR5Combat extends Combat {
 				actor.system.specialAttributes?.edge?.augmented.value,
 				actor.system.attributes?.reaction?.augmented.value,
 				actor.system.attributes?.intuition?.augmented.value,
-				new Roll("1d2").roll({async:true}).total,
+				new Roll("1d2").roll().total,
 			];
 		};
 

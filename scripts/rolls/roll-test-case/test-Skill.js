@@ -106,7 +106,7 @@ export default async function skillInfo(cardData){
         case "intimidation":
         case "performance":
         case "leadership":
-            if (cardData.test.isOpposed){
+            if (cardData.test.isOpposed && cardData.threshold.type !== null){
                 if (cardData.roll.hits >= cardData.threshold.value) cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"));
                 else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FailedDefense"));
             } else {
