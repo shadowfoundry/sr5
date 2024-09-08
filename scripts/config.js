@@ -3617,10 +3617,10 @@ SR5.drainModTypes = {
 }
 
 SR5.limitModTypes = {
-	various                   : "SR5.LimitModifiers",
-	perception                : "SR5.SkillPerceptionType",
-	healingSupplies           : "SR5.HealingSupplies",
-	backgroundCount			  : "SR5.SceneBackgroundCount",
+	limitModVarious         : "SR5.VariousModifiers",
+	limitModPerception      : "SR5.SkillPerceptionType",
+	limitModHealingSupplies : "SR5.HealingSupplies",
+	backgroundCount			    : "SR5.SceneBackgroundCount",
 }
 
 //-----------------------------------//

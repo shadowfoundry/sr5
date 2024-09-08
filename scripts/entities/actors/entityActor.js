@@ -313,13 +313,13 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateEssence(actor);
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
+				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
 				SR5_CharacterUtility.updateInitiativeAstral(actor);
 				SR5_CharacterUtility.updateLimits(actor);
 				SR5_CharacterUtility.generateSpiritSkills(actor);
 				SR5_CharacterUtility.updateSkills(actor);
-				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateArmor(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
@@ -356,12 +356,12 @@ export class SR5Actor extends Actor {
 				SR5_CharacterUtility.updateSpecialAttributes(actor);
 				SR5_CharacterUtility.updateBackgroundCount(actor);
 				SR5_CharacterUtility.updateConditionMonitors(actor);
+				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updatePenalties(actor);
 				SR5_CharacterUtility.updateLimits(actor);
 				SR5_CharacterUtility.updateInitiativePhysical(actor);
 				SR5_CharacterUtility.updateInitiativeAstral(actor);
 				SR5_CharacterUtility.updateSkills(actor);
-				SR5_CharacterUtility.updateSpecialProperties(actor);
 				SR5_CharacterUtility.updateArmor(actor);
 				SR5_CharacterUtility.updateResistances(actor);
 				SR5_CharacterUtility.updateDefenses(actor);
