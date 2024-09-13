@@ -1,12 +1,11 @@
-{{#ife system.type "commlink"}}
+{{#if (eq system.type "commlink")}}
 <li class="grid">
 	<div class="col-5">{{localize 'SR5.CommlinkModule'}}{{localize 'SR5.Colons'}}</div>
 	<div class="col-7">
 		<select name="system.module" data-dtype="String">
 			<option value="">{{localize 'SR5.None'}}</option>
 			{{selectOptions lists.deckModules selected=system.module localize=true}}
-		{{/select}}
 		</select>
 	</div>
 </li>
-{{/ife}}
+{{/if}}
