@@ -365,7 +365,7 @@ export class SR5_ConverterHelpers {
             case "limited":
                 return 3;
             case "hidden":
-                return 1;
+                return 6;
             default: return 0;
         }
     }
