@@ -18,6 +18,7 @@ export default class SR5SceneConfig extends SceneConfig {
 
     getData(options={}) {
         const context = super.getData(options);
+        if (foundry.utils.isEmpty(context.data.flags.sr5)) context.data.flags.sr5 = {}
         context.data.flags.sr5.lists = SR5
         return context
     }
