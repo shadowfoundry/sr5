@@ -160,7 +160,7 @@ export default class SR5Template extends MeasuredTemplate {
 		let now = Date.now(); // Apply a 20ms throttle
 		if ( now - this.#moveTime <= 20 ) return;
 		const center = event.data.getLocalPosition(this.layer);
-		const snapped = canvas.grid.getSnappedPosition(center.x, center.y, 2);
+		const snapped = canvas.grid.getSnappedPoint(center, {mode: CONST.GRID_SNAPPING_MODES.CENTER});
 		this.document.updateSource({x: snapped.x, y: snapped.y});
 		this.refresh();
 		this.#moveTime = now;
@@ -190,7 +190,7 @@ export default class SR5Template extends MeasuredTemplate {
 	*/
 	async _onConfirmPlacement(event) {
 		await this._finishPlacement(event);
-		const destination = canvas.grid.getSnappedPosition(this.document.x, this.document.y, 2);
+		const destination = canvas.grid.getSnappedPoint(this.document, {mode: CONST.GRID_SNAPPING_MODES.CENTER});
 		this.document.updateSource(destination);
 		await this.#events.resolve(canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [this.document.toObject()]));
 	}

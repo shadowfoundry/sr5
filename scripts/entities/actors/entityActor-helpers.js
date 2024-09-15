@@ -452,7 +452,7 @@ export class SR5_ActorHelper {
 
 		// Give permission to player
 		if (userId) {
-			permissionPath = 'permission.' + userId;
+			permissionPath = 'ownership.' + userId;
 			sideKickData = foundry.utils.mergeObject(sideKickData, {[permissionPath]: 3,});
 		}
 
@@ -639,6 +639,7 @@ export class SR5_ActorHelper {
 		let originalItem = ownerActor.getEmbeddedDocument("Item", item._id);
 		await originalItem.update({"system.isCreated": true,});
 
+		console.log(game.user)
 		//Create actor
 		await Actor.createDocuments([sideKickData]);
 	}
