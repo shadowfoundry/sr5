@@ -242,6 +242,13 @@ input[type=range]:focus::-ms-fill-upper {
 .hide {
   display: none;
 }
+.app.window-app.SR-Item * {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.app.window-app.SR-Item * ::-webkit-scrollbar {
+  display: none;
+}
 .app.window-app.SR-Item .window-header {
   background: #000001;
   color: #fffffe;

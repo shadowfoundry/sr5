@@ -1,5 +1,13 @@
+// main: "sr5.less"
 .app.window-app.SR-Item {
-
+    * {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        ::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      
     .window-header {
         background : @neutralDarkColor;
         color      : @neutralLightColor;

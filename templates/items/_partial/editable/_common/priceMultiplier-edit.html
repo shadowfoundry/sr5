@@ -9,14 +9,18 @@
    	<div class="col-2 SR-Textleft"><input type="number" data-dtype="Number" name="system.price.base" value="{{system.price.base}}" onfocus="this.select()"/></div>
    	{{#if system.price.multiplier}}
 		<div class="col-1 SR-Textleft">&nbsp;(x {{findMultiplierValue system.price.multiplier this}})</div>
-	{{else}}
+		{{else}}
 		<div class="col-1"></div>
     {{/if}}
     <div class="col-2 SR-TextRight">{{localize 'SR5.Multiplier'}}{{localize 'SR5.Colons'}}&nbsp;</div>
     <div class="col-2 SR-TextRight">
     	<select name="system.price.multiplier" data-dtype="{{system.price.multiplier}}" required>
      		<option value="">{{localize 'SR5.None'}}</option>
+				{{#if (eq data.type 'itemFocus')}}
+				{{selectOptions lists.valueMultipliersNoCapacity selected=system.price.multiplier localize=true}}
+				{{else}}
 				{{selectOptions lists.valueMultipliers selected=system.price.multiplier localize=true}}
+				{{/if}}
     	</select>
    	</div>
 </li>
@@ -34,7 +38,11 @@
 	<div class="col-2 SR-TextRight">
 		<select name="system.availability.multiplier" data-dtype="{{system.availability.multiplier}}" required>
 			<option value="">{{localize 'SR5.None'}}</option>
+			{{#if (eq data.type 'itemFocus')}}
+			{{selectOptions lists.valueMultipliersNoCapacity selected=system.availability.multiplier localize=true}}
+			{{else}}
 			{{selectOptions lists.valueMultipliers selected=system.availability.multiplier localize=true}}
+			{{/if}}
 		</select>
 	</div>
 </li>
