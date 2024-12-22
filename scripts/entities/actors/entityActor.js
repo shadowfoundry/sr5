@@ -591,6 +591,7 @@ export class SR5Actor extends Actor {
 					break;
 
 				case "itemVehicleMod":
+					i.prepareData();
 					iData.weaponChoices = SR5_UtilityItem._generateWeaponMountWeaponList(iData, this);
 					if (iData.mountedWeapon){ 
 						let weapon = this.items.find(w => w.id === iData.mountedWeapon);

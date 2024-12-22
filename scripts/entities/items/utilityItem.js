@@ -218,6 +218,11 @@ export class SR5_UtilityItem extends Actor {
 			itemData.disarm = false;
 			itemData.breakWeapon = false;
 		}
+		
+		if (item.type === "itemVehicleMod"){
+			itemData.slots.modifiers = [];
+			itemData.threshold.modifiers = [];
+		}
 
 		if (typeof itemData.systemEffects === "object") {
 			itemData.systemEffects = Object.values(itemData.systemEffects);
