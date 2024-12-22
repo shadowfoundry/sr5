@@ -417,4 +417,17 @@ export class SR5_EntityHelpers {
         }
         return customEffect;
     }
+
+	/**
+  *Remove one element of an Array based on key / value
+  @param {arr} array the source array
+  @param {key} string the key to check
+  @param {value} string the targeted value
+  */
+  static removeElementFromArray(arr, key, value) {
+    const index = arr.findIndex((element) => element[key] === value);
+    if (index !== -1) {
+      arr.splice(index, 1);
+    }
+  }
 }

@@ -1339,6 +1339,8 @@ export class SR5_UtilityItem extends Actor {
 			cyberlimbs.strength.value = cyberlimbs.strength.base + cyberlimbs.strength.customization;
 			let cyberlimbsPriceMod = (cyberlimbs.agility.customization + cyberlimbs.strength.customization) * 5000;
 			let cyberlimbsAvailabilityMod = (cyberlimbs.agility.customization + cyberlimbs.strength.customization);
+			SR5_EntityHelpers.removeElementFromArray(itemData.price.modifiers, 'type', 'CustomCyberlimb')
+			SR5_EntityHelpers.removeElementFromArray(itemData.availability.modifiers, 'type', 'CustomCyberlimb')
 			SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.AugmentationCyberlimbs'), 'CustomCyberlimb', cyberlimbsAvailabilityMod);
 			SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.AugmentationCyberlimbs'), 'CustomCyberlimb', cyberlimbsPriceMod);
 		}
