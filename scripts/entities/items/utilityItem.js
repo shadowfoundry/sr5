@@ -1869,7 +1869,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 1000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "cleaningServiceStandard":
             option.level = 'high';
@@ -1879,7 +1879,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 1000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "cleaningServiceMage":
           option.level = 'high';
@@ -1889,7 +1889,7 @@ export class SR5_UtilityItem extends Actor {
             option.price = 1000;
             SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
           }
-          SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+          SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "cleaningServicePollution":
           option.level = 'high';
@@ -1899,7 +1899,7 @@ export class SR5_UtilityItem extends Actor {
             option.price = 1000;
             SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
           }
-          SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+          SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "discreetCleaningService":
           option.level = 'high';
@@ -1909,14 +1909,14 @@ export class SR5_UtilityItem extends Actor {
             option.price = 10000;
             SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
           }
-          SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+          SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "discreetDeliveryman":
             option.price = 100;
             option.type = 'service';
             option.point = -3;
             SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "garageAirplane":
             option.level = 'luxury';
@@ -1936,7 +1936,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 5000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "garageSmallCar":
             option.level = 'medium';
@@ -1946,7 +1946,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 50;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "garageLargeCar":
             option.level = 'medium';
@@ -1956,7 +1956,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 100;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "garageHelicopter":
             option.level = 'luxury';
@@ -1966,7 +1966,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 10000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "greenHouse":
             option.level = 'high';
@@ -1976,7 +1976,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 500;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "gridSubscription":
             option.level = 'medium';
@@ -1986,7 +1986,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 50;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "gym":
             option.level = 'medium';
@@ -1996,7 +1996,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 300;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "indoorArboretum":
             option.level = 'high';
@@ -2006,7 +2006,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 500;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "localBarPatron":
             option.level = 'low';
@@ -2016,7 +2016,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 25;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "merchandiseGoods":
             option.level = 'commercial';
@@ -2026,7 +2026,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 10000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "merchandisePawnShop":
             option.level = 'commercial';
@@ -2036,7 +2036,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 10000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "merchandiseUsedGoods":
             option.level = 'commercial';
@@ -2046,7 +2046,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 10000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "panicRoom":
             option.level = 'high';
@@ -2056,7 +2056,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 1000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "patronConcerts":
             option.level = 'medium';
@@ -2066,7 +2066,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 100;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "patronPrivateClub":
             option.level = 'high';
@@ -2076,7 +2076,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 200;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "patronPublicEntertainment":
             option.level = 'low';
@@ -2086,7 +2086,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 75;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "patronThemeParks":
             option.level = 'medium';
@@ -2096,7 +2096,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 100;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "privateRoom":
             option.level = 'squatter';
@@ -2106,7 +2106,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 20;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "publicTransportation":
             option.level = 'low';
@@ -2116,7 +2116,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 50;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "railwayPass":
             option.level = 'medium';
@@ -2126,7 +2126,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 75;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "shootingRange":
             option.level = 'high';
@@ -2136,7 +2136,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 500;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "soyProcessingUnit":
             option.level = 'medium';
@@ -2146,7 +2146,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 20;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "sportsCourt":
             option.level = 'high';
@@ -2156,7 +2156,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 300;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "swimmingPool":
             option.level = 'medium';
@@ -2166,7 +2166,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 100;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "walkinFreezer":
             option.level = 'commercial';
@@ -2176,7 +2176,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 1000;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "workshopFacility":
             option.level = 'medium';
@@ -2186,7 +2186,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 2500;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);x
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "yard":
             option.level = 'low';
@@ -2196,7 +2196,7 @@ export class SR5_UtilityItem extends Actor {
               option.price = 50;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "zenDenBatCave":
             option.level = 'medium';
@@ -2206,36 +2206,36 @@ export class SR5_UtilityItem extends Actor {
               option.price = 100;
               SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
             }
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
           case "angryDrunkReputation":
             option.point = 1;
             option.type = 'negativeOption';
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "corporateOwned":
             option.point = -3;
             itemData.comforts.max += 1;
             itemData.security.max += 1;
             option.type = 'positiveOption';
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "hotelCalifornia":
             option.point = 1;
             option.type = 'negativeOption';
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "maidIsOut":
             option.point = 1;
             option.type = 'negativeOption';
             itemData.comforts.max -= 1;
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "notAHome":
             option.point = 1;
             itemData.comforts.max -= 1;
             option.type = 'negativeOption';
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "onlyGoodThingAbout":
             option.type = 'positiveOption';
@@ -2248,20 +2248,20 @@ export class SR5_UtilityItem extends Actor {
         case "safetyThird":
             option.point = 1;
             option.type = 'negativeOption';
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "thrifty":
             option.price = -1000;
             option.point = -2;
             option.type = 'negativeOption';
             SR5_EntityHelpers.updateModifier(itemData.price, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')} (${game.i18n.localize(lists.lifestyleOptionsTypes[option.type])})`, option.price);
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "wZone":
             option.point = 1;
             option.type = 'negativeOption';
             SR5_EntityHelpers.updateModifier(itemData.neighborhood, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, -1);
-            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
+            SR5_EntityHelpers.updateModifier(itemData.point, `${game.i18n.localize(lists.lifestyleOptions[option.name])}`, `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point/2);
           break;
         case "addComforts":
             option.price = itemData.price.base * 0.1;
@@ -2286,7 +2286,7 @@ export class SR5_UtilityItem extends Actor {
             SR5_EntityHelpers.updateModifier(itemData.point, 'addSecurity', `${game.i18n.localize('SR5.LifeStyleOptions')}`, option.point);
           break;
         case "addNeighborhood":
-            ooption.price = itemData.price.base * 0.1;
+            option.price = itemData.price.base * 0.1;
             option.point = -1;
             option.type = 'modification';
             if (itemData.type == "streets") {
@@ -2298,7 +2298,7 @@ export class SR5_UtilityItem extends Actor {
           break;
         default:
 
-          SR5_SystemHelpers.srLog(1, `Unknown '${option.name}' option in _handleLifeStyle()`);
+          SR5_SystemHelpers.srLog(1, `Unknown '${option.name}' option in _handleLifeStyle() for '${itemData.name}'`);
         }
 
       if (option.name){
