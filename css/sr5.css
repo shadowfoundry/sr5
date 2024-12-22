@@ -242,6 +242,13 @@ input[type=range]:focus::-ms-fill-upper {
 .hide {
   display: none;
 }
+.app.window-app.SR-Item * {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.app.window-app.SR-Item * ::-webkit-scrollbar {
+  display: none;
+}
 .app.window-app.SR-Item .window-header {
   background: #000001;
   color: #fffffe;
@@ -998,7 +1005,7 @@ input[type=range]:focus::-ms-fill-upper {
   margin: 1px -5px 0px 0px;
 }
 .app.window-app.actor .window-content .SR-footer select {
-  background: #000001;
+  background: none;
   color: #fffffe;
   margin-left: 0px;
 }
@@ -4020,7 +4027,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.journal-sheet .window-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
-  background-size: auto 50px, auto 50px, cover;
+  background-size: auto 80px, auto 80px, cover;
   background-position: top, bottom, top;
   background-repeat: repeat-x, repeat-x, repeat;
 }

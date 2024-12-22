@@ -3,7 +3,7 @@
     <div class="col-7">
         <select name="system.actionType" data-dtype="{{system.actionType}}" required>
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{selectOptions lists.powerActionTypes selectedsystem.actionType localize=true}}
+            {{selectOptions lists.powerActionTypes selected=system.actionType localize=true}}
         </select>
     </div>
 </li>
