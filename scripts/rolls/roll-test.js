@@ -241,6 +241,7 @@ export class SR5_RollTest {
 		if (typeof newMessage.originalModifiers === 'undefined') {
 				newMessage.originalModifiers = messageData.dicePool.modifiersTotal;
 		}
+		SR5_EntityHelpers.removeElementFromArray(newMessage.dicePool.modifiers, 'type', 'extendedTest')
 		newMessage.dicePool.modifiers.push({
 			type: "extendedTest",
 			label: game.i18n.localize("SR5.ExtendedTest"),
@@ -250,6 +251,9 @@ export class SR5_RollTest {
 		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
 
 		if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
+
+		//Handle Dice so Nice
+		await SR5_RollTest.showDiceSoNice(newRoll.originalRoll, newRoll.rollMode);
 
 		SR5_RollMessage.updateRollCardHelper(message.id, newMessage);
 	}
@@ -378,6 +382,7 @@ export class SR5_RollTest {
 
 	//Add support for the Dice So Nice module
 	static async showDiceSoNice(roll, rollMode) {
+		console.log(roll)
 		if (game.modules.get("dice-so-nice") && game.modules.get("dice-so-nice").active) {
 			let whisper = null;
 			let blind = false;
@@ -410,7 +415,7 @@ export class SR5_RollTest {
 		if (cardData.test.isExtended){
 			if (!cardData.test.extended.roll) cardData.test.extended.roll = 1;
 			cardData.test.extended.intervalValue = cardData.test.extended.multiplier * cardData.test.extended.roll;
-			if (cardData.dicePool.value <= 0) cardData.test.isExtended = false;
+			if (cardData.dicePool.value <= 1) cardData.test.isExtended = false;
 		}
 
 		switch (cardData.test.type) {
