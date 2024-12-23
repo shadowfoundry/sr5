@@ -36,7 +36,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
     }
     
     //handle distance between defenser and explosive device
-    if (rollData.combat.grenade.isGrenade) await handleGrenade(rollData, chatData, actor);
+    if (chatData.combat.grenade.isGrenade) await handleGrenade(rollData, chatData, actor);
 
     //Iterate throught damage type and add corresponding info
     switch (chatData.damage.resistanceType){
@@ -369,10 +369,10 @@ async function handleFatiguedDamage(rollData, actorData, chatData){
 //               Helpers             //
 //-----------------------------------//
 async function handleGrenade(rollData, chatData, actor){
-    let grenadePosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.itemId);          
-    let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor);
-    let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition);
-    let modToDamage = distance * rollData.combat.grenade.damageFallOff;
+    let grenadePosition = await SR5_SystemHelpers.getTemplateItemPosition(chatData.owner.itemId);          
+    let defenserPosition = await SR5_EntityHelpers.getActorCanvasPosition(actor);
+    let distance = Math.round(SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition));
+    let modToDamage = distance * chatData.combat.grenade.damageFallOff;
     rollData.damage.base  = chatData.damage.base + modToDamage;
     if (rollData.damage.base <= 0 && chatData.damage.element !== "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`);  
     if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {distance:distance})}`);
