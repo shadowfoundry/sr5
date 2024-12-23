@@ -286,12 +286,15 @@ export class SR5_RollTest {
 		//Remove 1 to actor's Edge
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
 
+		//Handle Dice so Nice
+		await SR5_RollTest.showDiceSoNice(chance.originalRoll, chance.rollMode);
+
 		//update message with new infos
 		SR5_RollMessage.updateRollCardHelper(message.id, newMessage);
 	}
 
 	//Handle Push the Limit test
-	static async pushTheLimit(message, actor) {
+	static async pushTheLimit(message, actor, fromCard = false) {
 		let messageData = message.flags.sr5data;
 		let dicePool, creator;
 
@@ -320,6 +323,9 @@ export class SR5_RollTest {
 		newMessage = await SR5_RollTestHelper.handleDicePoolModifiers(newMessage);
 		await SR5_RollTest.addInfoToCard(newMessage, actor.id);
 		if (newMessage.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
+
+		//Handle Dice so Nice
+		if (fromCard) await SR5_RollTest.showDiceSoNice(newRoll.originalRoll, newRoll.rollMode);
 
 		//Remove 1 to actor's Edge
 		await SR5_RollTestHelper.removeEdgeFromActor(messageData, actor);
