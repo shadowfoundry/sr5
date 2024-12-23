@@ -4,7 +4,7 @@
     <div class="col-7">
         <select name="system.linkedWeapon" data-dtype="String" required>
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{selectOptions lists.weaponChoices selected=system.linkedWeapon localize=true}}
+            {{selectOptions system.weaponChoices selected=system.linkedWeapon localize=true}}
         </select>
     </div>
 </li>

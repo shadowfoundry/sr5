@@ -7,7 +7,13 @@
 <li class="grid">
     <p>
         <span class="col-auto">{{localize 'SR5.Category'}}{{localize 'SR5.Colons'}}</span>
-        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation 'augmentationCategories' system.category)}}</span>
+        <span class="col-auto SR-GreyColor">
+            {{#if (eq system.type 'genetech') }}
+                {{valueOrDash (findTranslation 'augmentationGeneCategories' system.category)}}
+            {{else}}
+                {{valueOrDash (findTranslation 'augmentationCategories' system.category)}}
+            {{/if}}
+        </span>
     </p>
 </li>
 <li class="grid">

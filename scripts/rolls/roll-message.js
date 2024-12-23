@@ -252,7 +252,7 @@ export class SR5_RollMessage {
                 SR5_RollTest.secondeChance(message, actor);
                 break;
             case "pushLimit":
-                SR5_RollTest.pushTheLimit(message, actor);
+                SR5_RollTest.pushTheLimit(message, actor, true);
                 break;
             case "extended":
                 SR5_RollTest.extendedRoll(message, actor);

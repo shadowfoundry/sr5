@@ -1220,7 +1220,8 @@ export default class SR5_RollDialog extends Dialog {
         if (isChecked) {
             dialogData.test.isExtended = true;
             dialogData.test.extended.interval = html.find('[name="extendedTime"]')[0].value;
-            dialogData.test.extended.multiplier = html.find('[name="extendedMultiplier"]')[0].value;
+            dialogData.test.extended.multiplier = 1;
+            html.find('[name="extendedMultiplier"]')[0].value = 1
             $(html).find('#extendedBlock').show();
             this.setPosition(position);
         }
