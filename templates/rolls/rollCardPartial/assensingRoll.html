@@ -1,14 +1,14 @@
 <li class="SR-ListAssensing SR-PaddingTop10">
-    {{#if (ne hits 0)}}
+    {{#if (ne roll.hits 0)}}
     <div class="SR-LigneEnTete">{{localize 'SR5.ItemInformation'}}{{localize 'SR5.Colons'}}</div>
     {{/if}}
-    {{#if (eq hits 1)}}
+    {{#if (eq roll.hits 1)}}
     <ul class="SR-UlAssensing">
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1a'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1b'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1c'}}</li>
     </ul>
-    {{else if (eq hits 2)}}    
+    {{else if (eq roll.hits 2)}}    
     <ul class="SR-UlAssensing">
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1a'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1b'}}</li>
@@ -17,7 +17,7 @@
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult2b'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult2c'}}</li>
     </ul>
-    {{else if (eq hits 3)}}
+    {{else if (eq roll.hits 3)}}
     <ul class="SR-UlAssensing">
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1a'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1b'}}</li>
@@ -29,7 +29,7 @@
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult3c'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult3d'}}</li>
     </ul>
-    {{else if (eq hits 4)}}
+    {{else if (eq roll.hits 4)}}
     <ul class="SR-UlAssensing">
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1a'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1b'}}</li>
@@ -42,7 +42,7 @@
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult4b'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult4c'}}</li>
     </ul>
-    {{else if (gt hits 4)}}
+    {{else if (gt roll.hits 4)}}
     <ul class="SR-UlAssensing">
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1a'}}</li>
         <li class="SR-ListAssensing">{{localize 'SR5.AssensingResult1b'}}</li>
