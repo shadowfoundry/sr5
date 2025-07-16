@@ -1,14 +1,14 @@
 import { SR5Token } from "../interface/token.js";
 
-export const astralVision = new VisionMode({
+export const astralVision = new foundry.canvas.perception.VisionMode({
 	id: "astralvision",
 	label: "SR5.VISION.ModeAstralvision",
 	canvas: {
-		shader: AmplificationSamplerShader,
+		shader: foundry.canvas.rendering.shaders.AmplificationSamplerShader,
 		uniforms: { enable: true, contrast: 0, saturation: -0.5, exposure: -0.25, tint: [0.75, 0.75, 1] }
 	},
 	lighting: {
-		background: { visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED },
+		background: { visibility: foundry.canvas.perception.VisionMode.LIGHTING_VISIBILITY.DISABLED },
 		illumination: {
 			postProcessingModes: ["EXPOSURE"],
 			uniforms: { exposure: 0.8 }
@@ -18,23 +18,23 @@ export const astralVision = new VisionMode({
 			uniforms: { saturation: -0.75, exposure: 8.0, tint: [0.75, 0.75, 1] }
 		},
 		levels: {
-			[VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT,
-			[VisionMode.LIGHTING_LEVELS.BRIGHT]: VisionMode.LIGHTING_LEVELS.BRIGHTEST
+			[foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.DIM]: foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.BRIGHT,
+			[foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.BRIGHT]: foundry.canvas.perception.VisionMode.LIGHTING_LEVELS.BRIGHTEST
 		}
 	},
 	vision: {
 		darkness: { adaptive: false },
 		defaults: { attenuation: 0, contrast: 0, saturation: -0.5, brightness: 1 },
-		background: { shader: AmplificationBackgroundVisionShader, uniforms: {tint: [0.75, 0.75, 1]} }
+		background: { shader: foundry.canvas.rendering.shaders.AmplificationBackgroundVisionShader, uniforms: {tint: [0.75, 0.75, 1]} }
 	}
 });
 
-class DetectionModeBasicSightSR extends DetectionModeBasicSight {
+class DetectionModeBasicSightSR extends foundry.canvas.perception.DetectionModeDarkvision {
 	constructor(){
 		super({
 			id: "basicSight",
 			label: "DETECTION.BasicSight",
-			type: DetectionMode.DETECTION_TYPES.SIGHT
+			type: foundry.canvas.perception.DetectionMode.DETECTION_TYPES.SIGHT
 		})
 	}
 
@@ -50,14 +50,14 @@ class DetectionModeBasicSightSR extends DetectionModeBasicSight {
 	}
   }
 
-class DetectionModeAstral extends DetectionMode {
+class DetectionModeAstral extends foundry.canvas.perception.DetectionMode {
 	constructor(){
 		super({
 			id: "astralvision",
 			label: "SR5.VISION.ModeAstralvision",
 			//tokenConfig: false,
 			walls: true,
-			type: DetectionMode.DETECTION_TYPES.OTHER
+			type: foundry.canvas.perception.DetectionMode.DETECTION_TYPES.OTHER
 		})
 	}
 

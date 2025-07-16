@@ -5,7 +5,7 @@ import { SR5_EntityHelpers } from "../helpers.js";
  * Override and extend the core ItemSheet implementation to handle Shadowrun 5 specific item types
  * @type {ItemSheet}
  */
-export class SR5ItemSheet extends ItemSheet {
+export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 	constructor(...args) {
 		super(...args);
 

@@ -19,7 +19,7 @@ import { SRActorSheetConfig } from "../../interface/sheet-config.js";
  * @type {ActorSheet}
  */
 
-export class ActorSheetSR5 extends ActorSheet {
+export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 	constructor(...args) {
 		super(...args);
 	}

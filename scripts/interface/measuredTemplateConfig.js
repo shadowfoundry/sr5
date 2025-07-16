@@ -1,6 +1,6 @@
 import { SR5 } from "../config.js";
 
-export default class SR5MeasuredTemplateConfig extends MeasuredTemplateConfig {
+export default class SR5MeasuredTemplateConfig extends foundry.applications.sheets.MeasuredTemplateConfig {
     constructor(...args) {
         super(...args);
     }

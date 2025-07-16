@@ -1,7 +1,7 @@
 import { SR5Combat } from "../system/srcombat.js";
 
 //Custom Combat Tracker
-export class SR5CombatTracker extends CombatTracker {
+export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
 	get template() {
 		return "systems/sr5/templates/interface/srcombat-tracker.html";
 	}

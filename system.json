@@ -12,14 +12,16 @@
   "version": "12.0.5",
   "compatibility": {
     "minimum": "12",
-    "maximum": "12",
-    "verified": "12.331"
+    "maximum": "13",
+    "verified": "12.346"
   },
   "esmodules": [
     "sr5.js"
   ],
   "styles": [
-    "css/sr5.css"
+    {
+      "src": "css/sr5.css"
+    }
   ],
   "languages": [
     {
@@ -38,7 +40,7 @@
   "socket": true,
   "url": "https://github.com/shadowfoundry/sr5",
   "manifest": "https://github.com/shadowfoundry/sr5/releases/latest/download/system.json",
-  "download": "https://github.com/shadowfoundry/sr5/releases/download/12.0.1/sr5.zip",
+  "download": "https://github.com/shadowfoundry/sr5/releases/download/12.0.5/sr5.zip",
   "background": "systems/sr5/img/launcher.jpg",
   "initiative": "1d6",
   "flags": {

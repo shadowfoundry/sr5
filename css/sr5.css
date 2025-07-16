@@ -4429,7 +4429,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #ui-bottom {
   position: absolute;
-  left: 0px;
+  left: -20px;
   bottom: 0px;
   width: 100%;
   background-image: url("../img/ui/SR5_BG_MacroBar.png");
@@ -4636,12 +4636,7 @@ input[type=range]:focus::-ms-fill-upper {
   border: 1px solid #0c9394;
   box-shadow: none;
 }
-#sidebar {
-  margin: 0px 0px 5px 5px;
-  right: 0px;
-  top: 0px;
-  width: 308px;
-  padding: 5px 5px 5px 5px;
+#sidebar #sidebar-content {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-origin: border-box;
   background-size: cover;
@@ -4668,8 +4663,6 @@ input[type=range]:focus::-ms-fill-upper {
   height: 30px;
 }
 #sidebar-tabs {
-  box-shadow: none;
-  border-bottom: 2px solid #0c9394;
   color: #fffffe;
 }
 #sidebar-tabs .item {

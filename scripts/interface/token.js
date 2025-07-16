@@ -1,4 +1,4 @@
-export class SR5Token extends Token {
+export class SR5Token extends foundry.canvas.placeables.Token {
 
     /** @override */
     _drawBar(number, bar, data) {

@@ -1,6 +1,6 @@
 import { SR5 } from "../config.js";
 
-export default class SR5SceneConfig extends SceneConfig {
+export default class SR5SceneConfig extends foundry.applications.sheets.SceneConfig {
     constructor(...args) {
         super(...args);
     }

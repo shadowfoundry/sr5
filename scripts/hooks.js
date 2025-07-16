@@ -68,44 +68,44 @@ export const registerHooks = function () {
 		Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 
 		// Register sheet application classes
-		Actors.unregisterSheet("core", ActorSheet);
-		Actors.registerSheet("SR5", SR5ActorSheet, {
+		foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5ActorSheet, {
 			types: ["actorPc"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5SpiritSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5SpiritSheet, {
 			types: ["actorSpirit"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5GruntSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5GruntSheet, {
 			types: ["actorGrunt"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5DroneSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5DroneSheet, {
 			types: ["actorDrone"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5AppareilSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5AppareilSheet, {
 			types: ["actorDevice"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5SpriteSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5SpriteSheet, {
 			types: ["actorSprite"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5AgentSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5AgentSheet, {
 			types: ["actorAgent"],
 			makeDefault: true
 		});
-		Items.unregisterSheet("core", ItemSheet);
-		Items.registerSheet("SR5", SR5ItemSheet, {
+		foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
+		foundry.documents.collections.Items.registerSheet("SR5", SR5ItemSheet, {
 			makeDefault: true
 		});
-		DocumentSheetConfig.registerSheet(Scene, "SR5", SR5SceneConfig, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(Scene, "SR5", SR5SceneConfig, {
 			makeDefault: true
 		})
 		//DocumentSheetConfig.unregisterSheet("core", MeasuredTemplateConfig);
-		DocumentSheetConfig.registerSheet(MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {
 			makeDefault: true
 		})
 

@@ -1,3 +1,4 @@
+
 .app {
     color: @neutralLightColor;
     background: none;
@@ -741,7 +742,7 @@
 
 #ui-bottom {
     position: absolute;
-    left: 0px;
+    left: -20px;
     bottom: 0px;
     width: 100%;
     background-image: url(@MacroBar);
@@ -991,19 +992,16 @@
 }
 
 #sidebar {
-    margin: 0px 0px 5px 5px;
-    right: 0px;
-    top: 0px;
-    width: 308px;
-    padding: 5px 5px 5px 5px;
-    background-image: url(@Sidebar);
-    background-origin: border-box;
-    background-size: cover;
-    background-color: fade(@neutralDarkColor, 100%);
-    border-radius: 0;
-    border: 0px;
-    border-left: 1px solid @subColor;
-    height: 100%;
+    #sidebar-content {
+        background-image: url(@Sidebar);
+        background-origin: border-box;
+        background-size: cover;
+        background-color: fade(@neutralDarkColor, 100%);
+        border-radius: 0;
+        border: 0px;
+        border-left: 1px solid @subColor;
+        height: 100%;
+    }
 
     &.collapsed {
         width: 35px!important;
@@ -1028,8 +1026,7 @@
 }
 
 #sidebar-tabs {
-    box-shadow: none;
-    border-bottom: 2px solid @subColor;
+    //box-shadow: none;
     color: @neutralLightColor;
 
     .item {
