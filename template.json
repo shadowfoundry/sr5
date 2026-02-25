@@ -255,7 +255,7 @@
               "modifiers": []
             }
           }
-      }
+        }
       },
       "characterResistancesTemplate": {
         "resistances": {
@@ -421,7 +421,7 @@
               "base": 0,
               "modifiers": []
             },
-            "boxReduction":{
+            "boxReduction": {
               "base": 0,
               "value": 0,
               "modifiers": []
@@ -438,7 +438,7 @@
               "base": 0,
               "modifiers": []
             },
-            "boxReduction":{
+            "boxReduction": {
               "base": 0,
               "value": 0,
               "modifiers": []
@@ -455,7 +455,7 @@
               "base": 0,
               "modifiers": []
             },
-            "boxReduction":{
+            "boxReduction": {
               "base": 0,
               "value": 0,
               "modifiers": []
@@ -492,22 +492,22 @@
       "characterMovementsTemplate": {
         "movements": {
           "walk": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -524,22 +524,22 @@
             }
           },
           "run": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -556,22 +556,22 @@
             }
           },
           "horizontalJumpStanding": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -583,22 +583,22 @@
             }
           },
           "horizontalJumpRunning": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -610,22 +610,22 @@
             }
           },
           "verticalJump": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -637,22 +637,22 @@
             }
           },
           "swim": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -664,22 +664,22 @@
             }
           },
           "treadWater": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -691,22 +691,22 @@
             }
           },
           "holdBreath": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -718,22 +718,22 @@
             }
           },
           "fly": {
-            "movement" : {
+            "movement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraMovement" : {
+            "extraMovement": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             },
-            "maximum" : {
+            "maximum": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -749,51 +749,51 @@
       "characterweightActionsTemplate": {
         "weightActions": {
           "carry": {
-            "baseWeight" : {
+            "baseWeight": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraWeight" : {
+            "extraWeight": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             }
           },
           "lift": {
-            "baseWeight" : {
+            "baseWeight": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraWeight" : {
+            "extraWeight": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
             }
           },
           "liftAboveHead": {
-            "baseWeight" : {
+            "baseWeight": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "extraWeight" : {
+            "extraWeight": {
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "test" : {
+            "test": {
               "dicePool": 0,
               "base": 0,
               "modifiers": []
@@ -2674,7 +2674,7 @@
             "category": "physicalSkills",
             "canDefault": true,
             "specializations": "",
-            "perceptionType":{
+            "perceptionType": {
               "sight": {
                 "test": {
                   "value": 0,
@@ -2861,7 +2861,7 @@
             "linkedAttribute": "agility",
             "limit": {
               "value": 0,
-              "base": "mentalLimit",
+              "base": "physicalLimit",
               "modifiers": []
             },
             "skillGroup": "",
@@ -2980,12 +2980,12 @@
             "specializations": ""
           }
         },
-        "languageSkills":{
+        "languageSkills": {
           "value": 0,
           "base": 0,
           "modifiers": []
         },
-        "knowledgeSkills":{
+        "knowledgeSkills": {
           "value": 0,
           "base": 0,
           "modifiers": []
@@ -3019,7 +3019,7 @@
           }
         }
       },
-      "recoilTemplate":{
+      "recoilTemplate": {
         "recoilCompensation": {
           "value": 0,
           "base": 0,
@@ -3043,43 +3043,43 @@
             "base": 0,
             "modifiers": []
           },
-          "damageReduction":{
+          "damageReduction": {
             "value": 0,
             "base": 0,
             "modifiers": []
           },
-          "hardenedArmors":{
-            "normalWeapon":{
-              "type": "",
-              "value": 0,
-              "base": 0,
-              "modifiers": []  
-            },
-            "astral":{
-              "type": "",
-              "value": 0,
-                "base": 0,
-                "modifiers": []  
-              },
-            "cold":{
+          "hardenedArmors": {
+            "normalWeapon": {
               "type": "",
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "fire":{
+            "astral": {
               "type": "",
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "toxins":{
+            "cold": {
               "type": "",
               "value": 0,
               "base": 0,
               "modifiers": []
             },
-            "pathogens":{
+            "fire": {
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "toxins": {
+              "type": "",
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "pathogens": {
               "type": "",
               "value": 0,
               "base": 0,
@@ -3093,28 +3093,28 @@
           "anticoagulant": false,
           "fullDefenseAttribute": "willpower",
           "fullDefenseValue": 0,
-          "actions":{
+          "actions": {
             "free": {
               "value": 1,
-              "base":1,
+              "base": 1,
               "modifiers": [],
               "current": 1
             },
             "simple": {
               "value": 2,
-              "base":2,
+              "base": 2,
               "modifiers": [],
               "current": 2
             },
             "complex": {
               "value": 1,
-              "base":1,
+              "base": 1,
               "modifiers": [],
               "current": 1
             },
             "interruption": {
               "value": 10,
-              "base":10,
+              "base": 10,
               "modifiers": [],
               "current": 10
             }
@@ -3210,7 +3210,7 @@
             },
             "padded": false
           },
-          "environmentalMod":{
+          "environmentalMod": {
             "visibility": {
               "value": 0,
               "base": 0,
@@ -3237,7 +3237,7 @@
               "modifiers": []
             }
           },
-          "martialArts":{
+          "martialArts": {
             "breakWeapon": {
               "isActive": false
             },
@@ -3302,14 +3302,14 @@
               "modifiers": []
             }
           },
-          "complexFormList":{},
+          "complexFormList": {},
           "deviceRating": 0,
           "deviceType": "",
           "deviceSubType": "",
           "deviceName": "",
           "isLinkLocked": false,
           "isJamming": false,
-          "hasLocalAutosoftRunning":false,
+          "hasLocalAutosoftRunning": false,
           "runningSilent": false,
           "overwatchScore": 0,
           "concentration": false,
@@ -4458,7 +4458,7 @@
               "neededMarks": 0
             }
           },
-          "resonanceActions":{
+          "resonanceActions": {
             "callOrDismissSprite": {
               "actionType": "simple",
               "increaseOverwatchScore": false,
@@ -4553,31 +4553,31 @@
             }
           },
           "submersionGrade": 0,
-          "connectedObject":{
-            "augmentations":{},
-            "weapons":{},
-            "armors":{},
-            "gears":{},
-            "vehicles":{}
+          "connectedObject": {
+            "augmentations": {},
+            "weapons": {},
+            "armors": {},
+            "gears": {},
+            "vehicles": {}
           },
-          "potentialPanObject":{
-            "augmentations":{},
-            "weapons":{},
-            "armors":{},
-            "gears":{},
-            "vehicles":{}
+          "potentialPanObject": {
+            "augmentations": {},
+            "weapons": {},
+            "armors": {},
+            "gears": {},
+            "vehicles": {}
           },
-          "pan":{
+          "pan": {
             "max": 0,
             "current": 0,
-            "content":[]
+            "content": []
           },
           "noise": {
             "value": 0,
             "base": 0,
             "modifiers": []
           },
-          "registeredSprite":{
+          "registeredSprite": {
             "current": 0,
             "max": 0
           }
@@ -4634,21 +4634,21 @@
           },
           "possession": false,
           "hasAstralProjection": false,
-          "counterSpellPool":{
+          "counterSpellPool": {
             "value": 0,
             "base": 0,
             "modifiers": [],
             "current": 0
           },
           "reagents": 0,
-          "boundedSpirit":{
+          "boundedSpirit": {
             "current": 0,
             "max": 0
           },
-          "spellList":{},
+          "spellList": {},
           "metamagics": {
             "centering": false,
-            "centeringValue":{
+            "centeringValue": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -4656,7 +4656,7 @@
             "quickening": false,
             "shielding": false,
             "spellShaping": false,
-            "spellShapingValue":{
+            "spellShapingValue": {
               "value": 0,
               "base": 0,
               "modifiers": []
@@ -4671,19 +4671,19 @@
       },
       "sheetPreferencesTemplate": {
         "sheetPreferences": {
-          "tabAugmentations":{
+          "tabAugmentations": {
             "isActive": true,
             "augmentations": true,
             "effects": true
           },
-          "tabAwaken":{
+          "tabAwaken": {
             "isActive": true,
             "type": true,
             "tradition": true,
             "astral": true,
-            "reagents":true
+            "reagents": true
           },
-          "tabBiography":{
+          "tabBiography": {
             "isActive": true,
             "biography": true,
             "critterBiography": false,
@@ -4691,22 +4691,22 @@
             "background": true,
             "karma": true
           },
-          "tabCombat":{
+          "tabCombat": {
             "isActive": true,
             "rangedWeapons": true,
             "meleeWeapons": true,
             "grenades": true,
-            "armors":true,
+            "armors": true,
             "ammunitions": true,
             "martialArts": true
           },
-          "tabGear":{
+          "tabGear": {
             "isActive": true,
             "various": true,
             "vehicles": true,
             "money": true
           },
-          "tabMagic":{
+          "tabMagic": {
             "isActive": true,
             "spells": true,
             "adeptPowers": true,
@@ -4717,37 +4717,37 @@
             "powers": true,
             "metamagics": true
           },
-          "tabMatrix":{
+          "tabMatrix": {
             "isActive": true,
             "programs": true,
             "matrixActions": true
           },
-          "tabMatrixUser":{
+          "tabMatrixUser": {
             "isActive": true,
             "programs": true,
             "pan": true,
             "marksControled": true
           },
-          "tabSkill":{
+          "tabSkill": {
             "isActive": true,
             "actives": true,
             "groups": true,
             "knowledge": true,
-            "languages":true
+            "languages": true
           },
-          "tabSocial":{
+          "tabSocial": {
             "isActive": true,
             "contacts": true,
             "lifestyles": true,
             "sins": true,
-            "reputation":true
+            "reputation": true
           },
-          "tabTechno":{
+          "tabTechno": {
             "isActive": true,
             "resonanceActions": true,
             "complexForms": true,
             "sprites": true,
-            "echoes":true,
+            "echoes": true,
             "powers": true
           },
           "selections": {
@@ -4830,7 +4830,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "stun": {
           "value": 0,
           "max": 0
@@ -5044,7 +5044,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "condition": {
           "value": 0,
           "max": 0
@@ -5066,8 +5066,8 @@
         "paymentMethod": "",
         "hobby": "",
         "familySituation": "",
-        "background": ""     
-      },      
+        "background": ""
+      },
       "addictions": [],
       "activeSpecialAttribute": "magic",
       "skills": {
@@ -5245,7 +5245,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "physical": {
           "value": 0,
           "max": 0
@@ -5302,8 +5302,8 @@
           "base": 0,
           "modifiers": [],
           "linkedAttribute": ""
-          }
         }
+      }
     },
     "actorDrone": {
       "templates": [
@@ -5520,7 +5520,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "condition": {
           "value": 0,
           "max": 0
@@ -5638,7 +5638,7 @@
           "category": "physicalSkills",
           "canDefault": true,
           "specializations": "",
-          "perceptionType":{
+          "perceptionType": {
             "sight": {
               "test": {
                 "dicePool": 0,
@@ -5739,17 +5739,17 @@
       },
       "controlMode": "autopilot",
       "vehicleOwner": {
-        "id" : "",
+        "id": "",
         "name": "",
         "system": "",
         "items": []
       },
       "pilotSkill": "",
-      "offRoadMode" : false,
+      "offRoadMode": false,
       "isSecondaryPropulsion": false,
       "secondaryPropulsionType": "",
       "isSecondaryPropulsionActivate": false,
-      "riggerInterface": false, 
+      "riggerInterface": false,
       "slaved": false,
       "type": "",
       "price": 0,
@@ -5830,11 +5830,11 @@
         "itemsPropertiesTemplate"
       ],
       "isDirectlyConnected": false,
-      "matrix":{
-        "ice":{
+      "matrix": {
+        "ice": {
           "attackDicepool": 0,
-          "defenseFirstAttribute":"",
-          "defenseSecondAttribute":""
+          "defenseFirstAttribute": "",
+          "defenseSecondAttribute": ""
         }
       },
       "conditionMonitors": {
@@ -5850,7 +5850,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "matrix": {
           "value": 0,
           "max": 0
@@ -5873,7 +5873,7 @@
         "hasAntiTamper": false,
         "antiTamperRating": 0,
         "caseRemoved": false,
-        "type":{
+        "type": {
           "cardReader": false,
           "keyPads": false,
           "facialRecognition": false,
@@ -5884,7 +5884,7 @@
       },
       "description": ""
     },
-    "actorSprite":{
+    "actorSprite": {
       "templates": [
         "characterAttributesTemplate",
         "characterResonanceAttributesTemplate",
@@ -6028,7 +6028,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "matrix": {
           "value": 0,
           "max": 0
@@ -6052,7 +6052,7 @@
         "max": 0
       }
     },
-    "actorAgent":{
+    "actorAgent": {
       "templates": [
         "characterAttributesTemplate",
         "characterResonanceAttributesTemplate",
@@ -6196,7 +6196,7 @@
           "boxes": []
         }
       },
-      "statusBars" : {
+      "statusBars": {
         "matrix": {
           "value": 0,
           "max": 0
@@ -6287,7 +6287,7 @@
         "isWireless": true,
         "wirelessTurnedOn": true,
         "deviceRating": 0,
-        "conditionMonitors" : {
+        "conditionMonitors": {
           "matrix": {
             "value": 0,
             "base": 0,
@@ -6302,18 +6302,18 @@
         },
         "isSlavedToPan": false,
         "panMaster": "",
-        "marks":[]
+        "marks": []
       },
       "templateCapacity": {
         "capacity": {
-          "value":0,
-          "base":0,
+          "value": 0,
+          "base": 0,
           "modifiers": [],
           "multiplier": ""
         },
         "capacityTaken": {
-          "value":0,
-          "base":0,
+          "value": 0,
+          "base": 0,
           "modifiers": [],
           "multiplier": ""
         },
@@ -6351,7 +6351,7 @@
         }
       }
     },
-    "itemAmmunition":{
+    "itemAmmunition": {
       "templates": [
         "templateDescription",
         "templateBoughtOrSold"
@@ -6409,7 +6409,7 @@
         "radius": 0,
         "damageFallOff": 0
       },
-      "aerodynamic" : false,
+      "aerodynamic": false,
       "firingMode": {
         "singleShot": false,
         "semiAutomatic": false,
@@ -6508,14 +6508,14 @@
         "base": 0,
         "modifiers": [],
         "multiplier": ""
-      }, 
+      },
       "accessory": [],
-      "cyberlimbs":{
+      "cyberlimbs": {
         "agility": {
           "value": 0,
           "base": 3,
           "customization": 0
-        },   
+        },
         "strength": {
           "value": 0,
           "base": 3,
@@ -6603,7 +6603,7 @@
         "templateBoughtOrSold",
         "templateActivation",
         "templateConcealment",
-        "templateWireless", 
+        "templateWireless",
         "templateCustomEffects"
       ],
       "attributesCollection": {
@@ -6623,11 +6623,11 @@
       },
       "module": "",
       "dongle": "",
-      "modifiers": [], 
-      "pan":{
+      "modifiers": [],
+      "pan": {
         "max": 0,
         "current": 0,
-        "content":[]
+        "content": []
       },
       "markedItems": []
     },
@@ -6645,7 +6645,7 @@
       "quantity": 1,
       "charge": 0,
       "isMedkit": false,
-      "isPlugged" : false,
+      "isPlugged": false,
       "accessory": [],
       "canRollTest": false,
       "test": {
@@ -6675,7 +6675,7 @@
           "base": 0,
           "modifiers": [],
           "linkedAttribute": ""
-          }
+        }
       },
       "summonerMagic": 0,
       "isCreated": false,
@@ -6693,13 +6693,13 @@
       },
       "skill": [],
       "optionalPowers": {
-        "power1" : "",
-        "power2" : "",
-        "power3" : "",
-        "power4" : "",
-        "power5" : ""
+        "power1": "",
+        "power2": "",
+        "power3": "",
+        "power4": "",
+        "power5": ""
       },
-      "powers" : [],
+      "powers": [],
       "conditionMonitors": {
         "physical": {
           "actual": {
@@ -6734,15 +6734,15 @@
       },
       "decks": [],
       "optionalPowers": {
-        "power1" : "",
-        "power2" : "",
-        "power3" : "",
-        "power4" : "",
-        "power5" : ""
+        "power1": "",
+        "power2": "",
+        "power3": "",
+        "power4": "",
+        "power5": ""
       },
       "spritePowers": [],
       "isRegistered": false,
-      "conditionMonitors":{
+      "conditionMonitors": {
         "matrix": {
           "value": 0,
           "base": 0,
@@ -6768,11 +6768,11 @@
       ],
       "type": "",
       "subType": "",
-      "spellChoices":[],
-      "weaponChoices":[],
+      "spellChoices": [],
+      "weaponChoices": [],
       "sustainedSpell": "",
-      "linkedWeapon":"",
-      "linkedWeaponName":""
+      "linkedWeapon": "",
+      "linkedWeaponName": ""
     },
     "itemKarma": {
       "templates": [
@@ -6821,14 +6821,14 @@
       "needRoll": false,
       "testFirstAttribute": "",
       "testSecondAttribute": "",
-      "defenseFirstAttribute":"",
-      "defenseSecondAttribute":"",
+      "defenseFirstAttribute": "",
+      "defenseSecondAttribute": "",
       "test": {
         "dicePool": 0,
         "base": 0,
         "modifiers": []
       },
-      "targetOfEffect":[]
+      "targetOfEffect": []
     },
     "itemMetamagic": {
       "templates": [
@@ -6856,19 +6856,19 @@
       "actionType": "",
       "duration": "",
       "range": "",
-      "type":"",
+      "type": "",
       "isActive": false,
-      "hits":0,
+      "hits": 0,
       "testFirstAttribute": "",
       "testSecondAttribute": "",
-      "defenseFirstAttribute":"",
-      "defenseSecondAttribute":"",
+      "defenseFirstAttribute": "",
+      "defenseSecondAttribute": "",
       "test": {
         "dicePool": 0,
         "base": 0,
         "modifiers": []
       },
-      "targetOfEffect":[]
+      "targetOfEffect": []
     },
     "itemAdeptPower": {
       "templates": [
@@ -6879,9 +6879,9 @@
       ],
       "actionType": "",
       "hits": 0,
-      "powerPointsCost":{
-        "value":0,
-        "base":0,
+      "powerPointsCost": {
+        "value": 0,
+        "base": 0,
         "modifiers": [],
         "isRatingBased": false
       },
@@ -6893,7 +6893,7 @@
         "base": 0,
         "modifiers": []
       },
-      "targetOfEffect":[],
+      "targetOfEffect": [],
       "hasDrain": false,
       "drainType": "",
       "drainMultiplier": 1,
@@ -6922,11 +6922,11 @@
         "templateCustomEffects",
         "templateActivation"
       ],
-      "hits":0,
+      "hits": 0,
       "testSkill": "",
-      "testLimit":"",
-      "defenseAttribute":"",
-      "defenseMatrixAttribute":"",
+      "testLimit": "",
+      "defenseAttribute": "",
+      "defenseMatrixAttribute": "",
       "test": {
         "dicePool": 0,
         "base": 0,
@@ -6972,7 +6972,7 @@
       "freeSustain": false,
       "preparation": false,
       "fetish": false,
-      "targetOfEffect":[],
+      "targetOfEffect": [],
       "resisted": false,
       "defenseFirstAttribute": "",
       "defenseSecondAttribute": "",
@@ -7025,12 +7025,12 @@
         "templateCustomEffects"
       ],
       "adeptRitual": false,
-      "anchored": false, 
-      "bloody": false,     
+      "anchored": false,
+      "bloody": false,
       "contractual": false,
       "manaRitual": false,
       "materialLink": false,
-      "minion": false,      
+      "minion": false,
       "organicalLink": false,
       "spell": false,
       "spotter": false,
@@ -7039,7 +7039,7 @@
       "durationMultiplier": "",
       "durationValue": 0,
       "materialLinked": "",
-      "spellChoices":[],
+      "spellChoices": [],
       "spellLinked": "",
       "spellLinkedType": "",
       "spellLinkedName": "",
@@ -7047,24 +7047,24 @@
       "hits": 0,
       "netHits": 0
     },
-    "itemComplexForm":{
+    "itemComplexForm": {
       "templates": [
         "templateDescription",
         "templateActivation",
         "templateCustomEffects"
-        ],
-        "level": 0,
-        "hits": 0,
-        "fadingModifier": 0,
-        "fadingValue": 0,
-        "threaderResonance": 0,
-        "target":"",
-        "duration": "",
-        "defenseAttribute":"",
-        "defenseMatrixAttribute":"" ,
-        "freeSustain": false,
-        "targetOfEffect":[]
-      },
+      ],
+      "level": 0,
+      "hits": 0,
+      "fadingModifier": 0,
+      "fadingValue": 0,
+      "threaderResonance": 0,
+      "target": "",
+      "duration": "",
+      "defenseAttribute": "",
+      "defenseMatrixAttribute": "",
+      "freeSustain": false,
+      "targetOfEffect": []
+    },
     "itemQuality": {
       "templates": [
         "templateDescription",
@@ -7151,7 +7151,7 @@
         "sensor": 0
       },
       "modificationSlots": {
-        "powerTrain":0,
+        "powerTrain": 0,
         "protection": 0,
         "weapons": 0,
         "extraWeapons": 0,
@@ -7162,7 +7162,7 @@
       },
       "seating": 0,
       "controlMode": "autopilot",
-      "offRoadMode" : false,
+      "offRoadMode": false,
       "riggerInterface": false,
       "autosoft": [],
       "weapons": [],
@@ -7176,12 +7176,12 @@
         "handling": 0,
         "handlingOffRoad": 0,
         "speed": 0,
-        "acceleration" : 0
+        "acceleration": 0
       },
       "pilotSkill": "",
       "isCreated": false,
       "slaved": false,
-      "conditionMonitors":{
+      "conditionMonitors": {
         "condition": {
           "value": 0,
           "base": 0,
@@ -7211,7 +7211,7 @@
         "templateDescription",
         "templateCustomEffects",
         "templateActivation",
-        "templateRating",        
+        "templateRating",
         "templateBoughtOrSold",
         "templateCapacity"
       ],
@@ -7238,9 +7238,9 @@
         "flexibility": "",
         "control": ""
       },
-      "weaponChoices":[],
-      "mountedWeapon":"",
-      "mountedWeaponName":"",
+      "weaponChoices": [],
+      "mountedWeapon": "",
+      "mountedWeaponName": "",
       "secondaryPropulsion": {
         "isSecondaryPropulsion": false,
         "type": ""
@@ -7254,22 +7254,22 @@
         "vehicle": 0
       }
     },
-    "itemEffect":{
+    "itemEffect": {
       "templates": [
         "templateCustomEffects"
-        ],
+      ],
       "type": "",
       "itemRating": "",
       "target": "",
       "duration": 1,
-      "durationType":"",
+      "durationType": "",
       "value": "",
-      "ownerID":"",
-      "ownerName":"",
-      "ownerItem":"",
+      "ownerID": "",
+      "ownerName": "",
+      "ownerItem": "",
       "hasEffectOnItem": "false"
     },
-    "itemDrug":{
+    "itemDrug": {
       "templates": [
         "templateDescription",
         "templateBoughtOrSold",
@@ -7299,17 +7299,17 @@
       "handleShot": [],
       "wirelessTurnedOn": false
     },
-    "itemTradition":{
+    "itemTradition": {
       "templates": [
         "templateDescription",
         "templateCustomEffects"
       ],
-      "drainAttribute":"",
-      "spiritCombat":"",
-      "spiritDetection":"",
-      "spiritIllusion":"",
-      "spiritManipulation":"",
-      "spiritHealth":"",
+      "drainAttribute": "",
+      "spiritCombat": "",
+      "spiritDetection": "",
+      "spiritIllusion": "",
+      "spiritManipulation": "",
+      "spiritHealth": "",
       "possession": false
     }
   }

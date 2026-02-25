@@ -15,13 +15,16 @@
 				<p class="SR-TextCenter"></p>
 			</div>
 			<div class="col-1">
-				<p class="SR-TextCenter" data-title="{{localize 'SR5.Equipped'}}"><em class="fas fa-sm fa-thumbtack"></em></p>
+				<p class="SR-TextCenter" data-title="{{localize 'SR5.Equipped'}}"><em
+						class="fas fa-sm fa-thumbtack"></em></p>
 			</div>
 			<div class="col-1">
 				{{#if owner}}
-				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemFocus')}}" 
-				data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
-					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemFocus"><em class="fas fa-plus"></em></a>
+				<p class="SR-TextRight add-item"
+					data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemFocus')}}"
+					data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemFocus"><em
+							class="fas fa-plus"></em></a>
 				</p>
 				{{/if}}
 			</div>
@@ -38,28 +41,39 @@
 				{{/if}}
 			</div>
 			<div class="col-1 changeValueByClick" data-binding="system.itemRating"
-			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
-			  data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
+				data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"
+				data-helpMessage="{{localize 'SR5.HELP_RatingMsg'}}">
 				<p class="SR-TextCenter">{{valueOrDash system.itemRating}}</p>
 			</div>
 			<div class="col-2">
 				<p class="SR-TextCenter">{{valueOrDash (findTranslation 'focusTypes' system.type)}}</p>
 			</div>
 			{{#if (eq system.type "sustaining")}}
-			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}" data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
-				<select class="edit-value" name="sustainedSpell.{{_id}}.name" data-binding="system.sustainedSpell" data-dtype="String"
-					data-item-id="{{_id}}" required>
+			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}"
+				data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
+				<select class="edit-value" name="sustainedSpell.{{_id}}.name" data-binding="system.sustainedSpell"
+					data-dtype="String" data-item-id="{{_id}}" required>
 					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-					{{selectOptions system.spellChoices valueAttr='name' labelAttr='name' selected=system.sustainedSpell localize=false}}
+					{{selectOptions system.spellChoices valueAttr='name' labelAttr='name' selected=system.sustainedSpell
+					localize=false}}
 				</select>
 			</div>
 			{{else if (eq system.type "weapon")}}
-			<div class="col-3">{{system.linkedWeaponName}}</div>
+			<div class="col-3" data-helpTitle="{{localize 'SR5.HELP_FocusChoice' key=name}}"
+				data-helpMessage="{{localize 'SR5.HELP_FocusChoiceMsg'}}">
+				<select class="edit-value" name="weaponChoices.{{_id}}.name" data-binding="system.linkedWeapon"
+					data-dtype="String" data-item-id="{{_id}}" required>
+					<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+					{{selectOptions system.weaponChoices valueAttr='name' labelAttr='name' selected=system.linkedWeapon
+					localize=false}}
+				</select>
+			</div>
 			{{else}}
 			<div class="col-3"></div>
 			{{/if}}
 			<div class="col-1">
-				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}" data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
+				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.HELP_EquipToggle' key=name}}"
+					data-helpMessage="{{localize 'SR5.HELP_EquipToggleMsg'}}">
 					<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
 						data-title="{{#if system.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
 						<em class="fas fa-sm fa-thumbtack {{#if system.isActive}}SR-SubColor{{/if}}"></em></a>
@@ -67,7 +81,8 @@
 			</div>
 			<div class="col-1 grid SR-TextRight">
 				{{#if ../owner}}
-				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+				<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}"
+					data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
 					<em class="fas fa-sm fa-edit item-management"></em>
 				</a>
 				{{/if}}
