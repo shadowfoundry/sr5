@@ -1,6 +1,6 @@
 //Customize Sheet section
 
-export class SRActorSheetConfig extends Dialog {
+export class SRActorSheetConfig extends foundry.appv1.api.Dialog {
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
             height: 'auto',
@@ -18,7 +18,7 @@ export class SRActorSheetConfig extends Dialog {
         if (actor.type === "actorPc") template = "systems/sr5/templates/interface/sheetConfigActor.html";
         if (actor.type === "actorGrunt") template = "systems/sr5/templates/interface/sheetConfigGrunt.html";
 
-        renderTemplate(template, dialogData).then((dlg) => {
+        foundry.applications.handlebars.renderTemplate(template, dialogData).then((dlg) => {
             new SRActorSheetConfig({
                 title: game.i18n.localize('SR5.CharacterSheetCustomization'),
                 content: dlg,
@@ -36,15 +36,14 @@ export class SRActorSheetConfig extends Dialog {
                 default: "ok",
                 close: async (html) => {
                     if (cancel) return;
-                    let options = html.find("[name='option']");
+                    const element = html instanceof HTMLElement ? html : html[0];
+                    let options = element.querySelectorAll("[name='option']");
                     for (let o of options){
-                        let isChecked = html.find(`[id=${o.id}]`).is(":checked");
+                        let isChecked = element.querySelector(`#${o.id}`)?.checked ?? false;
                         let path= "sheetPreferences." + o.value;
                         foundry.utils.setProperty(actorData, path, isChecked);
                     }
                     actor.update({"system": actorData});
-
-                    
                 },
             }).render(true);
         });
@@ -53,25 +52,32 @@ export class SRActorSheetConfig extends Dialog {
 
     activateListeners(html) {
         super.activateListeners(html)
+        const element = html instanceof HTMLElement ? html : html[0];
 
-        if (html.find(".toggleSection")) this._checkParentState(html.find(".toggleSection"), html);
-        html.find(".toggleSection").click(ev => this._onToggleParent(ev, html));
+        const toggleSections = element.querySelectorAll(".toggleSection");
+        if (toggleSections.length) this._checkParentState(toggleSections, element);
+        toggleSections.forEach(el => {
+            el.addEventListener("click", ev => this._onToggleParent(ev, element));
+        });
     }
 
-    _onToggleParent(ev, html){
-        let targetId = $(ev.currentTarget).closest("ul").attr("id");
-        let elementId = $(ev.currentTarget).attr("id");
-        
-        if (html.find(`[id=${elementId}]`).is(":checked")) html.find(`[id=${targetId}]`)[0].classList.remove("SR-LightGreyColor");
-        else html.find(`[id=${targetId}]`)[0].classList.add("SR-LightGreyColor");
+    _onToggleParent(ev, element){
+        let targetId = ev.currentTarget.closest("ul")?.id;
+        let elementId = ev.currentTarget.id;
+
+        const checkbox = element.querySelector(`#${elementId}`);
+        const targetEl = element.querySelector(`#${targetId}`);
+        if (checkbox?.checked) targetEl?.classList.remove("SR-LightGreyColor");
+        else targetEl?.classList.add("SR-LightGreyColor");
     }
 
-    _checkParentState(parents, html){
+    _checkParentState(parents, element){
         for (let p of parents){
-            let targetId = html.find(`[id=${p.id}]`).closest("ul").attr("id");
-            let isChecked = html.find(`[id=${p.id}]`).is(":checked");
-            if (isChecked) html.find(`[id=${targetId}]`)[0].classList.remove("SR-LightGreyColor");
-            else html.find(`[id=${targetId}]`)[0].classList.add("SR-LightGreyColor");
+            let targetId = p.closest("ul")?.id;
+            let isChecked = element.querySelector(`#${p.id}`)?.checked ?? false;
+            const targetEl = element.querySelector(`#${targetId}`);
+            if (isChecked) targetEl?.classList.remove("SR-LightGreyColor");
+            else targetEl?.classList.add("SR-LightGreyColor");
         }
 
     }

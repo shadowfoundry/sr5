@@ -29,7 +29,7 @@ export class SR5Actor extends Actor {
 		const title = game.i18n.format("DOCUMENT.Create", {type: label});
 
 		// Render the document creation form
-		const html = await renderTemplate(`templates/sidebar/document-create.html`, {
+		const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
 			folders,
 			name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
 			folder: data.folder,
@@ -79,8 +79,8 @@ export class SR5Actor extends Actor {
 		switch (data.type){
 			case "actorSpirit":
 				let spiritForce, spiritType;
-				renderTemplate("systems/sr5/templates/interface/createSpirit.html", dialogData).then((dlg) => {
-					new Dialog({
+				foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSpirit.html", dialogData).then((dlg) => {
+					new foundry.appv1.api.Dialog({
 						title: game.i18n.localize('SR5.SpiritType'),
 						content: dlg,
 						buttons: {
@@ -113,8 +113,8 @@ export class SR5Actor extends Actor {
 			break;
 			case "actorSprite":
 				let spriteLevel, spriteType;
-				renderTemplate("systems/sr5/templates/interface/createSprite.html", dialogData).then((dlg) => {
-					new Dialog({
+				foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSprite.html", dialogData).then((dlg) => {
+					new foundry.appv1.api.Dialog({
 						title: game.i18n.localize('SR5.SpriteType'),
 						content: dlg,
 						buttons: {

@@ -610,7 +610,7 @@ export class SR5Item extends Item {
 		const title = game.i18n.localize('SR5.DIALOG_CreateNewItem');
 		
 		// Render the document creation form
-		const html = await renderTemplate(`templates/sidebar/document-create.html`, {
+		const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
 			name: game.i18n.localize('SR5.DIALOG_NewItem'),
 			folder: data.folder,
 			folders: folders,

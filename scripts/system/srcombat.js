@@ -367,7 +367,7 @@ export class SR5Combat extends Combat {
 			};
 
 			const template = `systems/sr5/templates/rolls/roll-init.html`;
-			const html = await renderTemplate(template, templateData);
+			const html = await foundry.applications.handlebars.renderTemplate(template, templateData);
 
 			const messageData = foundry.utils.mergeObject(
 				{

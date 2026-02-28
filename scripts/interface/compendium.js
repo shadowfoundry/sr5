@@ -4,8 +4,10 @@ export class SR5CompendiumInfo {
     static async onRenderCompendium(compendium, html, compendiumData) {
         const pack = compendium.collection;
         if (pack.metadata.system === "sr5") {
-            html.find('.directory-item').each((i, element) => {
-                SR5CompendiumInfo.selectInfo(pack, element);
+            // v13: html may be a raw DOM element or jQuery object
+            const element = html instanceof HTMLElement ? html : html[0];
+            element.querySelectorAll('.directory-item').forEach(el => {
+                SR5CompendiumInfo.selectInfo(pack, el);
             });
         }
     }

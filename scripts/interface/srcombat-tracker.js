@@ -1,7 +1,7 @@
 import { SR5Combat } from "../system/srcombat.js";
 
 //Custom Combat Tracker
-export class SR5CombatTracker extends CombatTracker {
+export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
 	get template() {
 		return "systems/sr5/templates/interface/srcombat-tracker.html";
 	}
@@ -12,6 +12,12 @@ export class SR5CombatTracker extends CombatTracker {
 		return data;
 	}
 
+	// Helper to get combatant ID from a list element (supports both jQuery and native DOM)
+	static _getCombatantId(li) {
+		if (li instanceof HTMLElement) return li.dataset.combatantId;
+		return li.data("combatant-id") ?? li[0]?.dataset?.combatantId;
+	}
+
 	//Add right click options to the combat tracker
 	static addCombatTrackerContextOptions(html, options) {
 		options.push(
@@ -19,12 +25,12 @@ export class SR5CombatTracker extends CombatTracker {
 				name: game.i18n.localize('SR5.INIT_SeizeTheInitiative'),
 				icon: '<i class="fas fa-sort-numeric-up"></i>',
 				condition: (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.system.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
+					if (combatant?.actor.system.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
 					if (combatant) await SR5Combat.seizeInitiative(combatant);
 				},
 			},
@@ -32,12 +38,12 @@ export class SR5CombatTracker extends CombatTracker {
 				name: game.i18n.localize('SR5.INIT_Blitz'),
 				icon: '<i class="fas fa-bolt"></i>',
 				condition: (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.system.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
+					if (combatant?.actor.system.specialAttributes?.edge?.augmented?.value && combatant.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
 					if (combatant) await SR5Combat.blitz(combatant);
 				},
 			},
@@ -45,12 +51,12 @@ export class SR5CombatTracker extends CombatTracker {
 				name: game.i18n.localize('SR5.INIT_MinusOne'),
 				icon: '<i class="fas fa-caret-down"></i>',
 				condition: (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.permission > 0) return true;
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
+					if (combatant?.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
 					if (combatant) await SR5Combat.adjustInitiative(combatant, -1);
 				},
 			},
@@ -58,12 +64,12 @@ export class SR5CombatTracker extends CombatTracker {
 				name: game.i18n.localize('SR5.INIT_MinusFive'),
 				icon: '<i class="fas fa-angle-down"></i>',
 				condition: (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.permission > 0) return true;
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
+					if (combatant?.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
 					if (combatant) await SR5Combat.adjustInitiative(combatant, -5);
 				},
 			},
@@ -71,12 +77,12 @@ export class SR5CombatTracker extends CombatTracker {
 				name: game.i18n.localize('SR5.INIT_MinusTen'),
 				icon: '<i class="fas fa-angle-double-down"></i>',
 				condition: (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.permission > 0) return true;
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
+					if (combatant?.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
-					const combatant =  game.combat.combatants.get(li.data("combatant-id"));
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
 					if (combatant) await SR5Combat.adjustInitiative(combatant, -10);
 				},
 			},
@@ -84,12 +90,12 @@ export class SR5CombatTracker extends CombatTracker {
 				name: game.i18n.localize('SR5.INIT_Delaying'),
 				icon: '<i class="fas fa-hourglass-end"></i>',
 				condition: (li) => {
-					const combatant = game.combat.combatants.get(li.data("combatant-id"));
-					if (combatant.actor.permission > 0) return true;
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
+					if (combatant?.actor.permission > 0) return true;
 					else return false;
 				},
 				callback: async (li) => {
-					const combatant =  game.combat.combatants.get(li.data("combatant-id"));
+					const combatant = game.combat.combatants.get(SR5CombatTracker._getCombatantId(li));
 					if (combatant) await SR5Combat.delayAction(combatant);
 				},
 			}
@@ -105,13 +111,16 @@ export class SR5CombatTracker extends CombatTracker {
 	}
 
 	static async markCombatantAsPlayed(app, html, data){
+		// v13: html may be a raw DOM element or jQuery object
+		const element = html instanceof HTMLElement ? html : html[0];
 		for (let combatant of data.combat.combatants){
 			if (combatant.flags.sr5?.hasPlayed || (combatant.initiative <= 0)){
-				let li = html.find("[data-combatant-id='" + combatant.id +"']")
-				let name = li.find("h4");
-				name.addClass("hasPlayed");
-				let initScor = li.find(".initiative");
-				initScor.addClass("hasPlayed");
+				let li = element.querySelector("[data-combatant-id='" + combatant.id +"']");
+				if (!li) continue;
+				let name = li.querySelector("h4");
+				if (name) name.classList.add("hasPlayed");
+				let initScor = li.querySelector(".initiative");
+				if (initScor) initScor.classList.add("hasPlayed");
 			}
 		}
 	}
@@ -129,11 +138,14 @@ export class SR5CombatTracker extends CombatTracker {
 	}
 
 	activateListeners(html) {
-		super.activateListeners(html);	
+		super.activateListeners(html);
 		if (!game.user.isGM) this._contextMenu(html);
 
 		//Edit actions
-		html.find('.SR-action-control').click(ev => this._editActions(ev));
+		const element = html instanceof HTMLElement ? html : html[0];
+		element.querySelectorAll('.SR-action-control').forEach(el => {
+			el.addEventListener('click', ev => this._editActions(ev));
+		});
 
 	}
 
@@ -143,7 +155,7 @@ export class SR5CombatTracker extends CombatTracker {
 	}
 
 	_editActions(ev){
-		let target = $(ev.currentTarget).attr("data-control");
+		let target = ev.currentTarget.dataset.control;
 		let combatantId = ev.currentTarget.closest(".combatant").dataset.combatantId;
 		let combatant = game.combat.combatants.find(c => c.id === combatantId);
 		let actor = SR5Combat.getActorFromCombatant(combatant);

@@ -155,8 +155,8 @@ export class SR5_ThirdPartyHelpers {
                 cancel = true;
             
             await new Promise((resolve, reject) => {
-                renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.html", dialogData).then((dlg) => {
-                    new Dialog({
+                foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.html", dialogData).then((dlg) => {
+                    new foundry.appv1.api.Dialog({
                     title: game.i18n.localize('SR5.ChooseWeaponMaterial'),
                     content: dlg,
                     buttons: {

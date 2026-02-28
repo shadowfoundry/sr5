@@ -184,8 +184,8 @@ export class SR5_MarkHelpers {
         if (!markedItems.length) return ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
 
         //Render dialog to choose marked item
-        renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData).then((dlg) => {
-            new Dialog({
+        foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData).then((dlg) => {
+            new foundry.appv1.api.Dialog({
                 title: game.i18n.localize('SR5.ChooseMarkToErase'),
                 content: dlg,
                 data: dialogData,

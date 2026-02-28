@@ -142,8 +142,8 @@ export class SR5_CombatHelpers {
         let cancel = true;
         let dialogData = {list: SR5.PCConditionMonitors}
         return new Promise((resolve, reject) => {
-            renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
-                new Dialog({
+            foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
+                new foundry.appv1.api.Dialog({
                 title: game.i18n.localize('SR5.ChooseDamageType'),
                 content: dlg,
                 buttons: {
@@ -171,8 +171,8 @@ export class SR5_CombatHelpers {
         let cancel = true;
         let dialogData = {list: vectors}
         return new Promise((resolve, reject) => {
-            renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData).then((dlg) => {
-                new Dialog({
+            foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData).then((dlg) => {
+                new foundry.appv1.api.Dialog({
                 title: game.i18n.localize('SR5.ChooseToxinVector'),
                 content: dlg,
                 buttons: {

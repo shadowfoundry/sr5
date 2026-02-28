@@ -1,6 +1,6 @@
 import { SR5_EntityHelpers } from "../entities/helpers.js";
 
-export default class SR5_PanDialog extends Dialog {
+export default class SR5_PanDialog extends foundry.appv1.api.Dialog {
     
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
@@ -11,7 +11,9 @@ export default class SR5_PanDialog extends Dialog {
 
     activateListeners(html) {
         super.activateListeners(html);
-        html.find('[name="actor"]').change(ev => {
+        const element = html instanceof HTMLElement ? html : html[0];
+        const actorSelect = element.querySelector('[name="actor"]');
+        if (actorSelect) actorSelect.addEventListener("change", ev => {
             ev.preventDefault();
             let actor = SR5_EntityHelpers.getRealActorFromID(ev.target.value);
             let dialogData = {
@@ -19,14 +21,14 @@ export default class SR5_PanDialog extends Dialog {
                 list: actor.system.matrix.potentialPanObject,
                 actorList: this.data.data.actorList,
             };
-          
+
             this.updateDialog(dialogData);
         });
 
     }
 
     async updateDialog(dialogData){
-        const content = await renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData);
+        const content = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData);
         this.data.content = content
         this.render(true);
     }

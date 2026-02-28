@@ -65,47 +65,47 @@ export const registerHooks = function () {
 		CONFIG.debug.hooks = false;
 
 		// Patch Core Functions
-		Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
+		foundry.documents.Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 
 		// Register sheet application classes
-		Actors.unregisterSheet("core", ActorSheet);
-		Actors.registerSheet("SR5", SR5ActorSheet, {
+		foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5ActorSheet, {
 			types: ["actorPc"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5SpiritSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5SpiritSheet, {
 			types: ["actorSpirit"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5GruntSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5GruntSheet, {
 			types: ["actorGrunt"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5DroneSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5DroneSheet, {
 			types: ["actorDrone"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5AppareilSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5AppareilSheet, {
 			types: ["actorDevice"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5SpriteSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5SpriteSheet, {
 			types: ["actorSprite"],
 			makeDefault: true
 		});
-		Actors.registerSheet("SR5", SR5AgentSheet, {
+		foundry.documents.collections.Actors.registerSheet("SR5", SR5AgentSheet, {
 			types: ["actorAgent"],
 			makeDefault: true
 		});
-		Items.unregisterSheet("core", ItemSheet);
-		Items.registerSheet("SR5", SR5ItemSheet, {
+		foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
+		foundry.documents.collections.Items.registerSheet("SR5", SR5ItemSheet, {
 			makeDefault: true
 		});
-		DocumentSheetConfig.registerSheet(Scene, "SR5", SR5SceneConfig, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Scene, "SR5", SR5SceneConfig, {
 			makeDefault: true
 		})
-		//DocumentSheetConfig.unregisterSheet("core", MeasuredTemplateConfig);
-		DocumentSheetConfig.registerSheet(MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {
+		//foundry.applications.apps.DocumentSheetConfig.unregisterSheet("core", foundry.applications.sheets.MeasuredTemplateConfig);
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {
 			makeDefault: true
 		})
 
@@ -116,14 +116,19 @@ export const registerHooks = function () {
 		const uitheme = game.settings.get("sr5", "sr5ChooseStyle");
 		switch (uitheme) {
 			case "SR6": {
-				$('link[href="systems/sr5/css/sr5.css"]').prop("disabled", true);
-				$("head").append('<link href="systems/sr5/css/sr6.css" rel="stylesheet" type="text/css" media="all">');
-				CONFIG.TinyMCE.content_css = CONFIG.TinyMCE.content_css.concat("systems/sr5/css/sr6.css");
+				const sr5Link = document.querySelector('link[href="systems/sr5/css/sr5.css"]');
+				if (sr5Link) sr5Link.disabled = true;
+				const sr6Link = document.createElement("link");
+				sr6Link.rel = "stylesheet";
+				sr6Link.type = "text/css";
+				sr6Link.media = "all";
+				sr6Link.href = "systems/sr5/css/sr6.css";
+				document.head.appendChild(sr6Link);
 				break;
 			}
 			default : {
-				$('link[href="systems/sr5/css/sr5.css"]').prop("disabled", false);
-				CONFIG.TinyMCE.content_css = "systems/sr5/css/sr5.css";
+				const sr5Link = document.querySelector('link[href="systems/sr5/css/sr5.css"]');
+				if (sr5Link) sr5Link.disabled = false;
 			}
 		}
 		
@@ -178,9 +183,11 @@ export const registerHooks = function () {
 		}
 	});
 
-	Hooks.on("renderChatMessage", (app, html, data) => {
-		if (!app.isRoll) SR5_RollMessage.chatListeners(html, data);
-		if (app.isRoll) html[0].classList.add("SRCustomMessage");
+	Hooks.on("renderChatMessageHTML", (message, html, data) => {
+		// v13: html is always an HTMLElement with renderChatMessageHTML
+		const isRoll = message.rolls?.length > 0;
+		if (!isRoll) SR5_RollMessage.chatListeners(html, data);
+		if (isRoll) html.classList.add("SRCustomMessage");
 	});
 
 	Hooks.on("canvasInit", function() {
@@ -202,18 +209,22 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("renderFolderConfig", (dialog, html) => {
-		// Copies the placeholder text as the default text entry
-		if (html.find(`input[type=text]`)[0] && !html.find(`input[type=text]`)[0].value) {
-			html.find(`input[type=text]`)[0].value = html.find(`input[type=text]`)[0].placeholder;
-			html.find(`input[type=text]`)[0].focus();
+		// v13: html may be a raw DOM element or jQuery object
+		const element = html instanceof HTMLElement ? html : html[0];
+		const input = element.querySelector(`input[type=text]`);
+		if (input && !input.value) {
+			input.value = input.placeholder;
+			input.focus();
 		}
 	});
 
 	Hooks.on("renderDialog", (dialog, html) => {
-		// Copies the placeholder text as the default text entry
-		if (html.find(`input[type=text]`)[0] && !html.find(`input[type=text]`)[0].value) {
-				html.find(`input[type=text]`)[0].value = html.find(`input[type=text]`)[0].placeholder;
-				html.find(`input[type=text]`)[0].focus();
+		// v13: html may be a raw DOM element or jQuery object
+		const element = html instanceof HTMLElement ? html : html[0];
+		const input = element.querySelector(`input[type=text]`);
+		if (input && !input.value) {
+			input.value = input.placeholder;
+			input.focus();
 		}
 	});
 
@@ -233,10 +244,10 @@ export const registerHooks = function () {
 		}
 	});
 
-	Hooks.on("preDeleteToken", (scene, token) => {
-		let deleteToken = canvas.tokens.get(token._id)
+	Hooks.on("preDeleteToken", (tokenDocument, options, userId) => {
+		let deleteToken = canvas.tokens.get(tokenDocument.id);
 		if (!deleteToken) return;
-		TweenMax.killTweensOf(deleteToken.children)
+		TweenMax.killTweensOf(deleteToken.children);
 	});
 
 	Hooks.on("createCombatant", async (combatant) => {

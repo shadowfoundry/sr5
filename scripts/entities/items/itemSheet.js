@@ -5,7 +5,7 @@ import { SR5_EntityHelpers } from "../helpers.js";
  * Override and extend the core ItemSheet implementation to handle Shadowrun 5 specific item types
  * @type {ItemSheet}
  */
-export class SR5ItemSheet extends ItemSheet {
+export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 	constructor(...args) {
 		super(...args);
 
@@ -152,8 +152,8 @@ export class SR5ItemSheet extends ItemSheet {
 			accessoriesList: sortedList,
 		};
 
-		renderTemplate("systems/sr5/templates/interface/chooseAccessory.html", dialogData).then((dlg) => {
-			new Dialog({
+		foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseAccessory.html", dialogData).then((dlg) => {
+			new foundry.appv1.api.Dialog({
 				title: game.i18n.localize('SR5.ChooseAccessory'),
 				content: dlg,
 				buttons: {
@@ -193,22 +193,28 @@ export class SR5ItemSheet extends ItemSheet {
 		if (!game.settings.get("sr5", "sr5Help.active")) return false;
 
 		let target = document.querySelector("#sr5help");
+		if (!target) return;
+
 		let property;
+		const helpTitle = document.querySelector("#sr5helpTitle");
+		const helpMessage = document.querySelector("#sr5helpMessage");
+		const helpDetails = document.querySelector("#sr5helpDetails");
 
-		document.querySelector("#sr5helpTitle").innerHTML = "";
-		document.querySelector("#sr5helpMessage").innerHTML = "";
-		document.querySelector("#sr5helpDetails").innerHTML = "";
+		if (helpTitle) helpTitle.innerHTML = "";
+		if (helpMessage) helpMessage.innerHTML = "";
+		if (helpDetails) helpDetails.innerHTML = "";
 
-		if (target) {
-			document.querySelector("#sr5helpTitle").innerHTML = $(event.currentTarget).attr("data-helpTitle");
+		{
+			const el = event.currentTarget;
+			if (helpTitle) helpTitle.innerHTML = el.dataset.helptitle || "";
 
-			if ($(event.currentTarget).attr("data-helpMessage")) document.querySelector("#sr5helpMessage").innerHTML = "<div class='helpMessage'><em>" + $(event.currentTarget).attr("data-helpMessage") + "</em></div>";
-			
-			let details = $(event.currentTarget).attr("data-helpDetails");
+			if (el.dataset.helpmessage && helpMessage) helpMessage.innerHTML = "<div class='helpMessage'><em>" + el.dataset.helpmessage + "</em></div>";
+
+			let details = el.dataset.helpdetails;
 			if (details) {
 				property = SR5_EntityHelpers.resolveObjectPath(`item.system.${details}`, this);
 			}
-		
+
 			if (property) {
 				let detailsHTML = `${game.i18n.localize('SR5.HELP_CalculationDetails')}<ul>`;
 				if (property.modifiers && property.modifiers.length) {
@@ -218,7 +224,7 @@ export class SR5ItemSheet extends ItemSheet {
 					}
 				}
 				detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.value}</li></ul>`;
-				document.querySelector("#sr5helpDetails").innerHTML = detailsHTML;
+				if (helpDetails) helpDetails.innerHTML = detailsHTML;
 			}
 			target.classList.add("active");
 		}

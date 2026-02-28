@@ -17,84 +17,104 @@ import { SR5_ActorHelper } from "../entities/actors/entityActor-helpers.js";
 export class SR5_RollMessage {
     //Handle reaction to roll ChatMessage
     static async chatListeners(html, data) {
-        html.on("click", ".messageAction", (ev) => {
-            SR5_RollMessage.chatButtonAction(ev)
+        // v13: html may be a raw DOM element or jQuery object
+        const element = html instanceof HTMLElement ? html : html[0];
+
+        element.querySelectorAll(".messageAction").forEach(el => {
+            el.addEventListener("click", (ev) => SR5_RollMessage.chatButtonAction(ev));
         });
 
         //Toggle Dice details
-        html.on("click", ".SR-CardHeader", (ev) => {
-            ev.preventDefault();
-            $(ev.currentTarget).siblings(".SR-CardContent").toggle();
+        element.querySelectorAll(".SR-CardHeader").forEach(el => {
+            el.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                const content = ev.currentTarget.parentElement?.querySelector(".SR-CardContent");
+                if (content) content.style.display = content.style.display === "none" ? "" : "none";
+            });
         });
 
         if (!game.user.isGM) {
             // Hide GM stuff
-            html.find(".chat-button-gm").remove();
+            element.querySelectorAll(".chat-button-gm").forEach(el => el.remove());
 
             // Hide if player is not owner of the message
             if (data.message.speaker.actor && game.actors.get(data.message.speaker.actor)?.permission != 3) {
-                html.find(".nonOpposedTest").remove();
-                html.find(".owner").remove();
+                element.querySelectorAll(".nonOpposedTest").forEach(el => el.remove());
+                element.querySelectorAll(".owner").forEach(el => el.remove());
             }
-            
+
             // Hide if player is not owner of the message for attackerTest
-            if (data.message.flags?.sr5data?.previousMessage?.userId !== game.user.id) html.find(".attackerTest").remove();
+            if (data.message.flags?.sr5data?.previousMessage?.userId !== game.user.id) {
+                element.querySelectorAll(".attackerTest").forEach(el => el.remove());
+            }
 
             // Do not display "Blind" chat cards to non-gm
-            if (html.hasClass("blind")) {
-                html.find(".message-header").remove(); // Remove header so Foundry does not attempt to update its timestamp
-                html.html("").css("display", "none");
+            if (element.classList.contains("blind")) {
+                const header = element.querySelector(".message-header");
+                if (header) header.remove(); // Remove header so Foundry does not attempt to update its timestamp
+                element.innerHTML = "";
+                element.style.display = "none";
             }
         }
 
         // Edit manually the result of a chatmessage roll
-        html.on("click", ".edit-toggle", (ev) => {
-            ev.preventDefault();
-            let elementsToToggle = $(ev.currentTarget).parents(".chat-card").find(".display-toggle");
-            if (!elementsToToggle.length) elementsToToggle = $(ev.currentTarget).find(".display-toggle");
-            for (let elem of elementsToToggle) {
-                if (elem.style.display == "none") elem.style.display = "";
-                else elem.style.display = "none";
-            }
+        element.querySelectorAll(".edit-toggle").forEach(el => {
+            el.addEventListener("click", (ev) => {
+                ev.preventDefault();
+                const chatCard = ev.currentTarget.closest(".chat-card");
+                let elementsToToggle = chatCard ? chatCard.querySelectorAll(".display-toggle") : [];
+                if (!elementsToToggle.length) elementsToToggle = ev.currentTarget.querySelectorAll(".display-toggle");
+                for (let elem of elementsToToggle) {
+                    if (elem.style.display == "none") elem.style.display = "";
+                    else elem.style.display = "none";
+                }
+            });
         });
 
         //Hide core content of message
-        $(html).find(".SR-CardContent").hide();
+        element.querySelectorAll(".SR-CardContent").forEach(el => el.style.display = "none");
 
-        // Respond to editing chat cards 
-        html.on("change", ".card-edit", async (ev) => {
-            let button = $(ev.currentTarget),
-                messageId = button.parents(".message").attr("data-message-id"),
-                message = game.messages.get(messageId),
-                actor = SR5_EntityHelpers.getRealActorFromID(message.flags.sr5data.owner.speakerId),
-                newMessage = foundry.utils.duplicate(message.flags.sr5data);
+        // Respond to editing chat cards
+        element.querySelectorAll(".card-edit").forEach(el => {
+            el.addEventListener("change", async (ev) => {
+                const target = ev.currentTarget;
+                const messageEl = target.closest(".message");
+                const messageId = messageEl?.dataset.messageId;
+                const message = game.messages.get(messageId);
+                const actor = SR5_EntityHelpers.getRealActorFromID(message.flags.sr5data.owner.speakerId);
+                let newMessage = foundry.utils.duplicate(message.flags.sr5data);
 
-            newMessage.roll[button.attr("data-edit-type")] = parseInt(ev.target.value);
+                newMessage.roll[target.dataset.editType] = parseInt(ev.target.value);
 
-            await SR5_RollTest.addInfoToCard(newMessage, actor.id);
-            if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
+                await SR5_RollTest.addInfoToCard(newMessage, actor.id);
+                if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor);
 
-            //Update message with new data
-            await message.update({[`flags.sr5data.chatCard.-=buttons`]: null});
-            await SR5_RollMessage.updateRollCardHelper(messageId, newMessage); 
+                //Update message with new data
+                await message.update({[`flags.sr5data.chatCard.-=buttons`]: null});
+                await SR5_RollMessage.updateRollCardHelper(messageId, newMessage);
+            });
         });
 
         //Toggle hidden div
-        html.find(".SR-MessageToggle").click(ev => SR5_RollMessage.toggleDiv(ev, html));
+        element.querySelectorAll(".SR-MessageToggle").forEach(el => {
+            el.addEventListener("click", ev => SR5_RollMessage.toggleDiv(ev, element));
+        });
     }
 
     //Show or Hide section of the message
     static toggleDiv(ev, html){
-        let target = $(ev.currentTarget).attr("data-target"),
-            action = $(ev.currentTarget).attr("data-action");
+        const element = html instanceof HTMLElement ? html : html[0];
+        let target = ev.currentTarget.dataset.target,
+            action = ev.currentTarget.dataset.action;
+        const targetEl = element.querySelector(`#${target}`);
         if (action === "show"){
-            $(html).find(`#${target}`).show();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).hide();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).show();
+            if (targetEl) targetEl.style.display = "";
+            element.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "none");
+            element.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = "");
         } else {
-            $(html).find(`#${target}`).hide();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).hide();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).show();
+            if (targetEl) targetEl.style.display = "none";
+            element.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = "none");
+            element.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "");
         }
     }
 
@@ -102,11 +122,12 @@ export class SR5_RollMessage {
     static async chatButtonAction(ev){
         ev.preventDefault();
         
-        const button = $(ev.currentTarget),
-            messageId = button.parents(".message").data("messageId"),
+        const buttonEl = ev.currentTarget,
+            messageEl = buttonEl.closest(".message"),
+            messageId = messageEl?.dataset.messageId,
             message = game.messages.get(messageId),
-            action = button.data("action"),
-            type = button.data("type");
+            action = buttonEl.dataset.action,
+            type = buttonEl.dataset.type;
                 
         let speaker = ChatMessage.getSpeaker(),
             actor,
@@ -663,13 +684,14 @@ export class SR5_RollMessage {
     static async updateRollCard(message, newMessage){
         let messageToUpdate = await game.messages.get(message);
         let template = messageToUpdate.flags.sr5template;
-        return renderTemplate(template, newMessage).then((html) => {
-            let newHtml = $(html);
-	        let divButtons = newHtml.find('[id="srButtonTest"]');
-	        for (let button in newMessage.chatCard.buttons){
-		        divButtons.append(`<button class="messageAction ${newMessage.chatCard.buttons[button].testType}" data-action="${newMessage.chatCard.buttons[button].testType}" data-type="${newMessage.chatCard.buttons[button].actionType}">${newMessage.chatCard.buttons[button].label}</button>`);
-	        }
-	        html = newHtml[0].outerHTML;
+        return foundry.applications.handlebars.renderTemplate(template, newMessage).then((html) => {
+            const temp = document.createElement("div");
+            temp.innerHTML = html;
+            const divButtons = temp.querySelector('[id="srButtonTest"]');
+            for (let button in newMessage.chatCard.buttons){
+                divButtons.insertAdjacentHTML("beforeend", `<button class="messageAction ${newMessage.chatCard.buttons[button].testType}" data-action="${newMessage.chatCard.buttons[button].testType}" data-type="${newMessage.chatCard.buttons[button].actionType}">${newMessage.chatCard.buttons[button].label}</button>`);
+            }
+            html = temp.innerHTML;
             messageToUpdate.update({
                 "flags.sr5data": newMessage,
                 content: html,

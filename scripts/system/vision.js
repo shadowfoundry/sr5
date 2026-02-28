@@ -1,5 +1,11 @@
 import { SR5Token } from "../interface/token.js";
 
+const VisionMode = foundry.canvas.perception.VisionMode;
+const DetectionMode = foundry.canvas.perception.DetectionMode;
+const DetectionModeDarkvision = foundry.canvas.perception.DetectionModeDarkvision;
+const AmplificationSamplerShader = foundry.canvas.rendering.shaders.AmplificationSamplerShader;
+const AmplificationBackgroundVisionShader = foundry.canvas.rendering.shaders.AmplificationBackgroundVisionShader;
+
 export const astralVision = new VisionMode({
 	id: "astralvision",
 	label: "SR5.VISION.ModeAstralvision",
@@ -29,7 +35,7 @@ export const astralVision = new VisionMode({
 	}
 });
 
-class DetectionModeBasicSightSR extends DetectionModeBasicSight {
+class DetectionModeBasicSightSR extends DetectionModeDarkvision {
 	constructor(){
 		super({
 			id: "basicSight",
@@ -42,7 +48,7 @@ class DetectionModeBasicSightSR extends DetectionModeBasicSight {
 	_canDetect(visionSource, target) {
 		let detected = super._canDetect(visionSource, target);
 		const tgt = target?.document;
-		if ((tgt instanceof TokenDocument)) {
+		if ((tgt instanceof foundry.documents.TokenDocument)) {
 			//check if target has astral effect and hide it if true;
 			detected = tgt.actor?.effects?.find(e => e.statuses.has("astralInit"));
 			return !detected;

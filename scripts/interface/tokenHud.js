@@ -1,4 +1,4 @@
-export default class SR5TokenHud extends TokenHUD {
+export default class SR5TokenHud extends foundry.applications.hud.TokenHUD {
 		constructor(...args) {
 				super(...args);
 		}

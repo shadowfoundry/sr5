@@ -19,7 +19,7 @@ import { SRActorSheetConfig } from "../../interface/sheet-config.js";
  * @type {ActorSheet}
  */
 
-export class ActorSheetSR5 extends ActorSheet {
+export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 	constructor(...args) {
 		super(...args);
 	}
@@ -1148,26 +1148,32 @@ export class ActorSheetSR5 extends ActorSheet {
 		if (!game.settings.get("sr5", "sr5Help.active")) return false;
 
 		let target = document.querySelector("#sr5help");
+		if (!target) return;
+
 		let property;
+		const helpTitle = document.querySelector("#sr5helpTitle");
+		const helpMessage = document.querySelector("#sr5helpMessage");
+		const helpDetails = document.querySelector("#sr5helpDetails");
 
-		document.querySelector("#sr5helpTitle").innerHTML = "";
-		document.querySelector("#sr5helpMessage").innerHTML = "";
-		document.querySelector("#sr5helpDetails").innerHTML = "";
+		if (helpTitle) helpTitle.innerHTML = "";
+		if (helpMessage) helpMessage.innerHTML = "";
+		if (helpDetails) helpDetails.innerHTML = "";
 
-		if (target) {
-			document.querySelector("#sr5helpTitle").innerHTML = $(event.currentTarget).attr("data-helpTitle");
+		{
+			const el = event.currentTarget;
+			if (helpTitle) helpTitle.innerHTML = el.dataset.helptitle || "";
 
-			if ($(event.currentTarget).attr("data-helpMessage")) document.querySelector("#sr5helpMessage").innerHTML = "<div class='helpMessage'><em>" + $(event.currentTarget).attr("data-helpMessage") + "</em></div>";
+			if (el.dataset.helpmessage && helpMessage) helpMessage.innerHTML = "<div class='helpMessage'><em>" + el.dataset.helpmessage + "</em></div>";
 
-			let details = $(event.currentTarget).attr("data-helpDetails");
+			let details = el.dataset.helpdetails;
 			if (details) {
 				property = SR5_EntityHelpers.resolveObjectPath(`actor.${details}`, this);
 			}
 
-			let itemId = $(event.currentTarget).attr("data-helpItemId");
+			let itemId = el.dataset.helpitemid;
 			if (itemId) {
 				let item = this.actor.items.find(i => i.id === itemId);
-				let detailsItem = $(event.currentTarget).attr("data-helpDetailsItem");
+				let detailsItem = el.dataset.helpdetailsitem;
 				property = SR5_EntityHelpers.resolveObjectPath(`${detailsItem}`, item);
 			}
 
@@ -1192,7 +1198,7 @@ export class ActorSheetSR5 extends ActorSheet {
 				}
 				if (property.value != undefined) detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.value}</li></ul>`;
 				else detailsHTML += `<li>${game.i18n.localize('SR5.HELP_CalculationTotal')}${game.i18n.localize('SR5.Colons')} ${property.dicePool}</li></ul>`;
-				document.querySelector("#sr5helpDetails").innerHTML = detailsHTML;
+				if (helpDetails) helpDetails.innerHTML = detailsHTML;
 			}
 			target.classList.add("active");
 		}
@@ -1220,8 +1226,8 @@ export class ActorSheetSR5 extends ActorSheet {
 		let dialogData = {
 			controlerList: controlerList,
 		};
-		renderTemplate("systems/sr5/templates/interface/chooseControler.html", dialogData).then((dlg) => {
-			new Dialog({
+		foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseControler.html", dialogData).then((dlg) => {
+			new foundry.appv1.api.Dialog({
 				title: game.i18n.localize('SR5.ChooseControler'),
 				content: dlg,
 				buttons: {
@@ -1374,7 +1380,7 @@ export class ActorSheetSR5 extends ActorSheet {
 			actorList: actorList,
 		};
 
-		renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData).then((dlg) => {
+		foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData).then((dlg) => {
 			new SR5_PanDialog({
 				title: game.i18n.localize('SR5.ChooseItemToPan'),
 				content: dlg,

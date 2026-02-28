@@ -58,7 +58,7 @@ export class SR5_CalledShotHelpers {
             disposableHits: messageData.roll.netHits - 1,
         };
 
-        renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
+        foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
             new SR5_SpendDialog({
                 title: game.i18n.localize('SR5.SpendHitsForStatus'),
                 content: dlg,

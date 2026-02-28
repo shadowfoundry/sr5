@@ -131,8 +131,8 @@ export class SR5_MatrixHelpers {
             device: actor.system.matrix.deviceName,
             list: list,
         };
-        renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData).then((dlg) => {
-            new Dialog({
+        foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData).then((dlg) => {
+            new foundry.appv1.api.Dialog({
               title: game.i18n.localize('SR5.ChooseMatrixTarget'),
               content: dlg,
               buttons: {

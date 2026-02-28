@@ -42,7 +42,7 @@ export class SR5_RollTest {
 		}
 
 		return new Promise((resolve) => {
-			renderTemplate(template, dialogData).then((dlg) => {
+			foundry.applications.handlebars.renderTemplate(template, dialogData).then((dlg) => {
 				new SR5_RollDialog({
 					title: dialogData.test.title,
 					id: "jet",
@@ -341,15 +341,16 @@ export class SR5_RollTest {
 
 		const templateData = cardData;
 		const template = `systems/sr5/templates/rolls/roll-card.html`;
-		let html = await renderTemplate(template, templateData);
+		let html = await foundry.applications.handlebars.renderTemplate(template, templateData);
 
 		//Add chat buttons to chat card
-		let newHtml = $(html);
-		let divButtons = newHtml.find('[id="srButtonTest"]');
+		const temp = document.createElement("div");
+		temp.innerHTML = html;
+		let divButtons = temp.querySelector('[id="srButtonTest"]');
 		for (let button in cardData.chatCard.buttons){
-			divButtons.append(`<button class="messageAction ${cardData.chatCard.buttons[button].testType} ${cardData.chatCard.buttons[button].gmAction}" data-action="${cardData.chatCard.buttons[button].testType}" data-type="${cardData.chatCard.buttons[button].actionType}">${cardData.chatCard.buttons[button].label}</button>`);
+			divButtons.insertAdjacentHTML("beforeend", `<button class="messageAction ${cardData.chatCard.buttons[button].testType} ${cardData.chatCard.buttons[button].gmAction}" data-action="${cardData.chatCard.buttons[button].testType}" data-type="${cardData.chatCard.buttons[button].actionType}">${cardData.chatCard.buttons[button].label}</button>`);
 		}
-		html = newHtml[0].outerHTML;
+		html = temp.innerHTML;
 
 		let chatData = {
 			roll: cardData.roll.r,

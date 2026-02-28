@@ -1,4 +1,4 @@
-export default class SR5Template extends MeasuredTemplate {
+export default class SR5Template extends foundry.canvas.placeables.MeasuredTemplate {
 	/**
 	* Track the timestamp when the last mouse move event was captured.
 	* @type {number}

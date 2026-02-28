@@ -7,7 +7,7 @@ import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js";
 import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js";
 import { SR5Combat } from "../system/srcombat.js";
 
-export default class SR5_RollDialog extends Dialog {
+export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
 
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
