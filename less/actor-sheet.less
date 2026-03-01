@@ -1,4 +1,11 @@
 .app.window-app.actor {
+    /* v13: remove Foundry's default input background shade */
+    input, select, textarea {
+        --input-background-color: transparent;
+        --input-border-color: transparent;
+        --input-focus-outline-color: transparent;
+    }
+
     .window-header {
         background : @neutralDarkColor;
         color      : @neutralLightColor;

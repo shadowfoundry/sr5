@@ -1,5 +1,12 @@
 // main: "sr5.less"
 .app.window-app.SR-Item {
+    /* v13: remove Foundry's default input background shade */
+    input, select, textarea {
+        --input-background-color: transparent;
+        --input-border-color: transparent;
+        --input-focus-outline-color: transparent;
+    }
+
     * {
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -7,7 +14,7 @@
           display: none;
         }
       }
-      
+
     .window-header {
         background : @neutralDarkColor;
         color      : @neutralLightColor;

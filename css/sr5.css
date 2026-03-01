@@ -242,6 +242,16 @@ input[type=range]:focus::-ms-fill-upper {
 .hide {
   display: none;
 }
+.app.window-app.SR-Item {
+  /* v13: remove Foundry's default input background shade */
+}
+.app.window-app.SR-Item input,
+.app.window-app.SR-Item select,
+.app.window-app.SR-Item textarea {
+  --input-background-color: transparent;
+  --input-border-color: transparent;
+  --input-focus-outline-color: transparent;
+}
 .app.window-app.SR-Item * {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -521,6 +531,16 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.SR-Item .editor-content {
   min-height: 50px;
+}
+.app.window-app.actor {
+  /* v13: remove Foundry's default input background shade */
+}
+.app.window-app.actor input,
+.app.window-app.actor select,
+.app.window-app.actor textarea {
+  --input-background-color: transparent;
+  --input-border-color: transparent;
+  --input-focus-outline-color: transparent;
 }
 .app.window-app.actor .window-header {
   background: #000001;
