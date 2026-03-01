@@ -334,22 +334,25 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 			}
 		}
 
+		// v13: spread dataset to plain object (DOMStringMap doesn't deep-clone reliably)
+		const systemData = {...header.dataset};
+		delete systemData.title;
+		delete systemData.type;
+
+		if (header.dataset.subtype) {
+			systemData.type = header.dataset.subtype;
+			delete systemData.subtype;
+		} else if (header.dataset.weaponcategory){
+			systemData.category = header.dataset.weaponcategory;
+			delete systemData.weaponcategory;
+		}
+
 		const itemData = {
 			name: `${itemName.capitalize()}`,
 			type: type,
-			system: foundry.utils.deepClone(header.dataset),
+			system: systemData,
 			img: `systems/sr5/img/items/${type}.svg`,
 		};
-		if (header.dataset.subtype) {
-			itemData.system.type = header.dataset.subtype;
-			delete itemData.system.subtype;
-		} else if (header.dataset.weaponcategory){
-			itemData.system.category = header.dataset.weaponcategory;
-			delete itemData.system.weaponcategory;
-			delete itemData.system.type;
-		} else {
-			delete itemData.system.type;
-		}
 
 		SR5_SystemHelpers.srLog(2, `Creating a new item of '${type}' type`, itemData);
 		return this.actor.createEmbeddedDocuments("Item", [itemData]);

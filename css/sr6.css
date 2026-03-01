@@ -4261,12 +4261,13 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
   text-align: center;
   background-image: none;
-  left: 7px;
-  bottom: 72px;
+  left: 15px;
+  bottom: 82px;
   border: 1px solid #00bdca;
   border-radius: none;
   box-shadow: none;
   background-color: rgba(0, 189, 202, 0.25);
+  padding: 0 10px;
   width: auto;
   max-width: 300px;
   opacity: 0;

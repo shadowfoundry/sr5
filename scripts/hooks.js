@@ -170,7 +170,7 @@ export const registerHooks = function () {
 
 	registerHandlebarsHelpers();
 
-	Hooks.on('renderPlayerList', () => {
+	Hooks.on('renderPlayers', () => {
 		SR5_SystemHelpers.srLog(3, `Renderering Shadowrun 5 Help Window`);
 		SR5_UiModifications.addHelpWindow();
 	});
