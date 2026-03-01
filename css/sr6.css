@@ -893,16 +893,15 @@ input[type=range]:focus::-ms-fill-upper {
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
 }
 .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::before {
-  position: relative;
   content: '';
-  display: block;
-  top: -1px;
-  left: 2.5px;
-  width: 30%;
-  height: 80%;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 3px;
+  height: 7px;
   border-style: solid;
   border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  transform: translateY(-1px) rotate(45deg);
   opacity: 0;
 }
 .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked {
@@ -1411,6 +1410,8 @@ input[type=range]:focus::-ms-fill-upper {
   margin: 5px 0 0 0;
   padding: 0 5px;
   line-height: 20px;
+  min-height: unset;
+  height: auto;
 }
 #chat .chat-message .SR-CardButton .SR-CardButtonHit,
 #chat-notifications .chat-message .SR-CardButton .SR-CardButtonHit,
@@ -3475,11 +3476,15 @@ input[type=range]:focus::-ms-fill-upper {
   position: relative;
   color: #b2007a;
   border: 1px solid #b2007a;
+  width: 14px;
+  height: 14px;
   border-radius: 4px;
   appearance: none;
   outline: 0;
   cursor: pointer;
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+  display: grid;
+  place-content: center;
 }
 .app.window-app.form input[type="checkbox"]::before,
 .app.window-app.scene-sheet input[type="checkbox"]::before,
@@ -3502,14 +3507,11 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.macro-sheet input[type="checkbox"]::before {
   content: '';
   display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30%;
-  height: 60%;
+  width: 4px;
+  height: 8px;
   border-style: solid;
   border-width: 0 2px 2px 0;
-  transform: translate(-50%, -60%) rotate(45deg);
+  transform: rotate(45deg);
   opacity: 0;
 }
 .app.window-app.form input[type="checkbox"]:checked,

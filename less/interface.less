@@ -58,23 +58,24 @@
             input[type="checkbox"] {
                 position: relative;
                 .sr5-checkbox();
+                width: 14px;
+                height: 14px;
                 border-radius: 4px;
                 appearance: none;
                 outline: 0;
                 cursor: pointer;
                 transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+                display: grid;
+                place-content: center;
 
                 &::before {
                     content: '';
                     display: block;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    width: 30%;
-                    height: 60%;
+                    width: 4px;
+                    height: 8px;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
-                    transform: translate(-50%, -60%) rotate(45deg);
+                    transform: rotate(45deg);
                     opacity: 0;
                 }
                 &:checked {
