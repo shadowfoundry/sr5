@@ -1,0 +1,99 @@
+// Common UI mixins for SR5 interface theming
+// Modeled after SR6's mixin pattern — define once, use everywhere
+
+// === Button states ===
+.sr5-button() {
+    color: fade(@neutralLightColor, 75%);
+    font-family: @SR_FontTitle;
+    text-transform: uppercase;
+    border: 1px solid @mainColor;
+    background: fade(@mainColor, 25%);
+    box-shadow: none;
+}
+
+.sr5-button-hover() {
+    color: @neutralLightColor;
+    background: fade(@subColor, 25%);
+    border-color: @subColor;
+    box-shadow: none;
+}
+
+.sr5-button-active() {
+    color: @neutralLightColor;
+    background: fade(@subColor, 50%);
+    border-color: @subColor;
+    box-shadow: none;
+}
+
+// === Block/surface states (controls, slots, tabs) ===
+.sr5-block() {
+    background: fade(@mainColor, 25%);
+    color: fade(@neutralLightColor, 75%);
+    border-color: @mainColor;
+    box-shadow: none;
+}
+
+.sr5-block-hover() {
+    color: @neutralLightColor;
+    border-color: @subColor;
+    background: fade(@subColor, 25%);
+    box-shadow: none;
+}
+
+.sr5-block-active() {
+    color: @neutralLightColor;
+    background: fade(@subColor, 50%);
+    border-color: @subColor;
+    box-shadow: none;
+}
+
+// === Input states ===
+.sr5-input() {
+    color: @neutralLightColor;
+    border: 1px solid @mainColor;
+}
+
+.sr5-input-focus() {
+    border: 1px solid @subColor;
+    box-shadow: 0 0 5px fade(@subColor, 50%);
+}
+
+.sr5-input-placeholder() {
+    color: @mainColor;
+}
+
+// === Select states ===
+.sr5-select() {
+    border: 1px solid @mainColor;
+    color: @neutralLightColor;
+}
+
+.sr5-select-focus() {
+    box-shadow: 0 0 5px @subColor;
+    border: 1px solid @subColor;
+}
+
+// === Checkbox states ===
+.sr5-checkbox() {
+    color: @mainColor;
+    border: 1px solid @mainColor;
+}
+
+.sr5-checkbox-checked() {
+    color: @neutralLightColor;
+    border-color: @subColor;
+    background: fade(@subColor, 50%);
+}
+
+// === Header styles ===
+.sr5-header-primary() {
+    border-top: 1px solid @mainColor;
+    border-bottom: 1px solid @mainColor;
+    background-color: fade(@mainColor, 50%);
+}
+
+.sr5-header-secondary() {
+    border-top: 1px solid @subColor;
+    border-bottom: 1px solid @subColor;
+    background-color: fade(@subColor, 50%);
+}

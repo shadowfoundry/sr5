@@ -16,7 +16,7 @@ import { SR5_ActorHelper } from "../entities/actors/entityActor-helpers.js";
 
 export class SR5_RollMessage {
     //Handle reaction to roll ChatMessage
-    static async chatListeners(html, data) {
+    static async chatListeners(html, message) {
         // v13: html may be a raw DOM element or jQuery object
         const element = html instanceof HTMLElement ? html : html[0];
 
@@ -37,20 +37,21 @@ export class SR5_RollMessage {
             // Hide GM stuff
             element.querySelectorAll(".chat-button-gm").forEach(el => el.remove());
 
+            // v13: use message document directly instead of data.message
             // Hide if player is not owner of the message
-            if (data.message.speaker.actor && game.actors.get(data.message.speaker.actor)?.permission != 3) {
+            if (message.speaker?.actor && game.actors.get(message.speaker.actor)?.permission != 3) {
                 element.querySelectorAll(".nonOpposedTest").forEach(el => el.remove());
                 element.querySelectorAll(".owner").forEach(el => el.remove());
             }
 
             // Hide if player is not owner of the message for attackerTest
-            if (data.message.flags?.sr5data?.previousMessage?.userId !== game.user.id) {
+            if (message.flags?.sr5data?.previousMessage?.userId !== game.user.id) {
                 element.querySelectorAll(".attackerTest").forEach(el => el.remove());
             }
 
             // Do not display "Blind" chat cards to non-gm
             if (element.classList.contains("blind")) {
-                const header = element.querySelector(".message-header");
+                const header = element.querySelector("header") || element.querySelector(".message-header");
                 if (header) header.remove(); // Remove header so Foundry does not attempt to update its timestamp
                 element.innerHTML = "";
                 element.style.display = "none";
@@ -78,7 +79,7 @@ export class SR5_RollMessage {
         element.querySelectorAll(".card-edit").forEach(el => {
             el.addEventListener("change", async (ev) => {
                 const target = ev.currentTarget;
-                const messageEl = target.closest(".message");
+                const messageEl = target.closest(".chat-message") || target.closest(".message");
                 const messageId = messageEl?.dataset.messageId;
                 const message = game.messages.get(messageId);
                 const actor = SR5_EntityHelpers.getRealActorFromID(message.flags.sr5data.owner.speakerId);
@@ -123,7 +124,7 @@ export class SR5_RollMessage {
         ev.preventDefault();
         
         const buttonEl = ev.currentTarget,
-            messageEl = buttonEl.closest(".message"),
+            messageEl = buttonEl.closest(".chat-message") || buttonEl.closest(".message"),
             messageId = messageEl?.dataset.messageId,
             message = game.messages.get(messageId),
             action = buttonEl.dataset.action,
@@ -683,7 +684,7 @@ export class SR5_RollMessage {
     //Update data on roll chatMessage
     static async updateRollCard(message, newMessage){
         let messageToUpdate = await game.messages.get(message);
-        let template = messageToUpdate.flags.sr5template;
+        let template = messageToUpdate.flags.sr5data?.sr5template || messageToUpdate.flags.sr5template;
         return foundry.applications.handlebars.renderTemplate(template, newMessage).then((html) => {
             const temp = document.createElement("div");
             temp.innerHTML = html;

@@ -177,7 +177,7 @@ export const registerHooks = function () {
 
 	Hooks.once('canvasReady', data => {
 		for (let token of data.tokens.ownedTokens){
-			if (token.document.actorLink && (token.scene.flags.sr5.backgroundCountValue !== 0)){
+			if (token.document.actorLink && (token.scene.flags.sr5?.backgroundCountValue !== 0)){
 				token.document.actor.prepareData();
 			}
 		}
@@ -185,9 +185,29 @@ export const registerHooks = function () {
 
 	Hooks.on("renderChatMessageHTML", (message, html, data) => {
 		// v13: html is always an HTMLElement with renderChatMessageHTML
-		const isRoll = message.rolls?.length > 0;
-		if (!isRoll) SR5_RollMessage.chatListeners(html, data);
-		if (isRoll) html.classList.add("SRCustomMessage");
+		const element = html instanceof HTMLElement ? html : html[0];
+
+		// Apply SR5 custom styling for messages with SR5 roll data
+		if (message.flags?.sr5data) {
+			element.classList.add("SRCustomMessage");
+			const borderColor = message.flags?.sr5data?.owner?.borderColor;
+			if (borderColor && typeof borderColor === "string") element.style.borderColor = borderColor;
+
+			// Inject actor thumbnail into Foundry's default message header
+			const msgHeader = element.querySelector(":scope > header");
+			if (msgHeader) {
+				const imgSrc = message.flags?.sr5data?.owner?.speakerImg || "systems/sr5/img/ui/SR6_Logo.svg";
+				const img = document.createElement("img");
+				img.classList.add("SRAuthorIcon");
+				img.src = imgSrc;
+				img.title = message.speaker?.alias || "";
+				msgHeader.prepend(img);
+			}
+		}
+
+		// Attach SR5 chat card listeners for messages with roll card content
+		const hasSr5Card = element.querySelector(".SR-CardHeader");
+		if (hasSr5Card) SR5_RollMessage.chatListeners(html, message);
 	});
 
 	Hooks.on("canvasInit", function() {

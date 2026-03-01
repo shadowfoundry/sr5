@@ -1,7 +1,6 @@
 // Namespace SR5 Configuration Values
 export const SR5 = {};
 
-CONFIG.ChatMessage.template = "systems/sr5/templates/interface/chat-message.html";
 
 // Attributes
 SR5.characterAttributes = {

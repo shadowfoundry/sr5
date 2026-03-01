@@ -371,13 +371,12 @@ export class SR5_RollTest {
 		let userActive = game.users.get(chatData.user);
 		cardData.owner.userId = game.user.id;
 
+		// v13: store all custom data under sr5data to avoid non-namespaced flag issues
+		// Convert user.color to string (v13 Color object)
+		cardData.owner.borderColor = typeof userActive.color === "string" ? userActive.color : String(userActive.color ?? "");
+		cardData.sr5template = template;
 		chatData.flags = {
 			sr5data: cardData,
-			sr5template: template,
-			img: cardData.owner.speakerImg,
-			css: "SRCustomMessage",
-			speakerId: chatData.speakerId,
-			borderColor: userActive.color,
 		};
 
 		//Handle Dice so Nice

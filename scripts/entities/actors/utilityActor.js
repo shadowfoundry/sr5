@@ -2716,7 +2716,7 @@ export class SR5_CharacterUtility extends Actor {
 			//check if actor already has a modifier on background count to avoid scene modifiers and prefer template modifier
 			if (token && !actorData.magic.bgCount.modifiers.length) {
 				let sceneData = scene.flags.sr5;
-				if (sceneData.backgroundCountValue !== 0) {
+				if (sceneData && sceneData.backgroundCountValue !== 0) {
 					if (sceneData.backgroundCountAlignement === actorData.magic.tradition) SR5_EntityHelpers.updateModifier(actorData.magic.bgCount, game.i18n.localize("SR5.SceneBackgroundCount"), sceneData.backgroundCountAlignement, sceneData.backgroundCountValue, false, true);
 					else SR5_EntityHelpers.updateModifier(actorData.magic.bgCount, game.i18n.localize("SR5.SceneBackgroundCount"), sceneData.backgroundCountAlignement, -sceneData.backgroundCountValue, false, true);
 				}

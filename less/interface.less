@@ -1,3 +1,5 @@
+@import "./commons/ui-mixins.less";
+
 .app {
     color: @neutralLightColor;
     background: none;
@@ -15,12 +17,10 @@
         &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=AmbientLightConfig-], &[id^=PlaylistConfig-],
         &[id^=support-details], &[id^=UserConfig-User-], &[id^=SR5MeasuredTemplateConfig-], &#keybindings, &.macro-sheet {
             select{
-                border: 1px solid @mainColor;
-                color: @neutralLightColor;
+                .sr5-select();
 
                 &:focus{
-                    box-shadow: 0 0 5px @subColor;
-                    border: 1px solid @subColor;
+                    .sr5-select-focus();
                 }
 
                 &::before {
@@ -37,71 +37,27 @@
             }
 
             button, a.display-mode {
-                position: relative;
-                display: block;
-                color: @neutralLightColor;
-                font-family: @SR_FontTitle;
-                text-transform: uppercase;
-                text-align: center;
-                border-radius: 3px;
-                text-decoration: none;
-                text-overflow: ellipsis;
-                //overflow: hidden;
-                -webkit-transition: all 1s ease;
-                -moz-transition: all 1s ease;
-                -o-transition: all 1s ease;
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                border: 1px solid @mainColor;
-                background: fade(@mainColor, 50%);
-                z-index: 1;
+                .sr5-button();
 
                 &:hover {
-                    color: @neutralLightColor;
-                    background-color: fade(@subColor, 50%);
-                    border: 1px solid @subColor;
-                    box-shadow: none;
+                    .sr5-button-hover();
                 }
-
-                &:hover:before {
-                    left: 0%;
-                    right: auto;
-                    width: 100%;
-                }
-
-                &:before {
-                    display: block;
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                    height: 100%;
-                    width: 0px;
-                    z-index: -1;
-                    content: '';
-                    color: @neutralLightColor;
-                    background: fade(@subColor, 50%);
-                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                }
-
             }
 
             input[type="text"], input[type="number"], input[type="color"] {
-                color: @neutralLightColor;
-                border: 1px solid @mainColor;
-                height: auto;
+                .sr5-input();
 
                 &:focus {
-                    box-shadow: 0 0 5px fade(@subColor, 50%);
-                    border: 1px solid @subColor;
+                    .sr5-input-focus();
                 }
                 &::placeholder {
-                    color: @mainColor;
+                    .sr5-input-placeholder();
                 }
             }
 
             input[type="checkbox"] {
                 position: relative;
-                color: @mainColor;
-                border: 1px solid @mainColor;
+                .sr5-checkbox();
                 border-radius: 4px;
                 appearance: none;
                 outline: 0;
@@ -109,22 +65,20 @@
                 transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
 
                 &::before {
-                    position: relative;
                     content: '';
                     display: block;
-                    top: 0px;
-                    left: 5px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
                     width: 30%;
-                    height: 80%;
+                    height: 60%;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
-                    transform: rotate(45deg);
+                    transform: translate(-50%, -60%) rotate(45deg);
                     opacity: 0;
                 }
                 &:checked {
-                    color: @neutralLightColor;
-                    border-color: @subColor;
-                    background: fade(@subColor, 50%);
+                    .sr5-checkbox-checked();
                     &::before {
                         opacity: 1;
                     }
@@ -143,15 +97,11 @@
 
             h2 {
                 text-align: center;
-                border-bottom: 1px solid @subColor;
-                border-top: 1px solid @subColor;
-                background-color: fade(@subColor, 50%);
+                .sr5-header-secondary();
             }
 
             h3 {
-                border-bottom: 1px solid @mainColor;
-                border-top: 1px solid @mainColor;
-                background-color: fade(@mainColor, 50%);
+                .sr5-header-primary();
             }
 
             span.units {
@@ -160,21 +110,14 @@
 
             nav {
                 border-bottom: 1px solid @subColor;
-                
+
                 .item {
                     color: @subColor;
-                    line-height: 25px;
-                    text-align: center;
 
                     &.active {
                         color: @neutralLightColor;
                         border: none;
                         box-shadow: none;
-                        border-radius: 5px;
-
-                        &:hover {
-                            border-bottom: none;
-                        }
                     }
 
                     &:hover {
@@ -182,9 +125,6 @@
                     }
                 }
             }
-            footer button:not(:nth-child(0n+1)) {
-                margin-left: 10px;
-              }
 
             .window-content {
                 padding: 8px;
@@ -245,28 +185,7 @@
             }
         }
 
-        &.scene-sheet {
-            nav.sheet-tabs{
-                &.tabs {
-                    flex-wrap: wrap;
-                    height: auto;
-
-                    a:not(:first-child) {
-                        margin-left: 10px;
-                    }
-                }
-            }
-
-            form {
-                .form-group {
-                    .form-fields {
-                        button {
-                            flex:0 0 35px;
-                        }
-                    }
-                }
-            }
-        }
+        /* v13: scene-sheet uses Foundry-native layout */
 
         &.journal-sheet {
             .window-content {
@@ -276,20 +195,16 @@
                 background-repeat: repeat-x, repeat-x, repeat;
 
                 select {
-                    border: 1px solid @mainColor;
-                    height: auto;
-                    margin: 20px 0 5px 0;
+                    .sr5-select();
 
                     &:focus {
-                        border: 1px solid @subColor;
-                        box-shadow: 0 0 5px fade(@subColor, 50%);
+                        .sr5-select-focus();
                     }
                 }
 
                 input[type="search"]{
                     font-family: @SR_BodyText;
-                    color: @neutralLightColor;
-                    border: 1px solid @mainColor;
+                    .sr5-input();
                     background: fade(@black, 30%);
                     text-transform: none;
                 }
@@ -346,67 +261,15 @@
                 }
 
                 .title {
-                   height: 36px;
                    font-size: @SR_FontSizeBigBig;
-                   line-height: 36px;
-                }
-
-                .editor {
-                    padding-bottom: 20px;
-                }
-
-                .form-group.picker {
-                    margin: 5px 0 2px;
-                }
-
-                .lightbox-image {
-                    flex: 0 0 calc(100% - 130px);
                 }
 
                 button:not(.tox-tbtn) {
-                    //margin-top: 12px;
-                    position: relative;
-                    display: block;
-                    line-height: 25px;
-                    color: @neutralLightColor;
-                    font-family: @SR_FontTitle;
-                    text-transform: uppercase;
-                    font-size: @SR_FontSizeSmall ;
-                    text-align: center;
-                    border-radius: 3px;
-                    text-decoration: none;
-                    -webkit-transition: all 1s ease;
-                    -moz-transition: all 1s ease;
-                    -o-transition: all 1s ease;
-                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                    border: 1px solid @subColor;
-                    background: fade(@black, 30%);
-                    z-index: 1;
+                    .sr5-button();
+                    font-size: @SR_FontSizeSmall;
 
                     &:hover {
-                        color: @neutralDarkColor;
-                        background-color: transparent;
-                        box-shadow: none;
-                    }
-
-                    &:hover:before {
-                        left: 0%;
-                        right: auto;
-                        width: 100%;
-                    }
-
-                    &:before {
-                        display: block;
-                        position: absolute;
-                        top: 0px;
-                        right: 0px;
-                        height: 100%;
-                        width: 0px;
-                        z-index: -1;
-                        content: '';
-                        color: @neutralDarkColor;
-                        background: @subColor;
-                        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                        .sr5-button-hover();
                     }
                 }
 
@@ -488,30 +351,9 @@
             }
         }
 
-        &.token-sheet {
-            nav {
-                .item {
-                    &.active {
-                        height: 30px;
-
-                        &:hover {
-                            height: 30px;
-                        }
-                    }
-
-                    &:hover {
-                        height: 27px;
-                    }
-                }
-            }
-        }
+        /* v13: token-sheet uses Foundry-native layout */
 
         &.filepicker {
-            footer button:not(:nth-child(0n+1)) {
-                margin-left: 0px;
-                margin-top: 10px;
-            }
-
             .directory {
                 border: 1px solid @subColor;
 
@@ -521,7 +363,7 @@
                     background-size: 0 90%;
                     background-repeat: no-repeat;
                     transition: background .5s;
-                    height: auto;
+
                     &:hover {
                         background-size: 100% 90%;
                         text-shadow: none;
@@ -531,7 +373,6 @@
 
             nav.tabs {
                 border-bottom: 2px solid @subColor;
-                margin-bottom: 10px;
 
                 a {
                     font-family: @SR_FontTitle;
@@ -547,119 +388,78 @@
         }
 
         .window-content {
-            z-index: 1;
-            padding: 8px;
             background-image: url(@Sidebar);
             background-size: cover;
         }
     }
 }
 
-[id^=macro-config-] {
-    &.sheet header.sheet-header h1 input {
-        //margin-right: 0px;
-        width: 100%;
-        margin: 0;
-    }
-}
+/* v13: macro-config uses Foundry-native layout */
 
-#logo {
-    content:url(@SRLogo);
-    height: 60px;
-    width: 60px;
-    margin: 7px 0 0 1px;
-}
+/* v13: #logo no longer exists, #navigation replaced by #scene-navigation */
+#scene-navigation {
+    font-family: @SR_FontTitle;
+    text-transform: uppercase;
 
-#ui-top.offset {
-    margin-left: 0px;
-}
+    .scene {
+        background: fade(@mainColor, 50%);
+        color: @neutralLightColor;
+        border: 1px solid @mainColor;
+        box-shadow: none;
 
-#navigation {
-    left: 90px;
-    #nav-toggle{
-        background: @neutralDarkColor;
-    }
+        &.gm {
+            background: @neutralDarkColor;
+            color: @neutralLightColor;
+            border: 1px solid @mainColor;
+            box-shadow: none;
+        }
 
-    #scene-list{
-        font-family: @SR_FontTitle;
-        text-transform: uppercase;
-
-        .scene {
+        &.view {
             background: fade(@mainColor, 50%);
             color: @neutralLightColor;
             border: 1px solid @mainColor;
             box-shadow: none;
+        }
 
-            &.gm {
-                background: @neutralDarkColor;
-                color: @neutralLightColor;
-                border: 1px solid @mainColor;
-                box-shadow: none;
-            }
-
-            &.view {
-                background: fade(@mainColor, 50%);
-                color: @neutralLightColor;
-                border: 1px solid @mainColor;
-                box-shadow: none;
-            }
-
-            &.gm.active {
-                background: fade(@subColor, 50%);
-                color: @neutralLightColor;
-                border: 1px solid @subColor;
-                box-shadow: none;
-            }
+        &.gm.active {
+            background: fade(@subColor, 50%);
+            color: @neutralLightColor;
+            border: 1px solid @subColor;
+            box-shadow: none;
         }
     }
 }
 
+/* v13: token HUD — color theming only, layout is Foundry-native */
 #token-hud {
     .status-effects {
-        width: 110px;
-        grid-template-columns: repeat(3, 33%);
         background: fade(@subColor, 25%);
         border: 1px solid @subColor;
-    
+
         .effect-control{
-            width: 35px;
-            height: 35px;
             border: 1px solid @subColor;
-            
+
             &.active{
                 background: fade(@subColor, 75%);
                 border: 1px solid @subColor;
             }
-
-        }
-
-        &.active{
-            position: absolute;
-            margin-top: 77px;
         }
     }
 
-    .attribute.elevation {
-        width: 42px;
+    .attribute.elevation input {
+        background: fade(@subColor, 75%);
+        border: 1px solid @subColor;
 
-        input{
-            background: fade(@subColor, 75%);
-            border: 1px solid @subColor;
-
-            &:focus{
-                box-shadow: none;
-                border: 1px solid @mainColor;
-                background-color: fade(@mainColor, 75%);
-            }
+        &:focus{
+            box-shadow: none;
+            border: 1px solid @mainColor;
+            background-color: fade(@mainColor, 75%);
         }
-
-        
     }
 }
 
-.placeable-hud .control-icon{
+.placeable-hud .control-icon {
     background-color: fade(@subColor, 75%);
-    margin: 5px 0;
 
     &.active {
         border: 1px solid @mainColor;
@@ -728,97 +528,96 @@
   img {
     content: url(@SRLogo);
     animation: none;
-    transform: translate(0, -50px);
     opacity: 1;
     filter: drop-shadow(0px 0px 10px @neutralDarkColor);
   }
 
+  /* v13: #pause h3 is now #pause figcaption */
+  figcaption,
   h3 {
     text-shadow: none;
     animation: glow 1.5s ease-in-out infinite alternate;
   }
 }
 
-#ui-bottom {
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    background-image: url(@MacroBar);
-    background-origin: border-box;
-    background-repeat: no-repeat, no-repeat;
-    background-position-x: left;
-    background-position-y: bottom;
-    background-size: 650px;
-}
-
-#ui-middle{
-    position: static;
-}
+/* v13: let Foundry handle #ui-bottom, #ui-middle, #hotbar, #players positioning natively */
+/* Only apply visual theming (colors, fonts), no layout overrides */
 
 #hotbar {
-    height: 65px;
-    padding-top: 15px;
-    padding-left: 5px;
-
+    /* v13: .macro is now .slot, .macro-key is now .key */
+    .slot .key,
     .macro .macro-key {
       font-family: @SR_FontTitle;
       text-transform: uppercase;
+      color: fade(@neutralLightColor, 75%);
+      background-color: transparent;
     }
 
+    .slot,
     .macro.inactive {
-      box-shadow: 0 0 4px @mainColor inset;
+      .sr5-block();
+
       &:hover {
-        box-shadow: 0 0 4px @subColor inset;
+        .sr5-block-hover();
       }
     }
 
-    .macro.active {
-      border: 1px solid @mainColor;
-      &:hover {
-        border: 1px solid @subColor;
-        box-shadow: 0 0 4px @subColor inset;
-      }
-    }
-
-    .bar-controls {
-      font-family: @SR_FontTitle;
-      text-transform: uppercase;
+    .slot.full .key,
+    .macro.active .macro-key {
       color: @neutralLightColor;
-      height: 50px;
     }
 
-    #hotbar-directory-controls {
-      border: 1px solid @mainColor;
-      background-color: fade(@mainColor, 25%);
-      margin-left: 0;
-      margin-right: 4px;
-      margin-bottom: 1px;
-    }
+    .slot.full,
+    .macro.active {
+      .sr5-block-active();
 
-    #action-bar {
-      border: 1px solid transparent;
-
-      #hotbar-page-controls {
-        border: 1px solid transparent;
+      &:hover {
+        .sr5-block-hover();
       }
     }
-  }
+
+    /* v13: hotbar left/right controls — color theming only */
+    #hotbar-controls-left,
+    #hotbar-controls-right {
+        .ui-control {
+            .sr5-block();
+
+            &:hover {
+                .sr5-block-hover();
+            }
+
+            &:active,
+            &[aria-pressed=true] {
+                .sr5-block-active();
+            }
+        }
+    }
+
+    #hotbar-page-controls {
+        .hotbar-page-control {
+            .sr5-block();
+
+            &:hover {
+                .sr5-block-hover();
+            }
+
+            &:active {
+                .sr5-block-active();
+            }
+        }
+
+        .hotbar-page-number {
+            color: fade(@neutralLightColor, 75%);
+        }
+    }
+}
 
 #players {
-    position: fixed;
-    z-index: 71;
-    background-image: none;
-    margin-bottom: 0px;
-    right: 315px;
-    left: auto;
-    bottom: 5px;
-    border: 1px solid @mainColor;
-    border-radius: none;
-    box-shadow: none;
-    background-color: fade(@mainColor, 25%);
-    width: auto;
-    
+    --background-color: fade(@mainColor, 25%);
+    --border-color: @mainColor;
+    --text-color: fade(@neutralLightColor, 75%);
+    --player-name-color: @neutralLightColor;
+
     h3 {
         font-family: @SR_FontTitle;
         text-transform: uppercase;
@@ -827,10 +626,14 @@
     ol {
         font-family: @SR_BodyText;
     }
-}
 
-#sidebar.collapsed ~ #players {
-    right: 15px;
+    button {
+        .sr5-block();
+
+        &:hover {
+            .sr5-block-hover();
+        }
+    }
 }
 
 #ui-left {
@@ -839,272 +642,81 @@
     background-position: -35px -215px;
 }
 
-#controls {
-    ol.main-controls {
-        //padding-left: 10px;
-        width: 55px;
-    }
+/* v13: scene controls — color theming only, layout is Foundry-native */
+#scene-controls {
+    .ui-control {
+        .sr5-block();
 
-    ol:nth-of-type(3n){
-        margin-top: 40px;
-    }
-
-    ol:nth-of-type(4n){
-        margin-top: 80px;
-    }
-
-    ol:nth-of-type(5n){
-        margin-top: 120px;
-    }
-
-    ol:nth-of-type(6n){
-        margin-top: 160px;
-    }
-
-    ol:nth-of-type(7n){
-        margin-top: 200px;
-    }
-
-    ol:nth-of-type(8n){
-        margin-top: 240px;
-    }
-
-    ol:nth-of-type(9n){
-        margin-top: 280px;
-    }
-
-    .main-controls {
-        
-        .scene-control {
-            width: 30px;
-            height: 30px;
-            font-size: @SR_FontSizeBig;
-            line-height: 30px;
-            background: fade(@mainColor, 25%);
-            color: fade(@neutralLightColor, 75%);
-            border: 1px solid @mainColor;
-            box-shadow: none;
-            position: relative;
-            display: block;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-
-            &:hover {
-                color: @neutralLightColor;
-                border: 1px solid @subColor;
-                background-color: transparent;
-                box-shadow: none;
-            }
-
-            &:hover:before {
-                left: 0%;
-                right: auto;
-                width: 100%;
-            }
-
-            &:before {
-                display: block;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                height: 100%;
-                width: 0px;
-                z-index: -1;
-                content: '';
-                color: @black !important;
-                background: fade(@subColor, 25%);
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            }
-
-            &.active {
-                color: @neutralLightColor;
-                background: fade(@subColor, 50%);
-                border: 1px solid @subColor;
-                box-shadow: none;
-            }
-
-            
-        }
-    }
-
-    .sub-controls {
-        opacity: 0;
-        transition: opacity 0s ease-in 1s;
         &:hover {
-            opacity: 1;
-            transition: opacity 0s ease-in 0s;
+            .sr5-block-hover();
         }
 
-        .control-tool {
-            width: 30px;
-            height: 30px;
-            font-size: @SR_FontSizeBig;
-            line-height: 30px;
-            background: fade(@mainColor, 25%);
-            color: fade(@neutralLightColor, 75%);
-            border: 1px solid @mainColor;
-            box-shadow: none;
-            position: relative;
-            display: block;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1); 
-
-            &:hover {
-                color: @neutralLightColor;
-                border: 1px solid @subColor;
-                background-color: transparent;
-                box-shadow: none;
-            }
-
-            &:hover:before {
-                left: 0%;
-                right: auto;
-                width: 100%;
-            }
-
-            &:before {
-                display: block;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                height: 100%;
-                width: 0px;
-                z-index: -1;
-                content: '';
-                color: @black !important;
-                background: fade(@subColor, 25%);
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            }
-            
-            &.active {
-                color: @neutralLightColor;
-                background: fade(@subColor, 50%);
-                border: 1px solid @subColor;
-                box-shadow: none;
-            }
+        &[aria-pressed=true],
+        &.active {
+            .sr5-block-active();
         }
     }
 }
 
+/* v13: sidebar — color theming only */
 #sidebar {
-    margin: 0px 0px 5px 5px;
-    right: 0px;
-    top: 0px;
-    width: 308px;
-    padding: 5px 5px 5px 5px;
+    border-radius: 0;
+    border: 0px;
+
+    &.collapsed {
+        /* v13: .item is now .ui-control */
+        #sidebar-tabs .ui-control,
+        #sidebar-tabs > .item {
+            &:hover {
+                .sr5-block-hover();
+                border-radius: 3px;
+            }
+        }
+
+        #sidebar-tabs .ui-control[aria-pressed=true],
+        #sidebar-tabs > .item.active {
+            .sr5-block-active();
+            background-image: none;
+        }
+    }
+}
+
+/* v13: sidebar content area is now #sidebar-content */
+#sidebar-content {
     background-image: url(@Sidebar);
     background-origin: border-box;
     background-size: cover;
     background-color: fade(@neutralDarkColor, 100%);
-    border-radius: 0;
-    border: 0px;
     border-left: 1px solid @subColor;
-    height: 100%;
-
-    &.collapsed {
-        width: 35px!important;
-        border-bottom: 1px solid @subColor;
-        border-bottom-left-radius: 10px;
-
-        #sidebar-tabs > .item {
-            &:hover {
-            background: fade(@subColor, 50%);
-            border : none;
-            border-radius: 3px;
-            height: 30px;
-            }
-        }
-
-        #sidebar-tabs > .item.active {
-            border : none;
-            background-image: none;
-            height: 30px;
-        }
-    }
 }
 
 #sidebar-tabs {
-    box-shadow: none;
-    border-bottom: 2px solid @subColor;
-    color: @neutralLightColor;
-
+    .ui-control,
     .item {
-        line-height: 28px;
-
-        &.active {
-            color: @neutralLightColor;
-            border: none;
-            box-shadow: none;
-            border-radius: 5px;
-            height: 33px;
-            background-image: url(@UpArrow);
-            background-repeat: no-repeat;
-            background-origin: border-box;
-            background-position-y: bottom;
-            background-position-x: center;
-            background-size: 43%;
-
-            &:hover {
-                height: 33px;
-                border-bottom: none;
-            }
-        }
+        .sr5-block();
 
         &:hover {
-            height: 29px;
-            border-bottom: 1px solid @subColor;
+            .sr5-block-hover();
+        }
+
+        &[aria-pressed=true],
+        &.active {
+            .sr5-block-active();
         }
     }
 }
 
 .sidebar-tab {
-    button:not(.messageAction) {
-        position: relative;
-        display: block;
-        line-height: 20px;
-        color: @neutralLightColor;
-        font-family: @SR_FontTitle;
-        text-transform: uppercase;
-        font-size: @SR_FontSizeSmall ;
-        text-align: center;
-        border-radius: 3px;
-        text-decoration: none;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        border: 1px solid @subColor;
-        background: fade(@black, 30%);
-        z-index: 1;
+    /* v13: override sidebar tab background variable */
+    --sidebar-background: transparent;
+    color: @neutralLightColor;
+
+    button:not(.messageAction):not(.ui-control) {
+        .sr5-button();
+        font-size: @SR_FontSizeSmall;
 
         &:hover {
-            color: @neutralDarkColor;
-            background-color: transparent;
-            box-shadow: none;
-        }
-
-        &:hover:before {
-            left: 0%;
-            right: auto;
-            width: 100%;
-        }
-
-        &:before {
-            display: block;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: 100%;
-            width: 0px;
-            z-index: -1;
-            content: '';
-            color: @neutralDarkColor;
-            background: @subColor;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            .sr5-button-hover();
         }
     }
 
@@ -1116,17 +728,15 @@
         .header-search {
             input {
                 font-family: @SR_BodyText;
-                color: @neutralLightColor;
-                border: 1px solid @mainColor;
+                .sr5-input();
                 background: fade(@black, 30%);
 
                 &:focus {
-                    border: 1px solid @subColor;
-                    box-shadow: 0 0 5px @subColor;
+                    .sr5-input-focus();
                 }
 
                 &::placeholder {
-                    color: @mainColor;
+                    .sr5-input-placeholder();
                     font-family: @SR_BodyText;
                 }
             }
@@ -1158,47 +768,17 @@
 
         li.folder.collapsed > .folder-header {
             background: fade(@mainColor, 25%);
-            position: relative;
             font-family: @SR_FontTitle;
             text-transform: uppercase;
-            font-size: @SR_FontSizeSmall ;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            font-size: @SR_FontSizeSmall;
 
             &:hover {
-                background-color: transparent;
+                background-color: fade(@subColor, 25%);
                 box-shadow: none;
-            }
-
-            &:hover:before {
-                left: 0%;
-                right: auto;
-                width: 100%;
-            }
-
-            &:before {
-                display: block;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                height: 100%;
-                width: 0px;
-                content: '';
-                background: fade(@subColor, 25%);
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
             }
         }
 
         .directory-item {
-            line-height: 40px;
-
-            .document-name {
-                margin: 0 0 0 0px;
-                flex-basis: 80%;
-            }
-
             h4 {
                 background-image: linear-gradient(to right, fade(@subColor, 25%) 0, fade(@subColor, 25%) 100%);
                 background-position: left 50%;
@@ -1208,65 +788,35 @@
 
                 &:hover:not(.pack-title) {
                     background-size: 100% 90%;
-                  }
+                }
             }
 
             img {
                 border: 1px solid @subColor;
                 border-radius: 3px;
-                flex: 0 0 40px;
-                height: 40px;
-                width: 40px;
-                object-fit: contain;
-                margin: 2px 8px 0 2px
             }
 
             li.folder > .folder-header {
                 background: fade(@subColor, 25%);
                 font-family: @SR_FontTitle;
                 text-transform: uppercase;
-                font-size: @SR_FontSizeSmall ;
+                font-size: @SR_FontSizeSmall;
             }
 
             li.folder.collapsed > .folder-header {
                 background: fade(@mainColor, 25%);
-                position: relative;
                 font-family: @SR_FontTitle;
                 text-transform: uppercase;
-                font-size: @SR_FontSizeSmall ;
-                -webkit-transition: all 1s ease;
-                -moz-transition: all 1s ease;
-                -o-transition: all 1s ease;
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                font-size: @SR_FontSizeSmall;
 
                 &:hover {
-                    background-color: transparent;
+                    background-color: fade(@subColor, 25%);
                     box-shadow: none;
-                }
-
-                &:hover:before {
-                    left: 0%;
-                    right: auto;
-                    width: 100%;
-                }
-
-                &:before {
-                    display: block;
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                    height: 100%;
-                    width: 0px;
-                    z-index: -1;
-                    content: '';
-                    background: fade(@subColor, 25%);
-                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
                 }
             }
 
             &.context {
                 border-color: @subColor;
-
             }
 
         }
@@ -1292,13 +842,12 @@
     h2 {
         font-family: @SR_FontTitleAlter;
         text-transform: uppercase;
-        border-top: 1px solid @mainColor;
-        border-bottom: 1px solid @mainColor;
-        background: fade(@mainColor, 50%);
+        .sr5-header-primary();
     }
 }
 
 
+/* v13: context menu — color theming only */
 #context-menu {
     font-family: @SR_BodyText;
     background: @neutralDarkColor;
@@ -1309,99 +858,48 @@
     color: @neutralLightColor;
 
     li.context-item {
-        position: relative;
-        display: block;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
         border: 1px solid fade(@subColor, 25%);
-        text-transform: initial;
         font-size: @SR_FontSizeNormal;
 
-        &:hover{
+        &:hover {
             text-shadow: none;
-            color: @neutralDarkColor;
-            background-color: transparent;
+            .sr5-block-hover();
         }
+    }
+}
 
-        &:hover:before {
-            left: 0%;
-            right: auto;
-            width: 100%;
-        }
+/* v13: chat controls — color theming only */
+#sidebar-content #chat-message,
+#chat-popout #chat-message {
+    .sr5-input();
+    background: fade(@mainColor, 25%);
 
-        &:before {
-            display: block;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: 100%;
-            width: 0px;
-            z-index: -1;
-            content: '';
-            color: @neutralDarkColor;
-            background: @subColor;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        }
+    &:focus {
+        .sr5-input-focus();
+        outline: none;
+    }
 
+    &::placeholder {
+        .sr5-input-placeholder();
     }
 }
 
 #chat-controls {
-    border-top: 2px solid @subColor;
-    padding-top: 5px;
-    margin-top: 5px;
-
-    .fa-dice-d20:before {
-        content:"";
-        width: 30px;
-        height: 24px;
-        display:inline-block;
-        background:url(@SRLogo) no-repeat;
-        background-size: contain;
-    }
-
-    .roll-type-select{
-        background: fade(@mainColor, 25%);
-        color: @neutralLightColor;
-        font-family: @SR_BodyText;
-        border: 1px solid @mainColor;
-    }
-
-    option {
-        background: @neutralDarkColor;
-    }
-
-    optgroup {
-        background: @mainColor;
-    }
-
-    .control-buttons a {
-        color: fade(@mainColor, 50%);
+    .ui-control {
+        .sr5-block();
 
         &:hover {
-            color: fade(@subColor, 50%);
+            .sr5-block-hover();
+        }
+
+        &:active,
+        &[aria-pressed=true] {
+            .sr5-block-active();
         }
     }
 }
 
-#chat-form {
-    textarea{
-        font-family: @SR_BodyText;
-        background: fade(@mainColor, 25%);
-        border: 1px solid @mainColor;
-
-        &:focus {
-            border: 1px solid @subColor;
-            outline: none;
-            box-shadow: 0 0 5px @subColor;
-            background: fade(@subColor, 50%);
-            color: @neutralLightColor;
-        }
-    }
-}
-
+/* v13: combat tracker — color theming only */
 #combat {
     #combat-round {
         border-bottom: 1px solid @mainColor;
@@ -1411,9 +909,6 @@
             h3 {
                 font-family: @SR_FontTitleAlter;
                 text-transform: uppercase;
-            }
-            h3.encounter-title {
-                margin-left: 0px;
             }
             h4 {
                 color: @neutralLightColor;
@@ -1432,11 +927,6 @@
 
     #combat-tracker {
         li.combatant {
-
-            line-height: 50px;
-            padding-top: 2px;
-            padding-bottom: 2px;
-
             &.hidden {
                 color: fade(@subColor, 50%);
             }
@@ -1451,51 +941,32 @@
 
             .token-name {
                 h4 {
-                    padding-left: 0px;
-                    font-size: 16px;
-
-                    &:hover {
-                        background-size: 0;
-                    }
-
-                    &.hasPlayed{
+                    &.hasPlayed {
                         color: fade(@neutralLightColor, 25%);
                     }
                 }
 
-                .combatant-controls {
-                    flex: 0 0 27px;
-                    font-size: var(--font-size-17);
-                    line-height: 25px;
+                .combatant-controls .action {
+                    color: @neutralLightColor;
 
-                    .action {
-                        color: @neutralLightColor;
-                        height: 18px;
-                        line-height: 17px;
-                        text-align: center;
-                        margin-right: 2px;
-                        margin-top: 2px;
+                    &.free {
+                        border: 1px solid fade(@neutralDarkColor, 50%);
+                        background-color: fade(@neutralDarkColor, 50%);
+                    }
 
-                        &.free {
-                            border: 1px solid fade(@neutralDarkColor, 50%);
-                            background-color: fade(@neutralDarkColor, 50%);
-                        }
+                    &.simple {
+                        border: 1px solid fade(@subColor, 50%);
+                        background-color: fade(@subColor, 50%);
+                    }
 
-                        &.simple {
-                            border: 1px solid fade(@subColor, 50%);
-                            background-color: fade(@subColor, 50%);
-                        }
-
-                        &.complex {
-                            border: 1px solid fade(@mainColor, 50%);
-                            background-color: fade(@mainColor, 50%);
-                        }
+                    &.complex {
+                        border: 1px solid fade(@mainColor, 50%);
+                        background-color: fade(@mainColor, 50%);
                     }
                 }
+
                 .combatant-control {
                     color: @mainColor;
-                    flex: 0 0 23px;
-                    
 
                     &:hover {
                         color: fade(@subColor, 50%);
@@ -1505,34 +976,17 @@
                         color: @subColor;
                     }
                 }
-
-                .token-effect {
-                    height: 19px;
-                }
-
-                img.token-effect {
-                    width: 19px;
-                    height: 19px;
-                }
-            }
-
-            .token-image{
-                flex: 0 0 50px;
-                height: 50px;
-                width: 50px;
             }
 
             .roll {
-                background:url(@InitDicesOff) no-repeat;
+                background: url(@InitDicesOff) no-repeat;
                 background-size: 36px;
                 background-position: center;
-                margin: 0 2px 0 4px;
 
                 &:hover {
-                    background:url(@InitDicesOn) no-repeat;
+                    background: url(@InitDicesOn) no-repeat;
                     background-size: 36px;
                     background-position: center;
-                    margin: 0 2px 0 4px;
                 }
             }
 
@@ -1548,7 +1002,7 @@
                 text-shadow: none;
                 font-weight: normal;
 
-                &.hasPlayed{
+                &.hasPlayed {
                     color: fade(@neutralLightColor, 25%);
                 }
             }
@@ -1559,12 +1013,12 @@
         border-top: 2px solid @subColor;
         font-family: @SR_FontTitle;
         text-transform: uppercase;
-        font-size: @SR_FontSizeSmall ;
+        font-size: @SR_FontSizeSmall;
 
         a {
-            font-size: @SR_FontSizeSmall ;
+            font-size: @SR_FontSizeSmall;
 
-            &:hover{
+            &:hover {
                 color: @subColor;
             }
         }
@@ -1575,7 +1029,6 @@
             font-family: @SR_FontTitleAlter;
             text-transform: uppercase;
             font-size: @SR_FontSizeNormal;
-            margin: 0 0 0 0;
         }
     }
 }
@@ -1602,20 +1055,13 @@
     }
 }
 
+/* v13: playlists — color theming only */
 #playlists {
-    h4 {
-        overflow: visible;
-        &:hover {
-            background: none;
-        }
+    h4:hover {
+        background: none;
     }
 
     li.playlist {
-        padding: 4px;
-
-        .playlist-header {
-            text-decoration: none;
-        }
         .sound-control {
             color: @neutralLightColor;
 
@@ -1631,114 +1077,50 @@
 
     li.global-volume {
         .playlist-header {
-            background-color: fade(@mainColor, 50%);
-            border-top: 1px Solid @mainColor;
-            border-bottom: 1px Solid @mainColor;
+            .sr5-header-primary();
             font-family: @SR_FontTitleAlter;
             text-transform: uppercase;
-            height: 28px;
-            margin-bottom: 5px;
-            line-height: 26px;
-            text-align: center;
         }
 
         border-bottom: 2px solid @subColor;
-        margin-bottom: 10px;
     }
 }
 
+/* v13: compendium — color theming only */
 #compendium {
     h3 {
         font-family: @SR_FontTitle;
         font-size: 14px;
         text-transform: uppercase;
-        max-width: 95%;
-        text-align: left;
         background: none;
         border: none;
-        padding: 0 5px 5px 0;
-        margin: 0 0 0 5px;
     }
 
     li.compendium {
-        line-height: 18px;
-        border-bottom: 0;
-        position: relative;
-        display: block;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        //z-index: 1;
-
         &:not(:last-child) {
-          box-shadow: 0 1px 0 fade(@mainColor, 50%);
+            box-shadow: 0 1px 0 fade(@mainColor, 50%);
         }
 
         &:hover {
             text-shadow: none;
-            background-color: transparent;
-        }
-
-        &:hover:before {
-            left: 0%;
-            right: auto;
-            width: 100%;
-        }
-
-        &:before {
-            display: block;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: calc(100% - 2px);
-            width: 0px;
-            //z-index: -1;
-            content: '';
-            background: fade(@subColor, 25%);
-            background-origin: border-box;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        }
-
-        .pack-title {
-          margin: 0;
+            background-color: fade(@subColor, 25%);
         }
 
         .status-icons {
-          top: 0;
-          padding: 5px 0 0 0;
-          color: @mainColor;
+            color: @mainColor;
         }
     }
 
     .compendium-footer {
-      color: fade(@subColor, 50%);
+        color: fade(@subColor, 50%);
     }
 }
 
-.compendium-sidebar{
-    .directory-item.compendium {
-        height: 50px;
-        align-items: flex-start;
-
-        .compendium-banner {
-            display: none;
-        }
-    }
-}
-
+/* v13: compendium directory — SR5-specific content styling */
 .compendium.directory {
     .directory-list {
-        .directory-item {
-            flex-wrap: wrap;
-
-            .SR-CompendiumSubType{
-                line-height: 15px;
-                color: fade(@neutralLightColor, 50%);
-                text-align: right;
-                padding-right: 5px;
-                padding-bottom: 3px;
-            }
+        .directory-item .SR-CompendiumSubType {
+            color: fade(@neutralLightColor, 50%);
         }
     }
 }
@@ -1764,18 +1146,12 @@
     }
 }
 
+/* v13: characters — color theming only */
 #characters {
     h3 {
         background-color: transparent;
         border-top: 0;
         border-bottom: 0;
-        position: relative;
-        display: block;
-        -webkit-transition: all 1s ease;
-        -moz-transition: all 1s ease;
-        -o-transition: all 1s ease;
-        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-        //z-index: 1;
 
         &:not(:last-child) {
             box-shadow: 0 1px 0 fade(@mainColor, 50%);
@@ -1783,46 +1159,22 @@
 
         &:hover {
             text-shadow: none;
-            background-color: transparent;
-        }
-
-        &:hover:before {
-            left: 0%;
-            right: auto;
-            width: 100%;
-        }
-
-        &:before {
-            display: block;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            height: calc(100% - 2px);
-            width: 0px;
-            //z-index: -1;
-            content: '';
-            background: fade(@subColor, 25%);
-            background-origin: border-box;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            background-color: fade(@subColor, 25%);
         }
     }
 }
 
+/* v13: av-config — color theming only */
 #av-config {
     .form-group {
-        margin-bottom: 10px;
-        padding-bottom: 5px;
         border-bottom: 1px solid @mainColor;
     }
 }
 
+/* v13: permissions-config — color theming only */
 #permissions-config {
     header.table-header {
-        background: fade(@mainColor, 50%);
-        border-top: 1px solid @mainColor;
-        border-bottom: 1px solid @mainColor;
-        border-left: none;
-        border-right: none;
+        .sr5-header-primary();
 
         label {
             color: @neutralLightColor;
@@ -1832,10 +1184,6 @@
 
     .hint {
         color: @subColor;
-    }
-
-    button:not(:nth-child(0n+1)) {
-        margin-left: 10px;
     }
 }
 
@@ -2032,51 +1380,13 @@
     .dialog-buttons {
         background-image: url(@Dialog);
         background-size: contain;
-        padding: 15px 8px 8px 8px;
 
         button, button.default {
-            position: relative;
-            display: block;
-            line-height: 20px;
-            color: @neutralLightColor;
-            font-family: @SR_FontTitle;
-            text-transform: uppercase;
-            font-size: @SR_FontSizeSmall ;
-            text-align: center;
-            border-radius: 3px;
-            text-decoration: none;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-            border: 1px solid @subColor;
-            background: fade(@black, 30%);
-            z-index: 1;
+            .sr5-button();
+            font-size: @SR_FontSizeSmall;
 
             &:hover {
-                color: @neutralDarkColor;
-                background-color: transparent;
-                box-shadow: none;
-            }
-
-            &:hover:before {
-                left: 0%;
-                right: auto;
-                width: 100%;
-            }
-
-            &:before {
-                display: block;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                height: 100%;
-                width: 0px;
-                z-index: -1;
-                content: '';
-                color: @neutralDarkColor;
-                background: @subColor;
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                .sr5-button-hover();
             }
         }
     }
@@ -2084,6 +1394,7 @@
 
 
 
+/* v13: player-config — color theming only */
 #player-config {
     label {
         color: @neutralLightColor;
@@ -2097,8 +1408,6 @@
 
     .form-group {
         border-bottom: 1px solid @mainColor;
-        margin-bottom: 5px;
-        padding-bottom: 5px;
     }
 
     h3.entity-name {
@@ -2124,90 +1433,55 @@
     }
 
     input[type="text"], input[type="number"], input[type="color"] {
-        color: @neutralLightColor;
-        border: 1px solid @mainColor;
+        .sr5-input();
         background: none;
 
         &:focus {
-            box-shadow: 0 0 5px fade(@subColor, 50%);
-            border: 1px solid @subColor;
+            .sr5-input-focus();
         }
         &::placeholder {
-            color: @mainColor;
+            .sr5-input-placeholder();
         }
     }
 }
 
-[id^=app-]{
-    .compendium {
-        &.directory {
-            input {
+/* v13: compendium directory — color theming only */
+[id^=app-] {
+    .compendium.directory {
+        input {
+            font-family: @SR_BodyText;
+            .sr5-input();
+            background: fade(@black, 30%);
+
+            &:focus {
+                .sr5-input-focus();
+            }
+
+            &::placeholder {
+                .sr5-input-placeholder();
                 font-family: @SR_BodyText;
-                color: @neutralLightColor;
-                border: 1px solid @mainColor;
-                background: fade(@black, 30%);
-
-                &:focus {
-                    border: 1px solid @subColor;
-                    box-shadow: 0 0 5px @subColor;
-                }
-
-                &::placeholder {
-                    color: @mainColor;
-                    font-family: @SR_BodyText;
-                }
-            }
-
-            li.directory-item {
-                line-height: 40px;
-                border-bottom: 0;
-                margin: 0 0 3px 0;
-                position: relative;
-                display: block;
-                -webkit-transition: all 1s ease;
-                -moz-transition: all 1s ease;
-                -o-transition: all 1s ease;
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                
-
-                &:not(:last-child) {
-                box-shadow: 0 1px 0 fade(@mainColor, 50%);
-                flex-wrap: wrap;
-                }
-
-                &:hover {
-                    text-shadow: none;
-                    background-color: transparent;
-                }
-
-                &:hover:before {
-                    left: 0%;
-                    right: auto;
-                    width: 100%;
-                }
-
-                h4{
-                    flex: 1 0 80%;
-                }
-
-                
-            }
-
-            img {
-                border: 1px solid @subColor;
-                border-radius: 3px;
-                flex: 0 0 35px;
-                height: 35px;
-                width: 35px;
-                object-fit: contain;
-                margin: 2px 8px 0 2px
             }
         }
-        
-    }
 
+        li.directory-item {
+            &:not(:last-child) {
+                box-shadow: 0 1px 0 fade(@mainColor, 50%);
+            }
+
+            &:hover {
+                text-shadow: none;
+                background-color: fade(@subColor, 25%);
+            }
+        }
+
+        img {
+            border: 1px solid @subColor;
+            border-radius: 3px;
+        }
+    }
 }
 
+/* v13: exit menu — color theming only */
 #menu {
     background-image: url(@Sidebar);
     background-size: cover;
@@ -2217,47 +1491,19 @@
 
     #menu-items {
         li {
-            position: relative;
             color: @neutralLightColor;
             font-family: @SR_FontTitle;
             text-transform: uppercase;
             font-size: @SR_FontSizeBig;
-            text-align: center;
-            -webkit-transition: all 1s ease;
-            -moz-transition: all 1s ease;
-            -o-transition: all 1s ease;
-            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-
-            z-index: 1;
 
             &:not(:last-child) {
                 border-bottom: 1px solid fade(@mainColor, 50%);
             }
 
             &:hover {
-                //color: @neutralDarkColor;
-                background-color: transparent;
+                background-color: fade(@subColor, 50%);
                 box-shadow: none;
                 text-shadow: none;
-            }
-
-            &:hover:before {
-                left: 0%;
-                right: auto;
-                width: 100%;
-            }
-
-            &:before {
-                display: block;
-                position: absolute;
-                top: 0px;
-                right: 0px;
-                height: 100%;
-                width: 0px;
-                z-index: -1;
-                content: '';
-                background: fade(@subColor, 50%);
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
             }
 
             h4 {

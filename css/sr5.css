@@ -1085,40 +1085,75 @@ input[type=range]:focus::-ms-fill-upper {
 /* ----------------------------------------- */
 /* Images
 /* ----------------------------------------- */
-#chat-log .message.SRCustomMessage {
+/* v13: #chat-log replaced by #chat, .message replaced by .chat-message */
+#chat .chat-message.SRCustomMessage,
+#chat-notifications .chat-message.SRCustomMessage,
+#chat-popout .chat-message.SRCustomMessage {
   background-color: #fffffe;
   color: #000001;
   border: 2px solid #931004;
   line-height: normal;
+  padding: 0;
 }
-#chat-log .message.SRCustomMessage .message-content {
-  padding: 0px;
+#chat .chat-message.SRCustomMessage .message-content,
+#chat-notifications .chat-message.SRCustomMessage .message-content,
+#chat-popout .chat-message.SRCustomMessage .message-content {
+  padding: 0;
 }
-#chat-log .message {
+#chat .chat-message,
+#chat-notifications .chat-message,
+#chat-popout .chat-message {
   background-color: rgba(12, 147, 148, 0.25);
   border-radius: 5px;
   border: 2px solid #0c9394;
   color: rgba(255, 255, 254, 0.95);
   margin-bottom: 5px;
-  padding-bottom: 5px;
+  padding: 0;
   line-height: 17px;
+  /* v13: style Foundry's default header (replaces custom .SR-MessageHeader) */
+  /* Use > to avoid targeting <header class="SR-CardHeader"> inside .message-content */
 }
-#chat-log .message .message-content {
+#chat .chat-message .message-content,
+#chat-notifications .chat-message .message-content,
+#chat-popout .chat-message .message-content {
   padding: 5px 5px 0px 5px;
   font-family: "srfoundry_regular";
+  /* v13: remove padding when content has child elements (roll cards) */
 }
-#chat-log .message input {
+#chat .chat-message .message-content:has(*),
+#chat-notifications .chat-message .message-content:has(*),
+#chat-popout .chat-message .message-content:has(*) {
+  padding: 0;
+}
+#chat .chat-message input,
+#chat-notifications .chat-message input,
+#chat-popout .chat-message input {
   width: 30px;
   text-align: center;
   margin-right: 5px;
 }
-#chat-log .message .SR-MessageHeader {
+#chat .chat-message > header,
+#chat-notifications .chat-message > header,
+#chat-popout .chat-message > header {
   background-color: #000001;
   line-height: 20px;
   padding: 2px;
   color: #fffffe;
+  display: flex;
+  align-items: center;
 }
-#chat-log .message .SR-MessageHeader h4 {
+#chat .chat-message > header .SRAuthorIcon,
+#chat-notifications .chat-message > header .SRAuthorIcon,
+#chat-popout .chat-message > header .SRAuthorIcon {
+  width: 25px;
+  height: 25px;
+  flex: 0 0 25px;
+  margin-right: 5px;
+  border-color: #95046f;
+}
+#chat .chat-message > header h4,
+#chat-notifications .chat-message > header h4,
+#chat-popout .chat-message > header h4 {
   font-family: "srfoundry_bold";
   text-transform: uppercase;
   color: #931004;
@@ -1127,36 +1162,35 @@ input[type=range]:focus::-ms-fill-upper {
   margin-bottom: 0;
   align-self: center;
 }
-#chat-log .message .SR-MessageHeader .SR-MessageMetadata {
-  text-align: right;
-  font-size: 0.9em;
-  padding-right: 2px;
+#chat .chat-message > header a,
+#chat-notifications .chat-message > header a,
+#chat-popout .chat-message > header a {
   color: #931004;
 }
-#chat-log .message .SR-MessageHeader .SRAuthorIcon {
-  width: 25px;
-  height: 25px;
-  flex: 0 0 25px;
-  margin-right: 5px;
-  border-color: #95046f;
+#chat .chat-message > header a:hover,
+#chat-notifications .chat-message > header a:hover,
+#chat-popout .chat-message > header a:hover {
+  color: #0c9394;
+  text-shadow: none;
 }
-#chat-log .message .SR-MessageHeader .whisper-to {
-  font-size: 0.9em;
-  color: #931004;
-  line-height: 20px;
-}
-#chat-log .message .part-header {
+#chat .chat-message .part-header,
+#chat-notifications .chat-message .part-header,
+#chat-popout .chat-message .part-header {
   margin-left: 5px;
   margin-right: 5px;
   font-family: "srfoundry_bold";
   border-bottom: none;
 }
-#chat-log .message .dice-tooltip .part-total {
+#chat .chat-message .dice-tooltip .part-total,
+#chat-notifications .chat-message .dice-tooltip .part-total,
+#chat-popout .chat-message .dice-tooltip .part-total {
   border: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
   color: #fffffe;
 }
-#chat-log .message .dice-tooltip .dice-rolls .roll.d6 {
+#chat .chat-message .dice-tooltip .dice-rolls .roll.d6,
+#chat-notifications .chat-message .dice-tooltip .dice-rolls .roll.d6,
+#chat-popout .chat-message .dice-tooltip .dice-rolls .roll.d6 {
   background-image: none;
   height: 20px;
   width: 20px;
@@ -1171,7 +1205,9 @@ input[type=range]:focus::-ms-fill-upper {
   font-size: 0.9em;
   font-weight: normal;
 }
-#chat-log .message .dice-formula {
+#chat .chat-message .dice-formula,
+#chat-notifications .chat-message .dice-formula,
+#chat-popout .chat-message .dice-formula {
   padding-top: 5px;
   padding-bottom: 15px;
   background-image: url("../img/ui/SR5_BG_ChatMessage.png");
@@ -1188,7 +1224,9 @@ input[type=range]:focus::-ms-fill-upper {
   margin: auto;
   text-align: center;
 }
-#chat-log .message .dice-total {
+#chat .chat-message .dice-total,
+#chat-notifications .chat-message .dice-total,
+#chat-popout .chat-message .dice-total {
   font-family: "srfoundry_bold";
   text-transform: uppercase;
   color: #fffffe;
@@ -1203,7 +1241,9 @@ input[type=range]:focus::-ms-fill-upper {
   border-radius: 0px;
   font-size: 1em;
 }
-#chat-log .message .SR-CardHeader {
+#chat .chat-message .SR-CardHeader,
+#chat-notifications .chat-message .SR-CardHeader,
+#chat-popout .chat-message .SR-CardHeader {
   padding-top: 5px;
   padding-bottom: 15px;
   text-align: center;
@@ -1212,14 +1252,18 @@ input[type=range]:focus::-ms-fill-upper {
   background-size: cover;
   background-position: bottom;
 }
-#chat-log .message .SR-CardHeader .SRAuthorIcon {
+#chat .chat-message .SR-CardHeader .SRAuthorIcon,
+#chat-notifications .chat-message .SR-CardHeader .SRAuthorIcon,
+#chat-popout .chat-message .SR-CardHeader .SRAuthorIcon {
   width: 35px;
   height: 35px;
   margin-left: 2px;
   margin-right: 5px;
   border: 1px solid #000001;
 }
-#chat-log .message .SR-CardHeader .SR-CardHeaderTitle {
+#chat .chat-message .SR-CardHeader .SR-CardHeaderTitle,
+#chat-notifications .chat-message .SR-CardHeader .SR-CardHeaderTitle,
+#chat-popout .chat-message .SR-CardHeader .SR-CardHeaderTitle {
   font-family: "srfoundry_bold";
   text-transform: uppercase;
   color: #fffffe;
@@ -1227,27 +1271,37 @@ input[type=range]:focus::-ms-fill-upper {
   margin: auto;
   text-align: center;
 }
-#chat-log .message .SR-CardContent {
+#chat .chat-message .SR-CardContent,
+#chat-notifications .chat-message .SR-CardContent,
+#chat-popout .chat-message .SR-CardContent {
   padding: 5px 5px 0px 5px;
   font-family: "srfoundry_regular";
   font-size: 0.9em;
 }
-#chat-log .message .SR-CardContent p {
+#chat .chat-message .SR-CardContent p,
+#chat-notifications .chat-message .SR-CardContent p,
+#chat-popout .chat-message .SR-CardContent p {
   margin: 0;
 }
-#chat-log .message .SR-CardContent .SR-LigneEnTete {
+#chat .chat-message .SR-CardContent .SR-LigneEnTete,
+#chat-notifications .chat-message .SR-CardContent .SR-LigneEnTete,
+#chat-popout .chat-message .SR-CardContent .SR-LigneEnTete {
   border-bottom: solid 1px #931004;
   color: #931004;
   font-family: "srfoundry_bold";
 }
-#chat-log .message .SR-CardContent .SR-CardDices {
+#chat .chat-message .SR-CardContent .SR-CardDices,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   margin-top: 5px;
   margin-left: -3px;
 }
-#chat-log .message .SR-CardContent .SR-CardDices .SR-Dice {
+#chat .chat-message .SR-CardContent .SR-CardDices .SR-Dice,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .SR-Dice,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .SR-Dice {
   height: 20px;
   width: 20px;
   text-align: center;
@@ -1256,33 +1310,49 @@ input[type=range]:focus::-ms-fill-upper {
   margin-bottom: 5px;
   padding-top: 1px;
 }
-#chat-log .message .SR-CardContent .SR-CardDices .succes {
+#chat .chat-message .SR-CardContent .SR-CardDices .succes,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .succes,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .succes {
   border: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
   color: #fffffe;
 }
-#chat-log .message .SR-CardContent .SR-CardDices .succes.edge {
+#chat .chat-message .SR-CardContent .SR-CardDices .succes.edge,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .succes.edge,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .succes.edge {
   box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
-#chat-log .message .SR-CardContent .SR-CardDices .exploded {
+#chat .chat-message .SR-CardContent .SR-CardDices .exploded,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .exploded,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .exploded {
   background-color: rgba(147, 16, 4, 0.75);
 }
-#chat-log .message .SR-CardContent .SR-CardDices .echec {
+#chat .chat-message .SR-CardContent .SR-CardDices .echec,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .echec,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .echec {
   border: 1px solid #0c9394;
   color: #0c9394;
 }
-#chat-log .message .SR-CardContent .SR-CardDices .echec.edge {
+#chat .chat-message .SR-CardContent .SR-CardDices .echec.edge,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .echec.edge,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .echec.edge {
   box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
-#chat-log .message .SR-CardContent .SR-CardDices .glitch {
+#chat .chat-message .SR-CardContent .SR-CardDices .glitch,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .glitch,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .glitch {
   border: 1px solid #0c9394;
   color: #fffffe;
   background-color: rgba(12, 147, 148, 0.5);
 }
-#chat-log .message .SR-CardContent .SR-CardDices .glitch.edge {
+#chat .chat-message .SR-CardContent .SR-CardDices .glitch.edge,
+#chat-notifications .chat-message .SR-CardContent .SR-CardDices .glitch.edge,
+#chat-popout .chat-message .SR-CardContent .SR-CardDices .glitch.edge {
   box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
 }
-#chat-log .message .SR-CardContent .SR5-message-hit {
+#chat .chat-message .SR-CardContent .SR5-message-hit,
+#chat-notifications .chat-message .SR-CardContent .SR5-message-hit,
+#chat-popout .chat-message .SR-CardContent .SR5-message-hit {
   background-color: #960570;
   display: flex;
   line-height: 20px;
@@ -1291,15 +1361,21 @@ input[type=range]:focus::-ms-fill-upper {
   padding-left: 5px;
   padding-right: 5px;
 }
-#chat-log .message .SR-CardContent .SR-UlAssensing {
+#chat .chat-message .SR-CardContent .SR-UlAssensing,
+#chat-notifications .chat-message .SR-CardContent .SR-UlAssensing,
+#chat-popout .chat-message .SR-CardContent .SR-UlAssensing {
   list-style: disc;
   padding-left: 17px;
   padding-top: 5px;
 }
-#chat-log .message .SR-CardContent .SR-ListAssensing {
+#chat .chat-message .SR-CardContent .SR-ListAssensing,
+#chat-notifications .chat-message .SR-CardContent .SR-ListAssensing,
+#chat-popout .chat-message .SR-CardContent .SR-ListAssensing {
   display: list-item;
 }
-#chat-log .message .SR-CardButton {
+#chat .chat-message .SR-CardButton,
+#chat-notifications .chat-message .SR-CardButton,
+#chat-popout .chat-message .SR-CardButton {
   margin-top: 5px;
   font-family: "srfoundry_bold";
   text-transform: uppercase;
@@ -1308,13 +1384,25 @@ input[type=range]:focus::-ms-fill-upper {
   text-align: center;
   line-height: 20px;
 }
-#chat-log .message .SR-CardButton .SR-CardButtonHit {
+#chat .chat-message .SR-CardButton button.messageAction,
+#chat-notifications .chat-message .SR-CardButton button.messageAction,
+#chat-popout .chat-message .SR-CardButton button.messageAction {
+  width: 100%;
+  margin: 5px 0 0 0;
+  padding: 0 5px;
+  line-height: 20px;
+}
+#chat .chat-message .SR-CardButton .SR-CardButtonHit,
+#chat-notifications .chat-message .SR-CardButton .SR-CardButtonHit,
+#chat-popout .chat-message .SR-CardButton .SR-CardButtonHit {
   background-color: #931004;
   margin-bottom: 0px;
   border: 0px;
   border-radius: 0px;
 }
-#chat-log .message .SR-CardButton .endTest {
+#chat .chat-message .SR-CardButton .endTest,
+#chat-notifications .chat-message .SR-CardButton .endTest,
+#chat-popout .chat-message .SR-CardButton .endTest {
   margin-left: 0px;
   margin-right: 0px;
   margin-top: 5px;
@@ -1324,10 +1412,14 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
   font-size: 1em;
 }
-#chat-log .message .SR-CardButton .endTest:hover {
+#chat .chat-message .SR-CardButton .endTest:hover,
+#chat-notifications .chat-message .SR-CardButton .endTest:hover,
+#chat-popout .chat-message .SR-CardButton .endTest:hover {
   box-shadow: none;
 }
-#chat-log .message .SR-CardButton .opposedTest {
+#chat .chat-message .SR-CardButton .opposedTest,
+#chat-notifications .chat-message .SR-CardButton .opposedTest,
+#chat-popout .chat-message .SR-CardButton .opposedTest {
   background-color: #0c9394;
   line-height: 20px;
   margin: 5px 0px 0px 0px;
@@ -1343,11 +1435,15 @@ input[type=range]:focus::-ms-fill-upper {
   border: 0px;
   border-radius: 0px;
 }
-#chat-log .message .SR-CardButton .opposedTest:hover {
+#chat .chat-message .SR-CardButton .opposedTest:hover,
+#chat-notifications .chat-message .SR-CardButton .opposedTest:hover,
+#chat-popout .chat-message .SR-CardButton .opposedTest:hover {
   color: #000001;
   box-shadow: none;
 }
-#chat-log .message .SR-CardButton .nonOpposedTest {
+#chat .chat-message .SR-CardButton .nonOpposedTest,
+#chat-notifications .chat-message .SR-CardButton .nonOpposedTest,
+#chat-popout .chat-message .SR-CardButton .nonOpposedTest {
   background-color: #000001;
   line-height: 20px;
   margin: 5px 0px 0px 0px;
@@ -1363,11 +1459,15 @@ input[type=range]:focus::-ms-fill-upper {
   border: 0px;
   border-radius: 0px;
 }
-#chat-log .message .SR-CardButton .nonOpposedTest:hover {
+#chat .chat-message .SR-CardButton .nonOpposedTest:hover,
+#chat-notifications .chat-message .SR-CardButton .nonOpposedTest:hover,
+#chat-popout .chat-message .SR-CardButton .nonOpposedTest:hover {
   color: #0c9394;
   box-shadow: none;
 }
-#chat-log .message .SR-CardButton .attackerTest {
+#chat .chat-message .SR-CardButton .attackerTest,
+#chat-notifications .chat-message .SR-CardButton .attackerTest,
+#chat-popout .chat-message .SR-CardButton .attackerTest {
   background-color: #000001;
   line-height: 20px;
   margin: 5px 0px 0px 0px;
@@ -1383,17 +1483,25 @@ input[type=range]:focus::-ms-fill-upper {
   border: 0px;
   border-radius: 0px;
 }
-#chat-log .message .SR-CardButton .attackerTest:hover {
+#chat .chat-message .SR-CardButton .attackerTest:hover,
+#chat-notifications .chat-message .SR-CardButton .attackerTest:hover,
+#chat-popout .chat-message .SR-CardButton .attackerTest:hover {
   color: #0c9394;
   box-shadow: none;
 }
-#chat-log .message .table-draw ol {
+#chat .chat-message .table-draw ol,
+#chat-notifications .chat-message .table-draw ol,
+#chat-popout .chat-message .table-draw ol {
   padding: 0 0 0 0.5em;
 }
-#chat-log .message .table-draw .result-image {
+#chat .chat-message .table-draw .result-image,
+#chat-notifications .chat-message .table-draw .result-image,
+#chat-popout .chat-message .table-draw .result-image {
   display: none;
 }
-#chat-log .message .table-draw .result-text {
+#chat .chat-message .table-draw .result-text,
+#chat-notifications .chat-message .table-draw .result-text,
+#chat-popout .chat-message .table-draw .result-text {
   padding-top: 5px;
 }
 .dice-roll .dice-formula {
@@ -2941,6 +3049,10 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
   background: none;
 }
+.app.window-app {
+  /* v13: scene-sheet uses Foundry-native layout */
+  /* v13: token-sheet uses Foundry-native layout */
+}
 .app.window-app .window-header {
   background: #000001;
 }
@@ -3092,22 +3204,12 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=SR5MeasuredTemplateConfig-] a.display-mode,
 .app.window-app#keybindings a.display-mode,
 .app.window-app.macro-sheet a.display-mode {
-  position: relative;
-  display: block;
-  color: #fffffe;
+  color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
-  text-align: center;
-  border-radius: 3px;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
   border: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.5);
-  z-index: 1;
+  background: rgba(147, 16, 4, 0.25);
+  box-shadow: none;
 }
 .app.window-app.form button:hover,
 .app.window-app.scene-sheet button:hover,
@@ -3148,101 +3250,9 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app#keybindings a.display-mode:hover,
 .app.window-app.macro-sheet a.display-mode:hover {
   color: #fffffe;
-  background-color: rgba(12, 147, 148, 0.5);
-  border: 1px solid #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  border-color: #0c9394;
   box-shadow: none;
-}
-.app.window-app.form button:hover:before,
-.app.window-app.scene-sheet button:hover:before,
-.app.window-app.token-sheet button:hover:before,
-.app.window-app.combat-sheet button:hover:before,
-.app.window-app.folder-edit button:hover:before,
-.app.window-app[id^=app-]:not(.dialog) button:hover:before,
-.app.window-app.app.window-app[id^=permission-] button:hover:before,
-.app.window-app#permission button:hover:before,
-.app.window-app[id^=PlaylistSoundConfig-] button:hover:before,
-.app.window-app[id^=RollTableConfig-] button:hover:before,
-.app.window-app[id^=CardsHand-Cards-] button:hover:before,
-.app.window-app[id^=client-settings] button:hover:before,
-.app.window-app[id^=AmbientLightConfig-] button:hover:before,
-.app.window-app[id^=PlaylistConfig-] button:hover:before,
-.app.window-app[id^=support-details] button:hover:before,
-.app.window-app[id^=UserConfig-User-] button:hover:before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] button:hover:before,
-.app.window-app#keybindings button:hover:before,
-.app.window-app.macro-sheet button:hover:before,
-.app.window-app.form a.display-mode:hover:before,
-.app.window-app.scene-sheet a.display-mode:hover:before,
-.app.window-app.token-sheet a.display-mode:hover:before,
-.app.window-app.combat-sheet a.display-mode:hover:before,
-.app.window-app.folder-edit a.display-mode:hover:before,
-.app.window-app[id^=app-]:not(.dialog) a.display-mode:hover:before,
-.app.window-app.app.window-app[id^=permission-] a.display-mode:hover:before,
-.app.window-app#permission a.display-mode:hover:before,
-.app.window-app[id^=PlaylistSoundConfig-] a.display-mode:hover:before,
-.app.window-app[id^=RollTableConfig-] a.display-mode:hover:before,
-.app.window-app[id^=CardsHand-Cards-] a.display-mode:hover:before,
-.app.window-app[id^=client-settings] a.display-mode:hover:before,
-.app.window-app[id^=AmbientLightConfig-] a.display-mode:hover:before,
-.app.window-app[id^=PlaylistConfig-] a.display-mode:hover:before,
-.app.window-app[id^=support-details] a.display-mode:hover:before,
-.app.window-app[id^=UserConfig-User-] a.display-mode:hover:before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] a.display-mode:hover:before,
-.app.window-app#keybindings a.display-mode:hover:before,
-.app.window-app.macro-sheet a.display-mode:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.app.window-app.form button:before,
-.app.window-app.scene-sheet button:before,
-.app.window-app.token-sheet button:before,
-.app.window-app.combat-sheet button:before,
-.app.window-app.folder-edit button:before,
-.app.window-app[id^=app-]:not(.dialog) button:before,
-.app.window-app.app.window-app[id^=permission-] button:before,
-.app.window-app#permission button:before,
-.app.window-app[id^=PlaylistSoundConfig-] button:before,
-.app.window-app[id^=RollTableConfig-] button:before,
-.app.window-app[id^=CardsHand-Cards-] button:before,
-.app.window-app[id^=client-settings] button:before,
-.app.window-app[id^=AmbientLightConfig-] button:before,
-.app.window-app[id^=PlaylistConfig-] button:before,
-.app.window-app[id^=support-details] button:before,
-.app.window-app[id^=UserConfig-User-] button:before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] button:before,
-.app.window-app#keybindings button:before,
-.app.window-app.macro-sheet button:before,
-.app.window-app.form a.display-mode:before,
-.app.window-app.scene-sheet a.display-mode:before,
-.app.window-app.token-sheet a.display-mode:before,
-.app.window-app.combat-sheet a.display-mode:before,
-.app.window-app.folder-edit a.display-mode:before,
-.app.window-app[id^=app-]:not(.dialog) a.display-mode:before,
-.app.window-app.app.window-app[id^=permission-] a.display-mode:before,
-.app.window-app#permission a.display-mode:before,
-.app.window-app[id^=PlaylistSoundConfig-] a.display-mode:before,
-.app.window-app[id^=RollTableConfig-] a.display-mode:before,
-.app.window-app[id^=CardsHand-Cards-] a.display-mode:before,
-.app.window-app[id^=client-settings] a.display-mode:before,
-.app.window-app[id^=AmbientLightConfig-] a.display-mode:before,
-.app.window-app[id^=PlaylistConfig-] a.display-mode:before,
-.app.window-app[id^=support-details] a.display-mode:before,
-.app.window-app[id^=UserConfig-User-] a.display-mode:before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] a.display-mode:before,
-.app.window-app#keybindings a.display-mode:before,
-.app.window-app.macro-sheet a.display-mode:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 .app.window-app.form input[type="text"],
 .app.window-app.scene-sheet input[type="text"],
@@ -3303,7 +3313,6 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.macro-sheet input[type="color"] {
   color: #fffffe;
   border: 1px solid #931004;
-  height: auto;
 }
 .app.window-app.form input[type="text"]:focus,
 .app.window-app.scene-sheet input[type="text"]:focus,
@@ -3362,8 +3371,8 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="color"]:focus,
 .app.window-app#keybindings input[type="color"]:focus,
 .app.window-app.macro-sheet input[type="color"]:focus {
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
   border: 1px solid #0c9394;
+  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
 .app.window-app.form input[type="text"]::placeholder,
 .app.window-app.scene-sheet input[type="text"]::placeholder,
@@ -3471,16 +3480,16 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="checkbox"]::before,
 .app.window-app#keybindings input[type="checkbox"]::before,
 .app.window-app.macro-sheet input[type="checkbox"]::before {
-  position: relative;
   content: '';
   display: block;
-  top: 0px;
-  left: 5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 30%;
-  height: 80%;
+  height: 60%;
   border-style: solid;
   border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+  transform: translate(-50%, -60%) rotate(45deg);
   opacity: 0;
 }
 .app.window-app.form input[type="checkbox"]:checked,
@@ -3611,8 +3620,8 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app#keybindings h2,
 .app.window-app.macro-sheet h2 {
   text-align: center;
-  border-bottom: 1px solid #0c9394;
   border-top: 1px solid #0c9394;
+  border-bottom: 1px solid #0c9394;
   background-color: rgba(12, 147, 148, 0.5);
 }
 .app.window-app.form h3,
@@ -3634,8 +3643,8 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app[id^=SR5MeasuredTemplateConfig-] h3,
 .app.window-app#keybindings h3,
 .app.window-app.macro-sheet h3 {
-  border-bottom: 1px solid #931004;
   border-top: 1px solid #931004;
+  border-bottom: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
 }
 .app.window-app.form span.units,
@@ -3700,8 +3709,6 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app#keybindings nav .item,
 .app.window-app.macro-sheet nav .item {
   color: #0c9394;
-  line-height: 25px;
-  text-align: center;
 }
 .app.window-app.form nav .item.active,
 .app.window-app.scene-sheet nav .item.active,
@@ -3725,28 +3732,6 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
   border: none;
   box-shadow: none;
-  border-radius: 5px;
-}
-.app.window-app.form nav .item.active:hover,
-.app.window-app.scene-sheet nav .item.active:hover,
-.app.window-app.token-sheet nav .item.active:hover,
-.app.window-app.combat-sheet nav .item.active:hover,
-.app.window-app.folder-edit nav .item.active:hover,
-.app.window-app[id^=app-]:not(.dialog) nav .item.active:hover,
-.app.window-app.app.window-app[id^=permission-] nav .item.active:hover,
-.app.window-app#permission nav .item.active:hover,
-.app.window-app[id^=PlaylistSoundConfig-] nav .item.active:hover,
-.app.window-app[id^=RollTableConfig-] nav .item.active:hover,
-.app.window-app[id^=CardsHand-Cards-] nav .item.active:hover,
-.app.window-app[id^=client-settings] nav .item.active:hover,
-.app.window-app[id^=AmbientLightConfig-] nav .item.active:hover,
-.app.window-app[id^=PlaylistConfig-] nav .item.active:hover,
-.app.window-app[id^=support-details] nav .item.active:hover,
-.app.window-app[id^=UserConfig-User-] nav .item.active:hover,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] nav .item.active:hover,
-.app.window-app#keybindings nav .item.active:hover,
-.app.window-app.macro-sheet nav .item.active:hover {
-  border-bottom: none;
 }
 .app.window-app.form nav .item:hover,
 .app.window-app.scene-sheet nav .item:hover,
@@ -3768,27 +3753,6 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app#keybindings nav .item:hover,
 .app.window-app.macro-sheet nav .item:hover {
   color: #931004;
-}
-.app.window-app.form footer button:not(:nth-child(0n+1)),
-.app.window-app.scene-sheet footer button:not(:nth-child(0n+1)),
-.app.window-app.token-sheet footer button:not(:nth-child(0n+1)),
-.app.window-app.combat-sheet footer button:not(:nth-child(0n+1)),
-.app.window-app.folder-edit footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=app-]:not(.dialog) footer button:not(:nth-child(0n+1)),
-.app.window-app.app.window-app[id^=permission-] footer button:not(:nth-child(0n+1)),
-.app.window-app#permission footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=PlaylistSoundConfig-] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=RollTableConfig-] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=CardsHand-Cards-] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=client-settings] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=AmbientLightConfig-] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=PlaylistConfig-] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=support-details] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=UserConfig-User-] footer button:not(:nth-child(0n+1)),
-.app.window-app[id^=SR5MeasuredTemplateConfig-] footer button:not(:nth-child(0n+1)),
-.app.window-app#keybindings footer button:not(:nth-child(0n+1)),
-.app.window-app.macro-sheet footer button:not(:nth-child(0n+1)) {
-  margin-left: 10px;
 }
 .app.window-app.form .window-content,
 .app.window-app.scene-sheet .window-content,
@@ -4015,16 +3979,6 @@ input[type=range]:focus::-ms-fill-upper {
 .app.window-app.macro-sheet .window-content table tr:nth-child(even) {
   background-color: rgba(147, 16, 4, 0.25);
 }
-.app.window-app.scene-sheet nav.sheet-tabs.tabs {
-  flex-wrap: wrap;
-  height: auto;
-}
-.app.window-app.scene-sheet nav.sheet-tabs.tabs a:not(:first-child) {
-  margin-left: 10px;
-}
-.app.window-app.scene-sheet form .form-group .form-fields button {
-  flex: 0 0 35px;
-}
 .app.window-app.journal-sheet .window-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
   background-size: auto 80px, auto 80px, cover;
@@ -4033,12 +3987,11 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.journal-sheet .window-content select {
   border: 1px solid #931004;
-  height: auto;
-  margin: 20px 0 5px 0;
+  color: #fffffe;
 }
 .app.window-app.journal-sheet .window-content select:focus {
+  box-shadow: 0 0 5px #0c9394;
   border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
 .app.window-app.journal-sheet .window-content input[type="search"] {
   font-family: "srfoundry_regular";
@@ -4097,60 +4050,22 @@ input[type=range]:focus::-ms-fill-upper {
   border-bottom: 2px solid #0c9394;
 }
 .app.window-app.journal-sheet .window-content .title {
-  height: 36px;
   font-size: 2em;
-  line-height: 36px;
-}
-.app.window-app.journal-sheet .window-content .editor {
-  padding-bottom: 20px;
-}
-.app.window-app.journal-sheet .window-content .form-group.picker {
-  margin: 5px 0 2px;
-}
-.app.window-app.journal-sheet .window-content .lightbox-image {
-  flex: 0 0 calc(100% - 130px);
 }
 .app.window-app.journal-sheet .window-content button:not(.tox-tbtn) {
-  position: relative;
-  display: block;
-  line-height: 25px;
-  color: #fffffe;
+  color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
+  border: 1px solid #931004;
+  background: rgba(147, 16, 4, 0.25);
+  box-shadow: none;
   font-size: 0.9em;
-  text-align: center;
-  border-radius: 3px;
-  text-decoration: none;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  border: 1px solid #0c9394;
-  background: rgba(0, 0, 1, 0.3);
-  z-index: 1;
 }
 .app.window-app.journal-sheet .window-content button:not(.tox-tbtn):hover {
-  color: #000001;
-  background-color: transparent;
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.25);
+  border-color: #0c9394;
   box-shadow: none;
-}
-.app.window-app.journal-sheet .window-content button:not(.tox-tbtn):hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.app.window-app.journal-sheet .window-content button:not(.tox-tbtn):before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001;
-  background: #0c9394;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 .app.window-app.journal-sheet .window-content .journal-header {
   display: block;
@@ -4233,19 +4148,6 @@ input[type=range]:focus::-ms-fill-upper {
   background-position: top, top;
   background-repeat: repeat-x, repeat;
 }
-.app.window-app.token-sheet nav .item.active {
-  height: 30px;
-}
-.app.window-app.token-sheet nav .item.active:hover {
-  height: 30px;
-}
-.app.window-app.token-sheet nav .item:hover {
-  height: 27px;
-}
-.app.window-app.filepicker footer button:not(:nth-child(0n+1)) {
-  margin-left: 0px;
-  margin-top: 10px;
-}
 .app.window-app.filepicker .directory {
   border: 1px solid #0c9394;
 }
@@ -4255,7 +4157,6 @@ input[type=range]:focus::-ms-fill-upper {
   background-size: 0 90%;
   background-repeat: no-repeat;
   transition: background 0.5s;
-  height: auto;
 }
 .app.window-app.filepicker .directory li:hover {
   background-size: 100% 90%;
@@ -4263,7 +4164,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .app.window-app.filepicker nav.tabs {
   border-bottom: 2px solid #0c9394;
-  margin-bottom: 10px;
 }
 .app.window-app.filepicker nav.tabs a {
   font-family: "srfoundry_primary";
@@ -4273,79 +4173,50 @@ input[type=range]:focus::-ms-fill-upper {
   background: #000001;
 }
 .app.sidebar-popout .window-content {
-  z-index: 1;
-  padding: 8px;
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-size: cover;
 }
-[id^=macro-config-].sheet header.sheet-header h1 input {
-  width: 100%;
-  margin: 0;
-}
-#logo {
-  content: url("../img/ui/SR5_Logo.png");
-  height: 60px;
-  width: 60px;
-  margin: 7px 0 0 1px;
-}
-#ui-top.offset {
-  margin-left: 0px;
-}
-#navigation {
-  left: 90px;
-}
-#navigation #nav-toggle {
-  background: #000001;
-}
-#navigation #scene-list {
+/* v13: macro-config uses Foundry-native layout */
+/* v13: #logo no longer exists, #navigation replaced by #scene-navigation */
+#scene-navigation {
   font-family: "srfoundry_primary";
   text-transform: uppercase;
 }
-#navigation #scene-list .scene {
+#scene-navigation .scene {
   background: rgba(147, 16, 4, 0.5);
   color: #fffffe;
   border: 1px solid #931004;
   box-shadow: none;
 }
-#navigation #scene-list .scene.gm {
+#scene-navigation .scene.gm {
   background: #000001;
   color: #fffffe;
   border: 1px solid #931004;
   box-shadow: none;
 }
-#navigation #scene-list .scene.view {
+#scene-navigation .scene.view {
   background: rgba(147, 16, 4, 0.5);
   color: #fffffe;
   border: 1px solid #931004;
   box-shadow: none;
 }
-#navigation #scene-list .scene.gm.active {
+#scene-navigation .scene.gm.active {
   background: rgba(12, 147, 148, 0.5);
   color: #fffffe;
   border: 1px solid #0c9394;
   box-shadow: none;
 }
+/* v13: token HUD — color theming only, layout is Foundry-native */
 #token-hud .status-effects {
-  width: 110px;
-  grid-template-columns: repeat(3, 33%);
   background: rgba(12, 147, 148, 0.25);
   border: 1px solid #0c9394;
 }
 #token-hud .status-effects .effect-control {
-  width: 35px;
-  height: 35px;
   border: 1px solid #0c9394;
 }
 #token-hud .status-effects .effect-control.active {
   background: rgba(12, 147, 148, 0.75);
   border: 1px solid #0c9394;
-}
-#token-hud .status-effects.active {
-  position: absolute;
-  margin-top: 77px;
-}
-#token-hud .attribute.elevation {
-  width: 42px;
 }
 #token-hud .attribute.elevation input {
   background: rgba(12, 147, 148, 0.75);
@@ -4358,7 +4229,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .placeable-hud .control-icon {
   background-color: rgba(12, 147, 148, 0.75);
-  margin: 5px 0;
 }
 .placeable-hud .control-icon.active {
   border: 1px solid #931004;
@@ -4415,87 +4285,113 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #pause {
   background: none;
+  /* v13: #pause h3 is now #pause figcaption */
 }
 #pause img {
   content: url("../img/ui/SR5_Logo.png");
   animation: none;
-  transform: translate(0, -50px);
   opacity: 1;
   filter: drop-shadow(0px 0px 10px #000001);
 }
+#pause figcaption,
 #pause h3 {
   text-shadow: none;
   animation: glow 1.5s ease-in-out infinite alternate;
 }
-#ui-bottom {
-  position: absolute;
-  left: 0px;
-  bottom: 0px;
-  width: 100%;
-  background-image: url("../img/ui/SR5_BG_MacroBar.png");
-  background-origin: border-box;
-  background-repeat: no-repeat, no-repeat;
-  background-position-x: left;
-  background-position-y: bottom;
-  background-size: 650px;
-}
-#ui-middle {
-  position: static;
-}
+/* v13: let Foundry handle #ui-bottom, #ui-middle, #hotbar, #players positioning natively */
+/* Only apply visual theming (colors, fonts), no layout overrides */
 #hotbar {
-  height: 65px;
-  padding-top: 15px;
-  padding-left: 5px;
+  /* v13: .macro is now .slot, .macro-key is now .key */
+  /* v13: hotbar left/right controls — color theming only */
 }
+#hotbar .slot .key,
 #hotbar .macro .macro-key {
   font-family: "srfoundry_primary";
   text-transform: uppercase;
+  color: rgba(255, 255, 254, 0.75);
+  background-color: transparent;
 }
+#hotbar .slot,
 #hotbar .macro.inactive {
-  box-shadow: 0 0 4px #931004 inset;
+  background: rgba(147, 16, 4, 0.25);
+  color: rgba(255, 255, 254, 0.75);
+  border-color: #931004;
+  box-shadow: none;
 }
+#hotbar .slot:hover,
 #hotbar .macro.inactive:hover {
-  box-shadow: 0 0 4px #0c9394 inset;
-}
-#hotbar .macro.active {
-  border: 1px solid #931004;
-}
-#hotbar .macro.active:hover {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 4px #0c9394 inset;
-}
-#hotbar .bar-controls {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
   color: #fffffe;
-  height: 50px;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
 }
-#hotbar #hotbar-directory-controls {
-  border: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.25);
-  margin-left: 0;
-  margin-right: 4px;
-  margin-bottom: 1px;
+#hotbar .slot.full .key,
+#hotbar .macro.active .macro-key {
+  color: #fffffe;
 }
-#hotbar #action-bar {
-  border: 1px solid transparent;
+#hotbar .slot.full,
+#hotbar .macro.active {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.5);
+  border-color: #0c9394;
+  box-shadow: none;
 }
-#hotbar #action-bar #hotbar-page-controls {
-  border: 1px solid transparent;
+#hotbar .slot.full:hover,
+#hotbar .macro.active:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+}
+#hotbar #hotbar-controls-left .ui-control,
+#hotbar #hotbar-controls-right .ui-control {
+  background: rgba(147, 16, 4, 0.25);
+  color: rgba(255, 255, 254, 0.75);
+  border-color: #931004;
+  box-shadow: none;
+}
+#hotbar #hotbar-controls-left .ui-control:hover,
+#hotbar #hotbar-controls-right .ui-control:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+}
+#hotbar #hotbar-controls-left .ui-control:active,
+#hotbar #hotbar-controls-right .ui-control:active,
+#hotbar #hotbar-controls-left .ui-control[aria-pressed=true],
+#hotbar #hotbar-controls-right .ui-control[aria-pressed=true] {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.5);
+  border-color: #0c9394;
+  box-shadow: none;
+}
+#hotbar #hotbar-page-controls .hotbar-page-control {
+  background: rgba(147, 16, 4, 0.25);
+  color: rgba(255, 255, 254, 0.75);
+  border-color: #931004;
+  box-shadow: none;
+}
+#hotbar #hotbar-page-controls .hotbar-page-control:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+}
+#hotbar #hotbar-page-controls .hotbar-page-control:active {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.5);
+  border-color: #0c9394;
+  box-shadow: none;
+}
+#hotbar #hotbar-page-controls .hotbar-page-number {
+  color: rgba(255, 255, 254, 0.75);
 }
 #players {
-  position: fixed;
-  z-index: 71;
-  background-image: none;
-  margin-bottom: 0px;
-  right: 315px;
-  left: auto;
-  bottom: 5px;
-  border: 1px solid #931004;
-  border-radius: none;
-  box-shadow: none;
-  background-color: rgba(147, 16, 4, 0.25);
-  width: auto;
+  --background-color: rgba(147, 16, 4, 0.25);
+  --border-color: #931004;
+  --text-color: rgba(255, 255, 254, 0.75);
+  --player-name-color: #fffffe;
 }
 #players h3 {
   font-family: "srfoundry_primary";
@@ -4504,239 +4400,117 @@ input[type=range]:focus::-ms-fill-upper {
 #players ol {
   font-family: "srfoundry_regular";
 }
-#sidebar.collapsed ~ #players {
-  right: 15px;
+#players button {
+  background: rgba(147, 16, 4, 0.25);
+  color: rgba(255, 255, 254, 0.75);
+  border-color: #931004;
+  box-shadow: none;
+}
+#players button:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
 }
 #ui-left {
   background-image: url("../img/ui/SR5_BG_ControlBar.png");
   background-repeat: no-repeat, no-repeat;
   background-position: -35px -215px;
 }
-#controls ol.main-controls {
-  width: 55px;
-}
-#controls ol:nth-of-type(3n) {
-  margin-top: 40px;
-}
-#controls ol:nth-of-type(4n) {
-  margin-top: 80px;
-}
-#controls ol:nth-of-type(5n) {
-  margin-top: 120px;
-}
-#controls ol:nth-of-type(6n) {
-  margin-top: 160px;
-}
-#controls ol:nth-of-type(7n) {
-  margin-top: 200px;
-}
-#controls ol:nth-of-type(8n) {
-  margin-top: 240px;
-}
-#controls ol:nth-of-type(9n) {
-  margin-top: 280px;
-}
-#controls .main-controls .scene-control {
-  width: 30px;
-  height: 30px;
-  font-size: 1.5em;
-  line-height: 30px;
+/* v13: scene controls — color theming only, layout is Foundry-native */
+#scene-controls .ui-control {
   background: rgba(147, 16, 4, 0.25);
   color: rgba(255, 255, 254, 0.75);
-  border: 1px solid #931004;
+  border-color: #931004;
   box-shadow: none;
-  position: relative;
-  display: block;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-#controls .main-controls .scene-control:hover {
+#scene-controls .ui-control:hover {
   color: #fffffe;
-  border: 1px solid #0c9394;
-  background-color: transparent;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
   box-shadow: none;
 }
-#controls .main-controls .scene-control:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#controls .main-controls .scene-control:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001 !important;
-  background: rgba(12, 147, 148, 0.25);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-#controls .main-controls .scene-control.active {
+#scene-controls .ui-control[aria-pressed=true],
+#scene-controls .ui-control.active {
   color: #fffffe;
   background: rgba(12, 147, 148, 0.5);
-  border: 1px solid #0c9394;
+  border-color: #0c9394;
   box-shadow: none;
 }
-#controls .sub-controls {
-  opacity: 0;
-  transition: opacity 0s ease-in 1s;
-}
-#controls .sub-controls:hover {
-  opacity: 1;
-  transition: opacity 0s ease-in 0s;
-}
-#controls .sub-controls .control-tool {
-  width: 30px;
-  height: 30px;
-  font-size: 1.5em;
-  line-height: 30px;
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border: 1px solid #931004;
-  box-shadow: none;
-  position: relative;
-  display: block;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-#controls .sub-controls .control-tool:hover {
-  color: #fffffe;
-  border: 1px solid #0c9394;
-  background-color: transparent;
-  box-shadow: none;
-}
-#controls .sub-controls .control-tool:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#controls .sub-controls .control-tool:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001 !important;
-  background: rgba(12, 147, 148, 0.25);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-#controls .sub-controls .control-tool.active {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border: 1px solid #0c9394;
-  box-shadow: none;
-}
+/* v13: sidebar — color theming only */
 #sidebar {
-  margin: 0px 0px 5px 5px;
-  right: 0px;
-  top: 0px;
-  width: 308px;
-  padding: 5px 5px 5px 5px;
+  border-radius: 0;
+  border: 0px;
+}
+#sidebar.collapsed {
+  /* v13: .item is now .ui-control */
+}
+#sidebar.collapsed #sidebar-tabs .ui-control:hover,
+#sidebar.collapsed #sidebar-tabs > .item:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+  border-radius: 3px;
+}
+#sidebar.collapsed #sidebar-tabs .ui-control[aria-pressed=true],
+#sidebar.collapsed #sidebar-tabs > .item.active {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.5);
+  border-color: #0c9394;
+  box-shadow: none;
+  background-image: none;
+}
+/* v13: sidebar content area is now #sidebar-content */
+#sidebar-content {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-origin: border-box;
   background-size: cover;
   background-color: #000001;
-  border-radius: 0;
-  border: 0px;
   border-left: 1px solid #0c9394;
-  height: 100%;
 }
-#sidebar.collapsed {
-  width: 35px!important;
-  border-bottom: 1px solid #0c9394;
-  border-bottom-left-radius: 10px;
-}
-#sidebar.collapsed #sidebar-tabs > .item:hover {
-  background: rgba(12, 147, 148, 0.5);
-  border: none;
-  border-radius: 3px;
-  height: 30px;
-}
-#sidebar.collapsed #sidebar-tabs > .item.active {
-  border: none;
-  background-image: none;
-  height: 30px;
-}
-#sidebar-tabs {
-  box-shadow: none;
-  border-bottom: 2px solid #0c9394;
-  color: #fffffe;
-}
+#sidebar-tabs .ui-control,
 #sidebar-tabs .item {
-  line-height: 28px;
+  background: rgba(147, 16, 4, 0.25);
+  color: rgba(255, 255, 254, 0.75);
+  border-color: #931004;
+  box-shadow: none;
 }
+#sidebar-tabs .ui-control:hover,
+#sidebar-tabs .item:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+}
+#sidebar-tabs .ui-control[aria-pressed=true],
+#sidebar-tabs .item[aria-pressed=true],
+#sidebar-tabs .ui-control.active,
 #sidebar-tabs .item.active {
   color: #fffffe;
-  border: none;
+  background: rgba(12, 147, 148, 0.5);
+  border-color: #0c9394;
   box-shadow: none;
-  border-radius: 5px;
-  height: 33px;
-  background-image: url("../img/ui/SR5_UpArrowGreen.svg");
-  background-repeat: no-repeat;
-  background-origin: border-box;
-  background-position-y: bottom;
-  background-position-x: center;
-  background-size: 43%;
 }
-#sidebar-tabs .item.active:hover {
-  height: 33px;
-  border-bottom: none;
-}
-#sidebar-tabs .item:hover {
-  height: 29px;
-  border-bottom: 1px solid #0c9394;
-}
-.sidebar-tab button:not(.messageAction) {
-  position: relative;
-  display: block;
-  line-height: 20px;
+.sidebar-tab {
+  /* v13: override sidebar tab background variable */
+  --sidebar-background: transparent;
   color: #fffffe;
+}
+.sidebar-tab button:not(.messageAction):not(.ui-control) {
+  color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
-  font-size: 0.9em;
-  text-align: center;
-  border-radius: 3px;
-  text-decoration: none;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  border: 1px solid #0c9394;
-  background: rgba(0, 0, 1, 0.3);
-  z-index: 1;
-}
-.sidebar-tab button:not(.messageAction):hover {
-  color: #000001;
-  background-color: transparent;
+  border: 1px solid #931004;
+  background: rgba(147, 16, 4, 0.25);
   box-shadow: none;
+  font-size: 0.9em;
 }
-.sidebar-tab button:not(.messageAction):hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.sidebar-tab button:not(.messageAction):before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001;
-  background: #0c9394;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+.sidebar-tab button:not(.messageAction):not(.ui-control):hover {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.25);
+  border-color: #0c9394;
+  box-shadow: none;
 }
 .sidebar-tab .directory-header {
   padding-bottom: 5px;
@@ -4751,7 +4525,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-header .header-search input:focus {
   border: 1px solid #0c9394;
-  box-shadow: 0 0 5px #0c9394;
+  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
 .sidebar-tab .directory-header .header-search input::placeholder {
   color: #931004;
@@ -4775,41 +4549,13 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header {
   background: rgba(147, 16, 4, 0.25);
-  position: relative;
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 .sidebar-tab .directory-list li.folder.collapsed > .folder-header:hover {
-  background-color: transparent;
+  background-color: rgba(12, 147, 148, 0.25);
   box-shadow: none;
-}
-.sidebar-tab .directory-list li.folder.collapsed > .folder-header:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.sidebar-tab .directory-list li.folder.collapsed > .folder-header:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  content: '';
-  background: rgba(12, 147, 148, 0.25);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-.sidebar-tab .directory-list .directory-item {
-  line-height: 40px;
-}
-.sidebar-tab .directory-list .directory-item .document-name {
-  margin: 0 0 0 0px;
-  flex-basis: 80%;
 }
 .sidebar-tab .directory-list .directory-item h4 {
   background-image: linear-gradient(to right, rgba(12, 147, 148, 0.25) 0, rgba(12, 147, 148, 0.25) 100%);
@@ -4824,11 +4570,6 @@ input[type=range]:focus::-ms-fill-upper {
 .sidebar-tab .directory-list .directory-item img {
   border: 1px solid #0c9394;
   border-radius: 3px;
-  flex: 0 0 40px;
-  height: 40px;
-  width: 40px;
-  object-fit: contain;
-  margin: 2px 8px 0 2px;
 }
 .sidebar-tab .directory-list .directory-item li.folder > .folder-header {
   background: rgba(12, 147, 148, 0.25);
@@ -4838,35 +4579,13 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header {
   background: rgba(147, 16, 4, 0.25);
-  position: relative;
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 .sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header:hover {
-  background-color: transparent;
+  background-color: rgba(12, 147, 148, 0.25);
   box-shadow: none;
-}
-.sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  background: rgba(12, 147, 148, 0.25);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 .sidebar-tab .directory-list .directory-item.context {
   border-color: #0c9394;
@@ -4882,8 +4601,9 @@ input[type=range]:focus::-ms-fill-upper {
   text-transform: uppercase;
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.5);
+  background-color: rgba(147, 16, 4, 0.5);
 }
+/* v13: context menu — color theming only */
 #context-menu {
   font-family: "srfoundry_regular";
   background: #000001;
@@ -4894,82 +4614,53 @@ input[type=range]:focus::-ms-fill-upper {
   color: #fffffe;
 }
 #context-menu li.context-item {
-  position: relative;
-  display: block;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
   border: 1px solid rgba(12, 147, 148, 0.25);
-  text-transform: initial;
   font-size: 1em;
 }
 #context-menu li.context-item:hover {
   text-shadow: none;
-  color: #000001;
-  background-color: transparent;
-}
-#context-menu li.context-item:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#context-menu li.context-item:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001;
-  background: #0c9394;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-#chat-controls {
-  border-top: 2px solid #0c9394;
-  padding-top: 5px;
-  margin-top: 5px;
-}
-#chat-controls .fa-dice-d20:before {
-  content: "";
-  width: 30px;
-  height: 24px;
-  display: inline-block;
-  background: url("../img/ui/SR5_Logo.png") no-repeat;
-  background-size: contain;
-}
-#chat-controls .roll-type-select {
-  background: rgba(147, 16, 4, 0.25);
   color: #fffffe;
-  font-family: "srfoundry_regular";
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+}
+/* v13: chat controls — color theming only */
+#sidebar-content #chat-message,
+#chat-popout #chat-message {
+  color: #fffffe;
   border: 1px solid #931004;
-}
-#chat-controls option {
-  background: #000001;
-}
-#chat-controls optgroup {
-  background: #931004;
-}
-#chat-controls .control-buttons a {
-  color: rgba(147, 16, 4, 0.5);
-}
-#chat-controls .control-buttons a:hover {
-  color: rgba(12, 147, 148, 0.5);
-}
-#chat-form textarea {
-  font-family: "srfoundry_regular";
   background: rgba(147, 16, 4, 0.25);
-  border: 1px solid #931004;
 }
-#chat-form textarea:focus {
+#sidebar-content #chat-message:focus,
+#chat-popout #chat-message:focus {
   border: 1px solid #0c9394;
+  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
   outline: none;
-  box-shadow: 0 0 5px #0c9394;
-  background: rgba(12, 147, 148, 0.5);
-  color: #fffffe;
 }
+#sidebar-content #chat-message::placeholder,
+#chat-popout #chat-message::placeholder {
+  color: #931004;
+}
+#chat-controls .ui-control {
+  background: rgba(147, 16, 4, 0.25);
+  color: rgba(255, 255, 254, 0.75);
+  border-color: #931004;
+  box-shadow: none;
+}
+#chat-controls .ui-control:hover {
+  color: #fffffe;
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.25);
+  box-shadow: none;
+}
+#chat-controls .ui-control:active,
+#chat-controls .ui-control[aria-pressed=true] {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.5);
+  border-color: #0c9394;
+  box-shadow: none;
+}
+/* v13: combat tracker — color theming only */
 #combat #combat-round {
   border-bottom: 1px solid #931004;
   background: rgba(147, 16, 4, 0.25);
@@ -4977,9 +4668,6 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-round .encounters h3 {
   font-family: "srfoundry_secondary";
   text-transform: uppercase;
-}
-#combat #combat-round .encounters h3.encounter-title {
-  margin-left: 0px;
 }
 #combat #combat-round .encounters h4 {
   color: #fffffe;
@@ -4992,11 +4680,6 @@ input[type=range]:focus::-ms-fill-upper {
   color: #0c9394;
   text-shadow: 1px 1px 5px #000001;
 }
-#combat #combat-tracker li.combatant {
-  line-height: 50px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-}
 #combat #combat-tracker li.combatant.hidden {
   color: rgba(12, 147, 148, 0.5);
 }
@@ -5006,28 +4689,11 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-tracker li.combatant.active {
   background: rgba(12, 147, 148, 0.25);
 }
-#combat #combat-tracker li.combatant .token-name h4 {
-  padding-left: 0px;
-  font-size: 16px;
-}
-#combat #combat-tracker li.combatant .token-name h4:hover {
-  background-size: 0;
-}
 #combat #combat-tracker li.combatant .token-name h4.hasPlayed {
   color: rgba(255, 255, 254, 0.25);
 }
-#combat #combat-tracker li.combatant .token-name .combatant-controls {
-  flex: 0 0 27px;
-  font-size: var(--font-size-17);
-  line-height: 25px;
-}
 #combat #combat-tracker li.combatant .token-name .combatant-controls .action {
   color: #fffffe;
-  height: 18px;
-  line-height: 17px;
-  text-align: center;
-  margin-right: 2px;
-  margin-top: 2px;
 }
 #combat #combat-tracker li.combatant .token-name .combatant-controls .action.free {
   border: 1px solid rgba(0, 0, 1, 0.5);
@@ -5043,7 +4709,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #combat #combat-tracker li.combatant .token-name .combatant-control {
   color: #931004;
-  flex: 0 0 23px;
 }
 #combat #combat-tracker li.combatant .token-name .combatant-control:hover {
   color: rgba(12, 147, 148, 0.5);
@@ -5051,29 +4716,15 @@ input[type=range]:focus::-ms-fill-upper {
 #combat #combat-tracker li.combatant .token-name .combatant-control.active {
   color: #0c9394;
 }
-#combat #combat-tracker li.combatant .token-name .token-effect {
-  height: 19px;
-}
-#combat #combat-tracker li.combatant .token-name img.token-effect {
-  width: 19px;
-  height: 19px;
-}
-#combat #combat-tracker li.combatant .token-image {
-  flex: 0 0 50px;
-  height: 50px;
-  width: 50px;
-}
 #combat #combat-tracker li.combatant .roll {
   background: url("../img/icons/SR5_InitDicesOff.svg") no-repeat;
   background-size: 36px;
   background-position: center;
-  margin: 0 2px 0 4px;
 }
 #combat #combat-tracker li.combatant .roll:hover {
   background: url("../img/icons/SR5_InitDicesOn.svg") no-repeat;
   background-size: 36px;
   background-position: center;
-  margin: 0 2px 0 4px;
 }
 #combat #combat-tracker li.combatant .token-resource {
   border-right: 1px solid rgba(147, 16, 4, 0.5);
@@ -5105,7 +4756,6 @@ input[type=range]:focus::-ms-fill-upper {
   font-family: "srfoundry_secondary";
   text-transform: uppercase;
   font-size: 1em;
-  margin: 0 0 0 0;
 }
 #scenes .scene {
   border-width: 2px 0 2px 0;
@@ -5123,17 +4773,9 @@ input[type=range]:focus::-ms-fill-upper {
   color: #0c9394;
   text-shadow: 1px 1px 3px #000001;
 }
-#playlists h4 {
-  overflow: visible;
-}
+/* v13: playlists — color theming only */
 #playlists h4:hover {
   background: none;
-}
-#playlists li.playlist {
-  padding: 4px;
-}
-#playlists li.playlist .playlist-header {
-  text-decoration: none;
 }
 #playlists li.playlist .sound-control {
   color: #fffffe;
@@ -5146,91 +4788,38 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #playlists li.global-volume {
   border-bottom: 2px solid #0c9394;
-  margin-bottom: 10px;
 }
 #playlists li.global-volume .playlist-header {
+  border-top: 1px solid #931004;
+  border-bottom: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
-  border-top: 1px Solid #931004;
-  border-bottom: 1px Solid #931004;
   font-family: "srfoundry_secondary";
   text-transform: uppercase;
-  height: 28px;
-  margin-bottom: 5px;
-  line-height: 26px;
-  text-align: center;
 }
+/* v13: compendium — color theming only */
 #compendium h3 {
   font-family: "srfoundry_primary";
   font-size: 14px;
   text-transform: uppercase;
-  max-width: 95%;
-  text-align: left;
   background: none;
   border: none;
-  padding: 0 5px 5px 0;
-  margin: 0 0 0 5px;
-}
-#compendium li.compendium {
-  line-height: 18px;
-  border-bottom: 0;
-  position: relative;
-  display: block;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 #compendium li.compendium:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
 }
 #compendium li.compendium:hover {
   text-shadow: none;
-  background-color: transparent;
-}
-#compendium li.compendium:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#compendium li.compendium:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: calc(100% - 2px);
-  width: 0px;
-  content: '';
-  background: rgba(12, 147, 148, 0.25);
-  background-origin: border-box;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-#compendium li.compendium .pack-title {
-  margin: 0;
+  background-color: rgba(12, 147, 148, 0.25);
 }
 #compendium li.compendium .status-icons {
-  top: 0;
-  padding: 5px 0 0 0;
   color: #931004;
 }
 #compendium .compendium-footer {
   color: rgba(12, 147, 148, 0.5);
 }
-.compendium-sidebar .directory-item.compendium {
-  height: 50px;
-  align-items: flex-start;
-}
-.compendium-sidebar .directory-item.compendium .compendium-banner {
-  display: none;
-}
-.compendium.directory .directory-list .directory-item {
-  flex-wrap: wrap;
-}
+/* v13: compendium directory — SR5-specific content styling */
 .compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
-  line-height: 15px;
   color: rgba(255, 255, 254, 0.5);
-  text-align: right;
-  padding-right: 5px;
-  padding-bottom: 3px;
 }
 #client-settings nav.tabs,
 #av-config nav.tabs {
@@ -5249,52 +4838,28 @@ input[type=range]:focus::-ms-fill-upper {
   margin-top: 8px;
   border-top: 2px solid #0c9394;
 }
+/* v13: characters — color theming only */
 #characters h3 {
   background-color: transparent;
   border-top: 0;
   border-bottom: 0;
-  position: relative;
-  display: block;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 #characters h3:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
 }
 #characters h3:hover {
   text-shadow: none;
-  background-color: transparent;
+  background-color: rgba(12, 147, 148, 0.25);
 }
-#characters h3:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#characters h3:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: calc(100% - 2px);
-  width: 0px;
-  content: '';
-  background: rgba(12, 147, 148, 0.25);
-  background-origin: border-box;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
+/* v13: av-config — color theming only */
 #av-config .form-group {
-  margin-bottom: 10px;
-  padding-bottom: 5px;
   border-bottom: 1px solid #931004;
 }
+/* v13: permissions-config — color theming only */
 #permissions-config header.table-header {
-  background: rgba(147, 16, 4, 0.5);
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
-  border-left: none;
-  border-right: none;
+  background-color: rgba(147, 16, 4, 0.5);
 }
 #permissions-config header.table-header label {
   color: #fffffe;
@@ -5302,9 +4867,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #permissions-config .hint {
   color: #0c9394;
-}
-#permissions-config button:not(:nth-child(0n+1)) {
-  margin-left: 10px;
 }
 #module-management .window-content nav a {
   color: #931004;
@@ -5462,54 +5024,25 @@ input[type=range]:focus::-ms-fill-upper {
 .dialog .dialog-buttons {
   background-image: url("../img/ui/SR5_BG_Dialog.png");
   background-size: contain;
-  padding: 15px 8px 8px 8px;
 }
 .dialog .dialog-buttons button,
 .dialog .dialog-buttons button.default {
-  position: relative;
-  display: block;
-  line-height: 20px;
-  color: #fffffe;
+  color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
+  border: 1px solid #931004;
+  background: rgba(147, 16, 4, 0.25);
+  box-shadow: none;
   font-size: 0.9em;
-  text-align: center;
-  border-radius: 3px;
-  text-decoration: none;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  border: 1px solid #0c9394;
-  background: rgba(0, 0, 1, 0.3);
-  z-index: 1;
 }
 .dialog .dialog-buttons button:hover,
 .dialog .dialog-buttons button.default:hover {
-  color: #000001;
-  background-color: transparent;
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.25);
+  border-color: #0c9394;
   box-shadow: none;
 }
-.dialog .dialog-buttons button:hover:before,
-.dialog .dialog-buttons button.default:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.dialog .dialog-buttons button:before,
-.dialog .dialog-buttons button.default:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: #000001;
-  background: #0c9394;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
+/* v13: player-config — color theming only */
 #player-config label {
   color: #fffffe;
   font-family: "srfoundry_primary";
@@ -5520,8 +5053,6 @@ input[type=range]:focus::-ms-fill-upper {
 }
 #player-config .form-group {
   border-bottom: 1px solid #931004;
-  margin-bottom: 5px;
-  padding-bottom: 5px;
 }
 #player-config h3.entity-name {
   background-color: transparent;
@@ -5551,14 +5082,15 @@ input[type=range]:focus::-ms-fill-upper {
 #player-config input[type="text"]:focus,
 #player-config input[type="number"]:focus,
 #player-config input[type="color"]:focus {
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
   border: 1px solid #0c9394;
+  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
 #player-config input[type="text"]::placeholder,
 #player-config input[type="number"]::placeholder,
 #player-config input[type="color"]::placeholder {
   color: #931004;
 }
+/* v13: compendium directory — color theming only */
 [id^=app-] .compendium.directory input {
   font-family: "srfoundry_regular";
   color: #fffffe;
@@ -5567,48 +5099,24 @@ input[type=range]:focus::-ms-fill-upper {
 }
 [id^=app-] .compendium.directory input:focus {
   border: 1px solid #0c9394;
-  box-shadow: 0 0 5px #0c9394;
+  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
 [id^=app-] .compendium.directory input::placeholder {
   color: #931004;
   font-family: "srfoundry_regular";
 }
-[id^=app-] .compendium.directory li.directory-item {
-  line-height: 40px;
-  border-bottom: 0;
-  margin: 0 0 3px 0;
-  position: relative;
-  display: block;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
 [id^=app-] .compendium.directory li.directory-item:not(:last-child) {
   box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
-  flex-wrap: wrap;
 }
 [id^=app-] .compendium.directory li.directory-item:hover {
   text-shadow: none;
-  background-color: transparent;
-}
-[id^=app-] .compendium.directory li.directory-item:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-[id^=app-] .compendium.directory li.directory-item h4 {
-  flex: 1 0 80%;
+  background-color: rgba(12, 147, 148, 0.25);
 }
 [id^=app-] .compendium.directory img {
   border: 1px solid #0c9394;
   border-radius: 3px;
-  flex: 0 0 35px;
-  height: 35px;
-  width: 35px;
-  object-fit: contain;
-  margin: 2px 8px 0 2px;
 }
+/* v13: exit menu — color theming only */
 #menu {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-size: cover;
@@ -5617,42 +5125,18 @@ input[type=range]:focus::-ms-fill-upper {
   border: 2px solid #931004;
 }
 #menu #menu-items li {
-  position: relative;
   color: #fffffe;
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   font-size: 1.5em;
-  text-align: center;
-  -webkit-transition: all 1s ease;
-  -moz-transition: all 1s ease;
-  -o-transition: all 1s ease;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  z-index: 1;
 }
 #menu #menu-items li:not(:last-child) {
   border-bottom: 1px solid rgba(147, 16, 4, 0.5);
 }
 #menu #menu-items li:hover {
-  background-color: transparent;
+  background-color: rgba(12, 147, 148, 0.5);
   box-shadow: none;
   text-shadow: none;
-}
-#menu #menu-items li:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-#menu #menu-items li:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  background: rgba(12, 147, 148, 0.5);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 #menu #menu-items li h4 {
   font-size: 1em;

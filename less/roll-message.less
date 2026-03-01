@@ -1,27 +1,34 @@
-#chat-log {
-  .message.SRCustomMessage {
+/* v13: #chat-log replaced by #chat, .message replaced by .chat-message */
+#chat, #chat-notifications, #chat-popout {
+  .chat-message.SRCustomMessage {
     background-color: @neutralLightColor;
     color: @neutralDarkColor;
     border          : 2px solid @mainColor;
     line-height: normal;
+    padding: 0;
 
     .message-content{
-      padding:0px;
+      padding: 0;
     }
   }
 
-  .message {
+  .chat-message {
     background-color: fade(@subColor, 25%);
     border-radius   : 5px;
     border          : 2px solid @subColor;
     color           : fade(@neutralLightColor, 95%);
     margin-bottom   : 5px;
-    padding-bottom  : 5px;
+    padding: 0;
     line-height     : 17px;
 
     .message-content {
-      padding:5px 5px 0px 5px;
-      font-family       : @SR_BodyText;
+      padding: 5px 5px 0px 5px;
+      font-family: @SR_BodyText;
+
+      /* v13: remove padding when content has child elements (roll cards) */
+      &:has(*) {
+        padding: 0;
+      }
     }
 
     input {
@@ -30,11 +37,23 @@
       margin-right: 5px;
     }
 
-    .SR-MessageHeader {
+    /* v13: style Foundry's default header (replaces custom .SR-MessageHeader) */
+    /* Use > to avoid targeting <header class="SR-CardHeader"> inside .message-content */
+    > header {
       background-color: @neutralDarkColor;
       line-height     : 20px;
       padding         : 2px;
       color           : @neutralLightColor;
+      display         : flex;
+      align-items     : center;
+
+      .SRAuthorIcon {
+        width       : 25px;
+        height      : 25px;
+        flex        : 0 0 25px;
+        margin-right: 5px;
+        border-color: #95046f;
+      }
 
       h4 {
         font-family   : @SR_BodyTextBold;
@@ -46,28 +65,16 @@
         align-self    : center;
       }
 
-      .SR-MessageMetadata {
-        text-align   : right;
-        font-size    : @SR_FontSizeSmall ;
-        padding-right: 2px;
+      a {
         color        : @mainColor;
-      }
 
-      .SRAuthorIcon {
-        width       : 25px;
-        height      : 25px;
-        flex        : 0 0 25px;
-        margin-right: 5px;
-        border-color: #95046f;
-      }
-
-      .whisper-to{
-        font-size    : @SR_FontSizeSmall ;
-        color        : @mainColor;
-        line-height  : 20px;
+        &:hover {
+          color      : @subColor;
+          text-shadow: none;
+        }
       }
     }
-  
+
     .part-header {
       margin-left       : 5px;
       margin-right      : 5px;
@@ -77,7 +84,6 @@
 
     .dice-tooltip {
       .part-total {
-        //background: fade(@mainColor, 50%);
         border          : 1px solid @mainColor;
           background-color: fade(@mainColor, 50%);
           color           : @neutralLightColor;
@@ -116,7 +122,7 @@
       color         : @neutralLightColor;
       font-size     : @SR_FontSizeNormal;
       margin        : auto;
-      text-align    : center; 
+      text-align    : center;
     }
 
     .dice-total {
@@ -193,7 +199,7 @@
           margin-right : 2.55px;
           margin-left  : 2.55px;
           margin-bottom: 5px;
-          padding-top  : 1px;          
+          padding-top  : 1px;
         }
 
         .succes {
@@ -259,6 +265,13 @@
       font-size     : @SR_FontSizeNormal;
       text-align    : center;
       line-height   : 20px;
+
+      button.messageAction {
+        width       : 100%;
+        margin      : 5px 0 0 0;
+        padding     : 0 5px;
+        line-height : 20px;
+      }
 
       .SR-CardButtonHit {
         background-color: @mainColor;
@@ -366,7 +379,7 @@
       .result-text {
         padding-top: 5px;
       }
-      
+
     }
   }
 }
