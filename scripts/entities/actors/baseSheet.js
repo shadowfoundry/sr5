@@ -259,9 +259,11 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		event.stopPropagation();
 		let actorData = foundry.utils.duplicate(this.actor);
 		const dropData = JSON.parse(event.dataTransfer.getData('text/plain'));
-		const target = event.target;
+		const dropZone = event.target.closest('[data-dropmatrixattribute]');
+
 		if (dropData.valueFromCollection){
-			let existingValue = parseInt(target.dataset.droppedvalue);
+			if (!dropZone) return;
+			let existingValue = parseInt(dropZone.dataset.droppedvalue);
 			if (existingValue > 0) {
 				for (let [key, value] of Object.entries(actorData.system.matrix.attributesCollection)){
 					if (value === existingValue){
@@ -270,20 +272,24 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 					}
 				}
 			}
-			foundry.utils.setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
+			foundry.utils.setProperty(actorData, dropZone.dataset.dropmatrixattribute, parseInt(dropData.value));
 			foundry.utils.setProperty(actorData, `system.matrix.attributesCollection.${dropData.valueFromCollection}`, true);
 			await this.actor.update(actorData);
+			return;
 		}
 
 		if (dropData.valueFromAttribute){
-			foundry.utils.setProperty(actorData, target.dataset.dropmatrixattribute, parseInt(dropData.value));
-			foundry.utils.setProperty(actorData, dropData.valueFromAttribute, parseInt(target.dataset.droppedvalue));
+			if (!dropZone) return;
+			foundry.utils.setProperty(actorData, dropZone.dataset.dropmatrixattribute, parseInt(dropData.value));
+			foundry.utils.setProperty(actorData, dropData.valueFromAttribute, parseInt(dropZone.dataset.droppedvalue));
 			//Manage action
 			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
 			actorData.system.specialProperties.actions.free.current -=1;
 			await this.actor.update(actorData);
 			SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"switchAttributes"}], false);
+			return;
 		}
+
 		await super._onDrop(event);
 	}
 
