@@ -154,32 +154,28 @@ export class SR5_ThirdPartyHelpers {
                 barrierType, weapon,
                 cancel = true;
             
-            await new Promise((resolve, reject) => {
-                foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.html", dialogData).then((dlg) => {
-                    new foundry.appv1.api.Dialog({
-                    title: game.i18n.localize('SR5.ChooseWeaponMaterial'),
-                    content: dlg,
-                    buttons: {
-                        ok: {
-                            label: "Ok",
-                            callback: () => (cancel = false),
-                        },
-                        cancel: {
-                            label: "Cancel",
-                            callback: () => (cancel = true),
-                        },
+            const tpDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.html", dialogData);
+            const tpResult = await foundry.applications.api.DialogV2.wait({
+                window: { title: game.i18n.localize('SR5.ChooseWeaponMaterial') },
+                content: tpDlg,
+                buttons: [
+                    {
+                        action: "ok",
+                        label: "Ok",
+                        default: true,
+                        callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
                     },
-                    default: "ok",
-                    close: (html) => {
-                        if (cancel) return;
-                        const element = html instanceof HTMLElement ? html : html[0];
-                        barrierType = element.querySelector("[name=barrierType]").value;
-                        weapon = element.querySelector("[name=weapon]").value;
-                        resolve(barrierType);
+                    {
+                        action: "cancel",
+                        label: "Cancel",
+                        callback: () => ({ action: "cancel" }),
                     },
-                    }).render(true);
-                });
+                ],
+                rejectClose: false,
             });
+            if (!tpResult || tpResult.action !== "ok") return;
+            barrierType = tpResult.element.querySelector("[name=barrierType]").value;
+            weapon = tpResult.element.querySelector("[name=weapon]").value;
 
             let structure = SR5_ConverterHelpers.barrierTypeToStructure(barrierType);
             let armor = SR5_ConverterHelpers.barrierTypeToArmor(barrierType);

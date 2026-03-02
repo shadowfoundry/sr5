@@ -139,63 +139,53 @@ export class SR5_CombatHelpers {
     }
 
     static async chooseDamageType(){
-        let cancel = true;
         let dialogData = {list: SR5.PCConditionMonitors}
-        return new Promise((resolve, reject) => {
-            foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData).then((dlg) => {
-                new foundry.appv1.api.Dialog({
-                title: game.i18n.localize('SR5.ChooseDamageType'),
-                content: dlg,
-                buttons: {
-                    ok: {
+        const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData);
+        const result = await foundry.applications.api.DialogV2.wait({
+            window: { title: game.i18n.localize('SR5.ChooseDamageType') },
+            content: dlg,
+            buttons: [
+                {
+                    action: "ok",
                     label: "Ok",
-                    callback: () => (cancel = false),
-                    },
-                    cancel: {
+                    default: true,
+                    callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+                },
+                {
+                    action: "cancel",
                     label: "Cancel",
-                    callback: () => (cancel = true),
-                    },
+                    callback: () => ({ action: "cancel" }),
                 },
-                default: "ok",
-                close: (html) => {
-                    if (cancel) return;
-                    const element = html instanceof HTMLElement ? html : html[0];
-                    let damageType = element.querySelector("[name=damageType]").value;
-                    resolve(damageType);
-                },
-                }).render(true);
-            });
+            ],
+            rejectClose: false,
         });
+        if (!result || result.action !== "ok") return;
+        return result.element.querySelector("[name=damageType]").value;
     }
 
     static async chooseToxinVector(vectors){
-        let cancel = true;
         let dialogData = {list: vectors}
-        return new Promise((resolve, reject) => {
-            foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData).then((dlg) => {
-                new foundry.appv1.api.Dialog({
-                title: game.i18n.localize('SR5.ChooseToxinVector'),
-                content: dlg,
-                buttons: {
-                    ok: {
-                        label: "Ok",
-                        callback: () => (cancel = false),
-                    },
-                    cancel: {
-                        label: "Cancel",
-                        callback: () => (cancel = true),
-                    },
+        const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData);
+        const result = await foundry.applications.api.DialogV2.wait({
+            window: { title: game.i18n.localize('SR5.ChooseToxinVector') },
+            content: dlg,
+            buttons: [
+                {
+                    action: "ok",
+                    label: "Ok",
+                    default: true,
+                    callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
                 },
-                default: "ok",
-                close: (html) => {
-                    if (cancel) return;
-                    const element = html instanceof HTMLElement ? html : html[0];
-                    let vector = element.querySelector("[name=vector]").value;
-                    resolve(vector);
+                {
+                    action: "cancel",
+                    label: "Cancel",
+                    callback: () => ({ action: "cancel" }),
                 },
-                }).render(true);
-            });
+            ],
+            rejectClose: false,
         });
+        if (!result || result.action !== "ok") return;
+        return result.element.querySelector("[name=vector]").value;
     }
 
     static async getToxinEffect(effecType, info, actor){

@@ -44,21 +44,26 @@ export class SR5Actor extends Actor {
 		});
 
 		// Render the confirmation dialog window
-		return Dialog.prompt({
-			title: title,
+		return foundry.applications.api.DialogV2.wait({
+			window: { title },
 			content: html,
-			label: title,
-			callback: html => {
-				const form = html[0].querySelector("form");
-				const fd = new FormDataExtended(form);
-				foundry.utils.mergeObject(data, fd.object, {inplace: true});
-				if ( !data.folder ) delete data.folder;
-				if ( types.length === 1 ) data.type = types[0];
-				if ( !data.name?.trim() ) data.name = this.defaultName();
-				return this.create(data, {parent, pack, renderSheet: true});
-			},
+			buttons: [
+				{
+					action: "ok",
+					label: title,
+					default: true,
+					callback: (event, button, dialog) => {
+						const form = dialog.element.querySelector("form");
+						const fd = new FormDataExtended(form);
+						foundry.utils.mergeObject(data, fd.object, {inplace: true});
+						if ( !data.folder ) delete data.folder;
+						if ( types.length === 1 ) data.type = types[0];
+						if ( !data.name?.trim() ) data.name = this.defaultName();
+						return this.create(data, {parent, pack, renderSheet: true});
+					},
+				},
+			],
 			rejectClose: false,
-			options: options
 		});
 	}
 
@@ -77,71 +82,75 @@ export class SR5Actor extends Actor {
 		let baseItems;
 
 		switch (data.type){
-			case "actorSpirit":
-				let spiritForce, spiritType;
-				foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSpirit.html", dialogData).then((dlg) => {
-					new foundry.appv1.api.Dialog({
-						title: game.i18n.localize('SR5.SpiritType'),
-						content: dlg,
-						buttons: {
-							ok: {
-								label: "Ok",
-								callback: async (dialog) => {
-									const dlgEl = dialog instanceof HTMLElement ? dialog : dialog[0];
-									spiritType = dlgEl.querySelector("[name=spiritType]").value;
-									spiritForce = dlgEl.querySelector("[name=spiritForce]").value;
-									baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spiritType, spiritForce);
-									for (let baseItem of baseItems) {
-										data.items.push(baseItem);
-									}
-									data.system = {
-										"force": {
-											"base": parseInt(spiritForce),
-											"value": 0,
-											"modifiers": []
-										},
-										"type": spiritType
-									};
-									SR5_EntityHelpers.updateValue(data.system.force);
-									super.create(data, options);
-								},
-							},
+			case "actorSpirit": {
+				const spiritDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSpirit.html", dialogData);
+				const spiritResult = await foundry.applications.api.DialogV2.wait({
+					window: { title: game.i18n.localize('SR5.SpiritType') },
+					content: spiritDlg,
+					buttons: [
+						{
+							action: "ok",
+							label: "Ok",
+							default: true,
+							callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
 						},
-						default: "ok",
-						close: () => SR5_SystemHelpers.srLog(3, data),
-					}).render(true);
+					],
+					rejectClose: false,
 				});
-			break;
-			case "actorSprite":
-				let spriteLevel, spriteType;
-				foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSprite.html", dialogData).then((dlg) => {
-					new foundry.appv1.api.Dialog({
-						title: game.i18n.localize('SR5.SpriteType'),
-						content: dlg,
-						buttons: {
-							ok: {
-								label: "Ok",
-								callback: async (dialog) => {
-									const dlgEl = dialog instanceof HTMLElement ? dialog : dialog[0];
-									spriteType = dlgEl.querySelector("[name=spriteType]").value;
-									spriteLevel = dlgEl.querySelector("[name=spriteLevel]").value;
-									baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spriteType, spriteLevel);
-									for (let baseItem of baseItems) {
-										data.items.push(baseItem);
-									}
-									data.system = {
-										"level": parseInt(spriteLevel),
-										"type": spriteType
-									};
-									super.create(data, options);
-								},
-							},
+				if (!spiritResult || spiritResult.action !== "ok") {
+					SR5_SystemHelpers.srLog(3, data);
+					break;
+				}
+				const spiritType = spiritResult.element.querySelector("[name=spiritType]").value;
+				const spiritForce = spiritResult.element.querySelector("[name=spiritForce]").value;
+				baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spiritType, spiritForce);
+				for (let baseItem of baseItems) {
+					data.items.push(baseItem);
+				}
+				data.system = {
+					"force": {
+						"base": parseInt(spiritForce),
+						"value": 0,
+						"modifiers": []
+					},
+					"type": spiritType
+				};
+				SR5_EntityHelpers.updateValue(data.system.force);
+				super.create(data, options);
+				break;
+			}
+			case "actorSprite": {
+				const spriteDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSprite.html", dialogData);
+				const spriteResult = await foundry.applications.api.DialogV2.wait({
+					window: { title: game.i18n.localize('SR5.SpriteType') },
+					content: spriteDlg,
+					buttons: [
+						{
+							action: "ok",
+							label: "Ok",
+							default: true,
+							callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
 						},
-						default: "ok",
-						close: () => SR5_SystemHelpers.srLog(3, data),
-					}).render(true);
+					],
+					rejectClose: false,
 				});
-			break;
+				if (!spriteResult || spriteResult.action !== "ok") {
+					SR5_SystemHelpers.srLog(3, data);
+					break;
+				}
+				const spriteType = spriteResult.element.querySelector("[name=spriteType]").value;
+				const spriteLevel = spriteResult.element.querySelector("[name=spriteLevel]").value;
+				baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spriteType, spriteLevel);
+				for (let baseItem of baseItems) {
+					data.items.push(baseItem);
+				}
+				data.system = {
+					"level": parseInt(spriteLevel),
+					"type": spriteType
+				};
+				super.create(data, options);
+				break;
+			}
 			case "actorDevice":
 			case "actorDrone":
 			case "actorAgent":

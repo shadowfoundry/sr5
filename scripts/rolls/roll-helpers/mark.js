@@ -184,38 +184,36 @@ export class SR5_MarkHelpers {
         if (!markedItems.length) return ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`);
 
         //Render dialog to choose marked item
-        foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData).then((dlg) => {
-            new foundry.appv1.api.Dialog({
-                title: game.i18n.localize('SR5.ChooseMarkToErase'),
-                content: dlg,
-                data: dialogData,
-                buttons: {
-                    ok: {
-                        label: "Ok",
-                        callback: () => (cancel = false),
-                    },
-                    cancel: {
-                        label: "Cancel",
-                        callback: () => (cancel = true),
-                    },
+        const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData);
+        const result = await foundry.applications.api.DialogV2.wait({
+            window: { title: game.i18n.localize('SR5.ChooseMarkToErase') },
+            content: dlg,
+            buttons: [
+                {
+                    action: "ok",
+                    label: "Ok",
+                    default: true,
+                    callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
                 },
-                default: "ok",
-                close: (html) => {
-                    if (cancel) return;
-                    const element = html instanceof HTMLElement ? html : html[0];
-                    let targetItem = element.querySelector("[name=item]").value,
-                        item = markedItems.find(i => i.id === targetItem),
-                        markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId);//Determine actor who marked
-
-                    //Add info for building roll
-                    newData.previousMessage.actorId = actor.id;
-                    newData.previousMessage.itemUuid = item.uuid;
-
-                    //Roll matrix defense test
-                    markOwner.rollTest("matrixDefense", "eraseMark", newData);
+                {
+                    action: "cancel",
+                    label: "Cancel",
+                    callback: () => ({ action: "cancel" }),
                 },
-            }).render(true);
+            ],
+            rejectClose: false,
         });
+        if (!result || result.action !== "ok") return;
+        let targetItem = result.element.querySelector("[name=item]").value,
+            item = markedItems.find(i => i.id === targetItem),
+            markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId);//Determine actor who marked
+
+        //Add info for building roll
+        newData.previousMessage.actorId = actor.id;
+        newData.previousMessage.itemUuid = item.uuid;
+
+        //Roll matrix defense test
+        markOwner.rollTest("matrixDefense", "eraseMark", newData);
     }
 
     static async eraseMark(cardData){

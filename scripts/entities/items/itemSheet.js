@@ -149,44 +149,41 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 
 		let sortedList = SR5_EntityHelpers.sortObjectValue(accessoriesList);
 
-		let cancel = true;
 		let dialogData = {
 			accessoriesList: sortedList,
 		};
 
-		foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseAccessory.html", dialogData).then((dlg) => {
-			new foundry.appv1.api.Dialog({
-				title: game.i18n.localize('SR5.ChooseAccessory'),
-				content: dlg,
-				buttons: {
-					ok: {
-						label: "Ok",
-						callback: () => (cancel = false),
-					},
-					cancel: {
-						label : "Cancel",
-						callback: () => (cancel = true),
-					},
+		const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseAccessory.html", dialogData);
+		const result = await foundry.applications.api.DialogV2.wait({
+			window: { title: game.i18n.localize('SR5.ChooseAccessory') },
+			content: dlg,
+			buttons: [
+				{
+					action: "ok",
+					label: "Ok",
+					default: true,
+					callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
 				},
-				default: "ok",
-				close: (html) => {
-					if (cancel) return;
-					const dlgElement = html instanceof HTMLElement ? html : html[0];
-					let accessory = dlgElement.querySelector("[name=accessory]")?.value;
-					if (accessory) {
-						let aItem = this.actor.items.find(i => i.id === accessory);
-						let cloned = foundry.utils.deepClone(this.item.system.accessory);
-						cloned.push(aItem.toObject(false));
-						this.item.update({"system.accessory": cloned });
-						aItem.update({
-							"system.isActive": this.item.system.isActive,
-							"system.wirelessTurnedOn": this.item.system.wirelessTurnedOn,
-						})
-					} else {
-					}
+				{
+					action: "cancel",
+					label: "Cancel",
+					callback: () => ({ action: "cancel" }),
 				},
-			}).render(true);
+			],
+			rejectClose: false,
 		});
+		if (!result || result.action !== "ok") return;
+		let accessory = result.element.querySelector("[name=accessory]")?.value;
+		if (accessory) {
+			let aItem = this.actor.items.find(i => i.id === accessory);
+			let cloned = foundry.utils.deepClone(this.item.system.accessory);
+			cloned.push(aItem.toObject(false));
+			this.item.update({"system.accessory": cloned });
+			aItem.update({
+				"system.isActive": this.item.system.isActive,
+				"system.wirelessTurnedOn": this.item.system.wirelessTurnedOn,
+			})
+		}
 	}
 
 

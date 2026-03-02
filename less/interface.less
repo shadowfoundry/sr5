@@ -1236,13 +1236,24 @@
 }
 
 .dialog {
-    
+    /* v13: match v12 light dialog background */
+    --background: @neutralLightColor;
+    color: @neutralDarkColor;
+
     .window-header {
         background: @neutralDarkColor;
+        color: @neutralLightColor;
     }
 
     .window-content {
         padding: 0;
+
+        /* v13: remove Foundry's default input background shade */
+        input, select, textarea {
+            --input-background-color: transparent;
+            --input-border-color: transparent;
+            --input-focus-outline-color: transparent;
+        }
 
         input {
             border: 1px solid @mainColor;
@@ -1255,6 +1266,12 @@
 
         .dialog-content {
             padding: 8px;
+
+            /* v13: neutralize .standard-form flex layout for SR5 dialogs */
+            &.standard-form {
+                display: block;
+                gap: unset;
+            }
 
             h3, h4 {
                 color: @mainColor;
@@ -1285,31 +1302,51 @@
                     outline      : 0;
                     cursor       : pointer;
                     transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-        
+
+                    /* v13: override Foundry's FontAwesome checkbox ::before */
                     &::before {
-                        position    : relative;
+                        position    : absolute;
                         content     : '';
                         display     : block;
-                        top         : -1px;
-                        left        : 2.5px;
-                        width       : 30%;
-                        height      : 80%;
+                        top         : 0;
+                        left        : 0;
+                        right       : 0;
+                        bottom      : 0;
+                        margin      : auto auto auto calc(50% - 2px);
+                        width       : 5px;
+                        height      : 10px;
                         border-style: solid;
                         border-width: 0 2px 2px 0;
+                        border-color: @neutralLightColor;
                         transform   : rotate(45deg);
                         opacity     : 0;
+                        font-family : inherit;
+                        font-size   : inherit;
+                        line-height : normal;
                     }
-        
+
+                    /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
+                    &::after {
+                        content     : none;
+                        display     : none;
+                    }
+
                     &:checked {
                         content     : '✔';
                         color       : @neutralLightColor;
                         border-color: @subColor;
                         background  : fade(@subColor, 90%);
-        
+
                         &::before {
                             opacity: 1;
                         }
-        
+
+                        /* v13: ensure ::after stays suppressed when checked */
+                        &::after {
+                            content : none;
+                            display : none;
+                        }
+
                         ~label::before {
                             clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
                         }
@@ -1323,8 +1360,15 @@
                 }
                 option { direction: rtl; }
 
+                ul {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                }
+
                 li {
                     line-height: 18px;
+                    margin: 0;
 
                     &.SR-LigneEnTete {
                         font-size: @SR_FontSizeNormal;
@@ -1379,16 +1423,56 @@
             }
         }
     }
-    .dialog-buttons {
+    .dialog-buttons,
+    .form-footer {
         background-image: url(@Dialog);
         background-size: contain;
+        padding: 15px 8px 8px 8px;
 
         button, button.default {
-            .sr5-button();
+            position: relative;
+            display: block;
+            --button-size: auto;
+            height: auto;
+            min-height: unset;
+            padding: 4px 0.5rem;
+            line-height: 20px;
+            color: @neutralLightColor;
+            font-family: @SR_FontTitle;
+            text-transform: uppercase;
             font-size: @SR_FontSizeSmall;
+            text-align: center;
+            border-radius: 3px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+            border: 1px solid @subColor;
+            background: fade(@black, 30%);
+            z-index: 1;
 
             &:hover {
-                .sr5-button-hover();
+                color: @neutralDarkColor;
+                background-color: transparent;
+                box-shadow: none;
+            }
+
+            &:hover:before {
+                left: 0%;
+                right: auto;
+                width: 100%;
+            }
+
+            &:before {
+                display: block;
+                position: absolute;
+                top: 0px;
+                right: 0px;
+                height: 100%;
+                width: 0px;
+                z-index: -1;
+                content: '';
+                color: @neutralDarkColor;
+                background: @subColor;
+                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
             }
         }
     }

@@ -49,60 +49,42 @@ export class SR5_CalledShotHelpers {
 
     static async chooseSpendNetHits(message, actor){
         let messageData = message.flags.sr5data;
-        let cancel = true;
         let effects = [];
-        let numberCheckedEffects = 0, 
-            checkedEffects = {};
         let dialogData = {
             calledShot: messageData.combat.calledShot,
             disposableHits: messageData.roll.netHits - 1,
         };
 
-        foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData).then((dlg) => {
-            new SR5_SpendDialog({
-                title: game.i18n.localize('SR5.SpendHitsForStatus'),
-                content: dlg,
-                data: dialogData,
-                buttons: {
-                    ok: {
-                        label: "Ok",
-                        callback: () => (cancel = false),
-                    },
-                    cancel: {
-                        label: "Cancel",
-                        callback: () => (cancel = true),
-                    },
-                },
-                default: "ok",
-                close: async (html) => {
-                    if (cancel) return;
-                    const element = html instanceof HTMLElement ? html : html[0];
-                    const checkedInputs = element.querySelectorAll("[name='checkDisposableHitsEffects']:checked");
-                    numberCheckedEffects = checkedInputs.length;
-                    for (let i = 0; i < numberCheckedEffects; ++i) {
-                        let name = checkedInputs[i].value;
-                        checkedEffects = {
-                            name: name,
-                            type: messageData.combat.calledShot.location,
-                            threshold: (name === "stunned") ? SR5_CalledShotHelpers.getThresholdEffect(messageData.combat.calledShot.location) : 0,
-                            initiative: (name === "stunned") ? SR5_CalledShotHelpers.getInitiativeEffect(messageData.combat.calledShot.location) : 0,
-                            initialDV: messageData.damage.value,
-                        };
-                        effects.push(checkedEffects);
-                    }
-                    ui.notifications.info(`${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: numberCheckedEffects})}`);      
-                    messageData = foundry.utils.mergeObject(messageData, {
-                        "combat.calledShot.hitsSpent": true,
-                        "combat.calledShot.effects": effects,
-                    });
-                    //Update chatMessage
-                    let newMessage = foundry.utils.duplicate(messageData);
-                    newMessage.previousMessage.hits -= numberCheckedEffects;
-                    await SR5_RollTest.addInfoToCard(newMessage, actor.id);
-                    SR5_RollMessage.updateRollCardHelper(messageData.owner.messageId, newMessage);
-                },
-            }).render(true);
+        const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData);
+        const result = await SR5_SpendDialog.create({
+            title: game.i18n.localize('SR5.SpendHitsForStatus'),
+            content: dlg,
+            data: dialogData,
+            buttons: { ok: { label: "Ok" }, cancel: { label: "Cancel" } },
         });
+
+        if (!result || result.action === "cancel") return;
+
+        const checkedInputs = result.element.querySelectorAll("[name='checkDisposableHitsEffects']:checked");
+        for (const input of checkedInputs) {
+            effects.push({
+                name: input.value,
+                type: messageData.combat.calledShot.location,
+                threshold: (input.value === "stunned") ? SR5_CalledShotHelpers.getThresholdEffect(messageData.combat.calledShot.location) : 0,
+                initiative: (input.value === "stunned") ? SR5_CalledShotHelpers.getInitiativeEffect(messageData.combat.calledShot.location) : 0,
+                initialDV: messageData.damage.value,
+            });
+        }
+        ui.notifications.info(`${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: checkedInputs.length})}`);
+        messageData = foundry.utils.mergeObject(messageData, {
+            "combat.calledShot.hitsSpent": true,
+            "combat.calledShot.effects": effects,
+        });
+        //Update chatMessage
+        let newMessage = foundry.utils.duplicate(messageData);
+        newMessage.previousMessage.hits -= checkedInputs.length;
+        await SR5_RollTest.addInfoToCard(newMessage, actor.id);
+        SR5_RollMessage.updateRollCardHelper(messageData.owner.messageId, newMessage);
     }
 
     static async getCalledShotsEffect(effecType, info, actor, weakSideSpecific){

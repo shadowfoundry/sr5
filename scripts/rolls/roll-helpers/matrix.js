@@ -131,30 +131,29 @@ export class SR5_MatrixHelpers {
             device: actor.system.matrix.deviceName,
             list: list,
         };
-        foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData).then((dlg) => {
-            new foundry.appv1.api.Dialog({
-              title: game.i18n.localize('SR5.ChooseMatrixTarget'),
-              content: dlg,
-              buttons: {
-                ok: {
-                  label: "Ok",
-                  callback: () => (cancel = false),
+        const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData);
+        const result = await foundry.applications.api.DialogV2.wait({
+            window: { title: game.i18n.localize('SR5.ChooseMatrixTarget') },
+            content: dlg,
+            buttons: [
+                {
+                    action: "ok",
+                    label: "Ok",
+                    default: true,
+                    callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
                 },
-                cancel: {
-                  label: "Cancel",
-                  callback: () => (cancel = true),
+                {
+                    action: "cancel",
+                    label: "Cancel",
+                    callback: () => ({ action: "cancel" }),
                 },
-              },
-              default: "ok",
-              close: (html) => {
-                if (cancel) return;
-                const element = html instanceof HTMLElement ? html : html[0];
-                let targetItem = element.querySelector("[name=target]").value;
-                if (targetItem !== "device") cardData.target.itemUuid = targetItem;
-                actor.rollTest("matrixDefense", cardData.test.typeSub, cardData);
-              },
-            }).render(true);
+            ],
+            rejectClose: false,
         });
+        if (!result || result.action !== "ok") return;
+        let targetItem = result.element.querySelector("[name=target]").value;
+        if (targetItem !== "device") cardData.target.itemUuid = targetItem;
+        actor.rollTest("matrixDefense", cardData.test.typeSub, cardData);
     }
 
     static async rollOverwatchDefense(cardData){

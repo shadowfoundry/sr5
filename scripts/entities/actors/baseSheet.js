@@ -410,16 +410,16 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 				return
 			}
 		} else {
-			Dialog.confirm({
-				title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}`,
+			const confirmed = await foundry.applications.api.DialogV2.confirm({
+				window: { title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}` },
 				content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + game.i18n.format('SR5.DIALOG_WarningPermanentDelete', {type: game.i18n.localize("ITEM.Type" + item.type.replace(/^\w/, c => c.toUpperCase())), actor: this.actor.name, itemName: item.name}) + "</p>",
-				yes: () => {
-					item.delete();
-					if (item.type === "itemEffect"){
-						SR5_EntityHelpers.deleteEffectOnActor(this.actor, item.system.type);
-					}
-				},
 			});
+			if (confirmed) {
+				item.delete();
+				if (item.type === "itemEffect"){
+					SR5_EntityHelpers.deleteEffectOnActor(this.actor, item.system.type);
+				}
+			}
 		}
 	}	/* -------------------------------------------- */
 
@@ -1226,52 +1226,50 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 				}
 			}
 		}
-		let cancel = true;
 		let dialogData = {
 			controlerList: controlerList,
 		};
-		foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseControler.html", dialogData).then((dlg) => {
-			new foundry.appv1.api.Dialog({
-				title: game.i18n.localize('SR5.ChooseControler'),
-				content: dlg,
-				buttons: {
-					ok: {
-						label: "Ok",
-						callback: () => (cancel = false),
-					},
-					cancel: {
-						label : "Cancel",
-						callback: () => (cancel = true),
-					},
+		const ctrlDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseControler.html", dialogData);
+		const ctrlResult = await foundry.applications.api.DialogV2.wait({
+			window: { title: game.i18n.localize('SR5.ChooseControler') },
+			content: ctrlDlg,
+			buttons: [
+				{
+					action: "ok",
+					label: "Ok",
+					default: true,
+					callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
 				},
-				default: "ok",
-				close: (html) => {
-					if (cancel) return;
-					const dlgElement = html instanceof HTMLElement ? html : html[0];
-					let controler = dlgElement.querySelector("[name=controler]")?.value;
-					let controlerName = "";
-					if (controler) {
-						controlerName = controlerList[controler];
-						let vehicleControler = SR5_EntityHelpers.getRealActorFromID(controler);
-						vehicleControler = vehicleControler.toObject(false);
-						this.actor.update({
-							"system.vehicleOwner.id": controler,
-							"system.vehicleOwner.name": controlerName,
-							"system.vehicleOwner.system": vehicleControler.system,
-							"system.vehicleOwner.items": vehicleControler.items,
-						});
-					} else {
-						this.actor.update({
-							"system.vehicleOwner.id": "",
-							"system.vehicleOwner.name": "",
-							"system.vehicleOwner.system": "",
-							"system.vehicleOwner.items": [],
-							"system.controlMode": "autopilot"
-						});
-					}
+				{
+					action: "cancel",
+					label: "Cancel",
+					callback: () => ({ action: "cancel" }),
 				},
-			}).render(true);
+			],
+			rejectClose: false,
 		});
+		if (!ctrlResult || ctrlResult.action !== "ok") return;
+		let controler = ctrlResult.element.querySelector("[name=controler]")?.value;
+		let controlerName = "";
+		if (controler) {
+			controlerName = controlerList[controler];
+			let vehicleControler = SR5_EntityHelpers.getRealActorFromID(controler);
+			vehicleControler = vehicleControler.toObject(false);
+			this.actor.update({
+				"system.vehicleOwner.id": controler,
+				"system.vehicleOwner.name": controlerName,
+				"system.vehicleOwner.system": vehicleControler.system,
+				"system.vehicleOwner.items": vehicleControler.items,
+			});
+		} else {
+			this.actor.update({
+				"system.vehicleOwner.id": "",
+				"system.vehicleOwner.name": "",
+				"system.vehicleOwner.system": "",
+				"system.vehicleOwner.items": [],
+				"system.controlMode": "autopilot"
+			});
+		}
 
 	}
 
@@ -1385,39 +1383,24 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 			actorList: actorList,
 		};
 
-		foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData).then((dlg) => {
-			new SR5_PanDialog({
-				title: game.i18n.localize('SR5.ChooseItemToPan'),
-				content: dlg,
-				data: dialogData,
-				buttons: {
-					ok: {
-						label: "Ok",
-						callback: () => (cancel = false),
-					},
-					cancel: {
-						label : "Cancel",
-						callback: () => (cancel = true),
-					},
-				},
-				default: "ok",
-				close: (html) => {
-					if (cancel) return;
-					const dlgElement = html instanceof HTMLElement ? html : html[0];
-					let targetItem = dlgElement.querySelector("[name=itemToAdd]")?.value;
-					if (targetItem === "none") return;
-					if (!game.user?.isGM) {
-						SR5_SocketHandler.emitForGM("addItemToPan", {
-							targetItem: targetItem,
-							actorId: baseActor,
-						});
-					} else {
-						SR5_ActorHelper.addItemtoPan(targetItem, baseActor);
-					}
+		const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData);
+		const result = await SR5_PanDialog.create({
+			title: game.i18n.localize('SR5.ChooseItemToPan'),
+			content: dlg,
+			data: dialogData,
+		});
 
-				},
-			}).render(true);
-	});
+		if (!result || result.action === "cancel") return;
+		let targetItem = result.element.querySelector("[name=itemToAdd]")?.value;
+		if (targetItem === "none") return;
+		if (!game.user?.isGM) {
+			SR5_SocketHandler.emitForGM("addItemToPan", {
+				targetItem: targetItem,
+				actorId: baseActor,
+			});
+		} else {
+			SR5_ActorHelper.addItemtoPan(targetItem, baseActor);
+		}
 	}
 
 	async _onDeleteItemFromPan(event){

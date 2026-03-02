@@ -1,16 +1,8 @@
 //Customize Sheet section
 
-export class SRActorSheetConfig extends foundry.appv1.api.Dialog {
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            height: 'auto',
-            width: 600,
-            resizable: false,
-        });
-    }
+export class SRActorSheetConfig {
 
     static async buildDialog(actor) {
-        let cancel = true;
         let dialogData = actor.system.sheetPreferences;
         let actorData = foundry.utils.duplicate(actor.system);
         let template;
@@ -18,67 +10,61 @@ export class SRActorSheetConfig extends foundry.appv1.api.Dialog {
         if (actor.type === "actorPc") template = "systems/sr5/templates/interface/sheetConfigActor.html";
         if (actor.type === "actorGrunt") template = "systems/sr5/templates/interface/sheetConfigGrunt.html";
 
-        foundry.applications.handlebars.renderTemplate(template, dialogData).then((dlg) => {
-            new SRActorSheetConfig({
-                title: game.i18n.localize('SR5.CharacterSheetCustomization'),
-                content: dlg,
-                data: dialogData,
-                buttons: {
-                    ok: {
-                        label: "Ok",
-                        callback: () => (cancel = false),
-                    },
-                    cancel: {
-                        label: "Cancel",
-                        callback: () => (cancel = true),
-                    },
+        const dlg = await foundry.applications.handlebars.renderTemplate(template, dialogData);
+        const result = await foundry.applications.api.DialogV2.wait({
+            window: { title: game.i18n.localize('SR5.CharacterSheetCustomization') },
+            position: { width: 650 },
+            content: dlg,
+            buttons: [
+                {
+                    action: "ok",
+                    label: "Ok",
+                    default: true,
+                    callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
                 },
-                default: "ok",
-                close: async (html) => {
-                    if (cancel) return;
-                    const element = html instanceof HTMLElement ? html : html[0];
-                    let options = element.querySelectorAll("[name='option']");
-                    for (let o of options){
-                        let isChecked = element.querySelector(`#${o.id}`)?.checked ?? false;
-                        let path= "sheetPreferences." + o.value;
-                        foundry.utils.setProperty(actorData, path, isChecked);
-                    }
-                    actor.update({"system": actorData});
+                {
+                    action: "cancel",
+                    label: "Cancel",
+                    callback: () => ({ action: "cancel" }),
                 },
-            }).render(true);
+            ],
+            rejectClose: false,
+            render: (event, dialog) => {
+                const element = dialog.element;
+                const toggleSections = element.querySelectorAll(".toggleSection");
+
+                // Initialize parent state
+                for (const p of toggleSections) {
+                    const targetId = p.closest("ul")?.id;
+                    const isChecked = element.querySelector(`#${p.id}`)?.checked ?? false;
+                    const targetEl = element.querySelector(`#${targetId}`);
+                    if (isChecked) targetEl?.classList.remove("SR-LightGreyColor");
+                    else targetEl?.classList.add("SR-LightGreyColor");
+                }
+
+                // Toggle parent on click
+                toggleSections.forEach(el => {
+                    el.addEventListener("click", ev => {
+                        const targetId = ev.currentTarget.closest("ul")?.id;
+                        const elementId = ev.currentTarget.id;
+                        const checkbox = element.querySelector(`#${elementId}`);
+                        const targetEl = element.querySelector(`#${targetId}`);
+                        if (checkbox?.checked) targetEl?.classList.remove("SR-LightGreyColor");
+                        else targetEl?.classList.add("SR-LightGreyColor");
+                    });
+                });
+            },
         });
 
-    }
+        if (!result || result.action === "cancel") return;
 
-    activateListeners(html) {
-        super.activateListeners(html)
-        const element = html instanceof HTMLElement ? html : html[0];
-
-        const toggleSections = element.querySelectorAll(".toggleSection");
-        if (toggleSections.length) this._checkParentState(toggleSections, element);
-        toggleSections.forEach(el => {
-            el.addEventListener("click", ev => this._onToggleParent(ev, element));
-        });
-    }
-
-    _onToggleParent(ev, element){
-        let targetId = ev.currentTarget.closest("ul")?.id;
-        let elementId = ev.currentTarget.id;
-
-        const checkbox = element.querySelector(`#${elementId}`);
-        const targetEl = element.querySelector(`#${targetId}`);
-        if (checkbox?.checked) targetEl?.classList.remove("SR-LightGreyColor");
-        else targetEl?.classList.add("SR-LightGreyColor");
-    }
-
-    _checkParentState(parents, element){
-        for (let p of parents){
-            let targetId = p.closest("ul")?.id;
-            let isChecked = element.querySelector(`#${p.id}`)?.checked ?? false;
-            const targetEl = element.querySelector(`#${targetId}`);
-            if (isChecked) targetEl?.classList.remove("SR-LightGreyColor");
-            else targetEl?.classList.add("SR-LightGreyColor");
+        const options = result.element.querySelectorAll("[name='option']");
+        for (const o of options) {
+            const isChecked = result.element.querySelector(`#${o.id}`)?.checked ?? false;
+            const path = "sheetPreferences." + o.value;
+            foundry.utils.setProperty(actorData, path, isChecked);
         }
-
+        actor.update({"system": actorData});
     }
+
 }

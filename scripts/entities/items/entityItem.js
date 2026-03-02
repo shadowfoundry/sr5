@@ -521,21 +521,22 @@ export class SR5Item extends Item {
 		let ammoData = ammo ? foundry.utils.duplicate(ammo.system) : {};
 
 		if (!ammo || ammo.system.quantity <= 0) {
-			await Dialog.confirm({
-				title: game.i18n.localize('SR5.DIALOG_WarningNoAmmoTypeTitle'),
+			const confirmed = await foundry.applications.api.DialogV2.confirm({
+				window: { title: game.i18n.localize('SR5.DIALOG_WarningNoAmmoTypeTitle') },
 				content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" 
 								+ game.i18n.format('SR5.DIALOG_WarningNoAmmoType', 
 								{actor: actor.name, ammoType: game.i18n.localize(lists.allAmmunitionTypes[weaponData.ammunition.type]), 
 									weaponType: game.i18n.localize(lists.rangedWeaponTypes[weaponData.type]),
 									itemName: weapon.name
 								}) + "</p>",
-				yes: () => { 
-					falseAmmo = true;
-					ammoData.quantity = 1000;
-				},
-				no: () => {stop = true;},
-				close: () => {stop = true;}
+				rejectClose: false,
 			});
+			if (confirmed) {
+				falseAmmo = true;
+				ammoData.quantity = 1000;
+			} else {
+				stop = true;
+			}
 		}
 		if (stop) return;
 	
@@ -626,24 +627,29 @@ export class SR5Item extends Item {
 		});
 		
 		// Render the confirmation dialog window
-		return Dialog.prompt({
-			title: title,
+		return foundry.applications.api.DialogV2.wait({
+			window: { title },
 			content: html,
-			label: title,
-			callback: async html => {
-				const form = html[0].querySelector("form");
-				const fd = new FormDataExtended(form);
-				foundry.utils.mergeObject(data, fd.object, {inplace: true});
-				if ( !data.folder ) delete data["folder"];
-				const preset = CONFIG.Cards.presets[data.preset];
-				if ( preset && (preset.type === data.type) ) {
-					const presetData = await fetch(preset.src).then(r => r.json());
-					data = foundry.utils.mergeObject(presetData, data);
-				}
-				return this.create(data, {parent, pack, renderSheet: true});
-			},
+			buttons: [
+				{
+					action: "ok",
+					label: title,
+					default: true,
+					callback: async (event, button, dialog) => {
+						const form = dialog.element.querySelector("form");
+						const fd = new FormDataExtended(form);
+						foundry.utils.mergeObject(data, fd.object, {inplace: true});
+						if ( !data.folder ) delete data["folder"];
+						const preset = CONFIG.Cards.presets[data.preset];
+						if ( preset && (preset.type === data.type) ) {
+							const presetData = await fetch(preset.src).then(r => r.json());
+							data = foundry.utils.mergeObject(presetData, data);
+						}
+						return this.create(data, {parent, pack, renderSheet: true});
+					},
+				},
+			],
 			rejectClose: false,
-			options: options
 		});
 	}
 
