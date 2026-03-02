@@ -11,7 +11,7 @@ import { SR5_CombatHelpers } from "./roll-helpers/combat.js";
 
 export class SR5_RollTest {
 	//Prepare the roll window
-	static async generateRollDialog(dialogData, edge = false, cancel = true) {
+	static async generateRollDialog(dialogData, edge = false) {
 		let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
 			actorData = actor.system,
 			template = "systems/sr5/templates/rolls/roll-dialog.html";
@@ -20,151 +20,160 @@ export class SR5_RollTest {
 		dialogData.edge.canUseEdge = await SR5_RollTestHelper.canUseEdge(actor, dialogData);
 		let edgeActor = await SR5_RollTestHelper.determineEdgeActor(actor);
 
-		let buttons = {
-			roll: {
-				label: game.i18n.localize("SR5.RollDice"),
-				class: ['test', 'truc'],
-				icon: '<i class="fas fa-dice-six"></i>',
-				callback: () => (cancel = false),
-			},
-		}
-		if (dialogData.edge.canUseEdge){
-			buttons = foundry.utils.mergeObject(buttons, {
-				edge: {
-					label: game.i18n.localize("SR5.PushTheLimit"),
-					icon: '<i class="fas fa-bomb"></i>',
-					callback: () => {
-						edge = true;
-						cancel = false;
-					},
-				},
-			});
-		}
-
-		return new Promise((resolve) => {
-			foundry.applications.handlebars.renderTemplate(template, dialogData).then((dlg) => {
-				new SR5_RollDialog({
-					title: dialogData.test.title,
-					id: "jet",
-					content: dlg,
-					data: dialogData,
-					buttons: buttons,
-					default: "roll",
-					close: async (html) => {
-						//If roll is cancelled
-						if (cancel) return SR5_RollTestHelper.handleCanceledTest(actor, dialogData);
-						//If roll "push the limits"
-						if (edge && edgeActor) dialogData = await SR5_RollTestHelper.handleEdgeUse(edgeActor, dialogData);
-
-						//Verify if reagents are used, if so, remove from actor
-						if (dialogData.magic.hasUsedReagents) {
-							const closeElement = html instanceof HTMLElement ? html : html[0];
-							dialogData.magic.reagentsSpent = parseInt(closeElement.querySelector('[name="reagentsSpent"]')?.value || 0);
-							actor.update({ "system.magic.reagents": actorData.magic.reagents - dialogData.magic.reagentsSpent});
-						}
-
-						//Rename chatCard title for extended test
-						if (dialogData.test.isExtended) dialogData.test.title = dialogData.test.title.replace("Test", game.i18n.localize("SR5.ExtendedTest"));
-
-						//Ensure force and level are determined
-						if ((dialogData.test.type === "spell" || dialogData.test.typeSub === "summoning" || dialogData.test.type === "preparationFormula") && isNaN(dialogData.magic.force)) {
-							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoForce"));
-							dialogData.magic.force = actorData.specialAttributes.magic.augmented.value;
-						}
-						if ((dialogData.test.type === "complexForm" || dialogData.test.typeSub === "compileSprite") && isNaN(dialogData.matrix.level)) {
-							ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
-							dialogData.matrix.level = actorData.specialAttributes.resonance.augmented.value;
-						}
-
-						//Add limit for force, reagents and level
-						if ((dialogData.magic.force || dialogData.magic.hasUsedReagents) && dialogData.test.type !== "spellResistance"){
-							if (dialogData.magic.force > 0) {
-								dialogData.limit.base = dialogData.magic.force;
-								dialogData.limit.type = "force";
-							}
-							if (dialogData.magic.hasUsedReagents && dialogData.test.type !== "ritual") {
-								dialogData.limit.base = dialogData.magic.reagentsSpent;
-								dialogData.limit.type = "reagents";
-							}
-						}
-						if (dialogData.matrix.level) {
-							dialogData.limit.base = dialogData.matrix.level;
-							dialogData.limit.type = "level";
-						}
-						
-						//Add limit modifiers
-						dialogData = await SR5_RollTestHelper.handleLimitModifiers(dialogData);
-						
-						//Add dice pool modifiers
-						dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData);
-
-						if (dialogData.combat.ammo.fired > 0 && dialogData.combat.firingMode.selected !== "SF"){
-							let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
-							actualRecoil += dialogData.combat.ammo.fired;
-							actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);
-						}
-
-						// Roll dices
-						if (edge) {
-							// push the limits
-							dialogData.roll = await SR5_RollTest.rollDice({
-								dicePool: dialogData.dicePool.value,
-								explose: edge,
-							});
-							dialogData.edge.hasUsedPushTheLimit = true;
-						} else {
-							dialogData.roll = await SR5_RollTest.rollDice({
-								dicePool: dialogData.dicePool.value,
-								limit: dialogData.limit.value,
-							});
-						}
-
-						//Add info to chatCard
-						await SR5_RollTest.addInfoToCard(dialogData, dialogData.owner.actorId);
-
-						// Return roll result and card info to chat message.
-						await SR5_RollTest.renderRollCard(dialogData);
-
-						//Update items according to roll
-						if (dialogData.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(dialogData);
-
-						//Update spirit if spirit aid is used
-						if (dialogData.dicePool.modifiers.spiritAid?.value > 0){
-							let spiritItem = await fromUuid(dialogData.magic.spiritAid.id);
-							let spiritItemData = foundry.utils.duplicate(spiritItem.system);
-        					spiritItemData.services.value -= 1;
-        					await spiritItem.update({'data': spiritItemData});
-							ui.notifications.info(`${spiritItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`);
-							let spiritActor = game.actors.find(a => a.system.creatorItemId === spiritItem.id);
-							if (spiritActor){
-        						let spiritActorData = foundry.utils.duplicate(spiritActor.system);
-								spiritActorData.services.value -= 1;
-								await spiritActor.update({'data': spiritActorData});
-							}
-						}
-
-						//Update combatant if Active defense or full defense is used.
-						if (dialogData.dicePool.modifiers.fullDefense || (dialogData.combat.activeDefenseSelected !== "none")){
-							let initModifier = 0;
-							if (dialogData.dicePool.modifiers.fullDefense){
-								let isInFullDefense = actor.effects.find(e => e.origin === "fullDefense") ? true : false;
-								if (!isInFullDefense){
-									initModifier += -10;
-									SR5_CombatHelpers.applyFullDefenseEffect(actor);
-								}
-							}
-							if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_ConverterHelpers.activeDefenseToInitMod(dialogData.combat.activeDefenseSelected);
-							if (initModifier < 0) SR5Combat.changeInitInCombatHelper(actor.id, initModifier);
-						}
-
-						//Change actions in combat tracker
-						if (game.combat && dialogData.combat.actions.length){
-							await SR5Combat.changeActionInCombat(dialogData.owner.actorId, dialogData.combat.actions);
-						}
-					},
-				}).render(true);
-			});
+		// Capture final DOM values before dialog closes
+		const captureResult = (action, dialog) => ({
+			action,
+			reagentsSpent: parseInt(dialog.element.querySelector('[name="reagentsSpent"]')?.value || 0),
 		});
+
+		// Build DialogV2 buttons
+		let buttons = [
+			{
+				action: "roll",
+				label: game.i18n.localize("SR5.RollDice"),
+				icon: "fas fa-dice-six",
+				default: true,
+				callback: (event, button, dialog) => captureResult("roll", dialog),
+			},
+		];
+		if (dialogData.edge.canUseEdge) {
+			buttons.push({
+				action: "edge",
+				label: game.i18n.localize("SR5.PushTheLimit"),
+				icon: "fas fa-bomb",
+				callback: (event, button, dialog) => captureResult("edge", dialog),
+			});
+		}
+
+		// Render template and show dialog
+		const dlg = await foundry.applications.handlebars.renderTemplate(template, dialogData);
+		const result = await foundry.applications.api.DialogV2.wait({
+			window: { title: dialogData.test.title },
+			id: "jet",
+			position: { width: 450 },
+			content: dlg,
+			buttons,
+			rejectClose: false,
+			render: (event, dialog) => {
+				const element = dialog.element;
+				const rollDialog = new SR5_RollDialog(dialog, element, dialogData);
+				rollDialog.activateListeners(element);
+			},
+		});
+
+		//If roll is cancelled (dialog dismissed without clicking a button)
+		if (!result) return SR5_RollTestHelper.handleCanceledTest(actor, dialogData);
+
+		//If roll "push the limits"
+		if (result.action === "edge") {
+			edge = true;
+			if (edgeActor) dialogData = await SR5_RollTestHelper.handleEdgeUse(edgeActor, dialogData);
+		}
+
+		//Verify if reagents are used, if so, remove from actor
+		if (dialogData.magic.hasUsedReagents) {
+			dialogData.magic.reagentsSpent = result.reagentsSpent;
+			actor.update({ "system.magic.reagents": actorData.magic.reagents - dialogData.magic.reagentsSpent});
+		}
+
+		//Rename chatCard title for extended test
+		if (dialogData.test.isExtended) dialogData.test.title = dialogData.test.title.replace("Test", game.i18n.localize("SR5.ExtendedTest"));
+
+		//Ensure force and level are determined
+		if ((dialogData.test.type === "spell" || dialogData.test.typeSub === "summoning" || dialogData.test.type === "preparationFormula") && isNaN(dialogData.magic.force)) {
+			ui.notifications.warn(game.i18n.localize("SR5.WARN_NoForce"));
+			dialogData.magic.force = actorData.specialAttributes.magic.augmented.value;
+		}
+		if ((dialogData.test.type === "complexForm" || dialogData.test.typeSub === "compileSprite") && isNaN(dialogData.matrix.level)) {
+			ui.notifications.warn(game.i18n.localize("SR5.WARN_NoLevel"));
+			dialogData.matrix.level = actorData.specialAttributes.resonance.augmented.value;
+		}
+
+		//Add limit for force, reagents and level
+		if ((dialogData.magic.force || dialogData.magic.hasUsedReagents) && dialogData.test.type !== "spellResistance"){
+			if (dialogData.magic.force > 0) {
+				dialogData.limit.base = dialogData.magic.force;
+				dialogData.limit.type = "force";
+			}
+			if (dialogData.magic.hasUsedReagents && dialogData.test.type !== "ritual") {
+				dialogData.limit.base = dialogData.magic.reagentsSpent;
+				dialogData.limit.type = "reagents";
+			}
+		}
+		if (dialogData.matrix.level) {
+			dialogData.limit.base = dialogData.matrix.level;
+			dialogData.limit.type = "level";
+		}
+
+		//Add limit modifiers
+		dialogData = await SR5_RollTestHelper.handleLimitModifiers(dialogData);
+
+		//Add dice pool modifiers
+		dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData);
+
+		if (dialogData.combat.ammo.fired > 0 && dialogData.combat.firingMode.selected !== "SF"){
+			let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0;
+			actualRecoil += dialogData.combat.ammo.fired;
+			actor.setFlag("sr5", "cumulativeRecoil", actualRecoil);
+		}
+
+		// Roll dices
+		if (edge) {
+			// push the limits
+			dialogData.roll = await SR5_RollTest.rollDice({
+				dicePool: dialogData.dicePool.value,
+				explose: edge,
+			});
+			dialogData.edge.hasUsedPushTheLimit = true;
+		} else {
+			dialogData.roll = await SR5_RollTest.rollDice({
+				dicePool: dialogData.dicePool.value,
+				limit: dialogData.limit.value,
+			});
+		}
+
+		//Add info to chatCard
+		await SR5_RollTest.addInfoToCard(dialogData, dialogData.owner.actorId);
+
+		// Return roll result and card info to chat message.
+		await SR5_RollTest.renderRollCard(dialogData);
+
+		//Update items according to roll
+		if (dialogData.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(dialogData);
+
+		//Update spirit if spirit aid is used
+		if (dialogData.dicePool.modifiers.spiritAid?.value > 0){
+			let spiritItem = await fromUuid(dialogData.magic.spiritAid.id);
+			let spiritItemData = foundry.utils.duplicate(spiritItem.system);
+			spiritItemData.services.value -= 1;
+			await spiritItem.update({'data': spiritItemData});
+			ui.notifications.info(`${spiritItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`);
+			let spiritActor = game.actors.find(a => a.system.creatorItemId === spiritItem.id);
+			if (spiritActor){
+				let spiritActorData = foundry.utils.duplicate(spiritActor.system);
+				spiritActorData.services.value -= 1;
+				await spiritActor.update({'data': spiritActorData});
+			}
+		}
+
+		//Update combatant if Active defense or full defense is used.
+		if (dialogData.dicePool.modifiers.fullDefense || (dialogData.combat.activeDefenseSelected !== "none")){
+			let initModifier = 0;
+			if (dialogData.dicePool.modifiers.fullDefense){
+				let isInFullDefense = actor.effects.find(e => e.origin === "fullDefense") ? true : false;
+				if (!isInFullDefense){
+					initModifier += -10;
+					SR5_CombatHelpers.applyFullDefenseEffect(actor);
+				}
+			}
+			if (dialogData.combat.activeDefenseSelected !== "") initModifier += SR5_ConverterHelpers.activeDefenseToInitMod(dialogData.combat.activeDefenseSelected);
+			if (initModifier < 0) SR5Combat.changeInitInCombatHelper(actor.id, initModifier);
+		}
+
+		//Change actions in combat tracker
+		if (game.combat && dialogData.combat.actions.length){
+			await SR5Combat.changeActionInCombat(dialogData.owner.actorId, dialogData.combat.actions);
+		}
 	}
 
 	/** Roll a shadowrun 5 test
@@ -429,7 +438,7 @@ export class SR5_RollTest {
 			case "attack":
 				await SR5_AddRollInfo.attackInfo(cardData);
 				break;
-			case "defense":							
+			case "defense":
 			case "rammingDefense":
 				await SR5_AddRollInfo.defenseInfo(cardData, actorId);
 				break;
@@ -445,17 +454,17 @@ export class SR5_RollTest {
 			case "sensorTarget":
 			case "preparationFormula":
 			case "iceAttack":
-			case "spritePower":						
+			case "spritePower":
 			case "martialArt":
 			case "ritual":
 			case "passThroughBarrier":
-			case "escapeEngulf":							
+			case "escapeEngulf":
 			case "ramming":
 				await SR5_AddRollInfo.actionHitInfo(cardData, cardData.test.type);
 				break;
 			case "power":
 				if (cardData.magic.spell.category === "regeneration") return SR5_AddRollInfo.regenerationInfo(cardData, cardData.test.type);
-				if (cardData.test.typeSub !== "powerWithDefense") { 
+				if (cardData.test.typeSub !== "powerWithDefense") {
 					if (!cardData.effects.canApplyEffect) return;
 					else await SR5_AddRollInfo.spellInfo(cardData);
 				} else await SR5_AddRollInfo.actionHitInfo(cardData, cardData.test.type);
@@ -508,7 +517,7 @@ export class SR5_RollTest {
 			case "jackOutDefense":
 			case "eraseMark":
 			case "passThroughDefense":
-			case "engulfResistance":				
+			case "engulfResistance":
 			case "intimidationResistance":
 			case "ricochetResistance":
 			case "warningResistance":
@@ -533,10 +542,10 @@ export class SR5_RollTest {
 			case "complexFormResistance":
 			case "enchantmentResistance":
 			case "disjointingResistance":
-			case "powerDefense":				
+			case "powerDefense":
 			case "martialArtDefense":
 			case "etiquetteResistance":
-			case "weaponResistance":				
+			case "weaponResistance":
 				await SR5_AddRollInfo.resistanceResultInfo(cardData, cardData.test.type);
 				break;
 			case "objectResistance":

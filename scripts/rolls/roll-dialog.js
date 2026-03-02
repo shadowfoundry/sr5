@@ -7,74 +7,76 @@ import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js";
 import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js";
 import { SR5Combat } from "../system/srcombat.js";
 
-export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
+export default class SR5_RollDialog {
 
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            height: 'auto',
-            width: 450,
-            resizable: false,
-        });
+    constructor(dialog, element, dialogData) {
+        this.dialog = dialog;
+        this.element = element;
+        this.dialogData = dialogData;
+        this.dicePoolModifier = {};
+        this.limitModifier = {};
+        this.drainModifier = {};
+        this.fadingModifier = {};
     }
 
     updateDicePoolValue(html) {
         let dicePoolModifier = 0;
-        for (let key of Object.values(this.data.data.dicePool.modifiers)){
+        for (let key of Object.values(this.dialogData.dicePool.modifiers)){
             dicePoolModifier += key.value;
         }
         if (html.querySelector('[name="dicePoolModifiers"]')) html.querySelector('[name="dicePoolModifiers"]').value = dicePoolModifier;
         let modifiedDicePool = dicePoolModifier + parseInt(html.querySelector('[name="baseDicePool"]').value);
-        this.data.data.dicePool.base = parseInt(html.querySelector('[name="baseDicePool"]').value);
+        this.dialogData.dicePool.base = parseInt(html.querySelector('[name="baseDicePool"]').value);
         if (modifiedDicePool < 0) modifiedDicePool = 0;
-        html.querySelector('[data-button="roll"]').innerHTML = `<i class="fas fa-dice-six"></i> ${game.i18n.localize("SR5.RollDice")} (${modifiedDicePool})`;
+        html.querySelector('[data-action="roll"]').innerHTML = `<i class="fas fa-dice-six"></i> ${game.i18n.localize("SR5.RollDice")} (${modifiedDicePool})`;
     }
 
     updateLimitValue(html) {
         if (html.querySelector('[name="baseLimit"]')){
             let modifiedLimit = parseInt(html.querySelector('[name="baseLimit"]').value)
             let limitModifier = 0;
-            for (let key of Object.values(this.data.data.limit.modifiers)){
+            for (let key of Object.values(this.dialogData.limit.modifiers)){
                 limitModifier += key.value;
                 //if (key === "reagents") modifiedLimit = value;
             }
             modifiedLimit += limitModifier;
             if (modifiedLimit < 0) modifiedLimit = 0;
             html.querySelector('[name="modifiedLimit"]').value = modifiedLimit;
-            this.data.data.limit.base = parseInt(html.querySelector('[name="baseLimit"]').value);
+            this.dialogData.limit.base = parseInt(html.querySelector('[name="baseLimit"]').value);
         }
     }
 
     updateDrainValue(html) {
-        this.data.data.magic.force = parseInt(html.querySelector('[name="force"]').value);
+        this.dialogData.magic.force = parseInt(html.querySelector('[name="force"]').value);
         if (html.querySelector('[name="drainValue"]')){
             let drainModifier = 0;
-            for (let key of Object.values(this.data.data.magic.drain.modifiers)){
+            for (let key of Object.values(this.dialogData.magic.drain.modifiers)){
                 drainModifier += key.value;
             }
             let drainFinalValue = parseInt(html.querySelector('[name="force"]').value) + drainModifier;
             if (drainFinalValue < 2) drainFinalValue = 2
             html.querySelector('[name="drainValue"]').value = drainFinalValue;
-            this.data.data.magic.drain.value = drainFinalValue;
+            this.dialogData.magic.drain.value = drainFinalValue;
         }
     }
 
     updateFadingValue(html) {
-        this.data.data.matrix.level = parseInt(html.querySelector('[name="level"]').value);
+        this.dialogData.matrix.level = parseInt(html.querySelector('[name="level"]').value);
         if (html.querySelector('[name="fadingValue"]')){
             let fadingModifier = 0;
-            for (let key of Object.values(this.data.data.matrix.fading.modifiers)){
+            for (let key of Object.values(this.dialogData.matrix.fading.modifiers)){
                 fadingModifier += key.value;
             }
             let fadingFinalValue = parseInt(html.querySelector('[name="level"]').value) + fadingModifier;
             if (fadingFinalValue < 2) fadingFinalValue = 2
             html.querySelector('[name="fadingValue"]').value = fadingFinalValue;
-            this.data.data.matrix.fading.value = fadingFinalValue;
+            this.dialogData.matrix.fading.value = fadingFinalValue;
         }
     }
 
     calculRecoil(html){
         let firingModeValue,
-            dialogData = this.data.data;
+            dialogData = this.dialogData;
 
         if (dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"){
             firingModeValue = 0;
@@ -100,7 +102,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         dialogData.combat.recoil.cumulative = 0;
         dialogData.combat.recoil.value = dialogData.combat.recoil.compensationActor;
         let recoil = this.calculRecoil(html);
-        this.setPosition(this.position);
+        this.dialog.setPosition(this.dialog.position);
         html.querySelector('[name="recoil"]').value = recoil;
         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "recoil")
         this.updateDicePoolValue(html);
@@ -113,13 +115,8 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
     }
 
     activateListeners(html) {
-        super.activateListeners(html);
-        const element = html instanceof HTMLElement ? html : (html[0]?.parentElement ?? html[0]);
-        this.dicePoolModifier = {};
-        this.limitModifier = {};
-        this.drainModifier = {};
-        this.fadingModifier = {};
-        let dialogData = this.data.data;
+        const element = html;
+        let dialogData = this.dialogData;
         let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId);
 
         this.updateDicePoolValue(element);
@@ -176,7 +173,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
     _toggleDiv(ev, html){
         let target = ev.currentTarget.dataset.target,
             action = ev.currentTarget.dataset.action,
-            position = this.position;
+            position = this.dialog.position;
 
         if (action === "show"){
             const targetEl = html.querySelector(`#${target}`);
@@ -191,7 +188,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         }
 
         position.height = "auto";
-        this.setPosition(position);
+        this.dialog.setPosition(position);
     }
 
     //Add checkbox modifiers
@@ -353,7 +350,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         if (checkboxs.length === 0) return;
         let checkboxName, modifierName, inputName, value;
 
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId),
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.dialogData.owner.actorId),
             targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId),
             label,
             isProned = actor.effects.find(e => e.statuses.has("prone"));
@@ -427,7 +424,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
     //Manage manual input modifier
     _manualInputModifier(ev, html, dialogData, button = false){
         let target, name, modifierName, value, operator;
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId);
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.dialogData.owner.actorId);
         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId);
 
         if (button){ //Manage plus minus input
@@ -479,7 +476,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             case "manaBarrierRating":
                 let barrierRating = parseInt((html.querySelector('[name="manaBarrierRating"]').value || 1));
                 html.querySelector('[name="baseDicePool"]').value = barrierRating * 2;
-                this.data.data.dicePool.value = barrierRating * 2;
+                this.dialogData.dicePool.value = barrierRating * 2;
                 this.updateDicePoolValue(html);
                 return;
             case "patientEssence":
@@ -619,7 +616,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             value, limitDV, action, rangeType,
             actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
-            position = this.position,
+            position = this.dialog.position,
             chokeLimitModify, chokeLimitModified, weapon;
 
         position.height = "auto";
@@ -1015,7 +1012,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             }
         }
 
-        this.setPosition(position);
+        this.dialog.setPosition(position);
         html.querySelector(name).value = value;
 
         //Remove previous mod
@@ -1035,7 +1032,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
     async _filledSelectModifier(ev, html, dialogData){
         if (ev.length === 0) return;
         let modifierName, targetInput, targetInputName, name, inputValue, selectValue;
-        let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId),
+        let actor = SR5_EntityHelpers.getRealActorFromID(this.dialogData.owner.actorId),
             label, action;
 
         for (let e of ev){
@@ -1243,7 +1240,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
 
     //Handle Extended Test
     _onToggleExtendedTest(isChecked, dialogData, html){
-        let position = this.position;
+        let position = this.dialog.position;
         position.height = "auto";
 
         if (isChecked) {
@@ -1253,13 +1250,13 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             html.querySelector('[name="extendedMultiplier"]').value = 1
             const extendedBlockEl = html.querySelector('#extendedBlock');
             if (extendedBlockEl) extendedBlockEl.style.display = '';
-            this.setPosition(position);
+            this.dialog.setPosition(position);
         }
         else {
             dialogData.test.isExtended = false;
             const extendedBlockEl = html.querySelector('#extendedBlock');
             if (extendedBlockEl) extendedBlockEl.style.display = 'none';
-            this.setPosition(position);
+            this.dialog.setPosition(position);
         }
     }
 

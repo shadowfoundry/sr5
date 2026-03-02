@@ -1239,6 +1239,7 @@
     /* v13: match v12 light dialog background */
     --background: @neutralLightColor;
     color: @neutralDarkColor;
+    color-scheme: light;
 
     .window-header {
         background: @neutralDarkColor;
@@ -1247,12 +1248,15 @@
 
     .window-content {
         padding: 0;
+        --paddingX: 0;
+        --paddingY: 0;
 
         /* v13: remove Foundry's default input background shade */
         input, select, textarea {
             --input-background-color: transparent;
             --input-border-color: transparent;
             --input-focus-outline-color: transparent;
+            --input-box-shadow: none;
         }
 
         input {
@@ -1264,14 +1268,14 @@
             }
         }
 
+        /* v13: neutralize .standard-form flex layout for SR5 dialogs */
+        .standard-form {
+            display: block;
+            gap: unset;
+        }
+
         .dialog-content {
             padding: 8px;
-
-            /* v13: neutralize .standard-form flex layout for SR5 dialogs */
-            &.standard-form {
-                display: block;
-                gap: unset;
-            }
 
             h3, h4 {
                 color: @mainColor;
@@ -1281,61 +1285,82 @@
 
             .SR5jet {
                 height: auto;
-                
+
+                .grid {
+                    align-items: center;
+                }
+
+                [class*="col-"] {
+                    overflow: hidden;
+                }
+
                 input {
-                    background    : none;
-                    color         : @neutralDarkColor;
-                    height        : 15px;
-                    border        : 0;
-                    padding       : 0;
-                    border-radius : 0;
+                    background     : none !important;
+                    color          : @neutralDarkColor !important;
+                    height         : 15px !important;
+                    border         : 0 !important;
+                    padding        : 0 !important;
+                    border-radius  : 0 !important;
+                    box-shadow     : none !important;
+                    outline        : none !important;
+                    line-height    : 15px;
+                    width          : 100% !important;
+                    font-family    : inherit;
+                    font-size      : inherit;
+                    text-align     : center;
                 }
 
                 input[type="checkbox"] {
                     position     : relative;
                     margin       : 0;
-                    border       : 1px solid @subColor;
-                    height       : 12px;
-                    width        : 12px;
-                    border-radius: 3px;
-                    appearance   : none;
-                    outline      : 0;
+                    border       : 1px solid @subColor !important;
+                    height       : 12px !important;
+                    width        : 12px !important;
+                    border-radius: 3px !important;
+                    appearance   : none !important;
+                    -webkit-appearance: none !important;
+                    outline      : 0 !important;
                     cursor       : pointer;
+                    background   : transparent !important;
                     transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+                    display      : inline-block;
+                    vertical-align: middle;
+                    overflow     : hidden;
+                    --checkbox-size: 12px;
 
                     /* v13: override Foundry's FontAwesome checkbox ::before */
                     &::before {
-                        position    : absolute;
-                        content     : '';
-                        display     : block;
+                        position    : absolute !important;
+                        content     : '' !important;
+                        display     : block !important;
                         top         : 0;
                         left        : 0;
                         right       : 0;
                         bottom      : 0;
                         margin      : auto auto auto calc(50% - 2px);
-                        width       : 5px;
-                        height      : 10px;
+                        width       : 5px !important;
+                        height      : 10px !important;
                         border-style: solid;
                         border-width: 0 2px 2px 0;
                         border-color: @neutralLightColor;
                         transform   : rotate(45deg);
                         opacity     : 0;
-                        font-family : inherit;
-                        font-size   : inherit;
+                        font-family : inherit !important;
+                        font-size   : inherit !important;
                         line-height : normal;
+                        border-radius: 0 !important;
                     }
 
                     /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
                     &::after {
-                        content     : none;
-                        display     : none;
+                        content     : none !important;
+                        display     : none !important;
                     }
 
                     &:checked {
-                        content     : '✔';
                         color       : @neutralLightColor;
-                        border-color: @subColor;
-                        background  : fade(@subColor, 90%);
+                        border-color: @subColor !important;
+                        background  : fade(@subColor, 90%) !important;
 
                         &::before {
                             opacity: 1;
@@ -1343,8 +1368,8 @@
 
                         /* v13: ensure ::after stays suppressed when checked */
                         &::after {
-                            content : none;
-                            display : none;
+                            content : none !important;
+                            display : none !important;
                         }
 
                         ~label::before {
@@ -1353,10 +1378,22 @@
                     }
                 }
 
-                select { 
-                    text-align-last: right; 
+                select {
+                    text-align-last: right;
                     color: @subColor;
                     margin-right: -5px;
+                    background: none !important;
+                    border: 0 !important;
+                    border-radius: 0 !important;
+                    height: auto !important;
+                    padding: 0 !important;
+                    box-shadow: none !important;
+                    outline: none !important;
+                    line-height: 18px;
+                    font-family: inherit;
+                    font-size: inherit;
+                    width: 100% !important;
+                    cursor: pointer;
                 }
                 option { direction: rtl; }
 

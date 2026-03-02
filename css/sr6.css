@@ -4976,6 +4976,7 @@ input[type=range]:focus::-ms-fill-upper {
   /* v13: match v12 light dialog background */
   --background: #fffffe;
   color: #000001;
+  color-scheme: light;
 }
 .dialog .window-header {
   background: #000001;
@@ -4983,7 +4984,10 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .dialog .window-content {
   padding: 0;
+  --paddingX: 0;
+  --paddingY: 0;
   /* v13: remove Foundry's default input background shade */
+  /* v13: neutralize .standard-form flex layout for SR5 dialogs */
 }
 .dialog .window-content input,
 .dialog .window-content select,
@@ -4991,6 +4995,7 @@ input[type=range]:focus::-ms-fill-upper {
   --input-background-color: transparent;
   --input-border-color: transparent;
   --input-focus-outline-color: transparent;
+  --input-box-shadow: none;
 }
 .dialog .window-content input {
   border: 1px solid #b2007a;
@@ -4999,13 +5004,12 @@ input[type=range]:focus::-ms-fill-upper {
 .dialog .window-content input:focus {
   box-shadow: 0 0 5px rgba(178, 0, 122, 0.5);
 }
-.dialog .window-content .dialog-content {
-  padding: 8px;
-  /* v13: neutralize .standard-form flex layout for SR5 dialogs */
-}
-.dialog .window-content .dialog-content.standard-form {
+.dialog .window-content .standard-form {
   display: block;
   gap: unset;
+}
+.dialog .window-content .dialog-content {
+  padding: 8px;
 }
 .dialog .window-content .dialog-content h3,
 .dialog .window-content .dialog-content h4 {
@@ -5016,65 +5020,84 @@ input[type=range]:focus::-ms-fill-upper {
 .dialog .window-content .dialog-content .SR5jet {
   height: auto;
 }
+.dialog .window-content .dialog-content .SR5jet .grid {
+  align-items: center;
+}
+.dialog .window-content .dialog-content .SR5jet [class*="col-"] {
+  overflow: hidden;
+}
 .dialog .window-content .dialog-content .SR5jet input {
-  background: none;
-  color: #000001;
-  height: 15px;
-  border: 0;
-  padding: 0;
-  border-radius: 0;
+  background: none !important;
+  color: #000001 !important;
+  height: 15px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  line-height: 15px;
+  width: 100% !important;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: center;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"] {
   position: relative;
   margin: 0;
-  border: 1px solid #839c88;
-  height: 12px;
-  width: 12px;
-  border-radius: 3px;
-  appearance: none;
-  outline: 0;
+  border: 1px solid #839c88 !important;
+  height: 12px !important;
+  width: 12px !important;
+  border-radius: 3px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  outline: 0 !important;
   cursor: pointer;
+  background: transparent !important;
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  --checkbox-size: 12px;
   /* v13: override Foundry's FontAwesome checkbox ::before */
   /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
-  position: absolute;
-  content: '';
-  display: block;
+  position: absolute !important;
+  content: '' !important;
+  display: block !important;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   margin: auto auto auto calc(50% - 2px);
-  width: 5px;
-  height: 10px;
+  width: 5px !important;
+  height: 10px !important;
   border-style: solid;
   border-width: 0 2px 2px 0;
   border-color: #fffffe;
   transform: rotate(45deg);
   opacity: 0;
-  font-family: inherit;
-  font-size: inherit;
+  font-family: inherit !important;
+  font-size: inherit !important;
   line-height: normal;
+  border-radius: 0 !important;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
-  content: none;
-  display: none;
+  content: none !important;
+  display: none !important;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
-  content: '✔';
   color: #fffffe;
-  border-color: #839c88;
-  background: rgba(131, 156, 136, 0.9);
+  border-color: #839c88 !important;
+  background: rgba(131, 156, 136, 0.9) !important;
   /* v13: ensure ::after stays suppressed when checked */
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
-  content: none;
-  display: none;
+  content: none !important;
+  display: none !important;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -5083,6 +5106,18 @@ input[type=range]:focus::-ms-fill-upper {
   text-align-last: right;
   color: #839c88;
   margin-right: -5px;
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  line-height: 18px;
+  font-family: inherit;
+  font-size: inherit;
+  width: 100% !important;
+  cursor: pointer;
 }
 .dialog .window-content .dialog-content .SR5jet option {
   direction: rtl;
