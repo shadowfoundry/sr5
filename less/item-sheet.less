@@ -35,6 +35,17 @@
             display: none;
         }
 
+        /* v13: override @layer elements defaults for ul/li */
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            margin: 0;
+        }
+
         .SR-Header {
             padding: 10px 3px 0px 3px;
 
@@ -143,17 +154,30 @@
                 transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
 
                 &::before {
-                    position    : relative;
                     content     : '';
+                    position    : absolute;
                     display     : block;
-                    top         : -1px;
-                    left        : 2.5px;
-                    width       : 30%;
-                    height      : 80%;
+                    top         : 0;
+                    left        : 0;
+                    right       : 0;
+                    bottom      : 0;
+                    margin      : auto auto auto calc(50% - 2px);
+                    width       : 5px;
+                    height      : 10px;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
+                    border-color: @neutralDarkColor;
                     transform   : rotate(45deg);
                     opacity     : 0;
+                    font-family : inherit;
+                    font-size   : inherit;
+                    line-height : normal;
+                }
+
+                /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
+                &::after {
+                    content     : none;
+                    display     : none;
                 }
 
                 &:checked {
@@ -164,6 +188,13 @@
 
                     &::before {
                         opacity: 1;
+                        border-color: @neutralLightColor;
+                    }
+
+                    /* v13: ensure ::after stays suppressed when checked */
+                    &::after {
+                        content : none;
+                        display : none;
                     }
 
                     ~label::before {

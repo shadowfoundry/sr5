@@ -273,9 +273,18 @@ input[type=range]:focus::-ms-fill-upper {
   font-family: "srfoundry_regular";
   font-size: 0.9em;
   background-color: #fffffe;
+  /* v13: override @layer elements defaults for ul/li */
 }
 .app.window-app.SR-Item .window-content ::-webkit-scrollbar {
   display: none;
+}
+.app.window-app.SR-Item .window-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.app.window-app.SR-Item .window-content li {
+  margin: 0;
 }
 .app.window-app.SR-Item .window-content .SR-Header {
   padding: 10px 3px 0px 3px;
@@ -365,28 +374,46 @@ input[type=range]:focus::-ms-fill-upper {
   outline: 0;
   cursor: pointer;
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+  /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]::before {
-  position: relative;
   content: '';
+  position: absolute;
   display: block;
-  top: -1px;
-  left: 2.5px;
-  width: 30%;
-  height: 80%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto auto auto calc(50% - 2px);
+  width: 5px;
+  height: 10px;
   border-style: solid;
   border-width: 0 2px 2px 0;
+  border-color: #000001;
   transform: rotate(45deg);
   opacity: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: normal;
+}
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]::after {
+  content: none;
+  display: none;
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked {
   content: '✔';
   color: #fffffe;
   border-color: #839c88;
   background: rgba(131, 156, 136, 0.5);
+  /* v13: ensure ::after stays suppressed when checked */
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::before {
   opacity: 1;
+  border-color: #fffffe;
+}
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::after {
+  content: none;
+  display: none;
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -556,9 +583,18 @@ input[type=range]:focus::-ms-fill-upper {
   font-family: "srfoundry_regular";
   font-size: 0.9em;
   background-color: #fffffe;
+  /* v13: override @layer elements defaults for ul/li */
 }
 .app.window-app.actor .window-content ::-webkit-scrollbar {
   display: none;
+}
+.app.window-app.actor .window-content ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.app.window-app.actor .window-content li {
+  margin: 0;
 }
 .app.window-app.actor .window-content p {
   margin: 0;
@@ -891,27 +927,42 @@ input[type=range]:focus::-ms-fill-upper {
   outline: 0;
   cursor: pointer;
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+  /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
 .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::before {
   content: '';
   position: absolute;
   inset: 0;
-  margin: auto;
-  width: 3px;
-  height: 7px;
+  margin: auto auto auto calc(50% - 2px);
+  width: 5px;
+  height: 10px;
   border-style: solid;
   border-width: 0 2px 2px 0;
-  transform: translateY(-1px) rotate(45deg);
+  border-color: #000001;
+  transform: rotate(45deg);
   opacity: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: normal;
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::after {
+  content: none;
+  display: none;
 }
 .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked {
   content: '✔';
   color: #fffffe;
   border-color: #839c88;
   background: rgba(131, 156, 136, 0.5);
+  /* v13: ensure ::after stays suppressed when checked */
 }
 .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::before {
   opacity: 1;
+  border-color: #fffffe;
+}
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::after {
+  content: none;
+  display: none;
 }
 .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -4921,11 +4972,25 @@ input[type=range]:focus::-ms-fill-upper {
 #module-management .window-content .package-metadata a {
   color: #00bdca;
 }
+.dialog {
+  /* v13: match v12 light dialog background */
+  --background: #fffffe;
+  color: #000001;
+}
 .dialog .window-header {
   background: #000001;
+  color: #fffffe;
 }
 .dialog .window-content {
   padding: 0;
+  /* v13: remove Foundry's default input background shade */
+}
+.dialog .window-content input,
+.dialog .window-content select,
+.dialog .window-content textarea {
+  --input-background-color: transparent;
+  --input-border-color: transparent;
+  --input-focus-outline-color: transparent;
 }
 .dialog .window-content input {
   border: 1px solid #b2007a;
@@ -4936,6 +5001,11 @@ input[type=range]:focus::-ms-fill-upper {
 }
 .dialog .window-content .dialog-content {
   padding: 8px;
+  /* v13: neutralize .standard-form flex layout for SR5 dialogs */
+}
+.dialog .window-content .dialog-content.standard-form {
+  display: block;
+  gap: unset;
 }
 .dialog .window-content .dialog-content h3,
 .dialog .window-content .dialog-content h4 {
@@ -4965,28 +5035,46 @@ input[type=range]:focus::-ms-fill-upper {
   outline: 0;
   cursor: pointer;
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+  /* v13: override Foundry's FontAwesome checkbox ::before */
+  /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
-  position: relative;
+  position: absolute;
   content: '';
   display: block;
-  top: -1px;
-  left: 2.5px;
-  width: 30%;
-  height: 80%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto auto auto calc(50% - 2px);
+  width: 5px;
+  height: 10px;
   border-style: solid;
   border-width: 0 2px 2px 0;
+  border-color: #fffffe;
   transform: rotate(45deg);
   opacity: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: normal;
+}
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
+  content: none;
+  display: none;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
   content: '✔';
   color: #fffffe;
   border-color: #839c88;
   background: rgba(131, 156, 136, 0.9);
+  /* v13: ensure ::after stays suppressed when checked */
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;
+}
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
+  content: none;
+  display: none;
 }
 .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
@@ -4999,8 +5087,14 @@ input[type=range]:focus::-ms-fill-upper {
 .dialog .window-content .dialog-content .SR5jet option {
   direction: rtl;
 }
+.dialog .window-content .dialog-content .SR5jet ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 .dialog .window-content .dialog-content .SR5jet li {
   line-height: 18px;
+  margin: 0;
 }
 .dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
   font-size: 1em;
@@ -5044,26 +5138,66 @@ input[type=range]:focus::-ms-fill-upper {
   color: #b2007a;
   font-family: "srfoundry_bold";
 }
-.dialog .dialog-buttons {
+.dialog .dialog-buttons,
+.dialog .form-footer {
   background-image: url("../img/ui/SR6_BG_Dialog.png");
   background-size: contain;
+  padding: 15px 8px 8px 8px;
 }
 .dialog .dialog-buttons button,
-.dialog .dialog-buttons button.default {
-  color: rgba(255, 255, 254, 0.75);
+.dialog .form-footer button,
+.dialog .dialog-buttons button.default,
+.dialog .form-footer button.default {
+  position: relative;
+  display: block;
+  --button-size: auto;
+  height: auto;
+  min-height: unset;
+  padding: 4px 0.5rem;
+  line-height: 20px;
+  color: #fffffe;
   font-family: "srfoundry_primary";
   text-transform: uppercase;
-  border: 1px solid #b2007a;
-  background: rgba(178, 0, 122, 0.25);
-  box-shadow: none;
   font-size: 0.9em;
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid #839c88;
+  background: rgba(0, 0, 1, 0.3);
+  z-index: 1;
 }
 .dialog .dialog-buttons button:hover,
-.dialog .dialog-buttons button.default:hover {
-  color: #fffffe;
-  background: rgba(131, 156, 136, 0.25);
-  border-color: #839c88;
+.dialog .form-footer button:hover,
+.dialog .dialog-buttons button.default:hover,
+.dialog .form-footer button.default:hover {
+  color: #000001;
+  background-color: transparent;
   box-shadow: none;
+}
+.dialog .dialog-buttons button:hover:before,
+.dialog .form-footer button:hover:before,
+.dialog .dialog-buttons button.default:hover:before,
+.dialog .form-footer button.default:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+.dialog .dialog-buttons button:before,
+.dialog .form-footer button:before,
+.dialog .dialog-buttons button.default:before,
+.dialog .form-footer button.default:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: #000001;
+  background: #839c88;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 /* v13: player-config — color theming only */
 #player-config label {
