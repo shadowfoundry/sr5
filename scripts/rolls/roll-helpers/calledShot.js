@@ -76,9 +76,11 @@ export class SR5_CalledShotHelpers {
                 default: "ok",
                 close: async (html) => {
                     if (cancel) return;
-                    numberCheckedEffects = html.find("[name='checkDisposableHitsEffects']:checked").length;
+                    const element = html instanceof HTMLElement ? html : html[0];
+                    const checkedInputs = element.querySelectorAll("[name='checkDisposableHitsEffects']:checked");
+                    numberCheckedEffects = checkedInputs.length;
                     for (let i = 0; i < numberCheckedEffects; ++i) {
-                        let name = html.find("[name='checkDisposableHitsEffects']:checked")[i].value;
+                        let name = checkedInputs[i].value;
                         checkedEffects = {
                             name: name,
                             type: messageData.combat.calledShot.location,

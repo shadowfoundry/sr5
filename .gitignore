@@ -4,3 +4,4 @@ node_modules/
 .sync.ffs_db
 Config
 .DS_Store
+/drk-doc

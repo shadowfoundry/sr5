@@ -159,7 +159,8 @@ export class SR5_CombatHelpers {
                 default: "ok",
                 close: (html) => {
                     if (cancel) return;
-                    let damageType = html.find("[name=damageType]").val();
+                    const element = html instanceof HTMLElement ? html : html[0];
+                    let damageType = element.querySelector("[name=damageType]").value;
                     resolve(damageType);
                 },
                 }).render(true);
@@ -188,7 +189,8 @@ export class SR5_CombatHelpers {
                 default: "ok",
                 close: (html) => {
                     if (cancel) return;
-                    let vector = html.find("[name=vector]").val();
+                    const element = html instanceof HTMLElement ? html : html[0];
+                    let vector = element.querySelector("[name=vector]").value;
                     resolve(vector);
                 },
                 }).render(true);

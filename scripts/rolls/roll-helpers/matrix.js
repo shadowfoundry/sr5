@@ -148,7 +148,8 @@ export class SR5_MatrixHelpers {
               default: "ok",
               close: (html) => {
                 if (cancel) return;
-                let targetItem = html.find("[name=target]").val();
+                const element = html instanceof HTMLElement ? html : html[0];
+                let targetItem = element.querySelector("[name=target]").value;
                 if (targetItem !== "device") cardData.target.itemUuid = targetItem;
                 actor.rollTest("matrixDefense", cardData.test.typeSub, cardData);
               },

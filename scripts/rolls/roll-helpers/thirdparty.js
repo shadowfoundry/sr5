@@ -172,8 +172,9 @@ export class SR5_ThirdPartyHelpers {
                     default: "ok",
                     close: (html) => {
                         if (cancel) return;
-                        barrierType = html.find("[name=barrierType]").val();
-                        weapon = html.find("[name=weapon]").val();
+                        const element = html instanceof HTMLElement ? html : html[0];
+                        barrierType = element.querySelector("[name=barrierType]").value;
+                        weapon = element.querySelector("[name=weapon]").value;
                         resolve(barrierType);
                     },
                     }).render(true);

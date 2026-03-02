@@ -202,8 +202,8 @@ export class SR5_MarkHelpers {
                 default: "ok",
                 close: (html) => {
                     if (cancel) return;
-
-                    let targetItem = html.find("[name=item]").val(),
+                    const element = html instanceof HTMLElement ? html : html[0];
+                    let targetItem = element.querySelector("[name=item]").value,
                         item = markedItems.find(i => i.id === targetItem),
                         markOwner = SR5_EntityHelpers.getRealActorFromID(item.system.marks[0].ownerId);//Determine actor who marked
 

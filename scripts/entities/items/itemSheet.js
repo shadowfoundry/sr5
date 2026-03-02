@@ -55,25 +55,27 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 	 */
 	activateListeners(html) {
 		super.activateListeners(html);
-		html.find(".subItem").click(this._onManageSubItem.bind(this));
-		html.find(".accessoryChoice").click(this._onAccessoryChoice.bind(this));
+		const element = html instanceof HTMLElement ? html : html[0];
+
+		element.querySelectorAll(".subItem").forEach(el => el.addEventListener("click", this._onManageSubItem.bind(this)));
+		element.querySelectorAll(".accessoryChoice").forEach(el => el.addEventListener("click", this._onAccessoryChoice.bind(this)));
 
 		// Checkbox changes
-		html.find('input[type="checkbox"]').change((event) => {
+		element.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener("change", (event) => {
 			this._onSubmit(event);
-		});
+		}));
 
 		// Help Display
-		html.find("[data-helpTitle]").mouseover(this._displayHelpText.bind(this));
-		html.find("[data-helpTitle]").mouseout(this._hideHelpText.bind(this));
+		element.querySelectorAll("[data-helpTitle]").forEach(el => {
+			el.addEventListener("mouseover", this._displayHelpText.bind(this));
+			el.addEventListener("mouseout", this._hideHelpText.bind(this));
+		});
 
 		// Gestion des cases de dégats
-		html.find(".boxes:not(.box-disabled)").click((ev) => {
+		element.querySelectorAll(".boxes:not(.box-disabled)").forEach(el => el.addEventListener("click", (ev) => {
 			let itemData = foundry.utils.duplicate(this.item);
-			let index = Number($(ev.currentTarget).attr("data-index"));
-			let target = $(ev.currentTarget)
-				.parents(".SR-MoniteurCases")
-				.attr("data-target");
+			let index = Number(ev.currentTarget.dataset.index);
+			let target = ev.currentTarget.closest(".SR-MoniteurCases").dataset.target;
 
 			let value = foundry.utils.getProperty(itemData, target);
 			if (value == index + 1)
@@ -83,7 +85,7 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 			else foundry.utils.setProperty(itemData, target, index + 1);
 
 			this.item.update(itemData);
-		});
+		}));
 	}
 
 	// Manage "Sub Item", accessory, licenses, effects...
@@ -91,10 +93,10 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 		event.preventDefault();
 		const a = event.currentTarget;
 		const itemData = this.item.system;
-		let target = $(event.currentTarget).attr("data-binding");
-		let action = $(event.currentTarget).attr("data-action");
-		let index = $(event.currentTarget).attr("data-index");
-		let targetValue = $(event.currentTarget).attr("data-targetvalue");
+		let target = event.currentTarget.dataset.binding;
+		let action = event.currentTarget.dataset.action;
+		let index = event.currentTarget.dataset.index;
+		let targetValue = event.currentTarget.dataset.targetvalue;
 		let key = `system.${target}`;
 
 		//Add a subItem
@@ -130,7 +132,7 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 
 	//Manage accessory choice
 	async _onAccessoryChoice(event){
-		let type = $(event.currentTarget).attr("data-type");
+		let type = event.currentTarget.dataset.type;
 		let accessoriesList = {};
 
 		for (let i of this.item.actor.items){
@@ -169,7 +171,8 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 				default: "ok",
 				close: (html) => {
 					if (cancel) return;
-					let accessory = html.find("[name=accessory]").val();
+					const dlgElement = html instanceof HTMLElement ? html : html[0];
+					let accessory = dlgElement.querySelector("[name=accessory]")?.value;
 					if (accessory) {
 						let aItem = this.actor.items.find(i => i.id === accessory);
 						let cloned = foundry.utils.deepClone(this.item.system.accessory);

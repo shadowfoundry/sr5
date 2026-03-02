@@ -45,147 +45,145 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 
 	activateListeners(html) {
 		super.activateListeners(html);
+		const element = html instanceof HTMLElement ? html : html[0];
 
 		// Everything below here is only needed if the sheet is editable
 		if (!this.options.editable) return;
 
+		// Helper for binding events
+		const on = (sel, evt, fn) => element.querySelectorAll(sel).forEach(el => el.addEventListener(evt, fn));
+
 		// Owned Item management
-		html.find(".item-create").click(this._onItemCreate.bind(this));
-		html.find(".item-clone").click(this._onItemClone.bind(this));
-		html.find(".item-edit").click(this._onItemEdit.bind(this));
-		html.find(".item-delete").click(this._onItemDelete.bind(this));
-		html.find(".item-management").mousedown(this._onItemManagement.bind(this));
-		html.find(".subItem").click(this._onManageSubItem.bind(this));
+		on(".item-create", "click", this._onItemCreate.bind(this));
+		on(".item-clone", "click", this._onItemClone.bind(this));
+		on(".item-edit", "click", this._onItemEdit.bind(this));
+		on(".item-delete", "click", this._onItemDelete.bind(this));
+		on(".item-management", "mousedown", this._onItemManagement.bind(this));
+		on(".subItem", "click", this._onManageSubItem.bind(this));
 		//Edit item value from actor sheet
-		html.find(".edit-value").change(this._onEditItemValue.bind(this));
-		html.find(".select-value").change(this._onEditItemValue.bind(this));
-		html.find(".toggle-value").click(this._onEditItemValue.bind(this));
-		html.find(".changeValueByClick").mousedown(this._onChangeValueByClick.bind(this));
+		on(".edit-value", "change", this._onEditItemValue.bind(this));
+		on(".select-value", "change", this._onEditItemValue.bind(this));
+		on(".toggle-value", "click", this._onEditItemValue.bind(this));
+		on(".changeValueByClick", "mousedown", this._onChangeValueByClick.bind(this));
 		//
-		html.find(".toggle-actorValue").click(this._onEditActorValue.bind(this));
+		on(".toggle-actorValue", "click", this._onEditActorValue.bind(this));
 		//Choose controler
-		html.find(".chooseControler").click(this._onChooseControler.bind(this));
+		on(".chooseControler", "click", this._onChooseControler.bind(this));
 		//Recharge les armes
-		html.find(".reload-ammo").mousedown(this._onReloadAmmo.bind(this));
+		on(".reload-ammo", "mousedown", this._onReloadAmmo.bind(this));
 		//Reset weapon recoil
-		html.find(".resetRecoil").click(this._onResetRecoil.bind(this));
+		on(".resetRecoil", "click", this._onResetRecoil.bind(this));
 		//Reset drug addiction
-		html.find(".resetAddiction").click(this._onResetAddiction.bind(this));
+		on(".resetAddiction", "click", this._onResetAddiction.bind(this));
 		//Reboot le deck
-		html.find(".reset-deck").click(this._onRebootDeck.bind(this));
+		on(".reset-deck", "click", this._onRebootDeck.bind(this));
 		// Checkbox changes
-		html.find('input[type="checkbox"]').change(this._onSubmit.bind(this));
+		on('input[type="checkbox"]', "change", this._onSubmit.bind(this));
 		// Déplie les infos
-		html.find(".deplie").click(this._onItemSummary.bind(this));
+		on(".deplie", "click", this._onItemSummary.bind(this));
 		// Déplie les infos matricielles
-		html.find(".deplieMatrix").click(this._onMatrixSummary.bind(this));
+		on(".deplieMatrix", "click", this._onMatrixSummary.bind(this));
 		// Lancés de dés
-		html.find(".sr-roll").click(this._onRoll.bind(this));
-		html.find(".sr-rollGrenade").click(this._onRollGrenade.bind(this));
+		on(".sr-roll", "click", this._onRoll.bind(this));
+		on(".sr-rollGrenade", "click", this._onRollGrenade.bind(this));
 		// Summon Spirit
-		html.find(".sidekickCreate").click(this._OnSidekickCreate.bind(this));
-		html.find(".sidekickDestroy").click(this._OnSidekickDestroy.bind(this));
+		on(".sidekickCreate", "click", this._OnSidekickCreate.bind(this));
+		on(".sidekickDestroy", "click", this._OnSidekickDestroy.bind(this));
 		// Dismiss Actor
-		html.find(".dismissActor").click(this._OnDismissActor.bind(this));
+		on(".dismissActor", "click", this._OnDismissActor.bind(this));
 		// Switch vision
-		html.find(".vision-switch").click(this._onVisionSwitch.bind(this));
+		on(".vision-switch", "click", this._onVisionSwitch.bind(this));
 		// Switch initiatives
-		html.find(".init-switch").click(this._onInitiativeSwitch.bind(this));
+		on(".init-switch", "click", this._onInitiativeSwitch.bind(this));
 		// Add item to PAN
-		html.find(".addItemToPan").click(this._onAddItemToPan.bind(this));
-		html.find(".deleteItemFromPan").click(this._onDeleteItemFromPan.bind(this));
+		on(".addItemToPan", "click", this._onAddItemToPan.bind(this));
+		on(".deleteItemFromPan", "click", this._onDeleteItemFromPan.bind(this));
 		// Stop jamming signals
-		html.find(".stop-jamming").click(this._onStopJamming.bind(this));
+		on(".stop-jamming", "click", this._onStopJamming.bind(this));
 		// Change matrix user mode
-		html.find(".changeMatrixMode").change(this._onChangeMatrixMode.bind(this));
+		on(".changeMatrixMode", "change", this._onChangeMatrixMode.bind(this));
 		// Change matrix silent mode
-		html.find(".changeSilentMode").click(this._onChangeSilentMode.bind(this));
+		on(".changeSilentMode", "click", this._onChangeSilentMode.bind(this));
 
 		// Hide or display some information by clicking on headers allowing it
-		html.find(".hidden").hide();
-		html.find(".filtre-skill").click((event) => {
+		element.querySelectorAll(".hidden").forEach(el => el.style.display = "none");
+		on(".filtre-skill", "click", (event) => {
 			event.preventDefault();
 			this._shownUntrainedSkills = !this._shownUntrainedSkills;
 			this._render(true);
 		});
-		html.find(".filtre-groupe").click((event) => {
+		on(".filtre-groupe", "click", (event) => {
 			event.preventDefault();
 			this._shownUntrainedGroups = !this._shownUntrainedGroups;
 			this._render(true);
 		});
-		html.find(".filtre-matrixActions").click((event) => {
+		on(".filtre-matrixActions", "click", (event) => {
 			event.preventDefault();
 			this._shownNonRollableMatrixActions = !this._shownNonRollableMatrixActions;
 			this._render(true);
 		});
-		html.find(".filterMatrixPrograms").click((event) => {
+		on(".filterMatrixPrograms", "click", (event) => {
 			event.preventDefault();
 			this._shownInactiveMatrixPrograms = !this._shownInactiveMatrixPrograms;
 			this._render(true);
 		});
-		html.find(".filterNuyenGains").click((event) => {
+		on(".filterNuyenGains", "click", (event) => {
 			event.preventDefault();
 			this._shownNuyenGains = !this._shownNuyenGains;
 			this._render(true);
 		});
-		html.find(".filterNuyenExpenses").click((event) => {
+		on(".filterNuyenExpenses", "click", (event) => {
 			event.preventDefault();
 			this._shownNuyenExpenses = !this._shownNuyenExpenses;
 			this._render(true);
 		});
-		html.find(".filterKarmaGains").click((event) => {
+		on(".filterKarmaGains", "click", (event) => {
 			event.preventDefault();
 			this._shownKarmaGains = !this._shownKarmaGains;
 			this._render(true);
 		});
-		html.find(".filterKarmaExpenses").click((event) => {
+		on(".filterKarmaExpenses", "click", (event) => {
 			event.preventDefault();
 			this._shownKarmaExpenses = !this._shownKarmaExpenses;
 			this._render(true);
 		});
 		// Light color indicator (for dark headers)
-		if (!this._shownUntrainedSkills) $(".filtre-skill").toggleClass("unfoldLight").toggleClass("foldLight");
-		if (!this._shownUntrainedGroups) $(".filtre-groupe").toggleClass("unfoldLight").toggleClass("foldLight");
-		if (!this._shownNonRollableMatrixActions) $(".filtre-matrixActions").toggleClass("unfoldLight").toggleClass("foldLight");
-		if (!this._shownInactiveMatrixPrograms) $(".filterMatrixPrograms").toggleClass("unfoldLight").toggleClass("foldLight");
+		if (!this._shownUntrainedSkills) element.querySelectorAll(".filtre-skill").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
+		if (!this._shownUntrainedGroups) element.querySelectorAll(".filtre-groupe").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
+		if (!this._shownNonRollableMatrixActions) element.querySelectorAll(".filtre-matrixActions").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
+		if (!this._shownInactiveMatrixPrograms) element.querySelectorAll(".filterMatrixPrograms").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
 		// Dark color indicator (for light headers)
-		if (!this._shownNuyenExpenses) $(".filterNuyenExpenses").toggleClass("unfoldDark").toggleClass("foldDark");
-		if (!this._shownNuyenGains) $(".filterNuyenGains").toggleClass("unfoldDark").toggleClass("foldDark");
-		if (!this._shownKarmaExpenses) $(".filterKarmaExpenses").toggleClass("unfoldDark").toggleClass("foldDark");
-		if (!this._shownKarmaGains) $(".filterKarmaGains").toggleClass("unfoldDark").toggleClass("foldDark");
+		if (!this._shownNuyenExpenses) element.querySelectorAll(".filterNuyenExpenses").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
+		if (!this._shownNuyenGains) element.querySelectorAll(".filterNuyenGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
+		if (!this._shownKarmaExpenses) element.querySelectorAll(".filterKarmaExpenses").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
+		if (!this._shownKarmaGains) element.querySelectorAll(".filterKarmaGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 
 		// Item Dragging
 		if (this.actor.isOwner) {
-			/* Item Dragging */
-			// Core handlers from foundry.js
-			var handler;
-			if (!foundry.utils.isNewerVersion(game.version, "0.7")) {
-				handler = ev => this._onDragItemStart(ev);
-			}
-			else {
-				handler = ev => this._onDragStart(ev);
-			}
-			html.find('li.item').each((i, li) => {
+			const handler = ev => this._onDragStart(ev);
+			element.querySelectorAll('li.item').forEach(li => {
 				li.setAttribute("draggable", true);
 				li.addEventListener("dragstart", handler, false);
 			});
-			html.find('div.draggableAttribute').each((i, div) => {
+			element.querySelectorAll('div.draggableAttribute').forEach(div => {
 				div.addEventListener("dragstart", handler, false);
 			});
 		}
 
 		// Help Display
-		html.find("[data-helpTitle]").mouseover(this._displayHelpText.bind(this));
-		html.find("[data-helpTitle]").mouseout(this._hideHelpText.bind(this));
+		element.querySelectorAll("[data-helpTitle]").forEach(el => {
+			el.addEventListener("mouseover", this._displayHelpText.bind(this));
+			el.addEventListener("mouseout", this._hideHelpText.bind(this));
+		});
 
 		// Quick monitor reset on monitor's name right-click
-		html.find(".monitorReset").mousedown((e) => {
-		e.preventDefault();
-		let monitor = $(e.currentTarget).attr("data-target");
-		if (e.which === 1){
-			if (monitor === "stun" || monitor === "physical") this.actor.rollTest("healing", monitor);
-		}
-		if ((e.which === 3 || e.button === 2)) {
+		on(".monitorReset", "mousedown", (e) => {
+			e.preventDefault();
+			let monitor = e.currentTarget.dataset.target;
+			if (e.which === 1){
+				if (monitor === "stun" || monitor === "physical") this.actor.rollTest("healing", monitor);
+			}
+			if ((e.which === 3 || e.button === 2)) {
 				let actorData = foundry.utils.duplicate(this.actor);
 				foundry.utils.setProperty(actorData, `system.conditionMonitors.${monitor}.actual.base`, 0);
 				this.actor.update(actorData);
@@ -193,12 +191,10 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		});
 
 		// Gestion des cases de dégats
-		html.find(".boxes:not(.box-disabled)").click((ev) => {
+		on(".boxes:not(.box-disabled)", "click", (ev) => {
 			let actorData = foundry.utils.duplicate(this.actor);
-			let index = Number($(ev.currentTarget).attr("data-index"));
-			let target = $(ev.currentTarget)
-				.parents(".SR-MoniteurCases")
-				.attr("data-target");
+			let index = Number(ev.currentTarget.dataset.index);
+			let target = ev.currentTarget.closest(".SR-MoniteurCases").dataset.target;
 
 			let value = foundry.utils.getProperty(actorData, target);
 			if (value == index + 1)
@@ -293,7 +289,7 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 
 	// Handles initiative switching from the derived attributes tab
 	_onInitiativeSwitch(event) {
-		let wantedInitiative = $(event.currentTarget).attr("data-binding");
+		let wantedInitiative = event.currentTarget.dataset.binding;
 		SR5_CharacterUtility.switchToInitiative(this.actor, wantedInitiative);
 		//special case for materialization button on spirit sheet
 		if (event.target.id === "materializeIcon"){
@@ -309,7 +305,7 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 	}
 
 	_onVisionSwitch(event){
-		let wantedVision = $(event.currentTarget).attr("data-binding");
+		let wantedVision = event.currentTarget.dataset.binding;
 		SR5_CharacterUtility.switchVision(this.actor, wantedVision);
 	}
 
@@ -444,10 +440,10 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 			event.preventDefault();
 			const a = event.currentTarget;
 			const actorData = this.actor.system;
-			let target = $(event.currentTarget).attr("data-binding");
-			let action = $(event.currentTarget).attr("data-action");
-			let index = $(event.currentTarget).attr("data-index");
-			let targetValue = $(event.currentTarget).attr("data-targetvalue");
+			let target = event.currentTarget.dataset.binding;
+			let action = event.currentTarget.dataset.action;
+			let index = event.currentTarget.dataset.index;
+			let targetValue = event.currentTarget.dataset.targetvalue;
 			let key = `system.${target}`;
 
 			// Remove a subItem
@@ -473,122 +469,127 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 
 	_onItemSummary(event) {
 		event.preventDefault();
-		let li = $(event.currentTarget).parents(".item"),
-			item = this.actor.items.get(li.data("item-id")),
-			expandData = item.getExpandData({ secrets: this.actor.isOwner });
+		let li = event.currentTarget.closest(".item");
+		let item = this.actor.items.get(li.dataset.itemId);
+		let expandData = item.getExpandData({ secrets: this.actor.isOwner });
 
 		if (!expandData.properties.length && (expandData.gameEffect === "" || !expandData.gameEffect)) return;
 		// Déplie les informations de jeu pour un Objet.
-		if (li.hasClass("expanded")) {
-			let summary = li.children(".item-summary");
-			summary.slideUp(200, () => summary.remove());
+		if (li.classList.contains("expanded")) {
+			let summary = li.querySelector(":scope > .item-summary");
+			if (summary) summary.remove();
 		} else {
-			let accessoryClass = ($(event.currentTarget).hasClass("SR-MarginLeft10") ? "SR-MarginLeft10" : "");
-			let div = $(`<div class="col-x item-summary ${accessoryClass}">${expandData.gameEffect}</div>`);
-			let props = $(`<div class="item-properties"></div>`);
+			let accessoryClass = (event.currentTarget.classList.contains("SR-MarginLeft10") ? "SR-MarginLeft10" : "");
+			let div = document.createElement("div");
+			div.className = `col-x item-summary ${accessoryClass}`;
+			div.innerHTML = expandData.gameEffect;
+			let props = document.createElement("div");
+			props.className = "item-properties";
 			expandData.properties.forEach((p) => {
 				if (Array.isArray(p)) {
 					let index = expandData.properties.indexOf(p);
-					props.append(`<span class="tag tag-summary" data-index=${index}>${p[0]}</span>`)
+					props.insertAdjacentHTML("beforeend", `<span class="tag tag-summary" data-index=${index}>${p[0]}</span>`);
 				} else {
-					props.append(`<span class="tag">${p}</span>`)
+					props.insertAdjacentHTML("beforeend", `<span class="tag">${p}</span>`);
 				}
 			});
 
-			div.append(props);
-			li.append(div.hide());
-			div.slideDown(200);
+			div.appendChild(props);
+			li.appendChild(div);
 
-			div.find(".tag-summary").click((event) => {
-				let i =  $(event.currentTarget).attr("data-index");
+			div.querySelectorAll(".tag-summary").forEach(el => el.addEventListener("click", (event) => {
+				let i = event.currentTarget.dataset.index;
 				let gameEffect = expandData.properties[i][1];
 
-				let tagDiv = $(`<div class="item-properties tag-description ${i}">${gameEffect}</div>`);
-
-				if (div.hasClass("expandedTag") && div.hasClass(i)){
-					let tagSummary = div.children(".tag-description");
-					tagSummary.slideUp(200, () => tagSummary.remove());
-					div.removeClass(i);
-				} else if (div.hasClass("expandedTag")) {
-					let tagSummary = div.children(".tag-description");
-					tagSummary.slideUp(200, () => tagSummary.remove());
-					div.removeClass();
-					div.addClass("col-x item-summary expdandedTag");
-					div.addClass(i);
-					div.append(tagDiv.hide());
-					tagDiv.slideDown(200);
+				if (div.classList.contains("expandedTag") && div.classList.contains(i)){
+					let tagSummary = div.querySelector(":scope > .tag-description");
+					if (tagSummary) tagSummary.remove();
+					div.classList.remove(i);
+				} else if (div.classList.contains("expandedTag")) {
+					let tagSummary = div.querySelector(":scope > .tag-description");
+					if (tagSummary) tagSummary.remove();
+					div.className = "col-x item-summary expdandedTag";
+					div.classList.add(i);
+					let tagDiv = document.createElement("div");
+					tagDiv.className = `item-properties tag-description ${i}`;
+					tagDiv.innerHTML = gameEffect;
+					div.appendChild(tagDiv);
 				} else {
-					div.append(tagDiv.hide());
-					div.addClass(i);
-					tagDiv.slideDown(200);
+					let tagDiv = document.createElement("div");
+					tagDiv.className = `item-properties tag-description ${i}`;
+					tagDiv.innerHTML = gameEffect;
+					div.appendChild(tagDiv);
+					div.classList.add(i);
 				}
-				div.toggleClass("expandedTag");
-			});
+				div.classList.toggle("expandedTag");
+			}));
 
 		}
-		li.toggleClass("expanded");
+		li.classList.toggle("expanded");
 	}
 
 	/* -------------------------------------------- */
 
 	_onMatrixSummary(event) {
 		event.preventDefault();
-		let li = $(event.currentTarget).parents(".item") ;
-		let key = li.data("item-id");
-		let expandData;	
-		expandData = this.actor.system.matrix.actions[key];		
+		let li = event.currentTarget.closest(".item");
+		let key = li.dataset.itemId;
+		let expandData = this.actor.system.matrix.actions[key];
 
 		if (expandData === "" || !expandData) return;
 
 		// Déplie les informations de jeu pour un Objet.
-		if (li.hasClass("expanded")) {
-			let summary = li.children(".item-summary");
-			summary.slideUp(200, () => summary.remove());
+		if (li.classList.contains("expanded")) {
+			let summary = li.querySelector(":scope > .item-summary");
+			if (summary) summary.remove();
 		} else {
-			let accessoryClass = ($(event.currentTarget).hasClass("SR-MarginLeft10") ? "SR-MarginLeft10" : "");
+			let accessoryClass = (event.currentTarget.classList.contains("SR-MarginLeft10") ? "SR-MarginLeft10" : "");
 
-			let div = $(`<div class="col-x item-summary ${accessoryClass}">${game.i18n.localize(SR5.matrixGameEffects[key])}</div>`);
-			let props = $(`<div class="item-properties"></div>`);
+			let div = document.createElement("div");
+			div.className = `col-x item-summary ${accessoryClass}`;
+			div.innerHTML = game.i18n.localize(SR5.matrixGameEffects[key]);
+			let props = document.createElement("div");
+			props.className = "item-properties";
 
-			div.append(props);
-			li.append(div.hide());
-			div.slideDown(200);
+			div.appendChild(props);
+			li.appendChild(div);
 
-			div.find(".tag-summary").click((event) => {
-				let i =  $(event.currentTarget).attr("data-index");
+			div.querySelectorAll(".tag-summary").forEach(el => el.addEventListener("click", (event) => {
+				let i = event.currentTarget.dataset.index;
 				let gameEffect = `${game.i18n.localize(SR5.matrixGameEffects[key])}`;
 
-				let tagDiv = $(`<div class="item-properties tag-description ${i}">${gameEffect}</div>`);
-
-				if (div.hasClass("expandedTag") && div.hasClass(i)){
-					let tagSummary = div.children(".tag-description");
-					tagSummary.slideUp(200, () => tagSummary.remove());
-					div.removeClass(i);
-				} else if (div.hasClass("expandedTag")) {
-					let tagSummary = div.children(".tag-description");
-					tagSummary.slideUp(200, () => tagSummary.remove());
-					div.removeClass();
-					div.addClass("col-x item-summary expdandedTag");
-					div.addClass(i);
-					div.append(tagDiv.hide());
-					tagDiv.slideDown(200);
+				if (div.classList.contains("expandedTag") && div.classList.contains(i)){
+					let tagSummary = div.querySelector(":scope > .tag-description");
+					if (tagSummary) tagSummary.remove();
+					div.classList.remove(i);
+				} else if (div.classList.contains("expandedTag")) {
+					let tagSummary = div.querySelector(":scope > .tag-description");
+					if (tagSummary) tagSummary.remove();
+					div.className = "col-x item-summary expdandedTag";
+					div.classList.add(i);
+					let tagDiv = document.createElement("div");
+					tagDiv.className = `item-properties tag-description ${i}`;
+					tagDiv.innerHTML = gameEffect;
+					div.appendChild(tagDiv);
 				} else {
-					div.append(tagDiv.hide());
-					div.addClass(i);
-					tagDiv.slideDown(200);
+					let tagDiv = document.createElement("div");
+					tagDiv.className = `item-properties tag-description ${i}`;
+					tagDiv.innerHTML = gameEffect;
+					div.appendChild(tagDiv);
+					div.classList.add(i);
 				}
-				div.toggleClass("expandedTag");
-			});
+				div.classList.toggle("expandedTag");
+			}));
 
 		}
-		li.toggleClass("expanded");
+		li.classList.toggle("expanded");
 	}
 
 	/* -------------------------------------------- */
 	// Edit Item value from Actor Sheet
 	async _onEditItemValue(event) {
-		let id = $(event.currentTarget).parents(".item").attr("data-item-id");
-		let target = $(event.currentTarget).attr("data-binding");
+		let id = event.currentTarget.closest(".item")?.dataset.itemId;
+		let target = event.currentTarget.dataset.binding;
 		let actor = this.actor;
 		let actorData = foundry.utils.duplicate(actor.system);
 		let itemList = foundry.utils.duplicate(this.actor.items);
@@ -599,9 +600,9 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		if (actor.isToken) actorId = actor.token.id;
 		
 		let value = event.target.value;
-		if ($(event.currentTarget).attr("data-dtype") === "Number")
+		if (event.currentTarget.dataset.dtype === "Number")
 			value = Number(event.target.value);
-		if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
+		if (event.currentTarget.dataset.dtype === "Boolean") {
 			oldValue = foundry.utils.getProperty(item, target);
 			value = !oldValue;
 		}
@@ -990,8 +991,8 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 	/* -------------------------------------------- */
 	//Change value of an item from actor sheet by clicking with mouse
 	_onChangeValueByClick(event) {
-		let id = $(event.currentTarget).parents(".item").attr("data-item-id"),
-				target = $(event.currentTarget).attr("data-binding"),
+		let id = event.currentTarget.closest(".item")?.dataset.itemId,
+				target = event.currentTarget.dataset.binding,
 				entity,
 				original;
 
@@ -1053,11 +1054,11 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 	/* -------------------------------------------- */
 	//Change value of an actor by click
 	_onEditActorValue(event){
-		let target = $(event.currentTarget).attr("data-binding");
+		let target = event.currentTarget.dataset.binding;
 		let actor = this.actor.toObject(false);
 
 		let value = event.target.value;
-		if ($(event.currentTarget).attr("data-dtype") === "Boolean") {
+		if (event.currentTarget.dataset.dtype === "Boolean") {
 			let oldValue = foundry.utils.getProperty(actor, target);
 			value = !oldValue;
 		}
@@ -1246,7 +1247,8 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 				default: "ok",
 				close: (html) => {
 					if (cancel) return;
-					let controler = html.find("[name=controler]").val();
+					const dlgElement = html instanceof HTMLElement ? html : html[0];
+					let controler = dlgElement.querySelector("[name=controler]")?.value;
 					let controlerName = "";
 					if (controler) {
 						controlerName = controlerList[controler];
@@ -1401,7 +1403,8 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 				default: "ok",
 				close: (html) => {
 					if (cancel) return;
-					let targetItem = html.find("[name=itemToAdd]").val();
+					const dlgElement = html instanceof HTMLElement ? html : html[0];
+					let targetItem = dlgElement.querySelector("[name=itemToAdd]")?.value;
 					if (targetItem === "none") return;
 					if (!game.user?.isGM) {
 						SR5_SocketHandler.emitForGM("addItemToPan", {
@@ -1420,8 +1423,8 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 	async _onDeleteItemFromPan(event){
 		event.preventDefault();
 		await this._onSubmit(event); // Submit any unsaved changes
-		let index = $(event.currentTarget).attr("data-index");
-		let itemId = $(event.currentTarget).attr("data-key");
+		let index = event.currentTarget.dataset.index;
+		let itemId = event.currentTarget.dataset.key;
 		let actor = this.actor.id;
 		if (this.actor.isToken) actor = this.actor.token.id;
 

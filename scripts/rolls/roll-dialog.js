@@ -22,16 +22,16 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         for (let key of Object.values(this.data.data.dicePool.modifiers)){
             dicePoolModifier += key.value;
         }
-        if (html.find('[name="dicePoolModifiers"]').length) html.find('[name="dicePoolModifiers"]')[0].value = dicePoolModifier;
-        let modifiedDicePool = dicePoolModifier + parseInt(html.find('[name="baseDicePool"]')[0].value);
-        this.data.data.dicePool.base = parseInt(html.find('[name="baseDicePool"]')[0].value);
+        if (html.querySelector('[name="dicePoolModifiers"]')) html.querySelector('[name="dicePoolModifiers"]').value = dicePoolModifier;
+        let modifiedDicePool = dicePoolModifier + parseInt(html.querySelector('[name="baseDicePool"]').value);
+        this.data.data.dicePool.base = parseInt(html.querySelector('[name="baseDicePool"]').value);
         if (modifiedDicePool < 0) modifiedDicePool = 0;
-        html.find('[data-button="roll"]')[0].innerHTML = `<i class="fas fa-dice-six"></i> ${game.i18n.localize("SR5.RollDice")} (${modifiedDicePool})`;
+        html.querySelector('[data-button="roll"]').innerHTML = `<i class="fas fa-dice-six"></i> ${game.i18n.localize("SR5.RollDice")} (${modifiedDicePool})`;
     }
 
     updateLimitValue(html) {
-        if (html.find('[name="baseLimit"]')[0]){
-            let modifiedLimit = parseInt(html.find('[name="baseLimit"]')[0].value)
+        if (html.querySelector('[name="baseLimit"]')){
+            let modifiedLimit = parseInt(html.querySelector('[name="baseLimit"]').value)
             let limitModifier = 0;
             for (let key of Object.values(this.data.data.limit.modifiers)){
                 limitModifier += key.value;
@@ -39,35 +39,35 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             }
             modifiedLimit += limitModifier;
             if (modifiedLimit < 0) modifiedLimit = 0;
-            html.find('[name="modifiedLimit"]')[0].value = modifiedLimit;
-            this.data.data.limit.base = parseInt(html.find('[name="baseLimit"]')[0].value);
+            html.querySelector('[name="modifiedLimit"]').value = modifiedLimit;
+            this.data.data.limit.base = parseInt(html.querySelector('[name="baseLimit"]').value);
         }
     }
 
     updateDrainValue(html) {
-        this.data.data.magic.force = parseInt(html.find('[name="force"]')[0].value);
-        if (html.find('[name="drainValue"]')[0]){
+        this.data.data.magic.force = parseInt(html.querySelector('[name="force"]').value);
+        if (html.querySelector('[name="drainValue"]')){
             let drainModifier = 0;
             for (let key of Object.values(this.data.data.magic.drain.modifiers)){
                 drainModifier += key.value;
             }
-            let drainFinalValue = parseInt(html.find('[name="force"]')[0].value) + drainModifier;
+            let drainFinalValue = parseInt(html.querySelector('[name="force"]').value) + drainModifier;
             if (drainFinalValue < 2) drainFinalValue = 2
-            html.find('[name="drainValue"]')[0].value = drainFinalValue;
+            html.querySelector('[name="drainValue"]').value = drainFinalValue;
             this.data.data.magic.drain.value = drainFinalValue;
         }
     }
 
     updateFadingValue(html) {
-        this.data.data.matrix.level = parseInt(html.find('[name="level"]')[0].value);
-        if (html.find('[name="fadingValue"]')[0]){
+        this.data.data.matrix.level = parseInt(html.querySelector('[name="level"]').value);
+        if (html.querySelector('[name="fadingValue"]')){
             let fadingModifier = 0;
             for (let key of Object.values(this.data.data.matrix.fading.modifiers)){
                 fadingModifier += key.value;
             }
-            let fadingFinalValue = parseInt(html.find('[name="level"]')[0].value) + fadingModifier;
+            let fadingFinalValue = parseInt(html.querySelector('[name="level"]').value) + fadingModifier;
             if (fadingFinalValue < 2) fadingFinalValue = 2
-            html.find('[name="fadingValue"]')[0].value = fadingFinalValue;
+            html.querySelector('[name="fadingValue"]').value = fadingFinalValue;
             this.data.data.matrix.fading.value = fadingFinalValue;
         }
     }
@@ -78,14 +78,14 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
 
         if (dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"){
             firingModeValue = 0;
-            $(html).find(".hideBulletsRecoil").hide();
+            html.querySelectorAll(".hideBulletsRecoil").forEach(el => el.style.display = 'none');
         } else firingModeValue = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected);
 
         dialogData.combat.ammo.fired = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected);
-        html.find('[name="recoilBullets"]')[0].value = firingModeValue;
-        html.find('[name="recoilCumulative"]')[0].value = dialogData.combat.recoil.cumulative;
-        if (dialogData.combat.recoil.compensationWeapon < 1) $(html).find(".hideWeaponRecoil").hide();
-        if (dialogData.combat.recoil.cumulative < 1) $(html).find(".hideCumulativeRecoil").hide();
+        html.querySelector('[name="recoilBullets"]').value = firingModeValue;
+        html.querySelector('[name="recoilCumulative"]').value = dialogData.combat.recoil.cumulative;
+        if (dialogData.combat.recoil.compensationWeapon < 1) html.querySelectorAll(".hideWeaponRecoil").forEach(el => el.style.display = 'none');
+        if (dialogData.combat.recoil.cumulative < 1) html.querySelectorAll(".hideCumulativeRecoil").forEach(el => el.style.display = 'none');
 
         let modifiedRecoil = (dialogData.combat.recoil.compensationActor + dialogData.combat.recoil.compensationWeapon) - (firingModeValue + dialogData.combat.recoil.cumulative);
         if (modifiedRecoil > 0) modifiedRecoil = 0;
@@ -101,7 +101,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         dialogData.combat.recoil.value = dialogData.combat.recoil.compensationActor;
         let recoil = this.calculRecoil(html);
         this.setPosition(this.position);
-        html.find('[name="recoil"]')[0].value = recoil;
+        html.querySelector('[name="recoil"]').value = recoil;
         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "recoil")
         this.updateDicePoolValue(html);
     }
@@ -114,6 +114,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
 
     activateListeners(html) {
         super.activateListeners(html);
+        const element = html instanceof HTMLElement ? html : (html[0]?.parentElement ?? html[0]);
         this.dicePoolModifier = {};
         this.limitModifier = {};
         this.drainModifier = {};
@@ -121,69 +122,74 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         let dialogData = this.data.data;
         let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId);
 
-        this.updateDicePoolValue(html);
-        this.updateLimitValue(html);
+        this.updateDicePoolValue(element);
+        this.updateLimitValue(element);
 
         //Show some block on initial draw
         if (dialogData.test.type === "ritual") {
-            $(html).find('#useReagents').show();
-            $(html).find('#reagentsModControl').show();
+            const useReagentsEl = element.querySelector('#useReagents');
+            if (useReagentsEl) useReagentsEl.style.display = '';
+            const reagentsModControlEl = element.querySelector('#reagentsModControl');
+            if (reagentsModControlEl) reagentsModControlEl.style.display = '';
         }
 
         //General commands for input
-        html.find('.SR-ModInput').change(ev => this._manualInputModifier(ev, html, dialogData));
+        element.querySelectorAll('.SR-ModInput').forEach(el => el.addEventListener('change', ev => this._manualInputModifier(ev, element, dialogData)));
         //General commands for input buttons
-        html.find('.SR-ModControl').click(ev => this._manualInputModifier(ev, html, dialogData, true));
+        element.querySelectorAll('.SR-ModControl').forEach(el => el.addEventListener('click', ev => this._manualInputModifier(ev, element, dialogData, true)));
         //General commands for input already filled by dialogData
-        if (html.find('.SR-ModInputFilled')) this._filledInputModifier(html.find('.SR-ModInputFilled'), html, dialogData);
+        const filledInputs = element.querySelectorAll('.SR-ModInputFilled'); if (filledInputs.length) this._filledInputModifier(filledInputs, element, dialogData);
         //General commands for checkbox
-        if (html.find('.SR-ModCheckboxFilled')) this._filledCheckBox(html.find('.SR-ModCheckboxFilled'), html, dialogData);
-        html.find('.SR-ModCheckbox').change(ev => this._checkboxModifier(ev, html, dialogData));    
+        const filledCheckboxes = element.querySelectorAll('.SR-ModCheckboxFilled'); if (filledCheckboxes.length) this._filledCheckBox(filledCheckboxes, element, dialogData);
+        element.querySelectorAll('.SR-ModCheckbox').forEach(el => el.addEventListener('change', ev => this._checkboxModifier(ev, element, dialogData)));
         //General commands for select
-        html.find('.SR-ModSelect').change(ev => this._selectModifiers(ev, html, dialogData));
+        element.querySelectorAll('.SR-ModSelect').forEach(el => el.addEventListener('change', ev => this._selectModifiers(ev, element, dialogData)));
         //General commands for select already filled by dialogData
-        if (html.find('.SR-ModSelectFilled')) this._filledSelectModifier(html.find('.SR-ModSelectFilled'), html, dialogData);
+        const filledSelects = element.querySelectorAll('.SR-ModSelectFilled'); if (filledSelects.length) this._filledSelectModifier(filledSelects, element, dialogData);
         //Manage Threshold
-        html.find('.SR-ManageThreshold').change(ev => this._manageThreshold(ev, html, dialogData));
-        if (html.find('.SR-ManageThreshold')) this._filledThreshold(html.find('.SR-ManageThreshold'), html, dialogData);
+        element.querySelectorAll('.SR-ManageThreshold').forEach(el => el.addEventListener('change', ev => this._manageThreshold(ev, element, dialogData)));
+        const thresholdEls = element.querySelectorAll('.SR-ManageThreshold'); if (thresholdEls.length) this._filledThreshold(thresholdEls, element, dialogData);
 
         // Reset Recoil
-        html.find(".resetRecoil").click(ev => this._onResetRecoil(ev, html, dialogData, actor));
+        element.querySelectorAll(".resetRecoil").forEach(el => el.addEventListener('click', ev => this._onResetRecoil(ev, element, dialogData, actor)));
         // Reset Cumulative Defense
-        html.find(".resetCumulativeDefense").click(ev => this._onResetDefense(ev, html, dialogData, actor));
+        element.querySelectorAll(".resetCumulativeDefense").forEach(el => el.addEventListener('click', ev => this._onResetDefense(ev, element, dialogData, actor)));
 
         // Extended test
-        html.find('[name="toggleExtendedTest"]').change(ev => this._onToggleExtendedTest(ev.target.checked, dialogData, html));
-        html.find('[name="extendedTime"]').change(ev => this._onChangeExtendedTest(ev.target.checked, dialogData, html));
-        html.find('[name="extendedMultiplier"]').change(ev => this._onChangeExtendedTest(ev.target.checked, dialogData, html));
+        element.querySelectorAll('[name="toggleExtendedTest"]').forEach(el => el.addEventListener('change', ev => this._onToggleExtendedTest(ev.target.checked, dialogData, element)));
+        element.querySelectorAll('[name="extendedTime"]').forEach(el => el.addEventListener('change', ev => this._onChangeExtendedTest(ev.target.checked, dialogData, element)));
+        element.querySelectorAll('[name="extendedMultiplier"]').forEach(el => el.addEventListener('change', ev => this._onChangeExtendedTest(ev.target.checked, dialogData, element)));
 
         //auto fill extended test if data are already present
         if (dialogData.test.isExtended){
-            html.find('[name="toggleExtendedTest"]')[0].checked = true;
-            html.find('[name="extendedTime"]')[0].value = dialogData.test.extended.interval;
-            html.find('[name="extendedMultiplier"]')[0].value = dialogData.test.extended.multiplier;
-            $(html).find('#extendedBlock').show();
+            element.querySelector('[name="toggleExtendedTest"]').checked = true;
+            element.querySelector('[name="extendedTime"]').value = dialogData.test.extended.interval;
+            element.querySelector('[name="extendedMultiplier"]').value = dialogData.test.extended.multiplier;
+            const extendedBlockEl = element.querySelector('#extendedBlock');
+            if (extendedBlockEl) extendedBlockEl.style.display = '';
         }
         //Toggle hidden div
-        html.find(".SR-DialogToggle").click(ev => this._toggleDiv(ev, html));
+        element.querySelectorAll(".SR-DialogToggle").forEach(el => el.addEventListener('click', ev => this._toggleDiv(ev, element)));
     }
 
     //Show or Hide section of the dialog
     _toggleDiv(ev, html){
-        let target = $(ev.currentTarget).attr("data-target"),
-            action = $(ev.currentTarget).attr("data-action"),
+        let target = ev.currentTarget.dataset.target,
+            action = ev.currentTarget.dataset.action,
             position = this.position;
 
         if (action === "show"){
-            $(html).find(`#${target}`).show();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).hide();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).show();
+            const targetEl = html.querySelector(`#${target}`);
+            if (targetEl) targetEl.style.display = '';
+            html.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = 'none');
+            html.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = '');
         } else {
-            $(html).find(`#${target}`).hide();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="hide"]`).hide();
-            $(html).find(`[data-target=${target}]`).filter(`[data-action="show"]`).show();
+            const targetEl = html.querySelector(`#${target}`);
+            if (targetEl) targetEl.style.display = 'none';
+            html.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = 'none');
+            html.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = '');
         }
-        
+
         position.height = "auto";
         this.setPosition(position);
     }
@@ -191,9 +197,9 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
     //Add checkbox modifiers
     _checkboxModifier(ev, html, dialogData){
         let isChecked = ev.target.checked,
-            target = $(ev.currentTarget).attr("data-target"),
+            target = ev.currentTarget.dataset.target,
             name = `[name=${target}]`,
-            modifierName = $(ev.currentTarget).attr("data-modifier"),
+            modifierName = ev.currentTarget.dataset.modifier,
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             value = 0;
 
@@ -215,12 +221,16 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 break;
             case "reagents":
                 if (isChecked) {
-                    $(html).find('#useReagents').show();
-                    $(html).find('#reagentsModControl').show();
+                    const useReagentsEl = html.querySelector('#useReagents');
+                    if (useReagentsEl) useReagentsEl.style.display = '';
+                    const reagentsModControlEl = html.querySelector('#reagentsModControl');
+                    if (reagentsModControlEl) reagentsModControlEl.style.display = '';
                 }
                 else {
-                    $(html).find('#useReagents').hide();
-                    $(html).find('#reagentsModControl').hide();
+                    const useReagentsEl = html.querySelector('#useReagents');
+                    if (useReagentsEl) useReagentsEl.style.display = 'none';
+                    const reagentsModControlEl = html.querySelector('#reagentsModControl');
+                    if (reagentsModControlEl) reagentsModControlEl.style.display = 'none';
                 }
                 return;
             case "recklessSpellcasting":
@@ -231,13 +241,13 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 } else {
                     dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "complex", value: 1, source: "castSpell"});
                 }
-                html.find(name)[0].value = value;
+                html.querySelector(name).value = value;
                 dialogData.magic.drain.modifiers.recklessSpellcasting = {
                     value: value,
                     label: game.i18n.localize(SR5.drainModTypes[modifierName]),
                 }
                 this.drainModifier.recklessSpellcasting = value;
-                this.updateDrainValue(html);             
+                this.updateDrainValue(html);
                 return;
             case "spiritAid":
                 value = dialogData.magic.spiritAid.modifier;
@@ -248,8 +258,8 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 break;
             case "restraintReinforced":
                 if (isChecked) value = 1;
-                html.find(name)[0].value = value;
-                let threshold = parseInt(html.find('[name="restraintThreshold"]')[0].value);
+                html.querySelector(name).value = value;
+                let threshold = parseInt(html.querySelector('[name="restraintThreshold"]').value);
                 dialogData.threshold.value = threshold + 1;
                 return;
             case "defenseProneFar":
@@ -324,15 +334,15 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         }
 
         if (isChecked){
-            html.find(name)[0].value = value;
+            html.querySelector(name).value = value;
             dialogData.dicePool.modifiers.push({
-                type: modifierName, 
+                type: modifierName,
                 label: label,
                 value: value
             })
             this.updateDicePoolValue(html);
         } else {
-            html.find(name)[0].value = 0;
+            html.querySelector(name).value = 0;
             SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', modifierName)
             this.updateDicePoolValue(html);
         }
@@ -345,23 +355,23 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
 
         let actor = SR5_EntityHelpers.getRealActorFromID(this.data.data.owner.actorId),
             targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId),
-            label, 
+            label,
             isProned = actor.effects.find(e => e.statuses.has("prone"));
-        
+
         for (let e of checkboxs){
-            modifierName = $(e).attr("data-modifier");
+            modifierName = e.dataset.modifier;
             checkboxName = `[data-modifier=${modifierName}]`;
-            inputName = `[name=${$(e).attr("data-target")}]`;
+            inputName = `[name=${e.dataset.target}]`;
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
 
             switch (modifierName){
                 case "patientAwakenedOrEmerged":
                     if (targetActor?.system.specialAttributes.magic.augmented.value > 0 || targetActor?.system.specialAttributes.resonance.augmented.value > 0){
-                        html.find(checkboxName)[0].checked = true;
+                        html.querySelector(checkboxName).checked = true;
                         value = -2;
-                        html.find(inputName)[0].value = value;
+                        html.querySelector(inputName).value = value;
                         dialogData.dicePool.modifiers.push({
-                            type: modifierName, 
+                            type: modifierName,
                             label: label,
                             value: value
                         })
@@ -372,38 +382,38 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     let fullDefenseEffect = actor.effects.find(e => e.origin === "fullDefense");
 		            let isInFullDefense = (fullDefenseEffect) ? true : false;
                     if (isInFullDefense){
-                        html.find(checkboxName)[0].checked = true;
+                        html.querySelector(checkboxName).checked = true;
                         value = actor.system.specialProperties.fullDefenseValue || 0;
                     }
                     break;
                 case "defenseProneClose":
                     if (isProned && dialogData.target.rangeInMeters <= 5){
-                        html.find(checkboxName)[0].checked = true;
+                        html.querySelector(checkboxName).checked = true;
                         value = -2;
                     }
                     break;
                 case "defenseProneFar":
                     if (isProned && dialogData.target.rangeInMeters >= 20){
-                        html.find(checkboxName)[0].checked = true;
+                        html.querySelector(checkboxName).checked = true;
                         value = 4;
                     }
                     break;
                 case "defenseProne":
                     if (isProned){
-                        html.find(checkboxName)[0].checked = true;
+                        html.querySelector(checkboxName).checked = true;
                         value = -2;
                     }
                     break;
                 case "defenseTargetedByArea":
-                    html.find(checkboxName)[0].checked = true;
+                    html.querySelector(checkboxName).checked = true;
                     value = -2;
                     break;
             }
 
-            if (html.find(checkboxName)[0].checked){
-                html.find(inputName)[0].value = value;
+            if (html.querySelector(checkboxName).checked){
+                html.querySelector(inputName).value = value;
                 dialogData.dicePool.modifiers.push({
-                    type: modifierName, 
+                    type: modifierName,
                     label: label,
                     value: value
                 })
@@ -411,7 +421,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             }
         }
 
-        
+
     }
 
     //Manage manual input modifier
@@ -421,30 +431,30 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId);
 
         if (button){ //Manage plus minus input
-            target = $(ev.currentTarget).attr("data-target");
-            operator = $(ev.currentTarget).attr("data-type");
-            modifierName = $(ev.currentTarget).attr("data-modifier");
+            target = ev.currentTarget.dataset.target;
+            operator = ev.currentTarget.dataset.type;
+            modifierName = ev.currentTarget.dataset.modifier;
             name = `[name=${target}]`;
-            value = html.find(name)[0].value;
+            value = html.querySelector(name).value;
             if (operator === "plus"){
                 value++;
-                html.find(name)[0].value = value;
+                html.querySelector(name).value = value;
             } else {
                 value--;
-                html.find(name)[0].value = value;
+                html.querySelector(name).value = value;
             }
         } else {
-            target = $(ev.currentTarget).attr("name");
+            target = ev.currentTarget.getAttribute("name");
             name = `[name=${target}]`;
-            modifierName = $(ev.currentTarget).attr("data-modifier");
+            modifierName = ev.currentTarget.dataset.modifier;
             value = parseInt(ev.target.value);
         }
 
         switch (target){
             case "force":
                 this.updateDrainValue(html);
-                if (html.find('#force').length) {
-                    html.find('#force')[0].value = value;
+                if (html.querySelector('#force')) {
+                    html.querySelector('#force').value = value;
                     dialogData.limit.base = value;
                 }
                 if (dialogData.test.type === "ritual") this._updateReagents(value, actor, html, dialogData);
@@ -454,7 +464,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 return;
             case "level":
                 this.updateFadingValue(html);
-                if (html.find('#level').length) html.find('#level')[0].value = value;
+                if (html.querySelector('#level')) html.querySelector('#level').value = value;
                 return;
             case "dicePoolModSpellShaping":
                 if (value > 0) {
@@ -467,17 +477,17 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 dialogData.magic.spell.area = -value;
                 break;
             case "manaBarrierRating":
-                let barrierRating = parseInt((html.find('[name="manaBarrierRating"]')[0].value || 1));
-                html.find('[name="baseDicePool"]')[0].value = barrierRating * 2;
+                let barrierRating = parseInt((html.querySelector('[name="manaBarrierRating"]').value || 1));
+                html.querySelector('[name="baseDicePool"]').value = barrierRating * 2;
                 this.data.data.dicePool.value = barrierRating * 2;
                 this.updateDicePoolValue(html);
                 return;
             case "patientEssence":
                 value = -Math.floor((6 - Math.ceil(value))/2);
-                html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
+                html.querySelector('[name="dicePoolModPatientEssence"]').value = value;
                 SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "patientEssence")
                 dialogData.dicePool.modifiers.push({
-                    type: "patientEssence", 
+                    type: "patientEssence",
                     label: `${game.i18n.localize(SR5.dicePoolModTypes[target])} (${value})`,
                     value: value
                 })
@@ -486,7 +496,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             case "limitModHealingSupplies":
             case "limitModPerception":
             case "limitModVarious":
-                html.find(name)[0].value = value;
+                html.querySelector(name).value = value;
                 dialogData.limit.modifiers[modifierName] = {
                     value: value,
                     label: `${game.i18n.localize(SR5.limitModTypes[modifierName])}`,
@@ -496,10 +506,10 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 return;
         }
 
-        html.find(name)[0].value = value;
+        html.querySelector(name).value = value;
         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', modifierName)
         dialogData.dicePool.modifiers.push({
-            type: modifierName, 
+            type: modifierName,
             label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
             value: value
         })
@@ -514,13 +524,13 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             label;
 
         for (let e of ev){
-            modifierName = $(e).attr("data-modifier");
+            modifierName = e.dataset.modifier;
             name = `[data-modifier=${modifierName}]`;
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
 
             switch (modifierName){
                 case "matrixNoiseReduction":
-                    if (html.find('[data-modifier="matrixRange"]')[0].value === "wired") {
+                    if (html.querySelector('[data-modifier="matrixRange"]').value === "wired") {
                         this.dicePoolModifier.matrixNoiseReduction = 0;
                         value = 0;
                     }
@@ -534,16 +544,16 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     }
                     break;
                 case "matrixSceneNoise":
-                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrix.noiseScene;
+                    if (html.querySelector('[data-modifier="matrixRange"]').value !== "wired") value = dialogData.matrix.noiseScene;
                     else value = 0;
                     break;
                 case "matrixActorNoise":
-                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired") value = dialogData.matrix.personalNoise;
+                    if (html.querySelector('[data-modifier="matrixRange"]').value !== "wired") value = dialogData.matrix.personalNoise;
                     else value = 0;
                     break;
                 case "incomingPA":
-                    let armorValue = parseInt((html.find('[data-modifier="armor"]')[0].value || 0));
-                    let incomingAP = parseInt((html.find('[data-modifier="incomingPA"]')[0].value || 0))
+                    let armorValue = parseInt((html.querySelector('[data-modifier="armor"]').value || 0));
+                    let incomingAP = parseInt((html.querySelector('[data-modifier="incomingPA"]').value || 0))
                     if (armorValue >= -incomingAP) value = incomingAP;
                     else {
                         let usedAP = armorValue + incomingAP;
@@ -553,7 +563,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                 case "armor":
                     continue;
                 case "publicGrid":
-                    if (html.find('[data-modifier="matrixRange"]')[0].value !== "wired" && game.settings.get("sr5", "sr5MatrixGridRules")) value = -2;
+                    if (html.querySelector('[data-modifier="matrixRange"]').value !== "wired" && game.settings.get("sr5", "sr5MatrixGridRules")) value = -2;
                     else value = 0;
                     break;
                 case "force":
@@ -573,25 +583,25 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     break;
                 case "patientEssence":
                     let patientEssence = (targetActor?.system.essence.value ? targetActor.system.essence.value : 6);
-                    html.find('[name="patientEssence"]')[0].value = patientEssence;
+                    html.querySelector('[name="patientEssence"]').value = patientEssence;
                     value = -Math.floor((6 - Math.ceil(patientEssence))/2);
-                    html.find('[name="dicePoolModPatientEssence"]')[0].value = value;
+                    html.querySelector('[name="dicePoolModPatientEssence"]').value = value;
                     dialogData.dicePool.modifiers.push({
-                        type: "patientEssence", 
+                        type: "patientEssence",
                         label: `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${patientEssence})`,
                         value: value
                     })
                     this.updateDicePoolValue(html);
                     continue;
                 case "backgroundCount":
-                    value = parseInt((html.find(name)[0].value || 0));
+                    value = parseInt((html.querySelector(name).value || 0));
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.traditionTypes[dialogData.sceneData.backgroundAlignement])})`;
                     break;
                 default:
-                    value = parseInt((html.find(name)[0].value || 0));
+                    value = parseInt((html.querySelector(name).value || 0));
             }
 
-            html.find(name)[0].value = value;
+            html.querySelector(name).value = value;
             dialogData.dicePool.modifiers.push({
                 type: modifierName,
                 label: label,
@@ -603,9 +613,9 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
 
     //Select modifiers
     async _selectModifiers(ev, html, dialogData){
-        let target = $(ev.currentTarget).attr("data-target"),
+        let target = ev.currentTarget.dataset.target,
             name = `[name=${target}]`,
-            modifierName = $(ev.currentTarget).attr("data-modifier"),
+            modifierName = ev.currentTarget.dataset.modifier,
             value, limitDV, action, rangeType,
             actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
             label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
@@ -656,34 +666,34 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     value = SR5_ConverterHelpers.environmentalLineToMod(baseRange);
                     label = label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     dialogData.target.range = ev.target.value;
-                    // Handle choke 
+                    // Handle choke
                     if (dialogData.combat.weaponType === "shotgun") {
                         dialogData.combat.choke.damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(dialogData.combat.choke.selected, dialogData.target.range);
                         chokeLimitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(dialogData.combat.choke.selected, dialogData.target.range);
                         dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.selected, dialogData.target.range);
                         chokeLimitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
-                        if (chokeLimitModify && !chokeLimitModified) {                     
+                        if (chokeLimitModify && !chokeLimitModified) {
                             dialogData.limit.modifiers["chokeSettings"] = {
                                 value: chokeLimitModify,
                                 label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.selected])}`,
-                            }                        
-                        html.find("[name=chokeSettings]")[0].value = chokeLimitModify;
+                            }
+                        html.querySelector("[name=chokeSettings]").value = chokeLimitModify;
                         this.limitModifier[modifierName] = chokeLimitModify;
                         this.updateLimitValue(html);
                         dialogData.combat.choke.limit = chokeLimitModify;
-                        } 
+                        }
                     }
                     break;
                 case "chokeSettings":
                     dialogData.combat.choke.selected = ev.target.value;
-                    html.find(name)[0].value = value;
+                    html.querySelector(name).value = value;
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     dialogData.combat.choke.damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(ev.target.value, dialogData.target.range);
                     chokeLimitModify = SR5_PrepareRollHelper.chokeSettingsOnLimit(ev.target.value, dialogData.target.range);
                     dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.selected, dialogData.target.range);
                     value = chokeLimitModify;
                     chokeLimitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
-                    if (chokeLimitModify && !chokeLimitModified) {                         
+                    if (chokeLimitModify && !chokeLimitModified) {
                         dialogData.limit.modifiers[modifierName] = {
                           value: chokeLimitModify,
                           label: `${game.i18n.localize(SR5.chokeSettings[dialogData.combat.choke.selected])}`,
@@ -757,26 +767,36 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     value = SR5_ConverterHelpers.matrixDistanceToMod(ev.target.value);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.matrixNoiseDistance[ev.target.value])})`;
                     if (ev.target.value !== "wired") {
-                        if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').show();
-                        if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').show();
-                        if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').show();
+                        const matrixNoiseSceneEl = html.querySelector('#matrixNoiseScene');
+                        if (matrixNoiseSceneEl) matrixNoiseSceneEl.style.display = '';
+                        const matrixNoiseReductionEl = html.querySelector('#matrixNoiseReduction');
+                        if (matrixNoiseReductionEl) matrixNoiseReductionEl.style.display = '';
+                        const matrixTargetGridEl = html.querySelector('#matrixTargetGrid');
+                        if (matrixTargetGridEl) matrixTargetGridEl.style.display = '';
                         if (dialogData.target.grid !== actor.system.matrix.userGrid) {
-                            html.find('[name="dicePoolModTargetGrid"]')[0].value = -2;
+                            html.querySelector('[name="dicePoolModTargetGrid"]').value = -2;
                             SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "targetGrid")
                             dialogData.dicePool.modifiers.push({
                                 type: "targetGrid",
-                                label: `${game.i18n.localize(SR5.dicePoolModTypes["targetGrid"])} (${game.i18n.localize(SR5.gridTypes[html.find('[data-modifier="targetGrid"]')[0].value])})`,
+                                label: `${game.i18n.localize(SR5.dicePoolModTypes["targetGrid"])} (${game.i18n.localize(SR5.gridTypes[html.querySelector('[data-modifier="targetGrid"]').value])})`,
                                 value: -2
                             })
                             this.dicePoolModifier.targetGrid = -2;
                         }
-                        if ((dialogData.matrix.personalNoise < 0) && (html.find('#matrixNoiseActor'))) $(html).find('#matrixNoiseActor').show();
+                        if ((dialogData.matrix.personalNoise < 0) && (html.querySelector('#matrixNoiseActor'))) {
+                            const matrixNoiseActorEl = html.querySelector('#matrixNoiseActor');
+                            if (matrixNoiseActorEl) matrixNoiseActorEl.style.display = '';
+                        }
                     } else {
-                        if (html.find('#matrixNoiseScene')) $(html).find('#matrixNoiseScene').hide();
-                        if (html.find('#matrixNoiseReduction')) $(html).find('#matrixNoiseReduction').hide();
-                        if (html.find('#matrixTargetGrid')) $(html).find('#matrixTargetGrid').hide();
-                        if (html.find('#matrixNoiseActor')) $(html).find('#matrixNoiseActor').hide();
-                        html.find('[name="dicePoolModTargetGrid"]')[0].value = 0;
+                        const matrixNoiseSceneEl = html.querySelector('#matrixNoiseScene');
+                        if (matrixNoiseSceneEl) matrixNoiseSceneEl.style.display = 'none';
+                        const matrixNoiseReductionEl = html.querySelector('#matrixNoiseReduction');
+                        if (matrixNoiseReductionEl) matrixNoiseReductionEl.style.display = 'none';
+                        const matrixTargetGridEl = html.querySelector('#matrixTargetGrid');
+                        if (matrixTargetGridEl) matrixTargetGridEl.style.display = 'none';
+                        const matrixNoiseActorEl = html.querySelector('#matrixNoiseActor');
+                        if (matrixNoiseActorEl) matrixNoiseActorEl.style.display = 'none';
+                        html.querySelector('[name="dicePoolModTargetGrid"]').value = 0;
                     }
                     dialogData.matrix.noiseRangeValue = value;
                     dialogData.matrix.noiseRange = ev.target.value;
@@ -792,17 +812,17 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     return;
                 case "spiritType":
                     if (ev.target.value !== ""){
-                        html.find(name)[0].value = actor.system.skills.summoning.spiritType[ev.target.value].dicePool - actor.system.skills.summoning.test.dicePool;
+                        html.querySelector(name).value = actor.system.skills.summoning.spiritType[ev.target.value].dicePool - actor.system.skills.summoning.test.dicePool;
                         dialogData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills.summoning.spiritType[ev.target.value].modifiers);
                         dialogData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(dialogData);
                         dialogData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(dialogData, actor.system.skills.summoning.spiritType[ev.target.value].modifiers);
-                    } 
+                    }
                     dialogData.magic.spiritType = ev.target.value;
                     this.updateDicePoolValue(html);
                     return;
                 case "preparationTrigger":
                     value = SR5_ConverterHelpers.triggerToMod(ev.target.value);
-                    html.find(name)[0].value = value;
+                    html.querySelector(name).value = value;
                     dialogData.magic.drain.modifiers.trigger = {
                         value: value,
                         label: `${game.i18n.localize("SR5.PreparationTrigger")} (${game.i18n.localize(SR5.preparationTriggerTypes[ev.target.value])})`,
@@ -819,7 +839,8 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                         limitMod = actor.system.skills.perception.perceptionType[ev.target.value].limit.value;
                     }
                     if (ev.target.value === "sight") {
-                        $(html).find('#sightPerception').show();
+                        const sightPerceptionEl = html.querySelector('#sightPerception');
+                        if (sightPerceptionEl) sightPerceptionEl.style.display = '';
                         if (canvas.scene) {
                             SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "environmentalSceneMod")
                             dialogData.dicePool.modifiers.push({
@@ -829,10 +850,11 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                             })
                             label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`;
                         }
-                        html.find('[data-modifier="environmentalSceneMod"]')[0].value = dialogData.dicePool.modifiers.environmentalSceneMod.value;
+                        html.querySelector('[data-modifier="environmentalSceneMod"]').value = dialogData.dicePool.modifiers.environmentalSceneMod.value;
                         this.dicePoolModifier.environmental = dialogData.dicePool.modifiers.environmentalSceneMod.value;
                     } else {
-                        $(html).find('#sightPerception').hide();
+                        const sightPerceptionEl = html.querySelector('#sightPerception');
+                        if (sightPerceptionEl) sightPerceptionEl.style.display = 'none';
                         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "environmentalSceneMod")
                         this.dicePoolModifier.environmental = 0;
                     }
@@ -842,7 +864,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                         label: `${game.i18n.localize(SR5.limitModTypes["perception"])} (${game.i18n.localize(SR5.perceptionTypes[ev.target.value])})`,
                     }
                     this.limitModifier.perceptionType = limitMod;
-                    html.find('[name="limitModPerception"]')[0].value = limitMod;
+                    html.querySelector('[name="limitModPerception"]').value = limitMod;
                     this.updateLimitValue(html);
                     break;
                 case "signatureSize":
@@ -853,7 +875,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     value = SR5_ConverterHelpers.searchTypeToThreshold(ev.target.value);
                     dialogData.threshold.value = value;
                     dialogData.threshold.type = ev.target.value;
-                    html.find(name)[0].value = value;
+                    html.querySelector(name).value = value;
                     return;
                 case "damageType":
                     dialogData.damage.type = ev.target.value;
@@ -865,7 +887,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     break;
                 case "healingSupplies":
                     dialogData.limit.modifiers.healingSupplies = {value:0,};
-                    html.find('[name="limitModHealingSupplies"]')[0].value = 0;
+                    html.querySelector('[name="limitModHealingSupplies"]').value = 0;
                     switch(ev.target.value){
                         case "noSupplies":
                             value = -3;
@@ -880,7 +902,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                                 dialogData.owner.itemUuid = medkit.uuid;
                                 dialogData.limit.modifiers.healingSupplies.value = value;
                                 dialogData.limit.modifiers.healingSupplies.label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
-                                html.find('[name="limitModHealingSupplies"]')[0].value = value;
+                                html.querySelector('[name="limitModHealingSupplies"]').value = value;
                             } else {
                                 ui.notifications.warn(game.i18n.format('SR5.WARN_NoMedkit'));
                                 value = 0;
@@ -889,14 +911,14 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                         default:
                             value = 0;
                     }
-                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingSupplies[ev.target.value])})`;                   
+                    label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.healingSupplies[ev.target.value])})`;
                     this.updateLimitValue(html);
                     break;
-                case "speedRammingAttacker":                
+                case "speedRammingAttacker":
                     value = SR5_ConverterHelpers.speedToDamageValue(ev.target.value, actor.system.attributes.body.augmented.value);
                     dialogData.owner.speed = ev.target.value;
                     dialogData.damage.value = value;
-                    html.find('[name="modifiedDamage"]')[0].value = value;
+                    html.querySelector('[name="modifiedDamage"]').value = value;
                     return;
                 case "speedRammingTarget":
                     dialogData.target.speed = ev.target.value;
@@ -910,7 +932,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     } else value = 0;
                     break;
                 case "objectType":
-                    html.find('[name="baseDicePool"]')[0].value = parseInt(ev.target.value);
+                    html.querySelector('[name="baseDicePool"]').value = parseInt(ev.target.value);
                     this.updateDicePoolValue(html);
                     return;
                 case "calledShot":
@@ -921,8 +943,14 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     } else {
                         value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type);
                     }
-                    if (ev.target.value === "specificTarget") $(html).find('#calledShotSpecificTarget').show();
-                    else $(html).find('#calledShotSpecificTarget').hide();
+                    if (ev.target.value === "specificTarget") {
+                        const calledShotEl = html.querySelector('#calledShotSpecificTarget');
+                        if (calledShotEl) calledShotEl.style.display = '';
+                    }
+                    else {
+                        const calledShotEl = html.querySelector('#calledShotSpecificTarget');
+                        if (calledShotEl) calledShotEl.style.display = 'none';
+                    }
                     dialogData.combat.calledShot.name = ev.target.value;
                     dialogData.combat.calledShot.effects = SR5_CalledShotHelpers.convertCalledShotToEffect(ev.target.value, dialogData.combat.ammo.type);
                     dialogData.combat.calledShot.limitDV = SR5_CalledShotHelpers.convertCalledShotToLimitDV(ev.target.value, dialogData.combat.ammo.type);
@@ -930,7 +958,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                         case "shakeUp":
                             dialogData.combat.calledShot.initiative = SR5_CalledShotHelpers.convertCalledShotToInitiativeMod(dialogData.combat.ammo.type);
                             break;
-                        case "bullsEye": //Errata: “The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3.”
+                        case "bullsEye": //Errata: "The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3."
                             dialogData.combat.armorPenetration = ((dialogData.combat.armorPenetration + 4) * Math.min(dialogData.combat.ammo.fired, 3)) - 4;
                             break;
                         case "hitEmWhereItCounts":
@@ -946,14 +974,15 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                         case "throughAndInto":
                             if (!dialogData.target.actorId) {
                                 ui.notifications.warn(game.i18n.localize('SR5.WARN_TargetTroughAndInto'));
-                                return html.find(ev.currentTarget)[0].value = "";
+                                return html.querySelector(`[data-modifier="calledShot"]`).value = "";
                             } else {
                                 let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId);
                                 value = -(targetActor.system.itemsProperties.armor.value + Math.floor(targetActor.system.attributes.body.augmented.value / 2));
                             }
                             break;
                         case "upTheAnte":
-                            $(html).find('#calledShotSpecificTarget').show();         
+                            const upTheAnteEl = html.querySelector('#calledShotSpecificTarget');
+                            if (upTheAnteEl) upTheAnteEl.style.display = '';
                             break;
                         case "harderKnock":
                             dialogData.damage.type = "physical";
@@ -971,14 +1000,14 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     modifierName = "calledShot";
                     value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value);
                     limitDV = SR5_CalledShotHelpers.convertCalledShotToLimitDV(ev.target.value);
-                    if (html.find('[data-modifier="calledShot"]')[0].value === "upTheAnte") {
+                    if (html.querySelector('[data-modifier="calledShot"]').value === "upTheAnte") {
                             value = value - 4;
                             limitDV = limitDV * 2;
                         }
                     dialogData.combat.calledShot = {
                         limitDV: limitDV,
                         location: ev.target.value,
-                        name: html.find('[data-modifier="calledShot"]')[0].value,
+                        name: html.querySelector('[data-modifier="calledShot"]').value,
                         effects: SR5_CalledShotHelpers.convertCalledShotToEffect(ev.target.value),
                     }
                     break;
@@ -987,7 +1016,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         }
 
         this.setPosition(position);
-        html.find(name)[0].value = value;
+        html.querySelector(name).value = value;
 
         //Remove previous mod
         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', modifierName)
@@ -1000,7 +1029,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             })
         }
         this.updateDicePoolValue(html);
-        if (modifierName === "matrixRange") this._filledInputModifier(html.find('.SR-ModInputFilled'), html, dialogData);
+        if (modifierName === "matrixRange") this._filledInputModifier(html.querySelectorAll('.SR-ModInputFilled'), html, dialogData);
     }
 
     async _filledSelectModifier(ev, html, dialogData){
@@ -1010,14 +1039,14 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
             label, action;
 
         for (let e of ev){
-            modifierName = $(e).attr("data-modifier");
-            targetInput = $(e).attr("data-target");
+            modifierName = e.dataset.modifier;
+            targetInput = e.dataset.target;
             targetInputName = `[name=${targetInput}]`;
             name = `[data-modifier=${modifierName}]`;
 
             switch (modifierName){
                 case "mark":
-                    selectValue = html.find(name)[0].value;
+                    selectValue = html.querySelector(name).value;
                     inputValue = SR5_ConverterHelpers.markToMod(selectValue);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${inputValue})`;
                     dialogData.matrix.mark = parseInt(selectValue);
@@ -1035,7 +1064,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     break;
                 case "chokeSettings":
                     selectValue = dialogData.combat.choke.selected;
-                    html.find(name)[0].value = selectValue;
+                    html.querySelector(name).value = selectValue;
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(dialogData.combat.choke.selected, dialogData.target.range);
                     dialogData.combat.choke.damageModify = SR5_PrepareRollHelper.chokeSettingsOnDamage(selectValue, dialogData.target.range);
@@ -1044,7 +1073,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     dialogData.combat.choke.defense = SR5_PrepareRollHelper.chokeSettingsOnDefense(selectValue, dialogData.target.range);
                     inputValue = chokeLimitModify;
                     let chokeLimitModified = Object.keys(dialogData.limit.modifiers).find(e => e === "chokeSettings");
-                    if (chokeLimitModify && !chokeLimitModified) {                         
+                    if (chokeLimitModify && !chokeLimitModified) {
                         dialogData.limit.modifiers[modifierName] = {
                           value: chokeLimitModify,
                           label: `${game.i18n.localize(SR5.chokeSettings[selectValue])}`,
@@ -1063,8 +1092,8 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]);
                     break;
                 case "spiritType":
-                    selectValue = html.find(name)[0].value;
-                    html.find(targetInputName)[0].value = actor.system.skills.summoning.spiritType[selectValue].dicePool - actor.system.skills.summoning.test.dicePool;
+                    selectValue = html.querySelector(name).value;
+                    html.querySelector(targetInputName).value = actor.system.skills.summoning.spiritType[selectValue].dicePool - actor.system.skills.summoning.test.dicePool;
                     dialogData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills.summoning.spiritType[selectValue].modifiers);
                     dialogData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(dialogData);
                     dialogData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(dialogData, actor.system.skills.summoning.spiritType[selectValue].modifiers);
@@ -1072,12 +1101,12 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     this.updateDicePoolValue(html);
                     continue;
                 case "spriteType":
-                    dialogData.matrix.spriteType = html.find(name)[0].value;
+                    dialogData.matrix.spriteType = html.querySelector(name).value;
                     continue;
                 case "preparationTrigger":
-                    inputValue = SR5_ConverterHelpers.triggerToMod(html.find('[data-modifier="preparationTrigger"]')[0].value);
+                    inputValue = SR5_ConverterHelpers.triggerToMod(html.querySelector('[data-modifier="preparationTrigger"]').value);
                     dialogData.magic.drain.modifiers.trigger = inputValue;
-                    dialogData.magic.preparationTrigger = html.find('[data-modifier="preparationTrigger"]')[0].value;
+                    dialogData.magic.preparationTrigger = html.querySelector('[data-modifier="preparationTrigger"]').value;
                     dialogData.magic.drain.modifiers.trigger = {
                         value: inputValue,
                         label: `${game.i18n.localize("SR5.PreparationTrigger")} (${game.i18n.localize(SR5.preparationTriggerTypes[dialogData.magic.preparationTrigger])})`,
@@ -1086,30 +1115,30 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     this.updateDrainValue(html);
                     continue;
                 case "searchType":
-                    selectValue = html.find(name)[0].value;
+                    selectValue = html.querySelector(name).value;
                     inputValue = SR5_ConverterHelpers.searchTypeToThreshold(selectValue);
                     dialogData.threshold.value = inputValue;
                     dialogData.threshold.type = selectValue;
-                    html.find(targetInputName)[0].value = inputValue;
+                    html.querySelector(targetInputName).value = inputValue;
                     continue;
                 case "damageType":
-                    dialogData.damage.type = html.find(name)[0].value;
+                    dialogData.damage.type = html.querySelector(name).value;
                     continue;
                 case "socialResult":
                 case "socialAttitude":
                     inputValue = 0;
                     break;
                 case "speedRammingAttacker":
-                    selectValue = SR5_ConverterHelpers.speedToDamageValue(html.find(name)[0].value, actor.system.attributes.body.augmented.value);
-                    dialogData.owner.speed = html.find(name)[0].value;
+                    selectValue = SR5_ConverterHelpers.speedToDamageValue(html.querySelector(name).value, actor.system.attributes.body.augmented.value);
+                    dialogData.owner.speed = html.querySelector(name).value;
                     dialogData.damage.value = selectValue;
-                    html.find('[name="modifiedDamage"]')[0].value = selectValue;
+                    html.querySelector('[name="modifiedDamage"]').value = selectValue;
                     continue;
                 case "speedRammingTarget":
-                    dialogData.target.speed = html.find(name)[0].value;
+                    dialogData.target.speed = html.querySelector(name).value;
                     continue;
                 case "targetEffect":
-                    selectValue = html.find(name)[0].value;
+                    selectValue = html.querySelector(name).value;
                     dialogData.target.itemUuid = selectValue;
                     if (dialogData.test.typeSub === "counterspelling" && selectValue){
                         let spellCategory = await this.getTargetType(dialogData.target.itemUuid);
@@ -1125,14 +1154,14 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
                     else selectValue = "none";
                     inputValue = SR5_ConverterHelpers.coverToMod(selectValue);
                     label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[selectValue])})`;
-                    break;                    
+                    break;
                 case "defenseChokeSettings":
                 inputValue = dialogData.combat.choke.defense;
                 break;
             }
 
-            html.find(targetInputName)[0].value = inputValue;
-            html.find(name)[0].value = selectValue;
+            html.querySelector(targetInputName).value = inputValue;
+            html.querySelector(name).value = selectValue;
             dialogData.dicePool.modifiers.push({
                 type: modifierName,
                 label: label,
@@ -1148,7 +1177,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         let targetInput, name, value, label;
 
         for (let e of ev){
-            targetInput = $(e).attr("data-target");
+            targetInput = e.dataset.target;
             if (targetInput === "survivalThreshold") {
                 value = 1;
                 label = "mild";
@@ -1162,7 +1191,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         }
 
         name = `[name=${targetInput}]`;
-        html.find(name)[0].value = value;
+        html.querySelector(name).value = value;
         dialogData.threshold.value = value;
         dialogData.threshold.type = label;
     }
@@ -1170,8 +1199,8 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
     //Manage threhsold
     _manageThreshold(ev, html, dialogData){
         let value, label;
-        let targetInput = $(ev.currentTarget).attr("data-target");
-        
+        let targetInput = ev.currentTarget.dataset.target;
+
         label = ev.target.value;
         value = ev.target.value;
         if (targetInput === "survivalThreshold") value = SR5_ConverterHelpers.survivalTypeToThreshold(ev.target.value);
@@ -1179,7 +1208,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         else if (targetInput === "perceptionThreshold") value = SR5_ConverterHelpers.perceptionTypeToThreshold(ev.target.value);
 
         let name = `[name=${targetInput}]`;
-        html.find(name)[0].value = value;
+        html.querySelector(name).value = value;
         dialogData.threshold.value = value;
         dialogData.threshold.type = label;
     }
@@ -1188,10 +1217,10 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         if (value > actor.system.magic.reagents){
             value = actor.system.magic.reagents;
             ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}));
-            if (dialogData.test.type === "ritual") html.find('[name="force"]')[0].value = value;
+            if (dialogData.test.type === "ritual") html.querySelector('[name="force"]').value = value;
         }
-        html.find('[data-modifier="reagents"]')[0].checked = true;
-        html.find('[name="reagentsSpent"]')[0].value = value;
+        html.querySelector('[data-modifier="reagents"]').checked = true;
+        html.querySelector('[name="reagentsSpent"]').value = value;
         dialogData.magic.hasUsedReagents = true;
         if (dialogData.test.type !== "ritual"){
             this.limitModifier.reagents = value;
@@ -1199,7 +1228,7 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         }
     }
 
-    
+
 
     //Toggle reset defense
     _onResetDefense(ev, html, dialogData, actor){
@@ -1208,34 +1237,36 @@ export default class SR5_RollDialog extends foundry.appv1.api.Dialog {
         resetedActor.resetCumulativeDefense();
         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "cumulativeDefense")
         actor.flags.sr5.cumulativeDefense = 0;
-        html.find('[data-type="cumulativeDefense"]')[0].value = 0;
+        ev.currentTarget.closest('li').querySelector('input').value = 0;
         this.updateDicePoolValue(html);
     }
 
     //Handle Extended Test
     _onToggleExtendedTest(isChecked, dialogData, html){
         let position = this.position;
-        position.height = "auto";    
+        position.height = "auto";
 
         if (isChecked) {
             dialogData.test.isExtended = true;
-            dialogData.test.extended.interval = html.find('[name="extendedTime"]')[0].value;
+            dialogData.test.extended.interval = html.querySelector('[name="extendedTime"]').value;
             dialogData.test.extended.multiplier = 1;
-            html.find('[name="extendedMultiplier"]')[0].value = 1
-            $(html).find('#extendedBlock').show();
+            html.querySelector('[name="extendedMultiplier"]').value = 1
+            const extendedBlockEl = html.querySelector('#extendedBlock');
+            if (extendedBlockEl) extendedBlockEl.style.display = '';
             this.setPosition(position);
         }
         else {
             dialogData.test.isExtended = false;
-            $(html).find('#extendedBlock').hide();
+            const extendedBlockEl = html.querySelector('#extendedBlock');
+            if (extendedBlockEl) extendedBlockEl.style.display = 'none';
             this.setPosition(position);
         }
     }
 
     //Handle Extended Test Value
     _onChangeExtendedTest(isChecked, dialogData, html){
-            dialogData.test.extended.interval = html.find('[name="extendedTime"]')[0].value;
-            dialogData.test.extended.multiplier = html.find('[name="extendedMultiplier"]')[0].value;
+            dialogData.test.extended.interval = html.querySelector('[name="extendedTime"]').value;
+            dialogData.test.extended.multiplier = html.querySelector('[name="extendedMultiplier"]').value;
     }
 
 }

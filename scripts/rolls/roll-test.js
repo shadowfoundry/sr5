@@ -58,7 +58,8 @@ export class SR5_RollTest {
 
 						//Verify if reagents are used, if so, remove from actor
 						if (dialogData.magic.hasUsedReagents) {
-							dialogData.magic.reagentsSpent = parseInt(html.find('[name="reagentsSpent"]').val());
+							const closeElement = html instanceof HTMLElement ? html : html[0];
+							dialogData.magic.reagentsSpent = parseInt(closeElement.querySelector('[name="reagentsSpent"]')?.value || 0);
 							actor.update({ "system.magic.reagents": actorData.magic.reagents - dialogData.magic.reagentsSpent});
 						}
 

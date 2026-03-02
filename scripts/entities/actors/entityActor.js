@@ -87,8 +87,9 @@ export class SR5Actor extends Actor {
 							ok: {
 								label: "Ok",
 								callback: async (dialog) => {
-									spiritType = dialog.find("[name=spiritType]").val();
-									spiritForce = dialog.find("[name=spiritForce]").val();
+									const dlgEl = dialog instanceof HTMLElement ? dialog : dialog[0];
+									spiritType = dlgEl.querySelector("[name=spiritType]").value;
+									spiritForce = dlgEl.querySelector("[name=spiritForce]").value;
 									baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spiritType, spiritForce);
 									for (let baseItem of baseItems) {
 										data.items.push(baseItem);
@@ -121,8 +122,9 @@ export class SR5Actor extends Actor {
 							ok: {
 								label: "Ok",
 								callback: async (dialog) => {
-									spriteType = dialog.find("[name=spriteType]").val();
-									spriteLevel = dialog.find("[name=spriteLevel]").val();
+									const dlgEl = dialog instanceof HTMLElement ? dialog : dialog[0];
+									spriteType = dlgEl.querySelector("[name=spriteType]").value;
+									spriteLevel = dlgEl.querySelector("[name=spriteLevel]").value;
 									baseItems = await SR5_CompendiumUtility.getBaseItems(data.type, spriteType, spriteLevel);
 									for (let baseItem of baseItems) {
 										data.items.push(baseItem);
