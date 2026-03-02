@@ -15,10 +15,6 @@ jobs:
         id: vars
         run: |
           echo "tag=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
-      - name: Install Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: '24.13.1'
       - name: Check out repository code
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
       - name: Cleaning up directory
@@ -28,35 +24,14 @@ jobs:
           rm -rf jsconfig.json
           rm -rf package*.json
           rm -rf gulpfile.js
+          rm -rf MIGRATION_PLAN.md
+          rm -rf scripts/push_to_discord
           mkdir sr5
           shopt -s extglob
           mv !(sr5) sr5/
-          mv sr5/scripts .
       - name: Zipping system
         run: |
           zip -r sr5_${{ steps.vars.outputs.tag }}.zip sr5
-      - name: Check zip size
-        id: zip_check
-        run: |
-          ZIP_FILE="sr5_${{ steps.vars.outputs.tag }}.zip"
-          SIZE_BYTES=$(stat --format="%s" "$ZIP_FILE")
-          SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES / 1048576}")
-          echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
-          echo "Total zip size: ${SIZE_MB} MB"
-          LIMIT=8388608
-          if [ "$SIZE_BYTES" -ge "$LIMIT" ]; then
-            echo "::warning::Zip file is ${SIZE_MB} MB, exceeds Discord's 8 MB upload limit"
-            echo "over_limit=true" >> $GITHUB_OUTPUT
-            echo ""
-            echo "=== Top 30 files by size ==="
-            unzip -l "$ZIP_FILE" | grep -v '/$' | tail -n +4 | head -n -2 | sort -rn -k1 2>/dev/null | head -30
-            echo ""
-            echo "=== Size by directory (KB) ==="
-            unzip -l "$ZIP_FILE" | grep -v '/$' | tail -n +4 | head -n -2 | awk '{dir=$4; sub(/\/[^\/]*$/, "", dir); sizes[dir]+=$1} END {for (d in sizes) printf "%8.1f KB  %s\n", sizes[d]/1024, d}' | sort -rn -k1 2>/dev/null | head -20
-          else
-            echo "over_limit=false" >> $GITHUB_OUTPUT
-            echo "Zip is under 8 MB, ready for Discord upload"
-          fi
       - name: Create GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -66,34 +41,9 @@ jobs:
             --title "[Alpha Release] ${{ steps.vars.outputs.tag }}" \
             --prerelease \
             --notes "This is an alpha release. Do not use for production, it is subject to big/incompatible changes."
-      - name: Prepare Discord scripts
+      - name: Post release link to Discord
         run: |
-          cd ./scripts/push_to_discord
-          npm install
-          chmod +x *.js
-      - name: Send zip to Discord
-        if: steps.zip_check.outputs.over_limit == 'false'
-        run: |
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"
           curl -sf -H "Content-Type: application/json" \
-            -d "{\"content\": \"Alpha release **${{ steps.vars.outputs.tag }}** (${{ steps.zip_check.outputs.size_mb }} MB)\"}" \
+            -d "{\"content\": \"Alpha release **${{ steps.vars.outputs.tag }}** is available: ${RELEASE_URL}\"}" \
             "${{ secrets.DISCORD_ALPHA_CHANNEL_URL }}"
-          ./scripts/push_to_discord/file_webhook.js "${{ secrets.DISCORD_ALPHA_CHANNEL_URL }}" "sr5_${{ steps.vars.outputs.tag }}.zip"
-      - name: Split and send zip to Discord
-        if: steps.zip_check.outputs.over_limit == 'true'
-        run: |
-          TAG="${{ steps.vars.outputs.tag }}"
-          ZIP_FILE="sr5_${TAG}.zip"
-
-          # Split into 7MB parts (.z01, .z02, …, .zip) in a subdirectory
-          mkdir -p chunks
-          zip "$ZIP_FILE" -s 7m --out "chunks/${ZIP_FILE}"
-          TOTAL=$(ls chunks/sr5_${TAG}.z* 2>/dev/null | wc -l)
-
-          curl -sf -H "Content-Type: application/json" \
-            -d "{\"content\": \"Alpha release **${TAG}** (${{ steps.zip_check.outputs.size_mb }} MB) — ${TOTAL} parts\"}" \
-            "${{ secrets.DISCORD_ALPHA_CHANNEL_URL }}"
-
-          for PART in $(ls chunks/sr5_${TAG}.z* 2>/dev/null | sort); do
-            echo "Sending: $(basename $PART)"
-            ./scripts/push_to_discord/file_webhook.js "${{ secrets.DISCORD_ALPHA_CHANNEL_URL }}" "$PART"
-          done
