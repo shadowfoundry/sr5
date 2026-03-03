@@ -30,11 +30,11 @@ jobs:
             '.version = $ver | .manifest = $manifest | .download = $download' \
             system.json > system_updated.json
           mv system_updated.json system.json
+          # Keep a copy for uploading as release asset
+          cp system.json /tmp/system.json
 
       - name: Cleaning up directory
         run: |
-          # Keep a copy of system.json before moving into subfolder
-          cp system.json system-prerelease.json
           rm -rf less
           rm -rf node_modules
           rm -rf jsconfig.json
@@ -44,7 +44,7 @@ jobs:
           rm -rf scripts/push_to_discord
           mkdir sr5
           shopt -s extglob
-          mv !(sr5|system-prerelease.json) sr5/
+          mv !(sr5) sr5/
 
       - name: Zipping system
         run: |
@@ -56,7 +56,7 @@ jobs:
         run: |
           gh release create "${{ steps.vars.outputs.tag }}" \
             "sr5_${{ steps.vars.outputs.tag }}.zip" \
-            "system-prerelease.json#system.json" \
+            "/tmp/system.json" \
             --title "[Alpha Release] ${{ steps.vars.outputs.tag }}" \
             --prerelease \
             --notes "This is an alpha release. Do not use for production, it is subject to big/incompatible changes."
@@ -68,11 +68,11 @@ jobs:
           # Create or update the persistent "pre-release" release with the latest manifest
           if gh release view pre-release &>/dev/null; then
             gh release upload pre-release \
-              "system-prerelease.json#system.json" \
+              "/tmp/system.json" \
               --clobber
           else
             gh release create pre-release \
-              "system-prerelease.json#system.json" \
+              "/tmp/system.json" \
               --title "Pre-release Manifest" \
               --prerelease \
               --notes "Persistent pre-release manifest. Install URL: https://github.com/${{ github.repository }}/releases/download/pre-release/system.json"

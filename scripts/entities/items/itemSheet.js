@@ -16,7 +16,7 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 		return foundry.utils.mergeObject(super.defaultOptions, {
 			width: 510,
 			height: 445,
-			classes: ["SR-Item", "sheet", "item"],
+			classes: ["sr5", "SR-Item", "sheet", "item"],
 			resizable: false,
 			scrollY: [".SR_ItemScrollY"],
 			tabs: [
