@@ -9,6 +9,16 @@
     border: 1px solid @mainColor;
     background: fade(@mainColor, 25%);
     box-shadow: none;
+
+    /* v13: preserve FontAwesome icons in buttons */
+    &::before {
+        font-family: "Font Awesome 6 Pro";
+        font-weight: 900;
+    }
+    i {
+        font-family: "Font Awesome 6 Pro";
+        font-weight: 900;
+    }
 }
 
 .sr5-button-hover() {

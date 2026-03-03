@@ -17,8 +17,24 @@ jobs:
           echo "tag=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
       - name: Check out repository code
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Update system.json for pre-release
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          REPO="${{ github.repository }}"
+          # Update version, manifest (persistent pre-release URL), and download (versioned)
+          jq \
+            --arg ver "$TAG" \
+            --arg manifest "https://github.com/${REPO}/releases/download/pre-release/system.json" \
+            --arg download "https://github.com/${REPO}/releases/download/${TAG}/sr5_${TAG}.zip" \
+            '.version = $ver | .manifest = $manifest | .download = $download' \
+            system.json > system_updated.json
+          mv system_updated.json system.json
+
       - name: Cleaning up directory
         run: |
+          # Keep a copy of system.json before moving into subfolder
+          cp system.json system-prerelease.json
           rm -rf less
           rm -rf node_modules
           rm -rf jsconfig.json
@@ -28,19 +44,40 @@ jobs:
           rm -rf scripts/push_to_discord
           mkdir sr5
           shopt -s extglob
-          mv !(sr5) sr5/
+          mv !(sr5|system-prerelease.json) sr5/
+
       - name: Zipping system
         run: |
           zip -r sr5_${{ steps.vars.outputs.tag }}.zip sr5
-      - name: Create GitHub release
+
+      - name: Create versioned GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "${{ steps.vars.outputs.tag }}" \
             "sr5_${{ steps.vars.outputs.tag }}.zip" \
+            "system-prerelease.json#system.json" \
             --title "[Alpha Release] ${{ steps.vars.outputs.tag }}" \
             --prerelease \
             --notes "This is an alpha release. Do not use for production, it is subject to big/incompatible changes."
+
+      - name: Update persistent pre-release manifest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Create or update the persistent "pre-release" release with the latest manifest
+          if gh release view pre-release &>/dev/null; then
+            gh release upload pre-release \
+              "system-prerelease.json#system.json" \
+              --clobber
+          else
+            gh release create pre-release \
+              "system-prerelease.json#system.json" \
+              --title "Pre-release Manifest" \
+              --prerelease \
+              --notes "Persistent pre-release manifest. Install URL: https://github.com/${{ github.repository }}/releases/download/pre-release/system.json"
+          fi
+
       - name: Post release link to Discord
         run: |
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"

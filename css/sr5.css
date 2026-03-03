@@ -15,15 +15,15 @@
 body {
   font-family: "srfoundry_regular";
 }
-ul {
+.sr5 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-a:hover {
+.sr5 a:hover {
   text-shadow: none;
 }
-select {
+.sr5 select {
   border: 0;
   height: auto;
   background-color: transparent;
@@ -38,7 +38,7 @@ select {
   /* useful when width is set to anything other than 100% */
   margin-left: -4px;
 }
-option {
+.sr5 option {
   background: none;
 }
 .clear-height {
@@ -47,14 +47,14 @@ option {
   padding-top: 0!important;
   padding-bottom: 0!important;
 }
-input[type=range] {
+.sr5 input[type=range] {
   -webkit-appearance: none;
   width: 100%;
 }
-input[type=range]:focus {
+.sr5 input[type=range]:focus {
   outline: none;
 }
-input[type=range]::-webkit-slider-runnable-track {
+.sr5 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
@@ -63,7 +63,7 @@ input[type=range]::-webkit-slider-runnable-track {
   border-radius: 3px;
   border: 1px solid #931004;
 }
-input[type=range]::-webkit-slider-thumb {
+.sr5 input[type=range]::-webkit-slider-thumb {
   box-shadow: 1px 1px 1px #000001;
   border: 1px solid #000001;
   height: 14px;
@@ -74,10 +74,10 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   margin-top: -5.5px;
 }
-input[type=range]:focus::-webkit-slider-runnable-track {
+.sr5 input[type=range]:focus::-webkit-slider-runnable-track {
   background: #931004;
 }
-input[type=range]::-moz-range-track {
+.sr5 input[type=range]::-moz-range-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
@@ -86,7 +86,7 @@ input[type=range]::-moz-range-track {
   border-radius: 3px;
   border: 1px solid #000001;
 }
-input[type=range]::-moz-range-thumb {
+.sr5 input[type=range]::-moz-range-thumb {
   box-shadow: 1px 1px 1px #000001;
   border: 1px solid #000001;
   height: 18px;
@@ -95,7 +95,7 @@ input[type=range]::-moz-range-thumb {
   background: #0c9394;
   cursor: pointer;
 }
-input[type=range]::-ms-track {
+.sr5 input[type=range]::-ms-track {
   width: 100%;
   height: 5px;
   cursor: pointer;
@@ -103,19 +103,19 @@ input[type=range]::-ms-track {
   border-color: transparent;
   color: transparent;
 }
-input[type=range]::-ms-fill-lower {
+.sr5 input[type=range]::-ms-fill-lower {
   background: rgba(147, 16, 4, 0.5);
   border: 1px solid #000001;
   border-radius: 6px;
   box-shadow: 1px 1px 1px #000001;
 }
-input[type=range]::-ms-fill-upper {
+.sr5 input[type=range]::-ms-fill-upper {
   background: rgba(147, 16, 4, 0.5);
   border: 1px solid #000001;
   border-radius: 6px;
   box-shadow: 1px 1px 1px #000001;
 }
-input[type=range]::-ms-thumb {
+.sr5 input[type=range]::-ms-thumb {
   box-shadow: 1px 1px 1px #000001;
   border: 1px solid #000001;
   height: 18px;
@@ -124,10 +124,10 @@ input[type=range]::-ms-thumb {
   background: #97B79F;
   cursor: pointer;
 }
-input[type=range]:focus::-ms-fill-lower {
+.sr5 input[type=range]:focus::-ms-fill-lower {
   background: rgba(147, 16, 4, 0.5);
 }
-input[type=range]:focus::-ms-fill-upper {
+.sr5 input[type=range]:focus::-ms-fill-upper {
   background: rgba(147, 16, 4, 0.5);
 }
 /* ----------------------------------------- */
@@ -1182,6 +1182,16 @@ input[type=range]:focus::-ms-fill-upper {
   line-height: 17px;
   /* v13: style Foundry's default header (replaces custom .SR-MessageHeader) */
   /* Use > to avoid targeting <header class="SR-CardHeader"> inside .message-content */
+}
+#chat .chat-message .message-sender,
+#chat-notifications .chat-message .message-sender,
+#chat-popout .chat-message .message-sender {
+  white-space: normal;
+}
+#chat .chat-message .message-metadata,
+#chat-notifications .chat-message .message-metadata,
+#chat-popout .chat-message .message-metadata {
+  white-space: nowrap;
 }
 #chat .chat-message .message-content,
 #chat-notifications .chat-message .message-content,
@@ -3117,963 +3127,258 @@ input[type=range]:focus::-ms-fill-upper {
     display: none;
   }
 }
-.app {
+.application {
   color: #fffffe;
   background: none;
-}
-.app.window-app {
   /* v13: scene-sheet uses Foundry-native layout */
   /* v13: token-sheet uses Foundry-native layout */
 }
-.app.window-app .window-header {
+.application .window-header {
   background: #000001;
 }
-.app.window-app .window-content {
+.application .window-content {
   background: #fffffe;
 }
-.app.window-app.form select,
-.app.window-app.scene-sheet select,
-.app.window-app.token-sheet select,
-.app.window-app.combat-sheet select,
-.app.window-app.folder-edit select,
-.app.window-app[id^=app-]:not(.dialog) select,
-.app.window-app.app.window-app[id^=permission-] select,
-.app.window-app#permission select,
-.app.window-app[id^=PlaylistSoundConfig-] select,
-.app.window-app[id^=RollTableConfig-] select,
-.app.window-app[id^=CardsHand-Cards-] select,
-.app.window-app[id^=client-settings] select,
-.app.window-app[id^=AmbientLightConfig-] select,
-.app.window-app[id^=PlaylistConfig-] select,
-.app.window-app[id^=support-details] select,
-.app.window-app[id^=UserConfig-User-] select,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] select,
-.app.window-app#keybindings select,
-.app.window-app.macro-sheet select {
+.application:not(.sr5):not(.dialog) {
+  /* v13: standard-form typography for Foundry-native forms */
+}
+.application:not(.sr5):not(.dialog) select {
   border: 1px solid #931004;
   color: #fffffe;
 }
-.app.window-app.form select:focus,
-.app.window-app.scene-sheet select:focus,
-.app.window-app.token-sheet select:focus,
-.app.window-app.combat-sheet select:focus,
-.app.window-app.folder-edit select:focus,
-.app.window-app[id^=app-]:not(.dialog) select:focus,
-.app.window-app.app.window-app[id^=permission-] select:focus,
-.app.window-app#permission select:focus,
-.app.window-app[id^=PlaylistSoundConfig-] select:focus,
-.app.window-app[id^=RollTableConfig-] select:focus,
-.app.window-app[id^=CardsHand-Cards-] select:focus,
-.app.window-app[id^=client-settings] select:focus,
-.app.window-app[id^=AmbientLightConfig-] select:focus,
-.app.window-app[id^=PlaylistConfig-] select:focus,
-.app.window-app[id^=support-details] select:focus,
-.app.window-app[id^=UserConfig-User-] select:focus,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] select:focus,
-.app.window-app#keybindings select:focus,
-.app.window-app.macro-sheet select:focus {
+.application:not(.sr5):not(.dialog) select:focus {
   box-shadow: 0 0 5px #0c9394;
   border: 1px solid #0c9394;
 }
-.app.window-app.form select::before,
-.app.window-app.scene-sheet select::before,
-.app.window-app.token-sheet select::before,
-.app.window-app.combat-sheet select::before,
-.app.window-app.folder-edit select::before,
-.app.window-app[id^=app-]:not(.dialog) select::before,
-.app.window-app.app.window-app[id^=permission-] select::before,
-.app.window-app#permission select::before,
-.app.window-app[id^=PlaylistSoundConfig-] select::before,
-.app.window-app[id^=RollTableConfig-] select::before,
-.app.window-app[id^=CardsHand-Cards-] select::before,
-.app.window-app[id^=client-settings] select::before,
-.app.window-app[id^=AmbientLightConfig-] select::before,
-.app.window-app[id^=PlaylistConfig-] select::before,
-.app.window-app[id^=support-details] select::before,
-.app.window-app[id^=UserConfig-User-] select::before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] select::before,
-.app.window-app#keybindings select::before,
-.app.window-app.macro-sheet select::before {
+.application:not(.sr5):not(.dialog) select::before {
   background-color: #000001;
 }
-.app.window-app.form option,
-.app.window-app.scene-sheet option,
-.app.window-app.token-sheet option,
-.app.window-app.combat-sheet option,
-.app.window-app.folder-edit option,
-.app.window-app[id^=app-]:not(.dialog) option,
-.app.window-app.app.window-app[id^=permission-] option,
-.app.window-app#permission option,
-.app.window-app[id^=PlaylistSoundConfig-] option,
-.app.window-app[id^=RollTableConfig-] option,
-.app.window-app[id^=CardsHand-Cards-] option,
-.app.window-app[id^=client-settings] option,
-.app.window-app[id^=AmbientLightConfig-] option,
-.app.window-app[id^=PlaylistConfig-] option,
-.app.window-app[id^=support-details] option,
-.app.window-app[id^=UserConfig-User-] option,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] option,
-.app.window-app#keybindings option,
-.app.window-app.macro-sheet option {
+.application:not(.sr5):not(.dialog) option {
   background-color: #000001;
 }
-.app.window-app.form option:hover,
-.app.window-app.scene-sheet option:hover,
-.app.window-app.token-sheet option:hover,
-.app.window-app.combat-sheet option:hover,
-.app.window-app.folder-edit option:hover,
-.app.window-app[id^=app-]:not(.dialog) option:hover,
-.app.window-app.app.window-app[id^=permission-] option:hover,
-.app.window-app#permission option:hover,
-.app.window-app[id^=PlaylistSoundConfig-] option:hover,
-.app.window-app[id^=RollTableConfig-] option:hover,
-.app.window-app[id^=CardsHand-Cards-] option:hover,
-.app.window-app[id^=client-settings] option:hover,
-.app.window-app[id^=AmbientLightConfig-] option:hover,
-.app.window-app[id^=PlaylistConfig-] option:hover,
-.app.window-app[id^=support-details] option:hover,
-.app.window-app[id^=UserConfig-User-] option:hover,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] option:hover,
-.app.window-app#keybindings option:hover,
-.app.window-app.macro-sheet option:hover {
+.application:not(.sr5):not(.dialog) option:hover {
   background-color: #0c9394;
 }
-.app.window-app.form button,
-.app.window-app.scene-sheet button,
-.app.window-app.token-sheet button,
-.app.window-app.combat-sheet button,
-.app.window-app.folder-edit button,
-.app.window-app[id^=app-]:not(.dialog) button,
-.app.window-app.app.window-app[id^=permission-] button,
-.app.window-app#permission button,
-.app.window-app[id^=PlaylistSoundConfig-] button,
-.app.window-app[id^=RollTableConfig-] button,
-.app.window-app[id^=CardsHand-Cards-] button,
-.app.window-app[id^=client-settings] button,
-.app.window-app[id^=AmbientLightConfig-] button,
-.app.window-app[id^=PlaylistConfig-] button,
-.app.window-app[id^=support-details] button,
-.app.window-app[id^=UserConfig-User-] button,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] button,
-.app.window-app#keybindings button,
-.app.window-app.macro-sheet button,
-.app.window-app.form a.display-mode,
-.app.window-app.scene-sheet a.display-mode,
-.app.window-app.token-sheet a.display-mode,
-.app.window-app.combat-sheet a.display-mode,
-.app.window-app.folder-edit a.display-mode,
-.app.window-app[id^=app-]:not(.dialog) a.display-mode,
-.app.window-app.app.window-app[id^=permission-] a.display-mode,
-.app.window-app#permission a.display-mode,
-.app.window-app[id^=PlaylistSoundConfig-] a.display-mode,
-.app.window-app[id^=RollTableConfig-] a.display-mode,
-.app.window-app[id^=CardsHand-Cards-] a.display-mode,
-.app.window-app[id^=client-settings] a.display-mode,
-.app.window-app[id^=AmbientLightConfig-] a.display-mode,
-.app.window-app[id^=PlaylistConfig-] a.display-mode,
-.app.window-app[id^=support-details] a.display-mode,
-.app.window-app[id^=UserConfig-User-] a.display-mode,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] a.display-mode,
-.app.window-app#keybindings a.display-mode,
-.app.window-app.macro-sheet a.display-mode {
+.application:not(.sr5):not(.dialog) button,
+.application:not(.sr5):not(.dialog) a.display-mode {
   color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   border: 1px solid #931004;
   background: rgba(147, 16, 4, 0.25);
   box-shadow: none;
+  /* v13: preserve FontAwesome icons in buttons */
 }
-.app.window-app.form button:hover,
-.app.window-app.scene-sheet button:hover,
-.app.window-app.token-sheet button:hover,
-.app.window-app.combat-sheet button:hover,
-.app.window-app.folder-edit button:hover,
-.app.window-app[id^=app-]:not(.dialog) button:hover,
-.app.window-app.app.window-app[id^=permission-] button:hover,
-.app.window-app#permission button:hover,
-.app.window-app[id^=PlaylistSoundConfig-] button:hover,
-.app.window-app[id^=RollTableConfig-] button:hover,
-.app.window-app[id^=CardsHand-Cards-] button:hover,
-.app.window-app[id^=client-settings] button:hover,
-.app.window-app[id^=AmbientLightConfig-] button:hover,
-.app.window-app[id^=PlaylistConfig-] button:hover,
-.app.window-app[id^=support-details] button:hover,
-.app.window-app[id^=UserConfig-User-] button:hover,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] button:hover,
-.app.window-app#keybindings button:hover,
-.app.window-app.macro-sheet button:hover,
-.app.window-app.form a.display-mode:hover,
-.app.window-app.scene-sheet a.display-mode:hover,
-.app.window-app.token-sheet a.display-mode:hover,
-.app.window-app.combat-sheet a.display-mode:hover,
-.app.window-app.folder-edit a.display-mode:hover,
-.app.window-app[id^=app-]:not(.dialog) a.display-mode:hover,
-.app.window-app.app.window-app[id^=permission-] a.display-mode:hover,
-.app.window-app#permission a.display-mode:hover,
-.app.window-app[id^=PlaylistSoundConfig-] a.display-mode:hover,
-.app.window-app[id^=RollTableConfig-] a.display-mode:hover,
-.app.window-app[id^=CardsHand-Cards-] a.display-mode:hover,
-.app.window-app[id^=client-settings] a.display-mode:hover,
-.app.window-app[id^=AmbientLightConfig-] a.display-mode:hover,
-.app.window-app[id^=PlaylistConfig-] a.display-mode:hover,
-.app.window-app[id^=support-details] a.display-mode:hover,
-.app.window-app[id^=UserConfig-User-] a.display-mode:hover,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] a.display-mode:hover,
-.app.window-app#keybindings a.display-mode:hover,
-.app.window-app.macro-sheet a.display-mode:hover {
+.application:not(.sr5):not(.dialog) button::before,
+.application:not(.sr5):not(.dialog) a.display-mode::before {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+.application:not(.sr5):not(.dialog) button i,
+.application:not(.sr5):not(.dialog) a.display-mode i {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+.application:not(.sr5):not(.dialog) button:hover,
+.application:not(.sr5):not(.dialog) a.display-mode:hover {
   color: #fffffe;
   background: rgba(12, 147, 148, 0.25);
   border-color: #0c9394;
   box-shadow: none;
 }
-.app.window-app.form input[type="text"],
-.app.window-app.scene-sheet input[type="text"],
-.app.window-app.token-sheet input[type="text"],
-.app.window-app.combat-sheet input[type="text"],
-.app.window-app.folder-edit input[type="text"],
-.app.window-app[id^=app-]:not(.dialog) input[type="text"],
-.app.window-app.app.window-app[id^=permission-] input[type="text"],
-.app.window-app#permission input[type="text"],
-.app.window-app[id^=PlaylistSoundConfig-] input[type="text"],
-.app.window-app[id^=RollTableConfig-] input[type="text"],
-.app.window-app[id^=CardsHand-Cards-] input[type="text"],
-.app.window-app[id^=client-settings] input[type="text"],
-.app.window-app[id^=AmbientLightConfig-] input[type="text"],
-.app.window-app[id^=PlaylistConfig-] input[type="text"],
-.app.window-app[id^=support-details] input[type="text"],
-.app.window-app[id^=UserConfig-User-] input[type="text"],
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="text"],
-.app.window-app#keybindings input[type="text"],
-.app.window-app.macro-sheet input[type="text"],
-.app.window-app.form input[type="number"],
-.app.window-app.scene-sheet input[type="number"],
-.app.window-app.token-sheet input[type="number"],
-.app.window-app.combat-sheet input[type="number"],
-.app.window-app.folder-edit input[type="number"],
-.app.window-app[id^=app-]:not(.dialog) input[type="number"],
-.app.window-app.app.window-app[id^=permission-] input[type="number"],
-.app.window-app#permission input[type="number"],
-.app.window-app[id^=PlaylistSoundConfig-] input[type="number"],
-.app.window-app[id^=RollTableConfig-] input[type="number"],
-.app.window-app[id^=CardsHand-Cards-] input[type="number"],
-.app.window-app[id^=client-settings] input[type="number"],
-.app.window-app[id^=AmbientLightConfig-] input[type="number"],
-.app.window-app[id^=PlaylistConfig-] input[type="number"],
-.app.window-app[id^=support-details] input[type="number"],
-.app.window-app[id^=UserConfig-User-] input[type="number"],
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="number"],
-.app.window-app#keybindings input[type="number"],
-.app.window-app.macro-sheet input[type="number"],
-.app.window-app.form input[type="color"],
-.app.window-app.scene-sheet input[type="color"],
-.app.window-app.token-sheet input[type="color"],
-.app.window-app.combat-sheet input[type="color"],
-.app.window-app.folder-edit input[type="color"],
-.app.window-app[id^=app-]:not(.dialog) input[type="color"],
-.app.window-app.app.window-app[id^=permission-] input[type="color"],
-.app.window-app#permission input[type="color"],
-.app.window-app[id^=PlaylistSoundConfig-] input[type="color"],
-.app.window-app[id^=RollTableConfig-] input[type="color"],
-.app.window-app[id^=CardsHand-Cards-] input[type="color"],
-.app.window-app[id^=client-settings] input[type="color"],
-.app.window-app[id^=AmbientLightConfig-] input[type="color"],
-.app.window-app[id^=PlaylistConfig-] input[type="color"],
-.app.window-app[id^=support-details] input[type="color"],
-.app.window-app[id^=UserConfig-User-] input[type="color"],
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="color"],
-.app.window-app#keybindings input[type="color"],
-.app.window-app.macro-sheet input[type="color"] {
+.application:not(.sr5):not(.dialog) input[type="text"],
+.application:not(.sr5):not(.dialog) input[type="number"],
+.application:not(.sr5):not(.dialog) input[type="color"] {
   color: #fffffe;
   border: 1px solid #931004;
 }
-.app.window-app.form input[type="text"]:focus,
-.app.window-app.scene-sheet input[type="text"]:focus,
-.app.window-app.token-sheet input[type="text"]:focus,
-.app.window-app.combat-sheet input[type="text"]:focus,
-.app.window-app.folder-edit input[type="text"]:focus,
-.app.window-app[id^=app-]:not(.dialog) input[type="text"]:focus,
-.app.window-app.app.window-app[id^=permission-] input[type="text"]:focus,
-.app.window-app#permission input[type="text"]:focus,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="text"]:focus,
-.app.window-app[id^=RollTableConfig-] input[type="text"]:focus,
-.app.window-app[id^=CardsHand-Cards-] input[type="text"]:focus,
-.app.window-app[id^=client-settings] input[type="text"]:focus,
-.app.window-app[id^=AmbientLightConfig-] input[type="text"]:focus,
-.app.window-app[id^=PlaylistConfig-] input[type="text"]:focus,
-.app.window-app[id^=support-details] input[type="text"]:focus,
-.app.window-app[id^=UserConfig-User-] input[type="text"]:focus,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="text"]:focus,
-.app.window-app#keybindings input[type="text"]:focus,
-.app.window-app.macro-sheet input[type="text"]:focus,
-.app.window-app.form input[type="number"]:focus,
-.app.window-app.scene-sheet input[type="number"]:focus,
-.app.window-app.token-sheet input[type="number"]:focus,
-.app.window-app.combat-sheet input[type="number"]:focus,
-.app.window-app.folder-edit input[type="number"]:focus,
-.app.window-app[id^=app-]:not(.dialog) input[type="number"]:focus,
-.app.window-app.app.window-app[id^=permission-] input[type="number"]:focus,
-.app.window-app#permission input[type="number"]:focus,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="number"]:focus,
-.app.window-app[id^=RollTableConfig-] input[type="number"]:focus,
-.app.window-app[id^=CardsHand-Cards-] input[type="number"]:focus,
-.app.window-app[id^=client-settings] input[type="number"]:focus,
-.app.window-app[id^=AmbientLightConfig-] input[type="number"]:focus,
-.app.window-app[id^=PlaylistConfig-] input[type="number"]:focus,
-.app.window-app[id^=support-details] input[type="number"]:focus,
-.app.window-app[id^=UserConfig-User-] input[type="number"]:focus,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="number"]:focus,
-.app.window-app#keybindings input[type="number"]:focus,
-.app.window-app.macro-sheet input[type="number"]:focus,
-.app.window-app.form input[type="color"]:focus,
-.app.window-app.scene-sheet input[type="color"]:focus,
-.app.window-app.token-sheet input[type="color"]:focus,
-.app.window-app.combat-sheet input[type="color"]:focus,
-.app.window-app.folder-edit input[type="color"]:focus,
-.app.window-app[id^=app-]:not(.dialog) input[type="color"]:focus,
-.app.window-app.app.window-app[id^=permission-] input[type="color"]:focus,
-.app.window-app#permission input[type="color"]:focus,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="color"]:focus,
-.app.window-app[id^=RollTableConfig-] input[type="color"]:focus,
-.app.window-app[id^=CardsHand-Cards-] input[type="color"]:focus,
-.app.window-app[id^=client-settings] input[type="color"]:focus,
-.app.window-app[id^=AmbientLightConfig-] input[type="color"]:focus,
-.app.window-app[id^=PlaylistConfig-] input[type="color"]:focus,
-.app.window-app[id^=support-details] input[type="color"]:focus,
-.app.window-app[id^=UserConfig-User-] input[type="color"]:focus,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="color"]:focus,
-.app.window-app#keybindings input[type="color"]:focus,
-.app.window-app.macro-sheet input[type="color"]:focus {
+.application:not(.sr5):not(.dialog) input[type="text"]:focus,
+.application:not(.sr5):not(.dialog) input[type="number"]:focus,
+.application:not(.sr5):not(.dialog) input[type="color"]:focus {
   border: 1px solid #0c9394;
   box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
-.app.window-app.form input[type="text"]::placeholder,
-.app.window-app.scene-sheet input[type="text"]::placeholder,
-.app.window-app.token-sheet input[type="text"]::placeholder,
-.app.window-app.combat-sheet input[type="text"]::placeholder,
-.app.window-app.folder-edit input[type="text"]::placeholder,
-.app.window-app[id^=app-]:not(.dialog) input[type="text"]::placeholder,
-.app.window-app.app.window-app[id^=permission-] input[type="text"]::placeholder,
-.app.window-app#permission input[type="text"]::placeholder,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="text"]::placeholder,
-.app.window-app[id^=RollTableConfig-] input[type="text"]::placeholder,
-.app.window-app[id^=CardsHand-Cards-] input[type="text"]::placeholder,
-.app.window-app[id^=client-settings] input[type="text"]::placeholder,
-.app.window-app[id^=AmbientLightConfig-] input[type="text"]::placeholder,
-.app.window-app[id^=PlaylistConfig-] input[type="text"]::placeholder,
-.app.window-app[id^=support-details] input[type="text"]::placeholder,
-.app.window-app[id^=UserConfig-User-] input[type="text"]::placeholder,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="text"]::placeholder,
-.app.window-app#keybindings input[type="text"]::placeholder,
-.app.window-app.macro-sheet input[type="text"]::placeholder,
-.app.window-app.form input[type="number"]::placeholder,
-.app.window-app.scene-sheet input[type="number"]::placeholder,
-.app.window-app.token-sheet input[type="number"]::placeholder,
-.app.window-app.combat-sheet input[type="number"]::placeholder,
-.app.window-app.folder-edit input[type="number"]::placeholder,
-.app.window-app[id^=app-]:not(.dialog) input[type="number"]::placeholder,
-.app.window-app.app.window-app[id^=permission-] input[type="number"]::placeholder,
-.app.window-app#permission input[type="number"]::placeholder,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="number"]::placeholder,
-.app.window-app[id^=RollTableConfig-] input[type="number"]::placeholder,
-.app.window-app[id^=CardsHand-Cards-] input[type="number"]::placeholder,
-.app.window-app[id^=client-settings] input[type="number"]::placeholder,
-.app.window-app[id^=AmbientLightConfig-] input[type="number"]::placeholder,
-.app.window-app[id^=PlaylistConfig-] input[type="number"]::placeholder,
-.app.window-app[id^=support-details] input[type="number"]::placeholder,
-.app.window-app[id^=UserConfig-User-] input[type="number"]::placeholder,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="number"]::placeholder,
-.app.window-app#keybindings input[type="number"]::placeholder,
-.app.window-app.macro-sheet input[type="number"]::placeholder,
-.app.window-app.form input[type="color"]::placeholder,
-.app.window-app.scene-sheet input[type="color"]::placeholder,
-.app.window-app.token-sheet input[type="color"]::placeholder,
-.app.window-app.combat-sheet input[type="color"]::placeholder,
-.app.window-app.folder-edit input[type="color"]::placeholder,
-.app.window-app[id^=app-]:not(.dialog) input[type="color"]::placeholder,
-.app.window-app.app.window-app[id^=permission-] input[type="color"]::placeholder,
-.app.window-app#permission input[type="color"]::placeholder,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="color"]::placeholder,
-.app.window-app[id^=RollTableConfig-] input[type="color"]::placeholder,
-.app.window-app[id^=CardsHand-Cards-] input[type="color"]::placeholder,
-.app.window-app[id^=client-settings] input[type="color"]::placeholder,
-.app.window-app[id^=AmbientLightConfig-] input[type="color"]::placeholder,
-.app.window-app[id^=PlaylistConfig-] input[type="color"]::placeholder,
-.app.window-app[id^=support-details] input[type="color"]::placeholder,
-.app.window-app[id^=UserConfig-User-] input[type="color"]::placeholder,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="color"]::placeholder,
-.app.window-app#keybindings input[type="color"]::placeholder,
-.app.window-app.macro-sheet input[type="color"]::placeholder {
+.application:not(.sr5):not(.dialog) input[type="text"]::placeholder,
+.application:not(.sr5):not(.dialog) input[type="number"]::placeholder,
+.application:not(.sr5):not(.dialog) input[type="color"]::placeholder {
   color: #931004;
 }
-.app.window-app.form input[type="checkbox"],
-.app.window-app.scene-sheet input[type="checkbox"],
-.app.window-app.token-sheet input[type="checkbox"],
-.app.window-app.combat-sheet input[type="checkbox"],
-.app.window-app.folder-edit input[type="checkbox"],
-.app.window-app[id^=app-]:not(.dialog) input[type="checkbox"],
-.app.window-app.app.window-app[id^=permission-] input[type="checkbox"],
-.app.window-app#permission input[type="checkbox"],
-.app.window-app[id^=PlaylistSoundConfig-] input[type="checkbox"],
-.app.window-app[id^=RollTableConfig-] input[type="checkbox"],
-.app.window-app[id^=CardsHand-Cards-] input[type="checkbox"],
-.app.window-app[id^=client-settings] input[type="checkbox"],
-.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"],
-.app.window-app[id^=PlaylistConfig-] input[type="checkbox"],
-.app.window-app[id^=support-details] input[type="checkbox"],
-.app.window-app[id^=UserConfig-User-] input[type="checkbox"],
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="checkbox"],
-.app.window-app#keybindings input[type="checkbox"],
-.app.window-app.macro-sheet input[type="checkbox"] {
+.application:not(.sr5):not(.dialog) input[type="checkbox"] {
   position: relative;
   color: #931004;
   border: 1px solid #931004;
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
-  appearance: none;
-  outline: 0;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 4px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  outline: 0 !important;
   cursor: pointer;
+  background: transparent !important;
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-  display: grid;
-  place-content: center;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
 }
-.app.window-app.form input[type="checkbox"]::before,
-.app.window-app.scene-sheet input[type="checkbox"]::before,
-.app.window-app.token-sheet input[type="checkbox"]::before,
-.app.window-app.combat-sheet input[type="checkbox"]::before,
-.app.window-app.folder-edit input[type="checkbox"]::before,
-.app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]::before,
-.app.window-app.app.window-app[id^=permission-] input[type="checkbox"]::before,
-.app.window-app#permission input[type="checkbox"]::before,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="checkbox"]::before,
-.app.window-app[id^=RollTableConfig-] input[type="checkbox"]::before,
-.app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]::before,
-.app.window-app[id^=client-settings] input[type="checkbox"]::before,
-.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]::before,
-.app.window-app[id^=PlaylistConfig-] input[type="checkbox"]::before,
-.app.window-app[id^=support-details] input[type="checkbox"]::before,
-.app.window-app[id^=UserConfig-User-] input[type="checkbox"]::before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="checkbox"]::before,
-.app.window-app#keybindings input[type="checkbox"]::before,
-.app.window-app.macro-sheet input[type="checkbox"]::before {
-  content: '';
-  display: block;
-  width: 4px;
-  height: 8px;
+.application:not(.sr5):not(.dialog) input[type="checkbox"]::before {
+  position: absolute !important;
+  content: '' !important;
+  display: block !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto auto auto calc(50% - 2px);
+  width: 5px !important;
+  height: 10px !important;
   border-style: solid;
   border-width: 0 2px 2px 0;
+  border-color: #fffffe;
   transform: rotate(45deg);
   opacity: 0;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: normal;
+  border-radius: 0 !important;
 }
-.app.window-app.form input[type="checkbox"]:checked,
-.app.window-app.scene-sheet input[type="checkbox"]:checked,
-.app.window-app.token-sheet input[type="checkbox"]:checked,
-.app.window-app.combat-sheet input[type="checkbox"]:checked,
-.app.window-app.folder-edit input[type="checkbox"]:checked,
-.app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]:checked,
-.app.window-app.app.window-app[id^=permission-] input[type="checkbox"]:checked,
-.app.window-app#permission input[type="checkbox"]:checked,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="checkbox"]:checked,
-.app.window-app[id^=RollTableConfig-] input[type="checkbox"]:checked,
-.app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]:checked,
-.app.window-app[id^=client-settings] input[type="checkbox"]:checked,
-.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked,
-.app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked,
-.app.window-app[id^=support-details] input[type="checkbox"]:checked,
-.app.window-app[id^=UserConfig-User-] input[type="checkbox"]:checked,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="checkbox"]:checked,
-.app.window-app#keybindings input[type="checkbox"]:checked,
-.app.window-app.macro-sheet input[type="checkbox"]:checked {
+.application:not(.sr5):not(.dialog) input[type="checkbox"]::after {
+  content: none !important;
+  display: none !important;
+}
+.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked {
   color: #fffffe;
   border-color: #0c9394;
   background: rgba(12, 147, 148, 0.5);
+  background: rgba(12, 147, 148, 0.5) !important;
 }
-.app.window-app.form input[type="checkbox"]:checked::before,
-.app.window-app.scene-sheet input[type="checkbox"]:checked::before,
-.app.window-app.token-sheet input[type="checkbox"]:checked::before,
-.app.window-app.combat-sheet input[type="checkbox"]:checked::before,
-.app.window-app.folder-edit input[type="checkbox"]:checked::before,
-.app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]:checked::before,
-.app.window-app.app.window-app[id^=permission-] input[type="checkbox"]:checked::before,
-.app.window-app#permission input[type="checkbox"]:checked::before,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="checkbox"]:checked::before,
-.app.window-app[id^=RollTableConfig-] input[type="checkbox"]:checked::before,
-.app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]:checked::before,
-.app.window-app[id^=client-settings] input[type="checkbox"]:checked::before,
-.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked::before,
-.app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked::before,
-.app.window-app[id^=support-details] input[type="checkbox"]:checked::before,
-.app.window-app[id^=UserConfig-User-] input[type="checkbox"]:checked::before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="checkbox"]:checked::before,
-.app.window-app#keybindings input[type="checkbox"]:checked::before,
-.app.window-app.macro-sheet input[type="checkbox"]:checked::before {
+.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked::before {
   opacity: 1;
 }
-.app.window-app.form input[type="checkbox"]:checked ~ label::before,
-.app.window-app.scene-sheet input[type="checkbox"]:checked ~ label::before,
-.app.window-app.token-sheet input[type="checkbox"]:checked ~ label::before,
-.app.window-app.combat-sheet input[type="checkbox"]:checked ~ label::before,
-.app.window-app.folder-edit input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=app-]:not(.dialog) input[type="checkbox"]:checked ~ label::before,
-.app.window-app.app.window-app[id^=permission-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app#permission input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=PlaylistSoundConfig-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=RollTableConfig-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=CardsHand-Cards-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=client-settings] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=AmbientLightConfig-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=PlaylistConfig-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=support-details] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=UserConfig-User-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] input[type="checkbox"]:checked ~ label::before,
-.app.window-app#keybindings input[type="checkbox"]:checked ~ label::before,
-.app.window-app.macro-sheet input[type="checkbox"]:checked ~ label::before {
+.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked::after {
+  content: none !important;
+  display: none !important;
+}
+.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
-.app.window-app.form h2,
-.app.window-app.scene-sheet h2,
-.app.window-app.token-sheet h2,
-.app.window-app.combat-sheet h2,
-.app.window-app.folder-edit h2,
-.app.window-app[id^=app-]:not(.dialog) h2,
-.app.window-app.app.window-app[id^=permission-] h2,
-.app.window-app#permission h2,
-.app.window-app[id^=PlaylistSoundConfig-] h2,
-.app.window-app[id^=RollTableConfig-] h2,
-.app.window-app[id^=CardsHand-Cards-] h2,
-.app.window-app[id^=client-settings] h2,
-.app.window-app[id^=AmbientLightConfig-] h2,
-.app.window-app[id^=PlaylistConfig-] h2,
-.app.window-app[id^=support-details] h2,
-.app.window-app[id^=UserConfig-User-] h2,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] h2,
-.app.window-app#keybindings h2,
-.app.window-app.macro-sheet h2,
-.app.window-app.form h3,
-.app.window-app.scene-sheet h3,
-.app.window-app.token-sheet h3,
-.app.window-app.combat-sheet h3,
-.app.window-app.folder-edit h3,
-.app.window-app[id^=app-]:not(.dialog) h3,
-.app.window-app.app.window-app[id^=permission-] h3,
-.app.window-app#permission h3,
-.app.window-app[id^=PlaylistSoundConfig-] h3,
-.app.window-app[id^=RollTableConfig-] h3,
-.app.window-app[id^=CardsHand-Cards-] h3,
-.app.window-app[id^=client-settings] h3,
-.app.window-app[id^=AmbientLightConfig-] h3,
-.app.window-app[id^=PlaylistConfig-] h3,
-.app.window-app[id^=support-details] h3,
-.app.window-app[id^=UserConfig-User-] h3,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] h3,
-.app.window-app#keybindings h3,
-.app.window-app.macro-sheet h3 {
+.application:not(.sr5):not(.dialog) h2,
+.application:not(.sr5):not(.dialog) h3 {
   font-family: "srfoundry_secondary";
   text-transform: uppercase;
   color: #fffffe;
   padding-left: 5px;
 }
-.app.window-app.form h2,
-.app.window-app.scene-sheet h2,
-.app.window-app.token-sheet h2,
-.app.window-app.combat-sheet h2,
-.app.window-app.folder-edit h2,
-.app.window-app[id^=app-]:not(.dialog) h2,
-.app.window-app.app.window-app[id^=permission-] h2,
-.app.window-app#permission h2,
-.app.window-app[id^=PlaylistSoundConfig-] h2,
-.app.window-app[id^=RollTableConfig-] h2,
-.app.window-app[id^=CardsHand-Cards-] h2,
-.app.window-app[id^=client-settings] h2,
-.app.window-app[id^=AmbientLightConfig-] h2,
-.app.window-app[id^=PlaylistConfig-] h2,
-.app.window-app[id^=support-details] h2,
-.app.window-app[id^=UserConfig-User-] h2,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] h2,
-.app.window-app#keybindings h2,
-.app.window-app.macro-sheet h2 {
+.application:not(.sr5):not(.dialog) h2 {
   text-align: center;
   border-top: 1px solid #0c9394;
   border-bottom: 1px solid #0c9394;
   background-color: rgba(12, 147, 148, 0.5);
 }
-.app.window-app.form h3,
-.app.window-app.scene-sheet h3,
-.app.window-app.token-sheet h3,
-.app.window-app.combat-sheet h3,
-.app.window-app.folder-edit h3,
-.app.window-app[id^=app-]:not(.dialog) h3,
-.app.window-app.app.window-app[id^=permission-] h3,
-.app.window-app#permission h3,
-.app.window-app[id^=PlaylistSoundConfig-] h3,
-.app.window-app[id^=RollTableConfig-] h3,
-.app.window-app[id^=CardsHand-Cards-] h3,
-.app.window-app[id^=client-settings] h3,
-.app.window-app[id^=AmbientLightConfig-] h3,
-.app.window-app[id^=PlaylistConfig-] h3,
-.app.window-app[id^=support-details] h3,
-.app.window-app[id^=UserConfig-User-] h3,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] h3,
-.app.window-app#keybindings h3,
-.app.window-app.macro-sheet h3 {
+.application:not(.sr5):not(.dialog) h3 {
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
 }
-.app.window-app.form span.units,
-.app.window-app.scene-sheet span.units,
-.app.window-app.token-sheet span.units,
-.app.window-app.combat-sheet span.units,
-.app.window-app.folder-edit span.units,
-.app.window-app[id^=app-]:not(.dialog) span.units,
-.app.window-app.app.window-app[id^=permission-] span.units,
-.app.window-app#permission span.units,
-.app.window-app[id^=PlaylistSoundConfig-] span.units,
-.app.window-app[id^=RollTableConfig-] span.units,
-.app.window-app[id^=CardsHand-Cards-] span.units,
-.app.window-app[id^=client-settings] span.units,
-.app.window-app[id^=AmbientLightConfig-] span.units,
-.app.window-app[id^=PlaylistConfig-] span.units,
-.app.window-app[id^=support-details] span.units,
-.app.window-app[id^=UserConfig-User-] span.units,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] span.units,
-.app.window-app#keybindings span.units,
-.app.window-app.macro-sheet span.units {
+.application:not(.sr5):not(.dialog) span.units {
   color: #0c9394;
 }
-.app.window-app.form nav,
-.app.window-app.scene-sheet nav,
-.app.window-app.token-sheet nav,
-.app.window-app.combat-sheet nav,
-.app.window-app.folder-edit nav,
-.app.window-app[id^=app-]:not(.dialog) nav,
-.app.window-app.app.window-app[id^=permission-] nav,
-.app.window-app#permission nav,
-.app.window-app[id^=PlaylistSoundConfig-] nav,
-.app.window-app[id^=RollTableConfig-] nav,
-.app.window-app[id^=CardsHand-Cards-] nav,
-.app.window-app[id^=client-settings] nav,
-.app.window-app[id^=AmbientLightConfig-] nav,
-.app.window-app[id^=PlaylistConfig-] nav,
-.app.window-app[id^=support-details] nav,
-.app.window-app[id^=UserConfig-User-] nav,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] nav,
-.app.window-app#keybindings nav,
-.app.window-app.macro-sheet nav {
+.application:not(.sr5):not(.dialog) nav {
   border-bottom: 1px solid #0c9394;
 }
-.app.window-app.form nav .item,
-.app.window-app.scene-sheet nav .item,
-.app.window-app.token-sheet nav .item,
-.app.window-app.combat-sheet nav .item,
-.app.window-app.folder-edit nav .item,
-.app.window-app[id^=app-]:not(.dialog) nav .item,
-.app.window-app.app.window-app[id^=permission-] nav .item,
-.app.window-app#permission nav .item,
-.app.window-app[id^=PlaylistSoundConfig-] nav .item,
-.app.window-app[id^=RollTableConfig-] nav .item,
-.app.window-app[id^=CardsHand-Cards-] nav .item,
-.app.window-app[id^=client-settings] nav .item,
-.app.window-app[id^=AmbientLightConfig-] nav .item,
-.app.window-app[id^=PlaylistConfig-] nav .item,
-.app.window-app[id^=support-details] nav .item,
-.app.window-app[id^=UserConfig-User-] nav .item,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] nav .item,
-.app.window-app#keybindings nav .item,
-.app.window-app.macro-sheet nav .item {
+.application:not(.sr5):not(.dialog) nav .item,
+.application:not(.sr5):not(.dialog) nav button.plain {
   color: #0c9394;
+  padding: 0 5px;
 }
-.app.window-app.form nav .item.active,
-.app.window-app.scene-sheet nav .item.active,
-.app.window-app.token-sheet nav .item.active,
-.app.window-app.combat-sheet nav .item.active,
-.app.window-app.folder-edit nav .item.active,
-.app.window-app[id^=app-]:not(.dialog) nav .item.active,
-.app.window-app.app.window-app[id^=permission-] nav .item.active,
-.app.window-app#permission nav .item.active,
-.app.window-app[id^=PlaylistSoundConfig-] nav .item.active,
-.app.window-app[id^=RollTableConfig-] nav .item.active,
-.app.window-app[id^=CardsHand-Cards-] nav .item.active,
-.app.window-app[id^=client-settings] nav .item.active,
-.app.window-app[id^=AmbientLightConfig-] nav .item.active,
-.app.window-app[id^=PlaylistConfig-] nav .item.active,
-.app.window-app[id^=support-details] nav .item.active,
-.app.window-app[id^=UserConfig-User-] nav .item.active,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] nav .item.active,
-.app.window-app#keybindings nav .item.active,
-.app.window-app.macro-sheet nav .item.active {
+.application:not(.sr5):not(.dialog) nav .item.active,
+.application:not(.sr5):not(.dialog) nav button.plain.active {
   color: #fffffe;
   border: none;
   box-shadow: none;
 }
-.app.window-app.form nav .item:hover,
-.app.window-app.scene-sheet nav .item:hover,
-.app.window-app.token-sheet nav .item:hover,
-.app.window-app.combat-sheet nav .item:hover,
-.app.window-app.folder-edit nav .item:hover,
-.app.window-app[id^=app-]:not(.dialog) nav .item:hover,
-.app.window-app.app.window-app[id^=permission-] nav .item:hover,
-.app.window-app#permission nav .item:hover,
-.app.window-app[id^=PlaylistSoundConfig-] nav .item:hover,
-.app.window-app[id^=RollTableConfig-] nav .item:hover,
-.app.window-app[id^=CardsHand-Cards-] nav .item:hover,
-.app.window-app[id^=client-settings] nav .item:hover,
-.app.window-app[id^=AmbientLightConfig-] nav .item:hover,
-.app.window-app[id^=PlaylistConfig-] nav .item:hover,
-.app.window-app[id^=support-details] nav .item:hover,
-.app.window-app[id^=UserConfig-User-] nav .item:hover,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] nav .item:hover,
-.app.window-app#keybindings nav .item:hover,
-.app.window-app.macro-sheet nav .item:hover {
+.application:not(.sr5):not(.dialog) nav .item:hover,
+.application:not(.sr5):not(.dialog) nav button.plain:hover {
   color: #931004;
 }
-.app.window-app.form .window-content,
-.app.window-app.scene-sheet .window-content,
-.app.window-app.token-sheet .window-content,
-.app.window-app.combat-sheet .window-content,
-.app.window-app.folder-edit .window-content,
-.app.window-app[id^=app-]:not(.dialog) .window-content,
-.app.window-app.app.window-app[id^=permission-] .window-content,
-.app.window-app#permission .window-content,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content,
-.app.window-app[id^=RollTableConfig-] .window-content,
-.app.window-app[id^=CardsHand-Cards-] .window-content,
-.app.window-app[id^=client-settings] .window-content,
-.app.window-app[id^=AmbientLightConfig-] .window-content,
-.app.window-app[id^=PlaylistConfig-] .window-content,
-.app.window-app[id^=support-details] .window-content,
-.app.window-app[id^=UserConfig-User-] .window-content,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content,
-.app.window-app#keybindings .window-content,
-.app.window-app.macro-sheet .window-content {
+.application:not(.sr5):not(.dialog) .standard-form .form-group > label {
+  color: #fffffe;
+}
+.application:not(.sr5):not(.dialog) .standard-form .hint {
+  color: #0c9394;
+}
+.application:not(.sr5):not(.dialog) .standard-form fieldset {
+  border-color: rgba(147, 16, 4, 0.5);
+}
+.application:not(.sr5):not(.dialog) .standard-form fieldset legend {
+  color: #fffffe;
+}
+.application:not(.sr5):not(.dialog) .window-content {
   padding: 8px;
   background-image: linear-gradient(rgba(0, 0, 1, 0.45), rgba(0, 0, 1, 0.45)), url("../img/ui/SR5_BG_Sidebar.jpg");
   background-origin: border-box;
   background-size: cover;
   color: #fffffe;
 }
-.app.window-app.form .window-content header.form-header,
-.app.window-app.scene-sheet .window-content header.form-header,
-.app.window-app.token-sheet .window-content header.form-header,
-.app.window-app.combat-sheet .window-content header.form-header,
-.app.window-app.folder-edit .window-content header.form-header,
-.app.window-app[id^=app-]:not(.dialog) .window-content header.form-header,
-.app.window-app.app.window-app[id^=permission-] .window-content header.form-header,
-.app.window-app#permission .window-content header.form-header,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content header.form-header,
-.app.window-app[id^=RollTableConfig-] .window-content header.form-header,
-.app.window-app[id^=CardsHand-Cards-] .window-content header.form-header,
-.app.window-app[id^=client-settings] .window-content header.form-header,
-.app.window-app[id^=AmbientLightConfig-] .window-content header.form-header,
-.app.window-app[id^=PlaylistConfig-] .window-content header.form-header,
-.app.window-app[id^=support-details] .window-content header.form-header,
-.app.window-app[id^=UserConfig-User-] .window-content header.form-header,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content header.form-header,
-.app.window-app#keybindings .window-content header.form-header,
-.app.window-app.macro-sheet .window-content header.form-header {
+.application:not(.sr5):not(.dialog) .window-content header.form-header {
   border-top: none;
   border-bottom: none;
   margin-top: 0px;
 }
-.app.window-app.form .window-content .form-header,
-.app.window-app.scene-sheet .window-content .form-header,
-.app.window-app.token-sheet .window-content .form-header,
-.app.window-app.combat-sheet .window-content .form-header,
-.app.window-app.folder-edit .window-content .form-header,
-.app.window-app[id^=app-]:not(.dialog) .window-content .form-header,
-.app.window-app.app.window-app[id^=permission-] .window-content .form-header,
-.app.window-app#permission .window-content .form-header,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content .form-header,
-.app.window-app[id^=RollTableConfig-] .window-content .form-header,
-.app.window-app[id^=CardsHand-Cards-] .window-content .form-header,
-.app.window-app[id^=client-settings] .window-content .form-header,
-.app.window-app[id^=AmbientLightConfig-] .window-content .form-header,
-.app.window-app[id^=PlaylistConfig-] .window-content .form-header,
-.app.window-app[id^=support-details] .window-content .form-header,
-.app.window-app[id^=UserConfig-User-] .window-content .form-header,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content .form-header,
-.app.window-app#keybindings .window-content .form-header,
-.app.window-app.macro-sheet .window-content .form-header {
+.application:not(.sr5):not(.dialog) .window-content .form-header {
   margin-top: 5px;
 }
-.app.window-app.form .window-content .notes,
-.app.window-app.scene-sheet .window-content .notes,
-.app.window-app.token-sheet .window-content .notes,
-.app.window-app.combat-sheet .window-content .notes,
-.app.window-app.folder-edit .window-content .notes,
-.app.window-app[id^=app-]:not(.dialog) .window-content .notes,
-.app.window-app.app.window-app[id^=permission-] .window-content .notes,
-.app.window-app#permission .window-content .notes,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content .notes,
-.app.window-app[id^=RollTableConfig-] .window-content .notes,
-.app.window-app[id^=CardsHand-Cards-] .window-content .notes,
-.app.window-app[id^=client-settings] .window-content .notes,
-.app.window-app[id^=AmbientLightConfig-] .window-content .notes,
-.app.window-app[id^=PlaylistConfig-] .window-content .notes,
-.app.window-app[id^=support-details] .window-content .notes,
-.app.window-app[id^=UserConfig-User-] .window-content .notes,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content .notes,
-.app.window-app#keybindings .window-content .notes,
-.app.window-app.macro-sheet .window-content .notes {
+.application:not(.sr5):not(.dialog) .window-content .notes {
   color: #0c9394;
   line-height: 14px;
   margin-top: 0px;
 }
-.app.window-app.form .window-content textarea[name=command],
-.app.window-app.scene-sheet .window-content textarea[name=command],
-.app.window-app.token-sheet .window-content textarea[name=command],
-.app.window-app.combat-sheet .window-content textarea[name=command],
-.app.window-app.folder-edit .window-content textarea[name=command],
-.app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=command],
-.app.window-app.app.window-app[id^=permission-] .window-content textarea[name=command],
-.app.window-app#permission .window-content textarea[name=command],
-.app.window-app[id^=PlaylistSoundConfig-] .window-content textarea[name=command],
-.app.window-app[id^=RollTableConfig-] .window-content textarea[name=command],
-.app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=command],
-.app.window-app[id^=client-settings] .window-content textarea[name=command],
-.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command],
-.app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command],
-.app.window-app[id^=support-details] .window-content textarea[name=command],
-.app.window-app[id^=UserConfig-User-] .window-content textarea[name=command],
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content textarea[name=command],
-.app.window-app#keybindings .window-content textarea[name=command],
-.app.window-app.macro-sheet .window-content textarea[name=command] {
+.application:not(.sr5):not(.dialog) .window-content textarea[name=command] {
   background-color: rgba(147, 16, 4, 0.25);
   border: 1px solid #931004;
   color: #fffffe;
 }
-.app.window-app.form .window-content textarea[name=command]:focus,
-.app.window-app.scene-sheet .window-content textarea[name=command]:focus,
-.app.window-app.token-sheet .window-content textarea[name=command]:focus,
-.app.window-app.combat-sheet .window-content textarea[name=command]:focus,
-.app.window-app.folder-edit .window-content textarea[name=command]:focus,
-.app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=command]:focus,
-.app.window-app.app.window-app[id^=permission-] .window-content textarea[name=command]:focus,
-.app.window-app#permission .window-content textarea[name=command]:focus,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content textarea[name=command]:focus,
-.app.window-app[id^=RollTableConfig-] .window-content textarea[name=command]:focus,
-.app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=command]:focus,
-.app.window-app[id^=client-settings] .window-content textarea[name=command]:focus,
-.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command]:focus,
-.app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command]:focus,
-.app.window-app[id^=support-details] .window-content textarea[name=command]:focus,
-.app.window-app[id^=UserConfig-User-] .window-content textarea[name=command]:focus,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content textarea[name=command]:focus,
-.app.window-app#keybindings .window-content textarea[name=command]:focus,
-.app.window-app.macro-sheet .window-content textarea[name=command]:focus {
+.application:not(.sr5):not(.dialog) .window-content textarea[name=command]:focus {
   border: 1px solid #0c9394;
   outline: none;
   box-shadow: 0 0 5px #0c9394;
   color: #fffffe;
 }
-.app.window-app.form .window-content textarea[name=command]::selection,
-.app.window-app.scene-sheet .window-content textarea[name=command]::selection,
-.app.window-app.token-sheet .window-content textarea[name=command]::selection,
-.app.window-app.combat-sheet .window-content textarea[name=command]::selection,
-.app.window-app.folder-edit .window-content textarea[name=command]::selection,
-.app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=command]::selection,
-.app.window-app.app.window-app[id^=permission-] .window-content textarea[name=command]::selection,
-.app.window-app#permission .window-content textarea[name=command]::selection,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content textarea[name=command]::selection,
-.app.window-app[id^=RollTableConfig-] .window-content textarea[name=command]::selection,
-.app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=command]::selection,
-.app.window-app[id^=client-settings] .window-content textarea[name=command]::selection,
-.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=command]::selection,
-.app.window-app[id^=PlaylistConfig-] .window-content textarea[name=command]::selection,
-.app.window-app[id^=support-details] .window-content textarea[name=command]::selection,
-.app.window-app[id^=UserConfig-User-] .window-content textarea[name=command]::selection,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content textarea[name=command]::selection,
-.app.window-app#keybindings .window-content textarea[name=command]::selection,
-.app.window-app.macro-sheet .window-content textarea[name=command]::selection {
+.application:not(.sr5):not(.dialog) .window-content textarea[name=command]::selection {
   background-color: rgba(12, 147, 148, 0.5);
 }
-.app.window-app.form .window-content textarea[name=description],
-.app.window-app.scene-sheet .window-content textarea[name=description],
-.app.window-app.token-sheet .window-content textarea[name=description],
-.app.window-app.combat-sheet .window-content textarea[name=description],
-.app.window-app.folder-edit .window-content textarea[name=description],
-.app.window-app[id^=app-]:not(.dialog) .window-content textarea[name=description],
-.app.window-app.app.window-app[id^=permission-] .window-content textarea[name=description],
-.app.window-app#permission .window-content textarea[name=description],
-.app.window-app[id^=PlaylistSoundConfig-] .window-content textarea[name=description],
-.app.window-app[id^=RollTableConfig-] .window-content textarea[name=description],
-.app.window-app[id^=CardsHand-Cards-] .window-content textarea[name=description],
-.app.window-app[id^=client-settings] .window-content textarea[name=description],
-.app.window-app[id^=AmbientLightConfig-] .window-content textarea[name=description],
-.app.window-app[id^=PlaylistConfig-] .window-content textarea[name=description],
-.app.window-app[id^=support-details] .window-content textarea[name=description],
-.app.window-app[id^=UserConfig-User-] .window-content textarea[name=description],
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content textarea[name=description],
-.app.window-app#keybindings .window-content textarea[name=description],
-.app.window-app.macro-sheet .window-content textarea[name=description] {
+.application:not(.sr5):not(.dialog) .window-content textarea[name=description] {
   color: #fffffe;
   border: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.25);
 }
-.app.window-app.form .window-content .command,
-.app.window-app.scene-sheet .window-content .command,
-.app.window-app.token-sheet .window-content .command,
-.app.window-app.combat-sheet .window-content .command,
-.app.window-app.folder-edit .window-content .command,
-.app.window-app[id^=app-]:not(.dialog) .window-content .command,
-.app.window-app.app.window-app[id^=permission-] .window-content .command,
-.app.window-app#permission .window-content .command,
-.app.window-app[id^=PlaylistSoundConfig-] .window-content .command,
-.app.window-app[id^=RollTableConfig-] .window-content .command,
-.app.window-app[id^=CardsHand-Cards-] .window-content .command,
-.app.window-app[id^=client-settings] .window-content .command,
-.app.window-app[id^=AmbientLightConfig-] .window-content .command,
-.app.window-app[id^=PlaylistConfig-] .window-content .command,
-.app.window-app[id^=support-details] .window-content .command,
-.app.window-app[id^=UserConfig-User-] .window-content .command,
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content .command,
-.app.window-app#keybindings .window-content .command,
-.app.window-app.macro-sheet .window-content .command {
+.application:not(.sr5):not(.dialog) .window-content .command {
   margin-bottom: 10px;
 }
-.app.window-app.form .window-content table tr:nth-child(even),
-.app.window-app.scene-sheet .window-content table tr:nth-child(even),
-.app.window-app.token-sheet .window-content table tr:nth-child(even),
-.app.window-app.combat-sheet .window-content table tr:nth-child(even),
-.app.window-app.folder-edit .window-content table tr:nth-child(even),
-.app.window-app[id^=app-]:not(.dialog) .window-content table tr:nth-child(even),
-.app.window-app.app.window-app[id^=permission-] .window-content table tr:nth-child(even),
-.app.window-app#permission .window-content table tr:nth-child(even),
-.app.window-app[id^=PlaylistSoundConfig-] .window-content table tr:nth-child(even),
-.app.window-app[id^=RollTableConfig-] .window-content table tr:nth-child(even),
-.app.window-app[id^=CardsHand-Cards-] .window-content table tr:nth-child(even),
-.app.window-app[id^=client-settings] .window-content table tr:nth-child(even),
-.app.window-app[id^=AmbientLightConfig-] .window-content table tr:nth-child(even),
-.app.window-app[id^=PlaylistConfig-] .window-content table tr:nth-child(even),
-.app.window-app[id^=support-details] .window-content table tr:nth-child(even),
-.app.window-app[id^=UserConfig-User-] .window-content table tr:nth-child(even),
-.app.window-app[id^=SR5MeasuredTemplateConfig-] .window-content table tr:nth-child(even),
-.app.window-app#keybindings .window-content table tr:nth-child(even),
-.app.window-app.macro-sheet .window-content table tr:nth-child(even) {
+.application:not(.sr5):not(.dialog) .window-content table tr:nth-child(even) {
   background-color: rgba(147, 16, 4, 0.25);
 }
-.app.window-app.journal-sheet .window-content {
+.application.journal-sheet .window-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
   background-size: auto 80px, auto 80px, cover;
   background-position: top, bottom, top;
   background-repeat: repeat-x, repeat-x, repeat;
 }
-.app.window-app.journal-sheet .window-content select {
+.application.journal-sheet .window-content select {
   border: 1px solid #931004;
   color: #fffffe;
 }
-.app.window-app.journal-sheet .window-content select:focus {
+.application.journal-sheet .window-content select:focus {
   box-shadow: 0 0 5px #0c9394;
   border: 1px solid #0c9394;
 }
-.app.window-app.journal-sheet .window-content input[type="search"] {
+.application.journal-sheet .window-content input[type="search"] {
   font-family: "srfoundry_regular";
   color: #fffffe;
   border: 1px solid #931004;
   background: rgba(0, 0, 1, 0.3);
   text-transform: none;
 }
-.app.window-app.journal-sheet .window-content input {
+.application.journal-sheet .window-content input {
   background: none;
   color: #fffffe;
   font-family: "srfoundry_secondary";
@@ -4081,112 +3386,121 @@ input[type=range]:focus::-ms-fill-upper {
   border: none;
   text-align: center;
 }
-.app.window-app.journal-sheet .window-content input:focus,
-.app.window-app.journal-sheet .window-content input:hover {
+.application.journal-sheet .window-content input:focus,
+.application.journal-sheet .window-content input:hover {
   box-shadow: 0 0 5px #0c9394;
   border: 1px solid #0c9394;
 }
-.app.window-app.journal-sheet .window-content input.image {
+.application.journal-sheet .window-content input.image {
   font-family: "srfoundry_regular";
   color: #fffffe;
   border: 1px solid #931004;
   font-size: 1em;
   text-align: left;
 }
-.app.window-app.journal-sheet .window-content input.image:focus,
-.app.window-app.journal-sheet .window-content input.image:hover {
+.application.journal-sheet .window-content input.image:focus,
+.application.journal-sheet .window-content input.image:hover {
   border: 1px solid #0c9394;
 }
-.app.window-app.journal-sheet .window-content h1,
-.app.window-app.journal-sheet .window-content h2,
-.app.window-app.journal-sheet .window-content h3,
-.app.window-app.journal-sheet .window-content h4 {
+.application.journal-sheet .window-content h1,
+.application.journal-sheet .window-content h2,
+.application.journal-sheet .window-content h3,
+.application.journal-sheet .window-content h4 {
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   color: #000001;
 }
-.app.window-app.journal-sheet .window-content h1:not(:first-child),
-.app.window-app.journal-sheet .window-content h2:not(:first-child),
-.app.window-app.journal-sheet .window-content h3:not(:first-child),
-.app.window-app.journal-sheet .window-content h4:not(:first-child) {
+.application.journal-sheet .window-content h1:not(:first-child),
+.application.journal-sheet .window-content h2:not(:first-child),
+.application.journal-sheet .window-content h3:not(:first-child),
+.application.journal-sheet .window-content h4:not(:first-child) {
   margin-top: 20px;
 }
-.app.window-app.journal-sheet .window-content h1 {
+.application.journal-sheet .window-content h1 {
   border-bottom: 4px solid #931004;
   font-size: 2em;
 }
-.app.window-app.journal-sheet .window-content h2 {
+.application.journal-sheet .window-content h2 {
   border-bottom: 2px solid #931004;
   font-size: 1.5em;
 }
-.app.window-app.journal-sheet .window-content h3 {
+.application.journal-sheet .window-content h3 {
   border-bottom: 2px solid #0c9394;
 }
-.app.window-app.journal-sheet .window-content .title {
+.application.journal-sheet .window-content .title {
   font-size: 2em;
 }
-.app.window-app.journal-sheet .window-content button:not(.tox-tbtn) {
+.application.journal-sheet .window-content button:not(.tox-tbtn) {
   color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   border: 1px solid #931004;
   background: rgba(147, 16, 4, 0.25);
   box-shadow: none;
+  /* v13: preserve FontAwesome icons in buttons */
   font-size: 0.9em;
 }
-.app.window-app.journal-sheet .window-content button:not(.tox-tbtn):hover {
+.application.journal-sheet .window-content button:not(.tox-tbtn)::before {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+.application.journal-sheet .window-content button:not(.tox-tbtn) i {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+.application.journal-sheet .window-content button:not(.tox-tbtn):hover {
   color: #fffffe;
   background: rgba(12, 147, 148, 0.25);
   border-color: #0c9394;
   box-shadow: none;
 }
-.app.window-app.journal-sheet .window-content .journal-header {
+.application.journal-sheet .window-content .journal-header {
   display: block;
 }
-.app.window-app.journal-sheet .window-content ul {
+.application.journal-sheet .window-content ul {
   list-style-type: disc;
   margin: 0;
   padding: 0 0 0 1.5em;
 }
-.app.window-app.journal-sheet .sidebar {
+.application.journal-sheet .sidebar {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-size: cover;
   background-position: top;
   background-repeat: repeat;
 }
-.app.window-app.journal-sheet .journal-entry-page p,
-.app.window-app.journal-sheet .journal-page-content p {
+.application.journal-sheet .journal-entry-page p,
+.application.journal-sheet .journal-page-content p {
   font-family: "srfoundry_journal";
 }
-.app.window-app.journal-sheet .journal-entry-page code,
-.app.window-app.journal-sheet .journal-page-content code {
+.application.journal-sheet .journal-entry-page code,
+.application.journal-sheet .journal-page-content code {
   text-wrap: wrap;
   font-family: "srfoundry_regular";
 }
-.app.window-app.journal-sheet .journal-entry-page blockquote,
-.app.window-app.journal-sheet .journal-page-content blockquote {
+.application.journal-sheet .journal-entry-page blockquote,
+.application.journal-sheet .journal-page-content blockquote {
   background: rgba(147, 16, 4, 0.1);
   border: 1px solid #931004;
   margin: 1em 0 1em 0;
   padding: 0px 10px 0px 10px;
 }
-.app.window-app.journal-sheet .journal-entry-page blockquote p,
-.app.window-app.journal-sheet .journal-page-content blockquote p {
+.application.journal-sheet .journal-entry-page blockquote p,
+.application.journal-sheet .journal-page-content blockquote p {
   font-family: "srfoundry_regular";
   font-style: normal;
 }
-.app.window-app.journal-sheet .journal-entry-page blockquote p:not(:first-child),
-.app.window-app.journal-sheet .journal-page-content blockquote p:not(:first-child) {
+.application.journal-sheet .journal-entry-page blockquote p:not(:first-child),
+.application.journal-sheet .journal-page-content blockquote p:not(:first-child) {
   margin-top: 0px;
 }
-.app.window-app.journal-sheet .journal-entry-page blockquote h1,
-.app.window-app.journal-sheet .journal-page-content blockquote h1,
-.app.window-app.journal-sheet .journal-entry-page blockquote h2,
-.app.window-app.journal-sheet .journal-page-content blockquote h2,
-.app.window-app.journal-sheet .journal-entry-page blockquote h3,
-.app.window-app.journal-sheet .journal-page-content blockquote h3,
-.app.window-app.journal-sheet .journal-entry-page blockquote h4,
-.app.window-app.journal-sheet .journal-page-content blockquote h4 {
+.application.journal-sheet .journal-entry-page blockquote h1,
+.application.journal-sheet .journal-page-content blockquote h1,
+.application.journal-sheet .journal-entry-page blockquote h2,
+.application.journal-sheet .journal-page-content blockquote h2,
+.application.journal-sheet .journal-entry-page blockquote h3,
+.application.journal-sheet .journal-page-content blockquote h3,
+.application.journal-sheet .journal-entry-page blockquote h4,
+.application.journal-sheet .journal-page-content blockquote h4 {
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   color: #931004;
@@ -4194,58 +3508,58 @@ input[type=range]:focus::-ms-fill-upper {
   border-bottom: none;
   margin-bottom: 0;
 }
-.app.window-app.journal-sheet .journal-entry-page blockquote h1:not(:first-child),
-.app.window-app.journal-sheet .journal-page-content blockquote h1:not(:first-child),
-.app.window-app.journal-sheet .journal-entry-page blockquote h2:not(:first-child),
-.app.window-app.journal-sheet .journal-page-content blockquote h2:not(:first-child),
-.app.window-app.journal-sheet .journal-entry-page blockquote h3:not(:first-child),
-.app.window-app.journal-sheet .journal-page-content blockquote h3:not(:first-child),
-.app.window-app.journal-sheet .journal-entry-page blockquote h4:not(:first-child),
-.app.window-app.journal-sheet .journal-page-content blockquote h4:not(:first-child) {
+.application.journal-sheet .journal-entry-page blockquote h1:not(:first-child),
+.application.journal-sheet .journal-page-content blockquote h1:not(:first-child),
+.application.journal-sheet .journal-entry-page blockquote h2:not(:first-child),
+.application.journal-sheet .journal-page-content blockquote h2:not(:first-child),
+.application.journal-sheet .journal-entry-page blockquote h3:not(:first-child),
+.application.journal-sheet .journal-page-content blockquote h3:not(:first-child),
+.application.journal-sheet .journal-entry-page blockquote h4:not(:first-child),
+.application.journal-sheet .journal-page-content blockquote h4:not(:first-child) {
   margin-top: 20px;
 }
-.app.window-app.journal-sheet .journal-entry-page a.content-link,
-.app.window-app.journal-sheet .journal-page-content a.content-link {
+.application.journal-sheet .journal-entry-page a.content-link,
+.application.journal-sheet .journal-page-content a.content-link {
   color: #931004;
   background: transparent;
   border: none;
   font-family: "srfoundry_regular";
 }
-.app.window-app.journal-sheet .journal-entry-page a.content-link i,
-.app.window-app.journal-sheet .journal-page-content a.content-link i {
+.application.journal-sheet .journal-entry-page a.content-link i,
+.application.journal-sheet .journal-page-content a.content-link i {
   color: #931004;
 }
-.app.window-app.journal-sheet .journal-entry-content {
+.application.journal-sheet .journal-entry-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_Blanc.jpg");
   background-size: auto 90px, cover;
   background-position: top, top;
   background-repeat: repeat-x, repeat;
 }
-.app.window-app.filepicker .directory {
+.application.filepicker .directory {
   border: 1px solid #0c9394;
 }
-.app.window-app.filepicker .directory li {
+.application.filepicker .directory li {
   background-image: linear-gradient(to right, rgba(12, 147, 148, 0.25) 0, rgba(12, 147, 148, 0.25) 100%);
   background-position: left 50%;
   background-size: 0 90%;
   background-repeat: no-repeat;
   transition: background 0.5s;
 }
-.app.window-app.filepicker .directory li:hover {
+.application.filepicker .directory li:hover {
   background-size: 100% 90%;
   text-shadow: none;
 }
-.app.window-app.filepicker nav.tabs {
+.application.filepicker nav.tabs {
   border-bottom: 2px solid #0c9394;
 }
-.app.window-app.filepicker nav.tabs a {
+.application.filepicker nav.tabs a {
   font-family: "srfoundry_primary";
   text-transform: uppercase;
 }
-.app.sidebar-popout .window-header {
+.application.sidebar-popout .window-header {
   background: #000001;
 }
-.app.sidebar-popout .window-content {
+.application.sidebar-popout .window-content {
   background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
   background-size: cover;
 }
@@ -4578,7 +3892,16 @@ input[type=range]:focus::-ms-fill-upper {
   border: 1px solid #931004;
   background: rgba(147, 16, 4, 0.25);
   box-shadow: none;
+  /* v13: preserve FontAwesome icons in buttons */
   font-size: 0.9em;
+}
+.sidebar-tab button:not(.messageAction):not(.ui-control)::before {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+.sidebar-tab button:not(.messageAction):not(.ui-control) i {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
 }
 .sidebar-tab button:not(.messageAction):not(.ui-control):hover {
   color: #fffffe;
@@ -4676,6 +3999,32 @@ input[type=range]:focus::-ms-fill-upper {
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
+}
+#settings a {
+  color: rgba(255, 255, 254, 0.75);
+  font-family: "srfoundry_primary";
+  text-transform: uppercase;
+  border: 1px solid #931004;
+  background: rgba(147, 16, 4, 0.25);
+  box-shadow: none;
+  /* v13: preserve FontAwesome icons in buttons */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+#settings a::before {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+#settings a i {
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+#settings a:hover {
+  color: #fffffe;
+  background: rgba(12, 147, 148, 0.25);
+  border-color: #0c9394;
+  box-shadow: none;
 }
 /* v13: context menu — color theming only */
 #context-menu {
@@ -4895,22 +4244,13 @@ input[type=range]:focus::-ms-fill-upper {
 .compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
   color: rgba(255, 255, 254, 0.5);
 }
-#client-settings nav.tabs,
-#av-config nav.tabs {
-  border-bottom: 1px solid #0c9394;
-  color: #fffffe;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-}
-#client-settings .content .form-group,
-#av-config .content .form-group {
+.application:not(.sr5):not(.dialog) .form-group {
   border-bottom: 1px solid rgba(147, 16, 4, 0.5);
+  padding-bottom: 8px;
 }
-#client-settings .sheet-footer,
-#av-config .sheet-footer {
+.application:not(.sr5):not(.dialog) .form-footer {
   padding: 8px 0 8px 0;
   margin-top: 8px;
-  border-top: 2px solid #0c9394;
 }
 /* v13: characters — color theming only */
 #characters h3 {

@@ -1,10 +1,10 @@
 @import "./commons/ui-mixins.less";
 
-.app {
+.application {
     color: @neutralLightColor;
     background: none;
 
-    &.window-app {
+    & {
         .window-header {
             background: @neutralDarkColor;
         }
@@ -13,9 +13,7 @@
             background: @neutralLightColor;
         }
 
-        &.form, &.scene-sheet, &.token-sheet, &.combat-sheet, &.folder-edit, &[id^=app-]:not(.dialog),&&[id^=permission-], 
-        &#permission, &[id^=PlaylistSoundConfig-], &[id^=RollTableConfig-], &[id^=CardsHand-Cards-], &[id^=client-settings], &[id^=AmbientLightConfig-], &[id^=PlaylistConfig-],
-        &[id^=support-details], &[id^=UserConfig-User-], &[id^=SR5MeasuredTemplateConfig-], &#keybindings, &.macro-sheet {
+        &:not(.sr5):not(.dialog) {
             select{
                 .sr5-select();
 
@@ -58,31 +56,59 @@
             input[type="checkbox"] {
                 position: relative;
                 .sr5-checkbox();
-                width: 14px;
-                height: 14px;
-                border-radius: 4px;
-                appearance: none;
-                outline: 0;
+                width: 14px !important;
+                height: 14px !important;
+                border-radius: 4px !important;
+                appearance: none !important;
+                -webkit-appearance: none !important;
+                outline: 0 !important;
                 cursor: pointer;
+                background: transparent !important;
                 transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-                display: grid;
-                place-content: center;
+                display: inline-block;
+                vertical-align: middle;
+                overflow: hidden;
 
                 &::before {
-                    content: '';
-                    display: block;
-                    width: 4px;
-                    height: 8px;
+                    position: absolute !important;
+                    content: '' !important;
+                    display: block !important;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    margin: auto auto auto calc(50% - 2px);
+                    width: 5px !important;
+                    height: 10px !important;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
+                    border-color: @neutralLightColor;
                     transform: rotate(45deg);
                     opacity: 0;
+                    font-family: inherit !important;
+                    font-size: inherit !important;
+                    line-height: normal;
+                    border-radius: 0 !important;
                 }
+
+                &::after {
+                    content: none !important;
+                    display: none !important;
+                }
+
                 &:checked {
                     .sr5-checkbox-checked();
+                    background: fade(@subColor, 50%) !important;
+
                     &::before {
                         opacity: 1;
                     }
+
+                    &::after {
+                        content: none !important;
+                        display: none !important;
+                    }
+
                     ~ label::before {
                       clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
                     }
@@ -112,8 +138,9 @@
             nav {
                 border-bottom: 1px solid @subColor;
 
-                .item {
+                .item, button.plain {
                     color: @subColor;
+                    padding: 0 5px;
 
                     &.active {
                         color: @neutralLightColor;
@@ -123,6 +150,25 @@
 
                     &:hover {
                         color: @mainColor;
+                    }
+                }
+            }
+
+            /* v13: standard-form typography for Foundry-native forms */
+            .standard-form {
+                .form-group > label {
+                    color: @neutralLightColor;
+                }
+
+                .hint {
+                    color: @subColor;
+                }
+
+                fieldset {
+                    border-color: fade(@mainColor, 50%);
+
+                    legend {
+                        color: @neutralLightColor;
                     }
                 }
             }
@@ -846,6 +892,17 @@
         text-transform: uppercase;
         .sr5-header-primary();
     }
+
+    a {
+        .sr5-button();
+        display: flex;
+        justify-content: center;
+        text-align: center;
+
+        &:hover {
+            .sr5-button-hover();
+        }
+    }
 }
 
 
@@ -1127,24 +1184,15 @@
     }
 }
 
-#client-settings, #av-config {
-    nav.tabs {
-        border-bottom: 1px solid @subColor;
-        color: @neutralLightColor;
-        font-family: @SR_FontTitle;
-        text-transform: uppercase;
+.application:not(.sr5):not(.dialog) {
+    .form-group {
+        border-bottom: 1px solid fade(@mainColor, 50%);
+        padding-bottom: 8px;
     }
 
-    .content {
-        .form-group {
-            border-bottom: 1px solid fade(@mainColor, 50%);
-        }
-    }
-
-    .sheet-footer {
+    .form-footer {
         padding: 8px 0 8px 0;
         margin-top: 8px;
-        border-top: 2px solid @subColor;
     }
 }
 
