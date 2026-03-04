@@ -260,7 +260,7 @@ export class SR5Actor extends Actor {
 
 	prepareData() {
 		if (!this.img) this.img = CONST.DEFAULT_TOKEN;
-		if (!this.name) this.name = "[" + game.i18n.localize("SR5.New") + "]" + this.entity;
+		if (!this.name) this.name = "[" + game.i18n.localize("SR5.New") + "]" + this.documentName;
 		this.prepareBaseData();
 		this.prepareEmbeddedDocuments(); // first pass on items to add bonuses from the items to the characters
 		this.prepareDerivedData();
@@ -896,5 +896,3 @@ export class SR5Actor extends Actor {
 	}
 
 }
-
-CONFIG.Actor.documentClass = SR5Actor;

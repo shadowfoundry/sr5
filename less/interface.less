@@ -4,237 +4,176 @@
     color: @neutralLightColor;
     background: none;
 
-    & {
-        .window-header {
-            background: @neutralDarkColor;
+    .window-header {
+        background: @neutralDarkColor;
+    }
+
+    .window-content {
+        background: @neutralLightColor;
+    }
+
+    &:not(.sr5):not(.dialog):not(.folder-config) {
+        select {
+            .sr5-select();
+
+            &:focus {
+                .sr5-select-focus();
+            }
         }
 
-        .window-content {
-            background: @neutralLightColor;
+        option {
+            background-color: @neutralDarkColor;
+
+            &:hover {
+                background-color: @subColor;
+            }
         }
 
-        &:not(.sr5):not(.dialog) {
-            select{
-                .sr5-select();
+        button, a.display-mode {
+            .sr5-button();
 
-                &:focus{
-                    .sr5-select-focus();
-                }
-
-                &::before {
-                    background-color: @neutralDarkColor;
-                }
+            &:hover {
+                .sr5-button-hover();
             }
+        }
 
-            option {
-                background-color: @neutralDarkColor;
+        input[type="text"], input[type="number"], input[type="color"] {
+            .sr5-input();
+
+            &:focus {
+                .sr5-input-focus();
+            }
+            &::placeholder {
+                .sr5-input-placeholder();
+            }
+        }
+
+        h2, h3 {
+            font-family: @SR_FontTitleAlter;
+            text-transform: uppercase;
+            color: @neutralLightColor;
+            padding-left: 5px;
+        }
+
+        h2 {
+            text-align: center;
+            .sr5-header-secondary();
+        }
+
+        h3 {
+            .sr5-header-primary();
+        }
+
+        span.units {
+            color: @subColor;
+        }
+
+        nav {
+            border-bottom: 1px solid @subColor;
+
+            .item, button.plain {
+                color: @subColor;
+                padding: 0 5px;
+
+                &.active {
+                    color: @neutralLightColor;
+                    border: none;
+                    box-shadow: none;
+                }
 
                 &:hover {
-                    background-color: @subColor;
+                    color: @mainColor;
                 }
             }
+        }
 
-            button, a.display-mode {
-                .sr5-button();
-
-                &:hover {
-                    .sr5-button-hover();
-                }
-            }
-
-            input[type="text"], input[type="number"], input[type="color"] {
-                .sr5-input();
-
-                &:focus {
-                    .sr5-input-focus();
-                }
-                &::placeholder {
-                    .sr5-input-placeholder();
-                }
-            }
-
-            input[type="checkbox"] {
-                position: relative;
-                .sr5-checkbox();
-                width: 14px !important;
-                height: 14px !important;
-                border-radius: 4px !important;
-                appearance: none !important;
-                -webkit-appearance: none !important;
-                outline: 0 !important;
-                cursor: pointer;
-                background: transparent !important;
-                transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-                display: inline-block;
-                vertical-align: middle;
-                overflow: hidden;
-
-                &::before {
-                    position: absolute !important;
-                    content: '' !important;
-                    display: block !important;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    margin: auto auto auto calc(50% - 2px);
-                    width: 5px !important;
-                    height: 10px !important;
-                    border-style: solid;
-                    border-width: 0 2px 2px 0;
-                    border-color: @neutralLightColor;
-                    transform: rotate(45deg);
-                    opacity: 0;
-                    font-family: inherit !important;
-                    font-size: inherit !important;
-                    line-height: normal;
-                    border-radius: 0 !important;
-                }
-
-                &::after {
-                    content: none !important;
-                    display: none !important;
-                }
-
-                &:checked {
-                    .sr5-checkbox-checked();
-                    background: fade(@subColor, 50%) !important;
-
-                    &::before {
-                        opacity: 1;
-                    }
-
-                    &::after {
-                        content: none !important;
-                        display: none !important;
-                    }
-
-                    ~ label::before {
-                      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-                    }
-                }
-            }
-
-            h2, h3 {
-                font-family: @SR_FontTitleAlter;
-                text-transform: uppercase;
+        /* v13: standard-form typography */
+        .standard-form {
+            .form-group > label {
                 color: @neutralLightColor;
-                padding-left: 5px;
             }
 
-            h2 {
-                text-align: center;
-                .sr5-header-secondary();
-            }
-
-            h3 {
-                .sr5-header-primary();
-            }
-
-            span.units {
+            .hint {
                 color: @subColor;
             }
 
-            nav {
-                border-bottom: 1px solid @subColor;
+            fieldset {
+                border-color: fade(@mainColor, 50%);
 
-                .item, button.plain {
-                    color: @subColor;
-                    padding: 0 5px;
-
-                    &.active {
-                        color: @neutralLightColor;
-                        border: none;
-                        box-shadow: none;
-                    }
-
-                    &:hover {
-                        color: @mainColor;
-                    }
-                }
-            }
-
-            /* v13: standard-form typography for Foundry-native forms */
-            .standard-form {
-                .form-group > label {
+                legend {
                     color: @neutralLightColor;
                 }
-
-                .hint {
-                    color: @subColor;
-                }
-
-                fieldset {
-                    border-color: fade(@mainColor, 50%);
-
-                    legend {
-                        color: @neutralLightColor;
-                    }
-                }
-            }
-
-            .window-content {
-                padding: 8px;
-                background-image: linear-gradient(fade(@black, 45%), fade(@black, 45%)),
-                    url(@Sidebar);
-                background-origin: border-box;
-                background-size: cover;
-                color: @neutralLightColor;
-
-                header.form-header {
-                    border-top: none;
-                    border-bottom: none;
-                    margin-top: 0px;
-                }
-
-                .form-header {
-                    margin-top: 5px;
-                }
-
-                .notes {
-                    color: @subColor;
-                    line-height: 14px;
-                    margin-top: 0px;
-                }
-
-                textarea[name=command] {
-                    background-color: fade(@mainColor, 25%);
-                    border: 1px solid @mainColor;
-                    color: @neutralLightColor;
-
-                    &:focus {
-                      border: 1px solid @subColor;
-                      outline: none;
-                      box-shadow: 0 0 5px @subColor;
-                      color: @neutralLightColor;
-                    }
-
-                    &::selection {
-                    background-color: fade(@subColor, 50%);
-                    }
-                  }
-
-                textarea[name=description] {
-                    color: @neutralLightColor;
-                    border: 1px solid @mainColor;
-                    background-color: fade(@mainColor, 25%);
-                }
-
-                .command {
-                    margin-bottom: 10px;
-                }
-
-                table {
-                    tr:nth-child(even){
-                        background-color: fade(@mainColor, 25%);
-                }}
-
             }
         }
+
+        .window-content {
+            padding: 8px;
+            background-image: linear-gradient(fade(@black, 45%), fade(@black, 45%)),
+                url(@Sidebar);
+            background-origin: border-box;
+            background-size: cover;
+            color: @neutralLightColor;
+
+            header.form-header {
+                border-top: none;
+                border-bottom: none;
+                margin-top: 0px;
+            }
+
+            .form-header {
+                margin-top: 5px;
+            }
+
+            .notes {
+                color: @subColor;
+                line-height: 14px;
+                margin-top: 0px;
+            }
+
+            textarea[name=command] {
+                background-color: fade(@mainColor, 25%);
+                border: 1px solid @mainColor;
+                color: @neutralLightColor;
+
+                &:focus {
+                    border: 1px solid @subColor;
+                    outline: none;
+                    box-shadow: 0 0 5px @subColor;
+                    color: @neutralLightColor;
+                }
+
+                &::selection {
+                    background-color: fade(@subColor, 50%);
+                }
+            }
+
+            textarea[name=description] {
+                color: @neutralLightColor;
+                border: 1px solid @mainColor;
+                background-color: fade(@mainColor, 25%);
+            }
+
+            .command {
+                margin-bottom: 10px;
+            }
+
+            table {
+                tr:nth-child(even) {
+                    background-color: fade(@mainColor, 25%);
+                }
+            }
+        }
+    }
+
 
         /* v13: scene-sheet uses Foundry-native layout */
 
         &.journal-sheet {
+            .window-header {
+                background: @neutralDarkColor;
+                color: @neutralLightColor;
+            }
+
             .window-content {
                 background-image: url(@NoteTop), url(@NoteBottom), url(@BGWhite);
                 background-size: auto 80px, auto 80px, cover;
@@ -427,7 +366,6 @@
                 }
             }
         }
-    }
 
     &.sidebar-popout {
         .window-header {
@@ -1175,16 +1113,7 @@
     }
 }
 
-/* v13: compendium directory — SR5-specific content styling */
-.compendium.directory {
-    .directory-list {
-        .directory-item .SR-CompendiumSubType {
-            color: fade(@neutralLightColor, 50%);
-        }
-    }
-}
-
-.application:not(.sr5):not(.dialog) {
+.application:not(.sr5):not(.dialog):not(.folder-config) {
     .form-group {
         border-bottom: 1px solid fade(@mainColor, 50%);
         padding-bottom: 8px;
@@ -1195,6 +1124,16 @@
         margin-top: 8px;
     }
 }
+
+/* v13: compendium directory — SR5-specific content styling */
+.compendium.directory {
+    .directory-list {
+        .directory-item .SR-CompendiumSubType {
+            color: fade(@neutralLightColor, 50%);
+        }
+    }
+}
+
 
 /* v13: characters — color theming only */
 #characters {
@@ -1283,11 +1222,11 @@
 
 }
 
-.dialog {
-    /* v13: match v12 light dialog background */
-    --background: @neutralLightColor;
-    color: @neutralDarkColor;
-    color-scheme: light;
+.dialog, .folder-config {
+    --background: @neutralDarkColor;
+    color: @neutralLightColor;
+    color-scheme: dark;
+    accent-color: @subColor;
 
     .window-header {
         background: @neutralDarkColor;
@@ -1295,9 +1234,14 @@
     }
 
     .window-content {
-        padding: 0;
-        --paddingX: 0;
-        --paddingY: 0;
+        padding: 8px;
+        background: @neutralDarkColor;
+        gap: 0;
+
+        /* Prevent inherited backgrounds on inner wrappers */
+        .standard-form, .dialog-form {
+            background: transparent;
+        }
 
         /* v13: remove Foundry's default input background shade */
         input, select, textarea {
@@ -1308,22 +1252,50 @@
         }
 
         input {
-            border: 1px solid @mainColor;
-            background-color: fade(@subColor, 10%);
+            .sr5-input();
 
-            &:focus{
-                box-shadow: 0 0 5px fade(@mainColor, 50%);
+            &:focus {
+                .sr5-input-focus();
+            }
+
+            &::placeholder {
+                .sr5-input-placeholder();
             }
         }
 
-        /* v13: neutralize .standard-form flex layout for SR5 dialogs */
-        .standard-form {
-            display: block;
-            gap: unset;
+        select {
+            .sr5-select();
+            font-family: @SR_BodyText;
+
+            &:focus {
+                .sr5-select-focus();
+            }
+        }
+
+        option {
+            background-color: @neutralDarkColor;
+        }
+
+        .form-group {
+            border-bottom: 1px solid fade(@mainColor, 50%);
+            padding-bottom: 8px;
+
+            > label {
+                color: @subColor;
+                font-family: @SR_BodyTextBold;
+            }
         }
 
         .dialog-content {
-            padding: 8px;
+            padding: 0;
+
+            /* Roll dialog: light background when SR5jet content is present */
+            &:has(.SR5jet) {
+                background: @neutralLightColor;
+                color: @neutralDarkColor;
+                color-scheme: light;
+                padding: 8px;
+            }
 
             h3, h4 {
                 color: @mainColor;
@@ -1511,7 +1483,7 @@
     .dialog-buttons,
     .form-footer {
         background-image: url(@Dialog);
-        background-size: contain;
+        background-size: cover;
         padding: 15px 8px 8px 8px;
 
         button, button.default {

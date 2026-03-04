@@ -3,85 +3,91 @@ import { SR5_EntityHelpers } from "../helpers.js";
 
 /**
  * Override and extend the core ItemSheet implementation to handle Shadowrun 5 specific item types
- * @type {ItemSheet}
+ * @type {ItemSheetV2}
  */
-export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
-	constructor(...args) {
-		super(...args);
+export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplicationMixin(
+	foundry.applications.sheets.ItemSheetV2
+) {
+	static DEFAULT_OPTIONS = {
+		classes: ["app", "window-app", "sr5", "SR-Item"],
+		position: { width: 510, height: 445 },
+		window: { resizable: false },
+		form: { submitOnChange: true },
+	};
 
-		this._sheetTab = null;
-	}
+	static PARTS = {
+		sheet: {
+			template: "systems/sr5/templates/items/itemGear-sheet.html",
+			root: true,
+			scrollable: [".SR_ItemScrollY"],
+		},
+	};
 
-	static get defaultOptions() {
-		return foundry.utils.mergeObject(super.defaultOptions, {
-			width: 510,
-			height: 445,
-			classes: ["sr5", "SR-Item", "sheet", "item"],
-			resizable: false,
-			scrollY: [".SR_ItemScrollY"],
+	static TABS = {
+		primary: {
 			tabs: [
-				{
-					navSelector: ".tabs",
-					contentSelector: ".sr-tabs",
-					initial: "description",
-				},
+				{ id: "tab-info" },
+				{ id: "tab-stat" },
+				{ id: "tab-effect" },
 			],
-		});
+			initial: "tab-info",
+		},
+	};
+
+	get title() {
+		return this.document.name;
 	}
 
-	/**
-	 * Récupère un template html spécifique en fonction du type d'objet
-	 */
-
-	get template() {
-		let type = this.item.type;
-		return `systems/sr5/templates/items/${type}-sheet.html`;
+	/** Dynamically set the template path based on item type */
+	_configureRenderParts(options) {
+		const parts = super._configureRenderParts(options);
+		parts.sheet.template = `systems/sr5/templates/items/${this.item.type}-sheet.html`;
+		return parts;
 	}
 
-	async getData(options) {
-		const context = await super.getData(options);
-		const item = context.item;
-		foundry.utils.mergeObject(context, {
-			system: item.system,
-			isEmbedded: item.isEmbedded,
-			lists: SR5_EntityHelpers.sortTranslations(SR5),
-		});
-
+	async _prepareContext(options) {
+		const context = await super._prepareContext(options);
+		const item = this.item;
+		context.item = item.toObject(false);
+		context.system = item.system;
+		context.isEmbedded = item.isEmbedded;
+		context.lists = SR5_EntityHelpers.sortTranslations(SR5);
+		context.tabs = this._prepareTabs("primary");
+		// Provide cssClass for template compatibility
+		context.cssClass = this.document.isOwner ? "editable" : "locked";
 		return context;
 	}
 
-	/**
-	 * Activate listeners for interactive item sheet events
-	 */
-	activateListeners(html) {
-		super.activateListeners(html);
-		const element = html instanceof HTMLElement ? html : html[0];
+	_onRender(context, options) {
+		super._onRender(context, options);
+		const el = this.element;
 
-		element.querySelectorAll(".subItem").forEach(el => el.addEventListener("click", this._onManageSubItem.bind(this)));
-		element.querySelectorAll(".accessoryChoice").forEach(el => el.addEventListener("click", this._onAccessoryChoice.bind(this)));
+		// Activate initial tabs (AppV2 doesn't auto-activate on render)
+		for (const [group, tab] of Object.entries(this.tabGroups)) {
+			if (tab) this.changeTab(tab, group, { force: true, updatePosition: false });
+		}
 
-		// Checkbox changes
-		element.querySelectorAll('input[type="checkbox"]').forEach(el => el.addEventListener("change", (event) => {
-			this._onSubmit(event);
-		}));
+		// Sub-item management (add/delete/clone effects, licenses, etc.)
+		el.querySelectorAll(".subItem").forEach(node => node.addEventListener("click", this.#onManageSubItem.bind(this)));
 
-		// Help Display
-		element.querySelectorAll("[data-helpTitle]").forEach(el => {
-			el.addEventListener("mouseover", this._displayHelpText.bind(this));
-			el.addEventListener("mouseout", this._hideHelpText.bind(this));
+		// Accessory choice
+		el.querySelectorAll(".accessoryChoice").forEach(node => node.addEventListener("click", this.#onAccessoryChoice.bind(this)));
+
+		// Help Display (mouseover/mouseout — cannot use data-action)
+		el.querySelectorAll("[data-helpTitle]").forEach(node => {
+			node.addEventListener("mouseover", this._displayHelpText.bind(this));
+			node.addEventListener("mouseout", this._hideHelpText.bind(this));
 		});
 
-		// Gestion des cases de dégats
-		element.querySelectorAll(".boxes:not(.box-disabled)").forEach(el => el.addEventListener("click", (ev) => {
+		// Condition monitor boxes
+		el.querySelectorAll(".boxes:not(.box-disabled)").forEach(node => node.addEventListener("click", (ev) => {
 			let itemData = foundry.utils.duplicate(this.item);
 			let index = Number(ev.currentTarget.dataset.index);
 			let target = ev.currentTarget.closest(".SR-MoniteurCases").dataset.target;
 
 			let value = foundry.utils.getProperty(itemData, target);
 			if (value == index + 1)
-				// If the last one was clicked, decrease by 1
 				foundry.utils.setProperty(itemData, target, index);
-			// Otherwise, value = index clicked
 			else foundry.utils.setProperty(itemData, target, index + 1);
 
 			this.item.update(itemData);
@@ -89,59 +95,57 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 	}
 
 	// Manage "Sub Item", accessory, licenses, effects...
-	async _onManageSubItem(event){
+	async #onManageSubItem(event) {
 		event.preventDefault();
 		const a = event.currentTarget;
 		const itemData = this.item.system;
-		let target = event.currentTarget.dataset.binding;
-		let action = event.currentTarget.dataset.action;
-		let index = event.currentTarget.dataset.index;
-		let targetValue = event.currentTarget.dataset.targetvalue;
+		let target = a.dataset.binding;
+		let action = a.dataset.subaction;
 		let key = `system.${target}`;
 
-		//Add a subItem
+		// Submit any unsaved changes before modifying sub-items
+		if (this.isEditable) {
+			const formData = new FormDataExtended(this.element);
+			const submitData = this._processFormData(null, this.element, formData);
+			if (submitData && Object.keys(submitData).length) {
+				await this.document.update(submitData);
+			}
+		}
+
 		if (action === "add") {
-			await this._onSubmit(event); // Submit any unsaved changes
-			// convert back manually to array... so stupid to have to do this.
-			if (typeof itemData[target] === "object") { itemData[target] = Object.values(itemData[target]); } 
+			if (typeof itemData[target] === "object") { itemData[target] = Object.values(itemData[target]); }
 			return this.item.update({[key]: itemData[target].concat([[""]])});
 		}
 
-		// Remove a subItem
 		if (action === "delete") {
-			await this._onSubmit(event); // Submit any unsaved changes
 			const li = a.closest(".subItemManagement");
 			let removed = foundry.utils.duplicate(this.item.system[target]);
-			// convert back manually to array... so stupid to have to do this.
-			if (typeof removed === "object") { removed = Object.values(removed); } 
+			if (typeof removed === "object") { removed = Object.values(removed); }
 			removed.splice(Number(li.dataset.key), 1);
 			return this.item.update({[key]: removed });
 		}
 
-		// Clone a subItem
 		if (action === "clone") {
-			await this._onSubmit(event); // Submit any unsaved changes
 			const li = a.closest(".subItemManagement");
 			let cloned = foundry.utils.duplicate(this.item.system[target]);
-			// convert back manually to array... so stupid to have to do this.
 			if (typeof cloned === "object") { cloned = Object.values(cloned); }
 			cloned.push(cloned[Number(li.dataset.key)]);
 			return this.item.update({[key]: cloned });
 		}
 	}
 
-	//Manage accessory choice
-	async _onAccessoryChoice(event){
+	// Manage accessory choice
+	async #onAccessoryChoice(event) {
 		let type = event.currentTarget.dataset.type;
 		let accessoriesList = {};
 
-		for (let i of this.item.actor.items){
-			if (type === "itemArmor"){
-				if ((i.type === "itemArmor" || i.type === "itemGear") && i.system.isAccessory && !i.system.isPlugged){
+		for (let i of this.item.actor.items) {
+			if (type === "itemArmor") {
+				if ((i.type === "itemArmor" || i.type === "itemGear") && i.system.isAccessory && !i.system.isPlugged) {
 					accessoriesList[i.id] = i.name;
 				}
 			} else {
-				if ((i.type === type) && i.system.isAccessory && !i.system.isPlugged){
+				if ((i.type === type) && i.system.isAccessory && !i.system.isPlugged) {
 					accessoriesList[i.id] = i.name;
 				}
 			}
@@ -185,7 +189,6 @@ export class SR5ItemSheet extends foundry.appv1.sheets.ItemSheet {
 			})
 		}
 	}
-
 
 	/* -------------------------------------------- */
 

@@ -68,7 +68,6 @@ export const registerHooks = function () {
 		foundry.documents.Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 
 		// Register sheet application classes
-		foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
 		foundry.documents.collections.Actors.registerSheet("SR5", SR5ActorSheet, {
 			types: ["actorPc"],
 			makeDefault: true
@@ -97,7 +96,6 @@ export const registerHooks = function () {
 			types: ["actorAgent"],
 			makeDefault: true
 		});
-		foundry.documents.collections.Items.unregisterSheet("core", foundry.appv1.sheets.ItemSheet);
 		foundry.documents.collections.Items.registerSheet("SR5", SR5ItemSheet, {
 			makeDefault: true
 		});
@@ -458,7 +456,7 @@ export const registerHooks = function () {
 		if (!game.user.isGM) return;
 		for (let token of data.tokens){
 			token.actor.prepareData();
-			if (token.actor.sheet.rendered) token.actor.sheet.render(false);
+			if (token.actor.sheet.rendered) token.actor.sheet.render();
 		}
 	});
 }

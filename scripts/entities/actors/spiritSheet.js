@@ -13,35 +13,34 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
 		};
 	}
 
-	static get defaultOptions() {
-		return foundry.utils.mergeObject(super.defaultOptions, {
+	static DEFAULT_OPTIONS = {
+		classes: ["spirit"],
+		position: { width: 800, height: 618 },
+		window: { resizable: false },
+	};
+
+	static PARTS = {
+		sheet: {
 			template: "systems/sr5/templates/actors/spirit-sheet.html",
-			width: 800,
-			height: 618,
-			resizable: false,
-			classes: ["sr5", "sheet", "actor", "spirit"],
-		});
-	}
+			root: true,
+			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
+		},
+	};
 
-	getData() {
-		const actorData = this.actor.toObject(false);
-		const context ={
-			editable: this.isEditable,
-			actor: actorData,
-			system: actorData.system,
-			items: actorData.items,
-			owner: this.actor.isOwner,
-			filters: this._filters,
-			lists: actorData.system.lists,
-		};
+	static TABS = {
+		gauche: {
+			tabs: [
+				{ id: "tab-attributs" },
+				{ id: "tab-deriv" },
+				{ id: "tab-magie" },
+			],
+			initial: "tab-attributs",
+		},
+	};
 
-		// Sort Owned Items
-		for ( let i of context.items ) {
-			const item = this.actor.items.get(i._id);
-			i.labels = item.labels;
-		}
-		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
-		
+	async _prepareContext(options) {
+		const context = await super._prepareContext(options);
+
 		this._prepareItems(context.actor);
 		this._prepareSkills(context.actor);
 
@@ -79,10 +78,6 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
 		actor.traditions = traditions;
 	}
 
-	activateListeners(html) {
-		super.activateListeners(html);
-	}
-
 	/** @override */
 	async _onDropItemCreate(item) {
 		switch(item.type){
@@ -100,14 +95,13 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
 			case "itemPower":
 				if (item.system.actionType === "permanent") item.system.isActive = true;
 				return super._onDropItemCreate(item);
-			case "itemTradition":
 			case "itemSpell":
 			case "itemEffect":
 				return super._onDropItemCreate(item);
 			default:
 				ui.notifications.info(game.i18n.localize('SR5.INFO_ForbiddenItemType'));
 				return;
-		}        
+		}
 	}
 
 }

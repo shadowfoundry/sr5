@@ -12,10 +12,8 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
 		return data;
 	}
 
-	// Helper to get combatant ID from a list element (supports both jQuery and native DOM)
 	static _getCombatantId(li) {
-		if (li instanceof HTMLElement) return li.dataset.combatantId;
-		return li.data("combatant-id") ?? li[0]?.dataset?.combatantId;
+		return li.dataset.combatantId;
 	}
 
 	//Add right click options to the combat tracker
@@ -111,7 +109,6 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
 	}
 
 	static async markCombatantAsPlayed(app, html, data){
-		// v13: html may be a raw DOM element or jQuery object
 		const element = html instanceof HTMLElement ? html : html[0];
 		for (let combatant of data.combat.combatants){
 			if (combatant.flags.sr5?.hasPlayed || (combatant.initiative <= 0)){
@@ -137,16 +134,14 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
 		}
 	}
 
-	activateListeners(html) {
-		super.activateListeners(html);
-		if (!game.user.isGM) this._contextMenu(html);
+	_onRender(context, options) {
+		super._onRender(context, options);
+		if (!game.user.isGM) this._contextMenu(this.element);
 
 		//Edit actions
-		const element = html instanceof HTMLElement ? html : html[0];
-		element.querySelectorAll('.SR-action-control').forEach(el => {
+		this.element.querySelectorAll('.SR-action-control').forEach(el => {
 			el.addEventListener('click', ev => this._editActions(ev));
 		});
-
 	}
 
 	_contextMenu(html) {

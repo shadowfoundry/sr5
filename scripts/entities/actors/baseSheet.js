@@ -16,39 +16,135 @@ import { SRActorSheetConfig } from "../../interface/sheet-config.js";
  * Extend the basic ActorSheet class to do all the SR5 things!
  * This sheet is an Abstract layer which is not used.
  *
- * @type {ActorSheet}
+ * @type {ActorSheetV2}
  */
 
-export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
+export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicationMixin(
+	foundry.applications.sheets.ActorSheetV2
+) {
 	constructor(...args) {
 		super(...args);
 	}
 
-	/** @override */
-	static get defaultOptions() {
-		return foundry.utils.mergeObject(super.defaultOptions, {
-			scrollY: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
+	static DEFAULT_OPTIONS = {
+		classes: ["app", "window-app", "sr5", "actor"],
+		form: { submitOnChange: true },
+		dragDrop: [{ dragSelector: "li.item, div.draggableAttribute", dropSelector: null }],
+		actions: {
+			actorConfig: ActorSheetSR5._onActorConfig,
+		},
+	};
+
+	static TABS = {
+		centre: {
 			tabs: [
-				{
-					navSelector: ".tabs",
-					contentSelector: ".sr-tabs",
-					initial: "tab-skills",
-				},
-				{
-					navSelector: ".tabs2",
-					contentSelector: ".sr-tabs2",
-					initial: "tab-attributs",
-				},
+				{ id: "tab-skills" },
+				{ id: "tab-combat" },
+				{ id: "tab-gear" },
+				{ id: "tab-augmentations" },
+				{ id: "tab-sorts" },
+				{ id: "tab-technomancer" },
+				{ id: "tab-matrice" },
+				{ id: "tab-contact" },
+				{ id: "tab-bio" },
 			],
-		});
+			initial: "tab-skills",
+		},
+		gauche: {
+			tabs: [
+				{ id: "tab-attributs" },
+				{ id: "tab-deriv" },
+				{ id: "tab-magie" },
+				{ id: "tab-deck" },
+				{ id: "tab-traits" },
+			],
+			initial: "tab-attributs",
+		},
+	};
+
+	get title() {
+		return this.document.name;
 	}
 
-	activateListeners(html) {
-		super.activateListeners(html);
-		const element = html instanceof HTMLElement ? html : html[0];
+	/** @override — Foundry's _onClickTab uses event.target which misses when clicking SVG icons inside <a> */
+	_onClickTab(event) {
+		const button = event.target.closest("[data-tab]");
+		if (!button || button.classList.contains("active") || (event.button !== 0)) return;
+		const tab = button.dataset.tab;
+		const group = button.dataset.group;
+		this.changeTab(tab, group, { event });
+	}
+
+	_getHeaderControls() {
+		const controls = super._getHeaderControls();
+		if (this.actor?.isOwner && (this.actor.type === "actorPc" || this.actor.type === "actorGrunt")) {
+			controls.unshift({
+				action: "actorConfig",
+				icon: "fas fa-tools",
+				label: "",
+			});
+		}
+		return controls;
+	}
+
+	static _onActorConfig(event, target) {
+		SRActorSheetConfig.buildDialog(this.actor);
+	}
+
+	async _prepareContext(options) {
+		const context = await super._prepareContext(options);
+		const actorData = this.actor.toObject(false);
+		context.actor = actorData;
+		context.system = actorData.system;
+		context.items = actorData.items;
+		context.owner = this.actor.isOwner;
+		context.editable = this.isEditable;
+		context.filters = this._filters || {};
+		context.lists = actorData.system.lists;
+		// Provide cssClass for template compatibility
+		context.cssClass = this.document.isOwner ? "editable" : "locked";
+
+		// Sort Owned Items
+		for (let i of context.items) {
+			const item = this.actor.items.get(i._id);
+			if (item) i.labels = item.labels;
+		}
+		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+
+		// Prepare tabs for all defined groups
+		context.tabs = {};
+		for (const group of Object.keys(this.constructor.TABS)) {
+			Object.assign(context.tabs, this._prepareTabs(group));
+		}
+
+		return context;
+	}
+
+	_onRender(context, options) {
+		super._onRender(context, options);
+		const element = this.element;
+
+		// Activate initial tabs for all groups (AppV2 doesn't auto-activate on render)
+		for (const [group, tab] of Object.entries(this.tabGroups)) {
+			if (tab) this.changeTab(tab, group, { force: true, updatePosition: false });
+		}
+
+		// Tab nav click handlers — explicit listeners because data-action="tab" doesn't
+		// work reliably with SVG icons inside <a> elements (event.target is the SVG, not the <a>)
+		element.querySelectorAll(".tabs [data-tab][data-action='tab']").forEach(link => {
+			link.addEventListener("click", (event) => {
+				event.preventDefault();
+				event.stopPropagation();
+				const tab = link.dataset.tab;
+				const group = link.dataset.group;
+				if (tab && group && !link.classList.contains("active")) {
+					this.changeTab(tab, group, { event });
+				}
+			});
+		});
 
 		// Everything below here is only needed if the sheet is editable
-		if (!this.options.editable) return;
+		if (!this.isEditable) return;
 
 		// Helper for binding events
 		const on = (sel, evt, fn) => element.querySelectorAll(sel).forEach(el => el.addEventListener(evt, fn));
@@ -77,8 +173,6 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		on(".resetAddiction", "click", this._onResetAddiction.bind(this));
 		//Reboot le deck
 		on(".reset-deck", "click", this._onRebootDeck.bind(this));
-		// Checkbox changes
-		on('input[type="checkbox"]', "change", this._onSubmit.bind(this));
 		// Déplie les infos
 		on(".deplie", "click", this._onItemSummary.bind(this));
 		// Déplie les infos matricielles
@@ -110,42 +204,42 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		on(".filtre-skill", "click", (event) => {
 			event.preventDefault();
 			this._shownUntrainedSkills = !this._shownUntrainedSkills;
-			this._render(true);
+			this.render();
 		});
 		on(".filtre-groupe", "click", (event) => {
 			event.preventDefault();
 			this._shownUntrainedGroups = !this._shownUntrainedGroups;
-			this._render(true);
+			this.render();
 		});
 		on(".filtre-matrixActions", "click", (event) => {
 			event.preventDefault();
 			this._shownNonRollableMatrixActions = !this._shownNonRollableMatrixActions;
-			this._render(true);
+			this.render();
 		});
 		on(".filterMatrixPrograms", "click", (event) => {
 			event.preventDefault();
 			this._shownInactiveMatrixPrograms = !this._shownInactiveMatrixPrograms;
-			this._render(true);
+			this.render();
 		});
 		on(".filterNuyenGains", "click", (event) => {
 			event.preventDefault();
 			this._shownNuyenGains = !this._shownNuyenGains;
-			this._render(true);
+			this.render();
 		});
 		on(".filterNuyenExpenses", "click", (event) => {
 			event.preventDefault();
 			this._shownNuyenExpenses = !this._shownNuyenExpenses;
-			this._render(true);
+			this.render();
 		});
 		on(".filterKarmaGains", "click", (event) => {
 			event.preventDefault();
 			this._shownKarmaGains = !this._shownKarmaGains;
-			this._render(true);
+			this.render();
 		});
 		on(".filterKarmaExpenses", "click", (event) => {
 			event.preventDefault();
 			this._shownKarmaExpenses = !this._shownKarmaExpenses;
-			this._render(true);
+			this.render();
 		});
 		// Light color indicator (for dark headers)
 		if (!this._shownUntrainedSkills) element.querySelectorAll(".filtre-skill").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
@@ -157,18 +251,6 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		if (!this._shownNuyenGains) element.querySelectorAll(".filterNuyenGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 		if (!this._shownKarmaExpenses) element.querySelectorAll(".filterKarmaExpenses").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 		if (!this._shownKarmaGains) element.querySelectorAll(".filterKarmaGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
-
-		// Item Dragging
-		if (this.actor.isOwner) {
-			const handler = ev => this._onDragStart(ev);
-			element.querySelectorAll('li.item').forEach(li => {
-				li.setAttribute("draggable", true);
-				li.addEventListener("dragstart", handler, false);
-			});
-			element.querySelectorAll('div.draggableAttribute').forEach(div => {
-				div.addEventListener("dragstart", handler, false);
-			});
-		}
 
 		// Help Display
 		element.querySelectorAll("[data-helpTitle]").forEach(el => {
@@ -389,13 +471,13 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		event.preventDefault();
 		const li = event.currentTarget.closest(".item");
 		const item = this.actor.items.get(li.dataset.itemId);
-		// check window state (0 means did not exist before)
-		let state = item.sheet._state;
+		// check window state
+		const wasRendered = item.sheet.rendered;
 		SR5_SystemHelpers.srLog(3, "item.sheet", item.sheet);
-		item.sheet.render(true);
+		item.sheet.render({ force: true });
 		SR5_SystemHelpers.srLog(3, "item.sheet", item.sheet);
 		// if window already exists, bring it to top
-		if (state > 0) item.sheet.bringToTop();
+		if (wasRendered) item.sheet.bringToTop();
 	}
 
 	/* -------------------------------------------- */
@@ -447,14 +529,21 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 			const a = event.currentTarget;
 			const actorData = this.actor.system;
 			let target = event.currentTarget.dataset.binding;
-			let action = event.currentTarget.dataset.action;
+			let action = event.currentTarget.dataset.subaction;
 			let index = event.currentTarget.dataset.index;
 			let targetValue = event.currentTarget.dataset.targetvalue;
 			let key = `system.${target}`;
 
 			// Remove a subItem
 			if (action === "delete") {
-				await this._onSubmit(event); // Submit any unsaved changes
+				// Submit any unsaved changes
+				if (this.isEditable) {
+					const formData = new FormDataExtended(this.element);
+					const submitData = this._processFormData(null, this.element, formData);
+					if (submitData && Object.keys(submitData).length) {
+						await this.document.update(submitData);
+					}
+				}
 				const li = a.closest(".subItemManagement");
 				let removed = foundry.utils.duplicate(this.actor.system[target]);
 				// convert back manually to array... so stupid to have to do this.
@@ -1411,7 +1500,14 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 
 	async _onDeleteItemFromPan(event){
 		event.preventDefault();
-		await this._onSubmit(event); // Submit any unsaved changes
+		// Submit any unsaved changes
+		if (this.isEditable) {
+			const formData = new FormDataExtended(this.element);
+			const submitData = this._processFormData(null, this.element, formData);
+			if (submitData && Object.keys(submitData).length) {
+				await this.document.update(submitData);
+			}
+		}
 		let index = event.currentTarget.dataset.index;
 		let itemId = event.currentTarget.dataset.key;
 		let actor = this.actor.id;
@@ -1453,16 +1549,4 @@ export class ActorSheetSR5 extends foundry.appv1.sheets.ActorSheet {
 		SR5Combat.changeActionInCombat(actorId, action);
 	}
 
-	//Sheet customization
-	_getHeaderButtons() {
-        let buttons = super._getHeaderButtons();
-        if (this.actor.isOwner && (this.actor.type === "actorPc" || this.actor.type === "actorGrunt")) {
-            buttons.unshift({
-                class: "actorConfig",
-                icon: `fas fa-tools`,
-                onclick: async() => SRActorSheetConfig.buildDialog(this.actor)
-            })
-        }
-        return buttons;
-    }
 }

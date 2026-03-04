@@ -1,53 +1,46 @@
 import { ActorSheetSR5 } from "./baseSheet.js";
 
 /**
- * An Actor sheet for player character type actors in the Shadowrun 5 system.
+ * An Actor sheet for device type actors in the Shadowrun 5 system.
  */
 export class SR5AppareilSheet extends ActorSheetSR5 {
-  	constructor(...args) {
+	constructor(...args) {
 		super(...args);
-  	}
+	}
 
-  	static get defaultOptions() {
-		const options = super.defaultOptions;
-		return foundry.utils.mergeObject(super.defaultOptions, {
+	static DEFAULT_OPTIONS = {
+		classes: ["device"],
+		position: { width: 800, height: 448 },
+		window: { resizable: false },
+	};
+
+	static PARTS = {
+		sheet: {
 			template: "systems/sr5/templates/actors/device-sheet.html",
-			width: 800,
-			height: 448,
-			resizable: false,
-			classes: ["sr5", "sheet", "actor", "device"],
-		});
-  	}
+			root: true,
+			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
+		},
+	};
 
-	getData() {
-		const actorData = this.actor.toObject(false);
-		const context ={
-			editable: this.isEditable,
-			actor: actorData,
-			system: actorData.system,
-			items: actorData.items,
-			owner: this.actor.isOwner,
-			filters: this._filters,
-			lists: actorData.system.lists,
-		};
+	static TABS = {
+		centre: {
+			tabs: [
+				{ id: "tab-matrice" },
+				{ id: "tab-bio" },
+			],
+			initial: "tab-matrice",
+		},
+	};
 
-		// Sort Owned Items
-		for ( let i of context.items ) {
-			const item = this.actor.items.get(i._id);
-			i.labels = item.labels;
-		}
-		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+	async _prepareContext(options) {
+		const context = await super._prepareContext(options);
 
 		this._prepareItems(context.actor);
 
-		if (game.settings.get("sr5", "sr5MatrixGridRules")) context.rulesMatrixGrid = true;
-		else context.rulesMatrixGrid = false;
-		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
-		else context.rulesCalledShot = false;
-		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
-		else context.rulesKillCode = false;
-		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
-		else context.matrixActionsRigger5 = false;
+		context.rulesMatrixGrid = game.settings.get("sr5", "sr5MatrixGridRules");
+		context.rulesCalledShot = game.settings.get("sr5", "sr5CalledShotsRules");
+		context.rulesKillCode = game.settings.get("sr5", "sr5KillCodeRules");
+		context.matrixActionsRigger5 = game.settings.get("sr5", "sr5Rigger5Actions");
 
 		return context;
 	}
@@ -56,16 +49,12 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 		const externalEffects = [];
 
 		// Iterate through items, allocating to containers
-		for (let i of actor.items) {		
+		for (let i of actor.items) {
 			if (i.type === "itemEffect") externalEffects.push(i);
 		}
-		
+
 		actor.externalEffects = externalEffects;
 	}
-
-  	activateListeners(html) {
-		super.activateListeners(html);
-  	}
 
 	/** @override */
 	async _onDropItemCreate(itemData) {

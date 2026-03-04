@@ -151,7 +151,7 @@ export class SR5Combat extends Combat {
 				actor.system.specialAttributes?.edge?.augmented.value,
 				actor.system.attributes?.reaction?.augmented.value,
 				actor.system.attributes?.intuition?.augmented.value,
-				new Roll("1d2").roll().total,
+				Math.ceil(Math.random() * 2),
 			];
 		};
 
@@ -499,7 +499,7 @@ export class SR5Combat extends Combat {
 			sign = Math.sign(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
 			diceToRoll = Math.abs(document.system.initiatives[initKey].dice.value - combatant.flags.sr5.currentInitDice);
 			if (isNaN(diceToRoll)) diceToRoll = 0;
-			diceResult = new Roll(`${diceToRoll}d6`).evaluate({async: false}).total;
+			diceResult = (await new Roll(`${diceToRoll}d6`).evaluate()).total;
 			if (sign > 0) initDiceChange += diceResult;
 			else initDiceChange -= diceResult;
 	  	}

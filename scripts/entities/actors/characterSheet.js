@@ -21,48 +21,32 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		};
 	}
 
-	static get defaultOptions() {
-		return foundry.utils.mergeObject(super.defaultOptions, {
+	static DEFAULT_OPTIONS = {
+		classes: ["pc"],
+		position: { width: 800, height: 618 },
+		window: { resizable: false },
+	};
+
+	static PARTS = {
+		sheet: {
 			template: "systems/sr5/templates/actors/pc-sheet.html",
-			width: 800,
-			height: 618,
-			resizable: false,
-			classes: ["sr5", "sheet", "actor", "pc"],
-		});
-	}
+			root: true,
+			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
+		},
+	};
 
-	getData() {
-		const actorData = this.actor.toObject(false);
-		const context ={
-			editable: this.isEditable,
-			actor: actorData,
-			system: actorData.system,
-			items: actorData.items,
-			owner: this.actor.isOwner,
-			filters: this._filters,
-			lists: actorData.system.lists,
-		};
-
-		// Sort Owned Items
-		for ( let i of context.items ) {
-			const item = this.actor.items.get(i._id);
-			i.labels = item.labels;
-		}
-		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+	async _prepareContext(options) {
+		const context = await super._prepareContext(options);
 
 		this._prepareItems(context.actor);
 		this._prepareSkills(context.actor);
 		this._prepareSkillGroups(context.actor);
 		this._prepareMatrixActions(context.actor);
 
-		if (game.settings.get("sr5", "sr5MatrixGridRules")) context.rulesMatrixGrid = true;
-		else context.rulesMatrixGrid = false;
-		if (game.settings.get("sr5", "sr5CalledShotsRules")) context.rulesCalledShot = true;
-		else context.rulesCalledShot = false;
-		if (game.settings.get("sr5", "sr5KillCodeRules")) context.rulesKillCode = true;
-		else context.rulesKillCode = false;		
-		if (game.settings.get("sr5", "sr5Rigger5Actions")) context.matrixActionsRigger5 = true;
-		else context.matrixActionsRigger5 = false;
+		context.rulesMatrixGrid = game.settings.get("sr5", "sr5MatrixGridRules");
+		context.rulesCalledShot = game.settings.get("sr5", "sr5CalledShotsRules");
+		context.rulesKillCode = game.settings.get("sr5", "sr5KillCodeRules");
+		context.matrixActionsRigger5 = game.settings.get("sr5", "sr5Rigger5Actions");
 
 		return context;
 	}
@@ -89,9 +73,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		const activeMatrixActions = {};
 		let hasAttack = (actor.system.matrix.attributes.attack.value > 0) ? true : false;
 		let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false;
-		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;	
+		let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false;
 		let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions") ? true : false;
-		//console.log("_prepareMatrixActions : Rigger5 ? ",rigger5Actions);
 		for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
 			let linkedAttribute = matrixAction.limit?.linkedAttribute;
 			if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) )
@@ -212,10 +195,6 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		actor.externalEffects = externalEffects;
 		actor.traditions = traditions;
 		actor.rituals = rituals;
-	}
-
-	activateListeners(html) {
-		super.activateListeners(html);
 	}
 
 	/** @override */

@@ -327,6 +327,9 @@ body {
   height: 295px;
   overflow: auto;
 }
+.app.window-app.SR-Item .window-content .SR-MainWindows .tab[data-tab]:not(.active) {
+  display: none;
+}
 .app.window-app.SR-Item .window-content .SR-MainWindows p {
   margin: 0;
 }
@@ -633,56 +636,56 @@ body {
 .app.window-app.actor .window-content .unfoldLight:hover::before {
   color: rgba(255, 255, 254, 0.75);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f102 ";
 }
 .app.window-app.actor .window-content .unfoldLight::before {
   color: rgba(255, 255, 254, 0.25);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f107 ";
 }
 .app.window-app.actor .window-content .foldLight:hover::before {
   color: rgba(255, 255, 254, 0.75);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f103 ";
 }
 .app.window-app.actor .window-content .foldLight::before {
   color: rgba(255, 255, 254, 0.25);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f106 ";
 }
 .app.window-app.actor .window-content .unfoldDark:hover::before {
   color: rgba(147, 16, 4, 0.75);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f102 ";
 }
 .app.window-app.actor .window-content .unfoldDark::before {
   color: rgba(147, 16, 4, 0.25);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f107 ";
 }
 .app.window-app.actor .window-content .foldDark:hover::before {
   color: rgba(147, 16, 4, 0.75);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f103 ";
 }
 .app.window-app.actor .window-content .foldDark::before {
   color: rgba(147, 16, 4, 0.25);
   padding-right: 3px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f106 ";
 }
@@ -737,7 +740,7 @@ body {
   left: 50%;
   color: rgba(147, 16, 4, 0.25);
   padding-left: 7px;
-  font-family: "Font Awesome 5 Free";
+  font-family: "Font Awesome 6 Pro";
   font-weight: 900;
   content: "\f6d1 ";
 }
@@ -3139,28 +3142,25 @@ body {
 .application .window-content {
   background: #fffffe;
 }
-.application:not(.sr5):not(.dialog) {
-  /* v13: standard-form typography for Foundry-native forms */
+.application:not(.sr5):not(.dialog):not(.folder-config) {
+  /* v13: standard-form typography */
 }
-.application:not(.sr5):not(.dialog) select {
+.application:not(.sr5):not(.dialog):not(.folder-config) select {
   border: 1px solid #931004;
   color: #fffffe;
 }
-.application:not(.sr5):not(.dialog) select:focus {
+.application:not(.sr5):not(.dialog):not(.folder-config) select:focus {
   box-shadow: 0 0 5px #0c9394;
   border: 1px solid #0c9394;
 }
-.application:not(.sr5):not(.dialog) select::before {
+.application:not(.sr5):not(.dialog):not(.folder-config) option {
   background-color: #000001;
 }
-.application:not(.sr5):not(.dialog) option {
-  background-color: #000001;
-}
-.application:not(.sr5):not(.dialog) option:hover {
+.application:not(.sr5):not(.dialog):not(.folder-config) option:hover {
   background-color: #0c9394;
 }
-.application:not(.sr5):not(.dialog) button,
-.application:not(.sr5):not(.dialog) a.display-mode {
+.application:not(.sr5):not(.dialog):not(.folder-config) button,
+.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode {
   color: rgba(255, 255, 254, 0.75);
   font-family: "srfoundry_primary";
   text-transform: uppercase;
@@ -3169,193 +3169,139 @@ body {
   box-shadow: none;
   /* v13: preserve FontAwesome icons in buttons */
 }
-.application:not(.sr5):not(.dialog) button::before,
-.application:not(.sr5):not(.dialog) a.display-mode::before {
+.application:not(.sr5):not(.dialog):not(.folder-config) button::before,
+.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode::before {
   font-family: "Font Awesome 6 Pro";
   font-weight: 900;
 }
-.application:not(.sr5):not(.dialog) button i,
-.application:not(.sr5):not(.dialog) a.display-mode i {
+.application:not(.sr5):not(.dialog):not(.folder-config) button i,
+.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode i {
   font-family: "Font Awesome 6 Pro";
   font-weight: 900;
 }
-.application:not(.sr5):not(.dialog) button:hover,
-.application:not(.sr5):not(.dialog) a.display-mode:hover {
+.application:not(.sr5):not(.dialog):not(.folder-config) button:hover,
+.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode:hover {
   color: #fffffe;
   background: rgba(12, 147, 148, 0.25);
   border-color: #0c9394;
   box-shadow: none;
 }
-.application:not(.sr5):not(.dialog) input[type="text"],
-.application:not(.sr5):not(.dialog) input[type="number"],
-.application:not(.sr5):not(.dialog) input[type="color"] {
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="text"],
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="number"],
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="color"] {
   color: #fffffe;
   border: 1px solid #931004;
 }
-.application:not(.sr5):not(.dialog) input[type="text"]:focus,
-.application:not(.sr5):not(.dialog) input[type="number"]:focus,
-.application:not(.sr5):not(.dialog) input[type="color"]:focus {
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="text"]:focus,
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="number"]:focus,
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="color"]:focus {
   border: 1px solid #0c9394;
   box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
-.application:not(.sr5):not(.dialog) input[type="text"]::placeholder,
-.application:not(.sr5):not(.dialog) input[type="number"]::placeholder,
-.application:not(.sr5):not(.dialog) input[type="color"]::placeholder {
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="text"]::placeholder,
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="number"]::placeholder,
+.application:not(.sr5):not(.dialog):not(.folder-config) input[type="color"]::placeholder {
   color: #931004;
 }
-.application:not(.sr5):not(.dialog) input[type="checkbox"] {
-  position: relative;
-  color: #931004;
-  border: 1px solid #931004;
-  width: 14px !important;
-  height: 14px !important;
-  border-radius: 4px !important;
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  outline: 0 !important;
-  cursor: pointer;
-  background: transparent !important;
-  transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
-  display: inline-block;
-  vertical-align: middle;
-  overflow: hidden;
-}
-.application:not(.sr5):not(.dialog) input[type="checkbox"]::before {
-  position: absolute !important;
-  content: '' !important;
-  display: block !important;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto auto auto calc(50% - 2px);
-  width: 5px !important;
-  height: 10px !important;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  border-color: #fffffe;
-  transform: rotate(45deg);
-  opacity: 0;
-  font-family: inherit !important;
-  font-size: inherit !important;
-  line-height: normal;
-  border-radius: 0 !important;
-}
-.application:not(.sr5):not(.dialog) input[type="checkbox"]::after {
-  content: none !important;
-  display: none !important;
-}
-.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.5);
-  background: rgba(12, 147, 148, 0.5) !important;
-}
-.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked::before {
-  opacity: 1;
-}
-.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked::after {
-  content: none !important;
-  display: none !important;
-}
-.application:not(.sr5):not(.dialog) input[type="checkbox"]:checked ~ label::before {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
-.application:not(.sr5):not(.dialog) h2,
-.application:not(.sr5):not(.dialog) h3 {
+.application:not(.sr5):not(.dialog):not(.folder-config) h2,
+.application:not(.sr5):not(.dialog):not(.folder-config) h3 {
   font-family: "srfoundry_secondary";
   text-transform: uppercase;
   color: #fffffe;
   padding-left: 5px;
 }
-.application:not(.sr5):not(.dialog) h2 {
+.application:not(.sr5):not(.dialog):not(.folder-config) h2 {
   text-align: center;
   border-top: 1px solid #0c9394;
   border-bottom: 1px solid #0c9394;
   background-color: rgba(12, 147, 148, 0.5);
 }
-.application:not(.sr5):not(.dialog) h3 {
+.application:not(.sr5):not(.dialog):not(.folder-config) h3 {
   border-top: 1px solid #931004;
   border-bottom: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.5);
 }
-.application:not(.sr5):not(.dialog) span.units {
+.application:not(.sr5):not(.dialog):not(.folder-config) span.units {
   color: #0c9394;
 }
-.application:not(.sr5):not(.dialog) nav {
+.application:not(.sr5):not(.dialog):not(.folder-config) nav {
   border-bottom: 1px solid #0c9394;
 }
-.application:not(.sr5):not(.dialog) nav .item,
-.application:not(.sr5):not(.dialog) nav button.plain {
+.application:not(.sr5):not(.dialog):not(.folder-config) nav .item,
+.application:not(.sr5):not(.dialog):not(.folder-config) nav button.plain {
   color: #0c9394;
   padding: 0 5px;
 }
-.application:not(.sr5):not(.dialog) nav .item.active,
-.application:not(.sr5):not(.dialog) nav button.plain.active {
+.application:not(.sr5):not(.dialog):not(.folder-config) nav .item.active,
+.application:not(.sr5):not(.dialog):not(.folder-config) nav button.plain.active {
   color: #fffffe;
   border: none;
   box-shadow: none;
 }
-.application:not(.sr5):not(.dialog) nav .item:hover,
-.application:not(.sr5):not(.dialog) nav button.plain:hover {
+.application:not(.sr5):not(.dialog):not(.folder-config) nav .item:hover,
+.application:not(.sr5):not(.dialog):not(.folder-config) nav button.plain:hover {
   color: #931004;
 }
-.application:not(.sr5):not(.dialog) .standard-form .form-group > label {
+.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form .form-group > label {
   color: #fffffe;
 }
-.application:not(.sr5):not(.dialog) .standard-form .hint {
+.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form .hint {
   color: #0c9394;
 }
-.application:not(.sr5):not(.dialog) .standard-form fieldset {
+.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form fieldset {
   border-color: rgba(147, 16, 4, 0.5);
 }
-.application:not(.sr5):not(.dialog) .standard-form fieldset legend {
+.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form fieldset legend {
   color: #fffffe;
 }
-.application:not(.sr5):not(.dialog) .window-content {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content {
   padding: 8px;
   background-image: linear-gradient(rgba(0, 0, 1, 0.45), rgba(0, 0, 1, 0.45)), url("../img/ui/SR5_BG_Sidebar.jpg");
   background-origin: border-box;
   background-size: cover;
   color: #fffffe;
 }
-.application:not(.sr5):not(.dialog) .window-content header.form-header {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content header.form-header {
   border-top: none;
   border-bottom: none;
   margin-top: 0px;
 }
-.application:not(.sr5):not(.dialog) .window-content .form-header {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content .form-header {
   margin-top: 5px;
 }
-.application:not(.sr5):not(.dialog) .window-content .notes {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content .notes {
   color: #0c9394;
   line-height: 14px;
   margin-top: 0px;
 }
-.application:not(.sr5):not(.dialog) .window-content textarea[name=command] {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=command] {
   background-color: rgba(147, 16, 4, 0.25);
   border: 1px solid #931004;
   color: #fffffe;
 }
-.application:not(.sr5):not(.dialog) .window-content textarea[name=command]:focus {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=command]:focus {
   border: 1px solid #0c9394;
   outline: none;
   box-shadow: 0 0 5px #0c9394;
   color: #fffffe;
 }
-.application:not(.sr5):not(.dialog) .window-content textarea[name=command]::selection {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=command]::selection {
   background-color: rgba(12, 147, 148, 0.5);
 }
-.application:not(.sr5):not(.dialog) .window-content textarea[name=description] {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=description] {
   color: #fffffe;
   border: 1px solid #931004;
   background-color: rgba(147, 16, 4, 0.25);
 }
-.application:not(.sr5):not(.dialog) .window-content .command {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content .command {
   margin-bottom: 10px;
 }
-.application:not(.sr5):not(.dialog) .window-content table tr:nth-child(even) {
+.application:not(.sr5):not(.dialog):not(.folder-config) .window-content table tr:nth-child(even) {
   background-color: rgba(147, 16, 4, 0.25);
+}
+.application.journal-sheet .window-header {
+  background: #000001;
+  color: #fffffe;
 }
 .application.journal-sheet .window-content {
   background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
@@ -4240,17 +4186,17 @@ body {
 #compendium .compendium-footer {
   color: rgba(12, 147, 148, 0.5);
 }
-/* v13: compendium directory — SR5-specific content styling */
-.compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
-  color: rgba(255, 255, 254, 0.5);
-}
-.application:not(.sr5):not(.dialog) .form-group {
+.application:not(.sr5):not(.dialog):not(.folder-config) .form-group {
   border-bottom: 1px solid rgba(147, 16, 4, 0.5);
   padding-bottom: 8px;
 }
-.application:not(.sr5):not(.dialog) .form-footer {
+.application:not(.sr5):not(.dialog):not(.folder-config) .form-footer {
   padding: 8px 0 8px 0;
   margin-top: 8px;
+}
+/* v13: compendium directory — SR5-specific content styling */
+.compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
+  color: rgba(255, 255, 254, 0.5);
 }
 /* v13: characters — color theming only */
 #characters h3 {
@@ -4312,61 +4258,116 @@ body {
 #module-management .window-content .package-metadata a {
   color: #00bdca;
 }
-.dialog {
-  /* v13: match v12 light dialog background */
-  --background: #fffffe;
-  color: #000001;
-  color-scheme: light;
+.dialog,
+.folder-config {
+  --background: #000001;
+  color: #fffffe;
+  color-scheme: dark;
+  accent-color: #0c9394;
 }
-.dialog .window-header {
+.dialog .window-header,
+.folder-config .window-header {
   background: #000001;
   color: #fffffe;
 }
-.dialog .window-content {
-  padding: 0;
-  --paddingX: 0;
-  --paddingY: 0;
+.dialog .window-content,
+.folder-config .window-content {
+  padding: 8px;
+  background: #000001;
+  gap: 0;
+  /* Prevent inherited backgrounds on inner wrappers */
   /* v13: remove Foundry's default input background shade */
-  /* v13: neutralize .standard-form flex layout for SR5 dialogs */
+}
+.dialog .window-content .standard-form,
+.folder-config .window-content .standard-form,
+.dialog .window-content .dialog-form,
+.folder-config .window-content .dialog-form {
+  background: transparent;
 }
 .dialog .window-content input,
+.folder-config .window-content input,
 .dialog .window-content select,
-.dialog .window-content textarea {
+.folder-config .window-content select,
+.dialog .window-content textarea,
+.folder-config .window-content textarea {
   --input-background-color: transparent;
   --input-border-color: transparent;
   --input-focus-outline-color: transparent;
   --input-box-shadow: none;
 }
-.dialog .window-content input {
+.dialog .window-content input,
+.folder-config .window-content input {
+  color: #fffffe;
   border: 1px solid #931004;
-  background-color: rgba(12, 147, 148, 0.1);
 }
-.dialog .window-content input:focus {
-  box-shadow: 0 0 5px rgba(147, 16, 4, 0.5);
+.dialog .window-content input:focus,
+.folder-config .window-content input:focus {
+  border: 1px solid #0c9394;
+  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
 }
-.dialog .window-content .standard-form {
-  display: block;
-  gap: unset;
+.dialog .window-content input::placeholder,
+.folder-config .window-content input::placeholder {
+  color: #931004;
 }
-.dialog .window-content .dialog-content {
+.dialog .window-content select,
+.folder-config .window-content select {
+  border: 1px solid #931004;
+  color: #fffffe;
+  font-family: "srfoundry_regular";
+}
+.dialog .window-content select:focus,
+.folder-config .window-content select:focus {
+  box-shadow: 0 0 5px #0c9394;
+  border: 1px solid #0c9394;
+}
+.dialog .window-content option,
+.folder-config .window-content option {
+  background-color: #000001;
+}
+.dialog .window-content .form-group,
+.folder-config .window-content .form-group {
+  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
+  padding-bottom: 8px;
+}
+.dialog .window-content .form-group > label,
+.folder-config .window-content .form-group > label {
+  color: #0c9394;
+  font-family: "srfoundry_bold";
+}
+.dialog .window-content .dialog-content,
+.folder-config .window-content .dialog-content {
+  padding: 0;
+  /* Roll dialog: light background when SR5jet content is present */
+}
+.dialog .window-content .dialog-content:has(.SR5jet),
+.folder-config .window-content .dialog-content:has(.SR5jet) {
+  background: #fffffe;
+  color: #000001;
+  color-scheme: light;
   padding: 8px;
 }
 .dialog .window-content .dialog-content h3,
-.dialog .window-content .dialog-content h4 {
+.folder-config .window-content .dialog-content h3,
+.dialog .window-content .dialog-content h4,
+.folder-config .window-content .dialog-content h4 {
   color: #931004;
   text-align: center;
   border-bottom: 1px solid #931004;
 }
-.dialog .window-content .dialog-content .SR5jet {
+.dialog .window-content .dialog-content .SR5jet,
+.folder-config .window-content .dialog-content .SR5jet {
   height: auto;
 }
-.dialog .window-content .dialog-content .SR5jet .grid {
+.dialog .window-content .dialog-content .SR5jet .grid,
+.folder-config .window-content .dialog-content .SR5jet .grid {
   align-items: center;
 }
-.dialog .window-content .dialog-content .SR5jet [class*="col-"] {
+.dialog .window-content .dialog-content .SR5jet [class*="col-"],
+.folder-config .window-content .dialog-content .SR5jet [class*="col-"] {
   overflow: hidden;
 }
-.dialog .window-content .dialog-content .SR5jet input {
+.dialog .window-content .dialog-content .SR5jet input,
+.folder-config .window-content .dialog-content .SR5jet input {
   background: none !important;
   color: #000001 !important;
   height: 15px !important;
@@ -4381,7 +4382,8 @@ body {
   font-size: inherit;
   text-align: center;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"] {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"],
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"] {
   position: relative;
   margin: 0;
   border: 1px solid #0c9394 !important;
@@ -4401,7 +4403,8 @@ body {
   /* v13: override Foundry's FontAwesome checkbox ::before */
   /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before,
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
   position: absolute !important;
   content: '' !important;
   display: block !important;
@@ -4422,27 +4425,33 @@ body {
   line-height: normal;
   border-radius: 0 !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after,
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
   content: none !important;
   display: none !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked,
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
   color: #fffffe;
   border-color: #0c9394 !important;
   background: rgba(12, 147, 148, 0.9) !important;
   /* v13: ensure ::after stays suppressed when checked */
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before,
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after,
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
   content: none !important;
   display: none !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before,
+.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
-.dialog .window-content .dialog-content .SR5jet select {
+.dialog .window-content .dialog-content .SR5jet select,
+.folder-config .window-content .dialog-content .SR5jet select {
   text-align-last: right;
   color: #0c9394;
   margin-right: -5px;
@@ -4459,32 +4468,39 @@ body {
   width: 100% !important;
   cursor: pointer;
 }
-.dialog .window-content .dialog-content .SR5jet option {
+.dialog .window-content .dialog-content .SR5jet option,
+.folder-config .window-content .dialog-content .SR5jet option {
   direction: rtl;
 }
-.dialog .window-content .dialog-content .SR5jet ul {
+.dialog .window-content .dialog-content .SR5jet ul,
+.folder-config .window-content .dialog-content .SR5jet ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.dialog .window-content .dialog-content .SR5jet li {
+.dialog .window-content .dialog-content .SR5jet li,
+.folder-config .window-content .dialog-content .SR5jet li {
   line-height: 18px;
   margin: 0;
 }
-.dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
+.dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete,
+.folder-config .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
   font-size: 1em;
   border-bottom: solid 1px #931004;
   color: #931004;
   font-family: "srfoundry_bold";
 }
-.dialog .window-content .dialog-content .SR5jet p {
+.dialog .window-content .dialog-content .SR5jet p,
+.folder-config .window-content .dialog-content .SR5jet p {
   margin: 0;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-ModControl {
+.dialog .window-content .dialog-content .SR5jet .SR-ModControl,
+.folder-config .window-content .dialog-content .SR5jet .SR-ModControl {
   font-size: 11px;
   color: #0c9394;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-FakeInput {
+.dialog .window-content .dialog-content .SR5jet .SR-FakeInput,
+.folder-config .window-content .dialog-content .SR5jet .SR-FakeInput {
   background: rgba(12, 147, 148, 0.1);
   color: #000001;
   height: 15px;
@@ -4497,32 +4513,41 @@ body {
   width: calc(100% - 2px);
   min-width: 20px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-RecoilInput {
+.dialog .window-content .dialog-content .SR5jet .SR-RecoilInput,
+.folder-config .window-content .dialog-content .SR5jet .SR-RecoilInput {
   color: rgba(0, 0, 1, 0.7);
   padding-right: 0px;
   width: 10px;
   text-align: center;
   min-width: 0px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-TopSeparator {
+.dialog .window-content .dialog-content .SR5jet .SR-TopSeparator,
+.folder-config .window-content .dialog-content .SR5jet .SR-TopSeparator {
   border-top: 1px solid rgba(12, 147, 148, 0.35);
   margin-top: 5px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-DialogOption {
+.dialog .window-content .dialog-content .SR5jet .SR-DialogOption,
+.folder-config .window-content .dialog-content .SR5jet .SR-DialogOption {
   border-bottom: solid 1px #931004;
   color: #931004;
   font-family: "srfoundry_bold";
 }
 .dialog .dialog-buttons,
-.dialog .form-footer {
+.folder-config .dialog-buttons,
+.dialog .form-footer,
+.folder-config .form-footer {
   background-image: url("../img/ui/SR5_BG_Dialog.png");
-  background-size: contain;
+  background-size: cover;
   padding: 15px 8px 8px 8px;
 }
 .dialog .dialog-buttons button,
+.folder-config .dialog-buttons button,
 .dialog .form-footer button,
+.folder-config .form-footer button,
 .dialog .dialog-buttons button.default,
-.dialog .form-footer button.default {
+.folder-config .dialog-buttons button.default,
+.dialog .form-footer button.default,
+.folder-config .form-footer button.default {
   position: relative;
   display: block;
   --button-size: auto;
@@ -4543,25 +4568,37 @@ body {
   z-index: 1;
 }
 .dialog .dialog-buttons button:hover,
+.folder-config .dialog-buttons button:hover,
 .dialog .form-footer button:hover,
+.folder-config .form-footer button:hover,
 .dialog .dialog-buttons button.default:hover,
-.dialog .form-footer button.default:hover {
+.folder-config .dialog-buttons button.default:hover,
+.dialog .form-footer button.default:hover,
+.folder-config .form-footer button.default:hover {
   color: #000001;
   background-color: transparent;
   box-shadow: none;
 }
 .dialog .dialog-buttons button:hover:before,
+.folder-config .dialog-buttons button:hover:before,
 .dialog .form-footer button:hover:before,
+.folder-config .form-footer button:hover:before,
 .dialog .dialog-buttons button.default:hover:before,
-.dialog .form-footer button.default:hover:before {
+.folder-config .dialog-buttons button.default:hover:before,
+.dialog .form-footer button.default:hover:before,
+.folder-config .form-footer button.default:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
 .dialog .dialog-buttons button:before,
+.folder-config .dialog-buttons button:before,
 .dialog .form-footer button:before,
+.folder-config .form-footer button:before,
 .dialog .dialog-buttons button.default:before,
-.dialog .form-footer button.default:before {
+.folder-config .dialog-buttons button.default:before,
+.dialog .form-footer button.default:before,
+.folder-config .form-footer button.default:before {
   display: block;
   position: absolute;
   top: 0px;
