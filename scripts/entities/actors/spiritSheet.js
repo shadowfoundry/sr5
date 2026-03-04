@@ -23,18 +23,7 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
 		sheet: {
 			template: "systems/sr5/templates/actors/spirit-sheet.html",
 			root: true,
-			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
-		},
-	};
-
-	static TABS = {
-		gauche: {
-			tabs: [
-				{ id: "tab-attributs" },
-				{ id: "tab-deriv" },
-				{ id: "tab-magie" },
-			],
-			initial: "tab-attributs",
+			scrollable: [".sr-panel"],
 		},
 	};
 

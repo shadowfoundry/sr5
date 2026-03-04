@@ -10,7 +10,9 @@ import { SR5_ActorHelper } from "./entityActor-helpers.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
 import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
-import { SRActorSheetConfig } from "../../interface/sheet-config.js"; 
+import { SRActorSheetConfig } from "../../interface/sheet-config.js";
+import { computeLayout } from "../../interface/compute-layout.js";
+import { SR5SheetConfigDialog } from "../../interface/sheet-config-dialog.js";
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -22,6 +24,13 @@ import { SRActorSheetConfig } from "../../interface/sheet-config.js";
 export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicationMixin(
 	foundry.applications.sheets.ActorSheetV2
 ) {
+	static MODES = Object.freeze({ PLAY: 1, EDIT: 2 });
+
+	_mode = ActorSheetSR5.MODES.EDIT;
+
+	get isPlayMode() { return this._mode === ActorSheetSR5.MODES.PLAY; }
+	get isEditMode() { return this._mode === ActorSheetSR5.MODES.EDIT; }
+
 	constructor(...args) {
 		super(...args);
 	}
@@ -32,33 +41,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		dragDrop: [{ dragSelector: "li.item, div.draggableAttribute", dropSelector: null }],
 		actions: {
 			actorConfig: ActorSheetSR5._onActorConfig,
-		},
-	};
-
-	static TABS = {
-		centre: {
-			tabs: [
-				{ id: "tab-skills" },
-				{ id: "tab-combat" },
-				{ id: "tab-gear" },
-				{ id: "tab-augmentations" },
-				{ id: "tab-sorts" },
-				{ id: "tab-technomancer" },
-				{ id: "tab-matrice" },
-				{ id: "tab-contact" },
-				{ id: "tab-bio" },
-			],
-			initial: "tab-skills",
-		},
-		gauche: {
-			tabs: [
-				{ id: "tab-attributs" },
-				{ id: "tab-deriv" },
-				{ id: "tab-magie" },
-				{ id: "tab-deck" },
-				{ id: "tab-traits" },
-			],
-			initial: "tab-attributs",
+			toggleMode: ActorSheetSR5._onToggleMode,
+			configureSheet: ActorSheetSR5._onConfigureSheet,
 		},
 	};
 
@@ -91,6 +75,30 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		SRActorSheetConfig.buildDialog(this.actor);
 	}
 
+	static async _onToggleMode(event) {
+		event.preventDefault();
+		if (!this.isEditable) return;
+		const newMode = this.isPlayMode ? ActorSheetSR5.MODES.EDIT : ActorSheetSR5.MODES.PLAY;
+		game.user?.setFlag("sr5", `playMode.${this.actor.id}`, newMode);
+		await this.render({ mode: newMode });
+	}
+
+	static _onConfigureSheet(event) {
+		event.preventDefault();
+		SR5SheetConfigDialog.open(this.actor);
+	}
+
+	_configureRenderOptions(options) {
+		super._configureRenderOptions(options);
+		if (options.mode && this.isEditable) this._mode = options.mode;
+		else if (options.renderContext === `create${this.document.documentName}`) {
+			this._mode = ActorSheetSR5.MODES.EDIT;
+		} else if (!options.mode && this.document?.id) {
+			const saved = game.user?.getFlag("sr5", `playMode.${this.document.id}`);
+			if (saved) this._mode = saved;
+		}
+	}
+
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
 		const actorData = this.actor.toObject(false);
@@ -101,6 +109,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		context.editable = this.isEditable;
 		context.filters = this._filters || {};
 		context.lists = actorData.system.lists;
+		context.isPlay = this.isPlayMode;
 		// Provide cssClass for template compatibility
 		context.cssClass = this.document.isOwner ? "editable" : "locked";
 
@@ -111,18 +120,108 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		}
 		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
 
-		// Prepare tabs for all defined groups
-		context.tabs = {};
-		for (const group of Object.keys(this.constructor.TABS)) {
-			Object.assign(context.tabs, this._prepareTabs(group));
-		}
+		// Compute dynamic layout (SR6-style panel/tab/block system)
+		context.layout = this._computeSheetLayout(this.actor);
 
 		return context;
+	}
+
+	/**
+	 * Compute the panel/tab layout and sync Foundry's tabGroups.
+	 * Each panel gets its own independent tab group.
+	 */
+	_computeSheetLayout(actor) {
+		const prefs = actor.system.sheetPreferences ?? {};
+		const layout = computeLayout(this.constructor.name, prefs);
+
+		// Sync Foundry's tabGroups — one independent group per panel
+		for (const panel of layout.panels) {
+			const group = panel.group;
+			if (!this.tabGroups[group] && panel.tabs.length > 0) {
+				this.tabGroups[group] = panel.tabs[0].id;
+			}
+			const activeId = this.tabGroups[group];
+			if (activeId && !panel.tabs.some(t => t.id === activeId)) {
+				this.tabGroups[group] = panel.tabs[0]?.id ?? null;
+			}
+			for (const tab of panel.tabs) {
+				tab.cssClass = tab.id === this.tabGroups[group] ? "active" : "";
+			}
+		}
+
+		// Clean up stale groups
+		const validGroups = new Set(layout.panels.map(p => p.group));
+		for (const key of Object.keys(this.tabGroups)) {
+			if (!validGroups.has(key)) delete this.tabGroups[key];
+		}
+
+		return layout;
+	}
+
+	async _renderFrame(options) {
+		const frame = await super._renderFrame(options);
+		const header = frame.querySelector(".window-header");
+		const closeButton = header?.querySelector('[data-action="close"]');
+
+		// Play/Edit toggle button
+		if (this.isEditable) {
+			const toggleBtn = document.createElement("button");
+			toggleBtn.type = "button";
+			toggleBtn.classList.add("header-control", "icon", "fa-solid");
+			toggleBtn.dataset.action = "toggleMode";
+			if (closeButton) closeButton.before(toggleBtn);
+			else header?.appendChild(toggleBtn);
+		}
+
+		// Sheet config button (visibility toggled in _onRender based on mode)
+		if (this.actor?.isOwner) {
+			const configBtn = document.createElement("button");
+			configBtn.type = "button";
+			configBtn.classList.add("header-control", "icon", "fa-solid", "fa-tools");
+			configBtn.dataset.action = "configureSheet";
+			configBtn.dataset.tooltip = "Configure Sheet";
+			if (closeButton) closeButton.before(configBtn);
+			else header?.appendChild(configBtn);
+		}
+
+		return frame;
 	}
 
 	_onRender(context, options) {
 		super._onRender(context, options);
 		const element = this.element;
+
+		// Play/Edit mode classes
+		element.classList.toggle("sr-mode-edit", this.isEditMode);
+		element.classList.toggle("sr-mode-play", this.isPlayMode);
+
+		// Update toggle button icon
+		const toggleBtn = element.querySelector('[data-action="toggleMode"]');
+		if (toggleBtn) {
+			toggleBtn.classList.toggle("fa-lock", this.isPlayMode);
+			toggleBtn.classList.toggle("fa-lock-open", this.isEditMode);
+			toggleBtn.dataset.tooltip = this.isPlayMode ? "SR5.SwitchToEdit" : "SR5.SwitchToPlay";
+		}
+
+		// Show/hide config button based on mode
+		const configBtn = element.querySelector('[data-action="configureSheet"]');
+		if (configBtn) configBtn.style.display = this.isPlayMode ? "none" : "";
+
+		// Disable form inputs in duplicate block instances to prevent FormDataExtended conflicts.
+		// When the same block appears multiple times, only the first instance keeps its name attributes;
+		// subsequent instances become read-only mirrors.
+		const seenBlocks = new Set();
+		for (const blockEl of element.querySelectorAll("[data-block-id]")) {
+			const blockId = blockEl.dataset.blockId;
+			if (seenBlocks.has(blockId)) {
+				for (const input of blockEl.querySelectorAll("input[name], select[name], textarea[name]")) {
+					input.removeAttribute("name");
+					input.setAttribute("tabindex", "-1");
+				}
+			} else {
+				seenBlocks.add(blockId);
+			}
+		}
 
 		// Activate initial tabs for all groups (AppV2 doesn't auto-activate on render)
 		for (const [group, tab] of Object.entries(this.tabGroups)) {

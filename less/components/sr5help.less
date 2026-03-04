@@ -1,0 +1,44 @@
+#sr5help {
+  z-index: 0;
+  position: fixed;
+  background: none;
+  color: @neutralLightColor;
+  text-align: center;
+  background-image: none;
+  left: 15px;
+  bottom: 82px;
+  border: 1px solid @popColor;
+  border-radius: none;
+  box-shadow: none;
+  background-color: fade(@popColor, 25%);
+  padding: 0 10px;
+  width: auto;
+  max-width: 300px;
+  opacity: 0;
+  transition: opacity .5s ease-out 2s, z-index 3.5s;
+
+  &.active {
+    opacity: 1;
+    transition: opacity .5s ease-out 0s;
+    z-index: 999;
+  }
+
+  h3 {
+    font-family: @SR_FontTitle;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid fade(@popColor, 50%);
+  }
+
+  ul {
+    list-style-type: circle;
+    list-style-position: outside;
+    text-align: left;
+    padding-left: 12px;
+  }
+
+  .helpMessage {
+    padding-bottom: 8px;
+    border-bottom: 1px solid fade(@popColor, 50%);
+  }
+}

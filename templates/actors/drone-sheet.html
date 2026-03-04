@@ -1,72 +1,15 @@
 <div>
-	<div class="SR-mainContainer">
-
+	<div class="SR-mainContainer sr-layout">
 		<!-- HEADER -->
 		{{> systems/sr5/templates/actors/_partials/header/header.html}}
 
-		<div class="SR-MainWindows">
-			<div class="grid">
+		<!-- DYNAMIC CONTENT -->
+		{{> systems/sr5/templates/actors/_partials/content.html}}
 
-				<!-- LEFT TAB -->
-				<div class="col-3 SR-DroneColGauche">
-					<section class="sr-tabs2">
-						<!-- CORE INFO LEFT TAB -->
-						<div class="tab" data-group="gauche" data-tab="tab-attributs">
-							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/attributes.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/resistances.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/defenses.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/controlMode.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
-						</div>
-						<!-- MATRIX USER LEFT TAB -->
-						<div class="tab" data-group="gauche" data-tab="tab-deck">
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/device.html}}
-							<div class="SRBlockSheet">
-								<ul>
-									<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
-								</ul>
-							</div>
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixPrograms.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
-						</div>
-					</section>
-				</div>
-
-				<!-- RIGHT TAB -->
-				<div class="col-9">
-					<div class="SR-DroneMainCentre">
-						<section class="sr-tabs">
-							<!-- MAIN RIGHT TAB -->
-							<div class="tab" data-group="centre" data-tab="tab-combat">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/droneStuff/droneRoll.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/rangedWeapons.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
-							</div>
-							<!-- MATRIX RIGHT TAB -->
-							<div class="tab" data-group="centre" data-tab="tab-matrice">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/programs.html}}
-								{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
-							</div>
-							<!-- MODIFICATION RIGHT TAB -->
-							<div class="tab" data-group="centre" data-tab="tab-modifications">
-								{{> systems/sr5/templates/actors/_partials/right-tabs/droneStuff/modifications.html}}
-							</div>
-						</section>
-					</div>
-				</div>
-
-			</div>
-		</div>
+		<!-- NAV SIDEBAR -->
+		{{> systems/sr5/templates/actors/_partials/nav.html}}
 
 		<!-- FOOTER -->
 		{{> systems/sr5/templates/actors/_partials/footer/footer.html }}
-
 	</div>
 </div>

@@ -23,10 +23,10 @@
 
     .window-content {
         padding            : 0px;
-        background-image   : url(@ItemSheetTop), url(@ItemSheetBottom), url(@BGWhite50);
-        background-repeat  : no-repeat, no-repeat, no-repeat;
-        background-position: top, bottom;
-        background-size    : contain, contain, cover;
+        background-image   : url(@BGWhite50);
+        background-repeat  : no-repeat;
+        background-position: top left;
+        background-size    : cover;
         font-family        : @SR_BodyText;
         font-size          : @SR_FontSizeSmall ;
         background-color   : fade(@neutralLightColor, 100%);
@@ -48,6 +48,10 @@
 
         .SR-Header {
             padding: 10px 3px 0px 3px;
+            background-image: url(@ItemSheetTop);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: top left;
 
             .SRImgItem {
                 width        : 30px;
@@ -342,6 +346,10 @@
             color     : @neutralLightColor;
             margin-top: 32px;
             padding   : 0px 3px;
+            background-image: url(@ItemSheetBottom);
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            background-position: bottom left;
 
             .SR-MoniteurBar {
                 display       : flex;
@@ -382,6 +390,23 @@
 
     .editor-content {
         min-height: 50px;
+    }
+
+    // ---- Play / Edit mode ----
+    &.sr-mode-play {
+        .subItem[data-subaction="add"],
+        .subItem[data-subaction="delete"],
+        .subItem[data-subaction="clone"],
+        .accessoryChoice {
+            display: none;
+        }
+
+        input:not([type="checkbox"]),
+        select,
+        textarea {
+            pointer-events: none;
+            opacity: 0.85;
+        }
     }
 
 }

@@ -32,6 +32,13 @@ export const preloadHandlebarsTemplates = async function () {
 		/**                      ACTOR PARTIALS                         ** */
 		/***************************************************************** */
 
+		// Dynamic layout templates (SR6-style block system)
+		"systems/sr5/templates/actors/_partials/content.html",
+		"systems/sr5/templates/actors/_partials/nav.html",
+
+		// Sheet config dialog
+		"systems/sr5/templates/interface/sheet-config.html",
+
 		// Actor sheet - Headers
 		"systems/sr5/templates/actors/_partials/header/header.html",
 

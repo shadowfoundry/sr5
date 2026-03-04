@@ -1,0 +1,10 @@
+@keyframes glow {
+  from {
+    color: fade(@neutralLightColor, 90%);
+    text-shadow: 0 0 10px @popColor, 0 0 20px @popColor, 0 0 30px @popColor, 0 0 40px @popColor, 0 0 50px @popColor, 0 0 60px @popColor, 0 0 70px @popColor, 0 0 90px @popColor;
+  }
+  to {
+    color: transparent;
+    text-shadow: 0 0 20px @popColor, 0 0 20px @popColor, 0 0 30px @popColor, 0 0 40px @popColor, 0 0 50px @popColor, 0 0 60px @popColor, 0 0 70px @popColor, 0 0 80px @popColor, 0 1 90px @popColor;
+  }
+}

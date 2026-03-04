@@ -18,17 +18,7 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 		sheet: {
 			template: "systems/sr5/templates/actors/device-sheet.html",
 			root: true,
-			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
-		},
-	};
-
-	static TABS = {
-		centre: {
-			tabs: [
-				{ id: "tab-matrice" },
-				{ id: "tab-bio" },
-			],
-			initial: "tab-matrice",
+			scrollable: [".sr-panel"],
 		},
 	};
 

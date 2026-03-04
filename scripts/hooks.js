@@ -133,6 +133,21 @@ export const registerHooks = function () {
 		//Socket
 		SR5_SocketHandler.registerSocketListeners();
 
+		// Patch creation dialog buttons with document-type icons
+		const docTypes = ["Actor", "Item", "Scene", "JournalEntry", "RollTable", "Cards", "Playlist", "Macro"];
+		for (const docName of docTypes) {
+			const cls = CONFIG[docName]?.documentClass;
+			if (!cls?.createDialog) continue;
+			const original = cls.createDialog;
+			cls.createDialog = function(data={}, createOptions={}, options={}) {
+				const icon = CONFIG[docName]?.sidebarIcon;
+				if (icon && !options?.ok?.icon) {
+					options = foundry.utils.mergeObject({ ok: { icon } }, options);
+				}
+				return original.call(this, data, createOptions, options);
+			};
+		}
+
 		SR5_SystemHelpers.srLog(2, `Finished initializing game system`);  
 	});
 
@@ -206,6 +221,27 @@ export const registerHooks = function () {
 		// Attach SR5 chat card listeners for messages with roll card content
 		const hasSr5Card = element.querySelector(".SR-CardHeader");
 		if (hasSr5Card) SR5_RollMessage.chatListeners(html, message);
+	});
+
+	// v13: keep chat scrolled to bottom when SR5 roll messages change height.
+	// Track whether the user is at the bottom; when chat content resizes
+	// (message updates, card expand/collapse), snap back to bottom instantly.
+	// This doesn't interfere with smooth "Jump to Bottom" animations because
+	// wasAtBottom is false while the user is scrolled up.
+	Hooks.once("renderChatLog", (app) => {
+		const scroll = app.element.querySelector(".chat-scroll");
+		if (!scroll) return;
+		const log = scroll.querySelector(".chat-log");
+		if (!log) return;
+		let wasAtBottom = true;
+		scroll.addEventListener("scroll", () => {
+			wasAtBottom = (scroll.scrollHeight - scroll.scrollTop - scroll.clientHeight) < 5;
+		});
+		new ResizeObserver(() => {
+			if (wasAtBottom) {
+				scroll.scrollTo({ top: scroll.scrollHeight, behavior: "instant" });
+			}
+		}).observe(log);
 	});
 
 	Hooks.on("canvasInit", function() {

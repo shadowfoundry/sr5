@@ -27,7 +27,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 		sheet: {
 			template: "systems/sr5/templates/actors/grunt-sheet.html",
 			root: true,
-			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
+			scrollable: [".sr-panel"],
 		},
 	};
 

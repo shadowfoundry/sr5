@@ -8,11 +8,21 @@ import { SR5_EntityHelpers } from "../helpers.js";
 export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplicationMixin(
 	foundry.applications.sheets.ItemSheetV2
 ) {
+	static MODES = Object.freeze({ PLAY: 1, EDIT: 2 });
+
+	_mode = SR5ItemSheet.MODES.EDIT;
+
+	get isPlayMode() { return this._mode === SR5ItemSheet.MODES.PLAY; }
+	get isEditMode() { return this._mode === SR5ItemSheet.MODES.EDIT; }
+
 	static DEFAULT_OPTIONS = {
 		classes: ["app", "window-app", "sr5", "SR-Item"],
 		position: { width: 510, height: 445 },
 		window: { resizable: false },
 		form: { submitOnChange: true },
+		actions: {
+			toggleMode: SR5ItemSheet._onToggleMode,
+		},
 	};
 
 	static PARTS = {
@@ -38,11 +48,48 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		return this.document.name;
 	}
 
+	static async _onToggleMode(event) {
+		event.preventDefault();
+		if (!this.isEditable) return;
+		const newMode = this.isPlayMode ? SR5ItemSheet.MODES.EDIT : SR5ItemSheet.MODES.PLAY;
+		game.user?.setFlag("sr5", `playMode.${this.item.id}`, newMode);
+		await this.render({ mode: newMode });
+	}
+
+	_configureRenderOptions(options) {
+		super._configureRenderOptions(options);
+		if (options.mode && this.isEditable) this._mode = options.mode;
+		else if (options.renderContext === `create${this.document.documentName}`) {
+			this._mode = SR5ItemSheet.MODES.EDIT;
+		} else if (!options.mode && this.document?.id) {
+			const saved = game.user?.getFlag("sr5", `playMode.${this.document.id}`);
+			if (saved) this._mode = saved;
+		}
+	}
+
 	/** Dynamically set the template path based on item type */
 	_configureRenderParts(options) {
 		const parts = super._configureRenderParts(options);
 		parts.sheet.template = `systems/sr5/templates/items/${this.item.type}-sheet.html`;
 		return parts;
+	}
+
+	async _renderFrame(options) {
+		const frame = await super._renderFrame(options);
+		const header = frame.querySelector(".window-header");
+		const closeButton = header?.querySelector('[data-action="close"]');
+
+		// Play/Edit toggle button
+		if (this.isEditable) {
+			const toggleBtn = document.createElement("button");
+			toggleBtn.type = "button";
+			toggleBtn.classList.add("header-control", "icon", "fa-solid");
+			toggleBtn.dataset.action = "toggleMode";
+			if (closeButton) closeButton.before(toggleBtn);
+			else header?.appendChild(toggleBtn);
+		}
+
+		return frame;
 	}
 
 	async _prepareContext(options) {
@@ -53,6 +100,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		context.isEmbedded = item.isEmbedded;
 		context.lists = SR5_EntityHelpers.sortTranslations(SR5);
 		context.tabs = this._prepareTabs("primary");
+		context.isPlay = this.isPlayMode;
 		// Provide cssClass for template compatibility
 		context.cssClass = this.document.isOwner ? "editable" : "locked";
 		return context;
@@ -61,6 +109,18 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 	_onRender(context, options) {
 		super._onRender(context, options);
 		const el = this.element;
+
+		// Play/Edit mode classes
+		el.classList.toggle("sr-mode-edit", this.isEditMode);
+		el.classList.toggle("sr-mode-play", this.isPlayMode);
+
+		// Update toggle button icon
+		const toggleBtn = el.querySelector('[data-action="toggleMode"]');
+		if (toggleBtn) {
+			toggleBtn.classList.toggle("fa-lock", this.isPlayMode);
+			toggleBtn.classList.toggle("fa-lock-open", this.isEditMode);
+			toggleBtn.dataset.tooltip = this.isPlayMode ? "SR5.SwitchToEdit" : "SR5.SwitchToPlay";
+		}
 
 		// Activate initial tabs (AppV2 doesn't auto-activate on render)
 		for (const [group, tab] of Object.entries(this.tabGroups)) {

@@ -634,6 +634,7 @@ export class SR5Item extends Item {
 				{
 					action: "ok",
 					label: title,
+					icon: CONFIG[documentName]?.sidebarIcon,
 					default: true,
 					callback: async (event, button, dialog) => {
 						const form = dialog.element.querySelector("form");

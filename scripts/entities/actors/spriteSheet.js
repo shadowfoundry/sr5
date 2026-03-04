@@ -25,16 +25,7 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 		sheet: {
 			template: "systems/sr5/templates/actors/sprite-sheet.html",
 			root: true,
-			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
-		},
-	};
-
-	static TABS = {
-		gauche: {
-			tabs: [
-				{ id: "tab-attributs" },
-			],
-			initial: "tab-attributs",
+			scrollable: [".sr-panel"],
 		},
 	};
 

@@ -25,25 +25,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 		sheet: {
 			template: "systems/sr5/templates/actors/drone-sheet.html",
 			root: true,
-			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
-		},
-	};
-
-	static TABS = {
-		gauche: {
-			tabs: [
-				{ id: "tab-attributs" },
-				{ id: "tab-deck" },
-			],
-			initial: "tab-attributs",
-		},
-		centre: {
-			tabs: [
-				{ id: "tab-combat" },
-				{ id: "tab-matrice" },
-				{ id: "tab-modifications" },
-			],
-			initial: "tab-combat",
+			scrollable: [".sr-panel"],
 		},
 	};
 

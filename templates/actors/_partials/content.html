@@ -1,0 +1,36 @@
+<div class="sr-tab-content">
+  <div class="sr-tab-panels">
+    {{#each layout.panels}}
+      <div class="sr-panel-wrap sr-panel-cols-{{this.width}}">
+        <div class="sr-panel">
+          {{#each this.tabs}}
+            <section class="sr-tab-region tab {{this.cssClass}}"
+                     data-group="{{this.group}}" data-tab="{{this.id}}">
+              {{#each this.sections}}
+                {{#if (eq this.type "columns")}}
+                  <div class="sr-panel-columns">
+                    {{#each this.columns}}
+                      <div class="sr-panel-col">
+                        {{#each this}}
+                          <div data-block-id="{{this.id}}" data-block-uid="{{this.uid}}">
+                            {{> (lookup this "partial") @root}}
+                          </div>
+                        {{/each}}
+                      </div>
+                    {{/each}}
+                  </div>
+                {{else}}
+                  {{#each this.blocks}}
+                    <div class="sr-block-span sr-block-span-{{this.size}}" data-block-id="{{this.id}}" data-block-uid="{{this.uid}}">
+                      {{> (lookup this "partial") @root}}
+                    </div>
+                  {{/each}}
+                {{/if}}
+              {{/each}}
+            </section>
+          {{/each}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

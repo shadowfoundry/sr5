@@ -1,0 +1,14 @@
+<section class="sr-nav-panel">
+  <nav class="sr-icon-nav tabs">
+    {{#each layout.panels}}
+      {{#unless @first}}
+        <div class="sr-nav-separator"></div>
+      {{/unless}}
+      {{#each this.tabs}}
+        <a data-action="tab" data-group="{{this.group}}" data-tab="{{this.id}}" class="{{this.cssClass}}">
+          {{> (lookup this "icon") }}
+        </a>
+      {{/each}}
+    {{/each}}
+  </nav>
+</section>

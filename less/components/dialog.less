@@ -1,0 +1,301 @@
+/* v13: only style the SR5 roll dialog (.SR5jet), let Foundry handle generic dialogs */
+
+.dialog {
+    .window-content .dialog-content {
+        /* Light background for all SR5 dialogs */
+        background: @neutralLightColor;
+        color: @neutralDarkColor;
+        color-scheme: light;
+        padding: 8px;
+
+        input {
+            background     : none !important;
+            color          : @neutralDarkColor !important;
+            border         : 0 !important;
+            border-bottom  : 1px solid fade(@subColor, 35%) !important;
+            padding        : 0 !important;
+            border-radius  : 0 !important;
+            box-shadow     : none !important;
+            outline        : none !important;
+            font-family    : inherit;
+            font-size      : inherit;
+        }
+
+        select {
+            color: @subColor;
+            background: none !important;
+            border: 0 !important;
+            border-bottom: 1px solid fade(@subColor, 35%) !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+            outline: none !important;
+            font-family: inherit;
+            font-size: inherit;
+            cursor: pointer;
+        }
+
+        label {
+            color: @neutralDarkColor;
+            font-family: @SR_BodyText;
+        }
+
+        h3, h4 {
+            color: @mainColor;
+            text-align: center;
+            border-bottom: 1px solid @mainColor;
+        }
+
+        .SR5jet {
+            height: auto;
+
+            .grid {
+                align-items: center;
+            }
+
+            [class*="col-"] {
+                overflow: hidden;
+            }
+
+            input {
+                background     : none !important;
+                color          : @neutralDarkColor !important;
+                height         : 15px !important;
+                border         : 0 !important;
+                padding        : 0 !important;
+                border-radius  : 0 !important;
+                box-shadow     : none !important;
+                outline        : none !important;
+                line-height    : 15px;
+                width          : 100% !important;
+                font-family    : inherit;
+                font-size      : inherit;
+                text-align     : center;
+            }
+
+            input[type="checkbox"] {
+                position     : relative;
+                margin       : 0;
+                border       : 1px solid @subColor !important;
+                height       : 12px !important;
+                width        : 12px !important;
+                border-radius: 3px !important;
+                appearance   : none !important;
+                -webkit-appearance: none !important;
+                outline      : 0 !important;
+                cursor       : pointer;
+                background   : transparent !important;
+                transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+                display      : inline-block;
+                vertical-align: middle;
+                overflow     : hidden;
+                --checkbox-size: 12px;
+
+                /* v13: override Foundry's FontAwesome checkbox ::before */
+                &::before {
+                    position    : absolute !important;
+                    content     : '' !important;
+                    display     : block !important;
+                    top         : 0;
+                    left        : 0;
+                    right       : 0;
+                    bottom      : 0;
+                    margin      : auto auto auto calc(50% - 2px);
+                    width       : 5px !important;
+                    height      : 10px !important;
+                    border-style: solid;
+                    border-width: 0 2px 2px 0;
+                    border-color: @neutralLightColor;
+                    transform   : rotate(45deg);
+                    opacity     : 0;
+                    font-family : inherit !important;
+                    font-size   : inherit !important;
+                    line-height : normal;
+                    border-radius: 0 !important;
+                }
+
+                /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
+                &::after {
+                    content     : none !important;
+                    display     : none !important;
+                }
+
+                &:checked {
+                    color       : @neutralLightColor;
+                    border-color: @subColor !important;
+                    background  : fade(@subColor, 90%) !important;
+
+                    &::before {
+                        opacity: 1;
+                    }
+
+                    /* v13: ensure ::after stays suppressed when checked */
+                    &::after {
+                        content : none !important;
+                        display : none !important;
+                    }
+
+                    ~label::before {
+                        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+                    }
+                }
+            }
+
+            select {
+                text-align-last: right;
+                color: @subColor;
+                margin-right: -5px;
+                background: none !important;
+                border: 0 !important;
+                border-radius: 0 !important;
+                height: auto !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                outline: none !important;
+                line-height: 18px;
+                font-family: inherit;
+                font-size: inherit;
+                width: 100% !important;
+                cursor: pointer;
+            }
+            option { direction: rtl; }
+
+            ul {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            li {
+                line-height: 18px;
+                margin: 0;
+
+                &.SR-LigneEnTete {
+                    font-size: @SR_FontSizeNormal;
+                    border-bottom: solid 1px @mainColor;
+                    color: @mainColor;
+                    font-family: @SR_BodyTextBold;
+                }
+            }
+
+            p {
+                margin: 0;
+            }
+
+            .SR-ModControl {
+                font-size: 11px;
+                color: @subColor;
+            }
+
+            .SR-FakeInput {
+                background    : fade(@subColor, 10%);
+                color         : @neutralDarkColor;
+                height        : 15px;
+                border        : 0;
+                padding-top   : 0;
+                padding-bottom: 0;
+                margin-left   : auto;
+                margin-right  : auto;
+                border-radius : 0;
+                width         : calc(100% - 2px);
+                min-width     : 20px;
+            }
+
+            .SR-RecoilInput {
+                color         : fade(@neutralDarkColor, 70%);
+                padding-right  : 0px;
+                width         : 10px;
+                text-align    : center;
+                min-width     : 0px;
+            }
+
+            .SR-TopSeparator{
+                border-top: 1px solid fade(@subColor, 35%);
+                margin-top: 5px;
+            }
+
+            .SR-DialogOption{
+                border-bottom: solid 1px @mainColor;
+                color: @mainColor;
+                font-family: @SR_BodyTextBold;
+            }
+        }
+    }
+
+    /* SR5 dialog frame — dark header, themed buttons */
+    & {
+        .window-header {
+            background: @neutralDarkColor;
+            color: @neutralLightColor;
+            font-family: @SR_BodyText;
+        }
+
+        .window-content {
+            padding: 0;
+        }
+
+        .standard-form {
+            gap: 0;
+        }
+
+        .dialog-buttons,
+        .form-footer {
+            background-image: url(@Dialog) !important;
+            background-size: cover !important;
+            padding: 15px 8px 8px 8px !important;
+
+            button, button.default {
+                --button-size: auto !important;
+                --button-background-color: fade(@black, 30%) !important;
+                --button-border-color: @subColor !important;
+                --button-text-color: @neutralLightColor !important;
+                --button-hover-background-color: transparent !important;
+                --button-hover-border-color: @subColor !important;
+                --button-hover-text-color: @neutralDarkColor !important;
+                --button-focus-outline-color: @subColor !important;
+                position: relative;
+                height: auto !important;
+                min-height: unset !important;
+                padding: 4px 0.5rem !important;
+                line-height: 20px;
+                color: @neutralLightColor !important;
+                font-family: @SR_FontTitle;
+                text-transform: uppercase;
+                font-size: @SR_FontSizeSmall;
+                text-align: center;
+                border-radius: 3px;
+                text-decoration: none;
+                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                border: 1px solid @subColor !important;
+                background: fade(@black, 30%) !important;
+                z-index: 1;
+
+                &:hover {
+                    color: @neutralDarkColor !important;
+                    background-color: transparent !important;
+                    box-shadow: none !important;
+                }
+
+                &:hover:before {
+                    left: 0%;
+                    right: auto;
+                    width: 100%;
+                }
+
+                &:before {
+                    display: block;
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    height: 100%;
+                    width: 0px;
+                    z-index: -1;
+                    content: '';
+                    color: @neutralDarkColor;
+                    background: @subColor;
+                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+                }
+            }
+        }
+    }
+}

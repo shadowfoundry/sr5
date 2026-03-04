@@ -266,10 +266,10 @@ body {
 }
 .app.window-app.SR-Item .window-content {
   padding: 0px;
-  background-image: url("../img/ui/SR5_BG_ItemTop.png"), url("../img/ui/SR5_BG_ItemBottom.png"), url("../img/ui/SR5_BG_Blanc50.png");
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-position: top, bottom;
-  background-size: contain, contain, cover;
+  background-image: url("../img/ui/SR5_BG_Blanc50.png");
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: cover;
   font-family: "srfoundry_regular";
   font-size: 0.9em;
   background-color: #fffffe;
@@ -288,6 +288,10 @@ body {
 }
 .app.window-app.SR-Item .window-content .SR-Header {
   padding: 10px 3px 0px 3px;
+  background-image: url("../img/ui/SR5_BG_ItemTop.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top left;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRImgItem {
   width: 30px;
@@ -530,6 +534,10 @@ body {
   color: #fffffe;
   margin-top: 32px;
   padding: 0px 3px;
+  background-image: url("../img/ui/SR5_BG_ItemBottom.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: bottom left;
 }
 .app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurBar {
   display: flex;
@@ -562,8 +570,21 @@ body {
 .app.window-app.SR-Item .editor-content {
   min-height: 50px;
 }
+.app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="add"],
+.app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="delete"],
+.app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="clone"],
+.app.window-app.SR-Item.sr-mode-play .accessoryChoice {
+  display: none;
+}
+.app.window-app.SR-Item.sr-mode-play input:not([type="checkbox"]),
+.app.window-app.SR-Item.sr-mode-play select,
+.app.window-app.SR-Item.sr-mode-play textarea {
+  pointer-events: none;
+  opacity: 0.85;
+}
 .app.window-app.actor {
   /* v13: remove Foundry's default input background shade */
+  /* ── Play / Edit mode ───────────────────────────────────── */
 }
 .app.window-app.actor input,
 .app.window-app.actor select,
@@ -579,14 +600,22 @@ body {
 }
 .app.window-app.actor .window-content {
   padding: 0px;
-  background-image: url("../img/ui/SR5_BG_ActorTop.png"), url("../img/ui/SR5_BG_ActorBottom.png"), url("../img/ui/SR5_BG_Blanc50.png");
-  background-position: top -2px left, bottom -14px left 0%, top left;
-  background-size: auto, auto, cover;
-  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-image: url("../img/ui/SR5_BG_Blanc50.png");
+  background-position: top left;
+  background-size: cover;
+  background-repeat: no-repeat;
   font-family: "srfoundry_regular";
   font-size: 0.9em;
   background-color: #fffffe;
   /* v13: override @layer elements defaults for ul/li */
+  /* ── New panel-first layout system (SR6-style) ────────────── */
+  /* Grid layout for .SR-mainContainer — activates when templates switch */
+  /* Right-side icon navigation sidebar */
+  /* Panel layout — 3-column grid, panels span 1-3 columns */
+  /* Tab region columns match panel width */
+  /* Multi-column sections within a tab */
+  /* Block spans — use grid-column-end so grid-column-start can position independently */
+  /* 24-column grid for block rows */
 }
 .app.window-app.actor .window-content ::-webkit-scrollbar {
   display: none;
@@ -810,6 +839,10 @@ body {
   padding-top: 5px;
   margin-bottom: 12px;
   display: flex;
+  background-image: url("../img/ui/SR5_BG_ActorTop.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top left;
 }
 .app.window-app.actor .window-content .SR-Header input {
   color: #fffffe;
@@ -900,7 +933,8 @@ body {
 .app.window-app.actor .window-content .SR-Header .SR-Materialize input + label {
   cursor: pointer;
 }
-.app.window-app.actor .window-content .SR-MainWindows input {
+.app.window-app.actor .window-content .SR-MainWindows input,
+.app.window-app.actor .window-content .sr-tab-content input {
   background: none;
   color: rgba(0, 0, 1, 0.7);
   height: auto;
@@ -909,17 +943,21 @@ body {
   border-radius: 0;
   padding: 0;
 }
-.app.window-app.actor .window-content .SR-MainWindows input::placeholder {
+.app.window-app.actor .window-content .SR-MainWindows input::placeholder,
+.app.window-app.actor .window-content .sr-tab-content input::placeholder {
   color: rgba(12, 147, 148, 0.5);
 }
-.app.window-app.actor .window-content .SR-MainWindows input:focus {
+.app.window-app.actor .window-content .SR-MainWindows input:focus,
+.app.window-app.actor .window-content .sr-tab-content input:focus {
   box-shadow: none;
   border-bottom: 1px solid #0c9394;
 }
-.app.window-app.actor .window-content .SR-MainWindows input.specialisation {
+.app.window-app.actor .window-content .SR-MainWindows input.specialisation,
+.app.window-app.actor .window-content .sr-tab-content input.specialisation {
   padding-left: 8px;
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"] {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"],
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"] {
   position: relative;
   margin: 0;
   border: 1px solid #0c9394;
@@ -932,7 +970,8 @@ body {
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
   /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::before {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::before,
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -948,27 +987,48 @@ body {
   font-size: inherit;
   line-height: normal;
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::after {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]::after,
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]::after {
   content: none;
   display: none;
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked,
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked {
   content: '✔';
   color: #fffffe;
   border-color: #0c9394;
   background: rgba(12, 147, 148, 0.5);
   /* v13: ensure ::after stays suppressed when checked */
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::before {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::before,
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked::before {
   opacity: 1;
   border-color: #fffffe;
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::after {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::after,
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked::after {
   content: none;
   display: none;
 }
-.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before {
+.app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before,
+.app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.app.window-app.actor .window-content .SR-MainWindows select,
+.app.window-app.actor .window-content .sr-tab-content select {
+  border-bottom: 1px solid rgba(12, 147, 148, 0.25);
+  border-radius: 0px;
+  background: none;
+  padding-right: 12px;
+}
+.app.window-app.actor .window-content .SR-MainWindows select:focus,
+.app.window-app.actor .window-content .sr-tab-content select:focus {
+  box-shadow: none;
+  border-bottom: 1px solid #0c9394;
+}
+.app.window-app.actor .window-content .SR-MainWindows select:invalid,
+.app.window-app.actor .window-content .sr-tab-content select:invalid {
+  color: rgba(12, 147, 148, 0.5);
 }
 .app.window-app.actor .window-content .SR-ActorMainCentre {
   margin-left: 10px;
@@ -1060,7 +1120,11 @@ body {
 .app.window-app.actor .window-content .SR-footer {
   margin-top: 25px;
   padding: 0px 3px 0px 3px;
-  display: flex ;
+  display: flex;
+  background-image: url("../img/ui/SR5_BG_ActorBottom.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: bottom left;
 }
 .app.window-app.actor .window-content .SR-footer input {
   background: none;
@@ -1154,6 +1218,256 @@ body {
 .app.window-app.actor .window-content .SR-CasePopColor {
   background: #00bdca;
   border: 1px solid rgba(0, 189, 202, 0.5);
+}
+.app.window-app.actor .window-content .SR-mainContainer.sr-layout {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) 50px;
+  grid-template-areas: "header  header" "content nav" "footer  footer";
+  height: 100%;
+}
+.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .SR-Header {
+  grid-area: header;
+}
+.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .sr-tab-content {
+  grid-area: content;
+  min-height: 0;
+  overflow: hidden;
+}
+.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .sr-nav-panel {
+  grid-area: nav;
+}
+.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .SR-footer {
+  grid-area: footer;
+}
+.app.window-app.actor .window-content .sr-nav-panel {
+  border-left: 1px solid rgba(12, 147, 148, 0.35);
+  padding-left: 10px;
+  min-width: 50px;
+  max-width: 50px;
+  min-height: 0;
+}
+.app.window-app.actor .window-content .sr-nav-panel .sr-icon-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: none;
+  gap: 4px;
+  height: 100%;
+}
+.app.window-app.actor .window-content .sr-nav-panel .sr-nav-separator {
+  width: 100%;
+  height: 4px;
+  flex-shrink: 0;
+}
+.app.window-app.actor .window-content .sr-nav-panel a {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+.app.window-app.actor .window-content .sr-nav-panel a.active {
+  opacity: 1;
+}
+.app.window-app.actor .window-content .sr-nav-panel a:hover {
+  opacity: 0.8;
+}
+.app.window-app.actor .window-content .sr-nav-panel a svg {
+  width: 24px;
+  height: 24px;
+  fill: #931004;
+}
+.app.window-app.actor .window-content .sr-tab-content {
+  min-height: 0;
+  height: 100%;
+  overflow: visible;
+}
+.app.window-app.actor .window-content .sr-tab-content li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
+  background-color: rgba(12, 147, 148, 0.1);
+}
+.app.window-app.actor .window-content .sr-tab-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  align-items: stretch;
+  height: 100%;
+}
+.app.window-app.actor .window-content .sr-panel-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  border-right: 1px solid rgba(12, 147, 148, 0.25);
+  padding-right: 5px;
+}
+.app.window-app.actor .window-content .sr-panel-wrap:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+.app.window-app.actor .window-content .sr-panel-cols-1 {
+  grid-column: span 1;
+}
+.app.window-app.actor .window-content .sr-panel-cols-2 {
+  grid-column: span 2;
+}
+.app.window-app.actor .window-content .sr-panel-cols-3 {
+  grid-column: span 3;
+}
+.app.window-app.actor .window-content .sr-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  min-height: 0;
+}
+.app.window-app.actor .window-content .sr-panel > .sr-tab-region {
+  display: none;
+  gap: 5px;
+}
+.app.window-app.actor .window-content .sr-panel > .sr-tab-region.active {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.app.window-app.actor .window-content .sr-panel-cols-2 .sr-tab-region.active {
+  grid-template-columns: 1fr 1fr;
+}
+.app.window-app.actor .window-content .sr-panel-cols-3 .sr-tab-region.active {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.app.window-app.actor .window-content .sr-panel-columns {
+  display: grid;
+  gap: 5px;
+  align-items: start;
+  grid-column: 1 / -1;
+}
+.app.window-app.actor .window-content .sr-panel-cols-1 .sr-panel-columns {
+  grid-template-columns: 1fr;
+}
+.app.window-app.actor .window-content .sr-panel-cols-2 .sr-panel-columns {
+  grid-template-columns: 1fr 1fr;
+}
+.app.window-app.actor .window-content .sr-panel-cols-3 .sr-panel-columns {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.app.window-app.actor .window-content .sr-panel-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.app.window-app.actor .window-content .sr-block-span-double {
+  grid-column-end: span 2;
+}
+.app.window-app.actor .window-content .sr-block-span-triple {
+  grid-column-end: span 3;
+}
+.app.window-app.actor .window-content .sr-block-start-1 {
+  grid-column-start: 1;
+}
+.app.window-app.actor .window-content .sr-block-start-2 {
+  grid-column-start: 2;
+}
+.app.window-app.actor .window-content .sr-block-header,
+.app.window-app.actor .window-content .sr-block-row {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: center;
+}
+.app.window-app.actor .window-content [class^="sr-grid-"],
+.app.window-app.actor .window-content [class*=" sr-grid-"] {
+  min-width: 0;
+  overflow: hidden;
+}
+.app.window-app.actor .window-content .sr-grid-1 {
+  grid-column: span 1;
+}
+.app.window-app.actor .window-content .sr-grid-2 {
+  grid-column: span 2;
+}
+.app.window-app.actor .window-content .sr-grid-3 {
+  grid-column: span 3;
+}
+.app.window-app.actor .window-content .sr-grid-4 {
+  grid-column: span 4;
+}
+.app.window-app.actor .window-content .sr-grid-5 {
+  grid-column: span 5;
+}
+.app.window-app.actor .window-content .sr-grid-6 {
+  grid-column: span 6;
+}
+.app.window-app.actor .window-content .sr-grid-7 {
+  grid-column: span 7;
+}
+.app.window-app.actor .window-content .sr-grid-8 {
+  grid-column: span 8;
+}
+.app.window-app.actor .window-content .sr-grid-9 {
+  grid-column: span 9;
+}
+.app.window-app.actor .window-content .sr-grid-10 {
+  grid-column: span 10;
+}
+.app.window-app.actor .window-content .sr-grid-11 {
+  grid-column: span 11;
+}
+.app.window-app.actor .window-content .sr-grid-12 {
+  grid-column: span 12;
+}
+.app.window-app.actor .window-content .sr-grid-13 {
+  grid-column: span 13;
+}
+.app.window-app.actor .window-content .sr-grid-14 {
+  grid-column: span 14;
+}
+.app.window-app.actor .window-content .sr-grid-15 {
+  grid-column: span 15;
+}
+.app.window-app.actor .window-content .sr-grid-16 {
+  grid-column: span 16;
+}
+.app.window-app.actor .window-content .sr-grid-17 {
+  grid-column: span 17;
+}
+.app.window-app.actor .window-content .sr-grid-18 {
+  grid-column: span 18;
+}
+.app.window-app.actor .window-content .sr-grid-19 {
+  grid-column: span 19;
+}
+.app.window-app.actor .window-content .sr-grid-20 {
+  grid-column: span 20;
+}
+.app.window-app.actor .window-content .sr-grid-21 {
+  grid-column: span 21;
+}
+.app.window-app.actor .window-content .sr-grid-22 {
+  grid-column: span 22;
+}
+.app.window-app.actor .window-content .sr-grid-23 {
+  grid-column: span 23;
+}
+.app.window-app.actor .window-content .sr-grid-24 {
+  grid-column: span 24;
+}
+.app.window-app.actor.sr-mode-play .item-create,
+.app.window-app.actor.sr-mode-play .item-delete,
+.app.window-app.actor.sr-mode-play .item-clone,
+.app.window-app.actor.sr-mode-play .SR-btnAddItem,
+.app.window-app.actor.sr-mode-play .SR-btnDeleteItem,
+.app.window-app.actor.sr-mode-play [data-action="actorConfig"] {
+  display: none;
+}
+.app.window-app.actor.sr-mode-play input:not([type="checkbox"]),
+.app.window-app.actor.sr-mode-play select,
+.app.window-app.actor.sr-mode-play textarea {
+  pointer-events: none;
+  opacity: 0.85;
 }
 /* ----------------------------------------- */
 /* Images
@@ -3130,443 +3444,7 @@ body {
     display: none;
   }
 }
-.application {
-  color: #fffffe;
-  background: none;
-  /* v13: scene-sheet uses Foundry-native layout */
-  /* v13: token-sheet uses Foundry-native layout */
-}
-.application .window-header {
-  background: #000001;
-}
-.application .window-content {
-  background: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) {
-  /* v13: standard-form typography */
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) select {
-  border: 1px solid #931004;
-  color: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) select:focus {
-  box-shadow: 0 0 5px #0c9394;
-  border: 1px solid #0c9394;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) option {
-  background-color: #000001;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) option:hover {
-  background-color: #0c9394;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) button,
-.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode {
-  color: rgba(255, 255, 254, 0.75);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  border: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.25);
-  box-shadow: none;
-  /* v13: preserve FontAwesome icons in buttons */
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) button::before,
-.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode::before {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) button i,
-.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode i {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) button:hover,
-.application:not(.sr5):not(.dialog):not(.folder-config) a.display-mode:hover {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.25);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="text"],
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="number"],
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="color"] {
-  color: #fffffe;
-  border: 1px solid #931004;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="text"]:focus,
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="number"]:focus,
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="color"]:focus {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="text"]::placeholder,
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="number"]::placeholder,
-.application:not(.sr5):not(.dialog):not(.folder-config) input[type="color"]::placeholder {
-  color: #931004;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) h2,
-.application:not(.sr5):not(.dialog):not(.folder-config) h3 {
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-  color: #fffffe;
-  padding-left: 5px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) h2 {
-  text-align: center;
-  border-top: 1px solid #0c9394;
-  border-bottom: 1px solid #0c9394;
-  background-color: rgba(12, 147, 148, 0.5);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) h3 {
-  border-top: 1px solid #931004;
-  border-bottom: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.5);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) span.units {
-  color: #0c9394;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) nav {
-  border-bottom: 1px solid #0c9394;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) nav .item,
-.application:not(.sr5):not(.dialog):not(.folder-config) nav button.plain {
-  color: #0c9394;
-  padding: 0 5px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) nav .item.active,
-.application:not(.sr5):not(.dialog):not(.folder-config) nav button.plain.active {
-  color: #fffffe;
-  border: none;
-  box-shadow: none;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) nav .item:hover,
-.application:not(.sr5):not(.dialog):not(.folder-config) nav button.plain:hover {
-  color: #931004;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form .form-group > label {
-  color: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form .hint {
-  color: #0c9394;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form fieldset {
-  border-color: rgba(147, 16, 4, 0.5);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .standard-form fieldset legend {
-  color: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content {
-  padding: 8px;
-  background-image: linear-gradient(rgba(0, 0, 1, 0.45), rgba(0, 0, 1, 0.45)), url("../img/ui/SR5_BG_Sidebar.jpg");
-  background-origin: border-box;
-  background-size: cover;
-  color: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content header.form-header {
-  border-top: none;
-  border-bottom: none;
-  margin-top: 0px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content .form-header {
-  margin-top: 5px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content .notes {
-  color: #0c9394;
-  line-height: 14px;
-  margin-top: 0px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=command] {
-  background-color: rgba(147, 16, 4, 0.25);
-  border: 1px solid #931004;
-  color: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=command]:focus {
-  border: 1px solid #0c9394;
-  outline: none;
-  box-shadow: 0 0 5px #0c9394;
-  color: #fffffe;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=command]::selection {
-  background-color: rgba(12, 147, 148, 0.5);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content textarea[name=description] {
-  color: #fffffe;
-  border: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.25);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content .command {
-  margin-bottom: 10px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .window-content table tr:nth-child(even) {
-  background-color: rgba(147, 16, 4, 0.25);
-}
-.application.journal-sheet .window-header {
-  background: #000001;
-  color: #fffffe;
-}
-.application.journal-sheet .window-content {
-  background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_NoteBottom.png"), url("../img/ui/SR5_BG_Blanc.jpg");
-  background-size: auto 80px, auto 80px, cover;
-  background-position: top, bottom, top;
-  background-repeat: repeat-x, repeat-x, repeat;
-}
-.application.journal-sheet .window-content select {
-  border: 1px solid #931004;
-  color: #fffffe;
-}
-.application.journal-sheet .window-content select:focus {
-  box-shadow: 0 0 5px #0c9394;
-  border: 1px solid #0c9394;
-}
-.application.journal-sheet .window-content input[type="search"] {
-  font-family: "srfoundry_regular";
-  color: #fffffe;
-  border: 1px solid #931004;
-  background: rgba(0, 0, 1, 0.3);
-  text-transform: none;
-}
-.application.journal-sheet .window-content input {
-  background: none;
-  color: #fffffe;
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-  border: none;
-  text-align: center;
-}
-.application.journal-sheet .window-content input:focus,
-.application.journal-sheet .window-content input:hover {
-  box-shadow: 0 0 5px #0c9394;
-  border: 1px solid #0c9394;
-}
-.application.journal-sheet .window-content input.image {
-  font-family: "srfoundry_regular";
-  color: #fffffe;
-  border: 1px solid #931004;
-  font-size: 1em;
-  text-align: left;
-}
-.application.journal-sheet .window-content input.image:focus,
-.application.journal-sheet .window-content input.image:hover {
-  border: 1px solid #0c9394;
-}
-.application.journal-sheet .window-content h1,
-.application.journal-sheet .window-content h2,
-.application.journal-sheet .window-content h3,
-.application.journal-sheet .window-content h4 {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  color: #000001;
-}
-.application.journal-sheet .window-content h1:not(:first-child),
-.application.journal-sheet .window-content h2:not(:first-child),
-.application.journal-sheet .window-content h3:not(:first-child),
-.application.journal-sheet .window-content h4:not(:first-child) {
-  margin-top: 20px;
-}
-.application.journal-sheet .window-content h1 {
-  border-bottom: 4px solid #931004;
-  font-size: 2em;
-}
-.application.journal-sheet .window-content h2 {
-  border-bottom: 2px solid #931004;
-  font-size: 1.5em;
-}
-.application.journal-sheet .window-content h3 {
-  border-bottom: 2px solid #0c9394;
-}
-.application.journal-sheet .window-content .title {
-  font-size: 2em;
-}
-.application.journal-sheet .window-content button:not(.tox-tbtn) {
-  color: rgba(255, 255, 254, 0.75);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  border: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.25);
-  box-shadow: none;
-  /* v13: preserve FontAwesome icons in buttons */
-  font-size: 0.9em;
-}
-.application.journal-sheet .window-content button:not(.tox-tbtn)::before {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-.application.journal-sheet .window-content button:not(.tox-tbtn) i {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-.application.journal-sheet .window-content button:not(.tox-tbtn):hover {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.25);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-.application.journal-sheet .window-content .journal-header {
-  display: block;
-}
-.application.journal-sheet .window-content ul {
-  list-style-type: disc;
-  margin: 0;
-  padding: 0 0 0 1.5em;
-}
-.application.journal-sheet .sidebar {
-  background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
-  background-size: cover;
-  background-position: top;
-  background-repeat: repeat;
-}
-.application.journal-sheet .journal-entry-page p,
-.application.journal-sheet .journal-page-content p {
-  font-family: "srfoundry_journal";
-}
-.application.journal-sheet .journal-entry-page code,
-.application.journal-sheet .journal-page-content code {
-  text-wrap: wrap;
-  font-family: "srfoundry_regular";
-}
-.application.journal-sheet .journal-entry-page blockquote,
-.application.journal-sheet .journal-page-content blockquote {
-  background: rgba(147, 16, 4, 0.1);
-  border: 1px solid #931004;
-  margin: 1em 0 1em 0;
-  padding: 0px 10px 0px 10px;
-}
-.application.journal-sheet .journal-entry-page blockquote p,
-.application.journal-sheet .journal-page-content blockquote p {
-  font-family: "srfoundry_regular";
-  font-style: normal;
-}
-.application.journal-sheet .journal-entry-page blockquote p:not(:first-child),
-.application.journal-sheet .journal-page-content blockquote p:not(:first-child) {
-  margin-top: 0px;
-}
-.application.journal-sheet .journal-entry-page blockquote h1,
-.application.journal-sheet .journal-page-content blockquote h1,
-.application.journal-sheet .journal-entry-page blockquote h2,
-.application.journal-sheet .journal-page-content blockquote h2,
-.application.journal-sheet .journal-entry-page blockquote h3,
-.application.journal-sheet .journal-page-content blockquote h3,
-.application.journal-sheet .journal-entry-page blockquote h4,
-.application.journal-sheet .journal-page-content blockquote h4 {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  color: #931004;
-  font-style: normal;
-  border-bottom: none;
-  margin-bottom: 0;
-}
-.application.journal-sheet .journal-entry-page blockquote h1:not(:first-child),
-.application.journal-sheet .journal-page-content blockquote h1:not(:first-child),
-.application.journal-sheet .journal-entry-page blockquote h2:not(:first-child),
-.application.journal-sheet .journal-page-content blockquote h2:not(:first-child),
-.application.journal-sheet .journal-entry-page blockquote h3:not(:first-child),
-.application.journal-sheet .journal-page-content blockquote h3:not(:first-child),
-.application.journal-sheet .journal-entry-page blockquote h4:not(:first-child),
-.application.journal-sheet .journal-page-content blockquote h4:not(:first-child) {
-  margin-top: 20px;
-}
-.application.journal-sheet .journal-entry-page a.content-link,
-.application.journal-sheet .journal-page-content a.content-link {
-  color: #931004;
-  background: transparent;
-  border: none;
-  font-family: "srfoundry_regular";
-}
-.application.journal-sheet .journal-entry-page a.content-link i,
-.application.journal-sheet .journal-page-content a.content-link i {
-  color: #931004;
-}
-.application.journal-sheet .journal-entry-content {
-  background-image: url("../img/ui/SR5_BG_NoteTop.png"), url("../img/ui/SR5_BG_Blanc.jpg");
-  background-size: auto 90px, cover;
-  background-position: top, top;
-  background-repeat: repeat-x, repeat;
-}
-.application.filepicker .directory {
-  border: 1px solid #0c9394;
-}
-.application.filepicker .directory li {
-  background-image: linear-gradient(to right, rgba(12, 147, 148, 0.25) 0, rgba(12, 147, 148, 0.25) 100%);
-  background-position: left 50%;
-  background-size: 0 90%;
-  background-repeat: no-repeat;
-  transition: background 0.5s;
-}
-.application.filepicker .directory li:hover {
-  background-size: 100% 90%;
-  text-shadow: none;
-}
-.application.filepicker nav.tabs {
-  border-bottom: 2px solid #0c9394;
-}
-.application.filepicker nav.tabs a {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-}
-.application.sidebar-popout .window-header {
-  background: #000001;
-}
-.application.sidebar-popout .window-content {
-  background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
-  background-size: cover;
-}
-/* v13: macro-config uses Foundry-native layout */
-/* v13: #logo no longer exists, #navigation replaced by #scene-navigation */
-#scene-navigation {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-}
-#scene-navigation .scene {
-  background: rgba(147, 16, 4, 0.5);
-  color: #fffffe;
-  border: 1px solid #931004;
-  box-shadow: none;
-}
-#scene-navigation .scene.gm {
-  background: #000001;
-  color: #fffffe;
-  border: 1px solid #931004;
-  box-shadow: none;
-}
-#scene-navigation .scene.view {
-  background: rgba(147, 16, 4, 0.5);
-  color: #fffffe;
-  border: 1px solid #931004;
-  box-shadow: none;
-}
-#scene-navigation .scene.gm.active {
-  background: rgba(12, 147, 148, 0.5);
-  color: #fffffe;
-  border: 1px solid #0c9394;
-  box-shadow: none;
-}
-/* v13: token HUD — color theming only, layout is Foundry-native */
-#token-hud .status-effects {
-  background: rgba(12, 147, 148, 0.25);
-  border: 1px solid #0c9394;
-}
-#token-hud .status-effects .effect-control {
-  border: 1px solid #0c9394;
-}
-#token-hud .status-effects .effect-control.active {
-  background: rgba(12, 147, 148, 0.75);
-  border: 1px solid #0c9394;
-}
-#token-hud .attribute.elevation input {
-  background: rgba(12, 147, 148, 0.75);
-  border: 1px solid #0c9394;
-}
-#token-hud .attribute.elevation input:focus {
-  box-shadow: none;
-  border: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.75);
-}
-.placeable-hud .control-icon {
-  background-color: rgba(12, 147, 148, 0.75);
-}
-.placeable-hud .control-icon.active {
-  border: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.75);
-}
+/* v13: SR5 sheets set their own window styling — no generic overrides needed */
 #sr5help {
   z-index: 0;
   position: fixed;
@@ -3617,757 +3495,63 @@ body {
     text-shadow: 0 0 20px #00bdca, 0 0 20px #00bdca, 0 0 30px #00bdca, 0 0 40px #00bdca, 0 0 50px #00bdca, 0 0 60px #00bdca, 0 0 70px #00bdca, 0 0 80px #00bdca, 0 1 90px #00bdca;
   }
 }
-#pause {
-  background: none;
-  /* v13: #pause h3 is now #pause figcaption */
-}
-#pause img {
-  content: url("../img/ui/SR5_Logo.png");
-  animation: none;
-  opacity: 1;
-  filter: drop-shadow(0px 0px 10px #000001);
-}
-#pause figcaption,
-#pause h3 {
-  text-shadow: none;
-  animation: glow 1.5s ease-in-out infinite alternate;
-}
-/* v13: let Foundry handle #ui-bottom, #ui-middle, #hotbar, #players positioning natively */
-/* Only apply visual theming (colors, fonts), no layout overrides */
-#hotbar {
-  /* v13: .macro is now .slot, .macro-key is now .key */
-  /* v13: hotbar left/right controls — color theming only */
-}
-#hotbar .slot .key,
-#hotbar .macro .macro-key {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  color: rgba(255, 255, 254, 0.75);
-  background-color: transparent;
-}
-#hotbar .slot,
-#hotbar .macro.inactive {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#hotbar .slot:hover,
-#hotbar .macro.inactive:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#hotbar .slot.full .key,
-#hotbar .macro.active .macro-key {
-  color: #fffffe;
-}
-#hotbar .slot.full,
-#hotbar .macro.active {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-#hotbar .slot.full:hover,
-#hotbar .macro.active:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#hotbar #hotbar-controls-left .ui-control,
-#hotbar #hotbar-controls-right .ui-control {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#hotbar #hotbar-controls-left .ui-control:hover,
-#hotbar #hotbar-controls-right .ui-control:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#hotbar #hotbar-controls-left .ui-control:active,
-#hotbar #hotbar-controls-right .ui-control:active,
-#hotbar #hotbar-controls-left .ui-control[aria-pressed=true],
-#hotbar #hotbar-controls-right .ui-control[aria-pressed=true] {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-#hotbar #hotbar-page-controls .hotbar-page-control {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#hotbar #hotbar-page-controls .hotbar-page-control:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#hotbar #hotbar-page-controls .hotbar-page-control:active {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-#hotbar #hotbar-page-controls .hotbar-page-number {
-  color: rgba(255, 255, 254, 0.75);
-}
-#players {
-  --background-color: rgba(147, 16, 4, 0.25);
-  --border-color: #931004;
-  --text-color: rgba(255, 255, 254, 0.75);
-  --player-name-color: #fffffe;
-}
-#players h3 {
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-}
-#players ol {
-  font-family: "srfoundry_regular";
-}
-#players button {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#players button:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#ui-left {
-  background-image: url("../img/ui/SR5_BG_ControlBar.png");
-  background-repeat: no-repeat, no-repeat;
-  background-position: -35px -215px;
-}
-/* v13: scene controls — color theming only, layout is Foundry-native */
-#scene-controls .ui-control {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#scene-controls .ui-control:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#scene-controls .ui-control[aria-pressed=true],
-#scene-controls .ui-control.active {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-/* v13: sidebar — color theming only */
-#sidebar {
-  border-radius: 0;
-  border: 0px;
-}
-#sidebar.collapsed {
-  /* v13: .item is now .ui-control */
-}
-#sidebar.collapsed #sidebar-tabs .ui-control:hover,
-#sidebar.collapsed #sidebar-tabs > .item:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-  border-radius: 3px;
-}
-#sidebar.collapsed #sidebar-tabs .ui-control[aria-pressed=true],
-#sidebar.collapsed #sidebar-tabs > .item.active {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-  background-image: none;
-}
-/* v13: sidebar content area is now #sidebar-content */
-#sidebar-content {
-  background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
-  background-origin: border-box;
-  background-size: cover;
-  background-color: #000001;
-  border-left: 1px solid #0c9394;
-}
-#sidebar-tabs .ui-control,
-#sidebar-tabs .item {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#sidebar-tabs .ui-control:hover,
-#sidebar-tabs .item:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#sidebar-tabs .ui-control[aria-pressed=true],
-#sidebar-tabs .item[aria-pressed=true],
-#sidebar-tabs .ui-control.active,
-#sidebar-tabs .item.active {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-.sidebar-tab {
-  /* v13: override sidebar tab background variable */
-  --sidebar-background: transparent;
-  color: #fffffe;
-}
-.sidebar-tab button:not(.messageAction):not(.ui-control) {
-  color: rgba(255, 255, 254, 0.75);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  border: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.25);
-  box-shadow: none;
-  /* v13: preserve FontAwesome icons in buttons */
-  font-size: 0.9em;
-}
-.sidebar-tab button:not(.messageAction):not(.ui-control)::before {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-.sidebar-tab button:not(.messageAction):not(.ui-control) i {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-.sidebar-tab button:not(.messageAction):not(.ui-control):hover {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.25);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-.sidebar-tab .directory-header {
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #0c9394;
-}
-.sidebar-tab .directory-header .header-search input {
-  font-family: "srfoundry_regular";
-  color: #fffffe;
-  border: 1px solid #931004;
-  background: rgba(0, 0, 1, 0.3);
-}
-.sidebar-tab .directory-header .header-search input:focus {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
-}
-.sidebar-tab .directory-header .header-search input::placeholder {
-  color: #931004;
-  font-family: "srfoundry_regular";
-}
-.sidebar-tab .directory-list .entity {
-  border-top: 1px solid rgba(147, 16, 4, 0.5);
-  border-bottom: 1px solid transparent;
-}
-.sidebar-tab .directory-list .entity:last-child {
-  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
-}
-.sidebar-tab .directory-list .folder .context {
-  border-color: #0c9394;
-}
-.sidebar-tab .directory-list li.folder > .folder-header {
-  background: rgba(12, 147, 148, 0.25);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 0.9em;
-}
-.sidebar-tab .directory-list li.folder.collapsed > .folder-header {
-  background: rgba(147, 16, 4, 0.25);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 0.9em;
-}
-.sidebar-tab .directory-list li.folder.collapsed > .folder-header:hover {
-  background-color: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-.sidebar-tab .directory-list .directory-item h4 {
-  background-image: linear-gradient(to right, rgba(12, 147, 148, 0.25) 0, rgba(12, 147, 148, 0.25) 100%);
-  background-position: left 50%;
-  background-size: 0 90%;
-  background-repeat: no-repeat;
-  transition: background 0.5s;
-}
-.sidebar-tab .directory-list .directory-item h4:hover:not(.pack-title) {
-  background-size: 100% 90%;
-}
-.sidebar-tab .directory-list .directory-item img {
-  border: 1px solid #0c9394;
-  border-radius: 3px;
-}
-.sidebar-tab .directory-list .directory-item li.folder > .folder-header {
-  background: rgba(12, 147, 148, 0.25);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 0.9em;
-}
-.sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header {
-  background: rgba(147, 16, 4, 0.25);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 0.9em;
-}
-.sidebar-tab .directory-list .directory-item li.folder.collapsed > .folder-header:hover {
-  background-color: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-.sidebar-tab .directory-list .directory-item.context {
-  border-color: #0c9394;
-}
-.tabs .item.active {
-  text-shadow: none;
-}
-.tabs a:hover {
-  text-shadow: 0 0 8px rgba(12, 147, 148, 0.1);
-}
-#settings h2 {
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-  border-top: 1px solid #931004;
-  border-bottom: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.5);
-}
-#settings a {
-  color: rgba(255, 255, 254, 0.75);
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  border: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.25);
-  box-shadow: none;
-  /* v13: preserve FontAwesome icons in buttons */
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-#settings a::before {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-#settings a i {
-  font-family: "Font Awesome 6 Pro";
-  font-weight: 900;
-}
-#settings a:hover {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.25);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-/* v13: context menu — color theming only */
-#context-menu {
-  font-family: "srfoundry_regular";
-  background: #000001;
-  background-image: url("../img/ui/SR5_BG_ContextMenu.png");
-  background-origin: border-box;
-  background-size: cover;
-  border: 1px solid #0c9394;
-  color: #fffffe;
-}
-#context-menu li.context-item {
-  border: 1px solid rgba(12, 147, 148, 0.25);
-  font-size: 1em;
-}
-#context-menu li.context-item:hover {
-  text-shadow: none;
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-/* v13: chat controls — color theming only */
-#sidebar-content #chat-message,
-#chat-popout #chat-message {
-  color: #fffffe;
-  border: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.25);
-}
-#sidebar-content #chat-message:focus,
-#chat-popout #chat-message:focus {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
-  outline: none;
-}
-#sidebar-content #chat-message::placeholder,
-#chat-popout #chat-message::placeholder {
-  color: #931004;
-}
-#chat-controls .ui-control {
-  background: rgba(147, 16, 4, 0.25);
-  color: rgba(255, 255, 254, 0.75);
-  border-color: #931004;
-  box-shadow: none;
-}
-#chat-controls .ui-control:hover {
-  color: #fffffe;
-  border-color: #0c9394;
-  background: rgba(12, 147, 148, 0.25);
-  box-shadow: none;
-}
-#chat-controls .ui-control:active,
-#chat-controls .ui-control[aria-pressed=true] {
-  color: #fffffe;
-  background: rgba(12, 147, 148, 0.5);
-  border-color: #0c9394;
-  box-shadow: none;
-}
-/* v13: combat tracker — color theming only */
-#combat #combat-round {
-  border-bottom: 1px solid #931004;
-  background: rgba(147, 16, 4, 0.25);
-}
-#combat #combat-round .encounters h3 {
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-}
-#combat #combat-round .encounters h4 {
-  color: #fffffe;
-}
-#combat #combat-round .encounters a {
-  color: #931004;
-  text-shadow: 1px 1px 5px #000001;
-}
-#combat #combat-round .encounters a:hover {
-  color: #0c9394;
-  text-shadow: 1px 1px 5px #000001;
-}
-#combat #combat-tracker li.combatant.hidden {
-  color: rgba(12, 147, 148, 0.5);
-}
-#combat #combat-tracker li.combatant.defeated {
-  color: rgba(147, 16, 4, 0.5);
-}
-#combat #combat-tracker li.combatant.active {
-  background: rgba(12, 147, 148, 0.25);
-}
-#combat #combat-tracker li.combatant .token-name h4.hasPlayed {
-  color: rgba(255, 255, 254, 0.25);
-}
-#combat #combat-tracker li.combatant .token-name .combatant-controls .action {
-  color: #fffffe;
-}
-#combat #combat-tracker li.combatant .token-name .combatant-controls .action.free {
-  border: 1px solid rgba(0, 0, 1, 0.5);
-  background-color: rgba(0, 0, 1, 0.5);
-}
-#combat #combat-tracker li.combatant .token-name .combatant-controls .action.simple {
-  border: 1px solid rgba(12, 147, 148, 0.5);
-  background-color: rgba(12, 147, 148, 0.5);
-}
-#combat #combat-tracker li.combatant .token-name .combatant-controls .action.complex {
-  border: 1px solid rgba(147, 16, 4, 0.5);
-  background-color: rgba(147, 16, 4, 0.5);
-}
-#combat #combat-tracker li.combatant .token-name .combatant-control {
-  color: #931004;
-}
-#combat #combat-tracker li.combatant .token-name .combatant-control:hover {
-  color: rgba(12, 147, 148, 0.5);
-}
-#combat #combat-tracker li.combatant .token-name .combatant-control.active {
-  color: #0c9394;
-}
-#combat #combat-tracker li.combatant .roll {
-  background: url("../img/icons/SR5_InitDicesOff.svg") no-repeat;
-  background-size: 36px;
-  background-position: center;
-}
-#combat #combat-tracker li.combatant .roll:hover {
-  background: url("../img/icons/SR5_InitDicesOn.svg") no-repeat;
-  background-size: 36px;
-  background-position: center;
-}
-#combat #combat-tracker li.combatant .token-resource {
-  border-right: 1px solid rgba(147, 16, 4, 0.5);
-  color: inherit;
-}
-#combat #combat-tracker li.combatant .token-initiative .initiative {
-  font-size: 1.5em;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  text-shadow: none;
-  font-weight: normal;
-}
-#combat #combat-tracker li.combatant .token-initiative .initiative.hasPlayed {
-  color: rgba(255, 255, 254, 0.25);
-}
-#combat #combat-controls {
-  border-top: 2px solid #0c9394;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 0.9em;
-}
-#combat #combat-controls a {
-  font-size: 0.9em;
-}
-#combat #combat-controls a:hover {
-  color: #0c9394;
-}
-#combat .combat-tracker-header h3 {
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-  font-size: 1em;
-}
-#scenes .scene {
-  border-width: 2px 0 2px 0;
-  border-color: rgba(147, 16, 4, 0.5);
-  margin-bottom: 5px;
-}
-#scenes .scene:hover {
-  border-color: rgba(12, 147, 148, 0.5);
-}
-#scenes .scene h3 {
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-}
-#scenes .scene a:hover {
-  color: #0c9394;
-  text-shadow: 1px 1px 3px #000001;
-}
-/* v13: playlists — color theming only */
-#playlists h4:hover {
-  background: none;
-}
-#playlists li.playlist .sound-control {
-  color: #fffffe;
-}
-#playlists li.playlist .sound-control.inactive {
-  color: #931004;
-}
-#playlists li.playlist .sound-control:hover {
-  color: #0c9394;
-}
-#playlists li.global-volume {
-  border-bottom: 2px solid #0c9394;
-}
-#playlists li.global-volume .playlist-header {
-  border-top: 1px solid #931004;
-  border-bottom: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.5);
-  font-family: "srfoundry_secondary";
-  text-transform: uppercase;
-}
-/* v13: compendium — color theming only */
-#compendium h3 {
-  font-family: "srfoundry_primary";
-  font-size: 14px;
-  text-transform: uppercase;
-  background: none;
-  border: none;
-}
-#compendium li.compendium:not(:last-child) {
-  box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
-}
-#compendium li.compendium:hover {
-  text-shadow: none;
-  background-color: rgba(12, 147, 148, 0.25);
-}
-#compendium li.compendium .status-icons {
-  color: #931004;
-}
-#compendium .compendium-footer {
-  color: rgba(12, 147, 148, 0.5);
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .form-group {
-  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
-  padding-bottom: 8px;
-}
-.application:not(.sr5):not(.dialog):not(.folder-config) .form-footer {
-  padding: 8px 0 8px 0;
-  margin-top: 8px;
-}
-/* v13: compendium directory — SR5-specific content styling */
-.compendium.directory .directory-list .directory-item .SR-CompendiumSubType {
-  color: rgba(255, 255, 254, 0.5);
-}
-/* v13: characters — color theming only */
-#characters h3 {
-  background-color: transparent;
-  border-top: 0;
-  border-bottom: 0;
-}
-#characters h3:not(:last-child) {
-  box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
-}
-#characters h3:hover {
-  text-shadow: none;
-  background-color: rgba(12, 147, 148, 0.25);
-}
-/* v13: av-config — color theming only */
-#av-config .form-group {
-  border-bottom: 1px solid #931004;
-}
-/* v13: permissions-config — color theming only */
-#permissions-config header.table-header {
-  border-top: 1px solid #931004;
-  border-bottom: 1px solid #931004;
-  background-color: rgba(147, 16, 4, 0.5);
-}
-#permissions-config header.table-header label {
-  color: #fffffe;
-  text-transform: uppercase;
-}
-#permissions-config .hint {
-  color: #0c9394;
-}
-#module-management .window-content nav a {
-  color: #931004;
-  border-bottom: 1px solid #931004;
-}
-#module-management .window-content nav a:hover {
-  color: #0c9394;
-  border-bottom: 1px solid #0c9394;
-}
-#module-management .window-content nav a.active {
-  color: #fffffe;
-  border-bottom: 1px solid #0c9394;
-  font-weight: normal;
-}
-#module-management .window-content label.package-title {
-  color: #fffffe;
-  font-weight: normal;
-  text-decoration: none;
-}
-#module-management .window-content label.package-title input {
-  margin-right: 8px;
-}
-#module-management .window-content .package-description {
-  color: #fffffe;
-}
-#module-management .window-content .package-metadata {
-  color: #fffffe;
-}
-#module-management .window-content .package-metadata a {
-  color: #00bdca;
-}
-.dialog,
-.folder-config {
-  --background: #000001;
-  color: #fffffe;
-  color-scheme: dark;
-  accent-color: #0c9394;
-}
-.dialog .window-header,
-.folder-config .window-header {
-  background: #000001;
-  color: #fffffe;
-}
-.dialog .window-content,
-.folder-config .window-content {
-  padding: 8px;
-  background: #000001;
-  gap: 0;
-  /* Prevent inherited backgrounds on inner wrappers */
-  /* v13: remove Foundry's default input background shade */
-}
-.dialog .window-content .standard-form,
-.folder-config .window-content .standard-form,
-.dialog .window-content .dialog-form,
-.folder-config .window-content .dialog-form {
-  background: transparent;
-}
-.dialog .window-content input,
-.folder-config .window-content input,
-.dialog .window-content select,
-.folder-config .window-content select,
-.dialog .window-content textarea,
-.folder-config .window-content textarea {
-  --input-background-color: transparent;
-  --input-border-color: transparent;
-  --input-focus-outline-color: transparent;
-  --input-box-shadow: none;
-}
-.dialog .window-content input,
-.folder-config .window-content input {
-  color: #fffffe;
-  border: 1px solid #931004;
-}
-.dialog .window-content input:focus,
-.folder-config .window-content input:focus {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
-}
-.dialog .window-content input::placeholder,
-.folder-config .window-content input::placeholder {
-  color: #931004;
-}
-.dialog .window-content select,
-.folder-config .window-content select {
-  border: 1px solid #931004;
-  color: #fffffe;
-  font-family: "srfoundry_regular";
-}
-.dialog .window-content select:focus,
-.folder-config .window-content select:focus {
-  box-shadow: 0 0 5px #0c9394;
-  border: 1px solid #0c9394;
-}
-.dialog .window-content option,
-.folder-config .window-content option {
-  background-color: #000001;
-}
-.dialog .window-content .form-group,
-.folder-config .window-content .form-group {
-  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
-  padding-bottom: 8px;
-}
-.dialog .window-content .form-group > label,
-.folder-config .window-content .form-group > label {
-  color: #0c9394;
-  font-family: "srfoundry_bold";
-}
-.dialog .window-content .dialog-content,
-.folder-config .window-content .dialog-content {
-  padding: 0;
-  /* Roll dialog: light background when SR5jet content is present */
-}
-.dialog .window-content .dialog-content:has(.SR5jet),
-.folder-config .window-content .dialog-content:has(.SR5jet) {
+/* v13: chat uses Foundry-native styling */
+/* v13: only style the SR5 roll dialog (.SR5jet), let Foundry handle generic dialogs */
+.dialog {
+  /* SR5 dialog frame — dark header, themed buttons */
+}
+.dialog .window-content .dialog-content {
+  /* Light background for all SR5 dialogs */
   background: #fffffe;
   color: #000001;
   color-scheme: light;
   padding: 8px;
 }
+.dialog .window-content .dialog-content input {
+  background: none !important;
+  color: #000001 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(12, 147, 148, 0.35) !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  font-family: inherit;
+  font-size: inherit;
+}
+.dialog .window-content .dialog-content select {
+  color: #0c9394;
+  background: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(12, 147, 148, 0.35) !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+.dialog .window-content .dialog-content label {
+  color: #000001;
+  font-family: "srfoundry_regular";
+}
 .dialog .window-content .dialog-content h3,
-.folder-config .window-content .dialog-content h3,
-.dialog .window-content .dialog-content h4,
-.folder-config .window-content .dialog-content h4 {
+.dialog .window-content .dialog-content h4 {
   color: #931004;
   text-align: center;
   border-bottom: 1px solid #931004;
 }
-.dialog .window-content .dialog-content .SR5jet,
-.folder-config .window-content .dialog-content .SR5jet {
+.dialog .window-content .dialog-content .SR5jet {
   height: auto;
 }
-.dialog .window-content .dialog-content .SR5jet .grid,
-.folder-config .window-content .dialog-content .SR5jet .grid {
+.dialog .window-content .dialog-content .SR5jet .grid {
   align-items: center;
 }
-.dialog .window-content .dialog-content .SR5jet [class*="col-"],
-.folder-config .window-content .dialog-content .SR5jet [class*="col-"] {
+.dialog .window-content .dialog-content .SR5jet [class*="col-"] {
   overflow: hidden;
 }
-.dialog .window-content .dialog-content .SR5jet input,
-.folder-config .window-content .dialog-content .SR5jet input {
+.dialog .window-content .dialog-content .SR5jet input {
   background: none !important;
   color: #000001 !important;
   height: 15px !important;
@@ -4382,8 +3566,7 @@ body {
   font-size: inherit;
   text-align: center;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"],
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"] {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"] {
   position: relative;
   margin: 0;
   border: 1px solid #0c9394 !important;
@@ -4403,8 +3586,7 @@ body {
   /* v13: override Foundry's FontAwesome checkbox ::before */
   /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before,
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
   position: absolute !important;
   content: '' !important;
   display: block !important;
@@ -4425,33 +3607,27 @@ body {
   line-height: normal;
   border-radius: 0 !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after,
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
   content: none !important;
   display: none !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked,
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
   color: #fffffe;
   border-color: #0c9394 !important;
   background: rgba(12, 147, 148, 0.9) !important;
   /* v13: ensure ::after stays suppressed when checked */
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before,
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after,
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
   content: none !important;
   display: none !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before,
-.folder-config .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
+.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
-.dialog .window-content .dialog-content .SR5jet select,
-.folder-config .window-content .dialog-content .SR5jet select {
+.dialog .window-content .dialog-content .SR5jet select {
   text-align-last: right;
   color: #0c9394;
   margin-right: -5px;
@@ -4468,39 +3644,32 @@ body {
   width: 100% !important;
   cursor: pointer;
 }
-.dialog .window-content .dialog-content .SR5jet option,
-.folder-config .window-content .dialog-content .SR5jet option {
+.dialog .window-content .dialog-content .SR5jet option {
   direction: rtl;
 }
-.dialog .window-content .dialog-content .SR5jet ul,
-.folder-config .window-content .dialog-content .SR5jet ul {
+.dialog .window-content .dialog-content .SR5jet ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.dialog .window-content .dialog-content .SR5jet li,
-.folder-config .window-content .dialog-content .SR5jet li {
+.dialog .window-content .dialog-content .SR5jet li {
   line-height: 18px;
   margin: 0;
 }
-.dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete,
-.folder-config .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
+.dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
   font-size: 1em;
   border-bottom: solid 1px #931004;
   color: #931004;
   font-family: "srfoundry_bold";
 }
-.dialog .window-content .dialog-content .SR5jet p,
-.folder-config .window-content .dialog-content .SR5jet p {
+.dialog .window-content .dialog-content .SR5jet p {
   margin: 0;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-ModControl,
-.folder-config .window-content .dialog-content .SR5jet .SR-ModControl {
+.dialog .window-content .dialog-content .SR5jet .SR-ModControl {
   font-size: 11px;
   color: #0c9394;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-FakeInput,
-.folder-config .window-content .dialog-content .SR5jet .SR-FakeInput {
+.dialog .window-content .dialog-content .SR5jet .SR-FakeInput {
   background: rgba(12, 147, 148, 0.1);
   color: #000001;
   height: 15px;
@@ -4513,49 +3682,57 @@ body {
   width: calc(100% - 2px);
   min-width: 20px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-RecoilInput,
-.folder-config .window-content .dialog-content .SR5jet .SR-RecoilInput {
+.dialog .window-content .dialog-content .SR5jet .SR-RecoilInput {
   color: rgba(0, 0, 1, 0.7);
   padding-right: 0px;
   width: 10px;
   text-align: center;
   min-width: 0px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-TopSeparator,
-.folder-config .window-content .dialog-content .SR5jet .SR-TopSeparator {
+.dialog .window-content .dialog-content .SR5jet .SR-TopSeparator {
   border-top: 1px solid rgba(12, 147, 148, 0.35);
   margin-top: 5px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-DialogOption,
-.folder-config .window-content .dialog-content .SR5jet .SR-DialogOption {
+.dialog .window-content .dialog-content .SR5jet .SR-DialogOption {
   border-bottom: solid 1px #931004;
   color: #931004;
   font-family: "srfoundry_bold";
 }
+.dialog .window-header {
+  background: #000001;
+  color: #fffffe;
+  font-family: "srfoundry_regular";
+}
+.dialog .window-content {
+  padding: 0;
+}
+.dialog .standard-form {
+  gap: 0;
+}
 .dialog .dialog-buttons,
-.folder-config .dialog-buttons,
-.dialog .form-footer,
-.folder-config .form-footer {
-  background-image: url("../img/ui/SR5_BG_Dialog.png");
-  background-size: cover;
-  padding: 15px 8px 8px 8px;
+.dialog .form-footer {
+  background-image: url("../img/ui/SR5_BG_Dialog.png") !important;
+  background-size: cover !important;
+  padding: 15px 8px 8px 8px !important;
 }
 .dialog .dialog-buttons button,
-.folder-config .dialog-buttons button,
 .dialog .form-footer button,
-.folder-config .form-footer button,
 .dialog .dialog-buttons button.default,
-.folder-config .dialog-buttons button.default,
-.dialog .form-footer button.default,
-.folder-config .form-footer button.default {
+.dialog .form-footer button.default {
+  --button-size: auto !important;
+  --button-background-color: rgba(0, 0, 1, 0.3) !important;
+  --button-border-color: #0c9394 !important;
+  --button-text-color: #fffffe !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: #0c9394 !important;
+  --button-hover-text-color: #000001 !important;
+  --button-focus-outline-color: #0c9394 !important;
   position: relative;
-  display: block;
-  --button-size: auto;
-  height: auto;
-  min-height: unset;
-  padding: 4px 0.5rem;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
   line-height: 20px;
-  color: #fffffe;
+  color: #fffffe !important;
   font-family: "srfoundry_primary";
   text-transform: uppercase;
   font-size: 0.9em;
@@ -4563,42 +3740,30 @@ body {
   border-radius: 3px;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  border: 1px solid #0c9394;
-  background: rgba(0, 0, 1, 0.3);
+  border: 1px solid #0c9394 !important;
+  background: rgba(0, 0, 1, 0.3) !important;
   z-index: 1;
 }
 .dialog .dialog-buttons button:hover,
-.folder-config .dialog-buttons button:hover,
 .dialog .form-footer button:hover,
-.folder-config .form-footer button:hover,
 .dialog .dialog-buttons button.default:hover,
-.folder-config .dialog-buttons button.default:hover,
-.dialog .form-footer button.default:hover,
-.folder-config .form-footer button.default:hover {
-  color: #000001;
-  background-color: transparent;
-  box-shadow: none;
+.dialog .form-footer button.default:hover {
+  color: #000001 !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
 }
 .dialog .dialog-buttons button:hover:before,
-.folder-config .dialog-buttons button:hover:before,
 .dialog .form-footer button:hover:before,
-.folder-config .form-footer button:hover:before,
 .dialog .dialog-buttons button.default:hover:before,
-.folder-config .dialog-buttons button.default:hover:before,
-.dialog .form-footer button.default:hover:before,
-.folder-config .form-footer button.default:hover:before {
+.dialog .form-footer button.default:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
 .dialog .dialog-buttons button:before,
-.folder-config .dialog-buttons button:before,
 .dialog .form-footer button:before,
-.folder-config .form-footer button:before,
 .dialog .dialog-buttons button.default:before,
-.folder-config .dialog-buttons button.default:before,
-.dialog .form-footer button.default:before,
-.folder-config .form-footer button.default:before {
+.dialog .form-footer button.default:before {
   display: block;
   position: absolute;
   top: 0px;
@@ -4611,104 +3776,472 @@ body {
   background: #0c9394;
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-/* v13: player-config — color theming only */
-#player-config label {
-  color: #fffffe;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
+.sr-sheet-config .window-content {
+  overflow: hidden;
+  padding: 0;
 }
-#player-config .avatar {
+.sr-sheet-config .sr-sheet-config-content {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+.sr-sheet-config .sr-sheet-config-body {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.sr-sheet-config .sr-config-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  font-family: "srfoundry_primary";
+  font-size: 1em;
+  font-weight: bold;
+  letter-spacing: normal;
+  margin: 0 0 6px;
+  padding-bottom: 4px;
+  line-height: 20px;
+}
+.sr-sheet-config .sr-config-unused-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.sr-sheet-config .sr-config-unused-pool {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 40px;
+  padding: 4px;
+  border: 1px dashed rgba(12, 147, 148, 0.35);
+  border-radius: 4px;
+  transition: background-color 0.15s;
+}
+.sr-sheet-config .sr-config-unused-pool.sr-config-drag-over {
+  background: rgba(12, 147, 148, 0.1);
   border-color: #0c9394;
 }
-#player-config .form-group {
-  border-bottom: 1px solid #931004;
+.sr-sheet-config .sr-config-unused-group {
+  margin-bottom: 8px;
 }
-#player-config h3.entity-name {
-  background-color: transparent;
-  border-top: none;
-  border-bottom: none;
+.sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-group-items {
+  display: none;
 }
-#player-config li.directory-item {
-  border-top: 1px solid rgba(147, 16, 4, 0.5);
-  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
+.sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-unused-group-label > .sr-config-fold-icon {
+  transform: rotate(-90deg);
 }
-#player-config li.directory-item:hover {
-  background-color: rgba(12, 147, 148, 0.25);
+.sr-sheet-config .sr-config-unused-group-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75em;
+  font-weight: bold;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 2px;
+  padding-left: 4px;
+  cursor: pointer;
 }
-#player-config li.directory-item.context {
-  border-top: 1px solid #0c9394;
-  border-bottom: 1px solid #0c9394;
-  box-shadow: 0 0 10px rgba(12, 147, 148, 0.5);
-  background-color: rgba(12, 147, 148, 0.5);
+.sr-sheet-config .sr-config-unused-group-label:hover {
+  opacity: 1;
 }
-#player-config input[type="text"],
-#player-config input[type="number"],
-#player-config input[type="color"] {
-  color: #fffffe;
-  border: 1px solid #931004;
-  background: none;
+.sr-sheet-config .sr-config-fold-icon {
+  transition: transform 0.15s;
+  font-size: 1.1em;
 }
-#player-config input[type="text"]:focus,
-#player-config input[type="number"]:focus,
-#player-config input[type="color"]:focus {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
+.sr-sheet-config .sr-config-empty-msg {
+  font-size: 0.8em;
+  font-style: italic;
+  opacity: 0.5;
+  text-align: center;
+  margin: 8px 0;
 }
-#player-config input[type="text"]::placeholder,
-#player-config input[type="number"]::placeholder,
-#player-config input[type="color"]::placeholder {
-  color: #931004;
+.sr-sheet-config .sr-config-panels-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
-/* v13: compendium directory — color theming only */
-[id^=app-] .compendium.directory input {
-  font-family: "srfoundry_regular";
-  color: #fffffe;
-  border: 1px solid #931004;
-  background: rgba(0, 0, 1, 0.3);
+.sr-sheet-config .sr-config-panels-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
 }
-[id^=app-] .compendium.directory input:focus {
-  border: 1px solid #0c9394;
-  box-shadow: 0 0 5px rgba(12, 147, 148, 0.5);
+.sr-sheet-config .sr-config-insert-before,
+.sr-sheet-config .sr-config-insert-after {
+  position: relative;
 }
-[id^=app-] .compendium.directory input::placeholder {
-  color: #931004;
-  font-family: "srfoundry_regular";
+.sr-sheet-config .sr-config-insert-before::before,
+.sr-sheet-config .sr-config-insert-after::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #0c9394;
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 1;
 }
-[id^=app-] .compendium.directory li.directory-item:not(:last-child) {
-  box-shadow: 0 1px 0 rgba(147, 16, 4, 0.5);
+.sr-sheet-config .sr-config-insert-before::before {
+  top: -1px;
 }
-[id^=app-] .compendium.directory li.directory-item:hover {
-  text-shadow: none;
-  background-color: rgba(12, 147, 148, 0.25);
+.sr-sheet-config .sr-config-insert-after::after {
+  bottom: -1px;
 }
-[id^=app-] .compendium.directory img {
-  border: 1px solid #0c9394;
+.sr-sheet-config .sr-config-tab-section {
+  margin-bottom: 10px;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  border-radius: 4px;
+  padding: 4px;
+}
+.sr-sheet-config .sr-config-tab-section.sr-config-dragging {
+  opacity: 0.4;
+}
+.sr-sheet-config .sr-config-tab-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 4px;
+  background: rgba(12, 147, 148, 0.1);
   border-radius: 3px;
 }
-/* v13: exit menu — color theming only */
-#menu {
-  background-image: url("../img/ui/SR5_BG_Sidebar.jpg");
-  background-size: cover;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  border: 2px solid #931004;
+.sr-sheet-config .sr-config-tab-header > .sr-config-tab-drag-handle {
+  flex: 0 0 auto;
+  cursor: grab;
+  opacity: 0.4;
+  font-size: 0.8em;
 }
-#menu #menu-items li {
-  color: #fffffe;
-  font-family: "srfoundry_primary";
-  text-transform: uppercase;
-  font-size: 1.5em;
+.sr-sheet-config .sr-config-tab-header > .sr-config-tab-drag-handle:hover {
+  opacity: 1;
 }
-#menu #menu-items li:not(:last-child) {
-  border-bottom: 1px solid rgba(147, 16, 4, 0.5);
-}
-#menu #menu-items li:hover {
-  background-color: rgba(12, 147, 148, 0.5);
-  box-shadow: none;
-  text-shadow: none;
-}
-#menu #menu-items li h4 {
+.sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name {
+  flex: 1 1 auto;
+  width: 0;
+  border: none;
+  background: transparent;
   font-size: 1em;
+  font-weight: bold;
+  padding: 2px 4px;
+  min-width: 0;
+  margin: 0;
+}
+.sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name:focus {
+  background: rgba(12, 147, 148, 0.05);
+  outline: 1px solid rgba(12, 147, 148, 0.5);
+  border-radius: 2px;
+}
+.sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name::placeholder {
+  font-style: italic;
+  opacity: 0.6;
+}
+.sr-sheet-config .sr-config-tab-header > .sr-config-tab-icon-group {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.sr-sheet-config .sr-config-tab-header .sr-config-tab-icon-label {
+  font-size: 0.85em;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+.sr-sheet-config .sr-config-tab-header .sr-config-icon-select {
+  width: 80px;
+  font-size: 0.8em;
+  padding: 1px 2px;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  border-radius: 2px;
+  background: transparent;
+}
+.sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+.sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete:hover {
+  opacity: 1;
+  color: #c00;
+}
+.sr-sheet-config .sr-config-toggle-hidden {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+.sr-sheet-config .sr-config-toggle-hidden:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-config-hidden {
+  opacity: 0.5;
+}
+.sr-sheet-config .sr-config-panel-section {
+  padding: 6px;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  border-radius: 4px;
+}
+.sr-sheet-config .sr-config-panel-section + .sr-config-panel-section {
+  margin-top: 14px;
+}
+.sr-sheet-config .sr-config-panel-section.sr-config-dragging {
+  opacity: 0.4;
+}
+.sr-sheet-config .sr-config-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 6px;
+  padding: 3px 4px;
+  background: rgba(12, 147, 148, 0.1);
+  border-radius: 3px;
+  font-size: 1em;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-drag-handle {
+  flex: 0 0 auto;
+  cursor: grab;
+  opacity: 0.4;
+  font-size: 0.8em;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-drag-handle:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle {
+  flex: 0 0 auto;
+  cursor: pointer;
+  opacity: 0.6;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name {
+  flex: 1 1 auto;
+  width: 0;
+  border: none;
+  background: transparent;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: "srfoundry_primary";
+  padding: 2px 4px;
+  min-width: 0;
+  margin: 0;
+}
+.sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name:focus {
+  background: rgba(12, 147, 148, 0.05);
+  outline: 1px solid rgba(12, 147, 148, 0.5);
+  border-radius: 2px;
+}
+.sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name::placeholder {
+  font-style: italic;
+  opacity: 0.6;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete:hover {
+  opacity: 1;
+  color: #c00;
+}
+.sr-sheet-config .sr-config-panel-header > .sr-config-panel-width-group {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-label {
+  font-size: 0.85em;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector {
+  display: flex;
+  gap: 2px;
+}
+.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 18px;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a.active {
+  background: #0c9394;
+  border-color: #0c9394;
+  color: #fffffe;
+}
+.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a:hover {
+  opacity: 0.8;
+}
+.sr-sheet-config .sr-config-tab-blocks {
+  min-height: 24px;
+  padding: 2px 0;
+  border: 1px dashed transparent;
+  border-radius: 2px;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.sr-sheet-config .sr-config-tab-blocks.sr-config-drag-over {
+  border-color: #0c9394;
+  background: rgba(12, 147, 148, 0.1);
+}
+.sr-sheet-config .sr-config-add-icon {
+  cursor: pointer;
+  opacity: 0.4;
+  font-size: 0.8em;
+}
+.sr-sheet-config .sr-config-add-icon:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-config-panel-folded > .sr-config-panel-body {
+  display: none;
+}
+.sr-sheet-config .sr-config-panel-folded > .sr-config-panel-header .sr-config-fold-icon {
+  transform: rotate(-90deg);
+}
+.sr-sheet-config .sr-config-block {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  cursor: grab;
+  font-size: 0.9em;
+}
+.sr-sheet-config .sr-config-block:hover {
+  background: rgba(12, 147, 148, 0.1);
+}
+.sr-sheet-config .sr-config-block.sr-config-dragging {
+  opacity: 0.4;
+}
+.sr-sheet-config .sr-config-block > .sr-config-drag-handle {
+  flex: 0 0 auto;
+  cursor: grab;
+  opacity: 0.4;
+  font-size: 0.8em;
+}
+.sr-sheet-config .sr-config-block > .sr-config-drag-handle:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-config-block > .sr-config-size-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  gap: 1px;
+  opacity: 0.5;
+}
+.sr-sheet-config .sr-config-block > .sr-config-size-badge::before,
+.sr-sheet-config .sr-config-block > .sr-config-size-badge::after {
+  content: '';
+  display: block;
+  width: 3px;
+  height: 10px;
+  background: currentColor;
+  border-radius: 1px;
+}
+.sr-sheet-config .sr-config-block > .sr-config-size-badge[data-size="single"]::after {
+  display: none;
+}
+.sr-sheet-config .sr-config-block > .sr-config-size-badge[data-size="triple"]::after {
+  box-shadow: 4px 0 0 0 currentColor;
+  margin-right: 4px;
+}
+.sr-sheet-config .sr-config-block > .sr-config-block-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sr-sheet-config .sr-config-block > .sr-config-placed-count {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: rgba(12, 147, 148, 0.2);
+  font-size: 0.7em;
+  font-weight: bold;
+  opacity: 0.7;
+}
+.sr-sheet-config .sr-config-block.sr-config-block-placed {
+  opacity: 0.6;
+}
+.sr-sheet-config .sr-config-block > .sr-config-column-toggle {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.75em;
+}
+.sr-sheet-config .sr-config-block > .sr-config-column-toggle:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-sheet-config-footer {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(12, 147, 148, 0.35);
+}
+.sr-sheet-config .sr-config-footer-left {
+  display: flex;
+  gap: 6px;
+}
+.sr-sheet-config .sr-config-footer-right {
+  display: flex;
+  gap: 6px;
+}
+.sr-sheet-config .sr-config-btn {
+  font-size: 0.85em;
+  padding: 4px 10px;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  background: rgba(12, 147, 148, 0.1);
+}
+.sr-sheet-config .sr-config-btn:hover {
+  background: rgba(12, 147, 148, 0.2);
+}
+.sr-sheet-config .sr-config-btn-save {
+  font-weight: bold;
+}
+.sr-sheet-config .sr-config-btn-reset {
+  opacity: 0.8;
+}
+.sr-sheet-config .sr-config-btn-reset:hover {
+  opacity: 1;
+}
+.sr-sheet-config .sr-config-btn-danger {
+  color: #c00;
+  opacity: 0.8;
+}
+.sr-sheet-config .sr-config-btn-danger:hover {
+  opacity: 1;
 }
 .SR-Editor {
   position: relative;

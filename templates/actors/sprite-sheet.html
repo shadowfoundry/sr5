@@ -1,51 +1,15 @@
 <div>
-	<div class="SR-mainContainer">
-
+	<div class="SR-mainContainer sr-layout">
 		<!-- HEADER -->
 		{{> systems/sr5/templates/actors/_partials/header/header.html}}
 
-		<div class="SR-MainWindows">
-			<div class="grid">
+		<!-- DYNAMIC CONTENT -->
+		{{> systems/sr5/templates/actors/_partials/content.html}}
 
-				<!-- LEFT TAB -->
-				<div class="col-3 SR-ActorColGauche">
-					<section class="sr-tabs2">
-						<!-- CORE INFO LEFT TAB -->
-						<div class="tab" data-group="gauche" data-tab="tab-attributs">
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixAttributes.html}}
-							<div class="SRBlockSheet">
-								<ul>
-									<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.MatrixUserMode'}}</li>
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/silentMode.html}}
-									{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/grid.html}}
-								</ul>
-							</div>
-							{{> systems/sr5/templates/actors/_partials/left-tabs/coreInfos/initiatives.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/matrixResistances.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marksControled.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/overwatchScore.html}}
-							{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/marks.html}}
-						</div>
-					</section>
-				</div>
-
-				<!-- RIGHT TAB -->
-				<div class="col-9">
-					<div class="SR-ActorMainCentre">
-
-						<section class="sr-tabs">
-							{{> systems/sr5/templates/actors/_partials/right-tabs/skills/activeSkills.html}}
-							{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/matrixActions.html}}
-							{{> systems/sr5/templates/actors/_partials/right-tabs/matrix/spritePowers.html}}
-							{{> systems/sr5/templates/actors/_partials/right-tabs/effects/externalEffects.html}}
-						</section>
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- NAV SIDEBAR -->
+		{{> systems/sr5/templates/actors/_partials/nav.html}}
 
 		<!-- FOOTER -->
 		{{> systems/sr5/templates/actors/_partials/footer/footer.html }}
-
 	</div>
 </div>

@@ -51,6 +51,7 @@ export class SR5Actor extends Actor {
 				{
 					action: "ok",
 					label: title,
+					icon: CONFIG[documentName]?.sidebarIcon,
 					default: true,
 					callback: (event, button, dialog) => {
 						const form = dialog.element.querySelector("form");

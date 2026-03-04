@@ -25,16 +25,7 @@ export class SR5AgentSheet extends ActorSheetSR5 {
 		sheet: {
 			template: "systems/sr5/templates/actors/agent-sheet.html",
 			root: true,
-			scrollable: [".SR-ActorMainCentre", ".SR-ActorColGauche"],
-		},
-	};
-
-	static TABS = {
-		gauche: {
-			tabs: [
-				{ id: "tab-attributs" },
-			],
-			initial: "tab-attributs",
+			scrollable: [".sr-panel"],
 		},
 	};
 

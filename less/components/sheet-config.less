@@ -1,0 +1,512 @@
+// ---- Sheet Configuration Dialog ----
+
+.sr-sheet-config {
+
+  .window-content {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .sr-sheet-config-content {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  // ---- Two-column body ----
+  .sr-sheet-config-body {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sr-config-section-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-transform: uppercase;
+    font-family: @SR_FontTitle;
+    font-size: @SR_FontSizeNormal;
+    font-weight: bold;
+    letter-spacing: normal;
+    margin: 0 0 6px;
+    padding-bottom: 4px;
+    line-height: 20px;
+  }
+
+  // ---- Left: Unused blocks pool ----
+  .sr-config-unused-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sr-config-unused-pool {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 40px;
+    padding: 4px;
+    border: 1px dashed fade(@subColor, 35%);
+    border-radius: 4px;
+    transition: background-color 0.15s;
+
+    &.sr-config-drag-over {
+      background: fade(@subColor, 10%);
+      border-color: @subColor;
+    }
+  }
+
+  .sr-config-unused-group {
+    margin-bottom: 8px;
+
+    &.sr-config-folded > .sr-config-group-items {
+      display: none;
+    }
+
+    &.sr-config-folded > .sr-config-unused-group-label > .sr-config-fold-icon {
+      transform: rotate(-90deg);
+    }
+  }
+
+  .sr-config-unused-group-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 2px;
+    padding-left: 4px;
+    cursor: pointer;
+    &:hover { opacity: 1; }
+  }
+
+  .sr-config-fold-icon {
+    transition: transform 0.15s;
+    font-size: 1.1em;
+  }
+
+  .sr-config-empty-msg {
+    font-size: 0.8em;
+    font-style: italic;
+    opacity: 0.5;
+    text-align: center;
+    margin: 8px 0;
+  }
+
+  // ---- Right: Panel & tab manager ----
+  .sr-config-panels-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sr-config-panels-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  // ---- Drag insertion indicators ----
+  .sr-config-insert-before,
+  .sr-config-insert-after {
+    position: relative;
+  }
+  .sr-config-insert-before::before,
+  .sr-config-insert-after::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: @subColor;
+    border-radius: 1px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .sr-config-insert-before::before { top: -1px; }
+  .sr-config-insert-after::after { bottom: -1px; }
+
+  // ---- Tab sections ----
+  .sr-config-tab-section {
+    margin-bottom: 10px;
+    border: 1px solid fade(@subColor, 35%);
+    border-radius: 4px;
+    padding: 4px;
+
+    &.sr-config-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  .sr-config-tab-header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 4px;
+    background: fade(@subColor, 10%);
+    border-radius: 3px;
+
+    > .sr-config-tab-drag-handle {
+      flex: 0 0 auto;
+      cursor: grab;
+      opacity: 0.4;
+      font-size: 0.8em;
+      &:hover { opacity: 1; }
+    }
+
+    > input.sr-config-tab-name {
+      flex: 1 1 auto;
+      width: 0;
+      border: none;
+      background: transparent;
+      font-size: @SR_FontSizeNormal;
+      font-weight: bold;
+      padding: 2px 4px;
+      min-width: 0;
+      margin: 0;
+
+      &:focus {
+        background: fade(@subColor, 5%);
+        outline: 1px solid fade(@subColor, 50%);
+        border-radius: 2px;
+      }
+
+      &::placeholder {
+        font-style: italic;
+        opacity: 0.6;
+      }
+    }
+
+    > .sr-config-tab-icon-group {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .sr-config-tab-icon-label {
+      font-size: 0.85em;
+      opacity: 0.6;
+      white-space: nowrap;
+    }
+
+    .sr-config-icon-select {
+      width: 80px;
+      font-size: 0.8em;
+      padding: 1px 2px;
+      border: 1px solid fade(@subColor, 35%);
+      border-radius: 2px;
+      background: transparent;
+    }
+
+    > .sr-config-tab-delete {
+      flex: 0 0 auto;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.5;
+      font-size: 0.8em;
+      &:hover { opacity: 1; color: #c00; }
+    }
+  }
+
+  // ---- Hidden toggle ----
+  .sr-config-toggle-hidden {
+    flex: 0 0 auto;
+    cursor: pointer;
+    padding: 2px 4px;
+    opacity: 0.5;
+    font-size: 0.8em;
+    &:hover { opacity: 1; }
+  }
+
+  .sr-config-hidden {
+    opacity: 0.5;
+  }
+
+  // ---- Panel sections ----
+  .sr-config-panel-section {
+    padding: 6px;
+    border: 1px solid fade(@subColor, 35%);
+    border-radius: 4px;
+
+    & + .sr-config-panel-section {
+      margin-top: 14px;
+    }
+
+    &.sr-config-dragging {
+      opacity: 0.4;
+    }
+  }
+
+  .sr-config-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+    padding: 3px 4px;
+    background: fade(@subColor, 10%);
+    border-radius: 3px;
+    font-size: @SR_FontSizeNormal;
+
+    > .sr-config-panel-drag-handle {
+      flex: 0 0 auto;
+      cursor: grab;
+      opacity: 0.4;
+      font-size: 0.8em;
+      &:hover { opacity: 1; }
+    }
+
+    > .sr-config-panel-fold-toggle {
+      flex: 0 0 auto;
+      cursor: pointer;
+      opacity: 0.6;
+      &:hover { opacity: 1; }
+    }
+
+    > input.sr-config-panel-name {
+      flex: 1 1 auto;
+      width: 0;
+      border: none;
+      background: transparent;
+      font-size: 1em;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-family: @SR_FontTitle;
+      padding: 2px 4px;
+      min-width: 0;
+      margin: 0;
+
+      &:focus {
+        background: fade(@subColor, 5%);
+        outline: 1px solid fade(@subColor, 50%);
+        border-radius: 2px;
+      }
+
+      &::placeholder {
+        font-style: italic;
+        opacity: 0.6;
+      }
+    }
+
+    > .sr-config-panel-delete {
+      flex: 0 0 auto;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.5;
+      font-size: 0.8em;
+      &:hover { opacity: 1; color: #c00; }
+    }
+
+    > .sr-config-panel-width-group {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+    }
+
+    .sr-config-panel-width-label {
+      font-size: 0.85em;
+      opacity: 0.6;
+      white-space: nowrap;
+    }
+
+    .sr-config-panel-width-selector {
+      display: flex;
+      gap: 2px;
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 18px;
+        border: 1px solid fade(@subColor, 35%);
+        border-radius: 2px;
+        cursor: pointer;
+        font-size: 0.85em;
+        font-weight: bold;
+
+        &.active {
+          background: @subColor;
+          border-color: @subColor;
+          color: @neutralLightColor;
+        }
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .sr-config-tab-blocks {
+    min-height: 24px;
+    padding: 2px 0;
+    border: 1px dashed transparent;
+    border-radius: 2px;
+    transition: background-color 0.15s, border-color 0.15s;
+
+    &.sr-config-drag-over {
+      border-color: @subColor;
+      background: fade(@subColor, 10%);
+    }
+  }
+
+  // ---- Add icon buttons ----
+  .sr-config-add-icon {
+    cursor: pointer;
+    opacity: 0.4;
+    font-size: 0.8em;
+    &:hover { opacity: 1; }
+  }
+
+  // ---- Panel fold ----
+  .sr-config-panel-folded > .sr-config-panel-body {
+    display: none;
+  }
+
+  .sr-config-panel-folded > .sr-config-panel-header .sr-config-fold-icon {
+    transform: rotate(-90deg);
+  }
+
+  // ---- Block items ----
+  .sr-config-block {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    cursor: grab;
+    font-size: @SR_FontSizeSmall;
+
+    &:hover {
+      background: fade(@subColor, 10%);
+    }
+
+    &.sr-config-dragging {
+      opacity: 0.4;
+    }
+
+    > .sr-config-drag-handle {
+      flex: 0 0 auto;
+      cursor: grab;
+      opacity: 0.4;
+      font-size: 0.8em;
+      &:hover { opacity: 1; }
+    }
+
+    > .sr-config-size-badge {
+      flex: 0 0 auto;
+      display: inline-flex;
+      gap: 1px;
+      opacity: 0.5;
+
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        width: 3px;
+        height: 10px;
+        background: currentColor;
+        border-radius: 1px;
+      }
+
+      &[data-size="single"]::after { display: none; }
+
+      &[data-size="triple"] {
+        &::after {
+          box-shadow: 4px 0 0 0 currentColor;
+          margin-right: 4px;
+        }
+      }
+    }
+
+    > .sr-config-block-label {
+      flex: 1 1 auto;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    > .sr-config-placed-count {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: 8px;
+      background: fade(@subColor, 20%);
+      font-size: 0.7em;
+      font-weight: bold;
+      opacity: 0.7;
+    }
+
+    &.sr-config-block-placed {
+      opacity: 0.6;
+    }
+
+    > .sr-config-column-toggle {
+      flex: 0 0 auto;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.5;
+      font-size: 0.75em;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  // ---- Footer ----
+  .sr-sheet-config-footer {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid fade(@subColor, 35%);
+  }
+
+  .sr-config-footer-left {
+    display: flex;
+    gap: 6px;
+  }
+
+  .sr-config-footer-right {
+    display: flex;
+    gap: 6px;
+  }
+
+  .sr-config-btn {
+    font-size: 0.85em;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    border: 1px solid fade(@subColor, 35%);
+    background: fade(@subColor, 10%);
+    &:hover { background: fade(@subColor, 20%); }
+  }
+
+  .sr-config-btn-save { font-weight: bold; }
+  .sr-config-btn-reset { opacity: 0.8; &:hover { opacity: 1; } }
+  .sr-config-btn-danger {
+    color: #c00;
+    opacity: 0.8;
+    &:hover { opacity: 1; }
+  }
+}
