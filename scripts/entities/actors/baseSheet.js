@@ -10,7 +10,6 @@ import { SR5_ActorHelper } from "./entityActor-helpers.js";
 import { SR5_RollMessage } from "../../rolls/roll-message.js";
 import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
-import { SRActorSheetConfig } from "../../interface/sheet-config.js";
 import { computeLayout } from "../../interface/compute-layout.js";
 import { SR5SheetConfigDialog } from "../../interface/sheet-config-dialog.js";
 
@@ -40,7 +39,6 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		form: { submitOnChange: true },
 		dragDrop: [{ dragSelector: "li.item, div.draggableAttribute", dropSelector: null }],
 		actions: {
-			actorConfig: ActorSheetSR5._onActorConfig,
 			toggleMode: ActorSheetSR5._onToggleMode,
 			configureSheet: ActorSheetSR5._onConfigureSheet,
 		},
@@ -59,21 +57,34 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		this.changeTab(tab, group, { event });
 	}
 
-	_getHeaderControls() {
-		const controls = super._getHeaderControls();
-		if (this.actor?.isOwner && (this.actor.type === "actorPc" || this.actor.type === "actorGrunt")) {
-			controls.unshift({
-				action: "actorConfig",
-				icon: "fas fa-tools",
-				label: "",
-			});
-		}
-		return controls;
+	/** @override — refresh scroll indicators when tabs change */
+	changeTab(...args) {
+		super.changeTab(...args);
+		if (this.element) requestAnimationFrame(() => this._updateScrollFades(this.element));
 	}
 
-	static _onActorConfig(event, target) {
-		SRActorSheetConfig.buildDialog(this.actor);
+	/**
+	 * Toggle .can-scroll-up / .can-scroll-down on each .sr-panel-wrap
+	 * so CSS indicators show when scrollable content is available.
+	 */
+	_updateScrollFades(root) {
+		for (const panel of root.querySelectorAll('.sr-panel')) {
+			const wrap = panel.closest('.sr-panel-wrap');
+			if (!wrap) continue;
+			const update = () => {
+				const { scrollTop, scrollHeight, clientHeight } = panel;
+				wrap.classList.toggle('can-scroll-up', scrollTop > 2);
+				wrap.classList.toggle('can-scroll-down', scrollTop + clientHeight < scrollHeight - 2);
+			};
+			update();
+			if (!panel.dataset.scrollFade) {
+				panel.dataset.scrollFade = '1';
+				panel.addEventListener('scroll', update, { passive: true });
+			}
+		}
 	}
+
+
 
 	static async _onToggleMode(event) {
 		event.preventDefault();
@@ -163,16 +174,6 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		const header = frame.querySelector(".window-header");
 		const closeButton = header?.querySelector('[data-action="close"]');
 
-		// Play/Edit toggle button
-		if (this.isEditable) {
-			const toggleBtn = document.createElement("button");
-			toggleBtn.type = "button";
-			toggleBtn.classList.add("header-control", "icon", "fa-solid");
-			toggleBtn.dataset.action = "toggleMode";
-			if (closeButton) closeButton.before(toggleBtn);
-			else header?.appendChild(toggleBtn);
-		}
-
 		// Sheet config button (visibility toggled in _onRender based on mode)
 		if (this.actor?.isOwner) {
 			const configBtn = document.createElement("button");
@@ -183,6 +184,19 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 			if (closeButton) closeButton.before(configBtn);
 			else header?.appendChild(configBtn);
 		}
+
+		// Play/Edit toggle button
+		if (this.isEditable) {
+			const toggleBtn = document.createElement("button");
+			toggleBtn.type = "button";
+			toggleBtn.classList.add("header-control", "icon", "fa-solid");
+			toggleBtn.dataset.action = "toggleMode";
+			if (closeButton) closeButton.before(toggleBtn);
+			else header?.appendChild(toggleBtn);
+		}
+
+		// Move close button to the end
+		if (closeButton) header?.appendChild(closeButton);
 
 		return frame;
 	}
@@ -241,6 +255,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 				}
 			});
 		});
+
+		// Scroll indicators — toggle .can-scroll-up / .can-scroll-down on panels
+		this._updateScrollFades(element);
 
 		// Everything below here is only needed if the sheet is editable
 		if (!this.isEditable) return;

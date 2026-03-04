@@ -133,9 +133,6 @@ body {
 /* ----------------------------------------- */
 /* Container
 /* ----------------------------------------- */
-.SR-mainContainer {
-  padding: 0px 5px 0px 5px;
-}
 /* ----------------------------------------- */
 /* Couleur
 /* ----------------------------------------- */
@@ -584,6 +581,10 @@ body {
 }
 .app.window-app.actor {
   /* v13: remove Foundry's default input background shade */
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
   /* ── Play / Edit mode ───────────────────────────────────── */
 }
 .app.window-app.actor input,
@@ -594,28 +595,108 @@ body {
   --input-focus-outline-color: transparent;
 }
 .app.window-app.actor .window-header {
-  background: #000001;
+  background: none;
+  border-bottom: 0;
   color: #fffffe;
   font-family: "srfoundry_regular";
 }
+.app.window-app.actor .window-header .window-title {
+  visibility: hidden;
+  width: 0;
+  overflow: hidden;
+}
+.app.window-app.actor .window-header .header-control {
+  color: #fffffe;
+  background: #000001;
+  border: 1px solid #000001;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 0 8px;
+  box-shadow: none;
+  transition: all 0.15s ease;
+}
+.app.window-app.actor .window-header .header-control::before {
+  width: 14px;
+  text-align: center;
+  display: inline-block;
+}
+.app.window-app.actor .window-header .header-control:hover {
+  background: #0c9394;
+  color: #fffffe;
+}
+.app.window-app.actor .window-header .header-control.active {
+  background: #931004;
+  color: #fffffe;
+}
+.app.window-app.actor .window-header .header-control.active:hover {
+  background: #0c9394;
+}
+.app.window-app.actor.minimized .window-header .window-title {
+  visibility: visible;
+  width: auto;
+}
+.app.window-app.actor.minimized .window-header .header-control:not([data-action="close"]) {
+  display: none;
+}
+.app.window-app.actor .controls-dropdown {
+  background: #000001;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  border-radius: 0;
+  box-shadow: none;
+}
+.app.window-app.actor .controls-dropdown .header-control > button {
+  --button-background-color: none;
+  --button-text-color: #fffffe;
+  color: #fffffe;
+  font-family: "srfoundry_regular";
+  border: none;
+}
+.app.window-app.actor .controls-dropdown .header-control > button:hover {
+  --button-text-color: #fffffe;
+  background: #0c9394;
+  color: #fffffe;
+}
+.app.window-app.actor.sr-mode-play .window-header .header-control[data-action="toggleMode"] {
+  background: #931004;
+  color: #fffffe;
+}
+.app.window-app.actor.sr-mode-play .controls-dropdown .header-control[data-action="configureSheet"] {
+  display: none;
+}
 .app.window-app.actor .window-content {
-  padding: 0px;
   background-image: url("../img/ui/SR5_BG_Blanc50.png");
   background-position: top left;
   background-size: cover;
   background-repeat: no-repeat;
+  background-origin: border-box;
   font-family: "srfoundry_regular";
   font-size: 0.9em;
   background-color: #fffffe;
+  border: 1px solid #000001;
+  border-radius: 0;
+  padding: 0;
   /* v13: override @layer elements defaults for ul/li */
-  /* ── New panel-first layout system (SR6-style) ────────────── */
-  /* Grid layout for .SR-mainContainer — activates when templates switch */
-  /* Right-side icon navigation sidebar */
+  /* ── Panel-first layout system (SR6-style) ────────────── */
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: 1fr;
+  grid-template-areas: "header" "content" "footer";
+  height: 100%;
+  /* Icon navigation inside header */
   /* Panel layout — 3-column grid, panels span 1-3 columns */
   /* Tab region columns match panel width */
   /* Multi-column sections within a tab */
   /* Block spans — use grid-column-end so grid-column-start can position independently */
-  /* 24-column grid for block rows */
+  /* ── Block header / row / 24-col grid ──────────────────── */
+  /* Folded state */
+  /* Block-level folding (header click) */
+  /* ── Fold toggle ──────────────────────────────────────── */
+  /* ── 24-column grid system ────────────────────────────── */
+  /* ── Grid utilities ───────────────────────────────────── */
+  /* ── Text utilities ───────────────────────────────────── */
+  /* ── Select wrapper (FA chevron) ──────────────────────── */
+  /* ── Separator line ───────────────────────────────────── */
+  /* ── Roll button icon ─────────────────────────────────── */
 }
 .app.window-app.actor .window-content ::-webkit-scrollbar {
   display: none;
@@ -808,51 +889,26 @@ body {
   border: 1px solid #000001;
   border-radius: 3px;
 }
-.app.window-app.actor .window-content select {
-  border-bottom: 1px solid rgba(12, 147, 148, 0.25);
-  border-radius: 0px;
-  /*option:nth-child(1) {
-                color: fade(@subColor, 50%);
-            }
-
-            option:nth-child(1n+2) {
-                color: fade(@neutralDarkColor, 70%);
-            }*/
-}
-.app.window-app.actor .window-content select:focus {
-  box-shadow: none;
-  border-bottom: 1px solid #0c9394;
-}
-.app.window-app.actor .window-content select:invalid {
-  color: rgba(12, 147, 148, 0.5);
-}
-.app.window-app.actor .window-content #SR-Attributs > * select {
-  color: #000001;
-  border-bottom: none;
-}
-.app.window-app.actor .window-content #SR-Attributs > * select:invalid,
-.app.window-app.actor .window-content #SR-Attributs > * select option:nth-child(1),
-.app.window-app.actor .window-content #SR-Attributs > * select option:nth-child(1n+2) {
-  color: #000001;
-}
 .app.window-app.actor .window-content .SR-Header {
-  padding-top: 5px;
-  margin-bottom: 12px;
+  padding: 10px;
+  height: 54px;
   display: flex;
+  align-items: center;
   background-image: url("../img/ui/SR5_BG_ActorTop.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
   background-position: top left;
 }
 .app.window-app.actor .window-content .SR-Header input {
   color: #fffffe;
   background: none;
   border: 0;
+  border-bottom: 1px solid transparent;
   border-radius: 0;
   font-family: "srfoundry_primary";
   font-size: 20px;
   text-align: left;
-  padding: 10px 5px 0px 2px;
+  padding: 0 5px;
   margin: 0;
   flex: 1;
 }
@@ -919,10 +975,6 @@ body {
 .app.window-app.actor .window-content .SR-Header .SR-AppareilType select {
   width: 140px;
   margin-top: -2px;
-}
-.app.window-app.actor .window-content .SR-Header .SR-HeaderNav {
-  display: flex;
-  margin-left: auto;
 }
 .app.window-app.actor .window-content .SR-Header .SR-Materialize {
   margin-left: 5px;
@@ -1030,60 +1082,6 @@ body {
 .app.window-app.actor .window-content .sr-tab-content select:invalid {
   color: rgba(12, 147, 148, 0.5);
 }
-.app.window-app.actor .window-content .SR-ActorMainCentre {
-  margin-left: 10px;
-  padding-left: 10px;
-  height: 480px;
-  overflow: auto;
-  border-left: 1px solid #931004;
-}
-.app.window-app.actor .window-content .SR-ActorMainCentre li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
-  background-color: rgba(12, 147, 148, 0.1);
-}
-.app.window-app.actor .window-content .SR-AppareilMainCentre {
-  margin-left: 10px;
-  padding-left: 10px;
-  height: 310px;
-  overflow: auto;
-  border-left: 1px solid #931004;
-}
-.app.window-app.actor .window-content .SR-EspritMainCentre {
-  margin-left: 10px;
-  padding-left: 10px;
-  height: 450px;
-  overflow: auto;
-  border-left: 1px solid #931004;
-}
-.app.window-app.actor .window-content .SR-EspritMainCentre li:hover:not(.SR-LigneEnTete) {
-  background-color: rgba(12, 147, 148, 0.1);
-}
-.app.window-app.actor .window-content .SR-DroneMainCentre {
-  margin-left: 10px;
-  padding-left: 10px;
-  height: 480px;
-  overflow: auto;
-  border-left: 1px solid #931004;
-}
-.app.window-app.actor .window-content .SR-DroneMainCentre li:hover:not(.SR-LigneEnTete) {
-  background-color: rgba(12, 147, 148, 0.1);
-}
-.app.window-app.actor .window-content .SR-ActorColGauche {
-  height: 480px;
-  overflow: auto;
-}
-.app.window-app.actor .window-content .SR-AppareilColGauche {
-  height: 310px;
-  padding-left: 5px;
-  overflow: auto;
-}
-.app.window-app.actor .window-content .SR-EspritColGauche {
-  height: 450px;
-  overflow: auto;
-}
-.app.window-app.actor .window-content .SR-DroneColGauche {
-  height: 480px;
-  overflow: auto;
-}
 .app.window-app.actor .window-content .SR-BioTitre {
   font-family: "srfoundry_bold";
   color: #931004;
@@ -1118,13 +1116,13 @@ body {
   margin-right: 5px;
 }
 .app.window-app.actor .window-content .SR-footer {
-  margin-top: 25px;
-  padding: 0px 3px 0px 3px;
+  padding: 10px;
   display: flex;
   background-image: url("../img/ui/SR5_BG_ActorBottom.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
   background-position: bottom left;
+  border-radius: 0;
 }
 .app.window-app.actor .window-content .SR-footer input {
   background: none;
@@ -1219,72 +1217,48 @@ body {
   background: #00bdca;
   border: 1px solid rgba(0, 189, 202, 0.5);
 }
-.app.window-app.actor .window-content .SR-mainContainer.sr-layout {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-columns: minmax(0, 1fr) 50px;
-  grid-template-areas: "header  header" "content nav" "footer  footer";
-  height: 100%;
-}
-.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .SR-Header {
+.app.window-app.actor .window-content > .SR-Header {
   grid-area: header;
 }
-.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .sr-tab-content {
+.app.window-app.actor .window-content > .sr-tab-content {
   grid-area: content;
   min-height: 0;
   overflow: hidden;
+  padding: 0 10px;
 }
-.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .sr-nav-panel {
-  grid-area: nav;
-}
-.app.window-app.actor .window-content .SR-mainContainer.sr-layout > .SR-footer {
+.app.window-app.actor .window-content > .SR-footer {
   grid-area: footer;
 }
-.app.window-app.actor .window-content .sr-nav-panel {
-  border-left: 1px solid rgba(12, 147, 148, 0.35);
-  padding-left: 10px;
-  min-width: 50px;
-  max-width: 50px;
-  min-height: 0;
-}
-.app.window-app.actor .window-content .sr-nav-panel .sr-icon-nav {
+.app.window-app.actor .window-content .sr-icon-nav {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
   border: none;
-  gap: 4px;
-  height: 100%;
+  gap: 0;
+  margin-left: auto;
 }
-.app.window-app.actor .window-content .sr-nav-panel .sr-nav-separator {
-  width: 100%;
-  height: 4px;
+.app.window-app.actor .window-content .sr-icon-nav .sr-nav-separator {
+  width: 16px;
+  height: 100%;
   flex-shrink: 0;
 }
-.app.window-app.actor .window-content .sr-nav-panel a {
-  width: 30px;
-  height: 30px;
+.app.window-app.actor .window-content .sr-icon-nav a {
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  opacity: 0.5;
-  transition: opacity 0.15s ease;
 }
-.app.window-app.actor .window-content .sr-nav-panel a.active {
-  opacity: 1;
+.app.window-app.actor .window-content .sr-icon-nav a:hover #icon-border {
+  stroke: #0c9394;
 }
-.app.window-app.actor .window-content .sr-nav-panel a:hover {
-  opacity: 0.8;
-}
-.app.window-app.actor .window-content .sr-nav-panel a svg {
-  width: 24px;
-  height: 24px;
-  fill: #931004;
+.app.window-app.actor .window-content .sr-icon-nav a.active #icon-border {
+  stroke: #931004;
 }
 .app.window-app.actor .window-content .sr-tab-content {
   min-height: 0;
   height: 100%;
   overflow: visible;
+  padding: 8px 10px;
 }
 .app.window-app.actor .window-content .sr-tab-content li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
   background-color: rgba(12, 147, 148, 0.1);
@@ -1292,7 +1266,7 @@ body {
 .app.window-app.actor .window-content .sr-tab-panels {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0;
+  gap: 10px;
   align-items: stretch;
   height: 100%;
 }
@@ -1300,14 +1274,71 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   border-right: 1px solid rgba(12, 147, 148, 0.25);
-  padding-right: 5px;
+  padding-right: 10px;
 }
 .app.window-app.actor .window-content .sr-panel-wrap:last-child {
   border-right: none;
   padding-right: 0;
+}
+.app.window-app.actor .window-content .sr-panel-wrap::before,
+.app.window-app.actor .window-content .sr-panel-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 10px;
+  height: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  background-size: 10px 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.app.window-app.actor .window-content .sr-panel-wrap::before {
+  bottom: calc(100% + 1px);
+  background-image: conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg);
+}
+.app.window-app.actor .window-content .sr-panel-wrap::after {
+  top: calc(100% + 1px);
+  background-image: conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg);
+}
+.app.window-app.actor .window-content .sr-panel-wrap.can-scroll-up::before {
+  opacity: 1;
+}
+.app.window-app.actor .window-content .sr-panel-wrap.can-scroll-down::after {
+  opacity: 1;
+}
+.app.window-app.actor .window-content .sr-panel-wrap.can-scroll-down:not(.can-scroll-up) .sr-panel {
+  mask-image: linear-gradient(to bottom, black calc(100% - 20px), rgba(0, 0, 0, 0.3));
+}
+.app.window-app.actor .window-content .sr-panel-wrap.can-scroll-up:not(.can-scroll-down) .sr-panel {
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), black 20px);
+}
+.app.window-app.actor .window-content .sr-panel-wrap.can-scroll-up.can-scroll-down .sr-panel {
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), black 20px, black calc(100% - 20px), rgba(0, 0, 0, 0.3));
+}
+.app.window-app.actor .window-content .sr-panel-cols-2::before {
+  background-image: conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px;
+  background-position: 25% center, 75% center;
+}
+.app.window-app.actor .window-content .sr-panel-cols-2::after {
+  background-image: conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px;
+  background-position: 25% center, 75% center;
+}
+.app.window-app.actor .window-content .sr-panel-cols-3::before {
+  background-image: conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px, 10px 6px;
+  background-position: 16.67% center, 50% center, 83.33% center;
+}
+.app.window-app.actor .window-content .sr-panel-cols-3::after {
+  background-image: conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px, 10px 6px;
+  background-position: 16.67% center, 50% center, 83.33% center;
 }
 .app.window-app.actor .window-content .sr-panel-cols-1 {
   grid-column: span 1;
@@ -1325,10 +1356,14 @@ body {
   gap: 0;
   overflow-y: auto;
   min-height: 0;
+  scrollbar-width: none;
+}
+.app.window-app.actor .window-content .sr-panel::-webkit-scrollbar {
+  display: none;
 }
 .app.window-app.actor .window-content .sr-panel > .sr-tab-region {
   display: none;
-  gap: 5px;
+  gap: 10px;
 }
 .app.window-app.actor .window-content .sr-panel > .sr-tab-region.active {
   display: grid;
@@ -1342,7 +1377,7 @@ body {
 }
 .app.window-app.actor .window-content .sr-panel-columns {
   display: grid;
-  gap: 5px;
+  gap: 10px;
   align-items: start;
   grid-column: 1 / -1;
 }
@@ -1358,7 +1393,7 @@ body {
 .app.window-app.actor .window-content .sr-panel-col {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 10px;
 }
 .app.window-app.actor .window-content .sr-block-span-double {
   grid-column-end: span 2;
@@ -1372,11 +1407,107 @@ body {
 .app.window-app.actor .window-content .sr-block-start-2 {
   grid-column-start: 2;
 }
-.app.window-app.actor .window-content .sr-block-header,
+.app.window-app.actor .window-content .sr-block-header {
+  text-transform: uppercase;
+  font-family: "srfoundry_primary";
+  background-image: linear-gradient(45deg, rgba(147, 16, 4, 0.5), 80%, #931004), url("../img/ui/SR5_BG_Sidebar.jpg");
+  background-size: cover;
+  border-top: 1px solid #0c9394;
+  border-bottom: 1px solid #0c9394;
+  color: #fffffe;
+  font-size: 1em;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: center;
+  line-height: 20px;
+  padding: 0 3px;
+  margin-bottom: 1px;
+}
+.app.window-app.actor .window-content .sr-block-header a {
+  color: #fffffe;
+}
+.app.window-app.actor .window-content .sr-block-header a:hover {
+  color: #0c9394;
+}
+.app.window-app.actor .window-content .sr-block-header.vert {
+  background-image: linear-gradient(45deg, rgba(12, 147, 148, 0.5), 80%, #0c9394), url("../img/ui/SR5_BG_Sidebar.jpg");
+}
+.app.window-app.actor .window-content .sr-block-header-sub {
+  font-size: 1em;
+  font-family: "srfoundry_primary";
+  border-bottom: 1px solid #931004;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: center;
+  line-height: 20px;
+  padding-left: 1px;
+}
 .app.window-app.actor .window-content .sr-block-row {
   display: grid;
   grid-template-columns: repeat(24, 1fr);
   align-items: center;
+  min-height: 20px;
+}
+.app.window-app.actor .window-content .sr-block-row-extra {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  overflow: hidden;
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+.app.window-app.actor .window-content .sr-block-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+.app.window-app.actor .window-content .sr-block-row-extra.srF-is-folded {
+  max-height: 0;
+  opacity: 0;
+}
+.app.window-app.actor .window-content .sr-block-header[data-action="toggleBlock"] {
+  cursor: pointer;
+}
+.app.window-app.actor .window-content .sr-block-header.srF-is-folded {
+  opacity: 0.4;
+  transition: opacity 0.15s ease-out;
+}
+.app.window-app.actor .window-content .sr-block-header:not(.srF-is-folded) {
+  transition: opacity 0.15s ease-out;
+}
+.app.window-app.actor .window-content .srF-block-folded {
+  max-height: 0;
+  min-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.app.window-app.actor .window-content .sr-fold-toggle::before {
+  font-family: "Font Awesome 6 Pro";
+  text-align: center;
+  font-weight: 700;
+  width: 11px;
+  content: "\f0d7";
+  display: inline-block;
+  padding-right: 2px;
+  transition: transform 0.2s ease-out, color 0.2s ease-out;
+  color: rgba(147, 16, 4, 0.5);
+}
+.app.window-app.actor .window-content .sr-fold-toggle:hover::before {
+  color: #931004;
+}
+.app.window-app.actor .window-content .sr-block-header.srF-is-folded > .sr-fold-toggle::before,
+.app.window-app.actor .window-content .sr-block-row.srF-is-folded > .sr-fold-toggle::before {
+  transform: rotate(-90deg);
+}
+.app.window-app.actor .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle::before {
+  color: #0c9394;
+}
+.app.window-app.actor .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle:hover::before {
+  color: #931004;
 }
 .app.window-app.actor .window-content [class^="sr-grid-"],
 .app.window-app.actor .window-content [class*=" sr-grid-"] {
@@ -1454,6 +1585,82 @@ body {
 }
 .app.window-app.actor .window-content .sr-grid-24 {
   grid-column: span 24;
+}
+.app.window-app.actor .window-content .sr-grid-center-x {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.app.window-app.actor .window-content .sr-grid-right-x {
+  display: flex;
+  justify-content: flex-end;
+}
+.app.window-app.actor .window-content .sr-content-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.app.window-app.actor .window-content .sr-text-center {
+  text-align: center;
+}
+.app.window-app.actor .window-content .sr-text-right {
+  text-align: right;
+}
+.app.window-app.actor .window-content .sr-is-inactive {
+  color: rgba(0, 0, 1, 0.35);
+}
+.app.window-app.actor .window-content .sr-text-calculated {
+  color: #0c9394;
+}
+.app.window-app.actor .window-content .sr-text-calculated.sr-roll-button:hover {
+  cursor: pointer;
+}
+.app.window-app.actor .window-content .sr-text-calculated.sr-roll-button::after {
+  color: rgba(147, 16, 4, 0.5);
+}
+.app.window-app.actor .window-content .sr-text-calculated.sr-roll-button:hover::after {
+  color: #931004;
+}
+.app.window-app.actor .window-content .sr-text-button {
+  color: rgba(147, 16, 4, 0.5);
+}
+.app.window-app.actor .window-content .sr-text-button:hover {
+  color: #931004;
+}
+.app.window-app.actor .window-content .sr-text-button.active {
+  color: #0c9394;
+}
+.app.window-app.actor .window-content .sr-select-wrapper {
+  position: relative;
+  width: calc(100% - 2px);
+}
+.app.window-app.actor .window-content .sr-select-wrapper::after {
+  font-family: "Font Awesome 6 Pro";
+  font-size: 12px;
+  font-weight: 700;
+  content: '\f078';
+  text-align: center;
+  color: rgba(147, 16, 4, 0.5);
+  position: absolute;
+  pointer-events: none;
+  right: 0;
+}
+.app.window-app.actor .window-content .sr-select-wrapper.sr-dropdown::after {
+  display: none;
+}
+.app.window-app.actor .window-content .sr-separator-line {
+  border-bottom: 1px solid rgba(12, 147, 148, 0.25);
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.app.window-app.actor .window-content .sr-roll-button::after {
+  position: relative;
+  left: 0;
+  padding-left: 3px;
+  font-family: "Font Awesome 6 Pro";
+  line-height: 15px;
+  font-weight: 700;
+  content: '\f6d1 ';
 }
 .app.window-app.actor.sr-mode-play .item-create,
 .app.window-app.actor.sr-mode-play .item-delete,
@@ -3514,7 +3721,7 @@ body {
   border-bottom: 1px solid rgba(12, 147, 148, 0.35) !important;
   padding: 0 !important;
   border-radius: 0 !important;
-  box-shadow: none !important;
+  box-shadow: none;
   outline: none !important;
   font-family: inherit;
   font-size: inherit;
@@ -3526,7 +3733,7 @@ body {
   border-bottom: 1px solid rgba(12, 147, 148, 0.35) !important;
   border-radius: 0 !important;
   padding: 0 !important;
-  box-shadow: none !important;
+  box-shadow: none;
   outline: none !important;
   font-family: inherit;
   font-size: inherit;
@@ -3558,7 +3765,7 @@ body {
   border: 0 !important;
   padding: 0 !important;
   border-radius: 0 !important;
-  box-shadow: none !important;
+  box-shadow: none;
   outline: none !important;
   line-height: 15px;
   width: 100% !important;
@@ -3636,7 +3843,7 @@ body {
   border-radius: 0 !important;
   height: auto !important;
   padding: 0 !important;
-  box-shadow: none !important;
+  box-shadow: none;
   outline: none !important;
   line-height: 18px;
   font-family: inherit;
@@ -3750,7 +3957,7 @@ body {
 .dialog .form-footer button.default:hover {
   color: #000001 !important;
   background-color: transparent !important;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 .dialog .dialog-buttons button:hover:before,
 .dialog .form-footer button:hover:before,

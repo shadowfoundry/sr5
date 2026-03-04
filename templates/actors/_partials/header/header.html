@@ -1,4 +1,16 @@
-<div class="SR-Header SR-PaddingBottom5">
+<div class="SR-Header">
 	<div><img class="SRImgPortrait" src="{{actor.img}}" data-edit="img" data-title="{{localize 'SR5.UI_ChangePicture'}}" /></div>
 	<input name="name" type="text" value="{{actor.name}}" placeholder="Name" />
+	<nav class="sr-icon-nav tabs">
+		{{#each layout.panels}}
+			{{#unless @first}}
+				<div class="sr-nav-separator"></div>
+			{{/unless}}
+			{{#each this.tabs}}
+				<a data-action="tab" data-group="{{this.group}}" data-tab="{{this.id}}" class="{{this.cssClass}}">
+					{{> (lookup this "icon") }}
+				</a>
+			{{/each}}
+		{{/each}}
+	</nav>
 </div>
