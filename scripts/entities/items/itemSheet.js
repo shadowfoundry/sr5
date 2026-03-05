@@ -89,6 +89,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 			else header?.appendChild(toggleBtn);
 		}
 
+		// Move close button to the end
+		if (closeButton) header?.appendChild(closeButton);
+
 		return frame;
 	}
 
@@ -122,9 +125,11 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 			toggleBtn.dataset.tooltip = this.isPlayMode ? "SR5.SwitchToEdit" : "SR5.SwitchToPlay";
 		}
 
-		// Activate initial tabs (AppV2 doesn't auto-activate on render)
+		// Activate initial tabs (only if tabs exist in the DOM — some items have no tabs)
 		for (const [group, tab] of Object.entries(this.tabGroups)) {
-			if (tab) this.changeTab(tab, group, { force: true, updatePosition: false });
+			if (tab && el.querySelector(`nav.tabs [data-group="${group}"]`)) {
+				this.changeTab(tab, group, { force: true, updatePosition: false });
+			}
 		}
 
 		// Sub-item management (add/delete/clone effects, licenses, etc.)
@@ -165,7 +170,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
 		// Submit any unsaved changes before modifying sub-items
 		if (this.isEditable) {
-			const formData = new FormDataExtended(this.element);
+			const formData = new foundry.applications.ux.FormDataExtended(this.element);
 			const submitData = this._processFormData(null, this.element, formData);
 			if (submitData && Object.keys(submitData).length) {
 				await this.document.update(submitData);

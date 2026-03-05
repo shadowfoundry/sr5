@@ -4147,7 +4147,7 @@ export class SR5_CharacterUtility extends Actor {
 		let actorObject = actor.toObject(false);
 		if (game.actors) {
 			for (let a of game.actors) {
-				if (a.type === "actorAgent" && a.system.creatorId === actor._id) {
+				if (a.type === "actorAgent" && a.system.creatorId === actor.id) {
 					await a.update({
 						"system.creatorData.items": actorObject.items,
 					})
@@ -4157,7 +4157,7 @@ export class SR5_CharacterUtility extends Actor {
 
 		if (canvas.scene) {
 			for (let t of canvas.tokens.placeables) {
-				if (t.actor.type === "actorAgent" && t.actor.system.creatorId === actor._id) {
+				if (t.actor.type === "actorAgent" && t.actor.system.creatorId === actor.id) {
 					await t.actor.update({
 						"system.creatorData.items": actorObject.items,
 					})
@@ -4170,7 +4170,7 @@ export class SR5_CharacterUtility extends Actor {
 		let actorObject = actor.toObject(false);
 		if (game.actors) {
 			for (let a of game.actors) {
-				if (a.type === "actorDrone" && a.system.vehicleOwner.id === actor._id) {
+				if (a.type === "actorDrone" && a.system.vehicleOwner.id === actor.id) {
 					await a.update({
 						"system.vehicleOwner.system": actorObject.system,
 						"system.vehicleOwner.items": actorObject.items,
@@ -4181,7 +4181,7 @@ export class SR5_CharacterUtility extends Actor {
 
 		if (canvas.scene) {
 			for (let t of canvas.tokens.placeables) {
-				if (t.actor.type === "actorDrone" && t.actor.system.vehicleOwner.id === actor._id) {
+				if (t.actor.type === "actorDrone" && t.actor.system.vehicleOwner.id === actor.id) {
 					await t.actor.update({
 						"system.vehicleOwner.system": actorObject.system,
 						"system.vehicleOwner.items": actorObject.items,
@@ -4224,7 +4224,7 @@ export class SR5_CharacterUtility extends Actor {
 			}
 		} else {
 			if (isStatusEffectOn) {
-				await actor.deleteEmbeddedDocuments("ActiveEffect", [isStatusEffectOn._id]);
+				await actor.deleteEmbeddedDocuments("ActiveEffect", [isStatusEffectOn.id]);
 			}
 		}
 		if (statusEffects.length) await actor.createEmbeddedDocuments("ActiveEffect", statusEffects);

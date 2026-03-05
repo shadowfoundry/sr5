@@ -414,7 +414,7 @@ export class SR5_RollTest {
 				case "roll": //everybody
 					let userList = game.users.filter(user => user.active);
 					let userIDList = [];
-					userList.forEach(user => userIDList.push(user.data._id));
+					userList.forEach(user => userIDList.push(user.id));
 					whisper = userIDList;
 					break;
 			}

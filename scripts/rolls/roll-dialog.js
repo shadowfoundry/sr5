@@ -97,7 +97,7 @@ export default class SR5_RollDialog {
     //Toggle reset recoil
     _onResetRecoil(ev, html, dialogData, actor){
         ev.preventDefault();
-        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
+        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor.id)
         resetedActor.resetRecoil();
         dialogData.combat.recoil.cumulative = 0;
         dialogData.combat.recoil.value = dialogData.combat.recoil.compensationActor;
@@ -1230,7 +1230,7 @@ export default class SR5_RollDialog {
     //Toggle reset defense
     _onResetDefense(ev, html, dialogData, actor){
         ev.preventDefault();
-        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor._id)
+        let resetedActor = SR5_EntityHelpers.getRealActorFromID(actor.id)
         resetedActor.resetCumulativeDefense();
         SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "cumulativeDefense")
         actor.flags.sr5.cumulativeDefense = 0;

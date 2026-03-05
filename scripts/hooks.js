@@ -189,7 +189,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.once('canvasReady', data => {
-		for (let token of data.tokens.ownedTokens){
+		for (let token of data.tokens.placeables.filter(t => t.isOwner)){
 			if (token.document.actorLink && (token.scene.flags.sr5?.backgroundCountValue !== 0)){
 				token.document.actor.prepareData();
 			}
@@ -249,8 +249,6 @@ export const registerHooks = function () {
 		//SquareGrid.prototype.measureDistances = measureDistances;
 	});
 
-	Hooks.on("getCombatTrackerEntryContext", SR5CombatTracker.addCombatTrackerContextOptions);
-	Hooks.on("renderCombatTracker", (app, html, data) => SR5CombatTracker.renderCombatTracker(app, html, data));
 
 	Hooks.on('deleteCombat', (combat) => {
 		if ( !game.user.isGM ) return;

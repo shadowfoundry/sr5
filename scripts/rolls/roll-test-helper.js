@@ -139,7 +139,7 @@ export class SR5_RollTestHelper {
         }
 
         
-        if (game.user?.isGM || cardData.owner.actorId == game.user?.character?._id) item.update(newItem);
+        if (game.user?.isGM || cardData.owner.actorId == game.user?.character?.id) item.update(newItem);
         else SR5_SocketHandler.emitForGM("updateItem", {
             item: item.uuid,
             info: newItem,

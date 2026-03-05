@@ -1,32 +1,28 @@
 import { SR5 } from "../config.js";
 
 export default class SR5MeasuredTemplateConfig extends foundry.applications.sheets.MeasuredTemplateConfig {
-    constructor(...args) {
-        super(...args);
-    }
 
-    static get defaultOptions() {
-        const options = super.defaultOptions;
-        return foundry.utils.mergeObject(super.defaultOptions, {
+    static PARTS = {
+        ...foundry.applications.sheets.MeasuredTemplateConfig.PARTS,
+        sr5tabs: { template: "systems/sr5/templates/interface/template-sr5-tabs.html" }
+    };
+
+    static TABS = {
+        sheet: {
             tabs: [
-				{
-					navSelector: ".tabs",
-					contentSelector: "form",
-					initial: "basic",
-				},
-			],
-            lists: SR5,
-        });
-    }
+                { id: "main", icon: "fa-solid fa-ruler-combined", label: "CONTROLS.MeasureConfigHint" },
+                { id: "environmentalMod", icon: "fa-solid fa-cloud-sun-rain", label: "SR5.EnvironmentalModifiers" },
+            ],
+            initial: "main"
+        }
+    };
 
-    getData(options={}) {
-        const context = super.getData(options);
-        context.data.flags.sr5.lists = SR5
-        return context
-    }
-    
-    get template() {
-        return `systems/sr5/templates/interface/srTemplateConfig.html`;
+    async _preparePartContext(partId, context, options) {
+        context = await super._preparePartContext(partId, context, options);
+        if (partId === "sr5tabs") {
+            context.sr5lists = SR5;
+        }
+        return context;
     }
 
     updateMatrixNoise(element) {
@@ -36,23 +32,18 @@ export default class SR5MeasuredTemplateConfig extends foundry.applications.shee
         this.document.setFlag("sr5", "matrixNoise", matrixNoise);
     }
 
-    activateListeners(html) {
-        super.activateListeners(html);
-        const element = html instanceof HTMLElement ? html : html[0];
-        this.updateMatrixNoise(element);
+    async _onRender(context, options) {
+        await super._onRender(context, options);
+        this.updateMatrixNoise(this.element);
 
-        const matrixSpam = element.querySelector('[name="matrixSpam"]');
+        const matrixSpam = this.element.querySelector('[name="flags.sr5.matrixSpam"]');
         if (matrixSpam) matrixSpam.addEventListener("change", ev => {
-            let value = (parseInt(ev.target.value) || 0);
-            this.document.setFlag("sr5", "matrixSpam", value);
-            this.updateMatrixNoise(element);
+            this.updateMatrixNoise(this.element);
         });
 
-        const matrixStatic = element.querySelector('[name="matrixStatic"]');
+        const matrixStatic = this.element.querySelector('[name="flags.sr5.matrixStatic"]');
         if (matrixStatic) matrixStatic.addEventListener("change", ev => {
-            let value = (parseInt(ev.target.value) || 0);
-            this.document.setFlag("sr5", "matrixStatic", value);
-            this.updateMatrixNoise(element);
+            this.updateMatrixNoise(this.element);
         });
     }
 }

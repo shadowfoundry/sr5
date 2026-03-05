@@ -7,6 +7,11 @@
         --input-focus-outline-color: transparent;
     }
 
+    background: none;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+
     * {
         -ms-overflow-style: none;
         scrollbar-width: none;
@@ -16,20 +21,92 @@
       }
 
     .window-header {
-        background : @neutralDarkColor;
+        background : none;
+        border-bottom: 0;
         color      : @neutralLightColor;
         font-family: @SR_BodyText;
+
+        .window-title {
+            visibility: hidden;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .header-control {
+            color: @neutralLightColor;
+            background: @neutralDarkColor;
+            border: 1px solid @neutralDarkColor;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            padding: 0 8px;
+            box-shadow: none;
+            transition: all 0.15s ease;
+
+            &::before {
+                width: 14px;
+                text-align: center;
+                display: inline-block;
+            }
+
+            &:hover {
+                background: @subColor;
+                color: @neutralLightColor;
+            }
+
+            &.active {
+                background: @mainColor;
+                color: @neutralLightColor;
+
+                &:hover {
+                    background: @subColor;
+                }
+            }
+        }
+    }
+
+    &.minimized .window-header {
+        .window-title {
+            visibility: visible;
+            width: auto;
+        }
+        .header-control:not([data-action="close"]) {
+            display: none;
+        }
+    }
+
+    .controls-dropdown {
+        background: @neutralDarkColor;
+        border: 1px solid fade(@subColor, 35%);
+        border-radius: 0;
+        box-shadow: none;
+
+        .header-control > button {
+            --button-background-color: none;
+            --button-text-color: @neutralLightColor;
+            color: @neutralLightColor;
+            font-family: @SR_BodyText;
+            border: none;
+
+            &:hover {
+                --button-text-color: @neutralLightColor;
+                background: @subColor;
+                color: @neutralLightColor;
+            }
+        }
     }
 
     .window-content {
-        padding            : 0px;
+        padding            : 0;
         background-image   : url(@BGWhite50);
         background-repeat  : no-repeat;
         background-position: top left;
         background-size    : cover;
+        background-origin  : border-box;
         font-family        : @SR_BodyText;
-        font-size          : @SR_FontSizeSmall ;
+        font-size          : @SR_FontSizeSmall;
         background-color   : fade(@neutralLightColor, 100%);
+        border             : 1px solid @neutralDarkColor;
+        border-radius      : 0;
 
         ::-webkit-scrollbar {
             display: none;
@@ -44,6 +121,18 @@
 
         li {
             margin: 0;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        h2 {
+            font-family  : @SR_BodyTextBold;
+            font-size    : @SR_FontSizeNormal;
+            border-bottom: 0;
+            color        : @mainColor;
+            margin       : 0;
         }
 
         .SR-Header {
@@ -277,10 +366,25 @@
                     url(@Sidebar);
                 background-size: cover;
                 border-bottom  : 1px solid @subColor;
+                border-top     : 1px solid @subColor;
                 font-family    : @SR_BodyTextBold;
 
                 &:not(:first-child) {
                     margin-top: 15px;
+                }
+
+                a {
+                    color: @neutralLightColor;
+
+                    &:hover {
+                        color: @subColor;
+                    }
+                }
+
+                &.vert {
+                    background-image:
+                        linear-gradient(45deg, fade(@subColor, 50%), 80%, @subColor),
+                        url(@Sidebar);
                 }
             }
 
@@ -350,6 +454,7 @@
             background-size: 100% auto;
             background-repeat: no-repeat;
             background-position: bottom left;
+            border-radius: 0;
 
             .SR-MoniteurBar {
                 display       : flex;
@@ -394,6 +499,11 @@
 
     // ---- Play / Edit mode ----
     &.sr-mode-play {
+        .window-header .header-control[data-action="toggleMode"] {
+            background: @mainColor;
+            color: @neutralLightColor;
+        }
+
         .subItem[data-subaction="add"],
         .subItem[data-subaction="delete"],
         .subItem[data-subaction="clone"],

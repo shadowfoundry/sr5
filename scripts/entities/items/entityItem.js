@@ -403,7 +403,7 @@ export class SR5Item extends Item {
 					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.conjurer);
 					let spells = [];
 					for (let sustained of Object.values(itemData.sustainedSpell)){
-					let sustainedSpellName = actor.items.find(s => s.type === "itemSpell" && s._id === sustained.name);
+					let sustainedSpellName = actor.items.find(s => s.type === "itemSpell" && s.id === sustained.name);
 					tags.push([`${game.i18n.localize('SR5.Sustaining')}${game.i18n.localize('SR5.Colons')} ${sustainedSpellName.name}`, sustainedSpellName.system.gameEffect]);
 					spells.push(sustainedSpellName.name);
 					}	
@@ -419,7 +419,7 @@ export class SR5Item extends Item {
 				if (Object.keys(itemData.sustainedComplexForm).length) {
 					let actor = SR5_EntityHelpers.getRealActorFromID(itemData.compiler);
 					for (let sustained of Object.values(itemData.sustainedComplexForm)) {						
-					let sustainedComplexFormName = actor.items.find(s => s.type === "itemComplexForm" && s._id === sustained.name);
+					let sustainedComplexFormName = actor.items.find(s => s.type === "itemComplexForm" && s.id === sustained.name);
 					tags.push([`${game.i18n.localize('SR5.Sustaining')}${game.i18n.localize('SR5.Colons')} ${sustainedComplexFormName.name}`, sustainedComplexFormName.system.gameEffect]);
 					}
 				  }
@@ -638,7 +638,7 @@ export class SR5Item extends Item {
 					default: true,
 					callback: async (event, button, dialog) => {
 						const form = dialog.element.querySelector("form");
-						const fd = new FormDataExtended(form);
+						const fd = new foundry.applications.ux.FormDataExtended(form);
 						foundry.utils.mergeObject(data, fd.object, {inplace: true});
 						if ( !data.folder ) delete data["folder"];
 						const preset = CONFIG.Cards.presets[data.preset];

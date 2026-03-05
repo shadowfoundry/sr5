@@ -126,7 +126,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
 		// Sort Owned Items
 		for (let i of context.items) {
-			const item = this.actor.items.get(i._id);
+			const item = this.actor.items.get(i.id);
 			if (item) i.labels = item.labels;
 		}
 		context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0));
@@ -654,7 +654,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 			if (action === "delete") {
 				// Submit any unsaved changes
 				if (this.isEditable) {
-					const formData = new FormDataExtended(this.element);
+					const formData = new foundry.applications.ux.FormDataExtended(this.element);
 					const submitData = this._processFormData(null, this.element, formData);
 					if (submitData && Object.keys(submitData).length) {
 						await this.document.update(submitData);
@@ -1184,7 +1184,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 				if (item.system.range === "area"){
 					let messageId = null;
 					for (let m of game.messages){
-						if(m.flags.sr5data?.owner.itemId === item._id && m.flags.sr5data?.chatCard.templateRemove) messageId = m.id;
+						if(m.flags.sr5data?.owner.itemId === item.id && m.flags.sr5data?.chatCard.templateRemove) messageId = m.id;
 					}
 					if (messageId) await SR5_RollMessage.removeTemplate(messageId, realItem.uuid);
 				}
@@ -1618,7 +1618,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		event.preventDefault();
 		// Submit any unsaved changes
 		if (this.isEditable) {
-			const formData = new FormDataExtended(this.element);
+			const formData = new foundry.applications.ux.FormDataExtended(this.element);
 			const submitData = this._processFormData(null, this.element, formData);
 			if (submitData && Object.keys(submitData).length) {
 				await this.document.update(submitData);

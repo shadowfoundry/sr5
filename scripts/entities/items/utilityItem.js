@@ -1457,7 +1457,7 @@ export class SR5_UtilityItem extends Actor {
 		for (let itemSpirit of actor.items){
 			if (itemSpirit.type === "itemSpirit" && itemSpirit.system.isBounded){
 				for (let s of Object.values(itemSpirit.system.sustainedSpell)){
-					if (s.name === item._id) itemData.freeSustain = true;
+					if (s.name === item.id) itemData.freeSustain = true;
 				}
 			}
 		}
@@ -1652,7 +1652,7 @@ export class SR5_UtilityItem extends Actor {
 	}
 
 	static async _handleWeaponFocus(item, actor){
-		let focus = actor.items.find(w => w.system.linkedWeapon === item._id);
+		let focus = actor.items.find(w => w.system.linkedWeapon === item.id);
 		if (!focus) return;
 
 		//check if focus effect is present. Add it if not.
@@ -2513,7 +2513,7 @@ export class SR5_UtilityItem extends Actor {
 	}
 
 	static async _handleWeaponMount(item, actor){
-		let mount = actor.items.find(m => m.system.mountedWeapon === item._id);
+		let mount = actor.items.find(m => m.system.mountedWeapon === item.id);
 		if (mount) {
 			if (mount.system.isActive) item.system.isUsedAsMount = true; 
 		}
@@ -2779,7 +2779,7 @@ export class SR5_UtilityItem extends Actor {
 			if (i.type === "itemGear" || i.type === "itemArmor" || i.type === "itemAugmentation") {
 				if (Object.keys(i.system.accessory).length){
 					if (typeof i.system.accessory === "object") i.system.accessory = Object.values(i.system.accessory);
-					let accessory = i.system.accessory.find(a => a._id === item._id)
+					let accessory = i.system.accessory.find(a => a._id === item.id)
 					if (accessory){
 						item.system.wirelessTurnedOn = i.system.wirelessTurnedOn;
 						item.system.isPlugged = true;

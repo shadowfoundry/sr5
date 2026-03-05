@@ -485,7 +485,7 @@ export class SR5_ActorHelper {
 				"system.services.max": itemData.services.max,
 				"system.summonerMagic": itemData.summonerMagic,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item._id,
+				"system.creatorItemId": item.id,
 				"system.magic.tradition": itemData.magic.tradition,
 				"system.conditionMonitors.physical.actual": itemData.conditionMonitors.physical.actual,
 				"system.conditionMonitors.stun.actual": itemData.conditionMonitors.stun.actual,
@@ -511,7 +511,7 @@ export class SR5_ActorHelper {
 				"system.tasks.max": itemData.tasks.max,
 				"system.compilerResonance": itemData.compilerResonance,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item._id,
+				"system.creatorItemId": item.id,
 				"system.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
 				"items": baseItems,
 			});
@@ -548,7 +548,7 @@ export class SR5_ActorHelper {
 				"system.specialAttributes.edge.natural.base": itemData.connection,
 				"system.conditionMonitors": itemData.conditionMonitors,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item._id,
+				"system.creatorItemId": item.id,
 				"items": baseItems,
 			});
 		}
@@ -566,7 +566,7 @@ export class SR5_ActorHelper {
 			creatorData = creatorData.toObject(false);
 			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.creatorId": actorId,
-				"system.creatorItemId": item._id,
+				"system.creatorItemId": item.id,
 				"system.creatorData": creatorData,
 				"system.conditionMonitors.matrix": ownerDeck.system.conditionMonitors.matrix,
 				"system.rating": itemData.itemRating,
@@ -590,7 +590,7 @@ export class SR5_ActorHelper {
 			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item._id,
+				"system.creatorItemId": item.id,
 				"system.type": itemData.type,
 				"system.model": itemData.model,
 				"system.attributes.handling.natural.base": itemData.attributes.handling,
@@ -636,7 +636,7 @@ export class SR5_ActorHelper {
 			});
 		}
 
-		let originalItem = ownerActor.getEmbeddedDocument("Item", item._id);
+		let originalItem = ownerActor.getEmbeddedDocument("Item", item.id);
 		await originalItem.update({"system.isCreated": true,});
 
 		//Create actor
@@ -854,10 +854,10 @@ export class SR5_ActorHelper {
 
 		if (canvas.scene){
 			for (let token of canvas.tokens.placeables) {
-				if (token.document.actorId === actor._id) await token.document.delete();
+				if (token.document.actorId === actor.id) await token.document.delete();
 			}
 		}
-		await Actor.deleteDocuments([actor._id]);
+		await Actor.deleteDocuments([actor.id]);
 	}
 
 	//Socket to dismiss sidekick;
@@ -1014,7 +1014,7 @@ export class SR5_ActorHelper {
 	//Keep grunt edge synchro across unlinked tokens
 	static async keepEdgeSynchroWithGrunt(document){
 		if(!canvas.scene) return;
-		for (let t of canvas.tokens.ownedTokens){
+		for (let t of canvas.tokens.placeables.filter(t => t.isOwner)){
 			if (t.document.actorId === document.id){
 				let actor = SR5_EntityHelpers.getRealActorFromID(t.document.id);
 				let updatedActor = foundry.utils.duplicate(actor.system);

@@ -1,0 +1,70 @@
+<!-- SR5 Environmental Modifiers -->
+<div class="tab" data-group="sheet" data-tab="environmentalMod">
+    <div class="form-group">
+        <label>{{localize 'SR5.EnvironmentalModVisibility'}}</label>
+        <select name="flags.sr5.environmentalModifiers.visibility">
+            {{selectOptions sr5lists.environModVisibility selected=document.flags.sr5.environmentalModifiers.visibility localize=true}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.EnvironmentalModLight'}}</label>
+        <select name="flags.sr5.environmentalModifiers.light">
+            {{selectOptions sr5lists.environModLight selected=document.flags.sr5.environmentalModifiers.light localize=true}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.EnvironmentalModGlare'}}</label>
+        <select name="flags.sr5.environmentalModifiers.glare">
+            {{selectOptions sr5lists.environModGlare selected=document.flags.sr5.environmentalModifiers.glare localize=true}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.EnvironmentalModWind'}}</label>
+        <select name="flags.sr5.environmentalModifiers.wind">
+            {{selectOptions sr5lists.environModWind selected=document.flags.sr5.environmentalModifiers.wind localize=true}}
+        </select>
+    </div>
+
+    <!-- Matrix Noise -->
+    <div class="form-group">
+        <p class="notes">{{localize 'SR5.SceneMatrixNoiseMsg'}}</p>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.SceneSpamZone'}}</label>
+        <select name="flags.sr5.matrixSpam">
+            {{selectOptions sr5lists.matrixSpam selected=document.flags.sr5.matrixSpam localize=true}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.SceneStaticZone'}}</label>
+        <select name="flags.sr5.matrixStatic">
+            {{selectOptions sr5lists.matrixStatic selected=document.flags.sr5.matrixStatic localize=true}}
+        </select>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.SceneNoiseRating'}}</label>
+        <div class="form-fields">
+            <input disabled type="number" name="sceneNoiseRating" placeholder="0" value="{{document.flags.sr5.matrixNoise}}"/>
+        </div>
+    </div>
+
+    <!-- Background Count -->
+    <div class="form-group">
+        <p class="notes">{{localize 'SR5.SceneBackgroundCountMsg'}}</p>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.SceneBackgroundCountRating'}}</label>
+        <div class="form-fields">
+            <input type="number" name="flags.sr5.backgroundCountValue" placeholder="0" value="{{document.flags.sr5.backgroundCountValue}}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>{{localize 'SR5.SceneBackgroundCountAlignement'}}</label>
+        <div class="form-fields">
+            <select name="flags.sr5.backgroundCountAlignement">
+                <option value="">{{localize 'SR5.None'}}</option>
+                {{selectOptions sr5lists.traditionTypes selected=document.flags.sr5.backgroundCountAlignement localize=true}}
+            </select>
+        </div>
+    </div>
+</div>

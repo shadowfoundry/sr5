@@ -1,26 +1,35 @@
 import { SR5 } from "../config.js";
 
 export default class SR5SceneConfig extends foundry.applications.sheets.SceneConfig {
-    constructor(...args) {
-        super(...args);
-    }
 
-    static get defaultOptions() {
-        const options = super.defaultOptions;
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            lists: SR5,
-        });
-    }
+    static PARTS = {
+        ...foundry.applications.sheets.SceneConfig.PARTS,
+        sr5tabs: { template: "systems/sr5/templates/interface/scene-sr5-tabs.html" }
+    };
 
-    get template() {
-        return `systems/sr5/templates/interface/sceneConfig.html`;
-    }
+    static TABS = {
+        sheet: {
+            tabs: [
+                ...foundry.applications.sheets.SceneConfig.TABS.sheet.tabs,
+                { id: "environmentalMod", icon: "fa-solid fa-cloud-sun-rain", label: "SR5.EnvironmentalModifiers" },
+                { id: "matrixNoise", icon: "fa-solid fa-wifi", label: "SR5.SceneMatrixNoise" },
+                { id: "backgroundCount", icon: "fa-solid fa-hat-wizard", label: "SR5.SceneBackgroundCount" },
+            ],
+            initial: "basics",
+            labelPrefix: "SCENE.TABS.SHEET"
+        },
+        ambience: foundry.applications.sheets.SceneConfig.TABS.ambience
+    };
 
-    getData(options={}) {
-        const context = super.getData(options);
-        if (foundry.utils.isEmpty(context.data.flags.sr5)) context.data.flags.sr5 = {}
-        context.data.flags.sr5.lists = SR5
-        return context
+    async _preparePartContext(partId, context, options) {
+        context = await super._preparePartContext(partId, context, options);
+        if (partId === "sr5tabs") {
+            if (foundry.utils.isEmpty(this.document.flags.sr5)) {
+                await this.document.setFlag("sr5", "placeholder", true);
+            }
+            context.sr5lists = SR5;
+        }
+        return context;
     }
 
     updateMatrixNoise(element) {
@@ -30,24 +39,18 @@ export default class SR5SceneConfig extends foundry.applications.sheets.SceneCon
         this.document.setFlag("sr5", "matrixNoise", matrixNoise);
     }
 
-    activateListeners(html) {
-        super.activateListeners(html);
-        const element = html instanceof HTMLElement ? html : html[0];
-        this.updateMatrixNoise(element);
+    async _onRender(context, options) {
+        await super._onRender(context, options);
+        this.updateMatrixNoise(this.element);
 
-        const matrixSpam = element.querySelector('[name="matrixSpam"]');
+        const matrixSpam = this.element.querySelector('[name="flags.sr5.matrixSpam"]');
         if (matrixSpam) matrixSpam.addEventListener("change", ev => {
-            let value = (parseInt(ev.target.value) || 0);
-            this.document.setFlag("sr5", "matrixSpam", value);
-            this.updateMatrixNoise(element);
+            this.updateMatrixNoise(this.element);
         });
 
-        const matrixStatic = element.querySelector('[name="matrixStatic"]');
+        const matrixStatic = this.element.querySelector('[name="flags.sr5.matrixStatic"]');
         if (matrixStatic) matrixStatic.addEventListener("change", ev => {
-            let value = (parseInt(ev.target.value) || 0);
-            this.document.setFlag("sr5", "matrixStatic", value);
-            this.updateMatrixNoise(element);
+            this.updateMatrixNoise(this.element);
         });
     }
-
 }

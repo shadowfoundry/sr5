@@ -19,7 +19,7 @@ export class SR5Combat extends Combat {
 	* @param adjustment
 	**/
 	static async adjustInitiative(combatant, adjustment){
-		combatant = typeof combatant === 'string' ? this.combatants.find((c) => c._id === combatant) : combatant;
+		combatant = typeof combatant === 'string' ? this.combatants.find((c) => c.id === combatant) : combatant;
 		if (!combatant || typeof combatant === 'string') {
 			console.error('Could not find combatant with id ', combatant);
 			return;
@@ -231,7 +231,7 @@ export class SR5Combat extends Combat {
 					combatant.flags.sr5.delayedAction = false;
 					continue;
 				}
-				if (combatant._id === this.current.combatantId) {
+				if (combatant.id === this.current.combatantId) {
 					combatant.flags.sr5.hasPlayed = true;
 				}
 			}

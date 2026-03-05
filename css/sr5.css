@@ -241,6 +241,10 @@ body {
 }
 .app.window-app.SR-Item {
   /* v13: remove Foundry's default input background shade */
+  background: none;
+  box-shadow: none;
+  border: none;
+  border-radius: 0;
 }
 .app.window-app.SR-Item input,
 .app.window-app.SR-Item select,
@@ -257,19 +261,79 @@ body {
   display: none;
 }
 .app.window-app.SR-Item .window-header {
-  background: #000001;
+  background: none;
+  border-bottom: 0;
   color: #fffffe;
   font-family: "srfoundry_regular";
 }
+.app.window-app.SR-Item .window-header .window-title {
+  visibility: hidden;
+  width: 0;
+  overflow: hidden;
+}
+.app.window-app.SR-Item .window-header .header-control {
+  color: #fffffe;
+  background: #000001;
+  border: 1px solid #000001;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 0 8px;
+  box-shadow: none;
+  transition: all 0.15s ease;
+}
+.app.window-app.SR-Item .window-header .header-control::before {
+  width: 14px;
+  text-align: center;
+  display: inline-block;
+}
+.app.window-app.SR-Item .window-header .header-control:hover {
+  background: #0c9394;
+  color: #fffffe;
+}
+.app.window-app.SR-Item .window-header .header-control.active {
+  background: #931004;
+  color: #fffffe;
+}
+.app.window-app.SR-Item .window-header .header-control.active:hover {
+  background: #0c9394;
+}
+.app.window-app.SR-Item.minimized .window-header .window-title {
+  visibility: visible;
+  width: auto;
+}
+.app.window-app.SR-Item.minimized .window-header .header-control:not([data-action="close"]) {
+  display: none;
+}
+.app.window-app.SR-Item .controls-dropdown {
+  background: #000001;
+  border: 1px solid rgba(12, 147, 148, 0.35);
+  border-radius: 0;
+  box-shadow: none;
+}
+.app.window-app.SR-Item .controls-dropdown .header-control > button {
+  --button-background-color: none;
+  --button-text-color: #fffffe;
+  color: #fffffe;
+  font-family: "srfoundry_regular";
+  border: none;
+}
+.app.window-app.SR-Item .controls-dropdown .header-control > button:hover {
+  --button-text-color: #fffffe;
+  background: #0c9394;
+  color: #fffffe;
+}
 .app.window-app.SR-Item .window-content {
-  padding: 0px;
+  padding: 0;
   background-image: url("../img/ui/SR5_BG_Blanc50.png");
   background-repeat: no-repeat;
   background-position: top left;
   background-size: cover;
+  background-origin: border-box;
   font-family: "srfoundry_regular";
   font-size: 0.9em;
   background-color: #fffffe;
+  border: 1px solid #000001;
+  border-radius: 0;
   /* v13: override @layer elements defaults for ul/li */
 }
 .app.window-app.SR-Item .window-content ::-webkit-scrollbar {
@@ -281,6 +345,16 @@ body {
   list-style: none;
 }
 .app.window-app.SR-Item .window-content li {
+  margin: 0;
+}
+.app.window-app.SR-Item .window-content p {
+  margin: 0;
+}
+.app.window-app.SR-Item .window-content h2 {
+  font-family: "srfoundry_bold";
+  font-size: 1em;
+  border-bottom: 0;
+  color: #931004;
   margin: 0;
 }
 .app.window-app.SR-Item .window-content .SR-Header {
@@ -475,10 +549,20 @@ body {
   background-image: linear-gradient(45deg, rgba(147, 16, 4, 0.5), 80%, #931004), url("../img/ui/SR5_BG_Sidebar.jpg");
   background-size: cover;
   border-bottom: 1px solid #0c9394;
+  border-top: 1px solid #0c9394;
   font-family: "srfoundry_bold";
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete:not(:first-child) {
   margin-top: 15px;
+}
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a {
+  color: #fffffe;
+}
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a:hover {
+  color: #0c9394;
+}
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete.vert {
+  background-image: linear-gradient(45deg, rgba(12, 147, 148, 0.5), 80%, #0c9394), url("../img/ui/SR5_BG_Sidebar.jpg");
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete {
   padding: 0 3px 0 3px;
@@ -535,6 +619,7 @@ body {
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: bottom left;
+  border-radius: 0;
 }
 .app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurBar {
   display: flex;
@@ -566,6 +651,10 @@ body {
 }
 .app.window-app.SR-Item .editor-content {
   min-height: 50px;
+}
+.app.window-app.SR-Item.sr-mode-play .window-header .header-control[data-action="toggleMode"] {
+  background: #931004;
+  color: #fffffe;
 }
 .app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="add"],
 .app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="delete"],
