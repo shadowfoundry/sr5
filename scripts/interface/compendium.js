@@ -1,4 +1,5 @@
 import { SR5 } from "../config.js";
+import { SR5_SystemHelpers } from "../system/utilitySystem.js";
 
 export class SR5CompendiumInfo {
     static async onRenderCompendium(compendium, html, compendiumData) {
@@ -13,8 +14,16 @@ export class SR5CompendiumInfo {
     }
 
     static async selectInfo(pack, element){
-        let itemId = element.dataset.documentId;
+        let itemId = element.dataset.documentId ?? element.dataset.entryId;
+        if (!itemId) {
+            SR5_SystemHelpers.srLog(1, `Compendium selectInfo: element has no documentId or entryId in pack "${pack.metadata.label}" (${pack.metadata.id})`);
+            return;
+        }
         let item = await pack.getDocument(itemId);
+        if (!item) {
+            SR5_SystemHelpers.srLog(1, `Compendium selectInfo: getDocument("${itemId}") returned undefined in pack "${pack.metadata.label}" (${pack.metadata.id})`);
+            return;
+        }
         let info;
 
         switch (item.type){

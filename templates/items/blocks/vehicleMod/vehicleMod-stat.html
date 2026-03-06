@@ -1,0 +1,25 @@
+<!-- General Stat -->
+<ul>
+	<!-- General information title -->
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	<!-- Category -->
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/category-edit.html}}
+	<!-- Type -->
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/tools-edit.html}}
+	<!-- Item Rating -->
+	{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+	<!-- Slot -->
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/slot-edit.html}}
+	<!-- Skill -->
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/skill-edit.html}}
+	<!-- Threshold -->
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/threshold-edit.html}}
+</ul>
+{{#if system.isWeaponMounted}}
+<ul class="SR-PaddingTop10">
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/weaponMount-edit.html}}
+</ul>
+{{/if}}
+<ul class="SR-PaddingTop10">
+	{{> systems/sr5/templates/items/_partial/editable/vehicleMod/priceMultiplierVehicleMod-edit.html}}
+</ul>

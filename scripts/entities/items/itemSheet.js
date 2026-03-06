@@ -1,5 +1,15 @@
 import { SR5 } from "../../config.js";
 import { SR5_EntityHelpers } from "../helpers.js";
+import { computeItemLayout } from "../../interface/compute-item-layout.js";
+
+// Item types that include a footer (condition monitors, price/availability)
+const ITEM_FOOTER_TYPES = new Set([
+	'SRItem-vierge', 'itemAdeptPower', 'itemAmmunition', 'itemArmor',
+	'itemAugmentation', 'itemComplexForm', 'itemContact', 'itemDevice',
+	'itemDrug', 'itemFocus', 'itemGear', 'itemKarma', 'itemNuyen',
+	'itemPreparation', 'itemProgram', 'itemQuality', 'itemSin',
+	'itemSpell', 'itemSprite', 'itemVehicleMod', 'itemWeapon',
+]);
 
 /**
  * Override and extend the core ItemSheet implementation to handle Shadowrun 5 specific item types
@@ -17,7 +27,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
 	static DEFAULT_OPTIONS = {
 		classes: ["app", "window-app", "sr5", "SR-Item"],
-		position: { width: 510, height: 445 },
+		position: { width: 650, height: 445 },
 		window: { resizable: false },
 		form: { submitOnChange: true },
 		actions: {
@@ -27,25 +37,50 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
 	static PARTS = {
 		sheet: {
-			template: "systems/sr5/templates/items/itemGear-sheet.html",
+			template: "systems/sr5/templates/items/item-sheet.html",
 			root: true,
-			scrollable: [".SR_ItemScrollY"],
-		},
-	};
-
-	static TABS = {
-		primary: {
-			tabs: [
-				{ id: "tab-info" },
-				{ id: "tab-stat" },
-				{ id: "tab-effect" },
-			],
-			initial: "tab-info",
+			scrollable: [".sr-panel"],
 		},
 	};
 
 	get title() {
 		return this.document.name;
+	}
+
+	/** @override — Foundry's _onClickTab uses event.target which misses when clicking SVG icons inside <a> */
+	_onClickTab(event) {
+		const button = event.target.closest("[data-tab]");
+		if (!button || button.classList.contains("active") || (event.button !== 0)) return;
+		const tab = button.dataset.tab;
+		const group = button.dataset.group;
+		this.changeTab(tab, group, { event });
+	}
+
+	/** @override — refresh scroll indicators when tabs change */
+	changeTab(...args) {
+		super.changeTab(...args);
+		if (this.element) requestAnimationFrame(() => this._updateScrollFades(this.element));
+	}
+
+	/**
+	 * Toggle .can-scroll-up / .can-scroll-down on each .sr-panel-wrap
+	 * so CSS indicators show when scrollable content is available.
+	 */
+	_updateScrollFades(root) {
+		for (const panel of root.querySelectorAll('.sr-panel')) {
+			const wrap = panel.closest('.sr-panel-wrap');
+			if (!wrap) continue;
+			const update = () => {
+				const { scrollTop, scrollHeight, clientHeight } = panel;
+				wrap.classList.toggle('can-scroll-up', scrollTop > 2);
+				wrap.classList.toggle('can-scroll-down', scrollTop + clientHeight < scrollHeight - 2);
+			};
+			update();
+			if (!panel.dataset.scrollFade) {
+				panel.dataset.scrollFade = '1';
+				panel.addEventListener('scroll', update, { passive: true });
+			}
+		}
 	}
 
 	static async _onToggleMode(event) {
@@ -54,6 +89,21 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		const newMode = this.isPlayMode ? SR5ItemSheet.MODES.EDIT : SR5ItemSheet.MODES.PLAY;
 		game.user?.setFlag("sr5", `playMode.${this.item.id}`, newMode);
 		await this.render({ mode: newMode });
+	}
+
+	/** Save focused element info before re-render so we can restore it after. */
+	_preRender(context, options) {
+		super._preRender(context, options);
+		const active = this.element?.querySelector(':focus');
+		if (active) {
+			this._savedFocus = {
+				name: active.getAttribute('name'),
+				selectionStart: active.selectionStart ?? null,
+				selectionEnd: active.selectionEnd ?? null,
+			};
+		} else {
+			this._savedFocus = null;
+		}
 	}
 
 	_configureRenderOptions(options) {
@@ -65,13 +115,6 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 			const saved = game.user?.getFlag("sr5", `playMode.${this.document.id}`);
 			if (saved) this._mode = saved;
 		}
-	}
-
-	/** Dynamically set the template path based on item type */
-	_configureRenderParts(options) {
-		const parts = super._configureRenderParts(options);
-		parts.sheet.template = `systems/sr5/templates/items/${this.item.type}-sheet.html`;
-		return parts;
 	}
 
 	async _renderFrame(options) {
@@ -95,6 +138,37 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		return frame;
 	}
 
+	/**
+	 * Compute the panel/tab layout and sync Foundry's tabGroups.
+	 * Each panel gets its own independent tab group.
+	 */
+	_computeSheetLayout() {
+		const layout = computeItemLayout(this.item.type);
+
+		// Sync Foundry's tabGroups — one independent group per panel
+		for (const panel of layout.panels) {
+			const group = panel.group;
+			if (!this.tabGroups[group] && panel.tabs.length > 0) {
+				this.tabGroups[group] = panel.tabs[0].id;
+			}
+			const activeId = this.tabGroups[group];
+			if (activeId && !panel.tabs.some(t => t.id === activeId)) {
+				this.tabGroups[group] = panel.tabs[0]?.id ?? null;
+			}
+			for (const tab of panel.tabs) {
+				tab.cssClass = tab.id === this.tabGroups[group] ? "active" : "";
+			}
+		}
+
+		// Clean up stale groups
+		const validGroups = new Set(layout.panels.map(p => p.group));
+		for (const key of Object.keys(this.tabGroups)) {
+			if (!validGroups.has(key)) delete this.tabGroups[key];
+		}
+
+		return layout;
+	}
+
 	async _prepareContext(options) {
 		const context = await super._prepareContext(options);
 		const item = this.item;
@@ -102,10 +176,13 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		context.system = item.system;
 		context.isEmbedded = item.isEmbedded;
 		context.lists = SR5_EntityHelpers.sortTranslations(SR5);
-		context.tabs = this._prepareTabs("primary");
 		context.isPlay = this.isPlayMode;
-		// Provide cssClass for template compatibility
 		context.cssClass = this.document.isOwner ? "editable" : "locked";
+
+		// Dynamic layout
+		context.layout = this._computeSheetLayout();
+		context.hasFooter = ITEM_FOOTER_TYPES.has(item.type);
+
 		return context;
 	}
 
@@ -125,12 +202,41 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 			toggleBtn.dataset.tooltip = this.isPlayMode ? "SR5.SwitchToEdit" : "SR5.SwitchToPlay";
 		}
 
-		// Activate initial tabs (only if tabs exist in the DOM — some items have no tabs)
-		for (const [group, tab] of Object.entries(this.tabGroups)) {
-			if (tab && el.querySelector(`nav.tabs [data-group="${group}"]`)) {
-				this.changeTab(tab, group, { force: true, updatePosition: false });
+		// Disable form inputs in duplicate block instances to prevent FormDataExtended conflicts
+		const seenBlocks = new Set();
+		for (const blockEl of el.querySelectorAll("[data-block-id]")) {
+			const blockId = blockEl.dataset.blockId;
+			if (seenBlocks.has(blockId)) {
+				for (const input of blockEl.querySelectorAll("input[name], select[name], textarea[name]")) {
+					input.removeAttribute("name");
+					input.setAttribute("tabindex", "-1");
+				}
+			} else {
+				seenBlocks.add(blockId);
 			}
 		}
+
+		// Activate initial tabs for all groups
+		for (const [group, tab] of Object.entries(this.tabGroups)) {
+			if (tab) this.changeTab(tab, group, { force: true, updatePosition: false });
+		}
+
+		// Tab nav click handlers — explicit listeners because data-action="tab" doesn't
+		// work reliably with SVG icons inside <a> elements
+		el.querySelectorAll(".tabs [data-tab][data-action='tab']").forEach(link => {
+			link.addEventListener("click", (event) => {
+				event.preventDefault();
+				event.stopPropagation();
+				const tab = link.dataset.tab;
+				const group = link.dataset.group;
+				if (tab && group && !link.classList.contains("active")) {
+					this.changeTab(tab, group, { event });
+				}
+			});
+		});
+
+		// Scroll indicators
+		this._updateScrollFades(el);
 
 		// Sub-item management (add/delete/clone effects, licenses, etc.)
 		el.querySelectorAll(".subItem").forEach(node => node.addEventListener("click", this.#onManageSubItem.bind(this)));
@@ -157,6 +263,20 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
 			this.item.update(itemData);
 		}));
+
+		// Restore focus after re-render (e.g. when tabbing between fields triggers submitOnChange)
+		if (this._savedFocus?.name) {
+			const target = el.querySelector(`[name="${CSS.escape(this._savedFocus.name)}"]`);
+			if (target && target !== document.activeElement) {
+				target.focus();
+				try {
+					if (this._savedFocus.selectionStart != null && typeof target.setSelectionRange === 'function') {
+						target.setSelectionRange(this._savedFocus.selectionStart, this._savedFocus.selectionEnd);
+					}
+				} catch { /* not all input types support setSelectionRange */ }
+			}
+			this._savedFocus = null;
+		}
 	}
 
 	// Manage "Sub Item", accessory, licenses, effects...

@@ -1,0 +1,122 @@
+<!-- General Stat -->
+<ul>
+	<!-- General information title -->
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	<!-- Weapon Category -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/category-edit.html}}
+	<!-- Weapon Type -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/type-edit.html}}
+	<!-- Weapon Skill -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/skill-edit.html}}
+	<!-- Device rating -->
+	{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}
+	{{#ife system.type "bow"}}
+	<!-- Item rating -->
+	{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+	{{/ife}}
+	<!-- Concealability Modifier -->
+	{{> systems/sr5/templates/items/_partial/editable/_common/concealabilityModifier-edit.html}}
+	<!-- Required hands -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/requiredHands-edit.html}}
+</ul>
+
+<!-- Damage -->
+<ul class="SR-PaddingTop10">
+	<!-- Damage title -->
+	{{> systems/sr5/templates/items/_partial/title/damage.html}}
+	<!-- Damage value, type & special -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/damage-edit.html}}
+	<!-- Toxin block -->
+	{{#ife system.damageElement "toxin"}}
+		{{> systems/sr5/templates/items/_partial/editable/weapon/toxin-edit.html}}
+	{{/ife}}
+
+	{{#if (or (eq system.category "rangedWeapon") (eq system.category "meleeWeapon"))}}
+		<!-- Accuracy -->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/accuracy-edit.html}}
+	{{/if}}
+
+	<!-- Armor Penetration -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/armorPenetration-edit.html}}
+
+	{{#ife system.category "rangedWeapon"}}
+		<!-- Recoil Compensation -->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/recoilCompensation-edit.html}}
+
+		{{#if (or (eq system.type "grenadeLauncher") (eq system.type "missileLauncher"))}}
+		<!-- Blast & Drop off -->
+			{{> systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html}}
+		{{/if}}
+	{{/ife}}
+
+	{{#ife system.category "grenade"}}
+		<!-- Blast & Drop off -->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/blast-edit.html}}
+
+		<!-- Aerodynamic-->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/aerodynamic-edit.html}}
+	{{/ife}}
+</ul>
+
+<!-- ATTACK RANGES -->
+<ul class="SR-PaddingTop10">
+	<li class="SR-EnTete">
+		<p class="SR-TextUppercase">{{localize 'SR5.WeaponRange'}}</p>
+	</li>
+
+	<!-- MELEE -->
+	{{#ife system.category "meleeWeapon"}}
+		<!-- Reach-->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/reach-edit.html}}
+	{{/ife}}
+
+	<!-- RANGED WEAPON -->
+	{{#if (or (eq system.category "rangedWeapon") (eq system.category "grenade") )}}
+		{{> systems/sr5/templates/items/_partial/editable/weapon/range-edit.html}}
+	{{/if}}
+</ul>
+
+{{#ife system.category "rangedWeapon"}}
+<!-- FIRING MODES -->
+<ul class="SR-PaddingTop10">
+	{{> systems/sr5/templates/items/_partial/editable/weapon/firingModes-edit.html}}
+</ul>
+
+{{#ife system.type "shotgun"}}
+<!-- CHOKE SETTINGS -->
+<ul class="SR-PaddingTop10">
+	{{> systems/sr5/templates/items/_partial/editable/weapon/chokeSettings-edit.html}}
+</ul>
+
+{{/ife}}
+
+<!-- AMMUNITION -->
+<ul class="SR-PaddingTop10">
+	<li class="SR-EnTete">
+		<p class="SR-TextUppercase">{{localize 'SR5.Ammunition'}}</p>
+	</li>
+
+	<!-- Ammunition max -->
+	{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionMax-edit.html}}
+
+	{{#ifne system.type "throwing"}}
+		<!-- Ammunition type -->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionType-edit.html}}
+		{{#ife system.type "bow"}}
+		<!-- Ammunition type -->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/ammunitionRating-edit.html}}
+		{{/ife}}
+		<!-- Reloading method -->
+		{{> systems/sr5/templates/items/_partial/editable/weapon/reloadingMethod-edit.html}}
+	{{/ifne}}
+</ul>
+
+<!-- ACCESSORIES -->
+{{> systems/sr5/templates/items/_partial/editable/weapon/accessories-edit.html}}
+
+{{/ife}}
+
+<!-- PRICE AND AVAILABILITY -->
+<ul class="SR-PaddingTop10">
+	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+</ul>

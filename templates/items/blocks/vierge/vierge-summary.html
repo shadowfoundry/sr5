@@ -1,0 +1,50 @@
+<ul>
+	<!-- Summary title -->
+	<li class="SR-LigneEnTete">
+		<p class="SR-TextUppercase">{{localize 'SR5.Summary'}}</p>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleTypeShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{localize system.type.nom}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleStat_HandlingShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{system.maniabilite.value}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleStat_SpeedShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{system.vitesse.value}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleStat_AccelerationShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{system.acceleration.value}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleStat_ArmorShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{system.blindage.value}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleStat_PilotShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{system.autopilote.value}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.VehicleStat_SensorShort'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">{{system.senseurs.value}}</div>
+	</li>
+	{{#ife system.categorie.value "vehicule"}}
+		<li class="grid">
+			<div class="col-6">{{localize 'SR5.Vehicle_SeatingShort'}}{{localize 'SR5.Colons'}}</div>
+			<div class="col-6">{{system.places.value}}</div>
+		</li>
+	{{/ife}}
+	<li class="grid">
+		<div class="col-6">{{localize 'SR5.Vehicle_RI_S'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-6">
+			{{#if system.rigging.value}}
+				{{localize 'SR5.Vehicle_RI_Installed_S'}}
+			{{else}}
+				{{localize 'SR5.Vehicle_RI_NotInstalled_S'}}
+			{{/if}}
+		</div>
+	</li>
+</ul>

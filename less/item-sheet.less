@@ -1,4 +1,6 @@
 // main: "sr5.less"
+@import "./layout.less";
+
 .app.window-app.SR-Item {
     /* v13: remove Foundry's default input background shade */
     input, select, textarea {
@@ -191,7 +193,10 @@
             .tab[data-tab]:not(.active) {
                 display: none;
             }
+        }
 
+        // Shared element styles for both old (.SR-MainWindows) and new (.sr-tab-content) layouts
+        .SR-MainWindows, .sr-tab-content {
             p {
                 margin: 0;
             }
@@ -495,6 +500,26 @@
 
     .editor-content {
         min-height: 50px;
+    }
+
+    /* ── New dynamic layout (panel/tab/block system) ──── */
+    .window-content {
+        .sr-layout-mixin();
+
+        /* Item header — flex layout matching actor header */
+        .SR-Header {
+            display: flex;
+            align-items: center;
+
+            .SRImgItem {
+                flex-shrink: 0;
+            }
+
+            .SRItemTitre {
+                flex: 1;
+                min-width: 0;
+            }
+        }
     }
 
     // ---- Play / Edit mode ----

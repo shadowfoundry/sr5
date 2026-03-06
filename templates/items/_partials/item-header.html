@@ -1,0 +1,16 @@
+<div class="SR-Header">
+	<img class="SRImgItem" src="{{item.img}}" data-title="{{localize 'SR5.UI_ChangePicture'}}" data-edit="img" />
+	<h1 class="SRItemTitre"><input name="name" type="text" value="{{item.name}}" placeholder="Nom" /></h1>
+	<nav class="sr-icon-nav tabs">
+		{{#each layout.panels}}
+			{{#unless @first}}
+				<div class="sr-nav-separator"></div>
+			{{/unless}}
+			{{#each this.tabs}}
+				<a data-action="tab" data-group="{{this.group}}" data-tab="{{this.id}}" class="{{this.cssClass}}">
+					{{> (lookup this "icon") }}
+				</a>
+			{{/each}}
+		{{/each}}
+	</nav>
+</div>

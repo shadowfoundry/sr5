@@ -37,7 +37,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 	static DEFAULT_OPTIONS = {
 		classes: ["app", "window-app", "sr5", "actor"],
 		form: { submitOnChange: true },
-		dragDrop: [{ dragSelector: "li.item, div.draggableAttribute", dropSelector: null }],
+		// Note: DragDrop config is an AppV1 feature. In AppV2 we bind dragstart manually in _onRender.
 		actions: {
 			toggleMode: ActorSheetSR5._onToggleMode,
 			configureSheet: ActorSheetSR5._onConfigureSheet,
@@ -97,6 +97,21 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 	static _onConfigureSheet(event) {
 		event.preventDefault();
 		SR5SheetConfigDialog.open(this.actor);
+	}
+
+	/** Save focused element info before re-render so we can restore it after. */
+	_preRender(context, options) {
+		super._preRender(context, options);
+		const active = this.element?.querySelector(':focus');
+		if (active) {
+			this._savedFocus = {
+				name: active.getAttribute('name'),
+				selectionStart: active.selectionStart ?? null,
+				selectionEnd: active.selectionEnd ?? null,
+			};
+		} else {
+			this._savedFocus = null;
+		}
 	}
 
 	_configureRenderOptions(options) {
@@ -314,6 +329,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		on(".changeMatrixMode", "change", this._onChangeMatrixMode.bind(this));
 		// Change matrix silent mode
 		on(".changeSilentMode", "click", this._onChangeSilentMode.bind(this));
+		// Custom drag start — AppV2 does not wire DragDrop.dragSelector, so we bind manually
+		on(".draggableAttribute, [data-skill], [data-matrix], [data-resonance]", "dragstart", this._onDragStart.bind(this));
 
 		// Hide or display some information by clicking on headers allowing it
 		element.querySelectorAll(".hidden").forEach(el => el.style.display = "none");
@@ -409,16 +426,35 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
 			this.actor.update(actorData);
 		});
+
+		// Restore focus after re-render (e.g. when tabbing between fields triggers submitOnChange)
+		if (this._savedFocus?.name) {
+			const target = element.querySelector(`[name="${CSS.escape(this._savedFocus.name)}"]`);
+			if (target && target !== document.activeElement) {
+				target.focus();
+				try {
+					if (this._savedFocus.selectionStart != null && typeof target.setSelectionRange === 'function') {
+						target.setSelectionRange(this._savedFocus.selectionStart, this._savedFocus.selectionEnd);
+					}
+				} catch { /* not all input types support setSelectionRange */ }
+			}
+			this._savedFocus = null;
+		}
 	}
 
 	async _onDragStart(event) {
 		if (!canvas.ready) return;
 		let dragData = {};
-		const target = event.currentTarget;
+		// v13: DragDrop uses event delegation, so event.currentTarget is the app root.
+		// Use event.target.closest() to find the actual dragged element.
+		const target = event.target.closest('.draggableAttribute, [data-skill], [data-matrix], [data-resonance]') ?? event.target;
+		SR5_SystemHelpers.srLog(3, `_onDragStart: event.target=${event.target?.tagName}.${event.target?.className}, resolved target=${target?.tagName}.${target?.className}, id=${target?.id}`);
+		SR5_SystemHelpers.srLog(3, `_onDragStart: target.dataset=`, target?.dataset);
 
 		if (target.dataset.matrixattribute){
 			dragData.value = target.dataset.matrixattribute;
 			dragData.valueFromCollection = target.id;
+			SR5_SystemHelpers.srLog(3, `_onDragStart: matrixattribute drag — value=${dragData.value}, fromCollection=${dragData.valueFromCollection}`);
 			event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
 			return;
 		}
@@ -426,6 +462,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		if (target.dataset.dropmatrixattribute){
 			dragData.value = target.dataset.droppedvalue;
 			dragData.valueFromAttribute = target.dataset.dropmatrixattribute;
+			SR5_SystemHelpers.srLog(3, `_onDragStart: dropmatrixattribute drag — value=${dragData.value}, fromAttribute=${dragData.valueFromAttribute}`);
 			event.dataTransfer.setData("text/plain", JSON.stringify(dragData));
 			return;
 		}
@@ -455,35 +492,52 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 	async _onDrop(event) {
 		event.preventDefault();
 		event.stopPropagation();
-		let actorData = foundry.utils.duplicate(this.actor);
-		const dropData = JSON.parse(event.dataTransfer.getData('text/plain'));
+		SR5_SystemHelpers.srLog(3, `_onDrop: event.target=${event.target?.tagName}.${event.target?.className}`);
+		let dropData;
+		try {
+			dropData = JSON.parse(event.dataTransfer.getData('text/plain'));
+		} catch {
+			SR5_SystemHelpers.srLog(3, `_onDrop: JSON parse failed, delegating to super._onDrop`);
+			// Not our custom drag data — delegate to Foundry's default handler
+			return super._onDrop(event);
+		}
+		SR5_SystemHelpers.srLog(3, `_onDrop: dropData=`, dropData);
 		const dropZone = event.target.closest('[data-dropmatrixattribute]');
 
 		if (dropData.valueFromCollection){
 			if (!dropZone) return;
-			let existingValue = parseInt(dropZone.dataset.droppedvalue);
+			const existingValue = parseInt(dropZone.dataset.droppedvalue);
+			const updates = {};
+			// Release the existing value back to the collection if the slot was occupied.
+			// Read from prepared data (this.actor.system) since collection values are derived.
 			if (existingValue > 0) {
-				for (let [key, value] of Object.entries(actorData.system.matrix.attributesCollection)){
-					if (value === existingValue){
-						foundry.utils.setProperty(actorData, `system.matrix.attributesCollection.${key}isSet`, false);
+				const collection = this.actor.system.matrix.attributesCollection;
+				for (let i = 1; i <= 4; i++) {
+					if (collection[`value${i}`] === existingValue && collection[`value${i}isSet`]) {
+						updates[`system.matrix.attributesCollection.value${i}isSet`] = false;
 						break;
 					}
 				}
 			}
-			foundry.utils.setProperty(actorData, dropZone.dataset.dropmatrixattribute, parseInt(dropData.value));
-			foundry.utils.setProperty(actorData, `system.matrix.attributesCollection.${dropData.valueFromCollection}`, true);
-			await this.actor.update(actorData);
+			// Assign the dragged value to the slot and mark it as set in the collection
+			updates[dropZone.dataset.dropmatrixattribute] = parseInt(dropData.value);
+			updates[`system.matrix.attributesCollection.${dropData.valueFromCollection}`] = true;
+			await this.actor.update(updates);
 			return;
 		}
 
 		if (dropData.valueFromAttribute){
 			if (!dropZone) return;
-			foundry.utils.setProperty(actorData, dropZone.dataset.dropmatrixattribute, parseInt(dropData.value));
-			foundry.utils.setProperty(actorData, dropData.valueFromAttribute, parseInt(dropZone.dataset.droppedvalue));
-			//Manage action
-			let actorId = (this.actor.isToken ? this.actor.token.id : this.actor.id);
-			actorData.system.specialProperties.actions.free.current -=1;
-			await this.actor.update(actorData);
+			const existingValue = parseInt(dropZone.dataset.droppedvalue);
+			const draggedValue = parseInt(dropData.value);
+			// Swap the two attribute slot values
+			const updates = {
+				[dropZone.dataset.dropmatrixattribute]: draggedValue,
+				[dropData.valueFromAttribute]: existingValue,
+				'system.specialProperties.actions.free.current': this.actor.system.specialProperties.actions.free.current - 1,
+			};
+			await this.actor.update(updates);
+			const actorId = this.actor.isToken ? this.actor.token.id : this.actor.id;
 			SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"switchAttributes"}], false);
 			return;
 		}

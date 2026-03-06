@@ -1,0 +1,25 @@
+<!-- General Stat -->
+<ul>
+	<!-- General information title -->
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	<!-- Ammunition type -->
+	{{> systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html}}
+	<!-- Ammunition class -->
+	{{> systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html}}
+	<!-- Ammunition case type -->
+	{{> systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html}}
+	{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
+	<!-- Item Rating -->
+	{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+	{{/if}}
+</ul>
+
+<!-- Price & Availability -->
+<ul class="SR-PaddingTop10">
+	{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
+	<!-- Rating multiplier-->
+	{{> systems/sr5/templates/items/_partial/editable/_common/priceMultiplier-edit.html}}
+	{{else}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+	{{/if}}
+</ul>

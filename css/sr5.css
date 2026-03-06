@@ -245,6 +245,7 @@ body {
   box-shadow: none;
   border: none;
   border-radius: 0;
+  /* ── New dynamic layout (panel/tab/block system) ──── */
 }
 .app.window-app.SR-Item input,
 .app.window-app.SR-Item select,
@@ -405,23 +406,29 @@ body {
 .app.window-app.SR-Item .window-content .SR-MainWindows .tab[data-tab]:not(.active) {
   display: none;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows p {
+.app.window-app.SR-Item .window-content .SR-MainWindows p,
+.app.window-app.SR-Item .window-content .sr-tab-content p {
   margin: 0;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows li {
+.app.window-app.SR-Item .window-content .SR-MainWindows li,
+.app.window-app.SR-Item .window-content .sr-tab-content li {
   line-height: 17px;
   padding: 0px 3px;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows li span:not(:last-child) {
+.app.window-app.SR-Item .window-content .SR-MainWindows li span:not(:last-child),
+.app.window-app.SR-Item .window-content .sr-tab-content li span:not(:last-child) {
   padding-right: 5px;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows li a {
+.app.window-app.SR-Item .window-content .SR-MainWindows li a,
+.app.window-app.SR-Item .window-content .sr-tab-content li a {
   color: rgba(147, 16, 4, 0.25);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows li a:hover {
+.app.window-app.SR-Item .window-content .SR-MainWindows li a:hover,
+.app.window-app.SR-Item .window-content .sr-tab-content li a:hover {
   color: #931004;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input {
+.app.window-app.SR-Item .window-content .SR-MainWindows input,
+.app.window-app.SR-Item .window-content .sr-tab-content input {
   background: none;
   color: rgba(0, 0, 1, 0.7);
   height: auto;
@@ -431,17 +438,21 @@ body {
   padding-top: 0;
   padding-bottom: 0;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input:focus {
+.app.window-app.SR-Item .window-content .SR-MainWindows input:focus,
+.app.window-app.SR-Item .window-content .sr-tab-content input:focus {
   box-shadow: none;
   border-bottom: 1px solid #0c9394;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input:hover {
+.app.window-app.SR-Item .window-content .SR-MainWindows input:hover,
+.app.window-app.SR-Item .window-content .sr-tab-content input:hover {
   border-bottom: 1px solid rgba(12, 147, 148, 0.5);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input::placeholder {
+.app.window-app.SR-Item .window-content .SR-MainWindows input::placeholder,
+.app.window-app.SR-Item .window-content .sr-tab-content input::placeholder {
   color: rgba(12, 147, 148, 0.5);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"] {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"],
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"] {
   position: relative;
   margin: 0;
   border: 1px solid #0c9394;
@@ -454,7 +465,8 @@ body {
   transition: background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
   /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]::before {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]::before,
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]::before {
   content: '';
   position: absolute;
   display: block;
@@ -474,29 +486,35 @@ body {
   font-size: inherit;
   line-height: normal;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]::after {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]::after,
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]::after {
   content: none;
   display: none;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked,
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked {
   content: '✔';
   color: #fffffe;
   border-color: #0c9394;
   background: rgba(12, 147, 148, 0.5);
   /* v13: ensure ::after stays suppressed when checked */
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::before {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::before,
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked::before {
   opacity: 1;
   border-color: #fffffe;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::after {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::after,
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked::after {
   content: none;
   display: none;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before {
+.app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked ~ label::before,
+.app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows select {
+.app.window-app.SR-Item .window-content .SR-MainWindows select,
+.app.window-app.SR-Item .window-content .sr-tab-content select {
   border-bottom: 1px solid rgba(12, 147, 148, 0.25);
   border-radius: 0px;
   /*option:nth-child(1) {
@@ -507,42 +525,53 @@ body {
                     color: fade(@neutralDarkColor, 70%);
                 }*/
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows select:focus {
+.app.window-app.SR-Item .window-content .SR-MainWindows select:focus,
+.app.window-app.SR-Item .window-content .sr-tab-content select:focus {
   box-shadow: none;
   border-bottom: 1px solid #0c9394;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows select:invalid {
+.app.window-app.SR-Item .window-content .SR-MainWindows select:invalid,
+.app.window-app.SR-Item .window-content .sr-tab-content select:invalid {
   color: rgba(12, 147, 148, 0.5);
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows select:invalid option,
-.app.window-app.SR-Item .window-content .SR-MainWindows select:invalid optgroup {
+.app.window-app.SR-Item .window-content .sr-tab-content select:invalid option,
+.app.window-app.SR-Item .window-content .SR-MainWindows select:invalid optgroup,
+.app.window-app.SR-Item .window-content .sr-tab-content select:invalid optgroup {
   color: rgba(0, 0, 1, 0.7);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColGauche {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColGauche,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemColGauche {
   height: 295px;
   overflow: auto;
   padding-right: 5px;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColGauche li:not(.SR-EnTete) {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColGauche li:not(.SR-EnTete),
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemColGauche li:not(.SR-EnTete) {
   border-bottom: 1px solid transparent;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColDroite {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColDroite,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemColDroite {
   padding-left: 5px;
   height: 295px;
   overflow: auto;
   border-left: 1px solid #0c9394;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemConfig {
   height: 295px;
   overflow: auto;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig input {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig input,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemConfig input {
   color: rgba(0, 0, 1, 0.7);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig select {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig select,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemConfig select {
   margin-left: -1px;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete {
   padding: 0 3px 0 3px;
   font-size: 1em;
   color: #fffffe;
@@ -552,45 +581,56 @@ body {
   border-top: 1px solid #0c9394;
   font-family: "srfoundry_bold";
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete:not(:first-child) {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete:not(:first-child),
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete:not(:first-child) {
   margin-top: 15px;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete a {
   color: #fffffe;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a:hover {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a:hover,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete a:hover {
   color: #0c9394;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete.vert {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete.vert,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete.vert {
   background-image: linear-gradient(45deg, rgba(12, 147, 148, 0.5), 80%, #0c9394), url("../img/ui/SR5_BG_Sidebar.jpg");
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-EnTete {
   padding: 0 3px 0 3px;
   font-size: 1em;
   color: #931004;
   border-bottom: 1px solid #931004;
   font-family: "srfoundry_bold";
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete a {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete a,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-EnTete a {
   color: rgba(147, 16, 4, 0.5);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete a:hover {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete a:hover,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-EnTete a:hover {
   color: #931004;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SRBlockSheet:not(:first-child) {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SRBlockSheet:not(:first-child),
+.app.window-app.SR-Item .window-content .sr-tab-content .SRBlockSheet:not(:first-child) {
   padding-top: 10px;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor {
   position: relative;
   height: auto;
   min-height: 100%;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .editor {
   height: auto;
   position: unset;
   height: 100%;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor-edit {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor-edit,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .editor-edit {
   display: unset;
   background: none;
   font-size: inherit;
@@ -602,13 +642,16 @@ body {
   right: 5px;
   color: rgba(12, 147, 148, 0.5);
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor-edit:hover {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor-edit:hover,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .editor-edit:hover {
   color: #0c9394;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .tox.tox-tinymce {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .tox.tox-tinymce,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .tox.tox-tinymce {
   height: 100% !important;
 }
-.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .tox-sidebar-wrap {
+.app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .tox-sidebar-wrap,
+.app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .tox-sidebar-wrap {
   min-height: 200px;
 }
 .app.window-app.SR-Item .window-content .SR-ItemFooter {
@@ -651,6 +694,489 @@ body {
 }
 .app.window-app.SR-Item .editor-content {
   min-height: 50px;
+}
+.app.window-app.SR-Item .window-content {
+  /* ── Panel-first layout system ──────────────────────── */
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: 1fr;
+  grid-template-areas: "header" "content" "footer";
+  height: 100%;
+  /* Icon navigation inside header */
+  /* Panel layout — 3-column grid, panels span 1-3 columns */
+  /* Tab region columns match panel width */
+  /* Multi-column sections within a tab */
+  /* Block spans — use grid-column-end so grid-column-start can position independently */
+  /* ── Block header / row / 24-col grid ──────────────────── */
+  /* Folded state */
+  /* Block-level folding (header click) */
+  /* ── Fold toggle ──────────────────────────────────────── */
+  /* ── 24-column grid system ────────────────────────────── */
+  /* ── Grid utilities ───────────────────────────────────── */
+  /* ── Text utilities ───────────────────────────────────── */
+  /* ── Select wrapper (FA chevron) ──────────────────────── */
+  /* ── Separator line ───────────────────────────────────── */
+  /* ── Roll button icon ─────────────────────────────────── */
+  /* Item header — flex layout matching actor header */
+}
+.app.window-app.SR-Item .window-content > .SR-Header {
+  grid-area: header;
+}
+.app.window-app.SR-Item .window-content > .sr-tab-content {
+  grid-area: content;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 10px;
+}
+.app.window-app.SR-Item .window-content > .SR-footer {
+  grid-area: footer;
+}
+.app.window-app.SR-Item .window-content > .SR-ItemFooter {
+  grid-area: footer;
+}
+.app.window-app.SR-Item .window-content .sr-icon-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  gap: 0;
+  margin-left: auto;
+}
+.app.window-app.SR-Item .window-content .sr-icon-nav .sr-nav-separator {
+  width: 16px;
+  height: 100%;
+  flex-shrink: 0;
+}
+.app.window-app.SR-Item .window-content .sr-icon-nav a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.app.window-app.SR-Item .window-content .sr-icon-nav a:hover #icon-border {
+  stroke: #0c9394;
+}
+.app.window-app.SR-Item .window-content .sr-icon-nav a.active #icon-border {
+  stroke: #931004;
+}
+.app.window-app.SR-Item .window-content .sr-tab-content {
+  min-height: 0;
+  height: 100%;
+  overflow: visible;
+  padding: 8px 10px;
+}
+.app.window-app.SR-Item .window-content .sr-tab-content li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
+  background-color: rgba(12, 147, 148, 0.1);
+}
+.app.window-app.SR-Item .window-content .sr-tab-panels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  align-items: stretch;
+  height: 100%;
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: visible;
+  position: relative;
+  border-right: 1px solid rgba(12, 147, 148, 0.25);
+  padding-right: 10px;
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap::before,
+.app.window-app.SR-Item .window-content .sr-panel-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 10px;
+  height: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  background-size: 10px 6px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap::before {
+  bottom: calc(100% + 1px);
+  background-image: conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg);
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap::after {
+  top: calc(100% + 1px);
+  background-image: conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg);
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap.can-scroll-up::before {
+  opacity: 1;
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap.can-scroll-down::after {
+  opacity: 1;
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap.can-scroll-down:not(.can-scroll-up) .sr-panel {
+  mask-image: linear-gradient(to bottom, black calc(100% - 20px), rgba(0, 0, 0, 0.3));
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap.can-scroll-up:not(.can-scroll-down) .sr-panel {
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), black 20px);
+}
+.app.window-app.SR-Item .window-content .sr-panel-wrap.can-scroll-up.can-scroll-down .sr-panel {
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), black 20px, black calc(100% - 20px), rgba(0, 0, 0, 0.3));
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-2::before {
+  background-image: conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px;
+  background-position: 25% center, 75% center;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-2::after {
+  background-image: conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px;
+  background-position: 25% center, 75% center;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-3::before {
+  background-image: conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px, 10px 6px;
+  background-position: 16.67% center, 50% center, 83.33% center;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-3::after {
+  background-image: conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #931004 80deg, transparent 80deg);
+  background-size: 10px 6px, 10px 6px, 10px 6px;
+  background-position: 16.67% center, 50% center, 83.33% center;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-1 {
+  grid-column: span 1;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-2 {
+  grid-column: span 2;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-3 {
+  grid-column: span 3;
+}
+.app.window-app.SR-Item .window-content .sr-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-width: none;
+}
+.app.window-app.SR-Item .window-content .sr-panel::-webkit-scrollbar {
+  display: none;
+}
+.app.window-app.SR-Item .window-content .sr-panel > .sr-tab-region {
+  display: none;
+  gap: 10px;
+}
+.app.window-app.SR-Item .window-content .sr-panel > .sr-tab-region.active {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-2 .sr-tab-region.active {
+  grid-template-columns: 1fr 1fr;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-3 .sr-tab-region.active {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.app.window-app.SR-Item .window-content .sr-panel-columns {
+  display: grid;
+  gap: 10px;
+  align-items: start;
+  grid-column: 1 / -1;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-1 .sr-panel-columns {
+  grid-template-columns: 1fr;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-2 .sr-panel-columns {
+  grid-template-columns: 1fr 1fr;
+}
+.app.window-app.SR-Item .window-content .sr-panel-cols-3 .sr-panel-columns {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.app.window-app.SR-Item .window-content .sr-panel-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.app.window-app.SR-Item .window-content .sr-block-span-double {
+  grid-column-end: span 2;
+}
+.app.window-app.SR-Item .window-content .sr-block-span-triple {
+  grid-column-end: span 3;
+}
+.app.window-app.SR-Item .window-content .sr-block-start-1 {
+  grid-column-start: 1;
+}
+.app.window-app.SR-Item .window-content .sr-block-start-2 {
+  grid-column-start: 2;
+}
+.app.window-app.SR-Item .window-content .sr-block-header {
+  text-transform: uppercase;
+  font-family: "srfoundry_primary";
+  background-image: linear-gradient(45deg, rgba(147, 16, 4, 0.5), 80%, #931004), url("../img/ui/SR5_BG_Sidebar.jpg");
+  background-size: cover;
+  border-top: 1px solid #0c9394;
+  border-bottom: 1px solid #0c9394;
+  color: #fffffe;
+  font-size: 1em;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: center;
+  line-height: 20px;
+  padding: 0 3px;
+  margin-bottom: 1px;
+}
+.app.window-app.SR-Item .window-content .sr-block-header a {
+  color: #fffffe;
+}
+.app.window-app.SR-Item .window-content .sr-block-header a:hover {
+  color: #0c9394;
+}
+.app.window-app.SR-Item .window-content .sr-block-header.vert {
+  background-image: linear-gradient(45deg, rgba(12, 147, 148, 0.5), 80%, #0c9394), url("../img/ui/SR5_BG_Sidebar.jpg");
+}
+.app.window-app.SR-Item .window-content .sr-block-header-sub {
+  font-size: 1em;
+  font-family: "srfoundry_primary";
+  border-bottom: 1px solid #931004;
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: center;
+  line-height: 20px;
+  padding-left: 1px;
+}
+.app.window-app.SR-Item .window-content .sr-block-row {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  align-items: center;
+  min-height: 20px;
+}
+.app.window-app.SR-Item .window-content .sr-block-row-extra {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  overflow: hidden;
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+.app.window-app.SR-Item .window-content .sr-block-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+.app.window-app.SR-Item .window-content .sr-block-row-extra.srF-is-folded {
+  max-height: 0;
+  opacity: 0;
+}
+.app.window-app.SR-Item .window-content .sr-block-header[data-action="toggleBlock"] {
+  cursor: pointer;
+}
+.app.window-app.SR-Item .window-content .sr-block-header.srF-is-folded {
+  opacity: 0.4;
+  transition: opacity 0.15s ease-out;
+}
+.app.window-app.SR-Item .window-content .sr-block-header:not(.srF-is-folded) {
+  transition: opacity 0.15s ease-out;
+}
+.app.window-app.SR-Item .window-content .srF-block-folded {
+  max-height: 0;
+  min-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+.app.window-app.SR-Item .window-content .sr-fold-toggle::before {
+  font-family: "Font Awesome 6 Pro";
+  text-align: center;
+  font-weight: 700;
+  width: 11px;
+  content: "\f0d7";
+  display: inline-block;
+  padding-right: 2px;
+  transition: transform 0.2s ease-out, color 0.2s ease-out;
+  color: rgba(147, 16, 4, 0.5);
+}
+.app.window-app.SR-Item .window-content .sr-fold-toggle:hover::before {
+  color: #931004;
+}
+.app.window-app.SR-Item .window-content .sr-block-header.srF-is-folded > .sr-fold-toggle::before,
+.app.window-app.SR-Item .window-content .sr-block-row.srF-is-folded > .sr-fold-toggle::before {
+  transform: rotate(-90deg);
+}
+.app.window-app.SR-Item .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle::before {
+  color: #0c9394;
+}
+.app.window-app.SR-Item .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle:hover::before {
+  color: #931004;
+}
+.app.window-app.SR-Item .window-content [class^="sr-grid-"],
+.app.window-app.SR-Item .window-content [class*=" sr-grid-"] {
+  min-width: 0;
+  overflow: hidden;
+}
+.app.window-app.SR-Item .window-content .sr-grid-1 {
+  grid-column: span 1;
+}
+.app.window-app.SR-Item .window-content .sr-grid-2 {
+  grid-column: span 2;
+}
+.app.window-app.SR-Item .window-content .sr-grid-3 {
+  grid-column: span 3;
+}
+.app.window-app.SR-Item .window-content .sr-grid-4 {
+  grid-column: span 4;
+}
+.app.window-app.SR-Item .window-content .sr-grid-5 {
+  grid-column: span 5;
+}
+.app.window-app.SR-Item .window-content .sr-grid-6 {
+  grid-column: span 6;
+}
+.app.window-app.SR-Item .window-content .sr-grid-7 {
+  grid-column: span 7;
+}
+.app.window-app.SR-Item .window-content .sr-grid-8 {
+  grid-column: span 8;
+}
+.app.window-app.SR-Item .window-content .sr-grid-9 {
+  grid-column: span 9;
+}
+.app.window-app.SR-Item .window-content .sr-grid-10 {
+  grid-column: span 10;
+}
+.app.window-app.SR-Item .window-content .sr-grid-11 {
+  grid-column: span 11;
+}
+.app.window-app.SR-Item .window-content .sr-grid-12 {
+  grid-column: span 12;
+}
+.app.window-app.SR-Item .window-content .sr-grid-13 {
+  grid-column: span 13;
+}
+.app.window-app.SR-Item .window-content .sr-grid-14 {
+  grid-column: span 14;
+}
+.app.window-app.SR-Item .window-content .sr-grid-15 {
+  grid-column: span 15;
+}
+.app.window-app.SR-Item .window-content .sr-grid-16 {
+  grid-column: span 16;
+}
+.app.window-app.SR-Item .window-content .sr-grid-17 {
+  grid-column: span 17;
+}
+.app.window-app.SR-Item .window-content .sr-grid-18 {
+  grid-column: span 18;
+}
+.app.window-app.SR-Item .window-content .sr-grid-19 {
+  grid-column: span 19;
+}
+.app.window-app.SR-Item .window-content .sr-grid-20 {
+  grid-column: span 20;
+}
+.app.window-app.SR-Item .window-content .sr-grid-21 {
+  grid-column: span 21;
+}
+.app.window-app.SR-Item .window-content .sr-grid-22 {
+  grid-column: span 22;
+}
+.app.window-app.SR-Item .window-content .sr-grid-23 {
+  grid-column: span 23;
+}
+.app.window-app.SR-Item .window-content .sr-grid-24 {
+  grid-column: span 24;
+}
+.app.window-app.SR-Item .window-content .sr-grid-center-x {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.app.window-app.SR-Item .window-content .sr-grid-right-x {
+  display: flex;
+  justify-content: flex-end;
+}
+.app.window-app.SR-Item .window-content .sr-content-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.app.window-app.SR-Item .window-content .sr-text-center {
+  text-align: center;
+}
+.app.window-app.SR-Item .window-content .sr-text-right {
+  text-align: right;
+}
+.app.window-app.SR-Item .window-content .sr-is-inactive {
+  color: rgba(0, 0, 1, 0.35);
+}
+.app.window-app.SR-Item .window-content .sr-text-calculated {
+  color: #0c9394;
+}
+.app.window-app.SR-Item .window-content .sr-text-calculated.sr-roll-button:hover {
+  cursor: pointer;
+}
+.app.window-app.SR-Item .window-content .sr-text-calculated.sr-roll-button::after {
+  color: rgba(147, 16, 4, 0.5);
+}
+.app.window-app.SR-Item .window-content .sr-text-calculated.sr-roll-button:hover::after {
+  color: #931004;
+}
+.app.window-app.SR-Item .window-content .sr-text-button {
+  color: rgba(147, 16, 4, 0.5);
+}
+.app.window-app.SR-Item .window-content .sr-text-button:hover {
+  color: #931004;
+}
+.app.window-app.SR-Item .window-content .sr-text-button.active {
+  color: #0c9394;
+}
+.app.window-app.SR-Item .window-content .sr-select-wrapper {
+  position: relative;
+  width: calc(100% - 2px);
+}
+.app.window-app.SR-Item .window-content .sr-select-wrapper::after {
+  font-family: "Font Awesome 6 Pro";
+  font-size: 12px;
+  font-weight: 700;
+  content: '\f078';
+  text-align: center;
+  color: rgba(147, 16, 4, 0.5);
+  position: absolute;
+  pointer-events: none;
+  right: 0;
+}
+.app.window-app.SR-Item .window-content .sr-select-wrapper.sr-dropdown::after {
+  display: none;
+}
+.app.window-app.SR-Item .window-content .sr-separator-line {
+  border-bottom: 1px solid rgba(12, 147, 148, 0.25);
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.app.window-app.SR-Item .window-content .sr-roll-button::after {
+  position: relative;
+  left: 0;
+  padding-left: 3px;
+  font-family: "Font Awesome 6 Pro";
+  line-height: 15px;
+  font-weight: 700;
+  content: '\f6d1 ';
+}
+.app.window-app.SR-Item .window-content .SR-Header {
+  display: flex;
+  align-items: center;
+}
+.app.window-app.SR-Item .window-content .SR-Header .SRImgItem {
+  flex-shrink: 0;
+}
+.app.window-app.SR-Item .window-content .SR-Header .SRItemTitre {
+  flex: 1;
+  min-width: 0;
 }
 .app.window-app.SR-Item.sr-mode-play .window-header .header-control[data-action="toggleMode"] {
   background: #931004;
@@ -765,7 +1291,8 @@ body {
   border-radius: 0;
   padding: 0;
   /* v13: override @layer elements defaults for ul/li */
-  /* ── Panel-first layout system (SR6-style) ────────────── */
+  /* ── Panel-first layout system — shared mixin from layout.less ── */
+  /* ── Panel-first layout system ──────────────────────── */
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   grid-template-columns: 1fr;
@@ -1316,6 +1843,9 @@ body {
   padding: 0 10px;
 }
 .app.window-app.actor .window-content > .SR-footer {
+  grid-area: footer;
+}
+.app.window-app.actor .window-content > .SR-ItemFooter {
   grid-area: footer;
 }
 .app.window-app.actor .window-content .sr-icon-nav {
