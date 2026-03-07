@@ -99,7 +99,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		SR5SheetConfigDialog.open(this.actor);
 	}
 
-	/** Save focused element info before re-render so we can restore it after. */
+	/** Save focused element and scroll positions before re-render so we can restore them after. */
 	_preRender(context, options) {
 		super._preRender(context, options);
 		const active = this.element?.querySelector(':focus');
@@ -112,6 +112,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		} else {
 			this._savedFocus = null;
 		}
+		// Save scroll positions for all panels
+		const panels = this.element?.querySelectorAll('.sr-panel');
+		this._savedScrollPositions = panels ? Array.from(panels).map(p => p.scrollTop) : [];
 	}
 
 	_configureRenderOptions(options) {
@@ -440,6 +443,15 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 			}
 			this._savedFocus = null;
 		}
+
+		// Restore scroll positions for all panels
+		if (this._savedScrollPositions?.length) {
+			const panels = element.querySelectorAll('.sr-panel');
+			this._savedScrollPositions.forEach((top, i) => {
+				if (panels[i]) panels[i].scrollTop = top;
+			});
+			this._savedScrollPositions = null;
+		}
 	}
 
 	async _onDragStart(event) {
@@ -733,6 +745,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 	/* -------------------------------------------- */
 
 	_onItemSummary(event) {
+		// Don't expand/collapse when clicking interactive elements inside .deplie
+		if (event.target.closest(".toggle-value, .edit-value, .select-value, .changeValueByClick, .reload-ammo")) return;
 		event.preventDefault();
 		let li = event.currentTarget.closest(".item");
 		let item = this.actor.items.get(li.dataset.itemId);
@@ -1265,10 +1279,13 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		else original = this.actor;
 		entity = original.toObject(false);
 		let value = foundry.utils.getProperty(entity, target);
+		let step = 1;
+		if (event.shiftKey && target === "system.magic.reagents") step = 10;
+		else if (event.ctrlKey && target === "system.quantity") step = 10;
+
 		switch (event.button) {
 			case 0:
-				if (event.ctrlKey && target === "system.quantity") value -= 10;
-				else value--;
+				value -= step;
 				if (value < 0) value = 0;
 				break;
 			case 2:
@@ -1301,8 +1318,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 						}
 					}
 				} else {
-					if (event.ctrlKey && target === "system.quantity") value += 10;
-					else value++;
+					value += step;
 				}
 				break;
 		}

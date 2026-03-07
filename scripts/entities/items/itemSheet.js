@@ -104,6 +104,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		} else {
 			this._savedFocus = null;
 		}
+		// Save scroll positions for all panels
+		const panels = this.element?.querySelectorAll('.sr-panel');
+		this._savedScrollPositions = panels ? Array.from(panels).map(p => p.scrollTop) : [];
 	}
 
 	_configureRenderOptions(options) {
@@ -276,6 +279,15 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 				} catch { /* not all input types support setSelectionRange */ }
 			}
 			this._savedFocus = null;
+		}
+
+		// Restore scroll positions for all panels
+		if (this._savedScrollPositions?.length) {
+			const panels = el.querySelectorAll('.sr-panel');
+			this._savedScrollPositions.forEach((top, i) => {
+				if (panels[i]) panels[i].scrollTop = top;
+			});
+			this._savedScrollPositions = null;
 		}
 	}
 
