@@ -20,7 +20,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   }
 
   get title() {
-    return `Sheet Config — ${this.actor.name}`
+    return `${game.i18n.localize('SR5.CustomizeSheetDisplay')} — ${this.actor.name}`
   }
 
   static DEFAULT_OPTIONS = {
@@ -28,7 +28,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     tag: 'form',
     classes: ['sr5', 'sr-sheet-config'],
     position: { width: 750, height: 750 },
-    window: { title: 'Sheet Config', resizable: true },
+    window: { title: 'SR5.CustomizeSheetDisplay', resizable: true },
     actions: {
       addPanel: SR5SheetConfigDialog._onAddPanel,
       deletePanel: SR5SheetConfigDialog._onDeletePanel,

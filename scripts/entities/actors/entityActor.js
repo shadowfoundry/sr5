@@ -464,7 +464,8 @@ export class SR5Actor extends Actor {
 					break;
 
 				case "itemAdeptPower":
-					SR5_EntityHelpers.updateModifier(actor.system.magic.powerPoints, i.name, `${game.i18n.localize(lists.itemTypes[i.type])}`, iData.powerPointsCost.value);
+					i.prepareData();
+					SR5_EntityHelpers.updateModifier(actor.system.magic.powerPoints, i.name, i.type, iData.powerPointsCost.value);
 					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
 

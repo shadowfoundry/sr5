@@ -1,0 +1,3582 @@
+{
+  "name": "Kira 'Nightwire' Tanaka",
+  "type": "actorPc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "attributes": {
+      "body": {
+        "natural": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "agility": {
+        "natural": {
+          "value": 0,
+          "base": 7,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "reaction": {
+        "natural": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "strength": {
+        "natural": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "willpower": {
+        "natural": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "logic": {
+        "natural": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "intuition": {
+        "natural": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "charisma": {
+        "natural": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    "specialAttributes": {
+      "edge": {
+        "natural": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "magic": {
+        "natural": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "resonance": {
+        "natural": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "augmented": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    "activeSpecialAttribute": "magic",
+    "essence": {
+      "value": 0,
+      "base": 6,
+      "modifiers": []
+    },
+    "biography": {
+      "characterName": "Kira Tanaka",
+      "characterAlias": "Nightwire",
+      "characterNationality": "UCAS",
+      "characterBirthPlace": "Seattle, Redmond Barrens",
+      "characterFamilySituation": "Estranged from family, one younger sister in Bellevue",
+      "characterDependants": "Cat named Pixel",
+      "characterMetatype": "elf",
+      "characterMetatypeVariant": "",
+      "characterEthnicalGroup": "Japanese-American",
+      "characterGender": "female",
+      "characterAge": 27,
+      "characterEyes": "Violet (natural, adept-enhanced)",
+      "characterHeight": 175,
+      "characterWeight": 62,
+      "characterHair": "Black with neon blue streaks",
+      "characterSkin": "Pale",
+      "description": "<p>Lean and wiry elf with sharp features and a perpetual half-smile. Her violet eyes seem to track movement faster than normal. She favors armored jackets with too many pockets and moves with the fluid grace of someone whose body has been honed into a weapon by magic.</p>",
+      "background": "<p>Born in the Redmond Barrens, Kira's magical aptitude manifested early as physical enhancement rather than spellcasting. She trained under a secretive sensei who taught her to channel mana through her body, enhancing reflexes, perception, and combat ability. A physical adept who blurs the line between mundane and magical, she runs the shadows to fund her sister's education and satisfy her thrill-seeking nature.</p>"
+    },
+    "critterBiography": {
+      "binomial": "",
+      "terrain": "",
+      "diet": "",
+      "activity": "",
+      "aggroIndex": "",
+      "lengthHeight": "",
+      "mass": ""
+    },
+    "karma": {
+      "value": 0,
+      "base": 37,
+      "modifiers": []
+    },
+    "nuyen": {
+      "value": 0,
+      "base": 8250,
+      "modifiers": []
+    },
+    "streetCred": {
+      "value": 0,
+      "base": 5,
+      "modifiers": []
+    },
+    "notoriety": {
+      "value": 0,
+      "base": 2,
+      "modifiers": []
+    },
+    "publicAwareness": {
+      "value": 0,
+      "base": 1,
+      "modifiers": []
+    },
+    "addictions": [],
+    "conditionMonitors": {
+      "stun": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "actual": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "boxes": []
+      },
+      "physical": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "actual": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "boxes": []
+      },
+      "edge": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "actual": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "boxes": []
+      },
+      "overflow": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "boxes": []
+      }
+    },
+    "statusBars": {
+      "stun": {
+        "value": 0,
+        "max": 0
+      },
+      "physical": {
+        "value": 0,
+        "max": 0
+      },
+      "edge": {
+        "value": 0,
+        "max": 0
+      },
+      "condition": {
+        "value": 0,
+        "max": 0
+      },
+      "matrix": {
+        "value": 0,
+        "max": 0
+      },
+      "overflow": {
+        "value": 0,
+        "max": 0
+      }
+    },
+    "visions": {
+      "astral": {
+        "hasVision": true,
+        "isActive": false,
+        "natural": true,
+        "augmented": false
+      },
+      "lowLight": {
+        "hasVision": true,
+        "isActive": true,
+        "natural": true,
+        "augmented": false
+      },
+      "thermographic": {
+        "hasVision": false,
+        "isActive": false,
+        "natural": false,
+        "augmented": false
+      },
+      "ultrasound": {
+        "hasVision": false,
+        "isActive": false,
+        "natural": false,
+        "augmented": false
+      }
+    },
+    "magic": {
+      "magicType": "adept",
+      "tradition": "",
+      "concentration": false,
+      "elements": {
+        "combat": "",
+        "detection": "",
+        "illusion": "",
+        "manipulation": "",
+        "health": ""
+      },
+      "astralDamage": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "astralDefense": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "astralTracking": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "passThroughBarrier": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "initiationGrade": 1,
+      "powerPoints": {
+        "value": 0,
+        "base": 6,
+        "modifiers": [],
+        "maximum": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "drainResistance": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "linkedAttribute": ""
+      },
+      "possession": false,
+      "hasAstralProjection": false,
+      "counterSpellPool": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "current": 0
+      },
+      "reagents": 0,
+      "boundedSpirit": {
+        "current": 0,
+        "max": 0
+      },
+      "spellList": {},
+      "metamagics": {
+        "centering": true,
+        "centeringValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "quickening": false,
+        "shielding": false,
+        "spellShaping": false,
+        "spellShapingValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "bgCount": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "matrix": {
+      "userMode": "ar",
+      "userGrid": "public",
+      "attributesCollection": {
+        "value1": 0,
+        "value2": 0,
+        "value3": 0,
+        "value4": 0,
+        "value1isSet": false,
+        "value2isSet": false,
+        "value3isSet": false,
+        "value4isSet": false
+      },
+      "attributes": {
+        "attack": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "dataProcessing": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "firewall": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "noiseReduction": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "sharing": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "sleaze": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "complexFormList": {},
+      "deviceRating": 0,
+      "deviceType": "",
+      "deviceSubType": "",
+      "deviceName": "",
+      "isLinkLocked": false,
+      "isJamming": false,
+      "hasLocalAutosoftRunning": false,
+      "runningSilent": false,
+      "overwatchScore": 0,
+      "concentration": false,
+      "programsCurrentActive": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "programsMaximumActive": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "initiatives": {
+      "physicalInit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "dice": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "isActive": true
+      },
+      "astralInit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "dice": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "isActive": false
+      },
+      "matrixInit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "dice": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isActive": false
+      }
+    },
+    "limits": {
+      "physicalLimit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "mentalLimit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "socialLimit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "astralLimit": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "defenses": {
+      "defend": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "limit": {
+          "base": "",
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "dodge": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "limit": {
+          "base": "physicalLimit",
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "block": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "limit": {
+          "base": "physicalLimit",
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "parryBlades": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "limit": {
+          "base": "physicalLimit",
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "parryClubs": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": [],
+        "limit": {
+          "base": "physicalLimit",
+          "value": 0,
+          "modifiers": []
+        }
+      }
+    },
+    "resistances": {
+      "physicalDamage": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "astralDamage": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "directSpellMana": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "directSpellPhysical": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "disease": {
+        "contact": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "ingestion": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "inhalation": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "injection": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "toxin": {
+        "contact": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "ingestion": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "inhalation": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "injection": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "specialDamage": {
+        "acid": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "water": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "electricity": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "fire": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "cold": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "pollution": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "radiation": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "toxin": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "sound": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "fatigue": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "fall": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "derivedAttributes": {
+      "composure": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "judgeIntentions": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "memory": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "surprise": {
+        "dicePool": 0,
+        "base": 0,
+        "modifiers": []
+      }
+    },
+    "penalties": {
+      "physical": {
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "boxReduction": {
+          "base": 0,
+          "value": 0,
+          "modifiers": []
+        },
+        "step": {
+          "base": 3,
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "stun": {
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "boxReduction": {
+          "base": 0,
+          "value": 0,
+          "modifiers": []
+        },
+        "step": {
+          "base": 3,
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "condition": {
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "boxReduction": {
+          "base": 0,
+          "value": 0,
+          "modifiers": []
+        },
+        "step": {
+          "base": 3,
+          "value": 0,
+          "modifiers": []
+        }
+      },
+      "matrix": {
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "magic": {
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "special": {
+        "actual": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    "reach": {
+      "value": 0,
+      "base": 0,
+      "modifiers": []
+    },
+    "recoilCompensation": {
+      "value": 0,
+      "base": 0,
+      "modifiers": []
+    },
+    "specialProperties": {
+      "smartlink": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "concentration": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "controlRig": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "damageReduction": {
+        "value": 0,
+        "base": 0,
+        "modifiers": []
+      },
+      "hardenedArmors": {
+        "normalWeapon": {
+          "type": "",
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "astral": {
+          "type": "",
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "cold": {
+          "type": "",
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "fire": {
+          "type": "",
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "toxins": {
+          "type": "",
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "pathogens": {
+          "type": "",
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "doublePenalties": false,
+      "energyAura": "",
+      "regeneration": false,
+      "essenceDrain": false,
+      "anticoagulant": false,
+      "fullDefenseAttribute": "",
+      "fullDefenseValue": 0,
+      "actions": {
+        "free": {
+          "value": 1,
+          "base": 1,
+          "modifiers": [],
+          "current": 1
+        },
+        "simple": {
+          "value": 2,
+          "base": 2,
+          "modifiers": [],
+          "current": 2
+        },
+        "complex": {
+          "value": 1,
+          "base": 1,
+          "modifiers": [],
+          "current": 1
+        },
+        "interruption": {
+          "value": 10,
+          "base": 10,
+          "modifiers": [],
+          "current": 10
+        }
+      }
+    },
+    "itemsProperties": {
+      "armor": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "specialDamage": {
+          "acid": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "water": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "electricity": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "fire": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "cold": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "pollution": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "radiation": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "toxin": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "sound": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "toxin": {
+          "contact": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "ingestion": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "inhalation": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "injection": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          }
+        },
+        "padded": false
+      },
+      "weapon": {
+        "damageValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accuracy": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "environmentalMod": {
+        "visibility": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "light": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "glare": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "wind": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "range": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      },
+      "martialArts": {
+        "breakWeapon": {
+          "isActive": false
+        },
+        "disarm": {
+          "isActive": false
+        },
+        "entanglement": {
+          "isActive": false
+        },
+        "feint": {
+          "isActive": false
+        },
+        "pin": {
+          "isActive": false
+        }
+      }
+    },
+    "skillGroups": {
+      "actingGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "athleticsGroup": {
+        "value": 0,
+        "base": 3,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "biotechGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "closeCombatGroup": {
+        "value": 0,
+        "base": 4,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "conjuringGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "crackingGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "electronicsGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "enchantingGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "engineeringGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "firearmsGroup": {
+        "value": 0,
+        "base": 3,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "influenceGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "outdoorsGroup": {
+        "value": 0,
+        "base": 2,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "sorceryGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "stealthGroup": {
+        "value": 0,
+        "base": 4,
+        "modifiers": [],
+        "isHidden": false
+      },
+      "taskingGroup": {
+        "value": 0,
+        "base": 0,
+        "modifiers": [],
+        "isHidden": false
+      }
+    },
+    "skills": {
+      "blades": {
+        "rating": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "closeCombatGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": "Swords"
+      },
+      "pistols": {
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "waeponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "firearmsGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": "Semi-Automatics"
+      },
+      "automatics": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "firearmsGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "longarms": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "firearmsGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "unarmedCombat": {
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "closeCombatGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "throwingWeapons": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "gymnastics": {
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "athleticsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "running": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "strength",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "athleticsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "swimming": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "strength",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "athleticsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "sneaking": {
+        "rating": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "stealthGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": "Urban"
+      },
+      "palming": {
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "stealthGroup",
+        "category": "physicalSkills",
+        "canDefault": false,
+        "specializations": ""
+      },
+      "disguise": {
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "stealthGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "perception": {
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": "Visual"
+      },
+      "escapeArtist": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "survival": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "willpower",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "outdoorsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "tracking": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "outdoorsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "con": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "actingGroup",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "etiquette": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "influenceGroup",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": "Shadowrunner"
+      },
+      "intimidation": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "negociation": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "influenceGroup",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "assensing": {
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "astralLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "magicSkills",
+        "canDefault": false,
+        "specializations": "Aura Reading"
+      },
+      "firstAid": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "logic",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "biotechGroup",
+        "category": "technicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "locksmith": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "technicalSkills",
+        "canDefault": false,
+        "specializations": "Maglocks"
+      },
+      "navigation": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "outdoorsGroup",
+        "category": "technicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "pilotGroundCraft": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "reaction",
+        "limit": {
+          "value": 0,
+          "base": "vehicleHandling",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "vehicleSkills",
+        "canDefault": true,
+        "specializations": "Bikes"
+      }
+    },
+    "sheetPreferences": {
+      "tabAttributs": {
+        "isActive": true,
+        "attributes": true,
+        "specialAttributes": true
+      },
+      "tabDerived": {
+        "isActive": true,
+        "initiatives": true,
+        "limits": true,
+        "defenses": true,
+        "resistances": true,
+        "derivedAttributes": true,
+        "movements": true,
+        "weightActions": true
+      },
+      "tabAugmentations": {
+        "isActive": false,
+        "augmentations": true,
+        "effects": true
+      },
+      "tabAwaken": {
+        "isActive": true,
+        "type": true,
+        "tradition": true,
+        "astral": true,
+        "reagents": true
+      },
+      "tabBiography": {
+        "isActive": true,
+        "biography": true,
+        "critterBiography": false,
+        "description": true,
+        "background": true,
+        "karma": true
+      },
+      "tabCombat": {
+        "isActive": true,
+        "rangedWeapons": true,
+        "meleeWeapons": true,
+        "grenades": true,
+        "armors": true,
+        "ammunitions": true,
+        "martialArts": true
+      },
+      "tabGear": {
+        "isActive": true,
+        "various": true,
+        "vehicles": true,
+        "money": true
+      },
+      "tabMagic": {
+        "isActive": true,
+        "spells": false,
+        "adeptPowers": true,
+        "summonedSpirits": false,
+        "foci": true,
+        "preparations": false,
+        "rituals": false,
+        "powers": false,
+        "metamagics": true
+      },
+      "tabMatrix": {
+        "isActive": false,
+        "programs": false,
+        "matrixActions": false
+      },
+      "tabMatrixUser": {
+        "isActive": false,
+        "programs": false,
+        "pan": false,
+        "marksControled": false
+      },
+      "tabSkill": {
+        "isActive": true,
+        "actives": true,
+        "groups": true,
+        "knowledge": true,
+        "languages": true
+      },
+      "tabSocial": {
+        "isActive": true,
+        "contacts": true,
+        "lifestyles": true,
+        "sins": true,
+        "reputation": true
+      },
+      "tabTechno": {
+        "isActive": false,
+        "resonanceActions": false,
+        "complexForms": false,
+        "sprites": false,
+        "echoes": false,
+        "powers": false
+      },
+      "selections": {
+        "activeDefense": "dodge",
+        "resistanceDisease": "contact",
+        "resistanceToxin": "contact",
+        "resistanceSpecialDamage": "acid"
+      }
+    }
+  },
+  "items": [
+    {
+      "name": "Ares Predator V",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>The most popular heavy pistol in the world, especially among mercenaries and shadowrunners.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "429",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": false,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "availability": {
+          "base": 5,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 725,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "damageValue": {
+          "base": 8,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": false
+        },
+        "damageType": "physical",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": -1,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 5,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        },
+        "quantity": 1,
+        "category": "rangedWeapon",
+        "type": "heavyPistol",
+        "requiredHands": 1,
+        "range": {
+          "short": {
+            "value": 0,
+            "base": 5,
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 20,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 40,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 60,
+            "modifiers": []
+          },
+          "isStrengthBased": false
+        },
+        "reach": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": true,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 15,
+          "max": 15,
+          "type": "regular",
+          "casing": "clip",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accessory": [
+          {
+            "name": "smartgunSystemInternal",
+            "isFree": true,
+            "isActive": true
+          }
+        ],
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "pistols"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
+          },
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
+          },
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
+      }
+    },
+    {
+      "name": "Katana",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A traditional Japanese sword, perfectly balanced for swift, lethal strikes. Nightwire's weapon of choice.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "425",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": false,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "availability": {
+          "base": 9,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 1000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "damageValue": {
+          "base": 3,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": true
+        },
+        "damageType": "physical",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": -3,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 7,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        },
+        "quantity": 1,
+        "category": "meleeWeapon",
+        "type": "blades",
+        "requiredHands": 1,
+        "range": {
+          "short": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isStrengthBased": false
+        },
+        "reach": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": false,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 0,
+          "max": 0,
+          "type": "",
+          "casing": "",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accessory": [],
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "blades"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
+          },
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
+          },
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
+      }
+    },
+    {
+      "name": "Combat Knife",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A sturdy combat knife, the runner's best friend.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "425",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": false,
+        "concealment": {
+          "value": 0,
+          "base": -2,
+          "modifiers": []
+        },
+        "availability": {
+          "base": 4,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 300,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "damageValue": {
+          "base": 2,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": true
+        },
+        "damageType": "physical",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": -3,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 6,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        },
+        "quantity": 1,
+        "category": "meleeWeapon",
+        "type": "blades",
+        "requiredHands": 1,
+        "range": {
+          "short": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isStrengthBased": false
+        },
+        "reach": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": false,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 0,
+          "max": 0,
+          "type": "",
+          "casing": "",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accessory": [],
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "blades"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
+          },
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
+          },
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
+      }
+    },
+    {
+      "name": "Armored Jacket",
+      "type": "itemArmor",
+      "img": "systems/sr5/img/items/itemArmor.svg",
+      "system": {
+        "description": "<p>The most popular armor on the streets, available in every style imaginable.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "439",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 2,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 1000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isActive": true,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "armorValue": {
+          "value": 0,
+          "base": 12,
+          "modifiers": []
+        },
+        "isPlugged": false,
+        "isCumulative": false,
+        "accessory": []
+      }
+    },
+    {
+      "name": "Improved Reflexes 2",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>Increases the adept's reaction speed, similar to wired reflexes.</p>",
+        "gameEffect": "<p>Grants +2 Reaction (augmented) and +2D6 Initiative Dice (max 5D6).</p>",
+        "source": "core",
+        "page": "314",
+        "customEffects": [
+          {
+            "category": "characterAttributes",
+            "target": "system.attributes.reaction.augmented",
+            "type": "rating",
+            "multiplier": null
+          },
+          {
+            "category": "characterInitiatives",
+            "target": "system.initiatives.physicalInit.dice",
+            "type": "rating",
+            "multiplier": null
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 2.5,
+          "modifiers": [],
+          "isRatingBased": false
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Killing Hands",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept can deal Physical damage with unarmed attacks.</p>",
+        "gameEffect": "<p>Unarmed attacks deal Physical damage instead of Stun. Can choose Physical or Stun at the time of attack.</p>",
+        "source": "core",
+        "page": "313",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": false
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Critical Strike (Blades)",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept's strikes with a specific melee weapon skill are more damaging.</p>",
+        "gameEffect": "<p>+1 DV to Blades attacks per rating.</p>",
+        "source": "core",
+        "page": "312",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 1,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Combat Sense",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept has a preternatural awareness of threats.</p>",
+        "gameEffect": "<p>+1 dice to defense tests and +1 to surprise tests per rating.</p>",
+        "source": "core",
+        "page": "312",
+        "customEffects": [
+          {
+            "category": "characterDefenses",
+            "target": "system.defenses.defend",
+            "type": "rating",
+            "multiplier": null
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Mystic Armor",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept's body is toughened against damage through mystical means.</p>",
+        "gameEffect": "<p>+1 armor per rating.</p>",
+        "source": "core",
+        "page": "314",
+        "customEffects": [
+          {
+            "category": "characterArmor",
+            "target": "system.itemsProperties.armor",
+            "type": "rating",
+            "multiplier": null
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Enhanced Perception",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept's senses are magically enhanced.</p>",
+        "gameEffect": "<p>+1 to Perception and Assensing tests per rating.</p>",
+        "source": "core",
+        "page": "312",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 1,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Wall Running",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept can run along vertical surfaces for short distances.</p>",
+        "gameEffect": "<p>Allows running along vertical surfaces for a number of meters equal to running distance.</p>",
+        "source": "core",
+        "page": "316",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": false
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Analytical Mind",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>+2 dice pool modifier to Logic-based tests involving pattern recognition, evidence analysis, or puzzle solving.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "76",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "type": "positive",
+        "karmaCost": 5
+      }
+    },
+    {
+      "name": "Agile Defender",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>When using Full Defense, the character may use Agility in place of Willpower.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "72",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "type": "positive",
+        "karmaCost": 3
+      }
+    },
+    {
+      "name": "SINner (National)",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>The character has a national SIN, subject to taxation and tracking.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "86",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "type": "negative",
+        "karmaCost": 5
+      }
+    },
+    {
+      "name": "Weapon Focus (Katana)",
+      "type": "itemFocus",
+      "img": "systems/sr5/img/items/itemFocus.svg",
+      "system": {
+        "description": "<p>A katana enchanted as a weapon focus, bonded to Nightwire.</p>",
+        "gameEffect": "<p>Adds Force as dice pool bonus to melee attacks. Can damage spirits and astral entities.</p>",
+        "source": "core",
+        "page": "320",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 9,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 7000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": true,
+        "itemRating": 2,
+        "type": "weapon",
+        "isBonded": true,
+        "karmaCost": 6,
+        "force": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "subType": "",
+        "spellChoices": [],
+        "weaponChoices": [],
+        "sustainedSpell": "",
+        "linkedWeapon": "",
+        "linkedWeaponName": ""
+      }
+    },
+    {
+      "name": "Qi Focus (Combat Sense)",
+      "type": "itemFocus",
+      "img": "systems/sr5/img/items/itemFocus.svg",
+      "system": {
+        "description": "<p>A small jade pendant that enhances the adept's combat awareness.</p>",
+        "gameEffect": "<p>Sustains the Combat Sense adept power, freeing power points.</p>",
+        "source": "core",
+        "page": "320",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 6,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 3000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": true,
+        "itemRating": 1,
+        "type": "qi",
+        "isBonded": true,
+        "karmaCost": 2,
+        "force": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "subType": "",
+        "spellChoices": [],
+        "weaponChoices": [],
+        "sustainedSpell": "",
+        "linkedWeapon": "",
+        "linkedWeaponName": ""
+      }
+    },
+    {
+      "name": "Medkit",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A medical kit for field treatment of injuries.</p>",
+        "gameEffect": "<p>Provides dice for First Aid tests. Rating determines dice pool.</p>",
+        "source": "core",
+        "page": "453",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [
+          {
+            "category": "specificItem",
+            "value": "medkit"
+          }
+        ],
+        "availability": {
+          "base": 3,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 750,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": "rating"
+        },
+        "isActive": false,
+        "itemRating": 3,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 3,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": true,
+        "canRollTest": true,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": "ratingX2"
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Micro-Transceiver",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>Small, concealable communication device with skinlink capability.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "451",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 1,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 100,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 0,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Flashlight",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A standard flashlight, infrared and low-light capable.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "449",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 25,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 0,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Grapple Gun",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>Fires a grapple with stealth line for climbing and traversal.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "449",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 8,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 500,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 0,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Suzuki Mirage",
+      "type": "itemVehicle",
+      "img": "systems/sr5/img/items/itemVehicle.svg",
+      "system": {
+        "description": "<p>A sleek racing bike popular with couriers and speed-loving shadowrunners.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "468",
+        "availability": {
+          "base": 8,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 8500,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 1,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "type": "vehicle",
+        "category": "bike",
+        "attributes": {
+          "handling": 5,
+          "handlingOffRoad": 3,
+          "speed": 6,
+          "speedOffRoad": 3,
+          "acceleration": 3,
+          "accelerationOffRoad": 2,
+          "body": 5,
+          "armor": 6,
+          "pilot": 1,
+          "sensor": 2
+        },
+        "modificationSlots": {
+          "powerTrain": 0,
+          "protection": 0,
+          "weapons": 0,
+          "body": 0,
+          "electromagnetic": 0,
+          "cosmetic": 0,
+          "extraWeapons": 0,
+          "extraBody": 0
+        },
+        "seating": 1,
+        "controlMode": "manual",
+        "offRoadMode": false,
+        "riggerInterface": false,
+        "pilotSkill": "pilotGroundCraft",
+        "secondaryPropulsion": {
+          "isActive": false,
+          "type": "",
+          "note": "",
+          "isSecondaryPropulsion": false,
+          "handling": 0,
+          "handlingOffRoad": 0,
+          "speed": 0,
+          "acceleration": 0
+        },
+        "model": "",
+        "autosoft": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehiclesMod": [],
+        "isCreated": false,
+        "slaved": []
+      }
+    },
+    {
+      "name": "Marco 'Silk' DeLuca",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>A well-connected fixer who operates out of a high-end bar in Downtown Seattle.</p>",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "connection": 4,
+        "loyalty": 3,
+        "metatype": "human",
+        "gender": "male",
+        "age": "42",
+        "type": "Fixer",
+        "paymentMethod": "Nuyen",
+        "hobby": "Fine whiskey",
+        "familySituation": "Divorced",
+        "nickname": "Silk",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "nationality": "UCAS",
+        "language": [],
+        "knowledge": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehicles": [],
+        "conditionMonitors": {
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "edge": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Dr. Sarah Chen",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>A street doc operating out of a clinic in Redmond. Reliable, discreet, no questions asked.</p>",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "connection": 3,
+        "loyalty": 4,
+        "metatype": "human",
+        "gender": "female",
+        "age": "38",
+        "type": "Street Doc",
+        "paymentMethod": "Barter (medical supplies)",
+        "hobby": "Chess",
+        "familySituation": "Single",
+        "nickname": "",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "nationality": "UCAS",
+        "language": [],
+        "knowledge": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehicles": [],
+        "conditionMonitors": {
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "edge": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Sensei Kenji",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>Nightwire's former martial arts and adept training master. Reclusive but fiercely loyal to his former student.</p>",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "connection": 2,
+        "loyalty": 5,
+        "metatype": "human",
+        "gender": "male",
+        "age": "65",
+        "type": "Adept Sensei",
+        "paymentMethod": "Favors",
+        "hobby": "Meditation",
+        "familySituation": "Widower",
+        "nickname": "",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "nationality": "Japan",
+        "language": [],
+        "knowledge": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehicles": [],
+        "conditionMonitors": {
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "edge": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Martial Arts",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "interests",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Magical Theory",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "academic",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Seattle Street Gangs",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "street",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Corporate Security Procedures",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "professional",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Urban Brawl",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "interests",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "English",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": true
+      }
+    },
+    {
+      "name": "Japanese",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Sperethiel",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": false
+      }
+    }
+  ],
+  "effects": [],
+  "flags": {},
+  "prototypeToken": {
+    "name": "Kira 'Nightwire' Tanaka",
+    "displayName": 30,
+    "actorLink": true,
+    "disposition": 1,
+    "displayBars": 40,
+    "bar1": {
+      "attribute": "statusBars.condition"
+    },
+    "bar2": {
+      "attribute": "statusBars.stun"
+    },
+    "width": 1,
+    "height": 1,
+    "sight": {
+      "enabled": true,
+      "range": 30
+    }
+  }
+}

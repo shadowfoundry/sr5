@@ -244,16 +244,17 @@
             }
 
             input[type="checkbox"] {
-                position     : relative;
-                margin       : 0;
-                border       : 1px solid @subColor;
-                height       : 12px;
-                width        : 12px;
-                border-radius: 3px;
-                appearance   : none;
-                outline      : 0;
-                cursor       : pointer;
-                transition   : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+                position       : relative;
+                margin         : 0;
+                vertical-align : middle;
+                border         : 1px solid @subColor;
+                height         : 12px;
+                width          : 12px;
+                border-radius  : 3px;
+                appearance     : none;
+                outline        : 0;
+                cursor         : pointer;
+                transition     : background 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
 
                 &::before {
                     content     : '';
@@ -453,48 +454,57 @@
 
         .SR-ItemFooter {
             color     : @neutralLightColor;
-            margin-top: 32px;
-            padding   : 0px 3px;
+            padding   : 10px;
+            display   : flex;
             background-image: url(@ItemSheetBottom);
-            background-size: 100% auto;
-            background-repeat: no-repeat;
+            background-size: auto 100%;
+            background-repeat: repeat-x;
             background-position: bottom left;
             border-radius: 0;
 
-            .SR-MoniteurBar {
-                display       : flex;
-                flex-direction: row;
+            .boxes {
+                flex: 0;
             }
 
-            .SR-MoniteurCases {
-                display       : flex;
-                flex-direction: row;
-                padding-left  : 5px;
-
-                .SR-Case {
-                    height: 15px;
-                    width : 10px;
-                    margin: 0px 2px 0px 2px;
-                    ;
-                    display        : flex;
-                    justify-content: center;
-                    border-radius  : 1px;
-                }
-
-                .SR-CaseNeutralDarkColor {
-                    background: @neutralDarkColor;
-                }
-
-                .SR-CaseMainColor {
-                    background: @mainColor;
-                    border    : 1px solid @mainColor;
-                }
-
-                .SR-CaseSubColor {
-                    background: @subColor;
-                    border    : 1px solid fade(@subColor, 50%);
-                }
+            .SR-ItemFooter-lastPart {
+                display: flex;
+                flex-wrap: nowrap;
+                margin-left: auto;
             }
+        }
+
+        .SR-MoniteurBar {
+            display       : flex;
+            flex-direction: row;
+        }
+
+        .SR-MoniteurCases {
+            display       : flex;
+            flex-direction: row;
+            padding-left  : 5px;
+
+            .SR-Case {
+                height: 15px;
+                width : 10px;
+                margin: 0px 2px 0px 2px;
+                display        : flex;
+                justify-content: center;
+                border-radius  : 1px;
+            }
+        }
+
+        .SR-CaseNeutralDarkColor {
+            background: @neutralDarkColor;
+        }
+
+        .SR-CaseMainColor {
+            background: @mainColor;
+            border    : 1px solid @mainColor;
+        }
+
+        .SR-CaseSubColor {
+            background: @subColor;
+            border    : 1px solid fade(@subColor, 50%);
         }
     }
 

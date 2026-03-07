@@ -210,7 +210,7 @@ export class SR5Item extends Item {
 		htmlOptions.async = false;
 
 		itemData.description = itemData.description || "";
-		itemData.description = TextEditor.enrichHTML(itemData.description, htmlOptions);
+		itemData.description = foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData.description, htmlOptions);
 
 		switch(this.type){
 			case "itemAugmentation":

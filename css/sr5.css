@@ -455,6 +455,7 @@ body {
 .app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"] {
   position: relative;
   margin: 0;
+  vertical-align: middle;
   border: 1px solid #0c9394;
   height: 12px;
   width: 12px;
@@ -656,24 +657,32 @@ body {
 }
 .app.window-app.SR-Item .window-content .SR-ItemFooter {
   color: #fffffe;
-  margin-top: 32px;
-  padding: 0px 3px;
+  padding: 10px;
+  display: flex;
   background-image: url("../img/ui/SR5_BG_ItemBottom.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
   background-position: bottom left;
   border-radius: 0;
 }
-.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurBar {
+.app.window-app.SR-Item .window-content .SR-ItemFooter .boxes {
+  flex: 0;
+}
+.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-ItemFooter-lastPart {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: auto;
+}
+.app.window-app.SR-Item .window-content .SR-MoniteurBar {
   display: flex;
   flex-direction: row;
 }
-.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurCases {
+.app.window-app.SR-Item .window-content .SR-MoniteurCases {
   display: flex;
   flex-direction: row;
   padding-left: 5px;
 }
-.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurCases .SR-Case {
+.app.window-app.SR-Item .window-content .SR-MoniteurCases .SR-Case {
   height: 15px;
   width: 10px;
   margin: 0px 2px 0px 2px;
@@ -681,14 +690,14 @@ body {
   justify-content: center;
   border-radius: 1px;
 }
-.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurCases .SR-CaseNeutralDarkColor {
+.app.window-app.SR-Item .window-content .SR-CaseNeutralDarkColor {
   background: #000001;
 }
-.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurCases .SR-CaseMainColor {
+.app.window-app.SR-Item .window-content .SR-CaseMainColor {
   background: #931004;
   border: 1px solid #931004;
 }
-.app.window-app.SR-Item .window-content .SR-ItemFooter .SR-MoniteurCases .SR-CaseSubColor {
+.app.window-app.SR-Item .window-content .SR-CaseSubColor {
   background: #0c9394;
   border: 1px solid rgba(12, 147, 148, 0.5);
 }
@@ -1275,7 +1284,7 @@ body {
   background: #931004;
   color: #fffffe;
 }
-.app.window-app.actor.sr-mode-play .controls-dropdown .header-control[data-action="configureSheet"] {
+.app.window-app.actor.sr-mode-play .controls-dropdown .header-control[data-action="customizeDisplay"] {
   display: none;
 }
 .app.window-app.actor .window-content {
@@ -1628,6 +1637,7 @@ body {
 .app.window-app.actor .window-content .sr-tab-content input[type="checkbox"] {
   position: relative;
   margin: 0;
+  vertical-align: middle;
   border: 1px solid #0c9394;
   height: 12px;
   width: 12px;

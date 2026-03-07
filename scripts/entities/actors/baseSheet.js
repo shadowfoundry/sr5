@@ -40,7 +40,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		// Note: DragDrop config is an AppV1 feature. In AppV2 we bind dragstart manually in _onRender.
 		actions: {
 			toggleMode: ActorSheetSR5._onToggleMode,
-			configureSheet: ActorSheetSR5._onConfigureSheet,
+			customizeDisplay: ActorSheetSR5._onCustomizeDisplay,
 		},
 	};
 
@@ -94,7 +94,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		await this.render({ mode: newMode });
 	}
 
-	static _onConfigureSheet(event) {
+	static _onCustomizeDisplay(event) {
 		event.preventDefault();
 		SR5SheetConfigDialog.open(this.actor);
 	}
@@ -194,8 +194,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 			const configBtn = document.createElement("button");
 			configBtn.type = "button";
 			configBtn.classList.add("header-control", "icon", "fa-solid", "fa-tools");
-			configBtn.dataset.action = "configureSheet";
-			configBtn.dataset.tooltip = "Configure Sheet";
+			configBtn.dataset.action = "customizeDisplay";
+			configBtn.dataset.tooltip = "SR5.CustomizeSheetDisplay";
 			if (closeButton) closeButton.before(configBtn);
 			else header?.appendChild(configBtn);
 		}
@@ -233,7 +233,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		}
 
 		// Show/hide config button based on mode
-		const configBtn = element.querySelector('[data-action="configureSheet"]');
+		const configBtn = element.querySelector('[data-action="customizeDisplay"]');
 		if (configBtn) configBtn.style.display = this.isPlayMode ? "none" : "";
 
 		// Disable form inputs in duplicate block instances to prevent FormDataExtended conflicts.
