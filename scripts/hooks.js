@@ -197,17 +197,14 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("renderChatMessageHTML", (message, html, data) => {
-		// v13: html is always an HTMLElement with renderChatMessageHTML
-		const element = html instanceof HTMLElement ? html : html[0];
-
 		// Apply SR5 custom styling for messages with SR5 roll data
 		if (message.flags?.sr5data) {
-			element.classList.add("SRCustomMessage");
+			html.classList.add("SRCustomMessage");
 			const borderColor = message.flags?.sr5data?.owner?.borderColor;
-			if (borderColor && typeof borderColor === "string") element.style.borderColor = borderColor;
+			if (borderColor && typeof borderColor === "string") html.style.borderColor = borderColor;
 
 			// Inject actor thumbnail into Foundry's default message header
-			const msgHeader = element.querySelector(":scope > header");
+			const msgHeader = html.querySelector(":scope > header");
 			if (msgHeader) {
 				const imgSrc = message.flags?.sr5data?.owner?.speakerImg || "systems/sr5/img/ui/SR6_Logo.svg";
 				const img = document.createElement("img");
@@ -219,7 +216,7 @@ export const registerHooks = function () {
 		}
 
 		// Attach SR5 chat card listeners for messages with roll card content
-		const hasSr5Card = element.querySelector(".SR-CardHeader");
+		const hasSr5Card = html.querySelector(".SR-CardHeader");
 		if (hasSr5Card) SR5_RollMessage.chatListeners(html, message);
 	});
 
@@ -261,9 +258,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("renderFolderConfig", (dialog, html) => {
-		// v13: html may be a raw DOM element or jQuery object
-		const element = html instanceof HTMLElement ? html : html[0];
-		const input = element.querySelector(`input[type=text]`);
+		const input = html.querySelector(`input[type=text]`);
 		if (input && !input.value) {
 			input.value = input.placeholder;
 			input.focus();
@@ -271,9 +266,7 @@ export const registerHooks = function () {
 	});
 
 	Hooks.on("renderDialog", (dialog, html) => {
-		// v13: html may be a raw DOM element or jQuery object
-		const element = html instanceof HTMLElement ? html : html[0];
-		const input = element.querySelector(`input[type=text]`);
+		const input = html.querySelector(`input[type=text]`);
 		if (input && !input.value) {
 			input.value = input.placeholder;
 			input.focus();

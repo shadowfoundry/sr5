@@ -17,10 +17,7 @@ import { SR5_ActorHelper } from "../entities/actors/entityActor-helpers.js";
 export class SR5_RollMessage {
     //Handle reaction to roll ChatMessage
     static async chatListeners(html, message) {
-        // v13: html may be a raw DOM element or jQuery object
-        const element = html instanceof HTMLElement ? html : html[0];
-
-        element.querySelectorAll(".messageAction").forEach(el => {
+        html.querySelectorAll(".messageAction").forEach(el => {
             el.addEventListener("click", (ev) => SR5_RollMessage.chatButtonAction(ev));
         });
 
@@ -104,10 +101,9 @@ export class SR5_RollMessage {
 
     //Show or Hide section of the message
     static toggleDiv(ev, html){
-        const element = html instanceof HTMLElement ? html : html[0];
         let target = ev.currentTarget.dataset.target,
             action = ev.currentTarget.dataset.action;
-        const targetEl = element.querySelector(`#${target}`);
+        const targetEl = html.querySelector(`#${target}`);
         if (action === "show"){
             if (targetEl) targetEl.style.display = "";
             element.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "none");

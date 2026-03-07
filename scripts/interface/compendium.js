@@ -5,9 +5,7 @@ export class SR5CompendiumInfo {
     static async onRenderCompendium(compendium, html, compendiumData) {
         const pack = compendium.collection;
         if (pack.metadata.system === "sr5") {
-            // v13: html may be a raw DOM element or jQuery object
-            const element = html instanceof HTMLElement ? html : html[0];
-            element.querySelectorAll('.directory-item').forEach(el => {
+            html.querySelectorAll('.directory-item').forEach(el => {
                 SR5CompendiumInfo.selectInfo(pack, el);
             });
         }
