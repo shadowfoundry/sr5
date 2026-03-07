@@ -389,8 +389,12 @@ export const registerHooks = function () {
 		if (document.type === "actorGrunt" && data.system?.conditionMonitors?.edge && (document.testUserPermission(game.user, 3) || (game.user?.isGM))){
 			await SR5_ActorHelper.keepEdgeSynchroWithGrunt(document);
 		}
-		//let truc = document.effects.find(e => e.origin = "linkLock")
-		//if (truc) await document.deleteEmbeddedDocuments('ActiveEffect', [truc.id]);
+
+		//Propagate owner data changes to linked drones and agents
+		if ((document.type === "actorPc" || document.type === "actorGrunt") && (document.testUserPermission(game.user, 3))) {
+			await SR5_CharacterUtility.updateControledVehicle(document);
+			if (document.items.find(item => item.system.type === "agent")) await SR5_CharacterUtility.updateProgramAgent(document);
+		}
 	});
 
 	Hooks.on("deleteItem", async (item) =>{

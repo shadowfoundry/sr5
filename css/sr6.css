@@ -1761,7 +1761,7 @@ body {
   text-align: left;
   font-family: "srfoundry_bold";
   height: auto;
-  border: 0;
+  border: 1px solid transparent;
   border-bottom: 1px solid #839c88;
   padding-top: 0;
   padding-bottom: 0;
@@ -1783,7 +1783,6 @@ body {
 }
 .app.window-app.actor .window-content .SR-footer input:focus {
   box-shadow: none;
-  border: none;
 }
 .app.window-app.actor .window-content .SR-footer .droneModel {
   width: 250px;

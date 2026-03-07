@@ -665,9 +665,7 @@ export class SR5Actor extends Actor {
 							SR5_CharacterUtility.generateMatrixActions(actor);
 							SR5_CharacterUtility.generateMatrixActionsDefenses(actor);
 							SR5_CharacterUtility.updateInitiativeMatrix(actor);
-							if (iData.type ==="riggerCommandConsole") {
-								if (actor.testUserPermission(game.user, 3)) SR5_CharacterUtility.updateControledVehicle(actor);
-							}
+							// Drone data propagation is now handled by the updateActor hook
 							if (iData.type === "livingPersona" || iData.type === "headcase") SR5_CharacterUtility.generateResonanceMatrix(actor);
 							iData.pan.max = actorData.matrix.deviceRating * 3;
 						}
@@ -731,7 +729,7 @@ export class SR5Actor extends Actor {
 					i.prepareData();
 					break;
 				case "itemProgram":
-					if (actor.items.find(item => item.system.type === "agent")) SR5_CharacterUtility.updateProgramAgent(actor);
+					// Agent data propagation is now handled by the updateActor hook
 					break;
 			}
 		}

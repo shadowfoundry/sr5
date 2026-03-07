@@ -2893,7 +2893,7 @@
         "panMaster": "",
         "marks": [],
         "type": "vehicle",
-        "category": "groundcraft",
+        "category": "truck",
         "attributes": {
           "handling": 3,
           "handlingOffRoad": 3,
@@ -2996,7 +2996,7 @@
         "panMaster": "",
         "marks": [],
         "type": "vehicle",
-        "category": "groundcraft",
+        "category": "bike",
         "attributes": {
           "handling": 4,
           "handlingOffRoad": 3,

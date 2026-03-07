@@ -1569,7 +1569,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 				actorId: actorId,
 			});
 		} else {
-			SR5_ActorHelper.createSidekick(item, game.user.id, actorId);
+			await SR5_ActorHelper.createSidekick(item, game.user.id, actorId);
 		}
 
 		//manage actions
