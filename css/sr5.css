@@ -359,24 +359,31 @@ body {
   margin: 0;
 }
 .app.window-app.SR-Item .window-content .SR-Header {
-  padding: 10px 3px 0px 3px;
-  background-image: url("../img/ui/SR5_BG_ItemTop.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
+  padding: 10px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  background-image: url("../img/ui/SR5_BG_ActorTop.png");
+  background-size: auto 100%;
+  background-repeat: repeat-x;
   background-position: top left;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRImgItem {
-  width: 30px;
-  height: 30px;
-  box-sizing: content-box;
+  width: 33px;
+  height: 33px;
+  margin-right: 5px;
   border: 1px solid #0c9394;
   border-radius: 3px;
+  max-width: none;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre {
+  flex: 1;
+  min-width: 0;
   font-family: "srfoundry_primary";
   font-size: 20px;
   border-bottom: 0px;
-  padding-top: 5px;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input {
   background-color: transparent;
@@ -384,10 +391,15 @@ body {
   border-bottom: 1px solid transparent;
   border-radius: 0;
   color: #fffffe;
+  font-family: "srfoundry_primary";
+  font-size: 20px;
+  padding: 0 5px;
+  margin: 0;
+  width: 100%;
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input:focus {
   box-shadow: none;
-  border-bottom: 1px solid #0c9394;
+  border-bottom: 1px solid rgba(12, 147, 148, 0.5);
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input::selection {
   background-color: rgba(12, 147, 148, 0.5);
@@ -395,8 +407,13 @@ body {
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input:hover {
   border-bottom: 1px solid rgba(12, 147, 148, 0.5);
 }
-.app.window-app.SR-Item .window-content .SR-Header .item:not(:last-child) {
-  padding-right: 3px;
+.app.window-app.SR-Item .window-content .SR-Header nav.tabs {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
+  border: none;
+  gap: 0;
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows {
   margin-top: 10px;
@@ -659,7 +676,7 @@ body {
   color: #fffffe;
   padding: 10px;
   display: flex;
-  background-image: url("../img/ui/SR5_BG_ItemBottom.png");
+  background-image: url("../img/ui/SR5_BG_ActorBottom.png");
   background-size: auto 100%;
   background-repeat: repeat-x;
   background-position: bottom left;
@@ -726,7 +743,6 @@ body {
   /* ── Select wrapper (FA chevron) ──────────────────────── */
   /* ── Separator line ───────────────────────────────────── */
   /* ── Roll button icon ─────────────────────────────────── */
-  /* Item header — flex layout matching actor header */
 }
 .app.window-app.SR-Item .window-content > .SR-Header {
   grid-area: header;
@@ -1175,17 +1191,6 @@ body {
   line-height: 15px;
   font-weight: 700;
   content: '\f6d1 ';
-}
-.app.window-app.SR-Item .window-content .SR-Header {
-  display: flex;
-  align-items: center;
-}
-.app.window-app.SR-Item .window-content .SR-Header .SRImgItem {
-  flex-shrink: 0;
-}
-.app.window-app.SR-Item .window-content .SR-Header .SRItemTitre {
-  flex: 1;
-  min-width: 0;
 }
 .app.window-app.SR-Item.sr-mode-play .window-header .header-control[data-action="toggleMode"] {
   background: #931004;

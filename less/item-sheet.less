@@ -138,25 +138,32 @@
         }
 
         .SR-Header {
-            padding: 10px 3px 0px 3px;
-            background-image: url(@ItemSheetTop);
-            background-size: 100% auto;
-            background-repeat: no-repeat;
+            padding: 10px;
+            height: 54px;
+            display: flex;
+            align-items: center;
+            background-image: url(@ActorSheetTop);
+            background-size: auto 100%;
+            background-repeat: repeat-x;
             background-position: top left;
 
             .SRImgItem {
-                width        : 30px;
-                height       : 30px;
-                box-sizing   : content-box;
+                width        : 33px;
+                height       : 33px;
+                margin-right : 5px;
                 border       : 1px solid @subColor;
                 border-radius: 3px;
+                max-width    : none;
+                object-fit   : cover;
+                flex-shrink  : 0;
             }
 
             .SRItemTitre {
+                flex         : 1;
+                min-width    : 0;
                 font-family  : @SR_FontTitle;
                 font-size    : 20px;
                 border-bottom: 0px;
-                padding-top  : 5px;
 
                 input {
                     background-color: transparent;
@@ -164,10 +171,15 @@
                     border-bottom   : 1px solid transparent;
                     border-radius   : 0;
                     color           : @neutralLightColor;
+                    font-family     : @SR_FontTitle;
+                    font-size       : 20px;
+                    padding         : 0 5px;
+                    margin          : 0;
+                    width           : 100%;
 
                     &:focus {
                         box-shadow: none;
-                        border-bottom: 1px solid @subColor;
+                        border-bottom: 1px solid fade(@subColor, 50%);
                     }
 
                     &::selection {
@@ -180,8 +192,13 @@
                 }
             }
 
-            .item:not(:last-child) {
-                padding-right: 3px;
+            nav.tabs {
+                display: flex;
+                align-items: center;
+                margin-left: auto;
+                flex-shrink: 0;
+                border: none;
+                gap: 0;
             }
         }
 
@@ -456,7 +473,7 @@
             color     : @neutralLightColor;
             padding   : 10px;
             display   : flex;
-            background-image: url(@ItemSheetBottom);
+            background-image: url(@ActorSheetBottom);
             background-size: auto 100%;
             background-repeat: repeat-x;
             background-position: bottom left;
@@ -516,20 +533,6 @@
     .window-content {
         .sr-layout-mixin();
 
-        /* Item header — flex layout matching actor header */
-        .SR-Header {
-            display: flex;
-            align-items: center;
-
-            .SRImgItem {
-                flex-shrink: 0;
-            }
-
-            .SRItemTitre {
-                flex: 1;
-                min-width: 0;
-            }
-        }
     }
 
     // ---- Play / Edit mode ----
