@@ -22,7 +22,7 @@ export class SR5_RollMessage {
         });
 
         //Toggle Dice details
-        element.querySelectorAll(".SR-CardHeader").forEach(el => {
+        html.querySelectorAll(".SR-CardHeader").forEach(el => {
             el.addEventListener("click", (ev) => {
                 ev.preventDefault();
                 const content = ev.currentTarget.parentElement?.querySelector(".SR-CardContent");
@@ -32,31 +32,31 @@ export class SR5_RollMessage {
 
         if (!game.user.isGM) {
             // Hide GM stuff
-            element.querySelectorAll(".chat-button-gm").forEach(el => el.remove());
+            html.querySelectorAll(".chat-button-gm").forEach(el => el.remove());
 
             // v13: use message document directly instead of data.message
             // Hide if player is not owner of the message
             if (message.speaker?.actor && game.actors.get(message.speaker.actor)?.permission != 3) {
-                element.querySelectorAll(".nonOpposedTest").forEach(el => el.remove());
-                element.querySelectorAll(".owner").forEach(el => el.remove());
+                html.querySelectorAll(".nonOpposedTest").forEach(el => el.remove());
+                html.querySelectorAll(".owner").forEach(el => el.remove());
             }
 
             // Hide if player is not owner of the message for attackerTest
             if (message.flags?.sr5data?.previousMessage?.userId !== game.user.id) {
-                element.querySelectorAll(".attackerTest").forEach(el => el.remove());
+                html.querySelectorAll(".attackerTest").forEach(el => el.remove());
             }
 
             // Do not display "Blind" chat cards to non-gm
-            if (element.classList.contains("blind")) {
-                const header = element.querySelector("header") || element.querySelector(".message-header");
+            if (html.classList.contains("blind")) {
+                const header = html.querySelector("header") || html.querySelector(".message-header");
                 if (header) header.remove(); // Remove header so Foundry does not attempt to update its timestamp
-                element.innerHTML = "";
-                element.style.display = "none";
+                html.innerHTML = "";
+                html.style.display = "none";
             }
         }
 
         // Edit manually the result of a chatmessage roll
-        element.querySelectorAll(".edit-toggle").forEach(el => {
+        html.querySelectorAll(".edit-toggle").forEach(el => {
             el.addEventListener("click", (ev) => {
                 ev.preventDefault();
                 const chatCard = ev.currentTarget.closest(".chat-card");
@@ -70,10 +70,10 @@ export class SR5_RollMessage {
         });
 
         //Hide core content of message
-        element.querySelectorAll(".SR-CardContent").forEach(el => el.style.display = "none");
+        html.querySelectorAll(".SR-CardContent").forEach(el => el.style.display = "none");
 
         // Respond to editing chat cards
-        element.querySelectorAll(".card-edit").forEach(el => {
+        html.querySelectorAll(".card-edit").forEach(el => {
             el.addEventListener("change", async (ev) => {
                 const target = ev.currentTarget;
                 const messageEl = target.closest(".chat-message") || target.closest(".message");
@@ -94,8 +94,8 @@ export class SR5_RollMessage {
         });
 
         //Toggle hidden div
-        element.querySelectorAll(".SR-MessageToggle").forEach(el => {
-            el.addEventListener("click", ev => SR5_RollMessage.toggleDiv(ev, element));
+        html.querySelectorAll(".SR-MessageToggle").forEach(el => {
+            el.addEventListener("click", ev => SR5_RollMessage.toggleDiv(ev, html));
         });
     }
 
@@ -106,12 +106,12 @@ export class SR5_RollMessage {
         const targetEl = html.querySelector(`#${target}`);
         if (action === "show"){
             if (targetEl) targetEl.style.display = "";
-            element.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "none");
-            element.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = "");
+            html.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "none");
+            html.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = "");
         } else {
             if (targetEl) targetEl.style.display = "none";
-            element.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = "none");
-            element.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "");
+            html.querySelectorAll(`[data-target="${target}"][data-action="hide"]`).forEach(el => el.style.display = "none");
+            html.querySelectorAll(`[data-target="${target}"][data-action="show"]`).forEach(el => el.style.display = "");
         }
     }
 
