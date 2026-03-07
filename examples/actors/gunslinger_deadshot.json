@@ -1,0 +1,1371 @@
+{
+  "name": "Maria 'Deadshot' Vasquez",
+  "type": "actorPc",
+  "img": "icons/svg/mystery-man.svg",
+  "system": {
+    "attributes": {
+      "body": {
+        "natural": { "value": 0, "base": 4, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "agility": {
+        "natural": { "value": 0, "base": 7, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "reaction": {
+        "natural": { "value": 0, "base": 5, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "strength": {
+        "natural": { "value": 0, "base": 3, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "willpower": {
+        "natural": { "value": 0, "base": 4, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "logic": {
+        "natural": { "value": 0, "base": 4, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "intuition": {
+        "natural": { "value": 0, "base": 5, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "charisma": {
+        "natural": { "value": 0, "base": 3, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    "specialAttributes": {
+      "edge": {
+        "natural": { "value": 0, "base": 4, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "magic": {
+        "natural": { "value": 0, "base": 0, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "resonance": {
+        "natural": { "value": 0, "base": 0, "modifiers": [] },
+        "augmented": { "value": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    "activeSpecialAttribute": "",
+    "essence": { "value": 0, "base": 6, "modifiers": [] },
+    "biography": {
+      "characterName": "Maria Vasquez",
+      "characterAlias": "Deadshot",
+      "characterNationality": "Aztlan / CAS",
+      "characterBirthPlace": "Tenochtitlan, Aztlan",
+      "characterFamilySituation": "Parents still in Aztlan, no contact since defection. Younger sister whereabouts unknown.",
+      "characterDependants": "",
+      "characterMetatype": "elf",
+      "characterMetatypeVariant": "",
+      "characterEthnicalGroup": "Aztlaner (Mestiza)",
+      "characterGender": "female",
+      "characterAge": 29,
+      "characterEyes": "Dark brown (cybereye implants with smartlink)",
+      "characterHeight": 175,
+      "characterWeight": 62,
+      "characterHair": "Black, kept in a tight braid or under a tactical cap",
+      "characterSkin": "Bronze-olive, thin scar across left cheekbone",
+      "description": "<p>Tall and lean with the graceful build common to elves, Maria moves with a quiet, deliberate precision that speaks of military training. Her dark eyes carry the cold focus of someone accustomed to looking through a scope. She favors dark, practical clothing with plenty of concealed holsters and always has at least two firearms within arm's reach. A faded Aztechnology corporate security tattoo on her inner wrist has been partially burned away.</p>",
+      "background": "<p>Maria Vasquez served for six years as an elite sniper in Aztechnology's corporate security division, specializing in counter-insurgency operations and high-value target elimination. When she discovered her unit was being used to silence corporate whistleblowers and their families, she went rogue, taking a cache of weapons and classified security protocols with her. Now operating in the Seattle shadows under the name 'Deadshot,' she takes jobs that keep her fed and armed while staying one step ahead of Aztechnology's retrieval teams. She is methodical, patient, and devastatingly accurate -- qualities that make her one of the most sought-after gun specialists in the sprawl.</p>"
+    },
+    "critterBiography": {
+      "binomial": "",
+      "terrain": "",
+      "diet": "",
+      "activity": "",
+      "aggroIndex": "",
+      "lengthHeight": "",
+      "mass": ""
+    },
+    "karma": { "value": 0, "base": 10, "modifiers": [] },
+    "nuyen": { "value": 0, "base": 24000, "modifiers": [] },
+    "streetCred": { "value": 0, "base": 5, "modifiers": [] },
+    "notoriety": { "value": 0, "base": 4, "modifiers": [] },
+    "publicAwareness": { "value": 0, "base": 2, "modifiers": [] },
+    "addictions": [],
+    "conditionMonitors": {
+      "stun": {
+        "value": 0, "base": 0, "modifiers": [],
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxes": []
+      },
+      "physical": {
+        "value": 0, "base": 0, "modifiers": [],
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxes": []
+      },
+      "edge": {
+        "value": 0, "base": 0, "modifiers": [],
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxes": []
+      },
+      "overflow": {
+        "value": 0, "base": 0, "modifiers": [],
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxes": []
+      }
+    },
+    "statusBars": {
+      "stun": { "value": 0, "max": 0 },
+      "physical": { "value": 0, "max": 0 },
+      "edge": { "value": 0, "max": 0 },
+      "condition": { "value": 0, "max": 0 },
+      "matrix": { "value": 0, "max": 0 },
+      "overflow": { "value": 0, "max": 0 }
+    },
+    "visions": {
+      "astral": { "hasVision": false, "isActive": false, "natural": false, "augmented": false },
+      "lowLight": { "hasVision": true, "isActive": true, "natural": true, "augmented": false },
+      "thermographic": { "hasVision": false, "isActive": false, "natural": false, "augmented": false },
+      "ultrasound": { "hasVision": false, "isActive": false, "natural": false, "augmented": false }
+    },
+    "magic": {
+      "magicType": "mundane",
+      "tradition": "",
+      "concentration": false,
+      "elements": { "combat": "", "detection": "", "illusion": "", "manipulation": "", "health": "" },
+      "astralDamage": { "value": 0, "base": 0, "modifiers": [] },
+      "astralDefense": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "astralTracking": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "passThroughBarrier": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "initiationGrade": 0,
+      "powerPoints": {
+        "value": 0, "base": 0, "modifiers": [],
+        "maximum": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "drainResistance": { "dicePool": 0, "base": 0, "modifiers": [], "linkedAttribute": "" },
+      "possession": false,
+      "hasAstralProjection": false,
+      "counterSpellPool": { "value": 0, "base": 0, "modifiers": [], "current": 0 },
+      "reagents": 0,
+      "boundedSpirit": { "current": 0, "max": 0 },
+      "spellList": {},
+      "metamagics": {
+        "centering": false,
+        "centeringValue": { "value": 0, "base": 0, "modifiers": [] },
+        "quickening": false,
+        "shielding": false,
+        "spellShaping": false,
+        "spellShapingValue": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "bgCount": { "value": 0, "base": 0, "modifiers": [] }
+    },
+    "matrix": {
+      "userMode": "ar",
+      "userGrid": "public",
+      "attributesCollection": {
+        "value1": 0, "value2": 0, "value3": 0, "value4": 0,
+        "value1isSet": false, "value2isSet": false, "value3isSet": false, "value4isSet": false
+      },
+      "attributes": {
+        "attack": { "value": 0, "base": 0, "modifiers": [] },
+        "dataProcessing": { "value": 0, "base": 0, "modifiers": [] },
+        "firewall": { "value": 0, "base": 0, "modifiers": [] },
+        "noiseReduction": { "value": 0, "base": 0, "modifiers": [] },
+        "sharing": { "value": 0, "base": 0, "modifiers": [] },
+        "sleaze": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "complexFormList": {},
+      "deviceRating": 0, "deviceType": "", "deviceSubType": "", "deviceName": "",
+      "isLinkLocked": false, "isJamming": false, "hasLocalAutosoftRunning": false,
+      "runningSilent": false, "overwatchScore": 0, "concentration": false,
+      "programsCurrentActive": { "value": 0, "base": 0, "modifiers": [] },
+      "programsMaximumActive": { "value": 0, "base": 0, "modifiers": [] }
+    },
+    "initiatives": {
+      "physicalInit": {
+        "value": 0, "base": 0, "modifiers": [],
+        "dice": { "value": 0, "base": 1, "modifiers": [] },
+        "isActive": true
+      },
+      "astralInit": {
+        "value": 0, "base": 0, "modifiers": [],
+        "dice": { "value": 0, "base": 2, "modifiers": [] },
+        "isActive": false
+      },
+      "matrixInit": {
+        "value": 0, "base": 0, "modifiers": [],
+        "dice": { "value": 0, "base": 0, "modifiers": [] },
+        "isActive": false
+      }
+    },
+    "limits": {
+      "physicalLimit": { "value": 0, "base": 0, "modifiers": [] },
+      "mentalLimit": { "value": 0, "base": 0, "modifiers": [] },
+      "socialLimit": { "value": 0, "base": 0, "modifiers": [] },
+      "astralLimit": { "value": 0, "base": 0, "modifiers": [] }
+    },
+    "defenses": {
+      "defend": { "dicePool": 0, "base": 0, "modifiers": [], "limit": { "base": "", "value": 0, "modifiers": [] } },
+      "dodge": { "dicePool": 0, "base": 0, "modifiers": [], "limit": { "base": "physicalLimit", "value": 0, "modifiers": [] } },
+      "block": { "dicePool": 0, "base": 0, "modifiers": [], "limit": { "base": "physicalLimit", "value": 0, "modifiers": [] } },
+      "parryBlades": { "dicePool": 0, "base": 0, "modifiers": [], "limit": { "base": "physicalLimit", "value": 0, "modifiers": [] } },
+      "parryClubs": { "dicePool": 0, "base": 0, "modifiers": [], "limit": { "base": "physicalLimit", "value": 0, "modifiers": [] } }
+    },
+    "resistances": {
+      "physicalDamage": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "astralDamage": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "directSpellMana": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "directSpellPhysical": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "disease": {
+        "contact": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "ingestion": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "inhalation": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "injection": { "dicePool": 0, "base": 0, "modifiers": [] }
+      },
+      "toxin": {
+        "contact": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "ingestion": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "inhalation": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "injection": { "dicePool": 0, "base": 0, "modifiers": [] }
+      },
+      "specialDamage": {
+        "acid": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "water": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "electricity": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "fire": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "cold": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "pollution": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "radiation": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "toxin": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "sound": { "dicePool": 0, "base": 0, "modifiers": [] }
+      },
+      "fatigue": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "fall": { "dicePool": 0, "base": 0, "modifiers": [] }
+    },
+    "derivedAttributes": {
+      "composure": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "judgeIntentions": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "memory": { "dicePool": 0, "base": 0, "modifiers": [] },
+      "surprise": { "dicePool": 0, "base": 0, "modifiers": [] }
+    },
+    "penalties": {
+      "physical": {
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxReduction": { "base": 0, "value": 0, "modifiers": [] },
+        "step": { "base": 3, "value": 0, "modifiers": [] }
+      },
+      "stun": {
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxReduction": { "base": 0, "value": 0, "modifiers": [] },
+        "step": { "base": 3, "value": 0, "modifiers": [] }
+      },
+      "condition": {
+        "actual": { "value": 0, "base": 0, "modifiers": [] },
+        "boxReduction": { "base": 0, "value": 0, "modifiers": [] },
+        "step": { "base": 3, "value": 0, "modifiers": [] }
+      },
+      "matrix": { "actual": { "value": 0, "base": 0, "modifiers": [] } },
+      "magic": { "actual": { "value": 0, "base": 0, "modifiers": [] } },
+      "special": { "actual": { "value": 0, "base": 0, "modifiers": [] } }
+    },
+    "reach": { "value": 0, "base": 0, "modifiers": [] },
+    "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
+    "specialProperties": {
+      "smartlink": { "value": 0, "base": 0, "modifiers": [] },
+      "concentration": { "value": 0, "base": 0, "modifiers": [] },
+      "controlRig": { "value": 0, "base": 0, "modifiers": [] },
+      "damageReduction": { "value": 0, "base": 0, "modifiers": [] },
+      "hardenedArmors": {
+        "normalWeapon": { "type": "", "value": 0, "base": 0, "modifiers": [] },
+        "astral": { "type": "", "value": 0, "base": 0, "modifiers": [] },
+        "cold": { "type": "", "value": 0, "base": 0, "modifiers": [] },
+        "fire": { "type": "", "value": 0, "base": 0, "modifiers": [] },
+        "toxins": { "type": "", "value": 0, "base": 0, "modifiers": [] },
+        "pathogens": { "type": "", "value": 0, "base": 0, "modifiers": [] }
+      },
+      "doublePenalties": false,
+      "energyAura": "",
+      "regeneration": false,
+      "essenceDrain": false,
+      "anticoagulant": false,
+      "fullDefenseAttribute": "",
+      "fullDefenseValue": 0,
+      "actions": {
+        "free": { "value": 1, "base": 1, "modifiers": [], "current": 1 },
+        "simple": { "value": 2, "base": 2, "modifiers": [], "current": 2 },
+        "complex": { "value": 1, "base": 1, "modifiers": [], "current": 1 },
+        "interruption": { "value": 10, "base": 10, "modifiers": [], "current": 10 }
+      }
+    },
+    "itemsProperties": {
+      "armor": {
+        "value": 0, "base": 0, "modifiers": [],
+        "specialDamage": {
+          "acid": { "value": 0, "base": 0, "modifiers": [] },
+          "water": { "value": 0, "base": 0, "modifiers": [] },
+          "electricity": { "value": 0, "base": 0, "modifiers": [] },
+          "fire": { "value": 0, "base": 0, "modifiers": [] },
+          "cold": { "value": 0, "base": 0, "modifiers": [] },
+          "pollution": { "value": 0, "base": 0, "modifiers": [] },
+          "radiation": { "value": 0, "base": 0, "modifiers": [] },
+          "toxin": { "value": 0, "base": 0, "modifiers": [] },
+          "sound": { "value": 0, "base": 0, "modifiers": [] }
+        },
+        "toxin": {
+          "contact": { "value": 0, "base": 0, "modifiers": [] },
+          "ingestion": { "value": 0, "base": 0, "modifiers": [] },
+          "inhalation": { "value": 0, "base": 0, "modifiers": [] },
+          "injection": { "value": 0, "base": 0, "modifiers": [] }
+        },
+        "padded": false
+      },
+      "weapon": {
+        "damageValue": { "value": 0, "base": 0, "modifiers": [] },
+        "accuracy": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "environmentalMod": {
+        "visibility": { "value": 0, "base": 0, "modifiers": [] },
+        "light": { "value": 0, "base": 0, "modifiers": [] },
+        "glare": { "value": 0, "base": 0, "modifiers": [] },
+        "wind": { "value": 0, "base": 0, "modifiers": [] },
+        "range": { "value": 0, "base": 0, "modifiers": [] }
+      },
+      "martialArts": {
+        "breakWeapon": { "isActive": false },
+        "disarm": { "isActive": false },
+        "entanglement": { "isActive": false },
+        "feint": { "isActive": false },
+        "pin": { "isActive": false }
+      }
+    },
+    "skillGroups": {
+      "actingGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "athleticsGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "biotechGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "closeCombatGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "conjuringGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "crackingGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "electronicsGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "enchantingGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "engineeringGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "firearmsGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "influenceGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "outdoorsGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "sorceryGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "stealthGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false },
+      "taskingGroup": { "value": 0, "base": 0, "modifiers": [], "isHidden": false }
+    },
+    "skills": {
+      "automatics": {
+        "rating": { "value": 0, "base": 6, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "firearmsGroup", "category": "combatSkills", "canDefault": true,
+        "specializations": "Assault Rifles"
+      },
+      "blades": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "closeCombatGroup", "category": "combatSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "clubs": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "closeCombatGroup", "category": "combatSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "heavyWeapons": {
+        "rating": { "value": 0, "base": 3, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "", "category": "combatSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "longarms": {
+        "rating": { "value": 0, "base": 6, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "firearmsGroup", "category": "combatSkills", "canDefault": true,
+        "specializations": "Sniper Rifles"
+      },
+      "pistols": {
+        "rating": { "value": 0, "base": 5, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "waeponAccuracy", "modifiers": [] },
+        "skillGroup": "firearmsGroup", "category": "combatSkills", "canDefault": true,
+        "specializations": "Semi-Automatics"
+      },
+      "throwingWeapons": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "", "category": "combatSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "unarmedCombat": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "weaponAccuracy", "modifiers": [] },
+        "skillGroup": "closeCombatGroup", "category": "combatSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "disguise": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "intuition",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "stealthGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "gymnastics": {
+        "rating": { "value": 0, "base": 3, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "physicalLimit", "modifiers": [] },
+        "skillGroup": "athleticsGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "palming": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "physicalLimit", "modifiers": [] },
+        "skillGroup": "stealthGroup", "category": "physicalSkills", "canDefault": false,
+        "specializations": ""
+      },
+      "perception": {
+        "rating": { "value": 0, "base": 5, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "intuition",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "", "category": "physicalSkills", "canDefault": true,
+        "specializations": "Visual"
+      },
+      "running": {
+        "rating": { "value": 0, "base": 2, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "strength",
+        "limit": { "value": 0, "base": "physicalLimit", "modifiers": [] },
+        "skillGroup": "athleticsGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "sneaking": {
+        "rating": { "value": 0, "base": 4, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "agility",
+        "limit": { "value": 0, "base": "physicalLimit", "modifiers": [] },
+        "skillGroup": "stealthGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "survival": {
+        "rating": { "value": 0, "base": 2, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "willpower",
+        "limit": { "value": 0, "base": "physicalLimit", "modifiers": [] },
+        "skillGroup": "outdoorsGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "swimming": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "strength",
+        "limit": { "value": 0, "base": "physicalLimit", "modifiers": [] },
+        "skillGroup": "athleticsGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "tracking": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "intuition",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "outdoorsGroup", "category": "physicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "con": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "charisma",
+        "limit": { "value": 0, "base": "socialLimit", "modifiers": [] },
+        "skillGroup": "actingGroup", "category": "socialSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "etiquette": {
+        "rating": { "value": 0, "base": 2, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "charisma",
+        "limit": { "value": 0, "base": "socialLimit", "modifiers": [] },
+        "skillGroup": "influenceGroup", "category": "socialSkills", "canDefault": true,
+        "specializations": "Corporate"
+      },
+      "intimidation": {
+        "rating": { "value": 0, "base": 3, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "charisma",
+        "limit": { "value": 0, "base": "socialLimit", "modifiers": [] },
+        "skillGroup": "", "category": "socialSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "negociation": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "charisma",
+        "limit": { "value": 0, "base": "socialLimit", "modifiers": [] },
+        "skillGroup": "influenceGroup", "category": "socialSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "armorer": {
+        "rating": { "value": 0, "base": 4, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "logic",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "", "category": "technicalSkills", "canDefault": true,
+        "specializations": "Firearms"
+      },
+      "computer": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "logic",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "electronicsGroup", "category": "technicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "firstAid": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "logic",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "biotechGroup", "category": "technicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "navigation": {
+        "rating": { "value": 0, "base": 2, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "intuition",
+        "limit": { "value": 0, "base": "mentalLimit", "modifiers": [] },
+        "skillGroup": "outdoorsGroup", "category": "technicalSkills", "canDefault": true,
+        "specializations": ""
+      },
+      "pilotGroundCraft": {
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "linkedAttribute": "reaction",
+        "limit": { "value": 0, "base": "vehicleHandling", "modifiers": [] },
+        "skillGroup": "", "category": "vehicleSkills", "canDefault": true,
+        "specializations": ""
+      }
+    },
+    "sheetPreferences": {
+      "tabAttributs": { "isActive": true, "attributes": true, "specialAttributes": true },
+      "tabDerived": { "isActive": true, "initiatives": true, "limits": true, "defenses": true, "resistances": true, "derivedAttributes": true, "movements": true, "weightActions": true },
+      "tabAugmentations": { "isActive": true, "augmentations": true, "effects": true },
+      "tabAwaken": { "isActive": false, "type": true, "tradition": true, "astral": true, "reagents": true },
+      "tabBiography": { "isActive": true, "biography": true, "critterBiography": false, "description": true, "background": true, "karma": true },
+      "tabCombat": { "isActive": true, "rangedWeapons": true, "meleeWeapons": true, "grenades": true, "armors": true, "ammunitions": true, "martialArts": true },
+      "tabGear": { "isActive": true, "various": true, "vehicles": true, "money": true },
+      "tabMagic": { "isActive": false, "spells": true, "adeptPowers": true, "summonedSpirits": true, "foci": true, "preparations": true, "rituals": true, "powers": true, "metamagics": true },
+      "tabMatrix": { "isActive": false, "programs": true, "matrixActions": true },
+      "tabMatrixUser": { "isActive": false, "programs": true, "pan": true, "marksControled": true },
+      "tabSkill": { "isActive": true, "actives": true, "groups": true, "knowledge": true, "languages": true },
+      "tabSocial": { "isActive": true, "contacts": true, "lifestyles": true, "sins": true, "reputation": true },
+      "tabTechno": { "isActive": false, "resonanceActions": true, "complexForms": true, "sprites": true, "echoes": true, "powers": true },
+      "selections": { "activeDefense": "dodge", "resistanceDisease": "contact", "resistanceToxin": "contact", "resistanceSpecialDamage": "acid" }
+    }
+  },
+  "items": [
+    {
+      "name": "Ares Desert Strike",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A high-powered sniper rifle manufactured by Ares Macrotechnology. Features excellent range and stopping power, favored by military and corporate snipers.</p>",
+        "gameEffect": "", "source": "core", "page": "430",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": false,
+        "concealment": { "value": 0, "base": 6, "modifiers": [] },
+        "availability": { "base": 10, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "F",
+        "price": { "base": 17500, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "damageValue": { "base": 13, "modifiers": [], "value": 0, "isStrengthBased": false },
+        "damageType": "physical", "damageElement": "",
+        "armorPenetration": { "base": -4, "modifiers": [], "value": 0 },
+        "accuracy": { "base": 7, "modifiers": [], "value": 0, "isPhysicalLimitBased": false },
+        "quantity": 1, "category": "rangedWeapon", "type": "sniperRifle", "requiredHands": 2,
+        "range": {
+          "short": { "value": 0, "base": 15, "modifiers": [] },
+          "medium": { "value": 0, "base": 150, "modifiers": [] },
+          "long": { "value": 0, "base": 350, "modifiers": [] },
+          "extreme": { "value": 0, "base": 500, "modifiers": [] },
+          "isStrengthBased": false
+        },
+        "reach": { "value": 0, "base": 0, "modifiers": [] },
+        "blast": { "radius": 0, "damageFallOff": 0 },
+        "aerodynamic": false,
+        "firingMode": { "singleShot": true, "semiAutomatic": true, "burstFire": false, "fullyAutomatic": false, "value": [], "current": "" },
+        "choke": { "current": "", "value": [] },
+        "ammunition": { "value": 14, "max": 14, "type": "regular", "casing": "clip", "rating": "", "clipInserted": true },
+        "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
+        "accessory": [
+          { "name": "smartgunSystemInternal", "isFree": true, "isActive": true },
+          { "name": "imaging scope", "isFree": true, "isActive": true }
+        ],
+        "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "longarms" },
+        "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },
+        "isLinkedToFocus": false, "isUsedAsFocus": false, "isLinkedToMount": false, "isUsedAsMount": false, "isMagical": false
+      }
+    },
+    {
+      "name": "FN HAR",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A versatile and reliable assault rifle from FN Herstal. Popular with military and paramilitary forces across the globe.</p>",
+        "gameEffect": "", "source": "core", "page": "430",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": false,
+        "concealment": { "value": 0, "base": 4, "modifiers": [] },
+        "availability": { "base": 8, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 2100, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "damageValue": { "base": 10, "modifiers": [], "value": 0, "isStrengthBased": false },
+        "damageType": "physical", "damageElement": "",
+        "armorPenetration": { "base": -2, "modifiers": [], "value": 0 },
+        "accuracy": { "base": 5, "modifiers": [], "value": 0, "isPhysicalLimitBased": false },
+        "quantity": 1, "category": "rangedWeapon", "type": "assaultRifle", "requiredHands": 2,
+        "range": {
+          "short": { "value": 0, "base": 25, "modifiers": [] },
+          "medium": { "value": 0, "base": 150, "modifiers": [] },
+          "long": { "value": 0, "base": 350, "modifiers": [] },
+          "extreme": { "value": 0, "base": 550, "modifiers": [] },
+          "isStrengthBased": false
+        },
+        "reach": { "value": 0, "base": 0, "modifiers": [] },
+        "blast": { "radius": 0, "damageFallOff": 0 },
+        "aerodynamic": false,
+        "firingMode": { "singleShot": true, "semiAutomatic": true, "burstFire": true, "fullyAutomatic": true, "value": [], "current": "" },
+        "choke": { "current": "", "value": [] },
+        "ammunition": { "value": 35, "max": 35, "type": "regular", "casing": "clip", "rating": "", "clipInserted": true },
+        "recoilCompensation": { "value": 0, "base": 2, "modifiers": [] },
+        "accessory": [ { "name": "smartgunSystemInternal", "isFree": true, "isActive": true } ],
+        "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "automatics" },
+        "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },
+        "isLinkedToFocus": false, "isUsedAsFocus": false, "isLinkedToMount": false, "isUsedAsMount": false, "isMagical": false
+      }
+    },
+    {
+      "name": "Ares Predator V",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>The most popular heavy pistol in the world. Maria's trusty sidearm, always within reach.</p>",
+        "gameEffect": "", "source": "core", "page": "429",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": false,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "availability": { "base": 5, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 725, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "damageValue": { "base": 8, "modifiers": [], "value": 0, "isStrengthBased": false },
+        "damageType": "physical", "damageElement": "",
+        "armorPenetration": { "base": -1, "modifiers": [], "value": 0 },
+        "accuracy": { "base": 5, "modifiers": [], "value": 0, "isPhysicalLimitBased": false },
+        "quantity": 1, "category": "rangedWeapon", "type": "heavyPistol", "requiredHands": 1,
+        "range": {
+          "short": { "value": 0, "base": 5, "modifiers": [] },
+          "medium": { "value": 0, "base": 20, "modifiers": [] },
+          "long": { "value": 0, "base": 40, "modifiers": [] },
+          "extreme": { "value": 0, "base": 60, "modifiers": [] },
+          "isStrengthBased": false
+        },
+        "reach": { "value": 0, "base": 0, "modifiers": [] },
+        "blast": { "radius": 0, "damageFallOff": 0 },
+        "aerodynamic": false,
+        "firingMode": { "singleShot": false, "semiAutomatic": true, "burstFire": false, "fullyAutomatic": false, "value": [], "current": "" },
+        "choke": { "current": "", "value": [] },
+        "ammunition": { "value": 15, "max": 15, "type": "regular", "casing": "clip", "rating": "", "clipInserted": true },
+        "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
+        "accessory": [ { "name": "smartgunSystemInternal", "isFree": true, "isActive": true } ],
+        "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "pistols" },
+        "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },
+        "isLinkedToFocus": false, "isUsedAsFocus": false, "isLinkedToMount": false, "isUsedAsMount": false, "isMagical": false
+      }
+    },
+    {
+      "name": "Remington Roomsweeper",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A compact, devastating shotgun designed for close-quarters combat. The name says it all.</p>",
+        "gameEffect": "", "source": "core", "page": "430",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": false,
+        "concealment": { "value": 0, "base": 2, "modifiers": [] },
+        "availability": { "base": 6, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 900, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "damageValue": { "base": 11, "modifiers": [], "value": 0, "isStrengthBased": false },
+        "damageType": "physical", "damageElement": "",
+        "armorPenetration": { "base": -1, "modifiers": [], "value": 0 },
+        "accuracy": { "base": 4, "modifiers": [], "value": 0, "isPhysicalLimitBased": false },
+        "quantity": 1, "category": "rangedWeapon", "type": "shotgun", "requiredHands": 1,
+        "range": {
+          "short": { "value": 0, "base": 5, "modifiers": [] },
+          "medium": { "value": 0, "base": 15, "modifiers": [] },
+          "long": { "value": 0, "base": 30, "modifiers": [] },
+          "extreme": { "value": 0, "base": 50, "modifiers": [] },
+          "isStrengthBased": false
+        },
+        "reach": { "value": 0, "base": 0, "modifiers": [] },
+        "blast": { "radius": 0, "damageFallOff": 0 },
+        "aerodynamic": false,
+        "firingMode": { "singleShot": false, "semiAutomatic": true, "burstFire": false, "fullyAutomatic": false, "value": [], "current": "" },
+        "choke": { "current": "", "value": [] },
+        "ammunition": { "value": 8, "max": 8, "type": "regular", "casing": "clip", "rating": "", "clipInserted": true },
+        "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
+        "accessory": [],
+        "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "longarms" },
+        "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },
+        "isLinkedToFocus": false, "isUsedAsFocus": false, "isLinkedToMount": false, "isUsedAsMount": false, "isMagical": false
+      }
+    },
+    {
+      "name": "Survival Knife",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A heavy-duty survival knife. Last resort in close quarters.</p>",
+        "gameEffect": "", "source": "core", "page": "425",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": false,
+        "concealment": { "value": 0, "base": -2, "modifiers": [] },
+        "availability": { "base": 0, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "",
+        "price": { "base": 100, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isWireless": false, "wirelessTurnedOn": false, "deviceRating": 0,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "damageValue": { "base": 2, "modifiers": [], "value": 0, "isStrengthBased": true },
+        "damageType": "physical", "damageElement": "",
+        "armorPenetration": { "base": -1, "modifiers": [], "value": 0 },
+        "accuracy": { "base": 5, "modifiers": [], "value": 0, "isPhysicalLimitBased": false },
+        "quantity": 1, "category": "meleeWeapon", "type": "blades", "requiredHands": 1,
+        "range": { "short": { "value": 0, "base": 0, "modifiers": [] }, "medium": { "value": 0, "base": 0, "modifiers": [] }, "long": { "value": 0, "base": 0, "modifiers": [] }, "extreme": { "value": 0, "base": 0, "modifiers": [] }, "isStrengthBased": false },
+        "reach": { "value": 0, "base": 0, "modifiers": [] },
+        "blast": { "radius": 0, "damageFallOff": 0 },
+        "aerodynamic": false,
+        "firingMode": { "singleShot": false, "semiAutomatic": false, "burstFire": false, "fullyAutomatic": false, "value": [], "current": "" },
+        "choke": { "current": "", "value": [] },
+        "ammunition": { "value": 0, "max": 0, "type": "", "casing": "", "rating": "", "clipInserted": true },
+        "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
+        "accessory": [],
+        "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "blades" },
+        "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },
+        "isLinkedToFocus": false, "isUsedAsFocus": false, "isLinkedToMount": false, "isUsedAsMount": false, "isMagical": false
+      }
+    },
+    {
+      "name": "Ruger Super Warhawk",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A powerful heavy revolver with tremendous stopping power. Maria keeps it as a backup piece.</p>",
+        "gameEffect": "", "source": "core", "page": "429",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": false,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "availability": { "base": 4, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 400, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "damageValue": { "base": 9, "modifiers": [], "value": 0, "isStrengthBased": false },
+        "damageType": "physical", "damageElement": "",
+        "armorPenetration": { "base": -2, "modifiers": [], "value": 0 },
+        "accuracy": { "base": 5, "modifiers": [], "value": 0, "isPhysicalLimitBased": false },
+        "quantity": 1, "category": "rangedWeapon", "type": "heavyPistol", "requiredHands": 1,
+        "range": { "short": { "value": 0, "base": 5, "modifiers": [] }, "medium": { "value": 0, "base": 20, "modifiers": [] }, "long": { "value": 0, "base": 40, "modifiers": [] }, "extreme": { "value": 0, "base": 60, "modifiers": [] }, "isStrengthBased": false },
+        "reach": { "value": 0, "base": 0, "modifiers": [] },
+        "blast": { "radius": 0, "damageFallOff": 0 },
+        "aerodynamic": false,
+        "firingMode": { "singleShot": false, "semiAutomatic": true, "burstFire": false, "fullyAutomatic": false, "value": [], "current": "" },
+        "choke": { "current": "", "value": [] },
+        "ammunition": { "value": 6, "max": 6, "type": "regular", "casing": "cylinder", "rating": "", "clipInserted": true },
+        "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
+        "accessory": [],
+        "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "pistols" },
+        "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },
+        "isLinkedToFocus": false, "isUsedAsFocus": false, "isLinkedToMount": false, "isUsedAsMount": false, "isMagical": false
+      }
+    },
+    {
+      "name": "Full Body Armor",
+      "type": "itemArmor",
+      "img": "systems/sr5/img/items/itemArmor.svg",
+      "system": {
+        "description": "<p>Heavy full-body armor for high-threat situations. Maria wears this when expecting serious opposition.</p>",
+        "gameEffect": "", "source": "core", "page": "439",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 14, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 6000, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isActive": true,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "capacity": { "value": 0, "base": 15, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false,
+        "armorValue": { "value": 0, "base": 15, "modifiers": [] },
+        "isPlugged": false, "isCumulative": false, "accessory": []
+      }
+    },
+    {
+      "name": "Chameleon Suit",
+      "type": "itemArmor",
+      "img": "systems/sr5/img/items/itemArmor.svg",
+      "system": {
+        "description": "<p>An advanced stealth suit with ruthenium polymer coating that adapts to surroundings. Perfect for sniper overwatch positions.</p>",
+        "gameEffect": "", "source": "core", "page": "439",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 10, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 1700, "modifiers": [], "value": 0, "multiplier": "" },
+        "itemRating": 0, "isActive": false,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "capacity": { "value": 0, "base": 9, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false,
+        "armorValue": { "value": 0, "base": 9, "modifiers": [] },
+        "isPlugged": false, "isCumulative": false, "accessory": []
+      }
+    },
+    {
+      "name": "Erika Elite Commlink",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A mid-range commlink with decent processing power and firewall.</p>",
+        "gameEffect": "", "source": "core", "page": "442",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 4, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "", "price": { "base": 2500, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": false, "itemRating": 4,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 4,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "quantity": 1, "isMedkit": false, "canRollTest": false,
+        "test": { "dicePool": 0, "base": 0, "modifiers": [], "type": "" },
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false, "charge": ""
+      }
+    },
+    {
+      "name": "Smartgun System (external)",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>An external smartgun system that can be fitted to any weapon lacking an internal one.</p>",
+        "gameEffect": "", "source": "core", "page": "435",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 4, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R", "price": { "base": 200, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": false, "itemRating": 0,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "quantity": 1, "isMedkit": false, "canRollTest": false,
+        "test": { "dicePool": 0, "base": 0, "modifiers": [], "type": "" },
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false, "charge": ""
+      }
+    },
+    {
+      "name": "Rangefinder",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A laser rangefinder for precise distance measurement. Essential for long-range shooting.</p>",
+        "gameEffect": "", "source": "core", "page": "449",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 4, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "", "price": { "base": 2000, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": false, "itemRating": 0,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "quantity": 1, "isMedkit": false, "canRollTest": false,
+        "test": { "dicePool": 0, "base": 0, "modifiers": [], "type": "" },
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false, "charge": ""
+      }
+    },
+    {
+      "name": "Gun Cleaning Kit",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A comprehensive firearms maintenance kit. Maria is meticulous about weapon care.</p>",
+        "gameEffect": "", "source": "core", "page": "449",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 2, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "", "price": { "base": 30, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": false, "itemRating": 0,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": false, "wirelessTurnedOn": false, "deviceRating": 0,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "quantity": 1, "isMedkit": false, "canRollTest": false,
+        "test": { "dicePool": 0, "base": 0, "modifiers": [], "type": "" },
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false, "charge": ""
+      }
+    },
+    {
+      "name": "Bipod",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A stabilizing bipod for rifles, providing recoil compensation when deployed.</p>",
+        "gameEffect": "", "source": "core", "page": "435",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 2, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "", "price": { "base": 200, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": false, "itemRating": 0,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": false, "wirelessTurnedOn": false, "deviceRating": 0,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "quantity": 1, "isMedkit": false, "canRollTest": false,
+        "test": { "dicePool": 0, "base": 0, "modifiers": [], "type": "" },
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false, "charge": ""
+      }
+    },
+    {
+      "name": "Spare Clips (assorted)",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>Assorted spare magazines for all of Maria's firearms.</p>",
+        "gameEffect": "", "source": "core", "page": "435",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 2, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "", "price": { "base": 25, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": false, "itemRating": 0,
+        "concealment": { "value": 0, "base": 0, "modifiers": [] },
+        "isWireless": false, "wirelessTurnedOn": false, "deviceRating": 0,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "quantity": 8, "isMedkit": false, "canRollTest": false,
+        "test": { "dicePool": 0, "base": 0, "modifiers": [], "type": "" },
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false, "charge": ""
+      }
+    },
+    {
+      "name": "Regular Ammo",
+      "type": "itemAmmunition",
+      "img": "systems/sr5/img/items/itemAmmunition.svg",
+      "system": {
+        "description": "<p>Standard full metal jacket ammunition.</p>",
+        "gameEffect": "", "source": "core", "page": "435",
+        "availability": { "base": 2, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 40, "modifiers": [], "value": 0, "multiplier": "" },
+        "quantity": 200, "type": "regular", "class": "", "caseType": "", "rating": ""
+      }
+    },
+    {
+      "name": "APDS Ammo",
+      "type": "itemAmmunition",
+      "img": "systems/sr5/img/items/itemAmmunition.svg",
+      "system": {
+        "description": "<p>Armor Piercing Discarding Sabot rounds. Designed to defeat hardened targets.</p>",
+        "gameEffect": "<p>AP -4</p>", "source": "core", "page": "435",
+        "availability": { "base": 12, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "F",
+        "price": { "base": 120, "modifiers": [], "value": 0, "multiplier": "" },
+        "quantity": 50, "type": "apds", "class": "", "caseType": "", "rating": ""
+      }
+    },
+    {
+      "name": "Gel Rounds",
+      "type": "itemAmmunition",
+      "img": "systems/sr5/img/items/itemAmmunition.svg",
+      "system": {
+        "description": "<p>Non-lethal gel rounds for when the target needs to be taken alive.</p>",
+        "gameEffect": "<p>Stun damage, +2 AP</p>", "source": "core", "page": "435",
+        "availability": { "base": 2, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 25, "modifiers": [], "value": 0, "multiplier": "" },
+        "quantity": 40, "type": "gel", "class": "", "caseType": "", "rating": ""
+      }
+    },
+    {
+      "name": "Explosive Rounds",
+      "type": "itemAmmunition",
+      "img": "systems/sr5/img/items/itemAmmunition.svg",
+      "system": {
+        "description": "<p>High-explosive ammunition for maximum damage on impact.</p>",
+        "gameEffect": "<p>+1 DV, -1 AP</p>", "source": "core", "page": "435",
+        "availability": { "base": 9, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "F",
+        "price": { "base": 80, "modifiers": [], "value": 0, "multiplier": "" },
+        "quantity": 20, "type": "explosive", "class": "", "caseType": "", "rating": ""
+      }
+    },
+    {
+      "name": "Firearms Design",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "type": "academic", "linkedAttribute": "",
+        "rating": { "value": 0, "base": 5, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    {
+      "name": "Military Tactics",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "type": "professional", "linkedAttribute": "",
+        "rating": { "value": 0, "base": 4, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    {
+      "name": "Aztechnology Security Procedures",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "type": "professional", "linkedAttribute": "",
+        "rating": { "value": 0, "base": 4, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    {
+      "name": "Black Market Arms Dealers",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "type": "street", "linkedAttribute": "",
+        "rating": { "value": 0, "base": 3, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    {
+      "name": "Ballistics",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "type": "academic", "linkedAttribute": "",
+        "rating": { "value": 0, "base": 3, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    {
+      "name": "Spanish",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "rating": { "value": 0, "base": 0, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "isNative": true
+      }
+    },
+    {
+      "name": "English",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "rating": { "value": 0, "base": 5, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Nahuatl",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "", "gameEffect": "", "source": "", "page": "",
+        "rating": { "value": 0, "base": 3, "modifiers": [] },
+        "test": { "dicePool": 0, "base": 0, "modifiers": [] },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Sharpshooter",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>Maria possesses exceptional aim and steady hands, making her shots more precise than most.</p>",
+        "gameEffect": "<p>Reduces called shot penalties by 1.</p>",
+        "source": "runAndGun", "page": "128",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": true, "itemRating": 0, "type": "positive", "karmaCost": 5
+      }
+    },
+    {
+      "name": "Hawk Eye",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>Maria's keen elven eyesight is even sharper than normal, allowing her to spot details at extreme distances.</p>",
+        "gameEffect": "<p>+1 die to visual Perception tests and +1 to the range of any ranged weapon used.</p>",
+        "source": "runAndGun", "page": "145",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": true, "itemRating": 0, "type": "positive", "karmaCost": 5
+      }
+    },
+    {
+      "name": "Bad Rep",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>Maria is known in certain circles as a corporate deserter. Aztechnology has made sure word got around.</p>",
+        "gameEffect": "<p>+3 to Notoriety.</p>",
+        "source": "core", "page": "83",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": true, "itemRating": 0, "type": "negative", "karmaCost": 7
+      }
+    },
+    {
+      "name": "Vendetta (Aztechnology)",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>Maria has a deep personal vendetta against Aztechnology. They want her back or dead.</p>",
+        "gameEffect": "<p>The character will go out of their way to target Aztechnology. Aztechnology actively hunts Maria.</p>",
+        "source": "core", "page": "87",
+        "customEffects": [], "itemEffects": [], "systemEffects": [],
+        "isActive": true, "itemRating": 0, "type": "negative", "karmaCost": 7
+      }
+    },
+    {
+      "name": "Javier 'El Coyote'",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>A well-connected arms dealer who operates out of Puyallup. Specializes in military-grade hardware smuggled across the Aztlan border.</p>",
+        "gameEffect": "", "source": "", "page": "",
+        "connection": 4, "loyalty": 3,
+        "metatype": "human", "gender": "male", "age": "48",
+        "type": "Arms Dealer", "paymentMethod": "Nuyen (cash only)", "hobby": "Cockfighting",
+        "familySituation": "Large extended family in Aztlan", "nickname": "El Coyote",
+        "metatypeVariant": "", "ethnicalGroup": "Aztlaner", "nationality": "Aztlan",
+        "language": [], "knowledge": [], "weapons": [], "ammunitions": [], "armors": [], "decks": [], "vehicles": [],
+        "conditionMonitors": {
+          "condition": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] },
+          "edge": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Mama Rosa",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>An elderly ork woman who runs a safehouse in Puyallup. Old family friend of the Vasquez family.</p>",
+        "gameEffect": "", "source": "", "page": "",
+        "connection": 2, "loyalty": 5,
+        "metatype": "ork", "gender": "female", "age": "56",
+        "type": "Safehouse Owner", "paymentMethod": "Favors and home-cooked meals", "hobby": "Cooking",
+        "familySituation": "Widowed, many grandchildren", "nickname": "",
+        "metatypeVariant": "", "ethnicalGroup": "Aztlaner", "nationality": "CAS",
+        "language": [], "knowledge": [], "weapons": [], "ammunitions": [], "armors": [], "decks": [], "vehicles": [],
+        "conditionMonitors": {
+          "condition": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] },
+          "edge": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Ghost",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>A highly professional fixer who deals in high-end wetwork and extraction jobs. Strictly business.</p>",
+        "gameEffect": "", "source": "", "page": "",
+        "connection": 5, "loyalty": 2,
+        "metatype": "human", "gender": "male", "age": "Unknown",
+        "type": "Fixer", "paymentMethod": "Nuyen (certified credstick, 15% commission)", "hobby": "Unknown",
+        "familySituation": "Unknown", "nickname": "Ghost",
+        "metatypeVariant": "", "ethnicalGroup": "", "nationality": "UCAS",
+        "language": [], "knowledge": [], "weapons": [], "ammunitions": [], "armors": [], "decks": [], "vehicles": [],
+        "conditionMonitors": {
+          "condition": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] },
+          "edge": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Sergeant Pike",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>A former UCAS military buddy. Still in active service but willing to share intel off the books.</p>",
+        "gameEffect": "", "source": "", "page": "",
+        "connection": 3, "loyalty": 3,
+        "metatype": "human", "gender": "male", "age": "35",
+        "type": "Military Contact", "paymentMethod": "Favors and intel exchange", "hobby": "Fishing",
+        "familySituation": "Divorced, one child", "nickname": "Pike",
+        "metatypeVariant": "", "ethnicalGroup": "", "nationality": "UCAS",
+        "language": [], "knowledge": [], "weapons": [], "ammunitions": [], "armors": [], "decks": [], "vehicles": [],
+        "conditionMonitors": {
+          "condition": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] },
+          "edge": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Warehouse Loft, Puyallup",
+      "type": "itemLifestyle",
+      "img": "systems/sr5/img/items/itemLifestyle.svg",
+      "system": {
+        "description": "<p>A converted warehouse loft in Puyallup Barrens. Sparse but defensible, with multiple exits and good sightlines.</p>",
+        "gameEffect": "", "source": "core", "page": "375",
+        "availability": { "base": 0, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "",
+        "price": { "base": 2000, "modifiers": [], "value": 0, "multiplier": "" },
+        "type": "low", "level": "",
+        "rent": { "duration": 1, "bought": false },
+        "streetAddress": "Warehouse District, Block 7", "city": "Puyallup", "country": "UCAS",
+        "options": [],
+        "comforts": { "value": 0, "base": 2, "max": 4, "modifiers": [], "gameEffects": "" },
+        "security": { "value": 0, "base": 3, "max": 4, "modifiers": [], "gameEffects": "" },
+        "neighborhood": { "value": 0, "base": 2, "max": 4, "modifiers": [], "zone": "", "gameEffects": "" },
+        "point": { "value": 0, "base": 0, "modifiers": [] }
+      }
+    },
+    {
+      "name": "Smartlink",
+      "type": "itemAugmentation",
+      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "system": {
+        "description": "<p>Cybereye implant providing direct targeting interface with smartgun-equipped weapons.</p>",
+        "gameEffect": "", "source": "core", "page": "457",
+        "customEffects": [
+          { "category": "specialProperties", "target": "system.specialProperties.smartlink", "type": "value", "value": 2, "multiplier": 1 }
+        ],
+        "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 8, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "R",
+        "price": { "base": 4000, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": true, "itemRating": 0,
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 3, "modifiers": [], "multiplier": "" },
+        "isAccessory": true,
+        "type": "cyberware", "category": "eyeware", "grade": "standard", "isPlugged": false,
+        "essenceCost": { "value": 0, "base": 0.2, "modifiers": [], "multiplier": "" },
+        "accessory": [],
+        "cyberlimbs": { "agility": { "value": 0, "base": 3, "customization": 0 }, "strength": { "value": 0, "base": 3, "customization": 0 }, "isCustom": false, "enhancement": [] }
+      }
+    },
+    {
+      "name": "Reflex Recorder (Longarms)",
+      "type": "itemAugmentation",
+      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "system": {
+        "description": "<p>A specialized muscle memory enhancement that optimizes neural pathways for longarms use.</p>",
+        "gameEffect": "<p>+1 die to Longarms tests.</p>",
+        "source": "core", "page": "459",
+        "customEffects": [],
+        "itemEffects": [], "systemEffects": [],
+        "availability": { "base": 10, "modifiers": [], "value": 0, "multiplier": "" },
+        "legality": "",
+        "price": { "base": 14000, "modifiers": [], "value": 0, "multiplier": "" },
+        "isActive": true, "itemRating": 0,
+        "isWireless": true, "wirelessTurnedOn": true, "deviceRating": 2,
+        "conditionMonitors": { "matrix": { "value": 0, "base": 0, "modifiers": [], "actual": { "value": 0, "base": 0, "modifiers": [] }, "boxes": [] } },
+        "isSlavedToPan": false, "panMaster": "", "marks": [],
+        "capacity": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "capacityTaken": { "value": 0, "base": 0, "modifiers": [], "multiplier": "" },
+        "isAccessory": false,
+        "type": "bioware", "category": "bodyware", "grade": "standard", "isPlugged": false,
+        "essenceCost": { "value": 0, "base": 0.25, "modifiers": [], "multiplier": "" },
+        "accessory": [],
+        "cyberlimbs": { "agility": { "value": 0, "base": 3, "customization": 0 }, "strength": { "value": 0, "base": 3, "customization": 0 }, "isCustom": false, "enhancement": [] }
+      }
+    },
+    { "name": "Character Creation", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 25, "type": "gain", "date": 0 } },
+    { "name": "Run: Executive Extraction", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 8, "type": "gain", "date": 0 } },
+    { "name": "Run: Border Crossing", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 5, "type": "gain", "date": 0 } },
+    { "name": "Run: The Long Shot", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 7, "type": "gain", "date": 0 } },
+    { "name": "Survival Bonus", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 1, "type": "gain", "date": 0 } },
+    { "name": "Increase Automatics", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 12, "type": "loss", "date": 0 } },
+    { "name": "Increase Agility", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 20, "type": "loss", "date": 0 } },
+    { "name": "New Contact: Sergeant Pike", "type": "itemKarma", "img": "systems/sr5/img/items/itemKarma.svg", "system": { "description": "", "gameEffect": "", "amount": 4, "type": "loss", "date": 0 } },
+    { "name": "Severance Package (Aztechnology)", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 15000, "type": "gain", "date": 0 } },
+    { "name": "Run Payment: Executive Extraction", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 18000, "type": "gain", "date": 0 } },
+    { "name": "Run Payment: Border Crossing", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 8000, "type": "gain", "date": 0 } },
+    { "name": "Run Payment: The Long Shot", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 14000, "type": "gain", "date": 0 } },
+    { "name": "Sold Stolen Prototype", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 5000, "type": "gain", "date": 0 } },
+    { "name": "Ares Desert Strike", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 17500, "type": "loss", "date": 0 } },
+    { "name": "Full Body Armor", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 6000, "type": "loss", "date": 0 } },
+    { "name": "APDS Ammunition (bulk)", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 3500, "type": "loss", "date": 0 } },
+    { "name": "Lifestyle (3 months)", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 6000, "type": "loss", "date": 0 } },
+    { "name": "Vehicle Repair", "type": "itemNuyen", "img": "systems/sr5/img/items/itemNuyen.svg", "system": { "description": "", "gameEffect": "", "amount": 3000, "type": "loss", "date": 0 } }
+  ],
+  "effects": [],
+  "flags": {},
+  "prototypeToken": {
+    "name": "Maria 'Deadshot' Vasquez",
+    "displayName": 30,
+    "actorLink": true,
+    "disposition": 1,
+    "displayBars": 40,
+    "bar1": { "attribute": "statusBars.condition" },
+    "bar2": { "attribute": "statusBars.stun" },
+    "width": 1,
+    "height": 1,
+    "sight": { "enabled": true, "range": 30 }
+  }
+}

@@ -548,7 +548,7 @@ export class SR5_ActorHelper {
 				"system.specialAttributes.edge.natural.base": itemData.connection,
 				"system.conditionMonitors": itemData.conditionMonitors,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item.id,
+				"system.creatorItemId": item._id,
 				"items": baseItems,
 			});
 		}
@@ -566,7 +566,7 @@ export class SR5_ActorHelper {
 			creatorData = creatorData.toObject(false);
 			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.creatorId": actorId,
-				"system.creatorItemId": item.id,
+				"system.creatorItemId": item._id,
 				"system.creatorData": creatorData,
 				"system.conditionMonitors.matrix": ownerDeck.system.conditionMonitors.matrix,
 				"system.rating": itemData.itemRating,
@@ -590,7 +590,7 @@ export class SR5_ActorHelper {
 			sideKickData = foundry.utils.mergeObject(sideKickData, {
 				"system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item.id,
+				"system.creatorItemId": item._id,
 				"system.type": itemData.type,
 				"system.model": itemData.model,
 				"system.attributes.handling.natural.base": itemData.attributes.handling,
@@ -636,7 +636,7 @@ export class SR5_ActorHelper {
 			});
 		}
 
-		let originalItem = ownerActor.getEmbeddedDocument("Item", item.id);
+		let originalItem = ownerActor.getEmbeddedDocument("Item", item._id);
 		await originalItem.update({"system.isCreated": true,});
 
 		//Create actor
@@ -681,7 +681,6 @@ export class SR5_ActorHelper {
 				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
 				};
 			};
-			await item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorSprite"){
@@ -707,7 +706,6 @@ export class SR5_ActorHelper {
 				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
 				};
 			};
-			item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorAgent"){
@@ -726,7 +724,6 @@ export class SR5_ActorHelper {
 				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
 				};
 			};
-			item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorGrunt"){
@@ -781,7 +778,6 @@ export class SR5_ActorHelper {
 				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
 				};
 			};
-			item.update(modifiedItem);
 		}
 
 		if (actor.type === "actorDrone"){
@@ -849,15 +845,18 @@ export class SR5_ActorHelper {
 				modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>";
 				};
 			};
-			item.update(modifiedItem);
 		}
 
+		// Delete the sidekick actor and its tokens before the item update propagates
 		if (canvas.scene){
 			for (let token of canvas.tokens.placeables) {
-				if (token.document.actorId === actor.id) await token.document.delete();
+				if (token.document.actorId === actor._id) await token.document.delete();
 			}
 		}
-		await Actor.deleteDocuments([actor.id]);
+		await Actor.deleteDocuments([actor._id]);
+
+		// Update the parent item after the actor is gone to avoid update-on-deleted-actor errors
+		if (item) await item.update(modifiedItem);
 	}
 
 	//Socket to dismiss sidekick;

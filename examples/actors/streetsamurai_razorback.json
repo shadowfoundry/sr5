@@ -1,5 +1,5 @@
 {
-  "name": "Yuki 'Spectre' Hashimoto",
+  "name": "Viktor 'Razorback' Kozlov",
   "type": "actorPc",
   "img": "icons/svg/mystery-man.svg",
   "system": {
@@ -7,7 +7,7 @@
       "body": {
         "natural": {
           "value": 0,
-          "base": 3,
+          "base": 8,
           "modifiers": []
         },
         "augmented": {
@@ -19,7 +19,7 @@
       "agility": {
         "natural": {
           "value": 0,
-          "base": 3,
+          "base": 5,
           "modifiers": []
         },
         "augmented": {
@@ -43,7 +43,7 @@
       "strength": {
         "natural": {
           "value": 0,
-          "base": 2,
+          "base": 7,
           "modifiers": []
         },
         "augmented": {
@@ -55,7 +55,7 @@
       "willpower": {
         "natural": {
           "value": 0,
-          "base": 5,
+          "base": 4,
           "modifiers": []
         },
         "augmented": {
@@ -67,7 +67,7 @@
       "logic": {
         "natural": {
           "value": 0,
-          "base": 7,
+          "base": 3,
           "modifiers": []
         },
         "augmented": {
@@ -79,7 +79,7 @@
       "intuition": {
         "natural": {
           "value": 0,
-          "base": 6,
+          "base": 4,
           "modifiers": []
         },
         "augmented": {
@@ -91,7 +91,7 @@
       "charisma": {
         "natural": {
           "value": 0,
-          "base": 3,
+          "base": 2,
           "modifiers": []
         },
         "augmented": {
@@ -105,7 +105,7 @@
       "edge": {
         "natural": {
           "value": 0,
-          "base": 5,
+          "base": 3,
           "modifiers": []
         },
         "augmented": {
@@ -146,24 +146,24 @@
       "modifiers": []
     },
     "biography": {
-      "characterName": "Yuki Hashimoto",
-      "characterAlias": "Spectre",
-      "characterNationality": "Japan / UCAS",
-      "characterBirthPlace": "Neo-Tokyo, Japan",
-      "characterFamilySituation": "Mother in Neo-Tokyo (corporate salary-woman at Renraku), estranged father",
+      "characterName": "Viktor Kozlov",
+      "characterAlias": "Razorback",
+      "characterNationality": "Russia / UCAS",
+      "characterBirthPlace": "Vladivostok, Russia",
+      "characterFamilySituation": "Parents deceased, estranged from younger brother in Moscow",
       "characterDependants": "",
-      "characterMetatype": "human",
+      "characterMetatype": "troll",
       "characterMetatypeVariant": "",
-      "characterEthnicalGroup": "Japanese",
-      "characterGender": "female",
-      "characterAge": 24,
-      "characterEyes": "Dark brown (cybernetic overlay)",
-      "characterHeight": 162,
-      "characterWeight": 52,
-      "characterHair": "Short, asymmetric cut, dyed silver-white",
-      "characterSkin": "Light",
-      "description": "<p>Petite and unassuming, Yuki could pass for a college student — which is exactly the point. She dresses in oversized hoodies and vintage band tees, with a custom-modded Renraku Tsurugi deck hidden in a messenger bag that never leaves her side. Her eyes occasionally unfocus as she interacts with AR overlays invisible to everyone else. A small datajack port is barely visible behind her left ear.</p>",
-      "background": "<p>Yuki was a prodigy at Renraku's corporate academy in Neo-Tokyo, fast-tracked for a career in corporate matrix security. But curiosity killed the career — she found classified files about Project Arcology during a routine security audit and started digging. When corporate security came for her, she ran. A fixer in Seattle gave her a new identity and she's been running the shadows ever since, using the same skills Renraku trained her to have. She specializes in data extraction, host infiltration, and making security systems look the other way. She still has nightmares about the Arcology.</p>"
+      "characterEthnicalGroup": "Russian",
+      "characterGender": "male",
+      "characterAge": 34,
+      "characterEyes": "Amber (cybernetic, Rating 4)",
+      "characterHeight": 195,
+      "characterWeight": 130,
+      "characterHair": "Shaved, heavy scarring on scalp",
+      "characterSkin": "Olive-grey, dermal plating visible on forearms and torso",
+      "description": "<p>A mountain of ork muscle and chrome. Viktor's cybereyes glow a dull amber, and the sub-dermal plating on his forearms catches light like brushed steel. He moves with the controlled precision of someone whose reflexes are wired far beyond natural limits. A faded Spetsnaz tattoo peeks above his collar.</p>",
+      "background": "<p>Former Russian military — Spetsnaz special operations, discharged after an operation in the SOX went sideways. Drifted to Seattle where his particular skills found ready employment in the shadows. Viktor doesn't talk much about his past but his tactical discipline and comfort with extreme violence speak volumes. He runs the shadows to pay off the chrome that keeps him alive and competitive, and sends what's left to his brother's family in Moscow.</p>"
     },
     "critterBiography": {
       "binomial": "",
@@ -176,27 +176,27 @@
     },
     "karma": {
       "value": 0,
-      "base": 45,
+      "base": 22,
       "modifiers": []
     },
     "nuyen": {
       "value": 0,
-      "base": 23400,
+      "base": 8350,
       "modifiers": []
     },
     "streetCred": {
       "value": 0,
-      "base": 4,
+      "base": 7,
       "modifiers": []
     },
     "notoriety": {
       "value": 0,
-      "base": 1,
+      "base": 3,
       "modifiers": []
     },
     "publicAwareness": {
       "value": 0,
-      "base": 0,
+      "base": 1,
       "modifiers": []
     },
     "addictions": [],
@@ -218,7 +218,7 @@
         "modifiers": [],
         "actual": {
           "value": 0,
-          "base": 0,
+          "base": 3,
           "modifiers": []
         },
         "boxes": []
@@ -280,15 +280,15 @@
         "augmented": false
       },
       "lowLight": {
-        "hasVision": false,
-        "isActive": false,
-        "natural": false,
+        "hasVision": true,
+        "isActive": true,
+        "natural": true,
         "augmented": false
       },
       "thermographic": {
-        "hasVision": false,
-        "isActive": false,
-        "natural": false,
+        "hasVision": true,
+        "isActive": true,
+        "natural": true,
         "augmented": false
       },
       "ultrasound": {
@@ -383,7 +383,7 @@
       }
     },
     "matrix": {
-      "userMode": "hotsim",
+      "userMode": "ar",
       "userGrid": "public",
       "attributesCollection": {
         "value1": 0,
@@ -1022,7 +1022,7 @@
       },
       "athleticsGroup": {
         "value": 0,
-        "base": 0,
+        "base": 2,
         "modifiers": [],
         "isHidden": false
       },
@@ -1034,7 +1034,7 @@
       },
       "closeCombatGroup": {
         "value": 0,
-        "base": 0,
+        "base": 3,
         "modifiers": [],
         "isHidden": false
       },
@@ -1046,13 +1046,13 @@
       },
       "crackingGroup": {
         "value": 0,
-        "base": 5,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
       "electronicsGroup": {
         "value": 0,
-        "base": 5,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
@@ -1070,7 +1070,7 @@
       },
       "firearmsGroup": {
         "value": 0,
-        "base": 0,
+        "base": 4,
         "modifiers": [],
         "isHidden": false
       },
@@ -1082,7 +1082,7 @@
       },
       "outdoorsGroup": {
         "value": 0,
-        "base": 0,
+        "base": 1,
         "modifiers": [],
         "isHidden": false
       },
@@ -1106,10 +1106,120 @@
       }
     },
     "skills": {
-      "pistols": {
+      "automatics": {
+        "rating": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "firearmsGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": "Assault Rifles"
+      },
+      "blades": {
+        "rating": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "closeCombatGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": "Swords"
+      },
+      "clubs": {
         "rating": {
           "value": 0,
           "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "closeCombatGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "heavyWeapons": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "longarms": {
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "firearmsGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": "Shotguns"
+      },
+      "pistols": {
+        "rating": {
+          "value": 0,
+          "base": 6,
           "modifiers": []
         },
         "test": {
@@ -1126,12 +1236,34 @@
         "skillGroup": "firearmsGroup",
         "category": "combatSkills",
         "canDefault": true,
-        "specializations": ""
+        "specializations": "Semi-Automatics"
+      },
+      "throwingWeapons": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": "Grenades"
       },
       "unarmedCombat": {
         "rating": {
           "value": 0,
-          "base": 1,
+          "base": 5,
           "modifiers": []
         },
         "test": {
@@ -1172,10 +1304,32 @@
         "canDefault": true,
         "specializations": ""
       },
-      "palming": {
+      "gymnastics": {
         "rating": {
           "value": 0,
           "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "athleticsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "palming": {
+        "rating": {
+          "value": 0,
+          "base": 2,
           "modifiers": []
         },
         "test": {
@@ -1197,7 +1351,7 @@
       "perception": {
         "rating": {
           "value": 0,
-          "base": 4,
+          "base": 5,
           "modifiers": []
         },
         "test": {
@@ -1214,12 +1368,34 @@
         "skillGroup": "",
         "category": "physicalSkills",
         "canDefault": true,
-        "specializations": "Matrix"
+        "specializations": "Visual"
+      },
+      "running": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "strength",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "athleticsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
       },
       "sneaking": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 4,
           "modifiers": []
         },
         "test": {
@@ -1238,10 +1414,76 @@
         "canDefault": true,
         "specializations": ""
       },
+      "survival": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "willpower",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "outdoorsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "swimming": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "strength",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "athleticsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "tracking": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "outdoorsGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
       "con": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 2,
           "modifiers": []
         },
         "test": {
@@ -1258,12 +1500,12 @@
         "skillGroup": "actingGroup",
         "category": "socialSkills",
         "canDefault": true,
-        "specializations": "Fast Talk"
+        "specializations": ""
       },
       "etiquette": {
         "rating": {
           "value": 0,
-          "base": 4,
+          "base": 2,
           "modifiers": []
         },
         "test": {
@@ -1280,12 +1522,34 @@
         "skillGroup": "influenceGroup",
         "category": "socialSkills",
         "canDefault": true,
-        "specializations": "Matrix"
+        "specializations": "Military"
+      },
+      "intimidation": {
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": "Physical"
       },
       "negociation": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 1,
           "modifiers": []
         },
         "test": {
@@ -1304,10 +1568,10 @@
         "canDefault": true,
         "specializations": ""
       },
-      "computer": {
+      "armorer": {
         "rating": {
           "value": 0,
-          "base": 7,
+          "base": 4,
           "modifiers": []
         },
         "test": {
@@ -1316,138 +1580,6 @@
           "modifiers": []
         },
         "linkedAttribute": "logic",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "electronicsGroup",
-        "category": "technicalSkills",
-        "canDefault": true,
-        "specializations": "Matrix Search"
-      },
-      "cybercombat": {
-        "rating": {
-          "value": 0,
-          "base": 6,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "logic",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "crackingGroup",
-        "category": "technicalSkills",
-        "canDefault": true,
-        "specializations": "Personas"
-      },
-      "electronicWarfare": {
-        "rating": {
-          "value": 0,
-          "base": 6,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "logic",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "crackingGroup",
-        "category": "technicalSkills",
-        "canDefault": false,
-        "specializations": "Encryption"
-      },
-      "hacking": {
-        "rating": {
-          "value": 0,
-          "base": 7,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "logic",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "crackingGroup",
-        "category": "technicalSkills",
-        "canDefault": true,
-        "specializations": "Hosts"
-      },
-      "hardware": {
-        "rating": {
-          "value": 0,
-          "base": 5,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "logic",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "electronicsGroup",
-        "category": "technicalSkills",
-        "canDefault": false,
-        "specializations": "Cyberdecks"
-      },
-      "software": {
-        "rating": {
-          "value": 0,
-          "base": 6,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "logic",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "electronicsGroup",
-        "category": "technicalSkills",
-        "canDefault": false,
-        "specializations": "Data Bombs"
-      },
-      "locksmith": {
-        "rating": {
-          "value": 0,
-          "base": 2,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "agility",
         "limit": {
           "value": 0,
           "base": "mentalLimit",
@@ -1455,13 +1587,35 @@
         },
         "skillGroup": "",
         "category": "technicalSkills",
-        "canDefault": false,
-        "specializations": "Maglocks"
+        "canDefault": true,
+        "specializations": "Firearms"
+      },
+      "computer": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "logic",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "electronicsGroup",
+        "category": "technicalSkills",
+        "canDefault": true,
+        "specializations": ""
       },
       "firstAid": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 3,
           "modifiers": []
         },
         "test": {
@@ -1480,10 +1634,32 @@
         "canDefault": true,
         "specializations": ""
       },
+      "navigation": {
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "outdoorsGroup",
+        "category": "technicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
       "pilotGroundCraft": {
         "rating": {
           "value": 0,
-          "base": 1,
+          "base": 3,
           "modifiers": []
         },
         "test": {
@@ -1500,7 +1676,7 @@
         "skillGroup": "",
         "category": "vehicleSkills",
         "canDefault": true,
-        "specializations": ""
+        "specializations": "Wheeled"
       }
     },
     "sheetPreferences": {
@@ -1566,12 +1742,12 @@
         "metamagics": true
       },
       "tabMatrix": {
-        "isActive": true,
+        "isActive": false,
         "programs": true,
         "matrixActions": true
       },
       "tabMatrixUser": {
-        "isActive": true,
+        "isActive": false,
         "programs": true,
         "pan": true,
         "marksControled": true
@@ -1602,38 +1778,38 @@
         "activeDefense": "dodge",
         "resistanceDisease": "contact",
         "resistanceToxin": "contact",
-        "resistanceSpecialDamage": "electricity"
+        "resistanceSpecialDamage": "acid"
       }
     }
   },
   "items": [
     {
-      "name": "Fichetti Security 600",
+      "name": "Ares Predator V",
       "type": "itemWeapon",
       "img": "systems/sr5/img/items/itemWeapon.svg",
       "system": {
-        "description": "<p>A light security pistol with an unusually high-capacity magazine of 30 rounds. Comes with folding stock and laser sight.</p>",
-        "gameEffect": "Built-in: folding stock, laser sight",
+        "description": "<p>The most popular heavy pistol in the world, especially among mercenaries and shadowrunners.</p>",
+        "gameEffect": "",
         "source": "core",
-        "page": "428",
+        "page": "429",
         "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
         "isActive": false,
         "concealment": {
           "value": 0,
-          "base": -2,
+          "base": 0,
           "modifiers": []
         },
         "availability": {
-          "base": 6,
+          "base": 5,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "legality": "R",
         "price": {
-          "base": 350,
+          "base": 725,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
@@ -1659,7 +1835,7 @@
         "panMaster": "",
         "marks": [],
         "damageValue": {
-          "base": 7,
+          "base": 8,
           "modifiers": [],
           "value": 0,
           "isStrengthBased": false
@@ -1667,19 +1843,19 @@
         "damageType": "physical",
         "damageElement": "",
         "armorPenetration": {
-          "base": 0,
+          "base": -1,
           "modifiers": [],
           "value": 0
         },
         "accuracy": {
-          "base": 6,
+          "base": 5,
           "modifiers": [],
           "value": 0,
           "isPhysicalLimitBased": false
         },
         "quantity": 1,
         "category": "rangedWeapon",
-        "type": "lightPistol",
+        "type": "heavyPistol",
         "requiredHands": 1,
         "range": {
           "short": {
@@ -1689,17 +1865,17 @@
           },
           "medium": {
             "value": 0,
-            "base": 15,
+            "base": 20,
             "modifiers": []
           },
           "long": {
             "value": 0,
-            "base": 30,
+            "base": 40,
             "modifiers": []
           },
           "extreme": {
             "value": 0,
-            "base": 50,
+            "base": 60,
             "modifiers": []
           },
           "isStrengthBased": false
@@ -1727,8 +1903,8 @@
           "value": []
         },
         "ammunition": {
-          "value": 30,
-          "max": 30,
+          "value": 15,
+          "max": 15,
           "type": "regular",
           "casing": "clip",
           "rating": "",
@@ -1741,12 +1917,7 @@
         },
         "accessory": [
           {
-            "name": "foldingStock",
-            "isFree": true,
-            "isActive": true
-          },
-          {
-            "name": "laserSight",
+            "name": "smartgunSystemInternal",
             "isFree": true,
             "isActive": true
           }
@@ -1786,11 +1957,597 @@
       }
     },
     {
+      "name": "Katana",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>The legendary two-handed sword of the samurai, the katana has become synonymous with street samurai and shadowrunners in general.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "425",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": false,
+        "concealment": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "availability": {
+          "base": 9,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 1000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "damageValue": {
+          "base": 3,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": true
+        },
+        "damageType": "physical",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": -3,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 7,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        },
+        "quantity": 1,
+        "category": "meleeWeapon",
+        "type": "blades",
+        "requiredHands": 1,
+        "range": {
+          "short": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isStrengthBased": false
+        },
+        "reach": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": false,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 0,
+          "max": 0,
+          "type": "",
+          "casing": "",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accessory": [],
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "blades"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
+          },
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
+          },
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
+      }
+    },
+    {
+      "name": "Remington 990",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A reliable, no-frills shotgun that has been in continuous production for nearly 70 years. Favored by professionals and novices alike.</p>",
+        "gameEffect": "Built-in: 2 slide mounts (top and bottom)",
+        "source": "runAndGun",
+        "page": "55",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": false,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "availability": {
+          "base": 6,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 950,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "damageValue": {
+          "base": 11,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": false
+        },
+        "damageType": "physical",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": -1,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 4,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        },
+        "quantity": 1,
+        "category": "rangedWeapon",
+        "type": "shotgun",
+        "requiredHands": 1,
+        "range": {
+          "short": {
+            "value": 0,
+            "base": 10,
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 40,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 80,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 150,
+            "modifiers": []
+          },
+          "isStrengthBased": false
+        },
+        "reach": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": true,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 8,
+          "max": 8,
+          "type": "regular",
+          "casing": "clip",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accessory": [
+          {
+            "name": "slideMount",
+            "isFree": true,
+            "isActive": true
+          },
+          {
+            "name": "slideMount",
+            "isFree": true,
+            "isActive": true
+          }
+        ],
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "longarms"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
+          },
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
+          },
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
+      }
+    },
+    {
+      "name": "Combat Knife",
+      "type": "itemWeapon",
+      "img": "systems/sr5/img/items/itemWeapon.svg",
+      "system": {
+        "description": "<p>A sturdy combat knife, the runner's best friend.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "425",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": false,
+        "concealment": {
+          "value": 0,
+          "base": -2,
+          "modifiers": []
+        },
+        "availability": {
+          "base": 4,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 300,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "damageValue": {
+          "base": 2,
+          "modifiers": [],
+          "value": 0,
+          "isStrengthBased": true
+        },
+        "damageType": "physical",
+        "damageElement": "",
+        "armorPenetration": {
+          "base": -3,
+          "modifiers": [],
+          "value": 0
+        },
+        "accuracy": {
+          "base": 6,
+          "modifiers": [],
+          "value": 0,
+          "isPhysicalLimitBased": false
+        },
+        "quantity": 1,
+        "category": "meleeWeapon",
+        "type": "blades",
+        "requiredHands": 1,
+        "range": {
+          "short": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isStrengthBased": false
+        },
+        "reach": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": false,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 0,
+          "max": 0,
+          "type": "",
+          "casing": "",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "accessory": [],
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "blades"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
+          },
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
+          },
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
+      }
+    },
+    {
+      "name": "Full Body Armor",
+      "type": "itemArmor",
+      "img": "systems/sr5/img/items/itemArmor.svg",
+      "system": {
+        "description": "<p>Heavy full-body armor used by military and high-threat response teams. Covers from head to toe with ballistic plates.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "439",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 14,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 2000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "itemRating": 0,
+        "isActive": true,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "capacity": {
+          "value": 0,
+          "base": 15,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "armorValue": {
+          "value": 0,
+          "base": 15,
+          "modifiers": []
+        },
+        "isPlugged": false,
+        "isCumulative": false,
+        "accessory": []
+      }
+    },
+    {
       "name": "Armored Jacket",
       "type": "itemArmor",
       "img": "systems/sr5/img/items/itemArmor.svg",
       "system": {
-        "description": "<p>The most popular armor on the streets. Yuki's is a matte-black model with discreet reinforced panels, styled to look like a regular oversized hoodie.</p>",
+        "description": "<p>The most popular armor on the streets, available in every style imaginable. Backup armor for less conspicuous situations.</p>",
         "gameEffect": "",
         "source": "core",
         "page": "439",
@@ -1811,7 +2568,7 @@
           "multiplier": ""
         },
         "itemRating": 0,
-        "isActive": true,
+        "isActive": false,
         "concealment": {
           "value": 0,
           "base": 0,
@@ -1860,949 +2617,24 @@
       }
     },
     {
-      "name": "Renraku Tsurugi",
-      "type": "itemDevice",
-      "img": "systems/sr5/img/items/itemCyberdeck.svg",
-      "system": {
-        "description": "<p>A mid-range cyberdeck from Renraku. Yuki's former employer — she knows every circuit in this deck intimately. Custom-modded firmware for optimized intrusion routines.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "439",
-        "availability": {
-          "base": 9,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 214125,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": true,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 3,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "attributesCollection": {
-          "value1": 6,
-          "value2": 5,
-          "value3": 5,
-          "value4": 3,
-          "value1isSet": false,
-          "value2isSet": false,
-          "value3isSet": false,
-          "value4isSet": false
-        },
-        "type": "cyberdeck",
-        "program": {
-          "value": 0,
-          "max": 3
-        },
-        "module": "",
-        "dongle": "",
-        "modifiers": [],
-        "pan": {
-          "max": 0,
-          "current": 0,
-          "content": []
-        },
-        "markedItems": []
-      }
-    },
-    {
-      "name": "Armor",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "<p>Grants +2 dice for resisting Matrix damage.</p>",
-        "source": "core",
-        "page": "247",
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 250,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "customEffects": [
-          {
-            "category": "programs",
-            "target": "system.matrix.programs.armor.isActive",
-            "type": "boolean",
-            "value": "true"
-          },
-          {
-            "category": "matrixResistances",
-            "target": "system.matrix.resistances.matrixDamage",
-            "type": "value",
-            "value": 2,
-            "multiplier": null
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "itemRating": 0,
-        "decks": [],
-        "type": "hacking",
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Stealth",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "<p>Grants +1 bonus to the Sleaze attribute.</p>",
-        "source": "core",
-        "page": "247",
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 250,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "customEffects": [
-          {
-            "category": "matrixAttributes",
-            "target": "system.matrix.attributes.sleaze",
-            "type": "value",
-            "value": 1,
-            "multiplier": null
-          },
-          {
-            "category": "programs",
-            "target": "system.matrix.programs.stealth.isActive",
-            "type": "boolean",
-            "value": "true"
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "itemRating": 0,
-        "decks": [],
-        "type": "hacking",
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Exploit",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "<p>Grants +2 bonus to Sleaze for Hack on the Fly actions.</p>",
-        "source": "core",
-        "page": "247",
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 250,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "customEffects": [
-          {
-            "category": "matrixActions",
-            "target": "system.matrix.actions.hackOnTheFly.limit",
-            "type": "value",
-            "value": 2,
-            "multiplier": null
-          },
-          {
-            "category": "programs",
-            "target": "system.matrix.programs.exploit.isActive",
-            "type": "boolean",
-            "value": "true"
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "itemRating": 0,
-        "decks": [],
-        "type": "hacking",
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Decryption",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "<p>Grants +1 bonus to the Attack attribute.</p>",
-        "source": "core",
-        "page": "247",
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 250,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "customEffects": [
-          {
-            "category": "matrixAttributes",
-            "target": "system.matrix.attributes.attack",
-            "type": "value",
-            "value": 1,
-            "multiplier": null
-          },
-          {
-            "category": "programs",
-            "target": "system.matrix.programs.decryption.isActive",
-            "type": "boolean",
-            "value": "true"
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "itemRating": 0,
-        "decks": [],
-        "type": "hacking",
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Hammer",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "<p>Each time the persona inflicts Matrix damage, this program deals 2 extra boxes of Matrix damage.</p>",
-        "source": "core",
-        "page": "247",
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 250,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "customEffects": [
-          {
-            "category": "programs",
-            "target": "system.matrix.programs.hammer.isActive",
-            "type": "boolean",
-            "value": "true"
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "itemRating": 0,
-        "decks": [],
-        "type": "hacking",
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Biofeedback",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Causes biofeedback damage to targets in VR</p>",
-        "gameEffect": "<p>Converts Matrix damage to biofeedback damage against targets using VR</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Biofeedback Filter",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Protects against biofeedback damage</p>",
-        "gameEffect": "<p>Reduces biofeedback damage taken</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Blackout",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Causes biofeedback damage, Stun only</p>",
-        "gameEffect": "<p>Converts Matrix damage to biofeedback Stun damage against VR targets</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Crash",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Crashes a running program on the target</p>",
-        "gameEffect": "<p>Can crash a running program on a target</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Defuse",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Reduces damage from Data Bombs</p>",
-        "gameEffect": "<p>Reduces Data Bomb damage by the program's rating</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Fork",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Attack two targets at once</p>",
-        "gameEffect": "<p>Allows a Matrix attack action to target two icons simultaneously</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Lockdown",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Prevents target from jacking out</p>",
-        "gameEffect": "<p>Prevents a target from jacking out of the Matrix</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Mugger",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Increases Matrix damage</p>",
-        "gameEffect": "<p>+2 Matrix DV</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Sniper",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Increases accuracy of Matrix attacks</p>",
-        "gameEffect": "<p>+2 to attack rating for Matrix attacks</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Sniffer",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Intercepts traffic on a network</p>",
-        "gameEffect": "<p>Can intercept unencrypted wireless traffic in range</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Trace",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Tracks the physical location of a target icon</p>",
-        "gameEffect": "<p>Helps find the physical location of a persona</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Wrapper",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Changes the appearance of icons</p>",
-        "gameEffect": "<p>Makes an icon look like a different type of icon</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "hacking",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Browse",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Improves Matrix Search tests</p>",
-        "gameEffect": "<p>+2 dice to Matrix Search actions</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Configurator",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Allows swapping device attributes on the fly</p>",
-        "gameEffect": "<p>Swap two Matrix attributes as a free action</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Edit",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Allows editing of files</p>",
-        "gameEffect": "<p>Can create, change, copy, delete, or protect a file</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Encryption",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Encrypts data and communication</p>",
-        "gameEffect": "<p>Provides encryption for communication and file storage</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Signal Scrub",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Reduces noise penalty</p>",
-        "gameEffect": "<p>Reduces noise by 2</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Toolbox",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>General purpose Matrix toolkit</p>",
-        "gameEffect": "<p>+1 to all Matrix attributes</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Virtual Machine",
-      "type": "itemProgram",
-      "img": "systems/sr5/img/items/itemProgram.svg",
-      "system": {
-        "description": "<p>Runs extra programs</p>",
-        "gameEffect": "<p>Allows running two additional programs beyond normal limits</p>",
-        "source": "core",
-        "page": "",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "type": "common",
-        "decks": [],
-        "model": "",
-        "isModelBased": false
-      }
-    },
-    {
-      "name": "Cerebral Booster 2",
+      "name": "Wired Reflexes 2",
       "type": "itemAugmentation",
       "img": "systems/sr5/img/items/itemAugmentation.svg",
       "system": {
-        "description": "<p>The brain's convolutions are enhanced and additional nervous tissue is added to improve overall brain performance.</p>",
-        "gameEffect": "<p>Adds its rating to Logic attribute.</p>",
+        "description": "<p>Neural accelerators and adrenaline stimulators implanted through a highly invasive procedure, projecting the user into a world where everything moves in slow motion.</p>",
+        "gameEffect": "<p>Increases Reaction (and thus Initiative) and Initiative Dice by its rating. Can be toggled on/off.</p>",
         "source": "core",
-        "page": "464",
+        "page": "458",
         "customEffects": [
           {
             "category": "characterAttributes",
-            "target": "system.attributes.logic.augmented",
+            "target": "system.attributes.reaction.augmented",
+            "type": "rating",
+            "multiplier": null
+          },
+          {
+            "category": "characterInitiatives",
+            "target": "system.initiatives.physicalInit.dice",
             "type": "rating",
             "multiplier": null
           }
@@ -2810,23 +2642,23 @@
         "itemEffects": [],
         "systemEffects": [],
         "availability": {
-          "base": 6,
+          "base": 12,
           "modifiers": [],
           "value": 0,
-          "multiplier": "rating"
+          "multiplier": ""
         },
-        "legality": "",
+        "legality": "R",
         "price": {
-          "base": 31500,
+          "base": 149000,
           "modifiers": [],
           "value": 0,
-          "multiplier": "rating"
+          "multiplier": ""
         },
         "isActive": true,
         "itemRating": 2,
         "isWireless": true,
         "wirelessTurnedOn": true,
-        "deviceRating": 0,
+        "deviceRating": 2,
         "conditionMonitors": {
           "matrix": {
             "value": 0,
@@ -2856,15 +2688,387 @@
           "multiplier": ""
         },
         "isAccessory": false,
-        "type": "culturedBioware",
-        "category": "",
+        "type": "cyberware",
+        "category": "bodyware",
+        "grade": "standard",
+        "isPlugged": false,
+        "essenceCost": {
+          "value": 0,
+          "base": 3,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "accessory": [],
+        "cyberlimbs": {
+          "agility": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "strength": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "isCustom": false,
+          "enhancement": []
+        }
+      }
+    },
+    {
+      "name": "Muscle Replacement 1",
+      "type": "itemAugmentation",
+      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "system": {
+        "description": "<p>Synthetic muscles grown in a vat replace or enhance the user's own muscles while calcium treatments and skeletal reinforcement contribute to overall strength.</p>",
+        "gameEffect": "<p>Adds its rating to Strength and Agility. Cannot be combined with other muscle augmentations.</p>",
+        "source": "core",
+        "page": "459",
+        "customEffects": [
+          {
+            "category": "characterAttributes",
+            "target": "system.attributes.agility.augmented",
+            "type": "rating",
+            "multiplier": null
+          },
+          {
+            "category": "characterAttributes",
+            "target": "system.attributes.strength.augmented",
+            "type": "rating",
+            "multiplier": null
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 5,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": "rating"
+        },
+        "legality": "R",
+        "price": {
+          "base": 25000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": "rating"
+        },
+        "isActive": true,
+        "itemRating": 1,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "type": "cyberware",
+        "category": "bodyware",
+        "grade": "standard",
+        "isPlugged": false,
+        "essenceCost": {
+          "value": 0,
+          "base": 1,
+          "modifiers": [],
+          "multiplier": "rating"
+        },
+        "accessory": [],
+        "cyberlimbs": {
+          "agility": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "strength": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "isCustom": false,
+          "enhancement": []
+        }
+      }
+    },
+    {
+      "name": "Dermal Plating 2",
+      "type": "itemAugmentation",
+      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "system": {
+        "description": "<p>Plastic and ceramic fiber plates grafted onto the skin. Clearly visible and even more obvious to the touch, but can be embellished with stylized colors and textures.</p>",
+        "gameEffect": "<p>Provides armor bonus equal to its rating (cumulative with other armor sources without causing encumbrance).</p>",
+        "source": "core",
+        "page": "458",
+        "customEffects": [
+          {
+            "category": "itemArmor",
+            "target": "system.itemsProperties.armor",
+            "type": "rating",
+            "multiplier": 1
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 4,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": "rating"
+        },
+        "legality": "R",
+        "price": {
+          "base": 3000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": "rating"
+        },
+        "isActive": true,
+        "itemRating": 2,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "type": "cyberware",
+        "category": "bodyware",
+        "grade": "standard",
+        "isPlugged": false,
+        "essenceCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "multiplier": "rating"
+        },
+        "accessory": [],
+        "cyberlimbs": {
+          "agility": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "strength": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "isCustom": false,
+          "enhancement": []
+        }
+      }
+    },
+    {
+      "name": "Cybereyes Rating 4",
+      "type": "itemAugmentation",
+      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "system": {
+        "description": "<p>Top-tier cybereyes with extensive capacity for vision enhancements. Provides flawless electronic imaging with built-in visual interface and camera.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "456",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 12,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 14000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": true,
+        "itemRating": 0,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "capacity": {
+          "value": 0,
+          "base": 16,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "type": "cyberware",
+        "category": "eyeware",
+        "grade": "standard",
+        "isPlugged": false,
+        "essenceCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "accessory": [],
+        "cyberlimbs": {
+          "agility": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "strength": {
+            "value": 0,
+            "base": 3,
+            "customization": 0
+          },
+          "isCustom": false,
+          "enhancement": []
+        }
+      }
+    },
+    {
+      "name": "Smartlink",
+      "type": "itemAugmentation",
+      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "system": {
+        "description": "<p>Must be paired with a smartgun to take full advantage of the system. Provides targeting data including range, ammo count, barrel temperature, and mechanical stress.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "457",
+        "customEffects": [
+          {
+            "category": "specialProperties",
+            "target": "system.specialProperties.smartlink",
+            "type": "value",
+            "value": 2,
+            "multiplier": 1
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 8,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 4000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": true,
+        "itemRating": 0,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 2,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 3,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": true,
+        "type": "cyberware",
+        "category": "eyeware",
         "grade": "standard",
         "isPlugged": false,
         "essenceCost": {
           "value": 0,
           "base": 0.2,
           "modifiers": [],
-          "multiplier": "rating"
+          "multiplier": ""
         },
         "accessory": [],
         "cyberlimbs": {
@@ -2888,7 +3092,7 @@
       "type": "itemAugmentation",
       "img": "systems/sr5/img/items/itemAugmentation.svg",
       "system": {
-        "description": "<p>A direct neural interface port, essential for any serious decker. Provides retractable micro-cable for hard-wired connections.</p>",
+        "description": "<p>A datajack provides a direct neural interface with retractable micro-cable for plugging into devices.</p>",
         "gameEffect": "<p>Wireless: provides 1 point of Noise Reduction.</p>",
         "source": "core",
         "page": "456",
@@ -2979,145 +3183,21 @@
       }
     },
     {
-      "name": "Cybereyes Rating 2",
-      "type": "itemAugmentation",
-      "img": "systems/sr5/img/items/itemAugmentation.svg",
-      "system": {
-        "description": "<p>Mid-grade cybereyes with AR overlay capability. Yuki uses them primarily for the integrated virtual display when decking.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "456",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 6000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": true,
-        "itemRating": 0,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
-          "value": 0,
-          "base": 8,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "type": "cyberware",
-        "category": "eyeware",
-        "grade": "standard",
-        "isPlugged": false,
-        "essenceCost": {
-          "value": 0,
-          "base": 0.3,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "accessory": [],
-        "cyberlimbs": {
-          "agility": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "strength": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "isCustom": false,
-          "enhancement": []
-        }
-      }
-    },
-    {
-      "name": "Analytical Mind",
+      "name": "Toughness",
       "type": "itemQuality",
       "img": "systems/sr5/img/items/itemQuality.svg",
       "system": {
-        "description": "<p>+2 dice pool modifier to Logic-based tests involving pattern recognition, evidence analysis, clue finding, or puzzle solving.</p>",
-        "gameEffect": "",
+        "description": "<p>A character with Toughness shrugs off damage more easily than others.</p>",
+        "gameEffect": "<p>+1 dice pool modifier to Body for damage resistance tests.</p>",
         "source": "core",
         "page": "76",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "isActive": true,
-        "itemRating": 0,
-        "type": "positive",
-        "karmaCost": 5
-      }
-    },
-    {
-      "name": "Codeslinger (Hack on the Fly)",
-      "type": "itemQuality",
-      "img": "systems/sr5/img/items/itemQuality.svg",
-      "system": {
-        "description": "<p>The ones and zeroes are practically the character's native language.</p>",
-        "gameEffect": "<p>+2 dice pool modifier to the chosen Matrix action: Hack on the Fly.</p>",
-        "source": "core",
-        "page": "75",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "isActive": true,
-        "itemRating": 0,
-        "type": "positive",
-        "karmaCost": 10
-      }
-    },
-    {
-      "name": "Overclocker",
-      "type": "itemQuality",
-      "img": "systems/sr5/img/items/itemQuality.svg",
-      "system": {
-        "description": "<p>The character can squeeze extra performance from their equipment.</p>",
-        "gameEffect": "<p>Add 1 point to one ASDF attribute of your cyberdeck. Can be reassigned when the deck is reconfigured.</p>",
-        "source": "runFaster",
-        "page": "120",
         "customEffects": [
           {
-            "category": "matrixAttributes",
-            "wifi": false,
-            "transfer": false,
-            "target": "system.matrix.attributes.attack",
+            "category": "characterResistances",
+            "target": "system.resistances.physicalDamage",
             "type": "value",
             "value": 1,
-            "multiplier": 1
+            "multiplier": null
           }
         ],
         "itemEffects": [],
@@ -3125,15 +3205,52 @@
         "isActive": true,
         "itemRating": 0,
         "type": "positive",
-        "karmaCost": 5
+        "karmaCost": 9
       }
     },
     {
-      "name": "SINner (Corporate - Renraku)",
+      "name": "High Pain Tolerance 2",
       "type": "itemQuality",
       "img": "systems/sr5/img/items/itemQuality.svg",
       "system": {
-        "description": "<p>The character has a corporate SIN from Renraku Computer Systems. While she's gone dark, the SIN still exists in the system and could be traced.</p>",
+        "description": "<p>Allows the character to ignore wound modifiers from damage boxes.</p>",
+        "gameEffect": "<p>Ignore 2 boxes of damage when calculating wound modifiers.</p>",
+        "source": "core",
+        "page": "76",
+        "customEffects": [
+          {
+            "category": "characterConditionMonitors",
+            "target": "system.penalties.stun.step",
+            "type": "rating",
+            "multiplier": null
+          },
+          {
+            "category": "characterConditionMonitors",
+            "target": "system.penalties.condition.step",
+            "type": "rating",
+            "multiplier": null
+          },
+          {
+            "category": "characterConditionMonitors",
+            "target": "system.penalties.physical.step",
+            "type": "rating",
+            "multiplier": null
+          }
+        ],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "type": "positive",
+        "karmaCost": 7
+      }
+    },
+    {
+      "name": "SINner (National)",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>The character has a national SIN from Russia, subject to taxation and tracking.</p>",
         "gameEffect": "",
         "source": "core",
         "page": "86",
@@ -3143,27 +3260,27 @@
         "isActive": true,
         "itemRating": 0,
         "type": "negative",
-        "karmaCost": 25
+        "karmaCost": 5
       }
     },
     {
-      "name": "Ford Americar",
+      "name": "GMC Bulldog Step Van",
       "type": "itemVehicle",
       "img": "systems/sr5/img/items/itemVehicle.svg",
       "system": {
-        "description": "<p>The most common car on North American roads. Practical, reliable, and forgettable—perfect for a decker who wants to blend in.</p>",
+        "description": "<p>A rugged step van popular with security firms and shadowrunner teams. Modified with concealed armor plating.</p>",
         "gameEffect": "",
         "source": "core",
         "page": "468",
         "availability": {
-          "base": 4,
+          "base": 6,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "legality": "",
         "price": {
-          "base": 16000,
+          "base": 35000,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
@@ -3200,16 +3317,16 @@
         "panMaster": "",
         "marks": [],
         "type": "vehicle",
-        "category": "car",
+        "category": "truck",
         "attributes": {
-          "handling": 4,
+          "handling": 3,
           "handlingOffRoad": 3,
           "speed": 3,
           "speedOffRoad": 3,
-          "acceleration": 2,
+          "acceleration": 1,
           "accelerationOffRoad": 1,
-          "body": 11,
-          "armor": 6,
+          "body": 16,
+          "armor": 12,
           "pilot": 1,
           "sensor": 2
         },
@@ -3223,7 +3340,7 @@
           "extraWeapons": 0,
           "extraBody": 0
         },
-        "seating": 4,
+        "seating": 6,
         "controlMode": "manual",
         "offRoadMode": false,
         "riggerInterface": false,
@@ -3254,8 +3371,8 @@
       "type": "itemGear",
       "img": "systems/sr5/img/items/itemGear.svg",
       "system": {
-        "description": "<p>A medical kit for field treatment of injuries.</p>",
-        "gameEffect": "<p>Provides dice for First Aid tests.</p>",
+        "description": "<p>A military-grade medical kit for field treatment of injuries.</p>",
+        "gameEffect": "<p>Provides dice for First Aid tests. Rating determines dice pool.</p>",
         "source": "core",
         "page": "453",
         "customEffects": [],
@@ -3274,13 +3391,13 @@
         },
         "legality": "",
         "price": {
-          "base": 750,
+          "base": 1500,
           "modifiers": [],
           "value": 0,
           "multiplier": "rating"
         },
         "isActive": false,
-        "itemRating": 3,
+        "itemRating": 6,
         "concealment": {
           "value": 0,
           "base": 0,
@@ -3288,7 +3405,7 @@
         },
         "isWireless": true,
         "wirelessTurnedOn": true,
-        "deviceRating": 3,
+        "deviceRating": 6,
         "conditionMonitors": {
           "matrix": {
             "value": 0,
@@ -3335,7 +3452,7 @@
       "type": "itemGear",
       "img": "systems/sr5/img/items/itemGear.svg",
       "system": {
-        "description": "<p>Small, concealable communication device.</p>",
+        "description": "<p>Small, concealable communication device with skinlink capability.</p>",
         "gameEffect": "",
         "source": "core",
         "page": "451",
@@ -3407,24 +3524,24 @@
       }
     },
     {
-      "name": "Data Tap",
+      "name": "Binoculars (Optical Rating 3)",
       "type": "itemGear",
       "img": "systems/sr5/img/items/itemGear.svg",
       "system": {
-        "description": "<p>A small device that provides a direct connection to a wired network.</p>",
-        "gameEffect": "<p>Allows a direct connection to a device on a wired network.</p>",
+        "description": "<p>Optical binoculars with vision magnification and image link.</p>",
+        "gameEffect": "",
         "source": "core",
-        "page": "448",
+        "page": "449",
         "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
         "availability": {
-          "base": 6,
+          "base": 3,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
-        "legality": "R",
+        "legality": "",
         "price": {
           "base": 300,
           "modifiers": [],
@@ -3432,83 +3549,7 @@
           "multiplier": ""
         },
         "isActive": false,
-        "itemRating": 0,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": false,
-        "wirelessTurnedOn": false,
-        "deviceRating": 0,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "quantity": 2,
-        "isMedkit": false,
-        "canRollTest": false,
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "type": ""
-        },
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "charge": ""
-      }
-    },
-    {
-      "name": "Jammer (Area Rating 4)",
-      "type": "itemGear",
-      "img": "systems/sr5/img/items/itemGear.svg",
-      "system": {
-        "description": "<p>An area jammer that creates noise in a radius around the device.</p>",
-        "gameEffect": "<p>Creates noise equal to rating for all Matrix devices within 100m * rating.</p>",
-        "source": "core",
-        "page": "449",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 800,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 4,
+        "itemRating": 3,
         "concealment": {
           "value": 0,
           "base": 0,
@@ -3516,7 +3557,7 @@
         },
         "isWireless": true,
         "wirelessTurnedOn": true,
-        "deviceRating": 4,
+        "deviceRating": 3,
         "conditionMonitors": {
           "matrix": {
             "value": 0,
@@ -3559,47 +3600,42 @@
       }
     },
     {
-      "name": "Aiko 'Glitch' Tanabe",
-      "type": "itemContact",
-      "img": "systems/sr5/img/items/itemContact.svg",
+      "name": "Survival Kit",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
       "system": {
-        "description": "<p>A young script kiddie and aspiring decker who idolizes Spectre. Useful for grunt work — maintaining botnets, running distraction hacks, and monitoring GOD activity during a run.</p>",
+        "description": "<p>Contains essentials for wilderness survival: water purifier, lighter, compass, knife, etc.</p>",
         "gameEffect": "",
-        "source": "",
-        "page": "",
-        "connection": 2,
-        "loyalty": 4,
-        "metatype": "human",
-        "gender": "female",
-        "age": "19",
-        "type": "Script Kiddie",
-        "paymentMethod": "Favors (mentoring)",
-        "hobby": "Retro video games",
-        "familySituation": "Lives with parents in Tacoma",
-        "nickname": "Glitch",
-        "metatypeVariant": "",
-        "ethnicalGroup": "Japanese-American",
-        "nationality": "UCAS",
-        "language": [],
-        "knowledge": [],
-        "weapons": [],
-        "ammunitions": [],
-        "armors": [],
-        "decks": [],
-        "vehicles": [],
+        "source": "core",
+        "page": "453",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 4,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 200,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 0,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
         "conditionMonitors": {
-          "condition": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          },
-          "edge": {
+          "matrix": {
             "value": 0,
             "base": 0,
             "modifiers": [],
@@ -3611,31 +3647,208 @@
             "boxes": []
           }
         },
-        "isCreated": false
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
       }
     },
     {
-      "name": "Dmitri 'Lens' Volkov",
+      "name": "Flashlight",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A standard flashlight, infrared and low-light capable.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "449",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 0,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 25,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 0,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Rappelling Gloves",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>Heavy-duty gloves designed for rappelling and climbing operations.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "449",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 2,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 50,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 0,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": false,
+        "wirelessTurnedOn": false,
+        "deviceRating": 0,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Grigori 'Iron' Volkov",
       "type": "itemContact",
       "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "<p>An information broker who trades in corporate secrets and juicy data. Operates through multiple anonymous Matrix personas and never meets in person.</p>",
+        "description": "<p>A grizzled arms dealer operating out of a warehouse near the Tacoma docks. Former military supply sergeant who went private sector.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
         "connection": 4,
-        "loyalty": 2,
+        "loyalty": 3,
         "metatype": "human",
         "gender": "male",
-        "age": "Unknown",
-        "type": "Info Broker",
-        "paymentMethod": "Nuyen / Data trades",
-        "hobby": "Unknown",
-        "familySituation": "Unknown",
-        "nickname": "Lens",
+        "age": "52",
+        "type": "Arms Dealer",
+        "paymentMethod": "Nuyen (bulk discount for regulars)",
+        "hobby": "Collecting antique firearms",
+        "familySituation": "Widower",
+        "nickname": "Iron",
         "metatypeVariant": "",
-        "ethnicalGroup": "",
-        "nationality": "Unknown",
+        "ethnicalGroup": "Russian",
+        "nationality": "Russia",
         "language": [],
         "knowledge": [],
         "weapons": [],
@@ -3671,80 +3884,24 @@
       }
     },
     {
-      "name": "Kenji Watanabe",
+      "name": "Dr. Marcus Webb",
       "type": "itemContact",
       "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "<p>An ork middle-manager at Ares Macrotechnology. Sympathetic to runners after his own bad experiences with corporate politics. Provides inside info on corporate security protocols.</p>",
+        "description": "<p>A discreet street doc with a clinic in Puyallup. Patches up bullet wounds and installs chrome, no questions asked. Owes Viktor a favor from a previous extraction.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
         "connection": 3,
-        "loyalty": 3,
-        "metatype": "ork",
-        "gender": "male",
-        "age": "41",
-        "type": "Corporate Contact",
-        "paymentMethod": "Nuyen (discreet)",
-        "hobby": "Golf",
-        "familySituation": "Married, 1 child",
-        "nickname": "",
-        "metatypeVariant": "",
-        "ethnicalGroup": "Japanese",
-        "nationality": "UCAS",
-        "language": [],
-        "knowledge": [],
-        "weapons": [],
-        "ammunitions": [],
-        "armors": [],
-        "decks": [],
-        "vehicles": [],
-        "conditionMonitors": {
-          "condition": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          },
-          "edge": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isCreated": false
-      }
-    },
-    {
-      "name": "Marco 'Silk' DeLuca",
-      "type": "itemContact",
-      "img": "systems/sr5/img/items/itemContact.svg",
-      "system": {
-        "description": "<p>A well-connected fixer who operates out of a high-end bar in Downtown Seattle. Helped Yuki get established in the Seattle shadows when she first arrived from Neo-Tokyo.</p>",
-        "gameEffect": "",
-        "source": "",
-        "page": "",
-        "connection": 4,
-        "loyalty": 3,
+        "loyalty": 4,
         "metatype": "human",
         "gender": "male",
-        "age": "42",
-        "type": "Fixer",
-        "paymentMethod": "Nuyen (15% commission)",
-        "hobby": "Fine whiskey",
-        "familySituation": "Divorced",
-        "nickname": "Silk",
+        "age": "45",
+        "type": "Street Doc",
+        "paymentMethod": "Nuyen / Barter (medical supplies)",
+        "hobby": "Gardening",
+        "familySituation": "Married, 2 kids",
+        "nickname": "",
         "metatypeVariant": "",
         "ethnicalGroup": "",
         "nationality": "UCAS",
@@ -3783,7 +3940,63 @@
       }
     },
     {
-      "name": "Matrix Security Systems",
+      "name": "Elena 'Whisper' Sokolov",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
+      "system": {
+        "description": "<p>An elven fixer with connections throughout the Seattle underworld. She runs meets from a series of rotating locations and is known for her discretion and fair dealings.</p>",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "connection": 5,
+        "loyalty": 2,
+        "metatype": "elf",
+        "gender": "female",
+        "age": "38",
+        "type": "Fixer",
+        "paymentMethod": "Nuyen (10% commission)",
+        "hobby": "Classical music",
+        "familySituation": "Unknown",
+        "nickname": "Whisper",
+        "metatypeVariant": "",
+        "ethnicalGroup": "Russian",
+        "nationality": "UCAS",
+        "language": [],
+        "knowledge": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehicles": [],
+        "conditionMonitors": {
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "edge": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isCreated": false
+      }
+    },
+    {
+      "name": "Military Tactics",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -3792,29 +4005,6 @@
         "source": "",
         "page": "",
         "type": "professional",
-        "linkedAttribute": "",
-        "rating": {
-          "value": 0,
-          "base": 6,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        }
-      }
-    },
-    {
-      "name": "Malware Analysis",
-      "type": "itemKnowledge",
-      "img": "systems/sr5/img/items/itemKnowledge.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "",
-        "source": "",
-        "page": "",
-        "type": "academic",
         "linkedAttribute": "",
         "rating": {
           "value": 0,
@@ -3829,7 +4019,7 @@
       }
     },
     {
-      "name": "Corporate Security Procedures",
+      "name": "Weapon Systems",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -3852,7 +4042,7 @@
       }
     },
     {
-      "name": "Programming Languages",
+      "name": "Security Procedures",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -3860,7 +4050,7 @@
         "gameEffect": "",
         "source": "",
         "page": "",
-        "type": "academic",
+        "type": "professional",
         "linkedAttribute": "",
         "rating": {
           "value": 0,
@@ -3875,7 +4065,7 @@
       }
     },
     {
-      "name": "Seattle Data Havens",
+      "name": "Seattle Underground",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -3887,7 +4077,7 @@
         "linkedAttribute": "",
         "rating": {
           "value": 0,
-          "base": 4,
+          "base": 3,
           "modifiers": []
         },
         "test": {
@@ -3898,7 +4088,7 @@
       }
     },
     {
-      "name": "Renraku Corporate History",
+      "name": "Ork Underground Culture",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -3921,7 +4111,29 @@
       }
     },
     {
-      "name": "Japanese",
+      "name": "English",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Russian",
       "type": "itemLanguage",
       "img": "systems/sr5/img/items/itemLanguage.svg",
       "system": {
@@ -3943,29 +4155,7 @@
       }
     },
     {
-      "name": "English",
-      "type": "itemLanguage",
-      "img": "systems/sr5/img/items/itemLanguage.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "",
-        "source": "",
-        "page": "",
-        "rating": {
-          "value": 0,
-          "base": 5,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isNative": false
-      }
-    },
-    {
-      "name": "Mandarin",
+      "name": "Or'zet",
       "type": "itemLanguage",
       "img": "systems/sr5/img/items/itemLanguage.svg",
       "system": {
@@ -3987,32 +4177,238 @@
       }
     },
     {
-      "name": "Cantonese",
-      "type": "itemLanguage",
-      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "name": "Character Creation",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
       "system": {
         "description": "",
         "gameEffect": "",
-        "source": "",
-        "page": "",
-        "rating": {
-          "value": 0,
-          "base": 2,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isNative": false
+        "amount": 25,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run: The Delian Data",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 7,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run: Bloodsport",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 6,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run: Iron Harvest",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 8,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Roleplaying: Held the line under fire",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 3,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Increase Blades (4 > 5)",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 10,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Increase Automatics (3 > 4)",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 8,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Increase Body (5 > 6)",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 15,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "New Contact: Street Doc 'Stitches'",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 4,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Starting Funds",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 5000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run Payment: The Delian Data",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 12000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run Payment: Bloodsport",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 10000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run Payment: Iron Harvest",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 18000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Sold Looted Weapons",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 3500,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Lifestyle: Low (2 months)",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 4000,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Cyberware Maintenance: Wired Reflexes",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 5500,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "APDS Ammunition (bulk order)",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 2400,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Armor Jacket Repair & Reinforcement",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 1800,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Combat Stim Patches (10-pack)",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 2500,
+        "type": "loss",
+        "date": 0
       }
     }
   ],
   "effects": [],
   "flags": {},
   "prototypeToken": {
-    "name": "Yuki 'Spectre' Hashimoto",
+    "name": "Viktor 'Razorback' Kozlov",
     "displayName": 30,
     "actorLink": true,
     "disposition": 1,

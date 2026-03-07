@@ -1,5 +1,5 @@
 {
-  "name": "Viktor 'Razorback' Kozlov",
+  "name": "Dominic 'Silvertongue' Vasquez",
   "type": "actorPc",
   "img": "icons/svg/mystery-man.svg",
   "system": {
@@ -7,7 +7,7 @@
       "body": {
         "natural": {
           "value": 0,
-          "base": 8,
+          "base": 3,
           "modifiers": []
         },
         "augmented": {
@@ -19,7 +19,7 @@
       "agility": {
         "natural": {
           "value": 0,
-          "base": 5,
+          "base": 4,
           "modifiers": []
         },
         "augmented": {
@@ -43,7 +43,7 @@
       "strength": {
         "natural": {
           "value": 0,
-          "base": 7,
+          "base": 2,
           "modifiers": []
         },
         "augmented": {
@@ -67,7 +67,7 @@
       "logic": {
         "natural": {
           "value": 0,
-          "base": 3,
+          "base": 4,
           "modifiers": []
         },
         "augmented": {
@@ -79,7 +79,7 @@
       "intuition": {
         "natural": {
           "value": 0,
-          "base": 4,
+          "base": 5,
           "modifiers": []
         },
         "augmented": {
@@ -91,7 +91,7 @@
       "charisma": {
         "natural": {
           "value": 0,
-          "base": 2,
+          "base": 8,
           "modifiers": []
         },
         "augmented": {
@@ -105,7 +105,7 @@
       "edge": {
         "natural": {
           "value": 0,
-          "base": 3,
+          "base": 5,
           "modifiers": []
         },
         "augmented": {
@@ -117,7 +117,7 @@
       "magic": {
         "natural": {
           "value": 0,
-          "base": 0,
+          "base": 6,
           "modifiers": []
         },
         "augmented": {
@@ -139,31 +139,31 @@
         }
       }
     },
-    "activeSpecialAttribute": "",
+    "activeSpecialAttribute": "magic",
     "essence": {
       "value": 0,
       "base": 6,
       "modifiers": []
     },
     "biography": {
-      "characterName": "Viktor Kozlov",
-      "characterAlias": "Razorback",
-      "characterNationality": "Russia / UCAS",
-      "characterBirthPlace": "Vladivostok, Russia",
-      "characterFamilySituation": "Parents deceased, estranged from younger brother in Moscow",
-      "characterDependants": "",
-      "characterMetatype": "ork",
+      "characterName": "Dominic Vasquez",
+      "characterAlias": "Silvertongue",
+      "characterNationality": "CAS",
+      "characterBirthPlace": "Dallas, CAS",
+      "characterFamilySituation": "Estranged from family",
+      "characterDependants": "None",
+      "characterMetatype": "human",
       "characterMetatypeVariant": "",
-      "characterEthnicalGroup": "Russian",
-      "characterGender": "male",
+      "characterEthnicalGroup": "Latino",
+      "characterGender": "Male",
       "characterAge": 34,
-      "characterEyes": "Amber (cybernetic, Rating 4)",
-      "characterHeight": 195,
-      "characterWeight": 130,
-      "characterHair": "Shaved, heavy scarring on scalp",
-      "characterSkin": "Olive-grey, dermal plating visible on forearms and torso",
-      "description": "<p>A mountain of ork muscle and chrome. Viktor's cybereyes glow a dull amber, and the sub-dermal plating on his forearms catches light like brushed steel. He moves with the controlled precision of someone whose reflexes are wired far beyond natural limits. A faded Spetsnaz tattoo peeks above his collar.</p>",
-      "background": "<p>Former Russian military — Spetsnaz special operations, discharged after an operation in the SOX went sideways. Drifted to Seattle where his particular skills found ready employment in the shadows. Viktor doesn't talk much about his past but his tactical discipline and comfort with extreme violence speak volumes. He runs the shadows to pay off the chrome that keeps him alive and competitive, and sends what's left to his brother's family in Moscow.</p>"
+      "characterEyes": "Brown",
+      "characterHeight": 178,
+      "characterWeight": 75,
+      "characterHair": "Black, slicked back",
+      "characterSkin": "Olive",
+      "description": "<p>Impeccably dressed human male with an easy smile and magnetic presence. His tailored suits and confident bearing mark him as someone used to being in charge of any room he enters.</p>",
+      "background": "<p>Born into a mid-level corporate family in Dallas, Dominic discovered his magical talents as a teenager when he realized people simply did what he asked. After a corporate extraction gone wrong exposed his SINner status, he went freelance as a face and negotiator in the Seattle shadows.</p>"
     },
     "critterBiography": {
       "binomial": "",
@@ -176,27 +176,27 @@
     },
     "karma": {
       "value": 0,
-      "base": 22,
+      "base": 25,
       "modifiers": []
     },
     "nuyen": {
       "value": 0,
-      "base": 8350,
+      "base": 12500,
       "modifiers": []
     },
     "streetCred": {
       "value": 0,
-      "base": 7,
+      "base": 4,
       "modifiers": []
     },
     "notoriety": {
       "value": 0,
-      "base": 3,
+      "base": 1,
       "modifiers": []
     },
     "publicAwareness": {
       "value": 0,
-      "base": 1,
+      "base": 2,
       "modifiers": []
     },
     "addictions": [],
@@ -218,7 +218,7 @@
         "modifiers": [],
         "actual": {
           "value": 0,
-          "base": 3,
+          "base": 0,
           "modifiers": []
         },
         "boxes": []
@@ -280,15 +280,15 @@
         "augmented": false
       },
       "lowLight": {
-        "hasVision": true,
-        "isActive": true,
-        "natural": true,
+        "hasVision": false,
+        "isActive": false,
+        "natural": false,
         "augmented": false
       },
       "thermographic": {
-        "hasVision": true,
-        "isActive": true,
-        "natural": true,
+        "hasVision": false,
+        "isActive": false,
+        "natural": false,
         "augmented": false
       },
       "ultrasound": {
@@ -299,7 +299,7 @@
       }
     },
     "magic": {
-      "magicType": "mundane",
+      "magicType": "adept",
       "tradition": "",
       "concentration": false,
       "elements": {
@@ -332,7 +332,7 @@
       "initiationGrade": 0,
       "powerPoints": {
         "value": 0,
-        "base": 0,
+        "base": 6,
         "modifiers": [],
         "maximum": {
           "value": 0,
@@ -1022,7 +1022,7 @@
       },
       "athleticsGroup": {
         "value": 0,
-        "base": 2,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
@@ -1034,7 +1034,7 @@
       },
       "closeCombatGroup": {
         "value": 0,
-        "base": 3,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
@@ -1070,7 +1070,7 @@
       },
       "firearmsGroup": {
         "value": 0,
-        "base": 4,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
@@ -1082,7 +1082,7 @@
       },
       "outdoorsGroup": {
         "value": 0,
-        "base": 1,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
@@ -1094,7 +1094,7 @@
       },
       "stealthGroup": {
         "value": 0,
-        "base": 2,
+        "base": 0,
         "modifiers": [],
         "isHidden": false
       },
@@ -1106,54 +1106,10 @@
       }
     },
     "skills": {
-      "automatics": {
-        "rating": {
-          "value": 0,
-          "base": 6,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "agility",
-        "limit": {
-          "value": 0,
-          "base": "weaponAccuracy",
-          "modifiers": []
-        },
-        "skillGroup": "firearmsGroup",
-        "category": "combatSkills",
-        "canDefault": true,
-        "specializations": "Assault Rifles"
-      },
       "blades": {
         "rating": {
           "value": 0,
-          "base": 6,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
           "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "agility",
-        "limit": {
-          "value": 0,
-          "base": "weaponAccuracy",
-          "modifiers": []
-        },
-        "skillGroup": "closeCombatGroup",
-        "category": "combatSkills",
-        "canDefault": true,
-        "specializations": "Swords"
-      },
-      "clubs": {
-        "rating": {
-          "value": 0,
-          "base": 3,
           "modifiers": []
         },
         "test": {
@@ -1171,55 +1127,11 @@
         "category": "combatSkills",
         "canDefault": true,
         "specializations": ""
-      },
-      "heavyWeapons": {
-        "rating": {
-          "value": 0,
-          "base": 3,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "agility",
-        "limit": {
-          "value": 0,
-          "base": "weaponAccuracy",
-          "modifiers": []
-        },
-        "skillGroup": "",
-        "category": "combatSkills",
-        "canDefault": true,
-        "specializations": ""
-      },
-      "longarms": {
-        "rating": {
-          "value": 0,
-          "base": 5,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "agility",
-        "limit": {
-          "value": 0,
-          "base": "weaponAccuracy",
-          "modifiers": []
-        },
-        "skillGroup": "firearmsGroup",
-        "category": "combatSkills",
-        "canDefault": true,
-        "specializations": "Shotguns"
       },
       "pistols": {
         "rating": {
           "value": 0,
-          "base": 6,
+          "base": 3,
           "modifiers": []
         },
         "test": {
@@ -1236,12 +1148,12 @@
         "skillGroup": "firearmsGroup",
         "category": "combatSkills",
         "canDefault": true,
-        "specializations": "Semi-Automatics"
+        "specializations": ""
       },
-      "throwingWeapons": {
+      "automatics": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1255,15 +1167,37 @@
           "base": "weaponAccuracy",
           "modifiers": []
         },
-        "skillGroup": "",
+        "skillGroup": "firearmsGroup",
         "category": "combatSkills",
         "canDefault": true,
-        "specializations": "Grenades"
+        "specializations": ""
+      },
+      "longarms": {
+        "rating": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "weaponAccuracy",
+          "modifiers": []
+        },
+        "skillGroup": "firearmsGroup",
+        "category": "combatSkills",
+        "canDefault": true,
+        "specializations": ""
       },
       "unarmedCombat": {
         "rating": {
           "value": 0,
-          "base": 5,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1282,10 +1216,10 @@
         "canDefault": true,
         "specializations": ""
       },
-      "disguise": {
+      "throwingWeapons": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1293,21 +1227,21 @@
           "base": 0,
           "modifiers": []
         },
-        "linkedAttribute": "intuition",
+        "linkedAttribute": "agility",
         "limit": {
           "value": 0,
-          "base": "mentalLimit",
+          "base": "weaponAccuracy",
           "modifiers": []
         },
-        "skillGroup": "stealthGroup",
-        "category": "physicalSkills",
+        "skillGroup": "",
+        "category": "combatSkills",
         "canDefault": true,
         "specializations": ""
       },
       "gymnastics": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 2,
           "modifiers": []
         },
         "test": {
@@ -1326,7 +1260,7 @@
         "canDefault": true,
         "specializations": ""
       },
-      "palming": {
+      "running": {
         "rating": {
           "value": 0,
           "base": 2,
@@ -1337,43 +1271,21 @@
           "base": 0,
           "modifiers": []
         },
-        "linkedAttribute": "agility",
+        "linkedAttribute": "strength",
         "limit": {
           "value": 0,
           "base": "physicalLimit",
           "modifiers": []
         },
-        "skillGroup": "stealthGroup",
-        "category": "physicalSkills",
-        "canDefault": false,
-        "specializations": ""
-      },
-      "perception": {
-        "rating": {
-          "value": 0,
-          "base": 5,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "intuition",
-        "limit": {
-          "value": 0,
-          "base": "mentalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "",
+        "skillGroup": "athleticsGroup",
         "category": "physicalSkills",
         "canDefault": true,
-        "specializations": "Visual"
+        "specializations": ""
       },
-      "running": {
+      "swimming": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1395,7 +1307,7 @@
       "sneaking": {
         "rating": {
           "value": 0,
-          "base": 4,
+          "base": 3,
           "modifiers": []
         },
         "test": {
@@ -1414,10 +1326,98 @@
         "canDefault": true,
         "specializations": ""
       },
+      "palming": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "stealthGroup",
+        "category": "physicalSkills",
+        "canDefault": false,
+        "specializations": ""
+      },
+      "disguise": {
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "stealthGroup",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "perception": {
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "intuition",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "escapeArtist": {
+        "rating": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "physicalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "physicalSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
       "survival": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1436,32 +1436,10 @@
         "canDefault": true,
         "specializations": ""
       },
-      "swimming": {
-        "rating": {
-          "value": 0,
-          "base": 2,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "linkedAttribute": "strength",
-        "limit": {
-          "value": 0,
-          "base": "physicalLimit",
-          "modifiers": []
-        },
-        "skillGroup": "athleticsGroup",
-        "category": "physicalSkills",
-        "canDefault": true,
-        "specializations": ""
-      },
       "tracking": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1483,7 +1461,7 @@
       "con": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 6,
           "modifiers": []
         },
         "test": {
@@ -1505,7 +1483,7 @@
       "etiquette": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 6,
           "modifiers": []
         },
         "test": {
@@ -1522,9 +1500,53 @@
         "skillGroup": "influenceGroup",
         "category": "socialSkills",
         "canDefault": true,
-        "specializations": "Military"
+        "specializations": "Corporate"
       },
       "intimidation": {
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": ""
+      },
+      "negociation": {
+        "rating": {
+          "value": 0,
+          "base": 6,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "charisma",
+        "limit": {
+          "value": 0,
+          "base": "socialLimit",
+          "modifiers": []
+        },
+        "skillGroup": "influenceGroup",
+        "category": "socialSkills",
+        "canDefault": true,
+        "specializations": "Contracts"
+      },
+      "leadership": {
         "rating": {
           "value": 0,
           "base": 5,
@@ -1541,15 +1563,15 @@
           "base": "socialLimit",
           "modifiers": []
         },
-        "skillGroup": "",
+        "skillGroup": "influenceGroup",
         "category": "socialSkills",
         "canDefault": true,
-        "specializations": "Physical"
+        "specializations": ""
       },
-      "negociation": {
+      "impersonation": {
         "rating": {
           "value": 0,
-          "base": 1,
+          "base": 5,
           "modifiers": []
         },
         "test": {
@@ -1563,12 +1585,12 @@
           "base": "socialLimit",
           "modifiers": []
         },
-        "skillGroup": "influenceGroup",
+        "skillGroup": "actingGroup",
         "category": "socialSkills",
         "canDefault": true,
         "specializations": ""
       },
-      "armorer": {
+      "performance": {
         "rating": {
           "value": 0,
           "base": 4,
@@ -1579,21 +1601,21 @@
           "base": 0,
           "modifiers": []
         },
-        "linkedAttribute": "logic",
+        "linkedAttribute": "charisma",
         "limit": {
           "value": 0,
-          "base": "mentalLimit",
+          "base": "socialLimit",
           "modifiers": []
         },
-        "skillGroup": "",
-        "category": "technicalSkills",
+        "skillGroup": "actingGroup",
+        "category": "socialSkills",
         "canDefault": true,
-        "specializations": "Firearms"
+        "specializations": ""
       },
-      "computer": {
+      "assensing": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1601,21 +1623,21 @@
           "base": 0,
           "modifiers": []
         },
-        "linkedAttribute": "logic",
+        "linkedAttribute": "intuition",
         "limit": {
           "value": 0,
-          "base": "mentalLimit",
+          "base": "astralLimit",
           "modifiers": []
         },
-        "skillGroup": "electronicsGroup",
-        "category": "technicalSkills",
-        "canDefault": true,
+        "skillGroup": "",
+        "category": "magicSkills",
+        "canDefault": false,
         "specializations": ""
       },
       "firstAid": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1634,10 +1656,32 @@
         "canDefault": true,
         "specializations": ""
       },
+      "locksmith": {
+        "rating": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "linkedAttribute": "agility",
+        "limit": {
+          "value": 0,
+          "base": "mentalLimit",
+          "modifiers": []
+        },
+        "skillGroup": "",
+        "category": "technicalSkills",
+        "canDefault": false,
+        "specializations": ""
+      },
       "navigation": {
         "rating": {
           "value": 0,
-          "base": 2,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1659,7 +1703,7 @@
       "pilotGroundCraft": {
         "rating": {
           "value": 0,
-          "base": 3,
+          "base": 0,
           "modifiers": []
         },
         "test": {
@@ -1676,7 +1720,7 @@
         "skillGroup": "",
         "category": "vehicleSkills",
         "canDefault": true,
-        "specializations": "Wheeled"
+        "specializations": ""
       }
     },
     "sheetPreferences": {
@@ -1701,7 +1745,7 @@
         "effects": true
       },
       "tabAwaken": {
-        "isActive": false,
+        "isActive": true,
         "type": true,
         "tradition": true,
         "astral": true,
@@ -1731,26 +1775,26 @@
         "money": true
       },
       "tabMagic": {
-        "isActive": false,
-        "spells": true,
+        "isActive": true,
+        "spells": false,
         "adeptPowers": true,
-        "summonedSpirits": true,
+        "summonedSpirits": false,
         "foci": true,
-        "preparations": true,
-        "rituals": true,
-        "powers": true,
-        "metamagics": true
+        "preparations": false,
+        "rituals": false,
+        "powers": false,
+        "metamagics": false
       },
       "tabMatrix": {
         "isActive": false,
-        "programs": true,
-        "matrixActions": true
+        "programs": false,
+        "matrixActions": false
       },
       "tabMatrixUser": {
         "isActive": false,
-        "programs": true,
-        "pan": true,
-        "marksControled": true
+        "programs": false,
+        "pan": false,
+        "marksControled": false
       },
       "tabSkill": {
         "isActive": true,
@@ -1768,11 +1812,11 @@
       },
       "tabTechno": {
         "isActive": false,
-        "resonanceActions": true,
-        "complexForms": true,
-        "sprites": true,
-        "echoes": true,
-        "powers": true
+        "resonanceActions": false,
+        "complexForms": false,
+        "sprites": false,
+        "echoes": false,
+        "powers": false
       },
       "selections": {
         "activeDefense": "dodge",
@@ -1784,11 +1828,11 @@
   },
   "items": [
     {
-      "name": "Ares Predator V",
+      "name": "Fichetti Security 600",
       "type": "itemWeapon",
       "img": "systems/sr5/img/items/itemWeapon.svg",
       "system": {
-        "description": "<p>The most popular heavy pistol in the world, especially among mercenaries and shadowrunners.</p>",
+        "description": "<p>A sleek, stylish light pistol favored by corporate executives and their bodyguards. Perfect for concealed carry under a tailored suit.</p>",
         "gameEffect": "",
         "source": "core",
         "page": "429",
@@ -1798,18 +1842,18 @@
         "isActive": false,
         "concealment": {
           "value": 0,
-          "base": 0,
+          "base": -2,
           "modifiers": []
         },
         "availability": {
-          "base": 5,
+          "base": 3,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "legality": "R",
         "price": {
-          "base": 725,
+          "base": 350,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
@@ -1835,7 +1879,7 @@
         "panMaster": "",
         "marks": [],
         "damageValue": {
-          "base": 8,
+          "base": 7,
           "modifiers": [],
           "value": 0,
           "isStrengthBased": false
@@ -1843,19 +1887,19 @@
         "damageType": "physical",
         "damageElement": "",
         "armorPenetration": {
-          "base": -1,
+          "base": 0,
           "modifiers": [],
           "value": 0
         },
         "accuracy": {
-          "base": 5,
+          "base": 7,
           "modifiers": [],
           "value": 0,
           "isPhysicalLimitBased": false
         },
         "quantity": 1,
         "category": "rangedWeapon",
-        "type": "heavyPistol",
+        "type": "lightPistol",
         "requiredHands": 1,
         "range": {
           "short": {
@@ -1865,17 +1909,17 @@
           },
           "medium": {
             "value": 0,
-            "base": 20,
+            "base": 15,
             "modifiers": []
           },
           "long": {
             "value": 0,
-            "base": 40,
+            "base": 30,
             "modifiers": []
           },
           "extreme": {
             "value": 0,
-            "base": 60,
+            "base": 50,
             "modifiers": []
           },
           "isStrengthBased": false
@@ -1903,9 +1947,9 @@
           "value": []
         },
         "ammunition": {
-          "value": 15,
-          "max": 15,
-          "type": "regular",
+          "value": 30,
+          "max": 30,
+          "type": "regularAmmo",
           "casing": "clip",
           "rating": "",
           "clipInserted": true
@@ -1915,13 +1959,7 @@
           "base": 0,
           "modifiers": []
         },
-        "accessory": [
-          {
-            "name": "smartgunSystemInternal",
-            "isFree": true,
-            "isActive": true
-          }
-        ],
+        "accessory": [],
         "weaponSkill": {
           "dicePool": 0,
           "base": 0,
@@ -1957,12 +1995,12 @@
       }
     },
     {
-      "name": "Katana",
+      "name": "Shock Gloves",
       "type": "itemWeapon",
       "img": "systems/sr5/img/items/itemWeapon.svg",
       "system": {
-        "description": "<p>The legendary two-handed sword of the samurai, the katana has become synonymous with street samurai and shadowrunners in general.</p>",
-        "gameEffect": "",
+        "description": "<p>Insulated gloves with built-in capacitors that deliver a powerful electric shock on contact.</p>",
+        "gameEffect": "<p>Deals 8S(e) damage with AP -5. Useful for subduing targets non-lethally.</p>",
         "source": "core",
         "page": "425",
         "customEffects": [],
@@ -1971,18 +2009,18 @@
         "isActive": false,
         "concealment": {
           "value": 0,
-          "base": 6,
+          "base": 0,
           "modifiers": []
         },
         "availability": {
-          "base": 9,
+          "base": 6,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "legality": "R",
         "price": {
-          "base": 1000,
+          "base": 550,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
@@ -2008,846 +2046,153 @@
         "panMaster": "",
         "marks": [],
         "damageValue": {
-          "base": 3,
+          "base": 8,
           "modifiers": [],
           "value": 0,
-          "isStrengthBased": true
+          "isStrengthBased": false
         },
-        "damageType": "physical",
-        "damageElement": "",
+        "damageType": "stun",
+        "damageElement": "electricity",
         "armorPenetration": {
-          "base": -3,
+          "base": -5,
           "modifiers": [],
           "value": 0
         },
         "accuracy": {
-          "base": 7,
-          "modifiers": [],
-          "value": 0,
-          "isPhysicalLimitBased": false
-        },
-        "quantity": 1,
-        "category": "meleeWeapon",
-        "type": "blades",
-        "requiredHands": 1,
-        "range": {
-          "short": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "medium": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "long": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "extreme": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "isStrengthBased": false
-        },
-        "reach": {
-          "value": 0,
-          "base": 1,
-          "modifiers": []
-        },
-        "blast": {
-          "radius": 0,
-          "damageFallOff": 0
-        },
-        "aerodynamic": false,
-        "firingMode": {
-          "singleShot": false,
-          "semiAutomatic": false,
-          "burstFire": false,
-          "fullyAutomatic": false,
-          "value": [],
-          "current": ""
-        },
-        "choke": {
-          "current": "",
-          "value": []
-        },
-        "ammunition": {
-          "value": 0,
-          "max": 0,
-          "type": "",
-          "casing": "",
-          "rating": "",
-          "clipInserted": true
-        },
-        "recoilCompensation": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "accessory": [],
-        "weaponSkill": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "specialization": false,
-          "category": "blades"
-        },
-        "toxin": {
-          "type": "",
-          "vector": {
-            "contact": false,
-            "ingestion": false,
-            "inhalation": false,
-            "injection": false
-          },
-          "speed": "",
-          "power": 0,
-          "effect": {
-            "disorientation": false,
-            "nausea": false,
-            "paralysis": false,
-            "agony": false,
-            "arcaneInhibitor": false
-          },
-          "penetration": 0,
-          "damageType": null
-        },
-        "isLinkedToFocus": false,
-        "isUsedAsFocus": false,
-        "isLinkedToMount": false,
-        "isUsedAsMount": false,
-        "isMagical": false
-      }
-    },
-    {
-      "name": "Remington 990",
-      "type": "itemWeapon",
-      "img": "systems/sr5/img/items/itemWeapon.svg",
-      "system": {
-        "description": "<p>A reliable, no-frills shotgun that has been in continuous production for nearly 70 years. Favored by professionals and novices alike.</p>",
-        "gameEffect": "Built-in: 2 slide mounts (top and bottom)",
-        "source": "runAndGun",
-        "page": "55",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "isActive": false,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "availability": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 950,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "itemRating": 0,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "damageValue": {
-          "base": 11,
-          "modifiers": [],
-          "value": 0,
-          "isStrengthBased": false
-        },
-        "damageType": "physical",
-        "damageElement": "",
-        "armorPenetration": {
-          "base": -1,
-          "modifiers": [],
-          "value": 0
-        },
-        "accuracy": {
-          "base": 4,
-          "modifiers": [],
-          "value": 0,
-          "isPhysicalLimitBased": false
-        },
-        "quantity": 1,
-        "category": "rangedWeapon",
-        "type": "shotgun",
-        "requiredHands": 1,
-        "range": {
-          "short": {
-            "value": 0,
-            "base": 10,
-            "modifiers": []
-          },
-          "medium": {
-            "value": 0,
-            "base": 40,
-            "modifiers": []
-          },
-          "long": {
-            "value": 0,
-            "base": 80,
-            "modifiers": []
-          },
-          "extreme": {
-            "value": 0,
-            "base": 150,
-            "modifiers": []
-          },
-          "isStrengthBased": false
-        },
-        "reach": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "blast": {
-          "radius": 0,
-          "damageFallOff": 0
-        },
-        "aerodynamic": false,
-        "firingMode": {
-          "singleShot": false,
-          "semiAutomatic": true,
-          "burstFire": false,
-          "fullyAutomatic": false,
-          "value": [],
-          "current": ""
-        },
-        "choke": {
-          "current": "",
-          "value": []
-        },
-        "ammunition": {
-          "value": 8,
-          "max": 8,
-          "type": "regular",
-          "casing": "clip",
-          "rating": "",
-          "clipInserted": true
-        },
-        "recoilCompensation": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "accessory": [
-          {
-            "name": "slideMount",
-            "isFree": true,
-            "isActive": true
-          },
-          {
-            "name": "slideMount",
-            "isFree": true,
-            "isActive": true
-          }
-        ],
-        "weaponSkill": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "specialization": false,
-          "category": "longarms"
-        },
-        "toxin": {
-          "type": "",
-          "vector": {
-            "contact": false,
-            "ingestion": false,
-            "inhalation": false,
-            "injection": false
-          },
-          "speed": "",
-          "power": 0,
-          "effect": {
-            "disorientation": false,
-            "nausea": false,
-            "paralysis": false,
-            "agony": false,
-            "arcaneInhibitor": false
-          },
-          "penetration": 0,
-          "damageType": null
-        },
-        "isLinkedToFocus": false,
-        "isUsedAsFocus": false,
-        "isLinkedToMount": false,
-        "isUsedAsMount": false,
-        "isMagical": false
-      }
-    },
-    {
-      "name": "Combat Knife",
-      "type": "itemWeapon",
-      "img": "systems/sr5/img/items/itemWeapon.svg",
-      "system": {
-        "description": "<p>A sturdy combat knife, the runner's best friend.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "425",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "isActive": false,
-        "concealment": {
-          "value": 0,
-          "base": -2,
-          "modifiers": []
-        },
-        "availability": {
-          "base": 4,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 300,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "itemRating": 0,
-        "isWireless": false,
-        "wirelessTurnedOn": false,
-        "deviceRating": 0,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "damageValue": {
-          "base": 2,
-          "modifiers": [],
-          "value": 0,
-          "isStrengthBased": true
-        },
-        "damageType": "physical",
-        "damageElement": "",
-        "armorPenetration": {
-          "base": -3,
-          "modifiers": [],
-          "value": 0
-        },
-        "accuracy": {
-          "base": 6,
-          "modifiers": [],
-          "value": 0,
-          "isPhysicalLimitBased": false
-        },
-        "quantity": 1,
-        "category": "meleeWeapon",
-        "type": "blades",
-        "requiredHands": 1,
-        "range": {
-          "short": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "medium": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "long": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "extreme": {
-            "value": 0,
-            "base": 0,
-            "modifiers": []
-          },
-          "isStrengthBased": false
-        },
-        "reach": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "blast": {
-          "radius": 0,
-          "damageFallOff": 0
-        },
-        "aerodynamic": false,
-        "firingMode": {
-          "singleShot": false,
-          "semiAutomatic": false,
-          "burstFire": false,
-          "fullyAutomatic": false,
-          "value": [],
-          "current": ""
-        },
-        "choke": {
-          "current": "",
-          "value": []
-        },
-        "ammunition": {
-          "value": 0,
-          "max": 0,
-          "type": "",
-          "casing": "",
-          "rating": "",
-          "clipInserted": true
-        },
-        "recoilCompensation": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "accessory": [],
-        "weaponSkill": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "specialization": false,
-          "category": "blades"
-        },
-        "toxin": {
-          "type": "",
-          "vector": {
-            "contact": false,
-            "ingestion": false,
-            "inhalation": false,
-            "injection": false
-          },
-          "speed": "",
-          "power": 0,
-          "effect": {
-            "disorientation": false,
-            "nausea": false,
-            "paralysis": false,
-            "agony": false,
-            "arcaneInhibitor": false
-          },
-          "penetration": 0,
-          "damageType": null
-        },
-        "isLinkedToFocus": false,
-        "isUsedAsFocus": false,
-        "isLinkedToMount": false,
-        "isUsedAsMount": false,
-        "isMagical": false
-      }
-    },
-    {
-      "name": "Full Body Armor",
-      "type": "itemArmor",
-      "img": "systems/sr5/img/items/itemArmor.svg",
-      "system": {
-        "description": "<p>Heavy full-body armor used by military and high-threat response teams. Covers from head to toe with ballistic plates.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "439",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 14,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 2000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "itemRating": 0,
-        "isActive": true,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
-          "value": 0,
-          "base": 15,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "armorValue": {
-          "value": 0,
-          "base": 15,
-          "modifiers": []
-        },
-        "isPlugged": false,
-        "isCumulative": false,
-        "accessory": []
-      }
-    },
-    {
-      "name": "Armored Jacket",
-      "type": "itemArmor",
-      "img": "systems/sr5/img/items/itemArmor.svg",
-      "system": {
-        "description": "<p>The most popular armor on the streets, available in every style imaginable. Backup armor for less conspicuous situations.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "439",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 2,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 1000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "itemRating": 0,
-        "isActive": false,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "armorValue": {
-          "value": 0,
-          "base": 12,
-          "modifiers": []
-        },
-        "isPlugged": false,
-        "isCumulative": false,
-        "accessory": []
-      }
-    },
-    {
-      "name": "Wired Reflexes 2",
-      "type": "itemAugmentation",
-      "img": "systems/sr5/img/items/itemAugmentation.svg",
-      "system": {
-        "description": "<p>Neural accelerators and adrenaline stimulators implanted through a highly invasive procedure, projecting the user into a world where everything moves in slow motion.</p>",
-        "gameEffect": "<p>Increases Reaction (and thus Initiative) and Initiative Dice by its rating. Can be toggled on/off.</p>",
-        "source": "core",
-        "page": "458",
-        "customEffects": [
-          {
-            "category": "characterAttributes",
-            "target": "system.attributes.reaction.augmented",
-            "type": "rating",
-            "multiplier": null
-          },
-          {
-            "category": "characterInitiatives",
-            "target": "system.initiatives.physicalInit.dice",
-            "type": "rating",
-            "multiplier": null
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 12,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "R",
-        "price": {
-          "base": 149000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": true,
-        "itemRating": 2,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "type": "cyberware",
-        "category": "bodyware",
-        "grade": "standard",
-        "isPlugged": false,
-        "essenceCost": {
-          "value": 0,
-          "base": 3,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "accessory": [],
-        "cyberlimbs": {
-          "agility": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "strength": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "isCustom": false,
-          "enhancement": []
-        }
-      }
-    },
-    {
-      "name": "Muscle Replacement 1",
-      "type": "itemAugmentation",
-      "img": "systems/sr5/img/items/itemAugmentation.svg",
-      "system": {
-        "description": "<p>Synthetic muscles grown in a vat replace or enhance the user's own muscles while calcium treatments and skeletal reinforcement contribute to overall strength.</p>",
-        "gameEffect": "<p>Adds its rating to Strength and Agility. Cannot be combined with other muscle augmentations.</p>",
-        "source": "core",
-        "page": "459",
-        "customEffects": [
-          {
-            "category": "characterAttributes",
-            "target": "system.attributes.agility.augmented",
-            "type": "rating",
-            "multiplier": null
-          },
-          {
-            "category": "characterAttributes",
-            "target": "system.attributes.strength.augmented",
-            "type": "rating",
-            "multiplier": null
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
           "base": 5,
           "modifiers": [],
           "value": 0,
-          "multiplier": "rating"
+          "isPhysicalLimitBased": false
         },
-        "legality": "R",
-        "price": {
-          "base": 25000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": "rating"
-        },
-        "isActive": true,
-        "itemRating": 1,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
+        "quantity": 1,
+        "category": "meleeWeapon",
+        "type": "unarmedCombat",
+        "requiredHands": 0,
+        "range": {
+          "short": {
             "value": 0,
             "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
+            "modifiers": []
+          },
+          "medium": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "long": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "extreme": {
+            "value": 0,
+            "base": 0,
+            "modifiers": []
+          },
+          "isStrengthBased": false
         },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
+        "reach": {
           "value": 0,
           "base": 0,
-          "modifiers": [],
-          "multiplier": ""
+          "modifiers": []
         },
-        "capacityTaken": {
+        "blast": {
+          "radius": 0,
+          "damageFallOff": 0
+        },
+        "aerodynamic": false,
+        "firingMode": {
+          "singleShot": false,
+          "semiAutomatic": false,
+          "burstFire": false,
+          "fullyAutomatic": false,
+          "value": [],
+          "current": ""
+        },
+        "choke": {
+          "current": "",
+          "value": []
+        },
+        "ammunition": {
+          "value": 0,
+          "max": 0,
+          "type": "",
+          "casing": "",
+          "rating": "",
+          "clipInserted": true
+        },
+        "recoilCompensation": {
           "value": 0,
           "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "type": "cyberware",
-        "category": "bodyware",
-        "grade": "standard",
-        "isPlugged": false,
-        "essenceCost": {
-          "value": 0,
-          "base": 1,
-          "modifiers": [],
-          "multiplier": "rating"
+          "modifiers": []
         },
         "accessory": [],
-        "cyberlimbs": {
-          "agility": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
+        "weaponSkill": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "specialization": false,
+          "category": "unarmedCombat"
+        },
+        "toxin": {
+          "type": "",
+          "vector": {
+            "contact": false,
+            "ingestion": false,
+            "inhalation": false,
+            "injection": false
           },
-          "strength": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
+          "speed": "",
+          "power": 0,
+          "effect": {
+            "disorientation": false,
+            "nausea": false,
+            "paralysis": false,
+            "agony": false,
+            "arcaneInhibitor": false
           },
-          "isCustom": false,
-          "enhancement": []
-        }
+          "penetration": 0,
+          "damageType": null
+        },
+        "isLinkedToFocus": false,
+        "isUsedAsFocus": false,
+        "isLinkedToMount": false,
+        "isUsedAsMount": false,
+        "isMagical": false
       }
     },
     {
-      "name": "Dermal Plating 2",
-      "type": "itemAugmentation",
-      "img": "systems/sr5/img/items/itemAugmentation.svg",
+      "name": "Argentum Coat",
+      "type": "itemArmor",
+      "img": "systems/sr5/img/items/itemArmor.svg",
       "system": {
-        "description": "<p>Plastic and ceramic fiber plates grafted onto the skin. Clearly visible and even more obvious to the touch, but can be embellished with stylized colors and textures.</p>",
-        "gameEffect": "<p>Provides armor bonus equal to its rating (cumulative with other armor sources without causing encumbrance).</p>",
+        "description": "<p>A luxurious armored long coat made from high-end ballistic fabrics. Looks like high fashion while providing serious protection.</p>",
+        "gameEffect": "",
         "source": "core",
-        "page": "458",
-        "customEffects": [
-          {
-            "category": "itemArmor",
-            "target": "system.itemsProperties.armor",
-            "type": "rating",
-            "multiplier": 1
-          }
-        ],
+        "page": "439",
+        "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
         "availability": {
-          "base": 4,
+          "base": 10,
           "modifiers": [],
           "value": 0,
-          "multiplier": "rating"
+          "multiplier": ""
         },
-        "legality": "R",
+        "legality": "",
         "price": {
           "base": 3000,
           "modifiers": [],
           "value": 0,
-          "multiplier": "rating"
+          "multiplier": ""
         },
+        "itemRating": 0,
         "isActive": true,
-        "itemRating": 2,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
         "isWireless": true,
         "wirelessTurnedOn": true,
         "deviceRating": 2,
@@ -2869,7 +2214,7 @@
         "marks": [],
         "capacity": {
           "value": 0,
-          "base": 0,
+          "base": 8,
           "modifiers": [],
           "multiplier": ""
         },
@@ -2880,42 +2225,353 @@
           "multiplier": ""
         },
         "isAccessory": false,
-        "type": "cyberware",
-        "category": "bodyware",
-        "grade": "standard",
-        "isPlugged": false,
-        "essenceCost": {
+        "armorValue": {
           "value": 0,
-          "base": 0.5,
-          "modifiers": [],
-          "multiplier": "rating"
+          "base": 12,
+          "modifiers": []
         },
-        "accessory": [],
-        "cyberlimbs": {
-          "agility": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "strength": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "isCustom": false,
-          "enhancement": []
+        "isPlugged": false,
+        "isCumulative": false,
+        "accessory": []
+      }
+    },
+    {
+      "name": "Authoritative Tone",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept's voice carries an air of authority that compels compliance.</p>",
+        "gameEffect": "<p>+2 dice to Leadership tests when issuing direct commands.</p>",
+        "source": "core",
+        "page": "311",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 1.0,
+          "modifiers": [],
+          "isRatingBased": false
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
         }
       }
     },
     {
-      "name": "Cybereyes Rating 4",
+      "name": "Cool Resolve",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept maintains supernatural composure under pressure.</p>",
+        "gameEffect": "<p>+1 per rating to Composure and Judge Intentions tests.</p>",
+        "source": "core",
+        "page": "312",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Kinesics",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept has supernatural control over micro-expressions and body language.</p>",
+        "gameEffect": "<p>+1 per rating to resist Social tests to read the adept. Also adds to social limit.</p>",
+        "source": "core",
+        "page": "313",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 3,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.25,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Voice Control",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept has precise control over their vocal cords, enabling them to mimic voices and project their voice at unusual volumes.</p>",
+        "gameEffect": "<p>Grants voice modulation, mimicry, and projection abilities.</p>",
+        "source": "core",
+        "page": "316",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 1,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": false
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Improved Ability (Con)",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept's magical nature enhances a specific skill beyond normal limits.</p>",
+        "gameEffect": "<p>+2 to Con skill rating (can exceed natural maximum).</p>",
+        "source": "core",
+        "page": "313",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Enhanced Perception",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept's senses are magically enhanced.</p>",
+        "gameEffect": "<p>+1 to Perception and Assensing tests per rating.</p>",
+        "source": "core",
+        "page": "312",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 1,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Linguistics",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept has a supernatural gift for languages, able to quickly learn and understand unfamiliar tongues.</p>",
+        "gameEffect": "<p>Allows the adept to learn languages at accelerated speed and attempt to comprehend unknown languages.</p>",
+        "source": "core",
+        "page": "313",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.25,
+          "modifiers": [],
+          "isRatingBased": false
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Facial Sculpt",
+      "type": "itemAdeptPower",
+      "img": "systems/sr5/img/items/itemAdeptPower.svg",
+      "system": {
+        "description": "<p>The adept can subtly alter their facial features through magical manipulation of bone and tissue.</p>",
+        "gameEffect": "<p>+1 per rating to Disguise and Impersonation tests.</p>",
+        "source": "core",
+        "page": "312",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 2,
+        "actionType": "permanent",
+        "hits": 0,
+        "powerPointsCost": {
+          "value": 0,
+          "base": 0.5,
+          "modifiers": [],
+          "isRatingBased": true
+        },
+        "needRoll": false,
+        "testFirstAttribute": "",
+        "testSecondAttribute": "",
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "targetOfEffect": [],
+        "hasDrain": false,
+        "drainType": "",
+        "drainMultiplier": 1,
+        "drainValue": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Tailored Pheromones 3",
       "type": "itemAugmentation",
       "img": "systems/sr5/img/items/itemAugmentation.svg",
       "system": {
-        "description": "<p>Top-tier cybereyes with extensive capacity for vision enhancements. Provides flawless electronic imaging with built-in visual interface and camera.</p>",
-        "gameEffect": "",
+        "description": "<p>Glands implanted in the body that release tailored pheromones to subtly influence those nearby, enhancing social interactions.</p>",
+        "gameEffect": "<p>+3 dice to Social skill tests. Also adds to Social Limit.</p>",
         "source": "core",
-        "page": "456",
+        "page": "460",
         "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
@@ -2925,207 +2581,18 @@
           "value": 0,
           "multiplier": ""
         },
-        "legality": "",
-        "price": {
-          "base": 14000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": true,
-        "itemRating": 0,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
-          "value": 0,
-          "base": 16,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "type": "cyberware",
-        "category": "eyeware",
-        "grade": "standard",
-        "isPlugged": false,
-        "essenceCost": {
-          "value": 0,
-          "base": 0.5,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "accessory": [],
-        "cyberlimbs": {
-          "agility": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "strength": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "isCustom": false,
-          "enhancement": []
-        }
-      }
-    },
-    {
-      "name": "Smartlink",
-      "type": "itemAugmentation",
-      "img": "systems/sr5/img/items/itemAugmentation.svg",
-      "system": {
-        "description": "<p>Must be paired with a smartgun to take full advantage of the system. Provides targeting data including range, ammo count, barrel temperature, and mechanical stress.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "457",
-        "customEffects": [
-          {
-            "category": "specialProperties",
-            "target": "system.specialProperties.smartlink",
-            "type": "value",
-            "value": 2,
-            "multiplier": 1
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 8,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
         "legality": "R",
         "price": {
-          "base": 4000,
+          "base": 31000,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "isActive": true,
-        "itemRating": 0,
+        "itemRating": 3,
         "isWireless": true,
         "wirelessTurnedOn": true,
-        "deviceRating": 2,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 3,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": true,
-        "type": "cyberware",
-        "category": "eyeware",
-        "grade": "standard",
-        "isPlugged": false,
-        "essenceCost": {
-          "value": 0,
-          "base": 0.2,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "accessory": [],
-        "cyberlimbs": {
-          "agility": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "strength": {
-            "value": 0,
-            "base": 3,
-            "customization": 0
-          },
-          "isCustom": false,
-          "enhancement": []
-        }
-      }
-    },
-    {
-      "name": "Datajack",
-      "type": "itemAugmentation",
-      "img": "systems/sr5/img/items/itemAugmentation.svg",
-      "system": {
-        "description": "<p>A datajack provides a direct neural interface with retractable micro-cable for plugging into devices.</p>",
-        "gameEffect": "<p>Wireless: provides 1 point of Noise Reduction.</p>",
-        "source": "core",
-        "page": "456",
-        "customEffects": [
-          {
-            "category": "matrixAttributes",
-            "target": "system.matrix.attributes.noiseReduction",
-            "type": "value",
-            "value": 1,
-            "multiplier": null,
-            "wifi": true
-          }
-        ],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 2,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 1000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": true,
-        "itemRating": 0,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 2,
+        "deviceRating": 0,
         "conditionMonitors": {
           "matrix": {
             "value": 0,
@@ -3155,13 +2622,13 @@
           "multiplier": ""
         },
         "isAccessory": false,
-        "type": "cyberware",
-        "category": "headware",
+        "type": "bioware",
+        "category": "bodyware",
         "grade": "standard",
         "isPlugged": false,
         "essenceCost": {
           "value": 0,
-          "base": 0.1,
+          "base": 0.6,
           "modifiers": [],
           "multiplier": ""
         },
@@ -3183,77 +2650,68 @@
       }
     },
     {
-      "name": "Toughness",
+      "name": "First Impression",
       "type": "itemQuality",
       "img": "systems/sr5/img/items/itemQuality.svg",
       "system": {
-        "description": "<p>A character with Toughness shrugs off damage more easily than others.</p>",
-        "gameEffect": "<p>+1 dice pool modifier to Body for damage resistance tests.</p>",
+        "description": "<p>The character makes a strong first impression, gaining bonus dice on Social tests during initial meetings.</p>",
+        "gameEffect": "<p>+2 dice pool modifier to social tests during a first meeting.</p>",
         "source": "core",
-        "page": "76",
-        "customEffects": [
-          {
-            "category": "characterResistances",
-            "target": "system.resistances.physicalDamage",
-            "type": "value",
-            "value": 1,
-            "multiplier": null
-          }
-        ],
+        "page": "78",
+        "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
         "isActive": true,
         "itemRating": 0,
         "type": "positive",
-        "karmaCost": 9
+        "karmaCost": 11
       }
     },
     {
-      "name": "High Pain Tolerance 2",
+      "name": "Blandness",
       "type": "itemQuality",
       "img": "systems/sr5/img/items/itemQuality.svg",
       "system": {
-        "description": "<p>Allows the character to ignore wound modifiers from damage boxes.</p>",
-        "gameEffect": "<p>Ignore 2 boxes of damage when calculating wound modifiers.</p>",
+        "description": "<p>The character's appearance is utterly forgettable. People have difficulty remembering specific details about them.</p>",
+        "gameEffect": "<p>+2 to limit for social tests to blend in. -2 to attempts to identify or remember the character.</p>",
         "source": "core",
         "page": "76",
-        "customEffects": [
-          {
-            "category": "characterConditionMonitors",
-            "target": "system.penalties.stun.step",
-            "type": "rating",
-            "multiplier": null
-          },
-          {
-            "category": "characterConditionMonitors",
-            "target": "system.penalties.condition.step",
-            "type": "rating",
-            "multiplier": null
-          },
-          {
-            "category": "characterConditionMonitors",
-            "target": "system.penalties.physical.step",
-            "type": "rating",
-            "multiplier": null
-          }
-        ],
+        "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
         "isActive": true,
-        "itemRating": 2,
+        "itemRating": 0,
         "type": "positive",
-        "karmaCost": 7
+        "karmaCost": 8
       }
     },
     {
-      "name": "SINner (National)",
+      "name": "SINner (Corporate Limited)",
       "type": "itemQuality",
       "img": "systems/sr5/img/items/itemQuality.svg",
       "system": {
-        "description": "<p>The character has a national SIN from Russia, subject to taxation and tracking.</p>",
+        "description": "<p>The character has a corporate limited SIN, making them a registered citizen of a megacorporation. Subject to tracking and taxation.</p>",
         "gameEffect": "",
         "source": "core",
         "page": "86",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "isActive": true,
+        "itemRating": 0,
+        "type": "negative",
+        "karmaCost": 15
+      }
+    },
+    {
+      "name": "Prejudice (Aztechnology)",
+      "type": "itemQuality",
+      "img": "systems/sr5/img/items/itemQuality.svg",
+      "system": {
+        "description": "<p>The character harbors a deep prejudice against Aztechnology and its employees, stemming from the corporate extraction that ruined his family.</p>",
+        "gameEffect": "<p>-2 dice on social tests involving Aztechnology personnel. May need to make Composure tests to remain civil.</p>",
+        "source": "core",
+        "page": "84",
         "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
@@ -3264,134 +2722,69 @@
       }
     },
     {
-      "name": "GMC Bulldog Step Van",
-      "type": "itemVehicle",
-      "img": "systems/sr5/img/items/itemVehicle.svg",
+      "name": "Qi Focus (Kinesics)",
+      "type": "itemFocus",
+      "img": "systems/sr5/img/items/itemFocus.svg",
       "system": {
-        "description": "<p>A rugged step van popular with security firms and shadowrunner teams. Modified with concealed armor plating.</p>",
-        "gameEffect": "",
+        "description": "<p>A slim platinum bracelet engraved with subtle magical symbols, bonded to sustain the Kinesics adept power.</p>",
+        "gameEffect": "<p>Sustains the Kinesics adept power, freeing power points.</p>",
         "source": "core",
-        "page": "468",
+        "page": "320",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 9,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "R",
+        "price": {
+          "base": 3000,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": true,
+        "itemRating": 3,
+        "type": "qi",
+        "isBonded": true,
+        "karmaCost": 2,
+        "force": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "subType": "",
+        "spellChoices": [],
+        "weaponChoices": [],
+        "sustainedSpell": "",
+        "linkedWeapon": "",
+        "linkedWeaponName": ""
+      }
+    },
+    {
+      "name": "Bug Scanner R6",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>A sophisticated electronic device for detecting surveillance equipment and hidden transmitters.</p>",
+        "gameEffect": "<p>Provides dice pool for detecting bugs and surveillance devices.</p>",
+        "source": "core",
+        "page": "449",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
         "availability": {
           "base": 6,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
-        "legality": "",
+        "legality": "R",
         "price": {
-          "base": 35000,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "isWireless": true,
-        "wirelessTurnedOn": true,
-        "deviceRating": 1,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          },
-          "condition": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "type": "vehicle",
-        "category": "truck",
-        "attributes": {
-          "handling": 3,
-          "handlingOffRoad": 3,
-          "speed": 3,
-          "speedOffRoad": 3,
-          "acceleration": 1,
-          "accelerationOffRoad": 1,
-          "body": 16,
-          "armor": 12,
-          "pilot": 1,
-          "sensor": 2
-        },
-        "modificationSlots": {
-          "powerTrain": 0,
-          "protection": 0,
-          "weapons": 0,
-          "body": 0,
-          "electromagnetic": 0,
-          "cosmetic": 0,
-          "extraWeapons": 0,
-          "extraBody": 0
-        },
-        "seating": 6,
-        "controlMode": "manual",
-        "offRoadMode": false,
-        "riggerInterface": false,
-        "pilotSkill": "pilotGroundCraft",
-        "secondaryPropulsion": {
-          "isActive": false,
-          "type": "",
-          "note": "",
-          "isSecondaryPropulsion": false,
-          "handling": 0,
-          "handlingOffRoad": 0,
-          "speed": 0,
-          "acceleration": 0
-        },
-        "model": "",
-        "autosoft": [],
-        "weapons": [],
-        "ammunitions": [],
-        "armors": [],
-        "decks": [],
-        "vehiclesMod": [],
-        "isCreated": false,
-        "slaved": []
-      }
-    },
-    {
-      "name": "Medkit",
-      "type": "itemGear",
-      "img": "systems/sr5/img/items/itemGear.svg",
-      "system": {
-        "description": "<p>A military-grade medical kit for field treatment of injuries.</p>",
-        "gameEffect": "<p>Provides dice for First Aid tests. Rating determines dice pool.</p>",
-        "source": "core",
-        "page": "453",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [
-          {
-            "category": "specificItem",
-            "value": "medkit"
-          }
-        ],
-        "availability": {
-          "base": 3,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 1500,
+          "base": 600,
           "modifiers": [],
           "value": 0,
           "multiplier": "rating"
@@ -3423,13 +2816,13 @@
         "panMaster": "",
         "marks": [],
         "quantity": 1,
-        "isMedkit": true,
-        "canRollTest": true,
+        "isMedkit": false,
+        "canRollTest": false,
         "test": {
           "dicePool": 0,
           "base": 0,
           "modifiers": [],
-          "type": "ratingX2"
+          "type": ""
         },
         "capacity": {
           "value": 0,
@@ -3524,14 +2917,90 @@
       }
     },
     {
-      "name": "Binoculars (Optical Rating 3)",
+      "name": "Contacts R3",
       "type": "itemGear",
       "img": "systems/sr5/img/items/itemGear.svg",
       "system": {
-        "description": "<p>Optical binoculars with vision magnification and image link.</p>",
+        "description": "<p>High-end AR-enabled contact lenses with built-in vision enhancements.</p>",
         "gameEffect": "",
         "source": "core",
-        "page": "449",
+        "page": "444",
+        "customEffects": [],
+        "itemEffects": [],
+        "systemEffects": [],
+        "availability": {
+          "base": 3,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "legality": "",
+        "price": {
+          "base": 600,
+          "modifiers": [],
+          "value": 0,
+          "multiplier": ""
+        },
+        "isActive": false,
+        "itemRating": 3,
+        "concealment": {
+          "value": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 3,
+        "conditionMonitors": {
+          "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
+        },
+        "isSlavedToPan": false,
+        "panMaster": "",
+        "marks": [],
+        "quantity": 1,
+        "isMedkit": false,
+        "canRollTest": false,
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": [],
+          "type": ""
+        },
+        "capacity": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "capacityTaken": {
+          "value": 0,
+          "base": 0,
+          "modifiers": [],
+          "multiplier": ""
+        },
+        "isAccessory": false,
+        "charge": ""
+      }
+    },
+    {
+      "name": "Earbuds R3",
+      "type": "itemGear",
+      "img": "systems/sr5/img/items/itemGear.svg",
+      "system": {
+        "description": "<p>Discreet earbuds with audio enhancement capabilities.</p>",
+        "gameEffect": "",
+        "source": "core",
+        "page": "445",
         "customEffects": [],
         "itemEffects": [],
         "systemEffects": [],
@@ -3600,42 +3069,44 @@
       }
     },
     {
-      "name": "Survival Kit",
-      "type": "itemGear",
-      "img": "systems/sr5/img/items/itemGear.svg",
+      "name": "BMW 400GT",
+      "type": "itemVehicle",
+      "img": "systems/sr5/img/items/itemVehicle.svg",
       "system": {
-        "description": "<p>Contains essentials for wilderness survival: water purifier, lighter, compass, knife, etc.</p>",
+        "description": "<p>A luxury sedan that projects wealth and status. Silvertongue's preferred vehicle for meeting clients and attending high-society events.</p>",
         "gameEffect": "",
         "source": "core",
-        "page": "453",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
+        "page": "468",
         "availability": {
-          "base": 4,
+          "base": 12,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "legality": "",
         "price": {
-          "base": 200,
+          "base": 65000,
           "modifiers": [],
           "value": 0,
           "multiplier": ""
         },
         "isActive": false,
-        "itemRating": 0,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": false,
-        "wirelessTurnedOn": false,
-        "deviceRating": 0,
+        "isWireless": true,
+        "wirelessTurnedOn": true,
+        "deviceRating": 3,
         "conditionMonitors": {
           "matrix": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "condition": {
             "value": 0,
             "base": 0,
             "modifiers": [],
@@ -3650,205 +3121,78 @@
         "isSlavedToPan": false,
         "panMaster": "",
         "marks": [],
-        "quantity": 1,
-        "isMedkit": false,
-        "canRollTest": false,
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "type": ""
+        "type": "vehicle",
+        "category": "car",
+        "attributes": {
+          "handling": 5,
+          "handlingOffRoad": 3,
+          "speed": 6,
+          "speedOffRoad": 3,
+          "acceleration": 3,
+          "accelerationOffRoad": 2,
+          "body": 10,
+          "armor": 6,
+          "pilot": 2,
+          "sensor": 3
         },
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
+        "modificationSlots": {
+          "powerTrain": 0,
+          "protection": 0,
+          "weapons": 0,
+          "body": 0,
+          "electromagnetic": 0,
+          "cosmetic": 0,
+          "extraWeapons": 0,
+          "extraBody": 0
         },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
+        "seating": 2,
+        "controlMode": "manual",
+        "offRoadMode": false,
+        "riggerInterface": false,
+        "pilotSkill": "pilotGroundCraft",
+        "secondaryPropulsion": {
+          "isActive": false,
+          "type": "",
+          "note": "",
+          "isSecondaryPropulsion": false,
+          "handling": 0,
+          "handlingOffRoad": 0,
+          "speed": 0,
+          "acceleration": 0
         },
-        "isAccessory": false,
-        "charge": ""
+        "model": "",
+        "autosoft": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehiclesMod": [],
+        "isCreated": false,
+        "slaved": []
       }
     },
     {
-      "name": "Flashlight",
-      "type": "itemGear",
-      "img": "systems/sr5/img/items/itemGear.svg",
-      "system": {
-        "description": "<p>A standard flashlight, infrared and low-light capable.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "449",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 0,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 25,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": false,
-        "wirelessTurnedOn": false,
-        "deviceRating": 0,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "quantity": 1,
-        "isMedkit": false,
-        "canRollTest": false,
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "type": ""
-        },
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "charge": ""
-      }
-    },
-    {
-      "name": "Rappelling Gloves",
-      "type": "itemGear",
-      "img": "systems/sr5/img/items/itemGear.svg",
-      "system": {
-        "description": "<p>Heavy-duty gloves designed for rappelling and climbing operations.</p>",
-        "gameEffect": "",
-        "source": "core",
-        "page": "449",
-        "customEffects": [],
-        "itemEffects": [],
-        "systemEffects": [],
-        "availability": {
-          "base": 2,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "legality": "",
-        "price": {
-          "base": 50,
-          "modifiers": [],
-          "value": 0,
-          "multiplier": ""
-        },
-        "isActive": false,
-        "itemRating": 0,
-        "concealment": {
-          "value": 0,
-          "base": 0,
-          "modifiers": []
-        },
-        "isWireless": false,
-        "wirelessTurnedOn": false,
-        "deviceRating": 0,
-        "conditionMonitors": {
-          "matrix": {
-            "value": 0,
-            "base": 0,
-            "modifiers": [],
-            "actual": {
-              "value": 0,
-              "base": 0,
-              "modifiers": []
-            },
-            "boxes": []
-          }
-        },
-        "isSlavedToPan": false,
-        "panMaster": "",
-        "marks": [],
-        "quantity": 1,
-        "isMedkit": false,
-        "canRollTest": false,
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": [],
-          "type": ""
-        },
-        "capacity": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "capacityTaken": {
-          "value": 0,
-          "base": 0,
-          "modifiers": [],
-          "multiplier": ""
-        },
-        "isAccessory": false,
-        "charge": ""
-      }
-    },
-    {
-      "name": "Grigori 'Iron' Volkov",
+      "name": "Night Owl (Maitre d')",
       "type": "itemContact",
       "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "<p>A grizzled arms dealer operating out of a warehouse near the Tacoma docks. Former military supply sergeant who went private sector.</p>",
+        "description": "<p>The head host at an exclusive restaurant in Downtown Seattle. Always has a table for Silvertongue and can arrange private dining for discreet meetings.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
-        "connection": 4,
+        "connection": 3,
         "loyalty": 3,
-        "metatype": "human",
+        "metatype": "elf",
         "gender": "male",
-        "age": "52",
-        "type": "Arms Dealer",
-        "paymentMethod": "Nuyen (bulk discount for regulars)",
-        "hobby": "Collecting antique firearms",
-        "familySituation": "Widower",
-        "nickname": "Iron",
+        "age": "45",
+        "type": "service",
+        "paymentMethod": "Favors",
+        "hobby": "Wine collecting",
+        "familySituation": "Married",
+        "nickname": "Night Owl",
         "metatypeVariant": "",
-        "ethnicalGroup": "Russian",
-        "nationality": "Russia",
+        "ethnicalGroup": "",
+        "nationality": "UCAS",
         "language": [],
         "knowledge": [],
         "weapons": [],
@@ -3884,23 +3228,23 @@
       }
     },
     {
-      "name": "Dr. Marcus Webb",
+      "name": "Luna Delacroix",
       "type": "itemContact",
       "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "<p>A discreet street doc with a clinic in Puyallup. Patches up bullet wounds and installs chrome, no questions asked. Owes Viktor a favor from a previous extraction.</p>",
+        "description": "<p>A well-connected fixer who operates through a network of dead drops and encrypted messages. She specializes in high-end corporate jobs.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
-        "connection": 3,
-        "loyalty": 4,
+        "connection": 5,
+        "loyalty": 3,
         "metatype": "human",
-        "gender": "male",
-        "age": "45",
-        "type": "Street Doc",
-        "paymentMethod": "Nuyen / Barter (medical supplies)",
-        "hobby": "Gardening",
-        "familySituation": "Married, 2 kids",
+        "gender": "female",
+        "age": "39",
+        "type": "shadow",
+        "paymentMethod": "Nuyen",
+        "hobby": "Antique books",
+        "familySituation": "Unknown",
         "nickname": "",
         "metatypeVariant": "",
         "ethnicalGroup": "",
@@ -3940,26 +3284,26 @@
       }
     },
     {
-      "name": "Elena 'Whisper' Sokolov",
+      "name": "James Park",
       "type": "itemContact",
       "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "<p>An elven fixer with connections throughout the Seattle underworld. She runs meets from a series of rotating locations and is known for her discretion and fair dealings.</p>",
+        "description": "<p>An executive secretary at a mid-tier subsidiary of Ares Macrotechnology. Provides insider corporate intel in exchange for nuyen.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
-        "connection": 5,
+        "connection": 4,
         "loyalty": 2,
-        "metatype": "elf",
-        "gender": "female",
-        "age": "38",
-        "type": "Fixer",
-        "paymentMethod": "Nuyen (10% commission)",
-        "hobby": "Classical music",
-        "familySituation": "Unknown",
-        "nickname": "Whisper",
+        "metatype": "human",
+        "gender": "male",
+        "age": "31",
+        "type": "corporate",
+        "paymentMethod": "Nuyen",
+        "hobby": "Golf",
+        "familySituation": "Single",
+        "nickname": "",
         "metatypeVariant": "",
-        "ethnicalGroup": "Russian",
+        "ethnicalGroup": "",
         "nationality": "UCAS",
         "language": [],
         "knowledge": [],
@@ -3996,53 +3340,119 @@
       }
     },
     {
-      "name": "Military Tactics",
-      "type": "itemKnowledge",
-      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "name": "Old Coyote",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "",
+        "description": "<p>An elderly talismonger who runs a small shop in Puyallup. He has been Silvertongue's mentor in understanding the magical side of his abilities.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
-        "type": "professional",
-        "linkedAttribute": "",
-        "rating": {
-          "value": 0,
-          "base": 5,
-          "modifiers": []
+        "connection": 3,
+        "loyalty": 4,
+        "metatype": "human",
+        "gender": "male",
+        "age": "68",
+        "type": "service",
+        "paymentMethod": "Reagents",
+        "hobby": "Storytelling",
+        "familySituation": "Widower",
+        "nickname": "Old Coyote",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "nationality": "NAN",
+        "language": [],
+        "knowledge": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehicles": [],
+        "conditionMonitors": {
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "edge": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
         },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        }
+        "isCreated": false
       }
     },
     {
-      "name": "Weapon Systems",
-      "type": "itemKnowledge",
-      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "name": "Maxine 'Max' Torres",
+      "type": "itemContact",
+      "img": "systems/sr5/img/items/itemContact.svg",
       "system": {
-        "description": "",
+        "description": "<p>Owner of The Velvet Room, a trendy nightclub in Tacoma. She hears everything that goes on in Seattle's social scene.</p>",
         "gameEffect": "",
         "source": "",
         "page": "",
-        "type": "professional",
-        "linkedAttribute": "",
-        "rating": {
-          "value": 0,
-          "base": 5,
-          "modifiers": []
+        "connection": 4,
+        "loyalty": 3,
+        "metatype": "ork",
+        "gender": "female",
+        "age": "35",
+        "type": "social",
+        "paymentMethod": "Favors",
+        "hobby": "Music production",
+        "familySituation": "Partner",
+        "nickname": "Max",
+        "metatypeVariant": "",
+        "ethnicalGroup": "",
+        "nationality": "UCAS",
+        "language": [],
+        "knowledge": [],
+        "weapons": [],
+        "ammunitions": [],
+        "armors": [],
+        "decks": [],
+        "vehicles": [],
+        "conditionMonitors": {
+          "condition": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          },
+          "edge": {
+            "value": 0,
+            "base": 0,
+            "modifiers": [],
+            "actual": {
+              "value": 0,
+              "base": 0,
+              "modifiers": []
+            },
+            "boxes": []
+          }
         },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        }
+        "isCreated": false
       }
     },
     {
-      "name": "Security Procedures",
+      "name": "Corporate Politics",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -4065,30 +3475,7 @@
       }
     },
     {
-      "name": "Seattle Underground",
-      "type": "itemKnowledge",
-      "img": "systems/sr5/img/items/itemKnowledge.svg",
-      "system": {
-        "description": "",
-        "gameEffect": "",
-        "source": "",
-        "page": "",
-        "type": "street",
-        "linkedAttribute": "",
-        "rating": {
-          "value": 0,
-          "base": 3,
-          "modifiers": []
-        },
-        "test": {
-          "dicePool": 0,
-          "base": 0,
-          "modifiers": []
-        }
-      }
-    },
-    {
-      "name": "Ork Underground Culture",
+      "name": "Fine Dining",
       "type": "itemKnowledge",
       "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
@@ -4111,29 +3498,99 @@
       }
     },
     {
-      "name": "English",
-      "type": "itemLanguage",
-      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "name": "High Fashion",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
       "system": {
         "description": "",
         "gameEffect": "",
         "source": "",
         "page": "",
+        "type": "interests",
+        "linkedAttribute": "",
         "rating": {
           "value": 0,
-          "base": 0,
+          "base": 3,
           "modifiers": []
         },
         "test": {
           "dicePool": 0,
           "base": 0,
           "modifiers": []
-        },
-        "isNative": false
+        }
       }
     },
     {
-      "name": "Russian",
+      "name": "Psychology",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "academic",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 3,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Seattle Nightlife",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "street",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 4,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Magical Theory",
+      "type": "itemKnowledge",
+      "img": "systems/sr5/img/items/itemKnowledge.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "type": "academic",
+        "linkedAttribute": "",
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        }
+      }
+    },
+    {
+      "name": "Spanish",
       "type": "itemLanguage",
       "img": "systems/sr5/img/items/itemLanguage.svg",
       "system": {
@@ -4155,7 +3612,29 @@
       }
     },
     {
-      "name": "Or'zet",
+      "name": "English",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 5,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Japanese",
       "type": "itemLanguage",
       "img": "systems/sr5/img/items/itemLanguage.svg",
       "system": {
@@ -4175,12 +3654,296 @@
         },
         "isNative": false
       }
+    },
+    {
+      "name": "Sperethiel",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 2,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Or'zet",
+      "type": "itemLanguage",
+      "img": "systems/sr5/img/items/itemLanguage.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "source": "",
+        "page": "",
+        "rating": {
+          "value": 0,
+          "base": 1,
+          "modifiers": []
+        },
+        "test": {
+          "dicePool": 0,
+          "base": 0,
+          "modifiers": []
+        },
+        "isNative": false
+      }
+    },
+    {
+      "name": "Character Creation",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 25,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run: Copycat Killer",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 5,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run: Velvet Glove",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 6,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run: High Society",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 7,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Roleplaying: Talked the team out of a firefight",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 3,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Roleplaying: Exceptional deception scene",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 2,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Increase Negotiation (4 > 5)",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 10,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Increase Etiquette (3 > 4)",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 8,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "New Contact: Corp Exec 'Ms. Sterling'",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 6,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "New Contact: Club Owner 'Big Mike'",
+      "type": "itemKarma",
+      "img": "systems/sr5/img/items/itemKarma.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 3,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Starting Funds",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 5000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run Payment: Copycat Killer",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 8000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run Payment: Velvet Glove",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 11000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Run Payment: High Society",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 15000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Side Income: Brokered a Deal",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 5000,
+        "type": "gain",
+        "date": 0
+      }
+    },
+    {
+      "name": "Lifestyle: High (1 month)",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 10000,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Bespoke Suit & Designer Wardrobe",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 4500,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Bribes (KE officer, club bouncer, secretary)",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 3000,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Safehouse Rental (1 month)",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 2500,
+        "type": "loss",
+        "date": 0
+      }
+    },
+    {
+      "name": "Fake SIN Renewal & Licenses",
+      "type": "itemNuyen",
+      "img": "systems/sr5/img/items/itemNuyen.svg",
+      "system": {
+        "description": "",
+        "gameEffect": "",
+        "amount": 5000,
+        "type": "loss",
+        "date": 0
+      }
     }
   ],
   "effects": [],
   "flags": {},
   "prototypeToken": {
-    "name": "Viktor 'Razorback' Kozlov",
+    "name": "Dominic 'Silvertongue' Vasquez",
     "displayName": 30,
     "actorLink": true,
     "disposition": 1,
