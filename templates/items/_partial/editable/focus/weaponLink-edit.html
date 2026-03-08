@@ -1,10 +1,10 @@
 {{#if (eq system.type 'weapon')}}
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.LinkedWeapon'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7">
+    <div class="col-4">{{localize 'SR5.LinkedWeapon'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
         <select name="system.linkedWeapon" data-dtype="String" required>
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{selectOptions system.weaponChoices selected=system.linkedWeapon localize=true}}
+            {{selectOptions weaponChoices selected=system.linkedWeapon valueAttr="id" labelAttr="name" localize=false sort=true}}
         </select>
     </div>
 </li>

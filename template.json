@@ -2861,7 +2861,7 @@
             "linkedAttribute": "agility",
             "limit": {
               "value": 0,
-              "base": "mentalLimit",
+              "base": "physicalLimit",
               "modifiers": []
             },
             "skillGroup": "",

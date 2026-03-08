@@ -22,8 +22,8 @@
     <div class="col-1 SR-TextRight SR-PaddingRight3"><input type="checkbox" name="system.isMagical" data-dtype="Boolean" {{checked system.isMagical}} /></div>
 </li>
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-7">
+    <div class="col-4">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
         <select name="system.damageElement">
             <option value="">{{localize 'SR5.SpecialDamageNone'}}</option>
             {{selectOptions lists.specialDamageTypes selected=system.damageElement localize=true}}

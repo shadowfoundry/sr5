@@ -1,5 +1,6 @@
 import { SR5 } from "../../config.js";
 import { SR5_EntityHelpers } from "../helpers.js";
+import { SR5_UtilityItem } from "./utilityItem.js";
 import { computeItemLayout } from "../../interface/compute-item-layout.js";
 
 // Item types that include a footer (condition monitors, price/availability)
@@ -89,6 +90,30 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		const newMode = this.isPlayMode ? SR5ItemSheet.MODES.EDIT : SR5ItemSheet.MODES.PLAY;
 		game.user?.setFlag("sr5", `playMode.${this.item.id}`, newMode);
 		await this.render({ mode: newMode });
+	}
+
+	/** Re-render when sibling items change on the parent actor (e.g. weapon list for weapon focus). */
+	_onFirstRender(context, options) {
+		super._onFirstRender(context, options);
+		if (this.item.actor) {
+			const rerender = (item) => {
+				if (item.parent?.id === this.item.actor?.id) this.render();
+			};
+			this._createItemHookId = Hooks.on("createItem", rerender);
+			this._deleteItemHookId = Hooks.on("deleteItem", rerender);
+		}
+	}
+
+	_onClose(options) {
+		super._onClose(options);
+		if (this._createItemHookId) {
+			Hooks.off("createItem", this._createItemHookId);
+			this._createItemHookId = null;
+		}
+		if (this._deleteItemHookId) {
+			Hooks.off("deleteItem", this._deleteItemHookId);
+			this._deleteItemHookId = null;
+		}
 	}
 
 	/** Save focused element info before re-render so we can restore it after. */
@@ -181,6 +206,11 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		context.lists = SR5_EntityHelpers.sortTranslations(SR5);
 		context.isPlay = this.isPlayMode;
 		context.cssClass = this.document.isOwner ? "editable" : "locked";
+
+		// Weapon focus: populate weapon choices from parent actor
+		if (item.type === "itemFocus" && item.system.type === "weapon" && item.actor) {
+			context.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(item.actor);
+		}
 
 		// Dynamic layout
 		context.layout = this._computeSheetLayout();

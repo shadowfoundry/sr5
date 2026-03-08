@@ -26,7 +26,7 @@ export class SR5CompendiumInfo {
 
         switch (item.type){
             case "itemWeapon":
-                if (item.systemcategory === "grenade") info = game.i18n.localize('SR5.Grenade');
+                if (item.system.category === "grenade") info = game.i18n.localize('SR5.Grenade');
                 else info = game.i18n.localize(SR5.allWeaponsTypes[item.system.type]);
             break;
             case "itemArmor":

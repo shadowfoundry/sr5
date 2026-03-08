@@ -173,6 +173,11 @@ export default class Migration {
 				updateData["system.skills.astralCombat.limit.base"] = "astralLimit";
 			}
 
+			//Fix locksmith limit (was mentalLimit, should be physicalLimit)
+			if (actor.system.skills?.locksmith?.limit?.base === "mentalLimit") {
+				updateData["system.skills.locksmith.limit.base"] = "physicalLimit";
+			}
+
 			//v10 embedded items in actor
 			if (actor.system.creatorData) {
 				let newCreatorData = foundry.utils.duplicate(actor.system.creatorData);

@@ -1,9 +1,9 @@
 <li class="grid">
-    <div class="col-5">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-4">{{localize 'SR5.SpellCategory'}}{{localize 'SR5.Colons'}}</div>
     {{#if (ne system.category "combat")}}
     <div class="col-4">
     {{else}}
-    <div class="col-7">
+    <div class="col-8">
     {{/if}}
         <select name="system.category" data-dtype="String" required>
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
@@ -20,8 +20,8 @@
 
 {{#ife system.category "combat"}}
     <li class="grid">
-        <div class="col-5">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-7">
+        <div class="col-4">{{localize 'SR5.SpellTypeShort'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-8">
             <select name="system.subCategory" data-dtype="String" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{selectOptions lists.spellCombatTypes selected=system.subCategory localize=true}}
@@ -29,12 +29,12 @@
         </div>
     </li>
     <li class="grid">
-        <div class="col-5">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-7"><input type="number" data-dtype="Number" name="system.damageValue.base" value="{{system.damageValue.base}}" placeholder="0" onfocus="this.select()"/></div>
+        <div class="col-4">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-8"><input type="number" data-dtype="Number" name="system.damageValue.base" value="{{system.damageValue.base}}" placeholder="0" onfocus="this.select()"/></div>
     </li>
     <li class="grid">
-        <div class="col-5">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-7">
+        <div class="col-4">{{localize 'SR5.DamageType'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-8">
             <select name="system.damageType" data-dtype="String" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{selectOptions lists.damageTypes selected=system.damageType localize=true}}
@@ -42,8 +42,8 @@
         </div>
     </li>
     <li class="grid">
-        <div class="col-5">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-7">
+        <div class="col-4">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-8">
             <select name="system.damageElement" data-dtype="String" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{selectOptions lists.specialDamageTypes selected=system.damageElement localize=true}}
@@ -89,8 +89,8 @@
 
 {{#ife system.category "health"}}
     <li class="grid">
-        <div class="col-5">{{localize 'SR5.Essence'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-7"><input type="checkbox" name="system.healthEssence" data-dtype="Boolean" {{checked system.healthEssence}} /></div>
+        <div class="col-4">{{localize 'SR5.Essence'}}{{localize 'SR5.Colons'}}</div>
+        <div class="col-8"><input type="checkbox" name="system.healthEssence" data-dtype="Boolean" {{checked system.healthEssence}} /></div>
     </li>
 {{/ife}}
 

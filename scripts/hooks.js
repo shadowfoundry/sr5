@@ -292,7 +292,7 @@ export const registerHooks = function () {
 	Hooks.on("preDeleteToken", (tokenDocument, options, userId) => {
 		let deleteToken = canvas.tokens.get(tokenDocument.id);
 		if (!deleteToken) return;
-		TweenMax.killTweensOf(deleteToken.children);
+		// GSAP/TweenMax was removed in Foundry v12+; no animation cleanup needed
 	});
 
 	Hooks.on("createCombatant", async (combatant) => {

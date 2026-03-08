@@ -16,6 +16,14 @@ export class SR5Item extends Item {
 		return super.create(data, options);
 	}
 
+	async _preCreate(data, options, user) {
+		await super._preCreate(data, options, user);
+		const defaultImg = `systems/sr5/img/items/${data.type}.svg`;
+		if (!data.img || data.img === "icons/svg/item-bag.svg") {
+			this.updateSource({ img: defaultImg });
+		}
+	}
+
 	prepareData() {
 		super.prepareData();
 

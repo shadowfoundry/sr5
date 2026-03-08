@@ -5,14 +5,14 @@
 
 {{#if (eq system.type 'autosoft')}}
 <li class="grid">
-	<div class="col-5">{{localize 'SR5.ModelSpecific'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="checkbox" name="system.isModelBased" data-dtype="Boolean" {{checked system.isModelBased}} /></div>
+	<div class="col-4">{{localize 'SR5.ModelSpecific'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-8"><input type="checkbox" name="system.isModelBased" data-dtype="Boolean" {{checked system.isModelBased}} /></div>
 </li>
 {{/if}}
 
 {{#if system.isModelBased}}
 <li class="grid">
-	<div class="col-5">{{localize 'SR5.Model'}}{{localize 'SR5.Colons'}}</div>
-	<div class="col-7"><input type="text" data-dtype="String" name="system.model" value="{{system.model}}" /></div>
+	<div class="col-4">{{localize 'SR5.Model'}}{{localize 'SR5.Colons'}}</div>
+	<div class="col-8"><input type="text" data-dtype="String" name="system.model" value="{{system.model}}" /></div>
 </li>
 {{/if}}
