@@ -23,7 +23,6 @@ jobs:
             echo "type=prerelease" >> $GITHUB_OUTPUT
             echo "identifier=${IDENTIFIER}" >> $GITHUB_OUTPUT
             echo "title=[${UPPER_ID} Release] ${TAG}" >> $GITHUB_OUTPUT
-            echo "branch=dev" >> $GITHUB_OUTPUT
             echo "prerelease_flag=--prerelease" >> $GITHUB_OUTPUT
             echo "Detected pre-release with identifier: ${IDENTIFIER}"
           elif echo "$TAG" | grep -qP '^[0-9]+\.[0-9]+\.[0-9]+$'; then
@@ -53,10 +52,17 @@ jobs:
       - name: Verify tag is on correct branch
         if: steps.vars.outputs.type != 'skip'
         run: |
-          EXPECTED="origin/${{ steps.vars.outputs.branch }}"
-          if ! git branch -r --contains HEAD | grep -q "$EXPECTED"; then
-            echo "::error::Tag must be on the ${{ steps.vars.outputs.branch }} branch"
-            exit 1
+          BRANCHES=$(git branch -r --contains HEAD | sed 's|origin/||' | tr -d ' ')
+          if [ "${{ steps.vars.outputs.type }}" = "stable" ]; then
+            if ! echo "$BRANCHES" | grep -qE '^(main|master)$'; then
+              echo "::error::Stable release tag must be on the main branch"
+              exit 1
+            fi
+          else
+            if echo "$BRANCHES" | grep -qE '^(main|master)$'; then
+              echo "::error::Pre-release tags must not be on the main/master branch"
+              exit 1
+            fi
           fi
 
       - name: Update system.json for release

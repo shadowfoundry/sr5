@@ -8,7 +8,7 @@ All releases follow [Semantic Versioning](https://semver.org/) (`MAJOR.MINOR.PAT
 
 | Type | Tag format | Example | Branch | GitHub release |
 |------|-----------|---------|--------|----------------|
-| **Pre-release** | `X.Y.Z-<identifier>.N` | `13.0.1-alpha.3` | `dev` | Pre-release |
+| **Pre-release** | `X.Y.Z-<identifier>.N` | `13.0.1-alpha.3` | any (except main) | Pre-release |
 | **Stable release** | `X.Y.Z` | `13.0.1` | `main` | Release |
 
 Supported pre-release identifiers: `alpha`, `beta`, `rc`, `dev`, `snapshot`, `canary`.
@@ -32,13 +32,15 @@ Before tagging, make sure the version is updated in `system.json` (`"version"` f
 
 ## Creating a Pre-release
 
-Pre-releases are tagged from the `dev` branch.
+Pre-releases can be tagged from any branch except `main` (e.g. `dev`, `feat/xxx`, `fix/xxx`).
 
-1. Switch to dev and pull latest
+1. Switch to your working branch and pull latest
+
+   Pre-releases can be created from any branch except `main`/`master`.
 
    ```
-   git checkout dev
-   git pull origin dev
+   git checkout dev        # or any non-main branch
+   git pull
    ```
 
 2. Update version in `system.json`
@@ -58,7 +60,7 @@ Pre-releases are tagged from the `dev` branch.
 
    ```
    git tag 13.0.1-alpha.1
-   git push origin dev --tags
+   git push origin HEAD --tags
    ```
 
 ### Pre-release progression examples
@@ -110,7 +112,7 @@ Stable releases are tagged from the `main` branch.
 When a tag is pushed, a single workflow (`shadowfoundry-release-system.yml`) runs and automatically detects whether it is a pre-release or stable release:
 
 1. **Validates** the tag format (semver pre-release or stable)
-2. **Verifies** the tag is on the correct branch (`dev` for pre-releases, `main` for stable)
+2. **Verifies** the tag is on the correct branch (`main` for stable releases, any non-main branch for pre-releases)
 3. **Patches** `system.json` with the correct version, manifest URL, and download URL
 4. **Cleans up** development files (less, node_modules, config files)
 5. **Creates** a zip archive (`sr5_<tag>.zip`)
