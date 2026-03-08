@@ -1,0 +1,178 @@
+// Combat Tracker styling
+
+#combat {
+    .combat-tracker-header {
+        h3 {
+            font-family: @SR_FontTitleAlter;
+            text-transform: uppercase;
+            font-size: @SR_FontSizeNormal;
+            margin: 0;
+        }
+
+        .encounter-controls {
+            border-bottom: 1px solid @mainColor;
+            background: fade(@mainColor, 25%);
+
+            a {
+                color: @mainColor;
+                text-shadow: 1px 1px 5px @neutralDarkColor;
+
+                &:hover {
+                    color: @subColor;
+                    text-shadow: 1px 1px 5px @neutralDarkColor;
+                }
+            }
+
+            h3.encounter-title {
+                margin-left: 0;
+                color: @neutralLightColor;
+            }
+        }
+
+        .encounters {
+            h3 {
+                font-family: @SR_FontTitleAlter;
+                text-transform: uppercase;
+            }
+        }
+    }
+
+    #combat-tracker {
+        li.combatant {
+            line-height: 50px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+
+            &.hidden {
+                color: fade(@subColor, 50%);
+            }
+
+            &.defeated {
+                color: fade(@mainColor, 50%);
+            }
+
+            &.active {
+                background: fade(@subColor, 25%);
+            }
+
+            .token-name {
+                h4 {
+                    padding-left: 0;
+                    font-size: 16px;
+
+                    &:hover {
+                        background-size: 0;
+                    }
+
+                    &.hasPlayed {
+                        color: fade(@neutralLightColor, 25%);
+                    }
+                }
+
+                .combatant-controls {
+                    flex: 0 0 27px;
+                    font-size: var(--font-size-17);
+                    line-height: 25px;
+
+                    .action {
+                        color: @neutralLightColor;
+                        height: 18px;
+                        line-height: 17px;
+                        text-align: center;
+                        margin-right: 2px;
+                        margin-top: 2px;
+
+                        &.free {
+                            border: 1px solid fade(@neutralDarkColor, 50%);
+                            background-color: fade(@neutralDarkColor, 50%);
+                        }
+
+                        &.simple {
+                            border: 1px solid fade(@subColor, 50%);
+                            background-color: fade(@subColor, 50%);
+                        }
+
+                        &.complex {
+                            border: 1px solid fade(@mainColor, 50%);
+                            background-color: fade(@mainColor, 50%);
+                        }
+                    }
+                }
+
+                .combatant-control {
+                    color: @mainColor;
+                    flex: 0 0 23px;
+
+                    &:hover {
+                        color: fade(@subColor, 50%);
+                    }
+
+                    &.active {
+                        color: @subColor;
+                    }
+                }
+
+                .token-effect {
+                    height: 19px;
+                }
+
+                img.token-effect {
+                    width: 19px;
+                    height: 19px;
+                }
+            }
+
+            .token-image {
+                flex: 0 0 50px;
+                height: 50px;
+                width: 50px;
+            }
+
+            .roll {
+                background: url(@InitDicesOff) no-repeat;
+                background-size: 36px;
+                background-position: center;
+                margin: 0 2px 0 4px;
+
+                &:hover {
+                    background: url(@InitDicesOn) no-repeat;
+                    background-size: 36px;
+                    background-position: center;
+                    margin: 0 2px 0 4px;
+                }
+            }
+
+            .token-resource {
+                border-right: 1px solid fade(@mainColor, 50%);
+                color: inherit;
+            }
+
+            .token-initiative .initiative {
+                font-size: @SR_FontSizeBig;
+                font-family: @SR_FontTitle;
+                text-transform: uppercase;
+                text-shadow: none;
+                font-weight: normal;
+
+                &.hasPlayed {
+                    color: fade(@neutralLightColor, 25%);
+                }
+            }
+        }
+    }
+
+    #combat-controls {
+        border-top: 2px solid @subColor;
+        font-family: @SR_FontTitle;
+        text-transform: uppercase;
+        font-size: @SR_FontSizeSmall;
+
+        a {
+            font-size: @SR_FontSizeSmall;
+
+            &:hover {
+                color: @subColor;
+            }
+        }
+    }
+}

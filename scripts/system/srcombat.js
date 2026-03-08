@@ -9,6 +9,10 @@ export class SR5Combat extends Combat {
 		return this.getFlag("sr5", "combatInitiativePass") || 1;
 	}
 
+	set initiativePass(_value) {
+		// No-op: use SR5Combat.setInitiativePass() to change this value
+	}
+
 	static async setInitiativePass(combat, pass){
 		await combat.unsetFlag("sr5", "combatInitiativePass");
 		await combat.setFlag("sr5", "combatInitiativePass", pass);
@@ -372,7 +376,7 @@ export class SR5Combat extends Combat {
 			const messageData = foundry.utils.mergeObject(
 				{
 					speaker: {
-						scene: this.scene.id,
+						scene: this.scene?.id,
 						actor: combatant.actor?.id,
 						token: combatant.token?.id,
 						alias: combatant.name
