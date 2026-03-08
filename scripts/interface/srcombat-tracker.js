@@ -23,9 +23,6 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
 	/** @override */
 	async _prepareCombatContext(context, options) {
 		await super._prepareCombatContext(context, options);
-		if (context.combat?.round) {
-			context.combat.initiativePass = context.combat.flags?.sr5?.initiativePass ?? 1;
-		}
 	}
 
 	/** @override */
