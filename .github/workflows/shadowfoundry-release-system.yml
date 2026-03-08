@@ -205,14 +205,14 @@ jobs:
         if: steps.vars.outputs.type != 'skip'
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
         run: |
-          NOTES="${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}"
           gh release create "${{ steps.vars.outputs.tag }}" \
             "sr5_${{ steps.vars.outputs.tag }}.zip" \
             "/tmp/system.json" \
             --title "${{ steps.vars.outputs.title }}" \
             ${{ steps.vars.outputs.prerelease_flag }} \
-            --notes "$NOTES"
+            --notes "$RELEASE_NOTES"
 
       - name: Update persistent pre-release manifest
         if: steps.vars.outputs.type == 'prerelease'
@@ -244,11 +244,11 @@ jobs:
         if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'false'
         env:
           WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
+          RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
         run: |
-          NOTES="${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}"
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"
           curl -sf -H "Content-Type: application/json" \
-            -d "{\"content\": \"${NOTES}\n\n${RELEASE_URL}\"}" \
+            -d "{\"content\": \"${RELEASE_NOTES}\n\n${RELEASE_URL}\"}" \
             "$WEBHOOK_URL"
           ./scripts/push_to_discord/file_webhook.js "$WEBHOOK_URL" "sr5_${{ steps.vars.outputs.tag }}.zip"
 
@@ -256,9 +256,9 @@ jobs:
         if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'true'
         env:
           WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
+          RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
         run: |
-          NOTES="${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}"
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"
           curl -sf -H "Content-Type: application/json" \
-            -d "{\"content\": \"${NOTES}\n\n${RELEASE_URL}\n\nZip exceeds Discord upload limit (${{ steps.zip_check.outputs.size_mb }} MB). Download from GitHub.\"}" \
+            -d "{\"content\": \"${RELEASE_NOTES}\n\n${RELEASE_URL}\n\nZip exceeds Discord upload limit (${{ steps.zip_check.outputs.size_mb }} MB). Download from GitHub.\"}" \
             "$WEBHOOK_URL"
