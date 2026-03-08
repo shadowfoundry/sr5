@@ -1,0 +1,258 @@
+name: Foundry VTT Shadowrun 5 System Release Builder
+on:
+  push:
+    tags:
+      - '**'
+
+permissions:
+  contents: write
+
+jobs:
+  sr5-system:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Detect release type
+        id: vars
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+
+          if echo "$TAG" | grep -qP '^[0-9]+\.[0-9]+\.[0-9]+-([a-zA-Z]+)\.[0-9]+$'; then
+            IDENTIFIER=$(echo "$TAG" | grep -oP '(?<=-)[a-zA-Z]+(?=\.[0-9]+$)')
+            UPPER_ID=$(echo "$IDENTIFIER" | tr '[:lower:]' '[:upper:]')
+            echo "type=prerelease" >> $GITHUB_OUTPUT
+            echo "identifier=${IDENTIFIER}" >> $GITHUB_OUTPUT
+            echo "title=[${UPPER_ID} Release] ${TAG}" >> $GITHUB_OUTPUT
+            echo "branch=dev" >> $GITHUB_OUTPUT
+            echo "prerelease_flag=--prerelease" >> $GITHUB_OUTPUT
+            echo "Detected pre-release with identifier: ${IDENTIFIER}"
+          elif echo "$TAG" | grep -qP '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "type=stable" >> $GITHUB_OUTPUT
+            echo "identifier=" >> $GITHUB_OUTPUT
+            echo "title=[Release] ${TAG}" >> $GITHUB_OUTPUT
+            echo "branch=main" >> $GITHUB_OUTPUT
+            echo "prerelease_flag=" >> $GITHUB_OUTPUT
+            echo "Detected stable release"
+          else
+            echo "Tag '$TAG' is not a valid semver tag, skipping"
+            echo "type=skip" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install Node
+        if: steps.vars.outputs.type != 'skip'
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: '24.13.1'
+
+      - name: Check out repository code
+        if: steps.vars.outputs.type != 'skip'
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Verify tag is on correct branch
+        if: steps.vars.outputs.type != 'skip'
+        run: |
+          EXPECTED="origin/${{ steps.vars.outputs.branch }}"
+          if ! git branch -r --contains HEAD | grep -q "$EXPECTED"; then
+            echo "::error::Tag must be on the ${{ steps.vars.outputs.branch }} branch"
+            exit 1
+          fi
+
+      - name: Update system.json for release
+        if: steps.vars.outputs.type != 'skip'
+        run: |
+          TAG="${{ steps.vars.outputs.tag }}"
+          REPO="${{ github.repository }}"
+          TYPE="${{ steps.vars.outputs.type }}"
+          IDENTIFIER="${{ steps.vars.outputs.identifier }}"
+
+          if [ "$TYPE" = "prerelease" ]; then
+            MANIFEST="https://github.com/${REPO}/releases/download/pre-release-${IDENTIFIER}/system.json"
+          else
+            MANIFEST="https://github.com/${REPO}/releases/latest/download/system.json"
+          fi
+
+          jq \
+            --arg ver "$TAG" \
+            --arg manifest "$MANIFEST" \
+            --arg download "https://github.com/${REPO}/releases/download/${TAG}/sr5_${TAG}.zip" \
+            '.version = $ver | .manifest = $manifest | .download = $download' \
+            system.json > system_updated.json
+          mv system_updated.json system.json
+          cp system.json /tmp/system.json
+
+      - name: Cleaning up directory
+        if: steps.vars.outputs.type != 'skip'
+        run: |
+          rm -rf less
+          rm -rf node_modules
+          rm -rf jsconfig.json
+          rm -rf package*.json
+          rm -rf gulpfile.js
+          rm -rf MIGRATION_PLAN.md
+          mkdir sr5
+          shopt -s extglob
+          mv !(sr5) sr5/
+          mv sr5/scripts .
+
+      - name: Zipping system
+        if: steps.vars.outputs.type != 'skip'
+        run: |
+          zip -r sr5_${{ steps.vars.outputs.tag }}.zip sr5
+
+      - name: Check zip size
+        if: steps.vars.outputs.type != 'skip'
+        id: zip_check
+        run: |
+          ZIP_FILE="sr5_${{ steps.vars.outputs.tag }}.zip"
+          SIZE_BYTES=$(stat --format="%s" "$ZIP_FILE")
+          SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES / 1048576}")
+          echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+          echo "Total zip size: ${SIZE_MB} MB"
+          LIMIT=8388608
+          if [ "$SIZE_BYTES" -ge "$LIMIT" ]; then
+            echo "::warning::Zip file is ${SIZE_MB} MB, exceeds Discord's 8 MB upload limit"
+            echo "over_limit=true" >> $GITHUB_OUTPUT
+            echo ""
+            echo "=== Top 30 files by size ==="
+            unzip -l "$ZIP_FILE" | grep -v '/$' | tail -n +4 | head -n -2 | sort -rn -k1 2>/dev/null | head -30
+            echo ""
+            echo "=== Size by directory (KB) ==="
+            unzip -l "$ZIP_FILE" | grep -v '/$' | tail -n +4 | head -n -2 | awk '{dir=$4; sub(/\/[^\/]*$/, "", dir); sizes[dir]+=$1} END {for (d in sizes) printf "%8.1f KB  %s\n", sizes[d]/1024, d}' | sort -rn -k1 2>/dev/null | head -20
+          else
+            echo "over_limit=false" >> $GITHUB_OUTPUT
+            echo "Zip is under 8 MB, ready for Discord upload"
+          fi
+
+      - name: Build pre-release notes
+        if: steps.vars.outputs.type == 'prerelease'
+        id: prerelease_notes
+        run: |
+          IDENTIFIER="${{ steps.vars.outputs.identifier }}"
+          PREV_TAG=$(git tag --list "*-${IDENTIFIER}.*" --sort=-v:refname | grep -v "^${GITHUB_REF_NAME}$" | head -1)
+          if [ -n "$PREV_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s" "${PREV_TAG}..${GITHUB_REF_NAME}")
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s" "${GITHUB_REF_NAME}")
+          fi
+          case "$IDENTIFIER" in
+            alpha)
+              WARNING="This is an **alpha** release. It is experimental and intended for early testing only. Expect breaking changes, missing features, and incomplete functionality. **Do not use in production.**"
+              ;;
+            beta)
+              WARNING="This is a **beta** release. Core features are implemented but may still contain bugs. Breaking changes are still possible. Use for testing and feedback purposes only."
+              ;;
+            rc)
+              WARNING="This is a **release candidate**. It is feature-complete and believed to be stable, but has not yet been fully validated. Please report any issues before the final release."
+              ;;
+            dev)
+              WARNING="This is a **development** snapshot. It reflects the latest state of active development and may be highly unstable. **For developer testing only — do not use in production.**"
+              ;;
+            snapshot)
+              WARNING="This is a **snapshot** build from a specific point in development. It may contain incomplete or untested changes. Use at your own risk."
+              ;;
+            canary)
+              WARNING="This is a **canary** release built from the latest development branch. It includes the newest changes but has not been stabilized. Breakage is expected."
+              ;;
+            *)
+              WARNING="This is a **${IDENTIFIER}** pre-release. It may be unstable or incomplete. **Do not use in production.**"
+              ;;
+          esac
+          REPO="${{ github.repository }}"
+          MANIFEST_URL="https://github.com/${REPO}/releases/download/pre-release-${IDENTIFIER}/system.json"
+          {
+            echo "notes<<NOTES_EOF"
+            echo "$WARNING"
+            echo ""
+            echo "**Changes since ${PREV_TAG:-initial}** (${{ steps.zip_check.outputs.size_mb }} MB):"
+            echo "$CHANGELOG"
+            echo ""
+            echo "**Manifest URL (${IDENTIFIER} channel):** \`${MANIFEST_URL}\`"
+            echo "NOTES_EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Build stable release notes
+        if: steps.vars.outputs.type == 'stable'
+        id: stable_notes
+        run: |
+          PREV_TAG=$(git tag --list --sort=-v:refname | grep -P '^[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "^${GITHUB_REF_NAME}$" | head -1)
+          if [ -n "$PREV_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s" "${PREV_TAG}..${GITHUB_REF_NAME}")
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s" "${GITHUB_REF_NAME}")
+          fi
+          REPO="${{ github.repository }}"
+          MANIFEST_URL="https://github.com/${REPO}/releases/latest/download/system.json"
+          {
+            echo "notes<<NOTES_EOF"
+            echo "Shadowrun 5 System release ${{ steps.vars.outputs.tag }} (${{ steps.zip_check.outputs.size_mb }} MB)"
+            echo ""
+            echo "**Changes since ${PREV_TAG:-initial}:**"
+            echo "$CHANGELOG"
+            echo ""
+            echo "**Manifest URL (stable channel):** \`${MANIFEST_URL}\`"
+            echo "NOTES_EOF"
+          } >> $GITHUB_OUTPUT
+
+      - name: Create GitHub release
+        if: steps.vars.outputs.type != 'skip'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NOTES="${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}"
+          gh release create "${{ steps.vars.outputs.tag }}" \
+            "sr5_${{ steps.vars.outputs.tag }}.zip" \
+            "/tmp/system.json" \
+            --title "${{ steps.vars.outputs.title }}" \
+            ${{ steps.vars.outputs.prerelease_flag }} \
+            --notes "$NOTES"
+
+      - name: Update persistent pre-release manifest
+        if: steps.vars.outputs.type == 'prerelease'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CHANNEL="pre-release-${{ steps.vars.outputs.identifier }}"
+          INSTALL_URL="https://github.com/${{ github.repository }}/releases/download/${CHANNEL}/system.json"
+          if gh release view "$CHANNEL" &>/dev/null; then
+            gh release upload "$CHANNEL" \
+              "/tmp/system.json" \
+              --clobber
+          else
+            gh release create "$CHANNEL" \
+              "/tmp/system.json" \
+              --title "${{ steps.vars.outputs.identifier }} Channel Manifest" \
+              --prerelease \
+              --notes "Persistent ${{ steps.vars.outputs.identifier }} manifest. Install URL: ${INSTALL_URL}"
+          fi
+
+      - name: Prepare Discord scripts
+        if: steps.vars.outputs.type != 'skip'
+        run: |
+          cd ./scripts/push_to_discord
+          npm install
+          chmod +x *.js
+
+      - name: Send zip to Discord
+        if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'false'
+        env:
+          WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
+        run: |
+          NOTES="${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}"
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"
+          curl -sf -H "Content-Type: application/json" \
+            -d "{\"content\": \"${NOTES}\n\n${RELEASE_URL}\"}" \
+            "$WEBHOOK_URL"
+          ./scripts/push_to_discord/file_webhook.js "$WEBHOOK_URL" "sr5_${{ steps.vars.outputs.tag }}.zip"
+
+      - name: Send oversized zip warning to Discord
+        if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'true'
+        env:
+          WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
+        run: |
+          NOTES="${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}"
+          RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"
+          curl -sf -H "Content-Type: application/json" \
+            -d "{\"content\": \"${NOTES}\n\n${RELEASE_URL}\n\nZip exceeds Discord upload limit (${{ steps.zip_check.outputs.size_mb }} MB). Download from GitHub.\"}" \
+            "$WEBHOOK_URL"
