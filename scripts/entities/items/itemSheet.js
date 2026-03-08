@@ -101,6 +101,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 			};
 			this._createItemHookId = Hooks.on("createItem", rerender);
 			this._deleteItemHookId = Hooks.on("deleteItem", rerender);
+			this._updateItemHookId = Hooks.on("updateItem", rerender);
 		}
 	}
 
@@ -113,6 +114,10 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		if (this._deleteItemHookId) {
 			Hooks.off("deleteItem", this._deleteItemHookId);
 			this._deleteItemHookId = null;
+		}
+		if (this._updateItemHookId) {
+			Hooks.off("updateItem", this._updateItemHookId);
+			this._updateItemHookId = null;
 		}
 	}
 
@@ -210,6 +215,11 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 		// Weapon focus: populate weapon choices from parent actor
 		if (item.type === "itemFocus" && item.system.type === "weapon" && item.actor) {
 			context.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(item.actor);
+		}
+
+		// Qi focus: populate adept power choices from parent actor
+		if (item.type === "itemFocus" && item.system.type === "qi" && item.actor) {
+			context.adeptPowerChoices = SR5_UtilityItem._generateQiFocusAdeptPowerList(item.actor);
 		}
 
 		// Dynamic layout

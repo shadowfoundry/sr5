@@ -1634,6 +1634,19 @@ export class SR5_UtilityItem extends Actor {
 		return weaponList;
 	}
 
+	static _generateQiFocusAdeptPowerList(actor) {
+		let powerList = [];
+		for (let i of actor.items) {
+			if (i.type === "itemAdeptPower") {
+				powerList.push({
+					"name": i.name,
+					"id": i.id,
+				});
+			}
+		}
+		return powerList;
+	}
+
 	static async _checkIfWeaponIsFocus(item, actor){
 		let focus = actor.items.find(w => w.system.linkedWeapon === item.id);
 		if (focus) item.system.isLinkedToFocus = true;

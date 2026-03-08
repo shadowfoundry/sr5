@@ -557,6 +557,20 @@ export class SR5Actor extends Actor {
 						case "power":
 						case "flexibleSignature":
 						case "qi":
+							if (iData.linkedAdeptPower) {
+								let linkedPower = this.items.find(p => p.id === iData.linkedAdeptPower);
+								if (linkedPower) {
+									iData.linkedAdeptPowerName = linkedPower.name;
+									if (iData.isActive) {
+										let discount = linkedPower.system.powerPointsCost.isRatingBased
+											? linkedPower.system.powerPointsCost.base * Math.min(iData.itemRating, linkedPower.system.itemRating)
+											: linkedPower.system.powerPointsCost.base;
+										SR5_EntityHelpers.updateModifier(actor.system.magic.powerPoints, `${i.name}`, "itemFocus", -discount);
+									}
+								} else {
+									iData.linkedAdeptPowerName = "";
+								}
+							}
 							break;
 						case "weapon":
 								iData.weaponChoices = SR5_UtilityItem._generateWeaponFocusWeaponList(this);

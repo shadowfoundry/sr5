@@ -6772,7 +6772,9 @@
       "weaponChoices":[],
       "sustainedSpell": "",
       "linkedWeapon":"",
-      "linkedWeaponName":""
+      "linkedWeaponName":"",
+      "linkedAdeptPower":"",
+      "linkedAdeptPowerName":""
     },
     "itemKarma": {
       "templates": [

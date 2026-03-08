@@ -1,0 +1,11 @@
+{{#if (eq system.type 'qi')}}
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.LinkedAdeptPower'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select name="system.linkedAdeptPower" data-dtype="String" required>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions adeptPowerChoices selected=system.linkedAdeptPower valueAttr="id" labelAttr="name" localize=false sort=true}}
+        </select>
+    </div>
+</li>
+{{/if}}
