@@ -485,7 +485,7 @@ export class SR5_ActorHelper {
 				"system.services.max": itemData.services.max,
 				"system.summonerMagic": itemData.summonerMagic,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item.id,
+				"system.creatorItemId": item._id,
 				"system.magic.tradition": itemData.magic.tradition,
 				"system.conditionMonitors.physical.actual": itemData.conditionMonitors.physical.actual,
 				"system.conditionMonitors.stun.actual": itemData.conditionMonitors.stun.actual,
@@ -511,7 +511,7 @@ export class SR5_ActorHelper {
 				"system.tasks.max": itemData.tasks.max,
 				"system.compilerResonance": itemData.compilerResonance,
 				"system.creatorId": actorId,
-				"system.creatorItemId": item.id,
+				"system.creatorItemId": item._id,
 				"system.conditionMonitors.matrix.actual": itemData.conditionMonitors.matrix.actual,
 				"items": baseItems,
 			});
