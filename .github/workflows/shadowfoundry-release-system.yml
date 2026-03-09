@@ -97,10 +97,12 @@ jobs:
           rm -rf package*.json
           rm -rf gulpfile.js
           rm -rf MIGRATION_PLAN.md
+          # Save Discord push scripts before packaging
+          cp -r scripts/push_to_discord /tmp/push_to_discord
+          rm -rf scripts/push_to_discord
           mkdir sr5
           shopt -s extglob
           mv !(sr5) sr5/
-          mv sr5/scripts .
 
       - name: Zipping system
         if: steps.vars.outputs.type != 'skip'
@@ -236,7 +238,7 @@ jobs:
       - name: Prepare Discord scripts
         if: steps.vars.outputs.type != 'skip'
         run: |
-          cd ./scripts/push_to_discord
+          cd /tmp/push_to_discord
           npm install
           chmod +x *.js
 
@@ -249,7 +251,7 @@ jobs:
           RELEASE_URL="https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}"
           BODY=$(printf '%s\n\n%s' "$RELEASE_NOTES" "$RELEASE_URL")
           jq -n --arg content "$BODY" '{content: $content}' | curl -sf -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
-          ./scripts/push_to_discord/file_webhook.js "$WEBHOOK_URL" "sr5_${{ steps.vars.outputs.tag }}.zip"
+          /tmp/push_to_discord/file_webhook.js "$WEBHOOK_URL" "sr5_${{ steps.vars.outputs.tag }}.zip"
 
       - name: Send oversized zip warning to Discord
         if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'true'
