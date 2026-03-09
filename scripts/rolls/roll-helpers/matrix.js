@@ -330,9 +330,9 @@ export class SR5_MatrixHelpers {
         let hits = cardData.roll.hits;
 
         let effect = {
-            name: `${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (${sourceActor.name})`,            
+            name: `${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (${sourceActor.name})`,
             type: "itemEffect",
-            "system.target": game.i18n.localize("SR5.Firewall"),
+            "system.target": game.i18n.localize("SR5.Defense"),
             "system.type": "matrixAction",
             "system.value": hits,
             "system.ownerID": sourceActor.id,
@@ -341,8 +341,8 @@ export class SR5_MatrixHelpers {
             "system.durationType": "round",
             "system.customEffects": {
                 "0": {
-                    "category": "matrixAttributes",
-                    "target": "system.matrix.attributes.firewall",
+                    "category": "defenses",
+                    "target": "system.defenses.defend",
                     "type": "value",
                     "value": hits,
                     "forceAdd": true,
@@ -351,7 +351,7 @@ export class SR5_MatrixHelpers {
             "system.gameEffect": game.i18n.localize("SR5.MatrixActionIAmTheFirewall_GE"),
         };
         await actor.createEmbeddedDocuments("Item", [effect]);
-        ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.EffectIncreaseFirewallDone', {hits: hits})}`);
+        ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (+${hits})`);
 
     }
 
