@@ -940,6 +940,10 @@ export default class SR5_RollDialog {
                     } else {
                         value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type);
                     }
+                    // Apply martial arts modifier bonus if available for this called shot
+                    if (dialogData.combat.calledShot.martialArtsModifiers?.[ev.target.value]) {
+                        value += dialogData.combat.calledShot.martialArtsModifiers[ev.target.value];
+                    }
                     if (ev.target.value === "specificTarget") {
                         const calledShotEl = html.querySelector('#calledShotSpecificTarget');
                         if (calledShotEl) calledShotEl.style.display = '';

@@ -164,6 +164,9 @@ export class SR5_CharacterUtility extends Actor {
 		if (actorData.itemsProperties?.martialArts) {
 			for (let key of Object.keys(SR5.calledShotsMartialArts)) {
 				actorData.itemsProperties.martialArts[key].isActive = false;
+				if (actorData.itemsProperties.martialArts[key].modifier) {
+					actorData.itemsProperties.martialArts[key].modifier.modifiers = [];
+				}
 			}
 		}
 
@@ -817,6 +820,15 @@ export class SR5_CharacterUtility extends Actor {
 		if (actorData.itemsProperties?.environmentalMod) {
 			for (let key of Object.keys(SR5.environmentalModifiers)) {
 				SR5_EntityHelpers.updateValue(actorData.itemsProperties.environmentalMod[key]);
+			}
+		}
+
+		//martial arts modifiers
+		if (actorData.itemsProperties?.martialArts) {
+			for (let key of Object.keys(SR5.calledShotsMartialArts)) {
+				if (actorData.itemsProperties.martialArts[key].modifier) {
+					SR5_EntityHelpers.updateValue(actorData.itemsProperties.martialArts[key].modifier);
+				}
 			}
 		}
 	}

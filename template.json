@@ -3239,19 +3239,44 @@
           },
           "martialArts":{
             "breakWeapon": {
-              "isActive": false
+              "isActive": false,
+              "modifier": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
             },
             "disarm": {
-              "isActive": false
+              "isActive": false,
+              "modifier": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
             },
             "entanglement": {
-              "isActive": false
+              "isActive": false,
+              "modifier": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
             },
             "feint": {
-              "isActive": false
+              "isActive": false,
+              "modifier": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
             },
             "pin": {
-              "isActive": false
+              "isActive": false,
+              "modifier": {
+                "value": 0,
+                "base": 0,
+                "modifiers": []
+              }
             }
           }
         }

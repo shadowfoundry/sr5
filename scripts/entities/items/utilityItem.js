@@ -219,13 +219,8 @@ export class SR5_UtilityItem extends Actor {
 			itemData.drainValue.modifiers = [];
 		}
 
-		if (item.type === "itemMartialArt"){
-			itemData.pin = false;
-			itemData.entanglement = false;
-			itemData.feint = false;
-			itemData.disarm = false;
-			itemData.breakWeapon = false;
-		}
+		// itemMartialArt: called shot flags are now handled via custom effects on the actor
+		// (category "martialArts" → system.itemsProperties.martialArts.X.isActive)
 		
 		if (item.type === "itemVehicleMod"){
 			itemData.slots.modifiers = [];
@@ -2858,13 +2853,8 @@ export class SR5_UtilityItem extends Actor {
 
 			SR5_SystemHelpers.srLog(3, ` item.type ==> '${item.type}' , customEffect ==> '${JSON.stringify(customEffect)}' applyItemEffects()`);
 
-			if (item.type === "itemMartialArt" && customEffect.type === "boolean") {
-				let booleanValue;
-				if (customEffect.value === "true") booleanValue = true;
-				else booleanValue = false;
-				foundry.utils.setProperty(item, customEffect.target, booleanValue);
-				SR5_SystemHelpers.srLog(3, ` customEffect.target ==> '${customEffect.target}' , booleanValue ==> '${booleanValue}', item.system ==> '${JSON.stringify(item.system)}' applyItemEffects()`);
-			}
+			// itemMartialArt boolean effects (called shots) are now applied via applyCustomEffects on the actor,
+			// not on the item itself. The custom effect targets actor.system.itemsProperties.martialArts.X.isActive.
 
 			SR5_SystemHelpers.srLog(3, ` targetObject ==> '${JSON.stringify(targetObject)}' in applyItemEffects()`);
 

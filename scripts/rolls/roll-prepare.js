@@ -280,6 +280,7 @@ export class SR5_PrepareRollTest {
                         breakWeapon: false,
                         feint: false,
                     },
+                    martialArtsModifiers: {},
                 },
                 firingMode: {
                     singleShot: false,

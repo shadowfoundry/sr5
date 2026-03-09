@@ -244,7 +244,10 @@ async function checkIfTargetIsInTemplate(actor, targetActor, areaEffect){
 
 async function handleMartialArtsCalledShot(rollData, actor){
     for (let [key, value] of Object.entries(actor.system.itemsProperties.martialArts)){
-        if (value.isActive) rollData.combat.calledShot.martialArts[key] = true;
+        if (value.isActive) {
+            rollData.combat.calledShot.martialArts[key] = true;
+            if (value.modifier?.value) rollData.combat.calledShot.martialArtsModifiers[key] = value.modifier.value;
+        }
     }
     return rollData;
 }

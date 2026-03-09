@@ -337,6 +337,16 @@ export default class Migration {
 			}
 		}
 
+		// Remove obsolete item-level boolean fields from martial arts items
+		// Called shot flags are now handled via custom effects on the actor
+		if (item.type === "itemMartialArt") {
+			if (item.system?.pin !== undefined) updateData["system.-=pin"] = null;
+			if (item.system?.entanglement !== undefined) updateData["system.-=entanglement"] = null;
+			if (item.system?.feint !== undefined) updateData["system.-=feint"] = null;
+			if (item.system?.disarm !== undefined) updateData["system.-=disarm"] = null;
+			if (item.system?.breakWeapon !== undefined) updateData["system.-=breakWeapon"] = null;
+		}
+
 		// Migrate date fields from 0 to "" (empty string) for date inputs
 		if (item.type === "itemKarma" || item.type === "itemNuyen" || item.type === "itemReputation") {
 			if (item.system?.date === 0 || item.system?.date === "0") {

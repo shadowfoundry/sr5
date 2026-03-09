@@ -394,6 +394,7 @@
 					{{else ife category 'martialArts'}}
 						{{#each ../lists.calledShotsMartialArts}}
 							<option value="system.itemsProperties.martialArts.{{@key}}.isActive">{{localize this}}</option>
+							<option value="system.itemsProperties.martialArts.{{@key}}.modifier">{{localize this}} [{{localize 'SR5.Modifier'}}]</option>
 						{{/each}}
 
 					{{else ife category 'actions'}}
