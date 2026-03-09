@@ -178,6 +178,7 @@ const ITEM_LAYOUTS = {
   itemKnowledge:    () => _descOnlyLayout('knowledgeSummary'),
   itemLanguage:     () => _descOnlyLayout('languageSummary'),
   itemNuyen:        () => _descOnlyLayout('nuyenSummary'),
+  itemReputation:   () => _descOnlyLayout('reputationSummary'),
 }
 
 // ---------------------------------------------------------------------------

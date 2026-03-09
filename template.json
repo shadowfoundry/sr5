@@ -6240,6 +6240,7 @@
       "itemPreparation",
       "itemProgram",
       "itemQuality",
+      "itemReputation",
       "itemRitual",
       "itemSin",
       "itemSpell",
@@ -6791,6 +6792,16 @@
       "amount": 0,
       "type": "gain",
       "date": 0
+    },
+    "itemReputation": {
+      "templates": [
+        "templateDescription"
+      ],
+      "amount": 0,
+      "type": "gain",
+      "reputationType": "streetCred",
+      "date": 0,
+      "gameDate": 0
     },
     "itemLanguage": {
       "templates": [

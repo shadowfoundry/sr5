@@ -528,6 +528,30 @@ export class SR5Actor extends Actor {
 					}
 					break;
 
+				case "itemReputation":
+					i.prepareData();
+					if (iData.amount && iData.type && iData.reputationType) {
+						let reputationTarget;
+						switch (iData.reputationType) {
+							case "streetCred":
+								reputationTarget = actor.system.streetCred;
+								break;
+							case "notoriety":
+								reputationTarget = actor.system.notoriety;
+								break;
+							case "publicAwareness":
+								reputationTarget = actor.system.publicAwareness;
+								break;
+						}
+						if (reputationTarget) {
+							let reputationLabel = `${game.i18n.localize(lists.transactionsTypes[iData.type])} (${i.name})`;
+							let reputationAmount = Math.abs(iData.amount);
+							if (iData.type === "loss") reputationAmount = -reputationAmount;
+							SR5_EntityHelpers.updateModifier(reputationTarget, reputationLabel, `${i.type}_${i.id}_${iData.type}`, reputationAmount);
+						}
+					}
+					break;
+
 				case "itemWeapon":
 					let modes = (iData.weaponModes = []);
 					for (let mode of Object.entries(iData.firingMode)) {

@@ -3674,6 +3674,7 @@ SR5.itemTypes = {
 	itemPreparation           : "TYPES.Item.itemPreparation",
 	itemProgram               : "TYPES.Item.itemProgram",
 	itemQuality               : "TYPES.Item.itemQuality",
+	itemReputation            : "TYPES.Item.itemReputation",
 	itemRitual                : "TYPES.Item.itemRitual",
 	itemSin                   : "TYPES.Item.itemSin",
 	itemSpell                 : "TYPES.Item.itemSpell",

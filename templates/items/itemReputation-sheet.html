@@ -1,0 +1,37 @@
+<div>
+	<div class="SR-mainContainer">
+
+		<!-- HEADER -->
+		{{> systems/sr5/templates/items/_partial/header/header-noIcon.html}}
+
+		<!-- WINDOW BODY -->
+		<div class="SR-MainWindows">
+
+			<!-- SUMMARY -->
+			<div class="col-12">
+				<ul>
+					<!-- General information title -->
+					{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+					<!-- Type (gain/loss) -->
+					{{> systems/sr5/templates/items/_partial/editable/reputation/type-edit.html}}
+					<!-- Reputation category -->
+					{{> systems/sr5/templates/items/_partial/editable/reputation/category-edit.html}}
+					<!-- Amount -->
+					{{> systems/sr5/templates/items/_partial/editable/reputation/amount-edit.html}}
+					<!-- Date -->
+					{{> systems/sr5/templates/items/_partial/editable/reputation/date-edit.html}}
+					<!-- Game Date -->
+					{{> systems/sr5/templates/items/_partial/editable/reputation/gameDate-edit.html}}
+				</ul>
+
+				<ul class="SR-PaddingTop10">
+					{{> systems/sr5/templates/items/_partial/editable/_common/description-edit.html}}
+				</ul>
+			</div>
+		</div>
+
+		<!-- FOOTER -->
+		{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+
+	</div>
+</div>

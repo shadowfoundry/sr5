@@ -41,6 +41,9 @@
 	{{else ife item.type 'itemNuyen'}}
 		<span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Nuyens'}}{{localize 'SR5.Colons'}}</span>
 		<span class="SR-TextUppercase SR-Bold">{{valueOrDash (nuyen system.change)}}</span>
+	{{else ife item.type 'itemReputation'}}
+		<span class="SR-TextUppercase SR-Bold">{{findTranslation 'reputationTypes' system.reputationType}}{{localize 'SR5.Colons'}}</span>
+		<span class="SR-TextUppercase SR-Bold">{{valueOrDash system.amount}}</span>
 	{{else ife item.type 'itemSpell'}}
 		<span class="SR-TextUppercase SR-Bold">{{localize 'SR5.SpellType'}}{{localize 'SR5.Colons'}}</span>
 		<span class="SR-TextUppercase SR-Bold">{{valueOrDash (findTranslation 'spellTypesShort' system.type)}}</span>&nbsp;&nbsp;

@@ -7,7 +7,7 @@ import { computeItemLayout } from "../../interface/compute-item-layout.js";
 const ITEM_FOOTER_TYPES = new Set([
 	'SRItem-vierge', 'itemAdeptPower', 'itemAmmunition', 'itemArmor',
 	'itemAugmentation', 'itemComplexForm', 'itemContact', 'itemDevice',
-	'itemDrug', 'itemFocus', 'itemGear', 'itemKarma', 'itemNuyen',
+	'itemDrug', 'itemFocus', 'itemGear', 'itemKarma', 'itemNuyen', 'itemReputation',
 	'itemPreparation', 'itemProgram', 'itemQuality', 'itemSin',
 	'itemSpell', 'itemSprite', 'itemVehicleMod', 'itemWeapon',
 ]);

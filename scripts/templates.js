@@ -244,6 +244,7 @@ export const preloadHandlebarsTemplates = async function () {
 		"systems/sr5/templates/items/blocks/martialArt/martialArt-summary.html",
 		"systems/sr5/templates/items/blocks/metamagic/metamagic-summary.html",
 		"systems/sr5/templates/items/blocks/nuyen/nuyen-summary.html",
+		"systems/sr5/templates/items/blocks/reputation/reputation-summary.html",
 		"systems/sr5/templates/items/blocks/power/power-stat.html",
 		"systems/sr5/templates/items/blocks/power/power-summary.html",
 		"systems/sr5/templates/items/blocks/preparation/preparation-stat.html",
@@ -435,8 +436,15 @@ export const preloadHandlebarsTemplates = async function () {
 
 				//Nuyen
 				"systems/sr5/templates/items/_partial/editable/nuyen/type-edit.html",
-				"systems/sr5/templates/items/_partial/editable/nuyen/amount-edit.html",				
+				"systems/sr5/templates/items/_partial/editable/nuyen/amount-edit.html",
 				"systems/sr5/templates/items/_partial/editable/nuyen/date-edit.html",
+
+				//Reputation
+				"systems/sr5/templates/items/_partial/editable/reputation/type-edit.html",
+				"systems/sr5/templates/items/_partial/editable/reputation/category-edit.html",
+				"systems/sr5/templates/items/_partial/editable/reputation/amount-edit.html",
+				"systems/sr5/templates/items/_partial/editable/reputation/date-edit.html",
+				"systems/sr5/templates/items/_partial/editable/reputation/gameDate-edit.html",
 
 				//Power
 				"systems/sr5/templates/items/_partial/editable/power/attributeTest-edit.html",

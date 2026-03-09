@@ -377,6 +377,16 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 			this._shownKarmaExpenses = !this._shownKarmaExpenses;
 			this.render();
 		});
+		on(".filterReputationGains", "click", (event) => {
+			event.preventDefault();
+			this._shownReputationGains = !this._shownReputationGains;
+			this.render();
+		});
+		on(".filterReputationExpenses", "click", (event) => {
+			event.preventDefault();
+			this._shownReputationExpenses = !this._shownReputationExpenses;
+			this.render();
+		});
 		// Light color indicator (for dark headers)
 		if (!this._shownUntrainedSkills) element.querySelectorAll(".filtre-skill").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
 		if (!this._shownUntrainedGroups) element.querySelectorAll(".filtre-groupe").forEach(el => { el.classList.toggle("unfoldLight"); el.classList.toggle("foldLight"); });
@@ -387,6 +397,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		if (!this._shownNuyenGains) element.querySelectorAll(".filterNuyenGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 		if (!this._shownKarmaExpenses) element.querySelectorAll(".filterKarmaExpenses").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 		if (!this._shownKarmaGains) element.querySelectorAll(".filterKarmaGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
+		if (!this._shownReputationExpenses) element.querySelectorAll(".filterReputationExpenses").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
+		if (!this._shownReputationGains) element.querySelectorAll(".filterReputationGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 
 		// Help Display
 		element.querySelectorAll("[data-helpTitle]").forEach(el => {

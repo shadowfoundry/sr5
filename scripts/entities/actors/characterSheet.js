@@ -11,6 +11,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		this._shownKarmaExpenses = true;
 		this._shownNuyenGains = true;
 		this._shownNuyenExpenses = true;
+		this._shownReputationGains = true;
+		this._shownReputationExpenses = true;
 		this._shownUntrainedSkills = false;
 		this._shownNonRollableMatrixActions = false;
 		this._shownInactiveMatrixPrograms = true;
@@ -119,6 +121,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		const externalEffects = [];
 		const traditions = [];
 		const rituals = [];
+		const reputations = [];
 
 		// Iterate through items, allocating to containers
 		for (let i of actor.items) {
@@ -162,6 +165,10 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 			else if (i.type === "itemDrug") gears.push(i);
 			else if (i.type === "itemTradition") traditions.push(i);
 			else if (i.type === "itemRitual") rituals.push(i);
+			else if (i.type === "itemReputation") {
+				if (i.system.type == "gain" && this._shownReputationGains) reputations.push(i);
+				if (i.system.type == "loss" && this._shownReputationExpenses) reputations.push(i);
+			}
 		}
 
 		actor.knowledges = knowledges;
@@ -195,6 +202,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 		actor.externalEffects = externalEffects;
 		actor.traditions = traditions;
 		actor.rituals = rituals;
+		actor.reputations = reputations;
 	}
 
 	/** @override */

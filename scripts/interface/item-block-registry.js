@@ -73,6 +73,7 @@ export const ITEM_BLOCK_REGISTRY = {
   knowledgeSummary:    { partial: `${PARTIAL_ROOT}/blocks/knowledge/knowledge-summary.html`,       label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE },
   languageSummary:     { partial: `${PARTIAL_ROOT}/blocks/language/language-summary.html`,         label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE },
   nuyenSummary:        { partial: `${PARTIAL_ROOT}/blocks/nuyen/nuyen-summary.html`,               label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE },
+  reputationSummary:   { partial: `${PARTIAL_ROOT}/blocks/reputation/reputation-summary.html`,     label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE },
   viergeSummary:       { partial: `${PARTIAL_ROOT}/blocks/vierge/vierge-summary.html`,             label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE },
 
   // ---- MAIN stat/config blocks (one per item type that has a config tab) ----

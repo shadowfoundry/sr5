@@ -1,0 +1,8 @@
+<li class="grid">
+    <div class="col-6">{{localize 'SR5.ReputationCategory'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-6">
+        <select name="system.reputationType" data-dtype="String">
+            {{selectOptions lists.reputationTypes selected=system.reputationType localize=true}}
+        </select>
+    </div>
+</li>

@@ -87,6 +87,9 @@ export class SR5_UtilityItem extends Actor {
 			case "itemNuyen":
 				displayName = game.i18n.localize("SR5.NuyenNew");
 				break;
+			case "itemReputation":
+				displayName = game.i18n.localize("SR5.ReputationNew");
+				break;
 			case "itemPreparation":
 				displayName = game.i18n.localize("SR5.PreparationNew");
 				break;
