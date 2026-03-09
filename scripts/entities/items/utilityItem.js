@@ -633,26 +633,29 @@ export class SR5_UtilityItem extends Actor {
 				blastDamageFallOff = -4;
 				blastRadius = 6;
 				break;
+			case "bolt":
+			case "boltInjection":
 			case "arrow":
 			case "arrowInjection":
-				damageValue = itemData.ammunition.itemRating;
+				// No modification - base damage handled by _handleBow
 				break;
 			case "arrowBarbedHead":
-				damageValue = itemData.ammunition.itemRating + 1;					
+				damageValue = 1;
 				break;
 			case "arrowExplosiveHead":
-				damageValue = itemData.ammunition.itemRating + 2;
+				damageValue = 2;
 				armorPenetration = -1;
-				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5AmmunitionTypeArrowExplosiveHead'), "ammunitionType", -1);
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowExplosiveHead'), "ammunitionType", -1);
 				break;
 			case "arrowHammerhead":
-				damageValue = itemData.ammunition.itemRating + 1;
+				damageValue = 1;
 				damageType = "stun";
-				armorPenetration = +2;	
-				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowHammerhead'), "ammunitionType", -1);					break;
+				armorPenetration = +2;
+				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowHammerhead'), "ammunitionType", -1);
+				break;
 			case "arrowIncendiaryHead":
+				damageElement = "fire";
 				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowIncendiaryHead'), "ammunitionType", -1);
-				// phosphorous fire not coded
 				break;
 			case "arrowScreamerHead":
 				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowScreamerHead'), "ammunitionType", -2);
@@ -666,7 +669,7 @@ export class SR5_UtilityItem extends Actor {
 				armorPenetration = -5;	
 				break;
 			case "arrowStaticShaft":
-				damageValue = itemData.ammunition.itemRating + 4;
+				damageValue = 4;
 				damageType = "stun";
 				damageElement = "electricity";
 				break;
