@@ -5,11 +5,11 @@
 		</li>
 		<li class="grid">
 			<div class="col-2 SR-TextLeft {{#if (gt (lossModifiersSum system.karma) (gainModifiersSum system.karma))}}incomplete{{/if}}">{{localize 'SR5.KarmaCurrent'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextLeft">{{number (minus (gainModifiersSum system.karma) (lossModifiersSum system.karma))}}</div>
+			<div class="col-2 SR-TextLeft">{{formatNumber (minus (gainModifiersSum system.karma) (lossModifiersSum system.karma))}}</div>
 			<div class="col-2 SR-TextCenter">{{localize 'SR5.TotalGainedKarma'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextCenter">{{number (gainModifiersSum system.karma)}}</div>
+			<div class="col-2 SR-TextCenter">{{formatNumber (gainModifiersSum system.karma)}}</div>
 			<div class="col-2 SR-TextRight">{{localize 'SR5.TotalSpentKarma'}}{{localize 'SR5.Colons'}}</div>
-			<div class="col-2 SR-TextRight">{{number (lossModifiersSum system.karma)}}</div>
+			<div class="col-2 SR-TextRight">{{formatNumber (lossModifiersSum system.karma)}}</div>
 		</li>
 	</ul>
 </div>

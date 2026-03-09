@@ -37,7 +37,7 @@
 		<span class="SR-TextUppercase SR-Bold">{{valueOrDash system.itemRating}}</span>
 	{{else ife item.type 'itemKarma'}}
 		<span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Karma'}}{{localize 'SR5.Colons'}}</span>
-		<span class="SR-TextUppercase SR-Bold">{{valueOrDash system.change}}</span>
+		<span class="SR-TextUppercase SR-Bold">{{valueOrDash system.amount}}</span>
 	{{else ife item.type 'itemNuyen'}}
 		<span class="SR-TextUppercase SR-Bold">{{localize 'SR5.Nuyens'}}{{localize 'SR5.Colons'}}</span>
 		<span class="SR-TextUppercase SR-Bold">{{valueOrDash (nuyen system.change)}}</span>
