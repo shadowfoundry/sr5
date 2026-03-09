@@ -166,6 +166,9 @@ export class SR5_UtilityItem extends Actor {
 			itemData.range.medium.modifiers = [];
 			itemData.range.long.modifiers = [];
 			itemData.range.extreme.modifiers = [];
+			// Reset damage type & element to base values (ammo can override these)
+			itemData.damageType = item._source?.system?.damageType ?? itemData.damageType;
+			itemData.damageElement = item._source?.system?.damageElement ?? itemData.damageElement;
 			for (let key of Object.keys(SR5.propagationVectors)) {
 				itemData.toxin.vector[key] = false;
 			}
