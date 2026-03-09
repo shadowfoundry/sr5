@@ -5084,62 +5084,48 @@
   .sr-sheet-config .sr-config-btn-danger:hover {
     opacity: 1;
   }
-  #combat .combat-tracker-header h3 {
+  #combat {
+    --entry-hover-bg: rgba(12, 147, 148, 0.15);
+    --entry-active-bg: rgba(12, 147, 148, 0.25);
+    --color-text-primary: #fffffe;
+    --color-text-secondary: #fffffe;
+    --color-text-subtle: rgba(255, 255, 254, 0.5);
+    --color-text-emphatic: #fffffe;
+    --color-warm-2: #0c9394;
+    --color-warm-3: #931004;
+    --initiative-icon: url("../img/icons/SR5_InitDicesOff.svg");
+    --initiative-icon-hover: url("../img/icons/SR5_InitDicesOn.svg");
+  }
+  #combat .combat-tracker-header .encounters strong,
+  #combat .combat-tracker-header .encounters h3,
+  #combat .combat-tracker-header .encounters button {
     font-family: "srfoundry_secondary";
     text-transform: uppercase;
-    font-size: 1em;
-    margin: 0;
   }
   #combat .combat-tracker-header .encounter-controls {
     border-bottom: 1px solid #931004;
     background: rgba(147, 16, 4, 0.25);
   }
-  #combat .combat-tracker-header .encounter-controls a {
-    color: #931004;
-    text-shadow: 1px 1px 5px #000001;
-  }
-  #combat .combat-tracker-header .encounter-controls a:hover {
-    color: #0c9394;
-    text-shadow: 1px 1px 5px #000001;
-  }
-  #combat .combat-tracker-header .encounter-controls h3.encounter-title {
-    margin-left: 0;
-    color: #fffffe;
-  }
-  #combat .combat-tracker-header .encounters h3 {
+  #combat .combat-tracker-header .encounter-controls .encounter-title {
     font-family: "srfoundry_secondary";
     text-transform: uppercase;
   }
-  #combat #combat-tracker li.combatant {
-    line-height: 50px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+  #combat .combat-tracker-header .sr5-initiative-pass {
+    text-align: center;
+    padding: 4px 0;
+    border-bottom: 1px solid #931004;
+    background: rgba(147, 16, 4, 0.15);
   }
-  #combat #combat-tracker li.combatant.hidden {
-    color: rgba(12, 147, 148, 0.5);
+  #combat .combat-tracker-header .sr5-initiative-pass strong {
+    font-family: "srfoundry_secondary";
+    text-transform: uppercase;
+    font-size: 1em;
+    color: #fffffe;
   }
-  #combat #combat-tracker li.combatant.defeated {
-    color: rgba(147, 16, 4, 0.5);
-  }
-  #combat #combat-tracker li.combatant.active {
-    background: rgba(12, 147, 148, 0.25);
-  }
-  #combat #combat-tracker li.combatant .token-name h4 {
-    padding-left: 0;
-    font-size: 16px;
-  }
-  #combat #combat-tracker li.combatant .token-name h4:hover {
-    background-size: 0;
-  }
-  #combat #combat-tracker li.combatant .token-name h4.hasPlayed {
+  #combat .combat-tracker li.combatant .token-name .name.hasPlayed {
     color: rgba(255, 255, 254, 0.25);
   }
-  #combat #combat-tracker li.combatant .token-name .combatant-controls {
-    flex: 0 0 27px;
-    font-size: var(--font-size-17);
-    line-height: 25px;
-  }
-  #combat #combat-tracker li.combatant .token-name .combatant-controls .action {
+  #combat .combat-tracker li.combatant .combatant-controls .action {
     color: #fffffe;
     height: 18px;
     line-height: 17px;
@@ -5147,76 +5133,38 @@
     margin-right: 2px;
     margin-top: 2px;
   }
-  #combat #combat-tracker li.combatant .token-name .combatant-controls .action.free {
+  #combat .combat-tracker li.combatant .combatant-controls .action.free {
     border: 1px solid rgba(0, 0, 1, 0.5);
     background-color: rgba(0, 0, 1, 0.5);
   }
-  #combat #combat-tracker li.combatant .token-name .combatant-controls .action.simple {
+  #combat .combat-tracker li.combatant .combatant-controls .action.simple {
     border: 1px solid rgba(12, 147, 148, 0.5);
     background-color: rgba(12, 147, 148, 0.5);
   }
-  #combat #combat-tracker li.combatant .token-name .combatant-controls .action.complex {
+  #combat .combat-tracker li.combatant .combatant-controls .action.complex {
     border: 1px solid rgba(147, 16, 4, 0.5);
     background-color: rgba(147, 16, 4, 0.5);
   }
-  #combat #combat-tracker li.combatant .token-name .combatant-control {
-    color: #931004;
-    flex: 0 0 23px;
-  }
-  #combat #combat-tracker li.combatant .token-name .combatant-control:hover {
-    color: rgba(12, 147, 148, 0.5);
-  }
-  #combat #combat-tracker li.combatant .token-name .combatant-control.active {
-    color: #0c9394;
-  }
-  #combat #combat-tracker li.combatant .token-name .token-effect {
-    height: 19px;
-  }
-  #combat #combat-tracker li.combatant .token-name img.token-effect {
-    width: 19px;
-    height: 19px;
-  }
-  #combat #combat-tracker li.combatant .token-image {
-    flex: 0 0 50px;
-    height: 50px;
-    width: 50px;
-  }
-  #combat #combat-tracker li.combatant .roll {
-    background: url("../img/icons/SR5_InitDicesOff.svg") no-repeat;
-    background-size: 36px;
-    background-position: center;
-    margin: 0 2px 0 4px;
-  }
-  #combat #combat-tracker li.combatant .roll:hover {
-    background: url("../img/icons/SR5_InitDicesOn.svg") no-repeat;
-    background-size: 36px;
-    background-position: center;
-    margin: 0 2px 0 4px;
-  }
-  #combat #combat-tracker li.combatant .token-resource {
-    border-right: 1px solid rgba(147, 16, 4, 0.5);
-    color: inherit;
-  }
-  #combat #combat-tracker li.combatant .token-initiative .initiative {
+  #combat .combat-tracker li.combatant .token-initiative .initiative {
     font-size: 1.5em;
     font-family: "srfoundry_primary";
     text-transform: uppercase;
-    text-shadow: none;
     font-weight: normal;
   }
-  #combat #combat-tracker li.combatant .token-initiative .initiative.hasPlayed {
+  #combat .combat-tracker li.combatant .token-initiative .initiative.hasPlayed {
     color: rgba(255, 255, 254, 0.25);
   }
-  #combat #combat-controls {
+  #combat .combat-controls {
     border-top: 2px solid #0c9394;
+  }
+  #combat .combat-controls button,
+  #combat .combat-controls a {
     font-family: "srfoundry_primary";
     text-transform: uppercase;
     font-size: 0.9em;
   }
-  #combat #combat-controls a {
-    font-size: 0.9em;
-  }
-  #combat #combat-controls a:hover {
+  #combat .combat-controls button:hover,
+  #combat .combat-controls a:hover {
     color: #0c9394;
   }
   .SR-Editor {

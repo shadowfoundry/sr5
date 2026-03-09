@@ -1,29 +1,7 @@
 import { SR5Combat } from "../system/srcombat.js";
 
-//Custom Combat Tracker
+// Custom Combat Tracker (v13 AppV2 — builds on Foundry's native rendering)
 export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
-
-	static PARTS = {
-		header: { template: "systems/sr5/templates/interface/combat/header.html" },
-		tracker: { template: "systems/sr5/templates/interface/combat/tracker.html", scrollable: [""] },
-		footer: { template: "systems/sr5/templates/interface/combat/footer.html" }
-	};
-
-	/** @override */
-	async _prepareTurnContext(combat, combatant, index) {
-		const turn = await super._prepareTurnContext(combat, combatant, index);
-		turn.actions = {
-			free: combatant.flags.sr5?.actions?.free,
-			simple: combatant.flags.sr5?.actions?.simple,
-			complex: combatant.flags.sr5?.actions?.complex,
-		};
-		return turn;
-	}
-
-	/** @override */
-	async _prepareCombatContext(context, options) {
-		await super._prepareCombatContext(context, options);
-	}
 
 	/** @override */
 	_getEntryContextOptions() {
@@ -98,21 +76,49 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
 	async _onRender(context, options) {
 		await super._onRender(context, options);
 
-		// Mark combatants that have played
-		if (this.viewed) {
-			for (const combatant of this.viewed.combatants) {
-				if (combatant.flags.sr5?.hasPlayed || (combatant.initiative <= 0)) {
-					const li = this.element.querySelector(`[data-combatant-id='${combatant.id}']`);
-					if (!li) continue;
-					const name = li.querySelector("h4");
-					if (name) name.classList.add("hasPlayed");
-					const initScore = li.querySelector(".initiative");
-					if (initScore) initScore.classList.add("hasPlayed");
+		if (!this.viewed) return;
+
+		// Inject initiative pass display into header
+		if (this.viewed.round) {
+			const header = this.element.querySelector('.combat-tracker-header');
+			if (header && !header.querySelector('.sr5-initiative-pass')) {
+				const passDisplay = document.createElement('div');
+				passDisplay.classList.add('sr5-initiative-pass');
+				passDisplay.innerHTML = `<strong>${game.i18n.localize('SR5.InitiativePass')} ${this.viewed.initiativePass}</strong>`;
+				header.appendChild(passDisplay);
+			}
+		}
+
+		// Process each combatant
+		for (const combatant of this.viewed.combatants) {
+			const li = this.element.querySelector(`[data-combatant-id='${combatant.id}']`);
+			if (!li) continue;
+
+			// Mark combatants that have played
+			if (combatant.flags.sr5?.hasPlayed || (combatant.initiative <= 0)) {
+				const name = li.querySelector(".name");
+				if (name) name.classList.add("hasPlayed");
+				const initScore = li.querySelector(".initiative");
+				if (initScore) initScore.classList.add("hasPlayed");
+			}
+
+			// Inject SR5 action buttons
+			if (combatant.isOwner) {
+				const controls = li.querySelector('.combatant-controls');
+				if (controls && !controls.querySelector('.actionControlToggle')) {
+					const actions = combatant.flags.sr5?.actions || {};
+					const actionsDiv = document.createElement('div');
+					actionsDiv.classList.add('flexrow', 'actionControlToggle');
+					actionsDiv.innerHTML =
+						`<a class="SR-action-control" data-tooltip="SR5.HELP_ActionFree" data-control="free"><div class="action free">${actions.free ?? 0}</div></a>` +
+						`<a class="SR-action-control" data-tooltip="SR5.HELP_ActionSimple" data-control="simple"><div class="action simple">${actions.simple ?? 0}</div></a>` +
+						`<a class="SR-action-control" data-tooltip="SR5.HELP_ActionComplex" data-control="complex"><div class="action complex">${actions.complex ?? 0}</div></a>`;
+					controls.appendChild(actionsDiv);
 				}
 			}
 		}
 
-		// Edit actions
+		// Bind action button click handlers
 		this.element.querySelectorAll('.SR-action-control').forEach(el => {
 			el.addEventListener('click', ev => this._editActions(ev));
 		});
