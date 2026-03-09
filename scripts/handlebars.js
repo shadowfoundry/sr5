@@ -77,7 +77,7 @@ export const registerHandlebarsHelpers = function () {
 	});
 
 		// Display nummber
-	Handlebars.registerHelper("number", function (amount) {
+	Handlebars.registerHelper("formatNumber", function (amount) {
 		if (!amount) return "0";
 		let lang = game.settings.get("core", "language");
 		if (lang === "fr")
