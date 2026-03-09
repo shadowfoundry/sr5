@@ -166,9 +166,10 @@ export class SR5_UtilityItem extends Actor {
 			itemData.range.medium.modifiers = [];
 			itemData.range.long.modifiers = [];
 			itemData.range.extreme.modifiers = [];
-			// Reset damage type & element to base values (ammo can override these)
+			// Reset damage type, element & strength-based flag to base values (ammo can override these)
 			itemData.damageType = item._source?.system?.damageType ?? itemData.damageType;
 			itemData.damageElement = item._source?.system?.damageElement ?? itemData.damageElement;
+			itemData.damageValue.isStrengthBased = item._source?.system?.damageValue?.isStrengthBased ?? itemData.damageValue.isStrengthBased;
 			for (let key of Object.keys(SR5.propagationVectors)) {
 				itemData.toxin.vector[key] = false;
 			}
@@ -663,10 +664,12 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			case "arrowStickNShock":
 				SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize('SR5.AmmunitionTypeArrowStickNShock'), "ammunitionType", -1);
-				damageValue = 8;
+				// Flat 8S(e) — counteract bow's base damage and disable STR-based damage
+				damageValue = 8 - Math.min(itemData.itemRating || 0, itemData.ammunition.rating || 0);
+				itemData.damageValue.isStrengthBased = false;
 				damageType = "stun";
 				damageElement = "electricity";
-				armorPenetration = -5;	
+				armorPenetration = -5;
 				break;
 			case "arrowStaticShaft":
 				damageValue = 4;
