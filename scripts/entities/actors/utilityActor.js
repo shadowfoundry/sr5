@@ -2665,9 +2665,12 @@ export class SR5_CharacterUtility extends Actor {
 		magic.drainResistance.base = 0;
 		SR5_EntityHelpers.updateModifier(magic.drainResistance, game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value);
 		if (magic.magicType === "adept") magic.drainResistance.linkedAttribute = "body";
-		if (magic.drainResistance.linkedAttribute && attributes[magic.drainResistance.linkedAttribute]) {
-			let label = `${game.i18n.localize(SR5.characterAttributes[magic.drainResistance.linkedAttribute])}`;
-			SR5_EntityHelpers.updateModifier(magic.drainResistance, label, "linkedAttribute", attributes[magic.drainResistance.linkedAttribute].augmented.value);
+		if (magic.drainResistance.linkedAttribute) {
+			let drainAttr = attributes[magic.drainResistance.linkedAttribute] || specialAttributes[magic.drainResistance.linkedAttribute];
+			if (drainAttr) {
+				let label = `${game.i18n.localize(SR5.allAttributes[magic.drainResistance.linkedAttribute])}`;
+				SR5_EntityHelpers.updateModifier(magic.drainResistance, label, "linkedAttribute", drainAttr.augmented.value);
+			}
 		}
 		if (magic.magicType === "spirit") SR5_EntityHelpers.updateModifier(magic.drainResistance, `${game.i18n.localize('SR5.Charisma')}`, "linkedAttribute", attributes.charisma.augmented.value);
 		SR5_EntityHelpers.updateDicePool(magic.drainResistance, 0);
