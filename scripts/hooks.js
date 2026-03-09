@@ -433,6 +433,17 @@ export const registerHooks = function () {
 		}
 	});
 
+	// When an actor is deleted, remove all its tokens from every scene
+	Hooks.on("deleteActor", async (actor, options, userId) => {
+		if (game.user.id !== userId) return;
+		for (const scene of game.scenes) {
+			const tokens = scene.tokens.filter(t => t.actorId === actor.id);
+			if (tokens.length) {
+				await scene.deleteEmbeddedDocuments("Token", tokens.map(t => t.id));
+			}
+		}
+	});
+
 	Hooks.on("deleteActiveEffect", async (effect) =>{
 		if (!game.user.isGM ) return;
 		if (effect.statuses.has("prone")){
