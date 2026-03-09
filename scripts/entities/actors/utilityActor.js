@@ -751,6 +751,13 @@ export class SR5_CharacterUtility extends Actor {
 			}
 		}
 
+		//Apply quickening free sustain (must happen here, after metamagic effects are applied)
+		if (itemType === "itemSpell" && actor.system.magic?.metamagics?.quickening) {
+			for (let i of actor.items) {
+				if (i.type === "itemSpell" && i.system.quickening) i.system.freeSustain = true;
+			}
+		}
+
 		//Apply sustaining malus.
 		for (let i of actor.items) {
 			if (i.system.isActive && i.type === itemType && !i.system.freeSustain) SR5_EntityHelpers.updateModifier(actor.system.penalties[concentrationType].actual, `${i.name}`, i.type, -sustainedMod);

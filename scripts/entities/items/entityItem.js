@@ -64,7 +64,7 @@ export class SR5Item extends Item {
 				if (itemData.conditionMonitors.matrix.actual.value >= itemData.conditionMonitors.matrix.value) itemData.wirelessTurnedOn = false;
 				break;
 			case "itemSpell":
-				if (itemData.quickening) itemData.freeSustain = true;
+				// Note: freeSustain for quickening is set in handleSustaining() after metamagic effects are applied
 				break;
 			case "itemAmmunition":
 				SR5_UtilityItem._handleAmmoPrice(itemData);

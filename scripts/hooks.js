@@ -396,6 +396,11 @@ export const registerHooks = function () {
 			await SR5_CharacterUtility.updateControledVehicle(document);
 			if (document.items.find(item => item.system.type === "agent")) await SR5_CharacterUtility.updateProgramAgent(document);
 		}
+
+		// Re-render open item sheets when actor data changes (e.g. metamagic toggles affect spell display)
+		for (const item of document.items) {
+			if (item.sheet?.rendered) item.sheet.render();
+		}
 	});
 
 	Hooks.on("deleteItem", async (item) =>{

@@ -50,7 +50,7 @@ export class SR5_ThirdPartyHelpers {
                 {source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.system.casterMagic},
                 {source: game.i18n.localize("SR5.SpellForce"), type: "linkedAttribute", value: targetItem.system.force},
             ]);
-            if (targetItem.system.quickening) {
+            if (targetItem.system.quickening && targetItem.actor?.system.magic?.metamagics?.quickening) {
                 rollData.dicePool.value += targetItem.system.karmaSpent;
                 rollData.dicePool.composition.push({source: game.i18n.localize("SR5.MetamagicQuickening"), type: "metamagic", value: targetItem.system.karmaSpent});
             }
