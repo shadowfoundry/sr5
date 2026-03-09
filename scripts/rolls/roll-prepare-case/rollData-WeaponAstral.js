@@ -1,4 +1,5 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
 
 export default function weaponAstral(rollData, item){
     let itemData = item.system;
@@ -19,6 +20,9 @@ export default function weaponAstral(rollData, item){
     rollData.limit.base = SR5_PrepareRollHelper.getBaseLimit(itemData.accuracy.value, itemData.accuracy.modifiers);
     rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, itemData.accuracy.modifiers);
     rollData.limit.type = "accuracy";
+
+    //Handle Actions
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "attack"});
 
     //Add others informations
     rollData.test.typeSub = "astralCombat";

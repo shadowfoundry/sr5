@@ -824,6 +824,12 @@ SR5.actionSources = {
 	usePreparation			  : "SR5.ActionSourceUsePreparation",
 	useSkill				  : "SR5.ActionSourceUseSkill",
 	vehicleTest				  : "SR5.ActionSourceVehicleTest",
+	astralTracking			  : "SR5.ActionSourceAstralTracking",
+	createPreparation		  : "SR5.ActionSourceCreatePreparation",
+	iceAttack				  : "SR5.ActionSourceIceAttack",
+	passThroughBarrier		  : "SR5.ActionSourcePassThroughBarrier",
+	performRitual			  : "SR5.ActionSourcePerformRitual",
+	usePower				  : "SR5.ActionSourceUsePower",
 }
 
 //-----------------------------------//

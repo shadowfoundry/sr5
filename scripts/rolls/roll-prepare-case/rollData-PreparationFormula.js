@@ -1,4 +1,5 @@
 import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
 
 export default function preparationFormula(rollData, actor, item){
     let alchemicalSpellCategories = item.system.category;
@@ -14,6 +15,9 @@ export default function preparationFormula(rollData, actor, item){
 
     //Determine dicepool modififiers
     rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.skills.alchemy.spellCategory[alchemicalSpellCategories].modifiers);
+
+    //Handle Actions
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "createPreparation"});
 
     //Add others informations
     rollData.test.type = "preparationFormula";

@@ -1,3 +1,5 @@
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
+
 export default function iceAttack(rollData, actor){
     //Determine title
     rollData.test.title = game.i18n.localize("SR5.IceAttack");
@@ -15,6 +17,9 @@ export default function iceAttack(rollData, actor){
     rollData.limit.base = actor.system.matrix.attributes.attack.value;
     rollData.limit.type = "attack";
     
+    //Handle Actions
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "iceAttack"});
+
     //Add others informations
     rollData.test.type = "iceAttack";
     rollData.test.typeSub = actor.system.matrix.deviceSubType;
