@@ -68,36 +68,44 @@ export const registerHooks = function () {
 		foundry.documents.Combatant.prototype._getInitiativeFormula = _getInitiativeFormula;
 
 		// Register sheet application classes
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5ActorSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5ActorSheet, {
 			types: ["actorPc"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Character"
 		});
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5SpiritSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5SpiritSheet, {
 			types: ["actorSpirit"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Spirit"
 		});
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5GruntSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5GruntSheet, {
 			types: ["actorGrunt"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Grunt"
 		});
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5DroneSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5DroneSheet, {
 			types: ["actorDrone"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Drone"
 		});
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5AppareilSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5AppareilSheet, {
 			types: ["actorDevice"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Device"
 		});
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5SpriteSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5SpriteSheet, {
 			types: ["actorSprite"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Sprite"
 		});
-		foundry.documents.collections.Actors.registerSheet("SR5", SR5AgentSheet, {
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5AgentSheet, {
 			types: ["actorAgent"],
-			makeDefault: true
+			makeDefault: true,
+			label: "SR5.Sheet.Agent"
 		});
-		foundry.documents.collections.Items.registerSheet("SR5", SR5ItemSheet, {
-			makeDefault: true
+		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item, "SR5", SR5ItemSheet, {
+			makeDefault: true,
+			label: "SR5.Sheet.Item"
 		});
 		foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Scene, "SR5", SR5SceneConfig, {
 			makeDefault: true
