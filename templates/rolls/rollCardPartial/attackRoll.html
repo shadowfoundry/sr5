@@ -8,10 +8,10 @@
 {{#if damage.element}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.SpecialDamage'}}{{localize 'SR5.Colons'}} </div>
-    <div class="col-4 SR-TextRight">{{findTranslation 'specialDamageTypes' damage.element}}</div>
+    <div class="col-4 SR-TextRight">{{findTranslation 'specialDamageTypes' damage.element}}{{#if damage.elementSecond}}/{{findTranslation 'specialDamageTypes' damage.elementSecond}}{{/if}}</div>
 </li>
 {{/if}}
-{{#if (eq damage.element "toxin")}}
+{{#if (or (eq damage.element "toxin") (eq damage.elementSecond "toxin"))}}
 <li class="grid">
     <div class="col-8">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}} </div>
     <div class="col-4 SR-TextRight">{{findTranslation 'toxinTypes' damage.toxin.type}}</div>

@@ -169,6 +169,7 @@ export class SR5_UtilityItem extends Actor {
 			// Reset damage type, element & strength-based flag to base values (ammo can override these)
 			itemData.damageType = item._source?.system?.damageType ?? itemData.damageType;
 			itemData.damageElement = item._source?.system?.damageElement ?? itemData.damageElement;
+			itemData.damageElementSecond = item._source?.system?.damageElementSecond ?? itemData.damageElementSecond;
 			itemData.damageValue.isStrengthBased = item._source?.system?.damageValue?.isStrengthBased ?? itemData.damageValue.isStrengthBased;
 			for (let key of Object.keys(SR5.propagationVectors)) {
 				itemData.toxin.vector[key] = false;

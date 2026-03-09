@@ -36,6 +36,7 @@ export default async function spell(rollData, actor, item){
     }
     rollData.damage.type = itemData.damageType;
     rollData.damage.element = itemData.damageElement;
+    rollData.damage.elementSecond = itemData.damageElementSecond;
     rollData.damage.source = "magical";
     rollData.magic.spell.type = itemData.type;
     rollData.magic.spell.category = itemData.category;

@@ -26,7 +26,7 @@
         <span class="col-auto">{{localize 'SR5.DamageValue'}}{{localize 'SR5.Colons'}}</span>
         <span class="col-auto SR-GreyColor">
             {{#if system.damageValue.base}}
-                {{system.damageValue.base}}{{findTranslation 'damageTypesShort' system.damageType}} ({{findTranslation 'specialDamageTypes' system.damageElement}})
+                {{system.damageValue.base}}{{findTranslation 'damageTypesShort' system.damageType}} ({{findTranslation 'specialDamageTypes' system.damageElement}}{{#if system.damageElementSecond}}/{{findTranslation 'specialDamageTypes' system.damageElementSecond}}{{/if}})
             {{else}}
                 -
             {{/if}}

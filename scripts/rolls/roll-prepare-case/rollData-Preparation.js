@@ -25,6 +25,7 @@ export default function preparation(rollData, actor, item){
     rollData.test.typeSub = itemData.subCategory;
     rollData.damage.type = itemData.damageType;
     rollData.damage.element = itemData.damageElement;
+    rollData.damage.elementSecond = itemData.damageElementSecond;
     rollData.damage.source = "magical";
     rollData.magic.spell.type = itemData.type;
     rollData.magic.spell.category = itemData.category;

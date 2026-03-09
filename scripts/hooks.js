@@ -164,7 +164,7 @@ export const registerHooks = function () {
 		// Determine whether a system migration is required and feasible
 		if ( !game.user.isGM ) return;
 		const currentVersion = game.settings.get("sr5", "systemMigrationVersion");
-		const NEEDS_MIGRATION_VERSION = "11.0.3";
+		const NEEDS_MIGRATION_VERSION = "13.0.0";
 		const needsMigration = !currentVersion || foundry.utils.isNewerVersion(NEEDS_MIGRATION_VERSION, currentVersion); //isNewerVersion(v0, v1)
 
 		// Perform the migration

@@ -6339,6 +6339,7 @@
         },
         "damageType": "",
         "damageElement": "",
+        "damageElementSecond": "",
         "armorPenetration": {
           "base": 0,
           "modifiers": [],
@@ -6783,7 +6784,7 @@
       ],
       "amount": 0,
       "type": "gain",
-      "date": 0
+      "date": ""
     },
     "itemNuyen": {
       "templates": [
@@ -6791,7 +6792,7 @@
       ],
       "amount": 0,
       "type": "gain",
-      "date": 0
+      "date": ""
     },
     "itemReputation": {
       "templates": [
@@ -6800,8 +6801,8 @@
       "amount": 0,
       "type": "gain",
       "reputationType": "streetCred",
-      "date": 0,
-      "gameDate": 0
+      "date": "",
+      "gameDate": ""
     },
     "itemLanguage": {
       "templates": [

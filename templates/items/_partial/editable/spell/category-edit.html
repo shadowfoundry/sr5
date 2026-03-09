@@ -43,10 +43,16 @@
     </li>
     <li class="grid">
         <div class="col-4">{{localize 'SR5.SpecialDamageType'}}{{localize 'SR5.Colons'}}</div>
-        <div class="col-8">
+        <div class="col-4">
             <select name="system.damageElement" data-dtype="String" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
                 {{selectOptions lists.specialDamageTypes selected=system.damageElement localize=true}}
+            </select>
+        </div>
+        <div class="col-4">
+            <select name="system.damageElementSecond" data-dtype="String">
+                <option value="">{{localize 'SR5.SpecialDamageNone'}}</option>
+                {{selectOptions lists.specialDamageTypes selected=system.damageElementSecond localize=true}}
             </select>
         </div>
     </li>

@@ -100,7 +100,7 @@
 				<p class="SR-TextCenter" data-helpTitle="{{localize 'SR5.DamageValue'}}"
 				  data-helpDetailsItem="system.damageValue"
 				  data-helpItemId="{{_id}}">
-					{{system.damageValue.value}}{{findTranslation "damageTypesShort" system.damageType}}{{#if system.damageElement}} ({{findTranslation "specialDamageTypes" system.damageElement}}){{/if}}
+					{{system.damageValue.value}}{{findTranslation "damageTypesShort" system.damageType}}{{#if system.damageElement}} ({{findTranslation "specialDamageTypes" system.damageElement}}{{#if system.damageElementSecond}}/{{findTranslation "specialDamageTypes" system.damageElementSecond}}{{/if}}){{/if}}
 				</p>
 				{{else}}
 				<p class="SR-TextCenter">-</p>

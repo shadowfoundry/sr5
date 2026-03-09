@@ -337,6 +337,18 @@ export default class Migration {
 			}
 		}
 
+		// Migrate date fields from 0 to "" (empty string) for date inputs
+		if (item.type === "itemKarma" || item.type === "itemNuyen" || item.type === "itemReputation") {
+			if (item.system?.date === 0 || item.system?.date === "0") {
+				updateData["system.date"] = "";
+			}
+		}
+		if (item.type === "itemReputation") {
+			if (item.system?.gameDate === 0 || item.system?.gameDate === "0") {
+				updateData["system.gameDate"] = "";
+			}
+		}
+
 		//v10 migrate custom effects path
 		if (item.system?.customEffects) {
 			let newCustomEffects = item.system.customEffects;

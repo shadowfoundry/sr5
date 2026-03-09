@@ -319,6 +319,7 @@ export class SR5_PrepareRollTest {
                 value: 0,
                 type: "",
                 element: null,
+                elementSecond: null,
                 toxin: {},
                 isContinuous: false,
                 source: "",
