@@ -453,32 +453,27 @@ export default class Migration {
 		const tokens = scene.tokens.map(token => {
 			const t = token.toJSON();
 			if (!t.actorId || t.actorLink) {
-				t.actorData = {};
+				t.delta = {};
 			}
 			else if (!game.actors.has(t.actorId)) {
 				t.actorId = null;
-				t.actorData = {};
+				t.delta = {};
 			}
 			else if (!t.actorLink) {
-				const actorData = foundry.utils.duplicate(t.actorData);
+				const actorData = foundry.utils.duplicate(t.delta);
 				actorData.type = token.actor?.type;
-				/*if (actorData.items){
-					for (let i of Object.values(actorData.items)){
-						i.system = i.data;
-					}
-				}*/
 				const update = this.migrateActorData(actorData);
 				['items', 'effects'].forEach(embeddedName => {
 					if (!update[embeddedName]?.length) return;
 					const updates = new Map(update[embeddedName].map(u => [u._id, u]));
-					t.actorData[embeddedName].forEach(original => {
+					t.delta[embeddedName]?.forEach(original => {
 						const update = updates.get(original._id);
 						if (update) foundry.utils.mergeObject(original, update);
 					});
 					delete update[embeddedName];
 				});
 
-				foundry.utils.mergeObject(t.actorData, update);
+				foundry.utils.mergeObject(t.delta, update);
 			}
 			return t;
 		});
