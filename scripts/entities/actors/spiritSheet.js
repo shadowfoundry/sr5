@@ -14,7 +14,7 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
 	}
 
 	static DEFAULT_OPTIONS = {
-		classes: ["spirit"],
+		classes: ["app", "window-app", "sr5", "actor", "spirit"],
 		position: { width: 800, height: 618 },
 		window: { resizable: false },
 	};

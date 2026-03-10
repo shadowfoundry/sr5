@@ -60,7 +60,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 	/** @override — refresh scroll indicators when tabs change */
 	changeTab(...args) {
 		super.changeTab(...args);
-		if (this.element) requestAnimationFrame(() => this._updateScrollFades(this.element));
+		if (this.element) requestAnimationFrame(() => { if (this.element) this._updateScrollFades(this.element); });
 	}
 
 	/**

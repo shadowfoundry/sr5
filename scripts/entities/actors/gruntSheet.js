@@ -18,7 +18,7 @@ export class SR5GruntSheet extends ActorSheetSR5 {
 	}
 
 	static DEFAULT_OPTIONS = {
-		classes: ["grunt"],
+		classes: ["app", "window-app", "sr5", "actor", "grunt"],
 		position: { width: 800, height: 618 },
 		window: { resizable: false },
 	};

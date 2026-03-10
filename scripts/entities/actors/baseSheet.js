@@ -132,12 +132,12 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		const context = await super._prepareContext(options);
 		const actorData = this.actor.toObject(false);
 		context.actor = actorData;
-		context.system = actorData.system;
+		context.system = this.actor.system;
 		context.items = actorData.items;
 		context.owner = this.actor.isOwner;
 		context.editable = this.isEditable;
 		context.filters = this._filters || {};
-		context.lists = actorData.system.lists;
+		context.lists = this.actor.system.lists;
 		context.isPlay = this.isPlayMode;
 		// Provide cssClass for template compatibility
 		context.cssClass = this.document.isOwner ? "editable" : "locked";

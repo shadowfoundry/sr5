@@ -59,5 +59,53 @@
   },
   "grid": {
     "units": "m"
+  },
+  "documentTypes": {
+    "Actor": {
+      "actorPc": {},
+      "actorGrunt": {},
+      "actorSpirit": {},
+      "actorDrone": {},
+      "actorDevice": {},
+      "actorSprite": {},
+      "actorAgent": {}
+    },
+    "Item": {
+      "itemAdeptPower": {},
+      "itemAmmunition": {},
+      "itemArmor": {},
+      "itemAugmentation": {},
+      "itemComplexForm": {},
+      "itemContact": {},
+      "itemDevice": {},
+      "itemDrug": {},
+      "itemEcho": {},
+      "itemEffect": {},
+      "itemFocus": {},
+      "itemGear": {},
+      "itemKarma": {},
+      "itemKnowledge": {},
+      "itemLanguage": {},
+      "itemLifestyle": {},
+      "itemMark": {},
+      "itemMartialArt": {},
+      "itemMetamagic": {},
+      "itemNuyen": {},
+      "itemPower": {},
+      "itemPreparation": {},
+      "itemProgram": {},
+      "itemQuality": {},
+      "itemReputation": {},
+      "itemRitual": {},
+      "itemSin": {},
+      "itemSpell": {},
+      "itemSpirit": {},
+      "itemSprite": {},
+      "itemSpritePower": {},
+      "itemTradition": {},
+      "itemVehicle": {},
+      "itemVehicleMod": {},
+      "itemWeapon": {}
+    }
   }
 }

@@ -2587,7 +2587,7 @@
             "canDefault": true,
             "specializations": ""
           },
-          "negociation": {
+          "negotiation": {
             "rating": {
               "value": 0,
               "base": 0,
@@ -6249,7 +6249,6 @@
       "itemComplexForm",
       "itemContact",
       "itemDevice",
-      "itemCyberdeck",
       "itemFocus",
       "itemGear",
       "itemKarma",

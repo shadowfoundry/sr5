@@ -1750,6 +1750,8 @@
   .app.window-app.actor .window-content .SR-footer {
     padding: 10px;
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     background-image: url("../img/ui/SR6_BG_ActorBottom.png");
     background-size: auto 100%;
     background-repeat: repeat-x;
@@ -1786,7 +1788,7 @@
     box-shadow: none;
   }
   .app.window-app.actor .window-content .SR-footer .droneModel {
-    width: 250px;
+    width: 200px;
   }
   .app.window-app.actor .window-content .SR-footer .boxes {
     flex: 0;
@@ -1797,7 +1799,7 @@
     margin-left: auto;
   }
   .app.window-app.actor .window-content .SR-footer .flexrow {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
   .app.window-app.actor .window-content .SR-MoniteurBar {
     display: flex;

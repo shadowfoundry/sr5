@@ -234,7 +234,7 @@ export class SR5_RollMessage {
                 break;
             case "intimidation":
             case "performance":
-            case "negociation":
+            case "negotiation":
             case "con":
             case "leadership":
                 actor.rollTest("skillDicePool", type, messageData);

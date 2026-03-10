@@ -208,7 +208,7 @@ export class SR5_PrepareRollTest {
                 rollData = await SR5_GetRollData.vehicleTest(rollData, actor, chatData);
                 break;
             default:
-                SR5_SystemHelpers.srLog(3, `Unknown ${rollType} roll type in 'actorRoll()'`);
+                SR5_SystemHelpers.srLog(1, `Unknown ${rollType} roll type in 'actorRoll()'`);
         }
         
         if (rollData) SR5_RollTest.generateRollDialog(rollData);

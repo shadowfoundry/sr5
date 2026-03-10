@@ -16,7 +16,7 @@ export class SR5DroneSheet extends ActorSheetSR5 {
 	}
 
 	static DEFAULT_OPTIONS = {
-		classes: ["drone"],
+		classes: ["app", "window-app", "sr5", "actor", "drone"],
 		position: { width: 800, height: 618 },
 		window: { resizable: false },
 	};

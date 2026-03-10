@@ -1392,7 +1392,7 @@
         "canDefault": true,
         "specializations": ""
       },
-      "negociation": {
+      "negotiation": {
         "rating": {
           "value": 0,
           "base": 3,
@@ -2078,7 +2078,7 @@
         "ammunition": {
           "value": 4,
           "max": 4,
-          "type": "taser",
+          "type": "taserDart",
           "casing": "clip",
           "rating": "",
           "clipInserted": true

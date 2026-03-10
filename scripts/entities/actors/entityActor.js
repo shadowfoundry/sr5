@@ -110,7 +110,7 @@ export class SR5Actor extends Actor {
 				}
 				data.system = {
 					"force": {
-						"base": parseInt(spiritForce),
+						"base": parseInt(spiritForce) || 0,
 						"value": 0,
 						"modifiers": []
 					},
@@ -146,7 +146,7 @@ export class SR5Actor extends Actor {
 					data.items.push(baseItem);
 				}
 				data.system = {
-					"level": parseInt(spriteLevel),
+					"level": parseInt(spriteLevel) || 0,
 					"type": spriteType
 				};
 				super.create(data, options);
@@ -608,7 +608,7 @@ export class SR5Actor extends Actor {
 							iData.spellChoices = SR5_UtilityItem._generateSustainFocusSpellList(iData, actor);
 							break;
 						default:
-							SR5_SystemHelpers.srLog(3,`Unknown focus type '${iData.type}' in 'prepareEmbeddedDocuments()'`);
+							SR5_SystemHelpers.srLog(1,`Unknown focus type '${iData.type}' in 'prepareEmbeddedDocuments()'`);
 					}
 					if (iData.isActive && Object.keys(iData.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
 					break;
@@ -673,7 +673,6 @@ export class SR5Actor extends Actor {
 				case "itemKnowledge":
 				case "itemMark":
 				case "itemContact":
-				case "itemCyberdeck":
 				case "itemSpritePower":
 					break;
 

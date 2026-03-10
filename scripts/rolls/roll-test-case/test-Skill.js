@@ -102,7 +102,7 @@ export default async function skillInfo(cardData){
         case "con":
         case "impersonation":
         case "etiquette":
-        case "negociation":
+        case "negotiation":
         case "intimidation":
         case "performance":
         case "leadership":

@@ -2001,7 +2001,7 @@
         },
         "quantity": 1,
         "category": "rangedWeapon",
-        "type": "taser",
+        "type": "taserDart",
         "requiredHands": 1,
         "range": {
           "short": {

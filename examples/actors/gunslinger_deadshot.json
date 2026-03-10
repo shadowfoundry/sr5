@@ -512,7 +512,7 @@
         "skillGroup": "", "category": "socialSkills", "canDefault": true,
         "specializations": ""
       },
-      "negociation": {
+      "negotiation": {
         "rating": { "value": 0, "base": 0, "modifiers": [] },
         "test": { "dicePool": 0, "base": 0, "modifiers": [] },
         "linkedAttribute": "charisma",
@@ -616,7 +616,7 @@
         "recoilCompensation": { "value": 0, "base": 0, "modifiers": [] },
         "accessory": [
           { "name": "smartgunSystemInternal", "isFree": true, "isActive": true },
-          { "name": "imaging scope", "isFree": true, "isActive": true }
+          { "name": "imagingScope", "isFree": true, "isActive": true }
         ],
         "weaponSkill": { "dicePool": 0, "base": 0, "modifiers": [], "specialization": false, "category": "longarms" },
         "toxin": { "type": "", "vector": { "contact": false, "ingestion": false, "inhalation": false, "injection": false }, "speed": "", "power": 0, "effect": { "disorientation": false, "nausea": false, "paralysis": false, "agony": false, "arcaneInhibitor": false }, "penetration": 0, "damageType": null },

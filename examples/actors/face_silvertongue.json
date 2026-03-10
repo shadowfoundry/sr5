@@ -1524,7 +1524,7 @@
         "canDefault": true,
         "specializations": ""
       },
-      "negociation": {
+      "negotiation": {
         "rating": {
           "value": 0,
           "base": 6,
@@ -1949,7 +1949,7 @@
         "ammunition": {
           "value": 30,
           "max": 30,
-          "type": "regularAmmo",
+          "type": "regular",
           "casing": "clip",
           "rating": "",
           "clipInserted": true

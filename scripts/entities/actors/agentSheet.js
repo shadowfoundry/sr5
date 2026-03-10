@@ -16,7 +16,7 @@ export class SR5AgentSheet extends ActorSheetSR5 {
 	}
 
 	static DEFAULT_OPTIONS = {
-		classes: ["agent"],
+		classes: ["app", "window-app", "sr5", "actor", "agent"],
 		position: { width: 800, height: 618 },
 		window: { resizable: false },
 	};

@@ -736,7 +736,7 @@ export class SR5_CharacterUtility extends Actor {
 				}
 				break;
 			default:
-				SR5_SystemHelpers.srLog(3, `Unknown penalty type '${penalty}' in 'applyPenalty()'`);
+				SR5_SystemHelpers.srLog(1, `Unknown penalty type '${penalty}' in 'applyPenalty()'`);
 				return;
 		}
 	}
@@ -885,6 +885,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	static applyRacialModifers(actor) {
 		let actorData = actor.system;
+		if (!actorData.biography.characterMetatype) return;
 		let label = `${game.i18n.localize(SR5.metatypes[actorData.biography.characterMetatype])}`;
 
 		switch (actorData.biography.characterMetatype) {
@@ -934,7 +935,7 @@ export class SR5_CharacterUtility extends Actor {
 				}
 				break;
 			default:
-				SR5_SystemHelpers.srLog(3, `Unknown metatype '${actorData.biography.characterMetatype}' in 'applyRacialModifers()'`);
+				SR5_SystemHelpers.srLog(1, `Unknown metatype '${actorData.biography.characterMetatype}' in 'applyRacialModifers()'`);
 				return;
 		}
 	}
@@ -1133,7 +1134,7 @@ export class SR5_CharacterUtility extends Actor {
 				SR5_EntityHelpers.updateModifier(attributes.strength.natural, label, 'spiritType', -1);
 				break;
 			default:
-				SR5_SystemHelpers.srLog(3, `Unknown ${actorData.type} spirit type in 'updateSpiritAttributes()'`);
+				SR5_SystemHelpers.srLog(1, `Unknown ${actorData.type} spirit type in 'updateSpiritAttributes()'`);
 				return false;
 		}
 	}
@@ -2353,7 +2354,7 @@ export class SR5_CharacterUtility extends Actor {
 				skills.gymnastics.rating.base = actorData.force.value;
 				skills.spellcasting.rating.base = actorData.force.value;
 				skills.leadership.rating.base = actorData.force.value;
-				skills.negociation.rating.base = actorData.force.value;
+				skills.negotiation.rating.base = actorData.force.value;
 				break;
 			case "guardian":
 				skills.exoticRangedWeapon.rating.base = actorData.force.value;
@@ -3992,6 +3993,7 @@ export class SR5_CharacterUtility extends Actor {
 		//Handle Ice attack and defense
 		if (matrix.deviceType === "ice") {
 			actorData.description = game.i18n.localize(SR5.iceTypes[matrix.deviceSubType] + "_GE");
+			if (!matrix.ice) matrix.ice = { attackDicepool: 0, defenseFirstAttribute: "", defenseSecondAttribute: "" };
 			matrix.ice.attackDicepool = matrix.deviceRating * 2;
 			matrix.actions.matrixPerception.test.dicePool = matrix.deviceRating * 2;
 			SR5_EntityHelpers.updateValue(matrixAttributes.dataProcessing, 0);
@@ -4124,7 +4126,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	static generateAgentMatrix(actor, itemData) {
 		let actorData = actor.system;
-		if (!actorData.creatorData) return;
+		if (!actorData.creatorData?.system?.matrix) return;
 		let matrixAttributes = actorData.matrix.attributes, creatorMatrix = actorData.creatorData.system.matrix;
 
 		actorData.matrix.marks = itemData.marks;
@@ -4156,7 +4158,7 @@ export class SR5_CharacterUtility extends Actor {
 
 	static applyProgramToAgent(actor) {
 		let actorData = actor.system;
-		if (!actorData.creatorData) return;
+		if (!actorData.creatorData?.items) return;
 		for (let i of actorData.creatorData.items) {
 			if (i.type === "itemProgram" && (i.system.type === "common" || i.system.type === "hacking") && i.system.isActive) {
 				if (Object.keys(i.system.customEffects).length) SR5_CharacterUtility.applyCustomEffects(i, actor);
@@ -4237,6 +4239,7 @@ export class SR5_CharacterUtility extends Actor {
 	}
 
 	static async updateMatrixEffect(actor){
+		if (!actor.id) return;
 		let status, isStatusEffectOn, statusEffects = [];
 		isStatusEffectOn = actor.effects.find(e => e.statuses.has("matrixInit"));
 		if (!actor.system.isDirectlyConnected) {
@@ -4334,7 +4337,7 @@ export class SR5_CharacterUtility extends Actor {
 			}
 
 			let targetObject = SR5_EntityHelpers.resolveObjectPath(customEffect.target, actor);
-			if (targetObject === null) skipCustomEffect = true;
+			if (targetObject == null) skipCustomEffect = true;
 
 			if (!skipCustomEffect) {
 				SR5_SystemHelpers.srLog(3, `Applying Custom Effect for ${item.name}`);

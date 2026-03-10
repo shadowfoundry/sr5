@@ -16,7 +16,7 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 	}
 
 	static DEFAULT_OPTIONS = {
-		classes: ["sprite"],
+		classes: ["app", "window-app", "sr5", "actor", "sprite"],
 		position: { width: 800, height: 618 },
 		window: { resizable: false },
 	};

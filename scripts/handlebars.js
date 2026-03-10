@@ -100,8 +100,7 @@ export const registerHandlebarsHelpers = function () {
 		key = key[0];
 		}
 		if (!key) {
-		SR5_SystemHelpers.srLog(3, `No lookup key provided for a lookup in the '${table}' translation table`);
-		return game.i18n.localize(SR5.HBS_ErrorNoKeyGiven);;
+		return "";
 		}
 		const translatedTerm = game.i18n.localize(SR5[table][key]);
 		if (!translatedTerm) {

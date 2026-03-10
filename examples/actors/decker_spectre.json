@@ -1282,7 +1282,7 @@
         "canDefault": true,
         "specializations": "Matrix"
       },
-      "negociation": {
+      "negotiation": {
         "rating": {
           "value": 0,
           "base": 2,
@@ -1862,7 +1862,7 @@
     {
       "name": "Renraku Tsurugi",
       "type": "itemDevice",
-      "img": "systems/sr5/img/items/itemCyberdeck.svg",
+      "img": "systems/sr5/img/items/itemDevice.svg",
       "system": {
         "description": "<p>A mid-range cyberdeck from Renraku. Yuki's former employer — she knows every circuit in this deck intimately. Custom-modded firmware for optimized intrusion routines.</p>",
         "gameEffect": "",

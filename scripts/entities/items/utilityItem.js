@@ -342,7 +342,7 @@ export class SR5_UtilityItem extends Actor {
 				break;
 			default:
 		}
-		if (item.availability.multiplier) SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(SR5.valueMultipliersAll[item.availability.multiplier]), "multiplier", multiplier, true, false);
+		if (item.availability.multiplier && multiplier !== undefined) SR5_EntityHelpers.updateModifier(item.availability, game.i18n.localize(SR5.valueMultipliersAll[item.availability.multiplier]), "multiplier", multiplier, true, false);
 		SR5_EntityHelpers.updateValue(item.availability, 0);
 	}
 
@@ -442,6 +442,9 @@ export class SR5_UtilityItem extends Actor {
 					SR5_EntityHelpers.updateModifier(itemData.weaponSkill, `${game.i18n.localize('SR5.Specialization')}`, "specialization", 2, false, true);
 				}
 				let actorSkill = itemData.weaponSkill.category;
+				if (!actorSkill) {
+					return;
+				}
 				if(actor.system.skills[actorSkill] === undefined){
 					SR5_SystemHelpers.srLog(1, `Unknown weapon skill '${actorSkill}' in '_generateWeaponDicepool()'`);
 					itemData.weaponSkill.base = 0;
@@ -505,6 +508,7 @@ export class SR5_UtilityItem extends Actor {
 
 	// Modif des munitions & grenades
 	static _handleWeaponAmmunition(itemData) {
+		if (!itemData.ammunition.type) return;
 		let armorPenetration = 0,
 			damageValue = 0,
 			damageType = itemData.damageType,
@@ -520,7 +524,14 @@ export class SR5_UtilityItem extends Actor {
 			case "flashPack":
 			case "gyrojet":
 			case "gauss":
+			case "special":
+			case "grenade":
+			case "missile":
 				// No modification
+				break;
+			case "capsuleDmso":
+				armorPenetration = 4;
+				damageValue = -4;
 				break;
 			case "av":
 				armorPenetration = -1;
@@ -673,7 +684,7 @@ export class SR5_UtilityItem extends Actor {
 				damageElement = "electricity";
 				break;
 			default:
-				SR5_SystemHelpers.srLog(3, "_handleWeaponAmmunition", `Unknown ammunition type: '${itemData.ammunition.type}'`);
+				SR5_SystemHelpers.srLog(1, "_handleWeaponAmmunition", `Unknown ammunition type: '${itemData.ammunition.type}'`);
 				return;
 		}
 		if (armorPenetration) SR5_EntityHelpers.updateModifier(itemData.armorPenetration, game.i18n.localize(SR5.allAmmunitionTypes[itemData.ammunition.type]), "ammunitionType", armorPenetration);
@@ -894,7 +905,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.toxin.damageType = "stun";
 				break;
 			default:
-				SR5_SystemHelpers.srLog(3, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
+				SR5_SystemHelpers.srLog(1, "_handleWeaponToxin", `Unknown toxin type: '${itemData.toxin.type}'`);
 		}
 	}
 
@@ -1284,7 +1295,7 @@ export class SR5_UtilityItem extends Actor {
 					a.price = 250;
 					break; 
 				default:
-					SR5_SystemHelpers.srLog(1, `Unknown '${a}' accessory in _handleWeaponAccessory()`);
+					SR5_SystemHelpers.srLog(1, `Unknown '${a.name}' accessory in _handleWeaponAccessory()`);
 			}
 
 			//If accessory is correctly selected
@@ -1703,6 +1714,7 @@ export class SR5_UtilityItem extends Actor {
 
 	////////////////////// DECK & PROGRAMMES ///////////////////////
 	static _handleCommlink(itemData) {
+		if (!itemData.module) return;
 		switch (itemData.module){
 			case "standard":
 				SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize('SR5.ModuleStandardSim'), 'module', 100);
@@ -1712,7 +1724,7 @@ export class SR5_UtilityItem extends Actor {
 				SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize('SR5.ModuleHotSim'), 'module', 4);
 				break;
 			default:
-				SR5_SystemHelpers.srLog(3,"_handleCommlink",`Unknown module : '${itemData.module}'`);
+				SR5_SystemHelpers.srLog(1,"_handleCommlink",`Unknown module : '${itemData.module}'`);
 		}
 	}
 
@@ -2575,6 +2587,7 @@ export class SR5_UtilityItem extends Actor {
 
 	////////////////////// SPIRITS  //////s////////////////
 	static _handleSpirit(itemData) {
+		if (!itemData.type) return;
 		for (let att of Object.keys(itemData.attributes)) {
 			itemData.attributes[att] = itemData.itemRating;
 		}
@@ -2664,7 +2677,7 @@ export class SR5_UtilityItem extends Actor {
 				itemData.attributes.willpower += 1;
 				itemData.attributes.logic += 1;
 				itemData.attributes.intuition += 1;
-				itemData.skill.push("astralCombat", "assensing", "perception", "unarmedCombat", "counterspelling", "con", "gymnastics", "spellcasting", "leadership", "negociation");
+				itemData.skill.push("astralCombat", "assensing", "perception", "unarmedCombat", "counterspelling", "con", "gymnastics", "spellcasting", "leadership", "negotiation");
 				break;
 			case "insectScout":
 				itemData.attributes.agility += 2;

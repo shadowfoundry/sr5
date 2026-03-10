@@ -240,9 +240,10 @@ export class SR5_EntityHelpers {
 		arrayTerms.sort((a, b) => {
 			const labelA = SR5[table][a.key];
 			const labelB = SR5[table][b.key];
+			// Skip sorting for keys with empty or missing translation values
 			if (!labelA || !labelB) {
-				if (!labelA) SR5_SystemHelpers.srLog(1, `Missing key '${a.key}' in translation table '${table}'`);
-				if (!labelB) SR5_SystemHelpers.srLog(1, `Missing key '${b.key}' in translation table '${table}'`);
+				if (labelA === undefined) SR5_SystemHelpers.srLog(1, `Missing key '${a.key}' in translation table '${table}'`);
+				if (labelB === undefined) SR5_SystemHelpers.srLog(1, `Missing key '${b.key}' in translation table '${table}'`);
 				return 0;
 			}
 			return game.i18n.localize(labelA).localeCompare(game.i18n.localize(labelB));

@@ -66,7 +66,10 @@ export default async function skill(rollData, rollType, rollKey, actor, chatData
 
     //Special case for Astral combat
     if (rollKey === "astralCombat"){
-        if (!actor.system.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {name:actor.name})}`);
+        if (!actor.system.visions.astral.isActive) {
+            ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {name:actor.name})}`);
+            return;
+        }
         rollData.damage.base = actor.system.magic.astralDamage.value;
         rollData.damage.value = actor.system.magic.astralDamage.value;
         rollData.dialogSwitch.extended = false;
@@ -97,11 +100,20 @@ async function getTargetedData(rollData, rollKey){
 
     switch (rollKey){
         case "banishing":
-            if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+            if (targetActor.type !== "actorSpirit") {
+                ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                return;
+            }
             break;
         case "binding":
-            if (targetActor.type !== "actorSpirit") return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
-            else if (targetActor.system.isBounded) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+            if (targetActor.type !== "actorSpirit") {
+                ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NotASpirit")}`);
+                return;
+            }
+            else if (targetActor.system.isBounded) {
+                ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpiritAlreadyBounded")}`);
+                return;
+            }
             else rollData.limit.base = targetActor.system.force.value;
             break;
         case "counterspelling":
@@ -181,7 +193,7 @@ function getOpposedData(rollData, chatData, rollKey, actor){
     }
 
     if (chatData.test.typeSub === "impersonation") rollData.test.title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[actorData.skills[rollKey].linkedAttribute])  + " (" + chatData.roll.hits + ")"}`;
-    if (chatData.test.typeSub === "negociation") rollData.test.title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[actorData.skills[rollKey].linkedAttribute])  + " (" + chatData.roll.hits + ")"}`;
+    if (chatData.test.typeSub === "negotiation") rollData.test.title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize(SR5.allAttributes[actorData.skills[rollKey].linkedAttribute])  + " (" + chatData.roll.hits + ")"}`;
 
     return rollData;
 }

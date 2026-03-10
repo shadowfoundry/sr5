@@ -9,7 +9,7 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 	}
 
 	static DEFAULT_OPTIONS = {
-		classes: ["device"],
+		classes: ["app", "window-app", "sr5", "actor", "device"],
 		position: { width: 800, height: 448 },
 		window: { resizable: false },
 	};

@@ -178,6 +178,12 @@ export default class Migration {
 				updateData["system.skills.locksmith.limit.base"] = "physicalLimit";
 			}
 
+			//Rename negociation skill to negotiation (French → English)
+			if (actor.system.skills?.negociation) {
+				updateData["system.skills.negotiation"] = actor.system.skills.negociation;
+				updateData["system.skills.-=negociation"] = null;
+			}
+
 			//v10 embedded items in actor
 			if (actor.system.creatorData) {
 				let newCreatorData = foundry.utils.duplicate(actor.system.creatorData);
@@ -300,6 +306,9 @@ export default class Migration {
 				updateData["system.range.long.base"] = 6;
 				updateData["system.range.extreme.base"] = 10;
 			}
+			// Migrate legacy ammunition type keys
+			if (item.system?.ammunition?.type === "regularAmmo") updateData["system.ammunition.type"] = "regular";
+			if (item.system?.ammunition?.type === "taser") updateData["system.ammunition.type"] = "taserDart";
 		}
 
 		if (item.system?.conditionMonitors) {

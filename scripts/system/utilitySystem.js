@@ -122,9 +122,9 @@ export class SR5_SystemHelpers {
 			let msgLogLevel = 0;
 			let msgLabel = "";
 			let tagLabel = "";
-			let headerStyle = "color: rgba(157, 6, 104, 1);";
-			let msgStyle = "width: 100%; padding: 0 auto;";
-			let tagStyle = "width: 100%; padding: 0 auto; color: rgba(255, 255, 255, 1); padding: 0 5px; border-radius: 2px;";
+			const headerStyle = "color: #fff; background-color: rgba(157, 6, 104, 1); padding: 0 5px; border-radius: 2px;";
+			let tagStyle = "color: #fff; padding: 0 5px; border-radius: 2px;";
+			let levelColor = "";
 
 			if (!arguments.length) SR5_SystemHelpers.srLog(0, `Logging function 'srLog()' called without any parameters`);
 			else {
@@ -137,46 +137,34 @@ export class SR5_SystemHelpers {
 						if (msgLogLevel <= userLogLevel) {
 							switch (msgLogLevel) {
 								case 0:
-									tagStyle += "background-color: rgba(250, 0, 0, 0.8); ";
-									tagLabel = " ERROR ";
-									msgStyle += "color: rgba(157, 6, 104, 1);";
-									arguments.stack = (new Error()).stack;
+									levelColor = "rgba(250, 0, 0, 0.8)";
+									tagLabel = "ERROR";
 									break;
 								case 1:
-									tagStyle += "background-color: rgba(250, 120, 0, 0.8);";
+									levelColor = "rgba(250, 120, 0, 0.8)";
 									tagLabel = "WARNING";
-									msgStyle += "color: rgba(157, 6, 104, 0.8);";
-									arguments.stack = (new Error()).stack;
 									break;
 								case 2:
-									tagStyle += "background-color: rgba(0, 180, 0, 0.8);";
-									tagLabel = " INFO. ";
-									msgStyle += "color: rgba(157, 6, 104, 0.6);";
+									levelColor = "rgba(0, 180, 0, 0.8)";
+									tagLabel = "INFORMATION";
 									break;
 								case 3:
-									tagStyle += "background-color: rgba(0, 0, 180, 0.4);";
-									tagLabel = " DEBUG ";
-									msgStyle += "color: rgba(157, 6, 104, 0.4);";
+									levelColor = "rgba(0, 0, 180, 0.6)";
+									tagLabel = "DEBUG";
 									break;
 								default:
 									SR5_SystemHelpers.srLog(0, `Logging function 'srLog()' called with an unknown '${msgLogLevel}' log level`);
 							}
+							tagStyle += `background-color: ${levelColor};`;
 
-							msgLabel = `%cShadowrun 5 | %c${tagLabel}%c ${arguments[1]}`;
-							delete arguments[1];
-							let msgDetails = {
-								...arguments
-							};
+							// Use appropriate console level: error/warn for 0/1, log for 2/3
+							// console.error/warn natively provide stack traces, no need to inject manually
+							const consoleFn = msgLogLevel === 0 ? 'error' : msgLogLevel === 1 ? 'warn' : msgLogLevel === 3 ? 'debug' : 'log';
 
-							if (Object.values(msgDetails).length) {
-								console.groupCollapsed(`${msgLabel}`, headerStyle, tagStyle, msgStyle);
-								for (let v of Object.values(msgDetails)) {
-									console.log(`%o`, JSON.parse(JSON.stringify(v)));
-								}
-								console.groupEnd();
-							} else {
-								console.log(`${msgLabel}`, headerStyle, tagStyle, msgStyle);
-							}
+							msgLabel = `%cShadowrun 5%c %c${tagLabel}%c ${arguments[1]}`;
+							let msgDetails = Array.from(arguments).slice(2).map(v => JSON.parse(JSON.stringify(v)));
+
+							console[consoleFn](`${msgLabel}`, headerStyle, "", tagStyle, "", ...msgDetails);
 						}
 					}
 				}
@@ -186,10 +174,11 @@ export class SR5_SystemHelpers {
 
 	static srLogPublic(message) {
 		console.log(
-			`%cShadowrun 5 | %cMESSAGE%c ${message}`,
-			"color: rgba(157, 6, 104, 1);",
-			"background-color: rgba(157, 6, 104, 1); width: 100%; padding: 0 auto; color: rgba(255, 255, 255, 1); padding: 0 5px; border-radius: 2px;",
-			"color: rgba(157, 6, 104, 1); font-weight: bold;",
+			`%cShadowrun 5%c %cBROADCAST%c ${message}`,
+			"color: #fff; background-color: rgba(157, 6, 104, 1); padding: 0 5px; border-radius: 2px;",
+			"",
+			"color: #fff; background-color: rgba(157, 6, 104, 0.7); padding: 0 5px; border-radius: 2px;",
+			"font-weight: bold;",
 		);
 	}
 

@@ -1546,7 +1546,7 @@
         "canDefault": true,
         "specializations": "Physical"
       },
-      "negociation": {
+      "negotiation": {
         "rating": {
           "value": 0,
           "base": 1,

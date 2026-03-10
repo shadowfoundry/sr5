@@ -353,7 +353,7 @@ SR5.socialSkills = {
 	instruction               : "SR5.SkillInstruction",
 	intimidation              : "SR5.SkillIntimidation",
 	leadership                : "SR5.SkillLeadership",
-	negociation               : "SR5.SkillNegociation",
+	negotiation               : "SR5.SkillNegociation",
 	performance               : "SR5.SkillPerformance",
 };
 
@@ -1704,7 +1704,7 @@ SR5.leadershipModifier = {
 	fan                       : "SR5.SocialModFan",
 }
 
-SR5.negociationModifier = {
+SR5.negotiationModifier = {
 	lacksKnowledge            : "SR5.SocialModLacksKnowledge",
 	blackmailed               : "SR5.SocialModBlackmailed",
 }
