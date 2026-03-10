@@ -1,0 +1,93 @@
+name: Bug Report
+description: Report a bug with the Shadowrun 5 system
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the sections below so we can reproduce and fix the issue.
+
+  - type: input
+    id: system-version
+    attributes:
+      label: System Version
+      description: Found in Foundry's system management screen or in `system.json`
+      placeholder: "13.0.1-alpha.8"
+    validations:
+      required: true
+
+  - type: input
+    id: foundry-version
+    attributes:
+      label: Foundry VTT Version
+      description: Found in the bottom-right of Foundry's setup screen
+      placeholder: "13.331"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: actor-type
+    attributes:
+      label: Actor Type (if applicable)
+      description: Which actor type is affected?
+      options:
+        - N/A
+        - PC
+        - Grunt
+        - Spirit
+        - Drone
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect to happen instead?
+      placeholder: |
+        When I open a character sheet and click on the combat tab, the weapons list is empty even though the character has weapons.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps to trigger the bug
+      placeholder: |
+        1. Create a new character
+        2. Add a weapon from the compendium
+        3. Open the character sheet
+        4. Click the Combat tab
+        5. Weapon list is empty
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console Errors
+      description: Open browser DevTools (F12) and paste any errors from the Console tab
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Attach screenshots if they help illustrate the issue
+    validations:
+      required: false
+
+  - type: textarea
+    id: modules
+    attributes:
+      label: Active Modules
+      description: List any active modules that might be relevant. You can check if the bug persists with all modules disabled.
+      placeholder: |
+        - Dice So Nice
+        - PopOut!
+        - (Bug persists with all modules disabled: yes/no)
+    validations:
+      required: false

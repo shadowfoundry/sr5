@@ -2,9 +2,15 @@
   "scripts": {
     "build": "npm run build:sr5 && npm run build:sr6",
     "build:sr5": "lessc less/sr5.less css/sr5.css",
-    "build:sr6": "lessc less/sr6.less css/sr6.css"
+    "build:sr6": "lessc less/sr6.less css/sr6.css",
+    "test": "vitest run --reporter=verbose",
+    "test:watch": "vitest --reporter=verbose"
   },
   "devDependencies": {
-    "less": "^4.5.1"
+    "eslint": "^8.53.0",
+    "eslint-plugin-foundry-vtt": "^0.0.1",
+    "eslint-plugin-import": "^2.29.0",
+    "less": "^4.5.1",
+    "vitest": "^4.0.18"
   }
 }

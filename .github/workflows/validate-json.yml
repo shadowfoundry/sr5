@@ -1,0 +1,27 @@
+name: Validate JSON
+on:
+  pull_request:
+    branches: ['**']
+    paths:
+      - '*.json'
+      - 'lang/*.json'
+      - 'scripts/check-lang-keys.js'
+
+jobs:
+  json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Validate JSON syntax
+        run: |
+          status=0
+          for f in system.json package.json lang/*.json; do
+            if ! node -e "JSON.parse(require('fs').readFileSync('$f','utf8').replace(/^\uFEFF/,''))"; then
+              echo "::error file=$f::Invalid JSON"
+              status=1
+            fi
+          done
+          exit $status
+      - name: Check language file keys match
+        run: node scripts/check-lang-keys.js

@@ -1,0 +1,23 @@
+javascript:
+  - changed-files:
+      - any-glob-to-any-file: 'scripts/**/*.js'
+
+templates:
+  - changed-files:
+      - any-glob-to-any-file: 'templates/**'
+
+i18n:
+  - changed-files:
+      - any-glob-to-any-file: 'lang/**'
+
+styles:
+  - changed-files:
+      - any-glob-to-any-file: 'less/**'
+
+assets:
+  - changed-files:
+      - any-glob-to-any-file: 'img/**'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'

@@ -1,0 +1,31 @@
+{
+	"env": {
+		"browser": true,
+		"node": true,
+		"commonjs": true,
+		"es6": true,
+		"jquery": true
+	},
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:foundry-vtt/recommended"
+	],
+	"rules": {
+		"padded-blocks": "off",
+		"comma-dangle": ["error", "only-multiline"],
+		"semi": ["error", "never"],
+		"prefer-destructuring": "off",
+		"no-tabs": "off",
+		"indent": ["warn", 2, { "SwitchCase": 1 }],
+		"camelcase": "off",
+		"no-undef": ["warn"],
+		"max-len": ["warn", 160],
+		"no-underscore-dangle": "warn",
+		"object-curly-newline": ["error", { "multiline": true }],
+		"operator-linebreak": ["error", "after"],
+		"import/prefer-default-export": "off"
+	}
+}

@@ -1,7 +1,9 @@
-.vscode
-package-lock.json
-node_modules/
-.sync.ffs_db
-Config
+/node_modules
+/.vscode
+/.trunk
+.env*
 .DS_Store
+.sync.ffs_db
+/sr5.lock
+AGENTS.md
 /drk-doc
