@@ -3246,6 +3246,8 @@ body {
   }
 }
 .app.window-app.actor {
+  /* Compact input height — overrides Foundry's 2rem default for legacy sheet rows */
+  --input-height: auto;
   /* v13: remove Foundry's default input background shade */
   /* Reset global UI controls (from base.less/controls.less) —
        sheets predate the global theme and have their own styling */
@@ -4410,6 +4412,8 @@ body {
 /* Images
 /* ----------------------------------------- */
 .app.window-app.SR-Item {
+  /* Compact input height — overrides Foundry's 2rem default for legacy sheet rows */
+  --input-height: auto;
   /* v13: remove Foundry's default input background shade */
   /* Reset global UI controls (from base.less/controls.less) —
        sheets predate the global theme and have their own styling */
@@ -6710,6 +6714,9 @@ body {
 .sr-dropdown {
   position: relative;
   width: 100%;
+  height: var(--input-height);
+  vertical-align: bottom;
+  align-self: end;
 }
 .sr-dropdown select {
   position: absolute !important;
@@ -6724,11 +6731,11 @@ body {
 }
 .sr-dropdown .sr-dropdown-trigger {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   cursor: pointer;
-  height: 20px;
-  line-height: 20px;
+  font-size: inherit;
+  height: 100%;
   padding: 0 2px;
   border: none;
   border-bottom: 1px solid var(--sr-sheet-input-border-color);
@@ -6746,20 +6753,20 @@ body {
 }
 .sr-dropdown .sr-dropdown-trigger .sr-dropdown-chevron {
   font-size: 10px;
-  color: var(--sr-text-sheet-button);
+  color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   margin-left: 4px;
   flex-shrink: 0;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, color 0.15s ease;
 }
 .sr-dropdown .sr-dropdown-trigger:hover {
-  border-bottom-color: var(--sr-ui-border-color-active);
+  border-bottom-color: var(--sr-ui-border-color);
 }
 .sr-dropdown .sr-dropdown-trigger:hover .sr-dropdown-chevron {
-  color: var(--sr-text-sheet-button-hover);
+  color: var(--sr-ui-border-color);
 }
 .sr-dropdown.sr-dropdown-open .sr-dropdown-trigger .sr-dropdown-chevron {
   transform: rotate(180deg);
-  color: var(--sr-text-sheet-button-hover);
+  color: var(--sr-ui-border-color);
 }
 .sr-dropdown.sr-dropdown-disabled .sr-dropdown-trigger {
   cursor: default;
@@ -6769,7 +6776,7 @@ body {
   display: none;
   position: fixed;
   z-index: 10000;
-  background-color: var(--sr-ui-bg-color-dark);
+  background-color: var(--sr-text-color-light);
   border: 1px solid var(--sr-ui-border-color);
   max-height: 250px;
   overflow-y: auto;
@@ -6783,10 +6790,9 @@ body {
 }
 .sr-dropdown-menu .sr-dropdown-item {
   padding: 2px 6px;
-  min-height: 1.4em;
   line-height: 1.4em;
   cursor: pointer;
-  color: var(--sr-ui-color);
+  color: var(--sr-text-color-dark);
   border: 1px solid transparent;
   white-space: nowrap;
   overflow: hidden;
@@ -6794,22 +6800,17 @@ body {
 }
 .sr-dropdown-menu .sr-dropdown-item:hover,
 .sr-dropdown-menu .sr-dropdown-item.sr-dropdown-focused {
-  color: var(--sr-ui-color-active);
-  border: 1px solid var(--sr-ui-border-color-active);
   background-color: var(--sr-ui-bg-color-hover);
+  border-color: var(--sr-ui-border-color);
+  color: var(--sr-ui-color-active);
   text-shadow: none;
 }
 .sr-dropdown-menu .sr-dropdown-item.selected {
-  color: var(--sr-ui-color-active);
+  color: var(--sr-ui-border-color);
+  font-weight: bold;
 }
 .sr-dropdown-menu .sr-dropdown-item[data-value=""] {
-  color: var(--sr-ui-bg-color-hover);
-}
-.sr-dropdown-menu .sr-dropdown-item[data-value=""]:hover,
-.sr-dropdown-menu .sr-dropdown-item[data-value=""].sr-dropdown-focused {
-  color: var(--sr-ui-color-active);
-  border: 1px solid var(--sr-ui-border-color-active);
-  background-color: var(--sr-ui-bg-color-hover);
+  color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent);
 }
 .sr-dropdown-menu .sr-dropdown-group {
   padding: 2px 6px;
@@ -6817,6 +6818,6 @@ body {
   cursor: default;
   pointer-events: none;
   color: var(--sr-ui-color-active);
-  background-color: var(--sr-ui-bg-color-active);
+  background-color: var(--sr-ui-border-color);
   border-bottom: 1px solid var(--sr-ui-border-color);
 }

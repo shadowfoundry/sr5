@@ -1,6 +1,9 @@
 @import "./layout.less";
 
 .app.window-app.actor {
+    /* Compact input height — overrides Foundry's 2rem default for legacy sheet rows */
+    --input-height: auto;
+
     /* v13: remove Foundry's default input background shade */
     input, select, textarea {
         --input-background-color: transparent;

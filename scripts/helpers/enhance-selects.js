@@ -183,6 +183,11 @@ function _enhanceOneSelect(select) {
 function _openMenu(host, trigger, menu) {
   const rect = trigger.getBoundingClientRect()
 
+  // Match portaled menu font to the trigger's computed font (avoids rem vs em mismatch)
+  const triggerStyle = window.getComputedStyle(trigger)
+  menu.style.fontSize = triggerStyle.fontSize
+  menu.style.fontFamily = triggerStyle.fontFamily
+
   menu.style.left = `${rect.left}px`
   menu.style.width = `${rect.width}px`
   menu.classList.add('sr-dropdown-menu-visible')
