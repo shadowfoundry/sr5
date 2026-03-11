@@ -2,15 +2,15 @@
   z-index: 0;
   position: fixed;
   background: none;
-  color: @neutralLightColor;
+  color: var(--sr-text-color-light);
   text-align: center;
   background-image: none;
   left: 15px;
   bottom: 82px;
-  border: 1px solid @popColor;
+  border: 1px solid var(--sr-text-color-flash);
   border-radius: none;
   box-shadow: none;
-  background-color: fade(@popColor, 25%);
+  background-color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
   padding: 0 10px;
   width: auto;
   max-width: 300px;
@@ -24,10 +24,10 @@
   }
 
   h3 {
-    font-family: @SR_FontTitle;
+    font-family: var(--sr-font-title);
     text-transform: uppercase;
     padding-bottom: 4px;
-    border-bottom: 1px solid fade(@popColor, 50%);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
 
   ul {
@@ -39,6 +39,6 @@
 
   .helpMessage {
     padding-bottom: 8px;
-    border-bottom: 1px solid fade(@popColor, 50%);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
 }

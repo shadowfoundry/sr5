@@ -1,9 +1,9 @@
 /* v13: #chat-log replaced by #chat, .message replaced by .chat-message */
 #chat, #chat-notifications, #chat-popout {
   .chat-message.SRCustomMessage {
-    background-color: @neutralLightColor;
-    color: @neutralDarkColor;
-    border          : 2px solid @mainColor;
+    background-color: var(--sr-text-color-light);
+    color: var(--sr-text-color-dark);
+    border          : 2px solid var(--sr-ui-border-color);
     line-height: normal;
     padding: 0;
 
@@ -13,10 +13,10 @@
   }
 
   .chat-message {
-    background-color: fade(@subColor, 25%);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     border-radius   : 5px;
-    border          : 2px solid @subColor;
-    color           : fade(@neutralLightColor, 95%);
+    border          : 2px solid var(--sr-text-color-flash);
+    color           : color-mix(in srgb, var(--sr-text-color-light) 95%, transparent);
     margin-bottom   : 5px;
     padding: 0;
     line-height     : 17px;
@@ -26,7 +26,7 @@
 
     .message-content {
       padding: 5px 5px 0px 5px;
-      font-family: @SR_BodyText;
+      font-family: var(--sr-font-body);
 
       /* v13: remove padding when content has child elements (roll cards) */
       &:has(*) {
@@ -43,10 +43,10 @@
     /* v13: style Foundry's default header (replaces custom .SR-MessageHeader) */
     /* Use > to avoid targeting <header class="SR-CardHeader"> inside .message-content */
     > header {
-      background-color: @neutralDarkColor;
+      background-color: var(--sr-text-color-dark);
       line-height     : 20px;
       padding         : 2px;
-      color           : @neutralLightColor;
+      color           : var(--sr-text-color-light);
       display         : flex;
       align-items     : center;
 
@@ -59,20 +59,20 @@
       }
 
       h4 {
-        font-family   : @SR_BodyTextBold;
+        font-family   : var(--sr-font-body-bold);
         text-transform: uppercase;
-        color         : @mainColor;
-        font-size     : @SR_FontSizeNormal;
+        color         : var(--sr-ui-border-color);
+        font-size     : var(--sr-font-size-normal);
         flex-grow     : 2;
         margin-bottom : 0;
         align-self    : center;
       }
 
       a {
-        color        : @mainColor;
+        color        : var(--sr-ui-border-color);
 
         &:hover {
-          color      : @subColor;
+          color      : var(--sr-text-color-flash);
           text-shadow: none;
         }
       }
@@ -81,15 +81,15 @@
     .part-header {
       margin-left       : 5px;
       margin-right      : 5px;
-      font-family       : @SR_BodyTextBold;
+      font-family       : var(--sr-font-body-bold);
       border-bottom: none;
     }
 
     .dice-tooltip {
       .part-total {
-        border          : 1px solid @mainColor;
-          background-color: fade(@mainColor, 50%);
-          color           : @neutralLightColor;
+        border          : 1px solid var(--sr-ui-border-color);
+          background-color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+          color           : var(--sr-text-color-light);
       }
 
       .dice-rolls .roll.d6 {
@@ -101,10 +101,10 @@
         margin-left       : 2.55px;
         margin-bottom     : 5px;
         padding-top       : 1px;
-        border            : 1px solid @mainColor;
+        border            : 1px solid var(--sr-ui-border-color);
         line-height       : 17px;
-        font-family       : @SR_BodyText;
-        font-size         : @SR_FontSizeSmall ;
+        font-family       : var(--sr-font-body);
+        font-size         : var(--sr-font-size-small);
         font-weight       : normal;
       }
     }
@@ -113,33 +113,33 @@
       padding-top        : 5px;
       padding-bottom     : 15px;
       text-align         : center;
-      background-image   : url(@ChatMessage);
+      background-image   : var(--sr-img-chat-message);
       background-repeat  : no-repeat;
       background-size    : cover;
       background-position: bottom;
       border: none;
       border-radius: 0;
       box-shadow: none;
-      font-family   : @SR_BodyTextBold;
+      font-family   : var(--sr-font-body-bold);
       text-transform: uppercase;
-      color         : @neutralLightColor;
-      font-size     : @SR_FontSizeNormal;
+      color         : var(--sr-text-color-light);
+      font-size     : var(--sr-font-size-normal);
       margin        : auto;
       text-align    : center;
     }
 
     .dice-total {
       margin-top    : 5px;
-      font-family   : @SR_BodyTextBold;
+      font-family   : var(--sr-font-body-bold);
       text-transform: uppercase;
-      color         : @neutralLightColor;
-      font-size     : @SR_FontSizeNormal;
+      color         : var(--sr-text-color-light);
+      font-size     : var(--sr-font-size-normal);
       text-align    : center;
       line-height   : 20px;
       margin-left     : 0px;
       margin-right    : 0px;
       margin-top      : 5px;
-      background-color: @mainColor;
+      background-color: var(--sr-ui-border-color);
       margin-bottom   : 0px;
       border          : 0px;
       border-radius   : 0px;
@@ -150,7 +150,7 @@
       padding-top        : 5px;
       padding-bottom     : 15px;
       text-align         : center;
-      background-image   : url(@ChatMessage);
+      background-image   : var(--sr-img-chat-message);
       background-repeat  : no-repeat;
       background-size    : cover;
       background-position: bottom;
@@ -160,14 +160,14 @@
         height      : 35px;
         margin-left : 2px;
         margin-right: 5px;
-        border      : 1px solid @neutralDarkColor;
+        border      : 1px solid var(--sr-text-color-dark);
       }
 
       .SR-CardHeaderTitle {
-        font-family   : @SR_BodyTextBold;
+        font-family   : var(--sr-font-body-bold);
         text-transform: uppercase;
-        color         : @neutralLightColor;
-        font-size     : @SR_FontSizeNormal;
+        color         : var(--sr-text-color-light);
+        font-size     : var(--sr-font-size-normal);
         margin        : auto;
         text-align    : center;
       }
@@ -175,17 +175,17 @@
 
     .SR-CardContent {
       padding    : 5px 5px 0px 5px;
-      font-family: @SR_BodyText;
-      font-size  : @SR_FontSizeSmall ;
+      font-family: var(--sr-font-body);
+      font-size  : var(--sr-font-size-small);
 
       p {
         margin: 0;
       }
 
       .SR-LigneEnTete {
-        border-bottom: solid 1px @mainColor;
-        color: @mainColor;
-        font-family: @SR_BodyTextBold;
+        border-bottom: solid 1px var(--sr-ui-border-color);
+        color: var(--sr-ui-border-color);
+        font-family: var(--sr-font-body-bold);
       }
 
       .SR-CardDices {
@@ -206,35 +206,35 @@
         }
 
         .succes {
-          border          : 1px solid @mainColor;
-          background-color: fade(@mainColor, 50%);
-          color           : @neutralLightColor;
+          border          : 1px solid var(--sr-ui-border-color);
+          background-color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+          color           : var(--sr-text-color-light);
 
           &.edge {
-            box-shadow   : 2px 2px 3px fade(@neutralDarkColor, 50%);
+            box-shadow   : 2px 2px 3px color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
           }
         }
 
         .exploded {
-          background-color: fade(@mainColor, 75%);
+          background-color: color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
         }
 
         .echec {
-          border: 1px solid @subColor;
-          color : @subColor;
+          border: 1px solid var(--sr-text-color-flash);
+          color : var(--sr-text-color-flash);
 
           &.edge {
-            box-shadow   : 2px 2px 3px fade(@neutralDarkColor, 50%);
+            box-shadow   : 2px 2px 3px color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
           }
         }
 
         .glitch {
-          border          : 1px solid @subColor;
-          color           : @neutralLightColor;
-          background-color: fade(@subColor, 50%);
+          border          : 1px solid var(--sr-text-color-flash);
+          color           : var(--sr-text-color-light);
+          background-color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
           &.edge {
-            box-shadow   : 2px 2px 3px fade(@neutralDarkColor, 50%);
+            box-shadow   : 2px 2px 3px color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
           }
         }
       }
@@ -262,10 +262,10 @@
 
     .SR-CardButton {
       margin-top    : 5px;
-      font-family   : @SR_BodyTextBold;
+      font-family   : var(--sr-font-body-bold);
       text-transform: uppercase;
-      color         : @neutralLightColor;
-      font-size     : @SR_FontSizeNormal;
+      color         : var(--sr-text-color-light);
+      font-size     : var(--sr-font-size-normal);
       text-align    : center;
       line-height   : 20px;
 
@@ -279,7 +279,7 @@
       }
 
       .SR-CardButtonHit {
-        background-color: @mainColor;
+        background-color: var(--sr-ui-border-color);
         margin-bottom   : 0px;
         border          : 0px;
         border-radius   : 0px;
@@ -290,10 +290,10 @@
         margin-right    : 0px;
         margin-top      : 5px;
         line-height     : 20px;
-        font-family     : @SR_BodyTextBold;
+        font-family     : var(--sr-font-body-bold);
         text-transform  : uppercase;
-        color           : @neutralLightColor;
-        font-size       : @SR_FontSizeNormal;
+        color           : var(--sr-text-color-light);
+        font-size       : var(--sr-font-size-normal);
 
         &:hover {
           box-shadow: none;
@@ -301,7 +301,7 @@
       }
 
       .opposedTest {
-        background-color: @subColor;
+        background-color: var(--sr-text-color-flash);
         line-height     : 20px;
         margin          : 5px 0px 0px 0px;
         border          : 0px;
@@ -310,22 +310,22 @@
         padding-right   : 5px;
         padding-top     : 0px;
         padding-bottom  : 0px;
-        font-family     : @SR_BodyTextBold;
+        font-family     : var(--sr-font-body-bold);
         text-transform  : uppercase;
-        color           : @neutralLightColor;
-        font-size       : @SR_FontSizeNormal;
+        color           : var(--sr-text-color-light);
+        font-size       : var(--sr-font-size-normal);
         text-align      : center;
         border          : 0px;
         border-radius   : 0px;
 
         &:hover {
-          color: @neutralDarkColor;
+          color: var(--sr-text-color-dark);
           box-shadow: none;
         }
       }
 
       .nonOpposedTest {
-        background-color: @neutralDarkColor;
+        background-color: var(--sr-text-color-dark);
         line-height     : 20px;
         margin          : 5px 0px 0px 0px;
         border          : 0px;
@@ -334,22 +334,22 @@
         padding-right   : 5px;
         padding-top     : 0px;
         padding-bottom  : 0px;
-        font-family     : @SR_BodyTextBold;
+        font-family     : var(--sr-font-body-bold);
         text-transform  : uppercase;
-        color           : @neutralLightColor;
-        font-size       : @SR_FontSizeNormal;
+        color           : var(--sr-text-color-light);
+        font-size       : var(--sr-font-size-normal);
         text-align      : center;
         border          : 0px;
         border-radius   : 0px;
 
         &:hover {
-          color: @subColor;
+          color: var(--sr-text-color-flash);
           box-shadow: none;
         }
       }
 
       .attackerTest {
-        background-color: @neutralDarkColor;
+        background-color: var(--sr-text-color-dark);
         line-height     : 20px;
         margin          : 5px 0px 0px 0px;
         border          : 0px;
@@ -358,16 +358,16 @@
         padding-right   : 5px;
         padding-top     : 0px;
         padding-bottom  : 0px;
-        font-family     : @SR_BodyTextBold;
+        font-family     : var(--sr-font-body-bold);
         text-transform  : uppercase;
-        color           : @neutralLightColor;
-        font-size       : @SR_FontSizeNormal;
+        color           : var(--sr-text-color-light);
+        font-size       : var(--sr-font-size-normal);
         text-align      : center;
         border          : 0px;
         border-radius   : 0px;
 
         &:hover {
-          color: @subColor;
+          color: var(--sr-text-color-flash);
           box-shadow: none;
         }
       }

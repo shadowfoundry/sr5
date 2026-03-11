@@ -25,8 +25,8 @@
     .window-header {
         background : none;
         border-bottom: 0;
-        color      : @neutralLightColor;
-        font-family: @SR_BodyText;
+        color      : var(--sr-text-color-light);
+        font-family: var(--sr-font-body);
 
         .window-title {
             visibility: hidden;
@@ -35,9 +35,9 @@
         }
 
         .header-control {
-            color: @neutralLightColor;
-            background: @neutralDarkColor;
-            border: 1px solid @neutralDarkColor;
+            color: var(--sr-text-color-light);
+            background: var(--sr-text-color-dark);
+            border: 1px solid var(--sr-text-color-dark);
             border-bottom: none;
             border-radius: 6px 6px 0 0;
             padding: 0 8px;
@@ -51,16 +51,16 @@
             }
 
             &:hover {
-                background: @subColor;
-                color: @neutralLightColor;
+                background: var(--sr-text-color-flash);
+                color: var(--sr-text-color-light);
             }
 
             &.active {
-                background: @mainColor;
-                color: @neutralLightColor;
+                background: var(--sr-ui-border-color);
+                color: var(--sr-text-color-light);
 
                 &:hover {
-                    background: @subColor;
+                    background: var(--sr-text-color-flash);
                 }
             }
         }
@@ -77,37 +77,37 @@
     }
 
     .controls-dropdown {
-        background: @neutralDarkColor;
-        border: 1px solid fade(@subColor, 35%);
+        background: var(--sr-text-color-dark);
+        border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
         border-radius: 0;
         box-shadow: none;
 
         .header-control > button {
             --button-background-color: none;
-            --button-text-color: @neutralLightColor;
-            color: @neutralLightColor;
-            font-family: @SR_BodyText;
+            --button-text-color: var(--sr-text-color-light);
+            color: var(--sr-text-color-light);
+            font-family: var(--sr-font-body);
             border: none;
 
             &:hover {
-                --button-text-color: @neutralLightColor;
-                background: @subColor;
-                color: @neutralLightColor;
+                --button-text-color: var(--sr-text-color-light);
+                background: var(--sr-text-color-flash);
+                color: var(--sr-text-color-light);
             }
         }
     }
 
     .window-content {
         padding            : 0;
-        background-image   : url(@BGWhite50);
+        background-image   : var(--sr-img-bg-white50);
         background-repeat  : no-repeat;
         background-position: top left;
         background-size    : cover;
         background-origin  : border-box;
-        font-family        : @SR_BodyText;
-        font-size          : @SR_FontSizeSmall;
-        background-color   : fade(@neutralLightColor, 100%);
-        border             : 1px solid @neutralDarkColor;
+        font-family        : var(--sr-font-body);
+        font-size          : var(--sr-font-size-small);
+        background-color   : var(--sr-text-color-light);
+        border             : 1px solid var(--sr-text-color-dark);
         border-radius      : 0;
 
         ::-webkit-scrollbar {
@@ -130,10 +130,10 @@
         }
 
         h2 {
-            font-family  : @SR_BodyTextBold;
-            font-size    : @SR_FontSizeNormal;
+            font-family  : var(--sr-font-body-bold);
+            font-size    : var(--sr-font-size-normal);
             border-bottom: 0;
-            color        : @mainColor;
+            color        : var(--sr-ui-border-color);
             margin       : 0;
         }
 
@@ -142,7 +142,7 @@
             height: 54px;
             display: flex;
             align-items: center;
-            background-image: url(@ActorSheetTop);
+            background-image: var(--sr-img-actor-sheet-top);
             background-size: auto 100%;
             background-repeat: repeat-x;
             background-position: top left;
@@ -151,7 +151,7 @@
                 width        : 33px;
                 height       : 33px;
                 margin-right : 5px;
-                border       : 1px solid @subColor;
+                border       : 1px solid var(--sr-text-color-flash);
                 border-radius: 3px;
                 max-width    : none;
                 object-fit   : cover;
@@ -161,7 +161,7 @@
             .SRItemTitre {
                 flex         : 1;
                 min-width    : 0;
-                font-family  : @SR_FontTitle;
+                font-family  : var(--sr-font-title);
                 font-size    : 20px;
                 border-bottom: 0px;
 
@@ -170,8 +170,8 @@
                     border          : 0px;
                     border-bottom   : 1px solid transparent;
                     border-radius   : 0;
-                    color           : @neutralLightColor;
-                    font-family     : @SR_FontTitle;
+                    color           : var(--sr-text-color-light);
+                    font-family     : var(--sr-font-title);
                     font-size       : 20px;
                     padding         : 0 5px;
                     margin          : 0;
@@ -179,15 +179,15 @@
 
                     &:focus {
                         box-shadow: none;
-                        border-bottom: 1px solid fade(@subColor, 50%);
+                        border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                     }
 
                     &::selection {
-                        background-color: fade(@subColor, 50%);
+                        background-color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                     }
 
                     &:hover {
-                        border-bottom: 1px solid fade(@subColor, 50%);
+                        border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                     }
                 }
             }
@@ -227,35 +227,35 @@
                 }
 
                 a {
-                    color: fade(@mainColor, 25%);
+                    color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
 
                     &:hover {
-                        color: @mainColor;
+                        color: var(--sr-ui-border-color);
                     }
                 }
             }
 
             input {
                 background    : none;
-                color         : fade(@neutralDarkColor, 70%);
+                color         : color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                 height        : auto;
                 border        : 0;
-                border-bottom : 1px solid fade(@subColor, 25%);
+                border-bottom : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
                 border-radius : 0;
                 padding-top   : 0;
                 padding-bottom: 0;
 
                 &:focus {
                     box-shadow: none;
-                    border-bottom: 1px solid @subColor;
+                    border-bottom: 1px solid var(--sr-text-color-flash);
                 }
 
                 &:hover {
-                    border-bottom: 1px solid fade(@subColor, 50%);
+                    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
 
                 &::placeholder {
-                    color: fade(@subColor, 50%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
 
             }
@@ -264,7 +264,7 @@
                 position       : relative;
                 margin         : 0;
                 vertical-align : middle;
-                border         : 1px solid @subColor;
+                border         : 1px solid var(--sr-text-color-flash);
                 height         : 12px;
                 width          : 12px;
                 border-radius  : 3px;
@@ -286,7 +286,7 @@
                     height      : 10px;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
-                    border-color: @neutralDarkColor;
+                    border-color: var(--sr-text-color-dark);
                     transform   : rotate(45deg);
                     opacity     : 0;
                     font-family : inherit;
@@ -302,13 +302,13 @@
 
                 &:checked {
                     content     : '✔';
-                    color       : @neutralLightColor;
-                    border-color: @subColor;
-                    background  : fade(@subColor, 50%);
+                    color       : var(--sr-text-color-light);
+                    border-color: var(--sr-text-color-flash);
+                    background  : color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
                     &::before {
                         opacity: 1;
-                        border-color: @neutralLightColor;
+                        border-color: var(--sr-text-color-light);
                     }
 
                     /* v13: ensure ::after stays suppressed when checked */
@@ -324,28 +324,28 @@
             }
 
             select {
-                border-bottom: 1px solid fade(@subColor, 25%);
+                border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
                 border-radius: 0px;
 
                 &:focus {
                     box-shadow: none;
-                    border-bottom: 1px solid @subColor;
+                    border-bottom: 1px solid var(--sr-text-color-flash);
                 }
 
                 &:invalid {
-                    color: fade(@subColor, 50%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
                     option, optgroup{
-                        color: fade(@neutralDarkColor, 70%);
+                        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                     }
                 }
 
                 /*option:nth-child(1) {
-                    color: fade(@subColor, 50%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
 
                 option:nth-child(1n+2) {
-                    color: fade(@neutralDarkColor, 70%);
+                    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                 }*/
             }
 
@@ -363,7 +363,7 @@
                 padding-left: 5px;
                 height      : 295px;
                 overflow    : auto;
-                border-left : 1px solid @subColor;
+                border-left : 1px solid var(--sr-text-color-flash);
             }
 
             .SR-ItemConfig {
@@ -371,58 +371,58 @@
                 overflow: auto;
 
                 input {
-                    color: fade(@neutralDarkColor, 70%);
+                    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                 }
 
                 select {
                     margin-left: -1px;
                 }
-                
+
             }
 
             .SR-LigneEnTete {
                 padding  : 0 3px 0 3px;
-                font-size: @SR_FontSizeNormal;
-                color    : @neutralLightColor;
+                font-size: var(--sr-font-size-normal);
+                color    : var(--sr-text-color-light);
                 background-image:
-                    linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor),
-                    url(@Sidebar);
+                    linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)),
+                    var(--sr-sidebar-background);
                 background-size: cover;
-                border-bottom  : 1px solid @subColor;
-                border-top     : 1px solid @subColor;
-                font-family    : @SR_BodyTextBold;
+                border-bottom  : 1px solid var(--sr-text-color-flash);
+                border-top     : 1px solid var(--sr-text-color-flash);
+                font-family    : var(--sr-font-body-bold);
 
                 &:not(:first-child) {
                     margin-top: 15px;
                 }
 
                 a {
-                    color: @neutralLightColor;
+                    color: var(--sr-text-color-light);
 
                     &:hover {
-                        color: @subColor;
+                        color: var(--sr-text-color-flash);
                     }
                 }
 
                 &.vert {
                     background-image:
-                        linear-gradient(45deg, fade(@subColor, 50%), 80%, @subColor),
-                        url(@Sidebar);
+                        linear-gradient(45deg, color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent), 80%, var(--sr-text-color-flash)),
+                        var(--sr-sidebar-background);
                 }
             }
 
             .SR-EnTete {
                 padding      : 0 3px 0 3px;
-                font-size    : @SR_FontSizeNormal;
-                color        : @mainColor;
-                border-bottom: 1px solid @mainColor;
-                font-family  : @SR_BodyTextBold;
+                font-size    : var(--sr-font-size-normal);
+                color        : var(--sr-ui-border-color);
+                border-bottom: 1px solid var(--sr-ui-border-color);
+                font-family  : var(--sr-font-body-bold);
 
                 a {
-                    color: fade(@mainColor, 50%);
+                    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
 
                     &:hover {
-                        color: @mainColor;
+                        color: var(--sr-ui-border-color);
                     }
                 }
             }
@@ -452,10 +452,10 @@
                     padding      : 0;
                     top          : -17px;
                     right        : 5px;
-                    color        : fade(@subColor, 50%);
+                    color        : color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
                     &:hover {
-                        color: @subColor;
+                        color: var(--sr-text-color-flash);
                     }
                 }
 
@@ -470,10 +470,10 @@
         }
 
         .SR-ItemFooter {
-            color     : @neutralLightColor;
+            color     : var(--sr-text-color-light);
             padding   : 10px;
             display   : flex;
-            background-image: url(@ActorSheetBottom);
+            background-image: var(--sr-img-actor-sheet-bottom);
             background-size: auto 100%;
             background-repeat: repeat-x;
             background-position: bottom left;
@@ -511,17 +511,17 @@
         }
 
         .SR-CaseNeutralDarkColor {
-            background: @neutralDarkColor;
+            background: var(--sr-text-color-dark);
         }
 
         .SR-CaseMainColor {
-            background: @mainColor;
-            border    : 1px solid @mainColor;
+            background: var(--sr-ui-border-color);
+            border    : 1px solid var(--sr-ui-border-color);
         }
 
         .SR-CaseSubColor {
-            background: @subColor;
-            border    : 1px solid fade(@subColor, 50%);
+            background: var(--sr-text-color-flash);
+            border    : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
         }
     }
 
@@ -538,8 +538,8 @@
     // ---- Play / Edit mode ----
     &.sr-mode-play {
         .window-header .header-control[data-action="toggleMode"] {
-            background: @mainColor;
-            color: @neutralLightColor;
+            background: var(--sr-ui-border-color);
+            color: var(--sr-text-color-light);
         }
 
         .subItem[data-subaction="add"],

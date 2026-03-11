@@ -10,7 +10,6 @@
 
         .editor-edit {
             background: transparent;
-            color: white;
             display      : unset;
             font-size    : inherit;
             border       : 0;
@@ -19,27 +18,26 @@
             padding      : 0;
             top          : -17px;
             right        : 5px;
-            color: @neutralLightColor;
-    
+            color: var(--sr-text-color-light);
+
             &:hover{
-                color: @subColor;
+                color: var(--sr-ui-border-color-active);
             }
         }
 
         .editor-content {
-            //min-height: 75px;
             overflow-y: inherit;
-            
+
             ul {
                 list-style-type: disc;
                 margin: 0;
                 padding: 0 0 0 1.5em;
             }
         }
-        
+
         .tox {
             height: 100% !important;
-        
+
             .tox-editor-container {
                 .tox-editor-header {
                     background-color: transparent;
@@ -53,7 +51,7 @@
                             background: none;
                             background-color: transparent;
                             box-shadow: none;
-                            border-bottom: 1px solid @subColor;
+                            border-bottom: 1px solid var(--sr-ui-border-color-active);
 
                             .tox-tbtn {
                                 border-radius: 1px;
@@ -61,23 +59,23 @@
                                 background: transparent;
 
                                 svg {
-                                    fill: fade(@subColor, 50%);;
+                                    fill: color-mix(in srgb, var(--sr-ui-border-color-active) 50%, transparent);
                                     &:hover{
-                                        fill: @subColor;
+                                        fill: var(--sr-ui-border-color-active);
                                     }
                                 }
-                                
+
                             }
                         }
                     }
                 }
-            }        
+            }
         }
-        
+
         .tox-sidebar-wrap {
             min-height: 200px;
         }
-    
+
         &.grunteditor{
             .tox-sidebar-wrap {
                 min-height: 425px;
@@ -86,7 +84,7 @@
 
     }
 
-    
+
 }
 
 #tinymce {

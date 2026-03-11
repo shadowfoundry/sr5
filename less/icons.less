@@ -3,16 +3,16 @@
   width: 32px;
   padding: 0 0 0 1px;
   display: inline-block;
-  stroke: fade(@iconStorkeColor, 40%);
-  fill: fade(@iconColor, 80%);
+  stroke: color-mix(in srgb, var(--sr-sheet-icon) 40%, transparent);
+  fill: color-mix(in srgb, var(--sr-sheet-icon) 80%, transparent);
   transition: all 0.2s ease-out;
   &:hover {
-    fill: @iconColor;
-    stroke: @iconStorkeColor;
+    fill: var(--sr-sheet-icon);
+    stroke: var(--sr-sheet-icon);
     transition: all 0.2s ease-out;
   }
   #icon-symbol {
-    fill: @neutralLightColor;
+    fill: var(--sr-text-color-light);
   }
   #icon-border {
     fill: none;
@@ -62,10 +62,10 @@
 
 .active {
   .SR5iconActor {
-    stroke: @iconActiveColor;
-    fill: @iconActiveColor;
+    stroke: var(--sr-sheet-icon-hover);
+    fill: var(--sr-sheet-icon-hover);
     #icon-symbol {
-      fill: @neutralLightColor;
+      fill: var(--sr-text-color-light);
     }
     #icon-border {
       fill: none;
@@ -74,15 +74,15 @@
 }
 
 .SRemptyBox {
-  background-color  : @subColor;
-  border            : 2px solid @neutralDarkColor;
-  outline           : solid @subColor 1px;
+  background-color  : var(--sr-ui-border-color-active);
+  border            : 2px solid var(--sr-text-color-dark);
+  outline           : solid var(--sr-ui-border-color-active) 1px;
   height            : 30px;
   width             : 32px;
   padding           : 0 0 0 1px;
   display           : inline-block;
-  stroke            : fade(@mainColor, 80%);
-  fill              : fade(@mainColor, 80%);
+  stroke            : color-mix(in srgb, var(--sr-ui-border-color) 80%, transparent);
+  fill              : color-mix(in srgb, var(--sr-ui-border-color) 80%, transparent);
   transition        : all 0.2s ease-out;
   margin-top        : 1px;
 }

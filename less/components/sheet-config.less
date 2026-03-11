@@ -30,8 +30,8 @@
     align-items: center;
     gap: 6px;
     text-transform: uppercase;
-    font-family: @SR_FontTitle;
-    font-size: @SR_FontSizeNormal;
+    font-family: var(--sr-font-title);
+    font-size: var(--sr-font-size-normal);
     font-weight: bold;
     letter-spacing: normal;
     margin: 0 0 6px;
@@ -52,13 +52,13 @@
     overflow-y: auto;
     min-height: 40px;
     padding: 4px;
-    border: 1px dashed fade(@subColor, 35%);
+    border: 1px dashed color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 4px;
     transition: background-color 0.15s;
 
     &.sr-config-drag-over {
-      background: fade(@subColor, 10%);
-      border-color: @subColor;
+      background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+      border-color: var(--sr-text-color-flash);
     }
   }
 
@@ -127,7 +127,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: @subColor;
+    background: var(--sr-text-color-flash);
     border-radius: 1px;
     pointer-events: none;
     z-index: 1;
@@ -138,7 +138,7 @@
   // ---- Tab sections ----
   .sr-config-tab-section {
     margin-bottom: 10px;
-    border: 1px solid fade(@subColor, 35%);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 4px;
     padding: 4px;
 
@@ -153,7 +153,7 @@
     align-items: center;
     gap: 4px;
     padding: 3px 4px;
-    background: fade(@subColor, 10%);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
     border-radius: 3px;
 
     > .sr-config-tab-drag-handle {
@@ -169,15 +169,15 @@
       width: 0;
       border: none;
       background: transparent;
-      font-size: @SR_FontSizeNormal;
+      font-size: var(--sr-font-size-normal);
       font-weight: bold;
       padding: 2px 4px;
       min-width: 0;
       margin: 0;
 
       &:focus {
-        background: fade(@subColor, 5%);
-        outline: 1px solid fade(@subColor, 50%);
+        background: color-mix(in srgb, var(--sr-text-color-flash) 5%, transparent);
+        outline: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
         border-radius: 2px;
       }
 
@@ -205,7 +205,7 @@
       width: 80px;
       font-size: 0.8em;
       padding: 1px 2px;
-      border: 1px solid fade(@subColor, 35%);
+      border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
       border-radius: 2px;
       background: transparent;
     }
@@ -237,7 +237,7 @@
   // ---- Panel sections ----
   .sr-config-panel-section {
     padding: 6px;
-    border: 1px solid fade(@subColor, 35%);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 4px;
 
     & + .sr-config-panel-section {
@@ -255,9 +255,9 @@
     gap: 4px;
     margin-bottom: 6px;
     padding: 3px 4px;
-    background: fade(@subColor, 10%);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
     border-radius: 3px;
-    font-size: @SR_FontSizeNormal;
+    font-size: var(--sr-font-size-normal);
 
     > .sr-config-panel-drag-handle {
       flex: 0 0 auto;
@@ -282,14 +282,14 @@
       font-size: 1em;
       font-weight: bold;
       text-transform: uppercase;
-      font-family: @SR_FontTitle;
+      font-family: var(--sr-font-title);
       padding: 2px 4px;
       min-width: 0;
       margin: 0;
 
       &:focus {
-        background: fade(@subColor, 5%);
-        outline: 1px solid fade(@subColor, 50%);
+        background: color-mix(in srgb, var(--sr-text-color-flash) 5%, transparent);
+        outline: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
         border-radius: 2px;
       }
 
@@ -332,16 +332,16 @@
         justify-content: center;
         width: 20px;
         height: 18px;
-        border: 1px solid fade(@subColor, 35%);
+        border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
         border-radius: 2px;
         cursor: pointer;
         font-size: 0.85em;
         font-weight: bold;
 
         &.active {
-          background: @subColor;
-          border-color: @subColor;
-          color: @neutralLightColor;
+          background: var(--sr-text-color-flash);
+          border-color: var(--sr-text-color-flash);
+          color: var(--sr-text-color-light);
         }
 
         &:hover {
@@ -359,8 +359,8 @@
     transition: background-color 0.15s, border-color 0.15s;
 
     &.sr-config-drag-over {
-      border-color: @subColor;
-      background: fade(@subColor, 10%);
+      border-color: var(--sr-text-color-flash);
+      background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
     }
   }
 
@@ -390,10 +390,10 @@
     padding: 2px 4px;
     border-radius: 2px;
     cursor: grab;
-    font-size: @SR_FontSizeSmall;
+    font-size: var(--sr-font-size-small);
 
     &:hover {
-      background: fade(@subColor, 10%);
+      background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
     }
 
     &.sr-config-dragging {
@@ -451,7 +451,7 @@
       height: 16px;
       padding: 0 4px;
       border-radius: 8px;
-      background: fade(@subColor, 20%);
+      background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
       font-size: 0.7em;
       font-weight: bold;
       opacity: 0.7;
@@ -479,7 +479,7 @@
     align-items: center;
     margin-top: 8px;
     padding-top: 8px;
-    border-top: 1px solid fade(@subColor, 35%);
+    border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
   }
 
   .sr-config-footer-left {
@@ -497,9 +497,9 @@
     padding: 4px 10px;
     cursor: pointer;
     border-radius: 3px;
-    border: 1px solid fade(@subColor, 35%);
-    background: fade(@subColor, 10%);
-    &:hover { background: fade(@subColor, 20%); }
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+    &:hover { background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent); }
   }
 
   .sr-config-btn-save { font-weight: bold; }

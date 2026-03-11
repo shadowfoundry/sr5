@@ -1,20 +1,20 @@
 @layer sr5 {
   /* ----------------------------------------- */
-  /* Modif du navigateur
-/* ----------------------------------------- */
+  /* Browser scrollbar                         */
+  /* ----------------------------------------- */
   ::-webkit-scrollbar {
     width: 3px;
     height: 3px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #b2007a;
+    background: var(--sr-ui-border-color);
     border: 0px;
   }
   /* ----------------------------------------- */
-  /* Modif générale
-/* ----------------------------------------- */
+  /* General                                   */
+  /* ----------------------------------------- */
   body {
-    font-family: "srfoundry_regular";
+    font-family: var(--sr-font-body);
   }
   .sr5 ul {
     list-style-type: none;
@@ -28,15 +28,14 @@
     border: 0;
     height: auto;
     background-color: transparent;
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
     width: 100%;
     padding: 0;
     margin-top: 0px;
     margin-bottom: 0px;
-    font-size: 1em;
-    font-family: "srfoundry_regular";
+    font-size: var(--sr-font-size-sheet-text);
+    font-family: var(--sr-font-body);
     max-width: 100%;
-    /* useful when width is set to anything other than 100% */
     margin-left: -4px;
   }
   .sr5 option {
@@ -59,41 +58,41 @@
     width: 100%;
     height: 5px;
     cursor: pointer;
-    box-shadow: 1px 1px 1px #000001;
-    background: rgba(178, 0, 122, 0.5);
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
     border-radius: 3px;
-    border: 1px solid #b2007a;
+    border: 1px solid var(--sr-ui-border-color);
   }
   .sr5 input[type=range]::-webkit-slider-thumb {
-    box-shadow: 1px 1px 1px #000001;
-    border: 1px solid #000001;
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
+    border: 1px solid var(--sr-text-color-dark);
     height: 14px;
     width: 8px;
     border-radius: 3px;
-    background: #839c88;
+    background: var(--sr-ui-border-color-active);
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -5.5px;
   }
   .sr5 input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #b2007a;
+    background: var(--sr-ui-border-color);
   }
   .sr5 input[type=range]::-moz-range-track {
     width: 100%;
     height: 5px;
     cursor: pointer;
-    box-shadow: 1px 1px 1px #000001;
-    background: rgba(178, 0, 122, 0.5);
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
     border-radius: 3px;
-    border: 1px solid #000001;
+    border: 1px solid var(--sr-text-color-dark);
   }
   .sr5 input[type=range]::-moz-range-thumb {
-    box-shadow: 1px 1px 1px #000001;
-    border: 1px solid #000001;
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
+    border: 1px solid var(--sr-text-color-dark);
     height: 18px;
     width: 8px;
     border-radius: 3px;
-    background: #839c88;
+    background: var(--sr-ui-border-color-active);
     cursor: pointer;
   }
   .sr5 input[type=range]::-ms-track {
@@ -105,67 +104,65 @@
     color: transparent;
   }
   .sr5 input[type=range]::-ms-fill-lower {
-    background: rgba(178, 0, 122, 0.5);
-    border: 1px solid #000001;
+    background: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+    border: 1px solid var(--sr-text-color-dark);
     border-radius: 6px;
-    box-shadow: 1px 1px 1px #000001;
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
   }
   .sr5 input[type=range]::-ms-fill-upper {
-    background: rgba(178, 0, 122, 0.5);
-    border: 1px solid #000001;
+    background: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+    border: 1px solid var(--sr-text-color-dark);
     border-radius: 6px;
-    box-shadow: 1px 1px 1px #000001;
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
   }
   .sr5 input[type=range]::-ms-thumb {
-    box-shadow: 1px 1px 1px #000001;
-    border: 1px solid #000001;
+    box-shadow: 1px 1px 1px var(--sr-text-color-dark);
+    border: 1px solid var(--sr-text-color-dark);
     height: 18px;
     width: 8px;
     border-radius: 3px;
-    background: #97B79F;
+    background: var(--sr-ui-border-color-active);
     cursor: pointer;
   }
   .sr5 input[type=range]:focus::-ms-fill-lower {
-    background: rgba(178, 0, 122, 0.5);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .sr5 input[type=range]:focus::-ms-fill-upper {
-    background: rgba(178, 0, 122, 0.5);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   /* ----------------------------------------- */
-  /* Container
-/* ----------------------------------------- */
+  /* Color utility classes                     */
   /* ----------------------------------------- */
-  /* Couleur
-/* ----------------------------------------- */
   .SR-SubColor {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .SR-SubColor50 {
-    color: rgba(131, 156, 136, 0.5);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .SR-SubColor25 {
-    color: rgba(131, 156, 136, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
   }
   .SR-MainColor {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .SR-popColor {
-    color: #00bdca;
+    color: var(--sr-text-color-flash);
   }
   .SR-NeutralLightColor {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
   }
   .SR-GreyColor {
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
   }
   .SR-LightGreyColor {
-    color: rgba(0, 0, 1, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 25%, transparent);
   }
   /* ----------------------------------------- */
-  /* Format, spacer, lignes
-/* ----------------------------------------- */
+  /* Format, spacer, lines                     */
+  /* ----------------------------------------- */
   .SR-Bold {
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body);
+    font-weight: bold;
   }
   .SR-TextRight {
     text-align: right;
@@ -233,7 +230,7 @@
   .incomplete::after {
     position: absolute;
     width: 0px;
-    color: #00bdca;
+    color: var(--sr-text-color-flash);
     left: -2px;
     content: "!";
   }
@@ -265,8 +262,8 @@
   .app.window-app.SR-Item .window-header {
     background: none;
     border-bottom: 0;
-    color: #fffffe;
-    font-family: "srfoundry_regular";
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
   }
   .app.window-app.SR-Item .window-header .window-title {
     visibility: hidden;
@@ -274,9 +271,9 @@
     overflow: hidden;
   }
   .app.window-app.SR-Item .window-header .header-control {
-    color: #fffffe;
-    background: #000001;
-    border: 1px solid #000001;
+    color: var(--sr-text-color-light);
+    background: var(--sr-text-color-dark);
+    border: 1px solid var(--sr-text-color-dark);
     border-bottom: none;
     border-radius: 6px 6px 0 0;
     padding: 0 8px;
@@ -289,15 +286,15 @@
     display: inline-block;
   }
   .app.window-app.SR-Item .window-header .header-control:hover {
-    background: #839c88;
-    color: #fffffe;
+    background: var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item .window-header .header-control.active {
-    background: #b2007a;
-    color: #fffffe;
+    background: var(--sr-ui-border-color);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item .window-header .header-control.active:hover {
-    background: #839c88;
+    background: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item.minimized .window-header .window-title {
     visibility: visible;
@@ -307,34 +304,34 @@
     display: none;
   }
   .app.window-app.SR-Item .controls-dropdown {
-    background: #000001;
-    border: 1px solid rgba(131, 156, 136, 0.35);
+    background: var(--sr-text-color-dark);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 0;
     box-shadow: none;
   }
   .app.window-app.SR-Item .controls-dropdown .header-control > button {
     --button-background-color: none;
-    --button-text-color: #fffffe;
-    color: #fffffe;
-    font-family: "srfoundry_regular";
+    --button-text-color: var(--sr-text-color-light);
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
     border: none;
   }
   .app.window-app.SR-Item .controls-dropdown .header-control > button:hover {
-    --button-text-color: #fffffe;
-    background: #839c88;
-    color: #fffffe;
+    --button-text-color: var(--sr-text-color-light);
+    background: var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item .window-content {
     padding: 0;
-    background-image: url("../img/ui/SR6_BG_Blanc50.png");
+    background-image: var(--sr-img-bg-white50);
     background-repeat: no-repeat;
     background-position: top left;
     background-size: cover;
     background-origin: border-box;
-    font-family: "srfoundry_regular";
-    font-size: 0.9em;
-    background-color: #fffffe;
-    border: 1px solid #000001;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    background-color: var(--sr-text-color-light);
+    border: 1px solid var(--sr-text-color-dark);
     border-radius: 0;
     /* v13: override @layer elements defaults for ul/li */
   }
@@ -353,10 +350,10 @@
     margin: 0;
   }
   .app.window-app.SR-Item .window-content h2 {
-    font-family: "srfoundry_bold";
-    font-size: 1em;
+    font-family: var(--sr-font-body-bold);
+    font-size: var(--sr-font-size-normal);
     border-bottom: 0;
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
     margin: 0;
   }
   .app.window-app.SR-Item .window-content .SR-Header {
@@ -364,7 +361,7 @@
     height: 54px;
     display: flex;
     align-items: center;
-    background-image: url("../img/ui/SR6_BG_ActorTop.png");
+    background-image: var(--sr-img-actor-sheet-top);
     background-size: auto 100%;
     background-repeat: repeat-x;
     background-position: top left;
@@ -373,7 +370,7 @@
     width: 33px;
     height: 33px;
     margin-right: 5px;
-    border: 1px solid #839c88;
+    border: 1px solid var(--sr-text-color-flash);
     border-radius: 3px;
     max-width: none;
     object-fit: cover;
@@ -382,7 +379,7 @@
   .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre {
     flex: 1;
     min-width: 0;
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     font-size: 20px;
     border-bottom: 0px;
   }
@@ -391,8 +388,8 @@
     border: 0px;
     border-bottom: 1px solid transparent;
     border-radius: 0;
-    color: #fffffe;
-    font-family: "srfoundry_primary";
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-title);
     font-size: 20px;
     padding: 0 5px;
     margin: 0;
@@ -400,13 +397,13 @@
   }
   .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input:focus {
     box-shadow: none;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input::selection {
-    background-color: rgba(131, 156, 136, 0.5);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input:hover {
-    border-bottom: 1px solid rgba(131, 156, 136, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-Header nav.tabs {
     display: flex;
@@ -439,19 +436,19 @@
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows li a,
   .app.window-app.SR-Item .window-content .sr-tab-content li a {
-    color: rgba(178, 0, 122, 0.25);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows li a:hover,
   .app.window-app.SR-Item .window-content .sr-tab-content li a:hover {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows input,
   .app.window-app.SR-Item .window-content .sr-tab-content input {
     background: none;
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
     height: auto;
     border: 0;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.25);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     border-radius: 0;
     padding-top: 0;
     padding-bottom: 0;
@@ -459,22 +456,22 @@
   .app.window-app.SR-Item .window-content .SR-MainWindows input:focus,
   .app.window-app.SR-Item .window-content .sr-tab-content input:focus {
     box-shadow: none;
-    border-bottom: 1px solid #839c88;
+    border-bottom: 1px solid var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows input:hover,
   .app.window-app.SR-Item .window-content .sr-tab-content input:hover {
-    border-bottom: 1px solid rgba(131, 156, 136, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows input::placeholder,
   .app.window-app.SR-Item .window-content .sr-tab-content input::placeholder {
-    color: rgba(131, 156, 136, 0.5);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"],
   .app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"] {
     position: relative;
     margin: 0;
     vertical-align: middle;
-    border: 1px solid #839c88;
+    border: 1px solid var(--sr-text-color-flash);
     height: 12px;
     width: 12px;
     border-radius: 3px;
@@ -498,7 +495,7 @@
     height: 10px;
     border-style: solid;
     border-width: 0 2px 2px 0;
-    border-color: #000001;
+    border-color: var(--sr-text-color-dark);
     transform: rotate(45deg);
     opacity: 0;
     font-family: inherit;
@@ -513,15 +510,15 @@
   .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked,
   .app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked {
     content: '✔';
-    color: #fffffe;
-    border-color: #839c88;
-    background: rgba(131, 156, 136, 0.5);
+    color: var(--sr-text-color-light);
+    border-color: var(--sr-text-color-flash);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
     /* v13: ensure ::after stays suppressed when checked */
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::before,
   .app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked::before {
     opacity: 1;
-    border-color: #fffffe;
+    border-color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows input[type="checkbox"]:checked::after,
   .app.window-app.SR-Item .window-content .sr-tab-content input[type="checkbox"]:checked::after {
@@ -534,30 +531,30 @@
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows select,
   .app.window-app.SR-Item .window-content .sr-tab-content select {
-    border-bottom: 1px solid rgba(131, 156, 136, 0.25);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     border-radius: 0px;
     /*option:nth-child(1) {
-                    color: fade(@subColor, 50%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
 
                 option:nth-child(1n+2) {
-                    color: fade(@neutralDarkColor, 70%);
+                    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                 }*/
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows select:focus,
   .app.window-app.SR-Item .window-content .sr-tab-content select:focus {
     box-shadow: none;
-    border-bottom: 1px solid #839c88;
+    border-bottom: 1px solid var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows select:invalid,
   .app.window-app.SR-Item .window-content .sr-tab-content select:invalid {
-    color: rgba(131, 156, 136, 0.5);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows select:invalid option,
   .app.window-app.SR-Item .window-content .sr-tab-content select:invalid option,
   .app.window-app.SR-Item .window-content .SR-MainWindows select:invalid optgroup,
   .app.window-app.SR-Item .window-content .sr-tab-content select:invalid optgroup {
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemColGauche,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemColGauche {
@@ -574,7 +571,7 @@
     padding-left: 5px;
     height: 295px;
     overflow: auto;
-    border-left: 1px solid #839c88;
+    border-left: 1px solid var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemConfig {
@@ -583,7 +580,7 @@
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig input,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemConfig input {
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-ItemConfig select,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-ItemConfig select {
@@ -592,13 +589,13 @@
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete {
     padding: 0 3px 0 3px;
-    font-size: 1em;
-    color: #fffffe;
-    background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
+    font-size: var(--sr-font-size-normal);
+    color: var(--sr-text-color-light);
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
     background-size: cover;
-    border-bottom: 1px solid #839c88;
-    border-top: 1px solid #839c88;
-    font-family: "srfoundry_bold";
+    border-bottom: 1px solid var(--sr-text-color-flash);
+    border-top: 1px solid var(--sr-text-color-flash);
+    font-family: var(--sr-font-body-bold);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete:not(:first-child),
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete:not(:first-child) {
@@ -606,31 +603,31 @@
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete a {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete a:hover,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete a:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-LigneEnTete.vert,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-LigneEnTete.vert {
-    background-image: linear-gradient(45deg, rgba(131, 156, 136, 0.5), 80%, #839c88), url("../img/ui/SR6_BG_Sidebar.jpg");
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent), 80%, var(--sr-text-color-flash)), var(--sr-sidebar-background);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-EnTete {
     padding: 0 3px 0 3px;
-    font-size: 1em;
-    color: #b2007a;
-    border-bottom: 1px solid #b2007a;
-    font-family: "srfoundry_bold";
+    font-size: var(--sr-font-size-normal);
+    color: var(--sr-ui-border-color);
+    border-bottom: 1px solid var(--sr-ui-border-color);
+    font-family: var(--sr-font-body-bold);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete a,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-EnTete a {
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-EnTete a:hover,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-EnTete a:hover {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SRBlockSheet:not(:first-child),
   .app.window-app.SR-Item .window-content .sr-tab-content .SRBlockSheet:not(:first-child) {
@@ -659,11 +656,11 @@
     padding: 0;
     top: -17px;
     right: 5px;
-    color: rgba(131, 156, 136, 0.5);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .editor-edit:hover,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .editor-edit:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .SR-MainWindows .SR-Editor .tox.tox-tinymce,
   .app.window-app.SR-Item .window-content .sr-tab-content .SR-Editor .tox.tox-tinymce {
@@ -674,10 +671,10 @@
     min-height: 200px;
   }
   .app.window-app.SR-Item .window-content .SR-ItemFooter {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     padding: 10px;
     display: flex;
-    background-image: url("../img/ui/SR6_BG_ActorBottom.png");
+    background-image: var(--sr-img-actor-sheet-bottom);
     background-size: auto 100%;
     background-repeat: repeat-x;
     background-position: bottom left;
@@ -709,15 +706,15 @@
     border-radius: 1px;
   }
   .app.window-app.SR-Item .window-content .SR-CaseNeutralDarkColor {
-    background: #000001;
+    background: var(--sr-text-color-dark);
   }
   .app.window-app.SR-Item .window-content .SR-CaseMainColor {
-    background: #b2007a;
-    border: 1px solid #b2007a;
+    background: var(--sr-ui-border-color);
+    border: 1px solid var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .SR-CaseSubColor {
-    background: #839c88;
-    border: 1px solid rgba(131, 156, 136, 0.5);
+    background: var(--sr-text-color-flash);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.SR-Item .editor-content {
     min-height: 50px;
@@ -780,10 +777,10 @@
     cursor: pointer;
   }
   .app.window-app.SR-Item .window-content .sr-icon-nav a:hover #icon-border {
-    stroke: #839c88;
+    stroke: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .sr-icon-nav a.active #icon-border {
-    stroke: #b2007a;
+    stroke: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .sr-tab-content {
     min-height: 0;
@@ -792,7 +789,7 @@
     padding: 8px 10px;
   }
   .app.window-app.SR-Item .window-content .sr-tab-content li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
-    background-color: rgba(131, 156, 136, 0.1);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
   }
   .app.window-app.SR-Item .window-content .sr-tab-panels {
     display: grid;
@@ -807,7 +804,7 @@
     min-height: 0;
     overflow: visible;
     position: relative;
-    border-right: 1px solid rgba(131, 156, 136, 0.25);
+    border-right: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     padding-right: 10px;
   }
   .app.window-app.SR-Item .window-content .sr-panel-wrap:last-child {
@@ -830,11 +827,11 @@
   }
   .app.window-app.SR-Item .window-content .sr-panel-wrap::before {
     bottom: calc(100% + 1px);
-    background-image: conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg);
   }
   .app.window-app.SR-Item .window-content .sr-panel-wrap::after {
     top: calc(100% + 1px);
-    background-image: conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg);
   }
   .app.window-app.SR-Item .window-content .sr-panel-wrap.can-scroll-up::before {
     opacity: 1;
@@ -852,22 +849,22 @@
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), black 20px, black calc(100% - 20px), rgba(0, 0, 0, 0.3));
   }
   .app.window-app.SR-Item .window-content .sr-panel-cols-2::before {
-    background-image: conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px;
     background-position: 25% center, 75% center;
   }
   .app.window-app.SR-Item .window-content .sr-panel-cols-2::after {
-    background-image: conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px;
     background-position: 25% center, 75% center;
   }
   .app.window-app.SR-Item .window-content .sr-panel-cols-3::before {
-    background-image: conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px, 10px 6px;
     background-position: 16.67% center, 50% center, 83.33% center;
   }
   .app.window-app.SR-Item .window-content .sr-panel-cols-3::after {
-    background-image: conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px, 10px 6px;
     background-position: 16.67% center, 50% center, 83.33% center;
   }
@@ -940,13 +937,13 @@
   }
   .app.window-app.SR-Item .window-content .sr-block-header {
     text-transform: uppercase;
-    font-family: "srfoundry_primary";
-    background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
+    font-family: var(--sr-font-title);
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
     background-size: cover;
-    border-top: 1px solid #839c88;
-    border-bottom: 1px solid #839c88;
-    color: #fffffe;
-    font-size: 1em;
+    border-top: 1px solid var(--sr-text-color-flash);
+    border-bottom: 1px solid var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     display: grid;
     grid-template-columns: repeat(24, 1fr);
     align-items: center;
@@ -955,18 +952,18 @@
     margin-bottom: 1px;
   }
   .app.window-app.SR-Item .window-content .sr-block-header a {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item .window-content .sr-block-header a:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .sr-block-header.vert {
-    background-image: linear-gradient(45deg, rgba(131, 156, 136, 0.5), 80%, #839c88), url("../img/ui/SR6_BG_Sidebar.jpg");
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent), 80%, var(--sr-text-color-flash)), var(--sr-sidebar-background);
   }
   .app.window-app.SR-Item .window-content .sr-block-header-sub {
-    font-size: 1em;
-    font-family: "srfoundry_primary";
-    border-bottom: 1px solid #b2007a;
+    font-size: var(--sr-font-size-normal);
+    font-family: var(--sr-font-title);
+    border-bottom: 1px solid var(--sr-ui-border-color);
     display: grid;
     grid-template-columns: repeat(24, 1fr);
     align-items: center;
@@ -1025,20 +1022,20 @@
     display: inline-block;
     padding-right: 2px;
     transition: transform 0.2s ease-out, color 0.2s ease-out;
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .sr-fold-toggle:hover::before {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .sr-block-header.srF-is-folded > .sr-fold-toggle::before,
   .app.window-app.SR-Item .window-content .sr-block-row.srF-is-folded > .sr-fold-toggle::before {
     transform: rotate(-90deg);
   }
   .app.window-app.SR-Item .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle::before {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle:hover::before {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content [class^="sr-grid-"],
   .app.window-app.SR-Item .window-content [class*=" sr-grid-"] {
@@ -1138,28 +1135,28 @@
     text-align: right;
   }
   .app.window-app.SR-Item .window-content .sr-is-inactive {
-    color: rgba(0, 0, 1, 0.35);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 35%, transparent);
   }
   .app.window-app.SR-Item .window-content .sr-text-calculated {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .sr-text-calculated.sr-roll-button:hover {
     cursor: pointer;
   }
   .app.window-app.SR-Item .window-content .sr-text-calculated.sr-roll-button::after {
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .sr-text-calculated.sr-roll-button:hover::after {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .sr-text-button {
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.SR-Item .window-content .sr-text-button:hover {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.SR-Item .window-content .sr-text-button.active {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.SR-Item .window-content .sr-select-wrapper {
     position: relative;
@@ -1171,7 +1168,7 @@
     font-weight: 700;
     content: '\f078';
     text-align: center;
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
     position: absolute;
     pointer-events: none;
     right: 0;
@@ -1180,7 +1177,7 @@
     display: none;
   }
   .app.window-app.SR-Item .window-content .sr-separator-line {
-    border-bottom: 1px solid rgba(131, 156, 136, 0.25);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     margin-top: 2px;
     margin-bottom: 2px;
   }
@@ -1194,8 +1191,8 @@
     content: '\f6d1 ';
   }
   .app.window-app.SR-Item.sr-mode-play .window-header .header-control[data-action="toggleMode"] {
-    background: #b2007a;
-    color: #fffffe;
+    background: var(--sr-ui-border-color);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="add"],
   .app.window-app.SR-Item.sr-mode-play .subItem[data-subaction="delete"],
@@ -1227,8 +1224,8 @@
   .app.window-app.actor .window-header {
     background: none;
     border-bottom: 0;
-    color: #fffffe;
-    font-family: "srfoundry_regular";
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
   }
   .app.window-app.actor .window-header .window-title {
     visibility: hidden;
@@ -1236,9 +1233,9 @@
     overflow: hidden;
   }
   .app.window-app.actor .window-header .header-control {
-    color: #fffffe;
-    background: #000001;
-    border: 1px solid #000001;
+    color: var(--sr-text-color-light);
+    background: var(--sr-text-color-dark);
+    border: 1px solid var(--sr-text-color-dark);
     border-bottom: none;
     border-radius: 6px 6px 0 0;
     padding: 0 8px;
@@ -1251,15 +1248,15 @@
     display: inline-block;
   }
   .app.window-app.actor .window-header .header-control:hover {
-    background: #839c88;
-    color: #fffffe;
+    background: var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.actor .window-header .header-control.active {
-    background: #b2007a;
-    color: #fffffe;
+    background: var(--sr-ui-border-color);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.actor .window-header .header-control.active:hover {
-    background: #839c88;
+    background: var(--sr-text-color-flash);
   }
   .app.window-app.actor.minimized .window-header .window-title {
     visibility: visible;
@@ -1269,40 +1266,40 @@
     display: none;
   }
   .app.window-app.actor .controls-dropdown {
-    background: #000001;
-    border: 1px solid rgba(131, 156, 136, 0.35);
+    background: var(--sr-text-color-dark);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 0;
     box-shadow: none;
   }
   .app.window-app.actor .controls-dropdown .header-control > button {
     --button-background-color: none;
-    --button-text-color: #fffffe;
-    color: #fffffe;
-    font-family: "srfoundry_regular";
+    --button-text-color: var(--sr-text-color-light);
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
     border: none;
   }
   .app.window-app.actor .controls-dropdown .header-control > button:hover {
-    --button-text-color: #fffffe;
-    background: #839c88;
-    color: #fffffe;
+    --button-text-color: var(--sr-text-color-light);
+    background: var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.actor.sr-mode-play .window-header .header-control[data-action="toggleMode"] {
-    background: #b2007a;
-    color: #fffffe;
+    background: var(--sr-ui-border-color);
+    color: var(--sr-text-color-light);
   }
   .app.window-app.actor.sr-mode-play .controls-dropdown .header-control[data-action="customizeDisplay"] {
     display: none;
   }
   .app.window-app.actor .window-content {
-    background-image: url("../img/ui/SR6_BG_Blanc50.png");
+    background-image: var(--sr-img-bg-white50);
     background-position: top left;
     background-size: cover;
     background-repeat: no-repeat;
     background-origin: border-box;
-    font-family: "srfoundry_regular";
-    font-size: 0.9em;
-    background-color: #fffffe;
-    border: 1px solid #000001;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    background-color: var(--sr-text-color-light);
+    border: 1px solid var(--sr-text-color-dark);
     border-radius: 0;
     padding: 0;
     /* v13: override @layer elements defaults for ul/li */
@@ -1347,17 +1344,17 @@
     margin-left: 10px;
   }
   .app.window-app.actor .window-content h2 {
-    font-family: "srfoundry_bold";
-    font-size: 1em;
+    font-family: var(--sr-font-body-bold);
+    font-size: var(--sr-font-size-normal);
     border-bottom: 0;
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
     margin: 0;
   }
   .app.window-app.actor .window-content .skill-roll {
     cursor: pointer;
   }
   .app.window-app.actor .window-content .SR-ActiveInit {
-    background: rgba(131, 156, 136, 0.25);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
   }
   .app.window-app.actor .window-content .SRBlockSheet:not(:first-child) {
     padding-top: 10px;
@@ -1365,66 +1362,66 @@
   .app.window-app.actor .window-content .matrixAttributeBox {
     height: 15px;
     line-height: 13px;
-    background-color: rgba(178, 0, 122, 0.05);
-    border: 1px solid rgba(178, 0, 122, 0.75);
+    background-color: color-mix(in srgb, var(--sr-ui-border-color) 5%, transparent);
+    border: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
     border-radius: 3px;
     margin: 1px 1px 0px 1px;
   }
   .app.window-app.actor .window-content .matrixAttributeBox.valueBox {
-    background-color: rgba(131, 156, 136, 0.05);
-    border: 1px solid #839c88;
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 5%, transparent);
+    border: 1px solid var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .unfoldLight:hover::before {
-    color: rgba(255, 255, 254, 0.75);
+    color: color-mix(in srgb, var(--sr-text-color-light) 75%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f102 ";
   }
   .app.window-app.actor .window-content .unfoldLight::before {
-    color: rgba(255, 255, 254, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f107 ";
   }
   .app.window-app.actor .window-content .foldLight:hover::before {
-    color: rgba(255, 255, 254, 0.75);
+    color: color-mix(in srgb, var(--sr-text-color-light) 75%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f103 ";
   }
   .app.window-app.actor .window-content .foldLight::before {
-    color: rgba(255, 255, 254, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f106 ";
   }
   .app.window-app.actor .window-content .unfoldDark:hover::before {
-    color: rgba(178, 0, 122, 0.75);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f102 ";
   }
   .app.window-app.actor .window-content .unfoldDark::before {
-    color: rgba(178, 0, 122, 0.25);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f107 ";
   }
   .app.window-app.actor .window-content .foldDark:hover::before {
-    color: rgba(178, 0, 122, 0.75);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f103 ";
   }
   .app.window-app.actor .window-content .foldDark::before {
-    color: rgba(178, 0, 122, 0.25);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
     padding-right: 3px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
@@ -1432,92 +1429,92 @@
   }
   .app.window-app.actor .window-content .SR-LigneEnTete {
     padding: 0 3px 0 3px;
-    font-size: 1em;
-    color: #fffffe;
-    background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
+    font-size: var(--sr-font-size-normal);
+    color: var(--sr-text-color-light);
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
     background-size: cover;
-    border-bottom: 1px solid #839c88;
-    border-top: 1px solid #839c88;
-    font-family: "srfoundry_bold";
+    border-bottom: 1px solid var(--sr-text-color-flash);
+    border-top: 1px solid var(--sr-text-color-flash);
+    font-family: var(--sr-font-body-bold);
   }
   .app.window-app.actor .window-content .SR-LigneEnTete a {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
   }
   .app.window-app.actor .window-content .SR-LigneEnTete a:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .SR-LigneEnTete.vert {
-    background-image: linear-gradient(45deg, rgba(131, 156, 136, 0.5), 80%, #839c88), url("../img/ui/SR6_BG_Sidebar.jpg");
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent), 80%, var(--sr-text-color-flash)), var(--sr-sidebar-background);
   }
   .app.window-app.actor .window-content .SR-EnTete {
     padding: 0 3px 0 3px;
-    font-size: 1em;
-    color: #b2007a;
-    border-bottom: 1px solid #b2007a;
-    font-family: "srfoundry_bold";
+    font-size: var(--sr-font-size-normal);
+    color: var(--sr-ui-border-color);
+    border-bottom: 1px solid var(--sr-ui-border-color);
+    font-family: var(--sr-font-body-bold);
   }
   .app.window-app.actor .window-content .SR-EnTete a {
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.actor .window-content .SR-EnTete a:hover {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .SR-LigneEnTeteVert {
-    font-family: "srfoundry_bold";
-    font-size: 1em;
-    border-bottom: solid 1px #839c88;
-    color: #839c88;
+    font-family: var(--sr-font-body-bold);
+    font-size: var(--sr-font-size-normal);
+    border-bottom: solid 1px var(--sr-text-color-flash);
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) {
     line-height: 17px;
     padding: 0 3px 0 3px;
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .roll-logo {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
     cursor: pointer;
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .roll-logo::after {
     position: absolute;
     left: 50%;
-    color: rgba(178, 0, 122, 0.25);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
     padding-left: 7px;
     font-family: "Font Awesome 6 Pro";
     font-weight: 900;
     content: "\f6d1 ";
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .roll-logo:hover:after {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a {
-    color: rgba(178, 0, 122, 0.25);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a:hover {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a.toggle-value,
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a.reload-ammo {
-    color: rgba(131, 156, 136, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a.toggle-value:hover,
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) a.reload-ammo:hover {
-    color: rgba(131, 156, 136, 0);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 0%, transparent);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary {
     padding-bottom: 3px;
     margin-bottom: 5px;
-    color: #839c88;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.5);
+    color: var(--sr-text-color-flash);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary .item-properties {
     padding-top: 3px;
   }
   .app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary .tag {
-    background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
-    color: #fffffe;
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+    color: var(--sr-text-color-light);
     display: inline-block;
     margin: 0 2px 2px 0;
     padding: 0 3px;
-    border: 1px solid #000001;
+    border: 1px solid var(--sr-text-color-dark);
     border-radius: 3px;
   }
   .app.window-app.actor .window-content .SR-Header {
@@ -1525,18 +1522,18 @@
     height: 54px;
     display: flex;
     align-items: center;
-    background-image: url("../img/ui/SR6_BG_ActorTop.png");
+    background-image: var(--sr-img-actor-sheet-top);
     background-size: auto 100%;
     background-repeat: repeat-x;
     background-position: top left;
   }
   .app.window-app.actor .window-content .SR-Header input {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     background: none;
     border: 0;
     border-bottom: 1px solid transparent;
     border-radius: 0;
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     font-size: 20px;
     text-align: left;
     padding: 0 5px;
@@ -1545,7 +1542,7 @@
   }
   .app.window-app.actor .window-content .SR-Header input:focus {
     box-shadow: none;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.actor .window-content .SR-Header .SRinputInBox {
     padding: 0px 0px 0px 0px;
@@ -1554,24 +1551,24 @@
   .app.window-app.actor .window-content .SR-Header .SRTextInBox {
     text-transform: uppercase;
     text-align: center;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     padding-top: 2px;
   }
   .app.window-app.actor .window-content .SR-Header .SRImgPortrait {
     width: 33px;
     height: 33px;
     margin-right: 5px;
-    border: 1px solid #839c88;
+    border: 1px solid var(--sr-text-color-flash);
     border-radius: 3px;
     max-width: none;
     object-fit: cover;
   }
   .app.window-app.actor .window-content .SR-Header .SR-EspritType {
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     font-size: 20px;
-    background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
-    border: 2px solid #000001;
-    outline: solid #b2007a 1px;
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+    border: 2px solid var(--sr-text-color-dark);
+    outline: solid var(--sr-ui-border-color) 1px;
     height: 30px;
     width: auto;
     padding-left: 3px;
@@ -1580,22 +1577,22 @@
     margin-top: 1px;
   }
   .app.window-app.actor .window-content .SR-Header .SR-EspritType select {
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     font-size: 16px;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     margin-top: -2px;
   }
   .app.window-app.actor .window-content .SR-Header .SR-EspritType select:focus {
     border-bottom: none;
   }
   .app.window-app.actor .window-content .SR-Header .SR-EspritType select option:not(.SR-LightGreyColor) {
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
   }
   .app.window-app.actor .window-content .SR-Header .SR-AppareilType {
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     font-size: 12px;
-    background-color: #839c88;
-    border: 2px solid #000001;
+    background-color: var(--sr-text-color-flash);
+    border: 2px solid var(--sr-text-color-dark);
     outline: solid olor 1px;
     height: 30px;
     width: auto;
@@ -1619,21 +1616,21 @@
   .app.window-app.actor .window-content .SR-MainWindows input,
   .app.window-app.actor .window-content .sr-tab-content input {
     background: none;
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
     height: auto;
     border: 0;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.25);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     border-radius: 0;
     padding: 0;
   }
   .app.window-app.actor .window-content .SR-MainWindows input::placeholder,
   .app.window-app.actor .window-content .sr-tab-content input::placeholder {
-    color: rgba(131, 156, 136, 0.5);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.actor .window-content .SR-MainWindows input:focus,
   .app.window-app.actor .window-content .sr-tab-content input:focus {
     box-shadow: none;
-    border-bottom: 1px solid #839c88;
+    border-bottom: 1px solid var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .SR-MainWindows input.specialisation,
   .app.window-app.actor .window-content .sr-tab-content input.specialisation {
@@ -1644,7 +1641,7 @@
     position: relative;
     margin: 0;
     vertical-align: middle;
-    border: 1px solid #839c88;
+    border: 1px solid var(--sr-text-color-flash);
     height: 12px;
     width: 12px;
     border-radius: 3px;
@@ -1664,7 +1661,7 @@
     height: 10px;
     border-style: solid;
     border-width: 0 2px 2px 0;
-    border-color: #000001;
+    border-color: var(--sr-text-color-dark);
     transform: rotate(45deg);
     opacity: 0;
     font-family: inherit;
@@ -1679,15 +1676,15 @@
   .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked,
   .app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked {
     content: '✔';
-    color: #fffffe;
-    border-color: #839c88;
-    background: rgba(131, 156, 136, 0.5);
+    color: var(--sr-text-color-light);
+    border-color: var(--sr-text-color-flash);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
     /* v13: ensure ::after stays suppressed when checked */
   }
   .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::before,
   .app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked::before {
     opacity: 1;
-    border-color: #fffffe;
+    border-color: var(--sr-text-color-light);
   }
   .app.window-app.actor .window-content .SR-MainWindows input[type="checkbox"]:checked::after,
   .app.window-app.actor .window-content .sr-tab-content input[type="checkbox"]:checked::after {
@@ -1700,7 +1697,7 @@
   }
   .app.window-app.actor .window-content .SR-MainWindows select,
   .app.window-app.actor .window-content .sr-tab-content select {
-    border-bottom: 1px solid rgba(131, 156, 136, 0.25);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     border-radius: 0px;
     background: none;
     padding-right: 12px;
@@ -1708,15 +1705,15 @@
   .app.window-app.actor .window-content .SR-MainWindows select:focus,
   .app.window-app.actor .window-content .sr-tab-content select:focus {
     box-shadow: none;
-    border-bottom: 1px solid #839c88;
+    border-bottom: 1px solid var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .SR-MainWindows select:invalid,
   .app.window-app.actor .window-content .sr-tab-content select:invalid {
-    color: rgba(131, 156, 136, 0.5);
+    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.actor .window-content .SR-BioTitre {
-    font-family: "srfoundry_bold";
-    color: #b2007a;
+    font-family: var(--sr-font-body-bold);
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .SR-BioLigne {
     display: flex;
@@ -1731,7 +1728,7 @@
     width: 288px;
     height: 288px;
     border: 1px solid;
-    border-color: #b2007a;
+    border-color: var(--sr-ui-border-color);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center 10%;
@@ -1741,7 +1738,7 @@
     width: 144px;
     height: 144px;
     border: 1px solid;
-    border-color: #b2007a;
+    border-color: var(--sr-ui-border-color);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center 10%;
@@ -1752,7 +1749,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    background-image: url("../img/ui/SR6_BG_ActorBottom.png");
+    background-image: var(--sr-img-actor-sheet-bottom);
     background-size: auto 100%;
     background-repeat: repeat-x;
     background-position: bottom left;
@@ -1760,12 +1757,12 @@
   }
   .app.window-app.actor .window-content .SR-footer input {
     background: none;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     text-align: left;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     height: auto;
     border: 1px solid transparent;
-    border-bottom: 1px solid #839c88;
+    border-bottom: 1px solid var(--sr-text-color-flash);
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -1775,7 +1772,7 @@
   }
   .app.window-app.actor .window-content .SR-footer select {
     background: none;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     margin-left: 0px;
   }
   .app.window-app.actor .window-content .SR-footer .SRMetatype {
@@ -1831,24 +1828,24 @@
     border-radius: 1px;
   }
   .app.window-app.actor .window-content .SR-CaseChance .SR-ChanceText {
-    color: #fffffe;
-    font-family: "srfoundry_bold";
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body-bold);
   }
   .app.window-app.actor .window-content .SR-CaseNeutralDarkColor {
-    background: #000001;
+    background: var(--sr-text-color-dark);
     border: 1px solid #97b79f;
   }
   .app.window-app.actor .window-content .SR-CaseMainColor {
-    background: #b2007a;
-    border: 1px solid #b2007a;
+    background: var(--sr-ui-border-color);
+    border: 1px solid var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .SR-CaseSubColor {
-    background: #839c88;
-    border: 1px solid rgba(131, 156, 136, 0.5);
+    background: var(--sr-text-color-flash);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   .app.window-app.actor .window-content .SR-CasePopColor {
-    background: #00bdca;
-    border: 1px solid rgba(0, 189, 202, 0.5);
+    background: var(--sr-ui-pop-color);
+    border: 1px solid color-mix(in srgb, var(--sr-ui-pop-color) 50%, transparent);
   }
   .app.window-app.actor .window-content > .SR-Header {
     grid-area: header;
@@ -1885,10 +1882,10 @@
     cursor: pointer;
   }
   .app.window-app.actor .window-content .sr-icon-nav a:hover #icon-border {
-    stroke: #839c88;
+    stroke: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .sr-icon-nav a.active #icon-border {
-    stroke: #b2007a;
+    stroke: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .sr-tab-content {
     min-height: 0;
@@ -1897,7 +1894,7 @@
     padding: 8px 10px;
   }
   .app.window-app.actor .window-content .sr-tab-content li:hover:not(.SR-LigneEnTete):not(.SR-EnTete) {
-    background-color: rgba(131, 156, 136, 0.1);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
   }
   .app.window-app.actor .window-content .sr-tab-panels {
     display: grid;
@@ -1912,7 +1909,7 @@
     min-height: 0;
     overflow: visible;
     position: relative;
-    border-right: 1px solid rgba(131, 156, 136, 0.25);
+    border-right: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     padding-right: 10px;
   }
   .app.window-app.actor .window-content .sr-panel-wrap:last-child {
@@ -1935,11 +1932,11 @@
   }
   .app.window-app.actor .window-content .sr-panel-wrap::before {
     bottom: calc(100% + 1px);
-    background-image: conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg);
   }
   .app.window-app.actor .window-content .sr-panel-wrap::after {
     top: calc(100% + 1px);
-    background-image: conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg);
   }
   .app.window-app.actor .window-content .sr-panel-wrap.can-scroll-up::before {
     opacity: 1;
@@ -1957,22 +1954,22 @@
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), black 20px, black calc(100% - 20px), rgba(0, 0, 0, 0.3));
   }
   .app.window-app.actor .window-content .sr-panel-cols-2::before {
-    background-image: conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px;
     background-position: 25% center, 75% center;
   }
   .app.window-app.actor .window-content .sr-panel-cols-2::after {
-    background-image: conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px;
     background-position: 25% center, 75% center;
   }
   .app.window-app.actor .window-content .sr-panel-cols-3::before {
-    background-image: conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from 140deg at 50% 0%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px, 10px 6px;
     background-position: 16.67% center, 50% center, 83.33% center;
   }
   .app.window-app.actor .window-content .sr-panel-cols-3::after {
-    background-image: conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, #b2007a 80deg, transparent 80deg);
+    background-image: conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg), conic-gradient(from -40deg at 50% 100%, var(--sr-ui-border-color) 80deg, transparent 80deg);
     background-size: 10px 6px, 10px 6px, 10px 6px;
     background-position: 16.67% center, 50% center, 83.33% center;
   }
@@ -2045,13 +2042,13 @@
   }
   .app.window-app.actor .window-content .sr-block-header {
     text-transform: uppercase;
-    font-family: "srfoundry_primary";
-    background-image: linear-gradient(45deg, rgba(178, 0, 122, 0.5), 80%, #b2007a), url("../img/ui/SR6_BG_Sidebar.jpg");
+    font-family: var(--sr-font-title);
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
     background-size: cover;
-    border-top: 1px solid #839c88;
-    border-bottom: 1px solid #839c88;
-    color: #fffffe;
-    font-size: 1em;
+    border-top: 1px solid var(--sr-text-color-flash);
+    border-bottom: 1px solid var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     display: grid;
     grid-template-columns: repeat(24, 1fr);
     align-items: center;
@@ -2060,18 +2057,18 @@
     margin-bottom: 1px;
   }
   .app.window-app.actor .window-content .sr-block-header a {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
   }
   .app.window-app.actor .window-content .sr-block-header a:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .sr-block-header.vert {
-    background-image: linear-gradient(45deg, rgba(131, 156, 136, 0.5), 80%, #839c88), url("../img/ui/SR6_BG_Sidebar.jpg");
+    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent), 80%, var(--sr-text-color-flash)), var(--sr-sidebar-background);
   }
   .app.window-app.actor .window-content .sr-block-header-sub {
-    font-size: 1em;
-    font-family: "srfoundry_primary";
-    border-bottom: 1px solid #b2007a;
+    font-size: var(--sr-font-size-normal);
+    font-family: var(--sr-font-title);
+    border-bottom: 1px solid var(--sr-ui-border-color);
     display: grid;
     grid-template-columns: repeat(24, 1fr);
     align-items: center;
@@ -2130,20 +2127,20 @@
     display: inline-block;
     padding-right: 2px;
     transition: transform 0.2s ease-out, color 0.2s ease-out;
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.actor .window-content .sr-fold-toggle:hover::before {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .sr-block-header.srF-is-folded > .sr-fold-toggle::before,
   .app.window-app.actor .window-content .sr-block-row.srF-is-folded > .sr-fold-toggle::before {
     transform: rotate(-90deg);
   }
   .app.window-app.actor .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle::before {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .sr-block-row:not(.srF-is-folded) > .sr-fold-toggle:hover::before {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content [class^="sr-grid-"],
   .app.window-app.actor .window-content [class*=" sr-grid-"] {
@@ -2243,28 +2240,28 @@
     text-align: right;
   }
   .app.window-app.actor .window-content .sr-is-inactive {
-    color: rgba(0, 0, 1, 0.35);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 35%, transparent);
   }
   .app.window-app.actor .window-content .sr-text-calculated {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .sr-text-calculated.sr-roll-button:hover {
     cursor: pointer;
   }
   .app.window-app.actor .window-content .sr-text-calculated.sr-roll-button::after {
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.actor .window-content .sr-text-calculated.sr-roll-button:hover::after {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .sr-text-button {
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   .app.window-app.actor .window-content .sr-text-button:hover {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   .app.window-app.actor .window-content .sr-text-button.active {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .app.window-app.actor .window-content .sr-select-wrapper {
     position: relative;
@@ -2276,7 +2273,7 @@
     font-weight: 700;
     content: '\f078';
     text-align: center;
-    color: rgba(178, 0, 122, 0.5);
+    color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
     position: absolute;
     pointer-events: none;
     right: 0;
@@ -2285,7 +2282,7 @@
     display: none;
   }
   .app.window-app.actor .window-content .sr-separator-line {
-    border-bottom: 1px solid rgba(131, 156, 136, 0.25);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     margin-top: 2px;
     margin-bottom: 2px;
   }
@@ -2319,9 +2316,9 @@
   #chat .chat-message.SRCustomMessage,
   #chat-notifications .chat-message.SRCustomMessage,
   #chat-popout .chat-message.SRCustomMessage {
-    background-color: #fffffe;
-    color: #000001;
-    border: 2px solid #b2007a;
+    background-color: var(--sr-text-color-light);
+    color: var(--sr-text-color-dark);
+    border: 2px solid var(--sr-ui-border-color);
     line-height: normal;
     padding: 0;
   }
@@ -2333,10 +2330,10 @@
   #chat .chat-message,
   #chat-notifications .chat-message,
   #chat-popout .chat-message {
-    background-color: rgba(131, 156, 136, 0.25);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     border-radius: 5px;
-    border: 2px solid #839c88;
-    color: rgba(255, 255, 254, 0.95);
+    border: 2px solid var(--sr-text-color-flash);
+    color: color-mix(in srgb, var(--sr-text-color-light) 95%, transparent);
     margin-bottom: 5px;
     padding: 0;
     line-height: 17px;
@@ -2357,7 +2354,7 @@
   #chat-notifications .chat-message .message-content,
   #chat-popout .chat-message .message-content {
     padding: 5px 5px 0px 5px;
-    font-family: "srfoundry_regular";
+    font-family: var(--sr-font-body);
     /* v13: remove padding when content has child elements (roll cards) */
   }
   #chat .chat-message .message-content:has(*),
@@ -2375,10 +2372,10 @@
   #chat .chat-message > header,
   #chat-notifications .chat-message > header,
   #chat-popout .chat-message > header {
-    background-color: #000001;
+    background-color: var(--sr-text-color-dark);
     line-height: 20px;
     padding: 2px;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     display: flex;
     align-items: center;
   }
@@ -2394,10 +2391,10 @@
   #chat .chat-message > header h4,
   #chat-notifications .chat-message > header h4,
   #chat-popout .chat-message > header h4 {
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #b2007a;
-    font-size: 1em;
+    color: var(--sr-ui-border-color);
+    font-size: var(--sr-font-size-normal);
     flex-grow: 2;
     margin-bottom: 0;
     align-self: center;
@@ -2405,12 +2402,12 @@
   #chat .chat-message > header a,
   #chat-notifications .chat-message > header a,
   #chat-popout .chat-message > header a {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
   }
   #chat .chat-message > header a:hover,
   #chat-notifications .chat-message > header a:hover,
   #chat-popout .chat-message > header a:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
     text-shadow: none;
   }
   #chat .chat-message .part-header,
@@ -2418,15 +2415,15 @@
   #chat-popout .chat-message .part-header {
     margin-left: 5px;
     margin-right: 5px;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     border-bottom: none;
   }
   #chat .chat-message .dice-tooltip .part-total,
   #chat-notifications .chat-message .dice-tooltip .part-total,
   #chat-popout .chat-message .dice-tooltip .part-total {
-    border: 1px solid #b2007a;
-    background-color: rgba(178, 0, 122, 0.5);
-    color: #fffffe;
+    border: 1px solid var(--sr-ui-border-color);
+    background-color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+    color: var(--sr-text-color-light);
   }
   #chat .chat-message .dice-tooltip .dice-rolls .roll.d6,
   #chat-notifications .chat-message .dice-tooltip .dice-rolls .roll.d6,
@@ -2439,10 +2436,10 @@
     margin-left: 2.55px;
     margin-bottom: 5px;
     padding-top: 1px;
-    border: 1px solid #b2007a;
+    border: 1px solid var(--sr-ui-border-color);
     line-height: 17px;
-    font-family: "srfoundry_regular";
-    font-size: 0.9em;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
     font-weight: normal;
   }
   #chat .chat-message .dice-formula,
@@ -2450,32 +2447,33 @@
   #chat-popout .chat-message .dice-formula {
     padding-top: 5px;
     padding-bottom: 15px;
-    background-image: url("../img/ui/SR6_BG_ChatMessage.png");
+    background-image: var(--sr-img-chat-message);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
     border: none;
     border-radius: 0;
     box-shadow: none;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     margin: auto;
     text-align: center;
   }
   #chat .chat-message .dice-total,
   #chat-notifications .chat-message .dice-total,
   #chat-popout .chat-message .dice-total {
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     text-align: center;
     line-height: 20px;
     margin-left: 0px;
     margin-right: 0px;
     margin-top: 5px;
-    background-color: #b2007a;
+    background-color: var(--sr-ui-border-color);
     margin-bottom: 0px;
     border: 0px;
     border-radius: 0px;
@@ -2487,7 +2485,7 @@
     padding-top: 5px;
     padding-bottom: 15px;
     text-align: center;
-    background-image: url("../img/ui/SR6_BG_ChatMessage.png");
+    background-image: var(--sr-img-chat-message);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: bottom;
@@ -2499,15 +2497,15 @@
     height: 35px;
     margin-left: 2px;
     margin-right: 5px;
-    border: 1px solid #000001;
+    border: 1px solid var(--sr-text-color-dark);
   }
   #chat .chat-message .SR-CardHeader .SR-CardHeaderTitle,
   #chat-notifications .chat-message .SR-CardHeader .SR-CardHeaderTitle,
   #chat-popout .chat-message .SR-CardHeader .SR-CardHeaderTitle {
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     margin: auto;
     text-align: center;
   }
@@ -2515,8 +2513,8 @@
   #chat-notifications .chat-message .SR-CardContent,
   #chat-popout .chat-message .SR-CardContent {
     padding: 5px 5px 0px 5px;
-    font-family: "srfoundry_regular";
-    font-size: 0.9em;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
   }
   #chat .chat-message .SR-CardContent p,
   #chat-notifications .chat-message .SR-CardContent p,
@@ -2526,9 +2524,9 @@
   #chat .chat-message .SR-CardContent .SR-LigneEnTete,
   #chat-notifications .chat-message .SR-CardContent .SR-LigneEnTete,
   #chat-popout .chat-message .SR-CardContent .SR-LigneEnTete {
-    border-bottom: solid 1px #b2007a;
-    color: #b2007a;
-    font-family: "srfoundry_bold";
+    border-bottom: solid 1px var(--sr-ui-border-color);
+    color: var(--sr-ui-border-color);
+    font-family: var(--sr-font-body-bold);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices,
@@ -2553,42 +2551,42 @@
   #chat .chat-message .SR-CardContent .SR-CardDices .succes,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .succes,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .succes {
-    border: 1px solid #b2007a;
-    background-color: rgba(178, 0, 122, 0.5);
-    color: #fffffe;
+    border: 1px solid var(--sr-ui-border-color);
+    background-color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+    color: var(--sr-text-color-light);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices .succes.edge,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .succes.edge,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .succes.edge {
-    box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
+    box-shadow: 2px 2px 3px color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices .exploded,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .exploded,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .exploded {
-    background-color: rgba(178, 0, 122, 0.75);
+    background-color: color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices .echec,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .echec,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .echec {
-    border: 1px solid #839c88;
-    color: #839c88;
+    border: 1px solid var(--sr-text-color-flash);
+    color: var(--sr-text-color-flash);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices .echec.edge,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .echec.edge,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .echec.edge {
-    box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
+    box-shadow: 2px 2px 3px color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices .glitch,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .glitch,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .glitch {
-    border: 1px solid #839c88;
-    color: #fffffe;
-    background-color: rgba(131, 156, 136, 0.5);
+    border: 1px solid var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   #chat .chat-message .SR-CardContent .SR-CardDices .glitch.edge,
   #chat-notifications .chat-message .SR-CardContent .SR-CardDices .glitch.edge,
   #chat-popout .chat-message .SR-CardContent .SR-CardDices .glitch.edge {
-    box-shadow: 2px 2px 3px rgba(0, 0, 1, 0.5);
+    box-shadow: 2px 2px 3px color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
   }
   #chat .chat-message .SR-CardContent .SR5-message-hit,
   #chat-notifications .chat-message .SR-CardContent .SR5-message-hit,
@@ -2617,10 +2615,10 @@
   #chat-notifications .chat-message .SR-CardButton,
   #chat-popout .chat-message .SR-CardButton {
     margin-top: 5px;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     text-align: center;
     line-height: 20px;
   }
@@ -2637,7 +2635,7 @@
   #chat .chat-message .SR-CardButton .SR-CardButtonHit,
   #chat-notifications .chat-message .SR-CardButton .SR-CardButtonHit,
   #chat-popout .chat-message .SR-CardButton .SR-CardButtonHit {
-    background-color: #b2007a;
+    background-color: var(--sr-ui-border-color);
     margin-bottom: 0px;
     border: 0px;
     border-radius: 0px;
@@ -2649,10 +2647,10 @@
     margin-right: 0px;
     margin-top: 5px;
     line-height: 20px;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
   }
   #chat .chat-message .SR-CardButton .endTest:hover,
   #chat-notifications .chat-message .SR-CardButton .endTest:hover,
@@ -2662,17 +2660,17 @@
   #chat .chat-message .SR-CardButton .opposedTest,
   #chat-notifications .chat-message .SR-CardButton .opposedTest,
   #chat-popout .chat-message .SR-CardButton .opposedTest {
-    background-color: #839c88;
+    background-color: var(--sr-text-color-flash);
     line-height: 20px;
     margin: 5px 0px 0px 0px;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     text-align: center;
     border: 0px;
     border-radius: 0px;
@@ -2680,23 +2678,23 @@
   #chat .chat-message .SR-CardButton .opposedTest:hover,
   #chat-notifications .chat-message .SR-CardButton .opposedTest:hover,
   #chat-popout .chat-message .SR-CardButton .opposedTest:hover {
-    color: #000001;
+    color: var(--sr-text-color-dark);
     box-shadow: none;
   }
   #chat .chat-message .SR-CardButton .nonOpposedTest,
   #chat-notifications .chat-message .SR-CardButton .nonOpposedTest,
   #chat-popout .chat-message .SR-CardButton .nonOpposedTest {
-    background-color: #000001;
+    background-color: var(--sr-text-color-dark);
     line-height: 20px;
     margin: 5px 0px 0px 0px;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     text-align: center;
     border: 0px;
     border-radius: 0px;
@@ -2704,23 +2702,23 @@
   #chat .chat-message .SR-CardButton .nonOpposedTest:hover,
   #chat-notifications .chat-message .SR-CardButton .nonOpposedTest:hover,
   #chat-popout .chat-message .SR-CardButton .nonOpposedTest:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
     box-shadow: none;
   }
   #chat .chat-message .SR-CardButton .attackerTest,
   #chat-notifications .chat-message .SR-CardButton .attackerTest,
   #chat-popout .chat-message .SR-CardButton .attackerTest {
-    background-color: #000001;
+    background-color: var(--sr-text-color-dark);
     line-height: 20px;
     margin: 5px 0px 0px 0px;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 0px;
     padding-bottom: 0px;
-    font-family: "srfoundry_bold";
+    font-family: var(--sr-font-body-bold);
     text-transform: uppercase;
-    color: #fffffe;
-    font-size: 1em;
+    color: var(--sr-text-color-light);
+    font-size: var(--sr-font-size-normal);
     text-align: center;
     border: 0px;
     border-radius: 0px;
@@ -2728,7 +2726,7 @@
   #chat .chat-message .SR-CardButton .attackerTest:hover,
   #chat-notifications .chat-message .SR-CardButton .attackerTest:hover,
   #chat-popout .chat-message .SR-CardButton .attackerTest:hover {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
     box-shadow: none;
   }
   #chat .chat-message .table-draw ol,
@@ -2785,17 +2783,17 @@
     width: 32px;
     padding: 0 0 0 1px;
     display: inline-block;
-    stroke: rgba(131, 156, 136, 0.4);
-    fill: rgba(178, 0, 122, 0.8);
+    stroke: color-mix(in srgb, var(--sr-sheet-icon) 40%, transparent);
+    fill: color-mix(in srgb, var(--sr-sheet-icon) 80%, transparent);
     transition: all 0.2s ease-out;
   }
   .SR5iconActor:hover {
-    fill: #b2007a;
-    stroke: #839c88;
+    fill: var(--sr-sheet-icon);
+    stroke: var(--sr-sheet-icon);
     transition: all 0.2s ease-out;
   }
   .SR5iconActor #icon-symbol {
-    fill: #fffffe;
+    fill: var(--sr-text-color-light);
   }
   .SR5iconActor #icon-border {
     fill: none;
@@ -2840,25 +2838,25 @@
     padding: 0 0 0 4px;
   }
   .active .SR5iconActor {
-    stroke: #839c88;
-    fill: #839c88;
+    stroke: var(--sr-sheet-icon-hover);
+    fill: var(--sr-sheet-icon-hover);
   }
   .active .SR5iconActor #icon-symbol {
-    fill: #fffffe;
+    fill: var(--sr-text-color-light);
   }
   .active .SR5iconActor #icon-border {
     fill: none;
   }
   .SRemptyBox {
-    background-color: #839c88;
-    border: 2px solid #000001;
-    outline: solid #839c88 1px;
+    background-color: var(--sr-ui-border-color-active);
+    border: 2px solid var(--sr-text-color-dark);
+    outline: solid var(--sr-ui-border-color-active) 1px;
     height: 30px;
     width: 32px;
     padding: 0 0 0 1px;
     display: inline-block;
-    stroke: rgba(178, 0, 122, 0.8);
-    fill: rgba(178, 0, 122, 0.8);
+    stroke: color-mix(in srgb, var(--sr-ui-border-color) 80%, transparent);
+    fill: color-mix(in srgb, var(--sr-ui-border-color) 80%, transparent);
     transition: all 0.2s ease-out;
     margin-top: 1px;
   }
@@ -4337,15 +4335,15 @@
     z-index: 0;
     position: fixed;
     background: none;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     text-align: center;
     background-image: none;
     left: 15px;
     bottom: 82px;
-    border: 1px solid #00bdca;
+    border: 1px solid var(--sr-text-color-flash);
     border-radius: none;
     box-shadow: none;
-    background-color: rgba(0, 189, 202, 0.25);
+    background-color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
     padding: 0 10px;
     width: auto;
     max-width: 300px;
@@ -4358,10 +4356,10 @@
     z-index: 999;
   }
   #sr5help h3 {
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     text-transform: uppercase;
     padding-bottom: 4px;
-    border-bottom: 1px solid rgba(0, 189, 202, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   #sr5help ul {
     list-style-type: circle;
@@ -4371,35 +4369,35 @@
   }
   #sr5help .helpMessage {
     padding-bottom: 8px;
-    border-bottom: 1px solid rgba(0, 189, 202, 0.5);
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
   }
   @keyframes glow {
     from {
-      color: rgba(255, 255, 254, 0.9);
-      text-shadow: 0 0 10px #00bdca, 0 0 20px #00bdca, 0 0 30px #00bdca, 0 0 40px #00bdca, 0 0 50px #00bdca, 0 0 60px #00bdca, 0 0 70px #00bdca, 0 0 90px #00bdca;
+      color: color-mix(in srgb, var(--sr-text-color-light) 90%, transparent);
+      text-shadow: 0 0 10px var(--sr-text-color-flash), 0 0 20px var(--sr-text-color-flash), 0 0 30px var(--sr-text-color-flash), 0 0 40px var(--sr-text-color-flash), 0 0 50px var(--sr-text-color-flash), 0 0 60px var(--sr-text-color-flash), 0 0 70px var(--sr-text-color-flash), 0 0 90px var(--sr-text-color-flash);
     }
     to {
       color: transparent;
-      text-shadow: 0 0 20px #00bdca, 0 0 20px #00bdca, 0 0 30px #00bdca, 0 0 40px #00bdca, 0 0 50px #00bdca, 0 0 60px #00bdca, 0 0 70px #00bdca, 0 0 80px #00bdca, 0 1 90px #00bdca;
+      text-shadow: 0 0 20px var(--sr-text-color-flash), 0 0 20px var(--sr-text-color-flash), 0 0 30px var(--sr-text-color-flash), 0 0 40px var(--sr-text-color-flash), 0 0 50px var(--sr-text-color-flash), 0 0 60px var(--sr-text-color-flash), 0 0 70px var(--sr-text-color-flash), 0 0 80px var(--sr-text-color-flash), 0 1 90px var(--sr-text-color-flash);
     }
   }
   /* v13: chat uses Foundry-native styling */
-  /* v13: only style the SR5 roll dialog (.SR5jet), let Foundry handle generic dialogs */
+  /* SR5 roll dialog styling */
   .dialog {
     /* SR5 dialog frame — dark header, themed buttons */
   }
   .dialog .window-content .dialog-content {
     /* Light background for all SR5 dialogs */
-    background: #fffffe;
-    color: #000001;
+    background: var(--sr-text-color-light);
+    color: var(--sr-text-color-dark);
     color-scheme: light;
     padding: 8px;
   }
   .dialog .window-content .dialog-content input {
     background: none !important;
-    color: #000001 !important;
+    color: var(--sr-text-color-dark) !important;
     border: 0 !important;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.35) !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
     padding: 0 !important;
     border-radius: 0 !important;
     box-shadow: none;
@@ -4408,10 +4406,10 @@
     font-size: inherit;
   }
   .dialog .window-content .dialog-content select {
-    color: #839c88;
+    color: var(--sr-text-color-flash);
     background: none !important;
     border: 0 !important;
-    border-bottom: 1px solid rgba(131, 156, 136, 0.35) !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
     border-radius: 0 !important;
     padding: 0 !important;
     box-shadow: none;
@@ -4421,14 +4419,14 @@
     cursor: pointer;
   }
   .dialog .window-content .dialog-content label {
-    color: #000001;
-    font-family: "srfoundry_regular";
+    color: var(--sr-text-color-dark);
+    font-family: var(--sr-font-body);
   }
   .dialog .window-content .dialog-content h3,
   .dialog .window-content .dialog-content h4 {
-    color: #b2007a;
+    color: var(--sr-ui-border-color);
     text-align: center;
-    border-bottom: 1px solid #b2007a;
+    border-bottom: 1px solid var(--sr-ui-border-color);
   }
   .dialog .window-content .dialog-content .SR5jet {
     height: auto;
@@ -4441,7 +4439,7 @@
   }
   .dialog .window-content .dialog-content .SR5jet input {
     background: none !important;
-    color: #000001 !important;
+    color: var(--sr-text-color-dark) !important;
     height: 15px !important;
     border: 0 !important;
     padding: 0 !important;
@@ -4457,7 +4455,7 @@
   .dialog .window-content .dialog-content .SR5jet input[type="checkbox"] {
     position: relative;
     margin: 0;
-    border: 1px solid #839c88 !important;
+    border: 1px solid var(--sr-ui-border-color-active) !important;
     height: 12px !important;
     width: 12px !important;
     border-radius: 3px !important;
@@ -4487,7 +4485,7 @@
     height: 10px !important;
     border-style: solid;
     border-width: 0 2px 2px 0;
-    border-color: #fffffe;
+    border-color: var(--sr-text-color-light);
     transform: rotate(45deg);
     opacity: 0;
     font-family: inherit !important;
@@ -4500,9 +4498,9 @@
     display: none !important;
   }
   .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
-    color: #fffffe;
-    border-color: #839c88 !important;
-    background: rgba(131, 156, 136, 0.9) !important;
+    color: var(--sr-text-color-light);
+    border-color: var(--sr-ui-border-color-active) !important;
+    background: color-mix(in srgb, var(--sr-ui-border-color-active) 90%, transparent) !important;
     /* v13: ensure ::after stays suppressed when checked */
   }
   .dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
@@ -4517,7 +4515,7 @@
   }
   .dialog .window-content .dialog-content .SR5jet select {
     text-align-last: right;
-    color: #839c88;
+    color: var(--sr-text-color-flash);
     margin-right: -5px;
     background: none !important;
     border: 0 !important;
@@ -4545,21 +4543,22 @@
     margin: 0;
   }
   .dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
-    font-size: 1em;
-    border-bottom: solid 1px #b2007a;
-    color: #b2007a;
-    font-family: "srfoundry_bold";
+    font-size: var(--sr-font-size-sheet-text);
+    border-bottom: solid 1px var(--sr-ui-border-color);
+    color: var(--sr-ui-border-color);
+    font-family: var(--sr-font-body);
+    font-weight: bold;
   }
   .dialog .window-content .dialog-content .SR5jet p {
     margin: 0;
   }
   .dialog .window-content .dialog-content .SR5jet .SR-ModControl {
     font-size: 11px;
-    color: #839c88;
+    color: var(--sr-text-color-flash);
   }
   .dialog .window-content .dialog-content .SR5jet .SR-FakeInput {
-    background: rgba(131, 156, 136, 0.1);
-    color: #000001;
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+    color: var(--sr-text-color-dark);
     height: 15px;
     border: 0;
     padding-top: 0;
@@ -4571,25 +4570,26 @@
     min-width: 20px;
   }
   .dialog .window-content .dialog-content .SR5jet .SR-RecoilInput {
-    color: rgba(0, 0, 1, 0.7);
+    color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
     padding-right: 0px;
     width: 10px;
     text-align: center;
     min-width: 0px;
   }
   .dialog .window-content .dialog-content .SR5jet .SR-TopSeparator {
-    border-top: 1px solid rgba(131, 156, 136, 0.35);
+    border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     margin-top: 5px;
   }
   .dialog .window-content .dialog-content .SR5jet .SR-DialogOption {
-    border-bottom: solid 1px #b2007a;
-    color: #b2007a;
-    font-family: "srfoundry_bold";
+    border-bottom: solid 1px var(--sr-ui-border-color);
+    color: var(--sr-ui-border-color);
+    font-family: var(--sr-font-body);
+    font-weight: bold;
   }
   .dialog .window-header {
-    background: #000001;
-    color: #fffffe;
-    font-family: "srfoundry_regular";
+    background: var(--sr-ui-bg-color-dark);
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
   }
   .dialog .window-content {
     padding: 0;
@@ -4599,7 +4599,7 @@
   }
   .dialog .dialog-buttons,
   .dialog .form-footer {
-    background-image: url("../img/ui/SR6_BG_Dialog.png") !important;
+    background-image: var(--sr-window-background) !important;
     background-size: cover !important;
     padding: 15px 8px 8px 8px !important;
   }
@@ -4608,35 +4608,35 @@
   .dialog .dialog-buttons button.default,
   .dialog .form-footer button.default {
     --button-size: auto !important;
-    --button-background-color: rgba(0, 0, 1, 0.3) !important;
-    --button-border-color: #839c88 !important;
-    --button-text-color: #fffffe !important;
+    --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+    --button-border-color: var(--sr-ui-border-color-active) !important;
+    --button-text-color: var(--sr-text-color-light) !important;
     --button-hover-background-color: transparent !important;
-    --button-hover-border-color: #839c88 !important;
-    --button-hover-text-color: #000001 !important;
-    --button-focus-outline-color: #839c88 !important;
+    --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+    --button-hover-text-color: var(--sr-text-color-dark) !important;
+    --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
     position: relative;
     height: auto !important;
     min-height: unset !important;
     padding: 4px 0.5rem !important;
     line-height: 20px;
-    color: #fffffe !important;
-    font-family: "srfoundry_primary";
+    color: var(--sr-text-color-light) !important;
+    font-family: var(--sr-font-title);
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: var(--sr-font-size-small);
     text-align: center;
     border-radius: 3px;
     text-decoration: none;
     transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-    border: 1px solid #839c88 !important;
-    background: rgba(0, 0, 1, 0.3) !important;
+    border: 1px solid var(--sr-ui-border-color-active) !important;
+    background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
     z-index: 1;
   }
   .dialog .dialog-buttons button:hover,
   .dialog .form-footer button:hover,
   .dialog .dialog-buttons button.default:hover,
   .dialog .form-footer button.default:hover {
-    color: #000001 !important;
+    color: var(--sr-text-color-dark) !important;
     background-color: transparent !important;
     box-shadow: none;
   }
@@ -4660,8 +4660,8 @@
     width: 0px;
     z-index: -1;
     content: '';
-    color: #000001;
-    background: #839c88;
+    color: var(--sr-text-color-dark);
+    background: var(--sr-ui-border-color-active);
     transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
   }
   .sr-sheet-config .window-content {
@@ -4688,8 +4688,8 @@
     align-items: center;
     gap: 6px;
     text-transform: uppercase;
-    font-family: "srfoundry_primary";
-    font-size: 1em;
+    font-family: var(--sr-font-title);
+    font-size: var(--sr-font-size-normal);
     font-weight: bold;
     letter-spacing: normal;
     margin: 0 0 6px;
@@ -4707,13 +4707,13 @@
     overflow-y: auto;
     min-height: 40px;
     padding: 4px;
-    border: 1px dashed rgba(131, 156, 136, 0.35);
+    border: 1px dashed color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 4px;
     transition: background-color 0.15s;
   }
   .sr-sheet-config .sr-config-unused-pool.sr-config-drag-over {
-    background: rgba(131, 156, 136, 0.1);
-    border-color: #839c88;
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+    border-color: var(--sr-text-color-flash);
   }
   .sr-sheet-config .sr-config-unused-group {
     margin-bottom: 8px;
@@ -4772,7 +4772,7 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: #839c88;
+    background: var(--sr-text-color-flash);
     border-radius: 1px;
     pointer-events: none;
     z-index: 1;
@@ -4785,7 +4785,7 @@
   }
   .sr-sheet-config .sr-config-tab-section {
     margin-bottom: 10px;
-    border: 1px solid rgba(131, 156, 136, 0.35);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 4px;
     padding: 4px;
   }
@@ -4798,7 +4798,7 @@
     align-items: center;
     gap: 4px;
     padding: 3px 4px;
-    background: rgba(131, 156, 136, 0.1);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
     border-radius: 3px;
   }
   .sr-sheet-config .sr-config-tab-header > .sr-config-tab-drag-handle {
@@ -4815,15 +4815,15 @@
     width: 0;
     border: none;
     background: transparent;
-    font-size: 1em;
+    font-size: var(--sr-font-size-normal);
     font-weight: bold;
     padding: 2px 4px;
     min-width: 0;
     margin: 0;
   }
   .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name:focus {
-    background: rgba(131, 156, 136, 0.05);
-    outline: 1px solid rgba(131, 156, 136, 0.5);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 5%, transparent);
+    outline: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
     border-radius: 2px;
   }
   .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name::placeholder {
@@ -4846,7 +4846,7 @@
     width: 80px;
     font-size: 0.8em;
     padding: 1px 2px;
-    border: 1px solid rgba(131, 156, 136, 0.35);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 2px;
     background: transparent;
   }
@@ -4876,7 +4876,7 @@
   }
   .sr-sheet-config .sr-config-panel-section {
     padding: 6px;
-    border: 1px solid rgba(131, 156, 136, 0.35);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 4px;
   }
   .sr-sheet-config .sr-config-panel-section + .sr-config-panel-section {
@@ -4891,9 +4891,9 @@
     gap: 4px;
     margin-bottom: 6px;
     padding: 3px 4px;
-    background: rgba(131, 156, 136, 0.1);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
     border-radius: 3px;
-    font-size: 1em;
+    font-size: var(--sr-font-size-normal);
   }
   .sr-sheet-config .sr-config-panel-header > .sr-config-panel-drag-handle {
     flex: 0 0 auto;
@@ -4920,14 +4920,14 @@
     font-size: 1em;
     font-weight: bold;
     text-transform: uppercase;
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     padding: 2px 4px;
     min-width: 0;
     margin: 0;
   }
   .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name:focus {
-    background: rgba(131, 156, 136, 0.05);
-    outline: 1px solid rgba(131, 156, 136, 0.5);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 5%, transparent);
+    outline: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
     border-radius: 2px;
   }
   .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name::placeholder {
@@ -4967,16 +4967,16 @@
     justify-content: center;
     width: 20px;
     height: 18px;
-    border: 1px solid rgba(131, 156, 136, 0.35);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
     border-radius: 2px;
     cursor: pointer;
     font-size: 0.85em;
     font-weight: bold;
   }
   .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a.active {
-    background: #839c88;
-    border-color: #839c88;
-    color: #fffffe;
+    background: var(--sr-text-color-flash);
+    border-color: var(--sr-text-color-flash);
+    color: var(--sr-text-color-light);
   }
   .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a:hover {
     opacity: 0.8;
@@ -4989,8 +4989,8 @@
     transition: background-color 0.15s, border-color 0.15s;
   }
   .sr-sheet-config .sr-config-tab-blocks.sr-config-drag-over {
-    border-color: #839c88;
-    background: rgba(131, 156, 136, 0.1);
+    border-color: var(--sr-text-color-flash);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
   }
   .sr-sheet-config .sr-config-add-icon {
     cursor: pointer;
@@ -5014,10 +5014,10 @@
     padding: 2px 4px;
     border-radius: 2px;
     cursor: grab;
-    font-size: 0.9em;
+    font-size: var(--sr-font-size-small);
   }
   .sr-sheet-config .sr-config-block:hover {
-    background: rgba(131, 156, 136, 0.1);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
   }
   .sr-sheet-config .sr-config-block.sr-config-dragging {
     opacity: 0.4;
@@ -5069,7 +5069,7 @@
     height: 16px;
     padding: 0 4px;
     border-radius: 8px;
-    background: rgba(131, 156, 136, 0.2);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
     font-size: 0.7em;
     font-weight: bold;
     opacity: 0.7;
@@ -5094,7 +5094,7 @@
     align-items: center;
     margin-top: 8px;
     padding-top: 8px;
-    border-top: 1px solid rgba(131, 156, 136, 0.35);
+    border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
   }
   .sr-sheet-config .sr-config-footer-left {
     display: flex;
@@ -5109,11 +5109,11 @@
     padding: 4px 10px;
     cursor: pointer;
     border-radius: 3px;
-    border: 1px solid rgba(131, 156, 136, 0.35);
-    background: rgba(131, 156, 136, 0.1);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
   }
   .sr-sheet-config .sr-config-btn:hover {
-    background: rgba(131, 156, 136, 0.2);
+    background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
   }
   .sr-sheet-config .sr-config-btn-save {
     font-weight: bold;
@@ -5132,48 +5132,48 @@
     opacity: 1;
   }
   #combat {
-    --entry-hover-bg: rgba(131, 156, 136, 0.15);
-    --entry-active-bg: rgba(131, 156, 136, 0.25);
-    --color-text-primary: #fffffe;
-    --color-text-secondary: #fffffe;
-    --color-text-subtle: rgba(255, 255, 254, 0.5);
-    --color-text-emphatic: #fffffe;
-    --color-warm-2: #839c88;
-    --color-warm-3: #b2007a;
-    --initiative-icon: url("../img/icons/SR6_InitDicesOff.svg");
-    --initiative-icon-hover: url("../img/icons/SR6_InitDicesOn.svg");
+    --entry-hover-bg: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent);
+    --entry-active-bg: color-mix(in srgb, var(--sr-ui-border-color-active) 25%, transparent);
+    --color-text-primary: var(--sr-text-color-light);
+    --color-text-secondary: var(--sr-text-color-light);
+    --color-text-subtle: var(--sr-text-color-grey);
+    --color-text-emphatic: var(--sr-text-color-light);
+    --color-warm-2: var(--sr-ui-border-color-active);
+    --color-warm-3: var(--sr-ui-border-color);
+    --initiative-icon: var(--sr-initiative-icon);
+    --initiative-icon-hover: var(--sr-initiative-icon-hover);
   }
   #combat .combat-tracker-header .encounters strong,
   #combat .combat-tracker-header .encounters h3,
   #combat .combat-tracker-header .encounters button {
-    font-family: "srfoundry_secondary";
+    font-family: var(--sr-font-title-alt);
     text-transform: uppercase;
   }
   #combat .combat-tracker-header .encounter-controls {
-    border-bottom: 1px solid #b2007a;
-    background: rgba(178, 0, 122, 0.25);
+    border-bottom: 1px solid var(--sr-ui-border-color);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
   }
   #combat .combat-tracker-header .encounter-controls .encounter-title {
-    font-family: "srfoundry_secondary";
+    font-family: var(--sr-font-title-alt);
     text-transform: uppercase;
   }
   #combat .combat-tracker-header .sr5-initiative-pass {
     text-align: center;
     padding: 4px 0;
-    border-bottom: 1px solid #b2007a;
-    background: rgba(178, 0, 122, 0.15);
+    border-bottom: 1px solid var(--sr-ui-border-color);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 15%, transparent);
   }
   #combat .combat-tracker-header .sr5-initiative-pass strong {
-    font-family: "srfoundry_secondary";
+    font-family: var(--sr-font-title-alt);
     text-transform: uppercase;
-    font-size: 1em;
-    color: #fffffe;
+    font-size: var(--sr-font-size-sheet-text);
+    color: var(--sr-text-color-light);
   }
   #combat .combat-tracker li.combatant .token-name .name.hasPlayed {
-    color: rgba(255, 255, 254, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
   }
   #combat .combat-tracker li.combatant .combatant-controls .action {
-    color: #fffffe;
+    color: var(--sr-text-color-light);
     height: 18px;
     line-height: 17px;
     text-align: center;
@@ -5181,38 +5181,38 @@
     margin-top: 2px;
   }
   #combat .combat-tracker li.combatant .combatant-controls .action.free {
-    border: 1px solid rgba(0, 0, 1, 0.5);
-    background-color: rgba(0, 0, 1, 0.5);
+    border: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+    background-color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
   }
   #combat .combat-tracker li.combatant .combatant-controls .action.simple {
-    border: 1px solid rgba(131, 156, 136, 0.5);
-    background-color: rgba(131, 156, 136, 0.5);
+    border: 1px solid color-mix(in srgb, var(--sr-ui-border-color-active) 50%, transparent);
+    background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 50%, transparent);
   }
   #combat .combat-tracker li.combatant .combatant-controls .action.complex {
-    border: 1px solid rgba(178, 0, 122, 0.5);
-    background-color: rgba(178, 0, 122, 0.5);
+    border: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+    background-color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
   }
   #combat .combat-tracker li.combatant .token-initiative .initiative {
     font-size: 1.5em;
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     text-transform: uppercase;
     font-weight: normal;
   }
   #combat .combat-tracker li.combatant .token-initiative .initiative.hasPlayed {
-    color: rgba(255, 255, 254, 0.25);
+    color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
   }
   #combat .combat-controls {
-    border-top: 2px solid #839c88;
+    border-top: 2px solid var(--sr-ui-border-color-active);
   }
   #combat .combat-controls button,
   #combat .combat-controls a {
-    font-family: "srfoundry_primary";
+    font-family: var(--sr-font-title);
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: var(--sr-font-size-small);
   }
   #combat .combat-controls button:hover,
   #combat .combat-controls a:hover {
-    color: #839c88;
+    color: var(--sr-ui-border-color-active);
   }
   .SR-Editor {
     position: relative;
@@ -5226,7 +5226,6 @@
   }
   .SR-Editor .editor .editor-edit {
     background: transparent;
-    color: white;
     display: unset;
     font-size: inherit;
     border: 0;
@@ -5235,10 +5234,10 @@
     padding: 0;
     top: -17px;
     right: 5px;
-    color: #fffffe;
+    color: var(--sr-text-color-light);
   }
   .SR-Editor .editor .editor-edit:hover {
-    color: #839c88;
+    color: var(--sr-ui-border-color-active);
   }
   .SR-Editor .editor .editor-content {
     overflow-y: inherit;
@@ -5263,7 +5262,7 @@
     background: none;
     background-color: transparent;
     box-shadow: none;
-    border-bottom: 1px solid #839c88;
+    border-bottom: 1px solid var(--sr-ui-border-color-active);
   }
   .SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary .tox-tbtn {
     border-radius: 1px;
@@ -5271,10 +5270,10 @@
     background: transparent;
   }
   .SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary .tox-tbtn svg {
-    fill: rgba(131, 156, 136, 0.5);
+    fill: color-mix(in srgb, var(--sr-ui-border-color-active) 50%, transparent);
   }
   .SR-Editor .editor .tox .tox-editor-container .tox-editor-header .tox-toolbar-overlord .tox-toolbar__primary .tox-tbtn svg:hover {
-    fill: #839c88;
+    fill: var(--sr-ui-border-color-active);
   }
   .SR-Editor .editor .tox-sidebar-wrap {
     min-height: 200px;

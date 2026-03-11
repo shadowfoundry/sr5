@@ -16,8 +16,8 @@
     .window-header {
         background : none;
         border-bottom: 0;
-        color      : @neutralLightColor;
-        font-family: @SR_BodyText;
+        color      : var(--sr-text-color-light);
+        font-family: var(--sr-font-body);
 
         .window-title {
             visibility: hidden;
@@ -26,9 +26,9 @@
         }
 
         .header-control {
-            color: @neutralLightColor;
-            background: @neutralDarkColor;
-            border: 1px solid @neutralDarkColor;
+            color: var(--sr-text-color-light);
+            background: var(--sr-text-color-dark);
+            border: 1px solid var(--sr-text-color-dark);
             border-bottom: none;
             border-radius: 6px 6px 0 0;
             padding: 0 8px;
@@ -42,16 +42,16 @@
             }
 
             &:hover {
-                background: @subColor;
-                color: @neutralLightColor;
+                background: var(--sr-text-color-flash);
+                color: var(--sr-text-color-light);
             }
 
             &.active {
-                background: @mainColor;
-                color: @neutralLightColor;
+                background: var(--sr-ui-border-color);
+                color: var(--sr-text-color-light);
 
                 &:hover {
-                    background: @subColor;
+                    background: var(--sr-text-color-flash);
                 }
             }
         }
@@ -68,30 +68,30 @@
     }
 
     .controls-dropdown {
-        background: @neutralDarkColor;
-        border: 1px solid fade(@subColor, 35%);
+        background: var(--sr-text-color-dark);
+        border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
         border-radius: 0;
         box-shadow: none;
 
         .header-control > button {
             --button-background-color: none;
-            --button-text-color: @neutralLightColor;
-            color: @neutralLightColor;
-            font-family: @SR_BodyText;
+            --button-text-color: var(--sr-text-color-light);
+            color: var(--sr-text-color-light);
+            font-family: var(--sr-font-body);
             border: none;
 
             &:hover {
-                --button-text-color: @neutralLightColor;
-                background: @subColor;
-                color: @neutralLightColor;
+                --button-text-color: var(--sr-text-color-light);
+                background: var(--sr-text-color-flash);
+                color: var(--sr-text-color-light);
             }
         }
     }
 
     &.sr-mode-play {
         .window-header .header-control[data-action="toggleMode"] {
-            background: @mainColor;
-            color: @neutralLightColor;
+            background: var(--sr-ui-border-color);
+            color: var(--sr-text-color-light);
         }
 
         .controls-dropdown .header-control[data-action="customizeDisplay"] {
@@ -100,15 +100,15 @@
     }
 
     .window-content {
-        background-image   : url(@BGWhite50);
+        background-image   : var(--sr-img-bg-white50);
         background-position: top left;
         background-size    : cover;
         background-repeat  : no-repeat;
         background-origin  : border-box;
-        font-family        : @SR_BodyText;
-        font-size          : @SR_FontSizeSmall;
-        background-color   : fade(@neutralLightColor, 100%);
-        border             : 1px solid @neutralDarkColor;
+        font-family        : var(--sr-font-body);
+        font-size          : var(--sr-font-size-small);
+        background-color   : var(--sr-text-color-light);
+        border             : 1px solid var(--sr-text-color-dark);
         border-radius      : 0;
         padding            : 0;
 
@@ -136,10 +136,10 @@
         }
 
         h2 {
-            font-family  : @SR_BodyTextBold;
-            font-size    : @SR_FontSizeNormal;
+            font-family  : var(--sr-font-body-bold);
+            font-size    : var(--sr-font-size-normal);
             border-bottom: 0;
-            color        : @mainColor;
+            color        : var(--sr-ui-border-color);
             margin       : 0;
         }
 
@@ -148,7 +148,7 @@
         }
 
         .SR-ActiveInit {
-          background: fade(@subColor, 25%);
+          background: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
         }
 
         .SRBlockSheet:not(:first-child) {
@@ -158,27 +158,27 @@
         .matrixAttributeBox {
             height: 15px;
             line-height: 13px;
-            background-color: fade(@mainColor, 5%);
-            border: 1px solid fade(@mainColor, 75%);
+            background-color: color-mix(in srgb, var(--sr-ui-border-color) 5%, transparent);
+            border: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
             border-radius: 3px;
             margin: 1px 1px 0px 1px;
 
             &.valueBox {
-                background-color: fade(@subColor, 5%);
-                border: 1px solid @subColor;
+                background-color: color-mix(in srgb, var(--sr-text-color-flash) 5%, transparent);
+                border: 1px solid var(--sr-text-color-flash);
             }
         }
 
         .unfoldLight {
           &:hover::before {
-            color: fade(@neutralLightColor, 75%);
+            color: color-mix(in srgb, var(--sr-text-color-light) 75%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
             content: "\f102 ";
           }
           &::before {
-            color: fade(@neutralLightColor, 25%);
+            color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
@@ -188,14 +188,14 @@
 
         .foldLight {
           &:hover::before {
-            color: fade(@neutralLightColor, 75%);
+            color: color-mix(in srgb, var(--sr-text-color-light) 75%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
             content: "\f103 ";
           }
           &::before {
-            color: fade(@neutralLightColor, 25%);
+            color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
@@ -205,14 +205,14 @@
 
         .unfoldDark {
           &:hover::before {
-            color: fade(@mainColor, 75%);
+            color: color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
             content: "\f102 ";
           }
           &::before {
-            color: fade(@mainColor, 25%);
+            color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
@@ -222,14 +222,14 @@
 
         .foldDark {
           &:hover::before {
-            color: fade(@mainColor, 75%);
+            color: color-mix(in srgb, var(--sr-ui-border-color) 75%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
             content: "\f103 ";
           }
           &::before {
-            color: fade(@mainColor, 25%);
+            color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
             padding-right: 3px;
             font-family: "Font Awesome 6 Pro";
             font-weight: 900;
@@ -239,52 +239,52 @@
 
         .SR-LigneEnTete {
             padding: 0 3px 0 3px;
-            font-size: @SR_FontSizeNormal;
-            //border-bottom: solid 1px @mainColor;
-            color: @neutralLightColor;
+            font-size: var(--sr-font-size-normal);
+            //border-bottom: solid 1px var(--sr-ui-border-color);
+            color: var(--sr-text-color-light);
             //box-shadow: none;
-            background-image: linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor), url(@Sidebar);
+            background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
             background-size: cover;
-            border-bottom: 1px solid @subColor;
-            border-top: 1px solid @subColor;
-            font-family: @SR_BodyTextBold;
+            border-bottom: 1px solid var(--sr-text-color-flash);
+            border-top: 1px solid var(--sr-text-color-flash);
+            font-family: var(--sr-font-body-bold);
 
             a {
-                color: @neutralLightColor;
+                color: var(--sr-text-color-light);
 
                 &:hover {
-                    color: @subColor;
+                    color: var(--sr-text-color-flash);
                 }
             }
 
             &.vert{
                 background-image:
-                linear-gradient(45deg, fade(@subColor, 50%), 80%, @subColor),
-                url(@Sidebar);
+                linear-gradient(45deg, color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent), 80%, var(--sr-text-color-flash)),
+                var(--sr-sidebar-background);
             }
         }
 
         .SR-EnTete {
             padding      : 0 3px 0 3px;
-            font-size    : @SR_FontSizeNormal;
-            color        : @mainColor;
-            border-bottom: 1px solid @mainColor;
-            font-family  : @SR_BodyTextBold;
+            font-size    : var(--sr-font-size-normal);
+            color        : var(--sr-ui-border-color);
+            border-bottom: 1px solid var(--sr-ui-border-color);
+            font-family  : var(--sr-font-body-bold);
 
             a {
-                color: fade(@mainColor, 50%);
+                color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
 
                 &:hover {
-                    color: @mainColor;
+                    color: var(--sr-ui-border-color);
                 }
             }
         }
 
         .SR-LigneEnTeteVert {
-            font-family: @SR_BodyTextBold;
-            font-size: @SR_FontSizeNormal;
-            border-bottom: solid 1px @subColor;
-            color: @subColor;
+            font-family: var(--sr-font-body-bold);
+            font-size: var(--sr-font-size-normal);
+            border-bottom: solid 1px var(--sr-text-color-flash);
+            color: var(--sr-text-color-flash);
         }
 
         li:not(.SR-LigneEnTete) {
@@ -292,13 +292,13 @@
             padding: 0 3px 0 3px;
 
             .roll-logo {
-                color: @mainColor;
+                color: var(--sr-ui-border-color);
                 cursor: pointer;
 
                 &::after {
                     position    : absolute;
                     left        : 50%;
-                    color       : fade(@mainColor, 25%);
+                    color       : color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
                     padding-left: 7px;
                     font-family : "Font Awesome 6 Pro";
                     font-weight : 900;
@@ -306,23 +306,23 @@
                 }
 
                 &:hover:after {
-                    color: @mainColor;
+                    color: var(--sr-ui-border-color);
                 }
             }
 
             a {
-                color: fade(@mainColor, 25%);
+                color: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
 
                 &:hover {
-                    color: @mainColor;
+                    color: var(--sr-ui-border-color);
                 }
 
                 &.toggle-value,
                 &.reload-ammo {
-                    color: fade(@subColor, 25%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
 
                     &:hover {
-                        color: fade(@subColor, 0%);
+                        color: color-mix(in srgb, var(--sr-text-color-flash) 0%, transparent);
                     }
                 }
             }
@@ -330,20 +330,20 @@
             .item-summary {
                 padding-bottom: 3px;
                 margin-bottom : 5px;
-                color         : @subColor;
-                border-bottom : 1px solid fade(@subColor, 50%);
+                color         : var(--sr-text-color-flash);
+                border-bottom : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
                 .item-properties {
                     padding-top: 3px;
                 }
 
                 .tag {
-                    background-image: linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor), url(@Sidebar);
-                    color: @neutralLightColor;
+                    background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+                    color: var(--sr-text-color-light);
                     display: inline-block;
                     margin: 0 2px 2px 0;
                     padding: 0 3px;
-                    border: 1px solid @neutralDarkColor;;
+                    border: 1px solid var(--sr-text-color-dark);;
                     border-radius: 3px;
                 }
             }
@@ -354,18 +354,18 @@
             height: 54px;
             display: flex;
             align-items: center;
-            background-image: url(@ActorSheetTop);
+            background-image: var(--sr-img-actor-sheet-top);
             background-size: auto 100%;
             background-repeat: repeat-x;
             background-position: top left;
 
             input {
-                color        : @neutralLightColor;
+                color        : var(--sr-text-color-light);
                 background   : none;
                 border       : 0;
                 border-bottom: 1px solid transparent;
                 border-radius: 0;
-                font-family  : @SR_FontTitle;
+                font-family  : var(--sr-font-title);
                 font-size    : 20px;
                 text-align   : left;
                 padding      : 0 5px;
@@ -374,7 +374,7 @@
 
                 &:focus {
                     box-shadow: none;
-                    border-bottom: 1px solid fade(@subColor, 50%);
+                    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
             }
 
@@ -386,7 +386,7 @@
             .SRTextInBox {
                 text-transform  : uppercase;
                 text-align      : center;
-                color           : @neutralLightColor;
+                color           : var(--sr-text-color-light);
                 padding-top     : 2px;
             }
 
@@ -394,18 +394,18 @@
                 width       : 33px;
                 height      : 33px;
                 margin-right: 5px;
-                border: 1px solid @subColor;
+                border: 1px solid var(--sr-text-color-flash);
                 border-radius: 3px;
                 max-width: none;
                 object-fit: cover;
             }
 
             .SR-EspritType {
-                font-family     : @SR_FontTitle;
+                font-family     : var(--sr-font-title);
                 font-size       : 20px;
-                background-image: linear-gradient(45deg, fade(@mainColor, 50%), 80%, @mainColor), url(@Sidebar);
-                border          : 2px solid @neutralDarkColor;
-                outline         : solid @mainColor 1px;
+                background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+                border          : 2px solid var(--sr-text-color-dark);
+                outline         : solid var(--sr-ui-border-color) 1px;
                 height          : 30px;
                 width           : auto;
                 padding-left    : 3px;
@@ -414,9 +414,9 @@
                 margin-top      : 1px;
 
                 select {
-                    font-family : @SR_FontTitle;
+                    font-family : var(--sr-font-title);
                     font-size   : 16px;
-                    color       : @neutralLightColor;
+                    color       : var(--sr-text-color-light);
                     margin-top  : -2px;
 
                     &:focus {
@@ -424,7 +424,7 @@
                     }
 
                     option:not(.SR-LightGreyColor) {
-                        color: fade(@neutralDarkColor, 70%);
+                        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                     }
                 }
 
@@ -432,10 +432,10 @@
             }
 
             .SR-AppareilType {
-                font-family     : @SR_FontTitle;
+                font-family     : var(--sr-font-title);
                 font-size       : 12px;
-                background-color: @subColor;
-                border          : 2px solid @neutralDarkColor;
+                background-color: var(--sr-text-color-flash);
+                border          : 2px solid var(--sr-text-color-dark);
                 outline         : solid olor 1px;
                 height          : 30px;
                 width           : auto;
@@ -468,20 +468,20 @@
         .sr-tab-content {
             input {
                 background    : none;
-                color         : fade(@neutralDarkColor, 70%);
+                color         : color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                 height        : auto;
                 border        : 0;
-                border-bottom : 1px solid fade(@subColor, 25%);
+                border-bottom : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
                 border-radius : 0;
                 padding       : 0;
 
                 &::placeholder {
-                    color: fade(@subColor, 50%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
 
                 &:focus {
                     box-shadow: none;
-                    border-bottom: 1px solid @subColor;
+                    border-bottom: 1px solid var(--sr-text-color-flash);
                 }
 
 
@@ -494,7 +494,7 @@
                 position       : relative;
                 margin         : 0;
                 vertical-align : middle;
-                border         : 1px solid @subColor;
+                border         : 1px solid var(--sr-text-color-flash);
                 height         : 12px;
                 width          : 12px;
                 border-radius  : 3px;
@@ -512,7 +512,7 @@
                     height      : 10px;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
-                    border-color: @neutralDarkColor;
+                    border-color: var(--sr-text-color-dark);
                     transform   : rotate(45deg);
                     opacity     : 0;
                     font-family : inherit;
@@ -528,13 +528,13 @@
 
                 &:checked {
                     content     : '✔';
-                    color       : @neutralLightColor;
-                    border-color: @subColor;
-                    background  : fade(@subColor, 50%);
+                    color       : var(--sr-text-color-light);
+                    border-color: var(--sr-text-color-flash);
+                    background  : color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
                     &::before {
                         opacity: 1;
-                        border-color: @neutralLightColor;
+                        border-color: var(--sr-text-color-light);
                     }
 
                     /* v13: ensure ::after stays suppressed when checked */
@@ -550,25 +550,25 @@
             }
 
             select {
-                border-bottom: 1px solid fade(@subColor, 25%);
+                border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
                 border-radius: 0px;
                 background   : none;
                 padding-right: 12px;
 
                 &:focus {
                     box-shadow: none;
-                    border-bottom: 1px solid @subColor;
+                    border-bottom: 1px solid var(--sr-text-color-flash);
                 }
 
                 &:invalid {
-                    color: fade(@subColor, 50%);
+                    color: color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                 }
             }
         }
 
         .SR-BioTitre {
-            font-family: @SR_BodyTextBold;
-            color      : @mainColor;
+            font-family: var(--sr-font-body-bold);
+            color      : var(--sr-ui-border-color);
         }
 
         .SR-BioLigne {
@@ -586,7 +586,7 @@
             width       : 288px;
             height      : 288px;
             border: 1px solid;
-            border-color: @mainColor;
+            border-color: var(--sr-ui-border-color);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center 10%;
@@ -597,7 +597,7 @@
             width       : 144px;
             height      : 144px;
             border: 1px solid;
-            border-color: @mainColor;
+            border-color: var(--sr-ui-border-color);
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center 10%;
@@ -609,7 +609,7 @@
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            background-image: url(@ActorSheetBottom);
+            background-image: var(--sr-img-actor-sheet-bottom);
             background-size: auto 100%;
             background-repeat: repeat-x;
             background-position: bottom left;
@@ -617,12 +617,12 @@
 
             input {
                 background    : none;
-                color         : @neutralLightColor;
+                color         : var(--sr-text-color-light);
                 text-align    : left;
-                font-family   : @SR_BodyTextBold;
+                font-family   : var(--sr-font-body-bold);
                 height        : auto;
                 border        : 1px solid transparent;
-                border-bottom : 1px solid @subColor;
+                border-bottom : 1px solid var(--sr-text-color-flash);
                 padding-top   : 0;
                 padding-bottom: 0;
             }
@@ -634,7 +634,7 @@
 
             select {
                 background    : none;
-                color         : @neutralLightColor;
+                color         : var(--sr-text-color-light);
                 margin-left   : 0px;
             }
 
@@ -654,7 +654,7 @@
                 width         : 200px;
             }
 
-            .boxes {
+            .boxes {
                 flex: 0;
             }
 
@@ -705,29 +705,29 @@
                 border-radius  : 1px;
 
                 .SR-ChanceText {
-                    color      : @neutralLightColor;
-                    font-family: @SR_BodyTextBold;
+                    color      : var(--sr-text-color-light);
+                    font-family: var(--sr-font-body-bold);
                 }
             }
 
         .SR-CaseNeutralDarkColor {
-            background: @neutralDarkColor;
+            background: var(--sr-text-color-dark);
             border: 1px solid rgba(151,183,159, 1);
         }
 
         .SR-CaseMainColor {
-            background: @mainColor;
-            border    : 1px solid @mainColor;
+            background: var(--sr-ui-border-color);
+            border    : 1px solid var(--sr-ui-border-color);
         }
 
         .SR-CaseSubColor {
-            background: @subColor;
-            border    : 1px solid fade(@subColor, 50%);
+            background: var(--sr-text-color-flash);
+            border    : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
         }
 
         .SR-CasePopColor {
-          background: @popColor;
-          border: 1px solid fade(@popColor, 50%);
+          background: var(--sr-ui-pop-color);
+          border: 1px solid color-mix(in srgb, var(--sr-ui-pop-color) 50%, transparent);
         }
 
         /* ── Panel-first layout system — shared mixin from layout.less ── */

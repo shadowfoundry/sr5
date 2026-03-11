@@ -1,18 +1,18 @@
-/* v13: only style the SR5 roll dialog (.SR5jet), let Foundry handle generic dialogs */
+/* SR5 roll dialog styling */
 
 .dialog {
     .window-content .dialog-content {
         /* Light background for all SR5 dialogs */
-        background: @neutralLightColor;
-        color: @neutralDarkColor;
+        background: var(--sr-text-color-light);
+        color: var(--sr-text-color-dark);
         color-scheme: light;
         padding: 8px;
 
         input {
             background     : none !important;
-            color          : @neutralDarkColor !important;
+            color          : var(--sr-text-color-dark) !important;
             border         : 0 !important;
-            border-bottom  : 1px solid fade(@subColor, 35%) !important;
+            border-bottom  : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
             padding        : 0 !important;
             border-radius  : 0 !important;
             box-shadow: none;
@@ -22,10 +22,10 @@
         }
 
         select {
-            color: @subColor;
+            color: var(--sr-text-color-flash);
             background: none !important;
             border: 0 !important;
-            border-bottom: 1px solid fade(@subColor, 35%) !important;
+            border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
             border-radius: 0 !important;
             padding: 0 !important;
             box-shadow: none;
@@ -36,14 +36,14 @@
         }
 
         label {
-            color: @neutralDarkColor;
-            font-family: @SR_BodyText;
+            color: var(--sr-text-color-dark);
+            font-family: var(--sr-font-body);
         }
 
         h3, h4 {
-            color: @mainColor;
+            color: var(--sr-ui-border-color);
             text-align: center;
-            border-bottom: 1px solid @mainColor;
+            border-bottom: 1px solid var(--sr-ui-border-color);
         }
 
         .SR5jet {
@@ -59,7 +59,7 @@
 
             input {
                 background     : none !important;
-                color          : @neutralDarkColor !important;
+                color          : var(--sr-text-color-dark) !important;
                 height         : 15px !important;
                 border         : 0 !important;
                 padding        : 0 !important;
@@ -76,7 +76,7 @@
             input[type="checkbox"] {
                 position     : relative;
                 margin       : 0;
-                border       : 1px solid @subColor !important;
+                border       : 1px solid var(--sr-ui-border-color-active) !important;
                 height       : 12px !important;
                 width        : 12px !important;
                 border-radius: 3px !important;
@@ -105,7 +105,7 @@
                     height      : 10px !important;
                     border-style: solid;
                     border-width: 0 2px 2px 0;
-                    border-color: @neutralLightColor;
+                    border-color: var(--sr-text-color-light);
                     transform   : rotate(45deg);
                     opacity     : 0;
                     font-family : inherit !important;
@@ -121,9 +121,9 @@
                 }
 
                 &:checked {
-                    color       : @neutralLightColor;
-                    border-color: @subColor !important;
-                    background  : fade(@subColor, 90%) !important;
+                    color       : var(--sr-text-color-light);
+                    border-color: var(--sr-ui-border-color-active) !important;
+                    background  : color-mix(in srgb, var(--sr-ui-border-color-active) 90%, transparent) !important;
 
                     &::before {
                         opacity: 1;
@@ -143,7 +143,7 @@
 
             select {
                 text-align-last: right;
-                color: @subColor;
+                color: var(--sr-text-color-flash);
                 margin-right: -5px;
                 background: none !important;
                 border: 0 !important;
@@ -171,10 +171,11 @@
                 margin: 0;
 
                 &.SR-LigneEnTete {
-                    font-size: @SR_FontSizeNormal;
-                    border-bottom: solid 1px @mainColor;
-                    color: @mainColor;
-                    font-family: @SR_BodyTextBold;
+                    font-size: var(--sr-font-size-sheet-text);
+                    border-bottom: solid 1px var(--sr-ui-border-color);
+                    color: var(--sr-ui-border-color);
+                    font-family: var(--sr-font-body);
+                    font-weight: bold;
                 }
             }
 
@@ -184,12 +185,12 @@
 
             .SR-ModControl {
                 font-size: 11px;
-                color: @subColor;
+                color: var(--sr-text-color-flash);
             }
 
             .SR-FakeInput {
-                background    : fade(@subColor, 10%);
-                color         : @neutralDarkColor;
+                background    : color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+                color         : var(--sr-text-color-dark);
                 height        : 15px;
                 border        : 0;
                 padding-top   : 0;
@@ -202,7 +203,7 @@
             }
 
             .SR-RecoilInput {
-                color         : fade(@neutralDarkColor, 70%);
+                color         : color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
                 padding-right  : 0px;
                 width         : 10px;
                 text-align    : center;
@@ -210,14 +211,15 @@
             }
 
             .SR-TopSeparator{
-                border-top: 1px solid fade(@subColor, 35%);
+                border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
                 margin-top: 5px;
             }
 
             .SR-DialogOption{
-                border-bottom: solid 1px @mainColor;
-                color: @mainColor;
-                font-family: @SR_BodyTextBold;
+                border-bottom: solid 1px var(--sr-ui-border-color);
+                color: var(--sr-ui-border-color);
+                font-family: var(--sr-font-body);
+                font-weight: bold;
             }
         }
     }
@@ -225,9 +227,9 @@
     /* SR5 dialog frame — dark header, themed buttons */
     & {
         .window-header {
-            background: @neutralDarkColor;
-            color: @neutralLightColor;
-            font-family: @SR_BodyText;
+            background: var(--sr-ui-bg-color-dark);
+            color: var(--sr-text-color-light);
+            font-family: var(--sr-font-body);
         }
 
         .window-content {
@@ -240,38 +242,38 @@
 
         .dialog-buttons,
         .form-footer {
-            background-image: url(@Dialog) !important;
+            background-image: var(--sr-window-background) !important;
             background-size: cover !important;
             padding: 15px 8px 8px 8px !important;
 
             button, button.default {
                 --button-size: auto !important;
-                --button-background-color: fade(@black, 30%) !important;
-                --button-border-color: @subColor !important;
-                --button-text-color: @neutralLightColor !important;
+                --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+                --button-border-color: var(--sr-ui-border-color-active) !important;
+                --button-text-color: var(--sr-text-color-light) !important;
                 --button-hover-background-color: transparent !important;
-                --button-hover-border-color: @subColor !important;
-                --button-hover-text-color: @neutralDarkColor !important;
-                --button-focus-outline-color: @subColor !important;
+                --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+                --button-hover-text-color: var(--sr-text-color-dark) !important;
+                --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
                 position: relative;
                 height: auto !important;
                 min-height: unset !important;
                 padding: 4px 0.5rem !important;
                 line-height: 20px;
-                color: @neutralLightColor !important;
-                font-family: @SR_FontTitle;
+                color: var(--sr-text-color-light) !important;
+                font-family: var(--sr-font-title);
                 text-transform: uppercase;
-                font-size: @SR_FontSizeSmall;
+                font-size: var(--sr-font-size-small);
                 text-align: center;
                 border-radius: 3px;
                 text-decoration: none;
                 transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                border: 1px solid @subColor !important;
-                background: fade(@black, 30%) !important;
+                border: 1px solid var(--sr-ui-border-color-active) !important;
+                background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
                 z-index: 1;
 
                 &:hover {
-                    color: @neutralDarkColor !important;
+                    color: var(--sr-text-color-dark) !important;
                     background-color: transparent !important;
                     box-shadow: none;
                 }
@@ -291,8 +293,8 @@
                     width: 0px;
                     z-index: -1;
                     content: '';
-                    color: @neutralDarkColor;
-                    background: @subColor;
+                    color: var(--sr-text-color-dark);
+                    background: var(--sr-ui-border-color-active);
                     transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
                 }
             }
