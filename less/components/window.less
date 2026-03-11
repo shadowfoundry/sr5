@@ -1,1 +1,42 @@
-/* v13: SR5 sheets set their own window styling — no generic overrides needed */
+@import "../commons/layout-mixin.less";
+
+.window-app,
+.application:not(.sr-application) {
+  .sr-block-window();
+
+  .window-header {
+    background: transparent;
+    border-bottom: 1px solid var(--sr-window-header-border);
+
+    .window-title {
+      color: var(--sr-text-color-light);
+    }
+  }
+
+  .window-content {
+    background: none;
+    color: var(--sr-text-color-light);
+  }
+
+  /* === Nav tabs === */
+  nav.tabs {
+    border-top: 2px solid var(--sr-ui-border-color);
+    border-bottom: 2px solid var(--sr-ui-border-color);
+    font-family: var(--sr-font-title);
+    text-transform: uppercase;
+  }
+
+  nav.tabs [data-tab] {
+    color: var(--sr-ui-color);
+
+    &.active, &:hover {
+      color: var(--sr-ui-color-active);
+      text-shadow: none;
+    }
+  }
+
+  nav.tabs.faded-ui,
+  nav.tabs.vertical {
+    border: none;
+  }
+}

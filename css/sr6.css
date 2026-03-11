@@ -4287,7 +4287,52 @@
       display: none;
     }
   }
-  /* v13: SR5 sheets set their own window styling — no generic overrides needed */
+  .window-app,
+  .application:not(.sr-application) {
+    border: 1px solid var(--sr-ui-border-color);
+    background-image: var(--sr-window-background);
+    background-origin: border-box;
+    background-size: cover;
+    /* === Nav tabs === */
+  }
+  .window-app .window-header,
+  .application:not(.sr-application) .window-header {
+    background: transparent;
+    border-bottom: 1px solid var(--sr-window-header-border);
+  }
+  .window-app .window-header .window-title,
+  .application:not(.sr-application) .window-header .window-title {
+    color: var(--sr-text-color-light);
+  }
+  .window-app .window-content,
+  .application:not(.sr-application) .window-content {
+    background: none;
+    color: var(--sr-text-color-light);
+  }
+  .window-app nav.tabs,
+  .application:not(.sr-application) nav.tabs {
+    border-top: 2px solid var(--sr-ui-border-color);
+    border-bottom: 2px solid var(--sr-ui-border-color);
+    font-family: var(--sr-font-title);
+    text-transform: uppercase;
+  }
+  .window-app nav.tabs [data-tab],
+  .application:not(.sr-application) nav.tabs [data-tab] {
+    color: var(--sr-ui-color);
+  }
+  .window-app nav.tabs [data-tab].active,
+  .application:not(.sr-application) nav.tabs [data-tab].active,
+  .window-app nav.tabs [data-tab]:hover,
+  .application:not(.sr-application) nav.tabs [data-tab]:hover {
+    color: var(--sr-ui-color-active);
+    text-shadow: none;
+  }
+  .window-app nav.tabs.faded-ui,
+  .application:not(.sr-application) nav.tabs.faded-ui,
+  .window-app nav.tabs.vertical,
+  .application:not(.sr-application) nav.tabs.vertical {
+    border: none;
+  }
   #sr5help {
     z-index: 0;
     position: fixed;

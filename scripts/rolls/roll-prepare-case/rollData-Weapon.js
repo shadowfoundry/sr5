@@ -135,7 +135,7 @@ export default async function weapon(rollData, actor, item){
 
 async function handleTargetInfo(rollData, actor, item){
     let itemData = item.system;
-    if (!canvas.scene) return;
+    if (!canvas.scene) return rollData;
     let target = 0,
         sceneEnvironmentalMod;
     rollData.target.range = "short";

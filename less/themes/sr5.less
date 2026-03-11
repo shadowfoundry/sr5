@@ -1,0 +1,162 @@
+@import "../theme-mixins.less";
+
+.theme-sr5() {
+
+  // Fonts
+  @font-face {
+    font-family: "srfoundry_primary";
+    src: url("./fonts/srfoundry_primary.otf");
+  }
+  @font-face {
+    font-family: "srfoundry_secondary";
+    src: url("./fonts/srfoundry_secondary.otf");
+  }
+  @font-face {
+    font-family: "srfoundry_regular";
+    src: url("./fonts/srfoundry_regular.otf");
+  }
+  @font-face {
+    font-family: "srfoundry_bold";
+    font-weight: bold;
+    src: url("./fonts/srfoundry_bold.otf");
+  }
+  @font-face {
+    font-family: "srfoundry_journal";
+    src: url("./fonts/sabon_roman.otf");
+  }
+
+  @font-body: "srfoundry_regular";
+  @font-title: "srfoundry_primary";
+  @font-title-alt: "srfoundry_secondary";
+  @font-journal: "srfoundry_journal";
+
+  // Font sizes
+  @font-size-h0: 30px;
+  @font-size-h1: 24px;
+  @font-size-h4: 16px;
+  @font-size-small: 11px;
+  @font-size-sheet-character-name: 38px;
+  @font-size-sheet-text: 0.875rem;
+  @font-size-sheet-header: 0.875rem;
+  @font-size-sheet-tag: 0.825rem;
+  @font-spacing-sheet-text: 0px;
+  @font-size-sheet-item-name: 20px;
+
+  // Main colors
+  @red: rgb(147, 16, 4);
+  @teal: rgba(12, 147, 148, 1);
+  @blue: rgb(0, 189, 202);
+  @orange: rgb(175, 108, 6);
+  @white: rgb(255, 255, 254);
+  @black: rgb(0, 0, 1);
+  @darkRed: rgb(60, 5, 2);
+
+  // UI colors
+  @ui-color: fade(@teal, 75%);
+  @ui-color-active: @white;
+  @ui-bg-color: fade(@darkRed, 50%);
+  @ui-bg-color-dark: @black;
+  @ui-bg-color-hover: fade(@red, 50%);
+  @ui-bg-color-active: fade(@red, 50%);
+  @ui-border-color: @red;
+  @ui-border-color-active: @teal;
+  @ui-scrollbar-track: fade(@red, 25%);
+  @ui-scrollbar-thumb: fade(@red, 50%);
+  @window-header-border: @red;
+
+  @header-bg: fade(@red, 75%);
+  @header-border: @teal;
+  @table-bg-even: fade(@red, 25%);
+
+  // Pause
+  @ui-pause-color: @red;
+  @ui-pause-color-effect-1: @teal;
+  @ui-pause-color-effect-2: @red;
+
+  // Journal
+  @jounal-bg-color: @black;
+
+  // Text colors
+  @text-color-light: @white;
+  @text-color-grey: fade(@white, 50%);
+  @text-color-grey-dark: fade(@white, 75%);
+  @text-color-dark: @black;
+  @text-color-flash: @teal;
+  @text-color-input: @teal;
+  @text-color-calculated: fade(@teal, 75%);
+
+  // Sheet colors
+  @text-sheet-button: fade(@teal, 25%);
+  @text-sheet-button-hover: @white;
+  @text-sheet-button-active: @white;
+  @sheet-input-border-color: fade(@red, 35%);
+  @sheet-icon: fade(@red, 75%);
+  @sheet-icon-hover: @white;
+  @sheet-tag-bg: fade(@red, 75%);
+  @sheet-tag-border: @teal;
+  @sheet-monitor-border: fade(@teal, 75%);
+  @sheet-monitor-border-hover: @white;
+  @sheet-monitor-border-active: @white;
+  @sheet-monitor-bg: fade(@teal, 25%);
+  @sheet-monitor-bg-hover: @teal;
+  @sheet-monitor-bg-active: fade(@red, 75%);
+
+  // Chat message colors
+  @chat-result-background: fade(@red, 50%);
+  @chat-result-border: @teal;
+  @chat-button-background-opposed-test: fade(@teal, 10%);
+  @chat-button-background-non-opposed-test: fade(@teal, 25%);
+  @chat-button-border-opposed-test: @teal;
+  @chat-button-border-non-opposed-test: fade(@teal, 50%);
+  @chat-button-border-active: @white;
+  @chat-button-color-opposed-test: fade(@teal, 75%);
+  @chat-button-color-opposed-test-hover: @white;
+  @chat-button-color-non-opposed-test: fade(@teal, 75%);
+  @chat-button-color-non-opposed-test-hover: @white;
+  @chat-die-background: fade(@red, 10%);
+  @chat-die-border: fade(@red, 75%);
+  @chat-die-color: fade(@red, 75%);
+  @chat-die-background-success: fade(@teal, 75%);
+  @chat-die-border-success: @white;
+  @chat-die-color-success: @white;
+  @chat-detail-color: fade(@teal, 75%);
+  @chat-detail-sub-color: fade(@teal, 50%);
+  @chat-detail-header-color: @white;
+  @chat-detail-header-border: @teal;
+
+  // Combat tracker
+  @font-size-combat-sidebar: 11px;
+  @font-size-combat-action: 16px;
+  @ui-combatant-bg-hover: fade(@red, 25%);
+  @ui-combatant-bg-active: fade(@red, 50%);
+
+  // Token bar colors
+  @token-bar-stun-background: @teal;
+  @token-bar-stun-border: @black;
+  @token-bar-physical-background: @red;
+  @token-bar-physical-border: @black;
+
+  // Images
+  @sr-logo: "../img/ui/SR5_Logo.png";
+  @sidebar-background: "../img/ui/SR5_BG_Sidebar.jpg";
+  @window-background: "../img/ui/SR5_BG_Dialog.png";
+  @sheet-background: "../img/ui/SR5_BG_Dialog.png";
+  @initiative-icon: "/systems/sr5/img/icons/SR5_InitDicesOff.svg";
+  @initiative-icon-hover: "/systems/sr5/img/icons/SR5_InitDicesOn.svg";
+
+  // Apply theme
+  body.sr-theme-sr5.theme-dark {
+    .theme-vars();
+    --sr-logo-color: rgb(147, 16, 4);
+    --sr-pause-stripe-color: rgba(147, 16, 4, 0.1);
+  }
+
+  body.sr-theme-sr5.theme-light {
+    .theme-vars();
+    --sr-logo-color: rgb(147, 16, 4);
+    --sr-pause-stripe-color: rgba(147, 16, 4, 0.1);
+  }
+}
+
+// Activate the SR5 theme
+.theme-sr5();

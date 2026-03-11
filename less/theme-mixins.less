@@ -1,0 +1,121 @@
+// Common Variables Mixin — maps LESS vars to CSS custom properties
+
+.theme-vars() {
+
+  // Fonts
+  --sr-font-body: @font-body;
+  --sr-font-title: @font-title;
+  --sr-font-title-alt: @font-title-alt;
+  --sr-font-journal: @font-journal;
+
+  // Font Sizes
+  --sr-font-size-h0: @font-size-h0;
+  --sr-font-size-h1: @font-size-h1;
+  --sr-font-size-h4: @font-size-h4;
+  --sr-font-size-small: @font-size-small;
+  --sr-font-size-combat-sidebar: @font-size-combat-sidebar;
+  --sr-font-size-combat-action: @font-size-combat-action;
+  --sr-font-size-sheet-text: @font-size-sheet-text;
+  --sr-font-size-sheet-character-name: @font-size-sheet-character-name;
+  --sr-font-size-sheet-header: @font-size-sheet-header;
+  --sr-font-size-sheet-tag: @font-size-sheet-tag;
+  --sr-font-spacing-sheet-text: @font-spacing-sheet-text;
+  --sr-font-size-sheet-item-name: @font-size-sheet-item-name;
+
+  // Text colors
+  --sr-text-color-light: @text-color-light;
+  --sr-text-color-grey: @text-color-grey;
+  --sr-text-color-grey-dark: @text-color-grey-dark;
+  --sr-text-color-dark: @text-color-dark;
+  --sr-text-color-flash: @text-color-flash;
+
+  // UI Colors
+  --sr-ui-bg-color: @ui-bg-color;
+  --sr-ui-bg-color-hover: @ui-bg-color-hover;
+  --sr-ui-bg-color-active: @ui-bg-color-active;
+  --sr-ui-bg-color-dark: @ui-bg-color-dark;
+
+  --sr-ui-border-color: @ui-border-color;
+  --sr-ui-border-color-active: @ui-border-color-active;
+
+  --sr-ui-color: @ui-color;
+  --sr-ui-color-active: @ui-color-active;
+
+  --sr-ui-scrollbar-track: @ui-scrollbar-track;
+  --sr-ui-scrollbar-thumb: @ui-scrollbar-thumb;
+  --sr-ui-scrollbar-thumb-hover: @ui-color-active;
+
+  --sr-header-bg: @header-bg;
+  --sr-header-border: @header-border;
+
+  --sr-window-header-border: @window-header-border;
+
+  --sr-table-bg-even: @table-bg-even;
+
+  // Combat tracker
+  --sr-ui-combatant-bg-hover: @ui-combatant-bg-hover;
+  --sr-ui-combatant-bg-active: @ui-combatant-bg-active;
+
+  // Sheet colors
+  --sr-text-color-input: @text-color-input;
+  --sr-text-calculated: @text-color-calculated;
+  --sr-text-sheet-button: @text-sheet-button;
+  --sr-text-sheet-button-hover: @text-sheet-button-hover;
+  --sr-text-sheet-button-active: @text-sheet-button-active;
+  --sr-sheet-input-border-color: @sheet-input-border-color;
+  --sr-sheet-icon: @sheet-icon;
+  --sr-sheet-icon-hover: @sheet-icon-hover;
+  --sr-sheet-tag-bg: @sheet-tag-bg;
+  --sr-sheet-tag-border: @sheet-tag-border;
+  --sr-sheet-monitor-border: @sheet-monitor-border;
+  --sr-sheet-monitor-border-hover: @sheet-monitor-border-hover;
+  --sr-sheet-monitor-border-active: @sheet-monitor-border-active;
+  --sr-sheet-monitor-bg: @sheet-monitor-bg;
+  --sr-sheet-monitor-bg-hover: @sheet-monitor-bg-hover;
+  --sr-sheet-monitor-bg-active: @sheet-monitor-bg-active;
+
+  // Journal
+  --sr-jounal-bg-color: @jounal-bg-color;
+
+  // Pause
+  --sr-pause-color: @ui-pause-color;
+  --sr-pause-color-effect-1: @ui-pause-color-effect-1;
+  --sr-pause-color-effect-2: @ui-pause-color-effect-2;
+
+  // Chat message
+  --sr-chat-result-background: @chat-result-background;
+  --sr-chat-result-border: @chat-result-border;
+  --sr-chat-button-background-opposed-test: @chat-button-background-opposed-test;
+  --sr-chat-button-background-non-opposed-test: @chat-button-background-non-opposed-test;
+  --sr-chat-button-border-opposed-test: @chat-button-border-opposed-test;
+  --sr-chat-button-border-non-opposed-test: @chat-button-border-non-opposed-test;
+  --sr-chat-button-border-active: @chat-button-border-active;
+  --sr-chat-button-color-opposed-test: @chat-button-color-opposed-test;
+  --sr-chat-button-color-opposed-test-hover: @chat-button-color-opposed-test-hover;
+  --sr-chat-button-color-non-opposed-test: @chat-button-color-non-opposed-test;
+  --sr-chat-button-color-non-opposed-test-hover: @chat-button-color-non-opposed-test-hover;
+  --sr-chat-die-background: @chat-die-background;
+  --sr-chat-die-border: @chat-die-border;
+  --sr-chat-die-color: @chat-die-color;
+  --sr-chat-die-background-success: @chat-die-background-success;
+  --sr-chat-die-border-success: @chat-die-border-success;
+  --sr-chat-die-color-success: @chat-die-color-success;
+  --sr-chat-detail-color: @chat-detail-color;
+  --sr-chat-detail-sub-color: @chat-detail-sub-color;
+  --sr-chat-detail-header-color: @chat-detail-header-color;
+  --sr-chat-detail-header-border: @chat-detail-header-border;
+
+  // Token bars
+  --sr-token-bar-stun-background: @token-bar-stun-background;
+  --sr-token-bar-stun-border: @token-bar-stun-border;
+  --sr-token-bar-physical-background: @token-bar-physical-background;
+  --sr-token-bar-physical-border: @token-bar-physical-border;
+
+  // Images
+  --sr-logo: url(@sr-logo);
+  --sr-sidebar-background: url(@sidebar-background);
+  --sr-window-background: url(@window-background);
+  --sr-sheet-background: url(@sheet-background);
+  --sr-initiative-icon: url(@initiative-icon);
+  --sr-initiative-icon-hover: url(@initiative-icon-hover);
+}

@@ -1,0 +1,69 @@
+// Common checkbox mixin
+// CSS border for the box, FA glyph ::after for the tick
+
+.sr-checkbox-base() {
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border: 2px solid color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  border-radius: 3px;
+  background: none;
+  position: relative;
+
+  &::before {
+    content: none;
+  }
+
+  &::after {
+    content: none;
+  }
+
+  &:focus {
+    border-color: color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+    background: none;
+  }
+}
+
+.sr-checkbox-icon() {
+  // Box is drawn by the border in base
+}
+
+.sr-checkbox-checked() {
+  &:hover {
+    border-color: var(--sr-ui-border-color-active);
+  }
+
+  &:checked {
+    &::after {
+      content: "\f00c";
+      font-family: var(--font-awesome);
+      color: var(--sr-ui-color-active);
+      font-size: 0.7em;
+      font-weight: 900;
+      position: absolute;
+      inset: 1px 0 0 0;
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.sr-checkbox-focus() {
+  &:focus-visible {
+    outline: 2px solid var(--sr-ui-border-color-active);
+    outline-offset: 1px;
+  }
+}
+
+.sr-checkbox-disabled() {
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.sr-checkbox-label() {
+  color: var(--sr-text-color-light);
+}

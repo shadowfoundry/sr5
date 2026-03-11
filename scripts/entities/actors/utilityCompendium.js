@@ -14,7 +14,7 @@ export class SR5_CompendiumUtility extends Actor {
 		let compendiumName = `sr5-compendiums.${language}_${compendium}`;
 		const compendiumPack = game.packs.find((p) => p.collection == compendiumName);
 		if (!compendiumPack) {
-			SR5_SystemHelpers.srLog(1, `No compendium named '${compendiumName}' found, could not add items to actor`);
+			SR5_SystemHelpers.srLog(3, `No compendium named '${compendiumName}' found, could not add items to actor`);
 			return compendiumItems;
 		} else {
 			compendiumItems = await compendiumPack.getDocuments();
