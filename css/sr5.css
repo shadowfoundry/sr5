@@ -6714,9 +6714,10 @@ body {
 .sr-dropdown {
   position: relative;
   width: 100%;
-  height: var(--input-height);
   vertical-align: bottom;
   align-self: end;
+  letter-spacing: normal;
+  word-spacing: normal;
 }
 .sr-dropdown select {
   position: absolute !important;
@@ -6731,11 +6732,10 @@ body {
 }
 .sr-dropdown .sr-dropdown-trigger {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   cursor: pointer;
   font-size: inherit;
-  height: 100%;
   padding: 0 2px;
   border: none;
   border-bottom: 1px solid var(--sr-sheet-input-border-color);
