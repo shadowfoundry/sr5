@@ -1,8 +1,7 @@
 {
   "scripts": {
-    "build": "npm run build:sr5 && npm run build:sr6",
+    "build": "npm run build:sr5",
     "build:sr5": "lessc less/sr5.less css/sr5.css",
-    "build:sr6": "lessc less/sr6.less css/sr6.css",
     "test": "vitest run --reporter=verbose",
     "test:watch": "vitest --reporter=verbose"
   },

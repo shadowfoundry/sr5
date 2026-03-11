@@ -3,12 +3,12 @@
   width: 32px;
   padding: 0 0 0 1px;
   display: inline-block;
-  stroke: color-mix(in srgb, var(--sr-sheet-icon) 40%, transparent);
-  fill: color-mix(in srgb, var(--sr-sheet-icon) 80%, transparent);
+  stroke: color-mix(in srgb, var(--sr-ui-border-color) 40%, transparent);
+  fill: color-mix(in srgb, var(--sr-text-color-dark) 80%, transparent);
   transition: all 0.2s ease-out;
   &:hover {
-    fill: var(--sr-sheet-icon);
-    stroke: var(--sr-sheet-icon);
+    fill: var(--sr-text-color-dark);
+    stroke: var(--sr-ui-border-color);
     transition: all 0.2s ease-out;
   }
   #icon-symbol {
@@ -62,8 +62,8 @@
 
 .active {
   .SR5iconActor {
-    stroke: var(--sr-sheet-icon-hover);
-    fill: var(--sr-sheet-icon-hover);
+    stroke: var(--sr-ui-border-color);
+    fill: var(--sr-ui-border-color);
     #icon-symbol {
       fill: var(--sr-text-color-light);
     }

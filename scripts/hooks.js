@@ -212,26 +212,6 @@ export const registerHooks = function () {
 		// Preload Handlebars Templates
 		await preloadHandlebarsTemplates();
 
-		//CSS Switch
-		const uitheme = game.settings.get("sr5", "sr5ChooseStyle");
-		switch (uitheme) {
-			case "SR6": {
-				const sr5Link = document.querySelector('link[href="systems/sr5/css/sr5.css"]');
-				if (sr5Link) sr5Link.disabled = true;
-				const sr6Link = document.createElement("link");
-				sr6Link.rel = "stylesheet";
-				sr6Link.type = "text/css";
-				sr6Link.media = "all";
-				sr6Link.href = "systems/sr5/css/sr6.css";
-				document.head.appendChild(sr6Link);
-				break;
-			}
-			default : {
-				const sr5Link = document.querySelector('link[href="systems/sr5/css/sr5.css"]');
-				if (sr5Link) sr5Link.disabled = false;
-			}
-		}
-		
 		//Socket
 		SR5_SocketHandler.registerSocketListeners();
 
@@ -255,7 +235,7 @@ export const registerHooks = function () {
 
 	Hooks.once("ready", function () {
 		// Apply SR5 UI theme
-		document.body.classList.add("sr-theme-sr5", "theme-dark");
+		document.body.classList.add("sr-theme-sr5");
 
 		//game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
 		// Determine whether a system migration is required and feasible

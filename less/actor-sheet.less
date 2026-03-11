@@ -8,6 +8,38 @@
         --input-focus-outline-color: transparent;
     }
 
+    /* Reset global UI controls (from base.less/controls.less) —
+       sheets predate the global theme and have their own styling */
+    button, a.button, input[type="button"], input[type="submit"] {
+        background-color: transparent;
+        border: none;
+        color: inherit;
+    }
+    select {
+        background: transparent;
+        border: none;
+        color: inherit;
+        outline: revert;
+    }
+    input[type="text"], input[type="number"], input[type="password"],
+    input[type="date"], input[type="time"], input[type="search"],
+    input:not([type]) {
+        background: transparent;
+        border: none;
+        color: inherit;
+        outline: revert;
+        appearance: revert;
+    }
+    input[type="checkbox"] {
+        width: revert;
+        height: revert;
+        border: revert;
+        border-radius: revert;
+        background: revert;
+        &::before, &::after { content: revert; }
+        &:focus { border-color: revert; background: revert; }
+    }
+
     background: none;
     box-shadow: none;
     border: none;

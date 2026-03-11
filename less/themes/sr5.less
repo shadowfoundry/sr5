@@ -35,7 +35,7 @@
   @font-size-h0: 30px;
   @font-size-h1: 24px;
   @font-size-h4: 16px;
-  @font-size-small: 11px;
+  @font-size-small: 0.9em;
   @font-size-normal: 1em;
   @font-size-sheet-character-name: 38px;
   @font-size-sheet-text: 0.875rem;
@@ -152,13 +152,7 @@
   @initiative-icon-hover: "/systems/sr5/img/icons/SR5_InitDicesOn.svg";
 
   // Apply theme
-  body.sr-theme-sr5.theme-dark {
-    .theme-vars();
-    --sr-logo-color: rgb(147, 16, 4);
-    --sr-pause-stripe-color: rgba(147, 16, 4, 0.1);
-  }
-
-  body.sr-theme-sr5.theme-light {
+  body.sr-theme-sr5 {
     .theme-vars();
     --sr-logo-color: rgb(147, 16, 4);
     --sr-pause-stripe-color: rgba(147, 16, 4, 0.1);

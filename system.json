@@ -18,7 +18,7 @@
     "sr5.js"
   ],
   "styles": [
-    "css/sr5.css"
+    {"src": "css/sr5.css", "layer": null}
   ],
   "languages": [
     {
