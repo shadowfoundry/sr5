@@ -229,8 +229,18 @@ export const registerHandlebarsHelpers = function () {
 		return outStr;
 	});
 
+	// Wraps content in .sr-select-wrapper for styled select dropdowns
+	// Usage: {{#selectWrapper}}...{{/selectWrapper}}
+	// Usage with extra class: {{#selectWrapper class="sr-dropdown"}}...{{/selectWrapper}}
+	Handlebars.registerHelper('selectWrapper', function(options) {
+		const extraClass = options.hash.class ? ` ${options.hash.class}` : '';
+		return new Handlebars.SafeString(
+			`<div class="sr-select-wrapper${extraClass}">${options.fn(this)}</div>`
+		);
+	});
+
 	//Old handlebars helper
-	Handlebars.registerHelper('select', function (selected, options) { 
+	Handlebars.registerHelper('select', function (selected, options) {
 		const escapedValue = RegExp.escape(Handlebars.escapeExpression(selected));
 		const rgx = new RegExp(' value=[\"\']' + escapedValue + '[\"\']');
 		const html = options.fn(this);

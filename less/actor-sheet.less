@@ -20,6 +20,18 @@
         border: none;
         color: inherit;
         outline: revert;
+        option, optgroup {
+            background-color: var(--sr-ui-bg-color-dark);
+            color: var(--sr-ui-color-active);
+        }
+        option:checked, option:hover {
+            background-color: var(--sr-ui-bg-color-hover);
+            color: var(--sr-ui-color-active);
+        }
+    }
+    .sr-select-wrapper > select {
+        appearance: none;
+        padding-right: 16px;
     }
     input[type="text"], input[type="number"], input[type="password"],
     input[type="date"], input[type="time"], input[type="search"],

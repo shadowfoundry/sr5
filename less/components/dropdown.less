@@ -1,0 +1,141 @@
+@import "../commons/layout-mixin.less";
+
+/* === Custom Dropdown (progressive enhancement over native <select>) === */
+
+.sr-dropdown {
+  position: relative;
+  width: 100%;
+
+  // Hidden native select — still in form for value/submission
+  select {
+    position: absolute !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  // Trigger bar — mimics native select appearance
+  .sr-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 2px;
+    border: none;
+    border-bottom: 1px solid var(--sr-sheet-input-border-color);
+    color: inherit;
+    background: none;
+    width: 100%;
+    box-sizing: border-box;
+    user-select: none;
+
+    .sr-dropdown-label {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sr-dropdown-chevron {
+      font-size: 10px;
+      color: var(--sr-text-sheet-button);
+      margin-left: 4px;
+      flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    &:hover {
+      border-bottom-color: var(--sr-ui-border-color-active);
+
+      .sr-dropdown-chevron {
+        color: var(--sr-text-sheet-button-hover);
+      }
+    }
+  }
+
+  // Open state
+  &.sr-dropdown-open {
+    .sr-dropdown-trigger .sr-dropdown-chevron {
+      transform: rotate(180deg);
+      color: var(--sr-text-sheet-button-hover);
+    }
+  }
+
+  // Disabled state
+  &.sr-dropdown-disabled {
+    .sr-dropdown-trigger {
+      cursor: default;
+      opacity: 0.5;
+    }
+  }
+}
+
+// Dropdown menu — portaled to document.body, positioned with JS
+.sr-dropdown-menu {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  background-color: var(--sr-ui-bg-color-dark);
+  border: 1px solid var(--sr-ui-border-color);
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: var(--sr-ui-scrollbar-thumb) var(--sr-ui-scrollbar-track);
+  scrollbar-width: thin;
+  box-sizing: border-box;
+
+  &.sr-dropdown-menu-visible {
+    display: block;
+  }
+
+  // Option items
+  .sr-dropdown-item {
+    padding: 2px 6px;
+    min-height: 1.4em;
+    line-height: 1.4em;
+    cursor: pointer;
+    color: var(--sr-ui-color);
+    border: 1px solid transparent;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover,
+    &.sr-dropdown-focused {
+      .sr-block-boxed-hover();
+      text-shadow: none;
+    }
+
+    &.selected {
+      color: var(--sr-ui-color-active);
+    }
+
+    // Placeholder / empty value
+    &[data-value=""] {
+      color: var(--sr-ui-bg-color-hover);
+
+      &:hover,
+      &.sr-dropdown-focused {
+        .sr-block-boxed-hover();
+      }
+    }
+  }
+
+  // Optgroup headers
+  .sr-dropdown-group {
+    padding: 2px 6px;
+    font-size: 0.8em;
+    cursor: default;
+    pointer-events: none;
+    color: var(--sr-ui-color-active);
+    background-color: var(--sr-ui-bg-color-active);
+    border-bottom: 1px solid var(--sr-ui-border-color);
+  }
+}

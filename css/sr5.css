@@ -3276,6 +3276,20 @@ body {
   color: inherit;
   outline: revert;
 }
+.app.window-app.actor select option,
+.app.window-app.actor select optgroup {
+  background-color: var(--sr-ui-bg-color-dark);
+  color: var(--sr-ui-color-active);
+}
+.app.window-app.actor select option:checked,
+.app.window-app.actor select option:hover {
+  background-color: var(--sr-ui-bg-color-hover);
+  color: var(--sr-ui-color-active);
+}
+.app.window-app.actor .sr-select-wrapper > select {
+  appearance: none;
+  padding-right: 16px;
+}
 .app.window-app.actor input[type="text"],
 .app.window-app.actor input[type="number"],
 .app.window-app.actor input[type="password"],
@@ -4425,6 +4439,20 @@ body {
   border: none;
   color: inherit;
   outline: revert;
+}
+.app.window-app.SR-Item select option,
+.app.window-app.SR-Item select optgroup {
+  background-color: var(--sr-ui-bg-color-dark);
+  color: var(--sr-ui-color-active);
+}
+.app.window-app.SR-Item select option:checked,
+.app.window-app.SR-Item select option:hover {
+  background-color: var(--sr-ui-bg-color-hover);
+  color: var(--sr-ui-color-active);
+}
+.app.window-app.SR-Item .sr-select-wrapper > select {
+  appearance: none;
+  padding-right: 16px;
 }
 .app.window-app.SR-Item input[type="text"],
 .app.window-app.SR-Item input[type="number"],
@@ -6677,4 +6705,118 @@ body {
 }
 .sr-sheet-config .sr-config-btn-danger:hover {
   opacity: 1;
+}
+/* === Custom Dropdown (progressive enhancement over native <select>) === */
+.sr-dropdown {
+  position: relative;
+  width: 100%;
+}
+.sr-dropdown select {
+  position: absolute !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.sr-dropdown .sr-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 2px;
+  border: none;
+  border-bottom: 1px solid var(--sr-sheet-input-border-color);
+  color: inherit;
+  background: none;
+  width: 100%;
+  box-sizing: border-box;
+  user-select: none;
+}
+.sr-dropdown .sr-dropdown-trigger .sr-dropdown-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sr-dropdown .sr-dropdown-trigger .sr-dropdown-chevron {
+  font-size: 10px;
+  color: var(--sr-text-sheet-button);
+  margin-left: 4px;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.sr-dropdown .sr-dropdown-trigger:hover {
+  border-bottom-color: var(--sr-ui-border-color-active);
+}
+.sr-dropdown .sr-dropdown-trigger:hover .sr-dropdown-chevron {
+  color: var(--sr-text-sheet-button-hover);
+}
+.sr-dropdown.sr-dropdown-open .sr-dropdown-trigger .sr-dropdown-chevron {
+  transform: rotate(180deg);
+  color: var(--sr-text-sheet-button-hover);
+}
+.sr-dropdown.sr-dropdown-disabled .sr-dropdown-trigger {
+  cursor: default;
+  opacity: 0.5;
+}
+.sr-dropdown-menu {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  background-color: var(--sr-ui-bg-color-dark);
+  border: 1px solid var(--sr-ui-border-color);
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: var(--sr-ui-scrollbar-thumb) var(--sr-ui-scrollbar-track);
+  scrollbar-width: thin;
+  box-sizing: border-box;
+}
+.sr-dropdown-menu.sr-dropdown-menu-visible {
+  display: block;
+}
+.sr-dropdown-menu .sr-dropdown-item {
+  padding: 2px 6px;
+  min-height: 1.4em;
+  line-height: 1.4em;
+  cursor: pointer;
+  color: var(--sr-ui-color);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sr-dropdown-menu .sr-dropdown-item:hover,
+.sr-dropdown-menu .sr-dropdown-item.sr-dropdown-focused {
+  color: var(--sr-ui-color-active);
+  border: 1px solid var(--sr-ui-border-color-active);
+  background-color: var(--sr-ui-bg-color-hover);
+  text-shadow: none;
+}
+.sr-dropdown-menu .sr-dropdown-item.selected {
+  color: var(--sr-ui-color-active);
+}
+.sr-dropdown-menu .sr-dropdown-item[data-value=""] {
+  color: var(--sr-ui-bg-color-hover);
+}
+.sr-dropdown-menu .sr-dropdown-item[data-value=""]:hover,
+.sr-dropdown-menu .sr-dropdown-item[data-value=""].sr-dropdown-focused {
+  color: var(--sr-ui-color-active);
+  border: 1px solid var(--sr-ui-border-color-active);
+  background-color: var(--sr-ui-bg-color-hover);
+}
+.sr-dropdown-menu .sr-dropdown-group {
+  padding: 2px 6px;
+  font-size: 0.8em;
+  cursor: default;
+  pointer-events: none;
+  color: var(--sr-ui-color-active);
+  background-color: var(--sr-ui-bg-color-active);
+  border-bottom: 1px solid var(--sr-ui-border-color);
 }

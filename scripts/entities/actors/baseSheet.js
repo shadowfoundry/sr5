@@ -12,6 +12,7 @@ import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js";
 import { SR5Combat } from "../../system/srcombat.js";
 import { computeLayout } from "../../interface/compute-layout.js";
 import { SR5SheetConfigDialog } from "../../interface/sheet-config-dialog.js";
+import { enhanceSelects } from "../../helpers/enhance-selects.js";
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -399,6 +400,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 		if (!this._shownKarmaGains) element.querySelectorAll(".filterKarmaGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 		if (!this._shownReputationExpenses) element.querySelectorAll(".filterReputationExpenses").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
 		if (!this._shownReputationGains) element.querySelectorAll(".filterReputationGains").forEach(el => { el.classList.toggle("unfoldDark"); el.classList.toggle("foldDark"); });
+
+		// Custom dropdown enhancement
+		enhanceSelects(element);
 
 		// Help Display
 		element.querySelectorAll("[data-helpTitle]").forEach(el => {

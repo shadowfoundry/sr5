@@ -2,6 +2,7 @@ import { SR5 } from "../../config.js";
 import { SR5_EntityHelpers } from "../helpers.js";
 import { SR5_UtilityItem } from "./utilityItem.js";
 import { computeItemLayout } from "../../interface/compute-item-layout.js";
+import { enhanceSelects } from "../../helpers/enhance-selects.js";
 
 // Item types that include a footer (condition monitors, price/availability)
 const ITEM_FOOTER_TYPES = new Set([
@@ -277,6 +278,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 				}
 			});
 		});
+
+		// Custom dropdown enhancement
+		enhanceSelects(el);
 
 		// Scroll indicators
 		this._updateScrollFades(el);
