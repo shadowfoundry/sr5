@@ -67,3 +67,48 @@
 .sr-checkbox-label() {
   color: var(--sr-text-color-light);
 }
+
+// Radio button mixin — circle variant of the checkbox pattern
+.sr-radio-base() {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: var(--checkbox-size, 16px);
+  height: var(--checkbox-size, 16px);
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  background: none;
+  position: relative;
+  cursor: pointer;
+
+  // Suppress Foundry's FA pseudo-element rendering
+  &::before { content: none !important; }
+  &::after  { content: none !important; }
+}
+
+.sr-radio-checked() {
+  &:hover {
+    border-color: var(--sr-ui-border-color-active);
+  }
+
+  &:checked {
+    border-color: var(--sr-ui-border-color-active);
+    background: var(--sr-ui-border-color-active);
+    // Inset dark ring creates the dot: teal ring + dark inner circle + teal center
+    box-shadow: inset 0 0 0 3px var(--sr-ui-bg-color-dark);
+  }
+}
+
+.sr-radio-focus() {
+  &:focus-visible {
+    outline: 2px solid var(--sr-ui-border-color-active);
+    outline-offset: 1px;
+  }
+}
+
+.sr-radio-disabled() {
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}

@@ -47,6 +47,7 @@
   // Main colors
   @red: rgb(147, 16, 4);
   @teal: rgba(12, 147, 148, 1);
+  @tealDark: rgba(0, 95, 96, 1);      // Darkened teal for light-surface accent text (WCAG AA on white)
   @blue: rgb(0, 189, 202);
   @orange: rgb(175, 108, 6);
   @white: rgb(255, 255, 254);
@@ -54,14 +55,16 @@
   @darkRed: rgb(60, 5, 2);
 
   // UI colors
-  @ui-color: fade(@teal, 75%);
-  @ui-color-active: @white;
-  @ui-bg-color: fade(@darkRed, 50%);
-  @ui-bg-color-dark: @black;
-  @ui-bg-color-hover: fade(@red, 50%);
-  @ui-bg-color-active: fade(@red, 50%);
-  @ui-border-color: @red;
-  @ui-border-color-active: @teal;
+  @ui-color: fade(@teal, 75%);          // idle text/icon — teal 75%
+  @ui-color-active: @white;             // active text/icon — white
+  @ui-bg-color: fade(@darkRed, 50%);    // default surface
+  @ui-bg-color-dark: @black;            // deep dark surface
+  @ui-bg-color-hover: fade(@red, 50%);  // hover state background
+  @ui-bg-color-active: fade(@red, 75%); // active (pressed) state — darker than hover
+  @ui-bg-color-selected: fade(@teal, 20%); // persistent on/selected state
+  @ui-border-color: @red;               // idle border — full red
+  @ui-border-color-idle: fade(@red, 35%); // subtle idle border — red 35%
+  @ui-border-color-active: @teal;       // active/selected/focused border — teal
   @ui-pop-color: @blue;
   @ui-scrollbar-track: fade(@red, 25%);
   @ui-scrollbar-thumb: fade(@red, 50%);
@@ -142,7 +145,7 @@
   // Images
   @sr-logo: "../img/ui/SR5_Logo.png";
   @sidebar-background: "../img/ui/SR5_BG_Sidebar.jpg";
-  @window-background: "../img/ui/SR5_BG_Dialog.png";
+  @window-background: "../img/ui/SR5_BG_Sidebar.jpg";
   @sheet-background: "../img/ui/SR5_BG_Dialog.png";
   @img-bg-white50: "../img/ui/SR5_BG_Blanc50.png";
   @img-actor-sheet-top: "../img/ui/SR5_BG_ActorTop.png";
@@ -156,6 +159,67 @@
     .theme-vars();
     --sr-logo-color: rgb(147, 16, 4);
     --sr-pause-stripe-color: rgba(147, 16, 4, 0.1);
+
+    // ---- Foundry native CSS variable overrides ----
+    // Setting Foundry's own variables here gives broad coverage of Foundry-owned
+    // elements (config windows, file picker, compendium, etc.) without needing
+    // individual selector rules for each. SR5's component files handle deviations.
+
+    color-scheme: dark; // tell browser to use dark native UI (scrollbars, date pickers)
+
+    // Button system — replaces Foundry's warm-orange defaults
+    --button-background-color:        var(--sr-ui-bg-color);
+    --button-border-color:            var(--sr-ui-border-color-idle);
+    --button-text-color:              var(--sr-ui-color);
+    --button-focus-outline-color:     var(--sr-ui-border-color-active);
+    --button-hover-background-color:  var(--sr-ui-bg-color-hover);
+    --button-hover-border-color:      var(--sr-ui-border-color);
+    --button-hover-text-color:        var(--sr-ui-color-active);
+
+    // Input / select / textarea system
+    --input-background-color:         transparent;
+    --input-border-color:             var(--sr-ui-border-color-idle);
+    --input-text-color:               var(--sr-ui-color);
+    --input-placeholder-color:        var(--sr-text-color-grey);
+    --input-focus-outline-color:      var(--sr-ui-border-color-active);
+
+    // Form labels and hints
+    --color-form-label:               var(--sr-ui-color);
+    --color-form-label-hover:         var(--sr-ui-color-active);
+    --color-form-hint:                var(--sr-text-color-grey);
+    --color-form-hint-hover:          var(--sr-text-color-grey-dark);
+    --color-fieldset-border:          var(--sr-ui-border-color-idle);
+
+    // Application window borders and tab strips
+    --color-border:                   var(--sr-ui-border-color-idle);
+    --color-tabs-border:              var(--sr-ui-border-color-idle);
+
+    // Scrollbars
+    --color-scrollbar:                var(--sr-ui-scrollbar-thumb);
+    --color-scrollbar-track:          var(--sr-ui-scrollbar-track);
+
+    // Foundry warm-orange accent — replace with SR5 red/teal
+    --color-warm-2:                   var(--sr-ui-border-color);
+    --color-text-hyperlink:           var(--sr-ui-color);
+    --color-text-accent:              var(--sr-ui-color);
+
+    // Sidebar entries
+    --sidebar-entry-hover-bg:         var(--sr-ui-bg-color-hover);
+    --sidebar-folder-color:           var(--sr-ui-color);
+    --sidebar-separator:              1px solid var(--sr-ui-border-color-idle);
+
+    // @UUID inline content links (journals, chat)
+    --content-link-background:        var(--sr-ui-bg-color);
+    --content-link-border-color:      var(--sr-ui-border-color-idle);
+    --content-link-icon-color:        var(--sr-ui-color);
+    --content-link-text-color:        var(--sr-ui-color);
+
+    // Tables in Foundry-owned config windows
+    --table-background-color:         var(--sr-ui-bg-color);
+    --table-header-bg-color:          var(--sr-ui-bg-color-dark);
+    --table-header-border-color:      var(--sr-ui-border-color-idle);
+    --table-row-color-even:           fade(@red, 8%);
+    --table-row-color-highlight:      var(--sr-ui-bg-color-hover);
   }
 }
 

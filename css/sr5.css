@@ -45,11 +45,14 @@ body.sr-theme-sr5 {
   --sr-text-color-grey-dark: rgba(255, 255, 254, 0.75);
   --sr-text-color-dark: #000001;
   --sr-text-color-flash: #0c9394;
+  --sr-text-accent-light: #005f60;
   --sr-ui-bg-color: rgba(60, 5, 2, 0.5);
   --sr-ui-bg-color-hover: rgba(147, 16, 4, 0.5);
-  --sr-ui-bg-color-active: rgba(147, 16, 4, 0.5);
+  --sr-ui-bg-color-active: rgba(147, 16, 4, 0.75);
+  --sr-ui-bg-color-selected: rgba(12, 147, 148, 0.2);
   --sr-ui-bg-color-dark: #000001;
   --sr-ui-border-color: #931004;
+  --sr-ui-border-color-idle: rgba(147, 16, 4, 0.35);
   --sr-ui-border-color-active: #0c9394;
   --sr-ui-pop-color: #00bdca;
   --sr-ui-color: rgba(12, 147, 148, 0.75);
@@ -110,7 +113,7 @@ body.sr-theme-sr5 {
   --sr-token-bar-physical-border: #000001;
   --sr-logo: url("../img/ui/SR5_Logo.png");
   --sr-sidebar-background: url("../img/ui/SR5_BG_Sidebar.jpg");
-  --sr-window-background: url("../img/ui/SR5_BG_Dialog.png");
+  --sr-window-background: url("../img/ui/SR5_BG_Sidebar.jpg");
   --sr-sheet-background: url("../img/ui/SR5_BG_Dialog.png");
   --sr-img-bg-white50: url("../img/ui/SR5_BG_Blanc50.png");
   --sr-img-actor-sheet-top: url("../img/ui/SR5_BG_ActorTop.png");
@@ -120,6 +123,43 @@ body.sr-theme-sr5 {
   --sr-initiative-icon-hover: url("/systems/sr5/img/icons/SR5_InitDicesOn.svg");
   --sr-logo-color: #931004;
   --sr-pause-stripe-color: rgba(147, 16, 4, 0.1);
+  color-scheme: dark;
+  --button-background-color: var(--sr-ui-bg-color);
+  --button-border-color: var(--sr-ui-border-color-idle);
+  --button-text-color: var(--sr-ui-color);
+  --button-focus-outline-color: var(--sr-ui-border-color-active);
+  --button-hover-background-color: var(--sr-ui-bg-color-hover);
+  --button-hover-border-color: var(--sr-ui-border-color);
+  --button-hover-text-color: var(--sr-ui-color-active);
+  --input-background-color: transparent;
+  --input-border-color: var(--sr-ui-border-color-idle);
+  --input-text-color: var(--sr-ui-color);
+  --input-placeholder-color: var(--sr-text-color-grey);
+  --input-focus-outline-color: var(--sr-ui-border-color-active);
+  --color-form-label: var(--sr-ui-color);
+  --color-form-label-hover: var(--sr-ui-color-active);
+  --color-form-hint: var(--sr-text-color-grey);
+  --color-form-hint-hover: var(--sr-text-color-grey-dark);
+  --color-fieldset-border: var(--sr-ui-border-color-idle);
+  --color-border: var(--sr-ui-border-color-idle);
+  --color-tabs-border: var(--sr-ui-border-color-idle);
+  --color-scrollbar: var(--sr-ui-scrollbar-thumb);
+  --color-scrollbar-track: var(--sr-ui-scrollbar-track);
+  --color-warm-2: var(--sr-ui-border-color);
+  --color-text-hyperlink: var(--sr-ui-color);
+  --color-text-accent: var(--sr-ui-color);
+  --sidebar-entry-hover-bg: var(--sr-ui-bg-color-hover);
+  --sidebar-folder-color: var(--sr-ui-color);
+  --sidebar-separator: 1px solid var(--sr-ui-border-color-idle);
+  --content-link-background: var(--sr-ui-bg-color);
+  --content-link-border-color: var(--sr-ui-border-color-idle);
+  --content-link-icon-color: var(--sr-ui-color);
+  --content-link-text-color: var(--sr-ui-color);
+  --table-background-color: var(--sr-ui-bg-color);
+  --table-header-bg-color: var(--sr-ui-bg-color-dark);
+  --table-header-border-color: var(--sr-ui-border-color-idle);
+  --table-row-color-even: rgba(147, 16, 4, 0.08);
+  --table-row-color-highlight: var(--sr-ui-bg-color-hover);
 }
 /* === 3. Design === */
 /* Legacy LESS variables — needed by sheets/dialogs not yet migrated to CSS vars */
@@ -155,7 +195,9 @@ body[class*=" sr-theme-"] {
   /* === Icon buttons === */
   /* === Selects === */
   /* === Inputs === */
+  /* === Textareas === */
   /* === Checkboxes === */
+  /* === Radio buttons === */
   /* === Range inputs (sliders) === */
   /* === Context Menu === */
   /* === Hotbar === */
@@ -169,6 +211,10 @@ body[class*=" sr-theme-"] {
   /* === Module management === */
   /* === Token HUD === */
   /* === Settings config === */
+  /* === Notifications / toasts === */
+  /* Foundry renders .notification with semantic sub-classes: .info, .warning, .error, .success
+   We keep the semantic level colors intact (they convey meaning) but apply SR5 font. */
+  /* === Tooltips === */
 }
 body[class^="sr-theme-"] *,
 body[class*=" sr-theme-"] * {
@@ -186,7 +232,7 @@ body[class^="sr-theme-"] input[type="submit"],
 body[class*=" sr-theme-"] input[type="submit"] {
   font-family: var(--sr-font-body);
   background-color: var(--sr-ui-bg-color);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   color: var(--sr-ui-color);
 }
 body[class^="sr-theme-"] button:hover,
@@ -200,7 +246,7 @@ body[class*=" sr-theme-"] input[type="button"]:hover,
 body[class^="sr-theme-"] input[type="submit"]:hover,
 body[class*=" sr-theme-"] input[type="submit"]:hover {
   color: var(--sr-ui-color-active);
-  border: 1px solid var(--sr-ui-border-color-active);
+  border: 1px solid var(--sr-ui-border-color);
   background-color: var(--sr-ui-bg-color-hover);
 }
 body[class^="sr-theme-"] button.ui-control[aria-pressed=true],
@@ -212,7 +258,11 @@ body[class*=" sr-theme-"] li.ui-control[aria-pressed=true],
 body[class^="sr-theme-"] .placeable-hud .control-icon[aria-pressed=true],
 body[class*=" sr-theme-"] .placeable-hud .control-icon[aria-pressed=true],
 body[class^="sr-theme-"] .placeable-hud input[aria-pressed=true],
-body[class*=" sr-theme-"] .placeable-hud input[aria-pressed=true],
+body[class*=" sr-theme-"] .placeable-hud input[aria-pressed=true] {
+  color: var(--sr-ui-color-active);
+  border: 1px solid var(--sr-ui-border-color-active);
+  background-color: var(--sr-ui-bg-color-selected);
+}
 body[class^="sr-theme-"] button:active,
 body[class*=" sr-theme-"] button:active,
 body[class^="sr-theme-"] button.active,
@@ -253,7 +303,7 @@ body[class^="sr-theme-"] .form-group select,
 body[class*=" sr-theme-"] .form-group select {
   color: var(--sr-ui-color);
   background: var(--sr-ui-bg-color);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   outline: none;
 }
 body[class^="sr-theme-"] select:focus,
@@ -317,7 +367,7 @@ body[class^="sr-theme-"] .form-group input,
 body[class*=" sr-theme-"] .form-group input {
   color: var(--sr-ui-color);
   background: var(--sr-ui-bg-color);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   outline: none;
   appearance: none;
   -moz-appearance: none;
@@ -355,6 +405,42 @@ body[class^="sr-theme-"] .standard-form input:focus,
 body[class*=" sr-theme-"] .standard-form input:focus,
 body[class^="sr-theme-"] .form-group input:focus,
 body[class*=" sr-theme-"] .form-group input:focus {
+  color: var(--sr-ui-color-active);
+  background: var(--sr-ui-bg-color-hover);
+  border: 1px solid var(--sr-ui-border-color-active);
+  outline: none;
+}
+body[class^="sr-theme-"] textarea,
+body[class*=" sr-theme-"] textarea,
+body[class^="sr-theme-"] .standard-form textarea,
+body[class*=" sr-theme-"] .standard-form textarea,
+body[class^="sr-theme-"] .form-group textarea,
+body[class*=" sr-theme-"] .form-group textarea {
+  color: var(--sr-ui-color);
+  background: var(--sr-ui-bg-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
+  outline: none;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  resize: vertical;
+  height: auto;
+  min-height: 4em;
+}
+body[class^="sr-theme-"] textarea::placeholder,
+body[class*=" sr-theme-"] textarea::placeholder,
+body[class^="sr-theme-"] .standard-form textarea::placeholder,
+body[class*=" sr-theme-"] .standard-form textarea::placeholder,
+body[class^="sr-theme-"] .form-group textarea::placeholder,
+body[class*=" sr-theme-"] .form-group textarea::placeholder {
+  color: var(--sr-text-color-grey);
+}
+body[class^="sr-theme-"] textarea:focus,
+body[class*=" sr-theme-"] textarea:focus,
+body[class^="sr-theme-"] .standard-form textarea:focus,
+body[class*=" sr-theme-"] .standard-form textarea:focus,
+body[class^="sr-theme-"] .form-group textarea:focus,
+body[class*=" sr-theme-"] .form-group textarea:focus {
   color: var(--sr-ui-color-active);
   background: var(--sr-ui-bg-color-hover);
   border: 1px solid var(--sr-ui-border-color-active);
@@ -417,6 +503,47 @@ body[class^="sr-theme-"] .form-group label.checkbox,
 body[class*=" sr-theme-"] .form-group label.checkbox {
   color: var(--sr-text-color-light);
 }
+body[class^="sr-theme-"] input[type="radio"],
+body[class*=" sr-theme-"] input[type="radio"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: var(--checkbox-size, 16px);
+  height: var(--checkbox-size, 16px);
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  background: none;
+  position: relative;
+  cursor: pointer;
+}
+body[class^="sr-theme-"] input[type="radio"]::before,
+body[class*=" sr-theme-"] input[type="radio"]::before {
+  content: none !important;
+}
+body[class^="sr-theme-"] input[type="radio"]::after,
+body[class*=" sr-theme-"] input[type="radio"]::after {
+  content: none !important;
+}
+body[class^="sr-theme-"] input[type="radio"]:hover,
+body[class*=" sr-theme-"] input[type="radio"]:hover {
+  border-color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] input[type="radio"]:checked,
+body[class*=" sr-theme-"] input[type="radio"]:checked {
+  border-color: var(--sr-ui-border-color-active);
+  background: var(--sr-ui-border-color-active);
+  box-shadow: inset 0 0 0 3px var(--sr-ui-bg-color-dark);
+}
+body[class^="sr-theme-"] input[type="radio"]:focus-visible,
+body[class*=" sr-theme-"] input[type="radio"]:focus-visible {
+  outline: 2px solid var(--sr-ui-border-color-active);
+  outline-offset: 1px;
+}
+body[class^="sr-theme-"] input[type="radio"]:disabled,
+body[class*=" sr-theme-"] input[type="radio"]:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
 body[class^="sr-theme-"] input[type="range"],
 body[class*=" sr-theme-"] input[type="range"],
 body[class^="sr-theme-"] .form-group input[type="range"],
@@ -471,29 +598,30 @@ body[class*=" sr-theme-"] #context-menu {
   border: 1px solid var(--sr-ui-border-color);
   background-image: var(--sr-window-background);
   background-origin: border-box;
-  background-size: cover;
+  background-size: 520px auto;
+  background-repeat: repeat;
   color: var(--sr-ui-color);
 }
 body[class^="sr-theme-"] #context-menu li.context-item,
 body[class*=" sr-theme-"] #context-menu li.context-item {
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] #context-menu li.context-item:hover,
 body[class*=" sr-theme-"] #context-menu li.context-item:hover {
   color: var(--sr-ui-color-active);
-  border: 1px solid var(--sr-ui-border-color-active);
+  border: 1px solid var(--sr-ui-border-color);
   background-color: var(--sr-ui-bg-color-hover);
   text-shadow: none;
 }
 body[class^="sr-theme-"] #hotbar .slot,
 body[class*=" sr-theme-"] #hotbar .slot {
   background-color: var(--sr-ui-bg-color);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] #hotbar .slot:hover,
 body[class*=" sr-theme-"] #hotbar .slot:hover {
   color: var(--sr-ui-color-active);
-  border: 1px solid var(--sr-ui-border-color-active);
+  border: 1px solid var(--sr-ui-border-color);
   background-color: var(--sr-ui-bg-color-hover);
 }
 body[class^="sr-theme-"] #hotbar .slot:hover.open .key,
@@ -535,7 +663,7 @@ body[class*=" sr-theme-"] #players #players-active,
 body[class^="sr-theme-"] #players #players-inactive,
 body[class*=" sr-theme-"] #players #players-inactive {
   background-color: var(--sr-ui-bg-color);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] #players #players-active .player-name,
 body[class*=" sr-theme-"] #players #players-active .player-name,
@@ -564,7 +692,7 @@ body[class*=" sr-theme-"] #scene-navigation.expanded a {
 body[class^="sr-theme-"] #scene-navigation .scene,
 body[class*=" sr-theme-"] #scene-navigation .scene {
   background-color: var(--sr-ui-bg-color);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   color: var(--sr-ui-color);
 }
 body[class^="sr-theme-"] #scene-navigation .scene:hover,
@@ -578,7 +706,7 @@ body[class*=" sr-theme-"] #scene-navigation .scene::after {
 body[class^="sr-theme-"] #scene-navigation .scene.view,
 body[class*=" sr-theme-"] #scene-navigation .scene.view {
   color: var(--sr-ui-color-active);
-  border: 1px solid var(--sr-ui-border-color-active);
+  border: 1px solid var(--sr-ui-border-color);
   background-color: var(--sr-ui-bg-color-hover);
 }
 body[class^="sr-theme-"] #scene-navigation .scene.view::after,
@@ -694,7 +822,7 @@ body[class*=" sr-theme-"] #settings-popout .directory-list .directory-item.docum
 body[class^="sr-theme-"] #sidebar .directory-list .directory-item.document,
 body[class*=" sr-theme-"] #sidebar .directory-list .directory-item.document {
   border-bottom: 1px solid transparent;
-  border-top: 1px solid var(--sr-ui-border-color);
+  border-top: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] #items-popout .directory-list .directory-item.document:hover,
 body[class*=" sr-theme-"] #items-popout .directory-list .directory-item.document:hover,
@@ -721,8 +849,8 @@ body[class*=" sr-theme-"] #settings-popout .directory-list .directory-item.docum
 body[class^="sr-theme-"] #sidebar .directory-list .directory-item.document:hover,
 body[class*=" sr-theme-"] #sidebar .directory-list .directory-item.document:hover {
   background-color: var(--sr-ui-bg-color-hover);
-  border-top: 1px solid var(--sr-ui-border-color-active);
-  border-bottom: 1px solid var(--sr-ui-border-color-active);
+  border-top: 1px solid var(--sr-ui-border-color);
+  border-bottom: 1px solid var(--sr-ui-border-color);
 }
 body[class^="sr-theme-"] #items-popout .directory-list .directory-item.document a,
 body[class*=" sr-theme-"] #items-popout .directory-list .directory-item.document a,
@@ -802,8 +930,8 @@ body[class^="sr-theme-"] #sidebar .directory-list .directory-item.folder header,
 body[class*=" sr-theme-"] #sidebar .directory-list .directory-item.folder header {
   background: none;
   color: var(--sr-ui-color);
-  border-top: var(--sr-border-color);
-  border-bottom: var(--sr-border-color);
+  border-top: 1px solid var(--sr-ui-border-color-idle);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] #items-popout .directory-list .directory-item.folder header:hover,
 body[class*=" sr-theme-"] #items-popout .directory-list .directory-item.folder header:hover,
@@ -830,8 +958,8 @@ body[class*=" sr-theme-"] #settings-popout .directory-list .directory-item.folde
 body[class^="sr-theme-"] #sidebar .directory-list .directory-item.folder header:hover,
 body[class*=" sr-theme-"] #sidebar .directory-list .directory-item.folder header:hover {
   background-color: var(--sr-ui-bg-color-hover);
-  border-top: var(--sr-ui-border-color-active);
-  border-bottom: var(--sr-ui-border-color-active);
+  border-top: 1px solid var(--sr-ui-border-color);
+  border-bottom: 1px solid var(--sr-ui-border-color);
   color: var(--sr-ui-color-active);
 }
 body[class^="sr-theme-"] #items-popout li.folder > .folder-header,
@@ -914,8 +1042,8 @@ body[class^="sr-theme-"] #sidebar .global-volume header,
 body[class*=" sr-theme-"] #sidebar .global-volume header {
   color: var(--sr-ui-color);
   background-color: var(--sr-ui-bg-color);
-  border-bottom: 1px solid var(--sr-ui-border-color);
-  border-top: 1px solid var(--sr-ui-border-color);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+  border-top: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] #items-popout .global-volume header:hover,
 body[class*=" sr-theme-"] #items-popout .global-volume header:hover,
@@ -943,8 +1071,8 @@ body[class^="sr-theme-"] #sidebar .global-volume header:hover,
 body[class*=" sr-theme-"] #sidebar .global-volume header:hover {
   color: var(--sr-ui-color-active);
   background-color: var(--sr-ui-bg-color-hover);
-  border-bottom: 1px solid var(--sr-ui-border-color-active);
-  border-top: 1px solid var(--sr-ui-border-color-active);
+  border-bottom: 1px solid var(--sr-ui-border-color);
+  border-top: 1px solid var(--sr-ui-border-color);
 }
 body[class^="sr-theme-"] #items-popout .global-volume.expanded header,
 body[class*=" sr-theme-"] #items-popout .global-volume.expanded header,
@@ -971,7 +1099,7 @@ body[class*=" sr-theme-"] #settings-popout .global-volume.expanded header,
 body[class^="sr-theme-"] #sidebar .global-volume.expanded header,
 body[class*=" sr-theme-"] #sidebar .global-volume.expanded header {
   color: var(--sr-ui-color-active);
-  background-color: var(--sr-ui-bg-color-hover);
+  background-color: var(--sr-ui-bg-color-selected);
   border-bottom: 1px solid var(--sr-ui-border-color-active);
   border-top: 1px solid var(--sr-ui-border-color-active);
 }
@@ -1087,7 +1215,7 @@ body[class*=" sr-theme-"] prose-mirror.editor menu {
 }
 body[class^="sr-theme-"] prose-mirror.editor .editor-container,
 body[class*=" sr-theme-"] prose-mirror.editor .editor-container {
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   border-radius: 4px;
 }
 body[class^="sr-theme-"] prose-mirror.editor .editor-content.ProseMirror,
@@ -1103,7 +1231,7 @@ body[class*=" sr-theme-"] prose-mirror.editor .editor-content.ProseMirror:focus 
 }
 body[class^="sr-theme-"] #prosemirror-dropdown ul,
 body[class*=" sr-theme-"] #prosemirror-dropdown ul {
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   color: var(--sr-ui-color);
   background-color: var(--sr-ui-bg-color-dark);
 }
@@ -1243,15 +1371,18 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   border: 1px solid var(--sr-ui-border-color);
   background-image: var(--sr-window-background);
   background-origin: border-box;
-  background-size: cover;
+  background-size: 520px auto;
+  background-repeat: repeat;
   /* === Nav tabs === */
+  /* === Form footer / dialog buttons === */
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header {
-  background: transparent;
+  background: var(--sr-ui-bg-color-dark);
   border-bottom: 1px solid var(--sr-window-header-border);
+  font-family: var(--sr-font-body);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header .window-title,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header .window-title,
@@ -1270,8 +1401,8 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs {
-  border-top: 2px solid var(--sr-ui-border-color);
-  border-bottom: 2px solid var(--sr-ui-border-color);
+  border-top: 2px solid var(--sr-ui-border-color-idle);
+  border-bottom: 2px solid var(--sr-ui-border-color-idle);
   font-family: var(--sr-font-title);
   text-transform: uppercase;
 }
@@ -1281,16 +1412,20 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] {
   color: var(--sr-ui-color);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover {
   color: var(--sr-ui-color-active);
   text-shadow: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active {
+  color: var(--sr-ui-color-active);
+  text-shadow: none;
+  border-bottom: 2px solid var(--sr-ui-border-color-active);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.faded-ui,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.faded-ui,
@@ -1301,6 +1436,127 @@ body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.vertica
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical {
   border: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer {
+  background-image: var(--sr-window-background) !important;
+  background-size: cover !important;
+  padding: 15px 8px 8px 8px !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover {
+  color: var(--sr-text-color-dark) !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: var(--sr-text-color-dark);
+  background: var(--sr-ui-border-color-active);
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 body[class^="sr-theme-"] #menu,
 body[class*=" sr-theme-"] #menu {
@@ -1443,6 +1699,37 @@ body[class*=" sr-theme-"] #combat .combat-controls a:hover {
 body[class^="sr-theme-"] #settings-config nav button,
 body[class*=" sr-theme-"] #settings-config nav button {
   padding: 0px 5px;
+}
+body[class^="sr-theme-"] #notifications .notification,
+body[class*=" sr-theme-"] #notifications .notification {
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-small);
+}
+body[class^="sr-theme-"] #tooltip,
+body[class*=" sr-theme-"] #tooltip,
+body[class^="sr-theme-"] .locked-tooltip,
+body[class*=" sr-theme-"] .locked-tooltip {
+  background: var(--sr-ui-bg-color-dark);
+  border: 1px solid var(--sr-ui-border-color-idle);
+  color: var(--sr-ui-color-active);
+  font-family: var(--sr-font-body);
+}
+body[class^="sr-theme-"] #tooltip .toolclip h4,
+body[class*=" sr-theme-"] #tooltip .toolclip h4,
+body[class^="sr-theme-"] .locked-tooltip .toolclip h4,
+body[class*=" sr-theme-"] .locked-tooltip .toolclip h4 {
+  color: var(--sr-ui-color);
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+body[class^="sr-theme-"] #tooltip .toolclip p.faint,
+body[class*=" sr-theme-"] #tooltip .toolclip p.faint,
+body[class^="sr-theme-"] .locked-tooltip .toolclip p.faint,
+body[class*=" sr-theme-"] .locked-tooltip .toolclip p.faint {
+  color: var(--sr-text-color-grey);
 }
 body[class^="sr-theme-"] #sr5help,
 body[class*=" sr-theme-"] #sr5help {
@@ -5483,6 +5770,7 @@ body {
 #chat-popout .chat-message .message-content {
   padding: 5px 5px 0px 5px;
   font-family: var(--sr-font-body);
+  color: var(--sr-text-color-dark);
   /* v13: remove padding when content has child elements (roll cards) */
 }
 #chat .chat-message .message-content:has(*),
@@ -5962,21 +6250,18 @@ body {
   margin-bottom: 0.25em;
 }
 /* SR5 roll dialog styling */
-.dialog {
-  /* SR5 dialog frame — dark header, themed buttons */
-}
-.dialog .window-content .dialog-content {
-  /* Light background for all SR5 dialogs */
+.dialog .window-content .dialog-content:has(.SR5jet) {
+  /* Light background only for SR5 roll dialogs */
   background: var(--sr-text-color-light);
   color: var(--sr-text-color-dark);
   color-scheme: light;
   padding: 8px;
 }
-.dialog .window-content .dialog-content input {
+.dialog .window-content .dialog-content:has(.SR5jet) input {
   background: none !important;
   color: var(--sr-text-color-dark) !important;
   border: 0 !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
   padding: 0 !important;
   border-radius: 0 !important;
   box-shadow: none;
@@ -5984,11 +6269,11 @@ body {
   font-family: inherit;
   font-size: inherit;
 }
-.dialog .window-content .dialog-content select {
-  color: var(--sr-text-color-flash);
+.dialog .window-content .dialog-content:has(.SR5jet) select {
+  color: var(--sr-text-accent-light);
   background: none !important;
   border: 0 !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
   border-radius: 0 !important;
   padding: 0 !important;
   box-shadow: none;
@@ -5997,26 +6282,26 @@ body {
   font-size: inherit;
   cursor: pointer;
 }
-.dialog .window-content .dialog-content label {
+.dialog .window-content .dialog-content:has(.SR5jet) label {
   color: var(--sr-text-color-dark);
   font-family: var(--sr-font-body);
 }
-.dialog .window-content .dialog-content h3,
-.dialog .window-content .dialog-content h4 {
+.dialog .window-content .dialog-content:has(.SR5jet) h3,
+.dialog .window-content .dialog-content:has(.SR5jet) h4 {
   color: var(--sr-ui-border-color);
   text-align: center;
   border-bottom: 1px solid var(--sr-ui-border-color);
 }
-.dialog .window-content .dialog-content .SR5jet {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet {
   height: auto;
 }
-.dialog .window-content .dialog-content .SR5jet .grid {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .grid {
   align-items: center;
 }
-.dialog .window-content .dialog-content .SR5jet [class*="col-"] {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet [class*="col-"] {
   overflow: hidden;
 }
-.dialog .window-content .dialog-content .SR5jet input {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input {
   background: none !important;
   color: var(--sr-text-color-dark) !important;
   height: 15px !important;
@@ -6031,7 +6316,7 @@ body {
   font-size: inherit;
   text-align: center;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"] {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"] {
   position: relative;
   margin: 0;
   border: 1px solid var(--sr-ui-border-color-active) !important;
@@ -6051,7 +6336,7 @@ body {
   /* v13: override Foundry's FontAwesome checkbox ::before */
   /* v13: suppress Foundry's FontAwesome checkbox ::after overlay */
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::before {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"]::before {
   position: absolute !important;
   content: '' !important;
   display: block !important;
@@ -6072,29 +6357,29 @@ body {
   line-height: normal;
   border-radius: 0 !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]::after {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"]::after {
   content: none !important;
   display: none !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"]:checked {
   color: var(--sr-text-color-light);
   border-color: var(--sr-ui-border-color-active) !important;
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 90%, transparent) !important;
   /* v13: ensure ::after stays suppressed when checked */
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::before {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"]:checked::before {
   opacity: 1;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked::after {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"]:checked::after {
   content: none !important;
   display: none !important;
 }
-.dialog .window-content .dialog-content .SR5jet input[type="checkbox"]:checked ~ label::before {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet input[type="checkbox"]:checked ~ label::before {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
-.dialog .window-content .dialog-content .SR5jet select {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet select {
   text-align-last: right;
-  color: var(--sr-text-color-flash);
+  color: var(--sr-text-accent-light);
   margin-right: -5px;
   background: none !important;
   border: 0 !important;
@@ -6109,34 +6394,34 @@ body {
   width: 100% !important;
   cursor: pointer;
 }
-.dialog .window-content .dialog-content .SR5jet option {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet option {
   direction: rtl;
 }
-.dialog .window-content .dialog-content .SR5jet ul {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.dialog .window-content .dialog-content .SR5jet li {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet li {
   line-height: 18px;
   margin: 0;
 }
-.dialog .window-content .dialog-content .SR5jet li.SR-LigneEnTete {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet li.SR-LigneEnTete {
   font-size: var(--sr-font-size-sheet-text);
   border-bottom: solid 1px var(--sr-ui-border-color);
   color: var(--sr-ui-border-color);
   font-family: var(--sr-font-body);
   font-weight: bold;
 }
-.dialog .window-content .dialog-content .SR5jet p {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet p {
   margin: 0;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-ModControl {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-ModControl {
   font-size: 11px;
-  color: var(--sr-text-color-flash);
+  color: var(--sr-text-accent-light);
 }
-.dialog .window-content .dialog-content .SR5jet .SR-FakeInput {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-FakeInput {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);
   color: var(--sr-text-color-dark);
   height: 15px;
   border: 0;
@@ -6148,100 +6433,22 @@ body {
   width: calc(100% - 2px);
   min-width: 20px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-RecoilInput {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-RecoilInput {
   color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
   padding-right: 0px;
   width: 10px;
   text-align: center;
   min-width: 0px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-TopSeparator {
-  border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-TopSeparator {
+  border-top: 1px solid var(--sr-ui-border-color-idle);
   margin-top: 5px;
 }
-.dialog .window-content .dialog-content .SR5jet .SR-DialogOption {
+.dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-DialogOption {
   border-bottom: solid 1px var(--sr-ui-border-color);
   color: var(--sr-ui-border-color);
   font-family: var(--sr-font-body);
   font-weight: bold;
-}
-.dialog .window-header {
-  background: var(--sr-ui-bg-color-dark);
-  color: var(--sr-text-color-light);
-  font-family: var(--sr-font-body);
-}
-.dialog .window-content {
-  padding: 0;
-}
-.dialog .standard-form {
-  gap: 0;
-}
-.dialog .dialog-buttons,
-.dialog .form-footer {
-  background-image: var(--sr-window-background) !important;
-  background-size: cover !important;
-  padding: 15px 8px 8px 8px !important;
-}
-.dialog .dialog-buttons button,
-.dialog .form-footer button,
-.dialog .dialog-buttons button.default,
-.dialog .form-footer button.default {
-  --button-size: auto !important;
-  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
-  --button-border-color: var(--sr-ui-border-color-active) !important;
-  --button-text-color: var(--sr-text-color-light) !important;
-  --button-hover-background-color: transparent !important;
-  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
-  --button-hover-text-color: var(--sr-text-color-dark) !important;
-  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
-  position: relative;
-  height: auto !important;
-  min-height: unset !important;
-  padding: 4px 0.5rem !important;
-  line-height: 20px;
-  color: var(--sr-text-color-light) !important;
-  font-family: var(--sr-font-title);
-  text-transform: uppercase;
-  font-size: var(--sr-font-size-small);
-  text-align: center;
-  border-radius: 3px;
-  text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-  border: 1px solid var(--sr-ui-border-color-active) !important;
-  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
-  z-index: 1;
-}
-.dialog .dialog-buttons button:hover,
-.dialog .form-footer button:hover,
-.dialog .dialog-buttons button.default:hover,
-.dialog .form-footer button.default:hover {
-  color: var(--sr-text-color-dark) !important;
-  background-color: transparent !important;
-  box-shadow: none;
-}
-.dialog .dialog-buttons button:hover:before,
-.dialog .form-footer button:hover:before,
-.dialog .dialog-buttons button.default:hover:before,
-.dialog .form-footer button.default:hover:before {
-  left: 0%;
-  right: auto;
-  width: 100%;
-}
-.dialog .dialog-buttons button:before,
-.dialog .form-footer button:before,
-.dialog .dialog-buttons button.default:before,
-.dialog .form-footer button.default:before {
-  display: block;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  height: 100%;
-  width: 0px;
-  z-index: -1;
-  content: '';
-  color: var(--sr-text-color-dark);
-  background: var(--sr-ui-border-color-active);
-  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 .sr-sheet-config .window-content {
   overflow: hidden;
@@ -6738,7 +6945,7 @@ body {
   font-size: inherit;
   padding: 0 2px;
   border: none;
-  border-bottom: 1px solid var(--sr-sheet-input-border-color);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
   color: inherit;
   background: none;
   width: 100%;
@@ -6764,9 +6971,12 @@ body {
 .sr-dropdown .sr-dropdown-trigger:hover .sr-dropdown-chevron {
   color: var(--sr-ui-border-color);
 }
+.sr-dropdown.sr-dropdown-open .sr-dropdown-trigger {
+  border-bottom-color: var(--sr-ui-border-color-active);
+}
 .sr-dropdown.sr-dropdown-open .sr-dropdown-trigger .sr-dropdown-chevron {
   transform: rotate(180deg);
-  color: var(--sr-ui-border-color);
+  color: var(--sr-ui-border-color-active);
 }
 .sr-dropdown.sr-dropdown-disabled .sr-dropdown-trigger {
   cursor: default;
@@ -6777,7 +6987,7 @@ body {
   position: fixed;
   z-index: 10000;
   background-color: var(--sr-text-color-light);
-  border: 1px solid var(--sr-ui-border-color);
+  border: 1px solid var(--sr-ui-border-color-idle);
   max-height: 250px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -6806,7 +7016,7 @@ body {
   text-shadow: none;
 }
 .sr-dropdown-menu .sr-dropdown-item.selected {
-  color: var(--sr-ui-border-color);
+  color: var(--sr-ui-border-color-active);
   font-weight: bold;
 }
 .sr-dropdown-menu .sr-dropdown-item[data-value=""] {

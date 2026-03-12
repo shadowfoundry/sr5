@@ -22,12 +22,15 @@
   a.ui-control[aria-pressed=true],
   li.ui-control[aria-pressed=true],
   .placeable-hud .control-icon[aria-pressed=true],
-  .placeable-hud input[aria-pressed=true],
+  .placeable-hud input[aria-pressed=true] {
+    .sr-button-selected();
+  }
+
   button:active, button.active,
   a.button:active,
   input[type="button"]:active,
   input[type="submit"]:active {
-   .sr-button-active();
+    .sr-button-active();
   }
 
   a:hover {
@@ -86,6 +89,23 @@
     .sr-input-focus();
   }
 
+  /* === Textareas === */
+  textarea,
+  .standard-form textarea,
+  .form-group textarea {
+    .sr-input-base();
+    .sr-input-placeholder();
+    resize: vertical;
+    height: auto;
+    min-height: 4em;
+  }
+
+  textarea:focus,
+  .standard-form textarea:focus,
+  .form-group textarea:focus {
+    .sr-input-focus();
+  }
+
   /* === Checkboxes === */
   input[type="checkbox"] {
     .sr-checkbox-base();
@@ -98,6 +118,14 @@
   label.checkbox,
   .form-group label.checkbox {
     .sr-checkbox-label();
+  }
+
+  /* === Radio buttons === */
+  input[type="radio"] {
+    .sr-radio-base();
+    .sr-radio-checked();
+    .sr-radio-focus();
+    .sr-radio-disabled();
   }
 
   /* === Range inputs (sliders) === */

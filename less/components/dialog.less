@@ -1,8 +1,8 @@
 /* SR5 roll dialog styling */
 
 .dialog {
-    .window-content .dialog-content {
-        /* Light background for all SR5 dialogs */
+    .window-content .dialog-content:has(.SR5jet) {
+        /* Light background only for SR5 roll dialogs */
         background: var(--sr-text-color-light);
         color: var(--sr-text-color-dark);
         color-scheme: light;
@@ -12,7 +12,7 @@
             background     : none !important;
             color          : var(--sr-text-color-dark) !important;
             border         : 0 !important;
-            border-bottom  : 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
+            border-bottom  : 1px solid var(--sr-ui-border-color-idle) !important;
             padding        : 0 !important;
             border-radius  : 0 !important;
             box-shadow: none;
@@ -22,10 +22,10 @@
         }
 
         select {
-            color: var(--sr-text-color-flash);
+            color: var(--sr-text-accent-light);
             background: none !important;
             border: 0 !important;
-            border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent) !important;
+            border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
             border-radius: 0 !important;
             padding: 0 !important;
             box-shadow: none;
@@ -143,7 +143,7 @@
 
             select {
                 text-align-last: right;
-                color: var(--sr-text-color-flash);
+                color: var(--sr-text-accent-light);
                 margin-right: -5px;
                 background: none !important;
                 border: 0 !important;
@@ -185,11 +185,11 @@
 
             .SR-ModControl {
                 font-size: 11px;
-                color: var(--sr-text-color-flash);
+                color: var(--sr-text-accent-light);
             }
 
             .SR-FakeInput {
-                background    : color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+                background    : color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);
                 color         : var(--sr-text-color-dark);
                 height        : 15px;
                 border        : 0;
@@ -211,7 +211,7 @@
             }
 
             .SR-TopSeparator{
-                border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
+                border-top: 1px solid var(--sr-ui-border-color-idle);
                 margin-top: 5px;
             }
 
@@ -224,80 +224,5 @@
         }
     }
 
-    /* SR5 dialog frame — dark header, themed buttons */
-    & {
-        .window-header {
-            background: var(--sr-ui-bg-color-dark);
-            color: var(--sr-text-color-light);
-            font-family: var(--sr-font-body);
-        }
-
-        .window-content {
-            padding: 0;
-        }
-
-        .standard-form {
-            gap: 0;
-        }
-
-        .dialog-buttons,
-        .form-footer {
-            background-image: var(--sr-window-background) !important;
-            background-size: cover !important;
-            padding: 15px 8px 8px 8px !important;
-
-            button, button.default {
-                --button-size: auto !important;
-                --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
-                --button-border-color: var(--sr-ui-border-color-active) !important;
-                --button-text-color: var(--sr-text-color-light) !important;
-                --button-hover-background-color: transparent !important;
-                --button-hover-border-color: var(--sr-ui-border-color-active) !important;
-                --button-hover-text-color: var(--sr-text-color-dark) !important;
-                --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
-                position: relative;
-                height: auto !important;
-                min-height: unset !important;
-                padding: 4px 0.5rem !important;
-                line-height: 20px;
-                color: var(--sr-text-color-light) !important;
-                font-family: var(--sr-font-title);
-                text-transform: uppercase;
-                font-size: var(--sr-font-size-small);
-                text-align: center;
-                border-radius: 3px;
-                text-decoration: none;
-                transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                border: 1px solid var(--sr-ui-border-color-active) !important;
-                background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
-                z-index: 1;
-
-                &:hover {
-                    color: var(--sr-text-color-dark) !important;
-                    background-color: transparent !important;
-                    box-shadow: none;
-                }
-
-                &:hover:before {
-                    left: 0%;
-                    right: auto;
-                    width: 100%;
-                }
-
-                &:before {
-                    display: block;
-                    position: absolute;
-                    top: 0px;
-                    right: 0px;
-                    height: 100%;
-                    width: 0px;
-                    z-index: -1;
-                    content: '';
-                    color: var(--sr-text-color-dark);
-                    background: var(--sr-ui-border-color-active);
-                    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-                }
-            }
-        }
-    }
 }
+

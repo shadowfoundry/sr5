@@ -1,12 +1,14 @@
 @import "../commons/layout-mixin.less";
+@import "../commons/button-mixin.less";
 
 .window-app:not(.actor):not(.SR-Item),
 .application:not(.sr-application):not(.actor):not(.SR-Item) {
   .sr-block-window();
 
   .window-header {
-    background: transparent;
+    background: var(--sr-ui-bg-color-dark);
     border-bottom: 1px solid var(--sr-window-header-border);
+    font-family: var(--sr-font-body);
 
     .window-title {
       color: var(--sr-text-color-light);
@@ -20,8 +22,8 @@
 
   /* === Nav tabs === */
   nav.tabs {
-    border-top: 2px solid var(--sr-ui-border-color);
-    border-bottom: 2px solid var(--sr-ui-border-color);
+    border-top: 2px solid var(--sr-ui-border-color-idle);
+    border-bottom: 2px solid var(--sr-ui-border-color-idle);
     font-family: var(--sr-font-title);
     text-transform: uppercase;
   }
@@ -29,14 +31,32 @@
   nav.tabs [data-tab] {
     color: var(--sr-ui-color);
 
-    &.active, &:hover {
+    &:hover {
       color: var(--sr-ui-color-active);
       text-shadow: none;
+    }
+
+    &.active {
+      color: var(--sr-ui-color-active);
+      text-shadow: none;
+      border-bottom: 2px solid var(--sr-ui-border-color-active);
     }
   }
 
   nav.tabs.faded-ui,
   nav.tabs.vertical {
     border: none;
+  }
+
+  /* === Form footer / dialog buttons === */
+  .dialog-buttons,
+  .form-footer {
+    background-image: var(--sr-window-background) !important;
+    background-size: cover !important;
+    padding: 15px 8px 8px 8px !important;
+
+    button, button.default {
+      .sr-button-footer();
+    }
   }
 }

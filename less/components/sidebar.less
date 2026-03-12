@@ -12,12 +12,12 @@
   .directory-list {
     .directory-item.document {
       border-bottom: 1px solid transparent;
-      border-top: 1px solid var(--sr-ui-border-color);
+      border-top: 1px solid var(--sr-ui-border-color-idle);
 
       &:hover {
         background-color: var(--sr-ui-bg-color-hover);
-        border-top: 1px solid var(--sr-ui-border-color-active);
-        border-bottom: 1px solid var(--sr-ui-border-color-active);
+        border-top: 1px solid var(--sr-ui-border-color);
+        border-bottom: 1px solid var(--sr-ui-border-color);
       }
 
       a {
@@ -33,13 +33,13 @@
       header {
         background: none;
         color: var(--sr-ui-color);
-        border-top: var(--sr-border-color);
-        border-bottom: var(--sr-border-color);
+        border-top: 1px solid var(--sr-ui-border-color-idle);
+        border-bottom: 1px solid var(--sr-ui-border-color-idle);
 
         &:hover {
           background-color: var(--sr-ui-bg-color-hover);
-          border-top: var(--sr-ui-border-color-active);
-          border-bottom: var(--sr-ui-border-color-active);
+          border-top: 1px solid var(--sr-ui-border-color);
+          border-bottom: 1px solid var(--sr-ui-border-color);
           color: var(--sr-ui-color-active);
         }
       }
@@ -66,7 +66,7 @@
   }
 
   .global-volume.expanded header {
-    .sr-block-hover();
+    .sr-block-selected();
   }
 
   .playlist-header {

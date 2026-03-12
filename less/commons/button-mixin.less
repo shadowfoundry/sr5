@@ -14,8 +14,66 @@
   .sr-block-boxed-active();
 }
 
+.sr-button-selected() {
+  .sr-block-boxed-selected();
+}
+
 .sr-button-focus() {
   outline: 1px solid var(--sr-ui-color-active);
   color: var(--sr-ui-color-active);
   box-shadow: none;
+}
+
+// Animated footer button — teal border, sweep-fill on hover
+.sr-button-footer() {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+
+  &:hover {
+    color: var(--sr-text-color-dark) !important;
+    background-color: transparent !important;
+    box-shadow: none;
+  }
+
+  &:hover:before {
+    left: 0%;
+    right: auto;
+    width: 100%;
+  }
+
+  &:before {
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    width: 0px;
+    z-index: -1;
+    content: '';
+    color: var(--sr-text-color-dark);
+    background: var(--sr-ui-border-color-active);
+    transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  }
 }
