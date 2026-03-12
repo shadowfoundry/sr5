@@ -19,17 +19,11 @@ export class sr5ItemSpellDataModel extends foundry.abstract.TypeDataModel {
       range: new fields.StringField({initial: ''}),
       duration: new fields.StringField({initial: ''}),
       type: new fields.StringField({initial: ''}),
-      drain: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
-      drainValue: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      drain: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      drainValue: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       force: new fields.NumberField({initial: 0}),
       casterMagic: new fields.NumberField({initial: 0}),
-      spellAreaOfEffect: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      spellAreaOfEffect: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       spellAreaExtended: new fields.BooleanField({initial: false}),
       hits: new fields.NumberField({initial: 0}),
       manipulationDamaging: new fields.BooleanField({initial: false}),

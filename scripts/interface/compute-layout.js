@@ -77,9 +77,9 @@ function _buildSections(blocks, panelCols) {
  * @returns {{ panels: Array }}  Layout ready for template consumption
  */
 export function computeLayout(actorType, prefs = {}) {
-  const source = (prefs.customLayout?.panels?.length)
-    ? prefs.customLayout
-    : getDefaultLayout(actorType)
+  const source = (prefs.customLayout?.panels?.length) ?
+    prefs.customLayout :
+    getDefaultLayout(actorType)
 
   const panels = []
 
@@ -95,9 +95,9 @@ export function computeLayout(actorType, prefs = {}) {
       const sections = _buildSections(tabDef.blocks ?? [], width)
       if (sections.length === 0) continue
 
-      const iconKey = tabDef.iconKey
-        ?? Object.entries(TAB_ICONS).find(([, v]) => v === tabDef.icon)?.[0]
-        ?? 'core'
+      const iconKey = tabDef.iconKey ??
+        Object.entries(TAB_ICONS).find(([, v]) => v === tabDef.icon)?.[0] ??
+        'core'
 
       tabs.push({
         id: tabDef.id,

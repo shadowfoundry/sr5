@@ -7,12 +7,41 @@
 		"jquery": true
 	},
 	"parserOptions": {
-		"ecmaVersion": 2022,
-		"sourceType": "module"
+		"sourceType": "module",
+		"ecmaVersion": "latest"
+	},
+	"globals": {
+		"foundry": "readonly",
+		"fromUuid": "readonly",
+		"fromUuidSync": "readonly",
+		"getDocumentClass": "readonly",
+		"globalThis": "readonly",
+		"ActiveEffect": "readonly",
+		"Combatant": "readonly",
+		"GlowOverlayFilter": "readonly",
+		"Macro": "readonly",
+		"SR5": "readonly",
+		"TokenDocument": "readonly"
 	},
 	"extends": [
 		"eslint:recommended",
 		"plugin:foundry-vtt/recommended"
+	],
+	"overrides": [
+		{
+			"files": ["scripts/tests/**/*.js"],
+			"globals": {
+				"describe": "readonly",
+				"it": "readonly",
+				"test": "readonly",
+				"expect": "readonly",
+				"beforeEach": "readonly",
+				"afterEach": "readonly",
+				"beforeAll": "readonly",
+				"afterAll": "readonly",
+				"vi": "readonly"
+			}
+		}
 	],
 	"rules": {
 		"padded-blocks": "off",
@@ -23,8 +52,9 @@
 		"indent": ["warn", 2, { "SwitchCase": 1 }],
 		"camelcase": "off",
 		"no-undef": ["warn"],
-		"max-len": ["warn", 160],
-		"no-underscore-dangle": "warn",
+		"max-len": "off",
+		"no-underscore-dangle": "off",
+		"no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "args": "after-used" }],
 		"object-curly-newline": ["error", { "multiline": true }],
 		"operator-linebreak": ["error", "after"],
 		"import/prefer-default-export": "off"

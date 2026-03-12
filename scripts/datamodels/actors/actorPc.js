@@ -1,7 +1,5 @@
 import { sheetPreferencesPartialModel } from './partial/sheetPreferences.js'
 import { characterAttributesPartialModel } from './partial/attributes.js'
-import { characterMagicAttributesPartialModel } from './partial/magicAttributes.js'
-import { characterResonanceAttributesPartialModel } from './partial/resonanceAttributes.js'
 import { characterInitiativesPartialModel } from './partial/initiatives.js'
 import { characterLimitsPartialModel } from './partial/limits.js'
 import { characterDefensesPartialModel } from './partial/defenses.js'
@@ -12,7 +10,7 @@ import { characterMovementsPartialModel } from './partial/movements.js'
 import { characterWeightActionsPartialModel } from './partial/weightActions.js'
 import { characterReachPartialModel } from './partial/reach.js'
 import { skillGroupsPartialModel } from './partial/skillGroups.js'
-import { skillsPartialModel, allSkillFields, baseSkillSchema } from './partial/skills.js'
+import { allSkillFields, baseSkillSchema } from './partial/skills.js'
 import { penaltiesPartialModel } from './partial/penalties.js'
 import { visionPartialModel } from './partial/vision.js'
 import { specialPropertiesPartialModel } from './partial/specialProperties.js'
@@ -66,12 +64,8 @@ export class sr5ActorPcDataModel extends foundry.abstract.TypeDataModel {
         decompiling: new fields.SchemaField({...baseSkillSchema('resonance', 'socialLimit', 'taskingGroup', 'resonanceSkills', false)}),
         registering: new fields.SchemaField({...baseSkillSchema('resonance', 'spriteLevel', 'taskingGroup', 'resonanceSkills', false)}),
       }),
-      languageSkills: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
-      knowledgeSkills: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      languageSkills: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      knowledgeSkills: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       conditionMonitors: new fields.SchemaField({
         stun: new fields.SchemaField({
           ...sr5ModsPartialModel.defineSchema(),

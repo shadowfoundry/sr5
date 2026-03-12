@@ -59,16 +59,12 @@ export class sr5ItemVehicleDataModel extends foundry.abstract.TypeDataModel {
       conditionMonitors: new fields.SchemaField({
         condition: new fields.SchemaField({
           ...sr5ModsPartialModel.defineSchema(),
-          actual: new fields.SchemaField({
-            ...sr5ModsPartialModel.defineSchema(),
-          }),
+          actual: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
           boxes: new fields.ArrayField(new fields.ObjectField()),
         }),
         matrix: new fields.SchemaField({
           ...sr5ModsPartialModel.defineSchema(),
-          actual: new fields.SchemaField({
-            ...sr5ModsPartialModel.defineSchema(),
-          }),
+          actual: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
           boxes: new fields.ArrayField(new fields.ObjectField()),
         }),
       }),

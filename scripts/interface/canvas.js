@@ -1,15 +1,15 @@
 /** @override */
-export const measureDistances = function(segments, options={}) {
-    const canvasSize = canvas.dimensions.size;
-    const gridDistance = canvas.scene.grid.distance;
+export const measureDistances = function(segments, _options={}) {
+  const canvasSize = canvas.dimensions.size
+  const gridDistance = canvas.scene.grid.distance
 
-    return segments.map((s) => {
-        let ray = s.ray;
+  return segments.map((s) => {
+    let ray = s.ray
 
-        // Determine the total distance traveled
-        let x = Math.abs(Math.ceil(ray.dx / canvasSize));
-        let y = Math.abs(Math.ceil(ray.dy / canvasSize));
+    // Determine the total distance traveled
+    let x = Math.abs(Math.ceil(ray.dx / canvasSize))
+    let y = Math.abs(Math.ceil(ray.dy / canvasSize))
 
-        return Math.hypot(x, y) * gridDistance;
-    });
-};
+    return Math.hypot(x, y) * gridDistance
+  })
+}

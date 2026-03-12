@@ -18,12 +18,8 @@ export class sr5ItemPreparationDataModel extends foundry.abstract.TypeDataModel 
       duration: new fields.StringField({initial: ''}),
       type: new fields.StringField({initial: ''}),
       force: new fields.NumberField({initial: 0}),
-      drainValue: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
-      spellAreaOfEffect: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      drainValue: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      spellAreaOfEffect: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       spellAreaExtended: new fields.BooleanField({initial: false}),
       hits: new fields.NumberField({initial: 0}),
       manipulationDamaging: new fields.BooleanField({initial: false}),

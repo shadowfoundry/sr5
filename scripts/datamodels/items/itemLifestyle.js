@@ -34,9 +34,7 @@ export class sr5ItemLifestyleDataModel extends foundry.abstract.TypeDataModel {
         zone: new fields.StringField({initial: ''}),
         gameEffects: new fields.StringField({initial: ''}),
       }),
-      point: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      point: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       linkedIdentity: new fields.StringField({initial: ''}),
     }
   }

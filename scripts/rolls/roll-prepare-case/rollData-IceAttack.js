@@ -1,36 +1,36 @@
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js";
+import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
 
 export default function iceAttack(rollData, actor){
-    //Determine title
-    rollData.test.title = game.i18n.localize("SR5.IceAttack");
+  //Determine title
+  rollData.test.title = game.i18n.localize("SR5.IceAttack")
 
-    //Determine base dicepool
-    rollData.dicePool.base = actor.system.matrix.ice.attackDicepool;
+  //Determine base dicepool
+  rollData.dicePool.base = actor.system.matrix.ice.attackDicepool
 
-    //Determine dicepool composition
-    rollData.dicePool.composition = [
-        {source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating},
-        {source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating},
-    ];
+  //Determine dicepool composition
+  rollData.dicePool.composition = [
+    {source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating},
+    {source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating},
+  ]
 
-    //Determine base limit
-    rollData.limit.base = actor.system.matrix.attributes.attack.value;
-    rollData.limit.type = "attack";
+  //Determine base limit
+  rollData.limit.base = actor.system.matrix.attributes.attack.value
+  rollData.limit.type = "attack"
     
-    //Handle Actions
-    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "iceAttack"});
+  //Handle Actions
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "iceAttack"})
 
-    //Add others informations
-    rollData.test.type = "iceAttack";
-    rollData.test.typeSub = actor.system.matrix.deviceSubType;
-    rollData.damage.matrix.value = actor.system.matrix.attributes.attack.value;
-    rollData.damage.matrix.base = actor.system.matrix.attributes.attack.value;
-    rollData.various.defenseFirstAttribute = actor.system.matrix.ice.defenseFirstAttribute;
-    rollData.various.defenseSecondAttribute = actor.system.matrix.ice.defenseSecondAttribute;
-    if (rollData.test.typeSub === "iceCatapult") {
-        rollData.damage.value = rollData.damage.matrix.value ;
-        rollData.damage.type = "stun";
-        rollData.damage.resistanceType = "physicalDamage";
-    }
-    return rollData;
+  //Add others informations
+  rollData.test.type = "iceAttack"
+  rollData.test.typeSub = actor.system.matrix.deviceSubType
+  rollData.damage.matrix.value = actor.system.matrix.attributes.attack.value
+  rollData.damage.matrix.base = actor.system.matrix.attributes.attack.value
+  rollData.various.defenseFirstAttribute = actor.system.matrix.ice.defenseFirstAttribute
+  rollData.various.defenseSecondAttribute = actor.system.matrix.ice.defenseSecondAttribute
+  if (rollData.test.typeSub === "iceCatapult") {
+    rollData.damage.value = rollData.damage.matrix.value 
+    rollData.damage.type = "stun"
+    rollData.damage.resistanceType = "physicalDamage"
+  }
+  return rollData
 }

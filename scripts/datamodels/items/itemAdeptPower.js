@@ -30,9 +30,7 @@ export class sr5ItemAdeptPowerDataModel extends foundry.abstract.TypeDataModel {
       hasDrain: new fields.BooleanField({initial: false}),
       drainType: new fields.StringField({initial: ''}),
       drainMultiplier: new fields.NumberField({initial: 1}),
-      drainValue: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      drainValue: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
     }
   }
 }

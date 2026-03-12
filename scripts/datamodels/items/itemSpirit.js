@@ -50,16 +50,8 @@ export class sr5ItemSpiritDataModel extends foundry.abstract.TypeDataModel {
       }),
       powers: new fields.ArrayField(new fields.ObjectField()),
       conditionMonitors: new fields.SchemaField({
-        physical: new fields.SchemaField({
-          actual: new fields.SchemaField({
-            ...sr5ModsPartialModel.defineSchema(),
-          }),
-        }),
-        stun: new fields.SchemaField({
-          actual: new fields.SchemaField({
-            ...sr5ModsPartialModel.defineSchema(),
-          }),
-        }),
+        physical: new fields.SchemaField({actual: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()})}),
+        stun: new fields.SchemaField({actual: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()})}),
       }),
       sustainedSpell: new fields.ArrayField(new fields.ObjectField()),
       conjurer: new fields.StringField({initial: ''}),

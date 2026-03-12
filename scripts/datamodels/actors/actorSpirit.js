@@ -46,12 +46,8 @@ export class sr5ActorSpiritDataModel extends foundry.abstract.TypeDataModel {
         ...allSkillFields(),
         flight: new fields.SchemaField({...baseSkillSchema('agility', 'physicalLimit', '', 'physicalSkills', true)}),
       }),
-      languageSkills: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
-      knowledgeSkills: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      languageSkills: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      knowledgeSkills: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       initiatives: new fields.SchemaField({
         astralInit: new fields.SchemaField({
           ...sr5ModsPartialModel.defineSchema(),

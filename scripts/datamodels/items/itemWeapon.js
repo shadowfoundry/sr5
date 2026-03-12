@@ -25,23 +25,13 @@ export class sr5ItemWeaponDataModel extends foundry.abstract.TypeDataModel {
       type: new fields.StringField({initial: ''}),
       requiredHands: new fields.NumberField({initial: 1}),
       range: new fields.SchemaField({
-        short: new fields.SchemaField({
-          ...sr5ModsPartialModel.defineSchema(),
-        }),
-        medium: new fields.SchemaField({
-          ...sr5ModsPartialModel.defineSchema(),
-        }),
-        long: new fields.SchemaField({
-          ...sr5ModsPartialModel.defineSchema(),
-        }),
-        extreme: new fields.SchemaField({
-          ...sr5ModsPartialModel.defineSchema(),
-        }),
+        short: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+        medium: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+        long: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+        extreme: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
         isStrengthBased: new fields.BooleanField({initial: false}),
       }),
-      reach: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      reach: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       blast: new fields.SchemaField({
         radius: new fields.NumberField({initial: 0}),
         damageFallOff: new fields.NumberField({initial: 0}),
@@ -67,9 +57,7 @@ export class sr5ItemWeaponDataModel extends foundry.abstract.TypeDataModel {
         rating: new fields.StringField({initial: ''}),
         clipInserted: new fields.BooleanField({initial: true}),
       }),
-      recoilCompensation: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      recoilCompensation: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       accessory: new fields.ArrayField(new fields.ObjectField()),
       weaponSkill: new fields.SchemaField({
         dicePool: new fields.NumberField({initial: 0}),

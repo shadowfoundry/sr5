@@ -11,9 +11,7 @@ export class damagePartialModel extends foundry.abstract.TypeDataModel {
       damageType: new fields.StringField({initial: ''}),
       damageElement: new fields.StringField({initial: ''}),
       damageElementSecond: new fields.StringField({initial: ''}),
-      armorPenetration: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      armorPenetration: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       accuracy: new fields.SchemaField({
         ...sr5ModsPartialModel.defineSchema(),
         isPhysicalLimitBased: new fields.BooleanField({initial: false}),

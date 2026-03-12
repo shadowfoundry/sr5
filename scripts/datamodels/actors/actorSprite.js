@@ -62,9 +62,7 @@ export class sr5ActorSpriteDataModel extends foundry.abstract.TypeDataModel {
           max: new fields.NumberField({initial: 0}),
         }),
       }),
-      limits: new fields.SchemaField({
-        mentalLimit: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-      }),
+      limits: new fields.SchemaField({mentalLimit: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()})}),
       isRegistered: new fields.BooleanField({initial: false}),
       type: new fields.StringField({initial: ''}),
       level: new fields.NumberField({initial: 0}),

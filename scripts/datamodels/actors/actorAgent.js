@@ -62,9 +62,7 @@ export class sr5ActorAgentDataModel extends foundry.abstract.TypeDataModel {
           max: new fields.NumberField({initial: 0}),
         }),
       }),
-      limits: new fields.SchemaField({
-        mentalLimit: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-      }),
+      limits: new fields.SchemaField({mentalLimit: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()})}),
       rating: new fields.NumberField({initial: 0}),
       creatorId: new fields.StringField({initial: ''}),
       creatorItemId: new fields.StringField({initial: ''}),

@@ -20,9 +20,7 @@ export class sr5ItemArmorDataModel extends foundry.abstract.TypeDataModel {
       ...concealmentPartialModel.defineSchema(),
       ...wirelessPartialModel.defineSchema(),
       ...capacityPartialModel.defineSchema(),
-      armorValue: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      armorValue: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       isPlugged: new fields.BooleanField({initial: false}),
       isCumulative: new fields.BooleanField({initial: false}),
       accessory: new fields.ArrayField(new fields.ObjectField()),

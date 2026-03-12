@@ -21,9 +21,7 @@ export class penaltiesPartialModel extends foundry.abstract.TypeDataModel {
     }
 
     const penaltySimple = () => {
-      return new fields.SchemaField({
-        actual: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-      })
+      return new fields.SchemaField({actual: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()})})
     }
 
     return {

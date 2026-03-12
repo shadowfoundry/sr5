@@ -74,9 +74,9 @@ export function computeItemLayout(itemType) {
       const sections = _buildSections(tabDef.blocks ?? [], width)
       if (sections.length === 0) continue
 
-      const iconKey = tabDef.iconKey
-        ?? Object.entries(ITEM_TAB_ICONS).find(([, v]) => v === tabDef.icon)?.[0]
-        ?? 'info'
+      const iconKey = tabDef.iconKey ??
+        Object.entries(ITEM_TAB_ICONS).find(([, v]) => v === tabDef.icon)?.[0] ??
+        'info'
 
       tabs.push({
         id: tabDef.id,

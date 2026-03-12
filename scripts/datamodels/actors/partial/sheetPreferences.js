@@ -1,4 +1,3 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
 
 export class sheetPreferencesPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {

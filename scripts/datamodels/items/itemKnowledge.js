@@ -8,9 +8,7 @@ export class sr5ItemKnowledgeDataModel extends foundry.abstract.TypeDataModel {
       ...descriptionPartialModel.defineSchema(),
       type: new fields.StringField({initial: ''}),
       linkedAttribute: new fields.StringField({initial: ''}),
-      rating: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      rating: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       test: new fields.SchemaField({
         dicePool: new fields.NumberField({initial: 0}),
         base: new fields.NumberField({initial: 0}),

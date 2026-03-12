@@ -3,7 +3,7 @@ import { sr5ModsPartialModel } from '../../common/mods.js'
 export class magicPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields
-    const mods = sr5ModsPartialModel.defineSchema()
+
 
     const dicePoolSchema = () => {
       return {

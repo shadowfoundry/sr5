@@ -6,9 +6,7 @@ export class sr5ItemLanguageDataModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
     return {
       ...descriptionPartialModel.defineSchema(),
-      rating: new fields.SchemaField({
-        ...sr5ModsPartialModel.defineSchema(),
-      }),
+      rating: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
       test: new fields.SchemaField({
         dicePool: new fields.NumberField({initial: 0}),
         base: new fields.NumberField({initial: 0}),

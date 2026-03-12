@@ -1,6 +1,4 @@
-import {
-  BLOCK_REGISTRY, BLOCK_SIZE, BLOCK_MIN_COLUMNS, TAB_ICONS
-} from './block-registry.js'
+import {BLOCK_REGISTRY, BLOCK_SIZE, BLOCK_MIN_COLUMNS, TAB_ICONS} from './block-registry.js'
 import { getDefaultLayout } from './default-layout.js'
 
 /**
@@ -48,9 +46,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     },
   }
 
-  static PARTS = {
-    content: { template: 'systems/sr5/templates/interface/sheet-config.html' },
-  }
+  static PARTS = {content: { template: 'systems/sr5/templates/interface/sheet-config.html' }}
 
   /* ---------------------------------------------------------------------- */
   /*  Singleton per actor                                                    */
@@ -96,9 +92,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
 
   _buildDraft() {
     const prefs = this.actor.system.sheetPreferences ?? {}
-    const draft = (prefs.customLayout?.panels?.length)
-      ? foundry.utils.deepClone(prefs.customLayout)
-      : getDefaultLayout(this.actor.sheet?.constructor?.name ?? 'SR5ActorSheet')
+    const draft = (prefs.customLayout?.panels?.length) ?
+      foundry.utils.deepClone(prefs.customLayout) :
+      getDefaultLayout(this.actor.sheet?.constructor?.name ?? 'SR5ActorSheet')
     for (const panel of (draft.panels ?? [])) {
       for (const tab of (panel.tabs ?? [])) {
         for (const block of (tab.blocks ?? [])) {
@@ -113,7 +109,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   /*  Context                                                                */
   /* ---------------------------------------------------------------------- */
 
-  async _prepareContext(options) {
+  async _prepareContext(_options) {
     const draft = this._draft
 
     // Count how many times each block is placed
@@ -157,8 +153,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
             size: def.size,
             column: block.column,
           }
-          const showPosition = (def.size === BLOCK_SIZE.SINGLE && panelWidth > 1)
-            || (def.size === BLOCK_SIZE.DOUBLE && panelWidth === 3)
+          const showPosition = (def.size === BLOCK_SIZE.SINGLE && panelWidth > 1) ||
+            (def.size === BLOCK_SIZE.DOUBLE && panelWidth === 3)
           if (showPosition) {
             result.showPosition = true
             const col = block.column ?? 0
@@ -325,8 +321,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const target = event.target.closest(selector)
     if (!target || !container.contains(target)) return
     const rect = target.getBoundingClientRect()
-    const cls = event.clientY < rect.top + rect.height / 2
-      ? 'sr-config-insert-before' : 'sr-config-insert-after'
+    const cls = event.clientY < rect.top + rect.height / 2 ?
+      'sr-config-insert-before' : 'sr-config-insert-after'
     target.classList.add(cls)
   }
 
@@ -340,9 +336,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const blockUid = el.dataset.blockUid ?? null
     const tabId = el.closest('[data-tab-id]')?.dataset.tabId ?? null
     const panelId = el.closest('[data-panel-id]')?.dataset.panelId ?? null
-    event.dataTransfer.setData('application/sr5-block', JSON.stringify({
-      blockId, blockUid, panelId, tabId
-    }))
+    event.dataTransfer.setData('application/sr5-block', JSON.stringify({blockId, blockUid, panelId, tabId}))
     event.dataTransfer.effectAllowed = 'move'
     el.classList.add('sr-config-dragging')
     event.stopPropagation()
@@ -478,8 +472,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     this._clearInsertIndicators()
     const target = event.currentTarget
     const rect = target.getBoundingClientRect()
-    const cls = event.clientY < rect.top + rect.height / 2
-      ? 'sr-config-insert-before' : 'sr-config-insert-after'
+    const cls = event.clientY < rect.top + rect.height / 2 ?
+      'sr-config-insert-before' : 'sr-config-insert-after'
     target.classList.add(cls)
   }
 
@@ -539,8 +533,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     this._clearInsertIndicators()
     const target = event.currentTarget
     const rect = target.getBoundingClientRect()
-    const cls = event.clientY < rect.top + rect.height / 2
-      ? 'sr-config-insert-before' : 'sr-config-insert-after'
+    const cls = event.clientY < rect.top + rect.height / 2 ?
+      'sr-config-insert-before' : 'sr-config-insert-after'
     target.classList.add(cls)
   }
 
@@ -574,7 +568,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   /*  Actions                                                                */
   /* ---------------------------------------------------------------------- */
 
-  static _onAddPanel(event) {
+  static _onAddPanel(_event) {
     const currentTotal = this._draft.panels.reduce((s, p) => s + (p.width ?? 1), 0)
     if (currentTotal >= 3) {
       ui.notifications.warn('Maximum total panel width (3) reached.')
@@ -756,7 +750,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     this.render()
   }
 
-  static async _onClearAll(event) {
+  static async _onClearAll(_event) {
     const yes = await foundry.applications.api.DialogV2.confirm({
       window: { title: 'Clear All' },
       content: '<p>Remove all panels and blocks? This cannot be undone.</p>',
@@ -766,7 +760,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     this.render()
   }
 
-  static async _onResetDefaults(event) {
+  static async _onResetDefaults(_event) {
     const yes = await foundry.applications.api.DialogV2.confirm({
       window: { title: 'Reset to Defaults' },
       content: '<p>Reset the layout to defaults? Any custom changes will be lost.</p>',
@@ -781,21 +775,19 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   /* ---------------------------------------------------------------------- */
 
   async _persistDraft() {
-    await this.actor.update({
-      'system.sheetPreferences.customLayout': foundry.utils.deepClone(this._draft),
-    })
+    await this.actor.update({'system.sheetPreferences.customLayout': foundry.utils.deepClone(this._draft)})
   }
 
-  static async _onApply(event) {
+  static async _onApply(_event) {
     await this._persistDraft()
   }
 
-  static async _onSave(event) {
+  static async _onSave(_event) {
     await this._persistDraft()
     this.close()
   }
 
-  static _onCancel(event) {
+  static _onCancel(_event) {
     this.close()
   }
 }
