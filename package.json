@@ -1,15 +1,38 @@
 {
+  "name": "sr5",
+  "license": "GPL-3.0",
   "scripts": {
-    "build": "npm run build:sr5",
-    "build:sr5": "lessc less/sr5.less css/sr5.css",
+    "build": "npm run build:css",
+    "build:css": "lessc less/sr5.less css/sr5.css",
     "test": "vitest run --reporter=verbose",
-    "test:watch": "vitest --reporter=verbose"
+    "test:watch": "vitest --reporter=verbose",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint scripts/ --ignore-pattern scripts/tests/",
+    "lint:fix": "eslint scripts/ --ignore-pattern scripts/tests/ --fix",
+    "validate:languages": "node -e \"['lang/en.json','lang/fr.json'].forEach(f=>{JSON.parse(require('fs').readFileSync(f,'utf8').replace(/^\\uFEFF/,''))})\" && node scripts/check-lang-keys.js",
+    "validate:system": "node scripts/validate-system.js",
+    "validate:dependencies": "node scripts/validate-dependencies.js",
+    "validate:templates": "node scripts/validate-templates.js",
+    "validate": "npm run validate:languages && npm run validate:system && npm run validate:dependencies && npm run validate:templates",
+    "check": "npm run lint; npm run test && npm run build:css && npm run validate",
+    "prepare": "husky",
+    "release": "node scripts/release.js"
+  },
+  "lint-staged": {
+    "scripts/**/*.js": "eslint",
+    "vitest.config.js": "eslint",
+    "**/*.json": "node -e \"process.argv.slice(1).forEach(f=>{try{JSON.parse(require('fs').readFileSync(f,'utf8').replace(/^\\uFEFF/,''))}catch(e){process.stderr.write(f+': '+e.message+'\\n');process.exit(1)}})\"",
+    "lang/*.json": "node scripts/check-lang-keys.js",
+    "**/*.{hbs,html}": "node scripts/validate-templates.js"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^8.53.0",
     "eslint-plugin-foundry-vtt": "^0.0.1",
     "eslint-plugin-import": "^2.29.0",
+    "husky": "^9.1.7",
     "less": "^4.5.1",
+    "lint-staged": "^16.3.3",
     "vitest": "^4.0.18"
   }
 }

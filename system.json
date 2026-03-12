@@ -1,6 +1,7 @@
 {
   "id": "sr5",
   "title": "Shadowrun 5",
+  "license": "https://github.com/shadowfoundry/sr5/blob/main/LICENCE.md",
   "description": "A comprehensive ruleset to play Shadowrun 5th Edition with Foundry VTT.",
   "authors": [
     {
