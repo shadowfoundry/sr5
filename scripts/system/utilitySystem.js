@@ -47,6 +47,7 @@ export class SR5_SystemHelpers {
 			type: String,
 			choices: {
 				"SR5": "SR5.SETTINGS.Sr5Style",
+				"SR6": "SR5.SETTINGS.Sr6Style",
 			},
 			onChange: () => window.location.reload()
 		});

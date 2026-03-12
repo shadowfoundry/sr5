@@ -234,8 +234,10 @@ export const registerHooks = function () {
 	});
 
 	Hooks.once("ready", function () {
-		// Apply SR5 UI theme
-		document.body.classList.add("sr-theme-sr5");
+		// Apply UI theme based on setting
+		const chosenStyle = game.settings.get("sr5", "sr5ChooseStyle") ?? "SR5";
+		const themeClass = chosenStyle === "SR6" ? "sr-theme-sr6" : "sr-theme-sr5";
+		document.body.classList.add(themeClass);
 
 		//game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
 		// Determine whether a system migration is required and feasible

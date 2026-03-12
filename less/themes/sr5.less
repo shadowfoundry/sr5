@@ -1,3 +1,11 @@
+// SR5 Theme
+//
+// LESS scoping note: this file uses a .theme-sr5() mixin wrapper with .theme-vars()
+// inside it. This works only because the LESS variables defined here (@red, @teal, etc.)
+// happen to have the same values as the globals in colorSR5.less, so the scoping
+// ambiguity is harmless. New themes should NOT copy this pattern — use the flat
+// rule-set approach from themes/sr6.less instead.
+
 @import "../theme-mixins.less";
 
 .theme-sr5() {
