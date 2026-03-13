@@ -7,8 +7,8 @@
   .sr-block-window();
 
   .window-header {
-    background-image   : var(--sr-img-actor-sheet-top) !important;
-    background-size    : 100% auto;
+    background-image   : var(--sr-img-window-header) !important;
+    background-size    : 100% 100%;
     background-repeat  : no-repeat;
     background-position: top left;
     border-bottom: 1px solid var(--sr-window-header-border);
@@ -46,10 +46,14 @@
     }
 
     aside {
-      background-color: var(--sr-ui-bg-color-dark);
-      color           : var(--sr-text-color-light);
-      padding         : 0;
-      margin-right    : 0;
+      background-image   : var(--sr-sidebar-background);
+      background-origin  : border-box;
+      background-size    : 520px auto;
+      background-repeat  : repeat;
+      background-color   : var(--sr-ui-bg-color-dark);
+      color              : var(--sr-text-color-light);
+      padding            : 0;
+      margin-right       : 0;
 
       > * {
         padding: 8px;
@@ -65,8 +69,6 @@
       }
 
       nav.tabs.vertical {
-        padding: 0;
-
         [data-tab] {
           padding: 4px 8px;
         }
@@ -129,6 +131,12 @@
         background-color: var(--sr-ui-bg-color-dark);
         color           : var(--sr-ui-color-active);
       }
+
+      option:checked,
+      option:hover {
+        background-color: var(--sr-ui-bg-color-hover);
+        color           : var(--sr-ui-color-active);
+      }
     }
 
     /* === Checkboxes === */
@@ -159,7 +167,7 @@
     }
 
     /* === Content-area buttons === */
-    .form-fields button {
+    .form-fields button:not(.inline-control) {
       .sr-button-footer();
     }
 
@@ -176,6 +184,54 @@
       font-size  : var(--sr-font-size-small);
       font-style : normal;
       margin-top : 0;
+    }
+
+    /* === Key badges === */
+    kbd {
+      display         : inline-flex;
+      align-items     : center;
+      justify-content : center;
+      min-width       : 24px;
+      padding         : 1px 6px;
+      border          : 1px solid var(--sr-ui-border-color-idle);
+      border-radius   : 3px;
+      background      : color-mix(in srgb, var(--sr-ui-bg-color-dark) 10%, transparent);
+      color           : var(--sr-text-color-dark);
+      font-family     : var(--sr-font-body);
+      font-size       : var(--sr-font-size-small);
+      box-shadow      : 0 1px 0 var(--sr-ui-border-color-idle);
+    }
+
+    /* === Inline icon control buttons === */
+    .controls {
+      visibility  : visible !important;
+      opacity     : 1 !important;
+      flex        : 0 0 auto;
+      margin-left : auto;
+    }
+
+    button.inline-control.icon {
+      visibility      : visible !important;
+      opacity         : 1 !important;
+      display         : inline-flex !important;
+      align-items     : center !important;
+      justify-content : center !important;
+      width           : 20px !important;
+      height          : 20px !important;
+      background      : none !important;
+      border          : none !important;
+      box-shadow      : none !important;
+      color           : color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent) !important;
+      padding         : 0 !important;
+      font-size       : 13px !important;
+      line-height     : 1 !important;
+      overflow        : visible !important;
+      cursor          : pointer;
+      transition      : color 0.2s;
+
+      &:hover {
+        color: var(--sr-ui-border-color-active) !important;
+      }
     }
   }
 

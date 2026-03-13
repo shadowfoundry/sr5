@@ -118,6 +118,7 @@ body.sr-theme-sr5 {
   --sr-img-bg-white50: url("../img/ui/SR5_BG_Blanc50.png");
   --sr-img-actor-sheet-top: url("../img/ui/SR5_BG_ActorTop.png");
   --sr-img-actor-sheet-bottom: url("../img/ui/SR5_BG_ActorBottom.png");
+  --sr-img-window-header: url("../img/ui/SR5_BG_ActorTop.png");
   --sr-img-chat-message: url("../img/ui/SR5_BG_ChatMessage.png");
   --sr-initiative-icon: url("/systems/sr5/img/icons/SR5_InitDicesOff.svg");
   --sr-initiative-icon-hover: url("/systems/sr5/img/icons/SR5_InitDicesOn.svg");
@@ -279,6 +280,7 @@ body.sr-theme-sr6 {
   --sr-img-bg-white50: url("../img/ui/SR6_BG_Blanc50.png");
   --sr-img-actor-sheet-top: url("../img/ui/SR6_BG_ActorTop.png");
   --sr-img-actor-sheet-bottom: url("../img/ui/SR6_BG_ActorBottom.png");
+  --sr-img-window-header: url("../img/ui/SR6_BG_ActorTop.png");
   --sr-img-chat-message: url("../img/ui/SR6_BG_ChatMessage.png");
   --sr-initiative-icon: url("/systems/sr5/img/icons/SR6_InitDicesOff.svg");
   --sr-initiative-icon-hover: url("/systems/sr5/img/icons/SR6_InitDicesOn.svg");
@@ -505,8 +507,8 @@ body[class^="sr-theme-"] .standard-form select option:focus,
 body[class*=" sr-theme-"] .standard-form select option:focus,
 body[class^="sr-theme-"] .form-group select option:focus,
 body[class*=" sr-theme-"] .form-group select option:focus {
-  background-color: var(--sr-ui-bg-color-active);
-  color: var(--sr-ui-color-active);
+  background-color: var(--sr-ui-border-color-active);
+  color: var(--sr-text-color-light);
 }
 body[class^="sr-theme-"] input[type="text"],
 body[class*=" sr-theme-"] input[type="text"],
@@ -1541,8 +1543,8 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header {
-  background-image: var(--sr-img-actor-sheet-top) !important;
-  background-size: 100% auto;
+  background-image: var(--sr-img-window-header) !important;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: top left;
   border-bottom: 1px solid var(--sr-window-header-border);
@@ -1583,6 +1585,8 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   /* === Content-area buttons === */
   /* === Section headers === */
   /* === Hint text === */
+  /* === Key badges === */
+  /* === Inline icon control buttons === */
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .standard-form,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .standard-form,
@@ -1595,6 +1599,10 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content a
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside {
+  background-image: var(--sr-sidebar-background);
+  background-origin: border-box;
+  background-size: 520px auto;
+  background-repeat: repeat;
   background-color: var(--sr-ui-bg-color-dark);
   color: var(--sr-text-color-light);
   padding: 0;
@@ -1618,12 +1626,6 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input {
   color: var(--sr-text-color-light) !important;
   border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
-}
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical {
-  padding: 0;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
@@ -1703,6 +1705,17 @@ body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content 
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select optgroup,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select optgroup {
   background-color: var(--sr-ui-bg-color-dark);
+  color: var(--sr-ui-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:checked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:checked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:checked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:checked,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:hover {
+  background-color: var(--sr-ui-bg-color-hover);
   color: var(--sr-ui-color-active);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
@@ -1842,10 +1855,10 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked {
   box-shadow: inset 0 0 0 3px var(--sr-text-color-light);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control) {
   --button-size: auto !important;
   --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   --button-border-color: var(--sr-ui-border-color-active) !important;
@@ -1871,26 +1884,26 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   z-index: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover {
   color: var(--sr-text-color-dark) !important;
   background-color: transparent !important;
   box-shadow: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):before {
   display: block;
   position: absolute;
   top: 0px;
@@ -1923,6 +1936,60 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   font-size: var(--sr-font-size-small);
   font-style: normal;
   margin-top: 0;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content kbd,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content kbd,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content kbd,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  padding: 1px 6px;
+  border: 1px solid var(--sr-ui-border-color-idle);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 10%, transparent);
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-small);
+  box-shadow: 0 1px 0 var(--sr-ui-border-color-idle);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .controls,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .controls,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .controls,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .controls {
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon {
+  visibility: visible !important;
+  opacity: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent) !important;
+  padding: 0 !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  overflow: visible !important;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover {
+  color: var(--sr-ui-border-color-active) !important;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
@@ -4141,8 +4208,8 @@ body {
 }
 .app.window-app.actor select option:checked,
 .app.window-app.actor select option:hover {
-  background-color: var(--sr-ui-bg-color-hover);
-  color: var(--sr-ui-color-active);
+  background-color: var(--sr-ui-border-color-active);
+  color: var(--sr-text-color-light);
 }
 .app.window-app.actor .sr-select-wrapper > select {
   appearance: none;
@@ -5335,8 +5402,8 @@ body {
 }
 .app.window-app.SR-Item select option:checked,
 .app.window-app.SR-Item select option:hover {
-  background-color: var(--sr-ui-bg-color-hover);
-  color: var(--sr-ui-color-active);
+  background-color: var(--sr-ui-border-color-active);
+  color: var(--sr-text-color-light);
 }
 .app.window-app.SR-Item .sr-select-wrapper > select {
   appearance: none;
@@ -7646,16 +7713,16 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.sr-dropdown-menu .sr-dropdown-item:hover,
-.sr-dropdown-menu .sr-dropdown-item.sr-dropdown-focused {
-  background-color: var(--sr-ui-bg-color-hover);
-  border-color: var(--sr-ui-border-color);
-  color: var(--sr-ui-color-active);
-  text-shadow: none;
-}
 .sr-dropdown-menu .sr-dropdown-item.selected {
   color: var(--sr-ui-border-color-active);
   font-weight: bold;
+}
+.sr-dropdown-menu .sr-dropdown-item:hover,
+.sr-dropdown-menu .sr-dropdown-item.sr-dropdown-focused {
+  background-color: var(--sr-ui-border-color-active);
+  border-color: var(--sr-ui-border-color-active);
+  color: var(--sr-text-color-light);
+  text-shadow: none;
 }
 .sr-dropdown-menu .sr-dropdown-item[data-value=""] {
   color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent);

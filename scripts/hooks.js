@@ -28,6 +28,7 @@ import {SR5CompendiumInfo} from "./interface/compendium.js"
 import * as macros from "./interface/macros.js"
 import Migration from "./migration.js"
 import { SR5_ActorHelper } from "./entities/actors/entityActor-helpers.js"
+import { enhanceSelects } from "./helpers/enhance-selects.js"
 
 // Item DataModels
 import { sr5ItemAdeptPowerDataModel } from "./datamodels/items/itemAdeptPower.js"
@@ -337,7 +338,8 @@ export const registerHooks = function () {
     }
   })
 
-  Hooks.on("renderFolderConfig", (dialog, html) => {
+  Hooks.on("renderFolderConfig", (_app, html) => {
+    enhanceSelects(html)
     const input = html.querySelector(`input[type=text]`)
     if (input && !input.value) {
       input.value = input.placeholder
@@ -345,13 +347,20 @@ export const registerHooks = function () {
     }
   })
 
-  Hooks.on("renderDialog", (dialog, html) => {
+  Hooks.on("renderDialog", (_app, html) => {
+    enhanceSelects(html)
     const input = html.querySelector(`input[type=text]`)
     if (input && !input.value) {
       input.value = input.placeholder
       input.focus()
     }
   })
+
+  Hooks.on("renderDialogV2",                (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderSettingsConfig",          (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderControlsConfig",          (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderDocumentOwnershipConfig", (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderDocumentSheetConfig",     (_app, html) => { enhanceSelects(html) })
 
   Hooks.on("createToken", async function(tokenDocument) {
     if (!game.user.isGM) return

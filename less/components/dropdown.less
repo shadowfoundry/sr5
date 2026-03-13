@@ -113,17 +113,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
 
-    &:hover,
-    &.sr-dropdown-focused {
-      background-color: var(--sr-ui-bg-color-hover);
-      border-color: var(--sr-ui-border-color);
-      color: var(--sr-ui-color-active);
-      text-shadow: none;
-    }
-
     &.selected {
       color: var(--sr-ui-border-color-active);
       font-weight: bold;
+    }
+
+    &:hover,
+    &.sr-dropdown-focused {
+      background-color: var(--sr-ui-border-color-active);
+      border-color: var(--sr-ui-border-color-active);
+      color: var(--sr-text-color-light);
+      text-shadow: none;
     }
 
     // Placeholder / empty value
