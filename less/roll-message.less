@@ -13,10 +13,14 @@
   }
 
   .chat-message {
-    background-color: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
+    background-image   : var(--sr-img-bg-white50);
+    background-size    : cover;
+    background-position: top left;
+    background-repeat  : no-repeat;
+    background-color   : var(--sr-text-color-light);
     border-radius   : 5px;
-    border          : 2px solid var(--sr-text-color-flash);
-    color           : color-mix(in srgb, var(--sr-text-color-light) 95%, transparent);
+    border          : 1px solid var(--sr-text-color-dark);
+    color           : var(--sr-text-color-dark);
     margin-bottom   : 5px;
     padding: 0;
     line-height     : 17px;
