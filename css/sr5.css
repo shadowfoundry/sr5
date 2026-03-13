@@ -1536,6 +1536,7 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background-repeat: repeat;
   /* === Nav tabs === */
   /* === Form footer / dialog buttons === */
+  /* SR5 roll dialog: override footer with sheet bottom image */
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
@@ -1718,6 +1719,19 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   color: var(--sr-text-color-dark);
   background: var(--sr-ui-border-color-active);
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer {
+  background-image: var(--sr-img-actor-sheet-bottom) !important;
+  background-size: auto 100% !important;
+  background-repeat: repeat-x;
+  background-position: bottom left;
 }
 body[class^="sr-theme-"] #menu,
 body[class*=" sr-theme-"] #menu {
@@ -6471,9 +6485,32 @@ body {
   margin-bottom: 0.25em;
 }
 /* SR5 roll dialog styling */
+.dialog:has(.SR5jet) .window-content {
+  padding: 0;
+}
+.dialog:has(.SR5jet) .dialog-form {
+  background-image: var(--sr-img-bg-white50);
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: var(--sr-text-color-light);
+  padding: 0;
+}
+.dialog:has(.SR5jet) .window-header {
+  background-image: var(--sr-img-actor-sheet-top) !important;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-position: top left;
+}
+.dialog:has(.SR5jet) .dialog-footer,
+.dialog:has(.SR5jet) .form-footer {
+  background-image: var(--sr-img-actor-sheet-bottom) !important;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-position: bottom left;
+}
 .dialog .window-content .dialog-content:has(.SR5jet) {
-  /* Light background only for SR5 roll dialogs */
-  background: var(--sr-text-color-light);
+  background: none;
   color: var(--sr-text-color-dark);
   color-scheme: light;
   padding: 8px;
@@ -6639,7 +6676,7 @@ body {
 }
 .dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-ModControl {
   font-size: 11px;
-  color: var(--sr-text-accent-light);
+  color: var(--sr-ui-color);
 }
 .dialog .window-content .dialog-content:has(.SR5jet) .SR5jet .SR-FakeInput {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);

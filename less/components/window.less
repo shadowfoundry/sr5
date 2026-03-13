@@ -59,4 +59,15 @@
       .sr-button-footer();
     }
   }
+
+  /* SR5 roll dialog: override footer with sheet bottom image */
+  &.dialog:has(.SR5jet) {
+    .dialog-buttons,
+    .form-footer {
+      background-image: var(--sr-img-actor-sheet-bottom) !important;
+      background-size: auto 100% !important;
+      background-repeat: repeat-x;
+      background-position: bottom left;
+    }
+  }
 }
