@@ -3724,7 +3724,11 @@ body {
   background: transparent;
   border: none;
   color: inherit;
-  outline: revert;
+  outline: none;
+}
+.app.window-app.actor select:focus,
+.app.window-app.actor select:focus-visible {
+  outline: none;
 }
 .app.window-app.actor select option,
 .app.window-app.actor select optgroup {
@@ -3750,8 +3754,29 @@ body {
   background: transparent;
   border: none;
   color: inherit;
-  outline: revert;
-  appearance: revert;
+  outline: none;
+  appearance: none;
+}
+.app.window-app.actor input[type="text"]:focus,
+.app.window-app.actor input[type="number"]:focus,
+.app.window-app.actor input[type="password"]:focus,
+.app.window-app.actor input[type="date"]:focus,
+.app.window-app.actor input[type="time"]:focus,
+.app.window-app.actor input[type="search"]:focus,
+.app.window-app.actor input:not([type]):focus,
+.app.window-app.actor input[type="text"]:focus-visible,
+.app.window-app.actor input[type="number"]:focus-visible,
+.app.window-app.actor input[type="password"]:focus-visible,
+.app.window-app.actor input[type="date"]:focus-visible,
+.app.window-app.actor input[type="time"]:focus-visible,
+.app.window-app.actor input[type="search"]:focus-visible,
+.app.window-app.actor input:not([type]):focus-visible {
+  outline: none;
+  background: transparent;
+}
+.app.window-app.actor input:focus,
+.app.window-app.actor input:focus-visible {
+  background: transparent;
 }
 .app.window-app.actor input[type="checkbox"] {
   width: revert;
@@ -4089,6 +4114,7 @@ body {
 }
 .app.window-app.actor .window-content .SR-Header input:focus {
   box-shadow: none;
+  background: transparent;
   border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 }
 .app.window-app.actor .window-content .SR-Header .SRinputInBox {
@@ -4177,6 +4203,7 @@ body {
 .app.window-app.actor .window-content .SR-MainWindows input:focus,
 .app.window-app.actor .window-content .sr-tab-content input:focus {
   box-shadow: none;
+  background: transparent;
   border-bottom: 1px solid var(--sr-text-color-flash);
 }
 .app.window-app.actor .window-content .SR-MainWindows input.specialisation,
@@ -4252,6 +4279,7 @@ body {
 .app.window-app.actor .window-content .SR-MainWindows select:focus,
 .app.window-app.actor .window-content .sr-tab-content select:focus {
   box-shadow: none;
+  background: transparent;
   border-bottom: 1px solid var(--sr-text-color-flash);
 }
 .app.window-app.actor .window-content .SR-MainWindows select:invalid,
@@ -4890,7 +4918,11 @@ body {
   background: transparent;
   border: none;
   color: inherit;
-  outline: revert;
+  outline: none;
+}
+.app.window-app.SR-Item select:focus,
+.app.window-app.SR-Item select:focus-visible {
+  outline: none;
 }
 .app.window-app.SR-Item select option,
 .app.window-app.SR-Item select optgroup {
@@ -4916,8 +4948,29 @@ body {
   background: transparent;
   border: none;
   color: inherit;
-  outline: revert;
-  appearance: revert;
+  outline: none;
+  appearance: none;
+}
+.app.window-app.SR-Item input[type="text"]:focus,
+.app.window-app.SR-Item input[type="number"]:focus,
+.app.window-app.SR-Item input[type="password"]:focus,
+.app.window-app.SR-Item input[type="date"]:focus,
+.app.window-app.SR-Item input[type="time"]:focus,
+.app.window-app.SR-Item input[type="search"]:focus,
+.app.window-app.SR-Item input:not([type]):focus,
+.app.window-app.SR-Item input[type="text"]:focus-visible,
+.app.window-app.SR-Item input[type="number"]:focus-visible,
+.app.window-app.SR-Item input[type="password"]:focus-visible,
+.app.window-app.SR-Item input[type="date"]:focus-visible,
+.app.window-app.SR-Item input[type="time"]:focus-visible,
+.app.window-app.SR-Item input[type="search"]:focus-visible,
+.app.window-app.SR-Item input:not([type]):focus-visible {
+  outline: none;
+  background: transparent;
+}
+.app.window-app.SR-Item input:focus,
+.app.window-app.SR-Item input:focus-visible {
+  background: transparent;
 }
 .app.window-app.SR-Item input[type="checkbox"] {
   width: revert;
@@ -5079,6 +5132,7 @@ body {
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input:focus {
   box-shadow: none;
+  background: transparent;
   border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 }
 .app.window-app.SR-Item .window-content .SR-Header .SRItemTitre input::selection {
@@ -5138,6 +5192,7 @@ body {
 .app.window-app.SR-Item .window-content .SR-MainWindows input:focus,
 .app.window-app.SR-Item .window-content .sr-tab-content input:focus {
   box-shadow: none;
+  background: transparent;
   border-bottom: 1px solid var(--sr-text-color-flash);
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows input:hover,
@@ -5226,6 +5281,7 @@ body {
 .app.window-app.SR-Item .window-content .SR-MainWindows select:focus,
 .app.window-app.SR-Item .window-content .sr-tab-content select:focus {
   box-shadow: none;
+  background: transparent;
   border-bottom: 1px solid var(--sr-text-color-flash);
 }
 .app.window-app.SR-Item .window-content .SR-MainWindows select:invalid,

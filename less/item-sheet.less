@@ -23,7 +23,8 @@
         background: transparent;
         border: none;
         color: inherit;
-        outline: revert;
+        outline: none;
+        &:focus, &:focus-visible { outline: none; }
         option, optgroup {
             background-color: var(--sr-ui-bg-color-dark);
             color: var(--sr-ui-color-active);
@@ -43,8 +44,13 @@
         background: transparent;
         border: none;
         color: inherit;
-        outline: revert;
-        appearance: revert;
+        outline: none;
+        appearance: none;
+        &:focus, &:focus-visible { outline: none; background: transparent; }
+    }
+    // Catch-all: override any Foundry focus background on inputs we don't control
+    input:focus, input:focus-visible {
+        background: transparent;
     }
     input[type="checkbox"] {
         width: revert;
@@ -226,6 +232,7 @@
 
                     &:focus {
                         box-shadow: none;
+                        background: transparent;
                         border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
                     }
 
@@ -294,6 +301,7 @@
 
                 &:focus {
                     box-shadow: none;
+                    background: transparent;
                     border-bottom: 1px solid var(--sr-text-color-flash);
                 }
 
@@ -376,6 +384,7 @@
 
                 &:focus {
                     box-shadow: none;
+                    background: transparent;
                     border-bottom: 1px solid var(--sr-text-color-flash);
                 }
 
