@@ -1536,13 +1536,15 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background-repeat: repeat;
   /* === Nav tabs === */
   /* === Form footer / dialog buttons === */
-  /* SR5 roll dialog: override footer with sheet bottom image */
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header {
-  background: var(--sr-ui-bg-color-dark);
+  background-image: var(--sr-img-actor-sheet-top) !important;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top left;
   border-bottom: 1px solid var(--sr-window-header-border);
   font-family: var(--sr-font-body);
 }
@@ -1556,8 +1558,371 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content {
-  background: none;
+  background-image: var(--sr-img-bg-white50);
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: var(--sr-text-color-light);
+  color: var(--sr-text-color-dark);
+  color-scheme: light;
+  padding: 0;
+  gap: 0 !important;
+  /* Override Foundry theme variables for light surface */
+  --color-form-label: var(--sr-text-color-dark);
+  --color-form-label-hover: var(--sr-ui-border-color);
+  --color-form-hint: color-mix(in srgb, var(--sr-text-color-dark) 55%, transparent);
+  --input-text-color: var(--sr-text-color-dark);
+  --input-placeholder-color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent);
+  --button-background-color: transparent;
+  --button-text-color: var(--sr-text-color-dark);
+  --button-border-color: var(--sr-ui-border-color-idle);
+  /* === Spacing === */
+  /* === Form element styling === */
+  /* === Checkboxes === */
+  /* === Radio buttons === */
+  /* === Content-area buttons === */
+  /* === Section headers === */
+  /* === Hint text === */
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .standard-form,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .standard-form,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .standard-form,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .standard-form {
+  padding: 8px;
+  gap: 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside {
+  background-color: var(--sr-ui-bg-color-dark);
   color: var(--sr-text-color-light);
+  padding: 0;
+  margin-right: 0;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside > *,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside > *,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside > *,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside > * {
+  padding: 8px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside label {
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input {
+  color: var(--sr-text-color-light) !important;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical {
+  padding: 0;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] {
+  padding: 4px 8px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main {
+  padding: 0;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main .categories,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main .categories,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main .categories,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main .categories {
+  padding: 8px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-group,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-group,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-group,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-group {
+  margin-bottom: 4px;
+  gap: 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content label {
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-body);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+  background: none !important;
+  color: var(--sr-text-color-dark) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none;
+  outline: none !important;
+  font-family: inherit;
+  font-size: inherit;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select {
+  color: var(--sr-text-accent-light);
+  background-color: transparent !important;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path fill='%23931004' d='M0 0l5 6 5-6z'/></svg>") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 2px center !important;
+  background-size: 8px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
+  border-radius: 0 !important;
+  padding: 0 14px 0 0 !important;
+  box-shadow: none;
+  outline: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select optgroup,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select optgroup,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select optgroup,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select optgroup {
+  background-color: var(--sr-ui-bg-color-dark);
+  color: var(--sr-ui-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"] {
+  --checkbox-size: 14px;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border: 2px solid color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  border-radius: 3px;
+  background: none;
+  position: relative;
+  /* teal tick on light background */
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before {
+  content: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after {
+  content: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus {
+  border-color: color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  background: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover {
+  border-color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after {
+  content: "\f00c";
+  font-family: var(--font-awesome);
+  color: var(--sr-ui-color-active);
+  font-size: 0.7em;
+  font-weight: 900;
+  position: absolute;
+  inset: 1px 0 0 0;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--sr-ui-border-color-active);
+  outline-offset: 1px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: var(--checkbox-size, 16px);
+  height: var(--checkbox-size, 16px);
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  background: none;
+  position: relative;
+  cursor: pointer;
+  /* light inner ring on light background */
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::before {
+  content: none !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::after {
+  content: none !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover {
+  border-color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked {
+  border-color: var(--sr-ui-border-color-active);
+  background: var(--sr-ui-border-color-active);
+  box-shadow: inset 0 0 0 3px var(--sr-ui-bg-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible {
+  outline: 2px solid var(--sr-ui-border-color-active);
+  outline-offset: 1px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked {
+  box-shadow: inset 0 0 0 3px var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover {
+  color: var(--sr-text-color-dark) !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: var(--sr-text-color-dark);
+  background: var(--sr-ui-border-color-active);
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h3,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h3,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h3,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h3,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h4,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h4,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h4,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h4 {
+  color: var(--sr-ui-border-color);
+  font-family: var(--sr-font-title);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content p.hint,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content p.hint,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content p.hint,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content p.hint {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 55%, transparent);
+  font-size: var(--sr-font-size-small);
+  font-style: normal;
+  margin-top: 0;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
@@ -1599,6 +1964,10 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical {
   border: none;
 }
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons,
@@ -1607,10 +1976,16 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer {
-  background-image: var(--sr-window-background) !important;
-  background-size: cover !important;
+  background-image: var(--sr-img-actor-sheet-bottom) !important;
+  background-size: auto 100% !important;
+  background-repeat: repeat-x;
+  background-position: bottom left;
   padding: 15px 8px 8px 8px !important;
 }
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button,
@@ -1619,6 +1994,10 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer butt
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default,
@@ -1652,6 +2031,10 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   z-index: 1;
 }
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover,
@@ -1660,6 +2043,10 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer butt
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
@@ -1672,6 +2059,10 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background-color: transparent !important;
   box-shadow: none;
 }
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover:before,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
@@ -1680,6 +2071,10 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer butt
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover:before,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover:before,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover:before,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
@@ -1692,6 +2087,10 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   right: auto;
   width: 100%;
 }
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:before,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:before,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:before,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:before,
@@ -1700,6 +2099,10 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer butt
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:before,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:before,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:before,
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
@@ -1719,19 +2122,6 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   color: var(--sr-text-color-dark);
   background: var(--sr-ui-border-color-active);
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
-}
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .dialog-buttons,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).dialog:has(.SR5jet) .form-footer {
-  background-image: var(--sr-img-actor-sheet-bottom) !important;
-  background-size: auto 100% !important;
-  background-repeat: repeat-x;
-  background-position: bottom left;
 }
 body[class^="sr-theme-"] #menu,
 body[class*=" sr-theme-"] #menu {
@@ -6484,30 +6874,20 @@ body {
   margin-top: 0.25em;
   margin-bottom: 0.25em;
 }
-/* SR5 roll dialog styling */
-.dialog:has(.SR5jet) .window-content {
+/* SR5 dialog styling */
+.dialog .window-content {
   padding: 0;
 }
-.dialog:has(.SR5jet) .dialog-form {
+.dialog .dialog-form {
   background-image: var(--sr-img-bg-white50);
   background-size: cover;
   background-position: top left;
   background-repeat: no-repeat;
   background-color: var(--sr-text-color-light);
-  padding: 0;
+  padding: 0 !important;
 }
-.dialog:has(.SR5jet) .window-header {
-  background-image: var(--sr-img-actor-sheet-top) !important;
-  background-size: auto 100%;
-  background-repeat: repeat-x;
-  background-position: top left;
-}
-.dialog:has(.SR5jet) .dialog-footer,
-.dialog:has(.SR5jet) .form-footer {
-  background-image: var(--sr-img-actor-sheet-bottom) !important;
-  background-size: auto 100%;
-  background-repeat: repeat-x;
-  background-position: bottom left;
+.dialog .dialog-form .dialog-content {
+  padding: 8px;
 }
 .dialog .window-content .dialog-content:has(.SR5jet) {
   background: none;

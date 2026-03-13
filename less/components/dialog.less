@@ -1,32 +1,21 @@
-/* SR5 roll dialog styling */
+/* SR5 dialog styling */
 
 .dialog {
-    &:has(.SR5jet) .window-content {
+    .window-content {
         padding: 0;
     }
 
-    &:has(.SR5jet) .dialog-form {
+    .dialog-form {
         background-image   : var(--sr-img-bg-white50);
         background-size    : cover;
         background-position: top left;
         background-repeat  : no-repeat;
         background-color   : var(--sr-text-color-light);
-        padding: 0;
-    }
+        padding: 0 !important;
 
-    &:has(.SR5jet) .window-header {
-        background-image   : var(--sr-img-actor-sheet-top) !important;
-        background-size    : auto 100%;
-        background-repeat  : repeat-x;
-        background-position: top left;
-    }
-
-    &:has(.SR5jet) .dialog-footer,
-    &:has(.SR5jet) .form-footer {
-        background-image   : var(--sr-img-actor-sheet-bottom) !important;
-        background-size    : auto 100%;
-        background-repeat  : repeat-x;
-        background-position: bottom left;
+        .dialog-content {
+            padding: 8px;
+        }
     }
 
     .window-content .dialog-content:has(.SR5jet) {
@@ -252,4 +241,3 @@
     }
 
 }
-
