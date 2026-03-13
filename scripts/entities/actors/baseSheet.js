@@ -131,8 +131,14 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
   async _prepareContext(options) {
     const context = await super._prepareContext(options)
     const actorData = this.actor.toObject(false)
+    // Copy runtime-computed properties that aren't schema fields onto the plain object
+    // so templates can access them via {{system.lists}} and {{system.isGM}}
+    actorData.system.lists = this.actor.system.lists
+    actorData.system.isGM = this.actor.system.isGM
     context.actor = actorData
-    context.system = this.actor.system
+    // Use actorData.system (not the live DataModel) so that _prepareSkills,
+    // _prepareSkillGroups, _prepareMatrixActions etc. mutations are visible to templates.
+    context.system = actorData.system
     context.items = actorData.items
     context.owner = this.actor.isOwner
     context.editable = this.isEditable
