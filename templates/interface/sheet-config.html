@@ -2,7 +2,7 @@
   <div class="sr-sheet-config-body">
 
     {{!-- LEFT COLUMN: Block Catalog --}}
-    <div class="sr-config-unused-section">
+    <aside class="sr-config-unused-section">
       <h4 class="sr-config-section-title">Available Blocks</h4>
       <div class="sr-config-unused-pool">
         {{#if catalogBlocks.single.length}}
@@ -14,8 +14,6 @@
             <div class="sr-config-group-items">
               {{#each catalogBlocks.single}}
                 <div class="sr-config-block{{#if this.count}} sr-config-block-placed{{/if}}" data-block-id="{{this.id}}">
-                  <span class="sr-config-drag-handle"><i class="fas fa-grip-vertical"></i></span>
-                  <span class="sr-config-size-badge" data-size="{{this.size}}"></span>
                   <span class="sr-config-block-label">{{this.label}}</span>
                   {{#if this.count}}<span class="sr-config-placed-count">{{this.count}}</span>{{/if}}
                 </div>
@@ -32,8 +30,6 @@
             <div class="sr-config-group-items">
               {{#each catalogBlocks.double}}
                 <div class="sr-config-block{{#if this.count}} sr-config-block-placed{{/if}}" data-block-id="{{this.id}}">
-                  <span class="sr-config-drag-handle"><i class="fas fa-grip-vertical"></i></span>
-                  <span class="sr-config-size-badge" data-size="{{this.size}}"></span>
                   <span class="sr-config-block-label">{{this.label}}</span>
                   {{#if this.count}}<span class="sr-config-placed-count">{{this.count}}</span>{{/if}}
                 </div>
@@ -50,8 +46,6 @@
             <div class="sr-config-group-items">
               {{#each catalogBlocks.triple}}
                 <div class="sr-config-block{{#if this.count}} sr-config-block-placed{{/if}}" data-block-id="{{this.id}}">
-                  <span class="sr-config-drag-handle"><i class="fas fa-grip-vertical"></i></span>
-                  <span class="sr-config-size-badge" data-size="{{this.size}}"></span>
                   <span class="sr-config-block-label">{{this.label}}</span>
                   {{#if this.count}}<span class="sr-config-placed-count">{{this.count}}</span>{{/if}}
                 </div>
@@ -60,7 +54,7 @@
           </div>
         {{/if}}
       </div>
-    </div>
+    </aside>
 
     {{!-- RIGHT COLUMN: Panel & Tab Manager --}}
     <div class="sr-config-panels-section">
@@ -76,7 +70,6 @@
         {{#each panels}}
           <div class="sr-config-panel-section{{#if this.hidden}} sr-config-hidden{{/if}}" data-panel-id="{{this.id}}">
             <div class="sr-config-panel-header">
-              <span class="sr-config-panel-drag-handle"><i class="fas fa-grip-vertical"></i></span>
               <a class="sr-config-panel-fold-toggle" data-action="togglePanelFold">
                 <i class="fas fa-caret-down sr-config-fold-icon"></i>
               </a>
@@ -113,7 +106,9 @@
               {{#each this.tabs}}
                 <div class="sr-config-tab-section{{#if this.hidden}} sr-config-hidden{{/if}}" data-tab-id="{{this.id}}" data-panel-id="{{../id}}">
                   <div class="sr-config-tab-header">
-                    <span class="sr-config-tab-drag-handle"><i class="fas fa-grip-vertical"></i></span>
+                    <a class="sr-config-tab-fold-toggle" data-action="toggleTabFold" data-tab-id="{{this.id}}" data-panel-id="{{../id}}">
+                      <i class="fas fa-caret-down sr-config-fold-icon"></i>
+                    </a>
                     <input
                       type="text"
                       class="sr-config-tab-name"
@@ -144,9 +139,8 @@
                   <div class="sr-config-tab-blocks">
                     {{#each this.blocks}}
                       <div class="sr-config-block" data-block-id="{{this.id}}" data-block-uid="{{this.uid}}" data-tab-id="{{../id}}" data-panel-id="{{../../id}}">
-                        <span class="sr-config-drag-handle"><i class="fas fa-grip-vertical"></i></span>
-                        <span class="sr-config-size-badge" data-size="{{this.size}}"></span>
                         <span class="sr-config-block-label">{{this.label}}</span>
+                        <span class="sr-config-block-size">({{this.size}})</span>
                         {{#if this.showPosition}}
                           <a class="sr-config-column-toggle" data-action="toggleColumn" data-block-uid="{{this.uid}}" data-tooltip="Toggle Column">
                             <i class="fas {{this.positionIcon}}"></i>
@@ -168,25 +162,25 @@
 
   </div>
 
-  <div class="sr-sheet-config-footer">
+  <footer class="sr-sheet-config-footer">
     <div class="sr-config-footer-left">
-      <button type="button" data-action="clearAll" class="sr-config-btn sr-config-btn-danger">
+      <button type="button" data-action="clearAll" class="sr-config-btn-danger">
         <i class="fas fa-eraser"></i> Clear All
       </button>
-      <button type="button" data-action="resetDefaults" class="sr-config-btn sr-config-btn-reset">
+      <button type="button" data-action="resetDefaults">
         <i class="fas fa-undo"></i> Reset Defaults
       </button>
     </div>
     <div class="sr-config-footer-right">
-      <button type="button" data-action="cancelConfig" class="sr-config-btn">
+      <button type="button" data-action="cancelConfig">
         Cancel
       </button>
-      <button type="button" data-action="applyConfig" class="sr-config-btn">
+      <button type="button" data-action="applyConfig">
         <i class="fas fa-check"></i> Apply
       </button>
-      <button type="button" data-action="saveConfig" class="sr-config-btn sr-config-btn-save">
+      <button type="button" data-action="saveConfig" class="sr-config-btn-save">
         <i class="fas fa-save"></i> Save & Close
       </button>
     </div>
-  </div>
+  </footer>
 </div>

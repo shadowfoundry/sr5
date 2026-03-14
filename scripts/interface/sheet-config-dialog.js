@@ -36,6 +36,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       toggleColumn: SR5SheetConfigDialog._onToggleColumn,
       toggleCatalogGroup: SR5SheetConfigDialog._onToggleCatalogGroup,
       togglePanelFold: SR5SheetConfigDialog._onTogglePanelFold,
+      toggleTabFold: SR5SheetConfigDialog._onToggleTabFold,
       togglePanelHidden: SR5SheetConfigDialog._onTogglePanelHidden,
       toggleTabHidden: SR5SheetConfigDialog._onToggleTabHidden,
       clearAll: SR5SheetConfigDialog._onClearAll,
@@ -227,6 +228,11 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     for (const panelId of (this._foldedPanels ?? [])) {
       const el = this.element.querySelector(`.sr-config-panel-section[data-panel-id="${panelId}"]`)
       if (el) el.classList.add('sr-config-panel-folded')
+    }
+    for (const key of (this._foldedTabs ?? [])) {
+      const [panelId, tabId] = key.split(':')
+      const el = this.element.querySelector(`.sr-config-tab-section[data-tab-id="${tabId}"][data-panel-id="${panelId}"]`)
+      if (el) el.classList.add('sr-config-tab-folded')
     }
   }
 
@@ -705,6 +711,20 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       this._foldedPanels.add(panelId)
     } else {
       this._foldedPanels.delete(panelId)
+    }
+  }
+
+  static _onToggleTabFold(event, target) {
+    const tabEl = target.closest('.sr-config-tab-section')
+    const tabId = tabEl?.dataset.tabId
+    const panelId = tabEl?.closest('[data-panel-id]')?.dataset.panelId
+    if (!tabId || !panelId) return
+    if (!this._foldedTabs) this._foldedTabs = new Set()
+    const key = `${panelId}:${tabId}`
+    if (tabEl.classList.toggle('sr-config-tab-folded')) {
+      this._foldedTabs.add(key)
+    } else {
+      this._foldedTabs.delete(key)
     }
   }
 

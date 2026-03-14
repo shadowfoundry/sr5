@@ -89,6 +89,7 @@ export class sheetPreferencesPartialModel extends foundry.abstract.TypeDataModel
           resistanceToxin: new fields.StringField({initial: 'contact'}),
           resistanceSpecialDamage: new fields.StringField({initial: 'acid'}),
         }),
+        customLayout: new fields.ObjectField({ initial: {} }),
       }),
     }
   }
