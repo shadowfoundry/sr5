@@ -1594,6 +1594,7 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   /* === Nav tabs === */
   /* === Roll Table sheet === */
   /* === Macro sheet === */
+  /* === File Picker / Image Browser === */
   /* === Cards / Deck sheet === */
   /* === Form footer / dialog buttons === */
 }
@@ -2360,12 +2361,168 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .sheet-header {
   padding: 4px 8px;
   gap: 4px;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 15%, transparent);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .form-group,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .form-group,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .form-group,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .form-group {
-  padding: 0 8px 4px 8px;
+  padding: 4px 8px;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 10%, transparent);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor {
+  background: transparent !important;
+  color: var(--sr-text-color-dark) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters {
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
+  color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent) !important;
+  border-right: 1px solid var(--sr-ui-border-color-idle) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 8%, transparent) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content {
+  caret-color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor {
+  border-left-color: var(--sr-ui-border-color-active) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content {
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subheader,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subheader,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subheader,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subheader {
+  padding: 4px 8px;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag {
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 20%, transparent) !important;
+  border: 1px solid var(--sr-ui-border-color-idle) !important;
+  border-radius: 3px;
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link {
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"] {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file {
+  color: var(--sr-text-color-dark) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+  padding: 2px 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 20%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter {
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
+  background-image: none !important;
+  border-top: 1px solid var(--sr-ui-border-color-idle);
+  padding: 4px 8px !important;
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label {
+  color: var(--sr-text-color-dark) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"] {
+  color: var(--sr-text-color-dark);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header,
