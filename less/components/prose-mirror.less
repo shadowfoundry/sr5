@@ -5,6 +5,47 @@ prose-mirror.editor {
   menu {
     background: none;
     padding: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+
+    /* All toolbar items: simple dark square buttons with teal icons */
+    button,
+    .pm-dropdown,
+    > * {
+      background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+      color: var(--sr-ui-border-color-active) !important;
+      border: 1px solid var(--sr-ui-border-color-active) !important;
+      border-radius: 3px !important;
+      height: 26px !important;
+      min-width: 26px;
+      padding: 0 5px !important;
+      font-family: var(--sr-font-body);
+      font-size: var(--sr-font-size-small);
+      cursor: pointer;
+      transition: background-color 0.2s, color 0.2s;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      margin: 0 !important;
+      line-height: 1 !important;
+
+      &:hover {
+        background-color: var(--sr-ui-border-color-active) !important;
+        color: var(--sr-text-color-light) !important;
+      }
+
+      &::before {
+        content: none !important;
+      }
+
+      i {
+        font-size: 12px;
+        line-height: 1;
+      }
+    }
   }
 
   .editor-container {

@@ -121,6 +121,20 @@
       outline      : none !important;
       font-family  : inherit;
       font-size    : inherit;
+      accent-color : var(--sr-text-color-flash);
+      caret-color  : var(--sr-ui-border-color-active);
+
+      &::selection {
+        background-color: var(--sr-ui-border-color-active);
+        color: var(--sr-text-color-light);
+      }
+
+      /* Date/datetime picker icon — teal colored */
+      &::-webkit-calendar-picker-indicator {
+        filter: invert(42%) sepia(93%) saturate(1000%) hue-rotate(150deg) brightness(90%) contrast(95%);
+        cursor: pointer;
+        opacity: 1;
+      }
     }
 
     select {
@@ -182,8 +196,36 @@
     }
 
     /* === Content-area buttons === */
-    .form-fields button:not(.inline-control) {
+    .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker) {
       .sr-button-footer();
+    }
+
+    /* === File picker / browse button === */
+    .form-fields button.fa-file-import,
+    .form-fields button.file-picker {
+      background      : none !important;
+      border          : none !important;
+      box-shadow      : none !important;
+      color           : var(--sr-ui-border-color-active) !important;
+      padding         : 0 !important;
+      font-size       : inherit !important;
+      cursor          : pointer;
+      transition      : color 0.2s;
+      width           : auto !important;
+      height          : auto !important;
+      min-height      : unset !important;
+      line-height     : inherit !important;
+
+      &::before, &::after {
+        background: none !important;
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+      }
+
+      &:hover {
+        color: var(--sr-text-color-flash) !important;
+      }
     }
 
     /* === Section headers === */

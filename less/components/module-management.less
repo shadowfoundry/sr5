@@ -1,6 +1,138 @@
-/* === Module management === */
+/* === Module Management === */
 #module-management {
-  .title {
-    color: var(--sr-text-color-light);
+
+  .window-content {
+    padding: 0;
+
+    /* Description text at top */
+    > p {
+      color: var(--sr-text-color-dark);
+      font-size: var(--sr-font-size-small);
+      margin: 0;
+      padding: 8px;
+      border-bottom: 1px solid var(--sr-ui-border-color-idle);
+    }
+
+    /* Filter bar: dark gradient like nav.tabs in Scene Config */
+    search {
+      border-top: 1px solid var(--sr-text-color-flash);
+      border-bottom: 1px solid var(--sr-text-color-flash);
+      background: linear-gradient(
+        45deg,
+        color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent),
+        80%,
+        var(--sr-ui-border-color)
+      ), var(--sr-sidebar-background);
+      background-size: cover;
+      padding: 0 8px;
+      gap: 4px;
+
+      input[type="search"] {
+        background: none !important;
+        color: var(--sr-text-color-light) !important;
+        border: 0 !important;
+        border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 40%, transparent) !important;
+        border-radius: 0 !important;
+        padding: 4px !important;
+        font-family: var(--sr-font-body);
+
+        &::placeholder {
+          color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
+        }
+      }
+
+      /* Filter tabs */
+      .filter {
+        color: var(--sr-text-color-light);
+        font-family: var(--sr-font-title);
+        text-transform: uppercase;
+        font-size: var(--sr-font-size-small);
+        padding: 4px 8px;
+        opacity: 0.7;
+        white-space: nowrap;
+
+        &:hover {
+          opacity: 1;
+          text-shadow: none;
+        }
+
+        &.active {
+          opacity: 1;
+          text-shadow: none;
+          border-bottom: 2px solid var(--sr-text-color-flash);
+        }
+      }
+
+      /* Expand/collapse icon */
+      > a:not(.filter) {
+        color: var(--sr-text-color-light);
+        opacity: 0.7;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
+    /* Package list */
+    .package-list {
+      padding: 4px 8px;
+
+      .package {
+        padding: 4px 8px;
+        border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 50%, transparent);
+        background: none;
+
+        &:nth-child(even) {
+          background: color-mix(in srgb, var(--sr-ui-border-color) 5%, transparent);
+        }
+
+        &:hover {
+          background: color-mix(in srgb, var(--sr-text-color-flash) 8%, transparent);
+        }
+
+        /* Module name */
+        .package-title {
+          color: var(--sr-text-color-dark);
+          font-family: var(--sr-font-body-bold);
+          font-size: var(--sr-font-size-normal);
+
+          a {
+            color: var(--sr-text-color-dark);
+
+            &:hover {
+              color: var(--sr-ui-border-color-active);
+            }
+          }
+        }
+
+        /* Module description */
+        .package-description {
+          color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
+          font-size: var(--sr-font-size-small);
+        }
+
+        /* Metadata row */
+        .package-metadata {
+          .tag {
+            font-size: var(--sr-font-size-small);
+            border-radius: 3px;
+            padding: 1px 6px;
+            font-family: var(--sr-font-body);
+          }
+        }
+
+        /* Action icons */
+        .package-controls {
+          a {
+            color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+
+            &:hover {
+              color: var(--sr-ui-border-color-active);
+            }
+          }
+        }
+      }
+    }
   }
 }
