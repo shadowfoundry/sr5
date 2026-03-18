@@ -362,6 +362,8 @@ export const registerHooks = function () {
   Hooks.on("renderDocumentOwnershipConfig", (_app, html) => { enhanceSelects(html) })
   Hooks.on("renderDocumentSheetConfig",     (_app, html) => { enhanceSelects(html) })
   Hooks.on("renderWorldConfig",             (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderCombatTrackerConfig",     (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderMacroConfig",              (_app, html) => { enhanceSelects(html) })
 
   Hooks.on("createToken", async function(tokenDocument) {
     if (!game.user.isGM) return

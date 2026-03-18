@@ -343,6 +343,161 @@
     background: none;
   }
 
+  /* === Roll Table sheet === */
+  &.roll-table-sheet {
+    .sheet-header {
+      padding: 8px;
+
+      h1 {
+        font-family: var(--sr-font-title-alt);
+        text-transform: uppercase;
+        color: var(--sr-text-color-dark);
+      }
+
+      h4 {
+        font-family: var(--sr-font-title);
+        color: var(--sr-ui-border-color-active);
+        border: none;
+      }
+
+      button[data-action="changeMode"] {
+        .sr-button-footer();
+      }
+    }
+
+    table {
+      thead tr {
+        background: linear-gradient(
+          45deg,
+          color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent),
+          80%,
+          var(--sr-ui-border-color)
+        ), var(--sr-sidebar-background);
+        background-size: cover;
+        border-top: 1px solid var(--sr-text-color-flash);
+        border-bottom: 1px solid var(--sr-text-color-flash);
+
+        th {
+          color: var(--sr-text-color-light);
+          font-family: var(--sr-font-title);
+          text-transform: uppercase;
+          font-size: var(--sr-font-size-small);
+          padding: 2px 4px;
+        }
+      }
+
+      tbody tr {
+        background: transparent;
+        border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+        color: var(--sr-text-color-dark);
+
+        &:nth-child(even) {
+          background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
+        }
+
+        &:hover {
+          background: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent);
+        }
+
+        td {
+          padding: 4px;
+        }
+
+        td.range {
+          font-family: var(--sr-font-title);
+          color: var(--sr-text-color-dark);
+        }
+
+        td.image img {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+
+  /* === Macro sheet === */
+  &.macro-config .window-content {
+    background-image   : var(--sr-img-bg-white50) !important;
+    background-size    : cover !important;
+    background-position: top left !important;
+    background-color   : var(--sr-text-color-light) !important;
+
+    .sheet-header {
+      padding: 4px 8px;
+      gap: 4px;
+    }
+
+    .form-group {
+      padding: 0 8px 4px 8px;
+    }
+  }
+
+  /* === Cards / Deck sheet === */
+  &.cards-config {
+    .cards-header {
+      background: linear-gradient(
+        45deg,
+        color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent),
+        80%,
+        var(--sr-ui-border-color)
+      ), var(--sr-sidebar-background);
+      background-size: cover;
+      border-top: 1px solid var(--sr-text-color-flash);
+      border-bottom: 1px solid var(--sr-text-color-flash);
+      padding: 2px 4px;
+
+      strong, span {
+        color: var(--sr-text-color-light);
+        font-family: var(--sr-font-title);
+        text-transform: uppercase;
+        font-size: var(--sr-font-size-small);
+      }
+
+      a {
+        color: var(--sr-text-color-light);
+        &:hover { color: var(--sr-ui-border-color-active); }
+      }
+    }
+
+    ol.cards li {
+      background: transparent;
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+      padding: 2px 4px;
+
+      &:nth-child(even) {
+        background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
+      }
+
+      &:hover {
+        background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+      }
+
+      strong.name {
+        color: var(--sr-text-color-dark);
+        font-family: var(--sr-font-body);
+      }
+
+      span {
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
+        font-size: var(--sr-font-size-small);
+      }
+
+      .faces a {
+        color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+        &:hover { color: var(--sr-ui-border-color-active); }
+      }
+
+      .controls a {
+        color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+        &:hover { color: var(--sr-ui-border-color-active); }
+      }
+
+      img.face {
+        border-radius: 2px;
+      }
+    }
+  }
+
   /* === Form footer / dialog buttons === */
   footer,
   .dialog-buttons,

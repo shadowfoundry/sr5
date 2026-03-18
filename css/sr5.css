@@ -1592,6 +1592,9 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background-size: 520px auto;
   background-repeat: repeat;
   /* === Nav tabs === */
+  /* === Roll Table sheet === */
+  /* === Macro sheet === */
+  /* === Cards / Deck sheet === */
   /* === Form footer / dialog buttons === */
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
@@ -2200,6 +2203,268 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical {
   border: none;
   background: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header {
+  padding: 8px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1 {
+  font-family: var(--sr-font-title-alt);
+  text-transform: uppercase;
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4 {
+  font-family: var(--sr-font-title);
+  color: var(--sr-ui-border-color-active);
+  border: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"] {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover {
+  color: var(--sr-text-color-dark) !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: var(--sr-text-color-dark);
+  background: var(--sr-ui-border-color-active);
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr {
+  background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+  background-size: cover;
+  border-top: 1px solid var(--sr-text-color-flash);
+  border-bottom: 1px solid var(--sr-text-color-flash);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr th,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr th,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr th,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr th {
+  color: var(--sr-text-color-light);
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  padding: 2px 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr {
+  background: transparent;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td {
+  padding: 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range {
+  font-family: var(--sr-font-title);
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img {
+  opacity: 0.6;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content {
+  background-image: var(--sr-img-bg-white50) !important;
+  background-size: cover !important;
+  background-position: top left !important;
+  background-color: var(--sr-text-color-light) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .sheet-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .sheet-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .sheet-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .sheet-header {
+  padding: 4px 8px;
+  gap: 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .form-group,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .form-group,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .form-group,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .form-group {
+  padding: 0 8px 4px 8px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header {
+  background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+  background-size: cover;
+  border-top: 1px solid var(--sr-text-color-flash);
+  border-bottom: 1px solid var(--sr-text-color-flash);
+  padding: 2px 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header strong,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header strong,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header strong,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header strong,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header span,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header span,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header span,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header span {
+  color: var(--sr-text-color-light);
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a {
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a:hover {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li {
+  background: transparent;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+  padding: 2px 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even) {
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:hover {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li strong.name,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li strong.name,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li strong.name,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li strong.name {
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-body);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li span,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li span,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li span,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li span {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
+  font-size: var(--sr-font-size-small);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li img.face,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li img.face,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li img.face,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li img.face {
+  border-radius: 2px;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
@@ -7127,20 +7392,107 @@ body {
   color: var(--sr-text-color-flash);
   box-shadow: none;
 }
+#chat .chat-message .table-draw,
+#chat-notifications .chat-message .table-draw,
+#chat-popout .chat-message .table-draw {
+  background: none !important;
+  padding: 4px 8px;
+  border: none !important;
+  box-shadow: none !important;
+}
+#chat .chat-message .table-draw h4,
+#chat-notifications .chat-message .table-draw h4,
+#chat-popout .chat-message .table-draw h4,
+#chat .chat-message .table-draw h3,
+#chat-notifications .chat-message .table-draw h3,
+#chat-popout .chat-message .table-draw h3 {
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  color: var(--sr-text-color-dark);
+  border: none;
+  background: none;
+  margin: 0 0 4px 0;
+  padding: 2px 0;
+  font-size: var(--sr-font-size-normal);
+}
+#chat .chat-message .table-draw .dice-roll,
+#chat-notifications .chat-message .table-draw .dice-roll,
+#chat-popout .chat-message .table-draw .dice-roll {
+  margin: 4px 0;
+}
+#chat .chat-message .table-draw .dice-roll .dice-formula,
+#chat-notifications .chat-message .table-draw .dice-roll .dice-formula,
+#chat-popout .chat-message .table-draw .dice-roll .dice-formula {
+  background: var(--sr-text-color-dark);
+  color: var(--sr-text-color-light);
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  padding: 2px 8px;
+}
+#chat .chat-message .table-draw .dice-roll .dice-total,
+#chat-notifications .chat-message .table-draw .dice-roll .dice-total,
+#chat-popout .chat-message .table-draw .dice-roll .dice-total {
+  background: var(--sr-text-color-flash);
+  color: var(--sr-text-color-light);
+  font-family: var(--sr-font-title);
+  border: none;
+  border-radius: 0;
+  padding: 2px 8px;
+}
 #chat .chat-message .table-draw ol,
 #chat-notifications .chat-message .table-draw ol,
-#chat-popout .chat-message .table-draw ol {
-  padding: 0 0 0 0.5em;
+#chat-popout .chat-message .table-draw ol,
+#chat .chat-message .table-draw ul,
+#chat-notifications .chat-message .table-draw ul,
+#chat-popout .chat-message .table-draw ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: none !important;
+  border: none !important;
+}
+#chat .chat-message .table-draw .table-result,
+#chat-notifications .chat-message .table-draw .table-result,
+#chat-popout .chat-message .table-draw .table-result,
+#chat .chat-message .table-draw li,
+#chat-notifications .chat-message .table-draw li,
+#chat-popout .chat-message .table-draw li {
+  background: none !important;
+  border: none !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent) !important;
+  box-shadow: none !important;
+  padding: 4px 0;
+  margin: 0;
 }
 #chat .chat-message .table-draw .result-image,
 #chat-notifications .chat-message .table-draw .result-image,
-#chat-popout .chat-message .table-draw .result-image {
+#chat-popout .chat-message .table-draw .result-image,
+#chat .chat-message .table-draw img[src*="d20"],
+#chat-notifications .chat-message .table-draw img[src*="d20"],
+#chat-popout .chat-message .table-draw img[src*="d20"] {
   display: none;
 }
 #chat .chat-message .table-draw .result-text,
 #chat-notifications .chat-message .table-draw .result-text,
 #chat-popout .chat-message .table-draw .result-text {
-  padding-top: 5px;
+  padding: 2px 0;
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-body);
+}
+#chat .chat-message .table-draw .result,
+#chat-notifications .chat-message .table-draw .result,
+#chat-popout .chat-message .table-draw .result,
+#chat .chat-message .table-draw .table-result-text,
+#chat-notifications .chat-message .table-draw .table-result-text,
+#chat-popout .chat-message .table-draw .table-result-text,
+#chat .chat-message .table-draw [class*="result"],
+#chat-notifications .chat-message .table-draw [class*="result"],
+#chat-popout .chat-message .table-draw [class*="result"] {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 .dice-roll .dice-formula {
   background: none;
