@@ -1578,6 +1578,8 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   --button-background-color: transparent;
   --button-text-color: var(--sr-text-color-dark);
   --button-border-color: var(--sr-ui-border-color-idle);
+  /* sr5tabs part wrapper: transparent to layout so child .tab elements
+       participate directly in the flex flow like core tab parts */
   /* === Spacing === */
   /* === Form element styling === */
   /* === Checkboxes === */
@@ -1594,6 +1596,24 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .standard-form {
   padding: 8px;
   gap: 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part] {
+  padding: 8px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] {
+  display: contents;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab {
+  padding: 8px;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
@@ -1995,31 +2015,50 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs {
-  border-top: 2px solid var(--sr-ui-border-color-idle);
-  border-bottom: 2px solid var(--sr-ui-border-color-idle);
+  border-top: 1px solid var(--sr-text-color-flash);
+  border-bottom: 1px solid var(--sr-text-color-flash);
+  background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+  background-size: cover;
   font-family: var(--sr-font-title);
   text-transform: uppercase;
+  padding: 0 4px;
+  gap: 0;
+  flex-wrap: wrap;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab],
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab],
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab],
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] {
-  color: var(--sr-ui-color);
+  color: var(--sr-text-color-light);
+  padding: 4px 8px;
+  font-size: var(--sr-font-size-small);
+  flex-direction: row;
+  gap: 4px;
+  border-bottom: 2px solid transparent;
+  opacity: 0.7;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab] i,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab] i,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] i,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] i {
+  font-size: 12px;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover {
-  color: var(--sr-ui-color-active);
+  color: var(--sr-text-color-light);
   text-shadow: none;
+  opacity: 1;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active {
-  color: var(--sr-ui-color-active);
+  color: var(--sr-text-color-light);
   text-shadow: none;
-  border-bottom: 2px solid var(--sr-ui-border-color-active);
+  opacity: 1;
+  border-bottom-color: var(--sr-text-color-flash);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.faded-ui,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.faded-ui,
@@ -2030,6 +2069,7 @@ body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.vertica
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical {
   border: none;
+  background: none;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,

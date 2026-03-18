@@ -45,6 +45,20 @@
       gap: 4px;
     }
 
+    .tab[data-application-part] {
+      padding: 8px;
+    }
+
+    /* sr5tabs part wrapper: transparent to layout so child .tab elements
+       participate directly in the flex flow like core tab parts */
+    [data-application-part="sr5tabs"] {
+      display: contents;
+
+      > .tab {
+        padding: 8px;
+      }
+    }
+
     aside {
       background-image   : var(--sr-sidebar-background);
       background-origin  : border-box;
@@ -237,30 +251,53 @@
 
   /* === Nav tabs === */
   nav.tabs {
-    border-top: 2px solid var(--sr-ui-border-color-idle);
-    border-bottom: 2px solid var(--sr-ui-border-color-idle);
+    border-top: 1px solid var(--sr-text-color-flash);
+    border-bottom: 1px solid var(--sr-text-color-flash);
+    background: linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent),
+      80%,
+      var(--sr-ui-border-color)
+    ), var(--sr-sidebar-background);
+    background-size: cover;
     font-family: var(--sr-font-title);
     text-transform: uppercase;
+    padding: 0 4px;
+    gap: 0;
+    flex-wrap: wrap;
   }
 
   nav.tabs [data-tab] {
-    color: var(--sr-ui-color);
+    color: var(--sr-text-color-light);
+    padding: 4px 8px;
+    font-size: var(--sr-font-size-small);
+    flex-direction: row;
+    gap: 4px;
+    border-bottom: 2px solid transparent;
+    opacity: 0.7;
+
+    i {
+      font-size: 12px;
+    }
 
     &:hover {
-      color: var(--sr-ui-color-active);
+      color: var(--sr-text-color-light);
       text-shadow: none;
+      opacity: 1;
     }
 
     &.active {
-      color: var(--sr-ui-color-active);
+      color: var(--sr-text-color-light);
       text-shadow: none;
-      border-bottom: 2px solid var(--sr-ui-border-color-active);
+      opacity: 1;
+      border-bottom-color: var(--sr-text-color-flash);
     }
   }
 
   nav.tabs.faded-ui,
   nav.tabs.vertical {
     border: none;
+    background: none;
   }
 
   /* === Form footer / dialog buttons === */

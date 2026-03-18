@@ -2,10 +2,14 @@ import { SR5 } from "../config.js"
 
 export default class SR5SceneConfig extends foundry.applications.sheets.SceneConfig {
 
-  static PARTS = {
-    ...foundry.applications.sheets.SceneConfig.PARTS,
-    sr5tabs: { template: "systems/sr5/templates/interface/scene-sr5-tabs.html" }
-  }
+  static PARTS = (() => {
+    const { footer, ...rest } = foundry.applications.sheets.SceneConfig.PARTS
+    return {
+      ...rest,
+      sr5tabs: { template: "systems/sr5/templates/interface/scene-sr5-tabs.html" },
+      ...(footer ? { footer } : {})
+    }
+  })()
 
   static TABS = {
     sheet: {
