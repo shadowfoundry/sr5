@@ -1600,7 +1600,11 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part] {
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .adventure-overview,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .adventure-overview,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .adventure-overview,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .adventure-overview {
   padding: 8px;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],

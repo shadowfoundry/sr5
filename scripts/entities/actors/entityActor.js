@@ -572,6 +572,7 @@ export class SR5Actor extends Actor {
           switch (iData.type) {
             case "alchemical":
             case "banishing":
+            case "binding":
             case "masking":
             case "centering":
             case "counterspelling":
