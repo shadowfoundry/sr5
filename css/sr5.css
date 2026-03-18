@@ -2533,9 +2533,7 @@ body[class*=" sr-theme-"] #combat {
 body[class^="sr-theme-"] #combat .combat-tracker-header .encounters strong,
 body[class*=" sr-theme-"] #combat .combat-tracker-header .encounters strong,
 body[class^="sr-theme-"] #combat .combat-tracker-header .encounters h3,
-body[class*=" sr-theme-"] #combat .combat-tracker-header .encounters h3,
-body[class^="sr-theme-"] #combat .combat-tracker-header .encounters button,
-body[class*=" sr-theme-"] #combat .combat-tracker-header .encounters button {
+body[class*=" sr-theme-"] #combat .combat-tracker-header .encounters h3 {
   font-family: var(--sr-font-title-alt);
   text-transform: uppercase;
 }
@@ -2605,14 +2603,14 @@ body[class*=" sr-theme-"] #combat .combat-tracker li.combatant .token-initiative
 body[class^="sr-theme-"] #combat .combat-controls,
 body[class*=" sr-theme-"] #combat .combat-controls {
   border-top: 2px solid var(--sr-ui-border-color-active);
-}
-body[class^="sr-theme-"] #combat .combat-controls button,
-body[class*=" sr-theme-"] #combat .combat-controls button,
-body[class^="sr-theme-"] #combat .combat-controls a,
-body[class*=" sr-theme-"] #combat .combat-controls a {
-  font-family: var(--sr-font-title);
   text-transform: uppercase;
   font-size: var(--sr-font-size-small);
+}
+body[class^="sr-theme-"] #combat .combat-controls button:not([class*="fa-"]),
+body[class*=" sr-theme-"] #combat .combat-controls button:not([class*="fa-"]),
+body[class^="sr-theme-"] #combat .combat-controls a:not([class*="fa-"]),
+body[class*=" sr-theme-"] #combat .combat-controls a:not([class*="fa-"]) {
+  font-family: var(--sr-font-title);
 }
 body[class^="sr-theme-"] #combat .combat-controls button:hover,
 body[class*=" sr-theme-"] #combat .combat-controls button:hover,

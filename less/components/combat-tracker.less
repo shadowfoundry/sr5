@@ -18,7 +18,7 @@
     // -- Header --
     .combat-tracker-header {
         .encounters {
-            strong, h3, button {
+            strong, h3 {
                 font-family: var(--sr-font-title-alt);
                 text-transform: uppercase;
             }
@@ -98,12 +98,16 @@
     // -- Footer controls --
     .combat-controls {
         border-top: 2px solid var(--sr-ui-border-color-active);
+        text-transform: uppercase;
+        font-size: var(--sr-font-size-small);
+
+        // Only set title font on buttons that contain text, not FA icon-only buttons
+        button:not([class*="fa-"]),
+        a:not([class*="fa-"]) {
+            font-family: var(--sr-font-title);
+        }
 
         button, a {
-            font-family: var(--sr-font-title);
-            text-transform: uppercase;
-            font-size: var(--sr-font-size-small);
-
             &:hover {
                 color: var(--sr-ui-border-color-active);
             }
