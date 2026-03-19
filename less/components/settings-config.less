@@ -1,4 +1,64 @@
-/* === Settings config === */
+/* === Settings Sidebar Tab === */
+.settings-sidebar {
+
+  /* --- Header / Info section --- */
+  .info {
+    .title {
+      font-family: var(--sr-font-title-alt);
+      color: var(--sr-text-color-light);
+    }
+
+    .subtitle {
+      font-family: var(--sr-font-body);
+      color: var(--sr-ui-border-color-active);
+    }
+
+    > div {
+      font-family: var(--sr-font-body);
+      color: var(--sr-text-color-light);
+
+      .label {
+        font-weight: bold;
+      }
+
+      .value {
+        color: var(--sr-ui-border-color-active);
+      }
+    }
+  }
+
+  /* --- Section headings (dividers) --- */
+  section h4.divider {
+    font-family: var(--sr-font-title-alt);
+    font-size: 16px;
+    color: var(--sr-text-color-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &::before, &::after {
+      border-top-color: var(--sr-text-color-flash) !important;
+      border-top-style: solid !important;
+    }
+  }
+
+  /* --- Buttons: red/flash variant of sr-button-footer --- */
+  section button,
+  section a.button {
+    .sr-button-footer();
+    border-color: var(--sr-text-color-flash) !important;
+    background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent) !important;
+
+    &:hover {
+      color: var(--sr-text-color-dark) !important;
+    }
+
+    &::before {
+      background: var(--sr-text-color-flash) !important;
+    }
+  }
+}
+
+/* === Settings config window === */
 #settings-config {
   nav {
     button {

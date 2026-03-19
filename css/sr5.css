@@ -374,7 +374,8 @@ body[class*=" sr-theme-"] {
   /* === Exit/Return to Setup menu === */
   /* === Module Management === */
   /* === Token HUD === */
-  /* === Settings config === */
+  /* === Settings Sidebar Tab === */
+  /* === Settings config window === */
   /* === Notifications / toasts === */
   /* Foundry renders .notification with semantic sub-classes: .info, .warning, .error, .success
    We keep the semantic level colors intact (they convey meaning) but apply SR5 font. */
@@ -3675,6 +3676,125 @@ body[class*=" sr-theme-"] #combat .combat-controls button:hover,
 body[class^="sr-theme-"] #combat .combat-controls a:hover,
 body[class*=" sr-theme-"] #combat .combat-controls a:hover {
   color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .settings-sidebar,
+body[class*=" sr-theme-"] .settings-sidebar {
+  /* --- Header / Info section --- */
+  /* --- Section headings (dividers) --- */
+  /* --- Buttons: red/flash variant of sr-button-footer --- */
+}
+body[class^="sr-theme-"] .settings-sidebar .info .title,
+body[class*=" sr-theme-"] .settings-sidebar .info .title {
+  font-family: var(--sr-font-title-alt);
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .settings-sidebar .info .subtitle,
+body[class*=" sr-theme-"] .settings-sidebar .info .subtitle {
+  font-family: var(--sr-font-body);
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .settings-sidebar .info > div,
+body[class*=" sr-theme-"] .settings-sidebar .info > div {
+  font-family: var(--sr-font-body);
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .settings-sidebar .info > div .label,
+body[class*=" sr-theme-"] .settings-sidebar .info > div .label {
+  font-weight: bold;
+}
+body[class^="sr-theme-"] .settings-sidebar .info > div .value,
+body[class*=" sr-theme-"] .settings-sidebar .info > div .value {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .settings-sidebar section h4.divider,
+body[class*=" sr-theme-"] .settings-sidebar section h4.divider {
+  font-family: var(--sr-font-title-alt);
+  font-size: 16px;
+  color: var(--sr-text-color-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+body[class^="sr-theme-"] .settings-sidebar section h4.divider::before,
+body[class*=" sr-theme-"] .settings-sidebar section h4.divider::before,
+body[class^="sr-theme-"] .settings-sidebar section h4.divider::after,
+body[class*=" sr-theme-"] .settings-sidebar section h4.divider::after {
+  border-top-color: var(--sr-text-color-flash) !important;
+  border-top-style: solid !important;
+}
+body[class^="sr-theme-"] .settings-sidebar section button,
+body[class*=" sr-theme-"] .settings-sidebar section button,
+body[class^="sr-theme-"] .settings-sidebar section a.button,
+body[class*=" sr-theme-"] .settings-sidebar section a.button {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+  border-color: var(--sr-text-color-flash) !important;
+  background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent) !important;
+}
+body[class^="sr-theme-"] .settings-sidebar section button:hover,
+body[class*=" sr-theme-"] .settings-sidebar section button:hover,
+body[class^="sr-theme-"] .settings-sidebar section a.button:hover,
+body[class*=" sr-theme-"] .settings-sidebar section a.button:hover {
+  color: var(--sr-text-color-dark) !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+body[class^="sr-theme-"] .settings-sidebar section button:hover:before,
+body[class*=" sr-theme-"] .settings-sidebar section button:hover:before,
+body[class^="sr-theme-"] .settings-sidebar section a.button:hover:before,
+body[class*=" sr-theme-"] .settings-sidebar section a.button:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+body[class^="sr-theme-"] .settings-sidebar section button:before,
+body[class*=" sr-theme-"] .settings-sidebar section button:before,
+body[class^="sr-theme-"] .settings-sidebar section a.button:before,
+body[class*=" sr-theme-"] .settings-sidebar section a.button:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: var(--sr-text-color-dark);
+  background: var(--sr-ui-border-color-active);
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+body[class^="sr-theme-"] .settings-sidebar section button:hover,
+body[class*=" sr-theme-"] .settings-sidebar section button:hover,
+body[class^="sr-theme-"] .settings-sidebar section a.button:hover,
+body[class*=" sr-theme-"] .settings-sidebar section a.button:hover {
+  color: var(--sr-text-color-dark) !important;
+}
+body[class^="sr-theme-"] .settings-sidebar section button::before,
+body[class*=" sr-theme-"] .settings-sidebar section button::before,
+body[class^="sr-theme-"] .settings-sidebar section a.button::before,
+body[class*=" sr-theme-"] .settings-sidebar section a.button::before {
+  background: var(--sr-text-color-flash) !important;
 }
 body[class^="sr-theme-"] #settings-config nav button,
 body[class*=" sr-theme-"] #settings-config nav button {
