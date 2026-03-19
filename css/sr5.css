@@ -1582,10 +1582,10 @@ body[class*=" sr-theme-"] .sheet.journal-entry .journal-entry-content .journal-e
   font-family: var(--sr-font-body);
   font-weight: 700;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item),
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item),
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item),
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) {
   border: 1px solid var(--sr-ui-border-color);
   background-image: var(--sr-window-background);
   background-origin: border-box;
@@ -1598,10 +1598,10 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   /* === Cards / Deck sheet === */
   /* === Form footer / dialog buttons === */
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header {
   background-image: var(--sr-img-window-header) !important;
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -1609,16 +1609,16 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   border-bottom: 1px solid var(--sr-window-header-border);
   font-family: var(--sr-font-body);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header .window-title,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-header .window-title,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header .window-title,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-header .window-title {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header .window-title,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header .window-title,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header .window-title,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-header .window-title {
   color: var(--sr-text-color-light);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content {
   background-image: var(--sr-img-bg-white50);
   background-size: cover;
   background-position: top left;
@@ -1650,39 +1650,39 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   /* === Key badges === */
   /* === Inline icon control buttons === */
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .standard-form,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .standard-form,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .standard-form,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .standard-form {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .standard-form,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .standard-form,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .standard-form,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .standard-form {
   padding: 8px;
   gap: 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .tab[data-application-part],
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .adventure-overview,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .adventure-overview,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .adventure-overview,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .adventure-overview {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .tab[data-application-part],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .tab[data-application-part],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .tab[data-application-part],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .tab[data-application-part],
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .adventure-overview,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .adventure-overview,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .adventure-overview,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .adventure-overview {
   padding: 8px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"] {
   display: contents;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content [data-application-part="sr5tabs"] > .tab {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"] > .tab,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"] > .tab,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"] > .tab,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content [data-application-part="sr5tabs"] > .tab {
   padding: 8px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside {
   background-image: var(--sr-img-bg-white50);
   background-size: cover;
   background-position: top left;
@@ -1695,69 +1695,69 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   /* Search input icon */
   /* Search icon */
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside > *,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside > *,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside > *,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside > * {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside > *,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside > *,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside > *,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside > * {
   padding: 8px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside label,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside label,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside label,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside label {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside label {
   color: var(--sr-text-color-dark);
   font-family: var(--sr-font-body);
   font-size: var(--sr-font-size-small);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input {
   color: var(--sr-text-color-dark) !important;
   border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"],
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"],
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input {
   color: var(--sr-text-color-dark) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"]::placeholder,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"]::placeholder,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"]::placeholder,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside input[type="search"]::placeholder,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input::placeholder,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input::placeholder,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input::placeholder,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside .filter-input::placeholder {
   color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-search,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-search,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-search,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-search {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-magnifying-glass,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-magnifying-glass,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-magnifying-glass,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-magnifying-glass,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-search,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-search,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-search,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside i.fa-search {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical {
   padding: 4px 0;
   border: none;
   background: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] {
   padding: 8px 10px;
   color: var(--sr-text-color-dark);
   font-family: var(--sr-font-body);
@@ -1769,72 +1769,72 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   opacity: 1;
   background: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .badge,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .badge,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .badge,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab] .badge {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active {
   color: var(--sr-text-color-flash);
   font-weight: bold;
   background: color-mix(in srgb, var(--sr-text-color-flash) 8%, transparent);
   border-left-color: var(--sr-text-color-flash);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .badge,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .badge,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .badge,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab].active .badge {
   color: var(--sr-text-color-flash);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content aside nav.tabs.vertical [data-tab]:hover {
   color: var(--sr-ui-border-color-active);
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 5%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main {
   padding: 0;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main .categories,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main .categories,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main .categories,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .main .categories {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main .categories,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main .categories,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main .categories,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .main .categories {
   padding: 8px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-group,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-group,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-group,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-group {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-group,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-group,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-group,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-group {
   margin-bottom: 4px;
   gap: 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content label,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content label,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content label,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content label {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content label {
   color: var(--sr-text-color-dark);
   font-family: var(--sr-font-body);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
   background: none !important;
   color: var(--sr-text-color-dark) !important;
   border: 0 !important;
@@ -1849,25 +1849,25 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   caret-color: var(--sr-ui-border-color-active);
   /* Date/datetime picker icon — teal colored */
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::selection {
   background-color: var(--sr-ui-border-color-active);
   color: var(--sr-text-color-light);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"])::-webkit-calendar-picker-indicator {
   filter: invert(42%) sepia(93%) saturate(1000%) hue-rotate(150deg) brightness(90%) contrast(95%);
   cursor: pointer;
   opacity: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select {
   color: var(--sr-text-accent-light);
   background-color: transparent !important;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'><path fill='%23931004' d='M0 0l5 6 5-6z'/></svg>") !important;
@@ -1886,32 +1886,32 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   font-size: inherit;
   cursor: pointer;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select optgroup,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select optgroup,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select optgroup,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select optgroup {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select optgroup,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select optgroup,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select optgroup,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select optgroup {
   background-color: var(--sr-ui-bg-color-dark);
   color: var(--sr-ui-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:checked,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:checked,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:checked,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:checked,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content select option:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content select option:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:checked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:checked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:checked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:checked,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select option:hover {
   background-color: var(--sr-ui-bg-color-hover);
   color: var(--sr-ui-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"] {
   --checkbox-size: 14px;
   width: var(--checkbox-size);
   height: var(--checkbox-size);
@@ -1921,35 +1921,35 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   position: relative;
   /* teal tick on light background */
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::before {
   content: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]::after {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]::after {
   content: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus {
   border-color: color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
   background: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:hover {
   border-color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after {
   content: "\f00c";
   font-family: var(--font-awesome);
   color: var(--sr-ui-color-active);
@@ -1963,30 +1963,30 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   align-items: center;
   justify-content: center;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:focus-visible {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus-visible,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus-visible,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus-visible,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:focus-visible {
   outline: 2px solid var(--sr-ui-border-color-active);
   outline-offset: 1px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:disabled {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:disabled,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:disabled,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:disabled,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:disabled {
   opacity: 0.5;
   cursor: default;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="checkbox"]:checked::after {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="checkbox"]:checked::after {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"] {
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
@@ -1999,56 +1999,56 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   cursor: pointer;
   /* light inner ring on light background */
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::before {
   content: none !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::after,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]::after,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::after,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]::after {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]::after {
   content: none !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:hover {
   border-color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked {
   border-color: var(--sr-ui-border-color-active);
   background: var(--sr-ui-border-color-active);
   box-shadow: inset 0 0 0 3px var(--sr-ui-bg-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:focus-visible {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:focus-visible,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:focus-visible,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:focus-visible,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:focus-visible {
   outline: 2px solid var(--sr-ui-border-color-active);
   outline-offset: 1px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:disabled {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:disabled,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:disabled,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:disabled,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:disabled {
   opacity: 0.5;
   cursor: default;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content input[type="radio"]:checked {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content input[type="radio"]:checked {
   box-shadow: inset 0 0 0 3px var(--sr-text-color-light);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker),
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker),
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker),
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker) {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker) {
   --button-size: auto !important;
   --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   --button-border-color: var(--sr-ui-border-color-active) !important;
@@ -2074,26 +2074,26 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   z-index: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover {
   color: var(--sr-text-color-dark) !important;
   background-color: transparent !important;
   box-shadow: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):before {
   display: block;
   position: absolute;
   top: 0px;
@@ -2106,14 +2106,14 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background: var(--sr-ui-border-color-active);
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker {
   background: none !important;
   border: none !important;
   box-shadow: none !important;
@@ -2127,62 +2127,62 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   min-height: unset !important;
   line-height: inherit !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::after,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::after,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::after,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import::after,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::after,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::after,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::after,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker::after {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import::after,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::after,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::after,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::after,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker::after {
   background: none !important;
   position: static !important;
   width: auto !important;
   height: auto !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.fa-file-import:hover,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .form-fields button.file-picker:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.fa-file-import:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .form-fields button.file-picker:hover {
   color: var(--sr-text-color-flash) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h3,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h3,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h3,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h3,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h4,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content h4,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h4,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content h4 {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h3,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h3,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h3,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h3,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h4,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h4,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h4,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content h4 {
   color: var(--sr-ui-border-color);
   font-family: var(--sr-font-title);
   border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content p.hint,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content p.hint,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content p.hint,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content p.hint {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content p.hint,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content p.hint,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content p.hint,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content p.hint {
   color: color-mix(in srgb, var(--sr-text-color-dark) 55%, transparent);
   font-size: var(--sr-font-size-small);
   font-style: normal;
   margin-top: 0;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content kbd,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content kbd,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content kbd,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content kbd {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content kbd,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content kbd,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content kbd,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content kbd {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2196,19 +2196,19 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   font-size: var(--sr-font-size-small);
   box-shadow: 0 1px 0 var(--sr-ui-border-color-idle);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .controls,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .controls,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .controls,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content .controls {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .controls,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .controls,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .controls,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .controls {
   visibility: visible !important;
   opacity: 1 !important;
   flex: 0 0 auto;
   margin-left: auto;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon {
   visibility: visible !important;
   opacity: 1 !important;
   display: inline-flex !important;
@@ -2227,16 +2227,16 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   cursor: pointer;
   transition: color 0.2s;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content button.inline-control.icon:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content button.inline-control.icon:hover {
   color: var(--sr-ui-border-color-active) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs {
   border-top: 1px solid var(--sr-text-color-flash);
   border-bottom: 1px solid var(--sr-text-color-flash);
   background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
@@ -2247,10 +2247,10 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   gap: 0;
   flex-wrap: wrap;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab] {
   color: var(--sr-text-color-light);
   padding: 4px 8px;
   font-size: var(--sr-font-size-small);
@@ -2259,66 +2259,66 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   border-bottom: 2px solid transparent;
   opacity: 0.7;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab] i,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab] i,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] i,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab] i {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab] i,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab] i,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab] i,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab] i {
   font-size: 12px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab]:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab]:hover {
   color: var(--sr-text-color-light);
   text-shadow: none;
   opacity: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs [data-tab].active {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab].active,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab].active,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab].active,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs [data-tab].active {
   color: var(--sr-text-color-light);
   text-shadow: none;
   opacity: 1;
   border-bottom-color: var(--sr-text-color-flash);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.faded-ui,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.faded-ui,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.faded-ui,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.faded-ui,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.vertical,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) nav.tabs.vertical,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) nav.tabs.vertical {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.faded-ui,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.faded-ui,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.faded-ui,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.faded-ui,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.vertical,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.vertical,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.vertical,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) nav.tabs.vertical {
   border: none;
   background: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header {
   padding: 8px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h1 {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h1,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h1,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h1,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h1 {
   font-family: var(--sr-font-title-alt);
   text-transform: uppercase;
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header h4 {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h4,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h4,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h4,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header h4 {
   font-family: var(--sr-font-title);
   color: var(--sr-ui-border-color-active);
   border: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"] {
   --button-size: auto !important;
   --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   --button-border-color: var(--sr-ui-border-color-active) !important;
@@ -2344,26 +2344,26 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   z-index: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover {
   color: var(--sr-text-color-dark) !important;
   background-color: transparent !important;
   box-shadow: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet .sheet-header button[data-action="changeMode"]:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet .sheet-header button[data-action="changeMode"]:before {
   display: block;
   position: absolute;
   top: 0px;
@@ -2376,365 +2376,365 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background: var(--sr-ui-border-color-active);
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr {
   background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
   background-size: cover;
   border-top: 1px solid var(--sr-text-color-flash);
   border-bottom: 1px solid var(--sr-text-color-flash);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr th,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table thead tr th,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr th,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table thead tr th {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr th,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr th,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr th,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table thead tr th {
   color: var(--sr-text-color-light);
   font-family: var(--sr-font-title);
   text-transform: uppercase;
   font-size: var(--sr-font-size-small);
   padding: 2px 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr {
   background: transparent;
   border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even),
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even),
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even),
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:nth-child(even) {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:nth-child(even),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:nth-child(even),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:nth-child(even),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:nth-child(even) {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr:hover {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td {
   padding: 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.range {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.range,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.range,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.range,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.range {
   font-family: var(--sr-font-title);
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).roll-table-sheet table tbody tr td.image img {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.image img,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.image img,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.image img,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).roll-table-sheet table tbody tr td.image img {
   opacity: 0.6;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content {
   background-image: var(--sr-img-bg-white50) !important;
   background-size: cover !important;
   background-position: top left !important;
   background-color: var(--sr-text-color-light) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .sheet-header,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .sheet-header,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .sheet-header,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .sheet-header {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .sheet-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .sheet-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .sheet-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .sheet-header {
   padding: 4px 8px;
   gap: 4px;
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 15%, transparent);
   border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .form-group,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .form-group,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .form-group,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .form-group {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .form-group,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .form-group,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .form-group,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .form-group {
   padding: 4px 8px;
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 10%, transparent);
   border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor {
   background: transparent !important;
   color: var(--sr-text-color-dark) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-gutters,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-gutters {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-gutters,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-gutters,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-gutters,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-gutters,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-gutters,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-gutters,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-gutters,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-gutters {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
   color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent) !important;
   border-right: 1px solid var(--sr-ui-border-color-idle) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLineGutter,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLineGutter {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLineGutter,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLineGutter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLineGutter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLineGutter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLineGutter {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-activeLine,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-activeLine {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLine,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLine,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLine,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-activeLine,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLine,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLine,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLine,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-activeLine {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 8%, transparent) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-content,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-content {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-content,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-content {
   caret-color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content code-mirror .cm-cursor,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).macro-config .window-content .cm-editor .cm-cursor {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-cursor,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-cursor,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-cursor,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content code-mirror .cm-cursor,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-cursor,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-cursor,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-cursor,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-cursor {
   border-left-color: var(--sr-ui-border-color-active) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content {
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subheader,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subheader,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subheader,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subheader {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader {
   padding: 4px 8px;
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
   border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 20%, transparent) !important;
   border: 1px solid var(--sr-ui-border-color-idle) !important;
   border-radius: 3px;
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .tag a.link {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link {
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button {
   color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .split-button button[aria-pressed="true"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"] {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file {
   color: var(--sr-text-color-dark) !important;
   border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
   padding: 2px 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file.picked {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 20%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .files-list li.file i {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
   background-image: none !important;
   border-top: 1px solid var(--sr-ui-border-color-idle);
   padding: 4px 8px !important;
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content .subfooter label {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label {
   color: var(--sr-text-color-dark) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item)#file-picker .window-content input[type="file"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"] {
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header {
   background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
   background-size: cover;
   border-top: 1px solid var(--sr-text-color-flash);
   border-bottom: 1px solid var(--sr-text-color-flash);
   padding: 2px 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header strong,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header strong,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header strong,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header strong,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header span,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header span,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header span,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header span {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header strong,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header strong,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header strong,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header strong,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header span,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header span,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header span,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header span {
   color: var(--sr-text-color-light);
   font-family: var(--sr-font-title);
   text-transform: uppercase;
   font-size: var(--sr-font-size-small);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a {
   color: var(--sr-text-color-light);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config .cards-header a:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config .cards-header a:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header a:hover {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li {
   background: transparent;
   border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
   padding: 2px 4px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even),
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even),
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even),
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:nth-child(even) {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:nth-child(even),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:nth-child(even),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:nth-child(even),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:nth-child(even) {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li:hover {
   background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li strong.name,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li strong.name,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li strong.name,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li strong.name {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li strong.name,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li strong.name,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li strong.name,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li strong.name {
   color: var(--sr-text-color-dark);
   font-family: var(--sr-font-body);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li span,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li span,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li span,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li span {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li span,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li span,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li span,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li span {
   color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
   font-size: var(--sr-font-size-small);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a {
   color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .faces a:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .faces a:hover {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a {
   color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li .controls a:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li .controls a:hover {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li img.face,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item).cards-config ol.cards li img.face,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li img.face,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li img.face {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li img.face,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li img.face,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li img.face,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config ol.cards li img.face {
   border-radius: 2px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > footer,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > footer,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > footer,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > footer,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > .form-footer,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > .form-footer,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > .form-footer,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > .form-footer {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > footer,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > .form-footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > .form-footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > .form-footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content > .form-footer {
   grid-column: 1 / -1;
   flex-basis: 100%;
   width: 100%;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer {
   background-image: var(--sr-img-actor-sheet-bottom) !important;
   background-size: auto 100% !important;
   background-repeat: repeat-x;
@@ -2744,30 +2744,30 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   justify-content: space-between;
   gap: 8px;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default {
   --button-size: auto !important;
   --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   --button-border-color: var(--sr-ui-border-color-active) !important;
@@ -2794,86 +2794,86 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   z-index: 1;
   flex: 1 1 0;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover {
   color: var(--sr-text-color-dark) !important;
   background-color: transparent !important;
   box-shadow: none;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:hover:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:hover:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:hover:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:hover:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:hover:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:hover:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:hover:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:hover:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:hover:before {
   left: 0%;
   right: auto;
   width: 100%;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button.default:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer button.default:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .dialog-buttons button.default:before,
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:before,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .form-footer button.default:before,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:before,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .form-footer button.default:before {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) footer button.default:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .dialog-buttons button.default:before,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:before,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:before,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:before,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .form-footer button.default:before {
   display: block;
   position: absolute;
   top: 0px;
