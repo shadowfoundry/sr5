@@ -1500,50 +1500,83 @@ body[class*=" sr-theme-"] #pause img {
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application,
 body[class*=" sr-theme-"] .sheet.journal-entry.application {
+  /* Dark sidebar to match the main sidebar aesthetic */
   /* --- Journal content area (dark background) --- */
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar {
   font-family: var(--sr-font-body);
+  background-image: var(--sr-sidebar-background) !important;
+  background-size: cover !important;
+  background-color: var(--sr-ui-bg-color-dark) !important;
+  color: var(--sr-text-color-light);
+  border-right: 1px solid var(--sr-ui-border-color);
+  /* --- Search bar --- */
   /* --- TOC page entries --- */
   /* --- Category headers --- */
-  /* --- Search bar icons --- */
   /* --- Footer navigation buttons ---
        Let the dark SR5 footer background from window.less apply (like Game Settings).
        Just fix the icon buttons so FA icons render. */
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search {
+  /* Icon buttons: light on dark sidebar */
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search input,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search input {
+  color: var(--sr-text-color-light) !important;
+  border-bottom-color: var(--sr-ui-border-color-idle) !important;
+  background: none !important;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search input::placeholder,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search input::placeholder {
+  color: color-mix(in srgb, var(--sr-text-color-light) 40%, transparent);
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.inline-control,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.inline-control,
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.icon,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.icon,
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control {
+  color: var(--sr-text-color-light) !important;
+  font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.inline-control:hover,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.inline-control:hover,
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.icon:hover,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search button.icon:hover,
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control:hover,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control:hover {
+  color: var(--sr-ui-border-color-active) !important;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page {
   border-color: color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
 }
-body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page.active:first-of-type,
-body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page.active:first-of-type {
-  border-top: 1px solid var(--sr-ui-border-color);
-}
-body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page.active:last-of-type,
-body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page.active:last-of-type {
-  border-bottom: 1px solid var(--sr-ui-border-color);
-}
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page.active,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.page.active {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 8%, transparent);
+  background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
+  border-left: 3px solid var(--sr-text-color-flash);
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .page-index,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .page-index {
-  color: var(--sr-text-color-grey);
+  color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar a,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar a,
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .page-title,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .page-title {
-  color: var(--sr-text-accent-light);
+  color: var(--sr-text-color-light);
   font-family: var(--sr-font-body);
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar a:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar a:hover,
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .page-title:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .page-title:hover {
-  color: var(--sr-ui-border-color-active);
+  color: var(--sr-ui-color-active);
   text-shadow: none;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc li.category strong,
@@ -1552,14 +1585,6 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar .toc
   font-family: var(--sr-font-title);
   text-transform: uppercase;
   font-size: var(--sr-font-size-small);
-}
-body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control,
-body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control {
-  color: var(--sr-text-color-dark) !important;
-}
-body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control:hover,
-body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar search .inline-control:hover {
-  color: var(--sr-ui-border-color-active) !important;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-sidebar footer.action-buttons,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar footer.action-buttons {
@@ -1579,14 +1604,16 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-sidebar foot
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content {
   font-family: var(--sr-font-journal);
-  color: var(--sr-text-color-light);
-  background-image: var(--sr-sidebar-background);
+  color: var(--sr-text-color-dark);
+  background-image: var(--sr-img-bg-white50);
   background-size: cover;
-  background-color: var(--sr-ui-bg-color-dark);
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: var(--sr-text-color-light);
   /* Force SR journal font on all text descendants */
   /* Restore Font Awesome on icon elements */
   /* Restore font on buttons and controls */
-  /* Title input — light styling on dark bg */
+  /* Book title — dark header bar, no bottom border */
   /* Edit page button — pinned top-right of each page */
   /* Backlinks / journal footer */
 }
@@ -1616,14 +1643,22 @@ body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .inline-control {
   font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
 }
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-header,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-header {
+  background-image: var(--sr-img-window-header);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 8px;
+  border: none;
+  margin: 0 0 8px 0 !important;
+}
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-header .title,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-header .title {
-  font-family: var(--sr-font-title-alt) !important;
+  font-family: var(--sr-font-title) !important;
   font-size: 28px !important;
-  color: var(--sr-text-color-flash) !important;
+  color: var(--sr-text-color-light) !important;
   background: none !important;
   border: none !important;
-  border-bottom: 1px solid var(--sr-text-color-flash) !important;
   text-transform: uppercase;
   text-align: center;
   height: auto !important;
@@ -1645,9 +1680,9 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
   top: 0;
   pointer-events: all;
   font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
-  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 80%, transparent) !important;
-  color: var(--sr-text-color-flash) !important;
-  border: 1px solid var(--sr-text-color-flash) !important;
+  background: color-mix(in srgb, var(--sr-text-color-light) 80%, transparent) !important;
+  color: var(--sr-ui-border-color) !important;
+  border: 1px solid var(--sr-ui-border-color) !important;
   border-radius: 3px !important;
   padding: 4px 6px !important;
   box-shadow: none !important;
@@ -1665,15 +1700,15 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-page .edit-container button:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-page .edit-container button:hover {
-  background: var(--sr-text-color-flash) !important;
+  background: var(--sr-ui-border-color) !important;
   color: var(--sr-text-color-light) !important;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer {
   font-family: var(--sr-font-body);
   font-size: var(--sr-font-size-small);
-  color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
-  border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 30%, transparent);
+  color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 30%, transparent);
   padding-top: 8px;
   margin-top: 16px;
 }
@@ -1681,36 +1716,38 @@ body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer strong {
   font-family: var(--sr-font-title);
   text-transform: uppercase;
-  color: var(--sr-text-color-flash);
+  color: var(--sr-ui-border-color);
   letter-spacing: 0.05em;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer a.content-link,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer a.content-link {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
-  border-radius: 2px;
-  padding: 1px 6px;
-  color: var(--sr-text-color-flash);
-  font-family: var(--sr-font-title) !important;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--sr-ui-border-color);
+  font-family: var(--sr-font-body) !important;
   font-size: var(--sr-font-size-small);
   text-decoration: none;
+  text-transform: none;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer a.content-link i,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer a.content-link i {
   font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+  color: var(--sr-ui-border-color) !important;
   margin-right: 2px;
   font-size: 0.85em;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer a.content-link:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-footer a.content-link:hover {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
-  color: var(--sr-text-color-light);
+  color: var(--sr-text-color-dark);
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages {
   /* --- Center images --- */
   /* --- Content links --- */
   /* --- Inline rolls & links --- */
+  /* --- Tables --- */
+  /* --- Horizontal rules --- */
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h1,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h1,
@@ -1725,18 +1762,18 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h6,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h6 {
   text-transform: uppercase;
-  font-family: var(--sr-font-title-alt) !important;
+  font-family: var(--sr-font-body) !important;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h1,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h1 {
-  color: var(--sr-text-color-flash);
-  border-bottom: 2px solid var(--sr-text-color-flash);
+  color: var(--sr-ui-border-color);
+  border-bottom: 2px solid var(--sr-ui-border-color);
   padding-bottom: 5px;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h2,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h2 {
-  color: var(--sr-text-color-flash);
-  border-bottom: 1px solid var(--sr-text-color-flash);
+  color: var(--sr-ui-border-color);
+  border-bottom: 1px solid var(--sr-ui-border-color);
   padding-bottom: 5px;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h3,
@@ -1745,7 +1782,7 @@ body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h4,
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h5,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h5 {
-  color: var(--sr-text-color-flash);
+  color: var(--sr-ui-border-color);
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages img,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages img {
@@ -1755,38 +1792,71 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.content-link,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.content-link {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
-  border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 40%, transparent);
-  border-radius: 3px;
-  padding: 1px 6px;
-  color: var(--sr-text-color-flash);
-  font-family: var(--sr-font-title) !important;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--sr-ui-border-color);
+  font-family: var(--sr-font-body) !important;
   text-decoration: none;
+  text-transform: none;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.content-link i,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.content-link i {
   font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+  color: var(--sr-ui-border-color) !important;
   margin-right: 3px;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.content-link:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.content-link:hover {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
-  color: var(--sr-text-color-light);
-  text-shadow: 0 0 4px var(--sr-text-color-flash);
+  color: var(--sr-text-color-dark);
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.inline-roll,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.inline-roll,
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a {
-  color: var(--sr-text-color-flash);
-  font-family: var(--sr-font-title) !important;
+  color: var(--sr-ui-border-color);
+  font-family: var(--sr-font-body) !important;
+  text-transform: none;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.inline-roll:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a.inline-roll:hover,
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a:hover,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages a:hover {
-  color: var(--sr-text-color-light);
-  text-shadow: 0 0 4px var(--sr-text-color-flash);
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table {
+  --table-background-color: transparent !important;
+  border-collapse: collapse;
+  border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+  background: none !important;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table th,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table th {
+  background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-title);
+  padding: 4px 8px;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table td,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table td {
+  padding: 4px 8px;
+  background: none !important;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table tr:nth-child(odd),
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table tr:nth-child(odd) {
+  background: color-mix(in srgb, var(--sr-text-color-dark) 10%, transparent) !important;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table tr:nth-child(even),
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages table tr:nth-child(even) {
+  background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+}
+body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages hr,
+body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages hr {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+  margin: 16px 0;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages blockquote,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages blockquote {
@@ -1804,7 +1874,7 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
   position: absolute;
   left: -0.75rem;
   top: 0;
-  color: var(--sr-text-color-flash);
+  color: var(--sr-ui-border-color);
   font-family: var(--sr-font-body);
   font-weight: 700;
 }
@@ -2076,7 +2146,8 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
        participate directly in the flex flow like core tab parts */
   /* === Spacing === */
   /* === Form element styling === */
-  /* Journal content area uses dark bg — override light-theme input colors */
+  /* Journal header title on dark bg — override light-theme input color */
+  /* Journal sidebar uses dark bg — override light-theme colors */
   /* === Checkboxes === */
   /* === Radio buttons === */
   /* === Content-area buttons === */
@@ -2300,24 +2371,42 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   cursor: pointer;
   opacity: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title {
+  color: var(--sr-text-color-light) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
   color: var(--sr-text-color-light) !important;
   border-bottom-color: color-mix(in srgb, var(--sr-text-color-light) 30%, transparent) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content select,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content select,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content select,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content select {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar select,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar select,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar select,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar select {
   color: var(--sr-text-color-light) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content label,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content label,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content label,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-entry-content label {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar label {
   color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon {
+  color: var(--sr-text-color-light) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar button.inline-control.icon:hover {
+  color: var(--sr-ui-border-color-active) !important;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content select,

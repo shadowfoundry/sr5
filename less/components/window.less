@@ -189,8 +189,13 @@
       }
     }
 
-    /* Journal content area uses dark bg — override light-theme input colors */
-    .journal-entry-content {
+    /* Journal header title on dark bg — override light-theme input color */
+    .journal-header .title {
+      color: var(--sr-text-color-light) !important;
+    }
+
+    /* Journal sidebar uses dark bg — override light-theme colors */
+    .journal-sidebar {
       input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
         color: var(--sr-text-color-light) !important;
         border-bottom-color: color-mix(in srgb, var(--sr-text-color-light) 30%, transparent) !important;
@@ -202,6 +207,14 @@
 
       label {
         color: var(--sr-text-color-light);
+      }
+
+      button.inline-control.icon {
+        color: var(--sr-text-color-light) !important;
+
+        &:hover {
+          color: var(--sr-ui-border-color-active) !important;
+        }
       }
     }
 

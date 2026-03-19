@@ -1,37 +1,64 @@
 /* === Journal entries === */
 .sheet.journal-entry.application {
 
+  /* Dark sidebar to match the main sidebar aesthetic */
   .journal-sidebar {
     font-family: var(--sr-font-body);
+    background-image: var(--sr-sidebar-background) !important;
+    background-size: cover !important;
+    background-color: var(--sr-ui-bg-color-dark) !important;
+    color: var(--sr-text-color-light);
+    border-right: 1px solid var(--sr-ui-border-color);
+
+    /* --- Search bar --- */
+    search {
+      input {
+        color: var(--sr-text-color-light) !important;
+        border-bottom-color: var(--sr-ui-border-color-idle) !important;
+        background: none !important;
+
+        &::placeholder {
+          color: color-mix(in srgb, var(--sr-text-color-light) 40%, transparent);
+        }
+      }
+
+      /* Icon buttons: light on dark sidebar */
+      button.inline-control,
+      button.icon,
+      .inline-control {
+        color: var(--sr-text-color-light) !important;
+        font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+
+        &:hover {
+          color: var(--sr-ui-border-color-active) !important;
+        }
+      }
+    }
 
     /* --- TOC page entries --- */
     .toc li.page {
       border-color: color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
     }
 
-    .toc li.page.active:first-of-type {
-      border-top: 1px solid var(--sr-ui-border-color);
-    }
-
-    .toc li.page.active:last-of-type {
-      border-bottom: 1px solid var(--sr-ui-border-color);
-    }
-
     .toc li.page.active {
-      background: color-mix(in srgb, var(--sr-text-color-flash) 8%, transparent);
+      background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
+      border-left: 3px solid var(--sr-text-color-flash);
     }
 
     .page-index {
-      color: var(--sr-text-color-grey);
+      color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
     }
 
     a,
     .page-title {
-      color: var(--sr-text-accent-light);
+      color: var(--sr-text-color-light);
       font-family: var(--sr-font-body);
 
       &:hover {
-        color: var(--sr-ui-border-color-active);
+        color: var(--sr-ui-color-active);
         text-shadow: none;
       }
     }
@@ -42,15 +69,6 @@
       font-family: var(--sr-font-title);
       text-transform: uppercase;
       font-size: var(--sr-font-size-small);
-    }
-
-    /* --- Search bar icons --- */
-    search .inline-control {
-      color: var(--sr-text-color-dark) !important;
-
-      &:hover {
-        color: var(--sr-ui-border-color-active) !important;
-      }
     }
 
     /* --- Footer navigation buttons ---
@@ -75,10 +93,12 @@
   /* --- Journal content area (dark background) --- */
   .journal-entry-content {
     font-family: var(--sr-font-journal);
-    color: var(--sr-text-color-light);
-    background-image: var(--sr-sidebar-background);
+    color: var(--sr-text-color-dark);
+    background-image: var(--sr-img-bg-white50);
     background-size: cover;
-    background-color: var(--sr-ui-bg-color-dark);
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-color: var(--sr-text-color-light);
 
     /* Force SR journal font on all text descendants */
     & * {
@@ -96,19 +116,27 @@
       font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
     }
 
-    /* Title input — light styling on dark bg */
-    .journal-header .title {
-      font-family: var(--sr-font-title-alt) !important;
-      font-size: 28px !important;
-      color: var(--sr-text-color-flash) !important;
-      background: none !important;
-      border: none !important;
-      border-bottom: 1px solid var(--sr-text-color-flash) !important;
-      text-transform: uppercase;
-      text-align: center;
-      height: auto !important;
-      line-height: 1.4 !important;
-      padding: 4px 0 !important;
+    /* Book title — dark header bar, no bottom border */
+    .journal-header {
+      background-image: var(--sr-img-window-header);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      padding: 8px;
+      border: none;
+      margin: 0 0 8px 0 !important;
+
+      .title {
+        font-family: var(--sr-font-title) !important;
+        font-size: 28px !important;
+        color: var(--sr-text-color-light) !important;
+        background: none !important;
+        border: none !important;
+        text-transform: uppercase;
+        text-align: center;
+        height: auto !important;
+        line-height: 1.4 !important;
+        padding: 4px 0 !important;
+      }
     }
 
     /* Edit page button — pinned top-right of each page */
@@ -125,9 +153,9 @@
         top: 0;
         pointer-events: all;
         font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
-        background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 80%, transparent) !important;
-        color: var(--sr-text-color-flash) !important;
-        border: 1px solid var(--sr-text-color-flash) !important;
+        background: color-mix(in srgb, var(--sr-text-color-light) 80%, transparent) !important;
+        color: var(--sr-ui-border-color) !important;
+        border: 1px solid var(--sr-ui-border-color) !important;
         border-radius: 3px !important;
         padding: 4px 6px !important;
         box-shadow: none !important;
@@ -144,7 +172,7 @@
         }
 
         &:hover {
-          background: var(--sr-text-color-flash) !important;
+          background: var(--sr-ui-border-color) !important;
           color: var(--sr-text-color-light) !important;
         }
       }
@@ -154,37 +182,37 @@
     .journal-footer {
       font-family: var(--sr-font-body);
       font-size: var(--sr-font-size-small);
-      color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
-      border-top: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 30%, transparent);
+      color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+      border-top: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 30%, transparent);
       padding-top: 8px;
       margin-top: 16px;
 
       strong {
         font-family: var(--sr-font-title);
         text-transform: uppercase;
-        color: var(--sr-text-color-flash);
+        color: var(--sr-ui-border-color);
         letter-spacing: 0.05em;
       }
 
       a.content-link {
-        background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
-        border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
-        border-radius: 2px;
-        padding: 1px 6px;
-        color: var(--sr-text-color-flash);
-        font-family: var(--sr-font-title) !important;
+        background: none;
+        border: none;
+        padding: 0;
+        color: var(--sr-ui-border-color);
+        font-family: var(--sr-font-body) !important;
         font-size: var(--sr-font-size-small);
         text-decoration: none;
+        text-transform: none;
 
         i {
           font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+          color: var(--sr-ui-border-color) !important;
           margin-right: 2px;
           font-size: 0.85em;
         }
 
         &:hover {
-          background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
-          color: var(--sr-text-color-light);
+          color: var(--sr-text-color-dark);
         }
       }
     }
@@ -193,23 +221,23 @@
 
       h1, h2, h3, h4, h5, h6 {
         text-transform: uppercase;
-        font-family: var(--sr-font-title-alt) !important;
+        font-family: var(--sr-font-body) !important;
       }
 
       h1 {
-        color: var(--sr-text-color-flash);
-        border-bottom: 2px solid var(--sr-text-color-flash);
+        color: var(--sr-ui-border-color);
+        border-bottom: 2px solid var(--sr-ui-border-color);
         padding-bottom: 5px;
       }
 
       h2 {
-        color: var(--sr-text-color-flash);
-        border-bottom: 1px solid var(--sr-text-color-flash);
+        color: var(--sr-ui-border-color);
+        border-bottom: 1px solid var(--sr-ui-border-color);
         padding-bottom: 5px;
       }
 
       h3, h4, h5 {
-        color: var(--sr-text-color-flash);
+        color: var(--sr-ui-border-color);
       }
 
       /* --- Center images --- */
@@ -221,36 +249,71 @@
 
       /* --- Content links --- */
       a.content-link {
-        background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
-        border: 1px solid color-mix(in srgb, var(--sr-text-color-flash) 40%, transparent);
-        border-radius: 3px;
-        padding: 1px 6px;
-        color: var(--sr-text-color-flash);
-        font-family: var(--sr-font-title) !important;
+        background: none;
+        border: none;
+        padding: 0;
+        color: var(--sr-ui-border-color);
+        font-family: var(--sr-font-body) !important;
         text-decoration: none;
+        text-transform: none;
 
         i {
           font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+          color: var(--sr-ui-border-color) !important;
           margin-right: 3px;
         }
 
         &:hover {
-          background: color-mix(in srgb, var(--sr-text-color-flash) 25%, transparent);
-          color: var(--sr-text-color-light);
-          text-shadow: 0 0 4px var(--sr-text-color-flash);
+          color: var(--sr-text-color-dark);
         }
       }
 
       /* --- Inline rolls & links --- */
       a.inline-roll,
       a {
-        color: var(--sr-text-color-flash);
-        font-family: var(--sr-font-title) !important;
+        color: var(--sr-ui-border-color);
+        font-family: var(--sr-font-body) !important;
+        text-transform: none;
 
         &:hover {
-          color: var(--sr-text-color-light);
-          text-shadow: 0 0 4px var(--sr-text-color-flash);
+          color: var(--sr-text-color-dark);
         }
+      }
+
+      /* --- Tables --- */
+      table {
+        --table-background-color: transparent !important;
+        border-collapse: collapse;
+        border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+        background: none !important;
+
+        th {
+          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+          color: var(--sr-text-color-dark);
+          font-family: var(--sr-font-title);
+          padding: 4px 8px;
+        }
+
+        td {
+          padding: 4px 8px;
+          background: none !important;
+        }
+
+        tr:nth-child(odd) {
+          background: color-mix(in srgb, var(--sr-text-color-dark) 10%, transparent) !important;
+        }
+
+        tr:nth-child(even) {
+          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+        }
+      }
+
+      /* --- Horizontal rules --- */
+      hr {
+        border: none;
+        border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+        margin: 16px 0;
       }
 
       blockquote {
@@ -267,7 +330,7 @@
           position: absolute;
           left: -0.75rem;
           top: 0;
-          color: var(--sr-text-color-flash);
+          color: var(--sr-ui-border-color);
           font-family: var(--sr-font-body);
           font-weight: 700;
         }
