@@ -189,6 +189,22 @@
       }
     }
 
+    /* Journal content area uses dark bg — override light-theme input colors */
+    .journal-entry-content {
+      input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+        color: var(--sr-text-color-light) !important;
+        border-bottom-color: color-mix(in srgb, var(--sr-text-color-light) 30%, transparent) !important;
+      }
+
+      select {
+        color: var(--sr-text-color-light) !important;
+      }
+
+      label {
+        color: var(--sr-text-color-light);
+      }
+    }
+
     select {
       color              : var(--sr-text-accent-light);
       background-color   : transparent !important;
@@ -671,6 +687,47 @@
     button, button.default {
       .sr-button-footer();
       flex: 1 1 0;
+    }
+
+    /* Icon-only buttons (e.g. journal prev/next): ::before is needed for FA icon,
+       so move the slide hover animation to ::after instead */
+    button.icon {
+      flex: 0 0 auto;
+      overflow: hidden;
+
+      /* FA icon */
+      &::before {
+        content: var(--fa) !important;
+        font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+        font-weight: 900 !important;
+        position: static !important;
+        display: inline-block !important;
+        width: auto !important;
+        height: auto !important;
+        background: none !important;
+        color: inherit !important;
+        z-index: 1 !important;
+      }
+
+      /* Slide hover effect (moved from ::before to ::after) */
+      &::after {
+        content: '' !important;
+        display: block !important;
+        position: absolute !important;
+        top: 0 !important;
+        right: 0 !important;
+        height: 100% !important;
+        width: 0 !important;
+        z-index: 0 !important;
+        background: var(--sr-ui-border-color-active) !important;
+        transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) !important;
+      }
+
+      &:hover::after {
+        left: 0 !important;
+        right: auto !important;
+        width: 100% !important;
+      }
     }
   }
 }
