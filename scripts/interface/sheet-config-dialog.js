@@ -190,7 +190,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const icons = Object.entries(TAB_ICONS).map(([key, path]) => ({
       key,
       path,
-      label: `SR5.SheetConfig.Icon.${key}`,
+      label: game.i18n.localize(`SR5.SheetConfig.Icon.${key}`),
     }))
 
     return { catalogBlocks, panels, icons, canAddPanel }

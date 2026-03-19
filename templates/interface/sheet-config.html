@@ -3,13 +3,13 @@
 
     {{!-- LEFT COLUMN: Block Catalog --}}
     <aside class="sr-config-unused-section">
-      <h4 class="sr-config-section-title">Available Blocks</h4>
+      <h4 class="sr-config-section-title">{{localize "SR5.SheetConfig.UI.AvailableBlocks"}}</h4>
       <div class="sr-config-unused-pool">
         {{#if catalogBlocks.single.length}}
           <div class="sr-config-unused-group" data-size-group="single">
             <a class="sr-config-unused-group-label" data-action="toggleCatalogGroup" data-size-group="single">
               <i class="fas fa-caret-down sr-config-fold-icon"></i>
-              Single
+              {{localize "SR5.SheetConfig.UI.Single"}}
             </a>
             <div class="sr-config-group-items">
               {{#each catalogBlocks.single}}
@@ -25,7 +25,7 @@
           <div class="sr-config-unused-group" data-size-group="double">
             <a class="sr-config-unused-group-label" data-action="toggleCatalogGroup" data-size-group="double">
               <i class="fas fa-caret-down sr-config-fold-icon"></i>
-              Double
+              {{localize "SR5.SheetConfig.UI.Double"}}
             </a>
             <div class="sr-config-group-items">
               {{#each catalogBlocks.double}}
@@ -41,7 +41,7 @@
           <div class="sr-config-unused-group" data-size-group="triple">
             <a class="sr-config-unused-group-label" data-action="toggleCatalogGroup" data-size-group="triple">
               <i class="fas fa-caret-down sr-config-fold-icon"></i>
-              Triple
+              {{localize "SR5.SheetConfig.UI.Triple"}}
             </a>
             <div class="sr-config-group-items">
               {{#each catalogBlocks.triple}}
@@ -59,9 +59,9 @@
     {{!-- RIGHT COLUMN: Panel & Tab Manager --}}
     <div class="sr-config-panels-section">
       <h4 class="sr-config-section-title">
-        Panels & Tabs
+        {{localize "SR5.SheetConfig.UI.PanelsAndTabs"}}
         {{#if canAddPanel}}
-          <a data-action="addPanel" class="sr-config-add-icon" data-tooltip="Add Panel">
+          <a data-action="addPanel" class="sr-config-add-icon" data-tooltip="{{localize "SR5.SheetConfig.UI.AddPanel"}}">
             <i class="fas fa-plus"></i>
           </a>
         {{/if}}
@@ -78,10 +78,10 @@
                 class="sr-config-panel-name"
                 data-panel-id="{{this.id}}"
                 value="{{this.label}}"
-                placeholder="Panel Name"
+                placeholder="{{localize "SR5.SheetConfig.UI.PanelName"}}"
               />
               <span class="sr-config-panel-width-group">
-                <span class="sr-config-panel-width-label">W</span>
+                <span class="sr-config-panel-width-label">{{localize "SR5.SheetConfig.UI.Width"}}</span>
                 <span class="sr-config-panel-width-selector">
                   <a data-action="setPanelWidth" data-width="1" class="{{#if (eq this.width 1)}}active{{/if}}">1</a>
                   <a data-action="setPanelWidth" data-width="2" class="{{#if (eq this.width 2)}}active{{/if}}">2</a>
@@ -89,15 +89,15 @@
                 </span>
               </span>
               <a data-action="addTab" data-panel-id="{{this.id}}" class="sr-config-add-icon"
-                 data-tooltip="Add Tab">
+                 data-tooltip="{{localize "SR5.SheetConfig.UI.AddTab"}}">
                 <i class="fas fa-plus"></i>
               </a>
               <a class="sr-config-toggle-hidden" data-action="togglePanelHidden" data-panel-id="{{this.id}}"
-                 data-tooltip="{{#if this.hidden}}Show{{else}}Hide{{/if}}">
+                 data-tooltip="{{#if this.hidden}}{{localize "SR5.SheetConfig.UI.Show"}}{{else}}{{localize "SR5.SheetConfig.UI.Hide"}}{{/if}}">
                 <i class="fas {{#if this.hidden}}fa-eye-slash{{else}}fa-eye{{/if}}"></i>
               </a>
               <a class="sr-config-panel-delete" data-action="deletePanel" data-panel-id="{{this.id}}"
-                 data-tooltip="Delete Panel">
+                 data-tooltip="{{localize "SR5.SheetConfig.UI.DeletePanel"}}">
                 <i class="fas fa-trash"></i>
               </a>
             </div>
@@ -115,24 +115,24 @@
                       data-tab-id="{{this.id}}"
                       data-panel-id="{{../id}}"
                       value="{{this.label}}"
-                      placeholder="Tab Name"
+                      placeholder="{{localize "SR5.SheetConfig.UI.TabName"}}"
                     />
                     <span class="sr-config-tab-icon-group">
-                      <span class="sr-config-tab-icon-label">Icon</span>
+                      <span class="sr-config-tab-icon-label">{{localize "SR5.SheetConfig.UI.Icon"}}</span>
                       <select class="sr-config-icon-select" data-tab-id="{{this.id}}" data-panel-id="{{../id}}">
                         {{#each ../../icons}}
                           <option value="{{this.key}}" {{#if (eq this.path ../icon)}}selected{{/if}}>
-                            {{this.key}}
+                            {{this.label}}
                           </option>
                         {{/each}}
                       </select>
                     </span>
                     <a class="sr-config-toggle-hidden" data-action="toggleTabHidden" data-tab-id="{{this.id}}"
-                       data-tooltip="{{#if this.hidden}}Show{{else}}Hide{{/if}}">
+                       data-tooltip="{{#if this.hidden}}{{localize "SR5.SheetConfig.UI.Show"}}{{else}}{{localize "SR5.SheetConfig.UI.Hide"}}{{/if}}">
                       <i class="fas {{#if this.hidden}}fa-eye-slash{{else}}fa-eye{{/if}}"></i>
                     </a>
                     <a class="sr-config-tab-delete" data-action="deleteTab" data-tab-id="{{this.id}}"
-                       data-tooltip="Delete Tab">
+                       data-tooltip="{{localize "SR5.SheetConfig.UI.DeleteTab"}}">
                       <i class="fas fa-trash"></i>
                     </a>
                   </div>
@@ -149,7 +149,7 @@
                       </div>
                     {{/each}}
                     {{#unless this.blocks.length}}
-                      <p class="sr-config-empty-msg">Drop blocks here</p>
+                      <p class="sr-config-empty-msg">{{localize "SR5.SheetConfig.UI.DropBlocksHere"}}</p>
                     {{/unless}}
                   </div>
                 </div>
@@ -165,21 +165,21 @@
   <footer class="sr-sheet-config-footer">
     <div class="sr-config-footer-left">
       <button type="button" data-action="clearAll" class="sr-config-btn-danger">
-        <i class="fas fa-eraser"></i> Clear All
+        <i class="fas fa-eraser"></i> {{localize "SR5.SheetConfig.UI.ClearAll"}}
       </button>
       <button type="button" data-action="resetDefaults">
-        <i class="fas fa-undo"></i> Reset Defaults
+        <i class="fas fa-undo"></i> {{localize "SR5.SheetConfig.UI.ResetDefaults"}}
       </button>
     </div>
     <div class="sr-config-footer-right">
       <button type="button" data-action="cancelConfig">
-        Cancel
+        {{localize "SR5.SheetConfig.UI.Cancel"}}
       </button>
       <button type="button" data-action="applyConfig">
-        <i class="fas fa-check"></i> Apply
+        <i class="fas fa-check"></i> {{localize "SR5.SheetConfig.UI.Apply"}}
       </button>
       <button type="button" data-action="saveConfig" class="sr-config-btn-save">
-        <i class="fas fa-save"></i> Save & Close
+        <i class="fas fa-save"></i> {{localize "SR5.SheetConfig.UI.SaveAndClose"}}
       </button>
     </div>
   </footer>
