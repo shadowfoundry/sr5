@@ -1464,8 +1464,11 @@ body[class^="sr-theme-"] #pause,
 body[class*=" sr-theme-"] #pause {
   background: repeating-linear-gradient(45deg, var(--sr-pause-stripe-color, rgba(147, 16, 4, 0.1)) 0px, var(--sr-pause-stripe-color, rgba(147, 16, 4, 0.1)) 40px, transparent 40px, transparent 80px);
   animation: none !important;
-  height: 100vh;
-  top: 0;
+  height: 100vh !important;
+  width: 100vw !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
   gap: 0;
 }
 body[class^="sr-theme-"] #pause figcaption,
