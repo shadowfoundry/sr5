@@ -1806,8 +1806,18 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
 }
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application {
-  /* Footer: light style, not the dark SR5 footer */
-  /* ProseMirror editor: light theme for editing */
+  /* Fix flex layout: editor fills space, footer stays small */
+  /* Footer: compact, keep dark SR5 footer bg for white button text */
+  /* ProseMirror editor: fills remaining space, light theme */
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .window-content,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .window-content {
+  display: flex !important;
+  flex-direction: column !important;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-header,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-header {
+  flex: none !important;
 }
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer,
@@ -1815,9 +1825,9 @@ body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application foo
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer.form-footer,
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer {
-  background: none !important;
-  background-image: none !important;
-  padding: 8px !important;
+  flex: none !important;
+  padding: 4px 8px !important;
+  margin: 0 !important;
 }
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer button,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer button,
@@ -1888,20 +1898,114 @@ body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application fo
   background: var(--sr-ui-border-color-active);
   transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer button label,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer button label,
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer.form-footer button label,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer.form-footer button label,
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer button label,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer button label,
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer button i,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application .journal-footer button i,
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer.form-footer button i,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer.form-footer button i,
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer button i,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application footer button i {
+  color: inherit !important;
+  cursor: pointer;
+}
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror {
-  flex: 1;
-  min-height: 0;
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  /* Toolbar: subtle light-theme styling */
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu {
+  flex: none;
+  background: none !important;
+  padding: 4px 0 !important;
+  gap: 3px;
+  border: none !important;
+  /* Style the li wrappers (direct children), not buttons inside */
+  /* Concurrent users / non-button items */
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li {
+  background: none !important;
+  color: color-mix(in srgb, var(--sr-text-color-dark) 60%, transparent) !important;
+  border: 1px solid var(--sr-ui-border-color-idle) !important;
+  border-radius: 3px !important;
+  height: 26px !important;
+  min-width: 26px;
+  padding: 0 !important;
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-small);
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* Buttons inside: transparent, no border */
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li:hover,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li:hover {
+  color: var(--sr-ui-border-color-active) !important;
+  border-color: var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 8%, transparent) !important;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li.active,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li.active {
+  color: var(--sr-ui-border-color-active) !important;
+  border-color: var(--sr-ui-border-color-active) !important;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li button,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li button,
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li .pm-dropdown,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li .pm-dropdown {
+  background: none !important;
+  border: none !important;
+  color: inherit !important;
+  padding: 0 5px !important;
+  height: 100% !important;
+  font-family: var(--sr-font-body);
+  font-size: inherit;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li i,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li i {
+  font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+  color: inherit !important;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li span,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > li span {
+  color: inherit !important;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > .concurrent-users,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror menu.editor-menu > .concurrent-users {
+  border: none !important;
+  color: var(--sr-text-color-dark) !important;
+  background: none !important;
 }
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-container,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-container {
+  flex: 1;
+  min-height: 0;
   background: var(--sr-text-color-light);
-  border: 1px solid var(--sr-ui-border-color-idle);
+  border: none !important;
+  border-radius: 0 !important;
+  overflow: auto;
 }
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-content.ProseMirror,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-content.ProseMirror {
   color: var(--sr-text-color-dark) !important;
   background: var(--sr-text-color-light) !important;
+  padding: 8px !important;
+}
+body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-content.ProseMirror img,
+body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-content.ProseMirror img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 body[class^="sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-content.ProseMirror:focus,
 body[class*=" sr-theme-"] .sheet.journal-sheet.journal-entry-page.application prose-mirror .editor-content.ProseMirror:focus {
