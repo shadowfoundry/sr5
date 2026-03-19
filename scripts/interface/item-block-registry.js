@@ -22,10 +22,10 @@ export const ITEM_BLOCK_SIZE = Object.freeze({
 // ---------------------------------------------------------------------------
 
 export const ITEM_TAB_ICONS = {
-  info:     `${ICON_ROOT}/nav-information.svg.hbs`,
-  bio:      `${ICON_ROOT}/nav-bio.svg.hbs`,
-  stat:     `${ICON_ROOT}/nav-configuration.svg.hbs`,
-  effects:  `${ICON_ROOT}/nav-modifiers.svg.hbs`,
+  info:     `${ICON_ROOT}/nav-information.svg`,
+  bio:      `${ICON_ROOT}/nav-bio.svg`,
+  stat:     `${ICON_ROOT}/nav-configuration.svg`,
+  effects:  `${ICON_ROOT}/nav-modifiers.svg`,
 }
 
 // ---------------------------------------------------------------------------

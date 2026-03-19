@@ -1683,14 +1683,17 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content a
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside {
-  background-image: var(--sr-sidebar-background);
-  background-origin: border-box;
-  background-size: 520px auto;
-  background-repeat: repeat;
-  background-color: var(--sr-ui-bg-color-dark);
-  color: var(--sr-text-color-light);
+  background-image: var(--sr-img-bg-white50);
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: var(--sr-text-color-light);
+  color: var(--sr-text-color-dark);
   padding: 0;
   margin-right: 0;
+  border-right: 1px solid var(--sr-ui-border-color-idle);
+  /* Search input icon */
+  /* Search icon */
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside > *,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside > *,
@@ -1702,20 +1705,105 @@ body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content a
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside label,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside label,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside label {
-  color: var(--sr-text-color-light);
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-small);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input,
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input {
-  color: var(--sr-text-color-light) !important;
+  color: var(--sr-text-color-dark) !important;
   border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"],
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input {
+  color: var(--sr-text-color-dark) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside input[type="search"]::placeholder,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside .filter-input::placeholder {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-magnifying-glass,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-search,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside i.fa-search,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-search,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside i.fa-search {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical {
+  padding: 4px 0;
+  border: none;
+  background: none;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab],
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] {
-  padding: 4px 8px;
+  padding: 8px 10px;
+  color: var(--sr-text-color-dark);
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-normal);
+  border: none;
+  border-left: 3px solid transparent;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+  text-shadow: none;
+  opacity: 1;
+  background: none;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .count,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab] .badge {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active {
+  color: var(--sr-text-color-flash);
+  font-weight: bold;
+  background: color-mix(in srgb, var(--sr-text-color-flash) 8%, transparent);
+  border-left-color: var(--sr-text-color-flash);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .count,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab].active .badge {
+  color: var(--sr-text-color-flash);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content aside nav.tabs.vertical [data-tab]:hover {
+  color: var(--sr-ui-border-color-active);
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 5%, transparent);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content .main,
@@ -2623,6 +2711,18 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item).cards-config ol.cards li img.face {
   border-radius: 2px;
 }
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > footer,
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > .form-footer,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) .window-content > .form-footer,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > .form-footer,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) .window-content > .form-footer {
+  grid-column: 1 / -1;
+  flex-basis: 100%;
+  width: 100%;
+}
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer,
 body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item) footer,
@@ -2640,6 +2740,9 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   background-repeat: repeat-x;
   background-position: bottom left;
   padding: 15px 8px 8px 8px !important;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button,
@@ -2689,6 +2792,7 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   border: 1px solid var(--sr-ui-border-color-active) !important;
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
   z-index: 1;
+  flex: 1 1 0;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover,
 body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item) footer button:hover,
@@ -3043,6 +3147,682 @@ body[class*=" sr-theme-"] #combat .combat-controls a:hover {
 body[class^="sr-theme-"] #settings-config nav button,
 body[class*=" sr-theme-"] #settings-config nav button {
   padding: 0px 5px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .window-content,
+body[class*=" sr-theme-"] .sr-sheet-config .window-content {
+  overflow: hidden;
+  padding: 0;
+}
+body[class^="sr-theme-"] .application.sr-sheet-config.sr-sheet-config .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]).sr-config-panel-name,
+body[class*=" sr-theme-"] .application.sr-sheet-config.sr-sheet-config .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]).sr-config-panel-name {
+  color: var(--sr-text-color-light) !important;
+  border: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  padding: 0 4px !important;
+}
+body[class^="sr-theme-"] .application.sr-sheet-config.sr-sheet-config .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]).sr-config-tab-name,
+body[class*=" sr-theme-"] .application.sr-sheet-config.sr-sheet-config .window-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]).sr-config-tab-name {
+  color: var(--sr-text-color-dark) !important;
+  border: none !important;
+  border-bottom: none !important;
+  background: transparent !important;
+  padding: 0 4px !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-sheet-config-content,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-sheet-config-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-sheet-config-body,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-sheet-config-body {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-section-title,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  font-family: var(--sr-font-title);
+  font-size: var(--sr-font-size-h4);
+  font-weight: bold;
+  letter-spacing: normal;
+  margin: 0;
+  padding: 6px 8px;
+  line-height: 20px;
+  border-bottom: 2px solid var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .sr-sheet-config aside .sr-config-section-title,
+body[class*=" sr-theme-"] .sr-sheet-config aside .sr-config-section-title {
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .sr-sheet-config aside.sr-config-unused-section,
+body[class*=" sr-theme-"] .sr-sheet-config aside.sr-config-unused-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 !important;
+  background-image: var(--sr-img-bg-white50) !important;
+  background-size: cover !important;
+  background-color: var(--sr-text-color-light) !important;
+  color: var(--sr-text-color-dark);
+  border-right: 1px solid var(--sr-ui-border-color-idle);
+}
+body[class^="sr-theme-"] .sr-sheet-config aside.sr-config-unused-section > *,
+body[class*=" sr-theme-"] .sr-sheet-config aside.sr-config-unused-section > * {
+  padding: 0 !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config aside.sr-config-unused-section > .sr-config-section-title,
+body[class*=" sr-theme-"] .sr-sheet-config aside.sr-config-unused-section > .sr-config-section-title {
+  flex: 0 0 auto;
+  padding: 6px 8px !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config aside.sr-config-unused-section > .sr-config-unused-pool,
+body[class*=" sr-theme-"] .sr-sheet-config aside.sr-config-unused-section > .sr-config-unused-pool {
+  padding: 8px !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-pool,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-pool {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 40px;
+  padding: 4px;
+  border: none;
+  transition: background-color 0.15s;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-pool.sr-config-drag-over,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-pool.sr-config-drag-over {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-pool .sr-config-block,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-pool .sr-config-block {
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-pool .sr-config-block .sr-config-block-label,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-pool .sr-config-block .sr-config-block-label {
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-group,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-group {
+  margin-bottom: 8px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-group-items,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-group-items {
+  display: none;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-unused-group-label > .sr-config-fold-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-unused-group-label > .sr-config-fold-icon {
+  transform: rotate(-90deg);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-group-label,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-group-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--sr-font-size-normal);
+  font-weight: bold;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  color: var(--sr-text-color-dark);
+  margin-bottom: 2px;
+  padding: 3px 6px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+  transition: background 0.15s;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-unused-group-label:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-unused-group-label:hover {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-fold-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-fold-icon {
+  transition: transform 0.15s;
+  font-size: 1.1em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-empty-msg,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-empty-msg {
+  font-size: 0.8em;
+  font-style: italic;
+  opacity: 0.5;
+  text-align: center;
+  margin: 8px 0;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panels-section,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panels-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panels-section > .sr-config-section-title,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panels-section > .sr-config-section-title {
+  flex: 0 0 auto;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panels-section > .sr-config-panels-list,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panels-section > .sr-config-panels-list {
+  padding: 8px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panels-list,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panels-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-insert-before,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-insert-before,
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-insert-after,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-insert-after {
+  position: relative;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-insert-before::before,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-insert-before::before,
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-insert-after::after,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-insert-after::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--sr-text-color-flash);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 1;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-insert-before::before,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-insert-before::before {
+  top: -1px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-insert-after::after,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-insert-after::after {
+  bottom: -1px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-section,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-section {
+  margin-bottom: 6px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-section.sr-config-dragging,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-section.sr-config-dragging {
+  opacity: 0.4;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-folded > .sr-config-tab-blocks,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-folded > .sr-config-tab-blocks {
+  display: none;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-folded > .sr-config-tab-header .sr-config-fold-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-folded > .sr-config-tab-header .sr-config-fold-icon {
+  transform: rotate(-90deg);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-normal);
+  color: var(--sr-ui-border-color);
+  border-bottom: 1px solid var(--sr-ui-border-color);
+  line-height: 20px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header a,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header a {
+  color: var(--sr-ui-border-color);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header a:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header a:hover {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle {
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle .sr-config-fold-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle .sr-config-fold-icon {
+  color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle:hover .sr-config-fold-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle:hover .sr-config-fold-icon {
+  color: var(--sr-ui-border-color);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name {
+  flex: 1 1 auto;
+  width: 0;
+  background: transparent !important;
+  font-size: var(--sr-font-size-normal);
+  font-weight: bold;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  padding: 0 4px !important;
+  min-width: 0;
+  margin: 0;
+  color: var(--sr-text-color-dark) !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name:focus,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name:focus {
+  outline: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+  border-radius: 2px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name::placeholder,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name::placeholder {
+  font-style: italic;
+  opacity: 0.6;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-icon-group,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-icon-group {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-tab-icon-label,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-tab-icon-label {
+  font-size: 0.85em;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--sr-text-color-flash);
+  border-radius: 2px;
+  padding: 2px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg {
+  width: 16px;
+  height: 16px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg #icon-background,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg #icon-background,
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg #icon-border,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg #icon-border {
+  display: none;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg #icon-symbol,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-trigger svg #icon-symbol {
+  fill: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  background: var(--sr-ui-bg-color-dark);
+  border: 1px solid var(--sr-ui-border-color-active);
+  border-radius: 3px;
+  padding: 4px;
+  gap: 2px;
+  flex-wrap: wrap;
+  width: 180px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker.open,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker.open {
+  display: flex;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-picker-close,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-picker-close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+  color: color-mix(in srgb, var(--sr-text-color-light) 60%, transparent);
+  font-size: 10px;
+  padding: 2px 4px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-picker-close:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-picker-close:hover {
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option:hover {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 40%, transparent);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option.active,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option.active {
+  background: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg {
+  width: 22px;
+  height: 22px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg #icon-background,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg #icon-background,
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg #icon-border,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg #icon-border {
+  display: none;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg #icon-symbol,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header .sr-config-icon-picker .sr-config-icon-option svg #icon-symbol {
+  fill: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete:hover {
+  opacity: 1;
+  color: #c00;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-toggle-hidden,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-toggle-hidden {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-toggle-hidden:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-toggle-hidden:hover {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-hidden,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-hidden {
+  opacity: 0.5;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-section + .sr-config-panel-section,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-section + .sr-config-panel-section {
+  margin-top: 14px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-section.sr-config-dragging,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-section.sr-config-dragging {
+  opacity: 0.4;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+  padding: 0 4px;
+  background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+  background-size: cover;
+  border-top: 1px solid var(--sr-text-color-flash);
+  border-bottom: 1px solid var(--sr-text-color-flash);
+  color: var(--sr-text-color-light);
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-normal);
+  line-height: 20px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header a,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header a {
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header a:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header a:hover {
+  color: var(--sr-text-color-flash);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle {
+  flex: 0 0 auto;
+  cursor: pointer;
+  opacity: 0.6;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle:hover {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name {
+  flex: 1 1 auto;
+  width: 0;
+  background: transparent !important;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: var(--sr-font-title);
+  padding: 0 4px !important;
+  min-width: 0;
+  margin: 0;
+  color: var(--sr-text-color-light) !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name:focus,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name:focus {
+  outline: 1px solid color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
+  border-radius: 2px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name::placeholder,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name::placeholder {
+  font-style: italic;
+  opacity: 0.4;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete:hover {
+  opacity: 1;
+  color: #f88;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-width-group,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-panel-width-group {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-label,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-label {
+  font-size: 0.85em;
+  opacity: 0.6;
+  white-space: nowrap;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector {
+  display: flex;
+  gap: 2px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 16px;
+  border: 1px solid color-mix(in srgb, var(--sr-text-color-light) 35%, transparent);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a.active,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a.active {
+  background: var(--sr-text-color-flash);
+  border-color: var(--sr-text-color-flash);
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a:hover {
+  opacity: 0.8;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-blocks,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-blocks {
+  min-height: 24px;
+  padding: 2px 0;
+  border: 1px dashed transparent;
+  border-radius: 2px;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-tab-blocks.sr-config-drag-over,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-tab-blocks.sr-config-drag-over {
+  border-color: var(--sr-text-color-flash);
+  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-add-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-add-icon {
+  cursor: pointer;
+  opacity: 0.4;
+  font-size: 0.8em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-add-icon:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-add-icon:hover {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-add-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-header > .sr-config-add-icon {
+  margin-left: 8px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-folded > .sr-config-panel-body,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-folded > .sr-config-panel-body {
+  display: none;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-panel-folded > .sr-config-panel-header .sr-config-fold-icon,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-panel-folded > .sr-config-panel-header .sr-config-fold-icon {
+  transform: rotate(-90deg);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  cursor: grab;
+  font-size: var(--sr-font-size-small);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block:hover {
+  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block.sr-config-dragging,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block.sr-config-dragging {
+  opacity: 0.4;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-label,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-size,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-size {
+  flex: 0 0 auto;
+  opacity: 0.5;
+  font-size: 0.85em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-placed-count,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-placed-count {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
+  font-size: 0.7em;
+  font-weight: bold;
+  opacity: 0.7;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block.sr-config-block-placed,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block.sr-config-block-placed {
+  opacity: 0.6;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-column-toggle,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-column-toggle {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.5;
+  font-size: 0.75em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-column-toggle:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-column-toggle:hover {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-hide,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-hide {
+  flex: 0 0 auto;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.4;
+  font-size: 0.75em;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-hide:hover,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block > .sr-config-block-hide:hover {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-block.sr-config-hidden > .sr-config-block-label,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-block.sr-config-hidden > .sr-config-block-label {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+body[class^="sr-theme-"] .sr-sheet-config footer.sr-sheet-config-footer,
+body[class*=" sr-theme-"] .sr-sheet-config footer.sr-sheet-config-footer {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-footer-left,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-footer-left {
+  display: flex;
+  gap: 6px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-footer-right,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-footer-right {
+  display: flex;
+  gap: 6px;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-btn-danger,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-btn-danger {
+  border-color: #c00 !important;
+}
+body[class^="sr-theme-"] .sr-sheet-config .sr-config-btn-danger::before,
+body[class*=" sr-theme-"] .sr-sheet-config .sr-config-btn-danger::before {
+  background: #c00 !important;
 }
 body[class^="sr-theme-"] #notifications .notification,
 body[class*=" sr-theme-"] #notifications .notification {
@@ -7169,6 +7949,11 @@ body {
 #chat-popout .chat-message .message-metadata {
   white-space: nowrap;
 }
+#chat .chat-message .nue,
+#chat-notifications .chat-message .nue,
+#chat-popout .chat-message .nue {
+  padding: 4px 8px;
+}
 #chat .chat-message .message-content,
 #chat-notifications .chat-message .message-content,
 #chat-popout .chat-message .message-content {
@@ -7953,438 +8738,6 @@ body {
   color: var(--sr-ui-border-color);
   font-family: var(--sr-font-body);
   font-weight: bold;
-}
-.sr-sheet-config .window-content {
-  overflow: hidden;
-  padding: 0;
-}
-.sr-sheet-config .sr-sheet-config-content {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100%;
-}
-.sr-sheet-config .sr-sheet-config-body {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  gap: 0;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-}
-.sr-sheet-config .sr-config-section-title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  text-transform: uppercase;
-  font-family: var(--sr-font-title);
-  font-size: var(--sr-font-size-normal);
-  font-weight: bold;
-  letter-spacing: normal;
-  margin: 0 0 6px;
-  padding-bottom: 4px;
-  line-height: 20px;
-}
-.sr-sheet-config aside.sr-config-unused-section {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-.sr-sheet-config .sr-config-unused-pool {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 40px;
-  padding: 4px;
-  border: 1px dashed color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
-  border-radius: 4px;
-  transition: background-color 0.15s;
-}
-.sr-sheet-config .sr-config-unused-pool.sr-config-drag-over {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
-  border-color: var(--sr-text-color-flash);
-}
-.sr-sheet-config .sr-config-unused-group {
-  margin-bottom: 8px;
-}
-.sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-group-items {
-  display: none;
-}
-.sr-sheet-config .sr-config-unused-group.sr-config-folded > .sr-config-unused-group-label > .sr-config-fold-icon {
-  transform: rotate(-90deg);
-}
-.sr-sheet-config .sr-config-unused-group-label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 0.75em;
-  font-weight: bold;
-  text-transform: uppercase;
-  opacity: 0.6;
-  margin-bottom: 2px;
-  padding-left: 4px;
-  cursor: pointer;
-}
-.sr-sheet-config .sr-config-unused-group-label:hover {
-  opacity: 1;
-}
-.sr-sheet-config .sr-config-fold-icon {
-  transition: transform 0.15s;
-  font-size: 1.1em;
-}
-.sr-sheet-config .sr-config-empty-msg {
-  font-size: 0.8em;
-  font-style: italic;
-  opacity: 0.5;
-  text-align: center;
-  margin: 8px 0;
-}
-.sr-sheet-config .sr-config-panels-section {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-  padding: 8px;
-}
-.sr-sheet-config .sr-config-panels-list {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 0;
-}
-.sr-sheet-config .sr-config-insert-before,
-.sr-sheet-config .sr-config-insert-after {
-  position: relative;
-}
-.sr-sheet-config .sr-config-insert-before::before,
-.sr-sheet-config .sr-config-insert-after::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--sr-text-color-flash);
-  border-radius: 1px;
-  pointer-events: none;
-  z-index: 1;
-}
-.sr-sheet-config .sr-config-insert-before::before {
-  top: -1px;
-}
-.sr-sheet-config .sr-config-insert-after::after {
-  bottom: -1px;
-}
-.sr-sheet-config .sr-config-tab-section {
-  margin-bottom: 6px;
-}
-.sr-sheet-config .sr-config-tab-section.sr-config-dragging {
-  opacity: 0.4;
-}
-.sr-sheet-config .sr-config-tab-folded > .sr-config-tab-blocks {
-  display: none;
-}
-.sr-sheet-config .sr-config-tab-folded > .sr-config-tab-header .sr-config-fold-icon {
-  transform: rotate(-90deg);
-}
-.sr-sheet-config .sr-config-tab-header {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 4px;
-  padding: 0 4px;
-  font-family: var(--sr-font-title);
-  text-transform: uppercase;
-  font-size: var(--sr-font-size-normal);
-  color: var(--sr-ui-border-color);
-  border-bottom: 1px solid var(--sr-ui-border-color);
-  line-height: 20px;
-}
-.sr-sheet-config .sr-config-tab-header a {
-  color: var(--sr-ui-border-color);
-}
-.sr-sheet-config .sr-config-tab-header a:hover {
-  color: var(--sr-ui-border-color-active);
-}
-.sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle {
-  flex: 0 0 auto;
-  cursor: pointer;
-}
-.sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle .sr-config-fold-icon {
-  color: color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
-}
-.sr-sheet-config .sr-config-tab-header > .sr-config-tab-fold-toggle:hover .sr-config-fold-icon {
-  color: var(--sr-ui-border-color);
-}
-.sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name {
-  flex: 1 1 auto;
-  width: 0;
-  background: transparent;
-  font-size: var(--sr-font-size-normal);
-  font-weight: bold;
-  font-family: var(--sr-font-title);
-  text-transform: uppercase;
-  padding: 0 4px;
-  min-width: 0;
-  margin: 0;
-  color: var(--sr-ui-border-color) !important;
-  border-bottom: none !important;
-}
-.sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name:focus {
-  outline: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
-  border-radius: 2px;
-}
-.sr-sheet-config .sr-config-tab-header > input.sr-config-tab-name::placeholder {
-  font-style: italic;
-  opacity: 0.6;
-}
-.sr-sheet-config .sr-config-tab-header > .sr-config-tab-icon-group {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-left: auto;
-}
-.sr-sheet-config .sr-config-tab-header .sr-config-tab-icon-label {
-  font-size: 0.85em;
-  opacity: 0.6;
-  white-space: nowrap;
-}
-.sr-sheet-config .sr-config-tab-header .sr-config-icon-select {
-  width: 80px;
-  font-size: 0.8em;
-  padding: 1px 2px;
-  border: none !important;
-  border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
-  border-radius: 0 !important;
-  background: transparent;
-}
-.sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete {
-  flex: 0 0 auto;
-  cursor: pointer;
-  padding: 2px 4px;
-  opacity: 0.5;
-  font-size: 0.8em;
-}
-.sr-sheet-config .sr-config-tab-header > .sr-config-tab-delete:hover {
-  opacity: 1;
-  color: #c00;
-}
-.sr-sheet-config .sr-config-toggle-hidden {
-  flex: 0 0 auto;
-  cursor: pointer;
-  padding: 2px 4px;
-  opacity: 0.5;
-  font-size: 0.8em;
-}
-.sr-sheet-config .sr-config-toggle-hidden:hover {
-  opacity: 1;
-}
-.sr-sheet-config .sr-config-hidden {
-  opacity: 0.5;
-}
-.sr-sheet-config .sr-config-panel-section + .sr-config-panel-section {
-  margin-top: 14px;
-}
-.sr-sheet-config .sr-config-panel-section.sr-config-dragging {
-  opacity: 0.4;
-}
-.sr-sheet-config .sr-config-panel-header {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-bottom: 4px;
-  padding: 0 4px;
-  background-image: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
-  background-size: cover;
-  border-top: 1px solid var(--sr-text-color-flash);
-  border-bottom: 1px solid var(--sr-text-color-flash);
-  color: var(--sr-text-color-light);
-  font-family: var(--sr-font-title);
-  text-transform: uppercase;
-  font-size: var(--sr-font-size-normal);
-  line-height: 20px;
-}
-.sr-sheet-config .sr-config-panel-header a {
-  color: var(--sr-text-color-light);
-}
-.sr-sheet-config .sr-config-panel-header a:hover {
-  color: var(--sr-text-color-flash);
-}
-.sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle {
-  flex: 0 0 auto;
-  cursor: pointer;
-  opacity: 0.6;
-}
-.sr-sheet-config .sr-config-panel-header > .sr-config-panel-fold-toggle:hover {
-  opacity: 1;
-}
-.sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name {
-  flex: 1 1 auto;
-  width: 0;
-  background: transparent;
-  font-size: 1em;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-family: var(--sr-font-title);
-  padding: 0 4px;
-  min-width: 0;
-  margin: 0;
-  color: var(--sr-text-color-light) !important;
-  border-bottom-color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
-}
-.sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name:focus {
-  outline: 1px solid color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
-  border-radius: 2px;
-}
-.sr-sheet-config .sr-config-panel-header > input.sr-config-panel-name::placeholder {
-  font-style: italic;
-  opacity: 0.4;
-}
-.sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete {
-  flex: 0 0 auto;
-  cursor: pointer;
-  padding: 2px 4px;
-  opacity: 0.5;
-  font-size: 0.8em;
-}
-.sr-sheet-config .sr-config-panel-header > .sr-config-panel-delete:hover {
-  opacity: 1;
-  color: #f88;
-}
-.sr-sheet-config .sr-config-panel-header > .sr-config-panel-width-group {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-left: auto;
-}
-.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-label {
-  font-size: 0.85em;
-  opacity: 0.6;
-  white-space: nowrap;
-}
-.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector {
-  display: flex;
-  gap: 2px;
-}
-.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 16px;
-  border: 1px solid color-mix(in srgb, var(--sr-text-color-light) 35%, transparent);
-  border-radius: 2px;
-  cursor: pointer;
-  font-size: 0.85em;
-  font-weight: bold;
-}
-.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a.active {
-  background: var(--sr-text-color-flash);
-  border-color: var(--sr-text-color-flash);
-  color: var(--sr-text-color-light);
-}
-.sr-sheet-config .sr-config-panel-header .sr-config-panel-width-selector a:hover {
-  opacity: 0.8;
-}
-.sr-sheet-config .sr-config-tab-blocks {
-  min-height: 24px;
-  padding: 2px 0;
-  border: 1px dashed transparent;
-  border-radius: 2px;
-  transition: background-color 0.15s, border-color 0.15s;
-}
-.sr-sheet-config .sr-config-tab-blocks.sr-config-drag-over {
-  border-color: var(--sr-text-color-flash);
-  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
-}
-.sr-sheet-config .sr-config-add-icon {
-  cursor: pointer;
-  opacity: 0.4;
-  font-size: 0.8em;
-}
-.sr-sheet-config .sr-config-add-icon:hover {
-  opacity: 1;
-}
-.sr-sheet-config .sr-config-panel-folded > .sr-config-panel-body {
-  display: none;
-}
-.sr-sheet-config .sr-config-panel-folded > .sr-config-panel-header .sr-config-fold-icon {
-  transform: rotate(-90deg);
-}
-.sr-sheet-config .sr-config-block {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 4px;
-  border-radius: 2px;
-  cursor: grab;
-  font-size: var(--sr-font-size-small);
-}
-.sr-sheet-config .sr-config-block:hover {
-  background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
-}
-.sr-sheet-config .sr-config-block.sr-config-dragging {
-  opacity: 0.4;
-}
-.sr-sheet-config .sr-config-block > .sr-config-block-label {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.sr-sheet-config .sr-config-block > .sr-config-block-size {
-  flex: 0 0 auto;
-  opacity: 0.5;
-  font-size: 0.85em;
-}
-.sr-sheet-config .sr-config-block > .sr-config-placed-count {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 4px;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--sr-text-color-flash) 20%, transparent);
-  font-size: 0.7em;
-  font-weight: bold;
-  opacity: 0.7;
-}
-.sr-sheet-config .sr-config-block.sr-config-block-placed {
-  opacity: 0.6;
-}
-.sr-sheet-config .sr-config-block > .sr-config-column-toggle {
-  flex: 0 0 auto;
-  cursor: pointer;
-  padding: 2px 4px;
-  opacity: 0.5;
-  font-size: 0.75em;
-}
-.sr-sheet-config .sr-config-block > .sr-config-column-toggle:hover {
-  opacity: 1;
-}
-.sr-sheet-config footer.sr-sheet-config-footer {
-  display: flex;
-  flex-shrink: 0;
-  justify-content: space-between;
-  align-items: center;
-}
-.sr-sheet-config .sr-config-footer-left {
-  display: flex;
-  gap: 6px;
-}
-.sr-sheet-config .sr-config-footer-right {
-  display: flex;
-  gap: 6px;
-}
-.sr-sheet-config .sr-config-btn-danger {
-  border-color: #c00 !important;
-}
-.sr-sheet-config .sr-config-btn-danger::before {
-  background: #c00 !important;
 }
 /* === Custom Dropdown (progressive enhancement over native <select>) === */
 .sr-dropdown {

@@ -30,6 +30,62 @@ import Migration from "./migration.js"
 import { SR5_ActorHelper } from "./entities/actors/entityActor-helpers.js"
 import { enhanceSelects } from "./helpers/enhance-selects.js"
 
+/** Merge aside footer buttons into a single full-width footer */
+function _promoteAsideFooter(html) {
+  const root = html.nodeType === 1 ? html : html
+  const aside = root.querySelector('aside')
+  if (!aside) return
+  const asideFooter = aside.querySelector('footer')
+  if (!asideFooter) return
+  const windowContent = aside.closest('.window-content')
+  if (!windowContent) return
+
+  // Collect aside footer buttons
+  const asideButtons = [...asideFooter.querySelectorAll('button')]
+  asideFooter.remove()
+
+  // Find existing main footer — check direct children first, then inside .main
+  let mainFooter = windowContent.querySelector(':scope > footer, :scope > .form-footer')
+  if (!mainFooter) {
+    const mainDiv = windowContent.querySelector('.main')
+    if (mainDiv) mainFooter = mainDiv.querySelector('footer')
+  }
+
+  // Switch to grid so the footer gets its own row below aside + main
+  windowContent.style.display = 'grid'
+  windowContent.style.gridTemplateColumns = 'auto 1fr'
+  windowContent.style.gridTemplateRows = 'minmax(0, 1fr) auto'
+  windowContent.style.overflow = 'hidden'
+
+  // Ensure aside and main scroll their own content within the grid row
+  aside.style.overflow = 'hidden auto'
+  const mainDiv = windowContent.querySelector('.main')
+  if (mainDiv) mainDiv.style.overflow = 'hidden auto'
+
+  if (mainFooter) {
+    // Prepend aside buttons to existing footer
+    for (const btn of asideButtons.reverse()) {
+      mainFooter.insertBefore(btn, mainFooter.firstChild)
+    }
+    // Move footer to be direct child of window-content
+    if (mainFooter.parentElement !== windowContent) {
+      windowContent.appendChild(mainFooter)
+    }
+  } else {
+    // Create a new footer with all buttons
+    const newFooter = document.createElement('footer')
+    newFooter.classList.add('form-footer')
+    for (const btn of asideButtons) newFooter.appendChild(btn)
+    windowContent.appendChild(newFooter)
+  }
+
+  // Ensure the promoted footer spans both grid columns
+  const finalFooter = windowContent.querySelector(':scope > footer, :scope > .form-footer')
+  if (finalFooter) {
+    finalFooter.style.gridColumn = '1 / -1'
+  }
+}
+
 // Item DataModels
 import { sr5ItemAdeptPowerDataModel } from "./datamodels/items/itemAdeptPower.js"
 import { sr5ItemAmmunitionDataModel } from "./datamodels/items/itemAmmunition.js"
@@ -357,8 +413,14 @@ export const registerHooks = function () {
   })
 
   Hooks.on("renderDialogV2",                (_app, html) => { enhanceSelects(html) })
-  Hooks.on("renderSettingsConfig",          (_app, html) => { enhanceSelects(html) })
-  Hooks.on("renderControlsConfig",          (_app, html) => { enhanceSelects(html) })
+  Hooks.on("renderSettingsConfig",          (_app, html) => {
+    enhanceSelects(html)
+    _promoteAsideFooter(html)
+  })
+  Hooks.on("renderControlsConfig",          (_app, html) => {
+    enhanceSelects(html)
+    _promoteAsideFooter(html)
+  })
   Hooks.on("renderDocumentOwnershipConfig", (_app, html) => { enhanceSelects(html) })
   Hooks.on("renderDocumentSheetConfig",     (_app, html) => { enhanceSelects(html) })
   Hooks.on("renderWorldConfig",             (_app, html) => { enhanceSelects(html) })

@@ -31,22 +31,22 @@ export const BLOCK_MIN_COLUMNS = Object.freeze({
 // ---------------------------------------------------------------------------
 
 export const TAB_ICONS = {
-  core:          `${ICON_ROOT}/nav-attributes.svg.hbs`,
-  derived:       `${ICON_ROOT}/nav-derived.svg.hbs`,
-  magic:         `${ICON_ROOT}/nav-magic.svg.hbs`,
-  matrix:        `${ICON_ROOT}/nav-matrix.svg.hbs`,
-  qualities:     `${ICON_ROOT}/nav-qualities.svg.hbs`,
-  skills:        `${ICON_ROOT}/nav-skills.svg.hbs`,
-  combat:        `${ICON_ROOT}/nav-weapons.svg.hbs`,
-  gear:          `${ICON_ROOT}/nav-gear.svg.hbs`,
-  augmentation:  `${ICON_ROOT}/nav-augmentations.svg.hbs`,
-  magician:      `${ICON_ROOT}/nav-spells.svg.hbs`,
-  technomancer:  `${ICON_ROOT}/nav-deck.svg.hbs`,
-  social:        `${ICON_ROOT}/nav-contacts.svg.hbs`,
-  bio:           `${ICON_ROOT}/nav-bio.svg.hbs`,
-  effects:       `${ICON_ROOT}/nav-modifiers.svg.hbs`,
-  device:        `${ICON_ROOT}/nav-information.svg.hbs`,
-  drone:         `${ICON_ROOT}/nav-gear.svg.hbs`,
+  core:          `${ICON_ROOT}/nav-attributes.svg`,
+  derived:       `${ICON_ROOT}/nav-derived.svg`,
+  magic:         `${ICON_ROOT}/nav-magic.svg`,
+  matrix:        `${ICON_ROOT}/nav-matrix.svg`,
+  qualities:     `${ICON_ROOT}/nav-qualities.svg`,
+  skills:        `${ICON_ROOT}/nav-skills.svg`,
+  combat:        `${ICON_ROOT}/nav-weapons.svg`,
+  gear:          `${ICON_ROOT}/nav-gear.svg`,
+  augmentation:  `${ICON_ROOT}/nav-augmentations.svg`,
+  magician:      `${ICON_ROOT}/nav-spells.svg`,
+  technomancer:  `${ICON_ROOT}/nav-deck.svg`,
+  social:        `${ICON_ROOT}/nav-contacts.svg`,
+  bio:           `${ICON_ROOT}/nav-bio.svg`,
+  effects:       `${ICON_ROOT}/nav-modifiers.svg`,
+  device:        `${ICON_ROOT}/nav-information.svg`,
+  drone:         `${ICON_ROOT}/nav-gear.svg`,
 }
 
 // ---------------------------------------------------------------------------

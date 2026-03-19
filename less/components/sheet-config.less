@@ -1,11 +1,34 @@
 // ---- Sheet Configuration Dialog ----
-
 .sr-sheet-config {
 
   .window-content {
     overflow: hidden;
     padding: 0;
   }
+}
+
+// Override window.less input rules — needs .application:not() chain for specificity
+.application.sr-sheet-config.sr-sheet-config {
+  .window-content {
+    input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]).sr-config-panel-name {
+      color: var(--sr-text-color-light) !important;
+      border: none !important;
+      border-bottom: none !important;
+      background: transparent !important;
+      padding: 0 4px !important;
+    }
+
+    input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]).sr-config-tab-name {
+      color: var(--sr-text-color-dark) !important;
+      border: none !important;
+      border-bottom: none !important;
+      background: transparent !important;
+      padding: 0 4px !important;
+    }
+  }
+}
+
+.sr-sheet-config {
 
   .sr-sheet-config-content {
     display: flex;
@@ -30,12 +53,18 @@
     gap: 6px;
     text-transform: uppercase;
     font-family: var(--sr-font-title);
-    font-size: var(--sr-font-size-normal);
+    font-size: var(--sr-font-size-h4);
     font-weight: bold;
     letter-spacing: normal;
-    margin: 0 0 6px;
-    padding-bottom: 4px;
+    margin: 0;
+    padding: 6px 8px;
     line-height: 20px;
+    border-bottom: 2px solid var(--sr-ui-border-color-active);
+  }
+
+  // Aside title — now on light background, same style as right column
+  aside .sr-config-section-title {
+    color: var(--sr-text-color-dark);
   }
 
   // ---- Left: Unused blocks pool (aside element — styled by window.less) ----
@@ -44,6 +73,25 @@
     flex-direction: column;
     min-height: 0;
     overflow: hidden;
+    padding: 0 !important;
+    background-image: var(--sr-img-bg-white50) !important;
+    background-size: cover !important;
+    background-color: var(--sr-text-color-light) !important;
+    color: var(--sr-text-color-dark);
+    border-right: 1px solid var(--sr-ui-border-color-idle);
+
+    > * {
+      padding: 0 !important;
+    }
+
+    > .sr-config-section-title {
+      flex: 0 0 auto;
+      padding: 6px 8px !important;
+    }
+
+    > .sr-config-unused-pool {
+      padding: 8px !important;
+    }
   }
 
   .sr-config-unused-pool {
@@ -51,13 +99,20 @@
     overflow-y: auto;
     min-height: 40px;
     padding: 4px;
-    border: 1px dashed color-mix(in srgb, var(--sr-text-color-flash) 35%, transparent);
-    border-radius: 4px;
+    border: none;
     transition: background-color 0.15s;
 
     &.sr-config-drag-over {
-      background: color-mix(in srgb, var(--sr-text-color-flash) 10%, transparent);
-      border-color: var(--sr-text-color-flash);
+      background: color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);
+    }
+
+    // Ensure block labels are readable on light background
+    .sr-config-block {
+      color: var(--sr-text-color-dark);
+
+      .sr-config-block-label {
+        color: var(--sr-text-color-dark);
+      }
     }
   }
 
@@ -77,14 +132,19 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.75em;
+    font-size: var(--sr-font-size-normal);
     font-weight: bold;
+    font-family: var(--sr-font-title);
     text-transform: uppercase;
-    opacity: 0.6;
+    color: var(--sr-text-color-dark);
     margin-bottom: 2px;
-    padding-left: 4px;
+    padding: 3px 6px;
     cursor: pointer;
-    &:hover { opacity: 1; }
+    border-bottom: 1px solid var(--sr-ui-border-color-idle);
+    transition: background 0.15s;
+    &:hover {
+      background: color-mix(in srgb, var(--sr-ui-border-color-active) 10%, transparent);
+    }
   }
 
   .sr-config-fold-icon {
@@ -106,7 +166,15 @@
     flex-direction: column;
     min-height: 0;
     overflow: hidden;
-    padding: 8px;
+    padding: 0;
+
+    > .sr-config-section-title {
+      flex: 0 0 auto;
+    }
+
+    > .sr-config-panels-list {
+      padding: 8px;
+    }
   }
 
   .sr-config-panels-list {
@@ -185,15 +253,16 @@
     > input.sr-config-tab-name {
       flex: 1 1 auto;
       width: 0;
-      background: transparent;
+      background: transparent !important;
       font-size: var(--sr-font-size-normal);
       font-weight: bold;
       font-family: var(--sr-font-title);
       text-transform: uppercase;
-      padding: 0 4px;
+      padding: 0 4px !important;
       min-width: 0;
       margin: 0;
-      color: var(--sr-ui-border-color) !important;
+      color: var(--sr-text-color-dark) !important;
+      border: none !important;
       border-bottom: none !important;
 
       &:focus {
@@ -212,7 +281,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      margin-left: auto;
+      position: relative;
     }
 
     .sr-config-tab-icon-label {
@@ -221,14 +290,80 @@
       white-space: nowrap;
     }
 
-    .sr-config-icon-select {
-      width: 80px;
-      font-size: 0.8em;
-      padding: 1px 2px;
-      border: none !important;
-      border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
-      border-radius: 0 !important;
-      background: transparent;
+    .sr-config-icon-trigger {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      background: var(--sr-text-color-flash);
+      border-radius: 2px;
+      padding: 2px;
+    }
+
+    .sr-config-icon-trigger svg {
+      width: 16px;
+      height: 16px;
+
+      #icon-background, #icon-border { display: none; }
+      #icon-symbol { fill: var(--sr-text-color-light); }
+    }
+
+    .sr-config-icon-picker {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      background: var(--sr-ui-bg-color-dark);
+      border: 1px solid var(--sr-ui-border-color-active);
+      border-radius: 3px;
+      padding: 4px;
+      gap: 2px;
+      flex-wrap: wrap;
+      width: 180px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+
+      &.open {
+        display: flex;
+      }
+
+      .sr-config-icon-picker-close {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        cursor: pointer;
+        color: color-mix(in srgb, var(--sr-text-color-light) 60%, transparent);
+        font-size: 10px;
+        padding: 2px 4px;
+        &:hover { color: var(--sr-text-color-light); }
+      }
+
+      .sr-config-icon-option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: background 0.15s;
+
+        &:hover {
+          background: color-mix(in srgb, var(--sr-ui-border-color-active) 40%, transparent);
+        }
+
+        &.active {
+          background: var(--sr-ui-border-color-active);
+        }
+
+        svg {
+          width: 22px;
+          height: 22px;
+
+          #icon-background, #icon-border { display: none; }
+          #icon-symbol { fill: var(--sr-text-color-light); }
+        }
+      }
     }
 
     > .sr-config-tab-delete {
@@ -298,17 +433,18 @@
     > input.sr-config-panel-name {
       flex: 1 1 auto;
       width: 0;
-      background: transparent;
+      background: transparent !important;
       font-size: 1em;
       font-weight: bold;
       text-transform: uppercase;
       font-family: var(--sr-font-title);
-      padding: 0 4px;
+      padding: 0 4px !important;
       min-width: 0;
       margin: 0;
       // override window.less light-surface input colors for dark header
       color: var(--sr-text-color-light) !important;
-      border-bottom-color: color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+      border: none !important;
+      border-bottom: none !important;
 
       &:focus {
         outline: 1px solid color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
@@ -394,6 +530,10 @@
     &:hover { opacity: 1; }
   }
 
+  .sr-config-panel-header > .sr-config-add-icon {
+    margin-left: 8px;
+  }
+
   // ---- Panel fold ----
   .sr-config-panel-folded > .sr-config-panel-body {
     display: none;
@@ -462,6 +602,20 @@
       opacity: 0.5;
       font-size: 0.75em;
       &:hover { opacity: 1; }
+    }
+
+    > .sr-config-block-hide {
+      flex: 0 0 auto;
+      cursor: pointer;
+      padding: 2px 4px;
+      opacity: 0.4;
+      font-size: 0.75em;
+      &:hover { opacity: 1; }
+    }
+
+    &.sr-config-hidden > .sr-config-block-label {
+      text-decoration: line-through;
+      opacity: 0.5;
     }
   }
 

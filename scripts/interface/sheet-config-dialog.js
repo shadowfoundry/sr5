@@ -37,8 +37,12 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       toggleCatalogGroup: SR5SheetConfigDialog._onToggleCatalogGroup,
       togglePanelFold: SR5SheetConfigDialog._onTogglePanelFold,
       toggleTabFold: SR5SheetConfigDialog._onToggleTabFold,
+      toggleIconPicker: SR5SheetConfigDialog._onToggleIconPicker,
+      pickIcon: SR5SheetConfigDialog._onPickIcon,
+      closeIconPicker: SR5SheetConfigDialog._onCloseIconPicker,
       togglePanelHidden: SR5SheetConfigDialog._onTogglePanelHidden,
       toggleTabHidden: SR5SheetConfigDialog._onToggleTabHidden,
+      toggleBlockHidden: SR5SheetConfigDialog._onToggleBlockHidden,
       clearAll: SR5SheetConfigDialog._onClearAll,
       resetDefaults: SR5SheetConfigDialog._onResetDefaults,
       applyConfig: SR5SheetConfigDialog._onApply,
@@ -153,6 +157,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
             label: game.i18n.localize(def.label),
             size: def.size,
             column: block.column,
+            hidden: !!block.hidden,
           }
           const showPosition = (def.size === BLOCK_SIZE.SINGLE && panelWidth > 1) ||
             (def.size === BLOCK_SIZE.DOUBLE && panelWidth === 3)
@@ -172,7 +177,7 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
         return {
           id: tab.id,
           label: tab.label ?? '',
-          icon: tab.icon ?? TAB_ICONS.core,
+          icon: tab.icon?.replace(/\.svg\.hbs$/, '.svg') ?? TAB_ICONS.core,
           hidden: !!tab.hidden,
           blocks,
         }
@@ -245,10 +250,6 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     htmlElement.querySelectorAll('.sr-config-tab-name').forEach(input => {
       input.addEventListener('change', this._onTabNameChange.bind(this))
     })
-    htmlElement.querySelectorAll('.sr-config-icon-select').forEach(select => {
-      select.addEventListener('change', this._onIconChange.bind(this))
-    })
-
     // Block drag and drop
     htmlElement.querySelectorAll('.sr-config-block').forEach(el => {
       el.setAttribute('draggable', 'true')
@@ -300,14 +301,40 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     if (tab) tab.label = input.value.trim() || ''
   }
 
-  _onIconChange(event) {
-    const select = event.currentTarget
-    const panelId = select.dataset.panelId
-    const tabId = select.dataset.tabId
+  static _onToggleIconPicker(event, target) {
+    const group = target.closest('.sr-config-tab-icon-group')
+    const picker = group?.querySelector('.sr-config-icon-picker')
+    if (!picker) return
+    // Close any other open pickers
+    this.element.querySelectorAll('.sr-config-icon-picker.open').forEach(el => {
+      if (el !== picker) el.classList.remove('open')
+    })
+    const opening = !picker.classList.contains('open')
+    picker.classList.toggle('open')
+    if (opening) {
+      const triggerRect = target.getBoundingClientRect()
+      picker.style.position = 'fixed'
+      picker.style.top = `${triggerRect.bottom + 2}px`
+      picker.style.left = `${triggerRect.left}px`
+      // Close on scroll
+      const scrollParent = target.closest('.sr-config-panels-list')
+      const onScroll = () => { picker.classList.remove('open'); scrollParent?.removeEventListener('scroll', onScroll) }
+      scrollParent?.addEventListener('scroll', onScroll, { once: true })
+    }
+  }
+
+  static _onCloseIconPicker(event, target) {
+    target.closest('.sr-config-icon-picker')?.classList.remove('open')
+  }
+
+  static _onPickIcon(event, target) {
+    const iconKey = target.dataset.iconKey
+    const panelId = target.dataset.panelId
+    const tabId = target.dataset.tabId
     const panel = this._draft.panels?.find(p => p.id === panelId)
     const tab = panel?.tabs?.find(t => t.id === tabId)
     if (tab) {
-      tab.icon = TAB_ICONS[select.value] ?? TAB_ICONS.core
+      tab.icon = TAB_ICONS[iconKey] ?? TAB_ICONS.core
       this.render()
     }
   }
@@ -767,6 +794,17 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const panel = this._draft.panels.find(p => p.id === panelId)
     const tab = panel?.tabs?.find(t => t.id === tabId)
     if (tab) tab.hidden = !tab.hidden
+    this.render()
+  }
+
+  static _onToggleBlockHidden(event, target) {
+    const blockUid = target.closest('[data-block-uid]')?.dataset.blockUid
+    const tabId = target.closest('[data-tab-id]')?.dataset.tabId
+    const panelId = target.closest('[data-panel-id]')?.dataset.panelId
+    const panel = this._draft.panels.find(p => p.id === panelId)
+    const tab = panel?.tabs?.find(t => t.id === tabId)
+    const block = tab?.blocks?.find(b => b.uid === blockUid)
+    if (block) block.hidden = !block.hidden
     this.render()
   }
 

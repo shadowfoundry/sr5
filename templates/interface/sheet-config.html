@@ -109,6 +109,21 @@
                     <a class="sr-config-tab-fold-toggle" data-action="toggleTabFold" data-tab-id="{{this.id}}" data-panel-id="{{../id}}">
                       <i class="fas fa-caret-down sr-config-fold-icon"></i>
                     </a>
+                    <span class="sr-config-tab-icon-group">
+                      <a class="sr-config-icon-trigger" data-action="toggleIconPicker" data-tab-id="{{this.id}}" data-panel-id="{{../id}}" data-tooltip="{{localize "SR5.SheetConfig.UI.Icon"}}">
+                        {{> (lookup this "icon")}}
+                      </a>
+                      <div class="sr-config-icon-picker" data-tab-id="{{this.id}}" data-panel-id="{{../id}}">
+                        <a class="sr-config-icon-picker-close" data-action="closeIconPicker">
+                          <i class="fas fa-xmark"></i>
+                        </a>
+                        {{#each ../../icons}}
+                          <a class="sr-config-icon-option{{#if (eq this.path ../icon)}} active{{/if}}" data-action="pickIcon" data-icon-key="{{this.key}}" data-tab-id="{{../id}}" data-panel-id="{{../../id}}" data-tooltip="{{this.label}}">
+                            {{> (lookup this "path")}}
+                          </a>
+                        {{/each}}
+                      </div>
+                    </span>
                     <input
                       type="text"
                       class="sr-config-tab-name"
@@ -117,16 +132,6 @@
                       value="{{this.label}}"
                       placeholder="{{localize "SR5.SheetConfig.UI.TabName"}}"
                     />
-                    <span class="sr-config-tab-icon-group">
-                      <span class="sr-config-tab-icon-label">{{localize "SR5.SheetConfig.UI.Icon"}}</span>
-                      <select class="sr-config-icon-select" data-tab-id="{{this.id}}" data-panel-id="{{../id}}">
-                        {{#each ../../icons}}
-                          <option value="{{this.key}}" {{#if (eq this.path ../icon)}}selected{{/if}}>
-                            {{this.label}}
-                          </option>
-                        {{/each}}
-                      </select>
-                    </span>
                     <a class="sr-config-toggle-hidden" data-action="toggleTabHidden" data-tab-id="{{this.id}}"
                        data-tooltip="{{#if this.hidden}}{{localize "SR5.SheetConfig.UI.Show"}}{{else}}{{localize "SR5.SheetConfig.UI.Hide"}}{{/if}}">
                       <i class="fas {{#if this.hidden}}fa-eye-slash{{else}}fa-eye{{/if}}"></i>
@@ -138,7 +143,7 @@
                   </div>
                   <div class="sr-config-tab-blocks">
                     {{#each this.blocks}}
-                      <div class="sr-config-block" data-block-id="{{this.id}}" data-block-uid="{{this.uid}}" data-tab-id="{{../id}}" data-panel-id="{{../../id}}">
+                      <div class="sr-config-block{{#if this.hidden}} sr-config-hidden{{/if}}" data-block-id="{{this.id}}" data-block-uid="{{this.uid}}" data-tab-id="{{../id}}" data-panel-id="{{../../id}}">
                         <span class="sr-config-block-label">{{this.label}}</span>
                         <span class="sr-config-block-size">({{this.size}})</span>
                         {{#if this.showPosition}}
@@ -146,6 +151,10 @@
                             <i class="fas {{this.positionIcon}}"></i>
                           </a>
                         {{/if}}
+                        <a class="sr-config-block-hide" data-action="toggleBlockHidden" data-block-uid="{{this.uid}}"
+                           data-tooltip="{{#if this.hidden}}{{localize "SR5.SheetConfig.UI.Show"}}{{else}}{{localize "SR5.SheetConfig.UI.Hide"}}{{/if}}">
+                          <i class="fas {{#if this.hidden}}fa-eye-slash{{else}}fa-eye{{/if}}"></i>
+                        </a>
                       </div>
                     {{/each}}
                     {{#unless this.blocks.length}}

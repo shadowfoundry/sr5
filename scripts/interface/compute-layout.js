@@ -28,6 +28,7 @@ function _buildSections(blocks, panelCols) {
   for (const block of blocks) {
     const def = BLOCK_REGISTRY[block.id]
     if (!def) continue
+    if (block.hidden) continue
 
     const isColumnBlock = def.size === BLOCK_SIZE.SINGLE && panelCols > 1 && block.column !== undefined
     const type = isColumnBlock ? 'columns' : 'full'
@@ -95,14 +96,17 @@ export function computeLayout(actorType, prefs = {}) {
       const sections = _buildSections(tabDef.blocks ?? [], width)
       if (sections.length === 0) continue
 
+      // Normalize legacy .svg.hbs paths to .svg
+      const rawIcon = tabDef.icon?.replace(/\.svg\.hbs$/, '.svg')
+
       const iconKey = tabDef.iconKey ??
-        Object.entries(TAB_ICONS).find(([, v]) => v === tabDef.icon)?.[0] ??
+        Object.entries(TAB_ICONS).find(([, v]) => v === rawIcon)?.[0] ??
         'core'
 
       tabs.push({
         id: tabDef.id,
         label: tabDef.label ?? '',
-        icon: tabDef.icon ?? TAB_ICONS.core,
+        icon: TAB_ICONS[iconKey] ?? TAB_ICONS.core,
         iconKey,
         group,
         sections,

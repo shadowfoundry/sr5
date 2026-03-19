@@ -8,25 +8,25 @@ export const preloadHandlebarsTemplates = async function () {
   const templatePaths = [
 
     // Common sheet partials - Header icons
-    "systems/sr5/img/icons/nav-attributes.svg.hbs",
-    "systems/sr5/img/icons/nav-augmentations.svg.hbs",
-    "systems/sr5/img/icons/nav-bio.svg.hbs",
-    "systems/sr5/img/icons/nav-configuration.svg.hbs",
-    "systems/sr5/img/icons/nav-contacts.svg.hbs",
-    "systems/sr5/img/icons/nav-deck.svg.hbs",
-    "systems/sr5/img/icons/nav-derived.svg.hbs",
-    "systems/sr5/img/icons/nav-gear.svg.hbs",
-    "systems/sr5/img/icons/nav-information.svg.hbs",
-    "systems/sr5/img/icons/nav-magic.svg.hbs",
-    "systems/sr5/img/icons/nav-matrix.svg.hbs",
-    "systems/sr5/img/icons/nav-modifiers.svg.hbs",
-    "systems/sr5/img/icons/nav-qualities.svg.hbs",
-    "systems/sr5/img/icons/nav-skills.svg.hbs",
-    "systems/sr5/img/icons/nav-spells.svg.hbs",
-    "systems/sr5/img/icons/nav-weapons.svg.hbs",
-    "systems/sr5/img/icons/nav-materialize.svg.hbs",
-    "systems/sr5/img/icons/nav-dismiss.svg.hbs",
-    "systems/sr5/img/icons/nav-link.svg.hbs",
+    "systems/sr5/img/icons/nav-attributes.svg",
+    "systems/sr5/img/icons/nav-augmentations.svg",
+    "systems/sr5/img/icons/nav-bio.svg",
+    "systems/sr5/img/icons/nav-configuration.svg",
+    "systems/sr5/img/icons/nav-contacts.svg",
+    "systems/sr5/img/icons/nav-deck.svg",
+    "systems/sr5/img/icons/nav-derived.svg",
+    "systems/sr5/img/icons/nav-gear.svg",
+    "systems/sr5/img/icons/nav-information.svg",
+    "systems/sr5/img/icons/nav-magic.svg",
+    "systems/sr5/img/icons/nav-matrix.svg",
+    "systems/sr5/img/icons/nav-modifiers.svg",
+    "systems/sr5/img/icons/nav-qualities.svg",
+    "systems/sr5/img/icons/nav-skills.svg",
+    "systems/sr5/img/icons/nav-spells.svg",
+    "systems/sr5/img/icons/nav-weapons.svg",
+    "systems/sr5/img/icons/nav-materialize.svg",
+    "systems/sr5/img/icons/nav-dismiss.svg",
+    "systems/sr5/img/icons/nav-link.svg",
 
     /***************************************************************** */
     /**                      ACTOR PARTIALS                         ** */
@@ -634,6 +634,20 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/rolls/rollCardPartial/actions.html",
   ]
 
-  // Load the template parts
-  return foundry.applications.handlebars.loadTemplates(templatePaths)
+  // SVG icons need manual registration as Handlebars partials
+  // (loadTemplates may skip non-.hbs/.html extensions)
+  const svgPaths = templatePaths.filter(p => p.endsWith('.svg'))
+  const otherPaths = templatePaths.filter(p => !p.endsWith('.svg'))
+
+  // Register SVG partials manually
+  await Promise.all(svgPaths.map(async (path) => {
+    const resp = await fetch(path)
+    if (resp.ok) {
+      const text = await resp.text()
+      Handlebars.registerPartial(path, text)
+    }
+  }))
+
+  // Load the rest normally
+  return foundry.applications.handlebars.loadTemplates(otherPaths)
 }
