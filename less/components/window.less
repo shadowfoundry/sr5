@@ -189,8 +189,8 @@
       }
     }
 
-    /* Journal header title on dark bg — override light-theme input color */
-    .journal-header .title {
+    /* Journal header title on dark bg — must match input rule specificity */
+    .journal-header input.title:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
       color: var(--sr-text-color-light) !important;
     }
 

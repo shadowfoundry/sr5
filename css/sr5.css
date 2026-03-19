@@ -1610,6 +1610,7 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
   background-position: top left;
   background-repeat: no-repeat;
   background-color: var(--sr-text-color-light);
+  border-radius: 0 !important;
   /* Force SR journal font on all text descendants */
   /* Restore Font Awesome on icon elements */
   /* Restore font on buttons and controls */
@@ -1762,7 +1763,7 @@ body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-conten
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h6,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h6 {
   text-transform: uppercase;
-  font-family: var(--sr-font-body) !important;
+  font-family: var(--sr-font-title) !important;
 }
 body[class^="sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h1,
 body[class*=" sr-theme-"] .sheet.journal-entry.application .journal-entry-content .journal-entry-pages h1 {
@@ -2146,7 +2147,7 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
        participate directly in the flex flow like core tab parts */
   /* === Spacing === */
   /* === Form element styling === */
-  /* Journal header title on dark bg — override light-theme input color */
+  /* Journal header title on dark bg — must match input rule specificity */
   /* Journal sidebar uses dark bg — override light-theme colors */
   /* === Checkboxes === */
   /* === Radio buttons === */
@@ -2371,10 +2372,10 @@ body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-
   cursor: pointer;
   opacity: 1;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header .title {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header input.title:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header input.title:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header input.title:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-header input.title:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
   color: var(--sr-text-color-light) !important;
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content .journal-sidebar input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
