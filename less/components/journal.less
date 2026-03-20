@@ -351,6 +351,17 @@
 
   .journal-header {
     flex: none !important;
+    background-image: var(--sr-img-window-header);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
+    .title {
+      color: var(--sr-text-color-light) !important;
+      font-family: var(--sr-font-title) !important;
+      text-align: center;
+      background: none !important;
+      border: none !important;
+    }
   }
 
   /* Footer: compact, keep dark SR5 footer bg for white button text */
@@ -454,12 +465,81 @@
     .editor-content.ProseMirror {
       color: var(--sr-text-color-dark) !important;
       background: var(--sr-text-color-light) !important;
-      padding: 8px !important;
+      background-image: var(--sr-img-bg-white50) !important;
+      background-size: cover !important;
+      padding: 8px 16px !important;
+      font-family: var(--sr-font-journal);
 
+      /* --- Headers --- */
+      h1, h2, h3, h4, h5, h6 {
+        text-transform: uppercase;
+        font-family: var(--sr-font-title) !important;
+        color: var(--sr-ui-border-color);
+      }
+
+      h1 {
+        border-bottom: 2px solid var(--sr-ui-border-color);
+        padding-bottom: 5px;
+      }
+
+      h2 {
+        border-bottom: 1px solid var(--sr-ui-border-color);
+        padding-bottom: 5px;
+      }
+
+      /* --- Images --- */
       img {
         display: block;
         margin-left: auto;
         margin-right: auto;
+      }
+
+      /* --- Tables --- */
+      table {
+        --table-background-color: transparent !important;
+        border-collapse: collapse;
+        border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+        border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+        background: none !important;
+
+        th {
+          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+          font-family: var(--sr-font-title);
+          padding: 4px 8px;
+        }
+
+        td {
+          padding: 4px 8px;
+          background: none !important;
+        }
+
+        tr:nth-child(odd) {
+          background: color-mix(in srgb, var(--sr-text-color-dark) 10%, transparent) !important;
+        }
+
+        tr:nth-child(even) {
+          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+        }
+      }
+
+      /* --- Horizontal rules --- */
+      hr {
+        border: none;
+        border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+        margin: 16px 0;
+      }
+
+      /* --- Links --- */
+      a {
+        color: var(--sr-ui-border-color);
+        font-family: var(--sr-font-body);
+      }
+
+      /* --- Blockquotes --- */
+      blockquote {
+        font-style: normal;
+        border-left: 3px solid var(--sr-ui-border-color);
+        padding-left: 0.75rem;
       }
 
       &:focus {
