@@ -107,6 +107,7 @@ export const BLOCK_REGISTRY = {
   rangedWeapons:       { partial: `${PARTIAL_ROOT}/right-tabs/combat/rangedWeapons.html`,         label: 'SR5.SheetConfig.Block.RangedWeapons',    size: BLOCK_SIZE.DOUBLE },
   meleeWeapons:        { partial: `${PARTIAL_ROOT}/right-tabs/combat/meleeWeapons.html`,          label: 'SR5.SheetConfig.Block.MeleeWeapons',     size: BLOCK_SIZE.DOUBLE },
   grenades:            { partial: `${PARTIAL_ROOT}/right-tabs/combat/grenades.html`,              label: 'SR5.SheetConfig.Block.Grenades',         size: BLOCK_SIZE.DOUBLE },
+  weaponAccessories:   { partial: `${PARTIAL_ROOT}/right-tabs/combat/weaponAccessories.html`,     label: 'SR5.SheetConfig.Block.WeaponAccessories', size: BLOCK_SIZE.DOUBLE },
   armors:              { partial: `${PARTIAL_ROOT}/right-tabs/combat/armors.html`,                label: 'SR5.SheetConfig.Block.Armors',           size: BLOCK_SIZE.DOUBLE },
   ammunitions:         { partial: `${PARTIAL_ROOT}/right-tabs/combat/ammunitions.html`,           label: 'SR5.SheetConfig.Block.Ammunitions',      size: BLOCK_SIZE.DOUBLE },
   martialArts:         { partial: `${PARTIAL_ROOT}/right-tabs/combat/martialArts.html`,           label: 'SR5.SheetConfig.Block.MartialArts',      size: BLOCK_SIZE.DOUBLE },

@@ -57,13 +57,13 @@ for (const [key, catalog] of Object.entries(WEAPON_ACCESSORY_CATALOG)) {
     wifi: e.wifi || false, cumulative: e.cumulative !== undefined ? e.cumulative : true, multiplier: 1, category: '',
   }))
 
-  // Build systemEffects array from catalog
-  const systemEffects = (catalog.systemEffects || []).map(e => ({ value: e.value }))
+  // Special effect identifier (stored in weaponAccessory.specialEffect instead of systemEffects)
+  const specialEffect = catalog.systemEffects?.[0]?.value || ''
 
   const item = {
     name: name,
-    type: 'itemGear',
-    img: 'systems/sr5/img/items/itemGear.svg',
+    type: 'itemWeapon',
+    img: 'systems/sr5/img/items/itemWeapon.svg',
     system: {
       description: '',
       gameEffect: gameEffect,
@@ -85,39 +85,19 @@ for (const [key, catalog] of Object.entries(WEAPON_ACCESSORY_CATALOG)) {
       },
       isWireless: false,
       wirelessTurnedOn: false,
-      deviceRating: 0,
-      conditionMonitors: {
-        matrix: {
-          value: 0,
-          base: 0,
-          modifiers: [],
-          actual: { value: 0, base: 0, modifiers: [] },
-          boxes: [],
-        },
-      },
-      isSlavedToPan: false,
-      panMaster: '',
-      marks: [],
-      isActive: false,
-      concealment: { value: 0, base: 0, modifiers: [] },
+      category: 'weaponAccessory',
+      isAccessory: true,
+      isPlugged: false,
+      quantity: 1,
       customEffects: [],
       itemEffects: itemEffects,
-      systemEffects: systemEffects,
-      capacity: { value: 0, base: 0, modifiers: [], multiplier: '' },
-      capacityTaken: { value: 0, base: 0, modifiers: [], multiplier: '' },
-      isAccessory: true,
-      quantity: 1,
-      charge: 0,
-      isMedkit: false,
-      isPlugged: false,
-      accessory: [],
-      canRollTest: false,
-      test: { dicePool: 0, base: 0, modifiers: [], type: '' },
-      gearCategory: 'weaponAccessory',
+      systemEffects: [],
+      concealment: { value: 0, base: 0, modifiers: [] },
       weaponAccessory: {
         slot: catalog.slot || '',
         type: catalog.type || 'accessory',
         priceMultiplier: catalog.priceMultiplier || 0,
+        specialEffect: specialEffect,
       },
     },
     effects: [],

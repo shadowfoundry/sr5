@@ -1,0 +1,102 @@
+<!-- WEAPON ACCESSORIES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="grid SR-LigneEnTete">
+			<div class="col-6 SR-TextUppercase">{{localize 'SR5.WeaponAccessories'}}</div>
+			<div class="col-4 SR-TextCenter">{{localize 'SR5.WeaponSlot'}}</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"></div>
+					<div class="col-6 SR-TextCenter"><em class="fas fa-sm fa-thumbtack"></em></div>
+				</div>
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter"><em class="fas fa-sm fa-link"></em></div>
+					<div class="col-6">
+						{{#if owner}}
+						<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(localize 'SR5.WeaponAccessory')}}"
+						data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+							<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemWeapon" data-weaponCategory="weaponAccessory">
+								<em class="fas fa-plus"></em>
+							</a>
+						</p>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+		</li>
+		{{#each actor.weaponAccessories}}
+		{{#if system.isPlugged}}
+		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+			<div class="col-6">{{name}}</div>
+			<div class="col-4 SR-TextCenter">
+				{{#if system.weaponAccessory.slot}}
+					{{findTranslation "weaponAccessorySlots" system.weaponAccessory.slot}}
+				{{else}}
+					-
+				{{/if}}
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"></div>
+					<div class="col-6 SR-TextCenter">
+						<a class="toggle-value" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isActive"
+						  data-title="{{#if system.isActive}}{{localize 'SR5.Unequip'}}{{else}}{{localize 'SR5.Equip'}}{{/if}}">
+							<em class="fas fa-sm fa-thumbtack {{#if system.isActive}}SR-SubColor{{/if}}"></em>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter">
+						<em class="fas fa-sm fa-link SR-SubColor" data-title="{{localize 'SR5.Plugged'}}"></em>
+					</div>
+					<div class="col-6 SR-TextRight">
+						{{#if ../owner}}
+						<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+							<em class="fas fa-sm fa-edit item-management"></em>
+						</a>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+		</li>
+		{{else}}
+		<li class="item grid SR-LightGreyColor" data-item-id="{{_id}}" draggable="true">
+			<div class="col-6">{{name}}</div>
+			<div class="col-4 SR-TextCenter">
+				{{#if system.weaponAccessory.slot}}
+					{{findTranslation "weaponAccessorySlots" system.weaponAccessory.slot}}
+				{{else}}
+					-
+				{{/if}}
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"></div>
+					<div class="col-6 SR-TextCenter">
+						<em class="fas fa-sm fa-thumbtack SR-SubColor25"></em>
+					</div>
+				</div>
+			</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6 SR-TextCenter">
+						<em class="fas fa-sm fa-unlink SR-SubColor25" data-title="{{localize 'SR5.Unplugged'}}"></em>
+					</div>
+					<div class="col-6 SR-TextRight">
+						{{#if ../owner}}
+						<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+							<em class="fas fa-sm fa-edit item-management"></em>
+						</a>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+		</li>
+		{{/if}}
+		{{/each}}
+	</ul>
+</div>

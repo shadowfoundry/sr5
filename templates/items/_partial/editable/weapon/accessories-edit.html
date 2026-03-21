@@ -3,26 +3,30 @@
         <li class="grid SR-EnTete">
             <div class="col-5 SR-TextUppercase">{{localize 'SR5.WeaponAccessories'}}</div>
             <div class="col-3">{{localize 'SR5.WeaponSlot'}}</div>
-            <div class="col-4">
+            <div class="col-3">
                 <div class="grid">
-                    <div class="col-6 SR-TextCenter">{{localize 'SR5.Price'}}</div>
-                    <div class="col-3 SR-TextCenter">
+                    <div class="col-8 SR-TextCenter">{{localize 'SR5.Price'}}</div>
+                    <div class="col-4 SR-TextCenter">
                         {{localize 'SR5.Free'}}
                     </div>
-                    <div class="col-2 SR-TextCenter">
-                        <em class="fas fa-sm fa-thumbtack"></em>
-                    </div>
-                    <div class="col-1 SR-TextRight">
-                        {{#if owner}}
-                        <a class="subItem" data-title="{{localize 'SR5.Add'}}" data-binding="accessory" data-subaction="add"><em class="fas fa-plus"></em></a>
-                        {{/if}}
-                    </div>
                 </div>
+            </div>
+            <div class="col-1 SR-TextRight">
+                {{#if owner}}
+                {{#if isEmbedded}}
+                <a class="accessoryChoice" data-title="{{localize 'SR5.Add'}}" data-type="itemWeapon"><em class="fas fa-plus"></em></a>
+                {{else}}
+                <a class="subItem" data-title="{{localize 'SR5.Add'}}" data-binding="accessory" data-subaction="add"><em class="fas fa-plus"></em></a>
+                {{/if}}
+                {{/if}}
             </div>
         </li>
         {{#each system.accessory as |a i|}}
         <li class="subItemManagement grid" data-key="{{@key}}">
             <div class="col-5">
+                {{#if a.system}}
+                    {{a.name}}
+                {{else}}
                 <select name="system.accessory.{{i}}.name">
                 {{#select name}}
                     <option value="">{{localize 'SR5.None'}}</option>
@@ -31,8 +35,14 @@
                     {{/each}}
                 {{/select}}
                 </select>
+                {{/if}}
             </div>
             <div class="col-3">
+                {{#if a.system}}
+                    {{#if a.system.weaponAccessory.slot}}
+                        {{localize (lookup ../lists.weaponAccessorySlots a.system.weaponAccessory.slot)}}
+                    {{/if}}
+                {{else}}
                 <select name="system.accessory.{{i}}.slot">
                 {{#select slot}}
                     <option value="">{{localize 'SR5.None'}}</option>
@@ -41,21 +51,25 @@
                     {{/each}}
                 {{/select}}
                 </select>
+                {{/if}}
             </div>
-            <div class="col-4">
+            <div class="col-3">
                 <div class="grid">
-                    <div class="col-6 SR-TextCenter">
+                    <div class="col-8 SR-TextCenter">
                         {{#if a.isFree}}
                             -
                         {{else}}
                             {{a.price}}¥
                         {{/if}}
                     </div>
-                    <div class="col-3 SR-TextCenter"><input type="checkbox" name="system.accessory.{{i}}.isFree" data-dtype="Boolean" {{checked isFree}} /></div>
-                    <div class="col-2 SR-TextCenter"><input type="checkbox" name="system.accessory.{{i}}.isActive" data-dtype="Boolean" {{checked isActive}} /></div>
-                    <div class="col-1 SR-TextRight"><a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="accessory" data-subaction="delete"><i class="fas fa-trash"></i></a></div>
+                    {{#if a.system}}
+                    <div class="col-4 SR-TextCenter"><input type="checkbox" class="accessory-toggle" data-index="{{@key}}" data-field="isFree" {{checked isFree}} /></div>
+                    {{else}}
+                    <div class="col-4 SR-TextCenter"><input type="checkbox" name="system.accessory.{{i}}.isFree" data-dtype="Boolean" {{checked isFree}} /></div>
+                    {{/if}}
                 </div>
             </div>
+            <div class="col-1 SR-TextRight"><a class="subItem" data-title="{{localize 'SR5.Delete'}}" data-index="{{@key}}" data-binding="accessory" data-subaction="delete"><i class="fas fa-trash"></i></a></div>
         </li>
         {{/each}}
     </ul>

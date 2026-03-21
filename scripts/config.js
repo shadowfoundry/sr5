@@ -938,6 +938,7 @@ SR5.weaponCategories = {
   grenade                   : "SR5.Grenade",
   meleeWeapon               : "SR5.MeleeWeapon",
   rangedWeapon              : "SR5.RangedWeapon",
+  weaponAccessory           : "SR5.WeaponAccessory",
 }
 
 // Types d'armes de mêlées

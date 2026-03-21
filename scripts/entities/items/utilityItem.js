@@ -957,6 +957,13 @@ export class SR5_UtilityItem extends Actor {
     }
 
     for (let a of itemData.accessory) {
+      // Item-based accessory (has a.system from a cloned itemGear)
+      if (a.system) {
+        SR5_UtilityItem._handleItemBasedWeaponAccessory(a, itemData, actor)
+        continue
+      }
+
+      // Legacy accessory (has a.name as a config key)
       const catalog = WEAPON_ACCESSORY_CATALOG[a.name]
       if (!catalog) {
         if (a.name) SR5_SystemHelpers.srLog(1, `Unknown '${a.name}' accessory in _handleWeaponAccessory()`)
@@ -1076,6 +1083,59 @@ export class SR5_UtilityItem extends Actor {
     }
   }
 
+  /** Handle an item-based weapon accessory (cloned itemWeapon with system data) */
+  static _handleItemBasedWeaponAccessory(a, itemData, actor) {
+    const accData = a.system
+    const label = a.name || 'Accessory'
+
+    // Sync isActive from the actor's live item (the actor sheet toggles the item, not the clone)
+    if (actor && a._id) {
+      const liveItem = actor.items.get(a._id)
+      if (liveItem) {
+        a.isActive = liveItem.system.isActive
+      }
+    }
+
+    // Slot from item data
+    if (!a.slot && accData.weaponAccessory?.slot) a.slot = accData.weaponAccessory.slot
+
+    // Price
+    if (accData.weaponAccessory?.priceMultiplier) {
+      a.price = accData.weaponAccessory.priceMultiplier * itemData.price.base
+    } else {
+      a.price = accData.price?.base || 0
+    }
+
+    // Apply itemEffects from the accessory item
+    if (a.isActive && accData.itemEffects) {
+      const effects = Array.isArray(accData.itemEffects) ? accData.itemEffects : Object.values(accData.itemEffects)
+      for (const effect of effects) {
+        if (!effect.target || !effect.type) continue
+        if (effect.wifi && !itemData.wirelessTurnedOn) continue
+
+        const targetObject = SR5_EntityHelpers.resolveObjectPath(effect.target.replace(/^system\./, ''), itemData)
+        if (targetObject) {
+          const cumulative = effect.cumulative !== undefined ? effect.cumulative : true
+          SR5_EntityHelpers.updateModifier(targetObject, label, "weaponAccessory", effect.value, false, cumulative)
+        }
+      }
+    }
+
+    // Apply special weapon accessory effects
+    const specialEffect = accData.weaponAccessory?.specialEffect
+    if (specialEffect) {
+      SR5_UtilityItem._handleSpecialWeaponAccessory(specialEffect, a, itemData, actor, label)
+    }
+
+    // Game effects description
+    a.gameEffects = accData.gameEffect || ''
+
+    // Price modifier
+    if (!a.isFree) {
+      SR5_EntityHelpers.updateModifier(itemData.price, label, "weaponAccessory", a.price)
+    }
+  }
+
   //Handle if an accessory gives environmental modifiers (actor-level effects)
   static _handleVisionAccessory(itemData, actor) {
     if (itemData.ammunition.type === "tracer" && itemData.isActive) {
@@ -1089,24 +1149,34 @@ export class SR5_UtilityItem extends Actor {
     }
 
     for (let a of itemData.accessory) {
-      const catalog = WEAPON_ACCESSORY_CATALOG[a.name]
-      if (!catalog?.systemEffects) continue
+      // Determine special effect: from item data or from catalog
+      let effectType = null
+      let label = a.name || 'Accessory'
+      if (a.system) {
+        effectType = a.system.weaponAccessory?.specialEffect
+        label = a.name
+      } else {
+        const catalog = WEAPON_ACCESSORY_CATALOG[a.name]
+        if (!catalog?.systemEffects) continue
+        effectType = catalog.systemEffects[0]?.value
+        label = game.i18n.localize(SR5.weaponAccessories[a.name]) || a.name
+      }
+      if (!effectType) continue
 
-      for (const sEffect of catalog.systemEffects) {
-        switch (sEffect.value) {
+      switch (effectType) {
           case "flashLightInfrared":
             if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true)
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, label, "weaponAccessory", -1, false, true)
             }
             break
           case "flashLightLowLight":
             if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true)
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, label, "weaponAccessory", -1, false, true)
             }
             break
           case "imagingScope":
             if (a.isActive && itemData.isActive) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, false)
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, label, "weaponAccessory", -1, false, false)
             }
             break
           case "smartgunInternal":
@@ -1124,7 +1194,6 @@ export class SR5_UtilityItem extends Actor {
             }
             break
           }
-        }
       }
     }
   }

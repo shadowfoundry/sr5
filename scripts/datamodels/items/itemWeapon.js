@@ -91,6 +91,15 @@ export class sr5ItemWeaponDataModel extends foundry.abstract.TypeDataModel {
       isLinkedToMount: new fields.BooleanField({initial: false}),
       isUsedAsMount: new fields.BooleanField({initial: false}),
       isMagical: new fields.BooleanField({initial: false}),
+      // Weapon accessory fields (used when category === "weaponAccessory")
+      isAccessory: new fields.BooleanField({initial: false}),
+      isPlugged: new fields.BooleanField({initial: false}),
+      weaponAccessory: new fields.SchemaField({
+        slot: new fields.StringField({initial: ''}),
+        type: new fields.StringField({initial: 'accessory'}),
+        priceMultiplier: new fields.NumberField({initial: 0}),
+        specialEffect: new fields.StringField({initial: ''}),
+      }),
     }
   }
 }

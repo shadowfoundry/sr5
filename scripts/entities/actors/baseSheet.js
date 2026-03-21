@@ -142,6 +142,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     context.items = actorData.items
     context.owner = this.actor.isOwner
     context.editable = this.isEditable
+    context.isEmbedded = true  // Items rendered on actor sheets are always embedded
     context.filters = this._filters || {}
     context.lists = this.actor.system.lists
     context.isPlay = this.isPlayMode

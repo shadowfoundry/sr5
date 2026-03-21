@@ -207,6 +207,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     context.item = item.toObject(false)
     context.system = item.system
     context.isEmbedded = item.isEmbedded
+    context.owner = this.document.isOwner
     context.lists = SR5_EntityHelpers.sortTranslations(SR5)
     context.isPlay = this.isPlayMode
     context.cssClass = this.document.isOwner ? "editable" : "locked"
@@ -288,6 +289,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
     // Accessory choice
     el.querySelectorAll(".accessoryChoice").forEach(node => node.addEventListener("click", this.#onAccessoryChoice.bind(this)))
+
+    // Item-based accessory checkbox toggles (avoid form submission destroying item data)
+    el.querySelectorAll(".accessory-toggle").forEach(node => node.addEventListener("change", this.#onAccessoryToggle.bind(this)))
 
     // Help Display (mouseover/mouseout — cannot use data-action)
     el.querySelectorAll("[data-helpTitle]").forEach(node => {
@@ -378,9 +382,23 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     let type = event.currentTarget.dataset.type
     let accessoriesList = {}
 
+    // For weapons, build set of already-attached accessory IDs
+    let attachedIds = new Set()
+    if (type === "itemWeapon") {
+      const attached = this.item.system.accessory || []
+      const arr = Array.isArray(attached) ? attached : Object.values(attached)
+      for (const a of arr) {
+        if (a._id) attachedIds.add(a._id)
+      }
+    }
+
     for (let i of this.item.actor.items) {
       if (type === "itemArmor") {
         if ((i.type === "itemArmor" || i.type === "itemGear") && i.system.isAccessory && !i.system.isPlugged) {
+          accessoriesList[i.id] = i.name
+        }
+      } else if (type === "itemWeapon") {
+        if (i.type === "itemWeapon" && i.system.isAccessory && !i.system.isPlugged && !attachedIds.has(i.id)) {
           accessoriesList[i.id] = i.name
         }
       } else {
@@ -417,13 +435,36 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     let accessory = result.element.querySelector("[name=accessory]")?.value
     if (accessory) {
       let aItem = this.actor.items.find(i => i.id === accessory)
+      let accObj = aItem.toObject(false)
+      // Set top-level flags for template/processing compatibility
+      accObj.isActive = true
+      accObj.isFree = false
       let cloned = foundry.utils.deepClone(this.item.system.accessory)
-      cloned.push(aItem.toObject(false))
-      this.item.update({"system.accessory": cloned })
-      aItem.update({
+      if (typeof cloned === "object" && !Array.isArray(cloned)) cloned = Object.values(cloned)
+      cloned.push(accObj)
+      await this.item.update({"system.accessory": cloned})
+      await aItem.update({
         "system.isActive": this.item.system.isActive,
         "system.wirelessTurnedOn": this.item.system.wirelessTurnedOn,
+        "system.isPlugged": true,
       })
+    }
+  }
+
+  // Toggle isFree/isActive on item-based accessories without form submission
+  async #onAccessoryToggle(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    const index = Number(event.currentTarget.dataset.index)
+    const field = event.currentTarget.dataset.field
+    const checked = event.currentTarget.checked
+    let accessories = foundry.utils.deepClone(this.item.system.accessory)
+    if (typeof accessories === "object" && !Array.isArray(accessories)) {
+      accessories = Object.values(accessories)
+    }
+    if (accessories[index]) {
+      accessories[index][field] = checked
+      await this.item.update({"system.accessory": accessories})
     }
   }
 

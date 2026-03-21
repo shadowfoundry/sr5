@@ -150,6 +150,9 @@ export class SR5GruntSheet extends ActorSheetSR5 {
     actor.knowledges = knowledges
     actor.languages = languages
     actor.weapons = weapons
+    actor.weaponAccessories = weapons
+      .filter(w => w.system.category === "weaponAccessory")
+      .sort((a, b) => a.name.localeCompare(b.name))
     actor.armors = armors
     actor.augmentations = augmentations
     actor.qualities = qualities

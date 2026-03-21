@@ -143,6 +143,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/spiritWeapons.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/grenades.html",
+    "systems/sr5/templates/actors/_partials/right-tabs/combat/weaponAccessories.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/armors.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/ammunitions.html",
     "systems/sr5/templates/actors/_partials/right-tabs/combat/martialArts.html",
