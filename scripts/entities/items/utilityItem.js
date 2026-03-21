@@ -1,6 +1,7 @@
 import { SR5 } from "../../config.js"
 import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
 import { SR5_EntityHelpers } from "../helpers.js"
+import { WEAPON_ACCESSORY_CATALOG } from "../../data/weaponAccessoryCatalog.js"
 
 export class SR5_UtilityItem extends Actor {
   //************************************************//
@@ -948,407 +949,181 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(itemData.reach)
   }
 
-  // Modifie les armes en fonction des accessoires
+  // Modifie les armes en fonction des accessoires (data-driven via catalog)
   static _handleWeaponAccessory(itemData, actor) {
-    for (let a of itemData.accessory) {   
-      a.price = 0
-      switch (a.name) {
-        case "additionalClipMagazine":
-          a.price = itemData.price.base
-          a.slot = "side"
-          break
-        case "advancedSafetySystem":
-          a.price = 600
-          break
-        case "advancedSafetySystemElec":
-          a.price = 950
-          break
-        case "advancedSafetySystemExSD":
-          a.price = 1000
-          break
-        case "advancedSafetySystemImmo":
-          a.price = 700
-          break
-        case "advancedSafetySystemSelfD":
-          a.price = 800
-          break
-        case "airburstLink":
-          a.price = 600
-          break
-        case "ammoSkipSystem":
-          a.price = 250
-          a.slot = "underneath"
-          break
-        case "batteryBackPack":
-          a.price = 2500
-          break
-        case "batteryClip":
-          a.price = 400
-          break
-        case "batteryPack":
-          a.price = 900
-          break
-        case "bayonet":
-          a.price = 50
-          break
-        case "bipod":
-          a.price = 200
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2)
-          break
-        case "capBall":
-          break
-        case "ceramicPlasteelCompo1":
-          a.price = itemData.price.base
-          break
-        case "ceramicPlasteelCompo2":
-          a.price = 2 * itemData.price.base
-          break
-        case "ceramicPlasteelCompo3":
-          a.price = 3 * itemData.price.base
-          break
-        case "ceramicPlasteelCompo4":
-          a.price = 4 * itemData.price.base
-          break
-        case "ceramicPlasteelCompo5":
-          a.price = 5 * itemData.price.base
-          break
-        case "ceramicPlasteelCompo6":
-          a.price = 6 * itemData.price.base
-          break
-        case "chameleonCoating":
-          a.price = 1000
-          a.slot = "side"					
-          if (a.isActive && itemData.requiredHands == 1) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -2)					
-          if (a.isActive && itemData.requiredHands == 2) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1)
-          break
-        case "concealableHolster":
-          a.price = 150
-          if (a.isActive) {
-            if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -2)
-            else SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1)
-          }
-          break
-        case "concealedQDHolster":
-          a.price = 275
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1)
-          break
-        case "customLook":
-          a.price = 300
-          break
-        case "easyBreakdownManual":
-          a.price = 750
-          a.slot = "side"
-          break
-        case "easyBreakdownPowered":
-          a.price = 1250
-          a.slot = "side"
-          break
-        case "electronicFiring":
-          a.price = 1000
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "explosiveClip":
-          a.price = 20
-          break
-        case "extendedBarrel":
-          a.price = 50
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "extendedClip1":
-          a.price = 35
-          break
-        case "extendedClip2":
-          a.price = 35
-          break
-        case "extremeEnvironment":
-          a.price = 1500
-          break
-        case "flashLight":
-          a.price = 50
-          break
-        case "flashLightInfrared":
-          a.price = 400
-          break
-        case "flashLightLowLight":
-          a.price = 200
-          break
-        case "foldingStock":
-          a.price = 30
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "foregrip":
-          a.price = 100
-          if (a.isActive) {
-            SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-            SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          }
-          break
-        case "gasVentSystemOne":
-          a.price = 200
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "gasVentSystemTwo":
-          a.price = 400
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2)
-          break
-        case "gasVentSystemThree":
-          a.price = 600
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 3)
-          break
-        case "geckoGrip":
-          a.price = 100
-          break
-        case "guncam":
-          a.price = 350
-          break
-        case "gyroMount":
-          a.price = 1400
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 6)
-          break
-        case "holographicSight":
-          a.price = 125
-          a.slot = "top"
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-          if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-          break
-        case "hiddenArmSlide":
-          a.price = 350
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "hipPad":
-          a.price = 250
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "imagingScope":
-          a.price = 300
-          break
-        case "improvedRangeFinder":
-          a.price = 2000
-          break
-        case "krimePack":
-          a.price = 500
-          break
-        case "krimeStunONet":
-          a.price = 800
-          a.slot = "underneath"
-          break
-        case "laserSight":
-          a.price = 150
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-          if (itemData.wirelessTurnedOn) SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-          break
-        case "longbarrel":
-          a.price = itemData.price.base
-          a.slot = "barrel"
-          break
-        case "meleeHardening":
-          a.price = 300
-          break
-        case "mountedCrossbow":
-          a.price = 1000
-          break
-        case "narcojectDazzler":
-          a.price = 1000
-          a.slot = "top"
-          break
-        case "overcloked":
-          a.price = 200
-          if (a.isActive && itemData.damageType == "stun") {
-            itemData.damageType = "physical"
-            SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -2, false, false)
-          }
-          break
-        case "periscope":
-          a.price = 70
-          break
-        case "personalizedGrip":
-          a.price = 100
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-          break
-        case "quickDrawHolster":
-          a.price = 175
-          break
-        case "reducedWeight":
-          break
-        case "redDotSight":
-          a.price = 75
-          a.slot = "top"
-          break
-        case "retractibleBayonet":
-          a.price = 200
-          break
-        case "sawedoffShortbarrel":
-          a.price = 20
-          a.slot = "barrel"
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.damageValue, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, false)
-          break
-        case "safeTargetSystem":
-          a.price = 750
-          break
-        case "safeTargetSystemWithImage":
-          a.price = 1100
-          break
-        case "shockPad":
-          a.price = 50
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1)
-          break
-        case "silencerSuppressor":
-          a.price = 500
-          break
-        case "slideMount":
-          a.price = 500
-          break
-        case "sling":
-          a.price = 15
-          break
-        case "smartFiringPlatform":
-          a.price = 2500
-          break
-        case "smartgunSystemInternal":
-          a.price = "x2"
-          if (!a.isFree) SR5_EntityHelpers.updateModifier(itemData.availability, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2)
-          if (a.isActive) {
-            if ((actor !== undefined) && (actor.type !== "actorDrone")) {
-              let smartlink = actor.system.specialProperties.smartlink.value
-              if (smartlink) {
-                SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false)
-                if (itemData.wirelessTurnedOn) {
-                  if (smartlink === 2) {
-                    SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false)
-                  } else if (smartlink === 1) {
-                    SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-                  }
-                }
-              }
-            }
-          }
-          break
-        case "smartgunSystemExternal":
-          a.price = 200
-          if (a.isActive) {
-            if ((actor !== undefined) && (actor.type !== "actorDrone")) {
-              let smartlink = actor.system.specialProperties.smartlink.value
-              if (smartlink) {
-                SR5_EntityHelpers.updateModifier(itemData.accuracy, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false)
-                if (itemData.wirelessTurnedOn) {
-                  if (smartlink === 2) {
-                    SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 2, false, false)
-                  } else if (smartlink === 1) {
-                    SR5_EntityHelpers.updateModifier(itemData.weaponSkill, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 1, false, false)
-                  }
-                }
-              }
-            }
-          }
-          break
-        case "speedLoader":
-          a.price = 25
-          break
-        case "stockRemoval":
-          a.price = 20
-          a.slot = "stock"
-          if (a.isActive) {
-            SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1)
-            SR5_EntityHelpers.updateModifier(itemData.concealment, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1)
-          }
-          break
-        case "tracker":
-          a.price = 150
-          break
-        case "triggerRemoval":
-          a.price = 50
-          break        
-        case "tripod":
-          a.price = 500
-          if (a.isActive) SR5_EntityHelpers.updateModifier(itemData.recoilCompensation, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", 6)
-          break
-        case "trollAdaptation":
-          break 
-        case "underbarrelBolaLauncher":
-          a.price = 350
-          break 
-        case "underbarrelChainsaw":
-          a.price = 500
-          break  
-        case "underbarrelLaser":
-          a.price = 22000
-          break 
-        case "underbarrelFlamethrower":
-          a.price = 200
-          break 
-        case "underbarrelGrappleGun":
-          a.price = 600
-          break 
-        case "underbarrelGrenadeLauncher":
-          a.price = 3500
-          break
-        case "underbarrelShotgun":
-          a.price = 600
-          a.slot = "underneath"
-          break 
-        case "vintage":
-          break 
-        case "weaponCommlink":
-          a.price = 200
-          break 
-        case "weaponPersonality":
-          a.price = 250
-          break 
-        default:
-          SR5_SystemHelpers.srLog(1, `Unknown '${a.name}' accessory in _handleWeaponAccessory()`)
+    // Normalize legacy object-with-numeric-keys to array
+    if (typeof itemData.accessory === "object" && !Array.isArray(itemData.accessory)) {
+      itemData.accessory = Object.values(itemData.accessory)
+    }
+
+    for (let a of itemData.accessory) {
+      const catalog = WEAPON_ACCESSORY_CATALOG[a.name]
+      if (!catalog) {
+        if (a.name) SR5_SystemHelpers.srLog(1, `Unknown '${a.name}' accessory in _handleWeaponAccessory()`)
+        continue
       }
 
-      //If accessory is correctly selected
-      if (a.name){
-        //Get the game info and put it in the array
-        let nameString = a.name.charAt(0).toUpperCase() + a.name.slice(1)
-        let gameEffectString = 'SR5.Accessory'+ `${nameString}` + '_GE'
-        a.gameEffects = game.i18n.localize(gameEffectString)
-        //Add price modifier to weapon
-        if (!a.isFree){
-          if (a.name === "smartgunSystemInternal") {
-            SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", itemData.price.base)
-          } else {
-            SR5_EntityHelpers.updateModifier(itemData.price, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", a.price)
+      const label = game.i18n.localize(SR5.weaponAccessories[a.name]) || a.name
+
+      // Assign slot from catalog if not already set
+      if (!a.slot && catalog.slot) a.slot = catalog.slot
+
+      // Calculate price
+      if (catalog.priceMultiplier) {
+        a.price = catalog.priceMultiplier * itemData.price.base
+      } else {
+        a.price = catalog.price || 0
+      }
+
+      // Apply standard item effects (modifiers)
+      if (a.isActive && catalog.itemEffects) {
+        for (const effect of catalog.itemEffects) {
+          // Skip wifi-only effects if wireless is off
+          if (effect.wifi && !itemData.wirelessTurnedOn) continue
+
+          const targetObject = SR5_EntityHelpers.resolveObjectPath(effect.target.replace(/^system\./, ''), itemData)
+          if (targetObject) {
+            const cumulative = effect.cumulative !== undefined ? effect.cumulative : true
+            SR5_EntityHelpers.updateModifier(targetObject, label, "weaponAccessory", effect.value, false, cumulative)
           }
         }
       }
 
+      // Apply special-case system effects
+      if (catalog.systemEffects) {
+        for (const sEffect of catalog.systemEffects) {
+          SR5_UtilityItem._handleSpecialWeaponAccessory(sEffect.value, a, itemData, actor, label)
+        }
+      }
+
+      // Game effects description
+      if (a.name) {
+        let nameString = a.name.charAt(0).toUpperCase() + a.name.slice(1)
+        a.gameEffects = game.i18n.localize('SR5.Accessory' + nameString + '_GE')
+      }
+
+      // Add price modifier to weapon
+      if (a.name && !a.isFree) {
+        SR5_EntityHelpers.updateModifier(itemData.price, label, "weaponAccessory", a.price)
+      }
     }
   }
 
-  //Handle if an accessory give environmental modifiers tracer weapon.ammunition.type
+  /** Handle accessories with conditional / actor-dependent logic */
+  static _handleSpecialWeaponAccessory(effectType, accessory, itemData, actor, label) {
+    switch (effectType) {
+      case "chameleonCoating":
+        if (accessory.isActive && itemData.requiredHands == 1) {
+          SR5_EntityHelpers.updateModifier(itemData.concealment, label, "weaponAccessory", -2)
+        }
+        if (accessory.isActive && itemData.requiredHands == 2) {
+          SR5_EntityHelpers.updateModifier(itemData.concealment, label, "weaponAccessory", -1)
+        }
+        break
+
+      case "concealableHolster":
+        if (accessory.isActive) {
+          if (itemData.wirelessTurnedOn) {
+            SR5_EntityHelpers.updateModifier(itemData.concealment, label, "weaponAccessory", -2)
+          } else {
+            SR5_EntityHelpers.updateModifier(itemData.concealment, label, "weaponAccessory", -1)
+          }
+        }
+        break
+
+      case "overclocked":
+        if (accessory.isActive && itemData.damageType == "stun") {
+          itemData.damageType = "physical"
+          SR5_EntityHelpers.updateModifier(itemData.damageValue, label, "weaponAccessory", -2, false, false)
+        }
+        break
+
+      case "silencerSuppressor":
+        // No weapon-level effects; handled elsewhere if needed
+        break
+
+      case "smartgunInternal":
+        if (!accessory.isFree) {
+          SR5_EntityHelpers.updateModifier(itemData.availability, label, "weaponAccessory", 2)
+        }
+        if (accessory.isActive && actor !== undefined && actor.type !== "actorDrone") {
+          let smartlink = actor.system.specialProperties.smartlink.value
+          if (smartlink) {
+            SR5_EntityHelpers.updateModifier(itemData.accuracy, label, "weaponAccessory", 2, false, false)
+            if (itemData.wirelessTurnedOn) {
+              SR5_EntityHelpers.updateModifier(itemData.weaponSkill, label, "weaponAccessory", smartlink >= 2 ? 2 : 1, false, false)
+            }
+          }
+        }
+        break
+
+      case "smartgunExternal":
+        if (accessory.isActive && actor !== undefined && actor.type !== "actorDrone") {
+          let smartlink = actor.system.specialProperties.smartlink.value
+          if (smartlink) {
+            SR5_EntityHelpers.updateModifier(itemData.accuracy, label, "weaponAccessory", 2, false, false)
+            if (itemData.wirelessTurnedOn) {
+              SR5_EntityHelpers.updateModifier(itemData.weaponSkill, label, "weaponAccessory", smartlink >= 2 ? 2 : 1, false, false)
+            }
+          }
+        }
+        break
+
+      default:
+        // Vision-related effects (flashLightInfrared, flashLightLowLight, imagingScope)
+        // are handled in _handleVisionAccessory at actor level, not here
+        break
+    }
+  }
+
+  //Handle if an accessory gives environmental modifiers (actor-level effects)
   static _handleVisionAccessory(itemData, actor) {
     if (itemData.ammunition.type === "tracer" && itemData.isActive) {
       SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false)
       SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false)
     }
 
-    if (typeof itemData.accessory === "object") itemData.accessory = Object.values(itemData.accessory)
+    // Normalize legacy object-with-numeric-keys to array
+    if (typeof itemData.accessory === "object" && !Array.isArray(itemData.accessory)) {
+      itemData.accessory = Object.values(itemData.accessory)
+    }
 
     for (let a of itemData.accessory) {
-      switch (a.name) {
-        case "flashLightInfrared":
-          if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true)
-          break
-        case "flashLightLowLight":
-          if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true)
-          break
-        case "imagingScope":
-          if (a.isActive && itemData.isActive) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, false)
-          break
-        case "smartgunSystemInternal":
-        case "smartgunSystemExternal": {
-          let hasSmartlink = false
-          for (let i of actor.items){
-            if ((i.type === "itemAugmentation" || i.type === "itemGear") && i.system.isActive && Object.keys(i.system.customEffects).length){
-              for (let [, value] of Object.entries(i.system.customEffects)){
-                if (value.target === 'system.specialProperties.smartlink' && (value.value > 0)) hasSmartlink = true
+      const catalog = WEAPON_ACCESSORY_CATALOG[a.name]
+      if (!catalog?.systemEffects) continue
+
+      for (const sEffect of catalog.systemEffects) {
+        switch (sEffect.value) {
+          case "flashLightInfrared":
+            if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) {
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true)
+            }
+            break
+          case "flashLightLowLight":
+            if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) {
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, true)
+            }
+            break
+          case "imagingScope":
+            if (a.isActive && itemData.isActive) {
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize(SR5.weaponAccessories[a.name]), "weaponAccessory", -1, false, false)
+            }
+            break
+          case "smartgunInternal":
+          case "smartgunExternal": {
+            let hasSmartlink = false
+            for (let i of actor.items) {
+              if ((i.type === "itemAugmentation" || i.type === "itemGear") && i.system.isActive && Object.keys(i.system.customEffects).length) {
+                for (let [, value] of Object.entries(i.system.customEffects)) {
+                  if (value.target === 'system.specialProperties.smartlink' && (value.value > 0)) hasSmartlink = true
+                }
               }
             }
+            if (a.isActive && itemData.isActive && hasSmartlink) {
+              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), "weaponAccessory", -1, false, false)
+            }
+            break
           }
-          if (a.isActive && itemData.isActive && hasSmartlink) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), "weaponAccessory", -1, false, false)
-          break
         }
       }
     }

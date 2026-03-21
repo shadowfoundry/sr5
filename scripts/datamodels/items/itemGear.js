@@ -25,6 +25,13 @@ export class sr5ItemGearDataModel extends foundry.abstract.TypeDataModel {
       isPlugged: new fields.BooleanField({initial: false}),
       accessory: new fields.ArrayField(new fields.ObjectField()),
       canRollTest: new fields.BooleanField({initial: false}),
+      // Weapon accessory fields (used when isAccessory && gearCategory === "weaponAccessory")
+      gearCategory: new fields.StringField({initial: ''}),
+      weaponAccessory: new fields.SchemaField({
+        slot: new fields.StringField({initial: ''}),
+        type: new fields.StringField({initial: 'accessory'}),
+        priceMultiplier: new fields.NumberField({initial: 0}),
+      }),
       test: new fields.SchemaField({
         dicePool: new fields.NumberField({initial: 0}),
         base: new fields.NumberField({initial: 0}),
