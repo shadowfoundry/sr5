@@ -206,8 +206,10 @@ export class SR5Item extends Item {
   }
 
   // Expand data is used in most dropdown infos
-  getExpandData(htmlOptions) {
-    const itemData = foundry.utils.duplicate(this.system)
+  async getExpandData(htmlOptions) {
+    // Read directly from prepared system data. Do NOT use foundry.utils.duplicate()
+    // as it serializes via toJSON() and loses computed/derived values (e.g. value fields).
+    const itemData = this.system
     let lists = SR5_EntityHelpers.sortTranslations(SR5)
     let tags =[]
     let accessories =[]    
@@ -217,8 +219,7 @@ export class SR5Item extends Item {
     let spritePowers = []
     htmlOptions.async = false
 
-    itemData.description = itemData.description || ""
-    itemData.description = foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData.description, htmlOptions)
+    const enrichedDescription = await foundry.applications.ux.TextEditor.implementation.enrichHTML(itemData.description || "", htmlOptions)
 
     switch(this.type){
       case "itemAugmentation":
@@ -259,9 +260,15 @@ export class SR5Item extends Item {
             )	
           }
           if (itemData.accessory) {
-            for (let a of itemData.accessory){
-              accessories.push(`${a.name}${game.i18n.localize("SR5.Colons")} ${a.system?.gameEffect}`)
-              tags.push([game.i18n.localize(lists.weaponAccessories[a.name]), a.gameEffects])
+            for (let a of Object.values(itemData.accessory)){
+              if (a.system) {
+                // Item-based accessory — shown as interactive toggles, not tags
+                const liveActive = this.actor?.items?.get(a._id)?.system?.isActive ?? a.isActive
+                accessories.push({ name: a.name, _id: a._id, isActive: liveActive })
+              } else if (a.name) {
+                // Legacy accessory — shown as tags
+                tags.push([game.i18n.localize(lists.weaponAccessories[a.name]), a.gameEffects])
+              }
             }
           }
         } else if (itemData.category === "meleeWeapon"){
@@ -447,19 +454,22 @@ export class SR5Item extends Item {
       case "itemNuyen": {
         const locateDate = new Date(itemData.date).toLocaleDateString(game.i18n.localize(`SR5.LocateDate`))
         tags.push(game.i18n.localize("SR5.Date") + game.i18n.localize(`SR5.Colons`) + ` ${locateDate}`)
-        itemData.gameEffect = itemData.description
-        break       
+        itemData.gameEffect = enrichedDescription
+        break
       }
       default:
     }
 
-    itemData.properties = tags.filter(p => !!p)
-    itemData.accessories = accessories.filter(p => !!p)		
-    itemData.options = options.filter(p => !!p)
-    itemData.license = license.filter(p => !!p)
-    itemData.powers = powers.filter(p => !!p)
-    itemData.spritePowers = spritePowers.filter(p => !!p)
-    return itemData
+    return {
+      description: enrichedDescription,
+      gameEffect: itemData.gameEffect || enrichedDescription,
+      properties: tags.filter(p => !!p),
+      accessories: accessories.filter(p => !!p),
+      options: options.filter(p => !!p),
+      license: license.filter(p => !!p),
+      powers: powers.filter(p => !!p),
+      spritePowers: spritePowers.filter(p => !!p),
+    }
   }
 
   //Reload ammo based on weapon type && ammunitions

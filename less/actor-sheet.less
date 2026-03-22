@@ -399,6 +399,18 @@
                     border: 1px solid var(--sr-text-color-dark);;
                     border-radius: 3px;
                 }
+
+                .accessory-activate {
+                    cursor: pointer;
+
+                    .accessory-pin {
+                        transition: color 0.2s;
+                    }
+
+                    &:hover .accessory-pin {
+                        color: var(--sr-text-color-light) !important;
+                    }
+                }
             }
         }
 

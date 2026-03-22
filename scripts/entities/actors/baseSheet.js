@@ -32,6 +32,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
   constructor(...args) {
     super(...args)
+    this._expandedItems = new Set()
   }
 
   static DEFAULT_OPTIONS = {
@@ -474,6 +475,23 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       })
       this._savedScrollPositions = null
     }
+
+    // Re-expand previously expanded items after re-render
+    if (this._expandedItems?.size) {
+      for (const itemId of this._expandedItems) {
+        const li = element.querySelector(`.item[data-item-id="${itemId}"]`)
+        if (li && !li.classList.contains("expanded")) {
+          const deplieEl = li.querySelector(".deplie")
+          if (deplieEl) {
+            // Simulate a click event targeted at the deplie element itself (not a child)
+            const syntheticEvent = new MouseEvent("click", { bubbles: false })
+            Object.defineProperty(syntheticEvent, 'target', { value: deplieEl })
+            Object.defineProperty(syntheticEvent, 'currentTarget', { value: deplieEl })
+            this._onItemSummary(syntheticEvent)
+          }
+        }
+      }
+    }
   }
 
   async _onDragStart(event) {
@@ -763,13 +781,15 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
   /* -------------------------------------------- */
 
-  _onItemSummary(event) {
+  async _onItemSummary(event) {
     // Don't expand/collapse when clicking interactive elements inside .deplie
-    if (event.target.closest(".toggle-value, .edit-value, .select-value, .changeValueByClick, .reload-ammo")) return
+    if (event.target.closest(".toggle-value, .edit-value, .select-value, .changeValueByClick, .reload-ammo, .accessory-activate, .item-summary")) return
     event.preventDefault()
     let li = event.currentTarget.closest(".item")
+    if (!li) return
     let item = this.actor.items.get(li.dataset.itemId)
-    let expandData = item.getExpandData({ secrets: this.actor.isOwner })
+    if (!item) return
+    let expandData = await item.getExpandData({ secrets: this.actor.isOwner })
 
     if (!expandData.properties.length && (expandData.gameEffect === "" || !expandData.gameEffect)) return
     // Déplie les informations de jeu pour un Objet.
@@ -793,7 +813,50 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       })
 
       div.appendChild(props)
+
+      // Accessory toggles (for item-based weapon accessories) — at end of details
+      if (expandData.accessories?.length) {
+        let accDiv = document.createElement("div")
+        accDiv.className = "item-properties item-accessories"
+        for (const acc of expandData.accessories) {
+          const activeClass = acc.isActive ? "SR-SubColor" : "SR-SubColor25"
+          const tagStyle = acc.isActive ? "" : "opacity: 0.6;"
+          accDiv.insertAdjacentHTML("beforeend",
+            `<span class="tag accessory-activate" data-accessory-id="${acc._id}" style="${tagStyle}cursor:pointer;" title="${acc.isActive ? game.i18n.localize("SR5.Unequip") : game.i18n.localize("SR5.Equip")}">` +
+            `${acc.name} <i class="fas fa-sm fa-thumbtack accessory-pin ${activeClass}"></i></span>`)
+        }
+        div.appendChild(accDiv)
+      }
+
       li.appendChild(div)
+
+      // Prevent any click inside the summary from closing/toggling the details
+      div.addEventListener("click", (event) => {
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+        event.preventDefault()
+      })
+      div.addEventListener("mousedown", (event) => {
+        event.stopPropagation()
+      })
+
+      // Accessory activate toggles
+      div.querySelectorAll(".accessory-activate").forEach(el => {
+        el.addEventListener("click", async (event) => {
+          event.stopPropagation()
+          event.stopImmediatePropagation()
+          event.preventDefault()
+          const accId = event.currentTarget.dataset.accessoryId
+          const accItem = this.actor.items.get(accId)
+          if (accItem) {
+            await accItem.update({"system.isActive": !accItem.system.isActive})
+          }
+        })
+        el.addEventListener("mousedown", (event) => {
+          event.stopPropagation()
+          event.stopImmediatePropagation()
+        })
+      })
 
       div.querySelectorAll(".tag-summary").forEach(el => el.addEventListener("click", (event) => {
         let i = event.currentTarget.dataset.index
@@ -824,6 +887,12 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
     }
     li.classList.toggle("expanded")
+    // Track expanded state for re-expansion after re-render
+    if (li.classList.contains("expanded")) {
+      this._expandedItems.add(item.id)
+    } else {
+      this._expandedItems.delete(item.id)
+    }
   }
 
   /* -------------------------------------------- */

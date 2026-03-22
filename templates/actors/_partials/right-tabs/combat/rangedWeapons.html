@@ -142,5 +142,25 @@
 		</li>
 		{{/ife}}
 		{{/each}}
+		{{!-- Unattached weapon accessories --}}
+		{{#each actor.weaponAccessories}}
+		{{#unless system.isPlugged}}
+		<li class="item grid SR-LightGreyColor" data-item-id="{{_id}}" draggable="true">
+			<div class="col-11">{{name}}</div>
+			<div class="col-1">
+				<div class="grid">
+					<div class="col-6"></div>
+					<div class="col-6 SR-TextRight">
+						{{#if ../owner}}
+						<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+							<em class="fas fa-sm fa-edit item-management"></em>
+						</a>
+						{{/if}}
+					</div>
+				</div>
+			</div>
+		</li>
+		{{/unless}}
+		{{/each}}
 	</ul>
 </div>

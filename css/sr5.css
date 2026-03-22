@@ -6887,6 +6887,15 @@ body {
   border: 1px solid var(--sr-text-color-dark);
   border-radius: 3px;
 }
+.app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary .accessory-activate {
+  cursor: pointer;
+}
+.app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary .accessory-activate .accessory-pin {
+  transition: color 0.2s;
+}
+.app.window-app.actor .window-content li:not(.SR-LigneEnTete) .item-summary .accessory-activate:hover .accessory-pin {
+  color: var(--sr-text-color-light) !important;
+}
 .app.window-app.actor .window-content .SR-Header {
   padding: 10px;
   height: 54px;
