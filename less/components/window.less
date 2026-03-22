@@ -546,13 +546,47 @@
   }
 
   /* === File Picker / Image Browser === */
-  &#file-picker .window-content {
+  .window-content ul.directory {
+    background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
+    border-color: var(--sr-ui-border-color-idle) !important;
+
+    > li {
+      color: var(--sr-text-color-dark) !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+      padding: 2px 4px;
+
+      &:hover {
+        background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+        text-shadow: none !important;
+      }
+
+      &.picked {
+        color: var(--sr-ui-border-color-active) !important;
+        background: color-mix(in srgb, var(--sr-ui-border-color-active) 20%, transparent) !important;
+      }
+
+      i {
+        color: var(--sr-ui-border-color-active);
+      }
+    }
+  }
+
+  &[id^="file-picker"] .window-content {
     color: var(--sr-text-color-dark);
 
     .subheader {
       padding: 4px 8px;
       background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
       border-bottom: 1px solid var(--sr-ui-border-color-idle);
+
+      input[type="search"] {
+        color: var(--sr-text-color-dark) !important;
+        border-color: var(--sr-ui-border-color-idle) !important;
+
+        &::placeholder {
+          color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+        }
+      }
     }
 
     .tag {
@@ -571,26 +605,6 @@
 
       &[aria-pressed="true"] {
         color: var(--sr-ui-border-color-active);
-      }
-    }
-
-    .files-list {
-      li.file {
-        color: var(--sr-text-color-dark) !important;
-        border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
-        padding: 2px 4px;
-
-        &:hover {
-          background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
-        }
-
-        &.picked {
-          background: color-mix(in srgb, var(--sr-ui-border-color-active) 20%, transparent);
-        }
-
-        i {
-          color: var(--sr-ui-border-color-active);
-        }
       }
     }
 

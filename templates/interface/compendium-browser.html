@@ -1,0 +1,110 @@
+<div class="sr-browser-wrapper">
+<div class="sr-browser-layout">
+
+  {{!-- Left sidebar: search, type checkboxes, filters --}}
+  <aside class="sr-browser-sidebar">
+    <div class="sr-browser-search">
+      <i class="fas fa-search"></i>
+      <input type="text" name="search" placeholder="{{localize 'SR5.Search'}}" value="{{searchText}}" autocomplete="off">
+    </div>
+
+    <div class="sr-browser-type-list">
+      <label>{{localize 'SR5.Type'}}</label>
+      <div class="sr-browser-type-checkboxes">
+        {{#each itemTypes}}
+        <label class="sr-browser-type-item {{#if this.selected}}active{{/if}}">
+          <input type="checkbox" class="sr-browser-type-cb" data-type="{{this.key}}" {{#if this.selected}}checked{{/if}}>
+          <i class="fas fa-sm {{this.icon}}"></i>
+          <span>{{this.label}}</span>
+          <span class="sr-browser-type-count">{{this.count}}</span>
+        </label>
+        {{/each}}
+      </div>
+    </div>
+
+    {{#if filterDefs.length}}
+    <div class="sr-browser-filters">
+      <label>{{localize 'SR5.Filters'}}</label>
+      {{#each filterDefs}}
+      <div class="sr-browser-filter-group">
+        <label>{{this.label}}</label>
+        {{#if (eq this.type "select")}}
+        <select data-filter-key="{{this.key}}">
+          <option value="">—</option>
+          {{#each this.choices}}
+          <option value="{{this.key}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
+          {{/each}}
+        </select>
+        {{else if (eq this.type "boolean")}}
+        <input type="checkbox" data-filter-boolean="{{this.key}}" {{#if this.checked}}checked{{/if}}>
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    <div class="sr-browser-sidebar-actions">
+      <button type="button" data-action="clearFilters">
+        <i class="fas fa-eraser"></i> {{localize 'SR5.Clear'}}
+      </button>
+      <button type="button" data-action="refreshIndex">
+        <i class="fas fa-sync"></i>
+      </button>
+    </div>
+  </aside>
+
+  {{!-- Right: results --}}
+  <section class="sr-browser-results">
+    <header class="sr-browser-results-header">
+      <span class="sr-browser-count">{{shownCount}} / {{totalCount}}</span>
+      <div class="sr-browser-sort">
+        <a data-sort-key="name" class="{{#if (eq sortKey 'name')}}active{{/if}}">
+          {{localize 'SR5.Name'}}
+          {{#if (eq sortKey 'name')}}
+            <i class="fas fa-sm {{#if (eq sortDirection 'asc')}}fa-sort-up{{else}}fa-sort-down{{/if}}"></i>
+          {{/if}}
+        </a>
+        <a data-sort-key="type" class="{{#if (eq sortKey 'type')}}active{{/if}}">
+          {{localize 'SR5.Type'}}
+          {{#if (eq sortKey 'type')}}
+            <i class="fas fa-sm {{#if (eq sortDirection 'asc')}}fa-sort-up{{else}}fa-sort-down{{/if}}"></i>
+          {{/if}}
+        </a>
+      </div>
+    </header>
+
+    <ul class="sr-browser-results-list">
+      {{#each results}}
+      <li class="sr-browser-result" data-uuid="{{this.uuid}}" draggable="true" data-action="viewItem">
+        <img class="sr-browser-result-img" src="{{this.img}}" alt="">
+        <div class="sr-browser-result-content">
+          <div class="sr-browser-result-row">
+            <span class="sr-browser-result-name">{{this.name}}</span>
+            <span class="sr-browser-result-type">
+              <i class="fas fa-sm {{this.typeIcon}}"></i>
+              {{this.typeLabel}}
+            </span>
+          </div>
+          {{#if this.info}}
+          <div class="sr-browser-result-info">{{this.info}}</div>
+          {{/if}}
+        </div>
+      </li>
+      {{else}}
+      <li class="sr-browser-no-results">
+        {{localize 'SR5.NoResults'}}
+      </li>
+      {{/each}}
+    </ul>
+
+    {{#if hasMore}}
+    <footer class="sr-browser-footer">
+      <button type="button" class="sr-browser-load-more">
+        {{localize 'SR5.LoadMore'}} ({{shownCount}} / {{totalCount}})
+      </button>
+    </footer>
+    {{/if}}
+  </section>
+
+</div>
+</div>

@@ -379,6 +379,7 @@ body[class*=" sr-theme-"] {
   /* === Notifications / toasts === */
   /* Foundry renders .notification with semantic sub-classes: .info, .warning, .error, .success
    We keep the semantic level colors intact (they convey meaning) but apply SR5 font. */
+  /* === Compendium Browser === */
   /* === Tooltips === */
 }
 body[class^="sr-theme-"] *,
@@ -3158,93 +3159,115 @@ body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-I
 body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout).macro-config .window-content .cm-editor .cm-cursor {
   border-left-color: var(--sr-ui-border-color-active) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory {
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
+  border-color: var(--sr-ui-border-color-idle) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li {
+  color: var(--sr-text-color-dark) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+  padding: 2px 4px;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li:hover,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li:hover,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li:hover,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li:hover {
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+  text-shadow: none !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li.picked,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li.picked,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li.picked,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li.picked {
+  color: var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 20%, transparent) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li i,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li i,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li i,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout) .window-content ul.directory > li i {
+  color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content {
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subheader {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader {
   padding: 4px 8px;
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent);
   border-bottom: 1px solid var(--sr-ui-border-color-idle);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"] {
+  color: var(--sr-text-color-dark) !important;
+  border-color: var(--sr-ui-border-color-idle) !important;
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"]::placeholder,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"]::placeholder,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"]::placeholder,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subheader input[type="search"]::placeholder {
+  color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+}
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 20%, transparent) !important;
   border: 1px solid var(--sr-ui-border-color-idle) !important;
   border-radius: 3px;
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .tag a.link {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag a.link,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag a.link,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag a.link,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .tag a.link {
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button {
   color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .split-button button[aria-pressed="true"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button[aria-pressed="true"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button[aria-pressed="true"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button[aria-pressed="true"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .split-button button[aria-pressed="true"] {
   color: var(--sr-ui-border-color-active);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file {
-  color: var(--sr-text-color-dark) !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
-  padding: 2px 4px;
-}
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file:hover {
-  background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
-}
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file.picked {
-  background: color-mix(in srgb, var(--sr-ui-border-color-active) 20%, transparent);
-}
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .files-list li.file i {
-  color: var(--sr-ui-border-color-active);
-}
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter {
   background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
   background-image: none !important;
   border-top: 1px solid var(--sr-ui-border-color-idle);
   padding: 4px 8px !important;
   color: var(--sr-text-color-dark);
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label,
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label,
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label,
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content .subfooter label {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter label,
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter label,
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter label,
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content .subfooter label {
   color: var(--sr-text-color-dark) !important;
 }
-body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"],
-body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"],
-body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"],
-body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)#file-picker .window-content input[type="file"] {
+body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content input[type="file"],
+body[class*=" sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content input[type="file"],
+body[class^="sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content input[type="file"],
+body[class*=" sr-theme-"] .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)[id^="file-picker"] .window-content input[type="file"] {
   color: var(--sr-text-color-dark);
 }
 body[class^="sr-theme-"] .window-app:not(.actor):not(.SR-Item):not(.sidebar-popout).cards-config .cards-header,
@@ -4663,6 +4686,536 @@ body[class^="sr-theme-"] #notifications .notification,
 body[class*=" sr-theme-"] #notifications .notification {
   font-family: var(--sr-font-body);
   font-size: var(--sr-font-size-small);
+}
+body[class^="sr-theme-"] .sr-compendium-browser,
+body[class*=" sr-theme-"] .sr-compendium-browser {
+  /* ── Sidebar ────────────────────────────────────── */
+  /* ── Results ────────────────────────────────────── */
+}
+body[class^="sr-theme-"] .sr-compendium-browser .window-content,
+body[class*=" sr-theme-"] .sr-compendium-browser .window-content {
+  padding: 0 !important;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-wrapper,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-layout,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 0;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 10px;
+  background-image: var(--sr-sidebar-background) !important;
+  background-size: cover !important;
+  background-color: var(--sr-ui-bg-color-dark) !important;
+  color: var(--sr-text-color-light) !important;
+  overflow-y: auto;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar > label,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar > label,
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar > .sr-browser-type-list > label,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar > .sr-browser-type-list > label,
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar > .sr-browser-filters > label,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar > .sr-browser-filters > label {
+  display: block;
+  font-family: var(--sr-font-title);
+  font-size: var(--sr-font-size-h4);
+  text-transform: uppercase;
+  color: var(--sr-text-color-light) !important;
+  letter-spacing: 0.05em;
+  margin: 0;
+  padding: 3px 6px;
+  background-image: var(--sr-img-window-header);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar select,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar select {
+  background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 60%, transparent) !important;
+  color: var(--sr-text-color-light) !important;
+  border: 1px solid color-mix(in srgb, var(--sr-text-color-light) 20%, transparent) !important;
+  border-radius: 3px !important;
+  padding: 3px 14px 3px 4px !important;
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-normal);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar select option,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar select option {
+  background-color: var(--sr-ui-bg-color-dark);
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"],
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"] {
+  --checkbox-size: 14px;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border: 2px solid color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  border-radius: 3px;
+  background: none;
+  position: relative;
+  border-color: color-mix(in srgb, var(--sr-text-color-light) 45%, transparent) !important;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]::before,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]::before {
+  content: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]::after,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]::after {
+  content: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:focus,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:focus {
+  border-color: color-mix(in srgb, var(--sr-ui-color) 45%, transparent);
+  background: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:hover {
+  border-color: var(--sr-ui-border-color-active);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:checked::after {
+  content: "\f00c";
+  font-family: var(--font-awesome);
+  color: var(--sr-ui-color-active);
+  font-size: 0.7em;
+  font-weight: 900;
+  position: absolute;
+  inset: 1px 0 0 0;
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:focus-visible,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--sr-ui-border-color-active);
+  outline-offset: 1px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:disabled,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:checked::after,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar input[type="checkbox"]:checked::after {
+  color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-search,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 15%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-search i,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-search i {
+  color: var(--sr-ui-border-color-active);
+  font-size: 12px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-search input[type="text"],
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-search input[type="text"] {
+  flex: 1;
+  background: none !important;
+  border: none !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-body);
+  padding: 2px 0 !important;
+  box-shadow: none !important;
+  caret-color: var(--sr-text-color-light);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-search input[type="text"]::placeholder,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-search input[type="text"]::placeholder {
+  color: color-mix(in srgb, var(--sr-text-color-light) 40%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-list,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-list > label,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-list > label {
+  margin-bottom: 4px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-checkboxes,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item {
+  display: flex !important;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--sr-font-size-normal) !important;
+  text-transform: none !important;
+  color: var(--sr-text-color-light) !important;
+  letter-spacing: 0 !important;
+  transition: background-color 0.1s;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item:hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item:hover {
+  background: color-mix(in srgb, var(--sr-text-color-light) 15%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item.active,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item.active {
+  color: var(--sr-text-color-light) !important;
+  background: color-mix(in srgb, var(--sr-ui-border-color-active) 25%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item input[type="checkbox"],
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item input[type="checkbox"] {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px;
+  margin: 0;
+  flex-shrink: 0;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item i,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item i {
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+  font-size: 10px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item span,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-type-item .sr-browser-type-count,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-type-item .sr-browser-type-count {
+  flex: 0 0 auto;
+  opacity: 0.5;
+  font-size: 10px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-filters,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid color-mix(in srgb, var(--sr-text-color-light) 15%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-filter-group,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-filter-group label,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-filter-group label {
+  background: none !important;
+  padding: 0 !important;
+  font-size: var(--sr-font-size-normal) !important;
+  color: color-mix(in srgb, var(--sr-text-color-light) 70%, transparent) !important;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-filter-group input[type="checkbox"],
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-filter-group input[type="checkbox"] {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px;
+  align-self: flex-start;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-results,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-results {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background-image: var(--sr-img-bg-white50);
+  background-size: cover;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-results-header,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 8px;
+  background: linear-gradient(45deg, color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent), 80%, var(--sr-ui-border-color)), var(--sr-sidebar-background);
+  background-size: cover;
+  color: var(--sr-text-color-light);
+  font-family: var(--sr-font-title);
+  font-size: var(--sr-font-size-normal);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-count,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-count {
+  opacity: 0.7;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sort,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sort {
+  display: flex;
+  gap: 10px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sort a,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sort a {
+  cursor: pointer;
+  color: var(--sr-text-color-light);
+  opacity: 0.5;
+  font-size: var(--sr-font-size-normal);
+  user-select: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sort a.active,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sort a.active {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sort a:hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sort a:hover {
+  opacity: 1;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-results-list,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-results-list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 20%, transparent);
+  cursor: pointer;
+  transition: background-color 0.1s;
+  font-size: var(--sr-font-size-normal);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result:hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result:hover {
+  background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result:nth-child(even),
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result:nth-child(even) {
+  background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 5%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result:nth-child(even):hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result:nth-child(even):hover {
+  background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-img,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border: none;
+  border-radius: 2px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-content,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-content {
+  flex: 1;
+  min-width: 0;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-row,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-name,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-name {
+  flex: 1;
+  font-family: var(--sr-font-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--sr-text-color-dark);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-type,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-type {
+  flex: 0 0 auto;
+  font-size: var(--sr-font-size-small);
+  color: var(--sr-ui-border-color);
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 1px 5px;
+  border: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 30%, transparent);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--sr-ui-border-color) 5%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-type i,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-type i {
+  display: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-result-info,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-result-info {
+  font-size: var(--sr-font-size-small);
+  color: color-mix(in srgb, var(--sr-text-color-dark) 55%, transparent);
+  font-family: var(--sr-font-body);
+  padding-left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-no-results,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-no-results {
+  padding: 32px;
+  text-align: center;
+  color: color-mix(in srgb, var(--sr-text-color-dark) 35%, transparent);
+  font-family: var(--sr-font-body);
+  font-style: italic;
+  font-size: var(--sr-font-size-normal);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions {
+  margin-top: auto;
+  display: flex;
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--sr-text-color-light) 15%, transparent);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+  flex: 1;
+  font-size: 11px;
+  padding: 3px 6px !important;
+  height: auto !important;
+  min-height: unset !important;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button:hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button:hover {
+  color: var(--sr-text-color-dark) !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button:hover:before,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button:before,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-sidebar-actions button:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: var(--sr-text-color-dark);
+  background: var(--sr-ui-border-color-active);
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-footer,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  background-image: var(--sr-img-actor-sheet-bottom);
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-position: bottom left;
+  padding: 15px 8px 8px 8px;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-footer button,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-footer button {
+  --button-size: auto !important;
+  --button-background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  --button-border-color: var(--sr-ui-border-color-active) !important;
+  --button-text-color: var(--sr-text-color-light) !important;
+  --button-hover-background-color: transparent !important;
+  --button-hover-border-color: var(--sr-ui-border-color-active) !important;
+  --button-hover-text-color: var(--sr-text-color-dark) !important;
+  --button-focus-outline-color: var(--sr-ui-border-color-active) !important;
+  position: relative;
+  height: auto !important;
+  min-height: unset !important;
+  padding: 4px 0.5rem !important;
+  line-height: 20px;
+  color: var(--sr-text-color-light) !important;
+  font-family: var(--sr-font-title);
+  text-transform: uppercase;
+  font-size: var(--sr-font-size-small);
+  text-align: center;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+  border: 1px solid var(--sr-ui-border-color-active) !important;
+  background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent) !important;
+  z-index: 1;
+  flex: 1;
+  font-size: 11px;
+  padding: 4px 8px !important;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-footer button:hover,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-footer button:hover {
+  color: var(--sr-text-color-dark) !important;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-footer button:hover:before,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-footer button:hover:before {
+  left: 0%;
+  right: auto;
+  width: 100%;
+}
+body[class^="sr-theme-"] .sr-compendium-browser .sr-browser-footer button:before,
+body[class*=" sr-theme-"] .sr-compendium-browser .sr-browser-footer button:before {
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  width: 0px;
+  z-index: -1;
+  content: '';
+  color: var(--sr-text-color-dark);
+  background: var(--sr-ui-border-color-active);
+  transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 body[class^="sr-theme-"] #tooltip,
 body[class*=" sr-theme-"] #tooltip,

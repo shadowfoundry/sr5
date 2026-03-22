@@ -38,6 +38,7 @@ export const preloadHandlebarsTemplates = async function () {
 
     // Sheet config dialog
     "systems/sr5/templates/interface/sheet-config.html",
+    "systems/sr5/templates/interface/compendium-browser.html",
 
     // Actor sheet - Headers
     "systems/sr5/templates/actors/_partials/header/header.html",
