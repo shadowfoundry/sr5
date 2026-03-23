@@ -140,9 +140,9 @@ jobs:
           IDENTIFIER="${{ steps.vars.outputs.identifier }}"
           PREV_TAG=$(git tag --list "*-${IDENTIFIER}.*" --sort=-v:refname | grep -v "^${GITHUB_REF_NAME}$" | head -1)
           if [ -n "$PREV_TAG" ]; then
-            CHANGELOG=$(git log --pretty=format:"- %s" "${PREV_TAG}..${GITHUB_REF_NAME}")
+            CHANGELOG=$(git log --reverse --pretty=format:"- %s" "${PREV_TAG}..${GITHUB_REF_NAME}")
           else
-            CHANGELOG=$(git log --pretty=format:"- %s" "${GITHUB_REF_NAME}")
+            CHANGELOG=$(git log --reverse --pretty=format:"- %s" "${GITHUB_REF_NAME}")
           fi
           case "$IDENTIFIER" in
             alpha)
@@ -186,9 +186,9 @@ jobs:
         run: |
           PREV_TAG=$(git tag --list --sort=-v:refname | grep -P '^[0-9]+\.[0-9]+\.[0-9]+$' | grep -v "^${GITHUB_REF_NAME}$" | head -1)
           if [ -n "$PREV_TAG" ]; then
-            CHANGELOG=$(git log --pretty=format:"- %s" "${PREV_TAG}..${GITHUB_REF_NAME}")
+            CHANGELOG=$(git log --reverse --pretty=format:"- %s" "${PREV_TAG}..${GITHUB_REF_NAME}")
           else
-            CHANGELOG=$(git log --pretty=format:"- %s" "${GITHUB_REF_NAME}")
+            CHANGELOG=$(git log --reverse --pretty=format:"- %s" "${GITHUB_REF_NAME}")
           fi
           REPO="${{ github.repository }}"
           MANIFEST_URL="https://github.com/${REPO}/releases/latest/download/system.json"
