@@ -1,7 +1,9 @@
 import { SR5 } from '../config.js'
 import { SR5_EntityHelpers } from '../entities/helpers.js'
-import { BROWSER_FILTERS, INDEX_FIELDS, getEntryInfo } from './compendium-browser-filters.js'
+import { BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS, ITEM_INDEX_FIELDS, ACTOR_INDEX_FIELDS, getEntryInfo } from './compendium-browser-filters.js'
 import { enhanceSelects } from '../helpers/enhance-selects.js'
+
+const ALL_FILTERS = { ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS }
 
 export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
@@ -61,15 +63,16 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
 
   async _loadAllIndices() {
     const allEntries = []
-    const packs = game.packs.filter(p => p.documentName === 'Item')
 
-    const promises = packs.map(async (pack) => {
+    const indexPack = async (pack, docName, fields, useDocNameAsType) => {
       try {
-        const index = await pack.getIndex({ fields: INDEX_FIELDS })
+        const index = await pack.getIndex({ fields })
         for (const entry of index) {
           allEntries.push({
             ...entry,
-            uuid: `Compendium.${pack.collection}.Item.${entry._id}`,
+            type: useDocNameAsType ? docName : entry.type,
+            docName,
+            uuid: `Compendium.${pack.collection}.${docName}.${entry._id}`,
             packId: pack.collection,
             packLabel: pack.metadata.label,
           })
@@ -77,7 +80,14 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       } catch (err) {
         console.warn(`SR5 Compendium Browser: Failed to index pack ${pack.collection}`, err)
       }
-    })
+    }
+
+    const otherDocTypes = Object.keys(OTHER_BROWSER_FILTERS)
+    const promises = [
+      ...game.packs.filter(p => p.documentName === 'Item').map(p => indexPack(p, 'Item', ITEM_INDEX_FIELDS)),
+      ...game.packs.filter(p => p.documentName === 'Actor').map(p => indexPack(p, 'Actor', ACTOR_INDEX_FIELDS)),
+      ...game.packs.filter(p => otherDocTypes.includes(p.documentName)).map(p => indexPack(p, p.documentName, [], true)),
+    ]
 
     await Promise.all(promises)
     this._indexCache = allEntries
@@ -92,7 +102,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const validKeys = new Set()
     for (const sel of this._selectedTypes) {
       const baseType = sel.includes(':') ? sel.split(':')[0] : sel
-      const typeDef = BROWSER_FILTERS[baseType]
+      const typeDef = ALL_FILTERS[baseType]
       if (typeDef) for (const f of typeDef.filters) validKeys.add(f.key)
     }
     for (const key of Object.keys(this._activeFilters)) {
@@ -114,7 +124,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
             // Compound key: "itemType:subtypeValue"
             const [itemType, subVal] = sel.split(':')
             if (e.type !== itemType) continue
-            const def = BROWSER_FILTERS[itemType]
+            const def = ALL_FILTERS[itemType]
             if (!def?.subtypes) continue
             const entrySubVal = foundry.utils.getProperty(e, def.subtypes.field) || '_none'
             if (entrySubVal === subVal) return true
@@ -169,7 +179,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const subtypeCounts = {}
     for (const e of allEntries) {
       typeCounts[e.type] = (typeCounts[e.type] || 0) + 1
-      const def = BROWSER_FILTERS[e.type]
+      const def = ALL_FILTERS[e.type]
       if (def?.subtypes) {
         const subVal = foundry.utils.getProperty(e, def.subtypes.field) || '_none'
         const compoundKey = `${e.type}:${subVal}`
@@ -179,7 +189,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
 
     // Build type list — expand subtypes where defined
     const itemTypes = []
-    for (const [key, def] of Object.entries(BROWSER_FILTERS)) {
+    for (const [key, def] of Object.entries(ALL_FILTERS)) {
       if (!typeCounts[key]) continue
       if (def.subtypes) {
         const optionsMap = SR5[def.subtypes.options] || {}
@@ -212,7 +222,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const seenFilterKeys = new Set()
     for (const sel of this._selectedTypes) {
       const type = sel.includes(':') ? sel.split(':')[0] : sel
-      const typeDef = BROWSER_FILTERS[type]
+      const typeDef = ALL_FILTERS[type]
       if (!typeDef) continue
       for (const f of typeDef.filters) {
         if (seenFilterKeys.has(f.key)) continue
@@ -241,7 +251,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const lists = SR5_EntityHelpers.sortTranslations(SR5)
     const maxItems = (this._page + 1) * this._pageSize
     const results = filtered.slice(0, maxItems).map(e => {
-      const def = BROWSER_FILTERS[e.type]
+      const def = ALL_FILTERS[e.type]
       let typeLabel = game.i18n.localize(def?.label || e.type)
       if (def?.subtypes) {
         const subVal = foundry.utils.getProperty(e, def.subtypes.field)
@@ -360,7 +370,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     el.querySelectorAll('.sr-browser-result[draggable]').forEach(row => {
       row.addEventListener('dragstart', (event) => {
         const uuid = event.currentTarget.dataset.uuid
-        event.dataTransfer.setData('text/plain', JSON.stringify({ type: 'Item', uuid }))
+        const docType = event.currentTarget.dataset.docName || 'Item'
+        event.dataTransfer.setData('text/plain', JSON.stringify({ type: docType, uuid }))
       })
     })
   }
@@ -372,8 +383,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
   static async #onViewItem(event, target) {
     const uuid = target.closest('[data-uuid]')?.dataset.uuid
     if (!uuid) return
-    const item = await fromUuid(uuid)
-    if (item) item.sheet.render(true)
+    const doc = await fromUuid(uuid)
+    if (doc) doc.sheet.render(true)
   }
 
   static #onClearFilters() {

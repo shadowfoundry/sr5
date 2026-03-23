@@ -156,8 +156,54 @@ export const BROWSER_FILTERS = {
   itemPreparation: { label: 'TYPES.Item.itemPreparation', icon: 'fa-flask', filters: [] },
 }
 
+export const ACTOR_BROWSER_FILTERS = {
+  actorPc: {
+    label: 'TYPES.Actor.actorPc',
+    icon: 'fa-user',
+    filters: [
+      { key: 'system.metatype', type: 'select', label: 'SR5.Metatype', options: 'metatypes' },
+    ],
+  },
+  actorGrunt: {
+    label: 'TYPES.Actor.actorGrunt',
+    icon: 'fa-skull-crossbones',
+    filters: [],
+  },
+  actorSpirit: {
+    label: 'TYPES.Actor.actorSpirit',
+    icon: 'fa-ghost',
+    subtypes: {
+      field: 'system.type',
+      options: 'spiritTypes',
+    },
+    filters: [],
+  },
+  actorSprite: {
+    label: 'TYPES.Actor.actorSprite',
+    icon: 'fa-microchip',
+    subtypes: {
+      field: 'system.type',
+      options: 'spriteTypes',
+    },
+    filters: [],
+  },
+  actorDrone:  { label: 'TYPES.Actor.actorDrone', icon: 'fa-car', filters: [] },
+  actorDevice: { label: 'TYPES.Actor.actorDevice', icon: 'fa-laptop', filters: [] },
+  actorAgent:  { label: 'TYPES.Actor.actorAgent', icon: 'fa-robot', filters: [] },
+}
+
+export const OTHER_BROWSER_FILTERS = {
+  JournalEntry: { label: 'SR5.BrowserJournalEntry', icon: 'fa-book-open', filters: [] },
+  RollTable:    { label: 'SR5.BrowserRollTable', icon: 'fa-dice', filters: [] },
+  Macro:        { label: 'SR5.BrowserMacro', icon: 'fa-terminal', filters: [] },
+  Scene:        { label: 'SR5.BrowserScene', icon: 'fa-map', filters: [] },
+  Playlist:     { label: 'SR5.BrowserPlaylist', icon: 'fa-music', filters: [] },
+  Adventure:    { label: 'SR5.BrowserAdventure', icon: 'fa-treasure-chest', filters: [] },
+  Cards:        { label: 'SR5.BrowserCards', icon: 'fa-cards', filters: [] },
+}
+
 /** All system.* fields needed in the compendium index for filtering and display */
-export const INDEX_FIELDS = [
+export const ITEM_INDEX_FIELDS = [
   'system.category', 'system.type', 'system.isAccessory',
   'system.grade', 'system.target', 'system.duration',
   'system.range', 'system.actionType',
@@ -168,6 +214,10 @@ export const INDEX_FIELDS = [
   'system.powerPointsCost.base', 'system.drain.base',
   'system.fadingModifier', 'system.karmaCost',
   'system.deviceRating', 'system.itemRating',
+]
+
+export const ACTOR_INDEX_FIELDS = [
+  'system.type', 'system.metatype',
 ]
 
 /**
@@ -227,6 +277,15 @@ export function getEntryInfo(entry, lists) {
       break
     case 'itemFocus':
       if (s.type) parts.push(loc(lists.focusTypes?.[s.type] || s.type))
+      break
+    case 'actorPc':
+      if (s.metatype) parts.push(loc(lists.metatypes?.[s.metatype] || s.metatype))
+      break
+    case 'actorSpirit':
+      if (s.type) parts.push(loc(lists.spiritTypes?.[s.type] || s.type))
+      break
+    case 'actorSprite':
+      if (s.type) parts.push(loc(lists.spriteTypes?.[s.type] || s.type))
       break
     default:
       break
