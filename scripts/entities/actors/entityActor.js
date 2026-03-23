@@ -31,7 +31,8 @@ export class SR5Actor extends Actor {
     // Render the document creation form
     const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
       folders,
-      name: data.name || game.i18n.format("DOCUMENT.New", {type: label}),
+      name: data.name || '',
+      defaultName: this.defaultName({type: data.type || CONFIG[documentName]?.defaultType || types[0], parent, pack}),
       folder: data.folder,
       hasFolders: folders.length >= 1,
       type: data.type || CONFIG[documentName]?.defaultType || types[0],
@@ -59,7 +60,7 @@ export class SR5Actor extends Actor {
             foundry.utils.mergeObject(data, fd.object, {inplace: true})
             if ( !data.folder ) delete data.folder
             if ( types.length === 1 ) data.type = types[0]
-            if ( !data.name?.trim() ) data.name = this.defaultName()
+            if ( !data.name?.trim() ) data.name = this.defaultName({type: data.type, parent, pack})
             return this.create(data, {parent, pack, renderSheet: true})
           },
         },

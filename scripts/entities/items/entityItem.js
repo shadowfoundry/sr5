@@ -632,12 +632,14 @@ export class SR5Item extends Item {
     const title = game.i18n.localize('SR5.DIALOG_CreateNewItem')
 		
     // Render the document creation form
+    const defaultType = data.type || types[0]
     const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
-      name: game.i18n.localize('SR5.DIALOG_NewItem'),
+      name: data.name || '',
+      defaultName: this.defaultName({type: defaultType, parent, pack}),
       folder: data.folder,
       folders: folders,
       hasFolders: folders.length >= 1,
-      type: types[0],
+      type: defaultType,
       types: types.reduce((obj, t) => {
         const label = CONFIG[documentName]?.typeLabels?.[t] ?? t
         obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t
@@ -662,6 +664,7 @@ export class SR5Item extends Item {
             const fd = new foundry.applications.ux.FormDataExtended(form)
             foundry.utils.mergeObject(data, fd.object, {inplace: true})
             if ( !data.folder ) delete data["folder"]
+            if ( !data.name?.trim() ) data.name = this.defaultName({type: data.type, parent, pack})
             const preset = CONFIG.Cards.presets[data.preset]
             if ( preset && (preset.type === data.type) ) {
               const presetData = await fetch(preset.src).then(r => r.json())
