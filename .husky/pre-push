@@ -1,2 +1,2 @@
 export LC_ALL=C.utf8 2>/dev/null || true
-npx lint-staged
+npm test
