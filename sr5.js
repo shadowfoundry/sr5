@@ -1,6 +1,6 @@
 // Import Modules
-import { registerHandlebarsHelpers } from "./scripts/handlebars.js";
-import { registerHooks } from "./scripts/hooks.js";
+import { registerHandlebarsHelpers } from "./modules/handlebars.js";
+import { registerHooks } from "./modules/hooks.js";
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */

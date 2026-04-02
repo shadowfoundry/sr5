@@ -8,8 +8,8 @@
     "test": "vitest run --reporter=verbose",
     "test:watch": "vitest --reporter=verbose",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint scripts/ --ignore-pattern scripts/tests/",
-    "lint:fix": "eslint scripts/ --ignore-pattern scripts/tests/ --fix",
+    "lint": "eslint modules/",
+    "lint:fix": "eslint modules/ --fix",
     "validate:languages": "node -e \"['lang/en.json','lang/fr.json'].forEach(f=>{JSON.parse(require('fs').readFileSync(f,'utf8').replace(/^\\uFEFF/,''))})\" && node scripts/check-lang-keys.js",
     "validate:system": "node scripts/validate-system.js",
     "validate:dependencies": "node scripts/validate-dependencies.js",
@@ -20,7 +20,7 @@
     "release": "node scripts/release.js"
   },
   "lint-staged": {
-    "scripts/**/*.js": "eslint",
+    "modules/**/*.js": "eslint",
     "vitest.config.js": "eslint",
     "**/*.json": "node -e \"process.argv.slice(1).forEach(f=>{try{JSON.parse(require('fs').readFileSync(f,'utf8').replace(/^\\uFEFF/,''))}catch(e){process.stderr.write(f+': '+e.message+'\\n');process.exit(1)}})\"",
     "lang/*.json": "node scripts/check-lang-keys.js",

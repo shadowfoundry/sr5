@@ -29,7 +29,7 @@
 	],
 	"overrides": [
 		{
-			"files": ["scripts/tests/**/*.js"],
+			"files": ["tests/**/*.js"],
 			"globals": {
 				"describe": "readonly",
 				"it": "readonly",
