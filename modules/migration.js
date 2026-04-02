@@ -284,7 +284,7 @@ export default class Migration {
 
     // Scrub system data
     const model = game.system.model.Actor[actorData.type]
-    actorData.system = filterObject(actorData.system, model)
+    actorData.system = foundry.utils.filterObject(actorData.system, model)
 
     // Return the scrubbed data
     return actorData
