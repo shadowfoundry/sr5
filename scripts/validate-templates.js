@@ -55,12 +55,16 @@ function validateFile(filePath) {
   let m
   while ((m = tokenRe.exec(content)) !== null) {
     if (m[1]) {
-      stack.push({ name: m[1], line: lineOf(m.index) })
+      stack.push({
+        name: m[1], line: lineOf(m.index) 
+      })
     } else if (m[2]) {
       const name = m[2]
       const line = lineOf(m.index)
       if (stack.length === 0) {
-        errors.push({ line, message: `Unexpected {{/${name}}} — no open block` })
+        errors.push({
+          line, message: `Unexpected {{/${name}}} — no open block` 
+        })
       } else {
         const top = stack[stack.length - 1]
         if (top.name !== name) {
@@ -75,7 +79,9 @@ function validateFile(filePath) {
   }
 
   for (const unclosed of stack) {
-    errors.push({ line: unclosed.line, message: `Unclosed {{#${unclosed.name}}} block` })
+    errors.push({
+      line: unclosed.line, message: `Unclosed {{#${unclosed.name}}} block` 
+    })
   }
 
   return errors

@@ -4,7 +4,9 @@
 // Usage: node scripts/release.js <version>
 // Example: node scripts/release.js 13.0.1-alpha.2
 
-const {execSync} = require('child_process')
+const {
+  execSync
+} = require('child_process')
 const fs = require('fs')
 const path = require('path')
 
@@ -42,14 +44,18 @@ if (!SEMVER_RE.test(version)) {
 const isPrerelease = version.includes('-')
 
 // --- Check git state ---
-const gitStatus = execSync('git status --porcelain', {cwd: ROOT}).toString().trim()
+const gitStatus = execSync('git status --porcelain', {
+  cwd: ROOT
+}).toString().trim()
 if (gitStatus) {
   console.error('Error: working directory has uncommitted changes. Commit or stash them first.')
   process.exit(1)
 }
 
 // --- Check branch ---
-const branch = execSync('git rev-parse --abbrev-ref HEAD', {cwd: ROOT}).toString().trim()
+const branch = execSync('git rev-parse --abbrev-ref HEAD', {
+  cwd: ROOT
+}).toString().trim()
 const isMainBranch = branch === 'main' || branch === 'master'
 
 if (!isPrerelease && !isMainBranch) {
@@ -62,7 +68,9 @@ if (isPrerelease && isMainBranch) {
 }
 
 // --- Check tag does not already exist ---
-const existingTags = execSync('git tag --list', {cwd: ROOT}).toString().split('\n')
+const existingTags = execSync('git tag --list', {
+  cwd: ROOT
+}).toString().split('\n')
 if (existingTags.includes(version)) {
   console.error(`Error: tag "${version}" already exists.`)
   process.exit(1)
@@ -89,18 +97,28 @@ bumpVersion(path.join(ROOT, 'package.json'))
 
 // --- Regenerate lockfile ---
 console.log('Regenerating package-lock.json...')
-execSync('npm install', {cwd: ROOT, stdio: 'inherit'})
+execSync('npm install', {
+  cwd: ROOT, stdio: 'inherit'
+})
 
 // --- Validate ---
 console.log('Running checks...')
-execSync('npm run check', {cwd: ROOT, stdio: 'inherit'})
+execSync('npm run check', {
+  cwd: ROOT, stdio: 'inherit'
+})
 
 // --- Commit ---
-execSync(`git add ${MANIFEST} package.json package-lock.json`, {cwd: ROOT})
-execSync(`git commit -m "Bump version to ${version}"`, {cwd: ROOT})
+execSync(`git add ${MANIFEST} package.json package-lock.json`, {
+  cwd: ROOT
+})
+execSync(`git commit -m "Bump version to ${version}"`, {
+  cwd: ROOT
+})
 
 // --- Tag ---
-execSync(`git tag ${version}`, {cwd: ROOT})
+execSync(`git tag ${version}`, {
+  cwd: ROOT
+})
 
 console.log(`\nVersion bumped to ${version} and tagged.`)
 console.log('\nTo publish the release, push the commit and tag:')

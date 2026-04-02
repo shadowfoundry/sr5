@@ -77,6 +77,18 @@ const foundryGlobals = {
 }
 
 module.exports = [
+  {
+    ignores: [
+      'node_modules/',
+      'scripts/push_to_discord/',
+      'tests/',
+      '*.css',
+      '*.less',
+      'templates/',
+      'lang/',
+      'img/',
+    ],
+  },
   js.configs.recommended,
   {
     languageOptions: {
@@ -90,12 +102,19 @@ module.exports = [
     },
     rules: {
       'comma-dangle':        ['error', 'only-multiline'],
-      'indent':              ['warn', 2, { SwitchCase: 1 }],
+      'indent':              ['warn', 2, {
+        SwitchCase: 1
+      }],
       'max-len':             'off',
       'no-tabs':             'off',
       'no-undef':            'warn',
       'no-underscore-dangle':'off',
-      'no-unused-vars':      ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_', args: 'after-used' }],
+      'no-unused-vars':      ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+        args: 'after-used'
+      }],
       'no-useless-assignment': 'off',
       'object-curly-newline':['error', 'always'],
       'operator-linebreak':  ['error', 'after'],

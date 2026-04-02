@@ -4,6 +4,7 @@ on:
     branches: ['**']
     paths:
       - 'modules/**/*.js'
+      - 'scripts/**/*.js'
       - 'eslint.config.js'
       - 'package.json'
 
@@ -21,4 +22,4 @@ jobs:
         run: npm ci
       - name: Run ESLint
         continue-on-error: true
-        run: npx eslint modules/
+        run: npx eslint modules/ scripts/ vitest.config.js

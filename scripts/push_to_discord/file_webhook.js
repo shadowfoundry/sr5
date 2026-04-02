@@ -20,7 +20,9 @@ Options:
   -h --help              Show this message.
 `
 
-const options = docopt.docopt(doc, { version: "1.0.0" })
+const options = docopt.docopt(doc, {
+  version: "1.0.0" 
+})
 const webhook_url = options["<webhook_url>"]
 const filename = options["<filename>"]
 
