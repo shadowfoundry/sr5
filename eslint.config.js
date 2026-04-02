@@ -77,17 +77,6 @@ const foundryGlobals = {
 }
 
 module.exports = [
-  {
-    ignores: [
-      'node_modules/',
-      'scripts/push_to_discord/',
-      '*.css',
-      '*.less',
-      'templates/',
-      'lang/',
-      'img/',
-    ],
-  },
   js.configs.recommended,
   {
     languageOptions: {

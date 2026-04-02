@@ -3,7 +3,6 @@
 /.vscode/launch.json
 /.vscode/extensions.json
 .env*
-.DS_Store
 .sync.ffs_db
 /sr5.lock
 /.trunk
