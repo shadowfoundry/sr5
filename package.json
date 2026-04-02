@@ -14,7 +14,7 @@
     "validate:dependencies": "node scripts/validate-dependencies.js",
     "validate:templates": "node scripts/validate-templates.js",
     "validate": "npm run validate:languages && npm run validate:system && npm run validate:dependencies && npm run validate:templates",
-    "check": "npm run lint && npm run test && npm run build:css && npm run validate",
+    "check": "node scripts/check.js",
     "prepare": "husky",
     "release": "node scripts/release.js"
   },
