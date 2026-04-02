@@ -60,10 +60,7 @@ const foundryGlobals = {
   DocumentSheetConfig: 'readonly',
   TextEditor:          'readonly',
   FilePicker:          'readonly',
-
-  // SR5-specific
   GlowOverlayFilter:  'readonly',
-  SR5:                 'readonly',
 
   // Deprecated V13 utilities (still present in codebase)
   duplicate:     'readonly',

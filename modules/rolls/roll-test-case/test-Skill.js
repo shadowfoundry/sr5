@@ -1,5 +1,8 @@
 import {
-  SR5_EntityHelpers 
+  SR5
+} from "../../config.js"
+import {
+  SR5_EntityHelpers
 } from "../../entities/helpers.js"
 import {
   SR5_RollMessage 
