@@ -2,7 +2,7 @@
 	<div class="SR-mainContainer">
 
 		<!-- HEADER -->
-		{{> systems/sr5/templates/items/_partial/header/header.html}}
+		{{> systems/sr5/templates/items/_partial/header/header.hbs}}
 		<!-- WINDOW BODY -->
 		<div class="SR-MainWindows">
 			<section class="sr-tabs">
@@ -14,18 +14,18 @@
 					<div class="col-5 SR-ItemColGauche">
 						<ul>
 						<!-- Summary title -->
-						{{> systems/sr5/templates/items/_partial/title/summary.html}}
+						{{> systems/sr5/templates/items/_partial/title/summary.hbs}}
 						<!-- Martial art type -->
-						{{> systems/sr5/templates/items/_partial/summary/martialArt-summary.html}}
+						{{> systems/sr5/templates/items/_partial/summary/martialArt-summary.hbs}}
 						<!-- Action type -->
-						{{> systems/sr5/templates/items/_partial/summary/_common/actionType-summary.html}}
+						{{> systems/sr5/templates/items/_partial/summary/_common/actionType-summary.hbs}}
 						<!-- Source -->
-						{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
+						{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.hbs}}
 						</ul>
 					</div>
 					<!-- DESCRIPTION & GAME EFFECT -->
 					<div class="col-7 SR-ItemColDroite">
-						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.hbs}}
 					</div>
 				</div>
 
@@ -35,36 +35,36 @@
 					<!-- General Stat -->
 					<ul>
 						<!-- General information title -->
-						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 						<!-- Type Martial Art-->
-						{{> systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/type-edit.hbs}}
 						<!-- Action and roll -->
-						{{> systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.hbs}}
 					</ul>
 
 					<!-- Test Attributes -->
 					{{#if system.needRoll}}
 					<!-- Test Attributes -->
 					<ul class="SR-PaddingTop10">
-						{{> systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.hbs}}
 					</ul>
 					<!-- Defense Attributes -->
 					<ul class="SR-PaddingTop10">
-						{{> systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.hbs}}
 					</ul>
 					{{/if}}
 				</div>
         
 				<!-- CUSTOM EFFECTS -->
 				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
-					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+					{{> systems/sr5/templates/items/_partial/effect/effect.hbs}}
 				</div>
 
 			</section>
 		</div>
 
 		<!-- FOOTER -->
-		{{> systems/sr5/templates/items/_partial/footer/footer-simple.html}}
+		{{> systems/sr5/templates/items/_partial/footer/footer-simple.hbs}}
 
 	</div>
 </div>

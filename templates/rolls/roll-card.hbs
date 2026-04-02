@@ -24,43 +24,43 @@
 		</li>
       
 		<!--Dicepool Mod-->
-		{{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.html}}
+		{{> systems/sr5/templates/rolls/rollCardPartial/dicePoolRoll.hbs}}
 		<!--Attack Infos-->
 		{{#if (or (eq test.type 'attack')(eq test.type 'ramming')(eq test.type 'accidentCard'))}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/attackRoll.hbs}}
 		{{/if}}
 		<!--Drain info-->
 		{{#if (or (eq test.type 'spell') (eq test.type 'preparationFormula') (eq test.type 'ritualResistance'))}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/drainRoll.hbs}}
 		{{/if}}
 		<!--Summoning info-->
 		{{#if (or (eq test.typeSub 'summoning') (eq test.typeSub 'compileSprite') )}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/summoningRoll.hbs}}
 		{{/if}}
 		<!--Matrix damage info-->
 		{{#if (or (eq test.typeSub 'dataSpike') (eq test.typeSub 'popupCybercombat') (eq test.typeSub 'iceSparky') (eq test.typeSub 'iceBlueGoo') (eq test.typeSub 'iceBlack'))}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.hbs}}
 		{{/if}}
 		{{#if (and (eq test.type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.hbs}}
 		{{/if}}
 		<!--Limit info-->
 		{{#if (gt limit.value 0)}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.hbs}}
 		{{/if}}
 		<!--Assensing info-->
 		{{#if (eq test.typeSub 'assensing')}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/assensingRoll.hbs}}
 		{{/if}}
 		<!--Threshold infos-->
 		{{#if (gt threshold.value 0)}}
 			{{#unless test.isOpposed}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/threshold.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/threshold.hbs}}
 			{{/unless}}
 		{{/if}}
 		<!--Actions infos-->
 		{{#if combat.actions.length}}
-			{{> systems/sr5/templates/rolls/rollCardPartial/actions.html}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/actions.hbs}}
 		{{/if}}
 		</ul>
   	</div>

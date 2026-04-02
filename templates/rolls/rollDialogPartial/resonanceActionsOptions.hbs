@@ -5,11 +5,11 @@
 <!-- SPRITE - LEVEL AND TYPE -->
 {{#if (eq test.typeSub "compileSprite")}}
 <!-- LEVEL -->
-    {{> systems/sr5/templates/rolls/rollDialogPartial/level.html}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/level.hbs}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/compileSpriteModifier.hbs}}
 {{/if}}
 
 <!-- KILL COMPLEX FORM - CHOOSE TARGET -->
 {{#if (and (eq test.typeSub "killComplexForm") target.hasTarget)}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/chooseTargetEffect.hbs}}
 {{/if}}

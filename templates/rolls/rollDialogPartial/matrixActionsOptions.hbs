@@ -3,16 +3,16 @@
 </li>
 
 <!-- NOISE -->
-{{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.html}}
+{{> systems/sr5/templates/rolls/rollDialogPartial/matrixNoiseModifier.hbs}}
 
 <!-- GRID -->
 {{#if dialogSwitch.publicGrid}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/matrixGrid.hbs}}
 {{/if}}
-{{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.html}}
+{{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.hbs}}
 
 
 <!-- MARKS WANTED -->
 {{#if (or (eq test.typeSub "hackOnTheFly") (eq test.typeSub "bruteForce"))}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/markModifier.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/markModifier.hbs}}
 {{/if}}

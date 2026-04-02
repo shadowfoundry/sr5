@@ -1,16 +1,16 @@
 <!-- General Stat -->
 <ul>
 	<!-- General information title -->
-	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 	<!-- Ammunition type -->
-	{{> systems/sr5/templates/items/_partial/editable/ammunition/type-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/ammunition/type-edit.hbs}}
 	<!-- Ammunition class -->
-	{{> systems/sr5/templates/items/_partial/editable/ammunition/class-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/ammunition/class-edit.hbs}}
 	<!-- Ammunition case type -->
-	{{> systems/sr5/templates/items/_partial/editable/ammunition/case-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/ammunition/case-edit.hbs}}
 	{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
 	<!-- Item Rating -->
-	{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.hbs}}
 	{{/if}}
 </ul>
 
@@ -18,8 +18,8 @@
 <ul class="SR-PaddingTop10">
 	{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
 	<!-- Rating multiplier-->
-	{{> systems/sr5/templates/items/_partial/editable/_common/priceMultiplier-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/priceMultiplier-edit.hbs}}
 	{{else}}
-	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.hbs}}
 	{{/if}}
 </ul>

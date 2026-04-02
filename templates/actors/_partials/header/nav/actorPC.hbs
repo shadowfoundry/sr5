@@ -1,23 +1,23 @@
 <nav class="tabs" data-group="gauche">
-    {{> systems/sr5/templates/actors/_partials/header/navParts/coreInfos.html}}
-    {{> systems/sr5/templates/actors/_partials/header/navParts/derived.html}}
-    {{#if system.sheetPreferences.tabAwaken.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/magicUser.html}} {{/if}}
-    {{#if system.sheetPreferences.tabMatrixUser.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/matrixUser.html}} {{/if}}
-    {{> systems/sr5/templates/actors/_partials/header/navParts/qualities.html}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/coreInfos.hbs}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/derived.hbs}}
+    {{#if system.sheetPreferences.tabAwaken.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/magicUser.hbs}} {{/if}}
+    {{#if system.sheetPreferences.tabMatrixUser.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/matrixUser.hbs}} {{/if}}
+    {{> systems/sr5/templates/actors/_partials/header/navParts/qualities.hbs}}
 </nav>
 
 <nav class="tabs" data-group="centre">
-    {{#if system.sheetPreferences.tabSkill.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/skills.html}} {{/if}}
-    {{#if system.sheetPreferences.tabCombat.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/combat.html}} {{/if}}
-    {{#if system.sheetPreferences.tabGear.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/gear.html}} {{/if}}
-    {{#if system.sheetPreferences.tabAugmentations.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/augmentation.html}} {{/if}}
+    {{#if system.sheetPreferences.tabSkill.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/skills.hbs}} {{/if}}
+    {{#if system.sheetPreferences.tabCombat.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/combat.hbs}} {{/if}}
+    {{#if system.sheetPreferences.tabGear.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/gear.hbs}} {{/if}}
+    {{#if system.sheetPreferences.tabAugmentations.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/augmentation.hbs}} {{/if}}
     {{#ife system.activeSpecialAttribute 'magic'}}
-        {{#if system.sheetPreferences.tabMagic.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/magic.html}} {{/if}}
+        {{#if system.sheetPreferences.tabMagic.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/magic.hbs}} {{/if}}
     {{/ife}}
     {{#ife system.activeSpecialAttribute 'resonance'}}
-        {{#if system.sheetPreferences.tabTechno.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/technomancer.html}} {{/if}}
+        {{#if system.sheetPreferences.tabTechno.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/technomancer.hbs}} {{/if}}
     {{/ife}}
-    {{#if system.sheetPreferences.tabMatrix.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/matrix.html}} {{/if}}
-    {{#if system.sheetPreferences.tabSocial.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/social.html}} {{/if}}
-    {{#if system.sheetPreferences.tabBiography.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/biography.html}} {{/if}}
+    {{#if system.sheetPreferences.tabMatrix.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/matrix.hbs}} {{/if}}
+    {{#if system.sheetPreferences.tabSocial.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/social.hbs}} {{/if}}
+    {{#if system.sheetPreferences.tabBiography.isActive}} {{> systems/sr5/templates/actors/_partials/header/navParts/biography.hbs}} {{/if}}
 </nav>

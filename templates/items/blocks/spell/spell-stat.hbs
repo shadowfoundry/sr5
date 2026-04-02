@@ -1,31 +1,31 @@
 <!-- General Stat -->
 <ul>
 	<!-- General information title -->
-	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 	<!-- Category -->
-	{{> systems/sr5/templates/items/_partial/editable/spell/category-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/spell/category-edit.hbs}}
 	<!-- Duration -->
-	{{> systems/sr5/templates/items/_partial/editable/_common/magicDuration-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/magicDuration-edit.hbs}}
 	<!-- Range -->
-	{{> systems/sr5/templates/items/_partial/editable/_common/magicRange-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/magicRange-edit.hbs}}
 	<!-- Type -->
-	{{> systems/sr5/templates/items/_partial/editable/_common/magicType-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/magicType-edit.hbs}}
 	<!-- Drain modifier -->
-	{{> systems/sr5/templates/items/_partial/editable/spell/drainModifier-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/spell/drainModifier-edit.hbs}}
 	<!-- Preparation formula -->
-	{{> systems/sr5/templates/items/_partial/editable/spell/preparation-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/spell/preparation-edit.hbs}}
 	<!-- Fetish -->
-	{{> systems/sr5/templates/items/_partial/editable/spell/fetish-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/spell/fetish-edit.hbs}}
 </ul>
 <!-- Defense Attributes -->
 {{#if (and (eq system.resisted true) (ne system.category 'combat') )}}
 <ul class="SR-PaddingTop10">
-	{{> systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/spell/defenseTest-edit.hbs}}
 </ul>
 {{/if}}
 <!-- Quickening -->
 {{#if document.parent.system.magic.metamagics.quickening}}
 <ul class="SR-PaddingTop10">
-	{{> systems/sr5/templates/items/_partial/editable/spell/quickening-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/spell/quickening-edit.hbs}}
 </ul>
 {{/if}}

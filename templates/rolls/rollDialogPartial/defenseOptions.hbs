@@ -4,12 +4,12 @@
 
 <!-- DEFENSE - FIRING MODE -->
 {{#if (eq test.typeSub "rangedWeapon")}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseRangedModifier.hbs}}
 {{/if}}
 
 <!-- ACTIVE DEFENSE -->
 {{#if (or (eq test.typeSub "meleeWeapon") (eq test.typeSub "ramming"))}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseActiveModifier.hbs}}
 {{/if}}
 
 <!-- SPECIAL CASE FOR SPELL WITH AREA EFFECT-->
@@ -25,10 +25,10 @@
 
 <!-- COVERS -->
 {{#if dialogSwitch.cover}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/coverModifier.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/coverModifier.hbs}}
 {{/if}}
 
 <!-- FULL DEFENSE -->
 {{#if (gt combat.activeDefenses.full 0)}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/defenseFullModifier.hbs}}
 {{/if}}

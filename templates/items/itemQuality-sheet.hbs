@@ -2,7 +2,7 @@
 	<div class="SR-mainContainer">
 
 		<!-- HEADER -->
-		{{> systems/sr5/templates/items/_partial/header/header.html}}
+		{{> systems/sr5/templates/items/_partial/header/header.hbs}}
 
 		<!-- WINDOW BODY -->
 		<div class="SR-MainWindows">
@@ -14,19 +14,19 @@
 					<div class="col-5 SR-ItemColGauche">
 						<ul>
 							<!-- Summary title -->
-							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							{{> systems/sr5/templates/items/_partial/title/summary.hbs}}
 							<!-- Type, Karma cost -->
-							{{> systems/sr5/templates/items/_partial/summary/quality-summary.html}}
+							{{> systems/sr5/templates/items/_partial/summary/quality-summary.hbs}}
 							<!-- Rating -->
-							{{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.html}}
+							{{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.hbs}}
 							<!-- Source -->
-							{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
+							{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.hbs}}
 						</ul>
 					</div>
 
 					<!-- DESCRIPTION & GAME EFFECT -->
 					<div class="col-7 SR-ItemColDroite">
-						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/_common/descriptionGameEffect-edit.hbs}}
 					</div>
 				</div>
 
@@ -35,26 +35,26 @@
 					<!-- General Stat -->
 					<ul>
 						<!-- General information title -->
-						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 						<!-- Type -->
-						{{> systems/sr5/templates/items/_partial/editable/quality/type-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/quality/type-edit.hbs}}
 						<!-- Karma cost -->
-						{{> systems/sr5/templates/items/_partial/editable/quality/karmaCost-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/quality/karmaCost-edit.hbs}}
 						<!-- Item Rating -->
-						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/_common/rating-edit.hbs}}
 					</ul>
 				</div>
 
 				<!-- CUSTOM EFFECTS -->
 				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
-					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+					{{> systems/sr5/templates/items/_partial/effect/effect.hbs}}
 				</div>
 
 			</section>
 		</div>
 
 		<!-- FOOTER -->
-    	{{> systems/sr5/templates/items/_partial/footer/footer.html}}
+    	{{> systems/sr5/templates/items/_partial/footer/footer.hbs}}
 
 	</div>
 </div>

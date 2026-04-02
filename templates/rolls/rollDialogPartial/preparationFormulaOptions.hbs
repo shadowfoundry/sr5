@@ -3,17 +3,17 @@
 </li>
 
 <!--FORCE-->
-{{> systems/sr5/templates/rolls/rollDialogPartial/force.html}}
+{{> systems/sr5/templates/rolls/rollDialogPartial/force.hbs}}
 
 <!-- PREPARATION TRIGGER -->
-{{> systems/sr5/templates/rolls/rollDialogPartial/preparationTrigger.html}}
+{{> systems/sr5/templates/rolls/rollDialogPartial/preparationTrigger.hbs}}
 
 <!-- SPIRIT AID -->
 {{#if dialogSwitch.spiritAid}}
-    {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidCommand.html}}
+    {{> systems/sr5/templates/rolls/rollDialogPartial/spiritAidCommand.hbs}}
 {{/if}}
 
 <!--REAGENTS-->
 {{#if dialogSwitch.reagents}}
-      {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.html}}
+      {{> systems/sr5/templates/rolls/rollDialogPartial/reagents.hbs}}
 {{/if}}

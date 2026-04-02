@@ -2,7 +2,7 @@
 	<div class="SR-mainContainer">
 
 		<!-- HEADER -->
-		{{> systems/sr5/templates/items/_partial/header/header.html}}
+		{{> systems/sr5/templates/items/_partial/header/header.hbs}}
 
 		<!-- WINDOW BODY -->
 		<div class="SR-MainWindows">
@@ -14,17 +14,17 @@
           			<div class="col-5 SR-ItemColGauche">
 						<ul>
 							<!-- Summary title -->
-							{{> systems/sr5/templates/items/_partial/title/summary.html}}
+							{{> systems/sr5/templates/items/_partial/title/summary.hbs}}
 							<!-- Armor value -->
-							{{> systems/sr5/templates/items/_partial/summary/spirit-summary.html}}
+							{{> systems/sr5/templates/items/_partial/summary/spirit-summary.hbs}}
 							<!-- Source -->
-							{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
+							{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.hbs}}
 						</ul>
 					</div>
 
 					<!-- DESCRIPTION & GAME EFFECT -->
 					<div class="col-7 SR-ItemColDroite">
-						{{> systems/sr5/templates/items/_partial/editable/_common/description-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/_common/description-edit.hbs}}
 					</div>
 				</div>
 
@@ -33,34 +33,34 @@
 					<!-- General Stat -->
 					<ul>
 						<!-- General information title -->
-						{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+						{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 						<!-- Force -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/force-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/force-edit.hbs}}
 						<!-- Type -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/type-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/type-edit.hbs}}
 						<!-- Max Service -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/serviceMax-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/serviceMax-edit.hbs}}
 						<!-- Bound spirit -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/bound-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/bound-edit.hbs}}
 						<!-- Optional powers -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/optionalPowers-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/optionalPowers-edit.hbs}}
 						<!-- Sustained Spell -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/spellSustain-edit.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/spellSustain-edit.hbs}}
 						<!-- Spirit Powers -->
-						{{> systems/sr5/templates/items/_partial/editable/spirit/powers.html}}
+						{{> systems/sr5/templates/items/_partial/editable/spirit/powers.hbs}}
 					</ul>
 				</div>
 
 				<!-- CUSTOM EFFECTS -->
 				<div class="tab SR-ItemConfig" data-group="primary" data-tab="tab-effect">
-					{{> systems/sr5/templates/items/_partial/effect/effect.html}}
+					{{> systems/sr5/templates/items/_partial/effect/effect.hbs}}
 				</div>
 
 			</section>
 		</div>
 
 		<!-- FOOTER -->
-		{{> systems/sr5/templates/items/_partial/footer/footer-simple.html}}
+		{{> systems/sr5/templates/items/_partial/footer/footer-simple.hbs}}
 
 	</div>
 </div>

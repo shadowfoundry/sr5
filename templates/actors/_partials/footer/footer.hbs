@@ -2,40 +2,40 @@
 
 		{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorSpirit') )}}
 			{{#if (or (eq system.type 'watcher') (eq system.type 'homunculus') )}}
-				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
+				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.hbs }}
 			{{else}}
-				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-stun.html }}
-				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-physical.html }}
+				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-stun.hbs }}
+				{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-physical.hbs }}
 			{{/if}}
 		{{else if (eq actor.type 'actorGrunt')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.hbs }}
 		{{else if (eq actor.type 'actorDrone')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.html }}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-combined.hbs }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.hbs }}
 		{{else if (or (eq actor.type 'actorDevice') (eq actor.type 'actorSprite') (eq actor.type 'actorAgent') )}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-matrix.hbs }}
 		{{/if}}
 
 		<div class="SR-footer-lastPart">
 		{{#if (eq actor.type 'actorPc')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-edge.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-edge.hbs }}
 		{{/if}}
 
 		{{#if (eq actor.type 'actorGrunt')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/metatype-choice.html }}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-edge.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/metatype-choice.hbs }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/monitor-edge.hbs }}
 		{{/if}}
 		
 		{{#if (eq actor.type 'actorDrone')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/drone-model.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/drone-model.hbs }}
 		{{/if}}
 
 		{{#if (eq actor.type 'actorSpirit')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/spirit-info.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/spirit-info.hbs }}
 		{{/if}}
 
 		{{#if (eq actor.type 'actorSprite')}}
-			{{> systems/sr5/templates/actors/_partials/footer/parts/sprite-info.html }}
+			{{> systems/sr5/templates/actors/_partials/footer/parts/sprite-info.hbs }}
 		{{/if}}
 		</div>
 </div>

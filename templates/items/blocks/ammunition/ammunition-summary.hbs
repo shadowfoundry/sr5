@@ -1,14 +1,14 @@
 <ul>
 	<!-- Summary title -->
-	{{> systems/sr5/templates/items/_partial/title/summary.html}}
+	{{> systems/sr5/templates/items/_partial/title/summary.hbs}}
 	<!-- Ammunition type, weapon class and case type -->
-	{{> systems/sr5/templates/items/_partial/summary/ammunition-summary.html}}
+	{{> systems/sr5/templates/items/_partial/summary/ammunition-summary.hbs}}
 	<!-- Quantity -->
-	{{> systems/sr5/templates/items/_partial/summary/_common/quantity-summary.html}}
+	{{> systems/sr5/templates/items/_partial/summary/_common/quantity-summary.hbs}}
 	{{#if (or (eq system.type "arrow") (eq system.type "arrowInjection") (eq system.type "arrowBarbedHead") (eq system.type "arrowExplosiveHead") (eq system.type "arrowHammerhead") (eq system.type "arrowIncendiaryHead") (eq system.type "arrowScreamerHead") (eq system.type "arrowStickNShock") (eq system.type "arrowStaticShaft"))}}
 	<!-- Rating -->
-	{{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.html}}
+	{{> systems/sr5/templates/items/_partial/summary/_common/rating-summary.hbs}}
 	{{/if}}
 	<!-- Source -->
-	{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.html}}
+	{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.hbs}}
 </ul>

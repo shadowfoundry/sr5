@@ -9,13 +9,13 @@
 		{{#if (or (eq system.matrix.deviceType "cyberdeck") 
 		(and (eq actor.type "actorDevice") (eq system.matrix.deviceType "host"))
 		)}}
-			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/collection.html}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/collection.hbs}}
 		{{/if}}
 
 		<!-- Noise Reduction & Sharing -->
 		{{#if (eq system.matrix.deviceType "riggerCommandConsole")}}
-			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/noiseReduction.html}}
-			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sharing.html}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/noiseReduction.hbs}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sharing.hbs}}
 		{{/if}}
 
 		<!-- Attack / Sleaze -->
@@ -27,12 +27,12 @@
 		(and (eq actor.type "actorDevice") (eq system.matrix.deviceType "host"))
 		(and (eq actor.type "actorDevice") (eq system.matrix.deviceType "ice"))
 		)}}
-			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/attack.html}}
-			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sleaze.html}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/attack.hbs}}
+			{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/sleaze.hbs}}
 		{{/if}}
 
 		<!-- Data processing / Firewall -->
-		{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/dataProcessing.html}}
-		{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/firewall.html}}
+		{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/dataProcessing.hbs}}
+		{{> systems/sr5/templates/actors/_partials/left-tabs/matrixUser/attributes/firewall.hbs}}
 	</ul>
 </div>

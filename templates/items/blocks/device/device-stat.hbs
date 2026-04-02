@@ -1,26 +1,26 @@
 <!-- General Stat -->
 <ul>
 	<!-- General information title -->
-	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 	<!-- Device Type -->
-	{{> systems/sr5/templates/items/_partial/editable/device/type-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/device/type-edit.hbs}}
 	{{#if (or (eq system.type 'commlink') (eq system.type 'cyberdeck') (eq system.type 'riggerCommandConsole'))}}
 		<!-- Device Rating -->
-		{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.html}}
+		{{> systems/sr5/templates/items/_partial/editable/_common/deviceRating-edit.hbs}}
 		<!-- Program max -->
-		{{> systems/sr5/templates/items/_partial/editable/device/programMax-edit.html}}
+		{{> systems/sr5/templates/items/_partial/editable/device/programMax-edit.hbs}}
 		<!-- Attributes Collection -->
-		{{> systems/sr5/templates/items/_partial/editable/device/attributesCollection-edit.html}}
+		{{> systems/sr5/templates/items/_partial/editable/device/attributesCollection-edit.hbs}}
 		<!-- Commlink Module -->
-		{{> systems/sr5/templates/items/_partial/editable/device/commlinkModule-edit.html}}
+		{{> systems/sr5/templates/items/_partial/editable/device/commlinkModule-edit.hbs}}
 		<!-- Commlink Dongle -->
-		{{> systems/sr5/templates/items/_partial/editable/device/commlinkDongle-edit.html}}
+		{{> systems/sr5/templates/items/_partial/editable/device/commlinkDongle-edit.hbs}}
 	{{/if}}
 </ul>
 
 <!-- Price & Availability -->
 {{#if (or (eq system.type 'commlink') (eq system.type 'cyberdeck') (eq system.type 'riggerCommandConsole'))}}
 <ul class="SR-PaddingTop10">
-	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.hbs}}
 </ul>
 {{/if}}

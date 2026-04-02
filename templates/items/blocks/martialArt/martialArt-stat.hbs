@@ -1,21 +1,21 @@
 <!-- General Stat -->
 <ul>
 	<!-- General information title -->
-	{{> systems/sr5/templates/items/_partial/title/generalInformation.html}}
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
 	<!-- Type Martial Art-->
-	{{> systems/sr5/templates/items/_partial/editable/martialArts/type-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/martialArts/type-edit.hbs}}
 	<!-- Action and roll -->
-	{{> systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/martialArts/martialAction-edit.hbs}}
 </ul>
 
 <!-- Test Attributes -->
 {{#if system.needRoll}}
 <!-- Test Attributes -->
 <ul class="SR-PaddingTop10">
-	{{> systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/martialArts/attributeTest-edit.hbs}}
 </ul>
 <!-- Defense Attributes -->
 <ul class="SR-PaddingTop10">
-	{{> systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.html}}
+	{{> systems/sr5/templates/items/_partial/editable/martialArts/defenseTest-edit.hbs}}
 </ul>
 {{/if}}
