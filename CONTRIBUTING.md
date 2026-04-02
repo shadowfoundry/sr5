@@ -54,13 +54,13 @@ Use concise, imperative descriptions:
 
 ## CSS / LESS
 
-Styles are in `less/` and compiled to `css/`:
+Styles are in `styles/` and compiled to `css/`:
 
 ```bash
-npm run build
+npm run build:css
 ```
 
-This compiles both `sr5.less` and `sr6.less`. With the Easy LESS extension, files compile on save automatically. **Never edit CSS files directly.**
+With the Easy LESS extension, files compile on save automatically. **Never edit `css/sr5.css` directly** — it is gitignored and rebuilt on every compilation.
 
 ## What to Check Before Submitting
 

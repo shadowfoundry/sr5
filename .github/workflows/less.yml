@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: ['**']
     paths:
-      - 'less/**/*.less'
+      - 'styles/**/*.less'
       - 'package.json'
 
 jobs:
