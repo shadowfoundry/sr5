@@ -7,7 +7,7 @@
  */
 
 const PARTIAL_ROOT = 'systems/sr5/templates/actors/_partials'
-const ICON_ROOT = 'systems/sr5/img/icons'
+const ICON_ROOT = 'systems/sr5/assets/img/icons'
 
 // ---------------------------------------------------------------------------
 //  Size constants

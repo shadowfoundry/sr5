@@ -3816,7 +3816,7 @@ SR5.modifierTypes = {
 
 SR5.statusEffects = [
   {
-    img: "systems/sr5/img/status/StatusUnconsciousOn.svg",
+    img: "systems/sr5/assets/img/status/StatusUnconsciousOn.svg",
     id: "unconscious",
     name: "SR5.STATUSES_Unconscious_F",
     flags: {
@@ -3826,7 +3826,7 @@ SR5.statusEffects = [
     }
   },
   {
-    img: "systems/sr5/img/status/StatusDeadOn.svg",
+    img: "systems/sr5/assets/img/status/StatusDeadOn.svg",
     id: "dead",
     name: "SR5.STATUSES_Dead_F",
     flags: {
@@ -3836,19 +3836,19 @@ SR5.statusEffects = [
     },
   },
   {
-    img: "systems/sr5/img/status/StatusProneOn.svg",
+    img: "systems/sr5/assets/img/status/StatusProneOn.svg",
     id: "prone",
     name: "SR5.STATUSES_Prone",
     origin: "prone",
   },
   {
-    img: "systems/sr5/img/status/StatusFullDefense.svg",
+    img: "systems/sr5/assets/img/status/StatusFullDefense.svg",
     id: "fullDefense",
     name: "SR5.STATUSES_FullDefense",
     origin: "fullDefense"
   },
   {
-    img: "systems/sr5/img/status/StatusNoActionOn.svg",
+    img: "systems/sr5/assets/img/status/StatusNoActionOn.svg",
     id: "noAction",
     name: "SR5.EffectNoAction",
     flags: {
@@ -3859,13 +3859,13 @@ SR5.statusEffects = [
     origin: "noAction"
   },
   {
-    img: "systems/sr5/img/status/StatusCover.svg",
+    img: "systems/sr5/assets/img/status/StatusCover.svg",
     id: "cover",
     name: "SR5.Cover",
     origin: "cover"
   },
   {
-    img: "systems/sr5/img/status/StatusCoverFull.svg",
+    img: "systems/sr5/assets/img/status/StatusCoverFull.svg",
     id: "coverFull",
     name: "SR5.CoverFull",
     origin: "coverFull"

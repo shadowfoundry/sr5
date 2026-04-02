@@ -8,12 +8,12 @@
 
         {{#if canConfigure}}
         <div class="control-icon" data-action="config">
-            <img src="systems/sr5/img/ui/hud_configure.svg" width="36" height="36" title="{{localize "SR5.HUD.Configure"}}"/>
+            <img src="systems/sr5/assets/img/ui/hud_configure.svg" width="36" height="36" title="{{localize "SR5.HUD.Configure"}}"/>
         </div>
         {{/if}}
 
         <div class="control-icon {{targetClass}}" data-action="target">
-            <img src="systems/sr5/img/ui/hud_target.svg" width="36" height="36" title="{{localize "SR5.HUD.Target"}}"/>
+            <img src="systems/sr5/assets/img/ui/hud_target.svg" width="36" height="36" title="{{localize "SR5.HUD.Target"}}"/>
         </div>
     </div>
 
@@ -36,12 +36,12 @@
     <div class="col right">
         {{#if isGM}}
         <div class="control-icon {{visibilityClass}}" data-action="visibility">
-            <img src="systems/sr5/img/ui/hud_visibility.svg" width="36" height="36" title="{{localize "HUD.ToggleVis"}}"/>
+            <img src="systems/sr5/assets/img/ui/hud_visibility.svg" width="36" height="36" title="{{localize "HUD.ToggleVis"}}"/>
         </div>
         {{/if}}
 
         <div class="control-icon {{effectsClass}}" data-action="effects">
-            <img src="systems/sr5/img/ui/hud_effect.svg" width="36" height="36" title="{{localize "HUD.AssignStatusEffects"}}"/>
+            <img src="systems/sr5/assets/img/ui/hud_effect.svg" width="36" height="36" title="{{localize "HUD.AssignStatusEffects"}}"/>
             <div class="status-effects">
                 {{#each statusEffects as |status src|}}
                 <img class="effect-control {{status.cssClass}}" src="{{status.src}}"
@@ -52,7 +52,7 @@
 
         {{#if canToggleCombat}}
         <div class="control-icon {{combatClass}}" data-action="combat">
-            <img src="systems/sr5/img/ui/hud_combat.svg" width="36" height="36" title="{{localize "HUD.ToggleCombatState"}}"/>
+            <img src="systems/sr5/assets/img/ui/hud_combat.svg" width="36" height="36" title="{{localize "HUD.ToggleCombatState"}}"/>
         </div>
         {{/if}}
     </div>

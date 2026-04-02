@@ -21,7 +21,7 @@ env:
   PROJECT_NAME: sr5
   PROJECT_TITLE: Shadowrun 5 System
   PROJECT_TYPE: system
-  RELEASE_CONTENTS: system.json sr5.js modules css templates lang img README.md LICENCE.md BUG_REPORT.md CONTRIBUTING.md
+  RELEASE_CONTENTS: system.json sr5.js modules css templates lang assets README.md LICENCE.md BUG_REPORT.md CONTRIBUTING.md
 
 jobs:
   release:

@@ -74,7 +74,7 @@ for (const [key, catalog] of Object.entries(WEAPON_ACCESSORY_CATALOG)) {
   const item = {
     name: name,
     type: 'itemWeapon',
-    img: 'systems/sr5/img/items/itemWeapon.svg',
+    img: 'systems/sr5/assets/img/items/itemWeapon.svg',
     system: {
       description: '',
       gameEffect: gameEffect,

@@ -6,7 +6,7 @@
  */
 
 const PARTIAL_ROOT = 'systems/sr5/templates/items'
-const ICON_ROOT = 'systems/sr5/img/icons'
+const ICON_ROOT = 'systems/sr5/assets/img/icons'
 
 // ---------------------------------------------------------------------------
 //  Size constants (reuse from actor block-registry)

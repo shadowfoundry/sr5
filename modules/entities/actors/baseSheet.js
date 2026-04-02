@@ -715,7 +715,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       name: `${itemName.capitalize()}`,
       type: type,
       system: systemData,
-      img: `systems/sr5/img/items/${type}.svg`,
+      img: `systems/sr5/assets/img/items/${type}.svg`,
     }
 
     SR5_SystemHelpers.srLog(2, `Creating a new item of '${type}' type`, itemData)

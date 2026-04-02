@@ -447,7 +447,7 @@ export class SR5_ThirdPartyHelpers {
         buildItem = {
           name: `${game.i18n.localize("SR5.SummonedSpirit")} (${game.i18n.localize(SR5.spiritTypes[messageData.magic.spiritType])}, ${messageData.magic.force})`,
           type: "itemSpirit",
-          img: `systems/sr5/img/items/itemSpirit.svg`,
+          img: `systems/sr5/assets/img/items/itemSpirit.svg`,
           ["system.type"]: messageData.magic.spiritType,
           ["system.itemRating"]: messageData.magic.force,
           ["system.services.max"]: messageData.previousMessage.hits - messageData.roll.hits,
@@ -462,7 +462,7 @@ export class SR5_ThirdPartyHelpers {
         buildItem = {
           name: `${game.i18n.localize("SR5.CompiledSprite")} (${game.i18n.localize(SR5.spriteTypes[messageData.matrix.spriteType])}, ${messageData.matrix.level})`,
           type: "itemSprite",
-          img: `systems/sr5/img/items/itemSprite.svg`,
+          img: `systems/sr5/assets/img/items/itemSprite.svg`,
           ["system.type"]: messageData.matrix.spriteType,
           ["system.itemRating"]: messageData.matrix.level,
           ["system.tasks.max"]: messageData.previousMessage.hits - messageData.roll.hits,
@@ -481,7 +481,7 @@ export class SR5_ThirdPartyHelpers {
         buildItem = foundry.utils.mergeObject(buildItem, {
           name: `${game.i18n.localize("SR5.Preparation")}${game.i18n.localize("SR5.Colons")} ${preparation.name}`,
           type: "itemPreparation",
-          img: `systems/sr5/img/items/itemPreparation.svg`,
+          img: `systems/sr5/assets/img/items/itemPreparation.svg`,
           ["system.trigger"]: messageData.magic.preparationTrigger,
           ["system.potency"]: messageData.previousMessage.hits - messageData.roll.hits,
           ["system.force"]: messageData.magic.force,

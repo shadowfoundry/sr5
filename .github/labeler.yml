@@ -16,7 +16,7 @@ styles:
 
 assets:
   - changed-files:
-      - any-glob-to-any-file: 'img/**'
+      - any-glob-to-any-file: 'assets/**'
 
 ci:
   - changed-files:

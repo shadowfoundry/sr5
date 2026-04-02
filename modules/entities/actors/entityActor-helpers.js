@@ -481,7 +481,7 @@ export class SR5_ActorHelper {
     else if (item.type === "itemProgram") petType = "actorAgent"
     else if (item.type === "itemContact") petType = "actorGrunt"
 
-    if (item.img === `systems/sr5/img/items/${item.type}.svg`) img = `systems/sr5/img/actors/${petType}.svg`
+    if (item.img === `systems/sr5/assets/img/items/${item.type}.svg`) img = `systems/sr5/assets/img/actors/${petType}.svg`
     else img = item.img
 
     // Handle base data for Actor Creation
@@ -718,7 +718,7 @@ export class SR5_ActorHelper {
       modifiedItem.system.isBounded = actor.system.isBounded
       modifiedItem.system.isCreated = false
       modifiedItem.system.powers = powers 
-      if (actor.img != "systems/sr5/img/actors/actorSpirit.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+      if (actor.img != "systems/sr5/assets/img/actors/actorSpirit.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
         if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
           modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")")
         }
@@ -743,7 +743,7 @@ export class SR5_ActorHelper {
       modifiedItem.system.conditionMonitors.matrix.actual = actor.system.conditionMonitors.matrix.actual
       modifiedItem.system.isRegistered = actor.system.isRegistered
       modifiedItem.system.isCreated = false
-      if (actor.img != "systems/sr5/img/actors/actorSprite.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+      if (actor.img != "systems/sr5/assets/img/actors/actorSprite.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
         if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
           modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")")
         }
@@ -761,7 +761,7 @@ export class SR5_ActorHelper {
       modifiedItem.img = actor.img
       modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken
       modifiedItem.system.decks = decks
-      if (actor.img != "systems/sr5/img/actors/actorAgent.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+      if (actor.img != "systems/sr5/assets/img/actors/actorAgent.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
         if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
           modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")")
         }
@@ -815,7 +815,7 @@ export class SR5_ActorHelper {
       modifiedItem.system.gameEffect = actor.system.biography.background,	
       modifiedItem.system.conditionMonitors = actor.system.conditionMonitors,
       modifiedItem.system.isCreated = false
-      if (actor.img != "systems/sr5/img/actors/actorGrunt.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+      if (actor.img != "systems/sr5/assets/img/actors/actorGrunt.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
         if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
           modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")")
         }
@@ -882,7 +882,7 @@ export class SR5_ActorHelper {
       modifiedItem.system.secondaryPropulsion.type = actor.system.secondaryPropulsionType
       modifiedItem.system.isCreated = false
       modifiedItem.img = actor.img
-      if (actor.img != "systems/sr5/img/actors/actorDrone.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
+      if (actor.img != "systems/sr5/assets/img/actors/actorDrone.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
         if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
           modifiedItem.system.gameEffect = modifiedItem.system.gameEffect.replace(/url.*.\)/, "url(" + actor.img + ")")
         }

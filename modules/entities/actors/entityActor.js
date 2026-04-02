@@ -109,7 +109,7 @@ export class SR5Actor extends Actor {
   }
 
   static async create(data, options) {
-    if (!data.img) data.img = `systems/sr5/img/actors/${data.type}.svg`
+    if (!data.img) data.img = `systems/sr5/assets/img/actors/${data.type}.svg`
 
     // If the created actor has items (only applicable to foundry.utils.duplicated actors) bypass the new actor creation logic
     if (data.items) return super.create(data, options)

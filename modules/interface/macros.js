@@ -50,13 +50,13 @@ export async function createSR5Macro(data, slot){
   command = `game.sr5.rollMacro("${data.type}", "${data.subType}");`	
   if (data.type === "Skill"){
     name = game.i18n.localize(SR5.skills[data.subType])
-    img = "systems/sr5/img/icons/macro-skills.svg"
+    img = "systems/sr5/assets/img/icons/macro-skills.svg"
   } else if (data.type === "MatrixAction"){
     name = game.i18n.localize(SR5.matrixActions[data.subType])
-    img = "systems/sr5/img/icons/macro-matrixAction.svg"
+    img = "systems/sr5/assets/img/icons/macro-matrixAction.svg"
   } else if (data.type === "ResonanceAction"){
     name = game.i18n.localize(SR5.resonanceActions[data.subType])
-    img = "systems/sr5/img/icons/macro-resonanceAction.svg"
+    img = "systems/sr5/assets/img/icons/macro-resonanceAction.svg"
   }
 
   let macro = game.macros.find((m) => m.name === name && m.command === command)
