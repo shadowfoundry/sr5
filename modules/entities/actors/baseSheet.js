@@ -93,7 +93,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
   /** @override — refresh scroll indicators when tabs change */
   changeTab(...args) {
     super.changeTab(...args)
-    if (this.element) requestAnimationFrame(() => this._updateScrollFades(this.element))
+    requestAnimationFrame(() => { if (this.element) this._updateScrollFades(this.element) })
   }
 
   /**
